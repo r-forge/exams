@@ -1,0 +1,173 @@
+\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
+
+<<>>=
+## DATA GENERATION
+## base units/patterns
+unit <- sample(c(1, 2, 5, 10, 20), 1)
+pattern <- if(unit%%2 > 0) 1:4 else seq(from = 0.5, to = 4, by = 0.5)
+
+## widths of box segments (with skewness >= 0)
+widths <- sort(sample(pattern[pattern < 3], 2, replace = TRUE))
+## add whisker lengths (reflecting pattern of box segments)
+if(widths[1] < widths[2]) {
+  widths <- c(widths, sample(pattern[pattern >= widths[2]], 1))
+  widths <- c(sample(pattern[pattern >= widths[1] & pattern < widths[3]], 1), widths)
+} else {
+  widths <- c(widths, sample(pattern[pattern >= widths[1] & pattern <= 2 * widths[1]], 2,
+    replace = TRUE))[c(3, 1, 2, 4)]
+}
+## randomly decide between left- and right-skewed
+if(runif(1) > 0.5) widths <- rev(widths)
+
+## compute quantiles (with random minimum)
+quantiles <- cumsum(c(sample(1:40, 1), widths)) * unit
+
+## and some statistics
+iqr <- diff(quantiles[c(2, 4)])
+skewness <-  diff(diff(quantiles[2:4]))/iqr
+
+
+## QUESTION/ANSWER GENERATION
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+## 1. skewness (verbally)
+if(runif(1) > 0.5) {
+  questions[1] <- "Die Verteilung ist rechtsschief."
+  solutions[1] <- skewness > 0
+  explanations[1] <- if(solutions[1]) "$\\\\mathit{SK} > 0$, also ist die Verteilung rechtsschief."
+    else "$\\\\mathit{SK} \\\\le 0$, also ist die Verteilung \\\\textit{nicht} rechtsschief."
+} else {
+  questions[1] <- "Die Verteilung ist linksschief."
+  solutions[1] <- skewness < 0
+  explanations[1] <- if(solutions[1]) "$\\\\mathit{SK} < 0$, also ist die Verteilung linksschief."
+    else "$\\\\mathit{SK} \\\\ge 0$, also ist die Verteilung \\\\textit{nicht} linksschief."
+}
+
+## 2. skewness (via mean and median)
+if(runif(1) > 0.5) {
+  questions[2] <- "Der Mittelwert ist gr\\\\\"o{\\\\ss}er als der Median."
+  solutions[2] <- skewness > 0
+  explanations[2] <- if(solutions[2]) "$\\\\mathit{SK} > 0$, also ist die Verteilung rechtsschief und der Mittelwert gr\\\\\"o{\\\\ss}er als der Median."
+    else "$\\\\mathit{SK} \\\\le 0$, also ist die Verteilung \\\\textit{nicht} rechtsschief und der Mittelwert \\\\textit{nicht} gr\\\\\"o{\\\\ss}er als der Median."
+} else {
+  questions[2] <- "Der Median ist gr\\\\\"o{\\\\ss}er als der Mittelwert."
+  solutions[2] <- skewness < 0
+  explanations[2] <- if(solutions[2]) "$\\\\mathit{SK} < 0$, also ist die Verteilung linksschief und der Mittelwert kleiner als der Median."
+    else "$\\\\mathit{SK} \\\\ge 0$, also ist die Verteilung \\\\textit{nicht} linksschief und der Mittelwert \\\\textit{nicht} kleiner als der Median."
+}
+
+## 3. skewness (numericallY)
+skewness2 <- sample(c(-1, 1), 1) * round(runif(1, min = 0, max = 0.5), digits = 1)
+if(runif(1) > 0.5) {
+  questions[3] <- paste("Der Schiefekoeffizient ist gr\\\\\"o{\\\\ss}er als ", skewness2, ".", sep = "")
+  solutions[3] <- skewness > skewness2
+  explanations[3] <- paste("$\\\\mathit{SK} = ", round(skewness, digits = 3), "$ ist ",
+    ifelse(solutions[3], "", "\\\\textit{nicht} "), "gr\\\\\"o{\\\\ss}er als $", skewness2, "$.", sep = "")
+} else {
+  questions[3] <- paste("Der Schiefekoeffizient ist kleiner als ", skewness2, ".", sep = "")
+  solutions[3] <- skewness < skewness2
+  explanations[3] <- paste("$\\\\mathit{SK} = ", round(skewness, digits = 3), "$ ist ",
+    ifelse(solutions[3], "", "\\\\textit{nicht} "), "kleiner als $", skewness2, "$.", sep = "")
+}
+
+## 4. IQR comparison
+iqr2 <- round(round(runif(1, min = 2, max = 4), digits = 1) * unit)
+if(runif(1) > 0.5) {
+  questions[4] <- paste("Die Interquartilsdistanz betr\\\\\"agt mindestens ", iqr2, ".", sep = "")
+  solutions[4] <- iqr >= iqr2
+  explanations[4] <- paste("$\\\\mathit{IQR} = ", iqr,
+    ifelse(solutions[4], " \\\\ge ", " < "), iqr2, "$.", sep = "")
+} else {
+  questions[4] <- paste("Die Interquartilsdistanz betr\\\\\"agt h\\\\\"ochstens ", iqr2, ".", sep = "")
+  solutions[4] <- iqr <= iqr2
+  explanations[4] <- paste("$\\\\mathit{IQR} = ", iqr,
+    ifelse(solutions[4], " \\\\le ", " > "), iqr2, "$.", sep = "")
+}
+
+## 5. quartile comparions
+ix <- sample(1:3, 1)
+if(runif(1) > 0.5) {
+  quantile2 <- quantiles[c(1, 2, 4)[ix]]
+  questions[5] <- paste("Mindestens 25 Prozent der Beobachtungen sind kleiner oder gleich ",
+    quantile2, ".", sep = "")
+  solutions[5] <- quantile2 >= quantiles[2]
+  explanations[5] <- paste(quantile2, " ist das ",
+    c("Minimum", "untere Quartil", "obere Quartil")[ix], ".", sep = "")
+} else {
+  quantile2 <- quantiles[c(2, 4, 5)[ix]]
+  questions[5] <- paste("Mindestens 25 Prozent der Beobachtungen sind gr\\\\\"o{\\\\ss}er oder gleich ",
+    quantile2, ".", sep = "")
+  solutions[5] <- quantile2 <= quantiles[4]
+  explanations[5] <- paste(quantile2, " ist das ",
+    c("untere Quartil", "obere Quartil", "Maximum")[ix], ".", sep = "")
+}
+
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+\begin{question}
+In Abbildung~\ref{fig:ch03-boxplot} ist eine Verteilung durch einen Boxplot dargestellt.
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+\setkeys{Gin}{width=0.7\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+\footnotesize
+<<fig=TRUE, height = 2.5, width = 6>>=
+exam_boxplot(quantiles, unit)
+@
+\caption{\label{fig:ch03-boxplot} Boxplot}
+\end{center}
+\end{figure}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Zur Beantwortung der Fragen ben\"otigen wir den Interquartilsabstand ($\mathit{IQR}$)
+und den Schiefekoeffizienten ($\mathit{SK}$), beide lassen sich direkt aus dem Boxplot
+berechnen:
+\begin{eqnarray*}
+  \mathit{IQR} & = &  Q_{0.75} - Q_{0.25}
+              \; = \; \Sexpr{quantiles[4]} - \Sexpr{quantiles[2]}
+              \; = \; \Sexpr{quantiles[4]  -        quantiles[2]} \\
+  \mathit{R} & = &  Q_{0.75} - Q_{0.5}
+              \; = \; \Sexpr{quantiles[4]} - \Sexpr{quantiles[3]}
+              \; = \; \Sexpr{quantiles[4]  -        quantiles[3]} \\
+  \mathit{L} & = &  Q_{0.5} - Q_{0.25}
+              \; = \; \Sexpr{quantiles[3]} - \Sexpr{quantiles[2]}
+              \; = \; \Sexpr{quantiles[3]  -        quantiles[2]} \\
+  \mathit{SK}  & = &  \frac{R - L}{R + L}
+              \; = \; \frac{\Sexpr{quantiles[4] - quantiles[3]} - \Sexpr{quantiles[3] - quantiles[2]}}%
+	                   {\Sexpr{quantiles[4] - quantiles[3]} + \Sexpr{quantiles[3] - quantiles[2]}}
+              \; = \; \Sexpr{round(skewness, digits = 3)}
+\end{eqnarray*}
+Damit lassen sich nun obige Aussagen als richtig oder falsch bewerten.
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exlength{5}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}
