@@ -168,6 +168,5 @@ Damit lassen sich nun obige Aussagen als richtig oder falsch bewerten.
 
 %% META-INFORMATION
 %% \extype{mchoice}
-%% \exlength{5}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
 %% \exstring{\Sexpr{mchoice2summary(solutions)}}
