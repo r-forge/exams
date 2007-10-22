@@ -25,6 +25,9 @@ exam_boxplot <- function(quantiles, unit = NULL)
 mchoice2string <- function(x)
   paste(as.numeric(x), collapse = "")
 
+num2string <- function(x, digits = 3)
+  format(round(x, digits = digits), nsmall = digits)
+
 string2mchoice <- function(x)
  strsplit(x, "")[[1]] == "1"
 
@@ -41,7 +44,7 @@ exam_metainfo <- function(file) {
   mchoice <- get_command("\\extype") == "mchoice"
   sol <- get_command("\\exsolution")
   list(mchoice = mchoice,
-       length = as.numeric(get_command("\\exlength")),
+       length = nchar(sol),
        solution = if(mchoice) string2mchoice(sol) else as.numeric(sol),
        string = get_command("\\exstring"))
 }
@@ -65,14 +68,16 @@ show_exercise <- function(file, name = "exercise", dir = NULL,
   if(!dir.create(tdir)) stop(gettextf("Cannot create temporary work directory '%s'.", tdir))
 
   ## copy exercise and run Sweave on it
-  file.copy(file, tdir)
-  setwd(tdir)  
-  file_tex <- Sweave(file)
-  file_meta <- exam_metainfo(file_tex)
+  for(i in file) file.copy(i, tdir)
+  setwd(tdir) 
+  file_tex <- rep("", length(file)) 
+  file_meta <- list()
+  for(i in seq(along = file)) file_tex[i] <- Sweave(file[i])
+  for(i in seq(along = file)) file_meta[[i]] <- exam_metainfo(file_tex[i])
   
   ## input exercise in template
   wi <-  grep("\\exquestions{}", templ, fixed = TRUE)
-  templ[wi] <- paste("\\input{", file_tex, "}", sep = "")
+  templ[wi] <- paste("\\input{", file_tex, "}", sep = "", collapse = "\n")
   out_tex <- paste(name, ".tex", sep = "")
   out_pdf <- paste(name, ".pdf", sep = "")
   writeLines(templ, out_tex)
