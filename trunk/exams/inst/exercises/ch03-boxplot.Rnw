@@ -58,7 +58,7 @@ if(runif(1) > 0.5) {
     else "$\\\\mathit{SK} \\\\ge 0$, also ist die Verteilung \\\\textit{nicht} linksschief und der Mittelwert \\\\textit{nicht} kleiner als der Median."
 }
 
-## 3. skewness (numericallY)
+## 3. skewness (numerically)
 skewness2 <- sample(c(-1, 1), 1) * round(runif(1, min = 0, max = 0.5), digits = 1)
 if(runif(1) > 0.5) {
   questions[3] <- paste("Der Schiefekoeffizient ist gr\\\\\"o{\\\\ss}er als ", skewness2, ".", sep = "")

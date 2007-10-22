@@ -1,0 +1,84 @@
+\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
+
+<<>>=
+## DATA GENERATION
+dgp <- function(digits = 5) {
+  n <- sample(4:8, 2, replace = TRUE)
+  mu <- c(3, sample(c(0, 3), 1))
+  dat <- data.frame(
+    y = rnorm(sum(n), mean = rep(mu, n)),
+    x = factor(rep(LETTERS[1:2], n))
+  )
+  if(runif(1) > 0.5) dat$y[c(1, n[1] + 1)] <- 2 * dat$y[c(n[1] + 1, 1)]
+  dat <- dat[order(dat$y),]
+  row.names(dat) <- 1:nrow(dat)
+  dat$y <- round(dat$y, digits = digits)
+  dat
+}
+dat <- dgp()
+while(length(unique(dat$y)) < length(dat$y)) dat <- dgp()
+
+dat$y <- 2 * dat$y + 30
+levels(dat$x) <- c("vorher", "nachher")
+
+
+## QUESTION/ANSWER GENERATION
+type <- sample(c("W", "U"), 1)
+
+yA <- with(dat, split(y, x)[[1]])
+yB <- with(dat, split(y, x)[[2]])
+
+wstat <- function(a, b)
+  sum(rank(c(a, b))[seq(along = a)])
+ustat <- function(a, b)
+  wstat(a, b) - length(a) * (length(a) + 1)/2
+
+if(type == "W") {
+  stat <- wstat(yA, yB)
+  stat_string <- paste("Wilcoxon W-Statistik:", stat)
+} else {
+  stat <- ustat(yA, yB)
+  stat_string <- paste("Mann-Whitney U-Statistik:", stat)
+}
+@
+
+\begin{question}
+In einer Ortschaft wird an einer Kreuzung die Tempo-30-Regel eingef\"uhrt.
+Um zu \"uberpr\"ufen, ob diese eingehalten wird, wurden jeweils an einem Tag vor der
+Einf\"uhrung bzw.\ nach der Einf\"uhrung die Geschwindigkeit von den passierenden
+Autos gemessen. Die resultierende sortierte Datenliste ist:
+
+<<results=verbatim>>=
+names(dat) <- c("geschwindigkeit", "tag")
+print(dat)
+names(dat) <- c("y", "x")
+@
+
+
+Um die Gleichheit der Geschwindigkeit vor und nach der Einf\"uhrung der Regel zu testen, soll
+ein Rangtest durchgef\"uhrt werden. Berechnen Sie die
+\Sexpr{ifelse(type == "W", "Wilcoxon $W$-Statistik", "Mann-Whitney $U$-Statistik")}
+(auf Basis der R\"ange der vorher-Stichprobe).
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Die Wilcoxon $W$-Statistik ist die Summe der R\"ange in der ersten Stichprobe.
+Die Mann-Whitney $U$-Statistik ist \"aquivalent zur $W$-Statistik, wird nur um
+$n_A \cdot (n_A + 1)/2$ nach links verschoben (wobei $n_A$ der Stichprobenumfang
+der ersten Stichprobe ist).
+\begin{eqnarray*}
+  W & = & \Sexpr{paste(with(dat, split(rank(y), x)[[1]]), collapse = " + ")} \\
+    & = & \Sexpr{sum(with(dat, split(rank(y), x)[[1]]))} \\[0.3cm]
+  U & = & W - n_A \cdot (n_A + 1)/2 \\
+    & = & \Sexpr{sum(with(dat, split(rank(y), x)[[1]]))} -
+          \Sexpr{table(dat$x)[1]} \cdot \Sexpr{table(dat$x)[1] + 1}/2 \\
+    & = & \Sexpr{sum(with(dat, split(rank(y), x)[[1]])) - table(dat$x)[1] * (table(dat$x)[1] + 1)/2}    
+\end{eqnarray*}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(abs(stat))}}
+%% \exstring{\Sexpr{stat_string}}

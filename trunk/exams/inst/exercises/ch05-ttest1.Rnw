@@ -2,12 +2,12 @@
 
 <<>>=
 ## DATA GENERATION
-nA <- 40 + sample(1:12, 1) * 4
-nB <- 30 + sample(1:12, 1) * 3
-A <- rnorm(nA, mean = runif(1, min = 40, max = 50), sd = runif(1, min = 5, max = 10))
-B <- rnorm(nB, mean = mean(A) + runif(1, min = -5, max = 5), sd = runif(1, min = 5, max = 10))
-dat <- data.frame(ausgaben = c(A, B),
-  kundentyp = factor(rep(1:2, c(nA, nB)), levels = 1:2, labels = c("Stammkunden", "andere")))
+nA <- 40 + sample(1:12, 1) * 3
+nB <- 40 + sample(1:12, 1) * 3
+A <- rnorm(nA, mean = sample(30:80, 1)/10, sd = sample(30:40, 1)/10)
+B <- rnorm(nB, mean = sample(30:90, 1)/10, sd = sample(30:40, 1)/10)
+dat <- data.frame(wartezeit = c(A, B),
+  supermarkt = factor(rep(1:2, c(nA, nB)), levels = 1:2, labels = c("Sparag", "Consumo")))
 
 
 ## QUESTION/ANSWER GENERATION
@@ -15,7 +15,7 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-tt <- t.test(ausgaben ~ kundentyp, data = dat, alternative = sample(c("less", "greater", "two.sided"), 1))
+tt <- t.test(wartezeit ~ supermarkt, data = dat, alternative = sample(c("less", "greater", "two.sided"), 1))
 
 questions[1] <- "Der Absolutbetrag der Teststatistik ist gr{\\\\\"o}{\\\\ss}er als 2."
 solutions[1] <- abs(tt$statistic) > 2
@@ -36,35 +36,34 @@ explanations[3] <- paste("Der $p$-Wert ist $", format.pval(tt$p.value, digits = 
   "$ und damit", ifelse(solutions[3], "", "\\\\textit{nicht}"),
   "gr{\\\\\"o}{\\\\ss}er als $0.05$.")
 
-questions[4] <- "Der Test weist nach, da{\\\\ss} Stammkunden mehr ausgeben als andere Kunden."
+questions[4] <- "Der Test weist nach, da{\\\\ss} man bei Sparag l\\\\\"anger wartet als bei Consumo."
 solutions[4] <- tt$p.value < 0.05 & tt$alternative != "less" & diff(tt$estimate) < 0
 explanations[4] <- if(solutions[4]) paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, da{\\\\ss} die Mittelwertdifferenz",
   ifelse(tt$alternative == "two.sided", "ungleich", "gr\\\\\"o{\\\\ss}er"),
-  "0 ist. Stammkunden geben im Durchschnitt EUR", round(-diff(tt$estimate), digits = 3),
-  "mehr aus.") else paste(
+  "0 ist. Bei Sparag wartet man im Durchschnitt", round(-diff(tt$estimate), digits = 3),
+  "Minuten l\\\\\"anger.") else paste(
   ifelse(tt$alternative != "less", "", 
-    "Der Test versucht die Alternative nachzuweisen, da{\\\\ss} die Mittelwertdifferenz kleiner als 0 ist, also da{\\\\ss} Stammkunden weniger ausgeben als andere Kunden."),
+    "Der Test versucht die Alternative nachzuweisen, da{\\\\ss} die Mittelwertdifferenz kleiner als 0 ist, also da{\\\\ss} man bei Sparag k\\\\\"urzer wartet als bei Consumo."),
   ifelse(tt$p.value < 0.05, "", "Das Testergebnis ist nicht signifikant ($p \\\\ge 0.05$)."),
   ifelse(diff(tt$estimate) < 0, "",
-    paste("Stammkunden geben im Durchschnitt EUR", round(diff(tt$estimate), digits = 3), "weniger aus.")))
+    paste("Bei Sparag wartet man im Durschnitt", round(diff(tt$estimate), digits = 3), "Minuten weniger.")))
 
-questions[5] <- "Der Test weist nach, da{\\\\ss} Stammkunden weniger ausgeben als andere Kunden."
+questions[5] <- "Der Test weist nach, da{\\\\ss} man bei Sparag k\\\\\"urzer wartet als bei Consumo."
 solutions[5] <- tt$p.value < 0.05 & tt$alternative != "greater" & diff(tt$estimate) > 0
 explanations[5] <- if(solutions[5]) paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, da{\\\\ss} die Mittelwertdifferenz",
   ifelse(tt$alternative == "two.sided", "ungleich", "kleiner"),
-  "0 ist. Stammkunden geben im Durchschnitt EUR", round(diff(tt$estimate), digits = 3),
-  "weniger aus.") else paste(
+  "0 ist. Bei Sparag wartet man im Durchschnitt", round(diff(tt$estimate), digits = 3),
+  "Minuten weniger.") else paste(
   ifelse(tt$alternative != "greater", "", 
-    "Der Test versucht die Alternative nachzuweisen, da{\\\\ss} die Mittelwertdifferenz gr\\\\\"o{\\\\ss}er als 0 ist, also da{\\\\ss} Stammkunden mehr ausgeben als andere Kunden."),
+    "Der Test versucht die Alternative nachzuweisen, da{\\\\ss} die Mittelwertdifferenz gr\\\\\"o{\\\\ss}er als 0 ist, also da{\\\\ss} man bei Sparag l\\\\\"anger wartet als bei Consumo."),
   ifelse(tt$p.value < 0.05, "", "Das Testergebnis ist nicht signifikant ($p \\\\ge 0.05$)."),
   ifelse(diff(tt$estimate) > 0, "",
-    paste("Stammkunden geben im Durchschnitt EUR", round(-diff(tt$estimate), digits = 3), "mehr aus.")))
+    paste("Bei Sparag wartet man im Durschnitt", round(-diff(tt$estimate), digits = 3), "Minuten l\\\\\"anger.")))
 @
 
 \begin{question}
-Ein Online-Warenhaus vergleicht die Ausgaben (pro Bestellung, in EUR) seiner Stammkunden
-mit denen der \"ubrigen Kunden. Die Ausgaben der beiden Kundengruppen an einem zuf\"allig
-ausgew\"ahlten Tag sind in Abbildung~\ref{fig:ch05-ttest2} zu sehen.
+Die Wartezeit (in Minuten) an der Kassa bei zwei Superm\"arkten mit verschiedenem Kassensystem
+wir verglichen (siehe Abbildung~\ref{fig:ch05-ttest1}).
 
 \setkeys{Gin}{width=0.6\textwidth}
 \begin{figure}[htb!]
@@ -72,9 +71,9 @@ ausgew\"ahlten Tag sind in Abbildung~\ref{fig:ch05-ttest2} zu sehen.
 \footnotesize
 <<fig=TRUE, height = 4, width = 5>>=
 par(mar = c(4, 2, 1, 1))
-plot(ausgaben ~ kundentyp, data = dat)
+plot(wartezeit ~ supermarkt, data = dat)
 @
-\caption{\label{fig:ch05-ttest2} Parallele Boxplots}
+\caption{\label{fig:ch05-ttest1} Parallele Boxplots}
 \end{center}
 \end{figure}
 
