@@ -43,9 +43,11 @@ exam_metainfo <- function(file) {
     paste(command, "{", sep = ""), fixed = TRUE)[[1]][2], "}")[[1]][1]
   mchoice <- get_command("\\extype") == "mchoice"
   sol <- get_command("\\exsolution")
+  slength <- nchar(sol)
+  sol <- if(mchoice) string2mchoice(sol) else as.numeric(sol)  
   list(mchoice = mchoice,
-       length = nchar(sol),
-       solution = if(mchoice) string2mchoice(sol) else as.numeric(sol),
+       length = slength,
+       solution = sol,
        string = get_command("\\exstring"))
 }
 
