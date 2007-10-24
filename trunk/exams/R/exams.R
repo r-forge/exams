@@ -52,12 +52,9 @@ exam_metainfo <- function(file) {
 }
 
 
-show_exercise <- function(file, name = "exercise", dir = NULL,
-  template = "~/svn/teaching/exams/inst/tex/collection.tex")
+exams <- function(file, name = "exercise", dir = NULL, n = 1,
+  template = "collection.tex")
 {
-  ## read template
-  templ <- readLines(template)
-
   ## manage directories
   if(!is.null(dir) && !file.exists(dir)) {
     if(!dir.create(dir)) {
@@ -66,11 +63,25 @@ show_exercise <- function(file, name = "exercise", dir = NULL,
     }
   }
   odir <- getwd()
+  on.exit(setwd(odir))
   tdir <- tempfile()
   if(!dir.create(tdir)) stop(gettextf("Cannot create temporary work directory '%s'.", tdir))
+  edir <- .find.package("exams")
+  
+  ## use local files if they exist, otherwise take from package
+  ofile <- file
+  file <- ifelse(substr(file, nchar(file)-3, nchar(file)) != ".Rnw", paste(file, ".Rnw", sep = ""), file)
+  if(!file.exists(template)) template <- file.path(edir, "tex", template)
+  if(!file.exists(template)) stop("'template' not found")
+  file[!file.exists(file)] <- file.path(edir, "exercises", file[!file.exists(file)])
+  if(!all(file.exists(file))) stop(paste("The following files cannot be found:",
+    paste(ofile[!file.exists(file)], collapse = ", ")))
+
+  ## read template
+  templ <- readLines(template)
 
   ## copy exercise and run Sweave on it
-  for(i in file) file.copy(i, tdir)
+  file.copy(file, tdir)
   setwd(tdir) 
   file_tex <- rep("", length(file)) 
   file_meta <- list()
@@ -89,9 +100,7 @@ show_exercise <- function(file, name = "exercise", dir = NULL,
   if(is.null(dir)) {
     if(.Platform$OS.type == "windows") shell.exec(out_pdf)
       else system(paste(shQuote(getOption("pdfviewer")), shQuote(out_pdf)), wait = FALSE)
-    setwd(odir)
   } else {
-    setwd(odir)
     file.copy(file.path(tdir, out_pdf), dir, overwrite = TRUE)
   } 
   unlink(tdir)

@@ -70,7 +70,7 @@ wir verglichen (siehe Abbildung~\ref{fig:ch05-ttest1}).
 \begin{center}
 \footnotesize
 <<fig=TRUE, height = 4, width = 5>>=
-par(mar = c(4, 2, 1, 1))
+par(mar = c(4, 4, 1, 1))
 plot(wartezeit ~ supermarkt, data = dat)
 @
 \caption{\label{fig:ch05-ttest1} Parallele Boxplots}

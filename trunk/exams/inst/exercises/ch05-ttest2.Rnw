@@ -71,7 +71,7 @@ ausgew\"ahlten Tag sind in Abbildung~\ref{fig:ch05-ttest2} zu sehen.
 \begin{center}
 \footnotesize
 <<fig=TRUE, height = 4, width = 5>>=
-par(mar = c(4, 2, 1, 1))
+par(mar = c(4, 4, 1, 1))
 plot(ausgaben ~ kundentyp, data = dat)
 @
 \caption{\label{fig:ch05-ttest2} Parallele Boxplots}

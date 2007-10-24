@@ -75,7 +75,7 @@ der Testperson, sind in Abbildung~\ref{fig:ch05-anova} zu sehen.
 \begin{center}
 \footnotesize
 <<fig=TRUE, height = 4, width = 7>>=
-par(mar = c(4, 2, 1, 1))
+par(mar = c(4, 4, 1, 1))
 plot(bewertung ~ beschaeftigung, data = dat)
 @
 \caption{\label{fig:ch05-anova} Parallele Boxplots}

@@ -1,35 +1,99 @@
 \SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
 
 <<>>=
+## convenience functions
+SK <- function(x) diff(diff(fivenum(x)[2:4]))/diff(fivenum(x)[c(2, 4)])
+trob <- function(a, b)
+  (median(a) - median(b))/sqrt(var(a)/length(a) + var(b)/length(b))
+
 ## DATA GENERATION
-## base units/patterns
-A <- NULL
-B <- NULL
-## outlier, skewness, location, scale
+## dgp for one sample
+dgp <- function(location = 0, scale = 1, skewed = FALSE, outlier = NULL,
+  n = 10, amount = 0.5)
+{
+  ## basic intervals from which equal amounts of observations are drawn
+  qq <- if(skewed) c(0, 1.5, 2, 5.5, 10) else c(0, 3, 5, 7, 10)
+  sim <- function(x) {
+    rval <- NULL
+    for(i in 1:(length(x)-1)) rval <- c(rval, runif(n, min = x[i], max = x[i+1]))
+    rval <- jitter(rval, amount = amount)
+    rval <- rval/4
+    rval
+  }
+
+  ## draw under restrictions about IQR and SK
+  rval <- sim(qq)
+  if(skewed) {
+    while(IQR(rval) > 1.15 | IQR(rval) < 0.85 | SK(rval) < 0.5) rval <- sim(qq)
+  } else {
+    while(IQR(rval) > 1.15 | IQR(rval) < 0.85 | SK(rval) > 0.15) rval <- sim(qq)
+  }
+
+  ## raw values (location = 0, scale = 1)
+  rval <- rval - ifelse(skewed, 0.55, 1.25)
+
+  ## add outliers
+  rval <- c(rval, outlier)
+  
+  ## scale and shift
+  rval <- rval * scale + location
+
+  return(rval)
+}
+
+## generate random parameters for dgp()
+scale <- sample(c(1, sample(c(1, 3), 1))) * runif(1, min = 0.5, max = 10) * sample(c(-1, 1), 1)
+location <- sample(c(0, sample(c(0, 2), 1))) * scale + runif(1, min = -50, max = 50)
+skewed <- if(runif(1) < 2/3) c(FALSE, FALSE) else sample(c(TRUE, sample(c(TRUE, FALSE), 1)))
+if(runif(1) < 2/3) {
+  outlier <- list(NULL, NULL)
+} else {
+  if(any(skewed)) {
+    outlier <- if(skewed[1]) -sign(scale[1]) * runif(sample(1:2, 1), min = 3, max = 4) else NULL
+    outlier <- c(list(outlier), if(skewed[2])
+      list(-sign(scale[1]) * runif(sample((0:1 + !skewed[1]), 1), min = 3, max = 4)) else list(NULL))
+  } else {
+    outlier <- runif(sample(1:3, 1), min = 3, max = 4)
+    outlier <- outlier * sample(c(-1, 1), length(outlier), replace = TRUE)
+    id <- sample(1:length(outlier), sample(1:length(outlier), 1))
+    outlier1 <- outlier[id]
+    outlier2 <- outlier[-id]
+    outlier <- list(if(length(outlier1) > 0) outlier1 else NULL,
+      if(length(outlier2) > 0) outlier2 else NULL)
+  }
+}
+
+## call dgp under certain constrains
+A <- dgp(location = location[1], scale = scale[1], skewed = skewed[1], outlier = outlier[[1]],
+  n = sample(8:12, 1))
+B <- dgp(location = location[2], scale = scale[2], skewed = skewed[2], outlier = outlier[[2]],
+  n = sample(8:12, 1))
+while(length(unique(location)) < 2 & abs(trob(A, B)) > 0.4) {
+  A <- dgp(location = location[1], scale = scale[1], skewed = skewed[1], outlier = outlier[[1]],
+    n = sample(8:12, 1))
+  B <- dgp(location = location[2], scale = scale[2], skewed = skewed[2], outlier = outlier[[2]],
+    n = sample(8:12, 1))
+}
+
 
 ## QUESTION/ANSWER GENERATION
 questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-
-outlier <- runif(1) > 0.5
-SK <- function(x) diff(diff(fivenum(x)[2:4]))/diff(fivenum(x)[c(2, 4)])
-tstat <- function(a, b)
-  (mean(a) - mean(b))/sqrt(var(a)/length(a) + var(b)/length(b))
-
 questions[1] <- "Die Lage der beiden Verteilungen unterscheidet sich kaum."
-solutions[1] <- abs(tstat(A, B)) < 0.5
-explanations[1] <- if(solutions[1]) "Beide Verteilungen haben eine \\\\\"ahnliche Lage."
-  else paste("Verteilung~", c("A", "B")[(mean(A) < mean(B)) + 1],
-    " nimmt im Durschnitt gr\\\\\"o{\\\\ss}ere Werte an als Verteilung~", 
-    c("A", "B")[(mean(A) >= mean(B)) + 1], ".", sep = "")
+solutions[1] <- abs(trob(A, B)) < 0.5
+explanations[1] <- if(solutions[1]) "Beide Verteilungen haben eine \\\\\"ahnliche Lage." else
+  paste("Verteilung~", c("A", "B")[(median(A) < median(B)) + 1],
+    " nimmt im Mittel gr\\\\\"o{\\\\ss}ere Werte an als Verteilung~", 
+    c("A", "B")[(median(A) >= median(B)) + 1], ".", sep = "")
 
+outlier <- length(unlist(outlier)) > 0
+skewed <- any(skewed)
 questions[2] <- "Der $T$-Test ist ein angemessenes Pr\\\\\"ufverfahren f\\\\\"ur Lageunterschiede."
 solutions[2] <- !outlier & !skewed
 explanations[2] <- if(solutions[2])
-   "Beide Verteilungen sind etwa symmetrisch und haben keine deutlichen Ausrei{\\\\ss}er."
- else
+   "Beide Verteilungen sind etwa symmetrisch und haben keine deutlichen Ausrei{\\\\ss}er." else
    paste(ifelse(!outlier, "", "Es gibt deutliche Ausrei{\\\\ss}er in den Verteilungen."),
      ifelse(!skewed, "", "Nicht beide Verteilungen sind (etwa) symmetrisch."))
 
@@ -38,12 +102,11 @@ solutions[3] <- IQR(A)/IQR(B) > 1.5
 explanations[3] <- paste("Der Interquartilsabstand in Stichprobe~A ist",
   ifelse(solutions[3], "", "\\\\textit{nicht}"), "deutlich gr\\\\\"o{\\\\ss}er als in B.")
 
-questions[4] <- "Die Stichproben unterscheiden sich nicht bzgl.\\\\ ihrer Schiefe."
+questions[4] <- "Die Schiefe beider Stichproben ist \\\\\"ahnlich."
 solutions[4] <- abs(SK(A) - SK(B)) < 0.2
 explanations[4] <- if(solutions[4])
     paste("Die Schiefe beider Verteilungen ist \\\\\"ahnlich, beide sind",
-    ifelse(abs(SK(A)) < 0.2, "etwa symmetrisch.", ifelse(SK(A) >= 0.2, "rechtsschief.", "linksschief.")))
-  else
+    ifelse(abs(SK(A)) < 0.2, "etwa symmetrisch.", ifelse(SK(A) >= 0.2, "rechtsschief.", "linksschief."))) else
     paste("Die Schiefe beider Verteilungen ist unterschiedlich. Stichprobe A ist",
     ifelse(abs(SK(A)) < 0.2, "etwa symmetrisch.", ifelse(SK(A) >= 0.2, "rechtsschief.", "linksschief.")),
     "Stichprobe B ist",
@@ -52,8 +115,7 @@ explanations[4] <- if(solutions[4])
 questions[5] <- "Ein robustes Testverfahren f\\\\\"ur Lageunterschiede ist erforderlich."
 solutions[5] <- outlier | skewed
 explanations[5] <- if(!solutions[5])
-   "Beide Verteilungen sind etwa symmetrisch und haben keine deutlichen Ausrei{\\\\ss}er."
- else
+   "Beide Verteilungen sind etwa symmetrisch und haben keine deutlichen Ausrei{\\\\ss}er." else
    paste(ifelse(!outlier, "", "Es gibt deutliche Ausrei{\\\\ss}er in den Verteilungen."),
      ifelse(!skewed, "", "Nicht beide Verteilungen sind (etwa) symmetrisch."))
 @
@@ -67,10 +129,12 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 \begin{figure}[htb!]
 \begin{center}
 \footnotesize
-<<fig=TRUE, height=5, width=6>>=
-boxplot(data.frame(A, B))
+<<fig=TRUE, height=4, width=5>>=
+par(mar = c(2.5, 2, 1, 0.5))
+dat <- data.frame(y = c(A, B), x = factor(rep(c("A", "B"), c(length(A), length(B)))))
+boxplot(y ~ x, data = dat, xlab = "", ylab = "")
 @
-\caption{\label{fig:ch06-boxplot} Parallele Boxplot.}
+\caption{\label{fig:ch06-boxplots} Parallele Boxplots.}
 \end{center}
 \end{figure}
 
