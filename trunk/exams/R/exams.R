@@ -58,7 +58,7 @@ exams <- function(file, name = "exercise", dir = NULL, n = 1,
   ## manage directories
   if(!is.null(dir) && !file.exists(dir)) {
     if(!dir.create(dir)) {
-      stop(gettextf("Cannot create output directory '%s'.", dir))  
+      stop(gettextf("Cannot create output directory '%s'.", dir))
       dir <- NULL
     }
   }
@@ -70,12 +70,17 @@ exams <- function(file, name = "exercise", dir = NULL, n = 1,
   
   ## use local files if they exist, otherwise take from package
   ofile <- file
-  file <- ifelse(substr(file, nchar(file)-3, nchar(file)) != ".Rnw", paste(file, ".Rnw", sep = ""), file)
-  if(!file.exists(template)) template <- file.path(edir, "tex", template)
-  if(!file.exists(template)) stop("'template' not found")
+  file <- ifelse(tolower(substr(file, nchar(file)-3, nchar(file))) != ".rnw",
+    paste(file, ".Rnw", sep = ""), file)
   file[!file.exists(file)] <- file.path(edir, "exercises", file[!file.exists(file)])
-  if(!all(file.exists(file))) stop(paste("The following files cannot be found:",
-    paste(ofile[!file.exists(file)], collapse = ", ")))
+  if(!all(file.exists(file))) stop(paste("The following files cannot be found: ",
+    paste(ofile[!file.exists(file)], collapse = ", "), ".", sep = ""))
+
+  otemplate <- template
+  if(tolower(substr(template, nchar(template)-3, nchar(template))) != ".tex")
+    template <- paste(template, ".tex", sep = "")
+  if(!file.exists(template)) template <- file.path(edir, "tex", template)
+  if(!file.exists(template)) stop(gettextf("The template '%s' cannot be found.", otemplate))
 
   ## read template
   templ <- readLines(template)
@@ -85,8 +90,8 @@ exams <- function(file, name = "exercise", dir = NULL, n = 1,
   setwd(tdir) 
   file_tex <- rep("", length(file)) 
   file_meta <- list()
-  for(i in seq(along = file)) file_tex[i] <- Sweave(file[i])
-  for(i in seq(along = file)) file_meta[[i]] <- exam_metainfo(file_tex[i])
+  for(i in seq_along(file)) file_tex[i] <- Sweave(file[i])
+  for(i in seq_along(file)) file_meta[[i]] <- exam_metainfo(file_tex[i])
   
   ## input exercise in template
   wi <-  grep("\\exquestions{}", templ, fixed = TRUE)
