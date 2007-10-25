@@ -120,6 +120,30 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 \begin{center}
 \footnotesize
 <<fig=TRUE, height = 2.5, width = 6>>=
+exam_boxplot <- function(quantiles, unit = NULL)
+{
+  ## x-axis ticks
+  if(is.null(unit)) unit <- min(diff(quantiles))
+  ax <- c(quantiles[1] - unit, quantiles, quantiles[5] + unit)
+
+  ## graphical parameters
+  opar <- par()[c("las", "cex", "mai", "mar")]
+  on.exit(par(opar))
+  par(las = 2, cex = 1.2, mai = c(1, 1, 0.5, 0.5), mar = c(3, 1, 0, 1))
+
+  ## draw box and whiskers  
+  plot(quantiles[c(2, 4, 4, 2, 2)], 0.25 * c(-1, -1, 1, 1, -1),
+    type = "l", xlim = range(ax), ylim = c(-0.5, 0.5), ylab = "", xlab = "", axes = FALSE)
+  lines(quantiles[1:2], c(0, 0))
+  lines(quantiles[4:5], c(0, 0))
+  lines(quantiles[c(1, 1)], c(-0.125, 0.125))
+  lines(quantiles[c(5, 5)], c(-0.125, 0.125))
+  lines(quantiles[c(3, 3)],c(-0.25, 0.25))
+  axis(1, ax, as.character(ax))
+
+  invisible(quantiles)
+}
+
 exam_boxplot(quantiles, unit)
 @
 \caption{\label{fig:ch03-boxplot} Boxplot}

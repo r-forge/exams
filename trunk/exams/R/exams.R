@@ -1,27 +1,176 @@
-exam_boxplot <- function(quantiles, unit = NULL)
+## workhorse function for compiling (collections of) exercises
+exams <- function(file, n = 1, dir = NULL, template = "solution",
+  name = NULL, quiet = TRUE, header = list(date = Sys.Date()))
 {
-  ## x-axis ticks
-  if(is.null(unit)) unit <- min(diff(quantiles))
-  ax <- c(quantiles[1] - unit, quantiles, quantiles[5] + unit)
+  ## manage directories: 
+  ##   - for producing several files an output directory is required
+  if((n > 1 | length(template) > 1) & is.null(dir)) stop("Please specify an output 'dir'.")
+  if(!is.null(dir) && !file.exists(dir) && !dir.create(dir))
+    stop(gettextf("Cannot create output directory '%s'.", dir))
+  ##   - further: dir (output), dir_orig (original), dir_temp (temp), dir_pkg (package)
+  if(!is.null(dir)) dir <- file_path_as_absolute(dir)
+  dir_orig <- getwd()
+  on.exit(setwd(dir_orig))
+  dir_temp <- tempfile()
+  if(!dir.create(dir_temp)) stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
+  dir_pkg <- .find.package("exams")
+  
+  ## file pre-processing:
+  ##   - transform to vector (remember grouping IDs)
+  ##   - add paths (generate "foo", "foo.Rnw", "foo.tex", and "path/to/foo.Rnw")
+  ##   - check existence (use local files if they exist, otherwise take from package)
+  ##   - setup sampling (draw random configuration)
+  file_id <- rep(seq_along(file), sapply(file, length))
+  file_raw <- unlist(file)
+  file_Rnw <- ifelse(
+    tolower(substr(file_raw, nchar(file_raw)-3, nchar(file_raw))) != ".rnw",
+    paste(file_raw, ".Rnw", sep = ""), file_raw)
+  file_base <- substr(file_Rnw, 1, nchar(file_Rnw)-4)
+  file_tex <- paste(file_base, ".tex", sep = "")
+  file_path <- ifelse(file.exists(file_Rnw),
+    file_Rnw, file.path(dir_pkg, "exercises", file_Rnw))
+  if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
+    paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))  
+  sample_id <- function() sapply(unique(file_id),
+    function(i) if(sum(file_id == i) > 1) sample(which(file_id == i), 1) else which(file_id == i))
 
-  ## graphical parameters
-  opar <- par()[c("las", "cex", "mai", "mar")]
-  on.exit(par(opar))
-  par(las = 2, cex = 1.2, mai = c(1, 1, 0.5, 0.5), mar = c(3, 1, 0, 1))
+  ## similarly: template pre-processing
+  template_raw <- template
+  template_tex <- template_path <- ifelse(
+    tolower(substr(template, nchar(template)-3, nchar(template))) != ".tex",
+    paste(template, ".tex", sep = ""), template)
+  template_base <- substr(template_tex, 1, nchar(template_tex)-4)
+  template_path <- ifelse(file.exists(template_tex),
+    template_tex, file.path(dir_pkg, "tex", template_tex))
+  if(!all(file.exists(template_path))) stop(paste("The following files cannot be found: ",
+    paste(template_raw[!file.exists(template_path)], collapse = ", "), ".", sep = ""))  
 
-  ## draw box and whiskers  
-  plot(quantiles[c(2, 4, 4, 2, 2)], 0.25 * c(-1, -1, 1, 1, -1),
-    type = "l", xlim = range(ax), ylim = c(-0.5, 0.5), ylab = "", xlab = "", axes = FALSE)
-  lines(quantiles[1:2], c(0, 0))
-  lines(quantiles[4:5], c(0, 0))
-  lines(quantiles[c(1, 1)], c(-0.125, 0.125))
-  lines(quantiles[c(5, 5)], c(-0.125, 0.125))
-  lines(quantiles[c(3, 3)],c(-0.25, 0.25))
-  axis(1, ax, as.character(ax))
+  ## read template
+  template <- lapply(template_path, readLines)
+  ## which input types in template?
+  input_types <- function(x) {
+    x <- x[grep("\\exinput", x, fixed = TRUE)]
+    if(length(x) < 1) stop("templates must specify at least one \\exinput{}")
+    as.vector(sapply(strsplit(sapply(strsplit(x,
+      paste("\\exinput{", sep = ""), fixed = TRUE), tail, 1), "}"), head, 1))
+  }
+  template_it <- lapply(template, input_types)
+  template_has_header <- sapply(template_it, function(x) "header" %in% x)
+  template_has_questionnaire <- sapply(template_it, function(x) "questionnaire" %in% x)
+  template_has_exercises <- sapply(template_it, function(x) "exercises" %in% x)
 
-  invisible(quantiles)
+  ## output name processing
+  if(is.null(name)) name <- template_base
+  make_full_name <- function(name, id, type = "")
+    paste(name, gsub(" ", "0", format(c(n, id)))[-1], ifelse(type == "", "", "."), type, sep = "")
+
+  ## convenience function for reading metainfo from compiled exercise
+  read_metainfo <- function(file) {
+    x <- readLines(file)
+    get_command <- function(command) strsplit(strsplit(x[grep(command, x, fixed = TRUE)],
+      paste(command, "{", sep = ""), fixed = TRUE)[[1]][2], "}")[[1]][1]
+    mchoice <- get_command("\\extype") == "mchoice"
+    sol <- get_command("\\exsolution")
+    slength <- nchar(sol)
+    sol <- if(mchoice) string2mchoice(sol) else as.numeric(sol)  
+    list(mchoice = mchoice,
+         length = slength,
+         solution = sol,
+         string = get_command("\\exstring"))
+  }
+  
+  ## take everything to temp dir
+  file.copy(file_path, dir_temp)
+  setwd(dir_temp) 
+  on.exit(unlink(dir_temp), add = TRUE)
+  
+  ## call Sweave and LaTeX, copy and collect results
+  metainfo <- list()  
+  for(i in 1:n) {
+  
+    ## select exercise files, run Sweave, collect results
+    id <- sample_id()
+    for(j in id) Sweave(file_Rnw[j], quiet = quiet) ## FIXME: need envir argument
+    metainfo1 <- list()
+    for(j in seq_along(id)) metainfo1[[j]] <- read_metainfo(file_tex[id[j]])
+    names(metainfo1) <- file_base[id]
+    metainfo[[i]] <- metainfo1
+
+    ## assign names
+    names(metainfo)[i] <- make_full_name(name[1], i)
+    out_tex <- make_full_name(name, i, type = "tex")
+    out_pdf <- make_full_name(name, i, type = "pdf")
+
+    ## compile output files for all templates
+    for(j in seq_along(template)) {
+      tmpl <- template[[j]]
+
+      ## input header
+      if(template_has_header[j]) {
+        wi <-  grep("\\exinput{header}", tmpl, fixed = TRUE)
+        tmpl[wi] <- if(length(header) < 1) "" else paste("\\", names(header), "{",
+          sapply(header, function(x) if(is.function(x)) x(i) else as.character(x)), "}", 
+	  collapse = "\n", sep = "")
+      }
+
+      ## input questionnaire
+      if(template_has_questionnaire[j]) {
+        wi <-  grep("\\exinput{questionnaire}", tmpl, fixed = TRUE)
+        tmpl[wi] <- "" ## FIXME
+      }
+
+      ## input exercise tex
+      if(template_has_exercises[j]) {
+        wi <-  grep("\\exinput{exercises}", tmpl, fixed = TRUE)
+        tmpl[wi] <- paste("\\input{", file_tex[id], "}", sep = "", collapse = "\n")
+      }
+
+      ## create and compile output tex
+      writeLines(tmpl, out_tex[j])
+      texi2dvi(out_tex[j], pdf = TRUE, clean = TRUE, quiet = quiet)
+    }
+
+    ## copy to output directory (or show)
+    if(!is.null(dir)) {
+      file.copy(out_pdf, dir, overwrite = TRUE)
+    } else {
+      if(.Platform$OS.type == "windows") shell.exec(out_pdf)
+        else system(paste(shQuote(getOption("pdfviewer")), shQuote(out_pdf)), wait = FALSE)
+    } 
+  }
+
+  ## collect and store meta information
+  class(metainfo) <- "exams_metainfo"  
+  if(!is.null(dir)) {
+    save(metainfo, file = file.path(dir, "metainfo.rda"))
+    metainfo_df <- as.data.frame(t(sapply(metainfo,
+      function(x) as.vector(sapply(x, function(y) y$string)))))
+    colnames(metainfo_df) <- paste("exercise", gsub(" ", "0", format(1:ncol(metainfo_df))), sep = "")
+    write.table(metainfo_df, file = file.path(dir, "metainfo.csv"), sep = ",")
+  }
+
+  ## return meta information invisibly
+  invisible(metainfo)
 }
 
+## print exams_metainfo objects
+print.exams_metainfo <- function(x, which = NULL, ...) {
+  which <- if(is.null(which)) names(x) else {
+    if(is.numeric(which)) names(x)[which] else which
+  }
+  n <- length(x[[1]])
+  for(i in which) {
+    cat("\n", i, "\n", sep = "")
+    for(j in 1:n) {
+      cat("    ", format(c(n, j))[-1], ". ", x[[i]][[j]]$string, "\n", sep = "")
+    }
+  }
+  cat("\n")
+  invisible(x)
+}
+
+
+## convenience functions
 mchoice2string <- function(x)
   paste(as.numeric(x), collapse = "")
 
@@ -36,79 +185,3 @@ mchoice2summary <- function(x)
 
 mchoice2tex <- function(x)
   ifelse(x, "\\\\textbf{richtig}", "\\\\textbf{falsch}")
-
-exam_metainfo <- function(file) {
-  x <- readLines(file)
-  get_command <- function(command) strsplit(strsplit(x[grep(command, x, fixed = TRUE)],
-    paste(command, "{", sep = ""), fixed = TRUE)[[1]][2], "}")[[1]][1]
-  mchoice <- get_command("\\extype") == "mchoice"
-  sol <- get_command("\\exsolution")
-  slength <- nchar(sol)
-  sol <- if(mchoice) string2mchoice(sol) else as.numeric(sol)  
-  list(mchoice = mchoice,
-       length = slength,
-       solution = sol,
-       string = get_command("\\exstring"))
-}
-
-
-exams <- function(file, name = "exercise", dir = NULL, n = 1,
-  template = "collection.tex")
-{
-  ## manage directories
-  if(!is.null(dir) && !file.exists(dir)) {
-    if(!dir.create(dir)) {
-      stop(gettextf("Cannot create output directory '%s'.", dir))
-      dir <- NULL
-    }
-  }
-  odir <- getwd()
-  on.exit(setwd(odir))
-  tdir <- tempfile()
-  if(!dir.create(tdir)) stop(gettextf("Cannot create temporary work directory '%s'.", tdir))
-  edir <- .find.package("exams")
-  
-  ## use local files if they exist, otherwise take from package
-  ofile <- file
-  file <- ifelse(tolower(substr(file, nchar(file)-3, nchar(file))) != ".rnw",
-    paste(file, ".Rnw", sep = ""), file)
-  file[!file.exists(file)] <- file.path(edir, "exercises", file[!file.exists(file)])
-  if(!all(file.exists(file))) stop(paste("The following files cannot be found: ",
-    paste(ofile[!file.exists(file)], collapse = ", "), ".", sep = ""))
-
-  otemplate <- template
-  if(tolower(substr(template, nchar(template)-3, nchar(template))) != ".tex")
-    template <- paste(template, ".tex", sep = "")
-  if(!file.exists(template)) template <- file.path(edir, "tex", template)
-  if(!file.exists(template)) stop(gettextf("The template '%s' cannot be found.", otemplate))
-
-  ## read template
-  templ <- readLines(template)
-
-  ## copy exercise and run Sweave on it
-  file.copy(file, tdir)
-  setwd(tdir) 
-  file_tex <- rep("", length(file)) 
-  file_meta <- list()
-  for(i in seq_along(file)) file_tex[i] <- Sweave(file[i])
-  for(i in seq_along(file)) file_meta[[i]] <- exam_metainfo(file_tex[i])
-  
-  ## input exercise in template
-  wi <-  grep("\\exquestions{}", templ, fixed = TRUE)
-  templ[wi] <- paste("\\input{", file_tex, "}", sep = "", collapse = "\n")
-  out_tex <- paste(name, ".tex", sep = "")
-  out_pdf <- paste(name, ".pdf", sep = "")
-  writeLines(templ, out_tex)
-  texi2dvi(out_tex, pdf = TRUE, clean = TRUE)
-
-  ## show or copy
-  if(is.null(dir)) {
-    if(.Platform$OS.type == "windows") shell.exec(out_pdf)
-      else system(paste(shQuote(getOption("pdfviewer")), shQuote(out_pdf)), wait = FALSE)
-  } else {
-    file.copy(file.path(tdir, out_pdf), dir, overwrite = TRUE)
-  } 
-  unlink(tdir)
-
-  invisible(file_meta)
-}

@@ -22,7 +22,7 @@ dat$y <- 2 * dat$y + 30
 levels(dat$x) <- c("vorher", "nachher")
 
 ## plotting function
-rankplot <- function(data, labels = NULL, ranks = FALSE)
+exam_rankplot <- function(data, labels = NULL, ranks = FALSE)
 {
   omar <- par("mar")
   on.exit(par(mar = omar))
@@ -75,7 +75,7 @@ zu sehen.
 \begin{center}
 \footnotesize
 <<fig=TRUE, height=3, width=5.5>>=
-rankplot(dat)
+exam_rankplot(dat)
 @
 \caption{\label{fig:ch06-wilcoxon2} Beobachtete Geschwindigkeiten vor und nach Regel\"anderung.}
 \end{center}
@@ -99,7 +99,7 @@ werden (siehe Abbildung~\ref{fig:ch06-wilcoxon2a}).
 \begin{center}
 \footnotesize
 <<fig=TRUE, height=3, width=5.5>>=
-rankplot(dat, ranks = TRUE)
+exam_rankplot(dat, ranks = TRUE)
 @
 \caption{\label{fig:ch06-wilcoxon2a} Beobachtete Geschwindigkeiten mit R\"angen.}
 \end{center}
