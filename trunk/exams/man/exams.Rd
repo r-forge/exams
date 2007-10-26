@@ -10,7 +10,7 @@
 }
 
 \usage{
-  exams(file, n = 1, dir = NULL, template = "solution",
+  exams(file, n = 1, dir = NULL, template = "plain",
     name = NULL, quiet = TRUE, header = list(date = Sys.Date()))
 }
 
@@ -20,7 +20,9 @@
   \item{n}{integer. The number of copies to be compiled from \code{file}.}
   \item{dir}{character. The output directory, this has to be set if
     \code{n} is greater than 1 (or \code{template} is longer than 1).}
-  \item{template}{character. A specification of a LaTeX template.}
+  \item{template}{character. A specification of a LaTeX template. The package
+    currently provides \code{"exam"}, \code{"solution"}, \code{"plain"}.
+    For details see below.}
   \item{name}{character. A name prefix for resulting exercises, by default
     chosen based on \code{template}.}
   \item{quiet}{logical. Should output be surpressed when calling
@@ -110,7 +112,8 @@ sol <- exams(exam56)
 sol
 
 ## generate multiple exams (stored in output directory)
-sol <- exams(exam56, n = 5, dir = tempfile(), template = c("exam", "solution"))
+odir <- tempfile()
+sol <- exams(exam56, n = 5, dir = odir, template = c("exam", "solution"))
 sol
 
 ## inspect solution for a particular exam

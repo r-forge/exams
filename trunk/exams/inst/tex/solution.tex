@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
 %% packages
 \usepackage{german,a4wide,verbatim,Sweave}
@@ -16,7 +16,90 @@
 \renewcommand{\sfdefault}{phv}
 \usepackage{sfmath}
 
+\newcommand{\extext}[1]{\textbf{\large #1}}
+\newcommand{\exmchoice}[5]{%
+  \mbox{(a) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}} \hspace*{2mm}}%
+  \mbox{(b) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#2}} \hspace*{2mm}}%
+  \mbox{(c) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#3}} \hspace*{2mm}}%
+  \mbox{(d) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#4}} \hspace*{2mm}}%
+  \mbox{(e) \,\, \framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#5}} \hspace*{2mm}}%
+}
+\newcommand{\exnum}[9]{%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#2}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#3}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#4}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#5}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#6}}}%
+  \mbox{ \makebox[3mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-2mm} .}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#7}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#8}}}%
+  \mbox{\framebox[8mm]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#9}}}%
+}
+
+
+%% new commands
+\newcommand{\ID}[1]{\def\@ID{#1}}
+\newcommand{\Date}[1]{\def\@Date{#1}}
+\ID{YYMMDD00001}
+\Date{YYYY-MM-DD}
+\newcommand{\theID}{07102600001} %%FIXME \@ID
+\newcommand{\theDate}{2007-10-26} %%FIXME \@Date
+
+%% \exinput{header}
+
+%% header
+\markboth{\textnormal{\bf \large Klausur Statistik: \theID}}%
+{\textnormal{\bf \large Klausur Statistik: \theID}}
+\pagestyle{myheadings}
+
 \begin{document}
+
+\thispagestyle{empty}
+
+%% title page
+\setlength{\unitlength}{1mm} 
+\begin{picture}(210,190) 
+\thicklines 
+
+%% title
+\put(0,200){\makebox(0,0)[bl]{\textbf{\LARGE{Wirtschaftsuniversit\"at Wien}}}}
+\put(0,192){\parbox[t]{120mm}{\textbf{\large{Klausur Statistik \theDate}}}}
+
+%% name field for students
+\put(0,174){\makebox(0,5)[l]{Pers\"onliche Daten}}
+\put(0,128){\framebox(105,43){}} \thinlines 
+\multiput(0,147)(0,12){2}{\line(1,0){90}} \thicklines 
+\put(1,166){\makebox(0,5)[l]{Zuname:}} 
+\put(1,154){\makebox(0,5)[l]{Vorname:}}
+\put(1,142){\makebox(0,5)[l]{Unterschrift:}}
+
+% meta-information
+\linethickness{0.5mm}
+\put(110,128){\framebox(46,43){}} \thicklines  
+\put(113,166){\makebox(0,0)[l]{Beleg-ID}}
+\put(113,154){\framebox(40,7){}}
+\put(133,157.5){\makebox(0,0){\Large{\theID}}}
+\put(113,144){\makebox(0,0)[l]{Ersatzbeleg}}
+\put(113,136){\framebox(4,4){}} 
+
+%% field for student id
+\linethickness{0.5mm}
+\put(0,101){\framebox(105,22){}} \thicklines  
+\put(5,117){\makebox(0,0)[l]{Matrikelnummer}}
+\put(5,106){\framebox(56,8){}} \thinlines 
+\multiput(13,106)(8,0){6}{\line(0,1){1.5}} \thicklines 
+
+%% check field
+\put(110,101){\framebox(46,22){}} \thicklines  
+\put(115,117){\makebox(0,0)[l]{gepr\"uft}}
+
+\put(0,-46){\framebox(156,140)[l]{\parbox[t][140mm]{156mm}{
+%% \exinput{questionnaire}
+}}}
+\end{picture} 
+
+\newpage
 
 \begin{enumerate}
 

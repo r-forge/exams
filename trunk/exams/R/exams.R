@@ -1,5 +1,5 @@
 ## workhorse function for compiling (collections of) exercises
-exams <- function(file, n = 1, dir = NULL, template = "solution",
+exams <- function(file, n = 1, dir = NULL, template = "plain",
   name = NULL, quiet = TRUE, header = list(date = Sys.Date()))
 {
   ## manage directories: 
@@ -78,6 +78,13 @@ exams <- function(file, n = 1, dir = NULL, template = "solution",
          solution = sol,
          string = get_command("\\exstring"))
   }
+
+  ## convenience functions for writing LaTeX  
+  mchoice2quest <- function(x) paste("  \\item \\exmchoice{",
+    paste(ifelse(x, "X", " "), collapse = "}{"), "}", sep = "")
+  num2quest <- function(x) paste("  \\item \\exnum{", 
+    paste(strsplit(format(c(100000.000, x), nsmall = 3, scientific = FALSE)[-1], "")[[1]][-7],
+    collapse = "}{"), "}", sep = "")
   
   ## take everything to temp dir
   file.copy(file_path, dir_temp)
@@ -115,8 +122,12 @@ exams <- function(file, n = 1, dir = NULL, template = "solution",
 
       ## input questionnaire
       if(template_has_questionnaire[j]) {
+	mc1 <- sapply(metainfo1, function(x) x[["mchoice"]])
+	sol1 <- lapply(metainfo1, function(x) x[["solution"]])
         wi <-  grep("\\exinput{questionnaire}", tmpl, fixed = TRUE)
-        tmpl[wi] <- "" ## FIXME
+	tmpl[wi] <- paste(c("\\begin{enumerate}", sapply(seq_along(mc1),
+	  function(i) if(mc1[i]) mchoice2quest(sol1[[i]]) else num2quest(sol1[[i]])),
+	  "\\end{enumerate}", ""), collapse = "\n")
       }
 
       ## input exercise tex
