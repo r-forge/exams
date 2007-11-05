@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 n <- 9 + sample(1:6, 4)
 dat <- data.frame(bewertung = rnorm(sum(n),
@@ -74,7 +72,7 @@ der Testperson, sind in Abbildung~\ref{fig:ch05-anova} zu sehen.
 \begin{figure}[htb!]
 \begin{center}
 \footnotesize
-<<fig=TRUE, height = 4, width = 7>>=
+<<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 par(mar = c(4, 4, 1, 1))
 plot(bewertung ~ beschaeftigung, data = dat)
 @
@@ -85,7 +83,7 @@ plot(bewertung ~ beschaeftigung, data = dat)
 Um zu analysieren, welchen Einflu{\ss} die Besch\"aftigung auf die Bewertung des Werbeplakats
 hat, wurde eine Varianzanalyse durchgef\"uhrt:
 
-<<results=verbatim>>=
+<<echo=FALSE, results=verbatim>>=
 writeLines(capture.output(myanova)[-c(3, 4)])
 @
 

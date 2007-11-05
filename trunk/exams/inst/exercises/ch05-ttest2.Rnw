@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 nA <- 40 + sample(1:12, 1) * 4
 nB <- 30 + sample(1:12, 1) * 3
@@ -70,7 +68,7 @@ ausgew\"ahlten Tag sind in Abbildung~\ref{fig:ch05-ttest2} zu sehen.
 \begin{figure}[htb!]
 \begin{center}
 \footnotesize
-<<fig=TRUE, height = 4, width = 5>>=
+<<fig=TRUE, height = 4, width = 5, echo=FALSE, eps=FALSE, results=hide>>=
 par(mar = c(4, 4, 1, 1))
 plot(ausgaben ~ kundentyp, data = dat)
 @
@@ -80,7 +78,7 @@ plot(ausgaben ~ kundentyp, data = dat)
 
 Es wurde folgender statistischer Test durchgef\"uhrt:
 
-<<results=verbatim>>=
+<<echo=FALSE, results=verbatim>>=
 print(tt)
 @
 

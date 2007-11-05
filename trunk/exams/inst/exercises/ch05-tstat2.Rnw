@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 nA <- 100 + sample(1:12, 1) * 4
 nB <- 80 + sample(1:40, 1) * 3

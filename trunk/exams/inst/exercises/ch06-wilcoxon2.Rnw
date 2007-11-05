@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 dgp <- function(digits = 1) {
   n <- sample(4:8, 2, replace = TRUE)
@@ -74,7 +72,7 @@ zu sehen.
 \begin{figure}[htb!]
 \begin{center}
 \footnotesize
-<<fig=TRUE, height=3, width=5.5>>=
+<<fig=TRUE, height=3, width=5.5, echo=FALSE, eps=FALSE, results=hide>>=
 exam_rankplot(dat)
 @
 \caption{\label{fig:ch06-wilcoxon2} Beobachtete Geschwindigkeiten vor und nach Regel\"anderung.}
@@ -98,7 +96,7 @@ werden (siehe Abbildung~\ref{fig:ch06-wilcoxon2a}).
 \begin{figure}[htb!]
 \begin{center}
 \footnotesize
-<<fig=TRUE, height=3, width=5.5>>=
+<<fig=TRUE, height=3, width=5.5, echo=FALSE, eps=FALSE, results=hide>>=
 exam_rankplot(dat, ranks = TRUE)
 @
 \caption{\label{fig:ch06-wilcoxon2a} Beobachtete Geschwindigkeiten mit R\"angen.}

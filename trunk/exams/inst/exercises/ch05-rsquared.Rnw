@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 n <- 20 + sample(1:10, 4) * 3
 y <- rnorm(sum(n), mean = rep(sample(seq(from = sample(20:60, 1), by = 1, length = sample(15:25, 1)), 4)/10, n),

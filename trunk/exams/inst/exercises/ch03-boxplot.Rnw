@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 ## base units/patterns
 unit <- sample(c(1, 2, 5, 10, 20), 1)
@@ -119,7 +117,7 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 \begin{figure}[htb!]
 \begin{center}
 \footnotesize
-<<fig=TRUE, height = 2.5, width = 6>>=
+<<fig=TRUE, height = 2.5, width = 6, echo=FALSE, eps=FALSE, results=hide>>=
 exam_boxplot <- function(quantiles, unit = NULL)
 {
   ## x-axis ticks

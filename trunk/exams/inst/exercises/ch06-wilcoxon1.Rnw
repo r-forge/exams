@@ -1,6 +1,4 @@
-\SweaveOpts{eval=TRUE, echo=FALSE, eps=FALSE, results=hide}
-
-<<>>=
+<<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 dgp <- function(digits = 5) {
   n <- sample(4:8, 2, replace = TRUE)
@@ -48,7 +46,7 @@ Um zu \"uberpr\"ufen, ob diese eingehalten wird, wurden jeweils an einem Tag vor
 Einf\"uhrung bzw.\ nach der Einf\"uhrung die Geschwindigkeit von den passierenden
 Autos gemessen. Die resultierende sortierte Datenliste ist:
 
-<<results=verbatim>>=
+<<echo=FALSE, results=verbatim>>=
 names(dat) <- c("geschwindigkeit", "tag")
 print(dat)
 names(dat) <- c("y", "x")
