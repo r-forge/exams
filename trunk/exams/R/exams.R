@@ -145,7 +145,7 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
     if(!is.null(dir)) {
       file.copy(out_pdf, dir, overwrite = TRUE)
     } else {
-      if(.Platform$OS.type == "windows") shell.exec(out_pdf)
+      if(.Platform$OS.type == "windows") shell.exec(file.path(dir_temp, out_pdf))
         else system(paste(shQuote(getOption("pdfviewer")), shQuote(out_pdf)), wait = FALSE)
     } 
   }
