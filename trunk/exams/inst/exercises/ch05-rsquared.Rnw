@@ -83,4 +83,5 @@ Damit ist das Bestimmtheitsma{\ss}
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(r2)}}
-%% \exstring{\Sexpr{r2_string}}
+%% \exname{Bestimmtheitsmass}
+%% \extol{0.01}

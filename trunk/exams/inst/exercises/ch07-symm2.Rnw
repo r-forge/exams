@@ -14,7 +14,7 @@ btotal <- 100 - vorsprunga
 pabba <- abba/200                     # anteil wechsel  
 
 absh <- c(atotal-ab,ab,ba,btotal-ba) 
-tvduell <- matrix(absh, nr=2, byrow=T) 
+tvduell <- matrix(absh, nr=2, byrow=TRUE) 
 dimnames(tvduell) <-list(vorher=c("A","B"), nachher=c("A","B") ) 
 
 pab <- ab/abba    # beobachteter anteil von a zu b
@@ -46,13 +46,13 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[2] <- "Die Nullhypothese lautet: Die Wahrscheinlichkeit für eine Änderung 
                    der Parteipräferenz ist in jede Richtung (von A zu B bzw. von B zu A) gleich."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "In der Nullhypothese ist der einfache Fall (p=0.5 für jede Richtung) 
                       formuliert."
 } else {
   questions[2] <- "Die Nullhypothese lautet: Die Wahrscheinlichkeit, in der Parteipräferenz 
                    vorne zu liegen, ist für beide Parteien gleich."
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- "Bei diesem Test werden nur die Wechsel berücksichtigt."
 }
 
@@ -80,14 +80,14 @@ if(abs(z) < 1.96) {
   if(runif(1) > 0.5) {  
     questions[4] <- "Die Entscheidung nach dem Test lautet: Der Anteil der Präferenzänderungen 
                      von Partei A zu Partei B beträgt 50 Prozent."
-    solutions[4] <- T
+    solutions[4] <- TRUE
     explanations[4] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
                               round(z,digits=3), ", es ist ein z-Wert ) 
                         unter 1.96, wird die Nullhypothese beibehalten.")                         
 } else {
     questions[4] <- "Die Entscheidung nach dem Test lautet: Beide Parteien werden 
                      denselben Stimmenanteil erhalten."
-    solutions[4] <- F
+    solutions[4] <- FALSE
     explanations[4] <- "Man untersucht mit dem Test nur die Anteile derer, die ihre Präferenz
                         geändert haben."  
 } 
@@ -181,4 +181,4 @@ Welche der folgenden Aussagen sind richtig?
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

@@ -11,7 +11,7 @@ Fahrverhalten <- matrix(absh, nr=2 )
 dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
                                  Geschlecht = c("Frau", "Mann"))
 
-homt <- chisq.test( Fahrverhalten, correct = F) 
+homt <- chisq.test( Fahrverhalten, correct = FALSE) 
 
 x2 <- round(homt$statistic,digits=2)
 df <- homt$parameter
@@ -27,12 +27,12 @@ explanations <- character(5)
 ## 1. X2 interpretieren
 if(runif(1) > 0.5) {
   questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen $H_0$ als kleine."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten Häufigkeiten und 
   den unter $H_0$ erwarteten Häufigkeiten."
 } else {
   questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher für $H_0$ als kleine."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten Häufigkeiten und 
   den unter $H_0$ erwarteten Häufigkeiten."
 }
@@ -41,11 +41,11 @@ if(runif(1) > 0.5) {
 ## 2. df
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel beträgt 1."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "Bei einer 2x2-Tafel ist df = (2-1)*(2-1) = 1."
 } else {
   questions[2] <- "Da es zwei Gruppen gibt, sind 2 Freiheitsgrade in diesem Beispiel relevant."
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- "Bei einer 2x2-Tafel ist df = (2-1)*(2-1)= 1."
 }
 
@@ -56,22 +56,22 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese lautet: Das Risikoverhalten ist bei Frauen und Männern gleich."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Nullhypothese werden keine Unterschiede zwischen den Gruppen postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Das Risikoverhalten ist zwischen Frauen und Männern unterschiedlich."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
 } else 
 
 if(runif(1) > 0.5) {
   questions[3] <- "Die Alternativhypothese lautet: Das Risikoverhalten ist bei Frauen und Männern gleich."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
   questions[3] <- "Die Alternativhypothese lautet: Das Risikoverhalten ist bei Frauen und Männern unterschiedlich."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Alternativhypothese werden Unterschiede zwischen den Gruppen postuliert."
 }
 
@@ -160,4 +160,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

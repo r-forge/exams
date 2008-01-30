@@ -160,4 +160,4 @@ boxplot(y ~ x, data = dat, xlab = "", ylab = "")
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

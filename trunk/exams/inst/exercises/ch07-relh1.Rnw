@@ -27,22 +27,22 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[1] <- "Tabelle 1 enthält Angaben in Zeilenprozent."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
   questions[1] <- "Die Tabelle 2 enthält Angaben in Zeilenprozent."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "Die Zeilensummen ergeben nicht 100."
 }  
 } else 
 
 if(runif(1) > 0.5) {
   questions[1] <- "Die Tabelle 2 enthält Angaben in Spaltenprozent."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "Die Spaltensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
   questions[1] <- "Die Tabelle 1 enthält Angaben in Spaltenprozent."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "Die Spaltensummen ergeben nicht 100."
 }
 
@@ -52,21 +52,21 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[2] <- "Die Tabelle 1 gibt die Wohnortverteilung für jede Stufe von Zufriedenheit an."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
   questions[2] <- "Die Tabelle 2 gibt die Wohnortverteilung für jede Stufe von Zufriedenheit an."
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- "Die Zeilensummen ergeben nicht 100."
 } } else
 
 if(runif(1) > 0.5) {
   questions[2] <- "Die Tabelle 2 gibt die Zufriedenheitsverteilung für die zwei Wohnorte an."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "Die Spaltensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
   questions[2] <- "Die Tabelle 1 gibt die Zufriedenheitsverteilung für die zwei Wohnorte an."
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- "Die Spaltensummen ergeben nicht 100."
 }
 
@@ -79,13 +79,13 @@ if(runif(1) > 0.5) {
   questions[3] <- paste( "Die Eintragung in Zeile 1 und Spalte 1 von Tabelle 1 besagt:",
                          zoeffi[1,1], "Prozent derer, die das Angebot der öffentlichen Verkehrsmittel
                          sehr gut einstuften, waren Bewohner des Stadtkerns.")
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "Das ist die richtige Interpretation von Zeilenprozent."
 } else {
   questions[3] <- paste( "Die Eintragung in Zeile 4 und Spalte 2 von Tabelle 1 besagt:",
                          zoeffi[4,2], "Prozent derer, die das Angebot der öffentlichen Verkehrsmittel
                          sehr schlecht einstuften, waren Bewohner des Stadtrandes.")
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "Das ist die richtige Interpretation von Zeilenprozent."
 } 
 } else
@@ -94,13 +94,13 @@ if(runif(1) > 0.5) {
   questions[3] <- paste( "Die Eintragung in Zeile 1 und Spalte 2 von Tabelle 1 besagt:",
                          zoeffi[1,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
                          der öffentlichen Verkehrsmittel als sehr gut ein.")
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Das ist eine Interpretation als Spaltenprozent, es liegen aber Zeilenprozent vor."
 } else {
   questions[3] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 1 besagt:",
                          zoeffi[4,1], "Prozent der Befragten waren Bewohner des Stadkernes und
                          stuften das Angebot der öffentlichen Verkehrsmittel als sehr schlecht ein.")
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Zeilenprozent vor."
 } 
 
@@ -113,13 +113,13 @@ if(runif(1) > 0.5) {
   questions[4] <- paste( "Die Eintragung in Zeile 2 und Spalte 1 von Tabelle 2 besagt:",
                          soeffi[2,1], "Prozent der Bewohner des Stadtkerns stufen das Angebot 
                          der öffentlichen Verkehrsmittel als eher gut ein.")
-  solutions[4] <- T
+  solutions[4] <- TRUE
   explanations[4] <- "Das ist die richtige Interpretation von Spaltenprozent."
 } else {
   questions[4] <- paste( "Die Eintragung in Zeile 3 und Spalte 2 von Tabelle 2 besagt:",
                          soeffi[3,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
                          der öffentlichen Verkehrsmittel als eher schlecht ein.")
-  solutions[4] <- T
+  solutions[4] <- TRUE
   explanations[4] <- "Das ist die richtige Interpretation von Spaltenprozent."
 } 
 } else
@@ -128,13 +128,13 @@ if(runif(1) > 0.5) {
   questions[4] <- paste( "Die Eintragung in Zeile 2 und Spalte 2 von Tabelle 2 besagt:",
                          soeffi[2,2], "Prozent derer, die das Angebot der öffentlichen Verkehrsmittel
                          eher gut einstuften, waren Bewohner des Stadtrandes.")
-  solutions[4] <- F
+  solutions[4] <- FALSE
   explanations[4] <- "Das ist eine Interpretation als Zeilenprozent, es liegen aber Spaltenprozent vor."
 } else {
   questions[4] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 2 besagt:",
                          soeffi[4,1], "Prozent der Befragten waren Bewohner des Stadtrandes und
                          stufen das Angebot der öffentlichen Verkehrsmittel als sehr schlecht ein.")
-  solutions[4] <- F
+  solutions[4] <- FALSE
   explanations[4] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Spaltenprozent vor."
 } 
 
@@ -160,12 +160,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[5] <- "Tabelle 1 kann man aus der ursprünglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man bezieht jede Angabe auf die Spaltensumme."
-  solutions[5] <- F
+  solutions[5] <- FALSE
   explanations[5] <- "Das würde Spaltenprozent ergeben."
 } else {
   questions[5] <- "Tabelle 2 kann man aus der ursprünglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man bezieht jede Angabe auf den Stichprobenumfang."
-  solutions[5] <- F
+  solutions[5] <- FALSE
   explanations[5] <- "Das würde Gesamtprozent ergeben."
 } 
 
@@ -242,4 +242,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

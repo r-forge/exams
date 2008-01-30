@@ -65,4 +65,5 @@ Der Absolutbetrag ist also $|T| = \Sexpr{round(abs(tstat), digits = 3)}$.
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(abs(tstat))}}
-%% \exstring{\Sexpr{tstat_string}}
+%% \exname{T-Statistik}
+%% \extol{0.01}

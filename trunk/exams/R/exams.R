@@ -1,6 +1,7 @@
 ## workhorse function for compiling (collections of) exercises
 exams <- function(file, n = 1, dir = NULL, template = "plain",
-  name = NULL, quiet = TRUE, header = list(date = Sys.Date()))
+  name = NULL, quiet = TRUE, header = list(date = Sys.Date()),
+  edir = NULL, tdir = NULL)
 {
   ## manage directories: 
   ##   - for producing several files an output directory is required
@@ -11,7 +12,7 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   if(!is.null(dir)) dir <- file_path_as_absolute(dir)
   dir_orig <- getwd()
   on.exit(setwd(dir_orig))
-  dir_temp <- tempfile()
+  dir_temp <- if(is.null(tdir)) tempfile() else tdir
   if(!dir.create(dir_temp)) stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
   dir_pkg <- .find.package("exams")
   
@@ -27,8 +28,9 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
     paste(file_raw, ".Rnw", sep = ""), file_raw)
   file_base <- substr(file_Rnw, 1, nchar(file_Rnw)-4)
   file_tex <- paste(file_base, ".tex", sep = "")
-  file_path <- ifelse(file.exists(file_Rnw),
-    file_Rnw, file.path(dir_pkg, "exercises", file_Rnw))
+  file_path <- if(is.null(edir)) file_Rnw else file.path(edir, file_Rnw)
+  file_path <- ifelse(file.exists(file_path),
+    file_path, file.path(dir_pkg, "exercises", file_path))
   if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
     paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))  
   sample_id <- function() sapply(unique(file_id),
@@ -67,16 +69,31 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   ## convenience function for reading metainfo from compiled exercise
   read_metainfo <- function(file) {
     x <- readLines(file)
-    get_command <- function(command) strsplit(strsplit(x[grep(command, x, fixed = TRUE)],
-      paste(command, "{", sep = ""), fixed = TRUE)[[1]][2], "}")[[1]][1]
+    get_command <- function(command) {
+      cline <- x[grep(command, x, fixed = TRUE)]
+      if(length(cline) < 1) NULL else gsub("{", "", strsplit(strsplit(cline[1],
+        paste(command, "{", sep = ""), fixed = TRUE)[[1]][2], "}")[[1]], fixed = TRUE)
+    }
     mchoice <- get_command("\\extype") == "mchoice"
     sol <- get_command("\\exsolution")
-    slength <- nchar(sol)
+    nam <- get_command("\\exname")
+    tol <- get_command("\\extol")
+    tol <- if(is.null(tol)) 0 else as.numeric(tol)
     sol <- if(mchoice) string2mchoice(sol) else as.numeric(sol)  
+    slength <- length(sol)
+    string <- if(mchoice) paste(nam, ": ", paste(letters[which(sol)], collapse = ""), sep = "") else {
+      if(tol <= 0) paste(nam, ": ", sol, sep = "") else {
+        if(slength == 1) paste(nam, ": ", sol, " (", sol-tol, "--", sol+tol, ")", sep = "") else {
+	  paste(nam, ": [", sol[1], ", ", sol[2], "] ([", sol[1]-tol, "--", sol[1]+tol, ", ",
+	    sol[2]-tol, "--", sol[2]+tol, "])", sep = "")
+	}
+      }
+    }
     list(mchoice = mchoice,
          length = slength,
          solution = sol,
-         string = get_command("\\exstring"))
+	 tolerance = tol,
+         string = string)
   }
 
   ## convenience functions for writing LaTeX  

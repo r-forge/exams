@@ -107,4 +107,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

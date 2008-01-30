@@ -33,10 +33,10 @@ ustat <- function(a, b)
 
 if(type == "W") {
   stat <- wstat(yA, yB)
-  stat_string <- paste("Wilcoxon W-Statistik:", stat)
+  stat_string <- "Wilcoxon W-Statistik"
 } else {
   stat <- ustat(yA, yB)
-  stat_string <- paste("Mann-Whitney U-Statistik:", stat)
+  stat_string <- "Mann-Whitney U-Statistik"
 }
 @
 
@@ -79,4 +79,4 @@ der ersten Stichprobe ist).
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(abs(stat))}}
-%% \exstring{\Sexpr{stat_string}}
+%% \exname{\Sexpr{stat_string}}

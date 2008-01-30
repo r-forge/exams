@@ -24,11 +24,11 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[1] <- "Die Balken des Diagramms entsprechen den Spalten der Kreuztabelle."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "Das ist auch aus der Beschriftung der Balken deutlich."  
 } else {
   questions[1] <- "In den drei Belastungsgebieten wurden gleich viel Personen befragt."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "Die Balken sind zwar gleich hoch, jede Gruppe für sich 
                       wird als 100 Prozent aufgefasst. Die Breite der Balken entspricht 
                       der Gruppenhäufigkeit."
@@ -36,11 +36,11 @@ if(runif(1) > 0.5) {
 } else 
 if(runif(1) > 0.5) {
   questions[1] <- "Die Balken des Diagramms entsprechen den Zeilenen der Kreuztabelle."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "Sie entsprechen den Spalten, das ist auch aus der Beschriftung der Balken deutlich."  
 } else {
   questions[1] <- "Die Balkenteile entsprechen Spaltenprozent für die gegebene Kreuztabelle."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "Sie summieren sich zu 1 (=100 Prozent) und entsprechen diesen Angaben."
 }
 
@@ -69,12 +69,12 @@ if(runif(1) > 0.5) {
   questions[3] <- paste( "Ungefähr ", round(rhp[1,2]/5)*5, "Prozent der befragten Bewohner 
                           indirekt betroffener Gebiete hat sich 
                           für stärkere Reglementierungen ausgesprochen.")
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "Das ist die Interpretation des 2.Balkens als Spaltenprozent."                        
 } else {
   questions[3] <- paste( "Ungefähr ", round(rhp[2,2]/5)*5, "Prozent aller befragten Bewohner 
                           hat sich gegen stärkere Reglementierungen ausgesprochen.")
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Die Balkenanteile geben keine Gesamtprozent an."      
 } 
 } else
@@ -83,13 +83,13 @@ if(runif(1) > 0.5) {
   questions[3] <- paste( "Ungefähr ", round(rhp[2,3]/5)*5, "Prozent der befragten Bewohner 
                           nicht belasteter Gebiete hat sich 
                           gegen stärkere Reglementierungen ausgesprochen.")
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "Das ist die Interpretation des 3.Balkens als Spaltenprozent."         
 } else {
   questions[3] <- paste( "Ungefähr ", round(rhp[1,3]/5)*5, "Prozent aller Befragten, die sich  
                           für stärkere Reglementierungen ausgesprochen, leben in nicht 
                           belasteten Gebieten.")
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Die Balkenanteile geben Spalten- und keine Zeilenprozent an."      
 } 
 
@@ -159,7 +159,7 @@ transit
 
 Daraus abgeleitet ist das folgende Balkendiagramm in Form eines Spineplots:
 
-<<echo=FALSE,fig=T>>= 
+<<echo=FALSE,fig=TRUE>>= 
 spineplot( t(transit) ) 
 axis(4, seq(0.1,0.9,0.2))
 @ 
@@ -193,4 +193,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}
