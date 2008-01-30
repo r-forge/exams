@@ -1,0 +1,261 @@
+<<echo=FALSE, results=hide>>=
+
+## DATA GENERATION
+
+x <- c(420,440,460,500,520,530,550,580,600,640)
+
+y1 <- c(x+rnorm(10,sd=3), x- 50+rnorm(10,sd=3), x+rnorm(10,sd=3),     x- 50+rnorm(10,sd=3))
+y2 <- c(x+rnorm(10,sd=3), x-  6+rnorm(10,sd=3), x-120+rnorm(10,sd=3), x-125+rnorm(10,sd=3))
+y3 <- c(x+rnorm(10,sd=3), x- 60+rnorm(10,sd=3), x-110+rnorm(10,sd=3), x-165+rnorm(10,sd=3))
+y4 <- c(x+rnorm(10,sd=3), x- 40+rnorm(10,sd=3), x- 90+rnorm(10,sd=3), x- 10+rnorm(10,sd=3))
+
+fa <- rep( c(1:2,1:2), c(10,10,10,10) )
+fb <- rep( 1:2, c(20,20) )
+
+Marketing <- factor(fa, labels=c("Qualitaet","Preis") )
+Medium    <- factor(fb, labels=c("Zeitung","TV") )
+
+dasm <- round(runif(1,min=0.51,max=4.49))
+
+if(dasm==1){y = y1
+            ndasm1=2
+            ndasm2=3
+            ndasm3=4
+            dasmt   ="Y ${\\\\sim}$ Marketing"
+            ndasmt1 ="Y ${\\\\sim}$ Medium"
+            ndasmt2 ="Y ${\\\\sim}$ Marketing+Medium"
+            ndasmt3 ="Y ${\\\\sim}$ Marketing*Medium"
+            }
+if(dasm==2){y=y2
+            ndasm1=3
+            ndasm2=4
+            ndasm3=1
+            dasmt   ="Y ${\\\\sim}$ Medium"
+            ndasmt3 ="Y ${\\\\sim}$ Marketing"
+            ndasmt1 ="Y ${\\\\sim}$ Marketing+Medium"
+            ndasmt2 ="Y ${\\\\sim}$ Marketing*Medium" }
+if(dasm==3){y=y3
+            ndasm1=4
+            ndasm2=1
+            ndasm3=2
+            dasmt   ="Y ${\\\\sim}$ Marketing+Medium"
+            ndasmt2 ="Y ${\\\\sim}$ Marketing"
+            ndasmt3 ="Y ${\\\\sim}$ Medium"
+            ndasmt1 ="Y ${\\\\sim}$ Marketing*Medium" }
+if(dasm==4){y=y4
+            ndasm1=1
+            ndasm2=2
+            ndasm3=3
+            dasmt   ="Y ${\\\\sim}$ Marketing*Medium"
+            ndasmt1 ="Y ${\\\\sim}$ Marketing"
+            ndasmt2 ="Y ${\\\\sim}$ Medium"
+            ndasmt3 ="Y ${\\\\sim}$ Marketing+Medium" }
+
+
+## QUESTION/ANSWER GENERATION
+
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+
+## 1. richtiges modell formal identifizieren
+
+expl <- character(4)
+
+expl[1] <- "Nur der Haupteffekt von Faktor Marketing ist signifikant."
+expl[2] <- "Nur der Haupteffekt von Faktor Medium ist signifikant."
+expl[3] <- "Beide Haupteffekte Marketing und Medium sind signifikant, 
+            nicht jedoch der Wechselwirkungeffekt."                   
+expl[4] <- "Der Wechselwirkungeffekt ist signifikant."   
+
+
+if(runif(1) > 0.5) {
+  questions[1] <- paste("Das passende Modell ist", dasmt, ".")
+  solutions[1] <- T
+  explanations[1] <- expl[dasm]
+} else {
+  questions[1] <- paste("Das passende Modell ist", ndasmt1, ".")
+  solutions[1] <- F
+  explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
+}
+
+
+
+## 2. richtiges modell inhaltlich identifizieren
+quest <- character(4)
+quest[1] <- "Das passende Modell lautet: nur Faktor Marketing hat einen Einfluss auf Y."
+quest[2] <- "Das passende Modell lautet: nur Faktor Medium hat einen Einfluss auf Y."
+quest[3] <- "Das passende Modell lautet: die Faktoren Marketing und Medium haben additiv 
+             einen Einfluss auf Y."               
+quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten von Y 
+             je nach Stufe von Faktor Marketing hängen zusätzlich von den Stufen des 
+             Faktors Medium ab."  
+
+## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
+
+expl <- character(4)
+expl[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
+            Verkaufszahlen, wenn man Qualität mit Preis vergleicht. Beim Faktor Medium ist 
+            dieser Abfall von Zeitung zu TV nur schwach."
+expl[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
+            Verkaufszahlen, wenn man Zeitung mit TV vergleicht. Beim Faktor Marketing ist 
+            dieser Abfall von Qualität zu Preis nur schwach."
+expl[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
+            starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
+            des Faktors vergleicht."                   
+expl[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab, 
+            bei TV-Werbung ist Werbung über Preis besser."    
+
+if(runif(1) > 0.5) {
+  questions[2] <- quest[dasm]
+  solutions[2] <- T
+  explanations[2] <- expl[dasm]
+} else {
+  questions[2] <- quest[ndasm1]
+  solutions[2] <- F
+  explanations[2] <- expl[dasm]
+}
+
+
+
+## 3. falsches modell inhaltlich identifizieren
+
+if(runif(1) > 0.5) {
+  questions[3] <- quest[ndasm2]
+  solutions[3] <- F
+  explanations[3] <- expl[dasm]
+} else {
+  questions[3] <- quest[ndasm3]
+  solutions[3] <- F
+  explanations[3] <- expl[dasm]
+}
+
+
+
+
+## 4. mittelwerte interpretieren
+
+quest <- character(4)
+quest[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
+             Verkaufszahlen, wenn man Qualität mit Preis vergleicht. Beim Faktor Medium ist 
+             dieser Abfall von Zeitung zu TV nur schwach."
+quest[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
+             Verkaufszahlen, wenn man Zeitung mit TV vergleicht. Beim Faktor Marketing ist 
+             dieser Abfall von Qualität zu Preis nur schwach."
+quest[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
+             starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
+             des Faktors vergleicht."                   
+quest[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab, 
+             bei TV-Werbung ist Werbung über Preis besser."    
+ 
+
+if(runif(1) > 0.5) {
+  questions[4] <- quest[1]
+  solutions[4] <- dasm==1
+  explanations[4] <- quest[dasm]
+} else {
+  questions[4] <- quest[2]
+  solutions[4] <- dasm==2
+  explanations[4] <- quest[dasm]
+}
+
+
+
+## 5. mittelwerte interpretieren
+
+
+if(runif(1) > 0.5) {
+  questions[5] <- quest[3]
+  solutions[5] <- dasm==3
+  explanations[5] <- quest[dasm]
+} else {
+  questions[5] <- quest[4]
+  solutions[5] <- dasm==4
+  explanations[5] <- quest[dasm]
+}
+
+
+
+## permute order of solutions/questions 
+## hier frage 1 immer am anfang
+
+
+o <- c( 1, sample(2:5) )
+##o <- sample(1:5)
+
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+
+\begin{question}
+
+Ein Unternehmen hat ein neues Produkt entwickelt. Vor der Markteinführung 
+sind noch zwei Fragen offen:
+\begin{itemize}
+  \item Wie soll geworben werden (Faktor Marketing)? 
+        \\Soll die Qualität oder der 
+        niedrige Preis in der Werbung im Vordergrund stehen?
+  \item Wo soll geworben werden (Faktor Medium)? 
+        \\Soll haupsächlich über TV oder 
+        über Zeitungen geworben werden?
+  \end{itemize}
+
+Für jede Kombination der Faktoren werden Testmärkte gebildet 
+(d.h.: es gibt einen Testmarkt, in dem nur über Qualität und nur in 
+Zeitungen geworben wird, es gibt anderen Testmarkt, in dem nur über Qualität aber nur  
+im TV geworben wird, etc.).
+
+Die Verkaufszahlen Y in jeweils 10 Supermärkten pro Testmarkt werden beobachtet.
+
+Als Methode kommt eine zweifache Varianzanalyse zum Einsatz.
+
+Aus der folgenden Varianzanalysetabelle sollen die signifikanten  
+Effekte (Haupt- bzw. Wechselwirkungseffekte) abgeleitet werden.
+
+
+<<echo=FALSE>>=
+options(show.signif.stars = FALSE) 
+mab <- lm(y~Marketing*Medium)
+anova(mab)
+##paste("Wir haben das Modell ",dasm)
+@
+
+Die durchschnittlichen Verkaufszahlen in den Testregionen enthält 
+die folgende Tabelle: 
+
+<<echo=FALSE>>= 
+round( tapply(y,list(Marketing,Medium),mean), digits=0 )
+@
+
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}

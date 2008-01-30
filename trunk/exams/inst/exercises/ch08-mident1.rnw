@@ -1,0 +1,220 @@
+<<echo=FALSE, results=hide>>=
+
+## DATA GENERATION
+
+x <- 15:19
+
+y1 <- c(x, x+15, 1+x, 16+x)
+y2 <- c(x, x+2, 12+x, 14+x)
+y3 <- c(x, x+15, 16+x, 31+x)
+y4 <- c(x, x+15, 16+x, 10+x)
+
+fa <- rep( c(1:2,1:2), c(5,5,5,5) )
+fb <- rep( 1:2, c(10,10) )
+
+A <- factor(fa, labels=c("A1","A2") )
+B <- factor(fb, labels=c("B1","B2") )
+
+
+dasm <- round(runif(1,min=0.51,max=4.49))
+
+if(dasm==1){y = y1
+            ndasm1=2
+            ndasm2=3
+            ndasm3=4
+            dasmt   ="Y ${\\\\sim}$ A"
+            ndasmt1 ="Y ${\\\\sim}$ B"
+            ndasmt2 ="Y ${\\\\sim}$ A+B"
+            ndasmt3 ="Y ${\\\\sim}$ A*B"
+            }
+if(dasm==2){y=y2
+            ndasm1=3
+            ndasm2=4
+            ndasm3=1
+            dasmt   ="Y ${\\\\sim}$ B"
+            ndasmt3 ="Y ${\\\\sim}$ A"
+            ndasmt1 ="Y ${\\\\sim}$ A+B"
+            ndasmt2 ="Y ${\\\\sim}$ A*B" }
+if(dasm==3){y=y3
+            ndasm1=4
+            ndasm2=1
+            ndasm3=2
+            dasmt   ="Y ${\\\\sim}$ A+B"
+            ndasmt2 ="Y ${\\\\sim}$ A"
+            ndasmt3 ="Y ${\\\\sim}$ B"
+            ndasmt1 ="Y ${\\\\sim}$ A*B" }
+if(dasm==4){y=y4
+            ndasm1=1
+            ndasm2=2
+            ndasm3=3
+            dasmt   ="Y ${\\\\sim}$ A*B"
+            ndasmt1 ="Y ${\\\\sim}$ A"
+            ndasmt2 ="Y ${\\\\sim}$ B"
+            ndasmt3 ="Y ${\\\\sim}$ A+B" }
+
+
+## QUESTION/ANSWER GENERATION
+
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+## 1. richtigen Plot identifizieren
+
+expl <- character(4)
+expl[1] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor B ist der Anstieg nur schwach."
+expl[2] <- "Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor A ist der Anstieg nur schwach."
+expl[3] <- "Sowohl von Stufe A1 zu Stufe A2 von Faktor A als auch von Stufe B1 zu 
+            Stufe B2 von Faktor B gibt es einen starken Anstieg in den Mittelwerten."                   
+expl[4] <- "In Stufe B1 ist der Unterschiede in den Mittelwerten zwischen den Faktorstufen A1 und A2 
+            positiv, in Stufe B2 ist dieser Unterschied negativ."    
+            
+if(runif(1) > 0.5) {
+  questions[1] <- paste("Die Mittelwertstabelle passt zu Plot ", dasm, ".")
+  solutions[1] <- T
+  explanations[1] <- expl[dasm]
+} else {
+  questions[1] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm1, ".")
+  solutions[1] <- F
+  explanations[1] <- expl[ndasm1]
+}
+
+
+## 2. einen falschen Plot identifizieren
+ if(runif(1) > 0.5) {
+  questions[2] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm2, ".")
+  solutions[2] <- F
+  explanations[2] <- expl[ndasm2]
+} else {
+  questions[2] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm3, ".")
+  solutions[2] <- F
+  explanations[2] <- expl[ndasm3]
+}
+
+
+
+## 3. richtiges Modell identifizieren
+if(runif(1) > 0.5) {
+  questions[3] <- paste("Die Mittelwertstabelle passt zum Modell ", dasmt, ".")
+  solutions[3] <- T
+  explanations[3] <- paste( "Richtig. ", expl[dasm] )
+} else {
+  questions[3] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt1, ".")
+  solutions[3] <- F
+  explanations[3] <- paste( expl[dasm], ", daher ist das richtige Modell: ", dasmt)
+}
+
+
+## 4. ein falsches Modell identifizieren
+ if(runif(1) > 0.5) {
+  questions[4] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt2, ".")
+  solutions[4] <- F
+  explanations[4] <- paste( expl[dasm], ", daher ist das richtige Modell: ", dasmt)
+} else {
+  questions[4] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt3, ".")
+  solutions[4] <- F
+  explanations[4] <- paste( expl[dasm], ", daher ist das richtige Modell: ", dasmt)
+}
+
+
+
+## 5. mittelwerte interpretieren
+
+expl <- character(4)
+expl[1] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor B ist der Anstieg nur schwach."
+expl[2] <- "Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor A ist der Anstieg nur schwach."
+expl[3] <- "Sowohl von Stufe A1 zu Stufe A2 von Faktor A 
+   ´        als auch von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken Anstieg
+                   in den Mittelwerten."                   
+expl[4] <- "In Stufe B1 ist der Unterschied in den Mittelwerten zwischen den Faktorstufen A1 und A2 
+            positiv, in Stufe B2 ist dieser Unterschied negativ."    
+                                       
+if(runif(1) > 0.5) {
+
+if(runif(1) > 0.5) {
+  questions[5] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor B ist das nicht der Fall."
+  solutions[5] <- dasm==1
+  explanations[5] <- expl[dasm]
+} else {
+  questions[5] <- "Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor A ist das nicht der Fall."
+  solutions[5] <- dasm==2
+  explanations[5] <- expl[dasm]
+}
+} else {
+
+if(runif(1) > 0.5) {
+  questions[5] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
+                   in den Mittelwerten. Bei Faktor B ist das auch der Fall."
+  solutions[5] <- dasm==3
+  explanations[5] <- expl[dasm]
+} else {
+  questions[5] <- "In Stufe B1 ist der Unterschiede in den Mittelwerten 
+                   zwischen den Faktorstufen A1 und A2 nicht gleich wie in Stufe B2." 
+  solutions[5] <- dasm==4
+  explanations[5] <- expl[dasm]
+}}
+
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+
+\begin{question}
+Eine Untersuchung mit einer abhängigen metrischen Variablen Y und zwei Faktoren A und B 
+mit jeweils zwei Faktorstufen (A1, A2 und B1, B2) lieferte folgende 
+Mittelwertstabelle (in jeder Kombination der Faktorstufen liegen gleich viel 
+Beobachtungen vor):
+
+<<echo=FALSE>>= 
+tapply(y,list(A,B),mean)
+@
+
+Unter den vier gegebenen Plots liegt der Interaktionsplot zu diesen Daten:
+ 
+<<echo=FALSE,fig=T>>= 
+par( mfrow = c(2,2) )
+interaction.plot( A,B,y1, ylab="Mittelwerte", main="Plot 1", ylim=c(10,50))
+interaction.plot( A,B,y2, ylab="Mittelwerte", main="Plot 2", ylim=c(10,50))
+interaction.plot( A,B,y3, ylab="Mittelwerte", main="Plot 3", ylim=c(10,50))
+interaction.plot( A,B,y4, ylab="Mittelwerte", main="Plot 4", ylim=c(10,50))
+##legend(30,10,B)
+@
+
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}
