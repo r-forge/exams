@@ -75,11 +75,11 @@ expl[4] <- "Die Aufnahme beider Haupteffekte Marketing und Medium und des Wechse
 
 if(runif(1) > 0.5) {
   questions[1] <- paste("Das passende Modell ist", dasmt, ".")
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- expl[dasm]
 } else {
   questions[1] <- paste("Das passende Modell ist", ndasmt1, ".")
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
 }
 
@@ -112,11 +112,11 @@ expl[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab,
 
 if(runif(1) > 0.5) {
   questions[2] <- quest[dasm]
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- expl[dasm]
 } else {
   questions[2] <- quest[ndasm1]
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- expl[dasm]
 }
 
@@ -126,11 +126,11 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[3] <- quest[ndasm2]
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- expl[dasm]
 } else {
   questions[3] <- quest[ndasm3]
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- expl[dasm]
 }
 
@@ -271,4 +271,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

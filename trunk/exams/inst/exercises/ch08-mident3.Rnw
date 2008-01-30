@@ -4,8 +4,8 @@
 
 x <- 30:34
 
-y1 <- c(x+rnorm(5), x+15+rnorm(5), x+rnorm(5), 15+x+rnorm(5))
-y2 <- c(x+rnorm(5), x+1+rnorm(5), 12+x+rnorm(5), 13+x+rnorm(5))
+y1 <- c(x+rnorm(5), x+15+rnorm(5),    x+rnorm(5), 15+x+rnorm(5))
+y2 <- c(x+rnorm(5), x+ 1+rnorm(5), 12+x+rnorm(5), 13+x+rnorm(5))
 y3 <- c(x+rnorm(5), x+15+rnorm(5), 16+x+rnorm(5), 31+x+rnorm(5))
 y4 <- c(x+rnorm(5), x+15+rnorm(5), 16+x+rnorm(5), 10+x+rnorm(5))
 
@@ -63,23 +63,19 @@ explanations <- character(5)
 
 expl <- character(4)
 
-expl[1] <- "Die Aufnahme von Faktor A ergibt einen signifikanten Abfall in der RSS, 
-            die weitere Aufnahme von Modellteilen nicht mehr."
-expl[2] <- "Die Aufnahme von Faktor B ergibt einen signifikanten Abfall in der RSS, 
-            die weitere Aufnahme von Modellteilen nicht mehr."
-expl[3] <- "Die Aufnahme beider Haupteffekte A und B führt zu einem 
-            signifikanten Abfall in der RSS, die Aufnahme des Wechselwirkungeffektes nicht."                   
-expl[4] <- "Die Aufnahme beider Haupteffekte A und Faktor B und des Wechselwirkungeffektes 
-            führen zu einem signifikanten Abfall in der RSS."   
+expl[1] <- "Nur der Haupteffekt von Faktor A ist signifikant."
+expl[2] <- "Nur der Haupteffekt von Faktor B ist signifikant."
+expl[3] <- "Beide Haupteffekte A und B sind signifikant, nicht jedoch der Wechselwirkungeffekt."                   
+expl[4] <- "Der Wechselwirkungeffekt ist signifikant."   
 
 
 if(runif(1) > 0.5) {
   questions[1] <- paste("Das passende Modell ist", dasmt, ".")
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- expl[dasm]
 } else {
   questions[1] <- paste("Das passende Modell ist", ndasmt1, ".")
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
 }
 
@@ -108,11 +104,11 @@ expl[4] <- "In Stufe B1 ist der Unterschiede in den Mittelwerten zwischen den Fa
 
 if(runif(1) > 0.5) {
   questions[2] <- quest[dasm]
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- expl[dasm]
 } else {
   questions[2] <- quest[ndasm1]
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- expl[ndasm1]
 }
 
@@ -145,11 +141,11 @@ expl[4] <- "Bei Branche B1 ist der Unterschiede in den Mittelwerten zwischen
 
 if(runif(1) > 0.5) {
   questions[3] <- quest[dasm]
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- expl[dasm]
 } else {
   questions[3] <- quest[ndasm1]
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- expl[ndasm1]
 }
 
@@ -163,11 +159,11 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[4] <- quest[ndasm2]
-  solutions[4] <- F
+  solutions[4] <- FALSE
   explanations[4] <- expl[ndasm2]
 } else {
   questions[4] <- quest[ndasm3]
-  solutions[4] <- F
+  solutions[4] <- FALSE
   explanations[4] <- expl[ndasm3]
 }
 
@@ -225,11 +221,8 @@ werden verglichen.
 
 Als Methode kommt eine zweifache Varianzanalyse zum Einsatz.
 
-Die folgenden zwei Rechenergebnisse zeigen die Residuenquadratsummen (RSS) 
-vom einfachen Modell bis zum Wechselwirkungsmodell, wenn einmal zuerst 
-der Faktor A (Universität) und wenn einmal zuerst der Faktor B (Branche) 
-ins Modell aufgenommen wird.
-
+Aus der folgenden Varianzanalysetabelle sollen die signifikanten  
+Effekte (Haupt- bzw. Wechselwirkungseffekte) abgeleitet werden.
 
 <<echo=FALSE>>=
 options(show.signif.stars = FALSE) 
@@ -239,16 +232,13 @@ ma <- lm(y~A)
 mb <- lm(y~B)
 m1 <- lm(y~1)
 
-anova(m1,ma,mapb,mab)
-anova(m1,mb,mapb,mab)
-
+anova(mab)
 ##paste("Wir haben das Modell ",dasm)
 @
 
 
 Die Durchschnittseinkommen (berechnet aus jeweils 5 Werten) für 
-jede Kombination der Faktoren sind 
-in der folgenden Tabelle enthalten: 
+jede Kombination der Faktoren sind in der folgenden Tabelle enthalten: 
 
 <<echo=FALSE>>= 
 round( tapply(y,list(A,B),mean), digits=0 )
@@ -282,4 +272,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

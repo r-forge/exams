@@ -73,11 +73,11 @@ expl[4] <- "In Stufe B1 ist der Unterschiede in den Mittelwerten zwischen den Fa
             
 if(runif(1) > 0.5) {
   questions[1] <- paste("Die Mittelwertstabelle passt zu Plot ", dasm, ".")
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- expl[dasm]
 } else {
   questions[1] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm1, ".")
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- expl[ndasm1]
 }
 
@@ -85,11 +85,11 @@ if(runif(1) > 0.5) {
 ## 2. einen falschen Plot identifizieren
  if(runif(1) > 0.5) {
   questions[2] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm2, ".")
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- expl[ndasm2]
 } else {
   questions[2] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm3, ".")
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- expl[ndasm3]
 }
 
@@ -98,11 +98,11 @@ if(runif(1) > 0.5) {
 ## 3. richtiges Modell identifizieren
 if(runif(1) > 0.5) {
   questions[3] <- paste("Die Mittelwertstabelle passt zum Modell ", dasmt, ".")
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- paste( "Richtig. ", expl[dasm] )
 } else {
   questions[3] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt1, ".")
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- paste( expl[dasm], ", daher ist das richtige Modell: ", dasmt)
 }
 
@@ -110,11 +110,11 @@ if(runif(1) > 0.5) {
 ## 4. ein falsches Modell identifizieren
  if(runif(1) > 0.5) {
   questions[4] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt2, ".")
-  solutions[4] <- F
+  solutions[4] <- FALSE
   explanations[4] <- paste( expl[dasm], ", daher ist das richtige Modell: ", dasmt)
 } else {
   questions[4] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt3, ".")
-  solutions[4] <- F
+  solutions[4] <- FALSE
   explanations[4] <- paste( expl[dasm], ", daher ist das richtige Modell: ", dasmt)
 }
 
@@ -180,7 +180,7 @@ tapply(y,list(A,B),mean)
 
 Unter den vier gegebenen Plots liegt der Interaktionsplot zu diesen Daten:
  
-<<echo=FALSE,fig=T>>= 
+<<echo=FALSE,fig=TRUE>>= 
 par( mfrow = c(2,2) )
 interaction.plot( A,B,y1, ylab="Mittelwerte", main="Plot 1", ylim=c(10,50))
 interaction.plot( A,B,y2, ylab="Mittelwerte", main="Plot 2", ylim=c(10,50))
@@ -217,4 +217,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}
