@@ -1,20 +1,22 @@
 <<echo=FALSE, results=hide>>=
 ## DATA GENERATION
 n <- 9 + sample(1:6, 4)
-dat <- data.frame(bewertung = rnorm(sum(n),
+dat <- data.frame(
+  Bewertung = rnorm(sum(n),
     mean = rep(sample(seq(from = sample(25:55, 1), by = 1, length = sample(15:20, 1)), 4)/10, n),
     sd = rep(sample(70:80, 4)/100, n)),
-  beschaeftigung = factor(rep(1:4, n)))
-dat$bewertung[dat$bewertung > 10] <- 10
-dat$bewertung[dat$bewertung <  0] <-  0
+  Beschaeftigung = factor(rep(1:4, n),
+    labels = c("Schueler", "Studenten", "Berufstaetige", "Pensionisten")))
+dat$Bewertung[dat$Bewertung > 10] <- 10
+dat$Bewertung[dat$Bewertung <  0] <-  0
 
 ## QUESTION/ANSWER GENERATION
 questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-fm0 <- lm(bewertung ~ 1, data = dat)
-fm1 <- lm(bewertung ~ beschaeftigung, data = dat)
+fm0 <- lm(Bewertung ~ 1, data = dat)
+fm1 <- lm(Bewertung ~ Beschaeftigung, data = dat)
 myanova <- anova(fm0, fm1)
 rss <- format(round(c(0.001, myanova[,2]), digits = 3)[-1])
 r2 <- 1 - as.numeric(rss[2])/as.numeric(rss[1])
@@ -74,7 +76,7 @@ der Testperson, sind in Abbildung~\ref{fig:ch05-anova} zu sehen.
 \footnotesize
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 par(mar = c(4, 4, 1, 1))
-plot(bewertung ~ beschaeftigung, data = dat)
+plot(Bewertung ~ Beschaeftigung, data = dat)
 @
 \caption{\label{fig:ch05-anova} Parallele Boxplots}
 \end{center}

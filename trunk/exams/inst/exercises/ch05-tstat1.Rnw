@@ -11,7 +11,7 @@ vB <- round(var(B), digits = 2)
 
 
 ## QUESTION/ANSWER GENERATION
-SD <- sqrt(vA/nA + vB/nB)
+SD <- sqrt((nA + nB)/(nA * nB) * ((nA - 1) * vA + (nB - 1) * vB)/(nA + nB - 2))
 tstat <- (mA - mB)/SD
 tstat_string <- paste("T-Statistik: ", round(abs(tstat), digits = 3),
   " (toleriert: ", round(abs(tstat), digits = 3) - 0.01, " <= |T| <= ",
@@ -45,8 +45,11 @@ $\bar y_A = \Sexpr{mA}$ und $\bar y_B = \Sexpr{mB}$ sowie die Varianzen
 $s^2_A = \Sexpr{vA}$ und $s^2_B = \Sexpr{vB}$ gegeben. Damit k\"onnen wir die gesch\"atzte
 Standardabweichung der Mittelwertdifferenz berechnen:
 \begin{eqnarray*}
-  \widehat{\mathit{SD}} & = & \sqrt{\frac{s^2_A}{n_A} + \frac{s^2_B}{n_B}} \\
-                        & = & \sqrt{\frac{\Sexpr{vA}}{\Sexpr{nA}} + \frac{\Sexpr{vB}}{\Sexpr{nB}}} \\
+  \widehat{\mathit{SD}} & = & \sqrt{\frac{n_A + n_B}{n_A \cdot n_B} \cdot
+                              \frac{(n_A - 1) \cdot s_A^2 + (n_B - 1) \cdot s_B^2}{n_A + n_B - 2}} \\
+                        & = & \sqrt{\frac{\Sexpr{nA + nB}}{\Sexpr{nA * nB}} \cdot
+                              \frac{\Sexpr{nA - 1} \cdot \Sexpr{vA} +
+			      \Sexpr{nB - 1} \cdot \Sexpr{vB}}{\Sexpr{nA + nB - 2}}} \\
                         & = & \Sexpr{round(SD, digits = 5)} \\
 \end{eqnarray*}
 Damit k\"onnen wir dann die $T$-Statistik berechnen:

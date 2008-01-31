@@ -4,8 +4,8 @@ nA <- 40 + sample(1:12, 1) * 4
 nB <- 30 + sample(1:12, 1) * 3
 A <- rnorm(nA, mean = runif(1, min = 40, max = 50), sd = runif(1, min = 5, max = 10))
 B <- rnorm(nB, mean = mean(A) + runif(1, min = -5, max = 5), sd = runif(1, min = 5, max = 10))
-dat <- data.frame(ausgaben = c(A, B),
-  kundentyp = factor(rep(1:2, c(nA, nB)), levels = 1:2, labels = c("Stammkunden", "andere")))
+dat <- data.frame(Ausgaben = c(A, B),
+  Kundentyp = factor(rep(1:2, c(nA, nB)), levels = 1:2, labels = c("Stammkunden", "andere")))
 
 
 ## QUESTION/ANSWER GENERATION
@@ -13,13 +13,14 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-tt <- t.test(ausgaben ~ kundentyp, data = dat, alternative = sample(c("less", "greater", "two.sided"), 1))
+tt <- t.test(Ausgaben ~ Kundentyp, data = dat, var.equal = TRUE,
+  alternative = sample(c("less", "greater", "two.sided"), 1))
 
-questions[1] <- "Der Absolutbetrag der Teststatistik ist gr{\\\\\"o}{\\\\ss}er als 2."
-solutions[1] <- abs(tt$statistic) > 2
+questions[1] <- "Der Absolutbetrag der Teststatistik ist gr{\\\\\"o}{\\\\ss}er als 1.96."
+solutions[1] <- abs(tt$statistic) > 1.96
 explanations[1] <- paste("Die Teststatistik hat den Wert", round(tt$statistic, digits = 3),
   "und damit ist ihr Absolutbetrag", ifelse(solutions[1], "", "\\\\textit{nicht}"),
-  "gr{\\\\\"o}{\\\\ss}er als 2.")
+  "gr{\\\\\"o}{\\\\ss}er als 1.96.")
 
 questions[2] <- "Es wurde eine einseitige Alternative getestet."
 solutions[2] <- tt$alternative != "two.sided"
@@ -70,7 +71,7 @@ ausgew\"ahlten Tag sind in Abbildung~\ref{fig:ch05-ttest2} zu sehen.
 \footnotesize
 <<fig=TRUE, height = 4, width = 5, echo=FALSE, eps=FALSE, results=hide>>=
 par(mar = c(4, 4, 1, 1))
-plot(ausgaben ~ kundentyp, data = dat)
+plot(Ausgaben ~ Kundentyp, data = dat)
 @
 \caption{\label{fig:ch05-ttest2} Parallele Boxplots}
 \end{center}

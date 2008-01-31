@@ -47,7 +47,7 @@ Einf\"uhrung bzw.\ nach der Einf\"uhrung die Geschwindigkeit von den passierende
 Autos gemessen. Die resultierende sortierte Datenliste ist:
 
 <<echo=FALSE, results=verbatim>>=
-names(dat) <- c("geschwindigkeit", "tag")
+names(dat) <- c("Geschwindigkeit", "Tag")
 print(dat)
 names(dat) <- c("y", "x")
 @
