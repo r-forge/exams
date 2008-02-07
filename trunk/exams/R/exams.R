@@ -1,7 +1,7 @@
 ## workhorse function for compiling (collections of) exercises
 exams <- function(file, n = 1, dir = NULL, template = "plain",
-  name = NULL, quiet = TRUE, header = list(date = Sys.Date()),
-  edir = NULL, tdir = NULL)
+  header = list(Date = Sys.Date(), ID = Date2ID(Sys.Date())),
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL)
 {
   ## manage directories: 
   ##   - for producing several files an output directory is required
@@ -13,7 +13,8 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   dir_orig <- getwd()
   on.exit(setwd(dir_orig))
   dir_temp <- if(is.null(tdir)) tempfile() else tdir
-  if(!dir.create(dir_temp)) stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
+  if(!file.exists(dir_temp) && !dir.create(dir_temp))
+    stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
   dir_pkg <- .find.package("exams")
   
   ## file pre-processing:
@@ -99,9 +100,15 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   ## convenience functions for writing LaTeX  
   mchoice2quest <- function(x) paste("  \\item \\exmchoice{",
     paste(ifelse(x, "X", " "), collapse = "}{"), "}", sep = "")
-  num2quest <- function(x) paste("  \\item \\exnum{", 
-    paste(strsplit(format(c(100000.000, x), nsmall = 3, scientific = FALSE)[-1], "")[[1]][-7],
-    collapse = "}{"), "}", sep = "")
+  num2quest <- function(x) {
+    rval <-  paste("  \\item \\exnum{", 
+      paste(strsplit(format(c(100000.000, x), nsmall = 3, scientific = FALSE)[-1], "")[[1]][-7],
+      collapse = "}{"), "}", sep = "")
+    if(length(x) > 1) rval <- paste(rval, " \\\\\n        \\exnum{",
+      paste(strsplit(format(c(100000.000, x), nsmall = 3, scientific = FALSE)[-1], "")[[2]][-7],
+      collapse = "}{"), "}", sep = "")
+    rval
+  }
   
   ## take everything to temp dir
   file.copy(file_path, dir_temp)
@@ -213,3 +220,6 @@ mchoice2summary <- function(x)
 
 mchoice2tex <- function(x)
   ifelse(x, "\\\\textbf{richtig}", "\\\\textbf{falsch}")
+
+Date2ID <- function(date)
+  function(i) gsub(" ", "0", paste(format(as.Date(date), "%y%m%d"), format(i, width = 5), sep = ""))

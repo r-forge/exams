@@ -11,7 +11,8 @@
 
 \usage{
   exams(file, n = 1, dir = NULL, template = "plain",
-    name = NULL, quiet = TRUE, header = list(date = Sys.Date()))
+    header = list(Date = Sys.Date(), ID = Date2ID(Sys.Date())),
+    name = NULL, quiet = TRUE, edir = NULL, tdir = NULL)
 }
 
 \arguments{
@@ -23,12 +24,16 @@
   \item{template}{character. A specification of a LaTeX template. The package
     currently provides \code{"exam"}, \code{"solution"}, \code{"plain"}.
     For details see below.}
+  \item{header}{list. A list of further options to be passed to
+    the LaTeX files.}
   \item{name}{character. A name prefix for resulting exercises, by default
     chosen based on \code{template}.}
   \item{quiet}{logical. Should output be surpressed when calling
     \code{\link[utils]{Sweave}} and \code{\link[tools]{texi2dvi}}.}
-  \item{header}{list. A list of further options to be passed to
-    the LaTeX files.}
+  \item{edir}{character specifying the path of the directory in which
+    the files in \code{file} are stored (see also below).}
+  \item{tdir}{character specifying a temporary directory, by default
+    this is chosen via \code{\link{tempdir}}.}
 }
 
 \details{
@@ -50,10 +55,10 @@
   
   The specification in \code{file} should be either of form \code{"foo"}
   or equivalently \code{"foo.Rnw"}, where the file \code{"foo.Rnw"} should
-  either be in the local directory or in the \code{exercises} directory
-  of the package. \code{file} can either be a simple vector or a list of
-  vectors. In the latter case, exercises are chosen randomly within
-  each list element. For example, the specification
+  either be in the local directory, the \code{edir} directory or in
+  the \code{exercises} directory of the package. \code{file} can either
+  be a simple vector or a list of vectors. In the latter case, exercises
+  are chosen randomly within each list element. For example, the specification
   \code{file = list(c("a", "b"), "xyz")} will result in an exam with two
   exercises: the first exercise is chosen randomly between \code{"a"} and
   \code{"b"} while \code{"xyz"} is always included as the second exercise.
@@ -103,6 +108,7 @@ exam56 <- list(
   "ch03-boxplot",
   c("ch05-tstat1", "ch05-tstat2", "ch05-ttest1", "ch05-ttest2"),
   c("ch05-rsquared", "ch05-anova"),
+  c("ch05-paired1", "ch05-paired2"),
   c("ch06-wilcoxon1", "ch06-wilcoxon2"),
   "ch06-boxplots"
 )

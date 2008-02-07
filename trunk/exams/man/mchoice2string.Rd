@@ -4,6 +4,7 @@
 \alias{mchoice2tex}
 \alias{string2mchoice}
 \alias{num2string}
+\alias{Date2ID}
 
 \title{Convenience Functions for Exam Generation}
 
@@ -19,10 +20,12 @@
   mchoice2tex(x)
   string2mchoice(x)
   num2string(x, digits = 3)
+  Date2ID(date)
 }
 \arguments{
   \item{x}{an object, see below for examples}
   \item{digits}{integer. Number of digits for rounding.}
+  \item{date}{an object of (or coercable to) class \code{"Date"}.}
 }
 
 \details{

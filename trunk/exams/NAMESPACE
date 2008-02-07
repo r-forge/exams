@@ -6,6 +6,7 @@ export(
   "num2string",
   "string2mchoice",
   "mchoice2summary",
-  "mchoice2tex")
+  "mchoice2tex",
+  "Date2ID")
 
 S3method("print", "exams_metainfo")
