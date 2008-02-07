@@ -61,7 +61,7 @@ explanations[3] <- paste("Die Kunden wurden in einer Studie mit",
   "befragt. F\\\\\"ur solche Daten ist dies", ifelse(solutions[3], "eine", "\\\\textit{keine}"),
   "geeignete Visualisierung.")
 
-questions[4] <- "Um die Frage zu beantworten, mu{\\\\ss} ein Test auf Lageunterschiede durchgef\\\\\"uhrt werden."
+questions[4] <- "Um die Frage zu beantworten, muss ein Test auf Lageunterschiede durchgef\\\\\"uhrt werden."
 solutions[4] <- TRUE
 explanations[4] <- paste("Die Frage ist, ob die mittlere Bewertung f\"ur", product[3],
   "mit Logo dieselbe ist wie ohne Logo.")
