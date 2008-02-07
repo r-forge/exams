@@ -110,7 +110,7 @@ explanations[4] <- if(solutions[4])
     "Stichprobe B ist",
     ifelse(abs(SK(B)) < 0.2, "etwa symmetrisch.", ifelse(SK(B) >= 0.2, "rechtsschief.", "linksschief.")))
 
-questions[5] <- "Ein robustes Testverfahren f\\\\\"ur Lageunterschiede ist erforderlich."
+questions[5] <- "Wenn ein Test auf Lageunterschiede durchgef\\\\\"uhrt werden soll, ist hier ein robustes Testverfahren erforderlich."
 solutions[5] <- outlier | skewed
 explanations[5] <- if(!solutions[5])
    "Beide Verteilungen sind etwa symmetrisch und haben keine deutlichen Ausrei{\\\\ss}er." else
