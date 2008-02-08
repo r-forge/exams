@@ -25,9 +25,9 @@ explanations[1] <- paste("Die Teststatistik hat den Wert", round(tt$statistic, d
 questions[2] <- "Es wurde eine einseitige Alternative getestet."
 solutions[2] <- tt$alternative != "two.sided"
 explanations[2] <- switch(tt$alternative,
-  "two.sided" = "Es wurde getestet, da{\\\\ss} die Mittelwertdifferenz ungleich $0$ ist.",
-  "less" = "Es wurde getestet, da{\\\\ss} die Mittelwertdifferenz kleiner $0$ ist.",
-  "greater" = "Es wurde getestet, da{\\\\ss} die Mittelwertdifferenz gr\\\\\"o{\\\\ss}er $0$ ist.")
+  "two.sided" = "Es wurde getestet, dass die Mittelwertdifferenz ungleich $0$ ist.",
+  "less" = "Es wurde getestet, dass die Mittelwertdifferenz kleiner $0$ ist.",
+  "greater" = "Es wurde getestet, dass die Mittelwertdifferenz gr\\\\\"o{\\\\ss}er $0$ ist.")
 
 questions[3] <- "Der $p$-Wert ist gr{\\\\\"o}{\\\\ss}er als $0.05$."
 solutions[3] <- tt$p.value > 0.05
@@ -35,34 +35,34 @@ explanations[3] <- paste("Der $p$-Wert ist $", format.pval(tt$p.value, digits = 
   "$ und damit", ifelse(solutions[3], "", "\\\\textit{nicht}"),
   "gr{\\\\\"o}{\\\\ss}er als $0.05$.")
 
-questions[4] <- "Der Test weist nach, da{\\\\ss} man bei Sparag l\\\\\"anger wartet als bei Consumo."
+questions[4] <- "Der Test weist nach, dass man bei Sparag l\\\\\"anger wartet als bei Consumo."
 solutions[4] <- tt$p.value < 0.05 & tt$alternative != "less" & diff(tt$estimate) < 0
-explanations[4] <- if(solutions[4]) paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, da{\\\\ss} die Mittelwertdifferenz",
+explanations[4] <- if(solutions[4]) paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, dass die Mittelwertdifferenz",
   ifelse(tt$alternative == "two.sided", "ungleich", "gr\\\\\"o{\\\\ss}er"),
   "0 ist. Bei Sparag wartet man im Durchschnitt", round(-diff(tt$estimate), digits = 3),
   "Minuten l\\\\\"anger.") else paste(
   ifelse(tt$alternative != "less", "", 
-    "Der Test versucht die Alternative nachzuweisen, da{\\\\ss} die Mittelwertdifferenz kleiner als 0 ist, also da{\\\\ss} man bei Sparag k\\\\\"urzer wartet als bei Consumo."),
+    "Der Test versucht die Alternative nachzuweisen, dass die Mittelwertdifferenz kleiner als 0 ist, also dass man bei Sparag k\\\\\"urzer wartet als bei Consumo."),
   ifelse(tt$p.value < 0.05, "", "Das Testergebnis ist nicht signifikant ($p \\\\ge 0.05$)."),
   ifelse(diff(tt$estimate) < 0, "",
-    paste("Bei Sparag wartet man im Durschnitt", round(diff(tt$estimate), digits = 3), "Minuten weniger.")))
+    paste("Bei Sparag wartet man im Durchschnitt", round(diff(tt$estimate), digits = 3), "Minuten weniger.")))
 
-questions[5] <- "Der Test weist nach, da{\\\\ss} man bei Sparag k\\\\\"urzer wartet als bei Consumo."
+questions[5] <- "Der Test weist nach, dass man bei Sparag k\\\\\"urzer wartet als bei Consumo."
 solutions[5] <- tt$p.value < 0.05 & tt$alternative != "greater" & diff(tt$estimate) > 0
-explanations[5] <- if(solutions[5]) paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, da{\\\\ss} die Mittelwertdifferenz",
+explanations[5] <- if(solutions[5]) paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, dass die Mittelwertdifferenz",
   ifelse(tt$alternative == "two.sided", "ungleich", "kleiner"),
   "0 ist. Bei Sparag wartet man im Durchschnitt", round(diff(tt$estimate), digits = 3),
   "Minuten weniger.") else paste(
   ifelse(tt$alternative != "greater", "", 
-    "Der Test versucht die Alternative nachzuweisen, da{\\\\ss} die Mittelwertdifferenz gr\\\\\"o{\\\\ss}er als 0 ist, also da{\\\\ss} man bei Sparag l\\\\\"anger wartet als bei Consumo."),
+    "Der Test versucht die Alternative nachzuweisen, dass die Mittelwertdifferenz gr\\\\\"o{\\\\ss}er als 0 ist, also dass man bei Sparag l\\\\\"anger wartet als bei Consumo."),
   ifelse(tt$p.value < 0.05, "", "Das Testergebnis ist nicht signifikant ($p \\\\ge 0.05$)."),
   ifelse(diff(tt$estimate) > 0, "",
-    paste("Bei Sparag wartet man im Durschnitt", round(-diff(tt$estimate), digits = 3), "Minuten l\\\\\"anger.")))
+    paste("Bei Sparag wartet man im Durchschnitt", round(-diff(tt$estimate), digits = 3), "Minuten l\\\\\"anger.")))
 @
 
 \begin{question}
 Die Wartezeit (in Minuten) an der Kassa bei zwei Superm\"arkten mit verschiedenem Kassensystem
-wir verglichen (siehe Abbildung~\ref{fig:ch05-ttest1}).
+wird verglichen (siehe Abbildung~\ref{fig:ch05-ttest1}).
 
 \setkeys{Gin}{width=0.6\textwidth}
 \begin{figure}[htb!]

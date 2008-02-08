@@ -43,7 +43,7 @@ Gleichheit der Erwartungswerte. Wie lautet der Absolutbetrag der $T$-Teststatist
 \begin{solution}
 Aus obiger Tabelle k\"onnen die Stichprobenumf\"ange abgelesen werden, d.h.\ die Zahl
 der Kunden aus der jeweiligen Gruppe an diesem Tag: $n_A = \Sexpr{nA}$ Stammkunden und
-$n_B = \Sexpr{nB}$ andere Kunden. Ausserdem sind die jeweiligen mittleren Ausgaben
+$n_B = \Sexpr{nB}$ andere Kunden. Au{\ss}erdem sind die jeweiligen mittleren Ausgaben
 $\bar y_A = \Sexpr{mA}$ und $\bar y_B = \Sexpr{mB}$ sowie deren Standardabweichungen
 $s_A = \Sexpr{sA}$ und $s_B = \Sexpr{sB}$ gegeben. Damit k\"onnen wir die gesch\"atzte
 Standardabweichung der Mittelwertdifferenz berechnen:

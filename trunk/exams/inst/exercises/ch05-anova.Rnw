@@ -36,7 +36,7 @@ if(runif(1) > 0.5) {
 
 questions[2] <- "Es wurde eine einseitige Alternative getestet."
 solutions[2] <- FALSE
-explanations[2] <- "Eine Varianzanalyse (ANOVA) testet immer die Nullhypothese, da{\\\\ss} alle Mittelwerte gleich sind, gegen die Alternative, da{\\\\ss} sie unterschiedlich sind."
+explanations[2] <- "Eine Varianzanalyse (ANOVA) testet immer die Nullhypothese, dass alle Mittelwerte gleich sind, gegen die Alternative, dass sie unterschiedlich sind."
 
 r2a <- sample(10:60, 1)/100
 questions[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist gr\\\\\"o{\\\\ss}er als $", 100 * r2a, "$\\\\%.", sep = "")
@@ -44,12 +44,12 @@ solutions[3] <- r2 > r2a
 explanations[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist $", num2string(r2), "$ und damit ",
     ifelse(solutions[3], "", "\\\\textit{nicht}"), " gr\\\\\"o{\\\\ss}er als ", r2a, ".", sep = "")
 
-questions[4] <- "Es kann nachgewiesen werden, da{\\\\ss} die Bewertung der Testpersonen von ihrer Besch\\\\\"aftigung abh\\\\\"angt."
+questions[4] <- "Es kann nachgewiesen werden, dass die Bewertung der Testpersonen von ihrer Besch\\\\\"aftigung abh\\\\\"angt."
 solutions[4] <- myanova[2,6] < 0.05
 explanations[4] <- paste("Der $p$-Wert ist $", format.pval(myanova[2,6], digits = 3),
   "$ und damit", ifelse(solutions[4], "", "\\\\textit{nicht}"),
   "signifikant. Es kann", ifelse(solutions[4], "", "\\\\textit{nicht}"),
-  "nachgewiesen werden, da{\\\\ss} sich die Bewertungen nach Besch\\\\\"aftigung der Testperson unterscheiden.")
+  "nachgewiesen werden, dass sich die Bewertungen nach Besch\\\\\"aftigung der Testperson unterscheiden.")
     
 r2b <- sample(10:60, 1)/100
 questions[5] <- paste("Das Bestimmtheitsma{\\\\ss} ist kleiner als $", 100 * r2b, "$\\\\%.", sep = "")

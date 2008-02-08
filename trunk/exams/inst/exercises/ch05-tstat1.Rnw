@@ -40,7 +40,7 @@ Gleichheit der Erwartungswerte. Wie lautet der Absolutbetrag der $T$-Teststatist
 %% SOLUTIONS
 \begin{solution}
 Aus obiger Tabelle k\"onnen die Stichprobenumf\"ange $n_A = \Sexpr{nA}$ f\"ur Sparag und
-$n_B = \Sexpr{nB}$ f\"ur Consumo abgelesen werden. Ausserdem sind die jeweiligen Mittelwerte
+$n_B = \Sexpr{nB}$ f\"ur Consumo abgelesen werden. Au{\ss}erdem sind die jeweiligen Mittelwerte
 $\bar y_A = \Sexpr{mA}$ und $\bar y_B = \Sexpr{mB}$ sowie die Varianzen 
 $s^2_A = \Sexpr{vA}$ und $s^2_B = \Sexpr{vB}$ gegeben. Damit k\"onnen wir die gesch\"atzte
 Standardabweichung der Mittelwertdifferenz berechnen:
