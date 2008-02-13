@@ -1,0 +1,61 @@
+<<echo=FALSE, results=hide>>=
+qz <- sample(-220:220, 1)/100
+lower.tail <- sample(c(TRUE, FALSE), 1)
+pz <- round(pnorm(qz, lower.tail = lower.tail), digits = 3)
+tailsign <- if(lower.tail) "\\\\le" else ">"
+solution <- if(lower.tail) {
+  paste("P(Z \\\\le ", format(qz, nsmall = 2), ") & = & ", format(pz, nsmall = 3), sep = "")
+} else {
+  paste("P(Z > ", format(qz, nsmall = 2), ") & = & 1 - P(Z \\\\le ", format(qz, nsmall = 2), ") \\\\\\\\\n",
+    "            & = & 1 - ", format(round(pnorm(qz), digits = 3), nsmall = 3), " \\\\\\\\\n",
+    "            & = & ", format(pz, nsmall = 3), sep = "")
+}
+@
+
+
+\begin{question}
+Die Zufallsgr\"o{\ss}e $Z$ ist standardnormalverteilt. Berechnen Sie
+$P(Z \Sexpr{tailsign} \Sexpr{format(qz, nsmall = 2)})$.
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Aus der Normalverteilungstabelle ablesen:
+\begin{eqnarray*}
+\Sexpr{solution}
+\end{eqnarray*}
+Siehe auch Abbildung~\ref{fig:ch01-nvstandard1}.
+
+\setkeys{Gin}{width=0.6\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+<<fig=TRUE, height = 4, width = 5, echo=FALSE, eps=FALSE, results=hide>>=
+curve(dnorm, from = -3, to = 3, xlab = "x", ylab = "f(x)")
+abline(h = 0)
+if(lower.tail) {
+  x <- seq(from = -3, to = qz, length = 50)
+  x1 <- weighted.mean(x, dnorm(x))
+  polygon(c(x[1], x, x[50]), c(0, dnorm(x), 0), col = "lightgray")  
+  if(dnorm(x1) < 0.1) text(x1, dnorm(x1) + 0.05, format(pz, nsmall = 3))
+    else text(x1, dnorm(x1)/2, format(pz, nsmall = 3))
+} else {
+  x <- seq(from = qz, to = 3, length = 50)
+  x1 <- weighted.mean(x, dnorm(x))
+  polygon(c(x[1], x, x[50]), c(0, dnorm(x), 0), col = "lightgray")  
+  if(dnorm(x1) < 0.1) text(x1, dnorm(x1) + 0.05, format(pz, nsmall = 3))
+    else text(x1, dnorm(x1)/2, format(pz, nsmall = 3))
+}
+
+@
+\caption{\label{fig:ch01-nvstandard1} Histogramm der Standardnormalverteilung.}
+\end{center}
+\end{figure}
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(pz)}}
+%% \exname{Wahrscheinlichkeit}
+%% \extol{0.005}

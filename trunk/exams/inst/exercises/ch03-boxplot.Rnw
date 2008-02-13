@@ -70,17 +70,17 @@ if(runif(1) > 0.5) {
     ifelse(solutions[3], "", "\\\\textit{nicht} "), "kleiner als $", skewness2, "$.", sep = "")
 }
 
-## 4. IQR comparison
+## 4. QD comparison
 iqr2 <- round(round(runif(1, min = 2, max = 4), digits = 1) * unit)
 if(runif(1) > 0.5) {
   questions[4] <- paste("Die Interquartilsdistanz betr\\\\\"agt mindestens ", iqr2, ".", sep = "")
   solutions[4] <- iqr >= iqr2
-  explanations[4] <- paste("$\\\\mathit{IQR} = ", iqr,
+  explanations[4] <- paste("$\\\\mathit{QD} = ", iqr,
     ifelse(solutions[4], " \\\\ge ", " < "), iqr2, "$.", sep = "")
 } else {
   questions[4] <- paste("Die Interquartilsdistanz betr\\\\\"agt h\\\\\"ochstens ", iqr2, ".", sep = "")
   solutions[4] <- iqr <= iqr2
-  explanations[4] <- paste("$\\\\mathit{IQR} = ", iqr,
+  explanations[4] <- paste("$\\\\mathit{QD} = ", iqr,
     ifelse(solutions[4], " \\\\le ", " > "), iqr2, "$.", sep = "")
 }
 
@@ -160,11 +160,11 @@ exam_boxplot(quantiles, unit)
 
 %% SOLUTIONS
 \begin{solution}
-Zur Beantwortung der Fragen ben\"otigen wir den Interquartilsabstand ($\mathit{IQR}$)
+Zur Beantwortung der Fragen ben\"otigen wir den Interquartilsabstand ($\mathit{QD}$)
 und den Schiefekoeffizienten ($\mathit{SK}$), beide lassen sich direkt aus dem Boxplot
 berechnen:
 \begin{eqnarray*}
-  \mathit{IQR} & = &  Q_{0.75} - Q_{0.25}
+  \mathit{QD} & = &  Q_{0.75} - Q_{0.25}
               \; = \; \Sexpr{quantiles[4]} - \Sexpr{quantiles[2]}
               \; = \; \Sexpr{quantiles[4]  -        quantiles[2]} \\
   \mathit{R} & = &  Q_{0.75} - Q_{0.5}
