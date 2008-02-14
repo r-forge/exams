@@ -39,14 +39,17 @@
 
 
 %% new commands
+\makeatletter
 \newcommand{\ID}[1]{\def\@ID{#1}}
 \newcommand{\Date}[1]{\def\@Date{#1}}
 \ID{YYMMDD00001}
 \Date{YYYY-MM-DD}
-\newcommand{\theID}{07102600001} %%FIXME \@ID
-\newcommand{\theDate}{2007-10-26} %%FIXME \@Date
 
 %% \exinput{header}
+
+\newcommand{\myID}{\@ID}
+\newcommand{\myDate}{\@Date}
+\makeatother
 
 %% header
 \markboth{\textnormal{\bf \large Klausur Statistik: \theID}}%
