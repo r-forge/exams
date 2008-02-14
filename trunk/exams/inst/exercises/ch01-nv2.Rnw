@@ -12,7 +12,7 @@ if(lower.tail) {
       dann ist $Z$ mit einer Wahrscheinlichkeit von %s kleiner (oder gleich) $c$:
       $P(Z \\\\le c) = %s$.
       Gesucht ist also das %s-Quantil der Standardnormalerteilung.
-      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      Ablesen aus der Normalverteilungstabelle gibt $c = %s$.",
       format(pz, nsmall = 3), format(pz, nsmall = 3), format(pz, nsmall = 3),
       format(pz, nsmall = 1), format(round(qz, digits = 3), nsmall = 3))
   } else {
@@ -20,7 +20,7 @@ if(lower.tail) {
     solution <- sprintf("$Z$ ist mit einer Wahrscheinlichkeit von %s kleiner als $c$:
       $P(Z < c) = %s$.
       Gesucht ist also das %s-Quantil der Standardnormalerteilung.
-      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      Ablesen aus der Normalverteilungstabelle gibt $c = %s$.",
       format(pz, nsmall = 3), format(pz, nsmall = 3),
       format(pz, nsmall = 1), format(round(qz, digits = 3), nsmall = 3))
   }
@@ -31,7 +31,7 @@ if(lower.tail) {
       dann ist $Z$ mit einer Wahrscheinlichkeit von %s gr\\\\\"o{\\\\ss}er als $c$:
       $P(Z \\\\ge c) = %s$. Damit ist $P(Z < c) = 1 - %s = %s$.
       Gesucht ist also das %s-Quantil der Standardnormalerteilung.
-      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      Ablesen aus der Normalverteilungstabelle gibt $c = %s$.",
       format(pz, nsmall = 3), format(pz, nsmall = 3), format(pz, nsmall = 3),
       format(pz, nsmall = 3), format(1-pz, nsmall = 3), format((1-pz), nsmall = 1), 
       format(round(qz, digits = 3), nsmall = 3))
@@ -40,7 +40,7 @@ if(lower.tail) {
     solution <- sprintf("$Z$ ist mit einer Wahrscheinlichkeit von %s gr\\\\\"o{\\\\ss}er als $c$:
       $P(Z > c) = %s$. Damit ist $P(Z \\\\le c) = 1 - %s = %s$.
       Gesucht ist also das %s-Quantil der Standardnormalerteilung.
-      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      Ablesen aus der Normalverteilungstabelle gibt $c = %s$.",
       format(pz, nsmall = 3), format(pz, nsmall = 3),
       format(pz, nsmall = 3), format(1-pz, nsmall = 3), format((1-pz), nsmall = 1), 
       format(round(qz, digits = 3), nsmall = 3))
