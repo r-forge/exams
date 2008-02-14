@@ -1,82 +1,65 @@
 <<echo=FALSE, results=hide>>=
-squared <- sample(c(TRUE, FALSE), 1)
-inside <- sample(c(TRUE, FALSE), 1)
+lower.tail <- sample(c(TRUE, FALSE), 1)
+pz <- sample(10:990, 1)/1000
+qz <- qnorm(pz, lower.tail = lower.tail)
 
-qz <- sample(20:210, 1)/100
-if(squared) {
-  qz2 <- round(qz^2, digits = 2)
-  qz <- round(sqrt(qz2), digits = 4)
-}
+inverse <- sample(c(TRUE, FALSE), 1)
 
-pz <- if(inside) pnorm(qz) - pnorm(-qz) else 2 * pnorm(-qz)
-  
-question <- paste(ifelse(squared, "Z^2", "|Z|"), ifelse(inside, "\\\\le", ">"),
-  ifelse(squared, format(qz2, nsmall = 2), format(qz, nsmall = 2)))
-
-if(squared) {
-  qt2 <- format(qz2, nsmall = 2)
-  qt <- format(qz, nsmall = 4)
-  solution <- if(inside) {
-    sprintf(
-      "P(Z^2 \\\\le %s) & = & P(|Z| \\\\le %s) \\\\\\\\
-       & = & P(-%s \\\\le Z \\\\le %s) \\\\\\\\
-       & = & P(Z \\\\le %s) - P(Z < -%s) \\\\\\\\
-       & = & %s - %s \\\\\\\\
-       & = & %s",
-      qt2, qt, qt, qt, qt, qt,
-      format(round(pnorm(qz), digits = 4), nsmall = 4),
-      format(round(pnorm(-qz), digits = 4), nsmall = 4),
-      format(round(pz, digits = 3), nsmall = 3))
+if(lower.tail) {
+  if(inverse) {
+    tailtext <- "$c$ nicht \\\\\"uberschreitet"
+    solution <- sprintf("Wenn $Z$ mit einer Wahrscheinlichkeit von %s $c$ nicht \\\\\"uberschreitet,
+      dann ist $Z$ mit einer Wahrscheinlichkeit von %s kleiner (oder gleich) $c$:
+      $P(Z \\\\le c) = %s$.
+      Gesucht ist also das %s-Quantil der Standardnormalerteilung.
+      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      format(pz, nsmall = 3), format(pz, nsmall = 3), format(pz, nsmall = 3),
+      format(pz, nsmall = 1), format(round(qz, digits = 3), nsmall = 3))
   } else {
-    sprintf(
-      "P(Z^2 > %s) & = & P(|Z| > %s) \\\\\\\\
-       & = & P(Z > %s) + P(Z < -%s) \\\\\\\\
-       & = & P(Z < -%s) + P(Z < -%s) \\\\\\\\
-       & = & 2 \\\\cdot %s \\\\\\\\
-       & = & %s",
-      qt2, qt, qt, qt, qt, qt,
-      format(round(pnorm(-qz), digits = 4), nsmall = 4),
-      format(round(pz, digits = 3), nsmall = 3))
+    tailtext <- "kleiner als $c$ ist"
+    solution <- sprintf("$Z$ ist mit einer Wahrscheinlichkeit von %s kleiner als $c$:
+      $P(Z < c) = %s$.
+      Gesucht ist also das %s-Quantil der Standardnormalerteilung.
+      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      format(pz, nsmall = 3), format(pz, nsmall = 3),
+      format(pz, nsmall = 1), format(round(qz, digits = 3), nsmall = 3))
   }
 } else {
-  qt <- format(qz, nsmall = 2)
-  solution <- if(inside) {
-    sprintf(
-      "P(|Z| \\\\le %s) & = & P(-%s \\\\le Z \\\\le %s) \\\\\\\\
-       & = & P(Z \\\\le %s) - P(Z < -%s) \\\\\\\\
-       & = & %s - %s \\\\\\\\
-       & = & %s",
-      qt, qt, qt, qt, qt,
-      format(round(pnorm(qz), digits = 4), nsmall = 4),
-      format(round(pnorm(-qz), digits = 4), nsmall = 4),
-      format(round(pz, digits = 3), nsmall = 3))
+  if(inverse) {
+    tailtext <- "$c$ nicht unterschreitet"
+    solution <- sprintf("Wenn $Z$ mit einer Wahrscheinlichkeit von %s $c$ nicht unterschreitet,
+      dann ist $Z$ mit einer Wahrscheinlichkeit von %s gr\\\\\"o{\\\\ss}er als $c$:
+      $P(Z \\\\ge c) = %s$. Damit ist $P(Z < c) = 1 - %s = %s$.
+      Gesucht ist also das %s-Quantil der Standardnormalerteilung.
+      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      format(pz, nsmall = 3), format(pz, nsmall = 3), format(pz, nsmall = 3),
+      format(pz, nsmall = 3), format(1-pz, nsmall = 3), format((1-pz), nsmall = 1), 
+      format(round(qz, digits = 3), nsmall = 3))
   } else {
-    sprintf(
-      "P(|Z| > %s) & = & P(Z > %s) + P(Z < -%s) \\\\\\\\
-       & = & P(Z < -%s) + P(Z < -%s) \\\\\\\\
-       & = & 2 \\\\cdot %s \\\\\\\\
-       & = & %s",
-      qt, qt, qt, qt, qt,
-      format(round(pnorm(-qz), digits = 4), nsmall = 4),
-      format(round(pz, digits = 3), nsmall = 3))
+    tailtext <- "gr\\\\\"o{\\\\ss}er als $c$ ist"
+    solution <- sprintf("$Z$ ist mit einer Wahrscheinlichkeit von %s gr\\\\\"o{\\\\ss}er als $c$:
+      $P(Z > c) = %s$. Damit ist $P(Z \\\\le c) = 1 - %s = %s$.
+      Gesucht ist also das %s-Quantil der Standardnormalerteilung.
+      Ablesen aus der Normalverteilungstabelle gibt %s.",
+      format(pz, nsmall = 3), format(pz, nsmall = 3),
+      format(pz, nsmall = 3), format(1-pz, nsmall = 3), format((1-pz), nsmall = 1), 
+      format(round(qz, digits = 3), nsmall = 3))
   }
 }
 @
 
 
 \begin{question}
-Die Zufallsgr\"o{\ss}e $Z$ ist standardnormalverteilt. Berechnen Sie
-$P(\Sexpr{question})$.
+Die Zufallsgr\"o{\ss}e $Z$ ist standardnormalverteilt. Wie lautet $c$, wenn $Z$
+mit einer Wahrscheinlichkeit von \Sexpr{format(pz, nsmall = 3)} \Sexpr{tailtext}.
 \end{question}
 
 
 %% SOLUTIONS
 \begin{solution}
-Umformen und aus der Normalverteilungstabelle ablesen:
-\begin{eqnarray*}
 \Sexpr{solution}
-\end{eqnarray*}
-Siehe auch Abbildung~\ref{fig:ch01-nvstandard2}.
+
+Siehe auch Abbildung~\ref{fig:ch01-nv2}.
 
 \setkeys{Gin}{width=0.6\textwidth}
 \begin{figure}[htb!]
@@ -84,20 +67,22 @@ Siehe auch Abbildung~\ref{fig:ch01-nvstandard2}.
 <<fig=TRUE, height = 4, width = 5, echo=FALSE, eps=FALSE, results=hide>>=
 curve(dnorm, from = -3, to = 3, xlab = "x", ylab = "f(x)")
 abline(h = 0)
-if(inside) {
-  x <- seq(from = -qz, to = qz, length = 50)
-  polygon(c(x[1], x, x[50]), c(0, dnorm(x), 0), col = "lightgray")  
-  text(0, 0.2, format(round(pz, digits = 3), nsmall = 3))
-} else {
-  x <- seq(from = -3, to = -qz, length = 50)
+if(lower.tail) {
+  x <- seq(from = -3, to = qz, length = 50)
   x1 <- weighted.mean(x, dnorm(x))
   polygon(c(x[1], x, x[50]), c(0, dnorm(x), 0), col = "lightgray")  
-  polygon(-c(x[1], x, x[50]), c(0, dnorm(-x), 0), col = "lightgray")  
-  if(dnorm(x1) < 0.1) text(c(-1, 1) * x1, dnorm(x1) + 0.05, format(round(pz/2, digits = 4), nsmall = 3))
-    else text(c(-1, 1) * x1, dnorm(x1)/2, format(round(pz/2, digits = 4), nsmall = 3))
+  if(dnorm(x1) < 0.1) text(x1, dnorm(x1) + 0.05, format(pz, nsmall = 3))
+    else text(x1, dnorm(x1)/2, format(pz, nsmall = 3))
+} else {
+  x <- seq(from = qz, to = 3, length = 50)
+  x1 <- weighted.mean(x, dnorm(x))
+  polygon(c(x[1], x, x[50]), c(0, dnorm(x), 0), col = "lightgray")  
+  if(dnorm(x1) < 0.1) text(x1, dnorm(x1) + 0.05, format(pz, nsmall = 3))
+    else text(x1, dnorm(x1)/2, format(pz, nsmall = 3))
 }
+
 @
-\caption{\label{fig:ch01-nvstandard2} Histogramm der Standardnormalverteilung.}
+\caption{\label{fig:ch01-nv2} Histogramm der Standardnormalverteilung.}
 \end{center}
 \end{figure}
 
@@ -105,6 +90,6 @@ if(inside) {
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{\Sexpr{num2string(pz)}}
-%% \exname{Wahrscheinlichkeit}
-%% \extol{0.016}
+%% \exsolution{\Sexpr{num2string(qz)}}
+%% \exname{Quantil}
+%% \extol{0.02}
