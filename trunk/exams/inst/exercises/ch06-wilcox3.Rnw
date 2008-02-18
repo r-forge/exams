@@ -1,0 +1,75 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+dgp <- function(digits = 2) {
+  nA <- sample(4:8, 1)
+  nB <- sample(4:8, 1)
+  A <- rnorm(nA, mean = runif(1, min = 40, max = 50), sd = runif(1, min = 5, max = 10))
+  B <- rnorm(nB, mean = mean(A) + runif(1, min = -5, max = 10), sd = runif(1, min = 5, max = 10))
+  dat <- data.frame(y = round(c(A, B), digits = digits),
+    x = factor(rep(sample(1:2), c(nA, nB)), levels = 1:2, labels = c("Stammkunden", "andere")))
+  dat <- dat[order(dat$y),]
+  row.names(dat) <- 1:nrow(dat)
+  dat$y <- round(dat$y, digits = digits)
+  dat
+}
+dat <- dgp()
+while(length(unique(dat$y)) < length(dat$y) | any(dat$y < 0)) dat <- dgp()
+
+## QUESTION/ANSWER GENERATION
+type <- sample(c("W", "U"), 1)
+
+yA <- with(dat, split(y, x)[[1]])
+yB <- with(dat, split(y, x)[[2]])
+
+wstat <- function(a, b)
+  sum(rank(c(a, b))[seq(along = a)])
+ustat <- function(a, b)
+  wstat(a, b) - length(a) * (length(a) + 1)/2
+
+if(type == "W") {
+  stat <- wstat(yA, yB)
+  stat_string <- "Wilcoxon W-Statistik"
+} else {
+  stat <- ustat(yA, yB)
+  stat_string <- "Mann-Whitney U-Statistik"
+}
+@
+
+\begin{question}
+Ein Online-Warenhaus vergleicht die Ausgaben (pro Bestellung, in EUR) seiner Stammkunden
+mit denen der \"ubrigen Kunden. Die Ausgaben der beiden Kundengruppen in einer zuf\"allig
+ausgew\"ahlten Stunde sind:
+
+<<echo=FALSE, results=verbatim>>=
+names(dat) <- c("Ausgaben", "Kundengruppe")
+print(dat)
+names(dat) <- c("y", "x")
+@
+
+Um die Gleichheit der mittleren Ausgaben in den beiden Kundengruppen zu test, soll
+ein Rangtest durchgef\"uhrt werden. Berechnen Sie die
+\Sexpr{ifelse(type == "W", "Wilcoxon $W$-Statistik", "Mann-Whitney $U$-Statistik")}
+(auf Basis der R\"ange der Stammkunden-Stichprobe).
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Die Wilcoxon $W$-Statistik ist die Summe der R\"ange in der ersten Stichprobe.
+Die Mann-Whitney $U$-Statistik ist \"aquivalent zur $W$-Statistik, wird nur um
+$n_A \cdot (n_A + 1)/2$ nach links verschoben (wobei $n_A$ der Stichprobenumfang
+der ersten Stichprobe ist).
+\begin{eqnarray*}
+  W & = & \Sexpr{paste(with(dat, split(rank(y), x)[[1]]), collapse = " + ")} \\
+    & = & \Sexpr{sum(with(dat, split(rank(y), x)[[1]]))} \\[0.3cm]
+  U & = & W - n_A \cdot (n_A + 1)/2 \\
+    & = & \Sexpr{sum(with(dat, split(rank(y), x)[[1]]))} -
+          \Sexpr{table(dat$x)[1]} \cdot \Sexpr{table(dat$x)[1] + 1}/2 \\
+    & = & \Sexpr{sum(with(dat, split(rank(y), x)[[1]])) - table(dat$x)[1] * (table(dat$x)[1] + 1)/2}    
+\end{eqnarray*}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(abs(stat))}}
+%% \exname{\Sexpr{stat_string}}
