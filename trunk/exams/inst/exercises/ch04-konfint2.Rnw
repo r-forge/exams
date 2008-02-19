@@ -1,0 +1,93 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+n<-sample(0:5,1)*2+25
+xsm<-round(runif(1)*25+25,2)
+xsh<-round(runif(1)*15+15,2)
+s2mest<-round(runif(1)*50+100,2)
+s2hest<-round(runif(1)*40+80,2)
+s2m<-s2mest*(n-1)/n
+s2h<-s2hest*(n-1)/n
+
+i2<-sample(1:2,1)
+if(i2==1){xs<-xsm
+s2est<-s2mest
+str<-"Mariahilf "
+}
+if(i2==2){xs<-xsh
+s2est<-s2hest
+str<-"Innere Stadt "
+}
+
+
+## QUESTION/ANSWER GENERATION
+s2nm1<-s2est
+sd<-sqrt(s2/(n-1))
+sdf<-sqrt(s2/n)
+
+#Lösung
+ugr<-round(xs-1.96*sd,3)
+ogr<-round(xs+1.96*sd,3)
+
+#Falsche Lösung
+ugf<-round(xs-1.96*sdf,3)
+ogf<-round(xs+1.96*sdf,3)
+
+#Toleriert
+ugrt<-round(xs-1.97*sd,3)
+ogrt<-round(xs+1.97*sd,3)
+ugrtolunten<-floor((ugrt-0.01)*100)/100
+ugrtoloben<-ceiling((ugr+0.01)*100)/100
+ogrtolunten<-floor((ogr-0.01)*100)/100
+ogrtoloben<-ceiling((ogrt+0.01)*100)/100
+
+@
+
+\begin{question}
+In zwei Wiener Bezirken wurden jeweils $\Sexpr{n}$ zufällig
+ausgew\"ahlte Geschäfte gebeten, die Veränderung des Umsatzes 2006
+gegen\"uber dem Vorjahr bekanntzugeben. Folgende Tabelle enthält
+die Mittelwerte und die Varianz der Daten:
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+Bezirk & Mittelwert (in GE) & $s^2_{n-1}$\\
+\hline
+Mariahilf & \Sexpr{xsm} & \Sexpr{s2mest} \\
+Innere Stadt & \Sexpr{xsh} & \Sexpr{s2hest} \\
+\hline
+\end{tabular}
+\end{center}
+
+Geben Sie ein 95-prozentiges Konfidenzintervall für den
+mittleren Umsatzzuwachs im Bezirk \Sexpr{str} an :
+
+\end{question}
+
+
+
+
+%% SOLUTIONS
+\begin{solution}
+
+Das Konfidenzintervall f\"ur den Erwartungswert $\mu$ lautet 
+$$\left[\bar{x}- 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \bar{x}+ 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
+$\sigma^2$ wird durch $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
+Das Konfidenzintervall lautet
+$$\left[ \Sexpr{xs}-1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}},
+\Sexpr{xs}+1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right]$$
+$$=\left[\Sexpr{ugr},\Sexpr{ogr}\right].$$
+
+Toleriert untere Grenze: $[\Sexpr{ugrtolunten},\Sexpr{ugrtoloben}]$.
+
+Toleriert obere Grenze: $[\Sexpr{ogrtolunten},\Sexpr{ogrtoloben}]$.
+
+Sch\"atzt man $\sigma^2$ durch $s^2$ ({\bf falsch!}), erh\"alt man das Intervall
+$$=[\Sexpr{ugf},\Sexpr{ogf}].$$
+
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{c(ugr,ogr)}
+%% \exstring{Konfidenzintervall}
