@@ -1,0 +1,116 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+
+name0<-c( "Capri", "Gino", "Baracca", "Pescatore", "Fiducia" )
+i2<-sample(1:5,1)
+name<-name0[i2]
+
+gr<-c(-4, -1.9, -1.6, 0, 1.7, 2.05)
+br<-c(1.9, 0.2, 1.5, 1.6, 0.2, 2)
+u<-runif(5)
+ii<-sample(1:6,5,replace=T)
+TG<-round(gr[ii]+br[ii]*u,2)
+s2<-round(2+runif(5)*4,2)
+n<-sample(35:80,5,replace=T)
+m<-round(15+TG*sqrt(s2/(n-1)),2)
+s2est<-round(s2*n/(n-1),2)
+
+TGb<-TG
+TGb[i2]<-""
+
+fragen<-c("a","b","c","d","e")
+v<-c(0,0,0,0,0)
+
+# Capri
+if(ii[1]>4)v[1]<-1 
+# Gino
+if(ii[2]>4)v[2]<-1 
+# Baracca
+if(ii[3]>4)v[3]<-1 
+# Pescatore
+if(ii[4]<3)v[4]<-1 
+# Fiducia
+if(ii[5]>1 & ii[5]<6)v[5]<-1
+fragen0<-fragen[v==1]
+if(length(fragen0)==0)fragen0<-"KEINE"
+
+## SOLUTION GENERATION
+w<-v+1
+antw<-c("nicht verworfen","zugunsten der Alternative verworfen")
+Erg<-c(antw[w[1]],antw[w[2]],antw[w[3]],antw[w[4]], antw[w[5]])
+if(v[5]==1)Erg[5]<-"nicht verworfen, es kann keine Entscheidung zugunsten der Alternative getroffen werden"
+if(v[5]==0)Erg[5]<-"zugunsten der Alternative verworfen"
+
+@
+
+\begin{question}
+Der Geschäftsführer einer Pizzeria-Kette möchte den erwarteten
+Rechnungswert eines Gastes ohne Begleitung durch besonders
+freundliche Bedienung auf mindestens 15 Euro steigern. Er
+fordert von den einzelnen Filialen, entsprechende Experimente
+durchzuführen. Folgende Tabelle enthält für jede Filiale die
+Anzahl der Gäste sowie den Mittelwert und die Varianz der
+Rechnungswerte:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Filiale & Capri & Gino & Baracca & Pescatore & Fiducia
+\\
+\hline
+Anzahl der Gäste & \Sexpr{n[1]} & \Sexpr{n[2]} & \Sexpr{n[3]} & \Sexpr{n[4]} & \Sexpr{n[5]} \\
+Mittelwert & \Sexpr{m[1]} & \Sexpr{m[2]} & \Sexpr{m[3]} & \Sexpr{m[4]} & \Sexpr{m[5]} \\
+$s^2_{n-1}$ & \Sexpr{s2est[1]} & \Sexpr{s2est[2]} & \Sexpr{s2est[3]} & \Sexpr{s2est[4]} & \Sexpr{s2est[5]} \\
+Testgrö\ss e & \Sexpr{TGb[1]} & \Sexpr{TGb[2]} & \Sexpr{TGb[3]} & \Sexpr{TGb[4]} & \Sexpr{TGb[5]} \\
+\hline
+\end{tabular}
+\end{center}
+
+Ergänzen Sie für die Filiale \Sexpr{name} die fehlende Testgrö\ss e. \\
+Welche der fünf folgenden Behauptungen sind richtig (Signifikanzniveau $5\%$)? {\bf Achtung: Mehrfachnennungen sind möglich!}
+Für diese Aufgabe erhalten Sie nur dann einen Punkt, wenn Sie {\bf alle} richtigen Behauptungen erkannt haben. 
+
+ 
+\begin{itemize}
+\item[(a)] In der Filiale Capri kann eine Entscheidung zugunsten der Hypothese, dass der erwartete Rechnungsbetrag mindestens
+15 Euro beträgt, erfolgen.
+ \item[(b)] In der Filiale Gino kann eine Entscheidung zugunsten der Hypothese, dass der erwartete Rechnungsbetrag mindestens
+15 Euro beträgt, erfolgen.
+ \item[(c)] In der Filiale Baracca kann eine Entscheidung zugunsten der Hypothese, dass der erwartete Rechnungsbetrag mindestens
+15 Euro beträgt, erfolgen.
+ \item[(d)] In der Filiale Pescatore kann eine Entscheidung zugunsten der Hypothese, dass der erwartete Rechnungsbetrag weniger als
+15 Euro beträgt, erfolgen.
+ \item[(e)] In der Filiale Fiducia kann keine Entscheidung gertroffen werden, ob der
+der erwartete Rechnungsbetrag mehr oder weniger als 15 Euro beträgt.
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+\Sexpr{v[1]},\Sexpr{v[2]},\Sexpr{v[3]},\Sexpr{v[4]},\Sexpr{v[5]}
+
+\begin{itemize}
+\item[(a)] Die Nullhypothese lautet $\mu\leq 15$, die Alternative $\mu>15$. Die Nullhypothese wird verworfen, d.h. die
+Entscheidung erfolgt zugunsten der Alternative, falls
+die Testgr\"o\ss e gr\"o\ss er als $1.64$ ist. Die Testgr\"o\ss e lautet $\Sexpr{TG[1]}$, die Nullhypothese wird also \Sexpr{Erg[1]}.
+\item[(b)] Die Nullhypothese lautet $\mu\leq 15$, die Alternative $\mu>15$. Die Nullhypothese wird verworfen, d.h. die
+Entscheidung erfolgt zugunsten der Alternative, falls
+die Testgr\"o\ss e gr\"o\ss er als $1.64$ ist. Die Testgr\"o\ss e lautet $\Sexpr{TG[2]}$, die Nullhypothese wird also \Sexpr{Erg[2]}.
+\item[(c)] Die Nullhypothese lautet $\mu\leq 15$, die Alternative $\mu>15$. Die Nullhypothese wird verworfen, d.h. die
+Entscheidung erfolgt zugunsten der Alternative, falls
+die Testgr\"o\ss e gr\"o\ss er als $1.64$ ist. Die Testgr\"o\ss e lautet $\Sexpr{TG[3]}$, die Nullhypothese wird also \Sexpr{Erg[3]}.
+\item[(d)] Die Nullhypothese lautet $\mu\geq 15$, die Alternative $\mu<15$. Die Nullhypothese wird verworfen, d.h. die
+Entscheidung erfolgt zugunsten der Alternative, falls
+die Testgr\"o\ss e kleiner als $-1.64$ ist. Die Testgr\"o\ss e lautet $\Sexpr{TG[4]}$, die Nullhypothese wird also \Sexpr{Erg[4]}.
+\item[(e)] Die Nullhypothese lautet $\mu= 15$, die Alternative $\mu\not=15$. Die Nullhypothese wird verworfen, d.h. die
+Entscheidung erfolgt zugunsten der Alternative, falls
+die Testgr\"o\ss e kleiner als $-1.96$ oder gr\"o\ss er als $1.96$ ist. Die Testgr\"o\ss e lautet $\Sexpr{TG[5]}$, die Nullhypothese wird also \Sexpr{Erg[5]}.
+
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{v}
+%% \exstring{MC Test Erwartungswert}
