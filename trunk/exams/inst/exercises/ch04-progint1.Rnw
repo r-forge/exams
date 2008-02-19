@@ -1,0 +1,54 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+s2<-sample(25:60,1)
+xs<-sample(18:25,1)
+n<-sample(0:5,1)*4+15
+
+
+## QUESTION/ANSWER GENERATION
+
+sd<-sqrt(s2/n)
+
+#Lösung und Toleranzintervalle:
+ugr<-round(xs-1.96*sd,3)
+ogr<-round(xs+1.96*sd,3)
+ugrtolunten<-floor((ugr-0.01)*100)/100
+ugrtoloben<-ceiling((ugr+0.01)*100)/100
+ogrtolunten<-floor((ogr-0.01)*100)/100
+ogrtoloben<-ceiling((ogr+0.01)*100)/100
+
+@
+
+\begin{question}
+Eine Wohnanlage besteht aus $\Sexpr{n}$ Haushalten. Die von
+einem Haushalt produzierte M\"ullmenge (in Kilogramm) hat einen
+Erwartungswert von $\Sexpr{xs}$ und eine Varianz von $\Sexpr{s2}$. Die in der
+Anlage angefallene Menge wird jedem Haushalt anteilig
+verrechnet, d.h. jedem Haushalt werden die selben Kosten
+berechnet. Berechnen Sie ein $95\%$-Prognoseintervall f\"ur die
+einem einzelne Haushalt verrechnete M\"ullmenge.
+
+\end{question}
+
+
+
+
+%% SOLUTIONS
+\begin{solution}
+
+Das Prognoseintervall f\"ur den Mittelwert $\bar{X}$ lautet 
+$$\left[\mu- 1.96\sqrt{\frac{\sigma^2}{n}}, \mu+ 1.96\sqrt{\frac{\sigma^2}{n}}\right] $$
+$$\left[ \Sexpr{xs}-1.96\sqrt{\frac{\Sexpr{s2}}{\Sexpr{n}}},
+\Sexpr{xs}+1.96\sqrt{\frac{\Sexpr{s2}}{\Sexpr{n}}}\right]$$
+$$=\left[\Sexpr{ugr},\Sexpr{ogr}\right].$$
+
+Toleriert untere Grenze: $\left[\Sexpr{ugrtolunten},\Sexpr{ugrtoloben}\right]$
+
+Toleriert obere Grenze: $\left[\Sexpr{ogrtolunten},\Sexpr{ogrtoloben}\right]$
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{c(ugr,ogr)}
+%% \exstring{Prognoseintervall}
