@@ -59,7 +59,7 @@ explanations[3] <- paste("Die Kunden wurden in einer Studie mit",
   "befragt. F\\\\\"ur solche Daten ist dies", ifelse(solutions[3], "eine", "\\\\textit{keine}"),
   "geeignete Visualisierung.")
 
-questions[4] <- "Um die Frage zu beantworten, mu{\\\\ss} ein Test auf Lageunterschiede durchgef\\\\\"uhrt werden."
+questions[4] <- "Um die Frage zu beantworten, muss ein Test auf Lageunterschiede durchgef\\\\\"uhrt werden."
 solutions[4] <- TRUE
 explanations[4] <- paste("Die Frage ist, ob die mittlere Bewertung f\"ur den", product,
   "mit der alten Verpackung dieselbe ist wie mit der neuen Verpackung.")
@@ -82,7 +82,7 @@ Deshalb f\"uhrt er folgende Kundenbefragung durch: \Sexpr{study}
 Der K\"asehersteller stellt nun folgende Frage: Unterscheidet sich die mittlere Kundenbewertung
 f\"ur den \Sexpr{product} \"uberhaupt nach der Verpackung?
 
-Se sollen ihm helfen, diese Frage zu beantworten. Eines der beiden folgenden
+Sie sollen ihm helfen, diese Frage zu beantworten. Eines der beiden folgenden
 Testergebnisse k\"onnte dabei hilfreich sein.
 
 <<echo=FALSE, results=verbatim>>=

@@ -1,8 +1,10 @@
 <<echo=FALSE, results=hide>>=
 ## DATA GENERATION
-n <- 20 + sample(1:10, 4) * 3
-y <- rnorm(sum(n), mean = rep(sample(seq(from = sample(20:60, 1), by = 1, length = sample(15:25, 1)), 4)/10, n),
-    sd = rep(sample(10:80, 4)/100, n))
+n <- 40 + sample(1:12, 4) * 3
+y <- rnorm(sum(n), mean = rep(sample(30:90, 4)/10, n),
+    sd = rep(sample(30:40, 4)/10, n))
+Minimum <- 0
+y[y < Minimum] <- Minimum
 x <- factor(rep(1:4, n))
 m0 <- round(mean(y), digits = 2)
 m1 <- round(tapply(y, x, mean), digits = 2)
@@ -33,14 +35,15 @@ r2_string <- paste("Bestimmtheitsmass: ", round(r2, digits = 3),
 @
 
 \begin{question}
-In einer Meinungsumfrage zur Gestaltung eines Webeplakats werden
-\Sexpr{sum(n)} Personen befragt. Jede Person soll den Gesamteindruck des Plakats auf einer 
-Skala von 0 (schlecht) bis 10 (gut) bewerten. Die Ergebnisse der Bewertungen
-wurden getrennt nach Besch\"aftigung der Testpersonen in folgender Tabelle zusammengefa{\ss}t.
+
+Die Wartezeit (in Minuten) an der Kassa bei vier Superm\"arkten mit
+verschiedenem Kassensystem wird verglichen. Die Ergebnisse des
+Vergleichs der Wartezeiten wurden getrennt nach Superm\"arkten in
+folgender Tabelle zusammengefasst.
 
 \begin{center}
 \begin{tabular}{|c|cccc|c|} \hline
- & Sch\"uler & Studenten & Berufst\"atige & Pensionisten & Gesamt \\ \hline
+ & Consumo & Sparag & Hermes & Teuro & Gesamt \\ \hline
 Befragte Personen & \Sexpr{n[1]} & \Sexpr{n[2]} & \Sexpr{n[3]} & \Sexpr{n[4]} & \Sexpr{sum(n)} \\
 Mittelwert & \Sexpr{format(m1[1], nsmall = 2)} & \Sexpr{format(m1[2], nsmall = 2)} &
    \Sexpr{format(m1[3], nsmall = 2)} & \Sexpr{format(m1[4], nsmall = 2)} &
@@ -52,16 +55,16 @@ Mittelwert & \Sexpr{format(m1[1], nsmall = 2)} & \Sexpr{format(m1[2], nsmall = 2
 \end{tabular}
 \end{center}
 
-Welcher Anteil der Gesamtstreuung der Bewertungen l\"a{\ss}t sich auf Unterschiede
-zwischen den vier verschiedenen Personengruppen zur\"uckf\"uhren?
+Welcher Anteil der Gesamtstreuung der Wartezeiten l\"asst sich auf Unterschiede
+zwischen den vier Kassensystemen zur\"uckf\"uhren?
 \end{question}
 
 
 %% SOLUTIONS
 \begin{solution}
-Zur Beantwortung der Frage mu{\ss} das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
+Zur Beantwortung der Frage muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
 wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
-die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Besch\"aftigung ($\mathit{RSS}_1$)
+die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Supermarkt ($\mathit{RSS}_1$)
 ben\"otigt. F\"ur jede (Teil-)Stichprobe kann die Fehlerquadratsumme einfach als Produkt der
 Varianz und der Stichprobengr\"o{\ss}e berechnet werden.
 \begin{eqnarray*}

@@ -8,7 +8,6 @@ delta <- runif(1, min = -1.25, max = 1.25)
 B <- if(paired) A + rnorm(nobs, mean = delta, sd = runif(1, min = 0.75, max = 1.25)) else 
   rnorm(nobs, mean = mA + delta, sd = runif(1, min = 0.5, max = 2.5))
 
-
 score10 <- function(x) as.numeric(cut(x, breaks = c(-Inf, 0:9 + 0.5, Inf))) - 1
 dat <- data.frame(Bewertung = score10(c(A, B)),
   Logo = factor(rep(1:2, c(nobs, nobs)), levels = 1:2, labels = c("mit", "ohne")))
@@ -82,9 +81,9 @@ besser verkauft, wenn er als Logo ein Bild von einem Reiter auf die Brust stickt
 Deshalb f\"uhrt er folgende Kundenbefragung durch: \Sexpr{study}
 
 Der Mode-Designer stellt nun folgende Frage: Unterscheidet sich die mittlere Kundenbewertung
-f\"ur \Sexpr{product[3]} \"uberhaupt mit bzw.\ ohne Logo?
+\"uberhaupt f\"ur \Sexpr{product[3]} mit bzw.\ ohne Logo?
 
-Se sollen ihm helfen, diese Frage zu beantworten. Eines der beiden folgenden
+Sie sollen ihm helfen, diese Frage zu beantworten. Eines der beiden folgenden
 Testergebnisse k\"onnte dabei hilfreich sein.
 
 <<echo=FALSE, results=verbatim>>=

@@ -1,12 +1,18 @@
 <<echo=FALSE, results=hide>>=
 ## DATA GENERATION
-nA <- 40 + sample(1:12, 1) * 3
-nB <- 40 + sample(1:12, 1) * 3
-A <- rnorm(nA, mean = sample(30:80, 1)/10, sd = sample(30:40, 1)/10)
-B <- rnorm(nB, mean = sample(30:90, 1)/10, sd = sample(30:40, 1)/10)
-Minimum <- 0
-A[A < Minimum] <- Minimum
-B[B < Minimum] <- Minimum
+nA <- sample(15:25, 1)
+nB <- sample(15:25, 1)
+mA <- runif(1, min = 4, max = 7)
+score10 <- function(x) as.numeric(cut(x, breaks = c(-Inf, 0:9 + 0.5, Inf))) - 1
+A <- score10(rnorm(nA, mean = mA, sd = runif(1, min = 0.5, max = 2.5)))
+delta <- runif(1, min = -1.25, max = 1.25)
+B <- score10(rnorm(nB, mean = mA + delta, sd = runif(1, min = 0.5, max = 2.5)))
+product <- sample(1:3, 1)
+product <- c(c("Polo-Hemd", "T-Shirt", "Pullover")[product],
+  c("das Polo-Hemd", "das T-Shirt", "der Pullover")[product],
+  c("das Polo-Hemd", "das T-Shirt", "den Pullover")[product],
+  c("Das Polo-Hemd", "Das T-Shirt", "Der Pullover")[product])
+
 mA <- round(mean(A), digits = 1)
 mB <- round(mean(B), digits = 1)
 vA <- round(var(A), digits = 2)
@@ -22,11 +28,20 @@ tstat_string <- paste("T-Statistik: ", round(abs(tstat), digits = 3),
 @
 
 \begin{question}
-Wartezeit an der Kassa bei zwei Superm\"arkten mit verschiedenem Kassensystem (in Minuten):
+Ein Mode-Designer m\"ochte untersuchen, ob sich sein wichtigstes
+Produkt (ein \Sexpr{product[1]}) besser verkauft, wenn er als Logo ein
+Bild von einem Reiter auf die Brust stickt.  Deshalb f\"uhrt er
+folgende Kundenbefragung durch: Es werden \Sexpr{nA+nB} Testpersonen
+ausgew\"ahlt. \Sexpr{nA} Kunden zeigt man \Sexpr{product[3]}
+\emph{mit} Logo und \Sexpr{nB} Kunden \emph{ohne}
+Logo. Anschlie{\ss}end bewertet jeder Kunde \Sexpr{product[3]} auf
+einer Skala von 0 (schlecht) bis 10 (gut).
+
+Die Bewertung f\"ur \Sexpr{product[3]} mit und ohne Logo ergibt:
 
 \begin{center}
 \begin{tabular}{|c|c|c|} \hline
-Supermarkt & Sparag & Consumo \\ \hline
+\Sexpr{product[1]} & mit Logo & ohne Logo \\ \hline
 Anzahl der befragten Kunden & \Sexpr{nA} & \Sexpr{nB} \\
 Mittelwert & \Sexpr{format(mA, nsmall = 1)} & \Sexpr{format(mB, nsmall = 1)} \\
 Stichprobenvarianz & \Sexpr{format(vA, nsmall = 2)} & \Sexpr{format(vB, nsmall = 2)} \\ \hline
@@ -34,7 +49,7 @@ Stichprobenvarianz & \Sexpr{format(vA, nsmall = 2)} & \Sexpr{format(vB, nsmall =
 \end{center}
 
 \"Uberpr\"ufen Sie mittels eines statistischen Tests die Hypothese
-,,Bei Consumo wartet man im Mittel solange an der Kassa wie bei Sparag''.
+,,\Sexpr{product[4]} mit Logo wird im Mittel genauso gut bewertet wie ohne Logo''.
 Beantworten Sie diese Frage mittels eines Tests auf
 Gleichheit der Erwartungswerte. Wie lautet der Absolutbetrag der $T$-Teststatistik?
 \end{question}
@@ -42,8 +57,8 @@ Gleichheit der Erwartungswerte. Wie lautet der Absolutbetrag der $T$-Teststatist
 
 %% SOLUTIONS
 \begin{solution}
-Aus obiger Tabelle k\"onnen die Stichprobenumf\"ange $n_A = \Sexpr{nA}$ f\"ur Sparag und
-$n_B = \Sexpr{nB}$ f\"ur Consumo abgelesen werden. Au{\ss}erdem sind die jeweiligen Mittelwerte
+Aus obiger Tabelle k\"onnen die Stichprobenumf\"ange $n_A = \Sexpr{nA}$ f\"ur \Sexpr{product[3]} mit Logo und
+$n_B = \Sexpr{nB}$ f\"ur \Sexpr{product[3]} ohne Logo abgelesen werden. Au{\ss}erdem sind die jeweiligen Mittelwerte
 $\bar y_A = \Sexpr{mA}$ und $\bar y_B = \Sexpr{mB}$ sowie die Varianzen 
 $s^2_A = \Sexpr{vA}$ und $s^2_B = \Sexpr{vB}$ gegeben. Damit k\"onnen wir die gesch\"atzte
 Standardabweichung der Mittelwertdifferenz berechnen:

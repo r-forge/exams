@@ -1,14 +1,12 @@
 <<echo=FALSE, results=hide>>=
 ## DATA GENERATION
-n <- 9 + sample(1:6, 4)
-dat <- data.frame(
-  Bewertung = rnorm(sum(n),
-    mean = rep(sample(seq(from = sample(25:55, 1), by = 1, length = sample(15:20, 1)), 4)/10, n),
-    sd = rep(sample(70:80, 4)/100, n)),
-  Beschaeftigung = factor(rep(1:4, n),
-    labels = c("Schueler", "Studenten", "Berufstaetige", "Pensionisten")))
-dat$Bewertung[dat$Bewertung > 10] <- 10
-dat$Bewertung[dat$Bewertung <  0] <-  0
+nobs <- sample(15:25, 1)
+A <- rnorm(2*nobs,  mean = rep(sample(seq(from = sample(25:55, 1), by = 1, length.out = sample(15:20, 1)), 2)/10, each = nobs),
+           sd = rep(sample(70:80, 2)/100, each = nobs))
+score10 <- function(x) as.numeric(cut(x, breaks = c(-Inf, 0:9 + 0.5, Inf))) - 1
+dat <- data.frame(Bewertung = score10(A),
+                  Verpackung = factor(rep(1:2, each = nobs), levels = 1:2, labels = c("alt", "neu")))
+product <- sample(c("Emmentaler", "Gouda", "Butterk\\\\\"ase"), 1)
 
 ## QUESTION/ANSWER GENERATION
 questions <- character(5)
@@ -16,7 +14,7 @@ solutions <- logical(5)
 explanations <- character(5)
 
 fm0 <- lm(Bewertung ~ 1, data = dat)
-fm1 <- lm(Bewertung ~ Beschaeftigung, data = dat)
+fm1 <- lm(Bewertung ~ Verpackung, data = dat)
 myanova <- anova(fm0, fm1)
 rss <- format(round(c(0.001, myanova[,2]), digits = 3)[-1])
 r2 <- 1 - as.numeric(rss[2])/as.numeric(rss[1])
@@ -44,12 +42,12 @@ solutions[3] <- r2 > r2a
 explanations[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist $", num2string(r2), "$ und damit ",
     ifelse(solutions[3], "", "\\\\textit{nicht}"), " gr\\\\\"o{\\\\ss}er als ", r2a, ".", sep = "")
 
-questions[4] <- "Es kann nachgewiesen werden, dass die Bewertung der Testpersonen von ihrer Besch\\\\\"aftigung abh\\\\\"angt."
+questions[4] <- "Es kann nachgewiesen werden, dass sich die Bewertungen der Testpersonen f\\\\\"ur die beiden Verpackungen unterscheiden."
 solutions[4] <- myanova[2,6] < 0.05
 explanations[4] <- paste("Der $p$-Wert ist $", format.pval(myanova[2,6], digits = 3),
   "$ und damit", ifelse(solutions[4], "", "\\\\textit{nicht}"),
   "signifikant. Es kann", ifelse(solutions[4], "", "\\\\textit{nicht}"),
-  "nachgewiesen werden, dass sich die Bewertungen nach Besch\\\\\"aftigung der Testperson unterscheiden.")
+  "nachgewiesen werden, dass sich die Bewertungen f\\\\\"ur die Verpackungen unterscheiden.")
     
 r2b <- sample(10:60, 1)/100
 questions[5] <- paste("Das Bestimmtheitsma{\\\\ss} ist kleiner als $", 100 * r2b, "$\\\\%.", sep = "")
@@ -65,10 +63,19 @@ explanations <- explanations[o]
 @
 
 \begin{question}
-In einer Meinungsumfrage zur Gestaltung eines Webeplakats werden
-\Sexpr{sum(n)} Personen befragt. Jede Person soll den Gesamteindruck des Plakats auf einer 
-Skala von 0 (schlecht) bis 10 (gut) bewerten. Die Bewertungen, getrennt nach Besch\"aftigung
-der Testperson, sind in Abbildung~\ref{fig:ch05-anova} zu sehen.
+
+Ein K\"asehersteller verkauft seinen \Sexpr{product} momentan in einer
+herk\"ommlichen Verpackung.  Er vermutet, der K\"ase k\"onnte die
+Kunden besser anspechen, wenn er ihn als Fitness-Produkt verpackt.
+Deshalb f\"uhrt er folgende Kundenbefragung durch: Es werden
+\Sexpr{2*nobs} Testpersonen ausgew\"ahlt. Die ersten \Sexpr{nobs}
+l\"asst man den \Sexpr{product} aus der alten herk\"ommlichen
+Verpackung kosten, den zweiten \Sexpr{nobs} gibt man den
+\Sexpr{product} aus der neuen Fitness-Verpackung. Anschlie{\ss}end soll
+jeder Kunde den \Sexpr{product} auf einer Skala von 0 bis 10 bewerten.
+
+Die Bewertungen, getrennt nach verwendeter Verpackung, sind in
+Abbildung~\ref{fig:ch05-anova2} zu sehen.
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
@@ -76,17 +83,18 @@ der Testperson, sind in Abbildung~\ref{fig:ch05-anova} zu sehen.
 \footnotesize
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 par(mar = c(4, 4, 1, 1))
-plot(Bewertung ~ Beschaeftigung, data = dat)
+plot(Bewertung ~ Verpackung, data = dat)
 @
-\caption{\label{fig:ch05-anova} Parallele Boxplots}
+\caption{\label{fig:ch05-anova2} Parallele Boxplots}
 \end{center}
 \end{figure}
 
-Um zu analysieren, welchen Einflu{\ss} die Besch\"aftigung auf die Bewertung des Werbeplakats
-hat, wurde eine Varianzanalyse durchgef\"uhrt:
+Um zu analysieren, welchen Einfluss die Verpackung auf die Bewertung
+des K\"ases hat, wurde eine Varianzanalyse durchgef\"uhrt:
 
 <<echo=FALSE, results=verbatim>>=
-writeLines(capture.output(myanova)[-c(3, 4)])
+options(show.signif.stars = FALSE)
+myanova
 @
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
@@ -102,9 +110,9 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 
 %% SOLUTIONS
 \begin{solution}
-Zur Beantwortung einiger Fragen mu{\ss} das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
+Zur Beantwortung einiger Fragen muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
 wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
-die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Besch\"aftigung ($\mathit{RSS}_1$)
+die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Verpackung ($\mathit{RSS}_1$)
 ben\"otigt, beide sind in der \texttt{RSS}-Spalte der ANOVA-Tabelle gegeben.
 Damit ist das Bestimmtheitsma{\ss}
   $1 - \mathit{RSS}_1/\mathit{RSS}_0 =

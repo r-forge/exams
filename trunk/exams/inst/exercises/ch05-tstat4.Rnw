@@ -2,15 +2,14 @@
 ## DATA GENERATION
 nA <- 100 + sample(1:12, 1) * 4
 nB <- 80 + sample(1:40, 1) * 3
-A <- rnorm(nA, mean = runif(1, min = 40, max = 50), sd = runif(1, min = 5, max = 10))
-B <- rnorm(nB, mean = mean(A) + runif(1, min = -5, max = 5), sd = runif(1, min = 5, max = 10))
-Minimum <- 0.99
-A[A < Minimum] <- Minimum
-B[B < Minimum] <- Minimum
+score10 <- function(x) as.numeric(cut(x, breaks = c(-Inf, 0:9 + 0.5, Inf))) - 1
+A <- score10(rnorm(nA, mean = runif(1, min = 2.5, max = 5.5), sd = runif(1, min = 0.7, max = 0.8)))
+B <- score10(rnorm(nB, mean = mean(A) + runif(1, min = -1, max = 1), sd = runif(1, min = 0.7, max = 0.8)))
 mA <- round(mean(A), digits = 1)
 mB <- round(mean(B), digits = 1)
 sA <- round(sd(A), digits = 2)
 sB <- round(sd(B), digits = 2)
+product <- sample(c("Emmentaler", "Gouda", "Butterk\\\\\"ase"), 1)
 
 
 ## QUESTION/ANSWER GENERATION
@@ -22,21 +21,30 @@ tstat_string <- paste("T-Statistik: ", round(abs(tstat), digits = 3),
 @
 
 \begin{question}
-Ein Online-Warenhaus vergleicht die Ausgaben (pro Bestellung, in EUR) seiner Stammkunden
-mit denen der \"ubrigen Kunden. Die Ausgaben der beiden Kundengruppen an einem zuf\"allig
-ausgew\"ahlten Tag wurden folgenderma{\ss}en zusammengefasst:
+
+Ein K\"asehersteller verkauft seinen \Sexpr{product} momentan in einer
+herk\"ommlichen Verpackung.  Er vermutet, der K\"ase k\"onnte die
+Kunden besser anspechen, wenn er ihn als Fitness-Produkt verpackt.
+Deshalb f\"uhrt er folgende Kundenbefragung durch: Es werden
+\Sexpr{nA+nB} Testpersonen ausgew\"ahlt. \Sexpr{nA} l\"asst man den
+\Sexpr{product} aus der alten herk\"ommlichen Verpackung kosten, den
+anderen \Sexpr{nB} gibt man den \Sexpr{product} aus der neuen
+Fitness-Verpackung. Anschlie{\ss}end soll jeder Kunde den
+\Sexpr{product} auf einer Skala von 0 bis 10 bewerten.
+
+Die Bewertungen der beiden Testgruppen wurden folgenderma{\ss}en zusammengefasst:
 
 \begin{center}
 \begin{tabular}{|c|c|c|} \hline
- & Stammkunden & andere Kunden \\ \hline
-Anzahl Kunden & \Sexpr{nA} & \Sexpr{nB} \\
+ & alte Verpackung & neue Verpackung \\ \hline
+Anzahl Testpersonen & \Sexpr{nA} & \Sexpr{nB} \\
 Mittelwert & \Sexpr{format(mA, nsmall = 1)} & \Sexpr{format(mB, nsmall = 1)} \\
 Standardabweichung & \Sexpr{format(sA, nsmall = 2)} & \Sexpr{format(sB, nsmall = 2)} \\ \hline
 \end{tabular}
 \end{center}
 
 \"Uberpr\"ufen Sie mittels eines statistischen Tests die Hypothese
-,,Stammkunden geben im Mittel genauso viel aus wie andere Kunden''.
+,,Die Bewertung der neuen Verpackung ist im Mittel genauso gut wie f\"ur die alte Verpackung''.
 Beantworten Sie diese Frage mittels eines Tests auf
 Gleichheit der Erwartungswerte. Wie lautet der Absolutbetrag der $T$-Teststatistik?
 \end{question}
@@ -45,8 +53,8 @@ Gleichheit der Erwartungswerte. Wie lautet der Absolutbetrag der $T$-Teststatist
 %% SOLUTIONS
 \begin{solution}
 Aus obiger Tabelle k\"onnen die Stichprobenumf\"ange abgelesen werden, d.h.\ die Zahl
-der Kunden aus der jeweiligen Gruppe an diesem Tag: $n_A = \Sexpr{nA}$ Stammkunden und
-$n_B = \Sexpr{nB}$ andere Kunden. Au{\ss}erdem sind die jeweiligen mittleren Ausgaben
+der Testpersonen aus der jeweiligen Gruppe: $n_A = \Sexpr{nA}$ Testpersonen mit der alten Verpackung und
+$n_B = \Sexpr{nB}$ mit der neuen Verpackung. Au{\ss}erdem sind die jeweiligen mittleren Bewertungen
 $\bar y_A = \Sexpr{mA}$ und $\bar y_B = \Sexpr{mB}$ sowie deren Standardabweichungen
 $s_A = \Sexpr{sA}$ und $s_B = \Sexpr{sB}$ gegeben. Damit k\"onnen wir die gesch\"atzte
 Standardabweichung der Mittelwertdifferenz berechnen:

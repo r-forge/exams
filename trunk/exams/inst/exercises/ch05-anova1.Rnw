@@ -1,0 +1,127 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+n <- 9 + sample(1:6, 4)
+dat <- data.frame(
+  Bewertung = rnorm(sum(n),
+    mean = rep(sample(seq(from = sample(25:55, 1), by = 1, length = sample(15:20, 1)), 4)/10, n),
+    sd = rep(sample(70:80, 4)/100, n)),
+  Beschaeftigung = factor(rep(1:4, n),
+    labels = c("Schueler", "Studenten", "Berufstaetige", "Pensionisten")))
+dat$Bewertung[dat$Bewertung > 10] <- 10
+dat$Bewertung[dat$Bewertung <  0] <-  0
+
+## QUESTION/ANSWER GENERATION
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+fm0 <- lm(Bewertung ~ 1, data = dat)
+fm1 <- lm(Bewertung ~ Beschaeftigung, data = dat)
+myanova <- anova(fm0, fm1)
+rss <- format(round(c(0.001, myanova[,2]), digits = 3)[-1])
+r2 <- 1 - as.numeric(rss[2])/as.numeric(rss[1])
+
+f2 <- sample(10:250, 1)/10
+if(runif(1) > 0.5) {
+  questions[1] <- paste("Die Teststatistik ist kleiner als $", f2, "$.", sep = "")
+  solutions[1] <- myanova[2,5] < f2
+  explanations[1] <- paste("Die Teststatistik ist $F = ", num2string(myanova[2,5]),
+    "$ und damit ", ifelse(solutions[1], "", "\\\\textit{nicht}"), " kleiner als $", f2, "$.", sep = "")
+} else {
+  questions[1] <- paste("Die Teststatistik ist gr\\\\\"o{\\\\ss}er als $", f2, "$.", sep = "")
+  solutions[1] <- myanova[2,5] > f2
+  explanations[1] <- paste("Die Teststatistik ist $F = ", num2string(myanova[2,5]), "$ und damit ",
+    ifelse(solutions[1], "", "\\\\textit{nicht}"), " gr\\\\\"o{\\\\ss}er als $", f2, "$.", sep = "")
+}
+
+questions[2] <- "Es wurde eine einseitige Alternative getestet."
+solutions[2] <- FALSE
+explanations[2] <- "Eine Varianzanalyse (ANOVA) testet immer die Nullhypothese, dass alle Mittelwerte gleich sind, gegen die Alternative, dass sie unterschiedlich sind."
+
+r2a <- sample(10:60, 1)/100
+questions[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist gr\\\\\"o{\\\\ss}er als $", 100 * r2a, "$\\\\%.", sep = "")
+solutions[3] <- r2 > r2a
+explanations[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist $", num2string(r2), "$ und damit ",
+    ifelse(solutions[3], "", "\\\\textit{nicht}"), " gr\\\\\"o{\\\\ss}er als ", r2a, ".", sep = "")
+
+questions[4] <- "Es kann nachgewiesen werden, dass die Bewertung der Testpersonen von ihrer Besch\\\\\"aftigung abh\\\\\"angt."
+solutions[4] <- myanova[2,6] < 0.05
+explanations[4] <- paste("Der $p$-Wert ist $", format.pval(myanova[2,6], digits = 3),
+  "$ und damit", ifelse(solutions[4], "", "\\\\textit{nicht}"),
+  "signifikant. Es kann", ifelse(solutions[4], "", "\\\\textit{nicht}"),
+  "nachgewiesen werden, dass sich die Bewertungen nach Besch\\\\\"aftigung der Testperson unterscheiden.")
+    
+r2b <- sample(10:60, 1)/100
+questions[5] <- paste("Das Bestimmtheitsma{\\\\ss} ist kleiner als $", 100 * r2b, "$\\\\%.", sep = "")
+solutions[5] <- r2 < r2b
+explanations[5] <- paste("Das Bestimmtheitsma{\\\\ss} ist $", num2string(r2), "$ und damit ",
+    ifelse(solutions[5], "", "\\\\textit{nicht}"), " kleiner als ", r2b, ".", sep = "")
+
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+\begin{question}
+In einer Meinungsumfrage zur Gestaltung eines Webeplakats werden
+\Sexpr{sum(n)} Personen befragt. Jede Person soll den Gesamteindruck des Plakats auf einer 
+Skala von 0 (schlecht) bis 10 (gut) bewerten. Die Bewertungen, getrennt nach Besch\"aftigung
+der Testperson, sind in Abbildung~\ref{fig:ch05-anova1} zu sehen.
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+\footnotesize
+<<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
+par(mar = c(4, 4, 1, 1))
+plot(Bewertung ~ Beschaeftigung, data = dat)
+@
+\caption{\label{fig:ch05-anova1} Parallele Boxplots}
+\end{center}
+\end{figure}
+
+Um zu analysieren, welchen Einfluss die Besch\"aftigung auf die Bewertung des Werbeplakats
+hat, wurde eine Varianzanalyse durchgef\"uhrt:
+
+<<echo=FALSE, results=verbatim>>=
+options(show.signif.stars = FALSE)
+myanova
+@
+
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Zur Beantwortung einiger Fragen muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
+wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
+die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Besch\"aftigung ($\mathit{RSS}_1$)
+ben\"otigt, beide sind in der \texttt{RSS}-Spalte der ANOVA-Tabelle gegeben.
+Damit ist das Bestimmtheitsma{\ss}
+  $1 - \mathit{RSS}_1/\mathit{RSS}_0 =
+  1 - \Sexpr{rss[2]}/\Sexpr{rss[1]} = 
+  \Sexpr{round(r2, digits = 3)}$.
+Damit lassen sich nun obige Aussagen als richtig oder falsch bewerten.
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exname{Mehrfachantworten}
