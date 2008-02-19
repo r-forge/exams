@@ -13,7 +13,7 @@ dgp <- function(digits = 2) {
   dat
 }
 dat <- dgp()
-while(any(diff(dat$y) < 0.2) | any(dat$y < 0)) dat <- dgp()
+while(any(diff(dat$y) < 0.2) | any(dat$y < 0.99)) dat <- dgp()
 
 ## plotting function
 exam_rankplot <- function(data, labels = NULL, ranks = FALSE, yfac = 0.25)

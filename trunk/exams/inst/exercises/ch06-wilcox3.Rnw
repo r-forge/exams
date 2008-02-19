@@ -13,7 +13,7 @@ dgp <- function(digits = 2) {
   dat
 }
 dat <- dgp()
-while(length(unique(dat$y)) < length(dat$y) | any(dat$y < 0)) dat <- dgp()
+while(any(diff(dat$y) < 0.2) | any(dat$y < 0.99)) dat <- dgp()
 
 ## QUESTION/ANSWER GENERATION
 type <- sample(c("W", "U"), 1)
