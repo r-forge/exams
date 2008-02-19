@@ -1,0 +1,154 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+
+name0<-c( "Capri", "Gino", "Baracca", "Pescatore", "Fiducia" )
+fragetext<-c("kann eine Entscheidung zugunsten der Hypothese, dass der erwartete Rechnungsbetrag mindestens
+15 Euro betr\\\\\"agt, erfolgen",
+"wird die Hypothese, dass erwartete Rechnungsbetrag h\\\\\"ochstens 15 Euro betr\\\\\"agt, beibehalten",
+"wird die Hypothese, dass erwartete Rechnungsbetrag h\\\\\"ochstens 15 Euro betr\\\\\"agt, verworfen",
+"kann eine Entscheidung zugunsten der Hypothese, dass der erwartete Rechnungsbetrag weniger als
+15 Euro betr\\\\\"agt, erfolgen")
+
+frageaw<-1:5
+
+fragen<-c("a","b","c","d","e")
+v<-c(0,0,0,0,0)
+
+xs<-1:5
+pw<-1:5
+xs[1]<-round(runif(1)*4+10,3)
+pw[1]<-round(runif(1)*0.1+0.105,3)
+frageaw[1]<-sample(1:4,1,prob=c(1,3,1,1)/6)
+vv1<-c(0,1,0,0)
+v[1]<-vv1[frageaw[1]]
+
+xs[2]<-round(runif(1)*4+10,3)
+pw[2]<-round(runif(1)*0.059+0.04,3)
+frageaw[2]<-sample(1:4,1)
+vv2<-c(0,1,0,1)
+v[2]<-vv2[frageaw[2]]
+
+xs[3]<-round(runif(1)*5+15.2,3)
+pw[3]<-round(runif(1)*0.1+0.105,3)
+frageaw[3]<-sample(1:4,1,prob=c(1,3,1,1)/6)
+vv3<-c(0,1,0,0)
+v[3]<-vv3[frageaw[3]]
+
+xs[4]<-round(runif(1)*5+15.2,3)
+pw[4]<-round(runif(1)*0.059+0.04,3)
+frageaw[4]<-sample(1:4,1)
+vv4<-c(1,0,1,0)
+v[4]<-vv4[frageaw[4]]
+
+x5<--1
+while(x5<12){x5<-rnorm(1)*2+15}
+xs[5]<-round(x5,3)
+i5<-sample(0:1,1)
+if(i5==0){pw[5]<-round(runif(1)*0.049,3)
+v[5]<-0}
+if(i5==1){pw[5]<-round(runif(1)*0.05+0.052,3)
+v[5]<-1}
+
+ii<-c(sample(1:4,4),5)
+
+## SOLUTION GENERATION
+pwe<-c(1-pw[1]/2,1-pw[2]/2,pw[3]/2,pw[4]/2)
+if(frageaw[1]==4)pwe[1]<-pw[1]/2
+if(frageaw[2]==4)pwe[2]<-pw[2]/2
+if(frageaw[3]==4)pwe[3]<-1-pw[3]/2
+if(frageaw[4]==4)pwe[4]<-1-pw[4]/2
+
+verw<-1+(pwe<0.05)
+verw5<-1+(pw[5]<0.05)
+
+
+str1<-c("$\\\\mu \\\\leq 15$ und die Alternative $\\\\mu>15$","$\\\\mu\\\\leq 15$ und die Alternative $\\\\mu>15$",
+"$\\\\mu \\\\leq 15$ und die Alternative $\\\\mu>15$","$\\\\mu \\\\geq 15$ und die Alternative $\\\\mu<15$")
+str2<-c("$\\\\bar{x}<15$","$\\\\bar{x}<15$","$\\\\bar{x}>15$","$\\\\bar{x}>15$") 
+str3<-c("falsch","richtig")
+str4<-c("nicht","")
+str5<-c(">0.05","<0.05")
+
+@
+
+\begin{question}
+Der Geschäftsführer einer Pizzeria-Kette möchte den erwarteten
+Rechnungswert $\mu$ eines Gastes ohne Begleitung durch besonders
+freundliche Bedienung auf mindestens 15 Euro steigern. Er
+fordert von den einzelnen Filialen, entsprechende Experimente
+durchzuführen. Folgende Tabelle enthält für jede Filiale den Mittelwert der
+Rechnungswerte und den P-Wert des Tests $\mu=15$ gegen $\mu\not=15$:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Filiale & Capri & Gino & Baracca & Pescatore & Fiducia
+\\
+\hline
+Mittelwert & \Sexpr{xs[ii[1]]} & \Sexpr{xs[ii[2]]} & \Sexpr{xs[ii[3]]} & \Sexpr{xs[ii[4]]} & \Sexpr{xs[ii[5]]} \\
+P-Wert & \Sexpr{pw[ii[1]]} & \Sexpr{pw[ii[2]]} & \Sexpr{pw[ii[3]]} & \Sexpr{pw[ii[4]]} & \Sexpr{pw[ii[5]]} \\
+\hline
+\end{tabular}
+\end{center}
+
+Welche der fünf folgenden Behauptungen sind richtig (Signifikanzniveau $5\%$)? {\bf Achtung: Mehrfachnennungen sind möglich!}
+Für diese Aufgabe erhalten Sie nur dann einen Punkt, wenn Sie {\bf alle} richtigen Behauptungen erkannt haben. 
+
+ 
+\begin{itemize}
+\item[(a)] In der Filiale Capri \Sexpr{fragetext[frageaw[ii[1]]]}.
+ \item[(b)] In der Filiale Gino \Sexpr{fragetext[frageaw[ii[2]]]}.
+ \item[(c)] In der Filiale Baracca \Sexpr{fragetext[frageaw[ii[3]]]}.
+ \item[(d)] In der Filiale Pescatore \Sexpr{fragetext[frageaw[ii[4]]]}.
+ \item[(e)] In der Filiale Fiducia kann keine Entscheidung gertroffen werden, ob der
+der mittlere Rechnungsbetrag mehr oder weniger als 15 Euro beträgt.
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+\Sexpr{v[ii[1]]},\Sexpr{v[ii[2]]},\Sexpr{v[ii[3]]},\Sexpr{v[ii[4]]},\Sexpr{v[ii[5]]}
+
+Die Tabelle enth\"alt die P-Werte f\"ur das zweiseitige Testproblem mit Nullhypothese $\mu=15$ und Alternative $\mu\not=15$.
+Die Nullhypothese wird verworfen, falls der P-Wert kleiner als $0.05$ ist. F\"ur einseitige Testprobleme der 
+Form $\mu\leq 15$ gegen $\mu>15$ bzw. $\mu\geq 15$ gegen $\mu<15$ mu\ss\ der zweiseitige P-Wert in den einseitigen umgerechnet werden.
+Dazu ben\"otigt man die Information, ob die Testgr\"o\ss e $T$ positiv oder negativ ist. 
+
+
+F\"ur das Testproblem $\mu\leq 15$ gegen $\mu>15$ gilt: Ist $\bar{x}<15$, dann ist $T<0$ und $\mbox{P-wert(einseitig)}=1-\mbox{P-wert(einseitig)}/2$. Man wird die Nullhypothese
+nie verwerfen und sich damit nie f\"ur die Hypothese $\mu>15$ entscheiden. Ist $\bar{x}>15$, dann ist $T>0$ und 
+$\mbox{P-wert(einseitig)}=\mbox{P-wert(einseitig)}/2$. Man verwirft die Nullhypothese,  d.h. man entscheidet sich f\"ur die
+Hypothese $\mu>15$, falls $\mbox{P-wert(einseitig)}<0.05$.
+
+F\"ur das Testproblem $\mu\geq 15$ gegen $\mu<15$ gilt: Ist $\bar{x}<15$, dann ist $T<0$ und $\mbox{P-wert(einseitig)}=\mbox{P-wert(einseitig)}/2$. 
+Man verwirft die Nullhypothese,  d.h. man entscheidet sich f\"ur die
+Hypothese $\mu<15$, falls $\mbox{P-wert(einseitig)}<0.05$.
+Ist $\bar{x}>15$, dann ist $T>0$ und $\mbox{P-wert(einseitig)}=1-\mbox{P-wert(einseitig)}/2$. Man wird die Nullhypothese
+nie verwerfen und sich damit nie f\"ur die Hypothese $\mu<15$ entscheiden.
+
+
+\begin{itemize}
+\item[(a)] Die Nullhypothese lautet \Sexpr{str1[frageaw[ii[1]]]}. 
+Es ist \Sexpr{str2[ii[1]]} und der einseitige P-Wert ist $\Sexpr{pwe[ii[1]]}\Sexpr{str5[verw[ii[1]]]}$, die Nullhypothese wird \Sexpr{str4[verw[ii[1]]]} verworfen.
+(a) ist \Sexpr{str3[v[ii[1]]+1]}!
+\item[(b)] Die Nullhypothese lautet \Sexpr{str1[frageaw[ii[2]]]}. 
+Es ist \Sexpr{str2[ii[2]]} und der einseitige P-Wert ist $\Sexpr{pwe[ii[2]]}\Sexpr{str5[verw[ii[2]]]}$, die Nullhypothese wird \Sexpr{str4[verw[ii[2]]]} verworfen.
+(b) ist \Sexpr{str3[v[ii[2]]+1]}!
+\item[(c)] Die Nullhypothese lautet \Sexpr{str1[frageaw[ii[3]]]}. 
+Es ist \Sexpr{str2[ii[3]]} und der einseitige P-Wert ist $\Sexpr{pwe[ii[3]]}\Sexpr{str5[verw[ii[3]]]}$, die Nullhypothese wird \Sexpr{str4[verw[ii[3]]]} verworfen.
+(c) ist \Sexpr{str3[v[ii[3]]+1]}!
+\item[(d)] Die Nullhypothese lautet \Sexpr{str1[frageaw[ii[4]]]}. 
+Es ist \Sexpr{str2[ii[4]]} und der einseitige P-Wert ist $\Sexpr{pwe[ii[4]]}\Sexpr{str5[verw[ii[4]]]}$, die Nullhypothese wird \Sexpr{str4[verw[ii[4]]]} verworfen.
+(d) ist \Sexpr{str3[v[ii[4]]+1]}!
+\item[(e)] Hier wird das zweiseitige Problem $\mu=15$ gegen $\mu\not=15$ getestet. Der zweiseitige P-Wert ist $\Sexpr{pw[5]} \Sexpr{str5[verw5]}$, die Nullhypothese
+wird \Sexpr{str4[verw5]} verworfen.
+(e) ist \Sexpr{str3[v[ii[5]]+1]}!
+
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{v}
+%% \exstring{MC Test Erwartungswert P-Wert}
