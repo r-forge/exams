@@ -1,0 +1,54 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+xs<-sample(1:100,1)+20
+s2<-sample(1:100,1)+100
+prec<- sample(1:10,1)/10+0.5
+
+
+
+
+
+## QUESTION/ANSWER GENERATION
+
+#Lösung:
+n1<-round(s2*(1.96/prec)^2,3)
+n<-ceiling(n1)
+
+#Toleranzintervall
+nunten<-n-1
+noben1<-round(s2*(1.97/prec)^2,3)
+noben<-ceiling(n1)
+
+@
+
+\begin{question}
+Die Ausgaben eines Besuchers eines Freizeitparks haben einen Erwartungswert von $\Sexpr{xs}$ GE.
+Die Varianz betr\"agt $\Sexpr{s2}$. F\"ur einen bestimmten Tag sollen die durchschnittlichen Ausgaben durch ein $95\%$-Prognoseintervall 
+gesch\"atzt werden. Wie gro\ss\ mu\ss\ die Anzahl der Besucher mindestens sein, damit diese Sch\"atzung mit einer Genauigkeit von mindestens 
+$\pm \Sexpr{prec}$ m\"oglich ist?
+
+\end{question}
+
+
+
+
+%% SOLUTIONS
+\begin{solution}
+
+Das Prognoseintervall f\"ur den Mittelwert $\bar{X}$ lautet 
+$$\left[\mu- 1.96\sqrt{\frac{\sigma^2}{n}}, \mu+ 1.96\sqrt{\frac{\sigma^2}{n}}\right]. $$
+Die Genauigkeitsforderung bedeutet
+$$1.96\sqrt{\frac{\sigma^2}{n}}\leq \Sexpr{prec}$$
+$$1.96\sqrt{\frac{\Sexpr{s2}}{n}}\leq \Sexpr{prec}$$
+%$$\frac{1.96^2\Sexpr{s2}}{\Sexpr{prec}^2} \leq n$$
+$$\Sexpr{n1}\leq n$$
+Da $n$ ganzzahlig ist, w\"ahlt man
+$$\Sexpr{n}\leq n.$$
+
+Toleriert: $[\Sexpr{nunten},\Sexpr{noben}]$.
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{n}
+%% \exstring{Prognoseintervall, StichprobenGr}
