@@ -11,8 +11,8 @@
 
 \usage{
   exams(file, n = 1, dir = NULL, template = "plain",
-    header = list(Date = Sys.Date(), ID = Date2ID(Sys.Date())),
-    name = NULL, quiet = TRUE, edir = NULL, tdir = NULL)
+    header = list(Date = Sys.Date()), name = NULL,
+    quiet = TRUE, edir = NULL, tdir = NULL)
 }
 
 \arguments{
@@ -99,6 +99,7 @@ exercise:
   \code{\link[exams]{mchoice2string}}}
 
 \examples{
+\dontrun{
 ## load package and enforce par(ask = FALSE)
 library("exams")
 options(par.ask.default = FALSE)
@@ -124,6 +125,7 @@ sol
 
 ## inspect solution for a particular exam
 print(sol, 3)
+}
 }
 
 \keyword{utilities}

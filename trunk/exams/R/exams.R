@@ -1,7 +1,7 @@
 ## workhorse function for compiling (collections of) exercises
 exams <- function(file, n = 1, dir = NULL, template = "plain",
-  header = list(Date = Sys.Date(), ID = Date2ID(Sys.Date())),
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL)
+  header = list(Date = Sys.Date()), name = NULL,
+  quiet = TRUE, edir = NULL, tdir = NULL)
 {
   ## manage directories: 
   ##   - for producing several files an output directory is required
@@ -209,17 +209,5 @@ print.exams_metainfo <- function(x, which = NULL, ...) {
 mchoice2string <- function(x)
   paste(as.numeric(x), collapse = "")
 
-num2string <- function(x, digits = 3)
-  format(round(x, digits = digits), nsmall = digits)
-
 string2mchoice <- function(x)
  strsplit(x, "")[[1]] == "1"
-
-mchoice2summary <- function(x)
-  paste("Mehrfachantworten:", paste(letters[which(x)], collapse = ""))
-
-mchoice2tex <- function(x)
-  ifelse(x, "\\\\textbf{richtig}", "\\\\textbf{falsch}")
-
-Date2ID <- function(date)
-  function(i) gsub(" ", "0", paste(format(as.Date(date), "%y%m%d"), format(i, width = 5), sep = ""))

@@ -3,10 +3,7 @@ import("stats", "graphics", "tools", "utils")
 export(
   "exams",
   "mchoice2string",
-  "num2string",
-  "string2mchoice",
-  "mchoice2summary",
-  "mchoice2tex",
-  "Date2ID")
+  "string2mchoice"
+)
 
 S3method("print", "exams_metainfo")
