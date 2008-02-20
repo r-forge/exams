@@ -1,0 +1,121 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+name0<-c( "Capri", "Gino", "Baracca", "Pescatore", "Fiducia" )
+wi <- sample(1:5,1)
+name <- name0[wi]
+
+gr<-c(-4, -1.9, -1.6, 0, 1.7, 2.05)
+br<-c(1.9, 0.2, 1.5, 1.6, 0.2, 2)
+u<-runif(5)
+ii<-sample(1:6,5,replace=TRUE)
+TG<-round(gr[ii]+br[ii]*u,2)
+s2<-round(2+runif(5)*4,2)
+n<-sample(35:80,5,replace=TRUE)
+m<-round(15+TG*sqrt(s2/(n-1)),2)
+s2est<-round(s2*n/(n-1),2)
+SDhat <- sqrt(s2est/n)
+
+TG1 <- (m-15)/SDhat
+TG <- round(TG1, digits = 2)
+TGb <- format(TG, nsmall = 2)
+TGb[wi] <- ""
+
+## SOLUTION GENERATION
+solutions <- c(TG[1] > 1.64, TG[2] > 1.64, TG[3] > 1.64, TG[4] < -1.64, abs(TG[5]) < 1.96)
+explanations <- ifelse(solutions, "zugunsten der Alternative verworfen", "nicht verworfen")
+explanations[5] <- if(solutions[5])
+  "nicht verworfen, es kann keine Entscheidung zugunsten der Alternative getroffen werden" else
+  "zugunsten der Alternative verworfen"
+@
+
+\begin{question}
+Der Gesch\"aftsf\"uhrer einer Pizzeria-Kette m\"ochte f\"ur G\"aste
+ohne Begleitung durch besonders freundliche Bedienung einen erwarteten
+Rechnungsbetrag von 15~GE erzielen. Er fordert von den einzelnen Filialen,
+entsprechende Experimente durchzuf\"uhren. Folgende Tabelle enth\"alt f\"ur
+jede Filiale die Anzahl der G\"aste sowie den Mittelwert und die Varianz der
+Rechnungswerte:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Filiale & Capri & Gino & Baracca & Pescatore & Fiducia \\ \hline
+Anzahl der G\"aste & \Sexpr{n[1]} & \Sexpr{n[2]} & \Sexpr{n[3]} & \Sexpr{n[4]} & \Sexpr{n[5]} \\
+Mittelwert & \Sexpr{m[1]} & \Sexpr{m[2]} & \Sexpr{m[3]} & \Sexpr{m[4]} & \Sexpr{m[5]} \\
+Stichprobenvarianz & \Sexpr{format(s2est[1], nsmall = 2)} & \Sexpr{format(s2est[2], nsmall = 2)} &
+  \Sexpr{format(s2est[3], nsmall = 2)} & \Sexpr{format(s2est[4], nsmall = 2)} & \Sexpr{format(s2est[5], nsmall = 2)} \\
+Testgr\"o{\ss}e & \Sexpr{TGb[1]} & \Sexpr{TGb[2]} & \Sexpr{TGb[3]} & \Sexpr{TGb[4]} & \Sexpr{TGb[5]} \\
+\hline
+\end{tabular}
+\end{center}
+
+Erg\"anzen Sie f\"ur die Filiale \Sexpr{name} die fehlende Testgr\"o{\ss}e. \\
+Welche der f\"unf folgenden Behauptungen sind richtig (Signifikanzniveau $5\%$)? 
+(Achtung: Mehrfachnennungen sind m\"oglich!)
+
+\begin{itemize}
+  \item[(a)] In der Filiale Capri kann eine Entscheidung zugunsten der Hypothese,
+             dass der erwartete Rechnungsbetrag mindestens 15~GE betr\"agt, erfolgen.
+  \item[(b)] In der Filiale Gino kann eine Entscheidung zugunsten der Hypothese,
+             dass der erwartete Rechnungsbetrag mindestens 15~GE betr\"agt, erfolgen.
+  \item[(c)] In der Filiale Baracca kann eine Entscheidung zugunsten der Hypothese,
+             dass der erwartete Rechnungsbetrag mindestens 15~GE betr\"agt, erfolgen.
+  \item[(d)] In der Filiale Pescatore kann eine Entscheidung zugunsten der Hypothese,
+             dass der erwartete Rechnungsbetrag weniger als 15~GE betr\"agt, erfolgen.
+  \item[(e)] In der Filiale Fiducia kann keine Entscheidung gertroffen werden, ob der
+             der erwartete Rechnungsbetrag mehr oder weniger als 15~GE betr\"agt.
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Die fehlende Testgr\"o{\ss}e f\"ur die Filiale \Sexpr{name} lautet:
+\begin{eqnarray*}
+\widehat{\mathrm{SD}} & = &  \sqrt{\frac{s^2_{n-1}}{n}}
+                     \; = \; \sqrt{\frac{\Sexpr{s2est[wi]}}{\Sexpr{n[wi]}}}
+                     \; = \; \Sexpr{round(SDhat[wi], digits = 5)}, \\
+                    T & = &  \frac{\bar{x}-15}{\widehat{\mathrm{SD}}}
+                     \; = \; \frac{\Sexpr{m[wi]}-15}{\Sexpr{round(SDhat[wi], digits = 5)}}
+		     \; = \; \Sexpr{round(TG1[wi], digits = 3)}.
+\end{eqnarray*}
+
+Damit lassen sich nun obige Aussagen als richtig oder falsch bewerten.
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}:
+             Die Nullhypothese lautet $\mu\leq 15$, die Alternative $\mu>15$.
+	     Die Nullhypothese wird verworfen, d.h. die Entscheidung erfolgt
+	     zugunsten der Alternative, falls die Testgr\"o{\ss}e gr\"o{\ss}er
+	     als $1.64$ ist. Die Testgr\"o{\ss}e lautet $\Sexpr{TG[1]}$, die
+	     Nullhypothese wird also \Sexpr{explanations[1]}.
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}:
+             Die Nullhypothese lautet $\mu\leq 15$, die Alternative $\mu>15$.
+	     Die Nullhypothese wird verworfen, d.h. die Entscheidung erfolgt
+	     zugunsten der Alternative, falls die Testgr\"o{\ss}e gr\"o{\ss}er
+	     als $1.64$ ist. Die Testgr\"o{\ss}e lautet $\Sexpr{TG[2]}$, die
+	     Nullhypothese wird also \Sexpr{explanations[2]}.
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}:
+             Die Nullhypothese lautet $\mu\leq 15$, die Alternative $\mu>15$.
+	     Die Nullhypothese wird verworfen, d.h. die Entscheidung erfolgt
+	     zugunsten der Alternative, falls die Testgr\"o{\ss}e gr\"o{\ss}er
+	     als $1.64$ ist. Die Testgr\"o{\ss}e lautet $\Sexpr{TG[3]}$, die
+	     Nullhypothese wird also \Sexpr{explanations[3]}.
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}:
+             Die Nullhypothese lautet $\mu\geq 15$, die Alternative $\mu<15$.
+	     Die Nullhypothese wird verworfen, d.h. die Entscheidung erfolgt
+	     zugunsten der Alternative, falls die Testgr\"o{\ss}e kleiner
+	     als $-1.64$ ist. Die Testgr\"o{\ss}e lautet $\Sexpr{TG[4]}$, die
+	     Nullhypothese wird also \Sexpr{explanations[4]}.
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}:
+             Die Nullhypothese lautet $\mu= 15$, die Alternative $\mu \neq 15$.
+	     Die Nullhypothese wird verworfen, d.h. die Entscheidung erfolgt
+	     zugunsten der Alternative, falls die Testgr\"o{\ss}e kleiner als
+	     $-1.96$ oder gr\"o{\ss}er als $1.96$ ist. Die Testgr\"o{\ss}e lautet
+	     $\Sexpr{TG[5]}$, die Nullhypothese wird also \Sexpr{explanations[5]}.
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exname{Mehrfachantworten}

@@ -85,7 +85,7 @@ Es wurde folgender statistischer Test durchgef\"uhrt:
 print(tt)
 @
 
-Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+Welche der folgenden Aussagen sind richtig?
 \begin{itemize}
   \item[(a)] \Sexpr{questions[1]}
   \item[(b)] \Sexpr{questions[2]}

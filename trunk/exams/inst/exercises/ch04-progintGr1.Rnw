@@ -4,51 +4,40 @@ xs<-sample(1:100,1)+20
 s2<-sample(1:100,1)+100
 prec<- sample(1:10,1)/10+0.5
 
-
-
-
-
 ## QUESTION/ANSWER GENERATION
-
-#Lösung:
-n1<-round(s2*(1.96/prec)^2,3)
-n<-ceiling(n1)
-
-#Toleranzintervall
-nunten<-n-1
-noben1<-round(s2*(1.97/prec)^2,3)
-noben<-ceiling(n1)
-
+n1 <- round(s2*(1.96/prec)^2, digits = 3)
+n <- ceiling(n1)
 @
 
 \begin{question}
-Die Ausgaben eines Besuchers eines Freizeitparks haben einen Erwartungswert von $\Sexpr{xs}$ GE.
-Die Varianz betr\"agt $\Sexpr{s2}$. F\"ur einen bestimmten Tag sollen die durchschnittlichen Ausgaben durch ein $95\%$-Prognoseintervall 
-gesch\"atzt werden. Wie gro\ss\ mu\ss\ die Anzahl der Besucher mindestens sein, damit diese Sch\"atzung mit einer Genauigkeit von mindestens 
+Die Ausgaben eines Besuchers eines Freizeitparks haben einen Erwartungswert von $\Sexpr{xs}$~GE.
+Die Varianz betr\"agt $\Sexpr{s2}$. F\"ur einen bestimmten Tag sollen die durchschnittlichen
+Ausgaben durch ein $95\%$-Prognoseintervall gesch\"atzt werden. Wie gro\ss\ mu\ss\ die Anzahl
+der Besucher mindestens sein, damit diese Sch\"atzung mit einer Genauigkeit von mindestens 
 $\pm \Sexpr{prec}$ m\"oglich ist?
-
 \end{question}
-
-
-
 
 %% SOLUTIONS
 \begin{solution}
-
 Das Prognoseintervall f\"ur den Mittelwert $\bar{X}$ lautet 
-$$\left[\mu- 1.96\sqrt{\frac{\sigma^2}{n}}, \mu+ 1.96\sqrt{\frac{\sigma^2}{n}}\right]. $$
-Die Genauigkeitsforderung bedeutet
-$$1.96\sqrt{\frac{\sigma^2}{n}}\leq \Sexpr{prec}$$
-$$1.96\sqrt{\frac{\Sexpr{s2}}{n}}\leq \Sexpr{prec}$$
-%$$\frac{1.96^2\Sexpr{s2}}{\Sexpr{prec}^2} \leq n$$
-$$\Sexpr{n1}\leq n$$
-Da $n$ ganzzahlig ist, w\"ahlt man
-$$\Sexpr{n}\leq n.$$
+$$\left[\mu \, - \, 1.96\sqrt{\frac{\sigma^2}{n}}, \; \mu \, + \, 1.96\sqrt{\frac{\sigma^2}{n}}\right]. $$
 
-Toleriert: $[\Sexpr{nunten},\Sexpr{noben}]$.
+Die Ausgaben eines Besuchers haben eine Varianz von $\sigma^2 = \Sexpr{s2}$.
+Die Genauigkeitsforderung von $\pm \Sexpr{prec}$
+bedeutet damit
+\begin{eqnarray*}
+1.96\sqrt{\frac{\sigma^2}{n}} & \leq & \Sexpr{prec} \\
+1.96\sqrt{\frac{\Sexpr{s2}}{n}} & \leq & \Sexpr{prec} \\
+\frac{1.96^2 \Sexpr{s2}}{\Sexpr{prec}^2} & \leq & n \\
+\Sexpr{n1} & \leq & n \\
+\Sexpr{n} & \leq & n \\
+\end{eqnarray*}
+Da $n$ ganzzahlig ist und mindestens \Sexpr{n1} betragen mu{\ss}, mu{\ss}
+$n \geq \Sexpr{n}$ gew\"ahlt werden.
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{n}
-%% \exstring{Prognoseintervall, StichprobenGr}
+%% \exsolution{\Sexpr{n}}
+%% \exname{Stichprobengroesse}
+%% \extol{2}

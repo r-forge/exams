@@ -155,5 +155,5 @@ lines(c(0,0.3,0.3,0),c(solhoechst,solhoechst-0.01,solhoechst+0.01,solhoechst),lw
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{sol}}
-%% \exstring{Anteil}
+%% \exname{Anteil}
 %% \extol{0.05}

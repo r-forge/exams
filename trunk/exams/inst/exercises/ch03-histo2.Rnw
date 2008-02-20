@@ -193,5 +193,5 @@ ist damit $Q=\Sexpr{sol}$ (siehe auch Abbildung~\ref{fig:ch03-histo2b}).
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{sol}}
-%% \exstring{Quantil}
+%% \exname{Quantil}
 %% \extol{0.01}

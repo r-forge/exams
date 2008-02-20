@@ -1,6 +1,6 @@
 <<echo=FALSE, results=hide>>=
 ## DATA GENERATION
- sigma<-100
+sigma<-100
 n<-sample(0:5,1)*50+50
 i2<-0
 while(i2<2){
@@ -14,56 +14,42 @@ if(xs>200 & s2est>50 & 0.25*xs^2*(n-1)>s2est)i2<-2
 s2nm1<-s2est
 sd<-sqrt(s2/(n-1))
 sdf<-sqrt(s2/n)
-#Lösung
+## richtig
 ugr<-round(xs-1.96*sd,3)
 ogr<-round(xs+1.96*sd,3)
-#Falsche Lösung
+## falsch
 ugf<-round(xs-1.96*sdf,3)
 ogf<-round(xs+1.96*sdf,3)
-
-#Toleriert
-ugrt<-round(xs-1.97*sd,3)
-ogrt<-round(xs+1.97*sd,3)
-ugrtolunten<-floor((ugrt-0.01)*100)/100
-ugrtoloben<-ceiling((ugr+0.01)*100)/100
-ogrtolunten<-floor((ogr-0.01)*100)/100
-ogrtoloben<-ceiling((ogrt+0.01)*100)/100
-
 @
 
 \begin{question}
 Eine Konsumentenschutzorganisation testet Konserven. Das
-angegebene Gewicht beträgt $1000$ Gramm. In einer Stichprobe der Gr\"o\ss e $\Sexpr{n}$
- ist $\bar{x}=\Sexpr{xs}$  und $s^2_{n-1}=\Sexpr{s2est}$. Berechnen Sie ein
-$95\%$ Konfidenzintervall für den Erwartungswert des
+angegebene Gewicht beträgt $1000$g. In einer Stichprobe der Gr\"o{\ss}e $\Sexpr{n}$
+ist $\bar{x}=\Sexpr{xs}$ und $s^2_{n-1}=\Sexpr{s2est}$. Berechnen Sie das
+$95\%$-Konfidenzintervall f\"ur den Erwartungswert des
 Gewichts.
 \end{question}
 
 
-
-
 %% SOLUTIONS
 \begin{solution}
-
 Das Konfidenzintervall f\"ur den Erwartungswert $\mu$ lautet 
-$$\left[\bar{x}- 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \bar{x}+ 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
-$\sigma^2$ wird durch $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
+$$\left[\bar{x} \, - \, 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \;
+        \bar{x} \, + \, 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
+Die wahre Varianz $\sigma^2$ wird durch die Stichprobenvarianz $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
 Das Konfidenzintervall lautet
-$$\left[ \Sexpr{xs}-1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}},
-\Sexpr{xs}+1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right]$$
-$$=\left[\Sexpr{ugr},\Sexpr{ogr}\right].$$
+\begin{eqnarray*}
+ & = & \left[ \Sexpr{xs} \, - \, 1.96 \sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}, \;
+            \Sexpr{xs} \, + \, 1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right] \\
+ & = & \left[\Sexpr{ugr}, \Sexpr{ogr}\right].
+\end{eqnarray*}
 
-Toleriert untere Grenze: $[\Sexpr{ugrtolunten},\Sexpr{ugrtoloben}]$.
-
-Toleriert obere Grenze: $[\Sexpr{ogrtolunten},\Sexpr{ogrtoloben}]$.
-
-Sch\"atzt man $\sigma^2$ durch $s^2$ ({\bf falsch!}), erh\"alt man das Intervall
-$$=[\Sexpr{ugf},\Sexpr{ogf}].$$
-
-
+\emph{Anmerkung: Sch\"atzt man $\sigma^2$ durch $s^2$ (\textbf{falsch!}), erh\"alt man das
+Intervall $[\Sexpr{ugf},\Sexpr{ogf}]$.}
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{c(ugr,ogr)}
-%% \exstring{Konfidenzintervall: }
+%% \exsolution{\Sexpr{ugr}}{\Sexpr{ogr}}
+%% \exname{Konfidenzintervall}
+%% \extol{0.01}

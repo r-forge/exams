@@ -11,40 +11,30 @@ s2h<-s2hest*(n-1)/n
 i2<-sample(1:2,1)
 if(i2==1){xs<-xsm
 s2est<-s2mest
-str<-"Mariahilf "
+bezirk<-"Mariahilf"
 }
 if(i2==2){xs<-xsh
 s2est<-s2hest
-str<-"Innere Stadt "
+bezirk<-"Innere Stadt"
 }
-
 
 ## QUESTION/ANSWER GENERATION
 s2nm1<-s2est
 sd<-sqrt(s2/(n-1))
 sdf<-sqrt(s2/n)
 
-#Lösung
+# richtig
 ugr<-round(xs-1.96*sd,3)
 ogr<-round(xs+1.96*sd,3)
 
-#Falsche Lösung
+# falsch
 ugf<-round(xs-1.96*sdf,3)
 ogf<-round(xs+1.96*sdf,3)
-
-#Toleriert
-ugrt<-round(xs-1.97*sd,3)
-ogrt<-round(xs+1.97*sd,3)
-ugrtolunten<-floor((ugrt-0.01)*100)/100
-ugrtoloben<-ceiling((ugr+0.01)*100)/100
-ogrtolunten<-floor((ogr-0.01)*100)/100
-ogrtoloben<-ceiling((ogrt+0.01)*100)/100
-
 @
 
 \begin{question}
 In zwei Wiener Bezirken wurden jeweils $\Sexpr{n}$ zufällig
-ausgew\"ahlte Geschäfte gebeten, die Veränderung des Umsatzes 2006
+ausgew\"ahlte Geschäfte gebeten, die Ver\"anderung des Umsatzes 2006
 gegen\"uber dem Vorjahr bekanntzugeben. Folgende Tabelle enthält
 die Mittelwerte und die Varianz der Daten:
 \begin{center}
@@ -57,37 +47,30 @@ Innere Stadt & \Sexpr{xsh} & \Sexpr{s2hest} \\
 \hline
 \end{tabular}
 \end{center}
-
 Geben Sie ein 95-prozentiges Konfidenzintervall für den
-mittleren Umsatzzuwachs im Bezirk \Sexpr{str} an :
-
+mittleren Umsatzzuwachs im Bezirk \Sexpr{bezirk} an :
 \end{question}
-
-
 
 
 %% SOLUTIONS
 \begin{solution}
-
 Das Konfidenzintervall f\"ur den Erwartungswert $\mu$ lautet 
-$$\left[\bar{x}- 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \bar{x}+ 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
-$\sigma^2$ wird durch $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
+$$\left[\bar{x} \, - \, 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \;
+        \bar{x} \, + \, 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
+Die wahre Varianz $\sigma^2$ wird durch die Stichprobenvarianz $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
 Das Konfidenzintervall lautet
-$$\left[ \Sexpr{xs}-1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}},
-\Sexpr{xs}+1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right]$$
-$$=\left[\Sexpr{ugr},\Sexpr{ogr}\right].$$
+\begin{eqnarray*}
+ & = & \left[ \Sexpr{xs} \, - \, 1.96 \sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}, \;
+            \Sexpr{xs} \, + \, 1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right] \\
+ & = & \left[\Sexpr{ugr}, \Sexpr{ogr}\right].
+\end{eqnarray*}
 
-Toleriert untere Grenze: $[\Sexpr{ugrtolunten},\Sexpr{ugrtoloben}]$.
-
-Toleriert obere Grenze: $[\Sexpr{ogrtolunten},\Sexpr{ogrtoloben}]$.
-
-Sch\"atzt man $\sigma^2$ durch $s^2$ ({\bf falsch!}), erh\"alt man das Intervall
-$$=[\Sexpr{ugf},\Sexpr{ogf}].$$
-
-
+\emph{Anmerkung: Sch\"atzt man $\sigma^2$ durch $s^2$ (\textbf{falsch!}), erh\"alt man das
+Intervall $[\Sexpr{ugf},\Sexpr{ogf}]$.}
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{c(ugr,ogr)}
-%% \exstring{Konfidenzintervall}
+%% \exsolution{\Sexpr{ugr}}{\Sexpr{ogr}}
+%% \exname{Konfidenzintervall}
+%% \extol{0.01}

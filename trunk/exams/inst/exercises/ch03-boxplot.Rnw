@@ -111,7 +111,7 @@ explanations <- explanations[o]
 
 \begin{question}
 In Abbildung~\ref{fig:ch03-boxplot} ist eine Verteilung durch einen Boxplot dargestellt.
-Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+Welche der folgenden Aussagen sind richtig?
 
 \setkeys{Gin}{width=0.7\textwidth}
 \begin{figure}[htb!]

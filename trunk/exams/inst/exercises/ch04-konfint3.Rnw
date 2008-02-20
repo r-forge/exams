@@ -63,35 +63,26 @@ s2nm1<-s2est
 sd<-sqrt(s2/(n-1))
 sdf<-sqrt(s2/n)
 
-#Lösung
+# richtig
 ugr<-round(xs-1.96*sd,3)
 ogr<-round(xs+1.96*sd,3)
 
-#Falsche Lösung
+# falsch
 ugf<-round(xs-1.96*sdf,3)
 ogf<-round(xs+1.96*sdf,3)
-
-#Toleriert
-ugrt<-round(xs-1.97*sd,3)
-ogrt<-round(xs+1.97*sd,3)
-ugrtolunten<-floor((ugrt-0.01)*100)/100
-ugrtoloben<-ceiling((ugr+0.01)*100)/100
-ogrtolunten<-floor((ogr-0.01)*100)/100
-ogrtoloben<-ceiling((ogrt+0.01)*100)/100
-
 @
 
 \begin{question}
-Eine Überprüfung von vergleichbaren, zufällig ausgewählten
-Betrieben verschiedener Branchen, bei der die Höhe $X$ (in GE)
-der mit Ende 2006 unbezahlt gebliebenen Rechnungen erfa\ss t
+Eine \"Uberprüfung von vergleichbaren, zuf\"allig ausgew\"ahlten
+Betrieben verschiedener Branchen, bei der die H\"ohe $X$ (in GE)
+der mit Ende 2006 unbezahlt gebliebenen Rechnungen erfa{\ss}t
 wurde, brachte folgendes Ergebnis:
 
 \begin{center}
 {\small
 \begin{tabular}{|l|c|c|c|}
 \hline
-Branche & Anzahl überprüfter Betriebe & Mittelwert $\overline{x}$ &
+Branche & Anzahl \"uberpr\"ufter Betriebe & Mittelwert $\bar{x}$ &
  $s_{n-1}^2$ \\
 \hline
 Gastgewerbe & \Sexpr{n1} & \Sexpr{xs1} & \Sexpr{s21est} \\
@@ -104,32 +95,29 @@ Leder und Pelze & \Sexpr{n5} & \Sexpr{xs5} & \Sexpr{s25est} \\
 }
 \end{center}
 
-Geben Sie für die Branche \Sexpr{str} ein 95-prozentiges
-Konfidenzintervall für den Erwartungswert von $X$ an:
+Geben Sie f\"ur die Branche \Sexpr{str} ein 95-prozentiges
+Konfidenzintervall f\"ur den Erwartungswert von $X$ an:
 \end{question}
 
 %% SOLUTIONS
 \begin{solution}
-
 Das Konfidenzintervall f\"ur den Erwartungswert $\mu$ lautet 
-$$\left[\bar{x}- 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \bar{x}+ 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
-$\sigma^2$ wird durch $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
+$$\left[\bar{x} \, - \, 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}, \;
+        \bar{x} \, + \, 1.96\sqrt{\frac{\hat{\sigma}^2}{n}}\right]. $$
+Die wahre Varianz $\sigma^2$ wird durch die Stichprobenvarianz $\hat{\sigma}^2=s^2_{n-1}$ gesch\"atzt. 
 Das Konfidenzintervall lautet
-$$\left[ \Sexpr{xs}-1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}},
-\Sexpr{xs}+1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right]$$
-$$=\left[\Sexpr{ugr},\Sexpr{ogr}\right].$$
+\begin{eqnarray*}
+ & = & \left[ \Sexpr{xs} \, - \, 1.96 \sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}, \;
+            \Sexpr{xs} \, + \, 1.96\sqrt{\frac{\Sexpr{s2nm1}}{\Sexpr{n}}}\right] \\
+ & = & \left[\Sexpr{ugr}, \Sexpr{ogr}\right].
+\end{eqnarray*}
 
-Toleriert untere Grenze: $[\Sexpr{ugrtolunten},\Sexpr{ugrtoloben}]$.
-
-Toleriert obere Grenze: $[\Sexpr{ogrtolunten},\Sexpr{ogrtoloben}]$.
-
-Sch\"atzt man $\sigma^2$ durch $s^2$ ({\bf falsch!}), erh\"alt man das Intervall
-$$=[\Sexpr{ugf},\Sexpr{ogf}].$$
-
-
+\emph{Anmerkung: Sch\"atzt man $\sigma^2$ durch $s^2$ (\textbf{falsch!}), erh\"alt man das
+Intervall $[\Sexpr{ugf},\Sexpr{ogf}]$.}
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{c(ugr,ogr)}
-%% \exstring{Konfidenzintervall}
+%% \exsolution{\Sexpr{ugr}}{\Sexpr{ogr}}
+%% \exname{Konfidenzintervall}
+%% \extol{0.01}

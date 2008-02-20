@@ -5,49 +5,35 @@ s2<-sample(1:5,1)*20+80
 n<-sample(0:5,1)*5+15
 
 
-
-
 ## QUESTION/ANSWER GENERATION
-
 sd<-sqrt(s2/n)
-
-#Lösung und Toleranzintervalle:
 ugr<-round(xs-1.96*sd,3)
 ogr<-round(xs+1.96*sd,3)
-ugrtolunten<-floor((ugr-0.01)*100)/100
-ugrtoloben<-ceiling((ugr+0.01)*100)/100
-ogrtolunten<-floor((ogr-0.01)*100)/100
-ogrtoloben<-ceiling((ogr+0.01)*100)/100
-
 @
 
 \begin{question}
 Die t\"aglichen Ausgaben eines Urlaubers haben einen Erwartungswert von $\Sexpr{xs}$ GE.
 Die Varianz betr\"agt $\Sexpr{s2}$. Berechnen Sie ein $95\%$-Prognoseintervall f\"ur die mittleren
 Ausgaben (pro Urlauber) einer Reisegesellschaft von $\Sexpr{n}$ Personen.
-
-
 \end{question}
-
-
 
 
 %% SOLUTIONS
 \begin{solution}
-
-Das Prognoseintervall f\"ur den Mittelwert $\bar{X}$ lautet 
-$$\left[\mu- 1.96\sqrt{\frac{\sigma^2}{n}}, \mu+ 1.96\sqrt{\frac{\sigma^2}{n}}\right] $$
-$$\left[ \Sexpr{xs}-1.96\sqrt{\frac{\Sexpr{s2}}{\Sexpr{n}}},
-\Sexpr{xs}+1.96\sqrt{\frac{\Sexpr{s2}}{\Sexpr{n}}}\right]$$
-$$=\left[\Sexpr{ugr},\Sexpr{ogr}\right].$$
-
-Toleriert untere Grenze: $\left[\Sexpr{ugrtolunten},\Sexpr{ugrtoloben}\right]$
-
-Toleriert obere Grenze: $\left[\Sexpr{ogrtolunten},\Sexpr{ogrtoloben}\right]$
-
+Die Ausgaben haben einen Erwartungswert von $\mu = \Sexpr{xs}$
+und eine Varianz von $\sigma^2 = \Sexpr{s2}$.
+Das $95\%$-Prognoseintervall f\"ur die mittleren Ausgaben $\bar{X}$ aus $n = \Sexpr{n}$ Beobachtungen
+lautet damit
+\begin{eqnarray*}
+&   & \left[\mu \, - \, 1.96\sqrt{\frac{\sigma^2}{n}}, \; \mu \, + \, 1.96\sqrt{\frac{\sigma^2}{n}}\right] \\
+& = & \left[ \Sexpr{xs} \, - \, 1.96\sqrt{\frac{\Sexpr{s2}}{\Sexpr{n}}}, \;
+             \Sexpr{xs} \, + \, 1.96\sqrt{\frac{\Sexpr{s2}}{\Sexpr{n}}}\right] \\
+& = & \left[\Sexpr{ugr}, \, \Sexpr{ogr}\right].
+\end{eqnarray*}
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{c(ugr,ogr)}
-%% \exstring{Prognoseintervall}
+%% \exsolution{\Sexpr{ugr}}{\Sexpr{ogr}}
+%% \exname{Prognoseintervall}
+%% \extol{0.01}
