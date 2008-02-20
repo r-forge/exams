@@ -59,7 +59,9 @@ mit einer Wahrscheinlichkeit von \Sexpr{format(pz, nsmall = 3)} \Sexpr{tailtext}
 \begin{solution}
 \Sexpr{solution}
 
-Siehe auch Abbildung~\ref{fig:ch01-nv2}.
+Siehe auch Abbildung~\ref{fig:ch01-nv2}. \emph{Anmerkung: Durch das Ablesen aus der Tabelle
+kann das Ergebnis leicht variieren. Solange Sie Quantil/Wahrscheinlichkeit aus der
+richtigen Zelle der Tabelle entnehmen, wird die L\"osung auch als richtig gewertet.}
 
 \setkeys{Gin}{width=0.6\textwidth}
 \begin{figure}[htb!]

@@ -76,7 +76,9 @@ Umformen und aus der Normalverteilungstabelle ablesen:
 \begin{eqnarray*}
 \Sexpr{solution}
 \end{eqnarray*}
-Siehe auch Abbildung~\ref{fig:ch01-nv3}.
+Siehe auch Abbildung~\ref{fig:ch01-nv3}. \emph{Anmerkung: Durch das Ablesen aus der Tabelle
+kann das Ergebnis leicht variieren. Solange Sie Quantil/Wahrscheinlichkeit aus der
+richtigen Zelle der Tabelle entnehmen, wird die L\"osung auch als richtig gewertet.}
 
 \setkeys{Gin}{width=0.6\textwidth}
 \begin{figure}[htb!]

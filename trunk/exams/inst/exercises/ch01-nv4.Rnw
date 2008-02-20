@@ -38,6 +38,10 @@ $Z$ mit Wahrscheinlichkeit \Sexpr{format(pz, nsmall = 3)} \Sexpr{question} $[-c,
 \begin{solution}
 \Sexpr{solution}
 
+\emph{Anmerkung: Durch das Ablesen aus der Tabelle
+kann das Ergebnis leicht variieren. Solange Sie Quantil/Wahrscheinlichkeit aus der
+richtigen Zelle der Tabelle entnehmen, wird die L\"osung auch als richtig gewertet.}
+
 \setkeys{Gin}{width=0.6\textwidth}
 \begin{figure}[htb!]
 \begin{center}
