@@ -72,7 +72,8 @@ Deshalb f\"uhrt er folgende Kundenbefragung durch: Es werden
 l\"asst man den \Sexpr{product} aus der alten herk\"ommlichen
 Verpackung kosten, den zweiten \Sexpr{nobs} gibt man den
 \Sexpr{product} aus der neuen Fitness-Verpackung. Anschlie{\ss}end soll
-jeder Kunde den \Sexpr{product} auf einer Skala von 0 bis 10 bewerten.
+jeder Kunde den \Sexpr{product} auf einer Skala von 0 (schlecht) 
+bis 10 (gut) bewerten.  
 
 Die Bewertungen, getrennt nach verwendeter Verpackung, sind in
 Abbildung~\ref{fig:ch05-anova2} zu sehen.
@@ -111,7 +112,7 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% SOLUTIONS
 \begin{solution}
 Zur Beantwortung einiger Fragen muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
-wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
+wird die Fehlerquadratsumme bei nur einem einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
 die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Verpackung ($\mathit{RSS}_1$)
 ben\"otigt, beide sind in der \texttt{RSS}-Spalte der ANOVA-Tabelle gegeben.
 Damit ist das Bestimmtheitsma{\ss}

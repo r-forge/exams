@@ -63,7 +63,7 @@ zwischen den vier Kassensystemen zur\"uckf\"uhren?
 %% SOLUTIONS
 \begin{solution}
 Zur Beantwortung der Frage muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
-wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
+wird die Fehlerquadratsumme bei nur einem einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
 die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Supermarkt ($\mathit{RSS}_1$)
 ben\"otigt. F\"ur jede (Teil-)Stichprobe kann die Fehlerquadratsumme einfach als Produkt der
 Varianz und der Stichprobengr\"o{\ss}e berechnet werden.

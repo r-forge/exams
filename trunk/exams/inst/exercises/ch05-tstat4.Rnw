@@ -30,7 +30,7 @@ Deshalb f\"uhrt er folgende Kundenbefragung durch: Es werden
 \Sexpr{product} aus der alten herk\"ommlichen Verpackung kosten, den
 anderen \Sexpr{nB} gibt man den \Sexpr{product} aus der neuen
 Fitness-Verpackung. Anschlie{\ss}end soll jeder Kunde den
-\Sexpr{product} auf einer Skala von 0 bis 10 bewerten.
+\Sexpr{product} auf einer Skala von 0 (schlecht) bis 10 (gut) bewerten.
 
 Die Bewertungen der beiden Testgruppen wurden folgenderma{\ss}en zusammengefasst:
 

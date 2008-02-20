@@ -37,7 +37,8 @@ ausgew\"ahlt. \Sexpr{nA} Kunden zeigt man \Sexpr{product[3]}
 Logo. Anschlie{\ss}end bewertet jeder Kunde \Sexpr{product[3]} auf
 einer Skala von 0 (schlecht) bis 10 (gut).
 
-Die Bewertung f\"ur \Sexpr{product[3]} mit und ohne Logo ergibt:
+Die Bewertungen f\"ur \Sexpr{product[3]} mit und ohne Logo wurden
+folgenderma{\ss}en zusammengefasst:
 
 \begin{center}
 \begin{tabular}{|c|c|c|} \hline

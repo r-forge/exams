@@ -2,8 +2,8 @@
 ## DATA GENERATION
 n <- 20 + sample(1:10, 4) * 3
 score10 <- function(x) as.numeric(cut(x, breaks = c(-Inf, 0:9 + 0.5, Inf))) - 1
-y <- score10(rnorm(sum(n), mean = rep(sample(seq(from = sample(20:60, 1), by = 1, length = sample(15:25, 1)), 4)/10, n),
-                   sd = rep(sample(10:80, 4)/100, n)))
+y <- score10(rnorm(sum(n), mean = rep(sample(seq(from = sample(25:55, 1), by = 1, length = sample(15:20, 1)), 4)/10, n),
+                   sd = rep(sample(70:80, 4)/100, n)))
 x <- factor(rep(1:4, n))
 m0 <- round(mean(y), digits = 2)
 m1 <- round(tapply(y, x, mean), digits = 2)
@@ -61,7 +61,7 @@ zwischen den vier verschiedenen Personengruppen zur\"uckf\"uhren?
 %% SOLUTIONS
 \begin{solution}
 Zur Beantwortung der Frage muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
-wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
+wird die Fehlerquadratsumme bei nur einem einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
 die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Besch\"aftigung ($\mathit{RSS}_1$)
 ben\"otigt. F\"ur jede (Teil-)Stichprobe kann die Fehlerquadratsumme einfach als Produkt der
 Varianz und der Stichprobengr\"o{\ss}e berechnet werden.

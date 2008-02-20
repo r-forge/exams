@@ -20,13 +20,13 @@ product <- sample(c("Emmentaler", "Gouda", "Butterk\\\\\"ase"), 1)
 
 study <- if(paired) paste(
   "Es werden", nobs, "Testpersonen ausgew\\\\\"ahlt. Zun\\\\\"achst l\\\\\"asst man sie den", product,
-  "aus der alten herk\\\\\"ommlichen Verpackung kosten und fragt nach einer Bewertung auf einer Skala von 0 bis 10.",
+  "aus der alten herk\\\\\"ommlichen Verpackung kosten und fragt nach einer Bewertung auf einer Skala von 0 (schlecht) bis 10 (gut).",
   "Dann l\\\\\"asst man sie den K\\\\\"ase aus der neuen Fitness-Verpackung kosten und fragt nach einer weiteren Bewertung."
 ) else paste(
   "Es werden", 2*nobs, "Testpersonen ausgew\\\\\"ahlt. Die ersten", nobs, "l\\\\\"asst man den", product,
   "aus der alten herk\\\\\"ommlichen Verpackung kosten, den zweiten", nobs, "gibt man den", product,
   "aus der neuen Fitness-Verpackung.",
-  "Anschlie{\\\\ss}end soll jeder Kunde den", product, "auf einer Skala von 0 bis 10 bewerten."
+  "Anschlie{\\\\ss}end soll jeder Kunde den", product, "auf einer Skala von 0 (schlecht) bis 10 (gut) bewerten."
 )
 
 ## QUESTION/ANSWER GENERATION
@@ -34,7 +34,7 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-questions[1] <- paste("Die h\\\\\"oheren Bewertungen erh\\\\\"alt der", product, "mit neuen Fitness-Verpackung.")
+questions[1] <- paste("Die h\\\\\"oheren Bewertungen erh\\\\\"alt der", product, "mit der neuen Fitness-Verpackung.")
 solutions[1] <- tt$statistic < 0
 explanations[1] <- if(paired) paste("Die Differenz der mitteleren Bewertungen betr\"agt",
   round(tt$estimate, digits = 3), "und ist damit", ifelse(solutions[1], "", "\\\\textit{nicht}"),

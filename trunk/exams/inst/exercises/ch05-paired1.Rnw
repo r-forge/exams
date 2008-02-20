@@ -22,13 +22,13 @@ product <- c(c("Polo-Hemd", "T-Shirt", "Pullover")[product],
   c("das Polo-Hemd", "das T-Shirt", "den Pullover")[product])
 study <- if(paired) paste(
   "Es werden", nobs, "Testpersonen ausgew\\\\\"ahlt. Zun\\\\\"achst zeigt man ihnen",
-  product[3], "\\\\emph{mit} Logo und fragt nach einer Bewertung auf einer Skala von 0 bis 10.",
+  product[3], "\\\\emph{mit} Logo und fragt nach einer Bewertung auf einer Skala von 0 (schlecht) bis 10 (gut).",
   "Dann zeigt man ihnen", product[3],
   "\\\\emph{ohne} Logo und fragt nach einer weiteren Bewertung."  
 ) else paste(
   "Es werden", 2*nobs, "Testpersonen ausgew\\\\\"ahlt. Den ersten", nobs, "zeigt man", product[3],
   "\\\\emph{mit} Logo, den zweiten", nobs, "\\\\emph{ohne} Logo.",
-  "Anschlie{\\\\ss}end soll jeder Kunde", product[2], "auf einer Skala von 0 bis 10 bewerten."
+  "Anschlie{\\\\ss}end soll jeder Kunde", product[2], "auf einer Skala von 0 (schlecht) bis 10 (gut) bewerten."
 )
 
 ## QUESTION/ANSWER GENERATION

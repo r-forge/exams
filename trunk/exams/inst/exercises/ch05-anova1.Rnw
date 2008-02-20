@@ -104,7 +104,7 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% SOLUTIONS
 \begin{solution}
 Zur Beantwortung einiger Fragen muss das Bestimmtheitsma{\ss} berechnet werden. Daf\"ur
-wird die Fehlerquadratsumme bei nur einen einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
+wird die Fehlerquadratsumme bei nur einem einzigen Gesamtmittelwert ($\mathit{RSS}_0$) sowie 
 die Fehlerquadratsumme bei unterschiedlichen Mittelwerten nach Besch\"aftigung ($\mathit{RSS}_1$)
 ben\"otigt, beide sind in der \texttt{RSS}-Spalte der ANOVA-Tabelle gegeben.
 Damit ist das Bestimmtheitsma{\ss}
