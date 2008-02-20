@@ -28,6 +28,7 @@ prob<-c(length(x[x<=q[1]]),length(x[x<=q[2]]),length(x[x<=q[3]]),length(x[x<=q[4
 prob<-round(prob,2)
 
 ax<-0:15
+axlab<-ifelse(ax%%2, "", as.character(ax))
 ii<-sample(1:5,1)
 data<-q[ii]*1000
 
@@ -67,7 +68,7 @@ ay<-(0:10)/10
 @
 
 \begin{question}
-Abb.\,\ref{fig:ch03-empvf} zeigt die empirische
+Abb.\,\ref{fig:ch03-empvf1} zeigt die empirische
 Verteilungsfunktion von Schadensf\"allen (in $1000$ GE). Wie
 gro\ss\ ist der Anteil der Schadensf\"alle, die \Sexpr{str1} $\Sexpr{data}$
 GE betragen?
@@ -78,10 +79,10 @@ GE betragen?
 \footnotesize
 <<fig=TRUE, height = 6, width = 8, echo=FALSE, eps=FALSE, results=hide>>=
 
-par(las=1,cex=1.2,mai=c(1,1,0.5,0.5))
+par(las=1,cex=1.4,mai=c(1,1,0.5,0.5))
 
 plot(c(x[1],x[2]),c(vt[1],vt[1]),type="l",xlim=xl,ylim=yl,ylab="",xlab="",axes=FALSE)
-axis(1, ax, as.character(ax),pos=c(0,0))
+axis(1, ax, axlab,pos=c(0,0))
 axis(2, ay,as.character(ay),pos=c(0,0))
 axis(4, ay,as.character(ay),pos=c(15,0))
 
@@ -96,7 +97,7 @@ lines(c(max(ax),max(ax)),c(0,1))
 
 
 @
-\caption{\label{fig:ch03-empvf} Sch\"aden in $1000$ GE}
+\caption{\label{fig:ch03-empvf1} Sch\"aden in $1000$ GE}
 \end{center}
 \end{figure}
 
@@ -107,9 +108,14 @@ lines(c(max(ax),max(ax)),c(0,1))
 
 %% SOLUTIONS
 \begin{solution}
-$\Sexpr{sol}$
+Aus Abbbildung~\ref{fig:ch03-empvf1} kann man $f_n(X\leq \Sexpr{data})$, die
+relative H\"aufigkeit der Schadensf\"alle, die h\"ochstens $\Sexpr{data}$ betragen, ablesen.
+Man erh\"alt $f_n(X\leq \Sexpr{data})\approx \Sexpr{solhoechst}$ (siehe Abbildung~\ref{fig:ch03-empvf1b}).
+Der Anteil der Schadensf\"alle, die \Sexpr{str1} $\Sexpr{data}$ GE betragen,
+ist damit \Sexpr{strloes}.
 
-Aus der Abbbildung kann man $f_n(X\leq \Sexpr{data})$, die relative H\"aufigkeit der Schadensf\"alle, die h\"ochstens $\Sexpr{data}$ betragen, ablesen:
+\emph{Anmerkung: Da die Verteilungsfunktion nicht ganz exakt
+abgelesen werden kann, werden Ergebnisse im Interval $[\Sexpr{tolu},\Sexpr{tolo} ]$ toleriert.}
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
@@ -117,10 +123,10 @@ Aus der Abbbildung kann man $f_n(X\leq \Sexpr{data})$, die relative H\"aufigkeit
 \footnotesize
 <<fig=TRUE, height = 6, width = 8, echo=FALSE, eps=FALSE, results=hide>>=
 
-par(las=1,cex=1.2,mai=c(1,1,0.5,0.5))
+par(las=1,cex=1.4,mai=c(1,1,0.5,0.5))
 
 plot(c(x[1],x[2]),c(vt[1],vt[1]),type="l",xlim=xl,ylim=yl,ylab="",xlab="",axes=FALSE)
-axis(1, ax, as.character(ax),pos=c(0,0))
+axis(1, ax, axlab,pos=c(0,0))
 labely<-as.character(ay)
 h<-(ay[2]-ay[1])*0.8
 for(i in 1:length(ay)){
@@ -131,27 +137,23 @@ axis(4, (0:10)/10,as.character((0:10)/10),pos=c(15,0))
 for(i in 2:(n-1))
 {lines(c(x[i],x[i+1]),c(vt[i],vt[i]))
 }
-lines(c(x[n],xl[2]),c(vt[n],vt[n]),col=2)
+lines(c(x[n],xl[2]),c(vt[n],vt[n]),col=4)
 lines(c(xl[1],x[1]),c(0,0))
 lines(c(min(ax),max(ax)),c(0,0))
 lines(c(min(ax),max(ax)),c(1,1))
 lines(c(max(ax),max(ax)),c(0,1))
-lines(c(data/1000,data/1000,0),c(0,solhoechst,solhoechst),lwd=2,lty=1,col=2)
-text(-1,solhoechst,as.character(solhoechst),col=2)
-lines(c(0,0.3,0.3,0),c(solhoechst,solhoechst-0.01,solhoechst+0.01,solhoechst),lwd=2,col=2)
+lines(c(data/1000,data/1000,0),c(0,solhoechst,solhoechst),lwd=2,lty=1,col=4)
+text(-1,solhoechst,as.character(solhoechst),col=4)
+lines(c(0,0.3,0.3,0),c(solhoechst,solhoechst-0.01,solhoechst+0.01,solhoechst),lwd=2,col=4)
 
 @
-\caption{\label{fig:ch03-empvf2} Sch\"aden in $1000$ GE}
+\caption{\label{fig:ch03-empvf1b} Sch\"aden in $1000$ GE}
 \end{center}
 \end{figure}
-
-Man erh\"alt $f_n(X\leq \Sexpr{data})\approx \Sexpr{solhoechst}$. Der Anteil der Schadensf\"alle, die \Sexpr{str1} $\Sexpr{data}$
-GE betragen ist \Sexpr{strloes}. Toleriert: $[\Sexpr{tolu},\Sexpr{tolo} ]$.
-
-
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{sol}
-%% \exstring{Empirische Verteilungsfunktion}
+%% \exsolution{\Sexpr{sol}}
+%% \exstring{Anteil}
+%% \extol{0.05}

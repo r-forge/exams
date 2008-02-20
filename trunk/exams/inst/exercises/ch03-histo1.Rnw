@@ -73,8 +73,6 @@ e1<-quanthist(1-p,prob,grenzen)
 
 #Lösung und Toleranzintervall:
 sol<-round(e1[1],3)
-tolu<-floor((sol-0.01)*100)/100
-tolo<-ceiling((sol+0.01)*100)/100
 
 iu<-e1[2]
 
@@ -99,10 +97,8 @@ restprob<-round(prob[iu]-fehlprob,5)
 @
 
 \begin{question}
-
-
-Abb.\,\ref{fig:ch03-histo1} zeigt die Verteilung der Preise von Eigentumswohnungen (pro $m^2$). Welcher Quadrat\-meterpreis
-wird von  $\Sexpr{proz}$ $\%$ der Wohnungen \"uberschritten?
+Abbildung~\ref{fig:ch03-histo1} zeigt die Verteilung der Preise von Eigentumswohnungen (pro $m^2$). Welcher Quadrat\-meterpreis
+wird von  $\Sexpr{proz}\%$ der Wohnungen \"uberschritten?
 
 
 \setkeys{Gin}{width=0.8\textwidth}
@@ -145,13 +141,12 @@ for(i in 2:k)
 
 %% SOLUTIONS
 \begin{solution}
-$\Sexpr{sol}$, toleriert $[\Sexpr{tolu},\Sexpr{tolo}]$.
-
-Das gesuchte Quantil ist der Quadratmeterpreis, der mit einer H\"aufigkeit von $\Sexpr{proz}$ Prozent \"uberschritten wird, d.h. der Preis, der von
+Das gesuchte Quantil ist der Quadratmeterpreis, der mit einer H\"aufigkeit von $\Sexpr{proz}$ Prozent
+\"uberschritten wird, d.h.\ der Preis, der von
 $$100-\Sexpr{proz}=\Sexpr{prozunter}$$ Prozent unterschritten wird. 
 
-Zuerst berechnet man die H\"aufigkeiten der Intervalle, $$\mbox{H\"aufigkeit}=\mbox{H\"ohe} \times \mbox{Breite}. $$ H\"ohen und Breiten liest man aus dem Histogramm ab.
-Z.B. betr\"agt die H\"aufigkeit des \\1. Intervalls $$\Sexpr{hoehen[1]}\times\Sexpr{breiten[1]}=\Sexpr{prob[1]}.$$
+Zuerst berechnet man die relativen H\"aufigkeiten der Intervalle, $$\mbox{H\"aufigkeit}=\mbox{H\"ohe} \times \mbox{Breite}. $$ H\"ohen und Breiten liest man aus dem Histogramm ab.
+Zum Beispiel betr\"agt die H\"aufigkeit des 1.~Intervalls $$\Sexpr{hoehen[1]}\times\Sexpr{breiten[1]}=\Sexpr{prob[1]}.$$
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
@@ -175,34 +170,33 @@ axis(2, hu,as.character(hu))
 
 lines(c(grenzen[1],grenzen[k+1]),c(0,0))
 
-
+polygon(c(sol,grenzen[iu+1],grenzen[iu+1],sol,sol),c(0,0,hoehen[iu],hoehen[iu],0),col="lightgray")
+if(iu<k){for(i in (iu+1):k)polygon(c(grenzen[i],grenzen[i+1],grenzen[i+1],grenzen[i],grenzen[i]),c(0,0,hoehen[i],hoehen[i],0),col="lightgray")}
 
 for(i in 2:k)
 {lines(c(grenzen[i],grenzen[i],grenzen[i+1],grenzen[i+1]),c(0,h[i],h[i],0))
-text(grenzen[i-1]*0.6+grenzen[i]*0.4,minh*0.5,as.character(prob[i-1]),col=2)
+text(grenzen[i-1]*0.6+grenzen[i]*0.4,minh*0.5,as.character(prob[i-1]),col=4)
 }
-text(grenzen[k]*0.6+grenzen[k+1]*0.4,minh*0.5,as.character(prob[k]),col=2)
-lines(c(sol,sol), c(0,hoehen[iu]),lty=3,col=2)
-
-polygon(c(sol,grenzen[iu+1],grenzen[iu+1],sol,sol),c(0,0,hoehen[iu],hoehen[iu],0),density=15,lty=3)
-if(iu<k){for(i in (iu+1):k)polygon(c(grenzen[i],grenzen[i+1],grenzen[i+1],grenzen[i],grenzen[i]),c(0,0,hoehen[i],hoehen[i],0),density=15,lty=3)}
-
-
+text(grenzen[k]*0.6+grenzen[k+1]*0.4,minh*0.5,as.character(prob[k]),col=4)
+lines(c(sol,sol), c(0,hoehen[iu]),lty=3,col=4)
 
 @
 \caption{\label{fig:ch03-histo1b} Quadratmeterpreise von Wohnungen}
 \end{center}
 \end{figure}
 
-Die H\"aufigkeit der ersten $\Sexpr{ius}$ Intervalle ist $\Sexpr{cprob}$, das gesuchte Quantil liegt also im $\Sexpr{iu}$. Intervall.
+Die H\"aufigkeit der ersten $\Sexpr{ius}$ Intervalle ist $\Sexpr{cprob}$, das gesuchte Quantil liegt also im
+$\Sexpr{iu}$.~Intervall.
 Die fehlende H\"aufigkeit ist $\Sexpr{proz0}-\Sexpr{cprob}=\Sexpr{fehlprob}$.  Das gesuchte Quantil $Q$ erf\"ullt
 $$(Q-\Sexpr{grenzen[iu]})\times\Sexpr{h[iu]} =\Sexpr{fehlprob}, $$
 $$Q=\Sexpr{sol}.$$
 
-
+Der gesuchte Quadratmeterpreis, der von $\Sexpr{proz}\%$ der Wohnungen \"uberschritten wird,
+ist damit $Q=\Sexpr{sol}$ (siehe auch Abbildung~\ref{fig:ch03-histo1b}).
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{sol}
-%% \exstring{Empirische Verteilungsfunktion}
+%% \exsolution{\Sexpr{sol}}
+%% \exstring{Quantil}
+%% \extol{0.01}
