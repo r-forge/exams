@@ -1,0 +1,105 @@
+
+Beispielliste
+
+Bsp-Nr  MC/Num  Titel  Details
+
+CHAPTER 11: EXPLORATIVE ZEITREIHENANALYSE
+
+01 MC  Sais im geom Trend 
+T: Unterscheiden von horizontalem Muster, linearem Trend, geometrischem 
+   Wachstum mit/ohne Saison.
+D: Generierung von 4 Prozessen, Frage nach allen 4.
+
+02 MC 
+T: Zeitreihenzerlegung in T, S und E. 
+D: Generierung von 2 Reihen und deren Komponenten. Frage nach der 
+   Zuordnung der Komponenten.
+
+03 Num 1
+T: Punktprognose fuer e geometr Trend
+D: Gegeben Schaetzung von log(y_t). Berechnen von y_T(j). 
+   Nur für einen Zeitpunkt!
+
+04 Num 1
+T: Berechnen e 5-gliedr gleitenden Durchschnitts.
+D: Nur für einen Zeitpunkt!
+
+05 Num 1
+T: Berechnen der trendbereinigten Reihe mittels 5-gl gleit Durchschnitte.
+D: Vgl 04. Y gegeben. T brechnen. Ergebnis ist (Y-T). 
+   Nur für einen Zeitpunkt! 
+
+06 Num 1
+T: Berechnen e exponentiellen Glättung mit fixem alpha.
+D: Anfangwert, 2 Schritte zu berechen.
+
+07 Num 1
+T: Berechnen der trendberinigten Reihe mittels expo Glättung.
+D: Vgl 06. Y gegeben. T brechnen. Ergebnis ist (Y-T). 
+   Nur für einen Zeitpunkt! 
+
+08 Num 1
+T: Gleitender Durchschnitt für saisonale Daten, s=4.
+D: Nur für einen Zeitpunkt!
+
+09 MC
+T: Interpretation von alpha der expo Glättung.
+D: Gegeben eine generierte Reihe (alpha=0.2), mit 2 verschiedenen 
+   Glättungen (alpha=.02, alpha=0.75). Allgemeine und spez Fragen.
+
+10 Num 1
+T: Ermittlung der Saisonkomponenten S.
+D: Gegeben e Quartalsreihe mit zugeh T. Berechnen der durchschn 
+   saisonalen Eff aus (Y-T). NUR für 1 bestimmtes Quartal.
+
+11 Num 1
+T: Berechnen der saisonbereinigten Reihe.
+D: Vgl 11. Gegeben Quartalreihe, und zugeh T. Zu berechnen S. Ergebnis 
+   (Y -S).
+
+12 MC 
+T: Interpretieren von saisonalen Mustern.
+D: Gegeben e Reihe (s=4 oder 12). Allgem u spez Fragen zur Saison.
+
+13 Num 1
+T: Berechnen der RMSE aus 1- bis 4-Schritt Holt-Winters-Prognosen.
+D: Gegeben Quartalreihe für die Schätzperiode, Beobachtungen für 
+   die Prognoseperiode (Länge 4), und die zugehörigen Prognosewerte.
+
+14 MC 
+T: Interpretieren der Holt-Winters Glättungsparameter.
+D: Gegeben e Reihe plus 1-Schrittprognosen v H-W. Allgem u spez Fragen
+   zur Interpration v alpha, beta und gamma. Vgl 10.
+
+
+CHAPTER 12: Stochastische Prozesse und Zeitreihenmodelle
+
+01 MC 
+T: Unterscheiden von white noise, AR(1), random walk
+D: Generierung von je einem Proz plus Korrelogramm. Einzeln abgefragt. 
+
+02 MC 
+T: Zuordnen von Korrelogrammen zu Pfaden
+D: vgl. 12-01. WN, AR(1) +/- alpha1, RW ohne/mit Drift
+
+03 MC 
+T: Test des Renditenmittels auf null
+D: 2-seitiger, links-rechts-seitiger Test, WN
+
+04 MC 
+T: Interpretation einer AR(1) Schaetzung 
+D: 
+
+05 Num 1 
+T: Prognose e Rendite mit e AR(1) Modell
+D:
+
+06 Num 1 
+T: Prognose des Kurses
+D: Gegeben AR(1)-Renditenmodell
+
+07 MC 
+T: Vergleich zweier Renditenprognosen mittels RMSE
+D: Gegeben ein AR(1) und ein WN Modell mit ihren Prognosen 
+   und zug RMSE. Entscheide welches Modell besser geeignet ist.
+

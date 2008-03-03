@@ -1,0 +1,124 @@
+
+<<echo=FALSE, results=hide>>=
+
+questions    <- character(5)
+solutions    <- logical(5)
+explanations <- character(5)
+expl         <- character(6)
+
+## OBSERVED TIME SERIES
+# FSALES.DAT MWH
+# Verkaufszahlen einer franzoesischen Firma, Quartalsdaten
+x     <- c( 
+ 362, 385, 432, 341,
+ 382, 409, 498, 387,
+ 473, 513, 582, 474,  
+ 544, 582, 681, 557, 
+ 628, 707, 773, 592, 
+ 627, 725, 854, 661  )  
+nobs <- length( x )   # i =1,...,nobs
+nobsjahre <- floor(nobs/4)
+
+## MC
+datbeg2 <- 2007 + 1 - nobsjahre  # Ganze Jahre  bis inkl 2007
+datbeg1 <- 1995
+
+jbeg <-  f_rdunif(1,datbeg1,datbeg2)
+jend <-  jbeg - 1 + round( nobs/4, digits=0)
+x.ts <- ts( x, start=jbeg,freq=4 )
+x.j  <- floor( time(x.ts) )
+x.q  <- (time(x.ts) - x.j)*4 + 1
+
+# j  1990 1991 1993 ... 2005 2006                _j  : 1990...2006 
+# x  x[1]                    x[27]        x[_t]  _t  :    1...  27
+#
+#         ybeg_j     ... yend_j
+#         y[1]           y[7] 
+
+## Daten-Ausschnitt
+anobs     <- 8   # 2 ganze Jahre
+aibegmin  <- 1
+aibegmax  <- nobs - anobs + 1
+
+
+aibeg  <- f_rdunif(1,aibegmin,aibegmax)
+aibeg  <- floor( (aibeg-1)/4 )*4 + 1    # nur ganze Jahre
+aiend  <- aibeg + anobs - 1
+# fuer den Bsp-Text
+y      <- x[aibeg:aiend]   # fuer die LaTex-Tabelle
+ajahr1 <- x.j[aibeg]
+ajahr2 <- x.j[aiend]
+
+## 5-glied-MA-Zentrum
+mi0min <- aibeg + 2
+mi0max <- aiend - 2
+
+mi0    <-  f_rdunif(1,mi0min,mi0max)
+mi0beg <-  mi0 - 2
+mi0end <-  mi0 + 2
+z      <-  x[mi0beg:mi0end]
+
+quartal <- paste(x.q[mi0],".Quartal", sep="")
+quartal <- paste(quartal, x.j[mi0], sep=" ")
+
+quart   <- paste(x.j[mi0],"Q",x.q[mi0], sep="")
+
+wgd <- ( 0.5*z[1] + sum(z[2:4]) + 0.5*z[5] )/4  
+
+
+wgd_string <- paste("Gewichteter gleitender Durchschnitt: ", 
+round(wgd, digits = 1),
+  " (toleriert: ", round(wgd, digits = 1) - 0.1, " <= B <= ",
+  round(wgd, digits = 1) + 0.1, ")", sep = "")
+
+wgd <- round(wgd, digits=1)
+
+@
+
+\begin{question} 
+{\bf CH11-08:} Gegeben sind die vierteljährlichen Verkaufszahlen einer 
+französischen Firma, $Y_t$, von \Sexpr{jbeg} bis \Sexpr{jend}.  Ein 
+Datenauschnitt davon ist
+
+{\small
+\begin{center}
+\begin{tabular}{c|cccc|cccc}
+Jahr    & \multicolumn{4}{c|}{\Sexpr{ajahr1}} & 
+          \multicolumn{4}{c}{\Sexpr{ajahr2}} \\
+\hline
+Quartal & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 \\
+\hline 
+$Y_t$   & \Sexpr{y[1]}  & \Sexpr{y[2]}  & \Sexpr{y[3]}  & \Sexpr{y[4]} & 
+          \Sexpr{y[5]}  & \Sexpr{y[6]}  & \Sexpr{y[7]}  & \Sexpr{y[8]} \\ 
+\hline
+\end{tabular} \end{center}
+}
+
+\vspace{0.5cm}
+
+Glätten Sie die Reihe mit Hilfe eines gleitenden Durchschnitts. 
+Berücksichtigen  Sie dabei die saisonale Struktur.
+Geben Sie nur den Wert der Glättung für das \Sexpr{quartal} an. 
+
+
+
+\end{question}
+
+
+\begin{solution}
+Hier ist der gewichtete gleitende Durchschnitt für Quartalsdaten, $s=4$, zu 
+verwenden. Er lautet
+$$ T_t = \frac{1}{4}[0.5 \cdot Y_{t-2} + Y_{t-1} + Y_{t} + 
+                               Y_{t+1} + 0.5 \cdot Y_{t+2}]$$
+Der gewünschte Zeitpunkt $t$ ist das \Sexpr{quartal}. \\
+Damit 
+$$ T_{\Sexpr{quart}} = ( 0.5 \cdot \Sexpr{z[1]} + \Sexpr{z[2]} + 
+          \Sexpr{z[3]} + \Sexpr{z[4]} + 0.5 \cdot \Sexpr{z[5]} )/4 = 
+\Sexpr{wgd}$$
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(wgd)}}
+%% \exstring{\Sexpr{wgd_string}}

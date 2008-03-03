@@ -1,0 +1,219 @@
+
+<<echo=FALSE, results=hide>>=
+
+question0    <- character(5)
+questions    <- character(5)
+solutions    <- logical(5)
+explanations <- character(5)
+expl         <- character(6)
+
+nobs <- 60 
+## 1 GENERATED SERIES
+# exp smoothing with alpha=0.2 
+alpha = 0.20
+
+f_expg9 <- function(nobs, alpha) {
+## generates an IMA(1,1)  y = y(-1) + e + b*e(-1), b=alpha-1
+## 
+##   without scaling
+  maxtrials <- 100;
+  time      <- c(1:nobs)
+  b         <- alpha - 1
+  y         <- c(0,0*2:nobs);
+
+      em1  <- f_rbeta_n(1,mean=0,sd=1);
+      y[1] <- 0
+      for (i in 2:nobs) {
+##    u      <- rnorm(nobs, mean=0, sd=1);
+          e0   <- f_rbeta_n(1,mean=0,sd=1);
+          y[i] <- y[i-1] + e0 + b*em1 
+          em1   <- e0
+          }
+      y; 
+  }
+
+x      <-  f_expg9(nobs, alpha) 
+xstart <- 1;         xfreq <- 1;
+x.ts <-  ts( x, start=xstart, freq=xfreq)
+
+expsm <- function(x,xalpha,xstart,xfreq) {
+    hw <- HoltWinters(x,alpha=xalpha,beta=0,gamma=0) 
+    hwf <- ts( c( fitted(hw)[,1],coefficients(hw) ) , 
+                  start=xstart,freq=xfreq)  
+    }
+  
+# Testplot
+#op <- par(mfrow = c(1, 2), mar = c(4.1, 4.1, 1.0, 1.1) )
+#  plot(x.ts, main=" Glättung mit alpha=0.2")
+#  tsm2 <- expsm(x.ts,0.2,xstart,xfreq)
+#  lines(tsm2,col=4)
+#
+#  plot(x.ts, main=" Glättung mit alpha=0.75")
+#  tsm8 <- expsm(x.ts,0.75,xstart,xfreq)
+#  lines(tsm8,col=4)
+#  par(op)
+
+## MC
+
+## 5 possibilties to answer
+
+if (runif(1) > 0.5) {
+  question0[[1]] <- "Je grö{\\\\ss}er $\\\\alpha$, desto 
+  besser die Glättung."
+  solutions[1]  <- FALSE
+  explanations[[1]] <-" Das 'beste' 
+    $\\\\alpha$ hängt von der Dynamik der Reihe ab. Daher ist die 
+    Aussage im Allgemeinen nicht richtig. Hier im Speziellen scheint 
+    $\\\\alpha=0.2$ ein brauchbares Ergebnis zu liefren."
+                    } else {
+  question0[[1]] <- "$\\\\alpha=0.2$, liefert eine brauchbare 
+  Glättung der Reihe."
+  solutions[1]  <- TRUE
+  explanations[[1]] <-"Ja, $\\\\alpha=0.2$ liefert eine brauchbare 
+  Glättung der Reihe. "
+                    } 
+if (runif(1) > 0.5) {
+  question0[[2]] <- "Eine Glättung hat zum Ziel irreguläre Effekte 
+  herauszufiltern und ein Trendverhalten besser sichtbar zu machen. 
+  Das gelingt hier mit $\\\\alpha=0.75$ besser."
+  solutions[2]  <- FALSE
+  explanations[[2]]<- "Der erste Satz ist richtig. Die Verwendung von 
+  $\\\\alpha=0.75$ liefert kaum eine Glättung. Die geglättete Reihe 
+  ist von der beobachteten kaum zu unterscheiden, daher falsch." 
+                   } else {
+  question0[[2]] <- "Die exponentielle Glättung liefert bei 
+  saisonalen Reihen die saisonalen Komponenten an den einzelnen 
+  Frequenzen." 
+  solutions[2]  <- FALSE
+  explanations[[2]]<- "Die exponentielle Glättung dient zur Ermittlung 
+  eines mittelfristigen Trends und nicht von Saisonmustern."
+                     }
+if (runif(1) > 0.5) {
+  question0[[3]] <- "$(1-\\\\alpha)$ gibt an, wie stark lange 
+  zurückliegende Werte der Reihe in die Glättung einbezogen werden. 
+  Ist $\\\\alpha=0.2$ folgt $(1-\\\\alpha)=0.8$, und damit  
+  spielen vergangene Werte eine grö{\\\\ss}ere Rolle als unter 
+  $\\\\alpha=0.75$."
+  solutions[3]  <- TRUE 
+  explanations[[3]] <- "Ist richtig. Siehe Erklärung oben."
+                   } else {
+  question0[[3]] <- " $(1-\\\\alpha)$ gibt an, wie stark aktuelle 
+  Werte der Reihe in die Glättung einbezogen werden. 
+  Ist $\\\\alpha=0.2$ folgt $(1-\\\\alpha)=0.8$, und damit  
+  spielen aktuelle Werte eine grö{\\\\ss}ere Rolle als unter 
+  $\\\\alpha=0.75$."
+  solutions[3]  <- FALSE
+  explanations[[3]] <- "Ist nicht richtig. Siehe  Erklärung oben."
+                     }  
+if (runif(1) > 0.5) {                
+  question0[[4]] <- "$\\\\alpha$ gibt an, wie stark der aktuelle Werte in die 
+  Glättung einbezogen wird. $\\\\alpha=0.2$ bedeutet, dass der aktuelle 
+  Wert nur zu 20 Prozent eingeht."
+  solutions[4]  <- TRUE   
+  explanations[[4]] <- "Ist richtig. Siehe  Erklärung oben."
+                    } else {
+  question0[[4]] <- "$\\\\alpha$ gibt an, wie stark vergangene Werte in die 
+  Glättung einbezogen wird. $\\\\alpha=0.2$ bedeutet, dass der vernagangene Wert 
+  Wert zu 20 Prozent eingeht."
+  solutions[4]  <- FALSE  
+  explanations[[4]] <- "Ist nicht richtig. Siehe  Erklärung oben."
+                    } 
+question0[[5]] <- "$\\\\alpha$ bzw.\\\\ $(1-\\\\alpha)$ gewichten den aktuellen 
+  Wert bzw.\\\\ den letzten Glättungsfehler."
+solutions[5]  <- TRUE  
+explanations[[5]] <- "Ist richtig. Siehe  Erklärung oben."
+
+questions <- question0
+
+## QUESTION/ANSWER GENERATION
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+
+
+qu1 <- as.vector(questions[[1]])
+qu2 <- as.vector(questions[[2]])
+qu3 <- as.vector(questions[[3]])
+qu4 <- as.vector(questions[[4]])
+qu5 <- as.vector(questions[[5]])
+
+@
+
+\begin{question} 
+
+{\bf CH11-09:} Gegeben ist eine Reihe, $Y_t$, für die zwei verschiedene 
+exponentielle Glättungen brechnet werden. Einmal wird $\alpha=0.2$ 
+und einmal $\alpha=0.75$ verwendet. Die Ergebnisse zeigt die Graphik.
+
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+\footnotesize
+
+<<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
+op <- par(mfrow = c(1, 2), mar = c(4.1, 4.1, 1.0, 1.1) )
+  plot(x.ts, main=" Glättung mit alpha=0.2")
+  tsm2 <- expsm(x.ts,0.2,xstart,xfreq)
+  lines(tsm2,lty=2)
+  plot(x.ts, main=" Glättung mit alpha=0.75")
+  tsm8 <- expsm(x.ts,0.75,xstart,xfreq)
+  lines(tsm8,lty=2)
+  par(op)
+@
+\end{center}
+\end{figure}
+
+Vergleichen Sie beide Glättungsvarianten mit dem beobachteten Verlauf. 
+Welche der angegebenen Aussagen treffen hier zu?
+
+\begin{itemize}
+  \item[(a)] \Sexpr{qu1[1]}
+  \item[(b)] \Sexpr{qu2[1]}
+  \item[(c)] \Sexpr{qu3[1]}
+  \item[(d)] \Sexpr{qu4[1]}
+  \item[(e)] \Sexpr{qu5[1]}
+\end{itemize}
+
+\end{question}
+
+
+
+%% SOLUTIONS
+\begin{solution}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
+\end{itemize}
+
+{\bf Erklärungen:}\\
+Die exponentiell geglättete Reihe, $L_t$, ergibt sich 
+als 
+$$L_t = \alpha \cdot Y_t + (1-\alpha) \cdot (Y_{t-1} - L_{t-1})$$
+Dabei gewichten $\alpha$ und $(1-\alpha)$ jeweils den aktuellen Wert bzw.\ 
+den zuletzt gemachten Glättungsfehler. Ist $\alpha$ gro{\ss}, so erhält 
+$Y_t$ ein gro{\ss}es Gewicht (aktuelle Werte sind wichtig)  und die weit 
+zurückliegenden - sie sind in $L_{t-1}$ enthalten - bekommen ein geringes 
+Gewicht (vergangene Werte sind weniger wichtig). 
+Das umgekehrte trifft zu, wenn $\alpha$ klein ist.\\
+
+Zu den Aussagen:
+\begin{itemize} 
+ \item[] {\it Aussage 1:}\\   \Sexpr{explanations[[1]]}
+ \item[] {\it Aussage 2:}\\   \Sexpr{explanations[[2]]}
+ \item[] {\it Aussage 3:}\\   \Sexpr{explanations[[3]]} 
+ \item[] {\it Aussage 4:}\\   \Sexpr{explanations[[4]]}  
+ \item[] {\it Aussage 5:}\\   \Sexpr{explanations[[5]]} 
+\end{itemize}
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}

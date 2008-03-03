@@ -1,0 +1,276 @@
+
+<<echo=FALSE, results=hide>>=
+## Holt-Winters Interpretation der Glaettungsparameter
+## Gegeben: Y_t, t=1,...,T 
+## zeige nur 1-Schrittprognosen
+## Interpratiere alpha, beta und gamma, aehnlich wie ch11-10
+## vgl ch11-14
+
+## OBSERVED TIME SERIES
+# FSALES.DAT MWH
+# Verkaufszahlen einer franzoesischen Firma, Quartalsdaten
+# 1.Beob == 1.Quartal, nur volle Jahre
+# source("c:/BA-Stat/R-Bsps/functions.R")
+
+# orig Daten
+nj <- 6
+d10 <- c(1,0,0,0)
+d1 <- rep( d10, nj)
+d20 <- c(0,1,0,0)
+d2 <- rep( d20, nj)
+d30 <- c(0,0,1,0)
+d3 <- rep( d30, nj)
+d40 <- c(0,0,0,1)
+d4 <- rep( d40, nj)
+
+x     <- c( 
+ 362, 385, 432, 341,
+ 382, 409, 498, 387,
+ 473, 513, 582, 474,  
+ 544, 582, 681, 557, 
+ 628, 707, 773, 592, 
+ 627, 725, 854, 661  )  
+nobs0      <- length( x )
+
+t <- c(1:nobs0)/4 
+
+sreg <- lm(x ~ d1+d2+d3+d4+t-1)
+#summary(sreg)
+rsd <- sd( resid(sreg) )
+a1 <- sreg$coeff[1]
+a2 <- sreg$coeff[2]
+a3 <- sreg$coeff[3]
+a4 <- sreg$coeff[4]
+a5 <- sreg$coeff[5]
+
+# pre-data
+
+nj9 <- 25
+d1 <- rep( d10, nj9)
+d2 <- rep( d20, nj9)
+d3 <- rep( d30, nj9)
+d4 <- rep( d40, nj9)
+t9 <- c(-(nj9*4-1):0)/4
+y  <- a1*d1 + a2*d2 + a3*d3+ a4*d4 + a5*t9 + f_rbeta_n(nj9*4,0,rsd)
+
+
+nobs0      <- length( x )         # i =1,...,nobs
+nobsjahre0 <- floor(nobs0/4)      # nur ganze Jahre
+nobsi0     <- nobsjahre0*4
+
+# nur 3 Jahre davon auswaehlen
+nj <- 3
+ii <- f_rdunif(1,1,4)
+be  <- (ii-1)*4 + 1
+ee  <- be + 4*nj - 1
+
+#        1,5,9
+xe  <- x[ be   : ee]
+
+nobse      <- length( xe )      # i =1,...,nobs
+nobsejahre <- floor(nobse/4)    # nur nj ganze Jahre
+nobsei     <- nobsejahre*4
+
+## MC
+datbeg2 <- 2007 + 1 - nj  # 4 ganze Jahre  bis inkl 2007
+datbeg1 <- datbeg2 - 5
+
+jbeg <-  f_rdunif(1,datbeg1,datbeg2)
+jend <-  jbeg - 1 + round( nobse/4, digits=0)
+xe.ts  <- ts( xe, start=jbeg,freq=4 ) 
+xeh.ts <- ts(  c(xe.ts,NA), start=jbeg,freq=4  )
+xe.j  <- floor( time(xe.ts) )
+xe.q  <- (time(xe.ts) - xe.j)*4 + 1
+xeh.j <- c( rep( c(jbeg:jend), each=4), (jend+1) )
+xeh.q <- c( rep( c(1:4), jend-jbeg+1), 1 )
+xeh.l <- c(0*1:((jend-jbeg+1)*4+1))
+for (i4 in 1:((jend-jbeg+1)*4+1) ) 
+  { xeh.l[i4] <- paste( xeh.j[i4],"Q",xeh.q[i4],sep="") }
+#tl1   <-  paste(xa.j[1],"/1/1",sep="")
+#tl2   <-  paste(xa.j[length(xe.j)],"/10/1",sep="")
+#llist <-  paste(xa.j,"Q",xe.q,sep="")
+#timlab <- seq(as.Date("2000/1/1"), as.Date("2003/1/1"), by="3 months")
+#timlab <- seq(as.Date(tl1), as.Date(tl2), by="3 months")
+
+#computes forecast of   xe
+xehw  <-  HoltWinters( xe.ts ) 
+xehwf <- fitted(xehw)
+# lshh$SSE , print(lshh), plot(lshh), plot(fitted(lshh)), print(lshhp)
+xehwp   <- predict(xehw, 1,prediction.interval=FALSE)
+#xehwpa  <- ts( c(xe,xehwp), start=jbeg, freq=4)
+xehwfp  <- ts( c(NA,NA,NA,NA,xehwf[,1],xehwp[1]), start=jbeg, freq=4)
+
+print(xehw)
+
+
+
+#PLOT
+ylim = range( c(range(xe.ts), range(xehwp[1]),range(xehwf[,1]) ) )
+
+op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.0, 1.1))
+##plot.ts( xehw, xehwp, xylanels=llist, ylab="Verkaeufe")
+# observed
+#plot.ts(xeh.ts,ylab="Verkäufe",lty=1,axes=FALSE, ylim = ylim)
+# 1-step ahead fc
+#lines(xehwfp, lty=2)
+#axis(1,at=time(xeh.ts),labels=xeh.l)
+#axis(2)
+par(op)
+
+
+
+    
+#seq(as.Date("2000/1/1"), as.Date("2003/1/1"), by="3 months")
+
+#data.frame(llist,xa)
+#plot(llist,xa)
+#plot( structure(xa, .Names=llist), type="l" )
+#barplot( structure(xa, .Names=llist) )
+
+eps <- 0.001
+f_round03 <- function(x) 
+     { 
+     eps <- 0.001; if (x > 0 & x < eps) {x <- eps}; x
+     }
+
+for (ii in 1:100) {
+# aus 31 Jahren 15 auswaehlen
+yh  <- ts(c(y,x),start=c(1970,1),freq=4)
+ybegj <- f_rdunif(1,1970,1985) 
+yw  <- window( yh, start= c(ybegj,1), end=c(ybegj+14,4))
+xehw <- HoltWinters( yw)
+
+ga <- round( f_round03(xehw$alpha), digits=3)
+gb <- round( f_round03(xehw$beta),  digits=3)
+gg <- round( f_round03(xehw$gamma), digits=3)
+
+if (ga < 0.5 && gb < 0.5 && gg < 0.5) break
+}
+
+########################################################
+
+questions    <- character(5)
+solutions    <- logical(5)
+explanations <- character(5)
+expl         <- character(6)
+
+questions[1] <- "Der Trend wird stärker geglättet als das Niveau."
+questions[2] <- "Die aktuelle Steigung erhält in der Trendgleichung 
+  ein gro{\\\\ss}es Gewicht."
+questions[3] <- "Die Saison ist wenig stabil und wird stark angepasst."
+questions[4] <- "Die Summe der quadrierten 1-Schritt Prognosefehler 
+                 wird minimiert."
+questions[5] <- "Die saisonale Fequenz ist $s=12$."
+qurest       <- "Keine der Antworten trifft zu."
+
+solutions[1] = FALSE
+if (gb < ga) {solutions[1] = TRUE}
+solutions[2] = FALSE
+if (gb > 0.6) {solutions[2] = TRUE}
+solutions[3] = FALSE
+if (gg > 0.6) {solutions[3] = TRUE}
+solutions[4] = TRUE
+solutions[5] = FALSE
+
+solrest  <- TRUE
+
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+
+ic <- 0
+for (ii in 1:5) { if (solutions[ii] == FALSE) {ic <- ic +1 } }
+if (ic == 5) {
+    solutions[5] <- solrest
+    questions[5] <- qurest
+              }
+
+@
+
+\begin{question} 
+
+{\bf CH11-14:} Gegeben sind die vierteljährlichen Verkaufszahlen, $Y_t$, einer 
+französischen Firma für die Periode 1.Quartal \Sexpr{jbeg} bis 4.Quartal 
+\Sexpr{jend}. Dazu  werden 
+mit dem Verfahren von Holt-Winters die optimalen 1-Schritt Prognosen 
+berechnet. 
+Der Graph zeigt die beobachtete Reihe und die 1-Schritt Prognosen. 
+
+<<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
+
+op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.0, 1.1))
+# observed
+plot.ts(xeh.ts,ylab="Verkäufe",lty=1,axes=FALSE, ylim = ylim)
+# 1-step ahead fc
+lines(xehwfp, lty=2)
+axis(1,at=time(xeh.ts),labels=xeh.l)
+axis(2)                                      
+par(op)
+
+@
+
+Holt-Winters errechnet folgende Glättungsparameter:
+$$\alpha = \Sexpr{ga} \hspace{3ex} 
+  \beta  = \Sexpr{gb} \hspace{3ex} 
+  \gamma = \Sexpr{gg} $$
+
+Interpretieren Sie diese Werte.
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+  \end{itemize}
+
+\end{question}
+
+\begin{solution}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{solutions[1]}
+  \item[(b)] \Sexpr{solutions[2]}
+  \item[(c)] \Sexpr{solutions[3]}
+  \item[(d)] \Sexpr{solutions[4]}
+  \item[(e)] \Sexpr{solutions[5]}
+  \end{itemize}
+
+{\bf Erklärung:}\\
+Das Modell von Holt-Winters hat 3 Glättungsparameter: 
+$\alpha$, $\beta$ und $\gamma$ mit $0 \le \alpha, \beta, \gamma \le 1$.\\  
+$\alpha$ bestimmt die Glättung des 
+Niveaus, $\beta$ die Glättung der (lokalen) Steigung in der Trendgleichung, 
+und $\gamma$ ist der Glättungsparameter für die Saisonkomponente.\\
+$s$ gibt die Periodenlänge der Saison an. Hier ist sie 4, $s=4$.
+
+\begin{center}
+\begin{math}
+\begin{array}{lc@{=}l}
+\mbox{Niveau:}   & L_t    \;\; & \;\; \alpha \cdot (Y_t - S_{t-s}) + 
+                              (1-\alpha) \cdot (L_{t-1} + b_{t-1}) \\ 
+\mbox{Trend:}    & b_t    \;\; & \;\; \beta  \cdot (L_t - L_{t-1}) + 
+                               (1-\beta) \cdot b_{t-1} \\
+\mbox{Saison:}   & S_t    \;\; & \;\; \gamma \cdot (Y_t - L_t)  
+                                  + (1-\gamma) \cdot S_{t-s}\\
+\mbox{Prognose:} & Y_t(r)\;\; & \;\; L_t + b_t \cdot r + S_{t-s+r}     \\
+\end{array} 
+\end{math}
+\end{center}
+
+Kleine Werte von $\alpha$, $\beta$, bzw.~ $\gamma$ bedeuten 
+\begin{itemize}
+\item ein geringes Gewicht für den jeweiligen aktuellen Wert, 
+\item ein langes Gedächtnis in der jeweiligen Komponente, 
+\item eine starke Glättung in der jeweiligen Komponente.
+\end{itemize}
+Das umgekehrte trifft für gro{\ss}e Parameterwerte zu.
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+
+

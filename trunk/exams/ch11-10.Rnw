@@ -1,0 +1,155 @@
+
+<<echo=FALSE, results=hide>>=
+## Y_t = T_t + S_t + E_t
+## Gegeben: Y_t, T_t, Quartalsdaten
+## Thema: Saisonbereinigung/Berechnung der Saisonkomponenten fuer 
+##                          Qartalsdaten
+## Gesucht: S_q
+## Zu tun: (1) (S_t + E_t) = Y_t - T_t
+##         (2)  S_q = Mean( (Y_t - T_t) )
+
+## OBSERVED TIME SERIES
+# FSALES.DAT MWH
+# Verkaufszahlen einer franzoesischen Firma, Quartalsdaten
+# 1.Beob == 1.Quartal
+x     <- c( 
+ 362, 385, 432, 341,
+ 382, 409, 498, 387,
+ 473, 513, 582, 474,  
+ 544, 582, 681, 557, 
+ 628, 707, 773, 592, 
+ 627, 725, 854, 661  )  
+nobs <- length( x )         # i =1,...,nobs
+nobsjahre <- floor(nobs/4)  # nur ganze Jahre
+
+## MC
+datbeg2 <- 2007 + 1 - nobsjahre  # Ganze Jahre  bis inkl 2007
+datbeg1 <- datbeg2 - 5
+
+jbeg <-  f_rdunif(1,datbeg1,datbeg2)
+jend <-  jbeg - 1 + round( nobs/4, digits=0)
+x.ts <- ts( x, start=jbeg,freq=4 )
+x.j  <- floor( time(x.ts) )
+x.q  <- (time(x.ts) - x.j)*4 + 1
+
+# computes smoothed series for x, w5-MA
+# with weighted 5 MA, 
+f_w5ma <- function(nobs,x) {
+     sa <- c(0*1:nobs)
+     for (i in 3:(nobs-2)) { 
+         sa[i] <- 0.5*x[i-2] + sum( x[(i-1):(i+1)] ) + 0.5*x[i+2]
+         sa[i] <- sa[i]/4
+         }
+      sa;
+      }
+        
+x.t <- round( f_w5ma(nobs,x), digits=2 )
+
+# j  1990 1991 1993 ... 2005 2006                _j  : 1990...2006 
+# x  x[1]                    x[27]        x[_t]  _t  :    1...  27
+#
+#         ybeg_j     ... yend_j
+#         y[1]           y[7] 
+
+## Daten-Ausschnitt
+anobs     <- 12   # 3 ganze Jahre
+aibegmin  <- 1 + 4                   # das 1.Jahr nicht 
+# (MA-Glättung veliert Werte zu Beginn)
+aibegmax  <- nobs - anobs + 1 - 4    # das letzte Jahr nicht
+
+aibeg  <- f_rdunif(1,aibegmin,aibegmax)
+aibeg  <- floor( (aibeg-1)/4 )*4 + 1    # nur ganze Jahre
+aiend  <- aibeg + anobs - 1
+# fuer den Bsp-Text
+y      <- x[aibeg:aiend]      # fuer die LaTex-Tabelle
+t      <- x.t[aibeg:aiend]
+t      <- round(t, digits=0)
+
+ajahr1 <- x.j[aibeg]
+ajahr2 <- x.j[aibeg+4]
+ajahr3 <- x.j[aiend]
+
+## 
+q0      <-  f_rdunif(1,1,4)
+quartal  <- paste(q0,".Quartal", sep="")
+quartals <- paste(quartal,"s",sep="") 
+d  <- y - t
+
+s.q0 <- mean( d[ seq(q0,12,by=4) ] )
+
+wgd <- s.q0
+
+
+wgd_string <- paste("Saisonkomponente: ", 
+round(wgd, digits = 1),
+  " (toleriert: ", round(wgd, digits = 1) - 0.1, " <= B <= ",
+  round(wgd, digits = 1) + 0.1, ")", sep = "")
+
+wgd <- round(wgd, digits=1)
+
+@
+
+\begin{question} 
+{\bf CH11-10:} Gegeben sind die vierteljährlichen Verkaufszahlen einer 
+französischen Firma, $Y_t$, für die Periode \Sexpr{jbeg} bis \Sexpr{jend}.  
+Ein 
+Datenauschnitt daraus ist unten gegeben. Dazu wurde bereits eine 
+geeignete (gerundete) Glättung, $T_t$, ermittelt. 
+
+{\small
+\begin{center}
+\begin{tabular}{c|cccc|cccc|cccc|}
+       & \multicolumn{4}{c|}{\Sexpr{ajahr1}} & 
+          \multicolumn{4}{c|}{\Sexpr{ajahr2}} &
+          \multicolumn{4}{c|}{\Sexpr{ajahr3}}  \\
+\hline
+  Q     & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 & 1 & 2 & 3 & 4 \\
+\hline 
+$Y_t$   & \Sexpr{y[1]}  & \Sexpr{y[2]}  & \Sexpr{y[3]}  & \Sexpr{y[4]}  
+        & \Sexpr{y[5]}  & \Sexpr{y[6]}  & \Sexpr{y[7]}  & \Sexpr{y[8]} 
+        & \Sexpr{y[9]}  & \Sexpr{y[10]} & \Sexpr{y[11]} & \Sexpr{y[12]} 
+        \\ 
+\hline 
+$T_t$   & \Sexpr{t[1]}  & \Sexpr{t[2]}  & \Sexpr{t[3]}  & \Sexpr{t[4]}  
+        & \Sexpr{t[5]}  & \Sexpr{t[6]}  & \Sexpr{t[7]}  & \Sexpr{t[8]} 
+        & \Sexpr{t[9]}  & \Sexpr{t[10]} & \Sexpr{t[11]} & \Sexpr{t[12]} 
+        \\ 
+\hline
+\end{tabular} \end{center}
+ }
+ 
+\vspace{0.3cm}
+
+Geben Sie die Saisonkomponenten der 4 Quartale an.\\ 
+Als Lösung tragen Sie nur den Wert des \Sexpr{quartals} ein.
+
+\end{question}
+
+\begin{solution}
+
+Es gilt im additiven Komponentenmodell
+$$ Y_t = T_t + S_t + E_t \hspace{3ex} \mbox{bzw.~} \hspace{3ex} 
+    (Y_t - T_t) = S_t + E_t$$
+$(Y_t - T_t)$ bezeichnet man als trendbreinigte Reihe.
+Da der durchschnittliche Fehler $E_t$ als null angenommen wird, erhält 
+man $S_t$ durch geeignete Mittelung. 
+Die Saisonkomponente eines Quartals ergibt sich als arithmetisches 
+Mittel der trendbereinigten Reihe für das jeweils 
+fix gewählte Quartal. Allgemein gilt
+$$S(q) = \frac{1}{J} \sum_{j=1}^J (Y_{j.q} - T_{j.q}) $$
+
+Für die Berechnung der Saisonkomponente des \Sexpr{quartals} halten 
+wir $q=\Sexpr{q0}$ fest und mitteln die Differenz 
+$(Y_{j.\Sexpr{q0}}-T_{j.\Sexpr{q0}})$ über 
+alle 3 Jahre, $j=\Sexpr{ajahr1},\Sexpr{ajahr2},\Sexpr{ajahr3}$. 
+$$S(\Sexpr{q0}) = [ (\Sexpr{d[q0]}) + (\Sexpr{d[q0+4]}) + 
+                     (\Sexpr{d[q0+8]}) ] /3 
+   = \Sexpr{wgd}$$
+Der Wert der Saisonkomponente im \Sexpr{quartal} beträgt $\Sexpr{wgd}$.
+ 
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(wgd)}}
+%% \exstring{\Sexpr{wgd_string}}

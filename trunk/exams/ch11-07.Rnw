@@ -1,0 +1,114 @@
+
+<<echo=FALSE, results=hide>>=
+
+questions    <- character(5)
+solutions    <- logical(5)
+explanations <- character(5)
+expl         <- character(6)
+
+## OBSERVED DATA
+# Erneuerbare Energie, Summe Stromerzeugung in GWh, DE, 1990-2006, J
+# http://www.erneuerbare-energien.de/files/erneuerbare_energien/downloads/application/pdf/broschuere_ee_zahlen.pdf S.14
+# geeignet für ein exponentielles Wachstum
+# 1 GWh = (10^3)^3 Wh, 1TWh = (10^3)^4 Wh 
+nobs  <-  17
+datbeg <- 1990
+datend <- datbeg+nobs-1
+x   <- c( 18463, 17492, 20378, 21246, 23018, 
+          25431, 23219, 24505, 26913, 30511, 
+          36679, 39073, 45760, 48654, 57529, 
+          63569, 70433 )
+## Zeit-Index händisch zu rechnen:  x[i]  <- Reihe[ jahr - 1990 + 1 ] 
+x <- ts( x, start=datbeg,freq=1 )
+x <- round( x/1000, digits=1)
+
+# j  1990 1991 1993 ... 2005 2006                _j  : 1990...2006 
+# x  x[1]                    x[27]        x[_t]  _t  :    1...  27
+#
+#         ybeg_j     ... yend_j
+#         y[1]           y[7] 
+
+alpha <- round( f_rdunif(1,1,9)/10, digit=1)
+
+f_j2t <- function(j) { t <- j-1990+1; t}
+
+beg_j <- f_rdunif(1,datbeg,datend-7+1)
+end_j <- beg_j + 6
+j     <- c(beg_j:end_j)
+
+beg_t <- f_j2t(beg_j)
+end_t <- f_j2t(end_j)
+y     <- x[beg_t:end_t]
+
+e    <- c(0*1:3)
+e[1] <- y[1]
+for (i in 2:3) { e[i] = alpha*y[i] + (1-alpha)*e[i-1] }
+e3  <- e[3]
+ytbr <- y[3] - e3
+
+ytbr_string <- paste("Wert der trendbereinigten Reihe: ", 
+  round(ytbr, digits = 1),
+  " (toleriert: ", round(ytbr, digits = 1) - 0.2, " <= B <= ",
+  round(ytbr, digits = 1) + 0.2, ")", sep = "")
+
+e3   <- round(e3, digits=1)
+ytbr <- round(ytbr, digits = 1)
+
+# Bsp:
+#r2 <- 1 - rss1/rss0
+#r2_string <- paste("Bestimmtheitsmass: ", round(r2, digits = 3),
+#  " (toleriert: ", round(r2, digits = 3) - 0.01, " <= B <= ",
+#  round(r2, digits = 3) + 0.01, ")", sep = "")
+
+@
+
+\begin{question}
+{\bf CH11-07:} 
+Gegeben ist die jährliche Stromerzeugung aus erneuerbarer Energie für 
+Deutschland in TWh, $Y_t$, von \Sexpr{j[1]} bis \Sexpr{j[7]}. 
+Bereinigen Sie die Reihe 
+um den Trend mittels exponentieller Glättung. Wählen Sie für 
+$\alpha =\Sexpr{alpha}$.
+
+\begin{center}
+{\small
+\begin{tabular}{c|ccccccc}
+\hline
+ Jahr & \Sexpr{j[1]} & \Sexpr{j[2]} & \Sexpr{j[3]} & \Sexpr{j[4]} & \Sexpr{j[5]} 
+      & \Sexpr{j[6]} & \Sexpr{j[7]} \\
+\hline 
+$Y_t$ & \Sexpr{y[1]} & \Sexpr{y[2]} & \Sexpr{y[3]} & \Sexpr{y[4]} & \Sexpr{y[5]} 
+      & \Sexpr{y[6]} & \Sexpr{y[7]} \\
+\hline
+\end{tabular}
+}
+\end{center}
+
+Geben Sie nur den Wert der trendbereinigten Reihe für das Jahr \Sexpr{j[3]} an.
+
+\end{question}
+
+\begin{solution}
+Unser Modell ist
+$$Y_t = T_t + S_t + E_t$$
+Die Trendbereiningung erhält man nach Subtraktion der Glättung $T_t$ von 
+der ursprünglichen Reihe, $(Y_t - T_t)$. $T_t$ ergibt sich hier aus der exponentiellen Glättung mit $T_t=L_t$.\\
+Die Formel für die exponentielle Glättung ist mit dem Anfangswert $L_1 = y_1$   
+$$L_{t} = \alpha \cdot y_{t} + (1-\alpha)\cdot L_{t-1}, 
+\quad 0 < \alpha \le 1, \quad t=2,3,\ldots$$
+Daher ist\\
+$L_1 = Y_1 = \Sexpr{y[1]}$,\\
+$L_2 = \Sexpr{alpha} \cdot \Sexpr{y[2]} + (1-\Sexpr{alpha})\cdot \Sexpr{e[1]} = 
+ \Sexpr{e[2]}$,\\
+$L_3 = \Sexpr{alpha} \cdot \Sexpr{y[3]} + (1-\Sexpr{alpha})\cdot \Sexpr{e[2]} 
+= \Sexpr{e3} $ \\
+Der gesuchte Wert der trendbereinigten Reihe für das Jahr \Sexpr{j[3]} ist daher
+$$TB_{\Sexpr{j[3]}} = (\Sexpr{y[3]} - \Sexpr{e3}) = \Sexpr{ytbr}$$
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(ytbr)}}
+%% \exstring{\Sexpr{ytbr_string}}

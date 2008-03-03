@@ -1,0 +1,84 @@
+
+<<echo=FALSE, results=hide>>=
+
+questions    <- character(5)
+solutions    <- logical(5)
+explanations <- character(5)
+expl         <- character(6)
+
+## DATA GENERATION
+
+## INIT
+nobs  <-  10
+y   <- f_rdunif(10,10,20)
+monat  <- "Dezember"
+
+t0     <- f_rdunif(1,3,8)
+dd     <- c(10:14,17:21)
+d0     <- dd[t0]
+
+tbeg   <- t0 - 2
+tend   <- t0 + 2
+
+d0_stg <- paste(d0,".",monat, sep="")
+
+fggd <- sum( y[tbeg:tend])/5
+
+fggd_string <- paste("Wert des 5-gliedrigen gleitenden Durchschnitts: ", 
+round(fggd, digits = 1),
+  " (toleriert: ", round(fggd, digits = 1) - 0.1, " <= B <= ",
+  round(fggd, digits = 1) + 0.1, ")", sep = "")
+
+fggd <- round(fggd, digits = 1)
+
+# Bsp:
+#r2 <- 1 - rss1/rss0
+#r2_string <- paste("Bestimmtheitsmass: ", round(r2, digits = 3),
+#  " (toleriert: ", round(r2, digits = 3) - 0.01, " <= B <= ",
+#  round(r2, digits = 3) + 0.01, ")", sep = "")
+
+@
+
+\begin{question}
+{\bf CH11-04:} Gegeben sind die täglichen Bestellungen von Ersatzakkus 
+für das Handymodell HDH 77 
+in der Periode 2.1.2007 bis 31.12.2007. Ein Datenausschnitt ist \\
+
+\begin{center}
+{\small
+\begin{tabular}{c|cccccccccc}
+      & \multicolumn{10}{c}{\Sexpr{monat} 2007} \\
+\hline
+      & Mo  & Di  & Mi  & Do  & Fr  & Mo  & Di  & Mi  & Do  & Fr \\   
+      & 10. & 11. & 12. & 13. & 14. & 17. & 18. & 19. & 20. & 21.\\
+\hline 
+$Y_t$ & \Sexpr{y[1]} & \Sexpr{y[2]} & \Sexpr{y[3]} & \Sexpr{y[4]} & \Sexpr{y[5]} & 
+        \Sexpr{y[6]} & \Sexpr{y[7]} & \Sexpr{y[8]} & \Sexpr{y[9]} & \Sexpr{y[10]}\\
+\hline
+\end{tabular}
+}
+\end{center}
+
+\vspace{0.5cm}
+
+Glätten Sie die Reihe mit einem 5-gliedrigen gleitenden Durchschnitt 
+und geben Sie nur den Wert der Glättung für den \Sexpr{d0_stg} an.
+
+\end{question}
+
+
+\begin{solution}
+
+Die Formel für den 5-gliedrigen gleitenden Durchschnitt ist 
+$$ T_t = \frac{1}{5}[Y_{t-2} + Y_{t-1} +Y_{t} + Y_{t+1} + Y_{t+2}]$$
+Für den \Sexpr{d0_stg} ergibt sich\\
+$$ T_{\Sexpr{d0_stg}} = ( \Sexpr{y[tbeg]}   + \Sexpr{y[tbeg+1]} + 
+          \Sexpr{y[t0]} + \Sexpr{y[tend-1]} + \Sexpr{y[tend]}   )/5 = 
+\Sexpr{fggd}$$
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(fggd)}}
+%% \exstring{\Sexpr{fggd_string}}
