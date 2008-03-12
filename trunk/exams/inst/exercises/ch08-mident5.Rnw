@@ -12,12 +12,15 @@ y4 <- c(x+rnorm(10,sd=3), x- 40+rnorm(10,sd=3), x- 90+rnorm(10,sd=3), x- 10+rnor
 fa <- rep( c(1:2,1:2), c(10,10,10,10) )
 fb <- rep( 1:2, c(20,20) )
 
+fzus <- rep(1:4, rep(10,4) )
+
 Marketing <- factor(fa, labels=c("Qualitaet","Preis") )
-Medium    <- factor(fb, labels=c("Zeitung","TV") )
+Medium    <- factor(fb, labels=c("Print","TV") )
+Zus       <- factor(fzus, labels=c("Qual-Print","Preis-Print","Qual-TV","Preis-TV") )
 
 dasm <- round(runif(1,min=0.51,max=4.49))
 
-if(dasm==1){y = y1
+if(dasm==1){Y = y1
             ndasm1=2
             ndasm2=3
             ndasm3=4
@@ -26,7 +29,7 @@ if(dasm==1){y = y1
             ndasmt2 ="Y ${\\\\sim}$ Marketing+Medium"
             ndasmt3 ="Y ${\\\\sim}$ Marketing*Medium"
             }
-if(dasm==2){y=y2
+if(dasm==2){Y = y2
             ndasm1=3
             ndasm2=4
             ndasm3=1
@@ -34,7 +37,7 @@ if(dasm==2){y=y2
             ndasmt3 ="Y ${\\\\sim}$ Marketing"
             ndasmt1 ="Y ${\\\\sim}$ Marketing+Medium"
             ndasmt2 ="Y ${\\\\sim}$ Marketing*Medium" }
-if(dasm==3){y=y3
+if(dasm==3){Y = y3
             ndasm1=4
             ndasm2=1
             ndasm3=2
@@ -42,7 +45,7 @@ if(dasm==3){y=y3
             ndasmt2 ="Y ${\\\\sim}$ Marketing"
             ndasmt3 ="Y ${\\\\sim}$ Medium"
             ndasmt1 ="Y ${\\\\sim}$ Marketing*Medium" }
-if(dasm==4){y=y4
+if(dasm==4){Y = y4
             ndasm1=1
             ndasm2=2
             ndasm3=3
@@ -63,11 +66,14 @@ explanations <- character(5)
 
 expl <- character(4)
 
-expl[1] <- "Nur der Haupteffekt von Faktor Marketing ist signifikant."
-expl[2] <- "Nur der Haupteffekt von Faktor Medium ist signifikant."
-expl[3] <- "Beide Haupteffekte Marketing und Medium sind signifikant, 
-            nicht jedoch der Wechselwirkungeffekt."                   
-expl[4] <- "Der Wechselwirkungeffekt ist signifikant."   
+expl[1] <- "Die Unterschiede zwischen Werbung über Qualität und Preis sind gro{\ss}, 
+            diejenigen zwischen TV und Printmedien nur gering."
+expl[2] <- "Die Unterschiede zwischen TV und Printmedien sind gro{\ss}, 
+            diejenigen zwischen Werbung über Qualität und Preis sind gering."
+expl[3] <- "Sowohl die Unterschiede zwischen Werbung über Qualität und Preis als 
+            auch die zwischen Printmedien- und TV-Werbung sind gro{\ss}."                   
+expl[4] <- "Die Unterschiede zwischen Werbung über Qualität und Preis hängen 
+            stark davon ab, ob in Printmedien oder im TV geworben wird."   
 
 
 if(runif(1) > 0.5) {
@@ -84,8 +90,8 @@ if(runif(1) > 0.5) {
 
 ## 2. richtiges modell inhaltlich identifizieren
 quest <- character(4)
-quest[1] <- "Das passende Modell lautet: nur Faktor Marketing hat einen Einfluss auf Y."
-quest[2] <- "Das passende Modell lautet: nur Faktor Medium hat einen Einfluss auf Y."
+quest[1] <- "Das passende Modell lautet: nur der Faktor Marketing hat einen Einfluss auf Y."
+quest[2] <- "Das passende Modell lautet: nur der Faktor Medium hat einen Einfluss auf Y."
 quest[3] <- "Das passende Modell lautet: die Faktoren Marketing und Medium haben additiv 
              einen Einfluss auf Y."               
 quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten von Y 
@@ -94,18 +100,7 @@ quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten vo
 
 ## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
 
-expl <- character(4)
-expl[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
-            Verkaufszahlen, wenn man Qualität mit Preis vergleicht. Beim Faktor Medium ist 
-            dieser Abfall von Zeitung zu TV nur schwach."
-expl[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
-            Verkaufszahlen, wenn man Zeitung mit TV vergleicht. Beim Faktor Marketing ist 
-            dieser Abfall von Qualität zu Preis nur schwach."
-expl[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
-            starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
-            des Faktors vergleicht."                   
-expl[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab, 
-            bei TV-Werbung ist Werbung über Preis besser."    
+
 
 if(runif(1) > 0.5) {
   questions[2] <- quest[dasm]
@@ -139,14 +134,14 @@ if(runif(1) > 0.5) {
 quest <- character(4)
 quest[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
              Verkaufszahlen, wenn man Qualität mit Preis vergleicht. Beim Faktor Medium ist 
-             dieser Abfall von Zeitung zu TV nur schwach."
+             dieser Abfall von Printmedien zu TV nur schwach."
 quest[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
-             Verkaufszahlen, wenn man Zeitung mit TV vergleicht. Beim Faktor Marketing ist 
+             Verkaufszahlen, wenn man Printmedien mit TV vergleicht. Beim Faktor Marketing ist 
              dieser Abfall von Qualität zu Preis nur schwach."
 quest[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
              starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
              des Faktors vergleicht."                   
-quest[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab, 
+quest[4] <- "Bei Werbung in Printmedien schneidet Werbung über Qualität besser ab, 
              bei TV-Werbung ist Werbung über Preis besser."    
  
 
@@ -200,35 +195,34 @@ sind noch zwei Fragen offen:
         niedrige Preis in der Werbung im Vordergrund stehen?
   \item Wo soll geworben werden (Faktor Medium)? 
         \\Soll haupsächlich über TV oder 
-        über Zeitungen geworben werden?
+        über Printmedien geworben werden?
   \end{itemize}
 
 Für jede Kombination der Faktoren werden Testmärkte gebildet 
 (d.h.: es gibt einen Testmarkt, in dem nur über Qualität und nur in 
-Zeitungen geworben wird, es gibt anderen Testmarkt, in dem nur über Qualität aber nur  
+Printmedien geworben wird, es gibt anderen Testmarkt, in dem nur über Qualität aber nur  
 im TV geworben wird, etc.).
 
-Die Verkaufszahlen Y in jeweils 10 Supermärkten pro Testmarkt werden beobachtet.
+Die Verkaufszahlen in jeweils 10 Supermärkten pro Testmarkt werden beobachtet.
 
-Als Methode kommt eine zweifache Varianzanalyse zum Einsatz.
+Der folgende Boxplot gibt einen Überblick über die Verkaufszahlen in den 
+vier Testmärkten. Da die Verteilungen in den Gruppen in etwa symmetrisch sind, 
+sind die Unterschiede zwischen Gruppenmedianen und Gruppenmittelwerten nur gering.
 
-Aus der folgenden Varianzanalysetabelle sollen die signifikanten  
-Effekte (Haupt- bzw. Wechselwirkungseffekte) abgeleitet werden.
 
-
-<<echo=FALSE>>=
-options(show.signif.stars = FALSE) 
-mab <- lm(y~Marketing*Medium)
-anova(mab)
+<<echo=FALSE,fig=TRUE>>=
+ 
+boxplot( Y~Zus, ylab="Verkaufszahlen")
 ##paste("Wir haben das Modell ",dasm)
 @
 
-Die durchschnittlichen Verkaufszahlen in den Testregionen enthält 
-die folgende Tabelle: 
 
-<<echo=FALSE>>= 
-round( tapply(y,list(Marketing,Medium),mean), digits=0 )
-@
+%%%Die durchschnittlichen Verkaufszahlen in den Testregionen enthält 
+%%%die folgende Tabelle: 
+
+%%%<<echo=FALSE>>= 
+%%%round( tapply(y,list(Marketing,Medium),mean), digits=0 )
+%%%@
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
 

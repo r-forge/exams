@@ -18,7 +18,7 @@ B <- factor(fb, labels=c("B1","B2") )
 
 dasm <- round(runif(1,min=0.51,max=4.49))
 
-if(dasm==1){y = y1
+if(dasm==1){Y = y1
             ndasm1=2
             ndasm2=3
             ndasm3=4
@@ -27,7 +27,7 @@ if(dasm==1){y = y1
             ndasmt2 ="Y ${\\\\sim}$ A+B"
             ndasmt3 ="Y ${\\\\sim}$ A*B"
             }
-if(dasm==2){y=y2
+if(dasm==2){Y = y2
             ndasm1=3
             ndasm2=4
             ndasm3=1
@@ -35,7 +35,7 @@ if(dasm==2){y=y2
             ndasmt3 ="Y ${\\\\sim}$ A"
             ndasmt1 ="Y ${\\\\sim}$ A+B"
             ndasmt2 ="Y ${\\\\sim}$ A*B" }
-if(dasm==3){y=y3
+if(dasm==3){Y = y3
             ndasm1=4
             ndasm2=1
             ndasm3=2
@@ -43,7 +43,7 @@ if(dasm==3){y=y3
             ndasmt2 ="Y ${\\\\sim}$ A"
             ndasmt3 ="Y ${\\\\sim}$ B"
             ndasmt1 ="Y ${\\\\sim}$ A*B" }
-if(dasm==4){y=y4
+if(dasm==4){Y = y4
             ndasm1=1
             ndasm2=2
             ndasm3=3
@@ -175,7 +175,7 @@ Mittelwertstabelle (in jeder Kombination der Faktorstufen liegen gleich viel
 Beobachtungen vor):
 
 <<echo=FALSE>>= 
-tapply(y,list(A,B),mean)
+tapply(Y,list(A,B),mean)
 @
 
 Unter den vier gegebenen Plots liegt der Interaktionsplot zu diesen Daten:

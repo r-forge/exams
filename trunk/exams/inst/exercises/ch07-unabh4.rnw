@@ -1,0 +1,175 @@
+<<echo=FALSE, results=hide>>=
+
+## DATA GENERATION
+
+nobs <- 300
+nrauch  <- rbinom(1,nobs,0.4)
+nkaffee <- rbinom(1,nobs,0.62)
+nrauchkaffee <- rbinom(1,nkaffee,0.44)
+
+a <- nrauchkaffee
+b <- nrauch-nrauchkaffee
+c <- nkaffee-nrauchkaffee
+d <- nobs-a-b-c
+
+ah <- c(a,b,c,d)
+
+kaffeenikotin <- matrix( ah, nr=2) 
+dimnames(kaffeenikotin)<-list( Kaffee  = c("Kaffeetrinker","Nichtkaffeetrinker"), 
+                               Nikotin = c("Raucher","Nichtraucher") ) 
+
+## QUESTION/ANSWER GENERATION
+homt <- chisq.test(kaffeenikotin, correct=F)
+
+x2 <- homt$statistic
+x2 <- round(x2,digits=2) 
+
+## QUESTION/ANSWER GENERATION
+
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+## 1. X2 interpretieren
+if(runif(1) > 0.5) {
+  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen $H_0$ als kleine."
+  solutions[1] <- T
+  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten Häufigkeiten und 
+  den unter $H_0$ erwarteten Häufigkeiten."
+} else {
+  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher für $H_0$ als kleine."
+  solutions[1] <- F
+  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten Häufigkeiten und 
+  den unter $H_0$ erwarteten Häufigkeiten."
+}
+
+
+## 2. df
+if(runif(1) > 0.5) {
+  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel beträgt 1."
+  solutions[2] <- T
+  explanations[2] <- "Bei einer 2x2-Tafel ist df = (2-1)*(2-1) = 1."
+} else {
+  questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel beträgt ",
+                         sample(2:4)[1]," .")
+  solutions[2] <- F
+  explanations[2] <- "Bei einer 2x2-Tafel ist df = (2-1)*(2-1)= 1."
+}
+
+
+## 3. Hypothesen
+
+if(runif(1) > 0.5) {
+
+if(runif(1) > 0.5) {
+  questions[3] <- "Die Nullhypothese lautet: Der Konsum von Nikotin ist unabhängig 
+                   vom Konsum von Coffein."
+  solutions[3] <- T
+  explanations[3] <- "In der Nullhypothese wird Unabhängigkeit postuliert."
+} else {
+  questions[3] <- "Die Nullhypothese lautet: Der Konsum von Nikotin und der von Coffein 
+                   sind abhängig."
+  solutions[3] <- F
+  explanations[3] <- "So lautet die Alternativhypothese."
+}  
+} else 
+
+if(runif(1) > 0.5) {
+  questions[3] <- "Die Alternativhypothese lautet: Der Konsum von Nikotin und der von Coffein 
+                   sind unabhängig."
+  solutions[3] <- F
+  explanations[3] <- "Das ist die Aussage der Nullhypothese."
+} else {
+  questions[3] <- "Die Alternativhypothese lautet: Der Konsum von Nikotin und der von Coffein 
+                   sind abhängig."
+  solutions[3] <- T
+  explanations[3] <- "In der Alternativhypothese wird Abhängigkeit postuliert."
+}
+
+
+## 4. technische Interpretation
+
+if(runif(1) > 0.5) {
+  questions[4] <- "Die Nullhypothese wird beibehalten."
+  solutions[4] <- x2 <= 3.84 
+  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,". 
+  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.")
+} else {
+  questions[4] <- "Die Nullhypothese wird verworfen."
+  solutions[4] <- x2 > 3.84
+  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,". 
+  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.")
+}
+
+
+## 5. inhaltliche Interpretation
+if(runif(1) > 0.5) {
+  questions[5] <- "Die Entscheidung nach dem Test lautet: 
+                   Konsum von Nikotin ist unabhängig vom Konsum von Coffein."
+  solutions[5] <- x2 <= 3.84
+  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,". 
+  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabhängigkeit) verworfen, 
+  sonst beibehalten.")
+} else {
+  questions[5] <- "Die Entscheidung nach dem Test lautet: 
+                   Konsum von Coffein ist abhängig vom Konsum von Nikotin."
+  solutions[5] <- x2 > 3.84
+  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,". 
+  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabhängigkeit) verworfen, 
+  sonst beibehalten.")
+}
+
+
+
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+
+\begin{question}
+In einer Untersuchung zu Konsum- und Ernährungsgewohnheiten werden 300 Personen auch 
+über ihren Konsum der Alltagssuchtmittel Nikotin und Coffein befragt. 
+
+Die Einteilung der Befragten einerseits in Raucher und Nichtraucher (weniger als 5 Zigaretten pro Woche), 
+andererseits in Kaffeetrinker (mehr als eine Tasse pro Tag) und Nichtkaffeetrinker führt zu folgender Tabelle:
+
+<<echo=FALSE>>=
+kaffeenikotin
+@
+
+Ein $\chi^2$-Unabh\"angigkeitstests zur Überprüfung, ob 
+der Konsum von Nikotin unabhängig vom Konsum von Coffein ist, lieferte einen 
+$X^2$-Wert von $\Sexpr{x2}$
+
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}

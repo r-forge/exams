@@ -2,54 +2,58 @@
 
 ## DATA GENERATION
 
-x <- 30:34
+x <- 1.5*c(31:38)
 
-y1 <- c(x+rnorm(5), x+15+rnorm(5),    x+rnorm(5), 15+x+rnorm(5))
-y2 <- c(x+rnorm(5), x+ 1+rnorm(5), 12+x+rnorm(5), 13+x+rnorm(5))
-y3 <- c(x+rnorm(5), x+15+rnorm(5), 16+x+rnorm(5), 31+x+rnorm(5))
-y4 <- c(x+rnorm(5), x+15+rnorm(5), 16+x+rnorm(5), 10+x+rnorm(5))
+y1 <- c(x+rnorm(8,sd=0.5), x+15+rnorm(8,sd=0.5), x+rnorm(8,sd=0.5), 15+x+rnorm(8,sd=0.5))
+y2 <- c(x+rnorm(8,sd=0.5), x+rnorm(8,sd=0.5), 12+x+rnorm(8,sd=0.5), 12+x+rnorm(8,sd=0.5))
+y3 <- c(x+rnorm(8,sd=0.5), x+15+rnorm(8,sd=0.5), 10+x+rnorm(8,sd=0.5), 25+x+rnorm(8,sd=0.5))
+y4 <- c(x+rnorm(8,sd=0.5), x+15+rnorm(8,sd=0.5), 16+x+rnorm(8,sd=0.5), 10+x+rnorm(8,sd=0.5))
 
-fa <- rep( c(1:2,1:2), c(5,5,5,5) )
-fb <- rep( 1:2, c(10,10) )
+fa <- rep( c(1:2,1:2), c(8,8,8,8) )
+fb <- rep( 1:2, c(16,16) )
 
-A <- factor(fa, labels=c("Uni A1","Uni A2") )
-B <- factor(fb, labels=c("Branche B1","Branche B2") )
+###A <- factor(fa, labels=c("Uni A1","Uni A2") )
+###B <- factor(fb, labels=c("Branche B1","Branche B2") )
+
+fzus <- rep(1:4, rep(8,4) )
+
+Zus       <- factor(fzus, labels=c("U1-B1","U2-B1","U1-B2","U2-B2") )
 
 dasm <- round(runif(1,min=0.51,max=4.49))
 
-if(dasm==1){y = y1
+if(dasm==1){Y = y1
             ndasm1=2
             ndasm2=3
             ndasm3=4
-            dasmt   ="Y ${\\\\sim}$ A"
-            ndasmt1 ="Y ${\\\\sim}$ B"
-            ndasmt2 ="Y ${\\\\sim}$ A+B"
-            ndasmt3 ="Y ${\\\\sim}$ A*B"
+            dasmt   ="Y ${\\\\sim}$ Uni"
+            ndasmt1 ="Y ${\\\\sim}$ Branche"
+            ndasmt2 ="Y ${\\\\sim}$ Uni+Branche"
+            ndasmt3 ="Y ${\\\\sim}$ Uni*Branche"
             }
-if(dasm==2){y=y2
+if(dasm==2){Y = y2
             ndasm1=3
             ndasm2=4
             ndasm3=1
-            dasmt   ="Y ${\\\\sim}$ B"
-            ndasmt3 ="Y ${\\\\sim}$ A"
-            ndasmt1 ="Y ${\\\\sim}$ A+B"
-            ndasmt2 ="Y ${\\\\sim}$ A*B" }
-if(dasm==3){y=y3
+            dasmt   ="Y ${\\\\sim}$ Branche"
+            ndasmt3 ="Y ${\\\\sim}$ Uni"
+            ndasmt1 ="Y ${\\\\sim}$ Uni+Branche"
+            ndasmt2 ="Y ${\\\\sim}$ Uni*Branche" }
+if(dasm==3){Y = y3
             ndasm1=4
             ndasm2=1
             ndasm3=2
-            dasmt   ="Y ${\\\\sim}$ A+B"
-            ndasmt2 ="Y ${\\\\sim}$ A"
-            ndasmt3 ="Y ${\\\\sim}$ B"
-            ndasmt1 ="Y ${\\\\sim}$ A*B" }
-if(dasm==4){y=y4
+            dasmt   ="Y ${\\\\sim}$ Uni+Branche"
+            ndasmt2 ="Y ${\\\\sim}$ Uni"
+            ndasmt3 ="Y ${\\\\sim}$ Branche"
+            ndasmt1 ="Y ${\\\\sim}$ Uni*Branche" }
+if(dasm==4){Y = y4
             ndasm1=1
             ndasm2=2
             ndasm3=3
-            dasmt   ="Y ${\\\\sim}$ A*B"
-            ndasmt1 ="Y ${\\\\sim}$ A"
-            ndasmt2 ="Y ${\\\\sim}$ B"
-            ndasmt3 ="Y ${\\\\sim}$ A+B" }
+            dasmt   ="Y ${\\\\sim}$ Uni*Branche"
+            ndasmt1 ="Y ${\\\\sim}$ Uni"
+            ndasmt2 ="Y ${\\\\sim}$ Branche"
+            ndasmt3 ="Y ${\\\\sim}$ Uni+Branche" }
 
 
 ## QUESTION/ANSWER GENERATION
@@ -63,18 +67,22 @@ explanations <- character(5)
 
 expl <- character(4)
 
-expl[1] <- "Nur der Haupteffekt von Faktor A ist signifikant."
-expl[2] <- "Nur der Haupteffekt von Faktor B ist signifikant."
-expl[3] <- "Beide Haupteffekte A und B sind signifikant, nicht jedoch der Wechselwirkungeffekt."                   
-expl[4] <- "Der Wechselwirkungeffekt ist signifikant."   
+expl[1] <- "Die Unterschiede zwischen den Unis sind gro{\ss}, 
+            jene zwischen den Branchen nur gering."
+expl[2] <- "Die Unterschiede zwischen den Branchen sind gro{\ss}, 
+            jene zwischen den Unis nur gering."
+expl[3] <- "Sowohl die Unterschiede zwischen den Unis als 
+            auch die zwischen den Branchen sind gro{\ss}."                   
+expl[4] <- "Die Unterschiede zwischen den Unis hängen  
+            stark von den Branchen ab."   
 
 
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Das passende Modell ist", dasmt, ".")
+  questions[1] <- paste("Das passende Modell ist:", dasmt, ".")
   solutions[1] <- TRUE
   explanations[1] <- expl[dasm]
 } else {
-  questions[1] <- paste("Das passende Modell ist", ndasmt1, ".")
+  questions[1] <- paste("Das passende Modell ist:", ndasmt1, ".")
   solutions[1] <- FALSE
   explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
 }
@@ -83,24 +91,15 @@ if(runif(1) > 0.5) {
 
 ## 2. richtiges modell technisch identifizieren
 quest <- character(4)
-quest[1] <- "Das passende Modell lautet: nur Faktor A hat einen Einfluss auf Y."
-quest[2] <- "Das passende Modell lautet: nur Faktor B hat einen Einfluss auf Y."
-quest[3] <- "Das passende Modell lautet: Sowohl Faktor A als auch Faktor B haben additiv 
-             einen Einfluss auf Y."               
-quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten von Y 
-             je nach Stufe von Faktor A hängen zusätzlich von den Stufen des Faktors B ab."  
+quest[1] <- "Das passende Modell lautet: nur der Faktor Universität hat einen Einfluss auf das Einkommen."
+quest[2] <- "Das passende Modell lautet: nur der Faktor Branche hat einen Einfluss auf das Einkommen."
+quest[3] <- "Das passende Modell lautet: Sowohl Universität als auch Branche haben additiv 
+             einen Einfluss auf das Einkommen."               
+quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten des Einkommens 
+             je nach Universität hängen von der Branche ab."  
 
 ## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
 
-expl <- character(4)
-expl[1] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
-                   in den Mittelwerten. Bei Faktor B ist der Anstieg nur schwach."
-expl[2] <- "Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken Anstieg 
-                   in den Mittelwerten. Bei Faktor A ist der Anstieg nur schwach."
-expl[3] <- "Sowohl von Stufe A1 zu Stufe A2 von Faktor A als auch von Stufe B1 zu 
-            Stufe B2 von Faktor B gibt es einen starken Anstieg in den Mittelwerten."                   
-expl[4] <- "In Stufe B1 ist der Unterschiede in den Mittelwerten zwischen den Faktorstufen A1 und A2 
-            positiv, in Stufe B2 ist dieser Unterschied negativ."    
 
 if(runif(1) > 0.5) {
   questions[2] <- quest[dasm]
@@ -117,27 +116,18 @@ if(runif(1) > 0.5) {
 ## 3. richtiges Modell interpretieren
 
 quest <- character(4)
-quest[1] <- "Das passende Modell lautet: nur die Universität, an der der Abschluss erfolgte, 
-             hat einen Einfluss auf das durchschnittliche Gehalt."
-quest[2] <- "Das passende Modell lautet: nur die Branche, in der die Absolventen arbeiten, 
-             hat einen Einfluss auf das durchschnittliche Gehalt."
-quest[3] <- "Das passende Modell lautet: Sowohl Universität, an der der Abschluss erfolgte, 
-             als auch die Branche, in der die Absolventen arbeiten, haben additiv 
-             einen Einfluss auf das durchschnittliche Gehalt."               
-quest[4] <- "Das passende Modell lautet: die Unterschiede in den durchschnittlichen Gehältern 
+quest[1] <- "Die Unterschiede in den Gehältern lassen sich gut durch die Universität 
+             erklären, an der der Abschluss erfolgte, kaum durch die Branche."
+quest[2] <- "Die Unterschiede in den Gehältern lassen sich gut durch die Branche 
+             erklären, in der die Absolventen arbeiten, kaum durch die Universität."
+quest[3] <- "Das durchschnittliche Gehalt hängt sowohl von der Universität, 
+             an der der Abschluss erfolgte, als auch von der Branche ab, 
+             in der die Absolventen arbeiten."               
+quest[4] <- "Die Unterschiede in den durchschnittlichen Gehältern 
              in den einzelnen Branchen hängen von der Universität ab, an der der Abschluss erfolgte."  
              
 ## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
 
-expl <- character(4)
-expl[1] <- "Von Uni A1 zu Uni A2 gibt es einen starken Anstieg 
-            in den Mittelwerten. Bei den Branchen ist der Anstieg nur schwach."
-expl[2] <- "Von Branche B1 zu Branche B2 gibt es einen starken Anstieg 
-            in den Mittelwerten. Bei den Unis ist der Anstieg nur schwach."
-expl[3] <- "Sowohl von Uni A1 zu Uni A2 als auch von Branche B1 Branche B2 
-            gibt es einen starken Anstieg in den Mittelwerten."                   
-expl[4] <- "Bei Branche B1 ist der Unterschiede in den Mittelwerten zwischen 
-            den Faktorstufen A1 und A2 positiv, in Branche B2 ist dieser Unterschied negativ."    
 
 if(runif(1) > 0.5) {
   questions[3] <- quest[dasm]
@@ -168,7 +158,6 @@ if(runif(1) > 0.5) {
 }
 
 
-
 ## 5. mittelwerte interpretieren
 
 ## expl von vorhin
@@ -176,26 +165,26 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[5] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
-                   in den Mittelwerten. Bei Faktor B ist das nicht der Fall."
+  questions[5] <- "Zwischen den Stufen des Faktors Universität gibt es starke
+                   Unterschiede in den Einkommen. Beim Faktor Branche ist das nicht der Fall."
   solutions[5] <- dasm==1
   explanations[5] <- expl[dasm]
 } else {
-  questions[5] <- "Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken Anstieg 
-                   in den Mittelwerten. Bei Faktor A ist das nicht der Fall."
+  questions[5] <- "Zwischen den Stufen des Faktors Branche gibt es starke 
+                   Unterschiede in den Einkommen. Beim Faktor Universität ist das nicht der Fall."
   solutions[5] <- dasm==2
   explanations[5] <- expl[dasm]
 }
 } else {
 
 if(runif(1) > 0.5) {
-  questions[5] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
-                   in den Mittelwerten. Bei Faktor B ist das auch der Fall."
+  questions[5] <- "Zwischen den Stufen des Faktors Universität gibt es starke 
+                   Unterschiede in den Einkommen. Auch beim Faktor Branche ist das der Fall."
   solutions[5] <- dasm==3
   explanations[5] <- expl[dasm]
 } else {
   questions[5] <- "In Stufe B1 ist der Unterschiede in den Mittelwerten 
-                   zwischen den Faktorstufen A1 und A2 nicht gleich wie in Stufe B2." 
+                   zwischen den Faktorstufen U1 und U2 deutlich anders als in Stufe B2." 
   solutions[5] <- dasm==4
   explanations[5] <- expl[dasm]
 }}
@@ -206,6 +195,7 @@ if(runif(1) > 0.5) {
 
 o <- c( 1, sample(2:5) )
 ##o <- sample(1:5)
+
 questions <- questions[o]
 solutions <- solutions[o]
 explanations <- explanations[o]
@@ -215,33 +205,23 @@ explanations <- explanations[o]
 \begin{question}
 
 In einer Studie werden die Einkommen von ManagerInnen untersucht. 
-Zwei Branchen, in denen die ManagerInnen tätig sind, und zwei Universitäten, 
-deren AbsolventInnen die ManagerInnen sind, 
-werden verglichen.
+Zwei Faktoren, von denen die Einkommen auch abhängen können, 
+werden untersucht:
+\begin{itemize}
+  \item Faktor Branche (mit den Stufen B1 und B2), in denen die ManagerInnen tätig sind.
+  \item Faktor Universität (mit den Stufen U1 und U2) gibt die Universität an, 
+        deren AbsolventInnen die ManagerInnen sind.
+  \end{itemize}
 
-Als Methode kommt eine zweifache Varianzanalyse zum Einsatz.
+Der folgende Boxplot gibt einen Überblick über die Einkommen in den 
+insgesamt vier Gruppen. Da die Verteilungen in den Gruppen in etwa symmetrisch sind, 
+sind die Unterschiede zwischen Gruppenmedianen und Gruppenmittelwerten nur gering.
 
-Aus der folgenden Varianzanalysetabelle sollen die signifikanten  
-Effekte (Haupt- bzw. Wechselwirkungseffekte) abgeleitet werden.
 
-<<echo=FALSE>>=
-options(show.signif.stars = FALSE) 
-mab <- lm(y~A*B)
-mapb <- lm(y~A+B)
-ma <- lm(y~A)
-mb <- lm(y~B)
-m1 <- lm(y~1)
-
-anova(mab)
+<<echo=FALSE,fig=TRUE>>=
+ 
+boxplot( Y~Zus, ylab="Einkommen")
 ##paste("Wir haben das Modell ",dasm)
-@
-
-
-Die Durchschnittseinkommen (berechnet aus jeweils 5 Werten) für 
-jede Kombination der Faktoren sind in der folgenden Tabelle enthalten: 
-
-<<echo=FALSE>>= 
-round( tapply(y,list(A,B),mean), digits=0 )
 @
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)

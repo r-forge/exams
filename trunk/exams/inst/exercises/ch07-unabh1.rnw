@@ -1,0 +1,96 @@
+<<echo=FALSE, results=hide>>=
+
+## DATA GENERATION
+
+nobs <- 300
+nrauch  <- rbinom(1,nobs,0.4)
+nkaffee <- rbinom(1,nobs,0.62)
+nrauchkaffee <- rbinom(1,nkaffee,0.48)
+
+a <- nrauchkaffee
+b <- nrauch-nrauchkaffee
+c <- nkaffee-nrauchkaffee
+d <- nobs-a-b-c
+
+ah <- c(a,b,c,d)
+
+kaffeenikotin <- matrix( ah, nr=2) 
+dimnames(kaffeenikotin)<-list( Kaffee  = c("Kaffeetrinker","Nichtkaffeetrinker"), 
+                               Nikotin = c("Raucher","Nichtraucher") ) 
+
+## QUESTION/ANSWER GENERATION
+homt <- chisq.test(kaffeenikotin, correct=F)
+
+X2 <- homt$statistic
+ 
+X2_string <- paste("X2-Statistik: ", round(X2, digits = 3),
+  " (toleriert: ", round(X2, digits = 3) - 0.01, " <= |T| <= ",
+  round(X2, digits = 3) + 0.01, ")", sep = "")
+@
+
+\begin{question}
+In einer Untersuchung zu Konsum- und Ernährungsgewohnheiten werden 300 Personen auch 
+über ihren Konsum der Alltagssuchtmittel Nikotin und Coffein befragt. 
+
+Die Einteilung der Befragten einerseits in Raucher und Nichtraucher (weniger als 5 Zigaretten pro Woche), 
+andererseits in Kaffeetrinker (mehr als eine Tasse pro Tag) und Nichtkaffeetrinker führt zu folgender Tabelle:
+
+<<echo=FALSE>>=
+kaffeenikotin
+@
+
+
+\"Uberpr\"ufen Sie mittels eines $\chi^2$-Unabh\"angigkeitstests, ob 
+der Konsum von Nikotin unabhängig vom Konsum von Coffein ist.
+
+Berechnen Sie dazu die $X^2$-Teststatistik!
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Die angezeigte Kontingenztafel (in diesem Beispiel eine 2x2-Matrix) 
+enthält die beobachteten Häufigkeiten ($o_{ij}$). Ergänzt man diese 
+Kontingenztafel um die Zeilensummen ($o_{i+}$) und Spaltensummen ($o_{+j}$)
+gelangt man zu 
+
+<<echo=FALSE>>=
+Vobs <- kaffeenikotin
+ahm <- addmargins(kaffeenikotin)
+ahm
+zs <- ahm[2,3]
+ss <- ahm[3,1]
+n  <- ahm[3,3]
+e21<- zs*ss/n
+@
+
+Mit den Zeilen- und Spaltensummen lassen sich leicht die 
+erwarteten Häufigkeiten ($e_{ij}$) berechnen 
+\[ e_{ij} = \frac{o_{i+} \cdot o_{+j}}{n} \]
+
+Konkret, etwa für das Element in der 2.Zeile und 1.Spalte:
+\[ e_{21}=  \frac{o_{2+} \cdot o_{+1}}{n} = 
+            \frac{\Sexpr{zs} \cdot \Sexpr{ss}}{\Sexpr{n}} = \Sexpr{round(e21, digits = 3)} \]
+
+Die gesamte Matrix der erwarteten Häufigkeiten ist:
+
+<<echo=FALSE>>=
+Vexp <- round(homt$expected, digits=3)
+Vexp
+o11 <- Vobs[1,1]
+e11 <- Vexp[1,1]
+x2  <- round(homt$statistic, digits=3)
+@
+
+Die Berechnung der (Pearson-)$X^2$-Teststatistik erfolgt über den 
+Vergleich von beobachteten und erwarteten Häufigkeiten nach: 
+\[ X^2 = \sum_{i=1}^I \sum_{j=1}^J \frac{(o_{ij} - e_{ij})^2}{e_{ij}} 
+       = \frac{(\Sexpr{o11} - \Sexpr{e11})^2} {\Sexpr{e11}} + \cdots = \Sexpr{x2} \]   
+
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(X2)}}
+%% \exstring{\Sexpr{X2_string}}
