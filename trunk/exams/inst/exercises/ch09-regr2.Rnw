@@ -1,0 +1,60 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+n <- sample(35:65,1)
+xs <- floor(runif(1)*20+40)
+x <- xs + floor(runif(1)*15-7)
+ys <- floor(runif(1)*80+200)
+sx2 <- floor(runif(1)*50+80)
+sy2 <- floor(runif(1)*500+2000)
+r <- round(runif(1)*0.4+0.5,2)
+b <- r*sqrt(sy2/sx2)
+a <- ys-b*xs
+
+## QUESTION/ANSWER GENERATION
+sol <- round(a+b*x,3)
+@
+
+\begin{question}
+Für \Sexpr{n} Betriebe wurde die Anzahl $X$ der Besch\"aftigten und die
+H\"ohe $Y$ der Aufwendungen für Fortbildungskosten (in GE)
+ermittelt. Die statistischen Kenngr\"o{\ss}en des Datensatzes lauten:
+
+\begin{center}
+\begin{tabular}{lcc}
+& Merkmal $X$ & Merkmal $Y$ \\
+\hline
+Mittelwert & \Sexpr{format(xs, nsmall = 0)}  & \Sexpr{format(ys, nsmall = 0)}  \\
+Varianz & \Sexpr{format(sx2, nsmall = 0)}  & \Sexpr{format(sy2, nsmall = 0)}  \\
+\end{tabular}
+\end{center}
+Die Korrelation zwischen $X$ und $Y$ beträgt \Sexpr{r}.
+
+Welchen Sch\"atzwert für die Aufwendungen f\"ur Fortbildungskosten erh\"alt man aus der
+Regressionsgeraden für einen Betrieb mit 
+\Sexpr{x} Besch\"aftigten?
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+Man beginnt mit der Berechnung der Regressionsgeraden $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$.
+Die Berechnung der Regressionskoeffizienten erfolgt durch:
+\begin{eqnarray*}
+&& \hat \beta_1 = r \cdot \frac{s_y}{s_x} = 
+\Sexpr{r} \cdot \sqrt{\frac{\Sexpr{sy2}}{\Sexpr{sx2}}} = \Sexpr{round(b,3)}, \\
+&& \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = 
+\Sexpr{ys} - \Sexpr{round(b,3)} \cdot \Sexpr{xs} = \Sexpr{round(a,3)}.
+\end{eqnarray*}
+
+Jetzt kann der Sch\"atzwert der Fortbildungskosten für einen Betrieb mit 
+\Sexpr{x} Besch\"aftigten berechnet werden:
+\begin{eqnarray*}
+\hat y = \Sexpr{round(a,3)} + \Sexpr{round(b,3)} \cdot \Sexpr{x} = \Sexpr{sol}.
+\end{eqnarray*}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{num2string(sol)}}
+%% \exname{Prognose}
+%% \extol{0.01}

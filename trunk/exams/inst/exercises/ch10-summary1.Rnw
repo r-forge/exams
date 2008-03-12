@@ -1,0 +1,184 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+## generate variables
+if(!("package:mvtnorm" %in% search())) stopifnot(require(mvtnorm))
+
+n <- sample(100:110, 1)
+x <- rmvnorm(n, mean = c(0, 0), sigma = matrix(c(1, 0.75, 0.75, 1), ncol = 2))
+x1 <- x[,1]
+x2 <- x[,2]
+
+ok <- FALSE
+type <- sample(letters[1:4], size = 1, prob = c(0.3, 0.3, 0.2, 0.2))
+
+while(!ok) {
+  switch(type,
+    "a" = {
+      y <- sample(1:20, 1) + 1 * x1 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x1")
+    },
+    "b" = {
+      y <- sample(1:20, 1) + 1 * x2 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x2")
+    },
+    "c" = {
+      y <- sample(1:20, 1) + rnorm(n, sd = 1.3)
+      sol <- "(Intercept)"
+    },
+    "d" = {
+      y <- sample(1:20, 1) + 1 * x1 + 1 * x2 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x1", "x2")
+    })
+
+  fm1 <- lm(y ~ 1)
+  fm2 <- lm(y ~ x1)
+  fm3 <- lm(y ~ x2)
+  fm23 <- lm(y ~ x1 + x2)
+
+  switch(type,
+    "a" = {
+      ok <- summary(fm23)$coef[3,4] > 0.1 && summary(fm23)$coef[2,4] < 0.05
+    },
+    "b" = {
+      ok <- summary(fm23)$coef[2,4] > 0.1 && summary(fm23)$coef[3,4] < 0.05
+    },
+    "c" = {
+      ok <- (anova(fm1, fm2)[2,"Pr(>F)"] > 0.1) && (anova(fm1, fm3)[2,"Pr(>F)"] > 0.1)
+    },
+    "d" = {
+      ok <- all(summary(fm23)$coef[2:3,4] < 0.05)
+    })
+
+  fm0 <- step(fm23, trace = 0, k = log(n))
+
+  ok <- ok && identical(sol, names(coef(fm0)))
+}
+
+# sol <- round(coef(fm0), digits = 3)
+# sol <- paste("y =", sol[1], ifelse(length(sol) > 1,
+#  paste("+", paste(sol[-1], "*", names(sol)[-1], collapse = " + ")), ""))
+
+
+## QUESTION/ANSWER GENERATION
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+## 1. prognose
+prog <- rep(0,4)
+xprog <- round(x[50,],2)
+prog[1] <- predict(fm23,newdata=data.frame(x1=xprog[1],x2=xprog[2]))
+prog[2] <- prog[1] + max(fm23$fitted)
+prog[3] <- prog[1]*(-1)
+prog[4] <- fm23$coef[1]
+id <- sample(4,1,prob=c(0.5,0.15,0.15,0.2))
+qu1 <- prog[id]
+questions[1] <- paste("F\\\\\"ur $X_1$ = ", xprog[1], " und $X_2$ = ",
+    xprog[2], " ist aus dem zweifachen linearen Regressionsmodell 
+    f\\\\\"ur $Y$ der Wert ", round(qu1,2), " zu erwarten.", sep = "")
+solutions[1] <- if (id == 1) 1==1 else 1==0 
+explanations[1] <- paste("Der Sch\\\\\"atzwert $\\\\hat y$ wird durch 
+    Einsetzen in die Regressionsgleichung berechnet: ",
+    round(fm23$coef[1],3), " + (", round(fm23$coef[2],3), ") $\\\\cdot$ (", 
+    xprog[1], ") + (", round(fm23$coef[3],3), ") $\\\\cdot$ (", 
+    xprog[2], ") = ", round(prog[1],2), sep = "")  
+
+## 2. interpretation
+qu2 <- c("steigt", "f\\\\\"allt")
+id21 <- sample(2,2)
+id22 <- sample(2,1)
+id23 <- sample(3,1)
+id24 <- sample(2,2)
+id2abstrue <- id24[1]+1
+id25 <- sample(c(1, id24[2]+1, id24[1]+1), prob = c(1/6,1/6,2/3)) 
+Xsel <- c("X_1", "X_2")
+questions[2] <- paste("Wenn $", Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], " und $", Xsel[id24[2]], "$ gleich bleibt,
+     dann ", qu2[id22], " $Y$ um ungef\\\\\"ahr ", round(abs(fm23$coef[id23]),2), ".", sep = "" )
+solutions[2] <- if (sign(fm23$coef[id24[1]+1])==sign((id21[1]-1.5)*(id22-1.5)) & (id23 == id24[1]+1)) 1==1 else 1==0
+explanations[2] <- if (sign(fm23$coef[id24[1]+1])>0) 
+                        {paste("Da das Vorzeichen von $", Xsel[id24[1]], "$ positiv ist und $", 
+                        Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], ", ", qu2[id21[1]], " $Y$, und
+                        zwar um ", round(abs(fm23$coef[id24[1]+1]),2), " Einheiten.", sep = "")} else 
+                        {paste("Da das Vorzeichen von $", Xsel[id24[1]], "$ negativ ist und $", 
+                        Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], ", ", qu2[id21[2]], " $Y$, und
+                        zwar um ", round(abs(fm23$coef[id24[1]+1]),2), " Einheiten.", sep = "")}
+
+
+## 3. testen einzelner parameter
+# qu3 <- c("$\\\\beta_1$", "$\\\\beta_2$")
+qu31 <- c("verworfen", "beibehalten")
+id3 <- sample(2,1)
+questions[3] <- paste("Die Hypothese $H_0: \\\\beta_1 = 0$ wird " ,
+    qu31[id3], " (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[3] <- if (summary(fm23)$coef[2,4] < 0.05 & id3==1 || summary(fm23)$coef[2,4] >= 0.05 & id3==2 ) {1==1} else {1==0}
+explanations[3] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"orige $p$-Wert kleiner als $0.05$ ist. 
+				Hier ist der $p$-Wert gleich ", format(round(summary(fm23)$coef[2,4],4),scientific=FALSE) ,".",sep="") 
+    
+## 4. testen der parameter gemeinsam
+qu4 <- c("verworfen", "beibehalten")
+questions[4] <- paste("Die Hypothese $H_0: \\\\beta_1 = \\\\beta_2 = 0$ wird verworfen 
+    (Signifikanzniveau $5\\\\%$).", sep = "")  
+explanations[4] <- "Wir haben nur die $T$-Gr\\\\\"o{\\\\ss}en angegeben. Auf Basis der $T$-Gr\\\\\"o{\\\\ss}en kann aber 
+	immer nur ein einzelner Parameter, d.h. $\\\\beta_1$ oder $\\\\beta_2$, getestet werden, nicht beide 
+	Parameter gemeinsam."
+    
+## 5. testen mit p-wert
+qu5 <- c("verworfen", "beibehalten")
+id5 <- sample(2,1)
+qu51 <- c("kleiner", "gr\\\\\"o{\\\\ss}er")
+id51 <- sample(2,1)
+if (summary(fm23)$coef[3,4] < 0.05 & id5==1) id51 <- 1 
+if (summary(fm23)$coef[3,4] >= 0.05 & id5==2) id51 <- 2 
+questions[5] <- paste("Die Hypothese $H_0: \\\\beta_2 = 0$ wird ", qu5[id5], 
+    ", weil der $p$-Wert ", qu51[id51], " als 0.05 ist (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[5] <- (summary(fm23)$coef[3,4] < 0.05 & id5==1 & id51==1) || (summary(fm23)$coef[3,4] >= 0.05 & id5==2 & id51==2)
+explanations[5] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"orige $p$-Wert kleiner als $0.05$ ist. 
+				Hier ist der $p$-Wert gleich ", format(round(summary(fm23)$coef[3,4],4),scientific=FALSE) ,".",sep="") 
+
+
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+\begin{question}
+
+Gegeben sei das folgende zweifache Regressionsmodell $Y = \beta_0 + \beta_1 X_{1} + \beta_2 X_{2} + \epsilon$, 
+in dem die Variable $Y$ durch die Variablen
+$X_1$ und $X_2$ erkl\"art wird:
+
+<<echo=FALSE>>=
+printCoefmat(summary(fm23)$coefficients)
+@
+
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exname{Mehrfachantworten}
+
