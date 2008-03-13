@@ -1,0 +1,154 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+## generate variables
+if(!("package:mvtnorm" %in% search())) stopifnot(require(mvtnorm))
+
+n <- sample(100:110, 1)
+x <- rmvnorm(n, mean = c(0, 0), sigma = matrix(c(1, 0.75, 0.75, 1), ncol = 2))
+x1 <- x[,1]
+x2 <- x[,2]
+
+ok <- FALSE
+type <- sample(letters[1:2], size = 1, prob = c(0.5, 0.5))
+
+while(!ok) {
+  switch(type,
+    "a" = {
+      y <- sample(1:20, 1) + 1 * x1 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x1")
+    },
+    "b" = {
+      y <- sample(1:20, 1) + 1 * x1 + 1 * x2 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x1", "x2")
+    })
+
+  fm1 <- lm(y ~ 1)
+  fm23 <- lm(y ~ x1 + x2)
+
+  switch(type,
+    "a" = {
+      ok <- summary(fm23)$coef[3,4] > 0.1 && summary(fm23)$coef[2,4] < 0.05
+    },
+    "b" = {
+      ok <- all(summary(fm23)$coef[2:3,4] < 0.05)
+    })
+
+  fm0 <- step(fm23, trace = 0, k = log(n))
+
+  ok <- ok && identical(sol, names(coef(fm0)))
+}
+
+
+## QUESTION/ANSWER GENERATION
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+qu1 <- c("verworfen", "beibehalten")
+id1 <- sample(2,1)
+qu11 <- c("\\\\beta_1 ", "\\\\beta_2")
+id11 <- sample(2,1)
+questions[1] <- paste("Beim Testen der Nullhypothese 
+    $H_0: Y = \\\\beta_0 + ", qu11[id11], " X_{1} + \\\\epsilon$ 
+    gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
+    wird die Nullhypothese ", qu5[id5], " (Signifikanzniveau $5\\\\%$).", sep = "")
+explanations[1] <- "Mit der vorliegenden ANOVA-Tabelle wird das Testproblem $H_0: Y = \\\\beta_0 + \\\\epsilon$ 
+      gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ getestet,
+	nicht aber eine einzelner Parameter alleine."
+
+questions[2] <- paste("Es kann nachgewiesen werden, dass mindestens einer der beiden Parameter $\\\\beta_1, \\\\beta_2$
+    ungleich 0 ist. (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[2] <- (anova(fm1,fm23)[2,6] < 0.05)  
+explanations[2] <- "Die Alternativhypothese: ''Mindestens einer der beiden Parameter $\\\\beta_1, \\\\beta_2$
+    ist ungleich 0'' kann nachgewiesen werden, wenn der $p$-Wert kleiner als 0.05 ist."  
+
+qu3 <- c("kleiner", "gr\\\\\"o{\\\\ss}er")
+id3 <- sample(2,1)
+qu31 <- c("0.1", "0.3", "0.6")
+id31 <- sample(3,1)
+questions[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist ", qu3[id3], " als ", qu31[id31], ".", sep = "")
+solutions[3] <- ((sign(id3-1.5)*summary(fm23)$r.squared > sign(id3-1.5)*0.1) & id31==1) || 
+    ((sign(id3-1.5)*summary(fm23)$r.squared > sign(id3-1.5)*0.3) & id31==2) ||
+    ((sign(id3-1.5)*summary(fm23)$r.squared > sign(id3-1.5)*0.6) & id31==3) 
+explanations[3] <- paste("Das Bestimmtheitsma{\\\\ss} wird berechnet aus $R^2 = 1-RSS_{M_12}/RSS_{M_0}$ = ",
+	round(summary(fm23)$r.squared,2), ".",sep="")  
+
+    
+questions[4] <- paste("Das Bestimmtheitsma{\\\\ss} liegt zwischen 0.1 und 0.4.", sep = "")   
+solutions[4] <- ((summary(fm23)$r.squared > 0.1) & (summary(fm23)$r.squared < 0.4))
+explanations[4] <- paste("Das Bestimmtheitsma{\\\\ss} wird berechnet aus $R^2 = 1-RSS_{M_12}/RSS_{M_0}$ = ",
+	round(summary(fm23)$r.squared,2), ".",sep="")  
+
+qu5 <- c("verworfen", "beibehalten")
+id5 <- sample(2,1)
+qu51 <- c("kleiner", "gr\\\\\"o{\\\\ss}er")
+id51 <- sample(2,1)
+if ((anova(fm1,fm23)[2,6] < 0.05) & id5==1) id51 <- 1 
+if ((anova(fm1,fm23)[2,6] >= 0.05) & id5==2) id51 <- 2 
+questions[5] <- paste("Beim Testen der Nullhypothese 
+    $H_0: Y = \\\\beta_0 + \\\\epsilon$ 
+    gegen die Alternative $H_A: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
+    wird die Nullhypothese ", qu5[id5], ", weil der p-Wert ", qu51[id51], " als 0.05 ist 
+    (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[5] <- ((anova(fm1,fm23)[2,6]< 0.05)  & id5==1 & id51==1) || ((anova(fm1,fm23)[2,6]>=0.05) & id5==2 & id51==2)
+explanations[5] <- "Die Nullhypothese wird verworfen, wenn
+	der $p$-Wert kleiner als $0.05$ ist."
+	
+
+questions[6] <- paste("Bei der Wahl eines Modells soll mindestens eine der beiden Variablen 
+	$X_1, X_2$ im Modell sein. (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[6] <- (anova(fm1,fm23)[2,6] < 0.05)  
+explanations[6] <- "Wird die Nullhypothese verworfen, so soll mindestens eine der beiden Variablen 
+	$X_1, X_2$ im Modell bleiben. Das ist dann der Fall, wenn der $p$-Wert kleiner als 0.05 ist."  
+
+
+
+## permute order of solutions/questions
+o <- c(sample(c(2, 5, 6),2), sample(c(1,3,4),3))
+sample(o,5)
+
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+\begin{question}
+Zur Erkl\"arung der Variablen $Y$ stehen als erkl\"arende Variablen $X_1$ und $X_2$ zur 
+Verf\"ugung. 
+
+Im folgenden sehen Sie eine ANOVA zum Testen von $M_0: Y = \beta_0 + \epsilon$ gegen \\
+$M_{12}: Y = \beta_0 + \beta_1 X_{1}
++ \beta_2 X_{2} + \epsilon$: 
+
+<<echo=FALSE>>=
+printCoefmat(anova(fm1,fm23),na.print="",signif.stars = FALSE)
+@
+
+\vspace*{0.5cm}
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exname{Mehrfachantworten}

@@ -1,0 +1,185 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+## generate variables
+if(!("package:mvtnorm" %in% search())) stopifnot(require(mvtnorm))
+
+n <- sample(100:110, 1)
+x <- rmvnorm(n, mean = c(0, 0), sigma = matrix(c(1, 0.75, 0.75, 1), ncol = 2))
+x1 <- x[,1]
+x2 <- x[,2]
+
+ok <- FALSE
+type <- sample(letters[1:4], size = 1, prob = c(0.3, 0.3, 0.2, 0.2))
+
+while(!ok) {
+  switch(type,
+    "a" = {
+      y <- sample(1:20, 1) + 1 * x1 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x1")
+    },
+    "b" = {
+      y <- sample(1:20, 1) + 1 * x2 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x2")
+    },
+    "c" = {
+      y <- sample(1:20, 1) + rnorm(n, sd = 1.3)
+      sol <- "(Intercept)"
+    },
+    "d" = {
+      y <- sample(1:20, 1) + 1 * x1 + 1 * x2 + rnorm(n, sd = 1.5)
+      sol <- c("(Intercept)", "x1", "x2")
+    })
+
+  fm1 <- lm(y ~ 1)
+  fm2 <- lm(y ~ x1)
+  fm3 <- lm(y ~ x2)
+  fm23 <- lm(y ~ x1 + x2)
+
+  switch(type,
+    "a" = {
+      ok <- summary(fm23)$coef[3,4] > 0.1 && summary(fm23)$coef[2,4] < 0.05
+    },
+    "b" = {
+      ok <- summary(fm23)$coef[2,4] > 0.1 && summary(fm23)$coef[3,4] < 0.05
+    },
+    "c" = {
+      ok <- (anova(fm1, fm2)[2,"Pr(>F)"] > 0.1) && (anova(fm1, fm3)[2,"Pr(>F)"] > 0.1)
+    },
+    "d" = {
+      ok <- all(summary(fm23)$coef[2:3,4] < 0.05)
+    })
+
+  fm0 <- step(fm23, trace = 0, k = log(n))
+
+  ok <- ok && identical(sol, names(coef(fm0)))
+}
+
+sol <- round(coef(fm0), digits = 3)
+sol <- paste("y =", sol[1], ifelse(length(sol) > 1,
+  paste("+", paste(sol[-1], "*", names(sol)[-1], collapse = " + ")), ""))
+
+
+## QUESTION/ANSWER GENERATION
+questions <- character(5)
+solutions <- logical(5)
+explanations <- character(5)
+
+qu1 <- c("verworfen","beibehalten")
+id1 <- sample(2,1)
+questions[1] <- paste("Beim Testen der Nullhypothese $H_0: Y = \\\\beta_0 + \\\\epsilon$ gegen die Alternative
+    $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\epsilon$ wird die Nullhypothese ",
+    qu1[id1], " (Signifikanzniveau $5\\\\%$).",sep = "")
+solutions[1] <- ((anova(fm1,fm2)[2,6] < 0.05) & (id1 == 1)) || ((anova(fm1,fm2)[2,6] >= 0.05) & (id1 == 2)) 
+explanations[1] <- paste("Denn der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm1,fm2)[2,6],4),scientific=FALSE), ".",seps="")  
+
+id2 <- sample(2,1)
+questions[2] <- paste("Beim Testen der Nullhypothese $H_0: Y = \\\\beta_0 + \\\\beta_2 X_{2} + \\\\epsilon$ 
+    gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
+    wird die Nullhypothese ", qu1[id2], " (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[2] <- ((anova(fm3,fm23)[2,6] < 0.05) &  (id2 == 1)) ||  ((anova(fm3,fm23)[2,6] >= 0.05) &  (id2 == 2))   
+explanations[2] <- paste("Denn der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm3,fm23)[2,6],4),scientific=FALSE), ".",seps="")  
+
+questions[3] <- paste("Von den 4 zur Verf\\\\\"ugung stehenden Modellen wird das Modell $M_0$
+    gew\\\\\"ahlt.", sep = "") 
+solutions[3] <- length(fm0$coef) == 1  
+explanations[3] <- if(length(fm0$coef)==1) "Die 4 Schritte der Modellwahl werden durchgef\\\\\"uhrt: alle 4 Modellvergleiche 
+			liefern eine nicht signifikante Testgr\\\\\"o{\\\\ss}e. Daher w\\\\\"ahlt man das Modell $M_0$." else
+			"Nicht alle 4 Modellvergleiche liefern eine nicht signifikante Testgr\\\\\"o{\\\\ss}e."
+    
+questions[4] <- paste("Von den 4 zur Verf\\\\\"ugung stehenden Modellen wird das Modell $M_{12}$
+    gew\\\\\"ahlt.", sep = "")     
+solutions[4] <- length(fm0$coef) == 3 
+explanations[4] <- if(length(fm0$coef)==3) "Im Baum liefern die oberen beiden Modellvergleiche von $M_1$ gegen $M_{12}$ 
+			bzw. $M_2$ gegen $M_{12}$ jeweils signifikante Testgr\\\\\"o{\\\\ss}en. Daher
+			werden jeweils die Nullhypothesen verworfen und es wird $M_{12}$ gew\\\\\"ahlt." else
+			"Im Baum liefern die oberen beiden Modellvergleiche von $M_1$ gegen $M_{12}$ 
+			bzw. $M_2$ gegen $M_{12}$ nicht beide signifikante Testgr\\\\\"o{\\\\ss}en. 
+			Daher wird $M_{12}$ nicht gew\\\\\"ahlt."
+  
+
+qu5 <- c("verworfen", "beibehalten")
+id5 <- sample(2,1)
+qu51 <- c("kleiner", "gr\\\\\"o{\\\\ss}er")
+id51 <- sample(2,1)
+if ((anova(fm2,fm23)[2,6] < 0.05) & id5==1) id51 <- 1 
+if ((anova(fm2,fm23)[2,6] >= 0.05) & id5==2) id51 <- 2 
+questions[5] <- paste("Beim Testen der Nullhypothese 
+    $H_0: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\epsilon$ 
+    gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
+    wird die Nullhypothese ", qu5[id5], ", weil der $p$-Wert ", qu51[id51], " als 0.05 ist 
+    (Signifikanzniveau $5\\\\%$).", sep = "")
+solutions[5] <- ((anova(fm2,fm23)[2,6]< 0.05)  & id5==1 & id51==1) || ((anova(fm2,fm23)[2,6]>=0.05) & id5==2 & id51==2)
+explanations[5] <- paste("Die Nullhypothese wird verworfen, wenn
+	der $p$-Wert kleiner als $0.05$ ist.
+	Der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm2,fm23)[2,6],4),scientific=FALSE), ".",seps="")  
+    
+
+## permute order of solutions/questions
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
+@
+
+\begin{question}
+Zur Erkl\"arung der Variablen $Y$ stehen als erkl\"arende Variablen $X_1$ und $X_2$ zur 
+Verf\"ugung. Es stehen die folgenden 4 Modelle zur Auswahl:
+\begin{eqnarray*}
+& M_0: & Y   =   \beta_0 + \epsilon \\
+& M_1: & Y   =   \beta_0 + \beta_1 X­_{1} + \epsilon \\
+& M_2: & Y   =   \beta_0 + \beta_2 X­_{2} + \epsilon  \\
+& M_{12}: & Y  =  \beta_0 + \beta_1 X­_{1} + \beta_2 X­_{2} +
+\epsilon 
+\end{eqnarray*}
+
+Im folgenden sehen Sie die den Baum zur Modellwahl, der auf Modellvergleichen mittels der 
+ANOVA basiert: 
+
+<<echo=FALSE>>=
+M0 <- fm1
+M1 <- fm2
+M2 <- fm3
+M12 <- fm23
+@
+
+
+\setkeys{Gin}{width=0.7\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+\footnotesize
+<<fig=TRUE, height = 5, width = 6, echo=FALSE, eps=FALSE, results=hide>>=
+selectplot(M0,M1,M2,M12,name=TRUE,RSS=TRUE,pvalue=TRUE)
+@
+\caption{\label{fig:ch10-tree} Baum zur Modellwahl}
+\end{center}
+\end{figure}
+
+
+\vspace*{0.5cm}
+Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+
+\begin{itemize}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
+\end{itemize}
+\end{question}
+
+
+%% SOLUTIONS
+\begin{solution}
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exname{Mehrfachantworten}
