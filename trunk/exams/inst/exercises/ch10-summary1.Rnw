@@ -150,7 +150,7 @@ in dem die Variable $Y$ durch die Variablen
 $X_1$ und $X_2$ erkl\"art wird:
 
 <<echo=FALSE>>=
-printCoefmat(summary(fm23)$coefficients)
+printCoefmat(summary(fm23)$coefficients,signif.stars = FALSE)
 @
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
