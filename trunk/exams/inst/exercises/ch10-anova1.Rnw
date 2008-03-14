@@ -46,14 +46,14 @@ explanations <- character(5)
 
 qu1 <- c("verworfen", "beibehalten")
 id1 <- sample(2,1)
-qu11 <- c("\\\\beta_1 ", "\\\\beta_2")
+qu11 <- c("\\\\beta_1 X_1", "\\\\beta_2 X_2")
 id11 <- sample(2,1)
 questions[1] <- paste("Beim Testen der Nullhypothese 
-    $H_0: Y = \\\\beta_0 + ", qu11[id11], " X_{1} + \\\\epsilon$ 
-    gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
-    wird die Nullhypothese ", qu5[id5], " (Signifikanzniveau $5\\\\%$).", sep = "")
+    $H_0: Y = \\\\beta_0 + ", qu11[id11], " + \\\\epsilon$ 
+    gegen die Alternative $H_A: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
+    wird die Nullhypothese ", qu1[id1], " (Signifikanzniveau $5\\\\%$).", sep = "")
 explanations[1] <- "Mit der vorliegenden ANOVA-Tabelle wird das Testproblem $H_0: Y = \\\\beta_0 + \\\\epsilon$ 
-      gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ getestet,
+      gegen die Alternative $H_A: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ getestet,
 	nicht aber eine einzelner Parameter alleine."
 
 questions[2] <- paste("Es kann nachgewiesen werden, dass mindestens einer der beiden Parameter $\\\\beta_1, \\\\beta_2$
@@ -85,8 +85,7 @@ qu51 <- c("kleiner", "gr\\\\\"o{\\\\ss}er")
 id51 <- sample(2,1)
 if ((anova(fm1,fm23)[2,6] < 0.05) & id5==1) id51 <- 1 
 if ((anova(fm1,fm23)[2,6] >= 0.05) & id5==2) id51 <- 2 
-questions[5] <- paste("Beim Testen der Nullhypothese 
-    $H_0: Y = \\\\beta_0 + \\\\epsilon$ 
+questions[5] <- paste("Beim Testen der Nullhypothese $H_0: Y = \\\\beta_0 + \\\\epsilon$ 
     gegen die Alternative $H_A: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
     wird die Nullhypothese ", qu5[id5], ", weil der p-Wert ", qu51[id51], " als 0.05 ist 
     (Signifikanzniveau $5\\\\%$).", sep = "")

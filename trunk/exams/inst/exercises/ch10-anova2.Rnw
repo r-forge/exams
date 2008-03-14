@@ -46,14 +46,14 @@ explanations <- character(5)
 
 qu1 <- c("verworfen", "beibehalten")
 id1 <- sample(2,1)
-qu11 <- c("\\\\beta_1 ", "\\\\beta_2")
+qu11 <- c("\\\\beta_1 \\\\texttt{Alter}", "\\\\beta_2 \\\\texttt{Anzahl}")
 id11 <- sample(2,1)
 questions[1] <- paste("Beim Testen der Nullhypothese 
-    $H_0: \\\\texttt{Ausgaben} = \\\\beta_0 + ", qu11[id11], " \\\\texttt{Alter} + \\\\epsilon$ 
-    gegen die Alternative $H_1: \\\\texttt{Ausgaben} = \\\\beta_0 + \\\\beta_1 \\\\texttt{Alter} + \\\\beta_2 \\\\texttt{Einkommen} + \\\\epsilon$ 
-    wird die Nullhypothese ", qu5[id5], " (Signifikanzniveau $5\\\\%$).", sep = "")
+    $H_0: \\\\texttt{Ausgaben} = \\\\beta_0 + ", qu11[id11], "  + \\\\epsilon$ 
+    gegen die Alternative $H_A: \\\\texttt{Ausgaben} = \\\\beta_0 + \\\\beta_1 \\\\texttt{Alter} + \\\\beta_2 \\\\texttt{Einkommen} + \\\\epsilon$ 
+    wird die Nullhypothese ", qu1[id1], " (Signifikanzniveau $5\\\\%$).", sep = "")
 explanations[1] <- "Mit der vorliegenden ANOVA-Tabelle wird das Testproblem $H_0: \\\\texttt{Ausgaben} = \\\\beta_0 + \\\\epsilon$ 
-      gegen die Alternative $H_1: \\\\texttt{Ausgaben} = \\\\beta_0 + \\\\beta_1 \\\\texttt{Alter} + \\\\beta_2 \\\\texttt{Einkommen} + \\\\epsilon$ getestet,
+      gegen die Alternative $H_A: \\\\texttt{Ausgaben} = \\\\beta_0 + \\\\beta_1 \\\\texttt{Alter} + \\\\beta_2 \\\\texttt{Einkommen} + \\\\epsilon$ getestet,
 	nicht aber eine einzelner Parameter alleine."
 
 questions[2] <- paste("Es kann nachgewiesen werden, dass mindestens einer der beiden Parameter $\\\\beta_1, \\\\beta_2$
