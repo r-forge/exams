@@ -32,28 +32,28 @@ if(runif(1) > 0.5) {
   questions[1] <- "In der Stichprobe hat es mehr Wechsel von A zu B gegeben als umgekehrt."
   solutions[1] <- (ab > ba)
   explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
-                            tvduell[1,2], " und ", tvduell[2,1],") geben darüber Auskunft.")
+                            tvduell[1,2], " und ", tvduell[2,1],") geben dar\\\\\"uber Auskunft.")
 } else {
-  questions[1] <- "Weniger als ein Viertel der Befragten hat die Parteipräferenz geändert."
+  questions[1] <- "Weniger als ein Viertel der Befragten hat die Parteipr\\\\\"aferenz ge\\\\\"andert."
   solutions[1] <- (abba < 50)
   explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
-                            tvduell[1,2], " und ", tvduell[2,1],") geben darüber Auskunft.")
+                            tvduell[1,2], " und ", tvduell[2,1],") geben dar\\\\\"uber Auskunft.")
 }  
 
 
 ## 2. Hypothesen
 
 if(runif(1) > 0.5) {
-  questions[2] <- "Die Nullhypothese lautet: Die Wahrscheinlichkeit für eine Änderung 
-                   der Parteipräferenz ist in jede Richtung (von A zu B bzw. von B zu A) gleich."
+  questions[2] <- "Die Nullhypothese lautet: Die Wahrscheinlichkeit f\\\\\"ur eine \\\\\"Anderung 
+                   der Parteipr\\\\\"aferenz ist in jede Richtung (von A zu B bzw. von B zu A) gleich."
   solutions[2] <- TRUE
-  explanations[2] <- "In der Nullhypothese ist der einfache Fall (p=0.5 für jede Richtung) 
+  explanations[2] <- "In der Nullhypothese ist der einfache Fall (p=0.5 f\\\\\"ur jede Richtung) 
                       formuliert."
 } else {
-  questions[2] <- "Die Nullhypothese lautet: Die Wahrscheinlichkeit, in der Parteipräferenz 
-                   vorne zu liegen, ist für beide Parteien gleich."
+  questions[2] <- "Die Nullhypothese lautet: Die Wahrscheinlichkeit, in der Parteipr\\\\\"aferenz 
+                   vorne zu liegen, ist f\\\\\"ur beide Parteien gleich."
   solutions[2] <- FALSE
-  explanations[2] <- "Bei diesem Test werden nur die Wechsel berücksichtigt."
+  explanations[2] <- "Bei diesem Test werden nur die Wechsel ber\\\\\"ucksichtigt."
 }
 
 
@@ -78,8 +78,8 @@ if(runif(1) > 0.5) {
 
 if(abs(z) < 1.96) {
   if(runif(1) > 0.5) {  
-    questions[4] <- "Die Entscheidung nach dem Test lautet: Der Anteil der Präferenzänderungen 
-                     von Partei A zu Partei B beträgt 50 Prozent."
+    questions[4] <- "Die Entscheidung nach dem Test lautet: Der Anteil der Pr\\\\\"aferenz\\\\\"anderungen 
+                     von Partei A zu Partei B betr\\\\\"agt 50 Prozent."
     solutions[4] <- TRUE
     explanations[4] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
                               round(z,digits=3), ", es ist ein z-Wert ) 
@@ -88,25 +88,25 @@ if(abs(z) < 1.96) {
     questions[4] <- "Die Entscheidung nach dem Test lautet: Beide Parteien werden 
                      denselben Stimmenanteil erhalten."
     solutions[4] <- FALSE
-    explanations[4] <- "Man untersucht mit dem Test nur die Anteile derer, die ihre Präferenz
-                        geändert haben."  
+    explanations[4] <- "Man untersucht mit dem Test nur die Anteile derer, die ihre Pr\\\\\"aferenz
+                        ge\\\\\"andert haben."  
 } 
 
 }else {
-  questions[4] <- "Die Entscheidung nach dem Test lautet: Es gibt mehr Änderungen von 
+  questions[4] <- "Die Entscheidung nach dem Test lautet: Es gibt mehr \\\\\"Anderungen von 
                      Partei A zu Partei B als umgekehrt."
   if(ab>ba) {
     solutions[4] <- ( ab > ba )
-    explanations[4] <- paste("Der Wert der Teststatistik beträgt ", round(z,digits=3), 
-                        ". Die Nullhypothese von gleich viel Änderungen in jede Richtung 
-                        wird verworfen. In der Stichprobe gibt es mehr Änderungen von A zu B,
-                        daher ist diese einseitige Interpretation zulässig.")
+    explanations[4] <- paste("Der Wert der Teststatistik betr\\\\\"agt ", round(z,digits=3), 
+                        ". Die Nullhypothese von gleich viel \\\\\"Anderungen in jede Richtung 
+                        wird verworfen. In der Stichprobe gibt es mehr \\\\\"Anderungen von A zu B,
+                        daher ist diese einseitige Interpretation zul\\\\\"assig.")
 } else { 
     solutions[4] <- ( ab > ba )
-    explanations[4] <- paste("Der Wert der Teststatistik beträgt ", round(z,digits=3), 
-                        ". Die Nullhypothese von gleich viel Änderungen in jede Richtung 
-                        wird verworfen. In der Stichprobe gibt es aber mehr Änderungen von B zu A, 
-                        daher ist diese einseitige Interpretation nicht zulässig.")       
+    explanations[4] <- paste("Der Wert der Teststatistik betr\\\\\"agt ", round(z,digits=3), 
+                        ". Die Nullhypothese von gleich viel \\\\\"Anderungen in jede Richtung 
+                        wird verworfen. In der Stichprobe gibt es aber mehr \\\\\"Anderungen von B zu A, 
+                        daher ist diese einseitige Interpretation nicht zul\\\\\"assig.")       
 }
 }
 
@@ -115,14 +115,14 @@ if(abs(z) < 1.96) {
 
 if(runif(1) > 0.5) {
   questions[5] <- "Unter den Befragten gab es nach den TV-Duellen mehr Zustimmung 
-                   für Partei A als vorher."
+                   f\\\\\"ur Partei A als vorher."
   solutions[5] <- (ba > ab)
   explanations[5] <- "Das gilt, wenn es mehr Wechsel von B zu A als umgekehrt gegeben hat."
 } else {
   questions[5] <- "Unter den Befragten hat Partei A nach den TV-Duellen die Mehrheit."
   solutions[5] <- (tvduell[1,1]+tvduell[2,1]>100)
-  explanations[5] <- "Die 1.Spalte der Kreuztabelle gibt die Präferenzen nach den TV-Duellen 
-                      für Partei A an."
+  explanations[5] <- "Die 1.Spalte der Kreuztabelle gibt die Pr\\\\\"aferenzen nach den TV-Duellen 
+                      f\\\\\"ur Partei A an."
 } 
 
 
@@ -139,21 +139,21 @@ explanations <- explanations[o]
 Vor einer Wahl stellen sich die SpitzenkandidatInnen der kandidierenden Parteien 
 in mehreren TV-Duellen den Fragen von Zuschauern und Journalisten.
 
-200 Personen wurden vor und nach diesen TV-Duellen über die Präferenz 
-für eine der beiden KandidatInnen der beiden grö{\ss}ten Parteien befragt.
-In der folgenden Tabelle sind die Parteipräferenzen zu den zwei Zeitpunkten 
+200 Personen wurden vor und nach diesen TV-Duellen \"uber die Pr\"aferenz 
+f\"ur eine der beiden KandidatInnen der beiden gr\"o{\ss}ten Parteien befragt.
+In der folgenden Tabelle sind die Parteipr\"aferenzen zu den zwei Zeitpunkten 
 zusammen gefasst: 
  
 <<echo=FALSE>>= 
 tvduell
 @ 
 
-Es soll überprüft werden, ob die Änderungen in der Parteipräferenz klar für eine der 
-beiden Parteien sprechen.  
+Es soll \"uberpr\"uft werden, ob die \"Anderungen in der
+Parteipr\"aferenz klar f\"ur eine der beiden Parteien sprechen.
 
 
 Welche der folgenden Aussagen sind richtig? 
-(Berechnen Sie dazu auch den Wert der entsprechenden Teststatistik. Achtung: Mehrfachnennungen sind m\"oglich!)
+(Berechnen Sie dazu auch den Wert der entsprechenden Teststatistik. Signifikanzniveau 5\%)
 
 
 \begin{itemize}

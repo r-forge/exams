@@ -18,8 +18,6 @@
 ##  functions.R between << ... >> and @ (R-part) 
 ##  into ALL exam files
 
-rm(list=ls())
-
 ############# H, LT, GT +/- Saison #######################
 ##
 ## f_lt0,  f_lt,  f_h,  f_gt0, f_gt, f_seas
@@ -242,6 +240,7 @@ su  <- nobs*b/sscale
 
 ## Saison :  mod(nobs,12) = 0 !!!
 f_seas <- function(nobs,freq) {
+  eps <- 0.001
 #
 if (freq == 4) {
   seas4      <- c(0*1:12)
@@ -452,14 +451,6 @@ f_rbeta_n <- function(nobs=100,mean=0,sd=1) {
   u <-  u*sd + mean;
   u 
   }  
-
-f_rdunif <- function(length,ileft,iright) {
-## generates values of a discrete uniformly distributed variate 
-## in  ileft,ileft+1,...,iright (boundaries included)
-  eps <- 0.001;
-  u <- ceiling( runif(length,min=ileft -1+eps,max= iright -eps) );
-  u
-  } 
 
 f_ar <- function(nobs=100,smue,sstd,rho1) {
 ## horizontales Muster, AR(1) srho1 < 0.85 fix, WN given nobs

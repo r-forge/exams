@@ -51,7 +51,7 @@ d2 <- rep( d20, nj9)
 d3 <- rep( d30, nj9)
 d4 <- rep( d40, nj9)
 t9 <- c(-(nj9*4-1):0)/4
-y  <- a1*d1 + a2*d2 + a3*d3+ a4*d4 + a5*t9 + f_rbeta_n(nj9*4,0,rsd)
+y  <- a1*d1 + a2*d2 + a3*d3+ a4*d4 + a5*t9 + exams:::f_rbeta_n(nj9*4,0,rsd)
 
 
 nobs0      <- length( x )         # i =1,...,nobs
@@ -60,7 +60,7 @@ nobsi0     <- nobsjahre0*4
 
 # nur 3 Jahre davon auswaehlen
 nj <- 3
-ii <- f_rdunif(1,1,4)
+ii <- sample(1:4, 1)
 be  <- (ii-1)*4 + 1
 ee  <- be + 4*nj - 1
 
@@ -75,7 +75,7 @@ nobsei     <- nobsejahre*4
 datbeg2 <- 2007 + 1 - nj  # 4 ganze Jahre  bis inkl 2007
 datbeg1 <- datbeg2 - 5
 
-jbeg <-  f_rdunif(1,datbeg1,datbeg2)
+jbeg <-  sample(datbeg1:datbeg2, 1)
 jend <-  jbeg - 1 + round( nobse/4, digits=0)
 xe.ts  <- ts( xe, start=jbeg,freq=4 ) 
 xeh.ts <- ts(  c(xe.ts,NA), start=jbeg,freq=4  )
@@ -110,7 +110,7 @@ ylim = range( c(range(xe.ts), range(xehwp[1]),range(xehwf[,1]) ) )
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.0, 1.1))
 ##plot.ts( xehw, xehwp, xylanels=llist, ylab="Verkaeufe")
 # observed
-#plot.ts(xeh.ts,ylab="Verkäufe",lty=1,axes=FALSE, ylim = ylim)
+#plot.ts(xeh.ts,ylab="Verkaeufe",lty=1,axes=FALSE, ylim = ylim)
 # 1-step ahead fc
 #lines(xehwfp, lty=2)
 #axis(1,at=time(xeh.ts),labels=xeh.l)
@@ -136,7 +136,7 @@ f_round03 <- function(x)
 for (ii in 1:100) {
 # aus 31 Jahren 15 auswaehlen
 yh  <- ts(c(y,x),start=c(1970,1),freq=4)
-ybegj <- f_rdunif(1,1970,1985) 
+ybegj <- sample(1970:1985, 1)
 yw  <- window( yh, start= c(ybegj,1), end=c(ybegj+14,4))
 xehw <- HoltWinters( yw)
 
@@ -154,8 +154,8 @@ solutions    <- logical(5)
 explanations <- character(5)
 expl         <- character(6)
 
-questions[1] <- "Der Trend wird stärker geglättet als das Niveau."
-questions[2] <- "Die aktuelle Steigung erhält in der Trendgleichung 
+questions[1] <- "Der Trend wird st\\\\\"arker gegl\\\\\"attet als das Niveau."
+questions[2] <- "Die aktuelle Steigung erh\\\\\"alt in der Trendgleichung 
   ein gro{\\\\ss}es Gewicht."
 questions[3] <- "Die Saison ist wenig stabil und wird stark angepasst."
 questions[4] <- "Die Summe der quadrierten 1-Schritt Prognosefehler 
@@ -189,18 +189,17 @@ if (ic == 5) {
 
 \begin{question} 
 
-{\bf CH11-14:} Gegeben sind die vierteljährlichen Verkaufszahlen, $Y_t$, einer 
-französischen Firma für die Periode 1.Quartal \Sexpr{jbeg} bis 4.Quartal 
-\Sexpr{jend}. Dazu  werden 
-mit dem Verfahren von Holt-Winters die optimalen 1-Schritt Prognosen 
-berechnet. 
-Der Graph zeigt die beobachtete Reihe und die 1-Schritt Prognosen. 
+  Gegeben sind die viertelj\"ahrlichen Verkaufszahlen, $Y_t$, einer
+  franz\"osischen Firma f\"ur die Periode 1.~Quartal \Sexpr{jbeg} bis
+  4.~Quartal \Sexpr{jend}. Dazu werden mit dem Verfahren von
+  Holt-Winters die optimalen 1-Schritt Prognosen berechnet.  Der Graph
+  zeigt die beobachtete Reihe und die 1-Schritt Prognosen.
 
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.0, 1.1))
 # observed
-plot.ts(xeh.ts,ylab="Verkäufe",lty=1,axes=FALSE, ylim = ylim)
+plot.ts(xeh.ts,ylab="Verkaeufe",lty=1,axes=FALSE, ylim = ylim)
 # 1-step ahead fc
 lines(xehwfp, lty=2)
 axis(1,at=time(xeh.ts),labels=xeh.l)
@@ -209,7 +208,7 @@ par(op)
 
 @
 
-Holt-Winters errechnet folgende Glättungsparameter:
+Holt-Winters errechnet folgende Gl\"attungsparameter:
 $$\alpha = \Sexpr{ga} \hspace{3ex} 
   \beta  = \Sexpr{gb} \hspace{3ex} 
   \gamma = \Sexpr{gg} $$
@@ -228,20 +227,20 @@ Interpretieren Sie diese Werte.
 \begin{solution}
 
 \begin{itemize}
-  \item[(a)] \Sexpr{solutions[1]}
-  \item[(b)] \Sexpr{solutions[2]}
-  \item[(c)] \Sexpr{solutions[3]}
-  \item[(d)] \Sexpr{solutions[4]}
-  \item[(e)] \Sexpr{solutions[5]}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
   \end{itemize}
 
-{\bf Erklärung:}\\
-Das Modell von Holt-Winters hat 3 Glättungsparameter: 
+{\bf Erkl\"arungen:}\\
+Das Modell von Holt-Winters hat 3 Gl\"attungsparameter: 
 $\alpha$, $\beta$ und $\gamma$ mit $0 \le \alpha, \beta, \gamma \le 1$.\\  
-$\alpha$ bestimmt die Glättung des 
-Niveaus, $\beta$ die Glättung der (lokalen) Steigung in der Trendgleichung, 
-und $\gamma$ ist der Glättungsparameter für die Saisonkomponente.\\
-$s$ gibt die Periodenlänge der Saison an. Hier ist sie 4, $s=4$.
+$\alpha$ bestimmt die Gl\"attung des 
+Niveaus, $\beta$ die Gl\"attung der (lokalen) Steigung in der Trendgleichung, 
+und $\gamma$ ist der Gl\"attungsparameter f\"ur die Saisonkomponente.\\
+$s$ gibt die Periodenl\"ange der Saison an. Hier ist sie 4, $s=4$.
 
 \begin{center}
 \begin{math}
@@ -259,11 +258,11 @@ $s$ gibt die Periodenlänge der Saison an. Hier ist sie 4, $s=4$.
 
 Kleine Werte von $\alpha$, $\beta$, bzw.~ $\gamma$ bedeuten 
 \begin{itemize}
-\item ein geringes Gewicht für den jeweiligen aktuellen Wert, 
-\item ein langes Gedächtnis in der jeweiligen Komponente, 
-\item eine starke Glättung in der jeweiligen Komponente.
+\item ein geringes Gewicht f\"ur den jeweiligen aktuellen Wert, 
+\item ein langes Ged\"achtnis in der jeweiligen Komponente, 
+\item eine starke Gl\"attung in der jeweiligen Komponente.
 \end{itemize}
-Das umgekehrte trifft für gro{\ss}e Parameterwerte zu.
+Das umgekehrte trifft f\"ur gro{\ss}e Parameterwerte zu.
 
 \end{solution}
 
@@ -271,6 +270,7 @@ Das umgekehrte trifft für gro{\ss}e Parameterwerte zu.
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}
+
 
 

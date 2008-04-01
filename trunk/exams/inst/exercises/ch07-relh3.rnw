@@ -7,7 +7,7 @@ stadtrand <- rmultinom( 1, 150, p=c(0.1,0.2,0.4,0.3) )
 
 absh <- c(stadtkern, stadtrand)
 
-oeffi <- matrix(absh, nr=4 ) 
+oeffi <- matrix(absh, nrow=4 ) 
 
 dimnames( oeffi ) <- list(Angebot = c("sehr gut","eher gut","eher schlecht","sehr schlecht"),
                           Wohnort = c("Stadtkern","Stadtrand")  ) 
@@ -28,22 +28,22 @@ explanations <- character(5)
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[1] <- "Tabelle 2 enthält Angaben in Zeilenprozent."
+  questions[1] <- "Tabelle 2 enth\\\\\"alt Angaben in Zeilenprozent."
   solutions[1] <- T
   explanations[1] <- "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
-  questions[1] <- "Die Tabelle 1 enthält Angaben in Zeilenprozent."
+  questions[1] <- "Die Tabelle 1 enth\\\\\"alt Angaben in Zeilenprozent."
   solutions[1] <- F
   explanations[1] <- "Die Zeilensummen ergeben nicht 100."
 }  
 } else 
 
 if(runif(1) > 0.5) {
-  questions[1] <- "Die Tabelle 2 enthält Angaben in Spaltenprozent."
+  questions[1] <- "Die Tabelle 2 enth\\\\\"alt Angaben in Spaltenprozent."
   solutions[1] <- T
   explanations[1] <- "Die Spaltensummen ergeben nicht 100."
 } else {
-  questions[1] <- "Die Tabelle 1 enthält Angaben in Gesamtprozent."
+  questions[1] <- "Die Tabelle 1 enth\\\\\"alt Angaben in Gesamtprozent."
   solutions[1] <- F
   explanations[1] <- "Alle Angaben zusammen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 }
@@ -54,11 +54,11 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[2] <- "Die Tabelle 2 gibt die Wohnortverteilung für jede Stufe von Zufriedenheit an."
+  questions[2] <- "Die Tabelle 2 gibt die Wohnortverteilung f\\\\\"ur jede Stufe von Zufriedenheit an."
   solutions[2] <- T
   explanations[2] <- "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
-  questions[2] <- "Die Tabelle 1 gibt die Wohnortverteilung für jede Stufe von Zufriedenheit an."
+  questions[2] <- "Die Tabelle 1 gibt die Wohnortverteilung f\\\\\"ur jede Stufe von Zufriedenheit an."
   solutions[2] <- F
   explanations[2] <- "Die Zeilensummen ergeben nicht 100."
 } } else
@@ -69,7 +69,7 @@ if(runif(1) > 0.5) {
   solutions[2] <- T
   explanations[2] <- "Die Gesamtsumme ergibt (von etwaigen Rundungsfehlern abgesehen) 100."
 } else {
-  questions[2] <- "Die Tabelle 1 gibt die Zufriedenheitsverteilung für die zwei Wohnorte an."
+  questions[2] <- "Die Tabelle 1 gibt die Zufriedenheitsverteilung f\\\\\"ur die zwei Wohnorte an."
   solutions[2] <- F
   explanations[2] <- "Die Spaltensummen ergeben nicht 100."
 }
@@ -82,13 +82,13 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[3] <- paste( "Die Eintragung in Zeile 3 und Spalte 1 von Tabelle 2 besagt:",
-                         zoeffi[3,1], "Prozent derer, die das Angebot der öffentlichen Verkehrsmittel
+                         zoeffi[3,1], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
                          eher schlecht einstuften, waren Bewohner des Stadtkerns.")
   solutions[3] <- T
   explanations[3] <- "Das ist die richtige Interpretation von Zeilenprozent."
 } else {
   questions[3] <- paste( "Die Eintragung in Zeile 2 und Spalte 2 von Tabelle 2 besagt:",
-                         zoeffi[2,2], "Prozent derer, die das Angebot der öffentlichen Verkehrsmittel
+                         zoeffi[2,2], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
                          eher gut einstuften, waren Bewohner des Stadtrandes.")
   solutions[3] <- T
   explanations[3] <- "Das ist die richtige Interpretation von Zeilenprozent."
@@ -98,13 +98,13 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- paste( "Die Eintragung in Zeile 4 und Spalte 2 von Tabelle 2 besagt:",
                          zoeffi[4,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
-                         der öffentlichen Verkehrsmittel als sehr schlecht ein.")
+                         der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
   solutions[3] <- F
   explanations[3] <- "Das ist eine Interpretation als Spaltenprozent, es liegen aber Zeilenprozent vor."
 } else {
   questions[3] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 2 besagt:",
                          zoeffi[1,1], "Prozent der Befragten waren Bewohner des Stadkernes und
-                         stuften das Angebot der öffentlichen Verkehrsmittel als sehr gut ein.")
+                         stuften das Angebot der \\\\\"offentlichen Verkehrsmittel als sehr gut ein.")
   solutions[3] <- F
   explanations[3] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Zeilenprozent vor."
 } 
@@ -116,13 +116,13 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[4] <- paste( "Die Eintragung in Zeile 2 und Spalte 1 von Tabelle 1 besagt:",
-                         goeffi[2,1], "Prozent derer, die das Angebot der öffentlichen Verkehrsmittel
+                         goeffi[2,1], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
                          eher gut einstuften, waren Bewohner des Stadtkerns.")
   solutions[4] <- F
   explanations[4] <- "Das ist die Interpretation als Zeilenprozent, es liegen aber Gesamtprozent vor."
 } else {
   questions[4] <- paste( "Die Eintragung in Zeile 3 und Spalte 2 von Tabelle 1 besagt:",
-                         goeffi[3,2], "Prozent der Befragten stuften das Angebot der öffentlichen Verkehrsmittel
+                         goeffi[3,2], "Prozent der Befragten stuften das Angebot der \\\\\"offentlichen Verkehrsmittel
                          als eher schlecht ein und waren Bewohner des Stadtrandes.")
   solutions[4] <- T
   explanations[4] <- "Das ist die richtige Interpretation von Zeilenprozent."
@@ -132,13 +132,13 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- paste( "Die Eintragung in Zeile 4 und Spalte 2 von Tabelle 1 besagt:",
                          goeffi[4,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
-                         der öffentlichen Verkehrsmittel als sehr schlecht ein.")
+                         der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
   solutions[4] <- F
   explanations[4] <- "Das ist eine Interpretation als Spaltenprozent, es liegen aber Gesamtprozent vor."
 } else {
   questions[4] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 1 besagt:",
                          goeffi[4,1], "Prozent der Befragten waren Bewohner des Stadkernes und
-                         stuften das Angebot der öffentlichen Verkehrsmittel als sehr schlecht ein.")
+                         stuften das Angebot der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
   solutions[4] <- T
   explanations[4] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Zeilenprozent vor."
 } 
@@ -150,12 +150,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[5] <- "Tabelle 1 kann man aus der ursprünglichen Kreuztabelle auch selbst leicht ermitteln: 
-                   Man ermittelt für jede Spalte Prozentwerte."
+  questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
+                   Man ermittelt f\\\\\"ur jede Spalte Prozentwerte."
   solutions[5] <- F
   explanations[5] <- "So berechnet man Spaltenprozent, es liegen aber Gesamtprozent vor."
 } else {
-  questions[5] <- "Tabelle 1 kann man aus der ursprünglichen Kreuztabelle auch selbst leicht ermitteln: 
+  questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man bezieht jede Eintragung auf die Gesamtanzahl der Befragten."
   solutions[5] <- T
   explanations[5] <- "So berechnet man Gesamtprozent."
@@ -163,12 +163,12 @@ if(runif(1) > 0.5) {
 } else
 
 if(runif(1) > 0.5) {
-  questions[5] <- "Tabelle 2 kann man aus der ursprünglichen Kreuztabelle auch selbst leicht ermitteln: 
+  questions[5] <- "Tabelle 2 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man bezieht jede Angabe auf die Spaltensumme."
   solutions[5] <- F
-  explanations[5] <- "Das würde Spaltenprozent ergeben."
+  explanations[5] <- "Das w\\\\\"urde Spaltenprozent ergeben."
 } else {
-  questions[5] <- "Tabelle 2 kann man aus der ursprünglichen Kreuztabelle auch selbst leicht ermitteln: 
+  questions[5] <- "Tabelle 2 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man bezieht jede Angabe auf die Zeilensumme."
   solutions[5] <- T
   explanations[5] <- "So berechnet man Zeilenprozent."
@@ -185,11 +185,10 @@ explanations <- explanations[o]
 
 
 \begin{question}
-In einer Gro{\ss}stadt wurde eine Untersuchung "uber 
-Zufriedenheit mit dem Angebot an "offentlichen 
-Verkehrsmitteln durchgef"uhrt. Ein Teilaspekt befasste sich mit der Frage, 
-ob Bewohner des Stadtkerns zufriedener mit diesen Leistungen sind 
-als Bewohner des Stadtrandes.
+  In einer Gro{\ss}stadt wurde eine Untersuchung \"uber Zufriedenheit
+  mit dem Angebot an \"offentlichen Verkehrsmitteln durchgef\"uhrt. Ein
+  Teilaspekt befasste sich mit der Frage, ob Bewohner des Stadtkerns
+  zufriedener mit diesen Leistungen sind als Bewohner des Stadtrandes.
 
 Die Befragung von 250 Personen ergab folgende Kreuztabelle:
 
@@ -197,9 +196,7 @@ Die Befragung von 250 Personen ergab folgende Kreuztabelle:
 oeffi
 @
 
-Aus dieser wurden die folgende Tabellen mit relativen Häufigkeiten ermittelt:
-
-\vspace*{15pt}
+Aus dieser wurden die folgende Tabellen mit relativen H\"aufigkeiten ermittelt:
 
 Tabelle 1:
 
@@ -207,16 +204,11 @@ Tabelle 1:
 goeffi
 @
 
-\vspace*{15pt}
-
 Tabelle 2:
 
 <<echo=FALSE>>= 
 zoeffi
 @
-
-
-
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
 
@@ -246,4 +238,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

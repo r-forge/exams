@@ -42,7 +42,7 @@ decplot <- function(x, factor = 0.95,
 decplotr <- function(x, factor = 0.95,
   main = NULL, ylim = NULL, cex.lab = 1.5, xlab = "Time", ...)
 {
-  if(is.null(main)) main <- paste("Zufällige Anordnung der Zeitreihenkomponenten")
+  if(is.null(main)) main <- paste("Zuf\\\\\"allige Anordnung der Zeitreihenkomponenten")
 
   yr <- range(x$random, na.rm = TRUE) * factor
   xr <- end(x$trend)
@@ -125,7 +125,7 @@ qtext   <- c(
 "zeigt die beobachtete Reihe. ",     
 "gibt den mittelfristigen Verlauf der Reihe wieder (Trend).",
 "macht das sich wiederholende Saisonmuster sichtbar.", 
-"weist die irreguläre Komponente aus. ")
+"weist die irregul\\\\\"are Komponente aus. ")
 
 labels <- c("H","LT","GT","HS","LTS","GTS")
 
@@ -137,7 +137,7 @@ labels <- c("H","LT","GT","HS","LTS","GTS")
 
 #for (j in 1:4) {
 
-modsel[1] <- f_rdunif(1,4,5)
+modsel[1] <- sample(4:5, 1)
 for (j in 1:1) {
 
 ## NO SEASON -- h
@@ -150,7 +150,7 @@ freq  <- freqlist[ifreq]
 nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
 nyears <- floor(nobs / freq)
 
-  h <- f_h0(nobs)
+  h <- exams:::f_h0(nobs)
   # plot(h, type="l",xlab="time",ylab="h")
 
 if (nyears > nyx) { 
@@ -177,7 +177,7 @@ freq  <- freqlist[ifreq]
 nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
 nyears <- floor(nobs / freq)
 
-  lt <- f_lt0(nobs);
+  lt <- exams:::f_lt0(nobs);
   #plot(lt, type="l",xlab="time",ylab="lt")
 
 if (nyears > nyx) { 
@@ -204,7 +204,7 @@ freq  <- freqlist[ifreq]
 nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
 nyears <- floor(nobs / freq)
 
-   gt <- f_gt0(nobs)
+   gt <- exams:::f_gt0(nobs)
    #plot(gt, type="l",xlab="time", ylab="gt")
 
 if (nyears > nyx) { 
@@ -242,8 +242,8 @@ if (freq == 4)  { if (nyears > 10) {nyears = 10} }
 if (freq == 12) { if (nyears > 8) {nyears = 8} }
 nobs  <- nyears*freq
 
-  seas <- f_seas(nobs,freq)
-  hs   <- f_h(nobs,seas=seas)
+  seas <- exams:::f_seas(nobs,freq)
+  hs   <- exams:::f_h(nobs,seas=seas)
   # plot(hs, type="l",xlab="time",ylab="h")
 
 if (nyears > nyx) { 
@@ -277,9 +277,9 @@ if (freq == 12) { if (nyears > 8) {nyears = 8} }
 
 nobs  <- nyears*freq
 
-  seas <- f_seas(nobs,freq)
-  hs   <- f_hg(nobs,seas=seas,scal=3.0)
-  lts  <- f_lt(nobs,resid=hs);
+  seas <- exams:::f_seas(nobs,freq)
+  hs   <- exams:::f_hg(nobs,seas=seas,scal=3.0)
+  lts  <- exams:::f_lt(nobs,resid=hs);
   #plot(lts, type="l",xlab="time",ylab="lt")
 
 if (nyears > nyx) { 
@@ -314,9 +314,9 @@ if (freq == 12) { if (nyears > 8) {nyears = 8} }
 
 nobs  <- nyears*freq
 
-  seas <- f_seas(nobs,freq)
-  hs   <- f_hg(nobs,ar=FALSE,seas=seas,scal=4.0)
-  gts  <- f_gt(nobs,resid=hs)
+  seas <- exams:::f_seas(nobs,freq)
+  hs   <- exams:::f_hg(nobs,ar=FALSE,seas=seas,scal=4.0)
+  gts  <- exams:::f_gt(nobs,resid=hs)
   #plot(gts, type="l",xlab="time", ylab="gt")
 
 if (nyears > nyx) { 
@@ -359,14 +359,14 @@ if (nyears > nyx) {
 dec <- decompose(series[[1]])
 
 solc[1] <- "beobachtete Reihe: Sie setzte sich additiv aus den 3 Komponenten - 
-   Trend, Saisonmuster und irregulärer Komponente zusammen."
+   Trend, Saisonmuster und irregul\\\\\"arer Komponente zusammen."
 solc[2] <- "Trend: Hier wird die mittel- bis langfristige Entwicklung ohne 
-Saison oder irregulärer Effekte dargestellt."
+Saison oder irregul\\\\\"arer Effekte dargestellt."
 solc[3] <- "saisonale Komponente: Sie gibt den Rhythmus 
 der saisonalen Schwankungen wieder."
-solc[4] <- "irreguläre Komponente: Hier werden die Ausschläge der Reihe angezeigt, 
+solc[4] <- "irregul\\\\\"are Komponente: Hier werden die Ausschl\\\\\"age der Reihe angezeigt, 
   die weder der Saison, noch der mittelfristigen Entwicklung zugeordnet werden 
-  können."
+  k\\\\\"onnen."
 
 o <- sample(1:4)
 decplotr(dec)
@@ -416,19 +416,18 @@ qu5 <- as.vector(questions[[5]])
 @
 
 \begin{question} 
-{\bf CH11-02:}  
+
 Es wurde aus der Gruppe der additiven Modelle 
-(horizontales Muster, linearer Trend, lokaler Trend) mit Saison zufällig eines 
-ausgewählt, eine Zeitreihe dazu erzeugt und deren Zerlegung in Trend, 
-Saison und irreguläre Komponente berechnet. Diese drei Komponenten zusammen 
-mit der Originalreihe sind unten - allerdings in einer {\it zufälligen Anordnung} - 
+(horizontales Muster, linearer Trend, lokaler Trend) mit Saison zuf\"allig eines 
+ausgew\"ahlt, eine Zeitreihe dazu erzeugt und deren Zerlegung in Trend, 
+Saison und irregul\"are Komponente berechnet. Diese drei Komponenten zusammen 
+mit der Originalreihe sind unten - allerdings in einer {\it zuf\"alligen Anordnung} - 
 geplottet.\\ 
 Aufgabe ist es den Plots die korrekte Bezeichnung zuzuordnen. 
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
-\footnotesize
 <<fig=TRUE, height = 5.5, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
 decplotr(dec)
@@ -462,10 +461,6 @@ Welche der folgenden Aussagenkombinationen sind richtig?
 \end{itemize}
 \end{question}
 
-
-\newpage
-
-
 %% SOLUTIONS
 \begin{solution}
 
@@ -477,9 +472,9 @@ Welche der folgenden Aussagenkombinationen sind richtig?
   \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
 \end{itemize}
 
-{\bf Erklärung:}\\
+{\bf Erkl\"arung:}\\
 Wird eine Kombination als falsch ausgewiesen, so stimmt zumindest 
-eine Zuordnung nicht überein. Die richtigen Lösungen sind:
+eine Zuordnung nicht \"uberein. Die richtigen L\"osungen sind:
 \begin{itemize} 
   \item[] Plot 1, P1, \Sexpr{solc[1]}
   \item[] Plot 2, P2, \Sexpr{solc[2]}
@@ -490,7 +485,6 @@ Die Plots in der richtigen Anordnung sind:
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
-\footnotesize
 <<fig=TRUE, height = 5.5, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
 decplot(dec)
@@ -504,5 +498,6 @@ par(op)
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}
+
 

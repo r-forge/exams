@@ -28,7 +28,7 @@ jticker <- 5
 
 ###ser <- read.zoo("c:/BA-Stat/R-Bsps/djibch12")
 
-ser <- read.zoo("~/BA-Stat/R-Bsps/ch12-dji_d")
+data("ch12-dji_d")
 
 n <- length(ser)
 ststart <- start(ser)
@@ -40,7 +40,7 @@ wnp1 <- wn+1
 maxtrials <- 100
 for (itrial in 1:maxtrials) {
 
-wbeg <- f_rdunif(1,1,(n-wnp1))
+wbeg <- sample(1:(n-wnp1), 1)
 wend <- wbeg + wnp1 - 1
 wtstart <- time(ser[wbeg])
 wtend   <- time(ser[wend])
@@ -56,9 +56,9 @@ r <- window(r.a, start = rtstart, end= rtend)
 #op <- par(mfrow = c(1, 2), mar = c(4.1, 4.1, 1.6, 1.6)) 
 #   ts.plot(r, xlab="time",ylab="r") 
 ##     if ( attr(ser,"tsp")[3] != 1 ) {  
-##     my.yax <- f_yax(ser)
+##     my.yax <- exams:::f_yax(ser)
 ##     axis(1, at=my.yax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.5) 
-##     my.sax <- f_sax(ser)
+##     my.sax <- exams:::f_sax(ser)
 ##     axis(1, at=my.sax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.25)
 #    acf(coredata(r), plot = TRUE, ylab="ACF")
 #par(op)
@@ -89,21 +89,21 @@ alpha <- summary(ar1)$coeff[2,1]
 solutions <- c(F, F, F, F, F)
 
 if (runif(1) > 0.5) {
-  questions[1] <- "Das geschätzte $\\\\alpha_1$ ist sigifikant von 
+  questions[1] <- "Das gesch\\\\\"atzte $\\\\alpha_1$ ist signifikant von 
      null verschieden."
   solutions[1] <- t1 > 2
                } else {
-  questions[1] <- "Das geschätzte $\\\\alpha_1$ ist nicht sigifikant 
+  questions[1] <- "Das gesch\\\\\"atzte $\\\\alpha_1$ ist nicht signifikant 
      von null verschieden."
   solutions[1] <- t1 < 2 
                     }
 
 if (runif(1) > 0.5) {
-  questions[2] <- "Die geschätzte Konstante ist sigifikant von null 
+  questions[2] <- "Die gesch\\\\\"atzte Konstante ist signifikant von null 
      verschieden."
   solutions[2] <- t0 > 2
                } else {
-  questions[2] <- "Das geschätzte Konstante ist nicht sigifikant von 
+  questions[2] <- "Das gesch\\\\\"atzte Konstante ist nicht signifikant von 
      null verschieden."
   solutions[2] <- t0 < 2 
                     }
@@ -128,7 +128,7 @@ if (runif(1) > 0.5) {
   solutions[4] <- FALSE
                    }
 
-questions[5] <- "Die Hypothese eine white noise Pozesses kann verworfen 
+questions[5] <- "Die Hypothese eines white noise Pozesses kann verworfen 
    werden."
 solutions[5] <- t1 > 2  
  
@@ -152,27 +152,23 @@ qu5 <- as.vector(questions[[5]])
 @
 
 \begin{question} 
-
-
-{\bf CH12-04:}  
-Gegeben ist der Dow-Jones-Industrial Index, $P_t$, für 
-die Periode \Sexpr{ststart} bis \Sexpr{stend}, tägliche Schlu{\ss}kurse. 
-Für einen Datenauschnitt von \Sexpr{wnp1} Beobachtungen 
-(\Sexpr{wtstart} bis \Sexpr{wtend}) werden die Renditen, $r_t$, 
-berechnet. Die Graphik zeigt die Renditenreihe und ihr Korrelogramm.
+  Gegeben ist der Dow-Jones-Industrial Index, $P_t$, f\"ur die Periode
+  \Sexpr{ststart} bis \Sexpr{stend}, t\"agliche Schlusskurse.  F\"ur
+  einen Datenauschnitt von \Sexpr{wnp1} Beobachtungen (\Sexpr{wtstart}
+  bis \Sexpr{wtend}) werden die Renditen, $r_t$, berechnet. Die
+  Graphik zeigt die Renditenreihe und ihr Korrelogramm.
 
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
-\footnotesize
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 op <- par(mfrow = c(1, 2), mar = c(4.1, 4.1, 1.6, 1.6)) 
    plot(r,xlab="time",ylab="r") 
 #     if ( attr(ser,"tsp")[3] != 1 ) {  
-#     my.yax <- f_yax(ser)
+#     my.yax <- exams:::f_yax(ser)
 #     axis(1, at=my.yax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.5) 
-#     my.sax <- f_sax(ser)
+#     my.sax <- exams:::f_sax(ser)
 #     axis(1, at=my.sax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.25)
     acf(coredata(r), plot = TRUE, ylab="ACF")
 par(op)
@@ -184,12 +180,12 @@ Wir passen an die Renditen ein AR(1) Modell an:
  $r_t = \alpha_0 + \alpha_1 \cdot r_{t-1} + \epsilon_t$. 
 
 \setkeys{Gin}{width=0.75\textwidth}
-\texttt{Abhängige Variable: r} \qquad \qquad \texttt{n=} \Sexpr{wn}
+\texttt{Abh\"angige Variable: r} \qquad \qquad \texttt{n=} \Sexpr{wn}
 <<echo=FALSE, results=verbatim>>=
 print(summary(ar1)$coeff,digits=3) 
 @
 
-Beurteilen Sie das geschätzte Modell. Nehmen Sie dabei eine 
+Beurteilen Sie das gesch\"atzte Modell. Nehmen Sie dabei eine 
 Irrtumswahrscheinlichkeit von 5\% an.\\
 Welche der folgenden Aussagen sind richtig?
 
@@ -203,8 +199,6 @@ Welche der folgenden Aussagen sind richtig?
 
 \end{question}
 
-\newpage
-
 %% SOLUTIONS
 \begin{solution}
 
@@ -216,18 +210,19 @@ Welche der folgenden Aussagen sind richtig?
   \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
 \end{itemize}
 
-{\bf Erklärungen:}\\
-Das Schätzergebnis für ein AR(1) Modell kann wie ein 
+{\bf Erkl\"arungen:}\\
+Das Sch\"atzergebnis f\"ur ein AR(1) Modell kann wie ein 
 Regressionsoutput interpretiert werden.  Die Anwendbarkeit von 
-$t$-Tests ist bei einer genügend gro{\ss} Zahl von Beobachtungen gegeben.\\
-Ist der Einfluss der Rendite aus der  
-Vorperiode, $r_{t-1}$, signifikant, so kann durch die Verwendung 
-der Schätzgleichung unter Annahme, dass die Stuktur auch in der 
-Zukunft weiter besteht, eine Verbesserung der Prognose erwartet werden.
+$t$-Tests ist bei einer gen\"ugend gro{\ss}en Zahl von Beobachtungen gegeben.
+
+Ist der Einfluss der Rendite aus der Vorperiode, $r_{t-1}$,
+signifikant, so kann durch die Verwendung der Sch\"atzgleichung unter
+Annahme, dass die Stuktur auch in der Zukunft weiter besteht, eine
+Verbesserung der Prognose erwartet werden.
 
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

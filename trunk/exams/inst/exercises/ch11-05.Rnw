@@ -1,15 +1,8 @@
-
 <<echo=FALSE, results=hide>>=
-
-questions    <- character(5)
-solutions    <- logical(5)
-explanations <- character(5)
-expl         <- character(6)
-
 ## DATA GENERATION
 # Erneuerbare Energie, Summe Stromerzeugung in GWh, DE, 1990-2006, J
 # http://www.erneuerbare-energien.de/files/erneuerbare_energien/downloads/application/pdf/broschuere_ee_zahlen.pdf S.14
-# geeignet für ein exponentielles Wachstum
+# geeignet f\"ur ein exponentielles Wachstum
 # 1 GWh = (10^3)^3 Wh, 1TWh = (10^3)^4 Wh 
 ## INIT
 nobs  <-  17
@@ -19,8 +12,8 @@ x   <- c( 18463, 17492, 20378, 21246, 23018,
           25431, 23219, 24505, 26913, 30511, 
           36679, 39073, 45760, 48654, 57529, 
           63569, 70433 )
-## Zeit-Index händisch zu rechnen:  x[i]  <- Reihe[ jahr - 1990 + 1 ] 
-x <- ts( x, start=datbeg,freq=1 )
+## Zeit-Index h\"andisch zu rechnen:  x[i]  <- Reihe[ jahr - 1990 + 1 ] 
+x <- ts( x, start=datbeg,frequency=1 )
 x <- round( x/1000, digits=1)
 
 
@@ -30,9 +23,9 @@ x <- round( x/1000, digits=1)
 #         ybeg_j     ... yend_j
 #         y[1]           y[7] 
 
-f_j2t <- function(j) { t <- j-1990+1; t}
+f_j2t <- function(j) j - 1989
 
-beg_j <- f_rdunif(1,datbeg,datend-7+1)
+beg_j <- sample(datbeg:(datend-6), 1)
 end_j <- beg_j + 6
 j     <- c(beg_j:end_j)
 
@@ -40,7 +33,7 @@ beg_t <- f_j2t(beg_j)
 end_t <- f_j2t(end_j)
 y     <- x[beg_t:end_t]
 
-m0_j   <- f_rdunif(1,beg_j+2,end_j-2)
+m0_j   <- sample((beg_j+2):(end_j-2), 1)
 mbeg_j <- m0_j - 2
 mend_j <- m0_j + 2
 
@@ -49,29 +42,17 @@ mbeg_t <- f_j2t(mbeg_j)
 mend_t <- f_j2t(mend_j)
 
 fggd <- sum( x[mbeg_t:mend_t])/5
-
 ytbr <- x[mbeg_t+2] - fggd
-
-ytbr_string <- paste("Wert der trendbereinigten Reihe: ", 
-  round(ytbr, digits = 1),
-  " (toleriert: ", round(ytbr, digits = 1) - 0.2, " <= B <= ",
-  round(ytbr, digits = 1) + 0.2, ")", sep = "")
-
-fggd <- round(fggd, digits=1)
-ytbr <- round(ytbr, digits = 1)
-
 @
 
 \begin{question}
-{\bf CH11-05:} 
-Gegeben ist die jährliche Stromerzeugung aus erneuerbarer Energie für 
+Gegeben ist die j\"ahrliche Stromerzeugung aus erneuerbarer Energie f\"ur 
 Deutschland in TWh, $Y_t$, von 1990 bis 2006. 
-Gesucht ist die mittels 5-gliedrigen Durchschnitt trendbereinigte 
-Reihe für die Periode \Sexpr{beg_j} bis \Sexpr{end_j}.
+Gesucht ist die mittels 5-gliedrigem Durchschnitt trendbereinigte 
+Reihe f\"ur die Periode \Sexpr{beg_j} bis \Sexpr{end_j}.
 
 \begin{center}
-{\small
-\begin{tabular}{c|ccccccc}
+\begin{tabular}{|c|ccccccc|}
 \hline
  Jahr & \Sexpr{j[1]} & \Sexpr{j[2]} & \Sexpr{j[3]} & \Sexpr{j[4]} & \Sexpr{j[5]} 
       & \Sexpr{j[6]} & \Sexpr{j[7]} \\
@@ -80,35 +61,32 @@ $Y_t$ & \Sexpr{y[1]} & \Sexpr{y[2]} & \Sexpr{y[3]} & \Sexpr{y[4]} & \Sexpr{y[5]}
       & \Sexpr{y[6]} & \Sexpr{y[7]} \\
 \hline
 \end{tabular}
-}
 \end{center}
 
-Geben Sie nur den Wert der trendbereinigten Reihe für das Jahr \Sexpr{m0_j} an.
+Geben Sie nur den Wert der trendbereinigten Reihe f\"ur das Jahr \Sexpr{m0_j} an.
 
 \end{question}
 
 \begin{solution}
 Das klassische Zerlegungsmodell der Zeitreihenanalyse ist
-$$Y_t = T_t + S_t + E_t$$
+$$Y_t = T_t + S_t + E_t.$$
 Wir berechnen zuerst die Trendkomponente mittels 5-gliedrigen gleitenden 
 Durchschnitt. 
 $$ T_t = \frac{1}{5}[Y_{t-2} + Y_{t-1} + Y_{t} + Y_{t+1} + Y_{t+2}]$$
-Für  \Sexpr{m0_j} ergibt sich \\
+F\"ur  \Sexpr{m0_j} ergibt sich \\
 $$ T_{\Sexpr{m0_j}} = ( 
   \Sexpr{x[mbeg_t]}   + \Sexpr{x[mbeg_t+1]} + \Sexpr{x[m0_t]}
              + \Sexpr{x[mend_t-1]} + \Sexpr{x[mend_t]} )/5 = 
-\Sexpr{fggd}$$
+\Sexpr{num2string(fggd)}.$$
 
-Die Trendbereiningung erhält man nach Subtraktion der Glättung $T_t$ von 
-der ursprünglichen Reihe, $TB_t = (Y_t - T_t)$. Das ist hier
-$$(\Sexpr{x[mbeg_t+2]} - \Sexpr{fggd}) = \Sexpr{ytbr}$$
-
-
-
+Die Trendbereiningung erh\"alt man nach Subtraktion der Gl\"attung
+$T_t$ von der urspr\"unglichen Reihe, $TB_t = (Y_t - T_t)$. Das ist
+hier
+$$TB_t = (\Sexpr{x[mbeg_t+2]} - \Sexpr{num2string(fggd)}) = \Sexpr{num2string(ytbr)}$$
 \end{solution}
-
 
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(ytbr)}}
-%% \exstring{\Sexpr{ytbr_string}}
+%% \exname{Trendbereinigungswert}
+%% \extol{0.2}

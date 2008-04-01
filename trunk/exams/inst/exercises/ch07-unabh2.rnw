@@ -33,25 +33,25 @@ explanations <- character(5)
 
 ## 1. X2 ablesen
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Der $X^2$-Wert beträgt:", round(x2,digits=3))
+  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt:", round(x2,digits=3))
   solutions[1] <- T
-  explanations[1] <- "Diesen Wert kann man aus dem R-Output ablesen."
+  explanations[1] <- "Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen."
 } else {
-  questions[1] <- paste("Der $X^2$-Wert beträgt:", round(pv, digits=4) )
+  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt:", round(pv, digits=4) )
   solutions[1] <- F
-  explanations[1] <- paste("Der richtige Wert ist aus dem R-Output ablesbar:", round(x2,digits=3))
+  explanations[1] <- paste("Der richtige Wert ist aus dem \\\\textsf{R}-Output ablesbar:", round(x2,digits=3))
 }
 
 
 ## 2. df
 if(runif(1) > 0.5) {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel beträgt 4."
+  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 4."
   solutions[2] <- T
-  explanations[2] <- "df = (3-1)(3-1) = 4. Das ist auch dem R-Output zu entnehmen."
+  explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
 } else {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel beträgt 6."
+  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 6."
   solutions[2] <- F
-  explanations[2] <- "df = (3-1)(3-1) = 4. Das ist auch dem R-Output zu entnehmen."
+  explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
 }
 
 
@@ -60,28 +60,28 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen für Kultur 
-                   und der Interessen für Sport sind unabhängig."
+  questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
   solutions[3] <- T
-  explanations[3] <- "In der Nullhypothese wird Unabhängigkeit unter den Variablen postuliert."
+  explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit unter den Variablen postuliert."
 } else {
-  questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen für Kultur 
-                   und der Interessen für Sport sind abhängig."
+  questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
   solutions[3] <- F
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
 } else 
 
 if(runif(1) > 0.5) {
-  questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen für Kultur 
-                   und der Interessen für Sport sind unabhängig."
+  questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
   solutions[3] <- F
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
-  questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen für Kultur 
-                   und der Interessen für Sport sind abhängig."
+  questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
   solutions[3] <- T
-  explanations[3] <- "In der Alternativhypothese wird Abhängigkeit unter den Variablen postuliert."
+  explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit unter den Variablen postuliert."
 }
 
 
@@ -90,33 +90,31 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- pv >= 0.05
-  explanations[4] <- paste("Der p-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.")
+  explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- pv < 0.05
-  explanations[4] <- paste("Der p-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.")
+  explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 }
 
 
 ## 5. inhaltliche Interpretation
 if(runif(1) > 0.5) {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Verfolgen der Interessen für Kultur 
-                   und der Interessen für Sport sind nicht abhängig."
+  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind nicht abh\\\\\"angig."
   solutions[5] <- pv >= 0.05
-  explanations[5] <- paste("Der p-Wert ist ", round(pv,digits=5),". 
-  Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabhängigkeit) verworfen, sonst beibehalten.")
+  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
-                   Das Verfolgen der Interessen für Kultur 
-                   und der Interessen für Sport sind abhängig."
+                   Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
   solutions[5] <- pv < 0.05
-  explanations[5] <- paste("Der p-Wert ist ", round(pv,digits=5),". 
-  Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabhängigkeit) verworfen, sonst beibehalten.")
+  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 }
-
-
 
 ## permute order of solutions/questions
 o <- sample(1:5)
@@ -130,20 +128,20 @@ explanations <- explanations[o]
 In einer Befragung zum Freizeitverhalten wurde bei 400 Befragten erhoben, 
 welche Interessen in der Freizeit verfolgt werden.  
 
-Das Ergebnis für die Interessen an Kultur und an Sport gibt die folgende Tabelle wieder: 
+Das Ergebnis f\"ur die Interessen an Kultur und an Sport gibt die folgende Tabelle wieder: 
  
 <<echo=FALSE>>= 
 Freizeit
 @
 
-Ein Chi-Quadrat-Unabhängigkeitstest zur Überprüfung, ob das Ausüben der 
-Sportinteressen unabhängig vom Ausüben der Kulturinteressen ist, ergibt:
+Ein $\chi^2$-Unabh\"angigkeitstest zur \"Uberpr\"ufung, ob das Aus\"uben der 
+Sportinteressen unabh\"angig vom Aus\"uben der Kulturinteressen ist, ergibt:
 
 <<echo=FALSE>>= 
 unabht
 @
 
-Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+Welche der folgenden Aussagen sind richtig? (Signifikanzniveau: 5\%)
 
 
 \begin{itemize}
@@ -171,4 +169,5 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}
+

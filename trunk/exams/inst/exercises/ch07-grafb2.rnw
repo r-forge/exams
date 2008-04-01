@@ -30,17 +30,17 @@ if(runif(1) > 0.5) {
 } else {
   questions[1] <- "In den drei Belastungsgebieten wurden gleich viel Personen befragt."
   solutions[1] <- F
-  explanations[1] <- "Die Balken sind zwar gleich hoch, jede Gruppe für sich 
+  explanations[1] <- "Die Balken sind zwar gleich hoch, jede Gruppe f\\\\\"ur sich 
                       wird als 100 Prozent aufgefasst."
 }  
 } else 
 if(runif(1) > 0.5) {
-  questions[1] <- "Die Balken des Diagramms entsprechen den Zeilenen der Kreuztabelle."
+  questions[1] <- "Die Balken des Diagramms entsprechen den Zeilen der Kreuztabelle."
   solutions[1] <- F
   explanations[1] <- "Sie entsprechen den Spalten, das ist auch aus der Beschriftung 
                       der Balken und der Legende deutlich."  
 } else {
-  questions[1] <- "Die Balkenteile entsprechen Spaltenprozent für die gegebene Kreuztabelle."
+  questions[1] <- "Die Balkenteile entsprechen Spaltenprozent f\\\\\"ur die gegebene Kreuztabelle."
   solutions[1] <- T
   explanations[1] <- "Sie summieren sich zu 1 (=100 Prozent) und entsprechen diesen Angaben."
 }
@@ -49,14 +49,14 @@ if(runif(1) > 0.5) {
 ## 2. Interpretation 1.Balken
 
 if(runif(1) > 0.5) {
-  questions[2] <- "Mindestens die Hälfte der befragten Bewohner direkt betroffener Gebiete hat sich 
-                   für stärkere Reglementierungen ausgesprochen."
+  questions[2] <- "Mindestens die H\\\\\"alfte der befragten Bewohner direkt betroffener Gebiete hat sich 
+                   f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen."
   solutions[2] <- rhp[1,1] >= rhp[2,1]
   explanations[2] <- "Das ergibt der Vergleich der Balkenanteile des linken Balkens."
 } else {
-  questions[2] <- "Ungefähr ein Drittel (30-35 Prozent) der befragten Bewohner 
+  questions[2] <- "Ungef\\\\\"ahr ein Drittel (30-35 Prozent) der befragten Bewohner 
                    direkt betroffener Gebiete hat sich 
-                   für stärkere Reglementierungen ausgesprochen."
+                   f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen."
   solutions[2] <- abs( rhp[1,1]-32.5 ) <= 2.5
   explanations[2] <- paste("Es sind ", rhp[1,1], "Prozent.")
 }
@@ -67,28 +67,28 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[3] <- paste( "Ungefähr ($\pm$ 2.5 Prozent)", round(rhp[1,2]/5)*5, "Prozent der befragten Bewohner 
+  questions[3] <- paste( "Ungef\\\\\"ahr ($\\\\pm$ 2.5 Prozent)", round(rhp[1,2]/5)*5, "Prozent der befragten Bewohner 
                           indirekt betroffener Gebiete hat sich 
-                          für stärkere Reglementierungen ausgesprochen.")
+                          f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen.")
   solutions[3] <- T
   explanations[3] <- "Das ist die Interpretation des 2.Balkens als Spaltenprozent."                        
 } else {
-  questions[3] <- paste( "Ungefähr ($\pm$ 2.5 Prozent)", round(rhp[2,2]/5)*5, "Prozent aller befragten Bewohner 
-                          hat sich gegen stärkere Reglementierungen ausgesprochen.")
+  questions[3] <- paste( "Ungef\\\\\"ahr ($\\\\pm$ 2.5 Prozent)", round(rhp[2,2]/5)*5, "Prozent aller befragten Bewohner 
+                          hat sich gegen st\\\\\"arkere Reglementierungen ausgesprochen.")
   solutions[3] <- F
   explanations[3] <- "Die Balkenanteile geben keine Gesamtprozent an."      
 } 
 } else
 
 if(runif(1) > 0.5) {
-  questions[3] <- paste( "Ungefähr ($\pm$ 2.5 Prozent)", round(rhp[2,3]/5)*5, "Prozent der befragten Bewohner 
+  questions[3] <- paste( "Ungef\\\\\"ahr ($\\\\pm$ 2.5 Prozent)", round(rhp[2,3]/5)*5, "Prozent der befragten Bewohner 
                           nicht belasteter Gebiete hat sich 
-                          gegen stärkere Reglementierungen ausgesprochen.")
+                          gegen st\\\\\"arkere Reglementierungen ausgesprochen.")
   solutions[3] <- T
   explanations[3] <- "Das ist die Interpretation des 3.Balkens als Spaltenprozent."         
 } else {
-  questions[3] <- paste( "Ungefähr ($\pm$ 2.5 Prozent)", round(rhp[1,3]/5)*5, "Prozent aller Befragten, die sich  
-                          für stärkere Reglementierungen ausgesprochen, leben in nicht 
+  questions[3] <- paste( "Ungef\\\\\"ahr ($\\\\pm$ 2.5 Prozent)", round(rhp[1,3]/5)*5, "Prozent aller Befragten, die sich  
+                          f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen, leben in nicht 
                           belasteten Gebieten.")
   solutions[3] <- F
   explanations[3] <- "Die Balkenanteile geben Spalten- und keine Zeilenprozent an."      
@@ -98,14 +98,14 @@ if(runif(1) > 0.5) {
 ## 4. Vergleich von 2 Balken
 
 if(runif(1) > 0.5) {
-  questions[4] <- "In nicht belasteten Gebieten ist der Anteil der Befürworter 
-                   stärkerer Reglementierungen höher als in indirekt 
+  questions[4] <- "In nicht belasteten Gebieten ist der Anteil der Bef\\\\\"urworter 
+                   st\\\\\"arkerer Reglementierungen h\\\\\"oher als in indirekt 
                    betroffenen Gebieten."
   solutions[4] <- (rhp[1,2]<=rhp[1,3])
   explanations[4] <- "Das kann man aus dem Vergleich der unteren Balkenteile ableiten."
 } else {
-  questions[4] <- "Unter den Befragten ist der Anteil der Befürworter in direkt betroffenen  
-                   Gebieten um mindestens 10 Prozent höher als in nicht belasteten Gebieten."
+  questions[4] <- "Unter den Befragten ist der Anteil der Bef\\\\\"urworter in direkt betroffenen  
+                   Gebieten um mindestens 10 Prozent h\\\\\"oher als in nicht belasteten Gebieten."
   solutions[4] <- (rhp[1,1]>=rhp[1,3]+10)
   explanations[4] <- "Das kann man aus dem Vergleich der unteren Balkenteile ableiten."
 } 
@@ -117,18 +117,18 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[5] <- "Je betroffener das Gebiet, in dem die Befragten wohnen desto 
-                   höher der Anteil der Befürworter stärkerer Reglementierungen."
+                   h\\\\\"oher der Anteil der Bef\\\\\"urworter st\\\\\"arkerer Reglementierungen."
   solutions[5] <- (rhp[1,1]>rhp[1,2]) & (rhp[1,2]>rhp[1,3])
   explanations[5] <- "Das kann man aus dem Vergleich der unteren Balkenteile ableiten."
 } else {
-  questions[5] <- "Unter den Befragten ist der Anteil der Gegner stärkerer Reglementierungen 
-                   in nicht betroffenen Gebieten am stärksten."
+  questions[5] <- "Unter den Befragten ist der Anteil der Gegner st\\\\\"arkerer Reglementierungen 
+                   in nicht betroffenen Gebieten am st\\\\\"arksten."
   solutions[5] <- (rhp[2,3] > max(rhp[2,1],rhp[2,2]))
   explanations[5] <- "Das kann man aus dem Vergleich der oberen Balkenteile ableiten."
 } 
 } else {
-  questions[5] <- "Unter den Befragten ist der Anteil der Befürworter stärkerer Reglementierungen 
-                   in direkt betroffenen Gebieten am stärksten."
+  questions[5] <- "Unter den Befragten ist der Anteil der Bef\\\\\"urworter st\\\\\"arkerer Reglementierungen 
+                   in direkt betroffenen Gebieten am st\\\\\"arksten."
   solutions[5] <- (rhp[1,1] > max(rhp[1,2],rhp[1,3]))
   explanations[5] <- "Das kann man aus dem Vergleich der unteren Balkenteile ableiten." 
 }
@@ -144,15 +144,15 @@ explanations <- explanations[o]
 
 
 \begin{question}
-Die Einstellung der Bevölkerung zur Transitfrage ist durch Massenmedien beeinflusst, aber natürlich auch 
-durch persönliche Betroffenheit geformt. Bei einer Umfrage, ob eine stärkere Reglementierung des Schwerverkehrs 
+Die Einstellung der Bev\"olkerung zur Transitfrage ist durch Massenmedien beeinflusst, aber nat\"urlich auch 
+durch pers\"onliche Betroffenheit geformt. Bei einer Umfrage, ob eine st\"arkere Reglementierung des Schwerverkehrs 
 durchgesetzt werden soll ({\em pro}) oder nicht ({\em contra}), wurden die Befragten je nach Wohnort 
 wie folgt kategorisiert: 
 Wohnort in einem vom Transitverkehr direkt belasteten Gebiet 
 oder Wohnort in einem vom Transitverkehr nicht direkt betroffenen aber doch belasteten Gebiet  
 oder keine Belastung des Wohnortes durch den Transitverkehr.  
 
-Die Auszählung ergab folgende Kreuztabelle:
+Die Ausz\"ahlung ergab folgende Kreuztabelle:
  
 <<echo=FALSE>>= 
 transit
@@ -161,7 +161,7 @@ transit
 Daraus abgeleitet ist das folgende Balkendiagramm:
 
 <<echo=FALSE,fig=T>>= 
-barplot( prop.table(transit,2), legend=T, cex.axis=0.8, xlim=c(0,5) ) 
+barplot( prop.table(transit,2), legend.text=TRUE, cex.axis=0.8, xlim=c(0,5), xlab = "Belastung", ylab = "Einstellung") 
 axis(2, seq(0.1,0.9,0.2), cex.axis=0.8)
 @ 
 
@@ -194,4 +194,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

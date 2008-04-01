@@ -1,4 +1,3 @@
-
 <<echo=FALSE, results=hide>>=
 ## Y_t = T_t + S_t + E_t
 ## Gegeben: Y_t, T_t, S_q, Quartalsdaten
@@ -27,7 +26,7 @@ nobsi <- nobsjahre*4
 datbeg2 <- 2007 + 1 - nobsjahre  # Ganze Jahre  bis inkl 2007
 datbeg1 <- datbeg2 - 5
 
-jbeg <-  f_rdunif(1,datbeg1,datbeg2)
+jbeg <-  sample(datbeg1:datbeg2, 1)
 jend <-  jbeg - 1 + round( nobs/4, digits=0)
 x.ts <- ts( x, start=jbeg,freq=4 )
 x.j  <- floor( time(x.ts) )
@@ -59,10 +58,10 @@ for (q in 1:4) {x.s[q] <- mean( x.d[ seq(q,nobsi,by=4) ] ) }
 
 ## Daten-Ausschnitt
 anobs     <- 8   # 2 ganze Jahre
-aibegmin  <- 1 + 4               # 1.Jahr nicht (MA-Glättung)  
+aibegmin  <- 1 + 4               # 1.Jahr nicht (MA-Gl\"attung)  
 aibegmax  <- nobs - anobs + 1 - 4 # letztes Jahr nicht
 
-aibeg  <- f_rdunif(1,aibegmin,aibegmax)
+aibeg  <- sample(aibegmin:aibegmax, 1)
 aibeg  <- floor( (aibeg-1)/4 )*4 + 1    # nur ganze Jahre
 aiend  <- aibeg + anobs - 1
 # fuer den Bsp-Text
@@ -78,10 +77,10 @@ ajahr1 <- x.j[aibeg]
 ajahr2 <- x.j[aibeg+4]
 
 ## 
-q0      <-  f_rdunif(1,1,4)
-j0      <-  f_rdunif(1,1,2)
+q0      <-  sample(1,4, 1)
+j0      <-  sample(1:2, 1)
 i0      <-  aibeg + (j0-1)*4 + q0 - 1
-if (j0 == 1) { j0 <- ajahr1} else{ j0 <- ajahr2 }
+j0 <- if (j0 == 1) ajahr1 else ajahr2
 
 quartal  <- paste(q0,".Quartal", sep="")
 quartalj  <- paste(quartal, j0, sep=" ")
@@ -102,15 +101,14 @@ ysa <- round(ysa, digits=1)
 
 \begin{question} 
 
-{\bf CH11-11:} Gegeben sind die vierteljährlichen Verkaufszahlen einer 
-französischen Firma, $Y_t$, für die Periode \Sexpr{jbeg} bis \Sexpr{jend}.  
-Ein 
-Datenauschnitt daraus ist unten gegeben. Dazu wurde bereits eine 
-geeignete Glättung, $T_t$, ermittelt. 
+  Gegeben sind die viertelj\"ahrlichen Verkaufszahlen einer
+  franz\"osischen Firma, $Y_t$, f\"ur die Periode \Sexpr{jbeg} bis
+  \Sexpr{jend}.  Ein Datenauschnitt daraus ist unten gegeben. Dazu
+  wurde bereits eine geeignete Gl\"attung, $T_t$, ermittelt.
 
-{\small
 \begin{center}
-\begin{tabular}{c|cccc|cccc|}
+\begin{tabular}{|c|cccc|cccc|}
+\hline
 Jahr    & \multicolumn{4}{c|}{\Sexpr{ajahr1}} & 
           \multicolumn{4}{c|}{\Sexpr{ajahr2}}  \\
 \hline
@@ -125,28 +123,25 @@ $T_t$   & \Sexpr{y.t[1]}  & \Sexpr{y.t[2]}  & \Sexpr{y.t[3]}  & \Sexpr{y.t[4]}
         \\ 
 \hline
 \end{tabular} \end{center}
-}
 
-\vspace{0.3cm}
-Geben Sie die Saison bereinigte Reihe an.\\ 
-Als Lösung tragen Sie nur 
-den Wert des \Sexpr{quartalj} ein.
+Geben Sie die saisonbereinigte Reihe an.
 
-
+Als L\"osung tragen Sie nur den Wert des \Sexpr{quartalj} ein.
 \end{question}
 
 \begin{solution}
 Die additive Komponentenzerlegung einer Zeitreihe lautet
-$$Y_t = T_t + S_t + E_t$$
+$$Y_t = T_t + S_t + E_t.$$
+
 Die Saisonkomponente eines Quartals ergibt sich 
 als arithmetisches Mittel der Differenzen aus beobachteter Reihe und 
-Glättung, $(Y_t - T_t)$, für das fix gewählte Quartal. 
+Gl\"attung, $(Y_t - T_t)$, f\"ur das fix gew\"ahlte Quartal. 
 $$S(q) = \frac{1}{J} \sum_{j=1}^J (Y_{j.q} - T_{j.q}) $$
-Für das \Sexpr{quartal} ergibt sich
+F\"ur das \Sexpr{quartal} ergibt sich
 $$S(\Sexpr{q0}) = [( \Sexpr{y[q0]}-\Sexpr{y.t[q0]} ) + 
                    ( \Sexpr{y[q0+4]}-\Sexpr{y.t[q0+4]} ) ] / 2 
    = \Sexpr{ysq0}$$
-Die saisonbereinigte Reihe erhält man nach Subtraktion des saisonalen 
+Die saisonbereinigte Reihe erh\"alt man nach Subtraktion des saisonalen 
 Musters von der beobachteten. $t=j.q$.
 $$Y^{sa}_t = Y_t - S_{j.q}$$
 Hier
@@ -159,4 +154,5 @@ $$Y^{sa}_{\Sexpr{quartalj}} = \Sexpr{x[i0]} -  (\Sexpr{ysq0}) =
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(ysa)}}
-%% \exstring{\Sexpr{ysa_string}}
+%% \exname{Prognosewert}
+%% \extol{0.1}

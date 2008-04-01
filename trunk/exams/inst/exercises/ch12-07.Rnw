@@ -1,5 +1,3 @@
- 
-
 <<echo=FALSE, results=hide>>=
  
 questions    <- character(5)
@@ -32,7 +30,7 @@ jticker <- 5
 #ser <- read.zoo("c:/BA-Stat/R-Bsps/ch12-dji_w_90")
 #ser <- read.zoo("c:/BA-Stat/R-Bsps/ch12-ndx")
 #ser <- read.zoo("c:/BA-Stat/R-Bsps/ch12-dji_m_90")
-ser <- read.zoo("~/BA-Stat/R-Bsps/ch12-dji_m_90")
+data("ch12-dji_m_90")
 #ser <- read.zoo("~/BA-Stat/ch12-dji_w_90")
 
 ## 2 VECTORS
@@ -60,7 +58,7 @@ maxtrials <- 100
 {
 #for (wbeg in 1:(n-wnm1-5)) {   ii1 <- wbeg;
 # window of ser ---> p  , 5 Perioden fuer Prognose uebrig
-wbeg <- f_rdunif(1,1,(n-wnm1-5))
+wbeg <- sample(1:(n-wnm1-5), 1)
 wend <- wbeg + wnm1
 pstart <-  time(ser[wbeg])
 pend   <-  time(ser[wend])
@@ -142,7 +140,7 @@ c0 <- round( summary(ar0)$coeff[1,1], digits=3)
 solutions <- c(F, F, F, F, F)
 
 if (runif(1) > 0.5) {
-  questions[1] <- "Das geschätzte $\\\\alpha_1$ ist sigifikant von 
+  questions[1] <- "Das gesch\\\\\"atzte $\\\\alpha_1$ ist signifikant von 
   null
   verschieden. Daher ist die Prognose des AR(1) Modells besser, als 
   die des AR(0) Modells. Das AR(1) Modell ist vorzuziehen."
@@ -150,24 +148,24 @@ if (runif(1) > 0.5) {
   solutions[1] <- FALSE
 
   explanations[1] <- "Die Signifikanz eines Koeffizienten sagt 
-  nur etwas über den Fit innerhalb der Beobachtungsperiode 
+  nur etwas \\\\\"uber den Fit innerhalb der Beobachtungsperiode 
   aus, und au{\\\\ss}erhalb nur unter der Annahme, dass die gefundene 
   Struktur auch in Zukunft richtig ist. Daher verwendet man 
-  Prognosema{\\\\ss}e wie den RMSE zur Bewertung der Prognosgüte. 
-  Die Schlussfolgerung ist nicht zulässig." 
+  Prognosema{\\\\ss}e wie den RMSE zur Bewertung der Prognosg\\\\\"ute. 
+  Die Schlussfolgerung ist nicht zul\\\\\"assig." 
                 } else {
-  questions[1] <- "Das geschätzte $\\\\alpha_1$ ist nicht signifikant 
-  von null verschieden. Das hei{\\\\ss}t, der geschätzte Koeffizient 
-  $\\\\hat{\\\\alpha}_1$ ist zufällig von null verschieden, und somit 
-  sollte die verzögerte Rendite im Modell nicht aufscheinen." 
+  questions[1] <- "Das gesch\\\\\"atzte $\\\\alpha_1$ ist nicht signifikant 
+  von null verschieden. Das hei{\\\\ss}t, der gesch\\\\\"atzte Koeffizient 
+  $\\\\hat{\\\\alpha}_1$ ist zuf\\\\\"allig von null verschieden, und somit 
+  sollte die verz\\\\\"ogerte Rendite im Modell nicht aufscheinen." 
 
   solutions[1] <- abs(tb1) < 1.96
 
   explanations[1] <- "Die Schlussfolgerung ist richtig. Bleibt nur 
-  zu überprüfen, ob der Koeffizient tatsächlich nicht signifikant ist." 
+  zu \\\\\"uberpr\\\\\"ufen, ob der Koeffizient tats\\\\\"achlich nicht signifikant ist." 
                     }
 if (runif(1) > 0.5) {
-  questions[2] <- "Der RMSE des AR(1) Modells ist grö{\\\\ss}er als 
+  questions[2] <- "Der RMSE des AR(1) Modells ist gr\\\\\"o{\\\\ss}er als 
   der des AR(0) Modells. Daher ist das AR(1) Modell vorzuziehen." 
 
   solutions[2] <- FALSE
@@ -184,7 +182,7 @@ if (runif(1) > 0.5) {
   vorzuziehen." 
                     }
 if (runif(1) > 0.5) {
-  questions[3] <- "Der RMSE des AR(1) Modells ist grö{\\\\ss}er als 
+  questions[3] <- "Der RMSE des AR(1) Modells ist gr\\\\\"o{\\\\ss}er als 
   der des AR(0) Modells. Daher ist das AR(0) Modell vorzuziehen." 
 
   solutions[3] <- rmse1 > rmse0
@@ -201,34 +199,34 @@ if (runif(1) > 0.5) {
   vorzuziehen." 
                     }
 if (runif(1) > 0.5) {
-  questions[4] <- "Ein negativer Koeffizient vor der verzögerten 
+  questions[4] <- "Ein negativer Koeffizient vor der verz\\\\\"ogerten 
   Rendite im AR(1) Modell verschlechtert das Prognoseergebnis." 
 
   solutions[4] <- FALSE
 
   explanations[4] <- "Das Vorzeichen des Koeffizienten hat 
-  keinen Einfluss auf die Prognosegüte." 
+  keinen Einfluss auf die Prognoseg\\\\\"ute." 
                 } else {
-  questions[4] <- "Ein positiver Koeffizient vor der verzögerten 
-  Rendite im AR(1) Modell würde das Prognoseergebnis verbessern."
+  questions[4] <- "Ein positiver Koeffizient vor der verz\\\\\"ogerten 
+  Rendite im AR(1) Modell w\\\\\"urde das Prognoseergebnis verbessern."
 
   solutions[4] <- FALSE  
 
   explanations[4] <- "Das Vorzeichen der Koeffizienten hat 
-  keinen Einfluss auf die Prognosegüte." 
+  keinen Einfluss auf die Prognoseg\\\\\"ute." 
                     }
 if (runif(1) > 0.5) {
   questions[5] <- "Die Informationen, die in der Angabe zur 
-  Verfügung gestellt werden, sind nicht ausreichned, um selbst in 
+  Verf\\\\\"ugung gestellt werden, sind nicht ausreichned, um selbst in 
   diesem konkreten Fall diese Frage zu beantworten." 
 
   solutions[5] <- FALSE  
 
   explanations[5] <- "Die Angabe des RMSE reicht aus, 
-  um die Prognosegüte der beiden Modelle zu vergleichen." 
+  um die Prognoseg\\\\\"ute der beiden Modelle zu vergleichen." 
                 } else {
   questions[5] <- "Die Verwendung des MSE (mean squar error) statt 
-  des RMSE würde zur selben Entscheidung führen."
+  des RMSE w\\\\\"urde zur selben Entscheidung f\\\\\"uhren."
 
   solutions[5] <- TRUE  
 
@@ -269,28 +267,18 @@ tb1 <- sprintf("%.3f",tb1)
 
 \begin{question} 
 
-{\bf CH12-07:} Vergleich von 2 Prognose mittels RMSE: AR(1) mit WN. \\
-
-
 Gegeben ist die Reihe des Dow-Jones-Industrial Index, $P_t$, und dessen 
-Renditen, $r_t$, für die Periode \Sexpr{pstart_d} bis \Sexpr{pend_d}. 
-Insgesamt liegen $25$ Beobachtungen für 
-den Index und 24 für die Renditenreihe vor. Die Graphik zeigt die 
-Renditenreihe.\\
+Renditen, $r_t$, f\"ur die Periode \Sexpr{pstart_d} bis \Sexpr{pend_d}. 
+Insgesamt liegen $25$ Beobachtungen f\"ur 
+den Index und 24 f\"ur die Renditenreihe vor. Die Graphik zeigt die 
+Renditenreihe.
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
-\footnotesize
 <<fig=TRUE, height = 3, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
-   plot(r,xlab="time",ylab="r") 
-#     if ( attr(ser,"tsp")[3] != 1 ) {  
-#     my.yax <- f_yax(ser)
-#     axis(1, at=my.yax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.5) 
-#     my.sax <- f_sax(ser)
-#     axis(1, at=my.sax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.25)
-#    acf(coredata(r), plot = TRUE, ylab="ACF")
+plot(r,xlab="time",ylab="r") 
 par(op)
 @
 \end{center}
@@ -298,17 +286,17 @@ par(op)
 
 
 Wir passen an die Renditen sowohl ein AR(0) als auch ein AR(1) Modell an. 
-Die Schätzergebnisse sind
+Die Sch\"atzergebnisse sind
 \begin{center}
 \begin{tabular}{l@{\hspace{1cm}}l}
 AR(0): & $ r_t = \Sexpr{c0} + \hat{\epsilon}_t   $  \\
 AR(1): & $ r_t = \Sexpr{b0} + (\Sexpr{b1}) \cdot r_{t-1} + 
           \hat{\epsilon}_t $ \\
 \end{tabular} \end{center}
-wobei der $t$-Wert für $\hat{\alpha}_1$ $\Sexpr{tb1}$ ist.\\
+wobei der $t$-Wert f\"ur $\hat{\alpha}_1$ gleich $\Sexpr{tb1}$ ist.
 
-Mit beiden Modellen werden fünf 1-Schritt Prognosen und die  
-zugehörigen RMSE berechnet: 
+Mit beiden Modellen werden f\"unf 1-Schritt Prognosen und die  
+zugeh\"origen RMSE berechnet: 
 $$RMSE_{AR(0)} = \Sexpr{rmse0} \qquad \texttt{und} 
    \qquad RMSE_{AR(1)} = \Sexpr{rmse1}$$ 
 Welches Modell ist vorzuziehen?
@@ -322,11 +310,6 @@ Welches Modell ist vorzuziehen?
 \end{itemize}
 
 \end{question}
-
-
-\newpage
-
-
 %% SOLUTIONS
 \begin{solution}
 
@@ -338,7 +321,7 @@ Welches Modell ist vorzuziehen?
   \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
 \end{itemize}
 
-{\bf Erklärungen:}\\
+{\bf Erkl\"arungen:}\\
 \begin{itemize}
   \item[(a)] \Sexpr{explanations[1]}
   \item[(b)] \Sexpr{explanations[2]}
@@ -353,4 +336,4 @@ Welches Modell ist vorzuziehen?
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

@@ -15,8 +15,8 @@ sol <- round(a+b*x,3)
 @
 
 \begin{question}
-Für \Sexpr{n} Betriebe wurde die Anzahl $X$ der Besch\"aftigten und die
-H\"ohe $Y$ der Aufwendungen für Fortbildungskosten (in GE)
+F\"ur \Sexpr{n} Betriebe wurde die Anzahl $X$ der Besch\"aftigten und die
+H\"ohe $Y$ der Aufwendungen f\"ur Fortbildungskosten (in GE)
 ermittelt. Die statistischen Kenngr\"o{\ss}en des Datensatzes lauten:
 
 \begin{center}
@@ -27,10 +27,10 @@ Mittelwert & \Sexpr{format(xs, nsmall = 0)}  & \Sexpr{format(ys, nsmall = 0)}  \
 Varianz & \Sexpr{format(sx2, nsmall = 0)}  & \Sexpr{format(sy2, nsmall = 0)}  \\
 \end{tabular}
 \end{center}
-Die Korrelation zwischen $X$ und $Y$ beträgt \Sexpr{r}.
+Die Korrelation zwischen $X$ und $Y$ betr\"agt \Sexpr{r}.
 
-Welchen Sch\"atzwert für die Aufwendungen f\"ur Fortbildungskosten erh\"alt man aus der
-Regressionsgeraden für einen Betrieb mit 
+Welchen Sch\"atzwert f\"ur die Aufwendungen f\"ur Fortbildungskosten erh\"alt man aus der
+Regressionsgeraden f\"ur einen Betrieb mit 
 \Sexpr{x} Besch\"aftigten?
 \end{question}
 
@@ -46,7 +46,7 @@ Die Berechnung der Regressionskoeffizienten erfolgt durch:
 \Sexpr{ys} - \Sexpr{round(b,3)} \cdot \Sexpr{xs} = \Sexpr{round(a,3)}.
 \end{eqnarray*}
 
-Jetzt kann der Sch\"atzwert der Fortbildungskosten für einen Betrieb mit 
+Jetzt kann der Sch\"atzwert der Fortbildungskosten f\"ur einen Betrieb mit 
 \Sexpr{x} Besch\"aftigten berechnet werden:
 \begin{eqnarray*}
 \hat y = \Sexpr{round(a,3)} + \Sexpr{round(b,3)} \cdot \Sexpr{x} = \Sexpr{sol}.

@@ -15,9 +15,9 @@ sol <- round(a+b*x,3)
 @
 
 \begin{question}
-Für Firmen, die in Zahlungsschwierigkeiten kommen, interessiert
-der Zusammenhang zwischen dem Merkmal $X$ = ,,Umsatzveränderung
-gegenüber dem Vorjahr'' (in Mill.) und dem Merkmal $Y$ =
+F\"ur Firmen, die in Zahlungsschwierigkeiten kommen, interessiert
+der Zusammenhang zwischen dem Merkmal $X$ = ,,Umsatzver\"anderung
+gegen\"uber dem Vorjahr'' (in Mill.) und dem Merkmal $Y$ =
 ,,unbezahlt gebliebene Kreditverbindlichkeiten'' (in Mill.).
 Nach der Befragung von \Sexpr{n} Firmen ergaben sich folgende Kenngr\"o{\ss}en:
 
@@ -29,10 +29,10 @@ Mittelwert & \Sexpr{format(xs, nsmall = 1)}  & \Sexpr{format(ys, nsmall = 1)}  \
 Varianz & \Sexpr{format(sx2, nsmall = 2)}  & \Sexpr{format(sy2, nsmall = 2)}  \\
 \end{tabular}
 \end{center}
-Die Korrelation zwischen $X$ und $Y$ beträgt \Sexpr{r} .
+Die Korrelation zwischen $X$ und $Y$ betr\"agt \Sexpr{r} .
 
-Welchen Sch\"atzwert für unbezahlte Kredite erhält man aus der
-Regressionsgeraden für eine Firma, die einen Umsatzr\"uckgang von
+Welchen Sch\"atzwert f\"ur unbezahlte Kredite erh\"alt man aus der
+Regressionsgeraden f\"ur eine Firma, die einen Umsatzr\"uckgang von
 \Sexpr{-x} Mill. in Kauf nehmen musste?
 \end{question}
 
@@ -46,8 +46,8 @@ Die Berechnung der Regressionskoeffizienten erfolgt durch:
 && \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = \Sexpr{ys} - (\Sexpr{round(b,3)}) \cdot (\Sexpr{xs}) = \Sexpr{round(a,3)}.
 \end{eqnarray*}
 
-Jetzt kann der Sch\"atzwert der unbezahlten Kredite f\"ur einen Umsatzrückgang von
-\Sexpr{-x} Mill berechnet werden:
+Jetzt kann der Sch\"atzwert der unbezahlten Kredite f\"ur einen
+Umsatzr\"uckgang von \Sexpr{-x} Mill berechnet werden:
 \begin{eqnarray*}
 \hat y = \Sexpr{round(a,3)} + (\Sexpr{round(b,3)}) \cdot (\Sexpr{x}) = \Sexpr{sol}.
 \end{eqnarray*}

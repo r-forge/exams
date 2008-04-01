@@ -74,11 +74,11 @@ expl[4] <- "Die Aufnahme beider Haupteffekte A und Faktor B und des Wechselwirku
 
 
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Das passende Modell ist", dasmt, ".")
+  questions[1] <- paste("Das passende Modell ist ", dasmt, ".", sep = "")
   solutions[1] <- TRUE
   explanations[1] <- expl[dasm]
 } else {
-  questions[1] <- paste("Das passende Modell ist", ndasmt1, ".")
+  questions[1] <- paste("Das passende Modell ist ", ndasmt1, ".", sep = "")
   solutions[1] <- FALSE
   explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
 }
@@ -92,7 +92,7 @@ quest[2] <- "Das passende Modell lautet: nur Faktor B hat einen Einfluss auf Y."
 quest[3] <- "Das passende Modell lautet: Sowohl Faktor A als auch Faktor B haben additiv 
              einen Einfluss auf Y."               
 quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten von Y 
-             je nach Stufe von Faktor A hängen zusätzlich von den Stufen des Faktors B ab."  
+             je nach Stufe von Faktor A h\\\\\"angen zus\\\\\"atzlich von den Stufen des Faktors B ab."  
 
 ## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
 
@@ -121,15 +121,15 @@ if(runif(1) > 0.5) {
 ## 3. richtiges Modell interpretieren
 
 quest <- character(4)
-quest[1] <- "Das passende Modell lautet: nur die Universität, an der der Abschluss erfolgte, 
+quest[1] <- "Das passende Modell lautet: nur die Universit\\\\\"at, an der der Abschluss erfolgte, 
              hat einen Einfluss auf das durchschnittliche Gehalt."
 quest[2] <- "Das passende Modell lautet: nur die Branche, in der die Absolventen arbeiten, 
              hat einen Einfluss auf das durchschnittliche Gehalt."
-quest[3] <- "Das passende Modell lautet: Sowohl Universität, an der der Abschluss erfolgte, 
+quest[3] <- "Das passende Modell lautet: Sowohl Universit\\\\\"at, an der der Abschluss erfolgte, 
              als auch die Branche, in der die Absolventen arbeiten, haben additiv 
              einen Einfluss auf das durchschnittliche Gehalt."               
-quest[4] <- "Das passende Modell lautet: die Unterschiede in den durchschnittlichen Gehältern 
-             in den einzelnen Branchen hängen von der Universität ab, an der der Abschluss erfolgte."  
+quest[4] <- "Das passende Modell lautet: die Unterschiede in den durchschnittlichen Geh\\\\\"altern 
+             in den einzelnen Branchen h\\\\\"angen von der Universit\\\\\"at ab, an der der Abschluss erfolgte."  
              
 ## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
 
@@ -219,7 +219,7 @@ explanations <- explanations[o]
 \begin{question}
 
 In einer Studie werden die Einkommen (Y) von ManagerInnen untersucht. 
-Zwei Branchen, in denen die ManagerInnen tätig sind, und zwei Universitäten, 
+Zwei Branchen, in denen die ManagerInnen t\"atig sind, und zwei Universit\"aten, 
 deren AbsolventInnen die ManagerInnen sind, 
 werden verglichen.
 
@@ -227,7 +227,7 @@ Als Methode kommt eine zweifache Varianzanalyse zum Einsatz.
 
 Die folgenden zwei Rechenergebnisse zeigen die Residuenquadratsummen (RSS) 
 vom einfachen Modell bis zum Wechselwirkungsmodell, wenn einmal zuerst 
-der Faktor A (Universität) und wenn einmal zuerst der Faktor B (Branche) 
+der Faktor A (Universit\"at) und wenn einmal zuerst der Faktor B (Branche) 
 ins Modell aufgenommen wird.
 
 

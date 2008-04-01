@@ -72,8 +72,8 @@ a5 <- "Die Standardabweichung von X ist mindestens 6."
 a6 <- "Die Standardabweichung von Y ist mindestens 6."
 a7 <- "Das Mittel von X ist h\\\\\"ochstens 5."
 a8 <- "Das Mittel von Y ist mindestens 30."
-a9 <- paste(c("Für X = ", as.character(xh), " ist ungefähr Y = ", as.character(yhr), " zu erwarten."), collapse="")
-a10 <- paste(c("Für X = ", as.character(xh), " ist ungefähr Y = ", as.character(yhf), " zu erwarten."), collapse="")
+a9 <- paste(c("F\\\\\"ur X = ", as.character(xh), " ist ungef\\\\\"ahr Y = ", as.character(yhr), " zu erwarten."), collapse="")
+a10 <- paste(c("F\\\\\"ur X = ", as.character(xh), " ist ungef\\\\\"ahr Y = ", as.character(yhf), " zu erwarten."), collapse="")
 questions <- c(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10)
 
 if(i1 < 2)
@@ -99,7 +99,7 @@ if(i1 < 2)
          imy==2 || imy==3,
          TRUE,
          abs(yhf-yhr) < 0.01*sy)
-  ex[1] <- "Ein standardisiertes Streudigramm liegt nicht vor, weil X und Y nicht beide  
+  ex[1] <- "Ein standardisiertes Streudiagramm liegt nicht vor, weil X und Y nicht beide  
   das Mittel 0 und die Varianz 1 haben."
   }  
    
@@ -136,7 +136,7 @@ ex[8] <- if(my<30) paste("Das Mittel von Y betr\\\\\"agt ungef\\\\\"ahr ", my,
 		" und ist somit kleiner als 30.", sep = "") else paste("Das Mittel von Y betr\\\\\"agt ungef\\\\\"ahr ", my, 
 		" und ist somit gr\\\\\"o{\\\\ss}er  als 30.", sep = "")
 
-ex[9] <- paste("Aus der Regressionsgeraden erh\\\\\"alt man f\\\\\"ur Y an der Stelle ", xh, 
+ex[9] <- paste("Aus der Regressionsgeraden erh\\\\\"alt man f\\\\\"ur Y an der Stelle X=", xh, 
 		" ungef\\\\\"ahr den Wert ", yhr, ".", sep="")         
        
 ex[10] <- ex[9]              

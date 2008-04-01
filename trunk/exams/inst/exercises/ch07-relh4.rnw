@@ -8,7 +8,7 @@ a40 <- rbinom(1,150,0.31)
 
 absh <- c(a24, 125-a24, a25, 225-a25, a40, 150-a40)
 
-Fahrverhalten <- matrix(absh, nr=2 ) 
+Fahrverhalten <- matrix(absh, nrow=2 ) 
 dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
                                  Alter  = c("Unter 25", "25 - 39"," 40 + "))
 
@@ -32,14 +32,14 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[1] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/n,digits=1),
-                        "Prozent unter 25 Jahre alt und zeigten erhöhtes Risiko im Fahrverhalten.")
-  solutions[1] <- T
+                        "Prozent unter 25 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
+  solutions[1] <- TRUE
   explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
 } else {
   questions[1] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/n,digits=1),
-                        "Prozent über 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
-  solutions[1] <- T
+                        "Prozent \\\\\"uber 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
+  solutions[1] <- TRUE
   explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
 }
@@ -49,14 +49,14 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[1] <- paste("Unter den befragten im Alter von 25 bis 39 zeigten ", 
                         round(100*Fahrverhalten[1,2]/n,digits=1),
-                        "Prozent erhöhtes Risiko im Fahrverhalten.")
-  solutions[1] <- F
+                        "Prozent erh\\\\\"ohtes Risiko im Fahrverhalten.")
+  solutions[1] <- FALSE
   explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zur Spaltensumme Bezug setzt."
 } else {
   questions[1] <- paste("Unter den Befragten mit geringem Risiko waren", round(100*Fahrverhalten[2,2]/n,digits=1),
                         "Prozent im Alter zwischen 25 und 39.")
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zur Zeilensumme in Bezug setzt."
 }
@@ -68,14 +68,14 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[2] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/s1,digits=1),
-                        "Prozent unter 25 Jahre alt und zeigten erhöhtes Risiko im Fahrverhalten.")
-  solutions[2] <- F
+                        "Prozent unter 25 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
+  solutions[2] <- FALSE
   explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
 } else {
   questions[2] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/s3,digits=1),
-                        "Prozent über 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
-  solutions[2] <- F
+                        "Prozent \\\\\"uber 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
+  solutions[2] <- FALSE
   explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
 }
@@ -85,15 +85,15 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[2] <- paste("Unter den befragten im Alter von 25 bis 39 zeigten ", 
                         round(100*Fahrverhalten[1,2]/s2,digits=1),
-                        "Prozent erhöhtes Risiko im Fahrverhalten.")
-  solutions[2] <- T
+                        "Prozent erh\\\\\"ohtes Risiko im Fahrverhalten.")
+  solutions[2] <- TRUE
   explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zur Spaltensumme Bezug setzt."
 } else {
   questions[2] <- paste("Unter den befragten im Alter unter 25 Jahren zeigten ", 
                         round(100*Fahrverhalten[2,1]/s1,digits=1),
                         "Prozent geringes Risiko im Fahrverhalten.")
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zur Spaltensumme Bezug setzt."
 }
@@ -106,13 +106,13 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[3] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/z1,digits=1),
-                        "Prozent unter 25 Jahre alt und zeigten erhöhtes Risiko im Fahrverhalten.")
+                        "Prozent unter 25 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[3] <- F
   explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
 } else {
   questions[3] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/z2,digits=1),
-                        "Prozent über 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
+                        "Prozent \\\\\"uber 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
   solutions[3] <- F
   explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
                       in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
@@ -121,7 +121,7 @@ if(runif(1) > 0.5) {
 } else {
 
 if(runif(1) > 0.5) {
-  questions[3] <- paste("Unter den Befragten mit erhöhtem Risiko waren", round(100*Fahrverhalten[1,2]/n,digits=1),
+  questions[3] <- paste("Unter den Befragten mit erh\\\\\"ohtem Risiko waren", round(100*Fahrverhalten[1,2]/n,digits=1),
                         "Prozent im Alter zwischen 25 und 39.")
   solutions[3] <- T
   explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
@@ -140,15 +140,15 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[4] <- paste(round(100*z1/n,digits=1)," Prozent der Befragten zeigten 
-                        erhöhtes Risiko im Fahrverhalten.")
+                        erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[4] <- T
-  explanations[4] <- "Das erhält man, indem man die entsprechende Zeilensumme zum 
+  explanations[4] <- "Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
                       Stichprobenumfang in Bezug setzt."
 } else {
   questions[4] <- paste(round(100*s1/n,digits=1)," Prozent der Befragten zeigten 
                         geringes Risiko im Fahrverhalten.")
   solutions[4] <- F | (s1==z2)
-  explanations[4] <- "Das erhält man, indem man die entsprechende Zeilensumme zum 
+  explanations[4] <- "Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
                       Stichprobenumfang in Bezug setzt."
 }
 
@@ -157,15 +157,15 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[5] <- paste(round(100*s3/n,digits=1)," Prozent der Befragten waren 40 Jahre 
-                        oder älter.")
+                        oder \\\\\"alter.")
   solutions[5] <- T
-  explanations[5] <- "Das erhält man, indem man die entsprechende Spaltensumme zum 
+  explanations[5] <- "Das erh\\\\\"alt man, indem man die entsprechende Spaltensumme zum 
                       Stichprobenumfang in Bezug setzt."
 } else {
   questions[5] <- paste(round(100*z2/n,digits=1)," Prozent der Befragten waren zwischen 25 
                         und 39 Jahre alt.")
   solutions[5] <- F | (s2==z2)
-  explanations[5] <- "Das erhält man, indem man die entsprechende Zeilensumme zum 
+  explanations[5] <- "Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
                       Stichprobenumfang in Bezug setzt."
 }
 
@@ -181,10 +181,10 @@ explanations <- explanations[o]
 
 \begin{question}
 In einer Befragung zum Fahrverhalten wurde bei 500 AutofahrerInnen erhoben, 
-welche Risikofaktoren im Fahrverhalten (M"ochte m"oglichst wenig "uberholt werden, 
-H"aufiges L"uckenspringen im Kolonnenverkehr, etc.) vorliegen. 
+welche Risikofaktoren im Fahrverhalten (M\"ochte m\"oglichst wenig \"uberholt werden, 
+H\"aufiges L\"uckenspringen im Kolonnenverkehr, etc.) vorliegen. 
 
-Eine Einteilung der AutofahrerInnen in Risikogruppen (Risiko gering und Risiko erh"oht) 
+Eine Einteilung der AutofahrerInnen in Risikogruppen (Risiko gering und Risiko erh\"oht) 
 und nach Altersgruppen ergab folgende Einteilung: 
  
 <<echo=FALSE>>= 
@@ -220,4 +220,4 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

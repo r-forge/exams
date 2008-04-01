@@ -1,12 +1,4 @@
- 
-
 <<echo=FALSE, results=hide>>=
- 
-questions    <- character(5)
-solutions    <- logical(5)
-explanations <- character(5)
-expl         <- character(6)
-
 ## DATA GENERATION
 library("tseries")
 library("dynlm")
@@ -31,7 +23,7 @@ jticker <- 5
 #ser <- read.zoo("c:/BA-Stat/R-Bsps/ch12-dji_w_90")
 #ser <- read.zoo("c:/BA-Stat/R-Bsps/ch12-ndx")
 #ser <- read.zoo("c:/BA-Stat/R-Bsps/ch12-dji_m_90")
-ser <- read.zoo("~/BA-Stat/R-Bsps/ch12-dji_m_90")
+data("ch12-dji_m_90")
 #ser <- read.zoo("~/BA-Stat/ch12-dji_w_90")
 
 ## 2 VECTORS
@@ -58,7 +50,7 @@ maxtrials <- 100
 for (itrial in 1:maxtrials) {
 #for (wbeg in 1:(n-wnm1-3)) {   ii1 <- wbeg;
 # window of ser ---> p  , 3 Perioden fuer Prognose uebrig
-wbeg <- f_rdunif(1,1,(n-wnm1-3))
+wbeg <- sample(1:(n-wnm1-3), 1)
 wend <- wbeg + wnm1
 pstart <-  time(ser[wbeg])
 pend   <-  time(ser[wend])
@@ -121,42 +113,28 @@ if ( abs(b1) > eps && abs(b0) > eps/10) { break }
 ### Monthly data: ^DJI abs(b1): 72(105) > 0.1, abs(b0): 75(105) > 0.01   
 
 
-pfc_string <- paste("Prognose: ", round(p_fc, digits = 1),
-  " (toleriert: ", round(p_fc, digits = 1) - 0.1, " <= B <= ",
-  round(p_fc, digits = 1) + 0.1, ")", sep = "")
-
 pfc <- round(p_fc, digits = 1)
 
 r_fc <- sprintf("%.3f",r_fc)
 wr   <- sprintf("%.3f",wr)
 wp   <- sprintf("%.1f",wp)
 
-
 ## months(tr[1]); format(tr[1], "%b %Y")
 
 @
 
 \begin{question} 
-
-{\bf CH12-06:}  
 Gegeben ist die Reihe des Dow-Jones-Industrial Index, $P_t$, und dessen 
-Renditen, $r_t$, für die Periode \Sexpr{pstart_d} bis \Sexpr{pend_d}. 
+Renditen, $r_t$, f\"ur die Periode \Sexpr{pstart_d} bis \Sexpr{pend_d}. 
 Die Graphik zeigt den Indexverlauf und die Renditenreihe.
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
-\footnotesize
 <<fig=TRUE, height = 6, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 op <- par(mfrow = c(2, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
-   plot(p,xlab="time",ylab="P") 
-   plot(r,xlab="time",ylab="r") 
-#     if ( attr(ser,"tsp")[3] != 1 ) {  
-#     my.yax <- f_yax(ser)
-#     axis(1, at=my.yax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.5) 
-#     my.sax <- f_sax(ser)
-#     axis(1, at=my.sax, labels=FALSE, tick=TRUE, lwd=1, tcl = -0.25)
-#    acf(coredata(r), plot = TRUE, ylab="ACF")
+plot(p,xlab="time",ylab="P") 
+plot(r,xlab="time",ylab="r") 
 par(op)
 @
 \end{center}
@@ -167,11 +145,12 @@ berechnen die 1-, 2- und 3-Schritt Prognosen der Renditen.
 Die letzten Werte beider Reihen, wie auch die Prognosen der Renditen 
 sind in der folgenden Tabelle eingetragen. 
 
-\begin{center} \begin{tabular}{c|ccc@{$\;\; : \;\;$}ccc}
+\begin{center} \begin{tabular}{|c|ccc@{$\;\; : \;\;$}ccc|}
 \hline
 Datum & $\ldots$ &
         \Sexpr{tr_d[4]} &\Sexpr{tr_d[5]} &\Sexpr{tfr_d[1]} &\Sexpr{tfr_d[2]} 
       & \Sexpr{tfr_d[3]}\\
+\hline
 $P_t$ & $\ldots$ &
         \Sexpr{wp[4]} &\Sexpr{wp[5]} &  &  & \\
 $r_t$ & $\ldots$ &
@@ -183,7 +162,7 @@ $r_n(j)$ &$\ldots$ &   &             &\Sexpr{r_fc[1]} &\Sexpr{r_fc[2]}
 \hline
 \end{tabular} \end{center}
 
-Berechnen Sie die Prognose des  Dow-Jones-Industrial Index für \Sexpr{tfr_d[3]}.
+Berechnen Sie die Prognose des  Dow-Jones-Industrial Index f\"ur \Sexpr{tfr_d[3]}.
 
 
 \end{question}
@@ -192,15 +171,15 @@ Berechnen Sie die Prognose des  Dow-Jones-Industrial Index für \Sexpr{tfr_d[3]}.
 %% SOLUTIONS
 \begin{solution}
 
-Gesucht ist die 3-Schritt Prognose für den Index, 
-$P_{\Sexpr{pend_d}}(3)$.\\
+Gesucht ist die 3-Schritt Prognose f\"ur den Index, 
+$P_{\Sexpr{pend_d}}(3)$.
 
-Die $k$-Schritt Prognose für den Kurs einer Aktie ist 
-$$P_n(k) = P_n \cdot \exp{\Sigma_{j=1}^k r_n(j) } $$
-Die Summe der Prognosen der Renditen 
+Die $k$-Schritt Prognose f\"ur den Kurs einer Aktie ist 
+$$P_n(k) = P_n \cdot \exp{\Sigma_{j=1}^k r_n(j) }.$$
+Die Summe der Prognosen der Renditen ist
   $\Sigma_{j=1}^3 r_{\Sexpr{pend_d}}(j) = \Sexpr{sum_rfc}$. Damit ist 
 $$P_{\Sexpr{tfr_d[3]}}(3) = \Sexpr{wp[5]} \cdot \exp(\Sexpr{sum_rfc}) = 
-   \Sexpr{pfc}$$
+   \Sexpr{pfc}.$$
 
 
 \end{solution}
@@ -208,5 +187,6 @@ $$P_{\Sexpr{tfr_d[3]}}(3) = \Sexpr{wp[5]} \cdot \exp(\Sexpr{sum_rfc}) =
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(pfc)}}
-%% \exstring{\Sexpr{pfc_string}}
+%% \exname{Prognosewert}
+%% \extol{0.1}
 

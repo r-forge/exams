@@ -67,20 +67,20 @@ expl[1] <- "Die Aufnahme von Faktor Marketing ergibt einen signifikanten Abfall 
             die weitere Aufnahme von Modellteilen nicht mehr."
 expl[2] <- "Die Aufnahme von Faktor Medium ergibt einen signifikanten Abfall in der RSS, 
             die weitere Aufnahme von Modellteilen nicht mehr."
-expl[3] <- "Die Aufnahme beider Haupteffekte Marketing und Medium führt zu einem 
+expl[3] <- "Die Aufnahme beider Haupteffekte Marketing und Medium f\\\\\"uhrt zu einem 
             signifikanten Abfall in der RSS, die Aufnahme des Wechselwirkungeffektes nicht."                   
 expl[4] <- "Die Aufnahme beider Haupteffekte Marketing und Medium und des Wechselwirkungeffektes 
-            führen zu einem signifikanten Abfall in der RSS."   
+            f\\\\\"uhren zu einem signifikanten Abfall in der RSS."   
 
 
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Das passende Modell ist", dasmt, ".")
+  questions[1] <- paste("Das passende Modell ist ", dasmt, ".", sep = "")
   solutions[1] <- TRUE
   explanations[1] <- expl[dasm]
 } else {
-  questions[1] <- paste("Das passende Modell ist", ndasmt1, ".")
+  questions[1] <- paste("Das passende Modell ist ", ndasmt1, ".", sep = "")
   solutions[1] <- FALSE
-  explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
+  explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt, ".", sep = "")
 }
 
 
@@ -92,22 +92,22 @@ quest[2] <- "Das passende Modell lautet: nur Faktor Medium hat einen Einfluss au
 quest[3] <- "Das passende Modell lautet: die Faktoren Marketing und Medium haben additiv 
              einen Einfluss auf Y."               
 quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten von Y 
-             je nach Stufe von Faktor Marketing hängen zusätzlich von den Stufen des 
+             je nach Stufe von Faktor Marketing h\\\\\"angen zus\\\\\"atzlich von den Stufen des 
              Faktors Medium ab."  
 
-## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
+## explanation wie bei Frage 1 + Uebertragung auf konkrete fragestellung
 
 expl <- character(4)
 expl[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
-            Verkaufszahlen, wenn man Qualität mit Preis vergleicht. Beim Faktor Medium ist 
+            Verkaufszahlen, wenn man Qualit\\\\\"at mit Preis vergleicht. Beim Faktor Medium ist 
             dieser Abfall von Zeitung zu TV nur schwach."
 expl[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
             Verkaufszahlen, wenn man Zeitung mit TV vergleicht. Beim Faktor Marketing ist 
-            dieser Abfall von Qualität zu Preis nur schwach."
+            dieser Abfall von Qualit\\\\\"at zu Preis nur schwach."
 expl[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
             starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
             des Faktors vergleicht."                   
-expl[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab, 
+expl[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualit\\\\\"at besser ab, 
             bei TV-Werbung ist Werbung über Preis besser."    
 
 if(runif(1) > 0.5) {
@@ -141,15 +141,15 @@ if(runif(1) > 0.5) {
 
 quest <- character(4)
 quest[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
-             Verkaufszahlen, wenn man Qualität mit Preis vergleicht. Beim Faktor Medium ist 
+             Verkaufszahlen, wenn man Qualit\\\\\"at mit Preis vergleicht. Beim Faktor Medium ist 
              dieser Abfall von Zeitung zu TV nur schwach."
 quest[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
              Verkaufszahlen, wenn man Zeitung mit TV vergleicht. Beim Faktor Marketing ist 
-             dieser Abfall von Qualität zu Preis nur schwach."
+             dieser Abfall von Qualit\\\\\"at zu Preis nur schwach."
 quest[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
              starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
              des Faktors vergleicht."                   
-quest[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualität besser ab, 
+quest[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualit\\\\\"at besser ab, 
              bei TV-Werbung ist Werbung über Preis besser."    
  
 
@@ -195,31 +195,29 @@ explanations <- explanations[o]
 
 \begin{question}
 
-Ein Unternehmen hat ein neues Produkt entwickelt. Vor der Markteinführung 
+Ein Unternehmen hat ein neues Produkt entwickelt. Vor der Markteinf\"uhrung 
 sind noch zwei Fragen offen:
 \begin{itemize}
   \item Wie soll geworben werden (Faktor Marketing)? 
-        \\Soll die Qualität oder der 
+        \\Soll die Qualit\"at oder der 
         niedrige Preis in der Werbung im Vordergrund stehen?
   \item Wo soll geworben werden (Faktor Medium)? 
-        \\Soll haupsächlich über TV oder 
-        über Zeitungen geworben werden?
+        \\Soll haupts\"achlich \"uber TV oder 
+        \"uber Zeitungen geworben werden?
   \end{itemize}
 
-Für jede Kombination der Faktoren werden Testmärkte gebildet 
-(d.h.: es gibt einen Testmarkt, in dem nur über Qualität und nur in 
-Zeitungen geworben wird, es gibt anderen Testmarkt, in dem nur über Qualität aber nur  
-im TV geworben wird, etc.).
+  F\"ur jede Kombination der Faktoren werden Testm\"arkte gebildet
+  (d.h.: es gibt einen Testmarkt, in dem nur \"uber Qualit\"at und nur
+  in Zeitungen geworben wird, es gibt einen anderen Testmarkt, in
+  dem nur \"uber Qualit\"at aber nur im TV geworben wird, etc.).
 
-Die Verkaufszahlen Y in jeweils 10 Supermärkten pro Testmarkt werden beobachtet.
+Die Verkaufszahlen Y in jeweils 10 Superm\"arkten pro Testmarkt werden beobachtet.
 
-Die folgenden zwei Rechenergebnisse stammen aus einer zweifachen Varianzanalyse 
-und zeigen die Residuenquadratsummen (RSS) 
-vom einfachen Modell bis zum Wechselwirkungsmodell, 
-wenn einmal zuerst 
-der Faktor Marketing und wenn einmal zuerst der Faktor Medium 
-ins Modell aufgenommen wird.
-
+Die folgenden zwei Rechenergebnisse stammen aus einer zweifachen
+Varianzanalyse und zeigen die Residuenquadratsummen (RSS) vom
+einfachen Modell bis zum Wechselwirkungsmodell, wenn einmal zuerst der
+Faktor Marketing und wenn einmal zuerst der Faktor Medium ins Modell
+aufgenommen wird.
 
 <<echo=FALSE>>=
 options(show.signif.stars = FALSE) 
@@ -236,7 +234,7 @@ anova(m1,mb,mapb,mab)
 @
 
 
-Die durchschnittlichen Verkaufszahlen in den Testregionen enthält 
+Die durchschnittlichen Verkaufszahlen in den Testregionen enth\"alt 
 die folgende Tabelle: 
 
 <<echo=FALSE>>= 

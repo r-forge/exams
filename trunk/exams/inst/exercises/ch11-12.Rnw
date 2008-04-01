@@ -1,5 +1,3 @@
-
-
 <<echo=FALSE, results=hide>>=
 
 questions    <- character(5)
@@ -11,8 +9,8 @@ expl         <- character(6)
 
 ## INIT
 nobs  <-  60
-seas  <- c(0*1:nobs)
-if ( f_rdunif(1,1,2) == 1) {freq <- 4} else {freq <- 12}
+seas  <- rep(0, nobs)
+freq <- sample(c(4, 12), 1)
 
 questions[[1]] <- "Es ist ein steigender Trend erkennbar."
 questions[[2]] <- "Es ist kein Trend erkennbar. Das kann aber an 
@@ -28,24 +26,24 @@ if (freq == 4) {
   dim(seas4) <- c(4,3)
   seas0      <- c(0*1:4)
   slabel4    <- character(4) 
-  stype      <- f_rdunif(1,1,3)
+  stype      <- sample(1:3, 1)
 
 #  stype=1
   if (stype == 1) 
      {
-  slabel4[1] <- "Anzahl der Nächtigungen ausländischer Gäste in Österreich"
+  slabel4[1] <- "Anzahl der N\\\\\"achtigungen ausl\\\\\"andischer G\\\\\"aste in \\\\\"Osterreich"
   seas4[,1] <- c(4.62, 1.98, 3.77, 1.72)
 
-questions[[3]] <- "Die Anzahl der Nächtigungen nimmt im Jahresverlauf 
+questions[[3]] <- "Die Anzahl der N\\\\\"achtigungen nimmt im Jahresverlauf 
 kontinuierlich ab."
-questions[[4]] <- "Die jährliche Spitze liegt im 3.Quartal."
-questions[[5]] <- "Die Anzahl der Nächtigungen sind in der Regel im 
+questions[[4]] <- "Die j\\\\\"ahrliche Spitze liegt im 3.Quartal."
+questions[[5]] <- "Die Anzahl der N\\\\\"achtigungen sind in der Regel im 
 4.Quartal am geringsten."
 solutions[3] <- FALSE
 solutions[4] <- FALSE
 solutions[5] <- TRUE
 
-expl  <- "Das Maximum der Nächtigungen innerhalb eines Jahres 
+expl  <- "Das Maximum der N\\\\\"achtigungen innerhalb eines Jahres 
 tritt im 1.Quartal auf, gefolgt vom 3.Quartal."
      }
 
@@ -56,7 +54,7 @@ tritt im 1.Quartal auf, gefolgt vom 3.Quartal."
 #  SCS, aggr
   seas4[,2] <- c(3.28, 2.89, 2.62, 3.18)
 
-questions[[3]] <- "In der kalten Jahreszeit kommen mehr Gäste."
+questions[[3]] <- "In der kalten Jahreszeit kommen mehr G\\\\\"aste."
 questions[[4]] <- "In den beiden mittleren Quartalen ist der Umsatz 
 um 1/3 geringer als in den beiden anderen."
 questions[[5]] <- "Keine der Antworten ist richtig."
@@ -76,13 +74,13 @@ expl  <-  "Das Maximum tritt im 1.Quartal auf gefolgt vom Wert des
   seas4[,3] <- c( 2.09, 3.29, 4.14, 2.49)
 
 questions[[3]] <- "Der australische Winter findet im 2. und 3. Quartal 
-statt. Daher ist in dieser Jahrezeit der Stromverbrauch am  grö{\\\\ss}ten."
-questions[[4]] <- "Der höchste Stromverbrauch tritt im 1.Quartal auf."
+statt. Daher ist in dieser Jahrezeit der Stromverbrauch am  gr\\\\\"o{\\\\ss}ten."
+questions[[4]] <- "Der h\\\\\"ochste Stromverbrauch tritt im 1.Quartal auf."
 questions[[5]] <- "Keine der Antworten ist richtig."
 solutions[3] <- TRUE
 solutions[4] <- FALSE
 solutions[5] <- FALSE
-expl  <-  "Der grö{\\\\ss}te Wert tritt im 3.Quartal auf." 
+expl  <-  "Der gr\\\\\"o{\\\\ss}te Wert tritt im 3.Quartal auf." 
      }   
 
   slabel0 <- slabel4[stype]
@@ -95,47 +93,47 @@ if (freq == 12) {
   dim(seas12) <- c(12,5)
   seas0       <- c(0*1:12)
   slabel12    <- character(6)
-  stype <- f_rdunif(1,1,4)
+  stype <- sample(1:4, 1)
 
 # stype=1
   if (stype == 1) 
      {
-  slabel12[1] <- "Preis für Schnittlauch"
+  slabel12[1] <- "Preis f\\\\\"ur Schnittlauch"
 # Entwicklung  EP Pos 661 (03-06) Schnittlauch OK
   seas12[,1] <- c(1.16, 1.06, 1.03, 1.12, 1.03, 0.94,
                   0.83, 0.88, 0.90, 0.95, 0.95, 1.15) 
 
-questions[[3]] <- "Landwirtschaftliche Erzeugerpreise bei Gemüse und 
-Gewürzen schwanken im  Jahresverlauf."
+questions[[3]] <- "Landwirtschaftliche Erzeugerpreise bei Gem\\\\\"use und 
+Gew\\\\\"urzen schwanken im  Jahresverlauf."
 questions[[4]] <- "Laut dem Saisonmuster ist der Preis von Schnittlauch 
-im Winter nicht höher als im Sommer." 
+im Winter nicht h\\\\\"oher als im Sommer." 
 questions[[5]] <- "Keine der Antworten ist richtig."
 solutions[3] <- TRUE
 solutions[4] <- FALSE
 solutions[5] <- FALSE
 
-expl   <-  "In der kalten Jahrezeit sind Frischgemüse und verwandte 
+expl   <-  "In der kalten Jahrezeit sind Frischgem\\\\\"use und verwandte 
 heimische Produkte am teuersten." 
      }
 
 # stype=2
   if (stype == 2) 
      {
- slabel12[2] <- "Anzahl der Nächtigungen ausländischer Gäste in Österreich"
-# Nächtigungen ausl Gäste 2006, ???
+ slabel12[2] <- "Anzahl der N\\\\\"achtigungen ausl\\\\\"andischer G\\\\\"aste in \\\\\"Osterreich"
+# N\\\\\"achtigungen ausl G\\\\\"aste 2006, ???
   seas12[,2] <-  c(1.50, 1.65, 1.47, 0.70, 0.50, 0.78, 
                  1.35, 1.50, 0.92, 0.55, 0.25, 0.92)
 
-questions[[3]] <- "Die Anzahl der Nächtigungen nimmt im  Jahresverlauf 
+questions[[3]] <- "Die Anzahl der N\\\\\"achtigungen nimmt im  Jahresverlauf 
 kontinuierlich ab."
-questions[[4]] <- "Die jährliche Spitze liegt im Februar."
-questions[[5]] <- "Die Anzahl der Nächtigungen sind in der Regel im 
+questions[[4]] <- "Die j\\\\\"ahrliche Spitze liegt im Februar."
+questions[[5]] <- "Die Anzahl der N\\\\\"achtigungen sind in der Regel im 
 4.Quartal am geringsten."
 solutions[3] <- FALSE
 solutions[4] <- TRUE
 solutions[5] <- TRUE
 
-expl  <-  "Die Wintersaison (Jänner bis März) übertrifft die 
+expl  <-  "Die Wintersaison (J\\\\\"anner bis M\\\\\"arz) \\\\\"ubertrifft die 
 Sommersaison (Juli und August)."
      }
 
@@ -156,7 +154,7 @@ solutions[3] <- TRUE
 solutions[4] <- TRUE
 solutions[5] <- FALSE
 
-expl  <-  "Im Winter ist das Kinocenter gut besucht. Wird es wärmer 
+expl  <-  "Im Winter ist das Kinocenter gut besucht. Wird es w\\\\\"armer 
 bleiben die Besucher aus."
       }
 
@@ -174,14 +172,14 @@ bleiben die Besucher aus."
                  0.76, 0.30, 0.36 )
 
 questions[[3]] <- "Die Nachfrage nach Chartermaschinen ist innerhalb 
-eines Jahres im November am geringsten und im Juli am grö{\\\\ss}ten ."
+eines Jahres im November am geringsten und im Juli am gr\\\\\"o{\\\\ss}ten ."
 questions[[4]] <- "Der Mai ist ein durchschnittliches Monat."
 questions[[5]] <- "Keine der Antworten ist richtig."
 solutions[3] <- TRUE
 solutions[4] <- TRUE
 solutions[5] <- FALSE
 
-expl  <-  "Charter ist ein ausgeprägtes Saisongeschäft."
+expl  <-  "Charter ist ein ausgepr\\\\\"agtes Saisongesch\\\\\"aft."
      }
 
 # stype=5
@@ -194,14 +192,14 @@ expl  <-  "Charter ist ein ausgeprägtes Saisongeschäft."
 
 questions[[3]] <- "Der Stromverbrauch steigt mit der sinkenden 
 Aussentemperatur im australischen Winter."
-questions[[4]] <- "4 Monate weisen eine überdurchschnittlichen 
+questions[[4]] <- "4 Monate weisen eine \\\\\"uberdurchschnittlichen 
 Stromverbrauch auf."
 questions[[5]] <- "Keine der Antworten ist richtig."
 solutions[3] <- TRUE
 solutions[4] <- FALSE
 solutions[5] <- FALSE
  
-expl  <- "Der Stromverbrauch durch Heizen übersteigt in Australien 
+expl  <- "Der Stromverbrauch durch Heizen \\\\\"ubersteigt in Australien 
 deutlich den Bedraf durch Klimatisierung in der warmen Jahrezeit."
      }
 
@@ -246,32 +244,24 @@ qu5 <- as.vector(questions[[5]])
 
 explan42 <- "    "
 if (stype == 2 && freq == 4) { 
-  explan42 <- "Die saisonalen Ausschläge können nicht absolut (im Niveau) 
+  explan42 <- "Die saisonalen Ausschl\\\\\"age k\\\\\"onnen nicht absolut (im Niveau) 
   interpretiert werden, da das Niveau nicht gegeben ist. Wir kennen die 
-  Höhe des Umsatzes nicht. Daher wissen wir nicht wieviel 1/3 des Umsatzes 
+  H\\\\\"ohe des Umsatzes nicht. Daher wissen wir nicht wieviel 1/3 des Umsatzes 
   ausmacht."
-                } 
-
+} 
 @
 
 \begin{question} 
-{\bf CH11-12:}  
 Die unten abgebildete Graphik zeigt das saisonale Muster der Zeitreihe 
 \Sexpr{slabel}. Beschreiben Sie das Muster.
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
-\footnotesize
-
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
-if ( freq == 12 ) {
-barplot(structure( decseas$figure, .Names = month.abb ))
-                  }
-if ( freq == 4  ) {
-barplot(structure( decseas$figure, .Names = qlist ))
-                  }
+.Names <- if (freq == 4) qlist else month.abb
+barplot(structure( decseas$figure, .Names = .Names))
 par(op)
 @
 
@@ -300,12 +290,15 @@ Welche der angegebenen Aussagen treffen zu?
   \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
 \end{itemize}
 
-{\bf Erklärungen:}\\
-Das Muster beschreibt die durchschnittlichen saisonalen Effekte für 
-die einzelnen Frequenzen nachdem die Reihe um einen (möglichen) 
-Trend bereinigt wurde.\\ 
-Trendeffekte können nicht abgelesen werden.\\ 
-\Sexpr{explan42} \\
+{\bf Erkl\"arungen:}\\
+Das Muster beschreibt die durchschnittlichen saisonalen Effekte f\"ur 
+die einzelnen Frequenzen nachdem die Reihe um einen (m\"oglichen) 
+Trend bereinigt wurde.
+
+Trendeffekte k\"onnen nicht abgelesen werden.
+
+\Sexpr{explan42}
+
 Im Speziellen gilt: 
 \Sexpr{expl}
  
@@ -314,4 +307,4 @@ Im Speziellen gilt:
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exstring{\Sexpr{mchoice2summary(solutions)}}
+%% \exname{Mehrfachantworten}

@@ -7,7 +7,7 @@ mann <- rbinom(1,275,0.37)
 
 absh <- c(frau, 225-frau, mann, 275-mann)
 
-Fahrverhalten <- matrix(absh, nr=2 ) 
+Fahrverhalten <- matrix(absh, nrow=2 ) 
 dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
                                  Geschlecht = c("Frau", "Mann"))
 
@@ -26,27 +26,27 @@ explanations <- character(5)
 
 ## 1. X2 interpretieren
 if(runif(1) > 0.5) {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen $H_0$ als kleine."
+  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
   solutions[1] <- TRUE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten Häufigkeiten und 
-  den unter $H_0$ erwarteten Häufigkeiten."
+  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
+  den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 } else {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher für $H_0$ als kleine."
+  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
   solutions[1] <- FALSE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten Häufigkeiten und 
-  den unter $H_0$ erwarteten Häufigkeiten."
+  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
+  den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 }
 
 
 ## 2. df
 if(runif(1) > 0.5) {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel beträgt 1."
+  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 1."
   solutions[2] <- TRUE
-  explanations[2] <- "Bei einer 2x2-Tafel ist df = (2-1)*(2-1) = 1."
+  explanations[2] <- "Bei einer 2x2-Tafel ist df $= (2-1)\\\\cdot(2-1) = 1$."
 } else {
   questions[2] <- "Da es zwei Gruppen gibt, sind 2 Freiheitsgrade in diesem Beispiel relevant."
   solutions[2] <- FALSE
-  explanations[2] <- "Bei einer 2x2-Tafel ist df = (2-1)*(2-1)= 1."
+  explanations[2] <- "Bei einer 2x2-Tafel ist df $= (2-1)\\\\cdot(2-1)= 1$."
 }
 
 
@@ -55,22 +55,22 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[3] <- "Die Nullhypothese lautet: Das Risikoverhalten ist bei Frauen und Männern gleich."
+  questions[3] <- "Die Nullhypothese lautet: Das Risikoverhalten ist bei Frauen und M\\\\\"annern gleich."
   solutions[3] <- TRUE
   explanations[3] <- "In der Nullhypothese werden keine Unterschiede zwischen den Gruppen postuliert."
 } else {
-  questions[3] <- "Die Nullhypothese lautet: Das Risikoverhalten ist zwischen Frauen und Männern unterschiedlich."
+  questions[3] <- "Die Nullhypothese lautet: Das Risikoverhalten ist zwischen Frauen und M\\\\\"annern unterschiedlich."
   solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
 } else 
 
 if(runif(1) > 0.5) {
-  questions[3] <- "Die Alternativhypothese lautet: Das Risikoverhalten ist bei Frauen und Männern gleich."
+  questions[3] <- "Die Alternativhypothese lautet: Das Risikoverhalten ist bei Frauen und M\\\\\"annern gleich."
   solutions[3] <- FALSE
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
-  questions[3] <- "Die Alternativhypothese lautet: Das Risikoverhalten ist bei Frauen und Männern unterschiedlich."
+  questions[3] <- "Die Alternativhypothese lautet: Das Risikoverhalten ist bei Frauen und M\\\\\"annern unterschiedlich."
   solutions[3] <- TRUE
   explanations[3] <- "In der Alternativhypothese werden Unterschiede zwischen den Gruppen postuliert."
 }
@@ -81,13 +81,13 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- x2 <= 3.84 
-  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.")
+  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- x2 > 3.84
-  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.")
+  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 }
 
 
@@ -96,15 +96,15 @@ if(runif(1) > 0.5) {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Es gibt keine Unterschiede im Risikoverhalten zwischen den Altersklassen."
   solutions[5] <- x2 <= 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
-  sonst beibehalten.")
+  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
+  sonst beibehalten.", sep = "")
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: Das Risikoverhalten unterscheidet sich zwischen den Altersklassen."
   solutions[5] <- x2 > 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
-  sonst beibehalten.")
+  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
+  sonst beibehalten.", sep = "")
 }
 
 
@@ -119,20 +119,20 @@ explanations <- explanations[o]
 
 \begin{question}
 In einer Befragung zum Fahrverhalten wurde bei 500 AutofahrerInnen erhoben, 
-welche Risikofaktoren im Fahrverhalten (M"ochte m"oglichst wenig "uberholt werden, 
-H"aufiges L"uckenspringen im Kolonnenverkehr, etc.) vorliegen. 
+welche Risikofaktoren im Fahrverhalten (M\"ochte m\"oglichst wenig \"uberholt werden, 
+H\"aufiges L\"uckenspringen im Kolonnenverkehr, etc.) vorliegen. 
 
-Eine Einteilung der AutofahrerInnen in Risikogruppen (Risiko gering und Risiko erh"oht) 
+Eine Einteilung der AutofahrerInnen in Risikogruppen (Risiko gering und Risiko erh\"oht) 
 und nach Geschlecht ergab folgende Einteilung: 
  
 <<echo=FALSE>>= 
 Fahrverhalten
 @
 
-Ein Chi-Quadrat-Homogenitätstest zur Überprüfung von Unterschieden im Risikoverhalten 
+Ein $\chi^2$-Homogenit\"atstest zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
 zwischen den Geschlechtern lieferte einen $X^2$-Wert von $\Sexpr{round(x2, digits=2)}$
 
-Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+Welche der folgenden Aussagen sind richtig? (Signifikanzniveau 5\%)
 
 
 \begin{itemize}

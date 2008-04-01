@@ -23,7 +23,7 @@ nobsi0     <- nobsjahre0*4
 
 # nur 4 (= 3 + 1) Jahre davon auswaehlen
 nj <- 4
-ii <- f_rdunif(1,1,3)
+ii <- sample(1:3, 1)
 be  <- (ii-1)*4 + 1
 ee  <- be + 3*nj - 1
 ef <- ee + 4
@@ -41,13 +41,13 @@ nobsei <- nobsejahre*4
 datbeg2 <- 2007 + 1 - nj  # 4 ganze Jahre  bis inkl 2007
 datbeg1 <- datbeg2 - 5
 
-jbeg <-  f_rdunif(1,datbeg1,datbeg2)
+jbeg <-  sample(datbeg1:datbeg2, 1)
 jend <-  jbeg - 1 + round( nobse/4, digits=0)
-xe.ts <- ts( xe, start=jbeg,freq=4 )
+xe.ts <- ts( xe, start=jbeg,frequency=4 )
 xe.j  <- floor( time(xe.ts) )
 xe.q  <- (time(xe.ts) - xe.j)*4 + 1
-xfh.ts <- ts( xfh, start=(jend+1)-(1/4), freq=4)
-xa.ts  <- ts( xa, start=jbeg,freq=4)
+xfh.ts <- ts( xfh, start=(jend+1)-(1/4), frequency=4)
+xa.ts  <- ts( xa, start=jbeg,frequency=4)
 xa.j  <- floor( time(xa.ts) )
 xa.q  <- (time(xa.ts) - xa.j)*4 + 1
 
@@ -63,13 +63,13 @@ timlab <- seq(as.Date(tl1), as.Date(tl2), by="3 months")
 xehw <-  HoltWinters( xe.ts ) 
 # lshh$SSE , print(lshh), plot(lshh), plot(fitted(lshh)), print(lshhp)
 xehwp   <- predict(xehw, 4,prediction.interval=FALSE)
-xehwpa  <- ts( c(xe,xehwp), start=jbeg, freq=4)
+xehwpa  <- ts( c(xe,xehwp), start=jbeg, frequency=4)
 
 #PLOT
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.0, 1.1))
 #plot.ts( xehw, xehwp, xylanels=llist, ylab="Verkaeufe")
 # Prognose dahed
-#plot.ts(xehwpa,ylab="Verkäufe",lty=2)
+#plot.ts(xehwpa,ylab="Verk\"aufe",lty=2)
 # Realistaionen der Prognoseperiode dotted
 #lines(xa.ts, lty=3)
 # Schaetzperiode solid
@@ -93,11 +93,6 @@ rmse <-  mse^(0.5)
 
 mse <- round(mse, digits=1)
 
-rmse_string <- paste("RMSE: ", 
-round(rmse, digits = 2),
-  " (toleriert: ", round(rmse, digits = 2) - 0.05, " <= B <= ",
-  round(rmse, digits = 2) + 0.05, ")", sep = "")
-
 rmse <- round(rmse, digits=2)
 
 ylim= range( c(range(xehwpa),range(xa.ts),range(xe.ts)) ) 
@@ -105,45 +100,44 @@ ylim= range( c(range(xehwpa),range(xa.ts),range(xe.ts)) )
 @
 
 \begin{question} 
-
-{\bf CH11-13:} Gegeben sind die vierteljährlichen Verkaufszahlen einer 
-französischen Firma von \Sexpr{jbeg} bis \Sexpr{jend}, $Y_t$. 
-Es wurde für das Jahr \Sexpr{fcjahr} mit dem Holt-Winters-Verfahren 
-eine Prognose errechnet und mit der nachträglich beobachteten Reihe 
-verglichen. Die untenstehende Graphik visualisiert den Pfad der 
-Beobachtungen und die Prognosen.\\
-{\it solid}  $\ldots$ Daten aus der Schätzperiode\\
-{\it dashed} $\ldots$ Daten aus der Prognoseperiode\\
-{\it dotted} $\ldots$ Prognosewerte
-
+  Gegeben sind die viertelj\"ahrlichen Verkaufszahlen einer
+  franz\"osischen Firma von \Sexpr{jbeg} bis \Sexpr{jend}, $Y_t$.  Es
+  wurde f\"ur das Jahr \Sexpr{fcjahr} mit dem Holt-Winters-Verfahren
+  eine Prognose errechnet und mit der nachtr\"aglich beobachteten
+  Reihe verglichen. Die untenstehende Graphik visualisiert den Pfad
+  der
+  Beobachtungen und die Prognosen.\\
+  {\it solid}  $\ldots$ Daten aus der Sch\"atzperiode\\
+  {\it dashed} $\ldots$ Daten aus der Prognoseperiode\\
+  {\it dotted} $\ldots$ Prognosewerte
 
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 
 op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.0, 1.1))
-# Prognose dahed
-plot.ts(xehwpa,ylab="Verkäufe",lty=3, ylim=ylim)
+# Prognose dashed
+plot.ts(xehwpa,ylab="Verk\"aufe",lty=3, ylim=ylim)
 # Realistaionen der Prognoseperiode dotted
 lines(xa.ts, lty=2)
 # Schaetzperiode solid
 lines(xe.ts, lty=1)
  
     if ( attr(xa.ts,"tsp")[3] != 1 ) {  
-     my.yax <- f_yax(xa.ts)
+     my.yax <- exams:::f_yax(xa.ts)
      axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
-     my.sax <- f_sax(xa.ts)
+     my.sax <- exams:::f_sax(xa.ts)
      axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
                                       }
 par(op)
 
 @
 
-Berechnen Sie den zugehörigen RMSE (root mean squar error) der Prognosen, 
+Berechnen Sie den zugeh\"origen RMSE (root mean squar error) der Prognosen, 
 $Y_n(j)$ mit $n=12$. 
 Die dazu notwendigen Zahlenwerte finden Sie in der folgenden Tabelle. 
 
-{\small
 \begin{center}
 \begin{tabular}{|c|cccc|}
+\hline
 Jahr      & \multicolumn{4}{c|}{\Sexpr{fcjahr}}  \\
 \hline
 Quartal   & 1 & 2 & 3 & 4  \\
@@ -156,14 +150,13 @@ $Y_n(j)$  &\Sexpr{yf[1]} & \Sexpr{yf[2]} & \Sexpr{yf[3]} & \Sexpr{yf[4]}\\
 \hline
 
 \end{tabular} \end{center}
-}
 
 \end{question}
 
 \begin{solution}
 
-Der RMSE root mean squar error) errechnet sich aus dem Vergleich 
-der $1-, 2-, \ldots$, $r$-Schritt-Prognosen mit der tatsächlich 
+Der RMSE (root mean squar error) errechnet sich aus dem Vergleich 
+der $1-, 2-, \ldots$, $r$-Schritt-Prognosen mit der tats\"achlich 
 realisierten Reihe:
 $$RMSE = \sqrt{ \frac{1}{r} \sum_{j=1}^4 [y_{n+j} - y_n(j)]^2 }$$
 Hier ist $n=12$ und $r=4$.
@@ -179,4 +172,5 @@ $$RMSE = \sqrt{MSE} = \Sexpr{rmse}$$
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(rmse)}}
-%% \exstring{\Sexpr{rmse_string}}
+%% \exname{Fehler}
+%% \extol{0.05}

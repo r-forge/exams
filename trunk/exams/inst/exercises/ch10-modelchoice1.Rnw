@@ -70,16 +70,16 @@ questions[1] <- paste("Beim Testen der Nullhypothese $H_0: Y = \\\\beta_0 + \\\\
     $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\epsilon$ wird die Nullhypothese ",
     qu1[id1], " (Signifikanzniveau $5\\\\%$).",sep = "")
 solutions[1] <- ((anova(fm1,fm2)[2,6] < 0.05) & (id1 == 1)) || ((anova(fm1,fm2)[2,6] >= 0.05) & (id1 == 2)) 
-explanations[1] <- paste("Dieser Test wird in der 3. Tabelle durchgef\\\\\"uhrt. 
-	Dort ist der $p$-Wert ungef\\\\\"ahr ", format(round(anova(fm1,fm2)[2,6],4),scientific=FALSE), ".",seps="")  
+explanations[1] <- paste("Dieser Test wird in der 3.~Tabelle durchgef\\\\\"uhrt. 
+	Dort ist der $p$-Wert ungef\\\\\"ahr ", format(round(anova(fm1,fm2)[2,6],4),scientific=FALSE), ".",sep="")  
 
 id2 <- sample(2,1)
 questions[2] <- paste("Beim Testen der Nullhypothese $H_0: Y = \\\\beta_0 + \\\\beta_2 X_{2} + \\\\epsilon$ 
     gegen die Alternative $H_1: Y = \\\\beta_0 + \\\\beta_1 X_{1} + \\\\beta_2 X_{2} + \\\\epsilon$ 
     wird die Nullhypothese ", qu1[id2], " (Signifikanzniveau $5\\\\%$).", sep = "")
 solutions[2] <- ((anova(fm3,fm23)[2,6] < 0.05) &  (id2 == 1)) ||  ((anova(fm3,fm23)[2,6] >= 0.05) &  (id2 == 2))   
-explanations[2] <- paste("Dieser Test wird in der 2. Tabelle durchgef\\\\\"uhrt. 
-	Dort ist der $p$-Wert ungef\\\\\"ahr ", format(round(anova(fm3,fm23)[2,6],4),scientific=FALSE), ".",seps="")  
+explanations[2] <- paste("Dieser Test wird in der 2.~Tabelle durchgef\\\\\"uhrt. 
+	Dort ist der $p$-Wert ungef\\\\\"ahr ", format(round(anova(fm3,fm23)[2,6],4),scientific=FALSE), ".",sep="")  
 
 questions[3] <- paste("Von den 4 zur Verf\\\\\"ugung stehenden Modellen wird das Modell $M_0$
     gew\\\\\"ahlt.", sep = "") 
@@ -108,9 +108,9 @@ questions[5] <- paste("Beim Testen der Nullhypothese
     wird die Nullhypothese ", qu5[id5], ", weil der $p$-Wert ", qu51[id51], " als 0.05 ist 
     (Signifikanzniveau $5\\\\%$).", sep = "")
 solutions[5] <- ((anova(fm2,fm23)[2,6]< 0.05)  & id5==1 & id51==1) || ((anova(fm2,fm23)[2,6]>=0.05) & id5==2 & id51==2)
-explanations[5] <- paste("Dieser Test wird in der 1. Tabelle durchgef\\\\\"uhrt. Die Nullhypothese wird verworfen, wenn
+explanations[5] <- paste("Dieser Test wird in der 1.~Tabelle durchgef\\\\\"uhrt. Die Nullhypothese wird verworfen, wenn
 	der $p$-Wert kleiner als $0.05$ ist.
-	Der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm2,fm23)[2,6],4),scientific=FALSE), ".",seps="")  
+	Der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm2,fm23)[2,6],4),scientific=FALSE), ".",sep="")  
     
 
 ## permute order of solutions/questions
@@ -131,7 +131,7 @@ Verf\"ugung. Es stehen die folgenden 4 Modelle zur Auswahl:
 \epsilon 
 \end{eqnarray*}
 
-Im folgenden sehen Sie die ANOVAs zum Vergleich der Modelle: 
+Im Folgenden sehen Sie die ANOVAs zum Vergleich der Modelle: 
 
 Testen von $M_1$ gegen $M_{12}$: 
 <<echo=FALSE>>=

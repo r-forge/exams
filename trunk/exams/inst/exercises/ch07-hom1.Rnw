@@ -8,7 +8,7 @@ sonstpro <- rbinom(1,120,0.6)
 sonstcontra <- 120-sonstpro
 
 ah <- c(anpro,ancontra,sonstpro,sonstcontra)
-Vobs <- matrix( ah, nr=2) 
+Vobs <- matrix( ah, nrow=2) 
 
 Veranstaltungszentrum <- Vobs
 Wer = c("Anrainer","Sonst")
@@ -48,9 +48,9 @@ Berechnen Sie dazu die $X^2$-Teststatistik!
 %% SOLUTIONS
 \begin{solution}
 Die angezeigte Kontingenztafel (in diesem Beispiel eine 2x2-Matrix) 
-enthält die beobachteten Häufigkeiten ($o_{ij}$). Ergänzt man diese 
+enth\"alt die beobachteten H\"aufigkeiten ($o_{ij}$). Erg\"anzt man diese 
 Kontingenztafel um die Zeilensummen ($o_{i+}$) und Spaltensummen ($o_{+j}$)
-gelangt man zu 
+bekommt man folgende Tabelle:
 
 <<echo=FALSE>>=
 ahm <- addmargins(Veranstaltungszentrum)
@@ -61,15 +61,15 @@ n  <- ahm[3,3]
 e21<- zs*ss/n
 @
 
-Mit den Zeilen- und Spaltensummen lassen sich leicht die 
-erwarteten Häufigkeiten ($e_{ij}$) berechnen 
-\[ e_{ij} = \frac{o_{i+} \cdot o_{+j}}{n} \]
+Mit den Zeilen- und Spaltensummen lassen sich die erwarteten
+H\"aufigkeiten ($e_{ij}$) berechnen
+\[ e_{ij} = \frac{o_{i+} \cdot o_{+j}}{n}. \]
 
-Konkret, etwa für das Element in der 2.Zeile und 1.Spalte:
+Konkret, etwa f\"ur das Element in der 2.~Zeile und 1.~Spalte:
 \[ e_{21}=  \frac{o_{2+} \cdot o_{+1}}{n} = 
             \frac{\Sexpr{zs} \cdot \Sexpr{ss}}{\Sexpr{n}} = \Sexpr{round(e21, digits = 3)} \]
 
-Die gesamte Matrix der erwarteten Häufigkeiten ist:
+Die gesamte Matrix der erwarteten H\"aufigkeiten lautet:
 
 <<echo=FALSE>>=
 Vexp <- round(homt$expected, digits=3)
@@ -79,8 +79,8 @@ e11 <- Vexp[1,1]
 x2  <- round(homt$statistic, digits=3)
 @
 
-Die Berechnung der (Pearson-)$X^2$-Teststatistik erfolgt über den 
-Vergleich von beobachteten und erwarteten Häufigkeiten nach: 
+Die Berechnung der (Pearson-)$X^2$-Teststatistik erfolgt \"uber den 
+Vergleich von beobachteten und erwarteten H\"aufigkeiten nach: 
 \[ X^2 = \sum_{i=1}^I \sum_{j=1}^J \frac{(o_{ij} - e_{ij})^2}{e_{ij}} 
        = \frac{(\Sexpr{o11} - \Sexpr{e11})^2} {\Sexpr{e11}} + \cdots = \Sexpr{x2} \]   
 
