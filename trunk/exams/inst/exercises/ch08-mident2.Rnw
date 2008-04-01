@@ -67,10 +67,10 @@ expl[1] <- "Die Aufnahme von Faktor A ergibt einen signifikanten Abfall in der R
             die weitere Aufnahme von Modellteilen nicht mehr."
 expl[2] <- "Die Aufnahme von Faktor B ergibt einen signifikanten Abfall in der RSS, 
             die weitere Aufnahme von Modellteilen nicht mehr."
-expl[3] <- "Die Aufnahme beider Haupteffekte A und B führt zu einem 
+expl[3] <- "Die Aufnahme beider Haupteffekte A und B f\\\\\"uhrt zu einem 
             signifikanten Abfall in der RSS, die Aufnahme des Wechselwirkungeffektes nicht."                   
 expl[4] <- "Die Aufnahme beider Haupteffekte A und Faktor B und des Wechselwirkungeffektes 
-            führen zu einem signifikanten Abfall in der RSS."   
+            f\\\\\"uhren zu einem signifikanten Abfall in der RSS."   
 
 
 if(runif(1) > 0.5) {
@@ -94,7 +94,7 @@ quest[3] <- "Das passende Modell lautet: Sowohl Faktor A als auch Faktor B haben
 quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten von Y 
              je nach Stufe von Faktor A h\\\\\"angen zus\\\\\"atzlich von den Stufen des Faktors B ab."  
 
-## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
+## explanation wie bei Frage 1 + Uebertragung auf konkrete fragestellung
 
 expl <- character(4)
 expl[1] <- "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken Anstieg 
@@ -113,10 +113,8 @@ if(runif(1) > 0.5) {
 } else {
   questions[2] <- quest[ndasm1]
   solutions[2] <- FALSE
-  explanations[2] <- expl[ndasm1]
+  explanations[2] <- expl[dasm]
 }
-
-
 
 ## 3. richtiges Modell interpretieren
 
@@ -125,13 +123,13 @@ quest[1] <- "Das passende Modell lautet: nur die Universit\\\\\"at, an der der A
              hat einen Einfluss auf das durchschnittliche Gehalt."
 quest[2] <- "Das passende Modell lautet: nur die Branche, in der die Absolventen arbeiten, 
              hat einen Einfluss auf das durchschnittliche Gehalt."
-quest[3] <- "Das passende Modell lautet: Sowohl Universit\\\\\"at, an der der Abschluss erfolgte, 
+quest[3] <- "Das passende Modell lautet: Sowohl die Universit\\\\\"at, an der der Abschluss erfolgte, 
              als auch die Branche, in der die Absolventen arbeiten, haben additiv 
              einen Einfluss auf das durchschnittliche Gehalt."               
 quest[4] <- "Das passende Modell lautet: die Unterschiede in den durchschnittlichen Geh\\\\\"altern 
              in den einzelnen Branchen h\\\\\"angen von der Universit\\\\\"at ab, an der der Abschluss erfolgte."  
              
-## explanation wie bei Frage 1 + übertragung auf konkrete fragestellung
+## explanation wie bei Frage 1 + Uebertragung auf konkrete fragestellung
 
 expl <- character(4)
 expl[1] <- "Von Uni A1 zu Uni A2 gibt es einen starken Anstieg 
@@ -150,7 +148,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[3] <- quest[ndasm1]
   solutions[3] <- FALSE
-  explanations[3] <- expl[ndasm1]
+  explanations[3] <- expl[dasm]
 }
 
 
@@ -164,11 +162,11 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- quest[ndasm2]
   solutions[4] <- FALSE
-  explanations[4] <- expl[ndasm2]
+  explanations[4] <- expl[dasm]
 } else {
   questions[4] <- quest[ndasm3]
   solutions[4] <- FALSE
-  explanations[4] <- expl[ndasm3]
+  explanations[4] <- expl[dasm]
 }
 
 
@@ -246,7 +244,7 @@ anova(m1,mb,mapb,mab)
 @
 
 
-Die Durchschnittseinkommen (berechnet aus jeweils 5 Werten) für 
+Die Durchschnittseinkommen (berechnet aus jeweils 5 Werten) f\"ur 
 jede Kombination der Faktoren sind 
 in der folgenden Tabelle enthalten: 
 

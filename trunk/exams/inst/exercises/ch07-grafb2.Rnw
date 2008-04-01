@@ -71,7 +71,7 @@ if(runif(1) > 0.5) {
                           indirekt betroffener Gebiete hat sich 
                           f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen.")
   solutions[3] <- T
-  explanations[3] <- "Das ist die Interpretation des 2.Balkens als Spaltenprozent."                        
+  explanations[3] <- "Das ist die Interpretation des 2.~Balkens als Spaltenprozent."                        
 } else {
   questions[3] <- paste( "Ungef\\\\\"ahr ($\\\\pm$ 2.5 Prozent)", round(rhp[2,2]/5)*5, "Prozent aller befragten Bewohner 
                           hat sich gegen st\\\\\"arkere Reglementierungen ausgesprochen.")
@@ -85,7 +85,7 @@ if(runif(1) > 0.5) {
                           nicht belasteter Gebiete hat sich 
                           gegen st\\\\\"arkere Reglementierungen ausgesprochen.")
   solutions[3] <- T
-  explanations[3] <- "Das ist die Interpretation des 3.Balkens als Spaltenprozent."         
+  explanations[3] <- "Das ist die Interpretation des 3.~Balkens als Spaltenprozent."         
 } else {
   questions[3] <- paste( "Ungef\\\\\"ahr ($\\\\pm$ 2.5 Prozent)", round(rhp[1,3]/5)*5, "Prozent aller Befragten, die sich  
                           f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen, leben in nicht 
@@ -148,9 +148,9 @@ Die Einstellung der Bev\"olkerung zur Transitfrage ist durch Massenmedien beeinf
 durch pers\"onliche Betroffenheit geformt. Bei einer Umfrage, ob eine st\"arkere Reglementierung des Schwerverkehrs 
 durchgesetzt werden soll ({\em pro}) oder nicht ({\em contra}), wurden die Befragten je nach Wohnort 
 wie folgt kategorisiert: 
-Wohnort in einem vom Transitverkehr direkt belasteten Gebiet 
-oder Wohnort in einem vom Transitverkehr nicht direkt betroffenen aber doch belasteten Gebiet  
-oder keine Belastung des Wohnortes durch den Transitverkehr.  
+(1) Wohnort in einem vom Transitverkehr direkt belasteten Gebiet,
+(2) Wohnort in einem vom Transitverkehr nicht direkt betroffenen, aber doch belasteten Gebiet  
+und (3) keine Belastung des Wohnortes durch den Transitverkehr.  
 
 Die Ausz\"ahlung ergab folgende Kreuztabelle:
  

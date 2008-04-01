@@ -107,8 +107,8 @@ expl[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittl
 expl[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
             starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
             des Faktors vergleicht."                   
-expl[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualit\\\\\"at besser ab, 
-            bei TV-Werbung ist Werbung über Preis besser."    
+expl[4] <- "Bei Zeitungswerbung schneidet Werbung \\\\\"uber Qualit\\\\\"at besser ab, 
+            bei TV-Werbung ist Werbung \\\\\"uber Preis besser."    
 
 if(runif(1) > 0.5) {
   questions[2] <- quest[dasm]
@@ -149,8 +149,8 @@ quest[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnitt
 quest[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
              starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
              des Faktors vergleicht."                   
-quest[4] <- "Bei Zeitungswerbung schneidet Werbung über Qualit\\\\\"at besser ab, 
-             bei TV-Werbung ist Werbung über Preis besser."    
+quest[4] <- "Bei Zeitungswerbung schneidet Werbung \\\\\"uber Qualit\\\\\"at besser ab, 
+             bei TV-Werbung ist Werbung \\\\\"uber Preis besser."    
  
 
 if(runif(1) > 0.5) {

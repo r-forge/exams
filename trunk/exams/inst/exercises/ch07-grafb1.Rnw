@@ -85,7 +85,7 @@ if(runif(1) > 0.5) {
                           nicht belasteter Gebiete hat sich 
                           gegen st\\\\\"arkere Reglementierungen ausgesprochen.")
   solutions[3] <- TRUE
-  explanations[3] <- "Das ist die Interpretation des 3.Balkens als Spaltenprozent."         
+  explanations[3] <- "Das ist die Interpretation des 3.~Balkens als Spaltenprozent."         
 } else {
   questions[3] <- paste( "Ungef\\\\\"ahr ", round(rhp[1,3]/5)*5, "Prozent aller Befragten, die sich  
                           f\\\\\"ur st\\\\\"arkere Reglementierungen ausgesprochen, leben in nicht 
