@@ -33,11 +33,11 @@ explanations <- character(5)
 
 ## 1. X2 ablesen
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt:", round(x2,digits=3))
+  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt: ", round(x2,digits=3), ".", sep = "")
   solutions[1] <- T
   explanations[1] <- "Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen."
 } else {
-  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt:", round(pv, digits=4) )
+  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt: ", round(pv, digits=4), ".", sep = "")
   solutions[1] <- F
   explanations[1] <- paste("Der richtige Wert ist aus dem \\\\textsf{R}-Output ablesbar:", round(x2,digits=3))
 }

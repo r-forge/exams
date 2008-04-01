@@ -19,7 +19,7 @@ fzus <- rep(1:4, rep(8,4) )
 
 Zus       <- factor(fzus, labels=c("U1-B1","U2-B1","U1-B2","U2-B2") )
 
-dasm <- round(runif(1,min=0.51,max=4.49))
+dasm <- sample(1:4, 1)
 
 if(dasm==1){Y = y1
             ndasm1=2
@@ -72,7 +72,7 @@ expl[1] <- "Die Unterschiede zwischen den Unis sind gro{\\\\ss},
 expl[2] <- "Die Unterschiede zwischen den Branchen sind gro{\\\\ss}, 
             jene zwischen den Unis nur gering."
 expl[3] <- "Sowohl die Unterschiede zwischen den Unis als 
-            auch die zwischen den Branchen sind gro{\\\\ss}."                   
+            auch die zwischen den Branchen sind gro{\\\\ss}. Es gibt jedoch keinen Wechselwirkungseffekt."                   
 expl[4] <- "Die Unterschiede zwischen den Unis h\\\\\"angen  
             stark von den Branchen ab."   
 
@@ -108,7 +108,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[2] <- quest[ndasm1]
   solutions[2] <- FALSE
-  explanations[2] <- expl[ndasm1]
+  explanations[2] <- expl[dasm]
 }
 
 

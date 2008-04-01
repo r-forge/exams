@@ -92,13 +92,13 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- x2 <= 3.84 
-  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.")
+  explanations[4] <- paste("Der $X^2$-Wert ist ", x2, 
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- x2 > 3.84
-  explanations[4] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.")
+  explanations[4] <- paste("Der $X^2$-Wert ist ", x2, 
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 }
 
 
@@ -107,16 +107,16 @@ if(runif(1) > 0.5) {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Konsum von Nikotin ist unabh\\\\\"angig vom Konsum von Coffein."
   solutions[5] <- x2 <= 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, 
-  sonst beibehalten.")
+  explanations[5] <- paste("Der $X^2$-Wert ist ", x2, 
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, 
+  sonst beibehalten.", sep = "")
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Konsum von Coffein ist abh\\\\\"angig vom Konsum von Nikotin."
   solutions[5] <- x2 > 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,". 
-  Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, 
-  sonst beibehalten.")
+  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, 
+  sonst beibehalten.", sep = "")
 }
 
 

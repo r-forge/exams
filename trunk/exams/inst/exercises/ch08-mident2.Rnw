@@ -252,7 +252,7 @@ in der folgenden Tabelle enthalten:
 round( tapply(Y,list(A,B),mean), digits=0 )
 @
 
-Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
+Welche der folgenden Aussagen sind richtig? (Signifikanzniveau 5\%)
 
 
 \begin{itemize}

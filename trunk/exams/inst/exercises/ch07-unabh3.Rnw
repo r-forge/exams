@@ -52,7 +52,7 @@ if(runif(1) > 0.5) {
   explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$."
 } else {
   questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ",
-                         sample(5:9)[1]," .")
+                         sample(5:9)[1], " .", sep = "")
   solutions[2] <- F
   explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$."
 }

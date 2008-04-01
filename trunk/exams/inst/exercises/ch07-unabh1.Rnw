@@ -22,10 +22,6 @@ dimnames(kaffeenikotin)<-list( Kaffee  = c("Kaffeetrinker","Nichtkaffeetrinker")
 homt <- chisq.test(kaffeenikotin, correct=F)
 
 X2 <- homt$statistic
- 
-X2_string <- paste("X2-Statistik: ", round(X2, digits = 3),
-  " (toleriert: ", round(X2, digits = 3) - 0.01, " <= |T| <= ",
-  round(X2, digits = 3) + 0.01, ")", sep = "")
 @
 
 \begin{question}
@@ -97,4 +93,5 @@ Vergleich von beobachteten und erwarteten H\"aufigkeiten nach:
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{num2string(X2)}}
-%% \exstring{\Sexpr{X2_string}}
+%% \exname{X2-Statistik}
+%% \extol{0.01}

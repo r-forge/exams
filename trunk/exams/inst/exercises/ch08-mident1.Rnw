@@ -78,7 +78,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[1] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm1, ".", sep = "")
   solutions[1] <- FALSE
-  explanations[2] <- paste(expl[dasm], " Daher ist der richtige Plot: ", dasm, ".", sep = "")
+  explanations[2] <- paste(expl[dasm], " Daher ist Plot ", dasm, " richtig.", sep = "")
 }
 
 
@@ -86,11 +86,11 @@ if(runif(1) > 0.5) {
  if(runif(1) > 0.5) {
   questions[2] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm2, ".", sep = "")
   solutions[2] <- FALSE
-  explanations[2] <- paste(expl[dasm], " Daher ist der richtige Plot: ", dasm, ".", sep = "")
+  explanations[2] <- paste(expl[dasm], " Daher ist Plot ", dasm, " richtig.", sep = "")
 } else {
   questions[2] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm3, ".", sep = "")
   solutions[2] <- FALSE
-  explanations[2] <- paste(expl[dasm], " Daher ist der richtige Plot: ", dasm, ".", sep = "")
+  explanations[2] <- paste(expl[dasm], " Daher ist Plot ", dasm, " richtig.", sep = "")
 }
 
 

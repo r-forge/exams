@@ -80,14 +80,14 @@ solutions[2] <- ((anova(fm3,fm23)[2,6] < 0.05) &  (id2 == 1)) ||  ((anova(fm3,fm
 explanations[2] <- paste("Denn der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm3,fm23)[2,6],4),scientific=FALSE), ".", sep="")  
 
 questions[3] <- paste("Von den 4 zur Verf\\\\\"ugung stehenden Modellen wird das Modell $M_0$
-    gew\\\\\"ahlt.", sep = "") 
+    gew\\\\\"ahlt (Signifikanzniveau $5\\\\%$).", sep = "") 
 solutions[3] <- length(fm0$coef) == 1  
 explanations[3] <- if(length(fm0$coef)==1) "Die 4 Schritte der Modellwahl werden durchgef\\\\\"uhrt: alle 4 Modellvergleiche 
 			liefern eine nicht signifikante Testgr\\\\\"o{\\\\ss}e. Daher w\\\\\"ahlt man das Modell $M_0$." else
 			"Nicht alle 4 Modellvergleiche liefern eine nicht signifikante Testgr\\\\\"o{\\\\ss}e."
     
 questions[4] <- paste("Von den 4 zur Verf\\\\\"ugung stehenden Modellen wird das Modell $M_{12}$
-    gew\\\\\"ahlt.", sep = "")     
+    gew\\\\\"ahlt (Signifikanzniveau $5\\\\%$).", sep = "")     
 solutions[4] <- length(fm0$coef) == 3 
 explanations[4] <- if(length(fm0$coef)==3) "Im Baum liefern die oberen beiden Modellvergleiche von $M_1$ gegen $M_{12}$ 
 			bzw. $M_2$ gegen $M_{12}$ jeweils signifikante Testgr\\\\\"o{\\\\ss}en. Daher
