@@ -65,15 +65,15 @@ explanations <- character(5)
 ex <- character(5)
 
 a1 <- "Das Streudiagramm ist standardisiert."
-a2 <- "Die Steigung der Regressionsgeraden ist etwa 1."
-a3 <- "Der Absolutbetrag des Korrelationskoeffizienten ist mindestens 0.8."
-a4 <- "Der Absolutbetrag des Korrelationskoeffizienten ist h\\\\\"ochstens 0.8."
-a5 <- "Die Standardabweichung von X ist mindestens 6."
-a6 <- "Die Standardabweichung von Y ist mindestens 6."
-a7 <- "Das Mittel von X ist h\\\\\"ochstens 5."
-a8 <- "Das Mittel von Y ist mindestens 30."
-a9 <- paste(c("F\\\\\"ur X = ", as.character(xh), " ist ungef\\\\\"ahr Y = ", as.character(yhr), " zu erwarten."), collapse="")
-a10 <- paste(c("F\\\\\"ur X = ", as.character(xh), " ist ungef\\\\\"ahr Y = ", as.character(yhf), " zu erwarten."), collapse="")
+a2 <- "Die Steigung der Regressionsgeraden ist etwa $1$."
+a3 <- "Der Absolutbetrag des Korrelationskoeffizienten ist mindestens $0.8$."
+a4 <- "Der Absolutbetrag des Korrelationskoeffizienten ist h\\\\\"ochstens $0.8$."
+a5 <- "Die Standardabweichung von $X$ ist mindestens $6$."
+a6 <- "Die Standardabweichung von $Y$ ist mindestens $6$."
+a7 <- "Das Mittel von $X$ ist h\\\\\"ochstens $5$."
+a8 <- "Das Mittel von $Y$ ist mindestens $30$."
+a9 <- paste(c("F\\\\\"ur $X = ", as.character(xh), "$ ist ungef\\\\\"ahr $Y = ", as.character(yhr), "$ zu erwarten."), collapse="")
+a10 <- paste(c("F\\\\\"ur $X = ", as.character(xh), "$ ist ungef\\\\\"ahr $Y = ", as.character(yhf), "$ zu erwarten."), collapse="")
 questions <- c(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10)
 
 if(i1 < 2)
@@ -87,7 +87,7 @@ if(i1 < 2)
          FALSE,
          TRUE,
          abs(yhf-yhr) < 0.01*sy)
-  ex[1] <- "Sowohl f\\\\\"ur X als auch f\\\\\"ur Y ist das Mittel 0 und die Varianz 1."
+  ex[1] <- "Sowohl f\\\\\"ur $X$ als auch f\\\\\"ur $Y$ ist das Mittel $0$ und die Varianz $1$."
 } else       
   {v <- c(FALSE,
          abs(b - 1) < 0.1,
@@ -99,45 +99,44 @@ if(i1 < 2)
          imy==2 || imy==3,
          TRUE,
          abs(yhf-yhr) < 0.01*sy)
-  ex[1] <- "Ein standardisiertes Streudiagramm liegt nicht vor, weil X und Y nicht beide  
-  das Mittel 0 und die Varianz 1 haben."
+  ex[1] <- "Ein standardisiertes Streudiagramm liegt nicht vor, weil $X$ und $Y$ nicht beide  
+  das Mittel $0$ und die Varianz $1$ haben."
   }  
    
 ex[2] <- if(abs(b - 1) < 0.1) "Die Steigung der Regressionsgeraden
            berechnet sich aus
-           $r  s_y/s_x$ und ist in etwa 1." else
+           $r \\\\cdot s_y/s_x$ und ist in etwa $1$." else
            "Die Steigung der Regressionsgeraden berechnet sich aus
-           $r s_y/s_x$ und ist daher ungleich 1."
+           $r \\\\cdot s_y/s_x$ und ist daher ungleich $1$."
            
 ex[3] <- if(ir==1 || ir==4) "Man sieht einen deutlichen Zusammenhang im Streudiagramm. Der
-            Betrag des Korrelationskoeffizienten ist nahe bei 1 und daher gr\\\\\"o{\\\\ss}er 0.8." else if(ir==2) "Es ist 
-            im Streudiagramm keine Koppelung zu erkennen. Daher ist der
-            Korrelationskoeffizient nahe 0." else 
+            Betrag des Korrelationskoeffizienten ist nahe bei $1$ und daher gr\\\\\"o{\\\\ss}er als $0.8$." else if(ir==2) "Es ist 
+            im Streudiagramm keine Koppelung zu erkennen. Daher ist der Korrelationskoeffizient nahe $0$." else 
             "Im Streudiagramm ist eine positive Koppelung erkennbar. Der Korrelationskoeffizient
-            hat einen Betrag kleiner 0.8." 
+            hat einen Betrag kleiner $0.8$." 
 
 ex[4] <- ex[3]
 
-ex[5] <- if(sx==1) paste("Die Standardabweichung von X betr\\\\\"agt ungef\\\\\"ahr ", sx, " und ist 
-		daher kleiner als 6", ".", sep = "") else
-            paste("Die Standardabweichung von X betr\\\\\"agt ungef\\\\\"ahr ", sx, " und ist 
-		daher gr\\\\\"o{\\\\ss}er als 6", ".", sep = "")
+ex[5] <- if(sx==1) paste("Die Standardabweichung von $X$ betr\\\\\"agt ungef\\\\\"ahr $", sx, "$ und ist 
+		daher kleiner als $6$.", sep = "") else
+            paste("Die Standardabweichung von $X$ betr\\\\\"agt ungef\\\\\"ahr $", sx, "$ und ist 
+		daher gr\\\\\"o{\\\\ss}er als $6$.", sep = "")
 
-ex[6] <- if(sy==1) paste("Die Standardabweichung von Y betr\\\\\"agt ungef\\\\\"ahr ", sy, " und ist 
-		daher kleiner als 6.", sep = "") else
-            paste("Die Standardabweichung von Y betr\\\\\"agt ungef\\\\\"ahr ", sy, " und ist 
-		daher gr\\\\\"o{\\\\ss}er als 6.", sep = "")
+ex[6] <- if(sy==1) paste("Die Standardabweichung von $Y$ betr\\\\\"agt ungef\\\\\"ahr $", sy, "$ und ist 
+		daher kleiner als $6$.", sep = "") else
+            paste("Die Standardabweichung von $Y$ betr\\\\\"agt ungef\\\\\"ahr $", sy, "$ und ist 
+		daher gr\\\\\"o{\\\\ss}er als $6$.", sep = "")
 
-ex[7] <- if(mx<5) paste("Das Mittel von X betr\\\\\"agt ungef\\\\\"ahr ", mx, 
-		" und ist somit kleiner als 5.", sep = "") else paste("Das Mittel von X betr\\\\\"agt ungef\\\\\"ahr ", mx, 
-		" und ist somit gr\\\\\"o{\\\\ss}er  als 5.", sep = "")
+ex[7] <- if(mx<5) paste("Das Mittel von $X$ betr\\\\\"agt ungef\\\\\"ahr $", mx, 
+		"$ und ist somit kleiner als $5$.", sep = "") else paste("Das Mittel von $X$ betr\\\\\"agt ungef\\\\\"ahr $", mx, 
+		"$ und ist somit gr\\\\\"o{\\\\ss}er als $5$.", sep = "")
 
-ex[8] <- if(my<30) paste("Das Mittel von Y betr\\\\\"agt ungef\\\\\"ahr ", my, 
-		" und ist somit kleiner als 30.", sep = "") else paste("Das Mittel von Y betr\\\\\"agt ungef\\\\\"ahr ", my, 
-		" und ist somit gr\\\\\"o{\\\\ss}er  als 30.", sep = "")
+ex[8] <- if(my<30) paste("Das Mittel von $Y$ betr\\\\\"agt ungef\\\\\"ahr $", my, 
+		"$ und ist somit kleiner als $30$.", sep = "") else paste("Das Mittel von $Y$ betr\\\\\"agt ungef\\\\\"ahr $", my, 
+		"$ und ist somit gr\\\\\"o{\\\\ss}er  als $30$.", sep = "")
 
-ex[9] <- paste("Aus der Regressionsgeraden erh\\\\\"alt man f\\\\\"ur Y an der Stelle X=", xh, 
-		" ungef\\\\\"ahr den Wert ", yhr, ".", sep="")         
+ex[9] <- paste("Aus der Regressionsgeraden erh\\\\\"alt man f\\\\\"ur $Y$ an der Stelle $X=", xh, 
+		"$ ungef\\\\\"ahr den Wert $", yhr, "$.", sep="")         
        
 ex[10] <- ex[9]              
            
@@ -150,7 +149,7 @@ explanations <- ex[o]
 @
 
 \begin{question}
-Abbildung~\ref{fig:ch09-streudiag} zeigt ein Streudiagramm. 
+Abbildung~\ref{fig:ch09-streudiag1} zeigt ein Streudiagramm. 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
 
 \setkeys{Gin}{width=0.7\textwidth}
@@ -161,8 +160,9 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 plot(x,y,axes=FALSE,xlim=xl,ylim=yl)
 axis(1,at=xt)
 axis(2,at=yt)
+box()
 @
-\caption{\label{fig:ch09-streudiag} Streudiagramm}
+\caption{\label{fig:ch09-streudiag1} Streudiagramm}
 \end{center}
 \end{figure}
 
