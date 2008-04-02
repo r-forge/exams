@@ -68,7 +68,7 @@ expl[2] <- paste("Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken An
                  "in den Mittelwerten. Bei Faktor A ist der Anstieg nur schwach.")
 expl[3] <- paste("Sowohl von Stufe A1 zu Stufe A2 von Faktor A als auch von Stufe B1 zu",
                  "Stufe B2 von Faktor B gibt es einen starken Anstieg in den Mittelwerten.")
-expl[4] <- paste("In Stufe B1 ist der Unterschiede in den Mittelwerten zwischen den Faktorstufen A1 und A2",
+expl[4] <- paste("In Stufe B1 ist der Unterschied in den Mittelwerten zwischen den Faktorstufen A1 und A2",
                  "positiv, in Stufe B2 ist dieser Unterschied negativ.")
             
 if(runif(1) > 0.5) {
@@ -78,7 +78,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[1] <- paste("Die Mittelwertstabelle passt zu Plot ", ndasm1, ".", sep = "")
   solutions[1] <- FALSE
-  explanations[2] <- paste(expl[dasm], " Daher ist Plot ", dasm, " richtig.", sep = "")
+  explanations[1] <- paste(expl[dasm], " Daher ist Plot ", dasm, " richtig.", sep = "")
 }
 
 
@@ -103,7 +103,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[3] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt1, ".", sep = "")
   solutions[3] <- FALSE
-  explanations[3] <- paste( expl[dasm], " Daher ist das richtige Modell: ", dasmt)
+  explanations[3] <- paste( expl[dasm], " Daher ist das richtige Modell: ", dasmt, ".", sep= "")
 }
 
 
@@ -111,11 +111,11 @@ if(runif(1) > 0.5) {
  if(runif(1) > 0.5) {
   questions[4] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt2, ".", sep = "")
   solutions[4] <- FALSE
-  explanations[4] <- paste( expl[dasm], " Daher ist das richtige Modell: ", dasmt)
+  explanations[4] <- paste( expl[dasm], " Daher ist das richtige Modell: ", dasmt, ".", sep = "")
 } else {
   questions[4] <- paste("Die Mittelwertstabelle passt zum Modell ", ndasmt3, ".", sep = "")
   solutions[4] <- FALSE
-  explanations[4] <- paste( expl[dasm], " Daher ist das richtige Modell: ", dasmt)
+  explanations[4] <- paste( expl[dasm], " Daher ist das richtige Modell: ", dasmt, ".", sep = "")
 }
 
 

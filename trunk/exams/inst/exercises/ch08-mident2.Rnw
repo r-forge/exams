@@ -80,7 +80,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[1] <- paste("Das passende Modell ist ", ndasmt1, ".", sep = "")
   solutions[1] <- FALSE
-  explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt)
+  explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt, ".", sep = "")
 }
 
 
@@ -113,7 +113,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[2] <- quest[ndasm1]
   solutions[2] <- FALSE
-  explanations[2] <- expl[dasm]
+  explanations[2] <- paste("Das vorgeschlagene Modell bedeutet: ", expl[ndasm1], " Jedoch gilt: ", expl[dasm], sep = "")
 }
 
 ## 3. richtiges Modell interpretieren
@@ -148,7 +148,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[3] <- quest[ndasm1]
   solutions[3] <- FALSE
-  explanations[3] <- expl[dasm]
+  explanations[3] <- paste("Das vorgeschlagene Modell bedeutet: ", expl[ndasm1], " Jedoch gilt: ", expl[dasm], sep = "")
 }
 
 
@@ -162,11 +162,11 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- quest[ndasm2]
   solutions[4] <- FALSE
-  explanations[4] <- expl[dasm]
+  explanations[4] <- paste("Das vorgeschlagene Modell bedeutet: ", expl[ndasm2], " Jedoch gilt: ", expl[dasm], sep = "")
 } else {
   questions[4] <- quest[ndasm3]
   solutions[4] <- FALSE
-  explanations[4] <- expl[dasm]
+  explanations[4] <- paste("Das vorgeschlagene Modell bedeutet: ", expl[ndasm3], " Jedoch gilt: ", expl[dasm], sep = "")
 }
 
 
