@@ -2,23 +2,57 @@
 
 ## DATA GENERATION
 
-x <- c(420,440,460,500,520,530,550,580,600,640)
 
-y1 <- c(x+rnorm(10,sd=3), x- 50+rnorm(10,sd=3), x+rnorm(10,sd=3),     x- 50+rnorm(10,sd=3))
-y2 <- c(x+rnorm(10,sd=3), x-  6+rnorm(10,sd=3), x-120+rnorm(10,sd=3), x-125+rnorm(10,sd=3))
-y3 <- c(x+rnorm(10,sd=3), x- 60+rnorm(10,sd=3), x-110+rnorm(10,sd=3), x-165+rnorm(10,sd=3))
-y4 <- c(x+rnorm(10,sd=3), x- 40+rnorm(10,sd=3), x- 90+rnorm(10,sd=3), x- 10+rnorm(10,sd=3))
+fa <- rep( c(0:1,0:1), c(20,20,20,20) )
+fb <- rep( 0:1, c(40,40) )
 
-fa <- rep( c(1:2,1:2), c(10,10,10,10) )
-fb <- rep( 1:2, c(20,20) )
+Marketing <- factor(fa, labels=c("Qualitaet","Preis") )
+Medium    <- factor(fb, labels=c("Zeitung","TV") )
 
-fzus <- rep(1:4, rep(10,4) )
+
+X <- model.matrix(~fa*fb)
+
+zf1 <- c(-10.3, -18.1, 11.4, 9.4,  17.6, -2.9, -6.6, -19.2, -4.5, -3.5, 13.3, -21.3, 
+           8.7,  23.6, 13.6, 9.9, -24.4,  3.4,  8.5, -11.7)
+
+zf <- c( zf1, sample(zf1), sample(zf1), sample(zf1) )
+
+
+beta <- c(runif(1, 500, 700), runif(1, -100, -80), 
+          runif(1, -20, 20), runif(1, 150, 250) )
+beta[3] <- beta[2] + beta[3]
+beta[4] <- beta[4] 
+beta <- round(beta)
+
+poseff <- ( runif(1,-1,1)<0 )   #### haupteffekte wirken negativ
+if( poseff ){ beta <- -beta
+              beta[1] <- 300 - beta[4]}  
+              
+beta1 <- beta
+beta1[3] <- 3*(2*poseff - 1)
+beta1[4] <- 0
+y1 <- as.vector(X %*% beta1) + zf
+
+beta2 <- beta
+beta2[2] <- 3*(2*poseff - 1)
+beta2[4] <- 0
+y2 <- as.vector(X %*% beta2) + zf
+
+beta3 <- beta
+beta3[4] <- 0
+y3 <- as.vector(X %*% beta3) + zf
+
+beta4 <- beta
+y4 <- as.vector(X %*% beta4) + zf
+
+
+fzus <- rep(1:4, rep(20,4) )
 
 Marketing <- factor(fa, labels=c("Qualitaet","Preis") )
 Medium    <- factor(fb, labels=c("Print","TV") )
 Zus       <- factor(fzus, labels=c("Qual-Print","Preis-Print","Qual-TV","Preis-TV") )
 
-dasm <- round(runif(1,min=0.51,max=4.49))
+dasm <- sample(1:4,1)
 
 if(dasm==1){Y = y1
             ndasm1=2
@@ -56,6 +90,17 @@ if(dasm==4){Y = y4
 
 
 ## QUESTION/ANSWER GENERATION
+
+abauf  <- "Abfall"
+posneg <- "positiv"
+negpos <- "negativ"
+besschl<- "besser"
+
+if(poseff){ abauf  <-"Anstieg"
+            posneg <-"negativ" 
+            negpos <-"positiv"
+            besschl<-"schlechter" } 
+
 
 questions <- character(5)
 solutions <- logical(5)
@@ -132,17 +177,19 @@ if(runif(1) > 0.5) {
 ## 4. mittelwerte interpretieren
 
 quest <- character(4)
-quest[1] <- "Beim Faktor Marketing gibt es einen starken Abfall in den durchschnittlichen 
-             Verkaufszahlen, wenn man Qualit\\\\\"at mit Preis vergleicht. Beim Faktor Medium ist 
-             dieser Abfall von Printmedien zu TV nur schwach."
-quest[2] <- "Beim Faktor Medium gibt es einen starken Abfall in den durchschnittlichen 
-             Verkaufszahlen, wenn man Printmedien mit TV vergleicht. Beim Faktor Marketing ist 
-             dieser Abfall von Qualit\\\\\"at zu Preis nur schwach."
-quest[3] <- "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
-             starken Abfall in den Mittelwerten, wenn man die erste mit der zweiten Stufe
-             des Faktors vergleicht."                   
-quest[4] <- "Bei Werbung in Printmedien schneidet Werbung \\\\\"uber Qualit\\\\\"at besser ab, 
-             bei TV-Werbung ist Werbung \\\\\"uber Preis besser."    
+quest[1] <- paste( "Beim Faktor Marketing gibt es einen starken ", abauf, 
+                   " in den durchschnittlichen Verkaufszahlen, 
+                   wenn man Qualit\\\\\"at mit Preis vergleicht. Beim Faktor Medium ist 
+                   dieser ", abauf, " von Zeitung zu TV nur schwach." )
+quest[2] <- paste( "Beim Faktor Medium gibt es einen starken ", abauf, 
+                   " in den durchschnittlichen Verkaufszahlen, wenn man Zeitung mit 
+                   TV vergleicht. Beim Faktor Marketing ist dieser ", abauf, 
+                   " von Qualit\\\\\"at zu Preis nur schwach.")
+quest[3] <- paste( "Sowohl beim Faktor Marketing als auch beim Faktor Medium gibt es einen 
+             starken ", abauf, " in den Mittelwerten, wenn man die erste mit der zweiten Stufe
+             des Faktors vergleicht.")                   
+quest[4] <- paste( "Bei Zeitungswerbung schneidet Werbung \\\\\"uber Qualit\\\\\"at ", 
+                   besschl, " ab, bei TV-Werbung ist Werbung \\\\\"uber Preis besser." )    
  
 
 if(runif(1) > 0.5) {

@@ -2,22 +2,46 @@
 
 ## DATA GENERATION
 
-x <- 1.5*c(31:38)
+fa <- rep( c(0:1,0:1), c(10,10,10,10) )
+fb <- rep( 0:1, c(20,20) )
 
-y1 <- c(x+rnorm(8,sd=0.5), x+15+rnorm(8,sd=0.5), x+rnorm(8,sd=0.5), 15+x+rnorm(8,sd=0.5))
-y2 <- c(x+rnorm(8,sd=0.5), x+rnorm(8,sd=0.5), 12+x+rnorm(8,sd=0.5), 12+x+rnorm(8,sd=0.5))
-y3 <- c(x+rnorm(8,sd=0.5), x+15+rnorm(8,sd=0.5), 10+x+rnorm(8,sd=0.5), 25+x+rnorm(8,sd=0.5))
-y4 <- c(x+rnorm(8,sd=0.5), x+15+rnorm(8,sd=0.5), 16+x+rnorm(8,sd=0.5), 10+x+rnorm(8,sd=0.5))
+A <- factor(fa, labels=c("Uni A1","Uni A2") )
+B <- factor(fb, labels=c("Branche B1","Branche B2") )
 
-fa <- rep( c(1:2,1:2), c(8,8,8,8) )
-fb <- rep( 1:2, c(16,16) )
+X <- model.matrix(~fa*fb)
+zf <- rep( -4:5, 4 )
 
-###A <- factor(fa, labels=c("Uni A1","Uni A2") )
-###B <- factor(fb, labels=c("Branche B1","Branche B2") )
+## beta <- c(15,15,16,-21)
+beta <- c(runif(1, 40, 50), runif(1, 15, 25), runif(1, -5, 5), runif(1, -15, -10))
+beta[3] <- beta[2] + beta[3]
+beta[4] <- beta[4] - sum(beta[2:3])
+beta <- round(beta)
 
-fzus <- rep(1:4, rep(8,4) )
+negeff <- ( runif(1,-1,1)<0 )   #### haupteffekte wirken negativ
+if( negeff ){ beta <- -beta
+              beta[1] <- runif(1,80,90) }  
+              
+beta1 <- beta
+beta1[3] <- 0.5 - negeff
+beta1[4] <- 0
+y1 <- as.vector(X %*% beta1) + zf
 
-Zus       <- factor(fzus, labels=c("U1-B1","U2-B1","U1-B2","U2-B2") )
+beta2 <- beta
+beta2[2] <- 0.5 - negeff
+beta2[4] <- 0
+y2 <- as.vector(X %*% beta2) + zf
+
+beta3 <- beta
+beta3[4] <- 0
+y3 <- as.vector(X %*% beta3) + zf
+
+beta4 <- beta
+y4 <- as.vector(X %*% beta4) + zf
+
+fzus <- rep(1:4, rep(10,4) )
+Zus <- factor(fzus, labels=c("U1-B1","U2-B1","U1-B2","U2-B2") )
+Y <- c(y1,y2,y3,y4)
+
 
 dasm <- sample(1:4, 1)
 
@@ -120,7 +144,7 @@ quest[1] <- "Die Unterschiede in den Geh\\\\\"altern lassen sich gut durch die U
              erkl\\\\\"aren, an der der Abschluss erfolgte, kaum durch die Branche."
 quest[2] <- "Die Unterschiede in den Geh\\\\\"altern lassen sich gut durch die Branche 
              erkl\\\\\"aren, in der die Absolventen arbeiten, kaum durch die Universit\\\\\"at."
-quest[3] <- "Das durchschnittliche Gehalt h\\\\\"angt sowohl von der Universit\\\\\"at, 
+quest[3] <- "Das durchschnittliche Gehalt h\\\\\"angt additiv sowohl von der Universit\\\\\"at, 
              an der der Abschluss erfolgte, als auch von der Branche ab, 
              in der die Absolventen arbeiten."               
 quest[4] <- "Die Unterschiede in den durchschnittlichen Geh\\\\\"altern 

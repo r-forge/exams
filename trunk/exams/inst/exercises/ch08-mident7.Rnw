@@ -13,27 +13,27 @@ X <- model.matrix(~fa*fb)
 zf1 <- c( -0.18, -0.31,  3.41,  1.37, -0.51,  3.42, -4.39, -4.44,  3.80, -1.03,  
            2.59,  0.95, -2.68,  0.17, -0.88, -2.55, -1.86,  0.42, -0.05,  4.15)
 
-zf <- c( zf1, -zf1, -0.94*zf1, 0.96*zf1) 
+zf <- c( zf1, sample(zf1), 0.98*zf1, 1.03*zf1) 
 zf <- zf + rnorm(80,sd=1)
 
 ## beta <- c(15,15,16,-21)
 beta <- c(runif(1, 30, 40), runif(1, 10, 20), 
           runif(1, -3, 3), runif(1, -15, -8) )
 beta[3] <- beta[2] + beta[3]
-beta[4] <- beta[4] - 0.5*sum(beta[2:3])
+beta[4] <- beta[4] - sum(beta[2:3])
 beta <- round(beta)
 
 negeff <- ( runif(1,-1,1)<0 )   #### haupteffekte wirken negativ
 if( negeff ){ beta <- -beta
-              beta[1] <- 120 - beta[4]}  
+              beta[1] <- 90 - beta[4]}  
               
 beta1 <- beta
-beta1[3] <- 0.5 - negeff
+beta1[3] <- 0.4*(1 - 2*negeff)
 beta1[4] <- 0
 y1 <- as.vector(X %*% beta1) + zf
 
 beta2 <- beta
-beta2[2] <- 0.5 - negeff
+beta2[2] <- 0.4*(1 - 2*negeff)
 beta2[4] <- 0
 y2 <- as.vector(X %*% beta2) + zf
 
@@ -143,8 +143,8 @@ expl[2] <- paste("Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken ",
                  aufab, " in den Mittelwerten. Bei Faktor A ist das nur schwach.")
 expl[3] <- paste("Sowohl von Stufe A1 zu Stufe A2 von Faktor A als auch von Stufe B1 zu 
             Stufe B2 von Faktor B gibt es einen starken ", aufab, " in den Mittelwerten.")                   
-expl[4] <- paste("In Stufe B1 ist die Differenz der Mittelwerte zwischen den Faktorstufen A1 und A2 ", 
-                 "deutlich anders als in Stufe B2.")    
+expl[4] <- paste("In Stufe B1 ist der Unterschied in den Mittelwerten zwischen den Faktorstufen A1 und A2 ", 
+                 negpos, " in Stufe B2 ist dieser Unterschied ", posneg, " .")    
 
 if(runif(1) > 0.5) {
   questions[2] <- quest[dasm]
@@ -168,7 +168,7 @@ quest[3] <- "Das passende Modell lautet: Sowohl die Universit\\\\\"at, an der de
              als auch die Branche, in der die Absolventen arbeiten, haben additiv 
              einen Einfluss auf das durchschnittliche Gehalt."               
 quest[4] <- "Das passende Modell lautet: die Unterschiede zwischen den durchschnittlichen Geh\\\\\"altern 
-             in den Branchen h\\\\\"angen von der Universit\\\\\"at ab, an der der Abschluss erfolgte."  
+             der einzelnen Branchen h\\\\\"angen von der Universit\\\\\"at ab, an der der Abschluss erfolgte."  
              
 ## explanation wie bei Frage 1 + Uebertragung auf konkrete fragestellung
 
@@ -179,8 +179,9 @@ expl[2] <- paste( "Von Branche B1 zu Branche B2 gibt es einen starken ", aufab,
                   " in den Mittelwerten. Bei den Unis ist das nur schwach.")
 expl[3] <- paste( "Sowohl von Uni A1 zu Uni A2 als auch von Branche B1 Branche B2 
                    gibt es einen starken ", aufab, " in den Mittelwerten.")                   
-expl[4] <- paste( "Bei Branche B1 hat die Differenz in den Mittelwerten zwischen 
-                   den Faktorstufen A1 und A2 ein anderes Vorzeichen als in Branche B2.")    
+expl[4] <- paste( "Bei Branche B1 ist der Unterschiede in den Mittelwerten zwischen 
+                   den Faktorstufen A1 und A2 ", posneg, 
+                   " in Branche B2 ist dieser Unterschied ",negpos, " .")    
 
 if(runif(1) > 0.5) {
   questions[3] <- quest[dasm]
@@ -223,12 +224,12 @@ if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
   questions[5] <- paste( "Von Stufe A1 zu Stufe A2 von Faktor A gibt es einen starken ", aufab, 
-                         " in den Mittelwerten. Bei Faktor B ist der ", aufab, " nur schwach.")
+                         " in den Mittelwerten. Bei Faktor B ist das nicht der Fall.")
   solutions[5] <- dasm==1
   explanations[5] <- expl[dasm]
 } else {
   questions[5] <- paste( "Von Stufe B1 zu Stufe B2 von Faktor B gibt es einen starken ", aufab,
-                         " in den Mittelwerten. Bei Faktor A ist der ", aufab, " nur schwach.")
+                         " in den Mittelwerten. Bei Faktor A ist das nicht der Fall.")
   solutions[5] <- dasm==2
   explanations[5] <- expl[dasm]
 }
@@ -240,7 +241,7 @@ if(runif(1) > 0.5) {
   solutions[5] <- dasm==3
   explanations[5] <- expl[dasm]
 } else {
-  questions[5] <- paste( "In Stufe B1 ist der Unterschied in den Mittelwerten ", 
+  questions[5] <- paste( "In Stufe B1 ist der Unterschiede in den Mittelwerten ", 
                           "zwischen den Faktorstufen A1 und A2 deutlich anders als bei Stufe B2.")
   solutions[5] <- dasm==4
   explanations[5] <- expl[dasm]
@@ -261,40 +262,32 @@ explanations <- explanations[o]
 \begin{question}
 
 In einer Studie werden die Einkommen (Y) von ManagerInnen untersucht. 
-Zwei Branchen, in denen die ManagerInnen t\"atig sind, und zwei Universit\"aten, 
+Zwei Branchen (Faktor B), in denen die ManagerInnen t\"atig sind, 
+und zwei Universit\"aten (Faktor A), 
 deren AbsolventInnen die ManagerInnen sind, 
 werden verglichen.
 
 Als Methode kommt eine zweifache Varianzanalyse zum Einsatz.
 
-Die folgenden Rechenergebnisse zeigen die Residuenquadratsummen (RSS) 
-vom Wechselwirkungsmodell bis zum einfachen Modell, einmal wenn zuerst 
-der Faktor B (Branche), dann wenn der Faktor A (Universit\"at) aus dem   
-Modell eliminiert wird.
+Aus dem folgende Modellbaum können die p-Werte von mehreren 
+Modellvergleichen abgelesen werden.
 
-
-<<echo=FALSE>>=
-options(show.signif.stars = FALSE) 
+<<echo=FALSE,fig=TRUE>>=
+###options(show.signif.stars = FALSE) 
 mab  <- lm(Y~A*B)
 mapb <- lm(Y~A+B)
 ma   <- lm(Y~A)
 mb   <- lm(Y~B)
 m1   <- lm(Y~1)
 
-anova(mapb,mab)
-anova(ma,mapb)
-anova(m1,ma)
-
-
-anova(mb,mapb)
-anova(m1,mb)
+selectplot(m1,ma,mb,mapb,mab,RSS=FALSE,pvalue=TRUE,digits=4)
 
 ##paste("Wir haben das Modell ",dasm)
 @
 
 
-Die Durchschnittseinkommen f\"ur jede Kombination der Faktoren sind 
-in der folgenden Tabelle enthalten: 
+Zusätzlich sind die Durchschnittseinkommen f\"ur jede Kombination 
+der Faktoren in der folgenden Tabelle enthalten: 
 
 <<echo=FALSE>>= 
 round( tapply(Y,list(A,B),mean), digits=1 )
