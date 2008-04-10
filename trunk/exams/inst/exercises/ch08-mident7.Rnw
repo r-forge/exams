@@ -20,7 +20,7 @@ zf <- zf + rnorm(80,sd=1)
 beta <- c(runif(1, 30, 40), runif(1, 10, 20), 
           runif(1, -3, 3), runif(1, -15, -8) )
 beta[3] <- beta[2] + beta[3]
-beta[4] <- beta[4] - sum(beta[2:3])
+beta[4] <- beta[4] - 0.5*sum(beta[2:3])
 beta <- round(beta)
 
 negeff <- ( runif(1,-1,1)<0 )   #### haupteffekte wirken negativ
