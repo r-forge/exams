@@ -11,6 +11,7 @@ nobs <- 60
 alpha = 0.20
 
 f_expg9 <- function(nobs, alpha) {
+  b <- alpha-1
 ## generates an IMA(1,1)  y = y(-1) + e + b*e(-1), b=alpha-1
 ## 
 ##   without scaling
