@@ -55,7 +55,7 @@ if(paired) {
      fmod <- lm(Parfum~Pullover)} 
 }
 
-tt_cor <- summary(fmod)$coef
+tt_cor <- summary(fmod)$coefficients
 
 if(paired) ttpval <- tt_paired$p.value else ttpval <- tt_cor[2,4]
 
@@ -73,14 +73,14 @@ study <- if(paired) paste("Ein Mode-Designer m\\\\\"ochte untersuchen, ob sich s
   einer Skala von 0 (schlecht) bis 10 (gut).",
   "Dann zeigt man ihnen", product[3],
   "\\\\emph{ohne} Logo und fragt nach einer weiteren Bewertung. Der Mode-Designer stellt nun folgende Frage: 
-  Unterscheidet sich die mittlere Kundenbewertung \\\\\"uberhaupt f\\\\\"ur ", product[3], " mit bzw. ohne Logo?",seps="") else
+  Unterscheidet sich die mittlere Kundenbewertung \\\\\"uberhaupt f\\\\\"ur ", product[3], " mit bzw. ohne Logo?",sep="") else
   paste("Ein Modedesigner l\\\\\"asst sein wichtigstes Produkt, ", product[4], ", auf dem als Logo das Bild
   eines Reiters zu sehen ist, von ", nobs, " seiner Kunden bewerten. Weiters m\\\\\"ochte er gerne ein Parfum 
   mit dem Logo neu auf den Markt bringen und l\\\\\"asst die ", nobs, " Kunden daher zus\\\\\"atzlich eine Bewertung f\\\\\"ur
   das Parfum abgeben. Beide Male steht eine Skala von 0 (schlecht) bis 10 (gut) zur Verf\\\\\"ugung. Er interessiert sich daf\\\\\"ur,
   ob seine Kunden das neue Parfum \\\\\"ahnlich bewerten wie", product[3],
   ". Der Mode-Designer stellt nun folgende Frage: Ist die Bewertung f\\\\\"ur das neue Parfum von der Bewertung
-  f\\\\\"ur das am Markt schon gut eingef\\\\\"uhrte Produkt abh\\\\\"angig?",seps="")
+  f\\\\\"ur das am Markt schon gut eingef\\\\\"uhrte Produkt abh\\\\\"angig?",sep="")
   	
 
 ## QUESTION/ANSWER GENERATION
@@ -105,14 +105,14 @@ qu1 <- prog[id]
 
 questions[1] <- paste("Wenn f\\\\\"ur ", product[3], if(paired) "mit Logo", " die durchschnittliche Bewertung durch die ", 
   nobs, " Kunden gleich ", round(mean(dat[1:nobs,1]),2), "ist, dann betr\\\\\"agt die durchschnittliche Bewertung f\\\\\"ur",
-  if(paired) product[3], if(paired) "ohne Logo" else "das Parfum", " ungef\\\\\"ahr ", round(qu1,2), ".", seps="") 	
+  if(paired) product[3], if(paired) "ohne Logo" else "das Parfum", " ungef\\\\\"ahr ", round(qu1,2), ".", sep="") 	
 solutions[1] <- if(paired) id == 1 else id == 2
 explanations[1] <- if(paired) paste("Die Differenz zwischen den durchschnittlichen Bewertungen mit und ohne 
   Logo betr\\\\\"agt ", round(tt_paired$estimate,2), "Die durchschnittliche Bewertung f\\\\\"ur das Produkt 
   ohne Logo kann daher berechnet werden: (", 
   round(mean(dat[1:nobs,1]),2), ") - (", round(tt_paired$estimate,2), ") =", 
   round(mean(dat[1:nobs,1]),2)-round(tt_paired$estimate,2),
-  ".", seps="") else paste("Die Regressionsgerade geht immer durch den Mittelpunkt der Punktwolke. Daher kann man durch 
+  ".", sep="") else paste("Die Regressionsgerade geht immer durch den Mittelpunkt der Punktwolke. Daher kann man durch 
   Einsetzen des durchschnittlichen Werts ", round(mean(dat[1:nobs,1]),2), " in die Regressionsgleichung den durchschnittlichen
   Wert f\\\\\"ur das Parfum ausrechnen: ", round(fmod$coef[1],3), " + (", round(fmod$coef[2],3), ") $\\\\cdot$ (", 
     round(mean(dat[1:nobs,1]),2), ") = ", round(prog[2],2), sep = "")  
@@ -129,7 +129,7 @@ vis_text <- c("ein Streudiagramm der Bewertungen mit Regressionsgerade.",
   "parallele Boxplots der beiden Bewertungen.",
   "einen Boxplot der Bewertungsunterschiede.", 
   "ein Streudiagramm der Bewertungen mit Hauptachse (Winkelhalbierender).")
-questions[3] <- paste("Die Daten k\\\\\"onnen geeignet visualisiert werden durch", vis_text[vis_index], seps="")
+questions[3] <- paste("Die Daten k\\\\\"onnen geeignet visualisiert werden durch", vis_text[vis_index], sep="")
 solutions[3] <- if(paired) vis_index > 2 else vis_index < 2
 explanations[3] <- paste("Es liegt eine Frage nach ", 
   if(paired) "Bewertungsunterschieden f\\\\\"ur gepaarte Daten" else "dem Zusammenhang zwischen den beiden Bewertungen", " vor.
@@ -172,8 +172,8 @@ print(tt_paired)
 
 \vspace*{0.5cm}
 <<echo=FALSE, results=verbatim>>=
-print(fmod$call[2])
-print(tt_cor)
+print(fmod$call[[2]])
+printCoefmat(tt_cor)
 @
 
 Welche der folgenden Aussagen sind richtig?
