@@ -69,16 +69,16 @@ product <- c(c("Polo-Hemd", "T-Shirt", "Pullover")[product],
 study <- if(paired) paste("Ein Mode-Designer m\\\\\"ochte untersuchen, ob sich sein wichtigstes Produkt 
   (ein ", product[1], ") besser verkauft, wenn er als Logo ein Bild von einem Reiter auf die Brust stickt.
   Deshalb f\\\\\"uhrt er folgende Kundenbefragung durch: Es werden ", nobs, " Testpersonen ausgew\\\\\"ahlt.
-  Zun\\\\\"achst zeigt man ihnen ", product[3], "\\\\emph{mit} Logo und fragt nach einer Bewertung auf 
-  einer Skala von 0 (schlecht) bis 10 (gut).",
-  "Dann zeigt man ihnen", product[3],
-  "\\\\emph{ohne} Logo und fragt nach einer weiteren Bewertung. Der Mode-Designer stellt nun folgende Frage: 
+  Zun\\\\\"achst zeigt man ihnen ", product[3], " \\\\emph{mit} Logo und fragt nach einer Bewertung auf 
+  einer Skala von 0 (schlecht) bis 10 (gut). ",
+  "Dann zeigt man ihnen ", product[3],
+  " \\\\emph{ohne} Logo und fragt nach einer weiteren Bewertung. Der Mode-Designer stellt nun folgende Frage: 
   Unterscheidet sich die mittlere Kundenbewertung \\\\\"uberhaupt f\\\\\"ur ", product[3], " mit bzw. ohne Logo?",sep="") else
   paste("Ein Modedesigner l\\\\\"asst sein wichtigstes Produkt, ", product[4], ", auf dem als Logo das Bild
   eines Reiters zu sehen ist, von ", nobs, " seiner Kunden bewerten. Weiters m\\\\\"ochte er gerne ein Parfum 
   mit dem Logo neu auf den Markt bringen und l\\\\\"asst die ", nobs, " Kunden daher zus\\\\\"atzlich eine Bewertung f\\\\\"ur
   das Parfum abgeben. Beide Male steht eine Skala von 0 (schlecht) bis 10 (gut) zur Verf\\\\\"ugung. Er interessiert sich daf\\\\\"ur,
-  ob seine Kunden das neue Parfum \\\\\"ahnlich bewerten wie", product[3],
+  ob seine Kunden das neue Parfum \\\\\"ahnlich bewerten wie ", product[3],
   ". Der Mode-Designer stellt nun folgende Frage: Ist die Bewertung f\\\\\"ur das neue Parfum von der Bewertung
   f\\\\\"ur das am Markt schon gut eingef\\\\\"uhrte Produkt abh\\\\\"angig?",sep="")
   	
@@ -103,14 +103,14 @@ if(paired & round(prog[id],1)==round(prog[1],1)) id = 1 else
 if(!paired & round(prog[id],1)==round(prog[2],1)) id = 2
 qu1 <- prog[id]
 
-questions[1] <- paste("Wenn f\\\\\"ur ", product[3], if(paired) "mit Logo", " die durchschnittliche Bewertung durch die ", 
-  nobs, " Kunden gleich ", round(mean(dat[1:nobs,1]),2), "ist, dann betr\\\\\"agt die durchschnittliche Bewertung f\\\\\"ur",
-  if(paired) product[3], if(paired) "ohne Logo" else "das Parfum", " ungef\\\\\"ahr ", round(qu1,2), ".", sep="") 	
+questions[1] <- paste("Wenn f\\\\\"ur ", product[3], if(paired) " mit Logo", " die durchschnittliche Bewertung durch die ", 
+  nobs, " Kunden gleich ", round(mean(dat[1:nobs,1]),2), "ist, dann betr\\\\\"agt die durchschnittliche Bewertung f\\\\\"ur ",
+  if(paired) product[3], if(paired) " ohne Logo" else " das Parfum", " ungef\\\\\"ahr ", round(qu1,2), ".", sep="") 	
 solutions[1] <- if(paired) id == 1 else id == 2
 explanations[1] <- if(paired) paste("Die Differenz zwischen den durchschnittlichen Bewertungen mit und ohne 
-  Logo betr\\\\\"agt ", round(tt_paired$estimate,2), "Die durchschnittliche Bewertung f\\\\\"ur das Produkt 
+  Logo betr\\\\\"agt ", round(tt_paired$estimate,2), ". Die durchschnittliche Bewertung f\\\\\"ur das Produkt 
   ohne Logo kann daher berechnet werden: (", 
-  round(mean(dat[1:nobs,1]),2), ") - (", round(tt_paired$estimate,2), ") =", 
+  round(mean(dat[1:nobs,1]),2), ") - (", round(tt_paired$estimate,2), ") = ", 
   round(mean(dat[1:nobs,1]),2)-round(tt_paired$estimate,2),
   ".", sep="") else paste("Die Regressionsgerade geht immer durch den Mittelpunkt der Punktwolke. Daher kann man durch 
   Einsetzen des durchschnittlichen Werts ", round(mean(dat[1:nobs,1]),2), " in die Regressionsgleichung den durchschnittlichen
@@ -129,7 +129,7 @@ vis_text <- c("ein Streudiagramm der Bewertungen mit Regressionsgerade.",
   "parallele Boxplots der beiden Bewertungen.",
   "einen Boxplot der Bewertungsunterschiede.", 
   "ein Streudiagramm der Bewertungen mit Hauptachse (Winkelhalbierender).")
-questions[3] <- paste("Die Daten k\\\\\"onnen geeignet visualisiert werden durch", vis_text[vis_index], sep="")
+questions[3] <- paste("Die Daten k\\\\\"onnen geeignet visualisiert werden durch ", vis_text[vis_index], sep="")
 solutions[3] <- if(paired) vis_index > 2 else vis_index < 2
 explanations[3] <- paste("Es liegt eine Frage nach ", 
   if(paired) "Bewertungsunterschieden f\\\\\"ur gepaarte Daten" else "dem Zusammenhang zwischen den beiden Bewertungen", " vor.
