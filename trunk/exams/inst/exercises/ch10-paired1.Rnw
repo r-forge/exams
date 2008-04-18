@@ -173,7 +173,7 @@ print(tt_paired)
 \vspace*{0.5cm}
 <<echo=FALSE, results=verbatim>>=
 print(fmod$call[[2]])
-printCoefmat(tt_cor)
+printCoefmat(tt_cor,signif.stars =FALSE)
 @
 
 Welche der folgenden Aussagen sind richtig?
