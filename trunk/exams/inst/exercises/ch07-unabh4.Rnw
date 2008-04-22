@@ -33,26 +33,27 @@ explanations <- character(5)
 ## 1. X2 interpretieren
 if(runif(1) > 0.5) {
   questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
   den unter $H_0$ erwarteten H\\\\\"aufigkeiten."
 } else {
   questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
   den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 }
 
 
 ## 2. df
+vgldf <- sample(2:4,1)
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 1."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "Bei einer 2x2-Tafel ist df $= (2-1)\\\\cdot(2-1) = 1$."
 } else {
   questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ",
-                         sample(2:4)[1]," .")
-  solutions[2] <- F
+                         vgldf,".")
+  solutions[2] <- FALSE
   explanations[2] <- "Bei einer 2x2-Tafel ist df $= (2-1)\\\\cdot(2-1)= 1$."
 }
 
@@ -64,12 +65,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese lautet: Der Konsum von Nikotin ist unabh\\\\\"angig 
                    vom Konsum von Coffein."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Der Konsum von Nikotin und der von Coffein 
                    sind abh\\\\\"angig."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
 } else 
@@ -77,46 +78,38 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- "Die Alternativhypothese lautet: Der Konsum von Nikotin und der von Coffein 
                    sind unabh\\\\\"angig."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
   questions[3] <- "Die Alternativhypothese lautet: Der Konsum von Nikotin und der von Coffein 
                    sind abh\\\\\"angig."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit postuliert."
 }
 
 
 ## 4. technische Interpretation
-
+explanations[4] <- paste("Der $X^2$-Wert ist ", x2, 
+". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- x2 <= 3.84 
-  explanations[4] <- paste("Der $X^2$-Wert ist ", x2, 
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- x2 > 3.84
-  explanations[4] <- paste("Der $X^2$-Wert ist ", x2, 
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 }
 
 
 ## 5. inhaltliche Interpretation
+explanations[5] <- explanations[4]
 if(runif(1) > 0.5) {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Konsum von Nikotin ist unabh\\\\\"angig vom Konsum von Coffein."
   solutions[5] <- x2 <= 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2, 
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, 
-  sonst beibehalten.", sep = "")
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Konsum von Coffein ist abh\\\\\"angig vom Konsum von Nikotin."
   solutions[5] <- x2 > 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, 
-  sonst beibehalten.", sep = "")
 }
 
 
@@ -140,7 +133,7 @@ andererseits in Kaffeetrinker (mehr als eine Tasse pro Tag) und Nichtkaffeetrink
 kaffeenikotin
 @
 
-Ein $\chi^2$-Unabh\"angigkeitstests zur \"Uberpr\"ufung, ob 
+Ein Chi-Quadrat-Test zur \"Uberpr\"ufung, ob 
 der Konsum von Nikotin unabh\"angig vom Konsum von Coffein ist, lieferte einen 
 $X^2$-Wert von $\Sexpr{x2}$
 

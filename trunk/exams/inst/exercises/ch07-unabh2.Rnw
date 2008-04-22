@@ -32,25 +32,29 @@ solutions <- logical(5)
 explanations <- character(5)
 
 ## 1. X2 ablesen
+vglx2 <- round( runif(1,4,9), digits=2 )
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt: ", round(x2,digits=3), ".", sep = "")
-  solutions[1] <- T
-  explanations[1] <- "Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen."
+  questions[1] <- paste("Der Wert der Teststatistik ist kleiner als ", vglx2, ".", sep = "")
+  solutions[1] <- x2 < vglx2
+  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
+                            round(x2,digits=4), ".", sep = "")
 } else {
-  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt: ", round(pv, digits=4), ".", sep = "")
-  solutions[1] <- F
-  explanations[1] <- paste("Der richtige Wert ist aus dem \\\\textsf{R}-Output ablesbar:", round(x2,digits=3))
+  questions[1] <- paste("Der Wert der Teststatistik ist gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
+  solutions[1] <- x2 > vglx2
+  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
+                            round(x2,digits=4), ".", sep = "")
 }
 
 
 ## 2. df
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 4."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
 } else {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 6."
-  solutions[2] <- F
+  vgldf <- sample(5:9,1)
+  questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ", vgldf, ".", sep = "")
+  solutions[2] <- FALSE
   explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
 }
 
@@ -62,12 +66,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit unter den Variablen postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
 } else 
@@ -75,12 +79,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
   questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit unter den Variablen postuliert."
 }
 
@@ -134,7 +138,7 @@ Das Ergebnis f\"ur die Interessen an Kultur und an Sport gibt die folgende Tabel
 Freizeit
 @
 
-Ein $\chi^2$-Unabh\"angigkeitstest zur \"Uberpr\"ufung, ob das Aus\"uben der 
+Ein Chi-Quadrat-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
 Sportinteressen unabh\"angig vom Aus\"uben der Kulturinteressen ist, ergibt:
 
 <<echo=FALSE>>= 

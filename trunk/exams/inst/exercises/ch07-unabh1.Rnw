@@ -36,7 +36,7 @@ kaffeenikotin
 @
 
 
-\"Uberpr\"ufen Sie mittels eines $\chi^2$-Unabh\"angigkeitstests, ob 
+\"Uberpr\"ufen Sie mittels eines Chi-Quadrat-Tests, ob 
 der Konsum von Nikotin unabh\"angig vom Konsum von Coffein ist.
 
 Berechnen Sie dazu die $X^2$-Teststatistik!
@@ -75,11 +75,11 @@ $$
 Die gesamte Matrix der erwarteten H\"aufigkeiten ist:
 
 <<echo=FALSE>>=
-Vexp <- round(homt$expected, digits=3)
+Vexp <- round(homt$expected, digits=4)
 Vexp
 o11 <- Vobs[1,1]
 e11 <- Vexp[1,1]
-x2  <- round(homt$statistic, digits=3)
+x2  <- round(homt$statistic, digits=4)
 @
 
 Die Berechnung der (Pearson-)$X^2$-Teststatistik erfolgt \"uber den 

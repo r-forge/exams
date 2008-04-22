@@ -28,12 +28,12 @@ explanations <- character(5)
 
 ## 1. X2 interpretieren
 if(runif(1) > 0.5) {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
+  questions[1] <- "Gro{\\\\ss}e Werte der $X^2$-Teststatistik sprechen eher gegen die Nullhypothese als kleine."
   solutions[1] <- TRUE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
   den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 } else {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
+  questions[1] <- "Gro{\\\\ss}e Werte der $X^2$-Teststatistik sprechen eher f\\\\\"ur die Nullhypothese als kleine."
   solutions[1] <- FALSE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
   den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
@@ -41,15 +41,10 @@ if(runif(1) > 0.5) {
 
 
 ## 2. df
-if(runif(1) > 0.5) {
-  questions[2] <- "In diesem Beispiel gilt: df $= 3$."
-  solutions[2] <- TRUE
+df <- sample(2:4,1)
+  questions[2] <- paste("In diesem Beispiel gilt: df = ", df, " .")
+  solutions[2] <- df == 3
   explanations[2] <- "Bei einer 2x4-Tafel ist df $= (2-1)\\\\cdot(4-1) = 3$."
-} else {
-  questions[2] <- "Da es vier Branchen gibt, ist df $= 4$."
-  solutions[2] <- FALSE
-  explanations[2] <- "Bei einer 2x4-Tafel ist df $= (2-1)\\\\cdot(4-1)= 3$."
-}
 
 
 ## 3. Hypothesen
@@ -133,8 +128,9 @@ nach Branche des Kreditnehmers ergab folgende Tabelle:
 Kredite
 @
 
-Ein $\chi^2$-Homogenit\"atstest zur \"Uberpr\"ufung von Unterschieden in der Rate 
-von Problemkrediten zwischen den Branchen lieferte einen $X^2$-Wert von $\Sexpr{round(x2, digits=2)}$.
+Ein Chi-Quadrat-Test zur \"Uberpr\"ufung von Unterschieden in der Rate 
+von Problemkrediten zwischen den Branchen lieferte einen Wert der 
+$X^2$-Teststatistik von $\Sexpr{round(x2, digits=2)}$.
 
 Zur Einstufung dieses Wertes stehen folgende $0.95$-$\chi^2$-Quantile zur Verf\"ugung:
 

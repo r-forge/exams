@@ -26,15 +26,17 @@ explanations <- character(5)
 
 ## 1. X2 interpretieren
 if(runif(1) > 0.5) {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
+  questions[1] <- "Gro{\\\\ss}e Werte der Teststatistik sprechen eher gegen die Nullhypothese als kleine."
   solutions[1] <- TRUE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
-  den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
+  explanations[1] <- "Die Werte der $X^2$-Teststatistik messen den Unterschied zwischen 
+    beobachteten H\\\\\"aufigkeiten und 
+    den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 } else {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
+  questions[1] <- "Gro{\\\\ss}e Werte der Teststatistik sprechen eher f\\\\\"ur die Nullhypothese als kleine."
   solutions[1] <- FALSE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
-  den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
+  explanations[1] <- "Die Werte der $X^2$-Teststatistik messen den Unterschied zwischen 
+    beobachteten H\\\\\"aufigkeiten und 
+    den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 }
 
 
@@ -127,8 +129,8 @@ und nach Geschlecht ergab folgende Einteilung:
 Fahrverhalten
 @
 
-Ein $\chi^2$-Homogenit\"atstest zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
-zwischen den Geschlechtern lieferte einen $X^2$-Wert von $\Sexpr{round(x2, digits=2)}$
+Ein Chi-Quadrat-Test zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
+zwischen den Geschlechtern lieferte einen Wert der Teststatistik von $\Sexpr{round(x2, digits=2)}$
 
 Welche der folgenden Aussagen sind richtig? (Signifikanzniveau 5\%)
 

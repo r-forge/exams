@@ -133,7 +133,7 @@ if(runif(1) > 0.5) {
 } else {
   questions[4] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 2 besagt:",
                          soeffi[4,1], "Prozent der Befragten waren Bewohner des Stadtrandes und
-                         stufen das Angebot der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
+                         stuften das Angebot der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
   solutions[4] <- FALSE
   explanations[4] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Spaltenprozent vor."
 } 
@@ -147,12 +147,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man ermittelt f\\\\\"ur jede Zeile Prozentwerte."
-  solutions[5] <- T
+  solutions[5] <- TRUE
   explanations[5] <- "So berechnet man Zeilenprozent."
 } else {
-  questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
+  questions[5] <- "Tabelle 2 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man ermittelt f\\\\\"ur jede Spalte Prozentwerte."
-  solutions[5] <- T
+  solutions[5] <- TRUE
   explanations[5] <- "So berechnet man Spaltenprozent."
 } 
 } else
@@ -193,17 +193,21 @@ explanations <- explanations[o]
 oeffi
 @
 
-Aus dieser wurden die folgende Tabellen mit relativen H\"aufigkeiten
+Aus dieser wurden die folgende Tabellen mit Prozentangaben
 ermittelt:
 
-Tabelle 1:
+\vspace*{0.2cm}
 
+Tabelle 1:
+\vspace*{-0.2cm}
 <<echo=FALSE>>= 
 zoeffi
 @
 
-Tabelle 2:
+\vspace*{0.2cm}
 
+Tabelle 2:
+\vspace*{-0.2cm}
 <<echo=FALSE>>= 
 soeffi
 @

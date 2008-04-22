@@ -37,7 +37,7 @@ Veranstaltungszentrum
 @
 
 
-\"Uberpr\"ufen Sie mittels eines $\chi^2$-Homogenit\"atstests, ob 
+\"Uberpr\"ufen Sie mittels eines Chi-Quadrat-Tests, ob 
 sich der Anteil der Bef\"urworter bei potenziellen Anrainern vom 
 Anteil der Bef\"urworter in der \"ubrigen Bev\"olkerung unterscheidet.
 

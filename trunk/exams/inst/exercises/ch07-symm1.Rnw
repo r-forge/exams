@@ -4,8 +4,8 @@
 
 abba<- min( rbinom(1,200,0.2), 60 )   # wechsel total
 pab <- runif(1,min=0.2,max=0.8)       # p-wechsel von a zu b
-ab <- rbinom(1,abba,pab)              # wechsel von a zu b
-ba <- abba-ab                         # wechsel von b zu a
+ab  <- rbinom(1,abba,pab)              # wechsel von a zu b
+ba  <- abba-ab                         # wechsel von b zu a
 
 vorsprunga <- max(1,rbinom(1,10,0.5)) # wieviel hat a mehr als 100
 atotal <- 100 + vorsprunga
@@ -29,16 +29,16 @@ explanations <- character(5)
 
 
 ## 1. Kreuztabelle
+explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
+                           tvduell[1,2], " und ", tvduell[2,1],
+                           ") geben dar\\\\\"uber Auskunft.", sep = "")
+                           
 if(runif(1) > 0.5) {
   questions[1] <- "In der Stichprobe hat es mehr Wechsel von A zu B gegeben als umgekehrt."
   solutions[1] <- (ab > ba)
-  explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
-                            tvduell[1,2], " und ", tvduell[2,1],") geben dar\\\\\"uber Auskunft.", sep = "")
 } else {
   questions[1] <- "Weniger als ein Viertel der Befragten hat die Parteipr\\\\\"aferenz ge\\\\\"andert."
   solutions[1] <- (abba < 50)
-  explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
-                            tvduell[1,2], " und ", tvduell[2,1],") geben dar\\\\\"uber Auskunft.", sep = "")
 }  
 
 
@@ -121,7 +121,6 @@ if(runif(1) > 0.5) {
 } 
 
 
-
 ## permute order of solutions/questions
 o <- sample(1:5)
 questions <- questions[o]
@@ -143,11 +142,11 @@ zusammen gefasst:
 tvduell
 @ 
 
-Mit einem McNemar-Test sollen die \"Anderungen in der
+Mit einem asymptotischen Binomial-Test sollen die \"Anderungen in der
 Parteipr\"aferenz untersucht werden:
 
 <<echo=FALSE>>= 
-mcnt
+asy.binom.test(ab,abba)
 @ 
 
 Welche der folgenden Aussagen sind richtig? (Signifikanzniveau 5\%)

@@ -2,7 +2,7 @@
 
 ## DATA GENERATION
 
-abba<- min( rbinom(1,200,0.2), 60 )   # wechsel total
+abba<- min( rbinom(1,200,0.22), 60 )  # wechsel total
 pab <- runif(1,min=0.2,max=0.8)       # p-wechsel von a zu b
 ab <- rbinom(1,abba,pab)              # wechsel von a zu b
 ba <- abba-ab                         # wechsel von b zu a

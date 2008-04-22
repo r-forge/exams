@@ -34,12 +34,12 @@ explanations <- character(5)
 ## 1. X2 interpretieren
 if(runif(1) > 0.5) {
   questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
-  solutions[1] <- T
+  solutions[1] <- TRUE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
   den unter der Nullhypothese  erwarteten H\\\\\"aufigkeiten."
 } else {
   questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
-  solutions[1] <- F
+  solutions[1] <- FALSE
   explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
   den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
 }
@@ -48,12 +48,12 @@ if(runif(1) > 0.5) {
 ## 2. df
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 4."
-  solutions[2] <- T
+  solutions[2] <- TRUE
   explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$."
 } else {
   questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ",
                          sample(5:9)[1], " .", sep = "")
-  solutions[2] <- F
+  solutions[2] <- FALSE
   explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$."
 }
 
@@ -65,12 +65,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit unter den Variablen postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
 } else 
@@ -78,48 +78,45 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
-  solutions[3] <- F
+  solutions[3] <- FALSE
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
   questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
-  solutions[3] <- T
+  solutions[3] <- TRUE
   explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit unter den Variablen postuliert."
 }
 
 
 ## 4. technische Interpretation
+explanations[4] <- paste("Der $X^2$-Wert ist ", round(x2, digits=2), 
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als das Quantil einer $\\\\chi^2$-Verteilung (df=4), 
+  wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- x2 <= 9.49 
-  explanations[4] <- paste("Der $X^2$-Wert ist ", round(x2, digits=2), 
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als das Quantil einer $\\\\chi^2$-Verteilung (df=4), 
-  wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- x2 > 9.49
-  explanations[4] <- paste("Der $X^2$-Wert ist ", round(x2, digits=2),
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als das Quantil einer $\\\\chi^2$-Verteilung (df=4), 
-  wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 }
 
 
 ## 5. inhaltliche Interpretation
+
+explanations[5] <- explanations[4]
+
 if(runif(1) > 0.5) {
   questions[5] <- "Die Entscheidung nach dem Test lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind nicht abh\\\\\"angig."
   solutions[5] <- x2 <= 9.49 
-  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
   solutions[5] <- x2 > 9.49 
-  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 }
+
 
 ## permute order of solutions/questions
 o <- sample(1:5)
@@ -139,7 +136,7 @@ Das Ergebnis f\"ur die Interessen an Kultur und an Sport gibt die folgende Tabel
 Freizeit
 @
 
-Ein $\chi^2$-Unabh\"angigkeitstest zur \"Uberpr\"ufung, ob das Aus\"uben der 
+Ein Chi-Quadrat-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
 Sportinteressen unabh\"angig vom Aus\"uben der Kulturinteressen ist, 
 lieferte einen $X^2$-Wert von $\Sexpr{round(x2, digits=2)}$.
 

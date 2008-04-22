@@ -2,15 +2,15 @@
 
 ## DATA GENERATION
 
-a24 <- rbinom(1,125,0.40)
+a24 <- rbinom(1,125,0.42)
 a25 <- rbinom(1,225,0.35)
-a40 <- rbinom(1,150,0.31)
+a40 <- rbinom(1,150,0.29)
 
 absh <- c(a24, 125-a24, a25, 225-a25, a40, 150-a40)
 
 Fahrverhalten <- matrix(absh, nrow=2 ) 
 dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
-                                 Alter  = c("Unter 25", "25 - 39"," 40 + "))
+                                 Alter  = c("Unter 25", "25 - 39"," 40 +"))
 
 homt <- chisq.test( Fahrverhalten, correct = FALSE) 
 
@@ -26,14 +26,17 @@ solutions <- logical(5)
 explanations <- character(5)
 
 ## 1. X2 ablesen
+vglx2 <- round( runif(1,4,9), digits=2 )
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt ", round(x2,digits=3), ".", sep = "")
-  solutions[1] <- TRUE
-  explanations[1] <- "Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen."
+  questions[1] <- paste("Der Wert der Teststatistik ist kleiner als ", vglx2, ".", sep = "")
+  solutions[1] <- x2 < vglx2
+  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
+                            round(x2,digits=4), ".", sep = "")
 } else {
-  questions[1] <- paste("Der $X^2$-Wert betr\\\\\"agt ", round(pv, digits=4), ".", sep = "")
-  solutions[1] <- FALSE
-  explanations[1] <- paste("Der richtige Wert ist aus dem \\\\textsf{R}-Output ablesbar: ", round(x2,digits=3), ".", sep = "")
+  questions[1] <- paste("Der Wert der Teststatistik ist gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
+  solutions[1] <- x2 > vglx2
+  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
+                            round(x2,digits=4), ".", sep = "")
 }
 
 
@@ -126,7 +129,7 @@ und nach Altersgruppen ergab folgende Einteilung:
 Fahrverhalten
 @
 
-Ein $\chi^2$-Homogenit\"atstest zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
+Ein Chi-Quadrat-Test zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
 zwischen den Altesklassen ergibt:
 
 <<echo=FALSE>>= 
