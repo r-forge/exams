@@ -2,7 +2,7 @@
 
 ## DATA GENERATION
 
-frau <- rbinom(1,225,0.30)
+frau <- rbinom(1,225,0.32)
 mann <- rbinom(1,275,0.37)
 
 absh <- c(frau, 225-frau, mann, 275-mann)
@@ -24,19 +24,17 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-## 1. X2 interpretieren
+## 1. Tabelle interpretieren
+explanations[1] <- paste("Bei Frauen ist der Anteil: ", absh[2], "/(",absh[1],"+",absh[2],
+                         ") , bei M\\\\\"annern:", absh[4], "/(", absh[3],"+",absh[4],").", sep="")
 if(runif(1) > 0.5) {
-  questions[1] <- "Gro{\\\\ss}e Werte der Teststatistik sprechen eher gegen die Nullhypothese als kleine."
-  solutions[1] <- TRUE
-  explanations[1] <- "Die Werte der $X^2$-Teststatistik messen den Unterschied zwischen 
-    beobachteten H\\\\\"aufigkeiten und 
-    den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
+  questions[1] <- "In der Stichprobe ist der Anteil von Personen mit geringem Risiko bei Frauen 
+        h\\\\\"oher als bei M\\\\\"annern."
+  solutions[1] <- absh[2]/(absh[1]+absh[2]) > absh[4]/(absh[3]+absh[4])
 } else {
-  questions[1] <- "Gro{\\\\ss}e Werte der Teststatistik sprechen eher f\\\\\"ur die Nullhypothese als kleine."
-  solutions[1] <- FALSE
-  explanations[1] <- "Die Werte der $X^2$-Teststatistik messen den Unterschied zwischen 
-    beobachteten H\\\\\"aufigkeiten und 
-    den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
+  questions[1] <- "In der Stichprobe ist der Anteil von Personen mit geringem Risiko bei Frauen 
+        niedriger als bei M\\\\\"annern."
+  solutions[1] <- absh[2]/(absh[1]+absh[2]) < absh[4]/(absh[3]+absh[4])
 }
 
 
@@ -94,19 +92,18 @@ if(runif(1) > 0.5) {
 
 
 ## 5. inhaltliche Interpretation
+explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
+  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
+  sonst beibehalten.", sep = "")
 if(runif(1) > 0.5) {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: 
-                   Es gibt keine Unterschiede im Risikoverhalten zwischen den Altersklassen."
+  questions[5] <- "Es lassen sich keine Unterschiede im Risikoverhalten zwischen den Geschlechtern 
+                   nachweisen."
   solutions[5] <- x2 <= 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
-  sonst beibehalten.", sep = "")
+
 } else {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Risikoverhalten unterscheidet sich zwischen den Altersklassen."
+  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Risikoverhalten unterscheidet sich 
+                   zwischen den Geschlechtern."
   solutions[5] <- x2 > 3.84
-  explanations[5] <- paste("Der $X^2$-Wert ist ", x2,
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (keine Unterschiede) verworfen, 
-  sonst beibehalten.", sep = "")
 }
 
 ## permute order of solutions/questions

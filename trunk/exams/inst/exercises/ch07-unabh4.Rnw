@@ -30,17 +30,17 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-## 1. X2 interpretieren
+## 1. Kreuztabelle interpretieren
 if(runif(1) > 0.5) {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
-  solutions[1] <- TRUE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
-  den unter $H_0$ erwarteten H\\\\\"aufigkeiten."
+  questions[1] <- "In der Stichprobe gibt es mehr Raucher als Kaffetrinker."
+  solutions[1] <- sum(kaffeenikotin[,1]) > sum(kaffeenikotin[,1])
+  explanations[1] <- "Vergleich der Werte aus der Kontingenztafel: 
+                      1.Spaltensumme verglichen mit 1.Zeilensumme."
 } else {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
-  solutions[1] <- FALSE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
-  den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
+  questions[1] <- "In der Stichprobe gibt es weniger Nichtraucher als Kaffetrinker."
+  solutions[1] <- sum(kaffeenikotin[,2]) < sum(kaffeenikotin[,1])
+  explanations[1] <- "Vergleich der Werte aus der Kontingenztafel: 
+                      2.Spaltensumme verglichen mit 1.Zeilensumme."
 }
 
 
@@ -69,7 +69,7 @@ if(runif(1) > 0.5) {
   explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Der Konsum von Nikotin und der von Coffein 
-                   sind abh\\\\\"angig."
+                   sind gekoppelt (= nicht unabh\\\\\"angig)."
   solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
@@ -82,7 +82,7 @@ if(runif(1) > 0.5) {
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
   questions[3] <- "Die Alternativhypothese lautet: Der Konsum von Nikotin und der von Coffein 
-                   sind abh\\\\\"angig."
+                   sind gekoppelt (= nicht unabh\\\\\"angig."
   solutions[3] <- TRUE
   explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit postuliert."
 }
@@ -91,6 +91,7 @@ if(runif(1) > 0.5) {
 ## 4. technische Interpretation
 explanations[4] <- paste("Der $X^2$-Wert ist ", x2, 
 ". Ist dieser gr\\\\\"o{\\\\ss}er als 3.84, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
+
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- x2 <= 3.84 
@@ -102,8 +103,9 @@ if(runif(1) > 0.5) {
 
 ## 5. inhaltliche Interpretation
 explanations[5] <- explanations[4]
+
 if(runif(1) > 0.5) {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: 
+  questions[5] <- "Man kann die Aussage nicht verwerfen:  
                    Konsum von Nikotin ist unabh\\\\\"angig vom Konsum von Coffein."
   solutions[5] <- x2 <= 3.84
 } else {

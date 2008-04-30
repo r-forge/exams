@@ -31,17 +31,18 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-## 1. X2 interpretieren
+## 1. Kreuztabelle interpretieren
 if(runif(1) > 0.5) {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher gegen die Nullhypothese als kleine."
-  solutions[1] <- TRUE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
-  den unter der Nullhypothese  erwarteten H\\\\\"aufigkeiten."
+  questions[1] <- "In der Stichprobe gibt es mehr, die beide Interessen oft verfolgen, 
+                   als solche, die beide Interessen nie verfolgen."
+  solutions[1] <- Freizeit[1,1] > Freizeit[3,3]
+  explanations[1] <- "Das geben die entsprechenden Eintragungen im linken oberen und rechten 
+                      unteren Eck der Kontingenztafel an."
 } else {
-  questions[1] <- "Gro{\\\\ss}e $X^2$-Werte sprechen eher f\\\\\"ur die Nullhypothese als kleine."
-  solutions[1] <- FALSE
-  explanations[1] <- "$X^2$-Werte messen den Unterschied zwischen beobachteten H\\\\\"aufigkeiten und 
-  den unter der Nullhypothese erwarteten H\\\\\"aufigkeiten."
+  questions[1] <- "Unter denen, die nie Sportinteressen verfolgen, gibt es mehr, die oft Kulturinteressen 
+                   verfolgen, als solche, die höchstens manchmal Kulturinteressen verfolgen."
+  solutions[1] <- Freizeit[3,1] > (Freizeit[3,2]+Freizeit[3,3])
+  explanations[1] <- "Das kann man aus der 3.Zeile der Kontingenztafel ableiten."
 }
 
 
@@ -69,7 +70,7 @@ if(runif(1) > 0.5) {
   explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit unter den Variablen postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
+                   und der Interessen f\\\\\"ur Sport sind nicht unabh\\\\\"angig."
   solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
@@ -107,13 +108,13 @@ if(runif(1) > 0.5) {
 explanations[5] <- explanations[4]
 
 if(runif(1) > 0.5) {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind nicht abh\\\\\"angig."
+  questions[5] <- "Man kann die Aussage nicht verwerfen: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
   solutions[5] <- x2 <= 9.49 
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
+                   und der Interessen f\\\\\"ur Sport sind nicht unabh\\\\\"angig."
   solutions[5] <- x2 > 9.49 
 }
 
@@ -138,7 +139,7 @@ Freizeit
 
 Ein Chi-Quadrat-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
 Sportinteressen unabh\"angig vom Aus\"uben der Kulturinteressen ist, 
-lieferte einen $X^2$-Wert von $\Sexpr{round(x2, digits=2)}$.
+lieferte einen Wert der $X^2$-Teststatistik von $\Sexpr{round(x2, digits=2)}$.
 
 Zur Einstufung dieses Wertes stehen folgende $0.95$-$\chi^2$-Quantile
 zur Verf\"ugung:

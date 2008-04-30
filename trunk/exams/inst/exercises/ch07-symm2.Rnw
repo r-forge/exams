@@ -69,30 +69,24 @@ if(runif(1) > 0.5) {
   questions[3] <- "Die Alternativhypothese wird angenommen."
   solutions[3] <- (abs(z) > 1.96)
   explanations[3] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
-                              round(z,digits=3), ", es ist ein z-Wert ) 
-                        unter 1.96, wird die Nullhypothese beibehalten und sonst verworfen.") 
+                              round(z,digits=3), 
+                              " ) unter 1.96, wird die Nullhypothese beibehalten und sonst verworfen.") 
 } 
 
 
 ## 4. inhaltliche Interpretation
 
 if(abs(z) < 1.96) {
-  if(runif(1) > 0.5) {  
-    questions[4] <- "Die Entscheidung nach dem Test lautet: Der Anteil der Pr\\\\\"aferenz\\\\\"anderungen 
-                     von Partei A zu Partei B betr\\\\\"agt 50 Prozent."
-    solutions[4] <- TRUE
-    explanations[4] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
-                              round(z,digits=3), ", es ist ein z-Wert ) 
-                        unter 1.96, wird die Nullhypothese beibehalten.")                         
-} else {
-    questions[4] <- "Die Entscheidung nach dem Test lautet: Beide Parteien werden 
-                     denselben Stimmenanteil erhalten."
-    solutions[4] <- FALSE
-    explanations[4] <- "Man untersucht mit dem Test nur die Anteile derer, die ihre Pr\\\\\"aferenz
-                        ge\\\\\"andert haben."  
-} 
+  
+  questions[4] <- "Aufgrund des Testergebnisses kann man nicht behaupten, dass 
+                   die Pr\\\\\"aferenz\\\\\"anderungen eindeutig in Richtung einer der beiden 
+                   Parteien weisen."
+  solutions[4] <- TRUE
+  explanations[4] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
+                             round(z,digits=3), 
+                            " ) unter 1.96, wird die Nullhypothese beibehalten.", sep="")                         
 
-}else {
+} else {
   questions[4] <- "Die Entscheidung nach dem Test lautet: Es gibt mehr \\\\\"Anderungen von 
                      Partei A zu Partei B als umgekehrt."
   if(ab>ba) {

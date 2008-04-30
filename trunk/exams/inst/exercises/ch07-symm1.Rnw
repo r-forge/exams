@@ -77,13 +77,16 @@ if(runif(1) > 0.5) {
 
 if(pv >= 0.05) {
   if(runif(1) > 0.5) {  
-    questions[4] <- "Die Entscheidung nach dem Test lautet: Der Anteil der Pr\\\\\"aferenz\\\\\"anderungen 
-                     von Partei A zu Partei B betr\\\\\"agt 50 Prozent."
+    questions[4] <- "Aufgrund des Testergebnisses kann man nicht behaupten, dass 
+                     die Pr\\\\\"aferenz\\\\\"anderungen eindeutig in Richtung einer der beiden 
+                     Parteien weisen."
     solutions[4] <- TRUE
     explanations[4] <- "Ist der $p$-Wert \\\\\"uber 5 Prozent, wird die Nullhypothese beibehalten."                        
 } else {
-    questions[4] <- "Die Entscheidung nach dem Test lautet: Beide Parteien werden 
-                     denselben Stimmenanteil erhalten."
+    party <- "A"
+    if (sum(tvduell[,2]) > sum(tvduell[,1])) {party <- "B"}
+    questions[4] <- paste("Nach dem Test kann man nicht sagen, dass Partei ", party, 
+                          "die Wahl gewinnen wird.", sep="")
     solutions[4] <- FALSE
     explanations[4] <- "Man untersucht mit dem Test nur die Anteile derer, die ihre Pr\\\\\"aferenz
                         ge\\\\\"andert haben."  

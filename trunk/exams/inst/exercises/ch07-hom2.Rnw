@@ -41,14 +41,15 @@ if(runif(1) > 0.5) {
 
 
 ## 2. df
+explanations[2] <- "df $= (2-1)\\\\cdot(3-1) = 2$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
+
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 2."
   solutions[2] <- TRUE
-  explanations[2] <- "df $= (2-1)\\\\cdot(3-1) = 2$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
 } else {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 6."
+  dff <- sample( c(3,4,6), 1)
+  questions[2] <- paste( "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ",dff,sep="")  
   solutions[2] <- FALSE
-  explanations[2] <- "df $= (2-1)\\\\cdot(3-1) = 2$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
 }
 
 
@@ -79,32 +80,28 @@ if(runif(1) > 0.5) {
 
 
 ## 4. technische Interpretation
+explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- pv >= 0.05
-  explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- pv < 0.05
-  explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
 }
 
 
 ## 5. inhaltliche Interpretation
-if(runif(1) > 0.5) {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: 
-                   Es gibt keine Unterschiede im Risikoverhalten zwischen den Altersklassen."
-  solutions[5] <- pv >= 0.05
-  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
   ". Ist dieser kleiner als 0.05, wird die Nullhypothese (keine Unterschiede) verworfen, sonst beibehalten.", sep = "")
+
+if(runif(1) > 0.5) {
+  questions[5] <- "Es lassen sich keine Unterschiede im Risikoverhalten zwischen den Altersklassen nachweisen."
+  solutions[5] <- pv >= 0.05
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: Das Risikoverhalten unterscheidet sich zwischen den Altersklassen."
   solutions[5] <- pv < 0.05
-  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (keine Unterschiede) verworfen, sonst beibehalten.", sep = "")
 }
 
 

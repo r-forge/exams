@@ -70,7 +70,7 @@ if(runif(1) > 0.5) {
   explanations[3] <- "In der Nullhypothese wird Unabh\\\\\"angigkeit unter den Variablen postuliert."
 } else {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
+                   und der Interessen f\\\\\"ur Sport sind nicht unabh\\\\\"angig."
   solutions[3] <- FALSE
   explanations[3] <- "So lautet die Alternativhypothese."
 }  
@@ -83,9 +83,9 @@ if(runif(1) > 0.5) {
   explanations[3] <- "Das ist die Aussage der Nullhypothese."
 } else {
   questions[3] <- "Die Alternativhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
+                   und der Interessen f\\\\\"ur Sport sind nicht unabh\\\\\"angig."
   solutions[3] <- TRUE
-  explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit unter den Variablen postuliert."
+  explanations[3] <- "In der Alternativhypothese wird Abh\\\\\"angigkeit (Kopplung) unter den Variablen postuliert."
 }
 
 
@@ -105,19 +105,18 @@ if(runif(1) > 0.5) {
 
 
 ## 5. inhaltliche Interpretation
-if(runif(1) > 0.5) {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind nicht abh\\\\\"angig."
-  solutions[5] <- pv >= 0.05
-  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
+explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
   ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
+
+if(runif(1) > 0.5) {
+  questions[5] <- "Man kann nicht nachweisen, dass das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport gekoppelt (= nicht unabh\\\\\"angig) sind."
+  solutions[5] <- pv >= 0.05
 } else {
   questions[5] <- "Die Entscheidung nach dem Test lautet: 
                    Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind abh\\\\\"angig."
+                   und der Interessen f\\\\\"ur Sport sind nicht unabh\\\\\"angig."
   solutions[5] <- pv < 0.05
-  explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
 }
 
 ## permute order of solutions/questions
