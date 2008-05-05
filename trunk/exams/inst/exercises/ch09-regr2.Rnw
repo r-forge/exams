@@ -41,15 +41,15 @@ Man beginnt mit der Berechnung der Regressionsgeraden $y_i = \beta_0 + \beta_1 x
 Die Berechnung der Regressionskoeffizienten erfolgt durch:
 \begin{eqnarray*}
 && \hat \beta_1 = r \cdot \frac{s_y}{s_x} = 
-\Sexpr{r} \cdot \sqrt{\frac{\Sexpr{sy2}}{\Sexpr{sx2}}} = \Sexpr{round(b,3)}, \\
+\Sexpr{r} \cdot \sqrt{\frac{\Sexpr{sy2}}{\Sexpr{sx2}}} = \Sexpr{round(b,5)}, \\
 && \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = 
-\Sexpr{ys} - \Sexpr{round(b,3)} \cdot \Sexpr{xs} = \Sexpr{round(a,3)}.
+\Sexpr{ys} - \Sexpr{round(b,5)} \cdot \Sexpr{xs} = \Sexpr{round(a,5)}.
 \end{eqnarray*}
 
 Jetzt kann der Sch\"atzwert der Fortbildungskosten f\"ur einen Betrieb mit 
 \Sexpr{x} Besch\"aftigten berechnet werden:
 \begin{eqnarray*}
-\hat y = \Sexpr{round(a,3)} + \Sexpr{round(b,3)} \cdot \Sexpr{x} = \Sexpr{sol}.
+\hat y = \Sexpr{round(a,5)} + \Sexpr{round(b,5)} \cdot \Sexpr{x} = \Sexpr{sol}.
 \end{eqnarray*}
 \end{solution}
 

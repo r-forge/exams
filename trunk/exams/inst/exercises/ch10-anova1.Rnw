@@ -70,13 +70,13 @@ questions[3] <- paste("Das Bestimmtheitsma{\\\\ss} ist ", qu3[id3], " als ", qu3
 solutions[3] <- ((sign(id3-1.5)*summary(fm23)$r.squared > sign(id3-1.5)*0.1) & id31==1) || 
     ((sign(id3-1.5)*summary(fm23)$r.squared > sign(id3-1.5)*0.3) & id31==2) ||
     ((sign(id3-1.5)*summary(fm23)$r.squared > sign(id3-1.5)*0.6) & id31==3) 
-explanations[3] <- paste("Das Bestimmtheitsma{\\\\ss} wird berechnet aus $B = 1-RSS_{M_12}/RSS_{M_0}$ = ",
+explanations[3] <- paste("Das Bestimmtheitsma{\\\\ss} wird berechnet aus $R^2 = 1-RSS_{M_{12}}/RSS_{M_0}$ = ",
 	round(summary(fm23)$r.squared,2), ".",sep="")  
 
     
 questions[4] <- paste("Das Bestimmtheitsma{\\\\ss} liegt zwischen 0.1 und 0.4.", sep = "")   
 solutions[4] <- ((summary(fm23)$r.squared > 0.1) & (summary(fm23)$r.squared < 0.4))
-explanations[4] <- paste("Das Bestimmtheitsma{\\\\ss} wird berechnet aus $B = 1-RSS_{M_12}/RSS_{M_0}$ = ",
+explanations[4] <- paste("Das Bestimmtheitsma{\\\\ss} wird berechnet aus $R^2 = 1-RSS_{M_{12}}/RSS_{M_0}$ = ",
 	round(summary(fm23)$r.squared,2), ".",sep="")  
 
 qu5 <- c("verworfen", "beibehalten")
@@ -120,7 +120,7 @@ $M_{12}: Y = \beta_0 + \beta_1 X_{1}
 + \beta_2 X_{2} + \epsilon$: 
 
 <<echo=FALSE>>=
-printCoefmat(anova(fm1,fm23),na.print="",signif.stars = FALSE)
+anova(fm1,fm23)
 @
 
 \vspace*{0.5cm}

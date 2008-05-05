@@ -52,6 +52,14 @@ while(!ok) {
   fm0 <- step(fm23, trace = 0, k = log(n))
 
   ok <- ok && identical(sol, names(coef(fm0)))
+
+  Ausgaben <- y
+  Alter <- x1
+  Einkommen <- x2
+  fm1 <- lm(Ausgaben ~ 1)
+  fm2 <- lm(Ausgaben ~ Alter)
+  fm3 <- lm(Ausgaben ~ Einkommen)
+  fm23 <- lm(Ausgaben ~ Alter + Einkommen)
 }
 
 sol <- round(coef(fm0), digits = 3)
@@ -71,7 +79,7 @@ questions[1] <- paste("Beim Testen der Nullhypothese $H_0: \\\\texttt{Ausgaben} 
     qu1[id1], " (Signifikanzniveau $5\\\\%$).",sep = "")
 solutions[1] <- ((anova(fm1,fm2)[2,6] < 0.05) & (id1 == 1)) || ((anova(fm1,fm2)[2,6] >= 0.05) & (id1 == 2)) 
 explanations[1] <- paste("Dieser Test wird in der 3.~Tabelle durchgef\\\\\"uhrt. 
-	Dort ist der $p$-Wert ungef\\\\\"ahr ", format(round(anova(fm1,fm2)[2,6],4),scientific=FALSE), ".",sep="")  
+	Dort ist der $p$-Wert ", format.pval(anova(fm1,fm2)[2,6],digits=3), ".",sep="")  
 
 id2 <- sample(2,1)
 questions[2] <- paste("Beim Testen der Nullhypothese $H_0: \\\\texttt{Ausgaben} = \\\\beta_0 + \\\\beta_2 \\\\texttt{Einkommen} + \\\\epsilon$ 
@@ -79,7 +87,7 @@ questions[2] <- paste("Beim Testen der Nullhypothese $H_0: \\\\texttt{Ausgaben} 
     wird die Nullhypothese ", qu1[id2], " (Signifikanzniveau $5\\\\%$).", sep = "")
 solutions[2] <- ((anova(fm3,fm23)[2,6] < 0.05) &  (id2 == 1)) ||  ((anova(fm3,fm23)[2,6] >= 0.05) &  (id2 == 2))   
 explanations[2] <- paste("Dieser Test wird in der 2.~Tabelle durchgef\\\\\"uhrt. 
-	Dort ist der $p$-Wert ungef\\\\\"ahr ", format(round(anova(fm3,fm23)[2,6],4),scientific=FALSE), ".",sep="")  
+	Dort ist der $p$-Wert ", format.pval(anova(fm3,fm23)[2,6],digits=3), ".",sep="")  
 
 questions[3] <- paste("Von den 4 zur Verf\\\\\"ugung stehenden Modellen wird das Modell $M_0$
     gew\\\\\"ahlt.", sep = "") 
@@ -110,7 +118,7 @@ questions[5] <- paste("Beim Testen der Nullhypothese
 solutions[5] <- ((anova(fm2,fm23)[2,6]< 0.05)  & id5==1 & id51==1) || ((anova(fm2,fm23)[2,6]>=0.05) & id5==2 & id51==2)
 explanations[5] <- paste("Dieser Test wird in der 1.~Tabelle durchgef\\\\\"uhrt. Die Nullhypothese wird verworfen, wenn
 	der $p$-Wert kleiner als $0.05$ ist.
-	Der $p$-Wert ist ungef\\\\\"ahr ", format(round(anova(fm2,fm23)[2,6],4),scientific=FALSE), ".",sep="")  
+	Der $p$-Wert ist ", format.pval(anova(fm2,fm23)[2,6],digits=3), ".",sep="")  
     
 
 ## permute order of solutions/questions
@@ -133,27 +141,27 @@ der Leute abh\"angen. Es stehen die folgenden 4 Modelle zur Auswahl:
 \end{eqnarray*}
 Im Folgenden sehen Sie die ANOVAs zum Vergleich der Modelle: 
 
-Testen von $M_1$ gegen $M_{12}$: 
+% Testen von $M_1$ gegen $M_{12}$: 
 <<echo=FALSE>>=
-printCoefmat(anova(fm2,fm23),na.print="")
+anova(fm2,fm23)
 @
 
 \vspace*{0.5cm}
-Testen von $M_2$ gegen $M_{12}$:
+% Testen von $M_2$ gegen $M_{12}$:
 <<echo=FALSE>>=
-printCoefmat(anova(fm3,fm23),na.print="")
+anova(fm3,fm23)
 @
 
 \vspace*{0.5cm}
-Testen von $M_0$ gegen $M_{1}$:
+% Testen von $M_0$ gegen $M_{1}$:
 <<echo=FALSE>>=
-printCoefmat(anova(fm1,fm2),na.print="")
+anova(fm1,fm2)
 @
 
 \vspace*{0.5cm}
-Testen von $M_0$ gegen $M_{2}$:
+% Testen von $M_0$ gegen $M_{2}$:
 <<echo=FALSE>>=
-printCoefmat(anova(fm1,fm3),na.print="")
+anova(fm1,fm3)
 @
 
 \vspace*{0.5cm}

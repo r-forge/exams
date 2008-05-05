@@ -113,7 +113,7 @@ questions[3] <- paste("Die Hypothese $H_0: \\\\beta_1 = 0$ wird " ,
     qu31[id3], " (Signifikanzniveau $5\\\\%$).", sep = "")
 solutions[3] <- if (summary(fm23)$coef[2,4] < 0.05 & id3==1 || summary(fm23)$coef[2,4] >= 0.05 & id3==2 ) {1==1} else {1==0}
 explanations[3] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"orige $p$-Wert kleiner als $0.05$ ist. 
-				Hier ist der $p$-Wert gleich ", format(round(summary(fm23)$coef[2,4],4),scientific=FALSE) ,".",sep="") 
+				Hier ist der $p$-Wert gleich ", format.pval(summary(fm23)$coef[2,4],digits=3) ,".",sep="") 
     
 ## 4. testen der parameter gemeinsam
 qu4 <- c("verworfen", "beibehalten")
@@ -136,7 +136,7 @@ questions[5] <- paste("Die Hypothese $H_0: \\\\beta_2 = 0$ wird ", qu5[id5],
     ", weil der $p$-Wert ", qu51[id51], " als 0.05 ist (Signifikanzniveau $5\\\\%$).", sep = "")
 solutions[5] <- (summary(fm23)$coef[3,4] < 0.05 & id5==1 & id51==1) || (summary(fm23)$coef[3,4] >= 0.05 & id5==2 & id51==2)
 explanations[5] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"orige $p$-Wert kleiner als $0.05$ ist. 
-				Hier ist der $p$-Wert gleich ", format(round(summary(fm23)$coef[3,4],4),scientific=FALSE) ,".",sep="") 
+				Hier ist der $p$-Wert gleich ", format.pval(summary(fm23)$coef[3,4],digits=3) ,".",sep="") 
 
 
 ## permute order of solutions/questions
