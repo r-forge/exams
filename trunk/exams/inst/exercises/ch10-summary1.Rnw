@@ -97,10 +97,10 @@ questions[2] <- paste("Wenn $", Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]
      dann ", qu2[id22], " $Y$ um ungef\\\\\"ahr ", round(abs(fm23$coef[id23]),2), ".", sep = "" )
 solutions[2] <- if (sign(fm23$coef[id24[1]+1])==sign((id21[1]-1.5)*(id22-1.5)) & (id23 == id24[1]+1)) 1==1 else 1==0
 explanations[2] <- if (sign(fm23$coef[id24[1]+1])>0) 
-                        {paste("Da das Vorzeichen von $", Xsel[id24[1]], "$ positiv ist und $", 
+                        {paste("Da das Vorzeichen des Regressionskoeffizienten zu $", Xsel[id24[1]], "$ positiv ist und $", 
                         Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], ", ", qu2[id21[1]], " $Y$, und
                         zwar um ", round(abs(fm23$coef[id24[1]+1]),2), " Einheiten.", sep = "")} else 
-                        {paste("Da das Vorzeichen von $", Xsel[id24[1]], "$ negativ ist und $", 
+                        {paste("Da das Vorzeichen des Regressionskoeffizienten zu $", Xsel[id24[1]], "$ negativ ist und $", 
                         Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], ", ", qu2[id21[2]], " $Y$, und
                         zwar um ", round(abs(fm23$coef[id24[1]+1]),2), " Einheiten.", sep = "")}
 
