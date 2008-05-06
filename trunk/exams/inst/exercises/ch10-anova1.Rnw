@@ -14,8 +14,8 @@ type <- sample(letters[1:2], size = 1, prob = c(0.5, 0.5))
 while(!ok) {
   switch(type,
     "a" = {
-      y <- sample(1:20, 1) + 1 * x1 + rnorm(n, sd = 1.5)
-      sol <- c("(Intercept)", "x1")
+      y <- sample(1:20, 1) + rnorm(n, sd = 1.3)
+      sol <- "(Intercept)"
     },
     "b" = {
       y <- sample(1:20, 1) + 1 * x1 + 1 * x2 + rnorm(n, sd = 1.5)
@@ -23,11 +23,13 @@ while(!ok) {
     })
 
   fm1 <- lm(y ~ 1)
+  fm2 <- lm(y ~ x1)
+  fm3 <- lm(y ~ x2)
   fm23 <- lm(y ~ x1 + x2)
 
   switch(type,
     "a" = {
-      ok <- summary(fm23)$coef[3,4] > 0.1 && summary(fm23)$coef[2,4] < 0.05
+      ok <- (anova(fm1, fm2)[2,"Pr(>F)"] > 0.1) && (anova(fm1, fm3)[2,"Pr(>F)"] > 0.1) && (anova(fm2, fm23)[2,"Pr(>F)"] > 0.1) && (anova(fm3, fm23)[2,"Pr(>F)"] > 0.1)
     },
     "b" = {
       ok <- all(summary(fm23)$coef[2:3,4] < 0.05)

@@ -43,7 +43,7 @@ while(!ok) {
       ok <- summary(fm23)$coefficients[2,4] > 0.1 && summary(fm23)$coefficients[3,4] < 0.05
     },
     "c" = {
-      ok <- (anova(fm1, fm2)[2,"Pr(>F)"] > 0.1) && (anova(fm1, fm3)[2,"Pr(>F)"] > 0.1)
+      ok <- (anova(fm1, fm2)[2,"Pr(>F)"] > 0.1) && (anova(fm1, fm3)[2,"Pr(>F)"] > 0.1) && (anova(fm2, fm23)[2,"Pr(>F)"] > 0.1) && (anova(fm3, fm23)[2,"Pr(>F)"] > 0.1)
     },
     "d" = {
       ok <- all(summary(fm23)$coefficients[2:3,4] < 0.05)
