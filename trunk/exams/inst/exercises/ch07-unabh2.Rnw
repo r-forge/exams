@@ -1,24 +1,21 @@
 <<echo=FALSE, results=hide>>=
 
 ## DATA GENERATION
-
 nobs <- 400
-
 sport1 <- min( rbinom(1,nobs,0.40), nobs*0.55)
 sport2 <- min( rbinom(1,nobs,0.35), nobs*0.4)
 sport3 <- nobs - sport1 - sport2
 
-sport1kultur <- rmultinom(1,sport1,p=c(0.2 ,0.4 ,0.4 ))
-sport2kultur <- rmultinom(1,sport2,p=c(0.25,0.4 ,0.35))
-sport3kultur <- rmultinom(1,sport3,p=c(0.3 ,0.4 ,0.3 ))
+sport1kultur <- rmultinom(1,sport1,prob=c(0.2 ,0.4 ,0.4 ))
+sport2kultur <- rmultinom(1,sport2,prob=c(0.25,0.4 ,0.35))
+sport3kultur <- rmultinom(1,sport3,prob=c(0.3 ,0.4 ,0.3 ))
 
 absh <- c(sport1kultur,sport2kultur,sport3kultur)
 
-Freizeit <- matrix(absh, nr=3 ) 
-dimnames(Freizeit) <- list( Sport  = c("nie","manchmal","oft"), 
-                            Kultur = c("nie","manchmal","oft"))
+Freizeit <- matrix(absh, nrow=3, dimnames =  list( Sport  = c("nie","manchmal","oft"), 
+                            Kultur = c("nie","manchmal","oft")))
 
-unabht <- chisq.test( Freizeit, correct = F) 
+unabht <- chisq.test( Freizeit, correct = FALSE) 
 
 x2 <- unabht$statistic
 df <- unabht$parameter
@@ -34,35 +31,33 @@ explanations <- character(5)
 ## 1. X2 ablesen
 vglx2 <- round( runif(1,4,9), digits=2 )
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Der Wert der Teststatistik ist kleiner als ", vglx2, ".", sep = "")
+  questions[1] <- paste("Die Teststatistik ist kleiner als ", vglx2, ".", sep = "")
   solutions[1] <- x2 < vglx2
-  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
-                            round(x2,digits=4), ".", sep = "")
+  explanations[1] <- paste("Die Teststatistik ist $X^2 =", round(x2, digits=4), "$ und damit", 
+                           ifelse(solutions[1], "", " \\\\emph{nicht} "), "kleiner als ", vglx2, ".", sep = "")
 } else {
-  questions[1] <- paste("Der Wert der Teststatistik ist gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
+  questions[1] <- paste("Die Teststatistik ist gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
   solutions[1] <- x2 > vglx2
-  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
-                            round(x2,digits=4), ".", sep = "")
+  explanations[1] <- paste("Die Teststatistik ist $X^2 =", round(x2, digits=4), "$ und damit ", 
+                           ifelse(solutions[1], "", "\\\\emph{nicht} "), "gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
 }
-
 
 ## 2. df
 if(runif(1) > 0.5) {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 4."
+  questions[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt 4."
   solutions[2] <- TRUE
-  explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
+  explanations[2] <- "Die Anzahl der Freiheitsgrade ist gleich df $= (3-1)\\\\cdot(3-1) = 4$."
 } else {
-  vgldf <- sample(5:9,1)
-  questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ", vgldf, ".", sep = "")
+  vgldf <- sample(c(3, 5:9),1)
+  questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt ", vgldf, ".", sep = "")
   solutions[2] <- FALSE
-  explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
+  explanations[2] <- "Die Anzahl der Freiheitsgrade ist gleich df $= (3-1)\\\\cdot(3-1) = 4$."
 }
 
 
 ## 3. Hypothesen
 
 if(runif(1) > 0.5) {
-
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
@@ -94,19 +89,18 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
   solutions[4] <- pv >= 0.05
-  explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
+  explanations[4] <- paste("Der $p$-Wert ist ", format.pval(pv,digits=3), " und damit ", ifelse(solutions[4], " \\\\emph{nicht} ", ""),
+    "kleiner als 0.05. Daher wird die Nullhypothese", ifelse(solutions[4], "beibehalten.",  "verworfen."))
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
   solutions[4] <- pv < 0.05
-  explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
+  explanations[4] <- paste("Der $p$-Wert ist ", format.pval(pv,digits=3), " und damit ", ifelse(solutions[4], "", " \\\\emph{nicht} "),
+    "kleiner als 0.05. Daher wird die Nullhypothese", ifelse(solutions[4], "verworfen.", "beibehalten."))
 }
 
-
 ## 5. inhaltliche Interpretation
-explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
+explanations[5] <- paste("Der $p$-Wert ist ", format.pval(pv,digits=3), " und damit ", ifelse(solutions[4], "", " \\\\emph{nicht} "),
+    "kleiner als 0.05. Daher wird die Nullhypothese", ifelse(solutions[4], "verworfen.", "beibehalten."))
 
 if(runif(1) > 0.5) {
   questions[5] <- "Man kann nicht nachweisen, dass das Verfolgen der Interessen f\\\\\"ur Kultur 

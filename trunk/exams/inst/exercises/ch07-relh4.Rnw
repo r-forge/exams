@@ -1,7 +1,5 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
-
 a24 <- rbinom(1,125,0.40)
 a25 <- rbinom(1,225,0.35)
 a40 <- rbinom(1,150,0.31)
@@ -12,14 +10,9 @@ Fahrverhalten <- matrix(absh, nrow=2 )
 dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
                                  Alter  = c("Unter 25", "25 - 39","40 +"))
 
-s1 <- sum(Fahrverhalten[,1])
-s2 <- sum(Fahrverhalten[,2])
-s3 <- sum(Fahrverhalten[,3])
-
-z1 <- sum(Fahrverhalten[1,])
-z2 <- sum(Fahrverhalten[2,])
-
-n  <- z1+z2
+colsums <- colSums(Fahrverhalten)
+rowsums <- rowSums(Fahrverhalten)
+n  <- sum(Fahrverhalten)
 
 ## QUESTION/ANSWER GENERATION
 
@@ -34,16 +27,17 @@ if(runif(1) > 0.5) {
   questions[1] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/n,digits=1),
                         "Prozent unter 25 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[1] <- TRUE
-  explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
+  explanations[1] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung ",
+  "in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt: $\\\\frac{", Fahrverhalten[1,1], "\\\\cdot 100}{", n, "} = ", 
+  round(100*Fahrverhalten[1,1]/n,digits=1), "$.")
 } else {
   questions[1] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/n,digits=1),
                         "Prozent \\\\\"uber 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
   solutions[1] <- TRUE
-  explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
+  explanations[1] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung 
+                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt: $\\\\frac{",
+		      Fahrverhalten[2,3], "\\\\cdot 100}{", n, "} = ", round(100*Fahrverhalten[2,3]/n,digits=1), "$.")
 }
-
 } else {
 
 if(runif(1) > 0.5) {
@@ -51,51 +45,54 @@ if(runif(1) > 0.5) {
                         round(100*Fahrverhalten[1,2]/n,digits=1),
                         "Prozent erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[1] <- FALSE
-  explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zur Spaltensumme Bezug setzt."
+  explanations[1] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung in der Tabelle zur Spaltensumme in Bezug setzt. ",
+                           "Der richtige Prozentsatz ist gleich $\\\\frac{", Fahrverhalten[1,2], "\\\\cdot 100}{", 
+			   colsums[2], "} = ", round(100*Fahrverhalten[1,2]/colsums[2],digits=1), "$.", sep = "")
 } else {
   questions[1] <- paste("Unter den Befragten mit geringem Risiko waren", round(100*Fahrverhalten[2,2]/n,digits=1),
                         "Prozent im Alter zwischen 25 und 39.")
   solutions[1] <- FALSE
-  explanations[1] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zur Zeilensumme in Bezug setzt."
+  explanations[1] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung in der Tabelle zur Zeilensumme in Bezug setzt. ",
+                           "Der richtige Prozentsatz ist gleich $\\\\frac{", 
+			   Fahrverhalten[2,2], "\\\\cdot 100}{", rowsums[2], "} = ", 
+			   round(100*Fahrverhalten[2,2]/rowsums[2],digits=1), "$.", sep = "")  
 }
 }
-
 
 ## 2. Spaltenprozent
 if(runif(1) > 0.5) {
-
 if(runif(1) > 0.5) {
-  questions[2] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/s1,digits=1),
-                        "Prozent unter 25 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
+  questions[2] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,2]/colsums[1],digits=1),
+                        "Prozent von 25 bis 39 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[2] <- FALSE
-  explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
+  explanations[2] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung ", 
+                      "in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt. Der richtige Prozentsatz ist gleich $\\\\frac{",
+		      Fahrverhalten[1,2], "\\\\cdot 100}{", n, "} = ", 
+		      round(100*Fahrverhalten[1,2]/n, digits=1), "$.", sep = "")
 } else {
-  questions[2] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/s3,digits=1),
+  questions[2] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/colsums[3],digits=1),
                         "Prozent \\\\\"uber 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
   solutions[2] <- FALSE
-  explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
+  explanations[2] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung ",
+                           "in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt. Der richtige Prozentsatz ist gleich $\\\\frac{",
+			   Fahrverhalten[2,3], "\\\\cdot 100}{", n, "} = ",
+			   round(100*Fahrverhalten[2,3]/n, digits=1), "$.", sep = "")
 }
-
 } else {
-
 if(runif(1) > 0.5) {
   questions[2] <- paste("Unter den Befragten im Alter von 25 bis 39 zeigten ", 
-                        round(100*Fahrverhalten[1,2]/s2,digits=1),
+                        round(100*Fahrverhalten[1,2]/colsums[2],digits=1),
                         "Prozent erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[2] <- TRUE
-  explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zur Spaltensumme Bezug setzt."
+  explanations[2] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung in der Tabelle zur Spaltensumme in Bezug setzt: $\\\\frac{",
+  Fahrverhalten[1,2], "\\\\cdot 100}{", colsums[2], "} = ", round(100*Fahrverhalten[1,2]/colsums[2],digits=1), "$.")
 } else {
   questions[2] <- paste("Unter den Befragten im Alter unter 25 Jahren zeigten ", 
-                        round(100*Fahrverhalten[2,1]/s1,digits=1),
+                        round(100*Fahrverhalten[2,1]/colsums[1],digits=1),
                         "Prozent geringes Risiko im Fahrverhalten.")
   solutions[2] <- TRUE
-  explanations[2] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zur Spaltensumme Bezug setzt."
+  explanations[2] <- paste("Dieser Prozentsatz wird berechnet, indem man die entsprechende Eintragung in der Tabelle zur Spaltensumme in Bezug setzt: $\\\\frac{",
+  Fahrverhalten[2,1], "\\\\cdot 100}{", colsums[1], "} = ", round(100*Fahrverhalten[2,1]/colsums[1],digits=1), "$.")
 }
 }
 
@@ -105,17 +102,23 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
 
 if(runif(1) > 0.5) {
-  questions[3] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/z1,digits=1),
+  questions[3] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[1,1]/rowsums[1],digits=1),
                         "Prozent unter 25 Jahre alt und zeigten erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[3] <- FALSE
-  explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
+  explanations[3] <- paste("Das kann errechnet werden, indem man die entsprechende Eintragung ",
+                           "in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt. ", 
+			   "Der richtige Prozentsatz ist gleich $\\\\frac{",
+			   Fahrverhalten[1,1], "\\\\cdot 100}{", n, "} = ",
+			   round(100*Fahrverhalten[1,1]/n, digits=1), "$.", sep = "")
 } else {
-  questions[3] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/z2,digits=1),
+  questions[3] <- paste("Unter den Befragten waren ", round(100*Fahrverhalten[2,3]/rowsums[2],digits=1),
                         "Prozent \\\\\"uber 40 Jahre alt und zeigten geringes Risiko im Fahrverhalten.")
   solutions[3] <- FALSE
-  explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt."
+  explanations[3] <- paste("Das kann errechnet werden, indem man die entsprechende Eintragung ",
+                      "in der Tabelle zum Gesamtstichprobenumfang in Bezug setzt. ", 
+		      "Der richtige Prozentsatz ist gleich $\\\\frac{",
+		      Fahrverhalten[2,3], "\\\\cdot 100}{", n, "} = ",
+		      round(100*Fahrverhalten[2,3]/n, digits=1), "$.", sep = "")
 }
 
 } else {
@@ -125,14 +128,18 @@ if(runif(1) > 0.5) {
                          round(100*Fahrverhalten[1,2]/n,digits=1),
                         "Prozent im Alter zwischen 25 und 39.")
   solutions[3] <- FALSE
-  explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zur Zeilensumme in Bezug setzt."
+  explanations[3] <- paste("Das kann errechnet werden, indem man die entsprechende Eintragung ",
+                           "in der Tabelle zur Zeilensumme in Bezug setzt. ",
+			   "Der richtige Prozentsatz ist gleich $\\\\frac{",
+			   Fahrverhalten[1,2], "\\\\cdot 100}{", rowsums[1], "} = ",
+			   round(100*Fahrverhalten[1,2]/rowsums[1], digits=1), "$.", sep = "")
 } else {
-  questions[3] <- paste("Unter den Befragten mit geringem Risiko waren", round(100*Fahrverhalten[2,2]/n,digits=1),
+  questions[3] <- paste("Unter den Befragten mit geringem Risiko waren", round(100*Fahrverhalten[2,2]/rowsums[2],digits=1),
                         "Prozent im Alter zwischen 25 und 39.")
   solutions[3] <- TRUE
-  explanations[3] <- "Das kann errechnet werden, indem man die entsprechende Eintragung 
-                      in der Tabelle zur Zeilensumme in Bezug setzt."
+  explanations[3] <- paste("Das kann errechnet werden, indem man die entsprechende Eintragung 
+                      in der Tabelle zur Zeilensumme in Bezug setzt: $\\\\frac{",
+		      Fahrverhalten[2,2], "\\\\cdot 100}{", rowsums[2], "} = ", round(100*Fahrverhalten[2,2]/rowsums[2],digits=1), "$.")
 }
 }
 
@@ -140,37 +147,44 @@ if(runif(1) > 0.5) {
 ## 4. Zeilenrand
 
 if(runif(1) > 0.5) {
-  questions[4] <- paste(round(100*z1/n,digits=1)," Prozent der Befragten zeigten 
+  questions[4] <- paste(round(100*rowsums[1]/n,digits=1)," Prozent der Befragten zeigten 
                         erh\\\\\"ohtes Risiko im Fahrverhalten.")
   solutions[4] <- TRUE
-  explanations[4] <- "Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
-                      Stichprobenumfang in Bezug setzt."
+  explanations[4] <- paste("Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
+                      Stichprobenumfang in Bezug setzt: $\\\\frac{",
+		      rowsums[1], "\\\\cdot 100}{", n, "} = ", round(100*rowsums[1]/n,digits=1), "$.")
+
 } else {
-  questions[4] <- paste(round(100*s1/n,digits=1)," Prozent der Befragten zeigten 
+  questions[4] <- paste(round(100*colsums[1]/n,digits=1)," Prozent der Befragten zeigten 
                         geringes Risiko im Fahrverhalten.")
-  solutions[4] <- FALSE | (s1==z2)
-  explanations[4] <- "Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
-                      Stichprobenumfang in Bezug setzt."
+  solutions[4] <- FALSE | (colsums[1]==rowsums[2])
+  explanations[4] <- paste("Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
+                      Stichprobenumfang in Bezug setzt: $\\\\frac{",
+		      rowsums[2], "\\\\cdot 100}{", n, "} = ", 
+		      round(100*rowsums[2]/n,digits=1), "$.", sep = "")
 }
 
 
 ## 5. Spaltenrand
 
 if(runif(1) > 0.5) {
-  questions[5] <- paste(round(100*s3/n,digits=1)," Prozent der Befragten waren 40 Jahre 
+  i <- sample(1:3, 1)
+  questions[5] <- paste(round(100*colsums[i]/n,digits=1)," Prozent der Befragten waren 40 Jahre 
                         oder \\\\\"alter.")
-  solutions[5] <- TRUE
-  explanations[5] <- "Das erh\\\\\"alt man, indem man die entsprechende Spaltensumme zum 
-                      Stichprobenumfang in Bezug setzt."
+  solutions[5] <- colsums[i] == colsums[3]
+  explanations[5] <- paste("Das erh\\\\\"alt man, indem man die entsprechende Spaltensumme zum 
+                      Stichprobenumfang in Bezug setzt: $\\\\frac{",
+		      colsums[3], "\\\\cdot 100}{", n, "} = ", round(100*colsums[3]/n,digits=1), "$.")
 } else {
-  questions[5] <- paste(round(100*z2/n,digits=1)," Prozent der Befragten waren zwischen 25 
+  i <- sample(1:2, 1)
+  questions[5] <- paste(round(100*rowsums[i]/n,digits=1)," Prozent der Befragten waren zwischen 25 
                         und 39 Jahre alt.")
-  solutions[5] <- FALSE | (s2==z2)
-  explanations[5] <- "Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
-                      Stichprobenumfang in Bezug setzt."
+  solutions[5] <- rowsums[i]==colsums[2]
+  explanations[5] <- paste("Das erh\\\\\"alt man, indem man die entsprechende Zeilensumme zum 
+                      Stichprobenumfang in Bezug setzt: $\\\\frac{",
+		      colsums[2], "\\\\cdot 100}{", n, "} = ", 
+		      round(100*colsums[2]/n,digits=1), "$.", sep = "")
 }
-
-
 
 ## permute order of solutions/questions
 o <- sample(1:5)

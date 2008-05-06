@@ -37,16 +37,16 @@ while(!ok) {
 
   switch(type,
     "a" = {
-      ok <- summary(fm23)$coef[3,4] > 0.1 && summary(fm23)$coef[2,4] < 0.05
+      ok <- summary(fm23)$coefficients[3,4] > 0.1 && summary(fm23)$coefficients[2,4] < 0.05
     },
     "b" = {
-      ok <- summary(fm23)$coef[2,4] > 0.1 && summary(fm23)$coef[3,4] < 0.05
+      ok <- summary(fm23)$coefficients[2,4] > 0.1 && summary(fm23)$coefficients[3,4] < 0.05
     },
     "c" = {
       ok <- (anova(fm1, fm2)[2,"Pr(>F)"] > 0.1) && (anova(fm1, fm3)[2,"Pr(>F)"] > 0.1)
     },
     "d" = {
-      ok <- all(summary(fm23)$coef[2:3,4] < 0.05)
+      ok <- all(summary(fm23)$coefficients[2:3,4] < 0.05)
     })
 
   fm0 <- step(fm23, trace = 0, k = log(n))
@@ -67,11 +67,11 @@ explanations <- character(5)
 ## 1. prognose
 id <- sample(4,1,prob=c(0.5,0.15,0.15,0.2))
 prog <- rep(0,4)
-xprog <- (abs(round(x[50,],2))+2)*sign(fm23$coef[2:3])*sample(c(-1,1),1)
+xprog <- (abs(round(x[50,],2))+2)*sign(fm23$coefficients[2:3])*sample(c(-1,1),1)
 prog[1] <- predict(fm23,newdata=data.frame(x1=xprog[1],x2=xprog[2]))
-prog[2] <- sum(fm23$coef)
+prog[2] <- sum(fm23$coefficients)
 prog[3] <- prog[1]*(-1)
-prog[4] <- fm23$coef[1]
+prog[4] <- fm23$coefficients[1]
 if (round(prog[id],1)==round(prog[1],1)) id = 1 
 qu1 <- prog[id]
 questions[1] <- paste("F\\\\\"ur $X_1$ = ", xprog[1], " und $X_2$ = ",
@@ -80,8 +80,8 @@ questions[1] <- paste("F\\\\\"ur $X_1$ = ", xprog[1], " und $X_2$ = ",
 solutions[1] <- if (id == 1) 1==1 else 1==0 
 explanations[1] <- paste("Der Sch\\\\\"atzwert $\\\\hat y$ wird durch 
     Einsetzen in die Regressionsgleichung berechnet: ",
-    round(fm23$coef[1],3), " + (", round(fm23$coef[2],3), ") $\\\\cdot$ (", 
-    xprog[1], ") + (", round(fm23$coef[3],3), ") $\\\\cdot$ (", 
+    round(fm23$coefficients[1],3), " + (", round(fm23$coefficients[2],3), ") $\\\\cdot$ (", 
+    xprog[1], ") + (", round(fm23$coefficients[3],3), ") $\\\\cdot$ (", 
     xprog[2], ") = ", round(prog[1],2), sep = "")  
 
 ## 2. interpretation
@@ -94,15 +94,15 @@ id2abstrue <- id24[1]+1
 id25 <- sample(c(1, id24[2]+1, id24[1]+1), prob = c(1/6,1/6,2/3)) 
 Xsel <- c("X_1", "X_2")
 questions[2] <- paste("Wenn $", Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], " und $", Xsel[id24[2]], "$ gleich bleibt,
-     dann ", qu2[id22], " $Y$ um ungef\\\\\"ahr ", round(abs(fm23$coef[id23]),2), ".", sep = "" )
-solutions[2] <- if (sign(fm23$coef[id24[1]+1])==sign((id21[1]-1.5)*(id22-1.5)) & (id23 == id24[1]+1)) 1==1 else 1==0
-explanations[2] <- if (sign(fm23$coef[id24[1]+1])>0) 
+     dann ", qu2[id22], " $Y$ um ungef\\\\\"ahr ", round(abs(fm23$coefficients[id23]),2), ".", sep = "" )
+solutions[2] <- if (sign(fm23$coefficients[id24[1]+1])==sign((id21[1]-1.5)*(id22-1.5)) & (id23 == id24[1]+1)) 1==1 else 1==0
+explanations[2] <- if (sign(fm23$coefficients[id24[1]+1])>0) 
                         {paste("Da das Vorzeichen des Regressionskoeffizienten zu $", Xsel[id24[1]], "$ positiv ist und $", 
                         Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], ", ", qu2[id21[1]], " $Y$, und
-                        zwar um ", round(abs(fm23$coef[id24[1]+1]),2), " Einheiten.", sep = "")} else 
+                        zwar um ", round(abs(fm23$coefficients[id24[1]+1]),2), " Einheiten.", sep = "")} else 
                         {paste("Da das Vorzeichen des Regressionskoeffizienten zu $", Xsel[id24[1]], "$ negativ ist und $", 
                         Xsel[id24[1]], "$ um eine Einheit ", qu2[id21[1]], ", ", qu2[id21[2]], " $Y$, und
-                        zwar um ", round(abs(fm23$coef[id24[1]+1]),2), " Einheiten.", sep = "")}
+                        zwar um ", round(abs(fm23$coefficients[id24[1]+1]),2), " Einheiten.", sep = "")}
 
 
 ## 3. testen einzelner parameter
@@ -111,15 +111,15 @@ qu31 <- c("verworfen", "beibehalten")
 id3 <- sample(2,1)
 questions[3] <- paste("Die Hypothese $H_0: \\\\beta_1 = 0$ wird " ,
     qu31[id3], " (Signifikanzniveau $5\\\\%$).", sep = "")
-solutions[3] <- if (summary(fm23)$coef[2,4] < 0.05 & id3==1 || summary(fm23)$coef[2,4] >= 0.05 & id3==2 ) {1==1} else {1==0}
+solutions[3] <- if (summary(fm23)$coefficients[2,4] < 0.05 & id3==1 || summary(fm23)$coefficients[2,4] >= 0.05 & id3==2 ) {1==1} else {1==0}
 explanations[3] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"orige $p$-Wert kleiner als $0.05$ ist. 
-				Hier ist der $p$-Wert gleich ", format.pval(summary(fm23)$coef[2,4],digits=3) ,".",sep="") 
+				Hier ist der $p$-Wert gleich ", format.pval(summary(fm23)$coefficients[2,4],digits=3) ,".",sep="") 
     
 ## 4. testen der parameter gemeinsam
 qu4 <- c("verworfen", "beibehalten")
 id4 <- sample(2,1)
 id41 <- sample(3,1)
-questions[4] <- paste("Weil die $T$-Gr\\\\\"o{\\\\ss}e gleich ", round(summary(fm23)$coef[id41,3],2), " ist, wird, die Hypothese $H_0: \\\\beta_1 = \\\\beta_2 = 0$ ", 
+questions[4] <- paste("Weil die $T$-Gr\\\\\"o{\\\\ss}e gleich ", round(summary(fm23)$coefficients[id41,3],2), " ist, wird, die Hypothese $H_0: \\\\beta_1 = \\\\beta_2 = 0$ ", 
 	qu4[id4], " (Signifikanzniveau $5\\\\%$).", sep = "")  
 explanations[4] <- "Wir haben nur die $T$-Gr\\\\\"o{\\\\ss}en angegeben. Auf Basis der $T$-Gr\\\\\"o{\\\\ss}en kann aber 
 	immer nur ein einzelner Parameter, d.h. $\\\\beta_1$ oder $\\\\beta_2$, getestet werden, nicht beide 
@@ -130,13 +130,13 @@ qu5 <- c("verworfen", "beibehalten")
 id5 <- sample(2,1)
 qu51 <- c("kleiner", "gr\\\\\"o{\\\\ss}er")
 id51 <- sample(2,1)
-if (summary(fm23)$coef[3,4] < 0.05 & id5==1) id51 <- 1 
-if (summary(fm23)$coef[3,4] >= 0.05 & id5==2) id51 <- 2 
+if (summary(fm23)$coefficients[3,4] < 0.05 & id5==1) id51 <- 1 
+if (summary(fm23)$coefficients[3,4] >= 0.05 & id5==2) id51 <- 2 
 questions[5] <- paste("Die Hypothese $H_0: \\\\beta_2 = 0$ wird ", qu5[id5], 
     ", weil der $p$-Wert ", qu51[id51], " als 0.05 ist (Signifikanzniveau $5\\\\%$).", sep = "")
-solutions[5] <- (summary(fm23)$coef[3,4] < 0.05 & id5==1 & id51==1) || (summary(fm23)$coef[3,4] >= 0.05 & id5==2 & id51==2)
+solutions[5] <- (summary(fm23)$coefficients[3,4] < 0.05 & id5==1 & id51==1) || (summary(fm23)$coefficients[3,4] >= 0.05 & id5==2 & id51==2)
 explanations[5] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"orige $p$-Wert kleiner als $0.05$ ist. 
-				Hier ist der $p$-Wert gleich ", format.pval(summary(fm23)$coef[3,4],digits=3) ,".",sep="") 
+				Hier ist der $p$-Wert gleich ", format.pval(summary(fm23)$coefficients[3,4],digits=3) ,".",sep="") 
 
 
 ## permute order of solutions/questions

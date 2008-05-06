@@ -1,7 +1,5 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
-
 abba<- min( rbinom(1,200,0.22), 60 )  # wechsel total
 pab <- runif(1,min=0.2,max=0.8)       # p-wechsel von a zu b
 ab <- rbinom(1,abba,pab)              # wechsel von a zu b
@@ -14,11 +12,11 @@ btotal <- 100 - vorsprunga
 pabba <- abba/200                     # anteil wechsel  
 
 absh <- c(atotal-ab,ab,ba,btotal-ba) 
-tvduell <- matrix(absh, nr=2, byrow=TRUE) 
-dimnames(tvduell) <-list(vorher=c("A","B"), nachher=c("A","B") ) 
+tvduell <- matrix(absh, nrow=2, byrow=TRUE, 
+                  dimnames = list(vorher=c("A","B"), nachher=c("A","B")))
 
 pab <- ab/abba    # beobachteter anteil von a zu b
-z <- (pab-0.5)/sqrt(0.25/abba)
+T <- (pab-0.5)/sqrt(0.25/abba)
 
 ## QUESTION/ANSWER GENERATION
 
@@ -31,15 +29,15 @@ explanations <- character(5)
 if(runif(1) > 0.5) {
   questions[1] <- "In der Stichprobe hat es mehr Wechsel von A zu B gegeben als umgekehrt."
   solutions[1] <- (ab > ba)
-  explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
-                            tvduell[1,2], " und ", tvduell[2,1],") geben dar\\\\\"uber Auskunft.")
+  explanations[1] <- paste ("Es haben ", tvduell[1,2], " Befragte von Partei A zu B gewechselt, ", 
+                            tvduell[2,1], " Befragte von B zu A.")                           
 } else {
   questions[1] <- "Weniger als ein Viertel der Befragten hat die Parteipr\\\\\"aferenz ge\\\\\"andert."
   solutions[1] <- (abba < 50)
-  explanations[1] <- paste ("Die Werte der Gegendiagonale der Kreuztabelle (",
-                            tvduell[1,2], " und ", tvduell[2,1],") geben dar\\\\\"uber Auskunft.")
+  explanations[1] <- paste ("Es haben $", tvduell[1,2], "+", tvduell[2,1], " = ", tvduell[1,2] + tvduell[2,1], "$ Befragte ",
+                            " die Parteipr\\\\\"aferenz ge\\\\\"andert. Das sind ", (tvduell[1,2] + tvduell[2,1])/sum(tvduell) * 100, 
+                            "\\\\% der Befragten.", sep = "")
 }  
-
 
 ## 2. Hypothesen
 
@@ -56,54 +54,34 @@ if(runif(1) > 0.5) {
   explanations[2] <- "Bei diesem Test werden nur die Wechsel ber\\\\\"ucksichtigt."
 }
 
-
 ## 3. technische Interpretation
 
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese muss verworfen werden."
-  solutions[3] <- (abs(z) > 1.96)
-  explanations[3] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
-                              round(z,digits=3), ", es ist ein z-Wert ) 
-                        unter 1.96, wird die Nullhypothese beibehalten und sonst verworfen.")                       
+  solutions[3] <- (abs(T) > 1.96)
+  explanations[3] <- paste("Der Absolutbetrag der Teststatistik ist gleich ",
+                           round(abs(T),digits=3), " und somit", ifelse(solutions[3], "", " \\\\emph{nicht} "), 
+			   " gr\\\\\"o{\\\\ss}er als 1.96. Daher wird die Nullhypothese ", ifelse(solutions[3], "verworfen.", "beibehalten."))
 } else {
   questions[3] <- "Die Alternativhypothese wird angenommen."
-  solutions[3] <- (abs(z) > 1.96)
-  explanations[3] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
-                              round(z,digits=3), 
-                              " ) unter 1.96, wird die Nullhypothese beibehalten und sonst verworfen.") 
+  solutions[3] <- (abs(T) > 1.96)
+  explanations[3] <- paste("Der Absolutbetrag der Teststatistik ist gleich ",
+                           round(abs(T),digits=3), " und somit", ifelse(solutions[3], "", " \\\\emph{nicht} "), 
+			   " gr\\\\\"o{\\\\ss}er als 1.96. Daher wird die Nullhypothese ", ifelse(solutions[3], "verworfen.", "beibehalten."))
 } 
-
 
 ## 4. inhaltliche Interpretation
 
-if(abs(z) < 1.96) {
-  
-  questions[4] <- "Aufgrund des Testergebnisses kann man nicht behaupten, dass 
-                   die Pr\\\\\"aferenz\\\\\"anderungen eindeutig in Richtung einer der beiden 
-                   Parteien weisen."
-  solutions[4] <- TRUE
-  explanations[4] <- paste( "Liegt der Absolutbetrag der Teststatistik (",
-                             round(z,digits=3), 
-                            " ) unter 1.96, wird die Nullhypothese beibehalten.", sep="")                         
-
-} else {
-  questions[4] <- "Die Entscheidung nach dem Test lautet: Es gibt mehr \\\\\"Anderungen von 
-                     Partei A zu Partei B als umgekehrt."
-  if(ab>ba) {
-    solutions[4] <- ( ab > ba )
-    explanations[4] <- paste("Der Wert der Teststatistik betr\\\\\"agt ", round(z,digits=3), 
-                        ". Die Nullhypothese von gleich viel \\\\\"Anderungen in jede Richtung 
-                        wird verworfen. In der Stichprobe gibt es mehr \\\\\"Anderungen von A zu B,
-                        daher ist diese einseitige Interpretation zul\\\\\"assig.")
-} else { 
-    solutions[4] <- ( ab > ba )
-    explanations[4] <- paste("Der Wert der Teststatistik betr\\\\\"agt ", round(z,digits=3), 
-                        ". Die Nullhypothese von gleich viel \\\\\"Anderungen in jede Richtung 
-                        wird verworfen. In der Stichprobe gibt es aber mehr \\\\\"Anderungen von B zu A, 
-                        daher ist diese einseitige Interpretation nicht zul\\\\\"assig.")       
-}
-}
-
+questions[4] <- "Der Test weist nach, dass es mehr \\\\\"Anderungen von Partei A zu Partei B als umgekehrt gibt."
+solutions[4] <- (abs(T) > 1.96) & (ab > ba)
+explanations[4] <- paste("Der Absolutbetrag der Teststatistik ist gleich ",
+                         round(abs(T),digits=3), " und somit", ifelse(abs(T) > 1.96, "", " \\\\emph{nicht} "), 
+                         " gr\\\\\"o{\\\\ss}er als 1.96. Daher wird die Nullhypothese von gleich viel \\\\\"Anderungen in jede Richtung ", 
+                         ifelse(solutions[4], "verworfen.", "beibehalten."),
+                         ifelse(abs(T) > 1.96, paste("In der Stichprobe gibt es ", ifelse(ab > ba,  "", "\\\\emph{nicht} "), 
+                                                     "mehr \\\\\"Anderungen von A zu B, daher ist diese einseitige Interpretation ", 
+                                                     ifelse(ab > ba,  "", "\\\\emph{nicht} "),
+                                                     "zul\\\\\"assig.")))
 
 ## 5. Diverses
 
@@ -113,13 +91,14 @@ if(runif(1) > 0.5) {
   solutions[5] <- (ba > ab)
   explanations[5] <- "Das gilt, wenn es mehr Wechsel von B zu A als umgekehrt gegeben hat."
 } else {
-  questions[5] <- "Unter den Befragten hat Partei A nach den TV-Duellen die Mehrheit."
-  solutions[5] <- (tvduell[1,1]+tvduell[2,1]>100)
-  explanations[5] <- "Die 1.Spalte der Kreuztabelle gibt die Pr\\\\\"aferenzen nach den TV-Duellen 
-                      f\\\\\"ur Partei A an."
+  party <- sample(1:2, 1)
+  questions[5] <- paste("Unter den Befragten hat Partei ", LETTERS[party], " nach den TV-Duellen die Mehrheit.")
+  solutions[5] <- (colSums(tvduell)[party] > 100)
+  explanations[5] <- paste("Die Spaltensummen der Kreuztabelle geben an, wieviele Befragte nach den TV-Duellen ", 
+                           "Partei A bzw. Partei B pr\\\\\"aferieren. F\\\\\"ur Partei A sind nach der Wahl ", 
+                           colSums(tvduell)[1], ", f\\\\\"ur Partei B ", 
+                           colSums(tvduell)[2], ".", sep = "")
 } 
-
-
 
 ## permute order of solutions/questions
 o <- sample(1:5)
@@ -149,7 +128,6 @@ Parteipr\"aferenz klar f\"ur eine der beiden Parteien sprechen.
 Welche der folgenden Aussagen sind richtig? 
 (Berechnen Sie dazu auch den Wert der entsprechenden Teststatistik. Signifikanzniveau 5\%)
 
-
 \begin{itemize}
   \item[(a)] \Sexpr{questions[1]}
   \item[(b)] \Sexpr{questions[2]}
@@ -162,6 +140,29 @@ Welche der folgenden Aussagen sind richtig?
 
 %% SOLUTIONS
 \begin{solution}
+<<echo = FALSE>>=
+n <- tvduell[1,2] + tvduell[2,1]
+fn.berechnung <- paste("\\\\frac{", tvduell[1,2], "}{", n, "}")
+H0.theta <- 0.5
+@ 
+
+F\"ur das Berechnen der Teststatistik ben\"otigen wir die Anzahl der
+Befragten, die die Parteipr\"aferenz ge\"andert haben. Das entspricht
+der Anzahl der Beobachtungen in der Gegendiagonale: $n =
+\Sexpr{tvduell[1,2]} + \Sexpr{tvduell[2,1]} = \Sexpr{n}$. Die
+Wahrscheinlichkeit in eine bestimmte Richtung zu wechseln ist unter
+der Nullhypothese gleich $\theta = \Sexpr{H0.theta}$. Die beobachtete
+relative H\"aufigkeit einer \"Anderung von Partei A zu B betr\"agt
+$\Sexpr{fn.berechnung}$.
+
+Damit bestimmt man die Teststatistik durch:
+\begin{eqnarray*}
+  T &=& \frac{f_n - \theta_0}{\sqrt{\frac{\theta_0 \cdot (1-\theta_0)}{n}}}\\
+  &=& \frac{\Sexpr{fn.berechnung} - \Sexpr{H0.theta}}{\sqrt{\frac{\Sexpr{H0.theta}\cdot (1-\Sexpr{H0.theta})}{\Sexpr{n}}}}\\
+  &=& \Sexpr{num2string(T)}
+\end{eqnarray*}
+
+Damit lassen sich nun obige Aussagen als richtig oder falsch bewerten.
 
 \begin{itemize}
   \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}

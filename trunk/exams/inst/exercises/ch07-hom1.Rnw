@@ -1,41 +1,26 @@
 <<echo=FALSE, results=hide>>=
 
 ## DATA GENERATION
-
-anpro <- 12
-ancontra <- 39
-sonstpro <- rbinom(1,120,0.6)
-sonstcontra <- 120-sonstpro
-
-ah <- c(anpro,ancontra,sonstpro,sonstcontra)
-Vobs <- matrix( ah, nrow=2) 
-
-Veranstaltungszentrum <- Vobs
-Wer = c("Anrainer","Sonst")
-Wie = c("Pro","Contra")
-dimnames(Veranstaltungszentrum)<-list( Wie = Wie, Wer = Wer) 
-
+size <- sample(40:80, 2, replace = TRUE)
+anpro <- rbinom(1, size[1], 0.4)
+sonstpro <- rbinom(1,size[2],0.4 + ifelse(runif(1) > 0.5, 0, 0.3))
+Vobs <- matrix(c(anpro,size[1]-anpro,sonstpro,size[2]-sonstpro), nrow = 2, 
+               dimnames = list(Wie = c("Pro","Contra"), Wer = c("Anrainer","Sonst")))
 
 ## QUESTION/ANSWER GENERATION
-homt <- chisq.test(Veranstaltungszentrum, correct=F)
-
-X2 <- homt$statistic
- 
-X2_string <- paste("X2-Statistik: ", round(X2, digits = 3),
-  " (toleriert: ", round(X2, digits = 3) - 0.01, " <= |T| <= ",
-  round(X2, digits = 3) + 0.01, ")", sep = "")
+homt <- chisq.test(Vobs, correct = FALSE)
+x2 <- homt$statistic
+Vexp <- round(homt$expected,digits=4)
 @
 
 \begin{question}
-In einer Kleinstadt wird die Errichtung eines Veranstaltungszentrums erwogen. 
-
-In einer Befragung zeigen sich potenzielle Anrainer nicht sehr begeistert, 
-w\"ahrend andere Einwohner eher zustimmen.
+  In einer Kleinstadt wird die Errichtung eines Veranstaltungszentrums
+  erwogen. Das Ergebnis der Befragung ist getrennt f\"ur potenzielle
+  Anrainer und anderen Einwohner in folgender Tabelle zusammengefasst:
 
 <<echo=FALSE>>=
-Veranstaltungszentrum 
+Vobs
 @
-
 
 \"Uberpr\"ufen Sie mittels eines Chi-Quadrat-Tests, ob 
 sich der Anteil der Bef\"urworter bei potenziellen Anrainern vom 
@@ -53,42 +38,41 @@ Kontingenztafel um die Zeilensummen ($o_{i+}$) und Spaltensummen ($o_{+j}$)
 bekommt man folgende Tabelle:
 
 <<echo=FALSE>>=
-ahm <- addmargins(Veranstaltungszentrum)
+ahm <- addmargins(Vobs)
 ahm
-zs <- ahm[2,3]
-ss <- ahm[3,1]
+zs <- ahm[,3]
+ss <- ahm[3,]
 n  <- ahm[3,3]
-e21<- zs*ss/n
 @
 
 Mit den Zeilen- und Spaltensummen lassen sich die erwarteten
 H\"aufigkeiten ($e_{ij}$) berechnen
 \[ e_{ij} = \frac{o_{i+} \cdot o_{+j}}{n}. \]
 
-Konkret, etwa f\"ur das Element in der 2.~Zeile und 1.~Spalte:
+\[ e_{11}=  \frac{o_{1+} \cdot o_{+1}}{n} = 
+            \frac{\Sexpr{zs[1]} \cdot \Sexpr{ss[1]}}{\Sexpr{n}} = \Sexpr{Vexp[1,1]} \]
+\[ e_{12}=  \frac{o_{1+} \cdot o_{+2}}{n} = 
+            \frac{\Sexpr{zs[1]} \cdot \Sexpr{ss[2]}}{\Sexpr{n}} = \Sexpr{Vexp[1,2]} \]
 \[ e_{21}=  \frac{o_{2+} \cdot o_{+1}}{n} = 
-            \frac{\Sexpr{zs} \cdot \Sexpr{ss}}{\Sexpr{n}} = \Sexpr{round(e21, digits = 3)} \]
-
-Die gesamte Matrix der erwarteten H\"aufigkeiten lautet:
-
-<<echo=FALSE>>=
-Vexp <- round(homt$expected, digits=3)
-Vexp
-o11 <- Vobs[1,1]
-e11 <- Vexp[1,1]
-x2  <- round(homt$statistic, digits=3)
-@
+            \frac{\Sexpr{zs[2]} \cdot \Sexpr{ss[1]}}{\Sexpr{n}} = \Sexpr{Vexp[2,1]} \]
+\[ e_{22}=  \frac{o_{2+} \cdot o_{+2}}{n} = 
+            \frac{\Sexpr{zs[2]} \cdot \Sexpr{ss[2]}}{\Sexpr{n}} = \Sexpr{Vexp[2,2]} \]
 
 Die Berechnung der (Pearson-)$X^2$-Teststatistik erfolgt \"uber den 
 Vergleich von beobachteten und erwarteten H\"aufigkeiten nach: 
-\[ X^2 = \sum_{i=1}^I \sum_{j=1}^J \frac{(o_{ij} - e_{ij})^2}{e_{ij}} 
-       = \frac{(\Sexpr{o11} - \Sexpr{e11})^2} {\Sexpr{e11}} + \cdots = \Sexpr{x2} \]   
-
+\begin{eqnarray*}
+X^2 &=& \sum_{i=1}^I \sum_{j=1}^J \frac{(o_{ij} - e_{ij})^2}{e_{ij}} =\\
+&=& \frac{(\Sexpr{Vobs[1,1]} - \Sexpr{Vexp[1,1]})^2} {\Sexpr{Vexp[1,1]}} + 
+\frac{(\Sexpr{Vobs[1,2]} - \Sexpr{Vexp[1,2]})^2} {\Sexpr{Vexp[1,2]}} + 
+\frac{(\Sexpr{Vobs[2,1]} - \Sexpr{Vexp[2,1]})^2} {\Sexpr{Vexp[2,1]}} + 
+\frac{(\Sexpr{Vobs[2,2]} - \Sexpr{Vexp[2,2]})^2} {\Sexpr{Vexp[2,2]}}=\\
+&=& \Sexpr{round(x2,digits=3)}.
+\end{eqnarray*} 
 
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
-%% \exsolution{\Sexpr{num2string(X2)}}
+%% \exsolution{\Sexpr{num2string(x2)}}
 %% \exname{X2-Statistik}
 %% \extol{0.01}

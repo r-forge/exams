@@ -1,25 +1,25 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
-
 nobs <- 400
-
-sport1 <- min( rbinom(1,nobs,0.40), nobs*0.55)
-sport2 <- min( rbinom(1,nobs,0.35), nobs*0.4)
-sport3 <- nobs - sport1 - sport2
-
-sport1kultur <- rmultinom(1,sport1,p=c(0.2 ,0.4 ,0.4 ))
-sport2kultur <- rmultinom(1,sport2,p=c(0.25,0.4 ,0.35))
-sport3kultur <- rmultinom(1,sport3,p=c(0.3 ,0.4 ,0.3 ))
-
-absh <- c(sport1kultur,sport2kultur,sport3kultur)
-
-Freizeit <- matrix(absh, nr=3 ) 
-dimnames(Freizeit) <- list( Sport  = c("oft","manchmal","nie"), 
-                            Kultur = c("oft","manchmal","nie"))
-
-unabht <- chisq.test( Freizeit, correct = F) 
-
+create_table <- function() {
+  sport1 <- min( rbinom(1,nobs,0.40), nobs*0.55)
+  sport2 <- min( rbinom(1,nobs,0.35), nobs*0.4)
+  sport3 <- nobs - sport1 - sport2
+  
+  sport1kultur <- rmultinom(1,sport1,prob=c(0.2 ,0.4 ,0.4 ))
+  sport2kultur <- rmultinom(1,sport2,prob=c(0.25,0.4 ,0.35))
+  sport3kultur <- rmultinom(1,sport3,prob=c(0.3 ,0.4 ,0.3 ))
+  matrix(c(sport1kultur,sport2kultur,sport3kultur), nrow=3,
+         dimnames =  list( Sport  = c("oft","manchmal","nie"), 
+           Kultur = c("oft","manchmal","nie")))
+}
+Freizeit <- create_table()
+unabht <- chisq.test(Freizeit, correct = FALSE) 
+kritval <- qchisq(0.95, df = 4)
+while(abs(unabht$statistic - kritval) < 0.02) {
+  Freizeit <- create_table()
+  unabht <- chisq.test(Freizeit, correct = FALSE) 
+}
 x2 <- unabht$statistic
 df <- unabht$parameter
 pv <- unabht$p.value
@@ -36,33 +36,32 @@ if(runif(1) > 0.5) {
   questions[1] <- "In der Stichprobe gibt es mehr, die beide Interessen oft verfolgen, 
                    als solche, die beide Interessen nie verfolgen."
   solutions[1] <- Freizeit[1,1] > Freizeit[3,3]
-  explanations[1] <- "Das geben die entsprechenden Eintragungen im linken oberen und rechten 
-                      unteren Eck der Kontingenztafel an."
+  explanations[1] <- paste("Die Anzahl derer, die beide Interessen oft verfolgen, betr\\\\\"agt ", 
+                           Freizeit[1,1], " und ist somit ", ifelse(solutions[1], "", " \\\\emph{nicht}"), 
+			   " mehr als die ", Freizeit[3,3], " Befragten, die beide Interessen nie verfolgen.", sep = "")
 } else {
   questions[1] <- "Unter denen, die nie Sportinteressen verfolgen, gibt es mehr, die oft Kulturinteressen 
-                   verfolgen, als solche, die höchstens manchmal Kulturinteressen verfolgen."
+                   verfolgen, als solche, die h\\\\\"ochstens manchmal Kulturinteressen verfolgen."
   solutions[1] <- Freizeit[3,1] > (Freizeit[3,2]+Freizeit[3,3])
-  explanations[1] <- "Das kann man aus der 3.Zeile der Kontingenztafel ableiten."
+  explanations[1] <- paste("Unter denen, die nie Sportinteressen verfolgen, gibt es ", Freizeit[3,1], 
+                           " die oft Kulturinteressen verfolgen und somit ", ifelse(solutions[1], "", " \\\\emph{nicht} "),
+			   " mehr als die ", (Freizeit[3,2]+Freizeit[3,3]), 
+			   " Befragten, die h\\\\\"ochstens manchmal Kulturinteressen verfolgen.", sep = "")
 }
-
 
 ## 2. df
+explanations[2] <- "Bei einer 3x3-Tafel ist die Anzahl der Freiheitsgrade gleich df $= (3-1)\\\\cdot(3-1) = 4$."
 if(runif(1) > 0.5) {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 4."
+  questions[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt 4."
   solutions[2] <- TRUE
-  explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$."
 } else {
-  questions[2] <- paste("Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ",
+  questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt ",
                          sample(5:9)[1], " .", sep = "")
   solutions[2] <- FALSE
-  explanations[2] <- "df $= (3-1)\\\\cdot(3-1) = 4$."
 }
 
-
 ## 3. Hypothesen
-
 if(runif(1) > 0.5) {
-
 if(runif(1) > 0.5) {
   questions[3] <- "Die Nullhypothese lautet: Das Verfolgen der Interessen f\\\\\"ur Kultur 
                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
@@ -90,34 +89,32 @@ if(runif(1) > 0.5) {
 
 
 ## 4. technische Interpretation
-explanations[4] <- paste("Der $X^2$-Wert ist ", round(x2, digits=2), 
-  ". Ist dieser gr\\\\\"o{\\\\ss}er als das Quantil einer $\\\\chi^2$-Verteilung (df=4), 
-  wird die Nullhypothese (Unabh\\\\\"angigkeit) verworfen, sonst beibehalten.", sep = "")
+explanations[4] <- paste("Der $X^2$-Wert ist ", round(x2, digits=2), " und damit", 
+                         ifelse(x2 > kritval, "", " \\\\emph{nicht} "), 
+                         " gr\\\\\"o{\\\\ss}er als ", round(kritval, digits = 2), "($0.95$-Quantil einer $\\\\chi^2$-Verteilung",
+                         " mit 4 Freiheitsgraden). Daher ",  
+                         "wird die Nullhypothese (Unabh\\\\\"angigkeit)", ifelse(x2 > kritval, "verworfen.", "beibehalten."))
 
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
-  solutions[4] <- x2 <= 9.49 
+  solutions[4] <- x2 <= kritval
 } else {
   questions[4] <- "Die Nullhypothese wird verworfen."
-  solutions[4] <- x2 > 9.49
+  solutions[4] <- x2 > kritval
 }
 
 
 ## 5. inhaltliche Interpretation
-
 explanations[5] <- explanations[4]
-
-if(runif(1) > 0.5) {
-  questions[5] <- "Man kann die Aussage nicht verwerfen: Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
-  solutions[5] <- x2 <= 9.49 
-} else {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: 
-                   Das Verfolgen der Interessen f\\\\\"ur Kultur 
-                   und der Interessen f\\\\\"ur Sport sind nicht unabh\\\\\"angig."
-  solutions[5] <- x2 > 9.49 
-}
-
+## if(runif(1) > 0.5) {
+##   questions[5] <- "Man kann die Aussage nicht verwerfen: Das Verfolgen der Interessen f\\\\\"ur Kultur 
+##                    und der Interessen f\\\\\"ur Sport sind unabh\\\\\"angig."
+##   solutions[5] <- x2 <= kritval
+## } else {
+  questions[5] <- "Der Test weist nach, dass das Verfolgen der Interessen f\\\\\"ur Kultur 
+                   und der Interessen f\\\\\"ur Sport gekoppelt (=nicht unabh\\\\\"angig) sind."
+  solutions[5] <- x2 > kritval
+## }
 
 ## permute order of solutions/questions
 o <- sample(1:5)

@@ -1,18 +1,19 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
-
-a24 <- rbinom(1,125,0.42)
-a25 <- rbinom(1,225,0.35)
-a40 <- rbinom(1,150,0.29)
-
-absh <- c(a24, 125-a24, a25, 225-a25, a40, 150-a40)
-
-Fahrverhalten <- matrix(absh, nrow=2 ) 
-dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
-                                 Alter  = c("Unter 25", "25 - 39"," 40 +"))
-
-homt <- chisq.test( Fahrverhalten, correct = FALSE) 
+create_table <- function() {
+  a24 <- rbinom(1,125,0.42)
+  a25 <- rbinom(1,225,0.35)
+  a40 <- rbinom(1,150,0.29)
+  matrix(c(a24, 125-a24, a25, 225-a25, a40, 150-a40), 
+         nrow=2, dimnames = list( Risiko = c("erhoeht","gering"), 
+                   Alter  = c("Unter 25", "25 - 39"," 40 +")))
+}
+Fahrverhalten <- create_table()
+homt <- chisq.test(Fahrverhalten, correct = FALSE) 
+while((abs(homt$p.value - 0.05) < 0.006) | (min(Fahrverhalten) <= 5)) {
+  Fahrverhalten <- create_table()
+  homt <- chisq.test(Fahrverhalten, correct = FALSE) 
+}
 
 x2 <- homt$statistic
 df <- homt$parameter
@@ -28,30 +29,23 @@ explanations <- character(5)
 ## 1. X2 ablesen
 vglx2 <- round( runif(1,4,9), digits=2 )
 if(runif(1) > 0.5) {
-  questions[1] <- paste("Der Wert der Teststatistik ist kleiner als ", vglx2, ".", sep = "")
+  questions[1] <- paste("Die Teststatistik ist kleiner als ", vglx2, ".", sep = "")
   solutions[1] <- x2 < vglx2
-  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
-                            round(x2,digits=4), ".", sep = "")
+  explanations[1] <- paste("Die Teststatistik ist $X^2 =", round(x2, digits=4), "$ und damit ",
+  ifelse(solutions[1], "", "\\\\emph{nicht} "), "kleiner als ", vglx2, ".", sep = "")
 } else {
-  questions[1] <- paste("Der Wert der Teststatistik ist gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
+  questions[1] <- paste("Die Teststatistik ist gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
   solutions[1] <- x2 > vglx2
-  explanations[1] <- paste("Diesen Wert kann man aus dem \\\\textsf{R}-Output ablesen: ", 
-                            round(x2,digits=4), ".", sep = "")
+  explanations[1] <- paste("Die Teststatistik ist $X^2 =", round(x2, digits=4), "$ und damit ",
+  ifelse(solutions[1], "", "\\\\emph{nicht} "), "gr\\\\\"o{\\\\ss}er als ", vglx2, ".", sep = "")
 }
 
 
 ## 2. df
-explanations[2] <- "df $= (2-1)\\\\cdot(3-1) = 2$. Das ist auch dem \\\\textsf{R}-Output zu entnehmen."
-
-if(runif(1) > 0.5) {
-  questions[2] <- "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt 2."
-  solutions[2] <- TRUE
-} else {
-  dff <- sample( c(3,4,6), 1)
-  questions[2] <- paste( "Die Anzahl Freiheitsgrade in diesem Beispiel betr\\\\\"agt ",dff,sep="")  
-  solutions[2] <- FALSE
-}
-
+dff <- sample(c(2,3,4,6), 1)
+questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt ", dff, ".", sep="")  
+solutions[2] <- dff==2
+explanations[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt 2."
 
 ## 3. Hypothesen
 
@@ -80,8 +74,9 @@ if(runif(1) > 0.5) {
 
 
 ## 4. technische Interpretation
-explanations[4] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese verworfen, sonst beibehalten.", sep = "")
+explanations[4] <- paste("Da der $p$-Wert gleich", format.pval(pv,digits=3), 
+                         "und somit", ifelse(pv >= 0.05, " \\\\emph{nicht} ", ""), "kleiner als 0.05 ist,",
+                         "wird die Nullhypothese", ifelse(pv >= 0.05, "beibehalten.", "verworfen."))
 
 if(runif(1) > 0.5) {
   questions[4] <- "Die Nullhypothese wird beibehalten."
@@ -91,20 +86,18 @@ if(runif(1) > 0.5) {
   solutions[4] <- pv < 0.05
 }
 
+explanations[5] <- if(pv >= 0.05) "Das Testergebnis ist nicht signifikant ($p \\\\ge 0.05$)." else 
+                   paste("Das Testergebnis ist signifikant ($p < 0.05$) und damit wird die Alternative nachgewiesen, dass sich das",
+                         "Risikoverhalten zwischen den Altersklassen unterscheidet.") 
 
 ## 5. inhaltliche Interpretation
-explanations[5] <- paste("Der $p$-Wert ist ", round(pv,digits=5),
-  ". Ist dieser kleiner als 0.05, wird die Nullhypothese (keine Unterschiede) verworfen, sonst beibehalten.", sep = "")
-
 if(runif(1) > 0.5) {
   questions[5] <- "Es lassen sich keine Unterschiede im Risikoverhalten zwischen den Altersklassen nachweisen."
   solutions[5] <- pv >= 0.05
 } else {
-  questions[5] <- "Die Entscheidung nach dem Test lautet: Das Risikoverhalten unterscheidet sich zwischen den Altersklassen."
+  questions[5] <- "Der Test weist nach, dass sich das Risikoverhalten zwischen den Altersklassen unterscheidet."
   solutions[5] <- pv < 0.05
 }
-
-
 
 ## permute order of solutions/questions
 o <- sample(1:5)
@@ -127,7 +120,7 @@ Fahrverhalten
 @
 
 Ein Chi-Quadrat-Test zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
-zwischen den Altesklassen ergibt:
+zwischen den Altersklassen ergibt:
 
 <<echo=FALSE>>= 
 homt

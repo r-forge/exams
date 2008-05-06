@@ -1,19 +1,15 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
+stadtkern <- rmultinom(1, 100, prob=c(0.2,0.4,0.3,0.1))
+stadtrand <- rmultinom(1, 150, prob=c(0.1,0.2,0.4,0.3))
 
-stadtkern <- rmultinom( 1, 100, p=c(0.2,0.4,0.3,0.1) )
-stadtrand <- rmultinom( 1, 150, p=c(0.1,0.2,0.4,0.3) )
+oeffi <- matrix(c(stadtkern, stadtrand), nrow=4,
+                dimnames =  list(Angebot = c("sehr gut","eher gut","eher schlecht","sehr schlecht"),
+                Wohnort = c("Stadtkern","Stadtrand")))
 
-absh <- c(stadtkern, stadtrand)
-
-oeffi <- matrix(absh, nrow=4 ) 
-
-dimnames( oeffi ) <- list(Angebot = c("sehr gut","eher gut","eher schlecht","sehr schlecht"),
-                          Wohnort = c("Stadtkern","Stadtrand")  ) 
-
-zoeffi <- round( 100*prop.table(oeffi,1), digits=1 )
-soeffi <- round( 100*prop.table(oeffi,2), digits=1 )
+variant <- sample(1:3, 1)
+margins <- list(1, 2, NULL)
+prop_oeffi <- round(100*prop.table(oeffi, margins[[variant]]), digits=1) 
 
 ## QUESTION/ANSWER GENERATION
 
@@ -21,156 +17,122 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-
 ## 1. Gesamt/Zeilen/Spaltenprozent erkennen
-if(runif(1) > 0.5) {
-
-if(runif(1) > 0.5) {
-  questions[1] <- "Tabelle 1 enth\\\\\"alt Angaben in Zeilenprozent."
-  solutions[1] <- TRUE
-  explanations[1] <- "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
-} else {
-  questions[1] <- "Die Tabelle 2 enth\\\\\"alt Angaben in Zeilenprozent."
-  solutions[1] <- FALSE
-  explanations[1] <- "Die Zeilensummen ergeben nicht 100."
-}  
-} else 
-
-if(runif(1) > 0.5) {
-  questions[1] <- "Die Tabelle 2 enth\\\\\"alt Angaben in Spaltenprozent."
-  solutions[1] <- TRUE
-  explanations[1] <- "Die Spaltensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
-} else {
-  questions[1] <- "Die Tabelle 1 enth\\\\\"alt Angaben in Spaltenprozent."
-  solutions[1] <- FALSE
-  explanations[1] <- "Die Spaltensummen ergeben nicht 100."
-}
-
+prozent <- c("Zeilen", "Spalten", "Gesamt")
+Zeilensummen <- c("Die Zeilensummen", "Die Spaltensummen", "Alle Angaben zusammen")
+variant1 <- sample(1:3, 1)
+questions[1] <- paste("Tabelle 1 enth\\\\\"alt Angaben in ", prozent[variant1], "prozent.", sep = "")
+solutions[1] <- variant1 == variant
+explanations[1] <- if (variant1 == variant) paste(Zeilensummen[variant1], " ergeben (von etwaigen Rundungsfehlern abgesehen) 100.") else 
+                   paste(Zeilensummen[variant1], "ergeben nicht 100.")
 
 ## 2. Gesamt/Zeilen/Spaltenprozent allgemein interpretieren
 if(runif(1) > 0.5) {
-
-if(runif(1) > 0.5) {
   questions[2] <- "Die Tabelle 1 gibt die Wohnortverteilung f\\\\\"ur jede Stufe von Zufriedenheit an."
-  solutions[2] <- TRUE
-  explanations[2] <- "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
-} else {
-  questions[2] <- "Die Tabelle 2 gibt die Wohnortverteilung f\\\\\"ur jede Stufe von Zufriedenheit an."
-  solutions[2] <- FALSE
-  explanations[2] <- "Die Zeilensummen ergeben nicht 100."
-} } else
-
-if(runif(1) > 0.5) {
-  questions[2] <- "Die Tabelle 2 gibt die Zufriedenheitsverteilung f\\\\\"ur die zwei Wohnorte an."
-  solutions[2] <- TRUE
-  explanations[2] <- "Die Spaltensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100."
+  solutions[2] <- variant == 1
+  explanations[2] <- if (solutions[2]) "Die Zeilensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100." else 
+                     "Die Zeilensummen ergeben nicht 100."
 } else {
   questions[2] <- "Die Tabelle 1 gibt die Zufriedenheitsverteilung f\\\\\"ur die zwei Wohnorte an."
-  solutions[2] <- FALSE
-  explanations[2] <- "Die Spaltensummen ergeben nicht 100."
+  solutions[2] <- variant == 2
+  explanations[2] <- if (solutions[2]) "Die Spaltensummen ergeben (von etwaigen Rundungsfehlern abgesehen) 100." else 
+                     "Die Spaltensummen ergeben nicht 100."
 }
 
-
 ## 3. Interpretation Zeilenprozent
-
-if(runif(1) > 0.5) {
-
+question <- sample(1:3, 1)
+if(question == 1) {
 if(runif(1) > 0.5) {
   questions[3] <- paste( "Die Eintragung in Zeile 1 und Spalte 1 von Tabelle 1 besagt:",
-                         zoeffi[1,1], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
+                         prop_oeffi[1,1], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
                          sehr gut einstuften, waren Bewohner des Stadtkerns.")
-  solutions[3] <- TRUE
-  explanations[3] <- "Das ist die richtige Interpretation von Zeilenprozent."
+  solutions[3] <- variant == 1
+  explanations[3] <- if (solutions[3]) "Das ist die richtige Interpretation von Zeilenprozent."
+                     else paste("Das ist eine Interpretation als Zeilenprozent, es liegen aber ", 
+		     prozent[variant], "prozent vor.", sep = "")
 } else {
   questions[3] <- paste( "Die Eintragung in Zeile 4 und Spalte 2 von Tabelle 1 besagt:",
-                         zoeffi[4,2], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
+                         prop_oeffi[4,2], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
                          sehr schlecht einstuften, waren Bewohner des Stadtrandes.")
-  solutions[3] <- TRUE
-  explanations[3] <- "Das ist die richtige Interpretation von Zeilenprozent."
-} 
-} else
-
-if(runif(1) > 0.5) {
+  solutions[3] <- variant == 1
+  explanations[3] <- if (solutions[3]) "Das ist die richtige Interpretation von Zeilenprozent."
+                     else paste("Das ist eine Interpretation als Zeilenprozent, es liegen aber ", 
+		     prozent[variant], "prozent vor.", sep = "")
+}  
+} else if (question == 2) {
   questions[3] <- paste( "Die Eintragung in Zeile 1 und Spalte 2 von Tabelle 1 besagt:",
-                         zoeffi[1,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
+                         prop_oeffi[1,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
                          der \\\\\"offentlichen Verkehrsmittel als sehr gut ein.")
-  solutions[3] <- FALSE
-  explanations[3] <- "Das ist eine Interpretation als Spaltenprozent, es liegen aber Zeilenprozent vor."
+  solutions[3] <- variant == 2
+  explanations[3] <- if (solutions[3]) "Das ist die richtige Interpretation von Spaltenprozent," else 
+                     paste("Das ist eine Interpretation als Spaltenprozent, es liegen aber ", prozent[variant], "prozent vor.", sep = "")
 } else {
-  questions[3] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 1 besagt:",
-                         zoeffi[4,1], "Prozent der Befragten waren Bewohner des Stadkernes und
+  questions[3] <- paste("Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 1 besagt:", prop_oeffi[4,1], 
+                         "Prozent der Befragten waren Bewohner des Stadkernes und
                          stuften das Angebot der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
-  solutions[3] <- FALSE
-  explanations[3] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Zeilenprozent vor."
+  solutions[3] <- variant == 3
+  explanations[3] <- if (solutions[3]) "Das ist die richtige Interpretation von Gesamtprozent." else 
+  paste("Das ist eine Interpretation als Gesamtprozent, es liegen aber ", prozent[variant], "prozent vor.", sep = "")
 } 
-
 
 ## 4. Interpretation Spaltenprozent
-
+question <- sample(1:3, 1)
+if(question == 1) {
 if(runif(1) > 0.5) {
-
-if(runif(1) > 0.5) {
-  questions[4] <- paste( "Die Eintragung in Zeile 2 und Spalte 1 von Tabelle 2 besagt:",
-                         soeffi[2,1], "Prozent der Bewohner des Stadtkerns stufen das Angebot 
-                         der \\\\\"offentlichen Verkehrsmittel als eher gut ein.")
-  solutions[4] <- TRUE
-  explanations[4] <- "Das ist die richtige Interpretation von Spaltenprozent."
+  questions[4] <- paste("Die Eintragung in Zeile 2 und Spalte 1 von Tabelle 1 besagt:",
+                        prop_oeffi[2,1], "Prozent der Bewohner des Stadtkerns stufen das Angebot 
+                        der \\\\\"offentlichen Verkehrsmittel als eher gut ein.")
+  solutions[4] <- variant == 2
+  explanations[4] <- if (solutions[4]) "Das ist die richtige Interpretation von Spaltenprozent."
+                     else paste("Das ist eine Interpretation als Spaltenprozent, es liegen aber ", prozent[variant], "prozent vor.", sep = "")
 } else {
-  questions[4] <- paste( "Die Eintragung in Zeile 3 und Spalte 2 von Tabelle 2 besagt:",
-                         soeffi[3,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
+  questions[4] <- paste("Die Eintragung in Zeile 3 und Spalte 2 von Tabelle 1 besagt:",
+                        prop_oeffi[3,2], "Prozent der Bewohner des Stadtrandes stuften das Angebot 
                          der \\\\\"offentlichen Verkehrsmittel als eher schlecht ein.")
-  solutions[4] <- TRUE
-  explanations[4] <- "Das ist die richtige Interpretation von Spaltenprozent."
+  solutions[4] <- variant == 2
+  explanations[4] <- if (solutions[4]) "Das ist die richtige Interpretation von Spaltenprozent."
+                     else paste("Das ist eine Interpretation als Spaltenprozent, es liegen aber ", prozent[variant], "prozent vor.", sep = "")
 } 
-} else
-
-if(runif(1) > 0.5) {
-  questions[4] <- paste( "Die Eintragung in Zeile 2 und Spalte 2 von Tabelle 2 besagt:",
-                         soeffi[2,2], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
-                         eher gut einstuften, waren Bewohner des Stadtrandes.")
-  solutions[4] <- FALSE
-  explanations[4] <- "Das ist eine Interpretation als Zeilenprozent, es liegen aber Spaltenprozent vor."
+} else if (question == 2) {
+  questions[4] <- paste("Die Eintragung in Zeile 2 und Spalte 2 von Tabelle 1 besagt:",
+                        prop_oeffi[2,2], "Prozent derer, die das Angebot der \\\\\"offentlichen Verkehrsmittel
+                        eher gut einstuften, waren Bewohner des Stadtrandes.")
+  solutions[4] <- variant == 1
+  explanations[4] <- if (solutions[4]) "Das ist die richtige Interpretation von Zeilenprozent."
+                     else paste("Das ist eine Interpretation als Zeilenprozent, es liegen aber ", 
+		     prozent[variant], "prozent vor.", sep = "")
 } else {
-  questions[4] <- paste( "Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 2 besagt:",
-                         soeffi[4,1], "Prozent der Befragten waren Bewohner des Stadtrandes und
+  questions[4] <- paste("Die Eintragung in Zeile 4 und Spalte 1 von Tabelle 2 besagt:",
+                        prop_oeffi[4,1], "Prozent der Befragten waren Bewohner des Stadtrandes und
                          stuften das Angebot der \\\\\"offentlichen Verkehrsmittel als sehr schlecht ein.")
-  solutions[4] <- FALSE
-  explanations[4] <- "Das ist eine Interpretation als Gesamtprozent, es liegen aber Spaltenprozent vor."
+  solutions[4] <- variant == 3
+  explanations[4] <- if (solutions[4]) "Das ist die richtige Interpretation von Gesamtprozent." else 
+                     paste("Das ist eine Interpretation als Gesamtprozent, es liegen aber ", prozent[variant], "prozent vor.", sep = "")
 } 
 
 
 
 ## 5. Berechnung Zeilen/Spaltenprozent
-
-if(runif(1) > 0.5) {
-
-if(runif(1) > 0.5) {
+question <- sample(1:3, 1)
+if(question == 1) {
   questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man ermittelt f\\\\\"ur jede Zeile Prozentwerte."
-  solutions[5] <- TRUE
-  explanations[5] <- "So berechnet man Zeilenprozent."
-} else {
-  questions[5] <- "Tabelle 2 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
-                   Man ermittelt f\\\\\"ur jede Spalte Prozentwerte."
-  solutions[5] <- TRUE
-  explanations[5] <- "So berechnet man Spaltenprozent."
-} 
-} else
-
-if(runif(1) > 0.5) {
+  solutions[5] <- variant == 1
+  explanations[5] <- paste("So berechnet man Zeilenprozent.", ifelse(!solutions[5], paste("Es liegen aber ", 
+                     prozent[variant], "prozent vor.", sep = ""), ""))
+} else if (question == 2) {
   questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
-                   Man bezieht jede Angabe auf die Spaltensumme."
-  solutions[5] <- FALSE
-  explanations[5] <- "Das w\\\\\"urde Spaltenprozent ergeben."
+                   Man ermittelt f\\\\\"ur jede Spalte Prozentwerte."
+  solutions[5] <- variant == 2
+  explanations[5] <- paste("So berechnet man Spaltenprozent.", ifelse(!solutions[5], paste("Es liegen aber ", 
+                     prozent[variant], "prozent vor.", sep = ""), ""))
 } else {
-  questions[5] <- "Tabelle 2 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
+  questions[5] <- "Tabelle 1 kann man aus der urspr\\\\\"unglichen Kreuztabelle auch selbst leicht ermitteln: 
                    Man bezieht jede Angabe auf den Stichprobenumfang."
-  solutions[5] <- FALSE
-  explanations[5] <- "Das w\\\\\"urde Gesamtprozent ergeben."
+  solutions[5] <- variant == 3
+  explanations[5] <- paste("So berechnet man Gesamtprozent.", ifelse(!solutions[5], paste("Es liegen aber ", 
+                     prozent[variant], "prozent vor.", sep = ""), ""))
 } 
-
-
-
 
 ## permute order of solutions/questions
 o <- sample(1:5)
@@ -193,7 +155,7 @@ explanations <- explanations[o]
 oeffi
 @
 
-Aus dieser wurden die folgende Tabellen mit Prozentangaben
+Aus dieser wurden die folgende Tabelle mit Prozentangaben
 ermittelt:
 
 \vspace*{0.2cm}
@@ -201,23 +163,10 @@ ermittelt:
 Tabelle 1:
 \vspace*{-0.2cm}
 <<echo=FALSE>>= 
-zoeffi
+print(format(prop_oeffi, nsmall = 1, justify = "right", width = max(nchar(colnames(prop_oeffi)))), quote = FALSE)
 @
-
-\vspace*{0.2cm}
-
-Tabelle 2:
-\vspace*{-0.2cm}
-<<echo=FALSE>>= 
-soeffi
-@
-
-
-
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
-
-
 \begin{itemize}
   \item[(a)] \Sexpr{questions[1]}
   \item[(b)] \Sexpr{questions[2]}
