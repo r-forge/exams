@@ -179,6 +179,14 @@ Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"
 
 %% SOLUTIONS
 \begin{solution}
+<<echo=FALSE>>=
+Interpretation <- c("die Wohnortverteilungen gegeben die Stufe der Zufriedenheit angegeben.",
+                    "die Zufriedenheitsverteilungen gegeben den Wohnort angegeben.",
+                    "die relativen H\\\\\"aufigkeiten (in Prozent) f\\\\\"ur Wohnort und Zufriedenheitsstufe angegeben.")
+@ 
+  \Sexpr{Zeilensummen[variant]} ergeben (von etwaigen Rundungsfehlern
+  abgesehen) 100. Es liegen also \Sexpr{prozent[variant]}prozent
+  vor. Das bedeutet, es werden \Sexpr{Interpretation[variant]}
 
 \begin{itemize}
   \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}

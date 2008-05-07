@@ -129,7 +129,7 @@ vis_text <- c("ein Streudiagramm der Bewertungen mit Regressionsgerade.",
   "parallele Boxplots der beiden Bewertungen.",
   "einen Boxplot der Bewertungsunterschiede.", 
   "ein Streudiagramm der Bewertungen mit Hauptachse (Winkelhalbierender).")
-questions[3] <- paste("Die Daten k\\\\\"onnen geeignet visualisiert werden durch ", vis_text[vis_index], sep="")
+questions[3] <- paste("Die Daten k\\\\\"onnen durch ", vis_text[vis_index], "geeignet visualisiert werden.", sep="")
 solutions[3] <- if(paired) vis_index > 2 else vis_index < 2
 explanations[3] <- paste("Es liegt eine Frage nach ", 
   if(paired) "Bewertungsunterschieden f\\\\\"ur gepaarte Daten" else "dem Zusammenhang zwischen den beiden Bewertungen", " vor.

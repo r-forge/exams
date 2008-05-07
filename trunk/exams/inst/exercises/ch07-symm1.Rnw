@@ -27,7 +27,7 @@ explanations <- character(5)
 
 ## 1. Kreuztabelle
 if(runif(1) > 0.5) {
-  questions[1] <- "In der Stichprobe hat es mehr Wechsel von A zu B gegeben als umgekehrt."
+  questions[1] <- "Es hat mehr Wechsel von A zu B gegeben als umgekehrt."
   solutions[1] <- (ab > ba)
   explanations[1] <- paste ("Es haben ", tvduell[1,2], " Befragte von Partei A zu B gewechselt, ", 
                             tvduell[2,1], " Befragte von B zu A.")                           
@@ -79,7 +79,7 @@ if(question == 1) {
                      die Pr\\\\\"aferenz\\\\\"anderungen eindeutig in Richtung einer der beiden 
                      Parteien weisen."
    solutions[4] <- pv < 0.05
-   explanations[4] <- paste("Der $p$-Wet ist gleich", format.pval(pv, digits = 3), "und damit wird die die Nullhypothese ",
+   explanations[4] <- paste("Der $p$-Wert ist gleich", format.pval(pv, digits = 3), "und damit wird die die Nullhypothese ",
    ifelse(pv < 0.05, "verworfen.", "beibehalten."))
 } else if (question == 2) {
     party <- "A"
@@ -92,7 +92,7 @@ if(question == 1) {
 } else {
   questions[4] <- "Der Test weist nach, dass es mehr \\\\\"Anderungen von Partei A zu Partei B als umgekehrt gibt."
   solutions[4] <- (ab > ba) & (pv < 0.05)
-  explanations[4] <- paste("Der $p$-Wet ist gleich", format.pval(pv, digits = 3), "und damit wird die die Nullhypothese ",
+  explanations[4] <- paste("Der $p$-Wert ist gleich", format.pval(pv, digits = 3), "und damit wird die die Nullhypothese ",
                            ifelse(pv < 0.05, "verworfen.", "beibehalten."), 
                            ifelse(pv > 0.05, "", ifelse(ab > ba, "Es mehr \\\\\"Anderungen von A zu B.", 
                                                         "Es gibt aber mehr \\\\\"Anderungen von B zu A.")))
@@ -130,7 +130,7 @@ in mehreren TV-Duellen den Fragen von Zuschauern und Journalisten.
 \Sexpr{sum(tvduell)} Personen wurden vor und nach diesen TV-Duellen
 \"uber die Pr\"aferenz f\"ur eine der beiden Kandidatinnen der beiden
 gr\"o{\ss}ten Parteien befragt.  In der folgenden Tabelle sind die
-Parteipr\"aferenzen zu den zwei Zeitpunkten zusammen gefasst:
+Parteipr\"aferenzen zu den zwei Zeitpunkten zusammengefasst:
  
 <<echo=FALSE>>= 
 tvduell

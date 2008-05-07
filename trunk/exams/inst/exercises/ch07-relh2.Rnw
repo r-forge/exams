@@ -7,8 +7,8 @@ a40 <- rbinom(1,150,0.31)
 absh <- c(a24, 125-a24, a25, 225-a25, a40, 150-a40)
 
 Fahrverhalten <- matrix(absh, nrow=2 ) 
-dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht","gering"), 
-                                 Alter  = c("Unter 25", "25 - 39","40 +"))
+dimnames(Fahrverhalten) <- list( Risiko = c("erhoeht", "gering"), 
+                                 Alter  = c("Unter 25", "25-39", "40+"))
 
 colsums <- colSums(Fahrverhalten)
 rowsums <- rowSums(Fahrverhalten)
@@ -197,7 +197,7 @@ explanations <- explanations[o]
 \begin{question}
 In einer Befragung zum Fahrverhalten wurde bei 500 AutofahrerInnen erhoben, 
 welche Risikofaktoren im Fahrverhalten (M\"ochte m\"oglichst wenig \"uberholt werden, 
-H\"aufiges L\"uckenspringen im Kolonnenverkehr, etc.) vorliegen. 
+H\"aufiges L\"uckenspringen im Kolonnenverkehr, usw.) vorliegen. 
 
 Eine Einteilung der AutofahrerInnen in Risikogruppen (Risiko gering und Risiko erh\"oht) 
 und nach Altersgruppen ergab folgende Einteilung: 

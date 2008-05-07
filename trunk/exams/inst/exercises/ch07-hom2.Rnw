@@ -6,7 +6,7 @@ create_table <- function() {
   a40 <- rbinom(1,150,0.29)
   matrix(c(a24, 125-a24, a25, 225-a25, a40, 150-a40), 
          nrow=2, dimnames = list( Risiko = c("erhoeht","gering"), 
-                   Alter  = c("Unter 25", "25 - 39"," 40 +")))
+                   Alter  = c("Unter 25", "25-39"," 40+")))
 }
 Fahrverhalten <- create_table()
 homt <- chisq.test(Fahrverhalten, correct = FALSE) 
@@ -43,9 +43,9 @@ if(runif(1) > 0.5) {
 
 ## 2. df
 dff <- sample(c(2,3,4,6), 1)
-questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt ", dff, ".", sep="")  
+questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt $df = ", dff, "$.", sep="")  
 solutions[2] <- dff==2
-explanations[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt 2."
+explanations[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt $df = 2$."
 
 ## 3. Hypothesen
 
@@ -110,7 +110,7 @@ explanations <- explanations[o]
 \begin{question}
 In einer Befragung zum Fahrverhalten wurde bei 500 AutofahrerInnen erhoben, 
 welche Risikofaktoren im Fahrverhalten (M\"ochte m\"oglichst wenig \"uberholt werden, 
-H\"aufiges L\"uckenspringen im Kolonnenverkehr, etc.) vorliegen. 
+H\"aufiges L\"uckenspringen im Kolonnenverkehr, usw.) vorliegen. 
 
 Eine Einteilung der AutofahrerInnen in Risikogruppen (Risiko gering und Risiko erh\"oht) 
 und nach Altersgruppen ergab folgende Einteilung: 
@@ -119,7 +119,7 @@ und nach Altersgruppen ergab folgende Einteilung:
 Fahrverhalten
 @
 
-Ein Chi-Quadrat-Test zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
+Ein $\chi^2$-Test zur \"Uberpr\"ufung von Unterschieden im Risikoverhalten 
 zwischen den Altersklassen ergibt:
 
 <<echo=FALSE>>= 

@@ -1,6 +1,6 @@
 <<echo=FALSE, results=hide>>=
 ## DATA GENERATION
-abba<- min( rbinom(1,200,0.22), 60 )  # wechsel total
+abba <- min(rbinom(1,200,0.22), 60 )  # wechsel total
 pab <- runif(1,min=0.2,max=0.8)       # p-wechsel von a zu b
 ab <- rbinom(1,abba,pab)              # wechsel von a zu b
 ba <- abba-ab                         # wechsel von b zu a
@@ -27,13 +27,14 @@ explanations <- character(5)
 
 ## 1. Kreuztabelle
 if(runif(1) > 0.5) {
-  questions[1] <- "In der Stichprobe hat es mehr Wechsel von A zu B gegeben als umgekehrt."
+  questions[1] <- "Es hat mehr Wechsel von A zu B gegeben als umgekehrt."
   solutions[1] <- (ab > ba)
   explanations[1] <- paste ("Es haben ", tvduell[1,2], " Befragte von Partei A zu B gewechselt, ", 
                             tvduell[2,1], " Befragte von B zu A.")                           
 } else {
-  questions[1] <- "Weniger als ein Viertel der Befragten hat die Parteipr\\\\\"aferenz ge\\\\\"andert."
-  solutions[1] <- (abba < 50)
+  anteil <- sample(seq(10, 30, by = 0.1), 1)
+  questions[1] <- paste("Weniger als ", anteil, "\\\\% der Befragten hat die Parteipr\\\\\"aferenz ge\\\\\"andert.", sep = "")
+  solutions[1] <- (pabba < anteil/100)
   explanations[1] <- paste ("Es haben $", tvduell[1,2], "+", tvduell[2,1], " = ", tvduell[1,2] + tvduell[2,1], "$ Befragte ",
                             " die Parteipr\\\\\"aferenz ge\\\\\"andert. Das sind ", (tvduell[1,2] + tvduell[2,1])/sum(tvduell) * 100, 
                             "\\\\% der Befragten.", sep = "")
@@ -77,11 +78,11 @@ solutions[4] <- (abs(T) > 1.96) & (ab > ba)
 explanations[4] <- paste("Der Absolutbetrag der Teststatistik ist gleich ",
                          round(abs(T),digits=3), " und somit", ifelse(abs(T) > 1.96, "", " \\\\emph{nicht} "), 
                          " gr\\\\\"o{\\\\ss}er als 1.96. Daher wird die Nullhypothese von gleich viel \\\\\"Anderungen in jede Richtung ", 
-                         ifelse(solutions[4], "verworfen.", "beibehalten."),
-                         ifelse(abs(T) > 1.96, paste("In der Stichprobe gibt es ", ifelse(ab > ba,  "", "\\\\emph{nicht} "), 
+                         ifelse(abs(T) > 1.96, "verworfen.", "beibehalten."),
+                         ifelse(abs(T) > 1.96, paste("Es gibt", ifelse(ab > ba,  "", "\\\\emph{nicht} "), 
                                                      "mehr \\\\\"Anderungen von A zu B, daher ist diese einseitige Interpretation ", 
                                                      ifelse(ab > ba,  "", "\\\\emph{nicht} "),
-                                                     "zul\\\\\"assig.")))
+                                                     "zul\\\\\"assig."), ""))
 
 ## 5. Diverses
 
@@ -107,7 +108,6 @@ solutions <- solutions[o]
 explanations <- explanations[o]
 @
 
-
 \begin{question}
 Vor einer Wahl stellen sich die SpitzenkandidatInnen der kandidierenden Parteien 
 in mehreren TV-Duellen den Fragen von Zuschauern und Journalisten.
@@ -115,7 +115,7 @@ in mehreren TV-Duellen den Fragen von Zuschauern und Journalisten.
 200 Personen wurden vor und nach diesen TV-Duellen \"uber die Pr\"aferenz 
 f\"ur eine der beiden KandidatInnen der beiden gr\"o{\ss}ten Parteien befragt.
 In der folgenden Tabelle sind die Parteipr\"aferenzen zu den zwei Zeitpunkten 
-zusammen gefasst: 
+zusammengefasst: 
  
 <<echo=FALSE>>= 
 tvduell
@@ -146,13 +146,13 @@ fn.berechnung <- paste("\\\\frac{", tvduell[1,2], "}{", n, "}")
 H0.theta <- 0.5
 @ 
 
-F\"ur das Berechnen der Teststatistik ben\"otigen wir die Anzahl der
-Befragten, die die Parteipr\"aferenz ge\"andert haben. Das entspricht
-der Anzahl der Beobachtungen in der Gegendiagonale: $n =
+F\"ur das Berechnen der Teststatistik wird die Anzahl der Befragten
+ben\"otigt, die ihre Parteipr\"aferenz ge\"andert haben. Das
+entspricht der Anzahl der Beobachtungen in der Gegendiagonale: $n =
 \Sexpr{tvduell[1,2]} + \Sexpr{tvduell[2,1]} = \Sexpr{n}$. Die
 Wahrscheinlichkeit in eine bestimmte Richtung zu wechseln ist unter
 der Nullhypothese gleich $\theta = \Sexpr{H0.theta}$. Die beobachtete
-relative H\"aufigkeit einer \"Anderung von Partei A zu B betr\"agt
+relative H\"aufigkeit der \"Anderung von Partei A zu B betr\"agt
 $\Sexpr{fn.berechnung}$.
 
 Damit bestimmt man die Teststatistik durch:

@@ -36,11 +36,11 @@ explanations[1] <- paste("Der Anteil der Problemkredite ist f\\\\\"ur Branche ",
                          " gleich ", round(anteil["Ja", branchen[2]], digits = 3), ".", sep = "")
 
 if(runif(1) > 0.5) {
-  questions[1] <- paste("In der Stichprobe ist der Anteil der Problemkredite in Branche ",
+  questions[1] <- paste("Der Anteil der Problemkredite ist in Branche ",
                         branchen[1], " h\\\\\"oher als in Branche ", branchen[2], ".", sep = "")
   solutions[1] <- anteil["Ja", branchen[1]] > anteil["Ja", branchen[2]]
 } else {
-  questions[1] <- paste("In der Stichprobe ist der Anteil der Problemkredite in Branche ",
+  questions[1] <- paste("Der Anteil der Problemkredite ist in Branche ",
                         branchen[1], " niedriger als in Branche ", branchen[2], ".", sep = "") 
   solutions[1] <- anteil["Ja", branchen[1]] < anteil["Ja", branchen[2]]
 }
@@ -48,9 +48,9 @@ if(runif(1) > 0.5) {
 
 ## 2. df
 dff <- if (runif(1) > 0.4) sample(2:7,1) else cols-1
-questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt df $= ", dff, "$.")
+questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt $df = ", dff, "$.")
 solutions[2] <- dff == (cols-1)
-explanations[2] <- paste("Bei einer 2x", cols, "-Tafel ist die Anzahl der Freiheitsgrade gleich df $= (2-1)\\\\cdot(", cols, "-1) = ", 
+explanations[2] <- paste("Bei einer $2 \\\\times ", cols, "$-Tafel ist die Anzahl der Freiheitsgrade gleich $df = (2-1)\\\\cdot(", cols, "-1) = ", 
                    cols-1, "$.", sep = "")
 
 ## 3. Hypothesen
@@ -113,7 +113,7 @@ explanations <- explanations[o]
 
 \begin{question}
 Eine Bank untersucht, ob es bei der R\"uckzahlung von Gesch\"aftskrediten zu 
-gr\"oberen Problemen (mehrfach versp\"atete Zahlungen, keine Zahlungen, etc.) gekommen ist. 
+gr\"oberen Problemen (mehrfach versp\"atete Zahlungen, keine Zahlungen, usw.) gekommen ist. 
 
 Die Auswertung in diese Richtung von \Sexpr{sum(Kredite)} Krediten und die Einteilung 
 nach Branche des Kreditnehmers ergab folgende Tabelle: 
@@ -122,19 +122,9 @@ nach Branche des Kreditnehmers ergab folgende Tabelle:
 Kredite
 @
 
-Ein Chi-Quadrat-Test zur \"Uberpr\"ufung von Unterschieden in der Rate 
+Ein $\chi^2$-Test zur \"Uberpr\"ufung von Unterschieden in der Rate 
 von Problemkrediten zwischen den Branchen lieferte einen Wert der 
 $X^2$-Teststatistik von $\Sexpr{round(x2, digits=2)}$.
-
-Zur Einstufung dieses Wertes stehen folgende $0.95$-$\chi^2$-Quantile zur Verf\"ugung:
-
-\begin{center}
-\begin{tabular}{r|rrrrrrrr} 
-df & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
-0.95-Quantile von $\chi^2$ & 3.84 & 5.99 & 7.81 & 9.49 & 11.07 & 12.59 & 14.07 &15.51\\
-
-\end{tabular}
-\end{center}
 
 Welche der folgenden Aussagen sind richtig? (Signifikanzniveau 5\%)
 

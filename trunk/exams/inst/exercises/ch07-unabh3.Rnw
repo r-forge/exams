@@ -33,7 +33,7 @@ explanations <- character(5)
 
 ## 1. Kreuztabelle interpretieren
 if(runif(1) > 0.5) {
-  questions[1] <- "In der Stichprobe gibt es mehr, die beide Interessen oft verfolgen, 
+  questions[1] <- "Es gibt mehr Befragte, die beide Interessen oft verfolgen, 
                    als solche, die beide Interessen nie verfolgen."
   solutions[1] <- Freizeit[1,1] > Freizeit[3,3]
   explanations[1] <- paste("Die Anzahl derer, die beide Interessen oft verfolgen, betr\\\\\"agt ", 
@@ -50,7 +50,7 @@ if(runif(1) > 0.5) {
 }
 
 ## 2. df
-explanations[2] <- "Bei einer 3x3-Tafel ist die Anzahl der Freiheitsgrade gleich df $= (3-1)\\\\cdot(3-1) = 4$."
+explanations[2] <- "Bei einer $3 \\\\times 3$-Tafel ist die Anzahl der Freiheitsgrade gleich $df = (3-1)\\\\cdot(3-1) = 4$."
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt 4."
   solutions[2] <- TRUE
@@ -134,24 +134,11 @@ Das Ergebnis f\"ur die Interessen an Kultur und an Sport gibt die folgende Tabel
 Freizeit
 @
 
-Ein Chi-Quadrat-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
+Ein $\chi^2$-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
 Sportinteressen unabh\"angig vom Aus\"uben der Kulturinteressen ist, 
 lieferte einen Wert der $X^2$-Teststatistik von $\Sexpr{round(x2, digits=2)}$.
 
-Zur Einstufung dieses Wertes stehen folgende $0.95$-$\chi^2$-Quantile
-zur Verf\"ugung:
-
-\begin{center}
-\begin{tabular}{r|rrrrrrrr} 
-df & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\ \hline
-0.95-Quantile von $\chi^2$ & 5.99 & 7.81 & 9.49 & 11.07 & 12.59 & 14.07 &15.51&16.92\\
-
-\end{tabular}
-\end{center}
-
-
 Welche der folgenden Aussagen sind richtig? (Signifikanzniveau: 5\%)
-
 
 \begin{itemize}
   \item[(a)] \Sexpr{questions[1]}

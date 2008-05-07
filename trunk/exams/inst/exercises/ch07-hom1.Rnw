@@ -22,7 +22,7 @@ Vexp <- round(homt$expected,digits=4)
 Vobs
 @
 
-\"Uberpr\"ufen Sie mittels eines Chi-Quadrat-Tests, ob 
+\"Uberpr\"ufen Sie mittels eines $\chi^2$-Tests, ob 
 sich der Anteil der Bef\"urworter bei potenziellen Anrainern vom 
 Anteil der Bef\"urworter in der \"ubrigen Bev\"olkerung unterscheidet.
 
@@ -32,10 +32,11 @@ Berechnen Sie dazu die $X^2$-Teststatistik!
 
 %% SOLUTIONS
 \begin{solution}
-Die angezeigte Kontingenztafel (in diesem Beispiel eine 2x2-Matrix) 
-enth\"alt die beobachteten H\"aufigkeiten ($o_{ij}$). Erg\"anzt man diese 
-Kontingenztafel um die Zeilensummen ($o_{i+}$) und Spaltensummen ($o_{+j}$)
-bekommt man folgende Tabelle:
+  Die angezeigte Kontingenztafel (in diesem Beispiel eine $2 \times
+  2$-Matrix) enth\"alt die beobachteten H\"aufigkeiten
+  ($o_{ij}$). Erg\"anzt man diese Kontingenztafel um die Zeilensummen
+  ($o_{i+}$) und Spaltensummen ($o_{+j}$) bekommt man folgende
+  Tabelle:
 
 <<echo=FALSE>>=
 ahm <- addmargins(Vobs)
@@ -58,7 +59,7 @@ H\"aufigkeiten ($e_{ij}$) berechnen
 \[ e_{22}=  \frac{o_{2+} \cdot o_{+2}}{n} = 
             \frac{\Sexpr{zs[2]} \cdot \Sexpr{ss[2]}}{\Sexpr{n}} = \Sexpr{Vexp[2,2]} \]
 
-Die Berechnung der (Pearson-)$X^2$-Teststatistik erfolgt \"uber den 
+Die Berechnung der $X^2$-Teststatistik erfolgt \"uber den 
 Vergleich von beobachteten und erwarteten H\"aufigkeiten nach: 
 \begin{eqnarray*}
 X^2 &=& \sum_{i=1}^I \sum_{j=1}^J \frac{(o_{ij} - e_{ij})^2}{e_{ij}} =\\

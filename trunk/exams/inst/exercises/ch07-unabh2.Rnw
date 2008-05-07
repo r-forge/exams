@@ -1,5 +1,4 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
 nobs <- 400
 sport1 <- min( rbinom(1,nobs,0.40), nobs*0.55)
@@ -12,15 +11,15 @@ sport3kultur <- rmultinom(1,sport3,prob=c(0.3 ,0.4 ,0.3 ))
 
 absh <- c(sport1kultur,sport2kultur,sport3kultur)
 
-Freizeit <- matrix(absh, nrow=3, dimnames =  list( Sport  = c("nie","manchmal","oft"), 
-                            Kultur = c("nie","manchmal","oft")))
+Freizeit <- matrix(absh, nrow=3, 
+                   dimnames =  list(Sport = c("nie","manchmal","oft"), 
+		   Kultur = c("nie","manchmal","oft")))
 
-unabht <- chisq.test( Freizeit, correct = FALSE) 
+unabht <- chisq.test(Freizeit, correct = FALSE) 
 
 x2 <- unabht$statistic
 df <- unabht$parameter
 pv <- unabht$p.value
- 
 
 ## QUESTION/ANSWER GENERATION
 
@@ -46,12 +45,12 @@ if(runif(1) > 0.5) {
 if(runif(1) > 0.5) {
   questions[2] <- "Die Anzahl der Freiheitsgrade betr\\\\\"agt 4."
   solutions[2] <- TRUE
-  explanations[2] <- "Die Anzahl der Freiheitsgrade ist gleich df $= (3-1)\\\\cdot(3-1) = 4$."
+  explanations[2] <- "Die Anzahl der Freiheitsgrade ist gleich $df = (3-1)\\\\cdot(3-1) = 4$."
 } else {
   vgldf <- sample(c(3, 5:9),1)
   questions[2] <- paste("Die Anzahl der Freiheitsgrade betr\\\\\"agt ", vgldf, ".", sep = "")
   solutions[2] <- FALSE
-  explanations[2] <- "Die Anzahl der Freiheitsgrade ist gleich df $= (3-1)\\\\cdot(3-1) = 4$."
+  explanations[2] <- "Die Anzahl der Freiheitsgrade ist gleich $df = (3-1)\\\\cdot(3-1) = 4$."
 }
 
 
@@ -99,8 +98,8 @@ if(runif(1) > 0.5) {
 }
 
 ## 5. inhaltliche Interpretation
-explanations[5] <- paste("Der $p$-Wert ist ", format.pval(pv,digits=3), " und damit ", ifelse(solutions[4], "", " \\\\emph{nicht} "),
-    "kleiner als 0.05. Daher wird die Nullhypothese", ifelse(solutions[4], "verworfen.", "beibehalten."))
+explanations[5] <- paste("Der $p$-Wert ist ", format.pval(pv,digits=3), " und damit ", ifelse(pv < 0.05, "", " \\\\emph{nicht} "),
+    "kleiner als 0.05. Daher wird die Nullhypothese", ifelse(pv < 0.05, "verworfen.", "beibehalten."))
 
 if(runif(1) > 0.5) {
   questions[5] <- "Man kann nicht nachweisen, dass das Verfolgen der Interessen f\\\\\"ur Kultur 
@@ -131,7 +130,7 @@ Das Ergebnis f\"ur die Interessen an Kultur und an Sport gibt die folgende Tabel
 Freizeit
 @
 
-Ein Chi-Quadrat-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
+Ein $\chi^2$-Test zur \"Uberpr\"ufung, ob das Aus\"uben der 
 Sportinteressen unabh\"angig vom Aus\"uben der Kulturinteressen ist, ergibt:
 
 <<echo=FALSE>>= 

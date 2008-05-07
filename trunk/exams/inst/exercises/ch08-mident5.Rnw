@@ -1,8 +1,5 @@
 <<echo=FALSE, results=hide>>=
-
 ## DATA GENERATION
-
-
 fa <- rep( c(0:1,0:1), c(20,20,20,20) )
 fb <- rep( 0:1, c(40,40) )
 
@@ -45,49 +42,10 @@ y3 <- as.vector(X %*% beta3) + zf
 beta4 <- beta
 y4 <- as.vector(X %*% beta4) + zf
 
-
 fzus <- rep(1:4, rep(20,4) )
 
-Marketing <- factor(fa, labels=c("Qualitaet","Preis") )
-Medium    <- factor(fb, labels=c("Print","TV") )
-Zus       <- factor(fzus, labels=c("Qual-Print","Preis-Print","Qual-TV","Preis-TV") )
-
+Modell <- c("Y ${\\\\sim}$ Marketing", "Y ${\\\\sim}$ Medium", "Y ${\\\\sim}$ Marketing+Medium", "Y ${\\\\sim}$ Marketing*Medium")
 dasm <- sample(1:4,1)
-
-if(dasm==1){Y = y1
-            ndasm1=2
-            ndasm2=3
-            ndasm3=4
-            dasmt   ="Y ${\\\\sim}$ Marketing"
-            ndasmt1 ="Y ${\\\\sim}$ Medium"
-            ndasmt2 ="Y ${\\\\sim}$ Marketing+Medium"
-            ndasmt3 ="Y ${\\\\sim}$ Marketing*Medium"
-            }
-if(dasm==2){Y = y2
-            ndasm1=3
-            ndasm2=4
-            ndasm3=1
-            dasmt   ="Y ${\\\\sim}$ Medium"
-            ndasmt3 ="Y ${\\\\sim}$ Marketing"
-            ndasmt1 ="Y ${\\\\sim}$ Marketing+Medium"
-            ndasmt2 ="Y ${\\\\sim}$ Marketing*Medium" }
-if(dasm==3){Y = y3
-            ndasm1=4
-            ndasm2=1
-            ndasm3=2
-            dasmt   ="Y ${\\\\sim}$ Marketing+Medium"
-            ndasmt2 ="Y ${\\\\sim}$ Marketing"
-            ndasmt3 ="Y ${\\\\sim}$ Medium"
-            ndasmt1 ="Y ${\\\\sim}$ Marketing*Medium" }
-if(dasm==4){Y = y4
-            ndasm1=1
-            ndasm2=2
-            ndasm3=3
-            dasmt   ="Y ${\\\\sim}$ Marketing*Medium"
-            ndasmt1 ="Y ${\\\\sim}$ Marketing"
-            ndasmt2 ="Y ${\\\\sim}$ Medium"
-            ndasmt3 ="Y ${\\\\sim}$ Marketing+Medium" }
-
 
 ## QUESTION/ANSWER GENERATION
 
@@ -101,16 +59,38 @@ if(poseff){ abauf  <-"Anstieg"
             negpos <-"positiv"
             besschl<-"schlechter" } 
 
+erklaerung <- character(4)
+erklaerung[1] <- paste("Aus den Boxplots kann man erkennen, dass der ",
+                       "Unterschied in den Mittelwerten zwischen Werbung \\\\\"uber Qualit\\\\\"at oder Preis gro{\\\\ss} ist",
+                       "und zwischen TV und Printmedien nur gering ist. ",
+		       "Daher ist das passende Modell: ", Modell[1], ". ", 
+                       "Das bedeutet: nur der Faktor Marketing hat einen Einfluss auf die Verkaufszahlent.",
+                       sep = "")
+erklaerung[2] <- paste("Aus den Boxplots kann man erkennen, dass der ",
+                       "Unterschied in den Mittelwerten zwischen Werbung \\\\\"uber Qualit\\\\\"at oder Preis nur gering ist",
+                       "und zwischen TV und Printmedien gro{\\\\ss} ist. ",
+		       "Daher ist das passende Modell: ", Modell[2], ". ", 
+                       "Das bedeutet: nur der Faktor Medium hat einen Einfluss auf die Verkaufszahlen.",
+                       sep = "")
+erklaerung[3] <- paste("Aus den Boxplots kann man erkennen, dass der ",
+                       "Unterschied in den Mittelwerten sowohl zwischen Werbung \\\\\"uber Qualit\\\\\"at oder Preis als auch ",
+                       "zwischen TV und Printmedien gro{\\\\ss} ist. ",
+		       "Daher ist das passende Modell: ", Modell[3], ". ", 
+                       "Das bedeutet: sowohl der Faktor Marketing als auch Medium haben additiv einen Einfluss auf die Verkaufszahlen.",
+                       sep = "")
+erklaerung[4] <- paste("Aus den Boxplots kann man erkennen, dass der ",
+                       "Unterschied zwischen Werbung \\\\\"uber Qualit\"at oder Preis stark vom Medium abh\\\\\"angt. ",
+		       "Daher ist das passende Modell: ", Modell[4], ". ", 
+                       "Das bedeutet: die Unterschiede in den Mittelwerten der Verkaufszahlen zwischen Qualit\\\\\"at und Preis ",
+		       "h\\\\\"angen vom Medium ab.",
+                       sep = "")
 
 questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-
 ## 1. richtiges modell formal identifizieren
-
 expl <- character(4)
-
 expl[1] <- "Die Unterschiede zwischen Werbung \\\\\"uber Qualit\\\\\"at und Preis sind gro{\\\\ss}, 
             diejenigen zwischen TV und Printmedien nur gering."
 expl[2] <- "Die Unterschiede zwischen TV und Printmedien sind gro{\\\\ss}, 
@@ -120,18 +100,10 @@ expl[3] <- "Sowohl die Unterschiede zwischen Werbung \\\\\"uber Qualit\\\\\"at u
 expl[4] <- "Die Unterschiede zwischen Werbung \\\\\"uber Qualit\\\\\"at und Preis h\\\\\"angen 
             stark davon ab, ob in Printmedien oder im TV geworben wird."   
 
-
-if(runif(1) > 0.5) {
-  questions[1] <- paste("Das passende Modell ist ", dasmt, ".", sep = "")
-  solutions[1] <- TRUE
-  explanations[1] <- expl[dasm]
-} else {
-  questions[1] <- paste("Das passende Modell ist ", ndasmt1, ".", sep = "")
-  solutions[1] <- FALSE
-  explanations[1] <- paste( expl[dasm], " Also ist das richtige Modell: ", dasmt, ".", sep= "")
-}
-
-
+i <- ifelse(runif(1) > 0.5, dasm, sample((1:4)[-dasm], 1))
+questions[1] <- paste("Das passende Modell ist ", Modell[i], ".", sep = "")
+solutions[1] <- i == dasm
+explanations[1] <- expl[dasm]
 
 ## 2. richtiges modell inhaltlich identifizieren
 quest <- character(4)
@@ -144,35 +116,16 @@ quest[4] <- "Das passende Modell lautet: die Unterschiede in den Mittelwerten vo
              Faktors Medium ab."  
 
 ## explanation wie bei Frage 1 + Uebertragung auf konkrete fragestellung
-
-
-
-if(runif(1) > 0.5) {
-  questions[2] <- quest[dasm]
-  solutions[2] <- TRUE
-  explanations[2] <- expl[dasm]
-} else {
-  questions[2] <- quest[ndasm1]
-  solutions[2] <- FALSE
-  explanations[2] <- expl[dasm]
-}
-
-
+i <- ifelse(runif(1) > 0.5, dasm, sample((1:4)[-dasm], 1))
+questions[2] <- quest[i]
+solutions[2] <- i == dasm
+explanations[2] <- expl[dasm]
 
 ## 3. falsches modell inhaltlich identifizieren
-
-if(runif(1) > 0.5) {
-  questions[3] <- quest[ndasm2]
-  solutions[3] <- FALSE
-  explanations[3] <- expl[dasm]
-} else {
-  questions[3] <- quest[ndasm3]
-  solutions[3] <- FALSE
-  explanations[3] <- expl[dasm]
-}
-
-
-
+i <- sample((1:4)[-c(i,dasm)], 1)
+questions[3] <- quest[i]
+solutions[3] <- FALSE
+explanations[3] <- expl[dasm]
 
 ## 4. mittelwerte interpretieren
 
@@ -190,7 +143,6 @@ quest[3] <- paste( "Sowohl beim Faktor Marketing als auch beim Faktor Medium gib
              des Faktors vergleicht.")                   
 quest[4] <- paste( "Bei Zeitungswerbung schneidet Werbung \\\\\"uber Qualit\\\\\"at ", 
                    besschl, " ab, bei TV-Werbung ist Werbung \\\\\"uber Preis besser." )    
- 
 
 if(runif(1) > 0.5) {
   questions[4] <- quest[1]
@@ -201,12 +153,7 @@ if(runif(1) > 0.5) {
   solutions[4] <- dasm==2
   explanations[4] <- quest[dasm]
 }
-
-
-
 ## 5. mittelwerte interpretieren
-
-
 if(runif(1) > 0.5) {
   questions[5] <- quest[3]
   solutions[5] <- dasm==3
@@ -217,15 +164,10 @@ if(runif(1) > 0.5) {
   explanations[5] <- quest[dasm]
 }
 
-
-
 ## permute order of solutions/questions 
 ## hier frage 1 immer am anfang
 
-
 o <- c( 1, sample(2:5) )
-##o <- sample(1:5)
-
 questions <- questions[o]
 solutions <- solutions[o]
 explanations <- explanations[o]
@@ -248,7 +190,7 @@ sind noch zwei Fragen offen:
   F\"ur jede Kombination der Faktoren werden Testm\"arkte gebildet (d.h.:
   es gibt einen Testmarkt, in dem nur \"uber Qualit\"at und nur in
   Printmedien geworben wird, es gibt einen anderen Testmarkt, in dem
-  nur \"uber Qualit\"at aber nur im TV geworben wird, etc.).
+  nur \"uber Qualit\"at aber nur im TV geworben wird, usw.).
 
 Die Verkaufszahlen in jeweils 10 Superm\"arkten pro Testmarkt werden beobachtet.
 
@@ -257,22 +199,11 @@ vier Testm\"arkten. Da die Verteilungen in den Gruppen in etwa symmetrisch sind,
 sind die Unterschiede zwischen Gruppenmedianen und Gruppenmittelwerten nur gering.
 
 
-<<echo=FALSE,fig=TRUE>>=
- 
-boxplot( Y~Zus, ylab="Verkaufszahlen")
-##paste("Wir haben das Modell ",dasm)
+<<echo=FALSE,fig=TRUE,height=5>>=
+coboxplot(Y ~ Marketing | Medium, data = list(), ylab="Verkaufszahlen")
 @
 
-
-%%%Die durchschnittlichen Verkaufszahlen in den Testregionen enthaelt 
-%%%die folgende Tabelle: 
-
-%%%<<echo=FALSE>>= 
-%%%round( tapply(y,list(Marketing,Medium),mean), digits=0 )
-%%%@
-
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
-
 
 \begin{itemize}
   \item[(a)] \Sexpr{questions[1]}

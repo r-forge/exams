@@ -119,10 +119,11 @@ explanations[3] <- paste("Die Nullhypothese wird verworfen, wenn der zugeh\\\\\"
 qu4 <- c("verworfen", "beibehalten")
 id4 <- sample(2,1)
 id41 <- sample(3,1)
-questions[4] <- paste("Weil die $T$-Gr\\\\\"o{\\\\ss}e gleich ", round(summary(fm23)$coefficients[id41,3],2), " ist, wird, die Hypothese $H_0: \\\\beta_1 = \\\\beta_2 = 0$ ", 
+questions[4] <- paste("Weil die $T$-Gr\\\\\"o{\\\\ss}e gleich ", round(summary(fm23)$coefficients[id41,3],2), 
+                      " ist, wird die Hypothese $H_0: \\\\beta_1 = \\\\beta_2 = 0$ ", 
 	qu4[id4], " (Signifikanzniveau $5\\\\%$).", sep = "")  
 explanations[4] <- "Wir haben nur die $T$-Gr\\\\\"o{\\\\ss}en angegeben. Auf Basis der $T$-Gr\\\\\"o{\\\\ss}en kann aber 
-	immer nur ein einzelner Parameter, d.h. $\\\\beta_1$ oder $\\\\beta_2$, getestet werden, nicht beide 
+	immer nur ein einzelner Parameter, d.h.~$\\\\beta_1$ oder $\\\\beta_2$, getestet werden, nicht beide 
 	Parameter gemeinsam."
     
 ## 5. testen mit p-wert

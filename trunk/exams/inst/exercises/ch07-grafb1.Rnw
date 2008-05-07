@@ -22,7 +22,7 @@ Belastung <- c("Bewohnern in direkt belasteten Gebieten",
                "Bewohnern in indirekt belasteten Gebieten",
                "Bewohnern in Gebieten mit keiner Belastung")
 variant <- runif(1) > 0.5
-spineplot <- ifelse(variant, " in Form eines Spineplots", "")
+spineplot <- ifelse(variant, " in Form eines Mosaikplots", "")
 
 ## QUESTION/ANSWER GENERATION
 
@@ -53,7 +53,7 @@ if(runif(1) > 0.5) {
   explanations[1] <- if (transpose) "Das ist aus der Beschriftung der Balken zu erkennen."
     else "Sie entsprechen den Spalten. Das wird aus der Beschriftung der Balken deutlich."  
 } else {
-  questions[1] <- "Die Balkenteile entsprechen Spaltenprozent f\\\\\"ur die gegebene Kreuztabelle."
+  questions[1] <- "Die Balken entsprechen Spaltenprozent f\\\\\"ur die gegebene Kreuztabelle."
   solutions[1] <- !transpose
   explanations[1] <- if (transpose) "Sie summieren sich zwar zu 1 (=100 Prozent), entsprechen aber den Zeilenprozent der Kreuztabelle."
     else "Sie summieren sich zu 1 (=100 Prozent) und entsprechen diesen Angaben."
@@ -185,7 +185,7 @@ if (transpose) print(t(transit)) else print(transit)
 @
 Daraus abgeleitet ist das folgende Balkendiagramm\Sexpr{spineplot}:
 
-\setkeys{Gin}{width=0.95\textwidth}
+\begin{center}
 <<fig=TRUE, height = 6, width = 8, echo=FALSE, eps=FALSE, results=hide>>=
 if (variant) {
   spineplot( t(transit) ) 
@@ -195,6 +195,7 @@ if (variant) {
   axis(2, seq(0.1,0.9,0.2), cex.axis=0.8)
 }
 @ 
+\end{center}
 
 Welche der folgenden Aussagen sind richtig? (Achtung: Mehrfachnennungen sind m\"oglich!)
 
