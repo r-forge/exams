@@ -10,6 +10,11 @@ T: Unterscheiden von horizontalem Muster, linearem Trend, geometrischem
    Wachstum mit/ohne Saison.
 D: Generierung von 4 Prozessen, Frage nach allen 4.
 
+01b MC  Sais im geom Trend 
+T: Unterscheiden von horizontalem Muster, linearem Trend, geometrischem 
+   Wachstum mit/ohne Saison.
+D: Generierung von 4 Prozessen, einzeln abgefragt.
+
 02 MC 
 T: Zeitreihenzerlegung in T, S und E. 
 D: Generierung von 2 Reihen und deren Komponenten. Frage nach der 
@@ -34,7 +39,7 @@ T: Berechnen e exponentiellen Glättung mit fixem alpha.
 D: Anfangwert, 2 Schritte zu berechen.
 
 07 Num 1
-T: Berechnen der trendberinigten Reihe mittels expo Glättung.
+T: Berechnen der trendbereinigten Reihe mittels expo Glättung.
 D: Vgl 06. Y gegeben. T brechnen. Ergebnis ist (Y-T). 
    Nur für einen Zeitpunkt! 
 
@@ -63,7 +68,7 @@ D: Gegeben e Reihe (s=4 oder 12). Allgem u spez Fragen zur Saison.
 
 13 Num 1
 T: Berechnen der RMSE aus 1- bis 4-Schritt Holt-Winters-Prognosen.
-D: Gegeben Quartalreihe für die Schätzperiode, Beobachtungen für 
+D: Gegeben Quartalsreihe für die Schätzperiode, Beobachtungen für 
    die Prognoseperiode (Länge 4), und die zugehörigen Prognosewerte.
 
 14 MC 
