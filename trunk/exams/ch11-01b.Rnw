@@ -1,0 +1,510 @@
+ 
+% Autor: Michael Hauser, 2007-2008
+
+<<echo=FALSE, results=hide>>=
+
+questions    <- character(5)
+solutions    <- logical(5)
+explanations <- character(5)
+expl         <- character(6)
+
+## DATA GENERATION
+
+## INIT
+nobsmin   <-  60
+nobsmax   <- 120 
+freqlist  <- c(1,4,12) 
+lfreqlist <- length(freqlist)
+
+yearmin  <- 1958
+yearmax  <- 2007
+nyx   <- yearmax - yearmin 
+
+eps <- 0.001
+modnum  <- c(1:6)
+modsel  <- c(0*1:4)
+series  <- vector("list",4)
+sfit    <- vector("list",4)
+snames  <- c(1:4)
+slabel <- c(1:4)
+namsel  <- c(1:20)
+dim(namsel) <- c(4,5)
+names   <- c(
+"zeigt ein horizontales Muster ohne Saison. ",     
+"steigt linear ohne saisonale Effekte zu zeigen. ",
+"wächst geometrisch ohne saisonale Effekte. ",
+"zeigt eine horizontales Muster mit Saison. ",
+"steigt linear und weist zugleich saisonale Effekte auf. ",
+"wächst geometrisch. Die Saison wird ebenfalls exponentiell verstärkt. ")
+labels <- c("H","LT","GT","HS","LTS","GTS")
+
+# choose 4 ts out of 6 (h,lt,gt,h+s,lt+s,gt*s)
+#                       1  2  3  4    5    6
+  acomb <- combn(modnum,4)
+  ic <- ceiling( runif(1,min=1-1+eps,max=15-eps) )
+  modsel <- acomb[,ic] 
+
+for (j in 1:4) {
+
+## NO SEASON -- h
+if (modsel[j] == 1) {
+## horizontales Muster, AR(1), WN given nobs
+#seed0 <- 1234
+#set.seed( seed0 ) 
+ifreq <- ceiling( runif(1,min=1-1+eps,max=lfreqlist-eps) )
+freq  <- freqlist[ifreq]
+nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
+nyears <- floor(nobs / freq)
+
+  h <- f_h0(nobs)
+  # plot(h, type="l",xlab="time",ylab="h")
+
+if (nyears > nyx) { 
+          ts.h <- ts(h,start=1) 
+          ts.t <- ts( rep(mean(ts.h), times=nobs) , start=1 )
+                  }
+   else { yhh <- nyx - nyears
+          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+          ybeg <- ybeg + yearmin
+          ts.h <- ts(h,start=ybeg,freq=freq) 
+          ts.t <- ts( rep(mean(ts.h), times=nobs) , start=ybeg,freq=freq )
+         }
+
+   series[j] <- list(ts.h)
+   sfit[j]   <- list(ts.t)
+   snames[j] <- names[1]   # "H"
+   slabel[j] <- labels[1]
+   }
+
+## NO SEASON -- linear trend
+if (modsel[j] == 2) {
+ifreq <- ceiling( runif(1,min=1-1+eps,max=lfreqlist-eps) )
+freq  <- freqlist[ifreq]
+nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
+nyears <- floor(nobs / freq)
+
+  lt <- f_lt0(nobs);
+  #plot(lt, type="l",xlab="time",ylab="lt")
+
+if (nyears > nyx) { 
+          ts.lt <- ts(lt,start=1) 
+          ts.t <- ts( c(1:nobs) , start=1 )
+                  }
+   else { yhh <- nyx - nyears
+          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+          ybeg <- ybeg + yearmin
+          ts.lt <- ts(lt,start=ybeg,freq=freq)
+          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
+        } 
+   series[j] <- list(ts.lt)
+   estim     <- lm(formula = ts.lt ~ ts.t)
+   sfit[[j]]   <- estim$coefficients[1] + estim$coefficients[2]*ts.t 
+   snames[j] <- names[2]   # "LT"
+   slabel[j] <- labels[2]
+   }
+
+## NO SEASON  --  geometric trend  b > 0 (!!)
+if (modsel[j] == 3) {
+ifreq <- ceiling( runif(1,min=1-1+eps,max=lfreqlist-eps) )
+freq  <- freqlist[ifreq]
+nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
+nyears <- floor(nobs / freq)
+
+   gt <- f_gt0(nobs)
+   #plot(gt, type="l",xlab="time", ylab="gt")
+
+if (nyears > nyx) { 
+          ts.gt <- ts(gt,start=1) 
+          ts.t <- ts( c(1:nobs) , start=1 )
+                  }
+   else { yhh <- nyx - nyears
+          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+          ybeg <- ybeg + yearmin
+          ts.gt <- ts(gt,start=ybeg,freq=freq) 
+          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
+        }
+   series[j] <- list(ts.gt)
+   estim     <- lm(formula = log(ts.gt) ~ ts.t)
+   sfit[[j]]   <- exp(estim$coefficients[1] + estim$coefficients[2]*ts.t)
+   snames[j] <- names[3]   # "GT"
+   slabel[j] <- labels[3]
+   }
+
+
+## WITH SEASON -- h
+if (modsel[j] == 4) {
+## horizontales Muster, AR(1), WN 
+#seed0 <- 1234
+#set.seed( seed0 ) 
+ifreq <- ceiling( runif(1,min=2-1+eps,max=lfreqlist-eps) )
+freq  <- freqlist[ifreq]
+nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
+nyears <- floor(nobs / freq)
+if (freq == 4)  { if (nyears > 6) {nyears = 6} }
+if (freq == 12) { if (nyears > 4) {nyears = 4} }
+nobs  <- nyears*freq
+
+  seas <- f_seas(nobs,freq)
+  hs   <- f_h(nobs,seas=seas)
+  # plot(hs, type="l",xlab="time",ylab="h")
+
+if (nyears > nyx) { 
+          ts.hs <- ts(hs,start=1) 
+          ts.t  <- ts( rep(mean(ts.hs), times=nobs) , start=1 )
+                  }
+   else { yhh <- nyx - nyears
+          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+          ybeg <- ybeg + yearmin
+          ts.hs <- ts(hs,start=ybeg,freq=freq) 
+          ts.t <- ts( rep(mean(ts.hs), times=nobs) , start=ybeg,freq=freq )
+        }
+   series[j] <- list(ts.hs)  
+   sfit[j]   <- list(ts.t)
+   snames[j] <- names[4]   # "HS"
+   slabel[j] <- labels[4] 
+   }
+
+## WITH SEASON -- linear trend
+if (modsel[j] == 5) {
+ifreq <- ceiling( runif(1,min=2-1+eps,max=lfreqlist-eps) )
+freq  <- freqlist[ifreq]
+nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
+nyears <- floor(nobs / freq)
+if (freq == 4)  { if (nyears > 6) {nyears = 6} }
+if (freq == 12) { if (nyears > 5) {nyears = 5} }
+nobs  <- nyears*freq
+
+  seas <- f_seas(nobs,freq)
+  hs   <- f_hg(nobs,seas=seas,scal=3.0)
+  lts  <- f_lt(nobs,resid=hs);
+  #plot(lts, type="l",xlab="time",ylab="lt")
+
+if (nyears > nyx) { 
+          ts.lts <- ts(lts,start=1)
+          ts.t <- ts( c(1:nobs) , start=1 )
+                  }
+   else { yhh <- nyx - nyears
+          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+          ybeg <- ybeg + yearmin
+          ts.lts <- ts(lts,start=ybeg,freq=freq) 
+          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
+        }
+   series[j] <- list(ts.lts)
+   estim     <- lm(formula = ts.lts ~ ts.t)
+   sfit[[j]]   <- estim$coefficients[1] + estim$coefficients[2]*ts.t 
+   snames[j] <- names[5]    # "LTS"
+   slabel[j] <- labels[5]
+   }
+
+## WITH SEASON  --  geometric trend  b > 0 (!!)
+if (modsel[j] == 6) {
+ifreq <- ceiling( runif(1,min=2-1+eps,max=lfreqlist-eps) )
+freq  <- freqlist[ifreq]
+nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
+nyears <- floor(nobs / freq)
+if (freq == 4)  { if (nyears > 7) {nyears = 7} }
+if (freq == 12) { if (nyears > 6) {nyears = 6} }
+nobs  <- nyears*freq
+
+  seas <- f_seas(nobs,freq)
+  hs   <- f_hg(nobs,ar=FALSE,seas=seas,scal=4.0)
+  gts  <- f_gt(nobs,resid=hs)
+  #plot(gts, type="l",xlab="time", ylab="gt")
+
+if (nyears > nyx) { 
+          ts.gts <- ts(gts,start=1)
+          ts.t <- ts( c(1:nobs) , start=1 ) 
+                  }
+   else { yhh <- nyx - nyears
+          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+          ybeg <- ybeg + yearmin
+          ts.gts <- ts(gts,start=ybeg,freq=freq) 
+          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
+        } 
+   series[j] <- list(ts.gts)
+   estim     <- lm(formula = log(ts.gts) ~ ts.t)
+   sfit[[j]]   <- exp(estim$coefficients[1] + estim$coefficients[2]*ts.t)
+   snames[j] <- names[6]   # "GTS"
+   slabel[j] <- labels[6]
+   }
+
+}
+
+#op <- par(mfrow = c(2, 2), mar = c(4.1, 4.1, 1.6, 1.6)) 
+#   plot(series[[ 1 ]],xlab="time",ylab="y1")
+#   plot(series[[ 2 ]],xlab="time",ylab="y2")
+#   plot(series[[ 3 ]],xlab="time",ylab="y3")
+#   plot(series[[ 4 ]],xlab="time",ylab="y4")
+##   plot(series[[ 1 ]],xlab="time",ylab=slabel[1])
+##   plot(series[[ 2 ]],xlab="time",ylab=slabel[2])
+##   plot(series[[ 3 ]],xlab="time",ylab=slabel[3])
+##   plot(series[[ 4 ]],xlab="time",ylab=slabel[4])
+#par(op)
+
+### SOLUTION: 
+
+
+#randomize
+## bei 1:5 match mit sample(1:5) 
+## zirka bei 1/3 keine Antwort richtig  
+#n <- 4;
+#p1 <- 0; 
+#sumn <- c(1:(n+1)*0);
+#for (i in 1:1000) 
+#  { o5 <- sample(1:n); ij <- 0; 
+#    for (j in 1:n) { if (o5[j] == j) {ij <- ij+1} }
+#  sumn[ij+1] <- sumn[ij+1]+1;  }
+# sumn
+
+#randomize 1:4
+oj <- sample(1:4)
+questions <- snames[oj]
+key4      <- modsel[oj]
+nryi      <- c(1:4)
+solutions <- rep(FALSE, times=4)
+for (i in 1:4) { if (oj[i] == nryi[i]) {solutions[i] <- TRUE} }
+ntrue <- sum(solutions)
+
+solution5 <- logical(1)
+solution5 <- FALSE
+
+#randomize 5
+if (ntrue == 0) {
+ modsel5 <- ceiling( runif(1,min=1-1+eps,max=4-eps) )
+  nry5    <- ceiling( runif(1,min=1-1+eps,max=4-eps) )
+  # check double pair (nry5, modsel5)
+  for (ii in 1:10) { ii
+    if ( modsel[ oj[nry5] ] == modsel5 ) { 
+  modsel5 <- ceiling( runif(1,min=1-1+eps,max=4-eps) )
+  nry5    <- ceiling( runif(1,min=1-1+eps,max=4-eps) )
+     } else { break }
+    }
+  question5 <- names[modsel5]   
+  if (modsel5 == modsel[nry5]) solution5 <- TRUE;
+  }
+
+if (ntrue != 0) {
+  modsel5 <- ceiling( runif(1,min=1-1+eps,max=6-eps) )
+  nry5    <- ceiling( runif(1,min=1-1+eps,max=4-eps) )
+  # check double pair (nry5, modsel5)
+  for (ii in 1:10) { ii
+    if ( modsel[ oj[nry5] ] == modsel5 ) { 
+  modsel5 <- ceiling( runif(1,min=1-1+eps,max=6-eps) )
+  nry5    <- ceiling( runif(1,min=1-1+eps,max=4-eps) )
+     } else { break }
+    }
+  question5 <- names[modsel5]   
+  if (modsel5 == modsel[nry5]) solution5 <- TRUE;
+  }
+
+for (i9 in 1:4) {
+if (nry5 == i9) ynry5 <- paste("Y", i9, sep="") }
+
+
+
+#################################### 
+#OLD -SOLUTION: which quartuple is correct ?
+#hhh <- combn(names,4)
+##hhh[,ic]
+#questions <- vector("list",5)
+
+#j=1
+#while (j < 5) { 
+#  ic2 <- ceiling( runif(1,min=1-1+eps,max=15-eps) )
+#  if (ic2 != ic) { j=j+1;  questions[[j]] <- hhh[,ic2] }
+#  }
+#questions[[1]] <- snames
+#solutions      <- logical(5)
+#solutions[1]   <- TRUE
+#for (j in 2:5) { solutions[j] <- FALSE }
+
+## 5 possibilties to answer
+#o <- sample(1:5)
+#questions <- questions[o]
+#solutions <- solutions[o]
+
+#qu1 <- as.vector(questions[[1]])
+#qu2 <- as.vector(questions[[2]])
+#qu3 <- as.vector(questions[[3]])
+#qu4 <- as.vector(questions[[4]])
+#qu5 <- as.vector(questions[[5]])
+#####################################
+## QUESTION/ANSWER GENERATION
+
+## permute order of solutions/questions
+
+## ADDITIONAL EXPLANATIONS
+
+expl[1] <- "Ein horizontales Muster erkennt man daran, dass das Mittel 
+  in der ersten Hälfte der Beobachtungsperiode etwa dem der zweiten 
+  gleich ist. Darüberhinaus liegt eine konstante Varianz um das Mittel vor."
+expl[2] <- "Reihen, die über die Zeit mit konstanter Steigung wachsen 
+  oder fallen, bezeichnet man als linearen Trend, soferne die Schwankungen 
+  um die Reihe konstant sind."
+expl[3] <- "Liegt Wachstum vor, das sich ähnlich wie $\\\\exp(x)$ entwickelt, 
+  spricht man von einem geometrischen oder exponentiellen Trend. Dieses 
+  Verhalten zeigt sich insbesondere im Zusammenhang mit Inflation oder 
+  Wirtschaftswachstum."
+expl[4] <- "Saison beschreibt ein regelmä{\\\\ss}ig wiederkehrendes Muster im 
+  Rhythmus der  Frequenz der Reihe. Das langfristige Verhalten wird 
+  dadurch nicht beeinflusst."
+expl[5] <- ""     ## leer
+
+## 
+
+@
+
+\begin{question} 
+{\bf CH11-01:}  
+Es wurden aus der Gruppe der Modelle horizontales Muster, linearer Trend 
+und geometrisches Wachstum mit bzw.~ ohne Saison, zufällig 4 ausgewählt 
+und dazu Zeitreihen erzeugt. Sie sind unten abgebildet. Aufgabe ist es 
+das Muster der Reihen Y1, Y2, Y3 und Y4 zu erkennen. 
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+\footnotesize
+<<fig=TRUE, height = 5.5, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
+op <- par(mfrow = c(2, 2), mar = c(4.1, 4.1, 1.6, 1.6)) 
+   ser <- series[[ 1 ]] 
+#   fit <- sfit[[1]]
+   plot(ser,xlab="time",ylab="Y1") 
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+   ser <- series[[ 2 ]] 
+#   fit <- sfit[[2]]
+   plot(ser,xlab="time",ylab="Y2")
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+   ser <- series[[ 3 ]] 
+#   fit <- sfit[[3]]
+   plot(ser,xlab="time",ylab="Y3")
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+   ser <- series[[ 4 ]] 
+#   fit <- sfit[[4]]
+   plot(ser,xlab="time",ylab="Y4")
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+par(op)
+@
+\end{center}
+\end{figure}
+
+Welche der folgenden Aussagen sind richtig?\\ 
+\begin{itemize}
+  \item[(a)] Die Reihe Y1 \Sexpr{questions[1]} 
+  \item[(b)] Die Reihe Y2 \Sexpr{questions[2]} 
+  \item[(c)] Die Reihe Y3 \Sexpr{questions[3]} 
+  \item[(d)] Die Reihe Y4 \Sexpr{questions[4]} 
+  \item[(e)] Die Reihe \Sexpr{ynry5} \Sexpr{question5} 
+\end{itemize}
+\end{question}
+
+
+\newpage
+
+
+%% SOLUTIONS
+\begin{solution}
+
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}
+  \item[(e)] \Sexpr{mchoice2tex(solution5)}
+\end{itemize}
+
+{\bf Erklärungen:}\\
+\begin{itemize}
+ \item {\it Horizontales Muster:}    \Sexpr{expl[1]}
+ \item {\it Linearer Trend:}         \Sexpr{expl[2]}
+ \item {\it Geometrisches Wachstum:} \Sexpr{expl[3]}
+ \item {\it Saison:}                 \Sexpr{expl[4]}
+\end{itemize}
+
+Die richtigen Lösungen sind:\\
+Die Reihe Y1 \Sexpr{snames[1]}\\ 
+             Die Reihe Y2 \Sexpr{snames[2]}\\
+             Die Reihe Y3 \Sexpr{snames[3]}\\
+             Die Reihe Y4 \Sexpr{snames[4]}\\
+Die folgende Graphiken zeigen das Trendverhalten der Reihen.
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}[htb!]
+\begin{center}
+\footnotesize
+
+<<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
+op <- par(mfrow = c(2, 2), mar = c(4.1, 4.1, 1.6, 1.6)) 
+   ser <- series[[ 1 ]] 
+   fit <- sfit[[1]]
+   plot(ser,xlab="time",ylab="Y1")
+   lines(fit,col=2) 
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+   ser <- series[[ 2 ]] 
+   fit <- sfit[[2]]
+   plot(ser,xlab="time",ylab="Y2") 
+   lines(fit,col=2) 
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+   ser <- series[[ 3 ]] 
+   fit <- sfit[[3]]
+   plot(ser,xlab="time",ylab="Y3")
+   lines(fit,col=2) 
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+   ser <- series[[ 4 ]] 
+   fit <- sfit[[4]]
+   plot(ser,xlab="time",ylab="Y4")
+   lines(fit,col=2) 
+     if ( attr(ser,"tsp")[3] != 1 ) {  
+     my.yax <- f_yax(ser)
+     axis(1, at=my.yax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.5) 
+     my.sax <- f_sax(ser)
+     axis(1, at=my.sax, labels = FALSE, tick = TRUE, lwd = 1, tcl = -0.25)
+                                    }
+par(op)
+@
+\end{center}
+\end{figure}
+
+Weitere Ausführungen dazu finden Sie im Kapitel 11 Explorative Zeitreihenanalyse.
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exstring{\Sexpr{mchoice2summary(solutions)}}
