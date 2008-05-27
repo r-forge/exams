@@ -1,10 +1,8 @@
- 
-
 <<echo=FALSE, results=hide>>=
 library("zoo")
 
 decplot <- function(x, factor = 0.95,
-  main = NULL, ylim = NULL, cex.lab = 1.5, xlab = "Time", ...)
+  main = NULL, ylim = NULL, cex.lab = 1.5, xlab = "", ...)
 {
   if(is.null(main)) main <- paste("Decomposition of", x$type, "time series")
 
@@ -40,10 +38,8 @@ decplot <- function(x, factor = 0.95,
 }   
 
 decplotr <- function(x, factor = 0.95,
-  main = NULL, ylim = NULL, cex.lab = 1.5, xlab = "Time", ...)
+  main = NULL, ylim = NULL, cex.lab = 1.5, xlab = "", ...)
 {
-  if(is.null(main)) main <- paste("Zuf\\\\\"allige Anordnung der Zeitreihenkomponenten")
-
   yr <- range(x$random, na.rm = TRUE) * factor
   xr <- end(x$trend)
   freq <- frequency(x$trend)
@@ -54,7 +50,7 @@ decplotr <- function(x, factor = 0.95,
      ym <- mean(as.vector(b), na.rm = TRUE)
      rect(xr[1], ym + yr[1], xr[2], ym + yr[2], col = "lightgray", 
           border = gray(0.4))
-     }
+   }
 
   serk <- vector("list",4)   
   serk[[1]] <- x$random + if (x$type == "additive") 
@@ -62,9 +58,6 @@ decplotr <- function(x, factor = 0.95,
   serk[[2]] <- x$trend
   serk[[3]] <- x$seasonal
   serk[[4]] <- x$random
-
-  # free variable o, globally set by main program as
-  # o <- sample(1:4)
 
   z <- as.zoo(cbind(
        P1 = serk[[o[1]]],
@@ -80,19 +73,11 @@ decplotr <- function(x, factor = 0.95,
                    )
      }
 
-  plot(z, main = main, panel = panel, ylim = ylim, xlab = xlab, 
+  plot(z, panel = panel, ylim = ylim, xlab = xlab, main = "",
        cex.lab = cex.lab, ...)
 }   
 
-questions    <- character(5)
-solutions    <- logical(5)
-solc         <- character(5)
-
-explanations <- character(5)
-expl         <- character(6)
-
 ## DATA GENERATION
-
 ## INIT
 nobsmin   <-  60
 nobsmax   <- 120 
@@ -106,258 +91,77 @@ nyx   <- yearmax - yearmin
 eps <- 0.001
 modnum  <- c(1:6)
 modsel  <- c(0*1:4)
-series  <- vector("list",4)
-serk    <- vector("list",4)
-sfit    <- vector("list",4)
-snames  <- c(1:4)
 slabel <- c(1:4)
 namsel  <- c(1:20)
 dim(namsel) <- c(4,5)
-names   <- c(
-"zeigt ein horizontales Muster ohne Saison. ",     
-"steigt linear ohne saisonale Effekte zu zeigen. ",
-"w<E4>chst geometrisch ohne saisonale Effekte. ",
-"zeigt eine horizontales Muster mit Saison. ",
-"steigt linear und weist zugleich saisonale Effekte auf. ",
-"w<E4>chst geometrisch. Die Saison wird ebenfalls exponentiell verst<E4>rkt. ")
+qtext   <- c("zeigt die beobachtete Reihe. ",     
+             "gibt den mittelfristigen Verlauf der Reihe wieder (Trend).",
+             "macht das sich wiederholende Saisonmuster sichtbar.", 
+             "weist die irregul\\\\\"are Komponente aus. ")
 
-qtext   <- c(
-"zeigt die beobachtete Reihe. ",     
-"gibt den mittelfristigen Verlauf der Reihe wieder (Trend).",
-"macht das sich wiederholende Saisonmuster sichtbar.", 
-"weist die irregul\\\\\"are Komponente aus. ")
+wh <- sample(1:4, 4)
+wh2 <- sample(1:4, 4)
+if (sum(wh == wh2) > 1) {
+  wh[5] <- sample(1:4, 1)
+  wh2[5] <- sample(1:4, 1)
+}else {
+  wh[5] <- wh2[5] <- sample(1:4, 1)
+}
+q5 <- which(wh[1:4] == wh[5])
 
-labels <- c("H","LT","GT","HS","LTS","GTS")
-
-# choose 4 ts out of 6 (h,lt,gt,h+s,lt+s,gt*s)
-#                       1  2  3  4    5    6
-  acomb <- combn(modnum,4)
-  ic <- ceiling( runif(1,min=1-1+eps,max=15-eps) )
-  modsel <- acomb[,ic] 
-
-#for (j in 1:4) {
-
-modsel[1] <- sample(4:5, 1)
-for (j in 1:1) {
-
-## NO SEASON -- h
-if (modsel[j] == 1) {
-## horizontales Muster, AR(1), WN given nobs
-#seed0 <- 1234
-#set.seed( seed0 ) 
-ifreq <- ceiling( runif(1,min=1-1+eps,max=lfreqlist-eps) )
-freq  <- freqlist[ifreq]
-nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
-nyears <- floor(nobs / freq)
-
-  h <- exams:::f_h0(nobs)
-  # plot(h, type="l",xlab="time",ylab="h")
-
-if (nyears > nyx) { 
-          ts.h <- ts(h,start=1) 
-          ts.t <- ts( rep(mean(ts.h), times=nobs) , start=1 )
-                  }
-   else { yhh <- nyx - nyears
-          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
-          ybeg <- ybeg + yearmin
-          ts.h <- ts(h,start=ybeg,freq=freq) 
-          ts.t <- ts( rep(mean(ts.h), times=nobs) , start=ybeg,freq=freq )
-         }
-
-   series[j] <- list(ts.h)
-   sfit[j]   <- list(ts.t)
-   snames[j] <- names[1]   # "H"
-   slabel[j] <- labels[1]
-   }
-
-## NO SEASON -- linear trend
-if (modsel[j] == 2) {
-ifreq <- ceiling( runif(1,min=1-1+eps,max=lfreqlist-eps) )
-freq  <- freqlist[ifreq]
-nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
-nyears <- floor(nobs / freq)
-
-  lt <- exams:::f_lt0(nobs);
-  #plot(lt, type="l",xlab="time",ylab="lt")
-
-if (nyears > nyx) { 
-          ts.lt <- ts(lt,start=1) 
-          ts.t <- ts( c(1:nobs) , start=1 )
-                  }
-   else { yhh <- nyx - nyears
-          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
-          ybeg <- ybeg + yearmin
-          ts.lt <- ts(lt,start=ybeg,freq=freq)
-          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
-        } 
-   series[j] <- list(ts.lt)
-   estim     <- lm(formula = ts.lt ~ ts.t)
-   sfit[[j]]   <- estim$coefficients[1] + estim$coefficients[2]*ts.t 
-   snames[j] <- names[2]   # "LT"
-   slabel[j] <- labels[2]
-   }
-
-## NO SEASON  --  geometric trend  b > 0 (!!)
-if (modsel[j] == 3) {
-ifreq <- ceiling( runif(1,min=1-1+eps,max=lfreqlist-eps) )
-freq  <- freqlist[ifreq]
-nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
-nyears <- floor(nobs / freq)
-
-   gt <- exams:::f_gt0(nobs)
-   #plot(gt, type="l",xlab="time", ylab="gt")
-
-if (nyears > nyx) { 
-          ts.gt <- ts(gt,start=1) 
-          ts.t <- ts( c(1:nobs) , start=1 )
-                  }
-   else { yhh <- nyx - nyears
-          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
-          ybeg <- ybeg + yearmin
-          ts.gt <- ts(gt,start=ybeg,freq=freq) 
-          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
-        }
-   series[j] <- list(ts.gt)
-   estim     <- lm(formula = log(ts.gt) ~ ts.t)
-   sfit[[j]]   <- exp(estim$coefficients[1] + estim$coefficients[2]*ts.t)
-   snames[j] <- names[3]   # "GT"
-   slabel[j] <- labels[3]
-   }
-
-
-## WITH SEASON -- h
-if (modsel[j] == 4) {
-## horizontales Muster, AR(1), WN 
-#seed0 <- 1234
-#set.seed( seed0 ) 
 ifreq <- ceiling( runif(1,min=2-1+eps,max=lfreqlist-eps) )
 freq  <- freqlist[ifreq]
 nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
 nyears <- floor(nobs / freq)
-
-## kurze Reihen !!
-##if (freq == 4)  { if (nyears > 6) {nyears = 6} }
-##if (freq == 12) { if (nyears > 4) {nyears = 4} }
 if (freq == 4)  { if (nyears > 10) {nyears = 10} }
 if (freq == 12) { if (nyears > 8) {nyears = 8} }
 nobs  <- nyears*freq
-
+## WITH SEASON -- h
+if (runif(1) > 0.5) {
   seas <- exams:::f_seas(nobs,freq)
   hs   <- exams:::f_h(nobs,seas=seas)
-  # plot(hs, type="l",xlab="time",ylab="h")
 
-if (nyears > nyx) { 
-          ts.hs <- ts(hs,start=1) 
-          ts.t  <- ts( rep(mean(ts.hs), times=nobs) , start=1 )
-                  }
-   else { yhh <- nyx - nyears
-          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
-          ybeg <- ybeg + yearmin
-          ts.hs <- ts(hs,start=ybeg,freq=freq) 
-          ts.t <- ts( rep(mean(ts.hs), times=nobs) , start=ybeg,freq=freq )
-        }
-   series[j] <- list(ts.hs)  
-   sfit[j]   <- list(ts.t)
-   snames[j] <- names[4]   # "HS"
-   slabel[j] <- labels[4] 
-   }
-
+  if (nyears > nyx) { 
+    ts.hs <- ts(hs,start=1) 
+    ts.t  <- ts( rep(mean(ts.hs), times=nobs) , start=1 )
+  } else { 
+    yhh <- nyx - nyears
+    ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+    ybeg <- ybeg + yearmin
+    ts.hs <- ts(hs,start=ybeg,freq=freq) 
+    ts.t <- ts( rep(mean(ts.hs), times=nobs) , start=ybeg,freq=freq )
+  }
+  series <- ts.hs
+} else {
 ## WITH SEASON -- linear trend
-if (modsel[j] == 5) {
-ifreq <- ceiling( runif(1,min=2-1+eps,max=lfreqlist-eps) )
-freq  <- freqlist[ifreq]
-nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
-nyears <- floor(nobs / freq)
-
-## kurze Reihen
-##if (freq == 4)  { if (nyears > 6) {nyears = 6} }
-##if (freq == 12) { if (nyears > 5) {nyears = 5} }
-if (freq == 4)  { if (nyears > 10) {nyears = 10} }
-if (freq == 12) { if (nyears > 8) {nyears = 8} }
-
-nobs  <- nyears*freq
-
   seas <- exams:::f_seas(nobs,freq)
   hs   <- exams:::f_hg(nobs,seas=seas,scal=3.0)
   lts  <- exams:::f_lt(nobs,resid=hs);
-  #plot(lts, type="l",xlab="time",ylab="lt")
-
-if (nyears > nyx) { 
-          ts.lts <- ts(lts,start=1)
-          ts.t <- ts( c(1:nobs) , start=1 )
-                  }
-   else { yhh <- nyx - nyears
-          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
-          ybeg <- ybeg + yearmin
-          ts.lts <- ts(lts,start=ybeg,freq=freq) 
-          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
-        }
-   series[j] <- list(ts.lts)
-   estim     <- lm(formula = ts.lts ~ ts.t)
-   sfit[[j]]   <- estim$coefficients[1] + estim$coefficients[2]*ts.t 
-   snames[j] <- names[5]    # "LTS"
-   slabel[j] <- labels[5]
-   }
-
-## WITH SEASON  --  geometric trend  b > 0 (!!)
-if (modsel[j] == 6) {
-ifreq <- ceiling( runif(1,min=2-1+eps,max=lfreqlist-eps) )
-freq  <- freqlist[ifreq]
-nobs  <- ceiling( runif(1,min=nobsmin-1+eps,max=nobsmax-eps) )
-nyears <- floor(nobs / freq)
-
-## kurze Reihen
-##if (freq == 4)  { if (nyears > 7) {nyears = 7} }
-##if (freq == 12) { if (nyears > 6) {nyears = 6} }
-if (freq == 4)  { if (nyears > 10) {nyears = 10} }
-if (freq == 12) { if (nyears > 8) {nyears = 8} }
-
-nobs  <- nyears*freq
-
-  seas <- exams:::f_seas(nobs,freq)
-  hs   <- exams:::f_hg(nobs,ar=FALSE,seas=seas,scal=4.0)
-  gts  <- exams:::f_gt(nobs,resid=hs)
-  #plot(gts, type="l",xlab="time", ylab="gt")
-
-if (nyears > nyx) { 
-          ts.gts <- ts(gts,start=1)
-          ts.t <- ts( c(1:nobs) , start=1 ) 
-                  }
-   else { yhh <- nyx - nyears
-          ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
-          ybeg <- ybeg + yearmin
-          ts.gts <- ts(gts,start=ybeg,freq=freq) 
-          ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
-        } 
-   series[j] <- list(ts.gts)
-   estim     <- lm(formula = log(ts.gts) ~ ts.t)
-   sfit[[j]]   <- exp(estim$coefficients[1] + estim$coefficients[2]*ts.t)
-   snames[j] <- names[6]   # "GTS"
-   slabel[j] <- labels[6]
-   }
-
+  
+  if (nyears > nyx) { 
+    ts.lts <- ts(lts,start=1)
+    ts.t <- ts( c(1:nobs) , start=1 )
+  }else { 
+    yhh <- nyx - nyears
+    ybeg <- ceiling( runif(1,min=0-1+eps,max=yhh-eps) ) 
+    ybeg <- ybeg + yearmin
+    ts.lts <- ts(lts,start=ybeg,freq=freq) 
+    ts.t <- ts( c(1:nobs) , start=ybeg,freq=freq )
+  }
+  series <- ts.lts
 }
 
-#op <- par(mfrow = c(2, 2), mar = c(4.1, 4.1, 1.6, 1.6)) 
-#   plot(series[[ 1 ]],xlab="time",ylab="y1")
-#   plot(series[[ 2 ]],xlab="time",ylab="y2")
-#   plot(series[[ 3 ]],xlab="time",ylab="y3")
-#   plot(series[[ 4 ]],xlab="time",ylab="y4")
-##   plot(series[[ 1 ]],xlab="time",ylab=slabel[1])
-##   plot(series[[ 2 ]],xlab="time",ylab=slabel[2])
-##   plot(series[[ 3 ]],xlab="time",ylab=slabel[3])
-##   plot(series[[ 4 ]],xlab="time",ylab=slabel[4])
-#par(op)
+## QUESTION/ANSWER GENERATION
+questions    <- paste("Der Plot P", c(1:4, q5), " ", qtext[wh2], sep = "")
+solutions    <- wh == wh2
+explanations <- paste("Der Plot P", c(1:4, q5), " ", qtext[wh], sep = "")
 
-# Data
-#library("zoo")
-#load("./Daten/souvenirs.rda")
-#load("c:/BA-Stat/Daten/souvenirs.rda")
-# decompose(ser); plot(ser);plot(dec$trend);plot(dec$seasonal);plot(dec$random)
-# seasonal pattern of length s: plot(dec$figure)
+o <- sample(1:5)
+questions <- questions[o]
+solutions <- solutions[o]
+explanations <- explanations[o]
 
-dec <- decompose(series[[1]])
-
+dec <- decompose(series)
 solc[1] <- "beobachtete Reihe: Sie setzte sich additiv aus den 3 Komponenten - 
    Trend, Saisonmuster und irregul\\\\\"arer Komponente zusammen."
 solc[2] <- "Trend: Hier wird die mittel- bis langfristige Entwicklung ohne 
@@ -368,131 +172,73 @@ solc[4] <- "irregul\\\\\"are Komponente: Hier werden die Ausschl\\\\\"age der Re
   die weder der Saison, noch der mittelfristigen Entwicklung zugeordnet werden 
   k\\\\\"onnen."
 
-o <- sample(1:4)
-decplotr(dec)
+o <- wh[1:4]
 solc <- solc[o]
-
-
-## SOLUTION: which quartuple is correct ?
-allperm <- c(0*1:(4*24))
-dim(allperm) <- c(24,4)
-j <- 0
-for (i1 in 1:4) { for (i2 in 1:4) {for (i3 in 1:4) {for (i4 in 1:4) {
-  if ( (i1 != i2) && (i1 != i3) && (i1 != i4) 
-                  && (i2 != i3) && (i2 != i4)
-                                && (i3 != i4) ) {
-     j <- j+1; allperm[j,] <- c(i1,i2,i3,i4) }
-    } } } }
-
-apj <- sample(2:j,4) 
-
-questions <- vector("list",5)
-qtext <- qtext[o]
-questions[[1]] <- qtext
-for (k in 1:4) { questions[[(k+1)]] <- qtext[allperm[apj[k],] ] }
-
-solutions      <- logical(5)
-solutions[1]   <- TRUE
-for (j in 2:5) { solutions[j] <- FALSE }
-
-## 5 possibilties to answer
-oa <- sample(1:5)
-questions <- questions[oa]
-solutions <- solutions[oa]
-
-
-qu1 <- as.vector(questions[[1]])
-qu2 <- as.vector(questions[[2]])
-qu3 <- as.vector(questions[[3]])
-qu4 <- as.vector(questions[[4]])
-qu5 <- as.vector(questions[[5]])
-
-## QUESTION/ANSWER GENERATION
-
-## permute order of solutions/questions
-
-
-
 @
 
 \begin{question} 
+  Es wurde aus der Gruppe der additiven Modelle (horizontales Muster,
+  linearer Trend, lokaler Trend) mit Saison zuf\"allig eines
+  ausgew\"ahlt, eine Zeitreihe dazu erzeugt und deren Zerlegung in
+  Trend, Saison und irregul\"are Komponente berechnet. Diese drei
+  Komponenten zusammen mit der Originalreihe sind in
+  Abbildung~\ref{fig:ch11-02}---allerdings in einer {\it zuf\"alligen
+    Anordnung}---geplottet.
+  
+  Aufgabe ist es den Plots die korrekte Bezeichnung zuzuordnen.
 
-Es wurde aus der Gruppe der additiven Modelle 
-(horizontales Muster, linearer Trend, lokaler Trend) mit Saison zuf\"allig eines 
-ausgew\"ahlt, eine Zeitreihe dazu erzeugt und deren Zerlegung in Trend, 
-Saison und irregul\"are Komponente berechnet. Diese drei Komponenten zusammen 
-mit der Originalreihe sind unten - allerdings in einer {\it zuf\"alligen Anordnung} - 
-geplottet.\\ 
-Aufgabe ist es den Plots die korrekte Bezeichnung zuzuordnen. 
-
-\setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]
 \begin{center}
 <<fig=TRUE, height = 5.5, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
-op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
-decplotr(dec)
-par(op)
+decplotr(dec, oma = rep(0, 4))
 @
 \end{center}
+\caption{Zuf\"allige Anordnung der Zeitreihenkomponenten}\label{fig:ch11-02}
 \end{figure}
 
-Welche der folgenden Aussagenkombinationen sind richtig? 
+Welche der folgenden Aussagen sind richtig? 
+\emph{(Anmerkung: Die Aussagen sind entweder ungef\"ahr richtig oder deutlich falsch.)}
 \begin{itemize}
-  \item[(a)] Der Plot P1 \Sexpr{qu1[1]} 
-             Der Plot P2 \Sexpr{qu1[2]}
-             Der Plot P3 \Sexpr{qu1[3]}
-             Der Plot P4 \Sexpr{qu1[4]}
-  \item[(b)] Der Plot P1 \Sexpr{qu2[1]} 
-             Der Plot P2 \Sexpr{qu2[2]}
-             Der Plot P3 \Sexpr{qu2[3]}
-             Der Plot P4 \Sexpr{qu2[4]}
-  \item[(c)] Der Plot P1 \Sexpr{qu3[1]} 
-             Der Plot P2 \Sexpr{qu3[2]}
-             Der Plot P3 \Sexpr{qu3[3]}
-             Der Plot P4 \Sexpr{qu3[4]}
-  \item[(d)] Der Plot P1 \Sexpr{qu4[1]} 
-             Der Plot P2 \Sexpr{qu4[2]}
-             Der Plot P3 \Sexpr{qu4[3]}
-             Der Plot P4 \Sexpr{qu4[4]}
-  \item[(e)] Der Plot P1 \Sexpr{qu5[1]} 
-             Der Plot P2 \Sexpr{qu5[2]}
-             Der Plot P3 \Sexpr{qu5[3]}
-             Der Plot P4 \Sexpr{qu5[4]}
+  \item[(a)] \Sexpr{questions[1]} 
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}    
+  \item[(e)] \Sexpr{questions[5]}
 \end{itemize}
 \end{question}
 
 %% SOLUTIONS
 \begin{solution}
-
-\begin{itemize}
-  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}
-  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}
-  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}
-  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}
-  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
-\end{itemize}
-
-{\bf Erkl\"arung:}\\
-Wird eine Kombination als falsch ausgewiesen, so stimmt zumindest 
-eine Zuordnung nicht \"uberein. Die richtigen L\"osungen sind:
+  
+  In einem ersten Schritt wird bestimmt, welcher Plot welchen Teil der
+  Zerlegung darstellt:
 \begin{itemize} 
   \item[] Plot 1, P1, \Sexpr{solc[1]}
   \item[] Plot 2, P2, \Sexpr{solc[2]}
   \item[] Plot 3, P3, \Sexpr{solc[3]}
   \item[] Plot 4, P4, \Sexpr{solc[4]}
 \end{itemize}
-Die Plots in der richtigen Anordnung sind:
-\setkeys{Gin}{width=0.8\textwidth}
+
+Die Plots in der richtigen Anordnung sind in
+Abbildung~\ref{fig:ch11-02a} gegeben.
+
 \begin{figure}[htb!]
 \begin{center}
 <<fig=TRUE, height = 5.5, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
-op <- par(mfrow = c(1, 1), mar = c(4.1, 4.1, 1.6, 1.6)) 
-decplot(dec)
-par(op)
+decplot(dec, oma = rep(0, 4), main = "")
 @
 \end{center}
+\caption{Zerlegung der Zeitreihe in additive Komponenten}\label{fig:ch11-02a}
 \end{figure}
 
+Damit lassen sich nun obige Aussagen als richtig oder falsch bewerten.
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
+\end{itemize}
 \end{solution}
 
 %% META-INFORMATION

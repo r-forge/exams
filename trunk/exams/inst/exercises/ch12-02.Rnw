@@ -105,17 +105,17 @@ ytext <- sample(1:3)
 solutions <- c(F, F, F, F, F)
 
 #questions[1]   <- paste("Y1 ",names[1],".",text,ktext[1],".",sep="")
-questions[1] <- paste("Zur Reihe Y1 gehört das Korrelogramm ",
+questions[1] <- paste("Zur Reihe Y1 geh\\\\\"ort das Korrelogramm ",
                 ktext1[1],".",sep="")
 if (slabels[1] == "WN" && klabels[ ktext[1] ] == "WN") {solutions[1] <- TRUE }  
 
 #questions[2]   <- paste("Y2 ",names[2],"."text,ktext[2],".",sep="")
-questions[2] <- paste("Zur Reihe Y2 gehört das Korrelogramm ",
+questions[2] <- paste("Zur Reihe Y2 geh\\\\\"ort das Korrelogramm ",
                 ktext1[2],".",sep="")
 if (slabels[2] == "AR" && klabels[ ktext[2] ] == "AR") {solutions[2] <- TRUE }  
 
 #questions[3]   <- paste("Y3 ",names[3],".",text,ktext[3],".",sep="")
-questions[3] <- paste("Zur Reihe Y3 gehört das Korrelogramm ",
+questions[3] <- paste("Zur Reihe Y3 geh\\\\\"ort das Korrelogramm ",
                 ktext1[3],".",sep="")
 if (slabels[3] == "RW" && klabels[ ktext[3] ] == "RW") {solutions[3] <- TRUE }  
 

@@ -230,9 +230,8 @@ if (runif(1) > 0.5) {
 
   solutions[5] <- TRUE  
 
-  explanations[5] <- "Richtig, da der RMSE die positive Wurzel des 
-  MSE ist."
-                    }
+  explanations[5] <- "Der RMSE ist die positive Wurzel des MSE ist."
+  }
 
 dummyquest <- character(1)
 dummyquest <- "Keine der obigen Aussagen ist richtig."
@@ -312,25 +311,13 @@ Welches Modell ist vorzuziehen?
 \end{question}
 %% SOLUTIONS
 \begin{solution}
-
 \begin{itemize}
-  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}
-  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}
-  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}
-  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}
-  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
 \end{itemize}
-
-{\bf Erkl\"arungen:}\\
-\begin{itemize}
-  \item[(a)] \Sexpr{explanations[1]}
-  \item[(b)] \Sexpr{explanations[2]}
-  \item[(c)] \Sexpr{explanations[3]}
-  \item[(d)] \Sexpr{explanations[4]}
-  \item[(e)] \Sexpr{explanations[5]}
-\end{itemize}
-
-
 \end{solution}
 
 %% META-INFORMATION

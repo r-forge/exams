@@ -1,6 +1,4 @@
-
 <<echo=FALSE, results=hide>>=
-question0    <- character(5)
 questions    <- character(5)
 solutions    <- logical(5)
 explanations <- character(5)
@@ -13,7 +11,6 @@ alpha = 0.20
 f_expg9 <- function(nobs, alpha) {
   b <- alpha-1
 ## generates an IMA(1,1)  y = y(-1) + e + b*e(-1), b=alpha-1
-## 
 ##   without scaling
   y <- rep(0, nobs) 
   em1  <- exams:::f_rbeta_n(1,mean=0,sd=1);
@@ -40,86 +37,74 @@ expsm <- function(x,xalpha,xstart,xfreq) {
 ## MC
 ## 5 possibilties to answer
 if (runif(1) > 0.5) {
-  question0[[1]] <- "Je gr\\\\\"o{\\\\ss}er $\\\\alpha$, desto 
-  besser die Gl\\\\\"attung."
+  questions[1] <- "Je gr\\\\\"o{\\\\ss}er $\\\\alpha$, desto besser die Gl\\\\\"attung."
   solutions[1]  <- FALSE
-  explanations[[1]] <-" Das 'beste' 
-    $\\\\alpha$ h\"angt von der Dynamik der Reihe ab. Daher ist die 
+  explanations[1] <-" Das 'beste' 
+    $\\\\alpha$ h\\\\\"angt von der Dynamik der Reihe ab. Daher ist die 
     Aussage im Allgemeinen nicht richtig. Hier im Speziellen scheint 
-    $\\\\alpha=0.2$ ein brauchbares Ergebnis zu liefren."
-                    } else {
-  question0[[1]] <- "$\\\\alpha=0.2$, liefert eine brauchbare 
-  Gl\\\\\"attung der Reihe."
+    $\\\\alpha=0.2$ ein brauchbares Ergebnis zu liefern."
+} else {
+  questions[1] <- "$\\\\alpha=0.2$ liefert eine brauchbare Gl\\\\\"attung der Reihe."
   solutions[1]  <- TRUE
-  explanations[[1]] <-"Ja, $\\\\alpha=0.2$ liefert eine brauchbare 
-  Gl\\\\\"attung der Reihe. "
-                    } 
+  explanations[1] <-"$\\\\alpha=0.2$ liefert eine brauchbare Gl\\\\\"attung der Reihe. "
+} 
 if (runif(1) > 0.5) {
-  question0[[2]] <- "Eine Gl\\\\\"attung hat zum Ziel irregul\\\\\"are Effekte 
+  questions[2] <- "Eine Gl\\\\\"attung hat zum Ziel irregul\\\\\"are Effekte 
   herauszufiltern und ein Trendverhalten besser sichtbar zu machen. 
   Das gelingt hier mit $\\\\alpha=0.75$ besser."
   solutions[2]  <- FALSE
-  explanations[[2]]<- "Der erste Satz ist richtig. Die Verwendung von 
+  explanations[2]<- "Der erste Satz ist richtig. Die Verwendung von 
   $\\\\alpha=0.75$ liefert kaum eine Gl\\\\\"attung. Die gegl\\\\\"attete Reihe 
   ist von der beobachteten kaum zu unterscheiden, daher falsch." 
-                   } else {
-  question0[[2]] <- "Die exponentielle Gl\\\\\"attung liefert bei 
+} else {
+  questions[2] <- "Die exponentielle Gl\\\\\"attung liefert bei 
   saisonalen Reihen die saisonalen Komponenten an den einzelnen 
   Frequenzen." 
   solutions[2]  <- FALSE
-  explanations[[2]]<- "Die exponentielle Gl\\\\\"attung dient zur Ermittlung 
+  explanations[2]<- "Die exponentielle Gl\\\\\"attung dient zur Ermittlung 
   eines mittelfristigen Trends und nicht von Saisonmustern."
-                     }
+}
 if (runif(1) > 0.5) {
-  question0[[3]] <- "$(1-\\\\alpha)$ gibt an, wie stark lange 
+  questions[3] <- "$(1-\\\\alpha)$ gibt an, wie stark lange 
   zur\\\\\"uckliegende Werte der Reihe in die Gl\\\\\"attung einbezogen werden. 
   Ist $\\\\alpha=0.2$ folgt $(1-\\\\alpha)=0.8$, und damit  
   spielen vergangene Werte eine gr\\\\\"o{\\\\ss}ere Rolle als unter 
   $\\\\alpha=0.75$."
   solutions[3]  <- TRUE 
-  explanations[[3]] <- "Ist richtig. Siehe Erkl\\\\\"arung oben."
-                   } else {
-  question0[[3]] <- " $(1-\\\\alpha)$ gibt an, wie stark aktuelle 
+  explanations[3] <- "Ist richtig. Siehe Erkl\\\\\"arung oben."
+} else {
+  questions[3] <- " $(1-\\\\alpha)$ gibt an, wie stark aktuelle 
   Werte der Reihe in die Gl\\\\\"attung einbezogen werden. 
   Ist $\\\\alpha=0.2$ folgt $(1-\\\\alpha)=0.8$, und damit  
   spielen aktuelle Werte eine gr\\\\\"o{\\\\ss}ere Rolle als unter 
   $\\\\alpha=0.75$."
   solutions[3]  <- FALSE
-  explanations[[3]] <- "Ist nicht richtig. Siehe  Erkl\\\\\"arung oben."
-                     }  
+  explanations[3] <- "Ist nicht richtig. Siehe  Erkl\\\\\"arung oben."
+}  
 if (runif(1) > 0.5) {                
-  question0[[4]] <- "$\\\\alpha$ gibt an, wie stark der aktuelle Werte in die 
+  questions[4] <- "$\\\\alpha$ gibt an, wie stark der aktuelle Werte in die 
   Gl\\\\\"attung einbezogen wird. $\\\\alpha=0.2$ bedeutet, dass der aktuelle 
   Wert nur zu 20 Prozent eingeht."
   solutions[4]  <- TRUE   
-  explanations[[4]] <- "Ist richtig. Siehe  Erkl\\\\\"arung oben."
-                    } else {
-  question0[[4]] <- "$\\\\alpha$ gibt an, wie stark vergangene Werte in die 
+  explanations[4] <- "Ist richtig. Siehe  Erkl\\\\\"arung oben."
+} else {
+  questions[4] <- "$\\\\alpha$ gibt an, wie stark vergangene Werte in die 
   Gl\\\\\"attung einbezogen wird. $\\\\alpha=0.2$ bedeutet, dass der vergangene Wert 
-  Wert zu 20 Prozent eingeht."
+  zu 20 Prozent eingeht."
   solutions[4]  <- FALSE  
-  explanations[[4]] <- "Ist nicht richtig. Siehe  Erkl\\\\\"arung oben."
-                    } 
-question0[[5]] <- "$\\\\alpha$ bzw.\\\\ $(1-\\\\alpha)$ gewichten den aktuellen 
+  explanations[4] <- "Ist nicht richtig. Siehe  Erkl\\\\\"arung oben."
+} 
+questions[5] <- "$\\\\alpha$ bzw.\\\\ $(1-\\\\alpha)$ gewichten den aktuellen 
   Wert bzw.\\\\ den letzten Gl\\\\\"attungsfehler."
 solutions[5]  <- TRUE  
-explanations[[5]] <- "Ist richtig. Siehe  Erkl\\\\\"arung oben."
-
-questions <- question0
+explanations[5] <- "Ist richtig. Siehe  Erkl\\\\\"arung oben."
 
 ## QUESTION/ANSWER GENERATION
 ## permute order of solutions/questions
 o <- sample(1:5)
 questions <- questions[o]
 solutions <- solutions[o]
-
-
-qu1 <- as.vector(questions[[1]])
-qu2 <- as.vector(questions[[2]])
-qu3 <- as.vector(questions[[3]])
-qu4 <- as.vector(questions[[4]])
-qu5 <- as.vector(questions[[5]])
-
+explanations <- explanations[o]
 @
 
 \begin{question} 
@@ -150,46 +135,32 @@ Vergleichen Sie beide Gl\"attungsvarianten mit dem beobachteten Verlauf.
 Welche der angegebenen Aussagen treffen hier zu?
 
 \begin{itemize}
-  \item[(a)] \Sexpr{qu1[1]}
-  \item[(b)] \Sexpr{qu2[1]}
-  \item[(c)] \Sexpr{qu3[1]}
-  \item[(d)] \Sexpr{qu4[1]}
-  \item[(e)] \Sexpr{qu5[1]}
+  \item[(a)] \Sexpr{questions[1]}
+  \item[(b)] \Sexpr{questions[2]}
+  \item[(c)] \Sexpr{questions[3]}
+  \item[(d)] \Sexpr{questions[4]}
+  \item[(e)] \Sexpr{questions[5]}
 \end{itemize}
-
 \end{question}
-
-
-
 %% SOLUTIONS
 \begin{solution}
 
-\begin{itemize}
-  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}
-  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}
-  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}
-  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}
-  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}
-\end{itemize}
-
-{\bf Erkl\"arungen:}\\
-Die exponentiell gegl\"attete Reihe, $L_t$, ergibt sich 
-als 
+Die exponentiell gegl\"attete Reihe, $L_t$, ergibt sich als
 $$L_t = \alpha \cdot Y_t + (1-\alpha) \cdot (Y_{t-1} - L_{t-1})$$
-Dabei gewichten $\alpha$ und $(1-\alpha)$ jeweils den aktuellen Wert bzw.\ 
-den zuletzt gemachten Gl\"attungsfehler. Ist $\alpha$ gro{\ss}, so erh\"alt 
-$Y_t$ ein gro{\ss}es Gewicht (aktuelle Werte sind wichtig)  und die weit 
-zur\"uckliegenden --- sie sind in $L_{t-1}$ enthalten --- bekommen ein geringes 
-Gewicht (vergangene Werte sind weniger wichtig). 
-Das umgekehrte trifft zu, wenn $\alpha$ klein ist.\\
 
-Zu den Aussagen:
-\begin{itemize} 
- \item[] {\it Aussage 1:}\\   \Sexpr{explanations[[1]]}
- \item[] {\it Aussage 2:}\\   \Sexpr{explanations[[2]]}
- \item[] {\it Aussage 3:}\\   \Sexpr{explanations[[3]]} 
- \item[] {\it Aussage 4:}\\   \Sexpr{explanations[[4]]}  
- \item[] {\it Aussage 5:}\\   \Sexpr{explanations[[5]]} 
+Dabei gewichten $\alpha$ und $(1-\alpha)$ jeweils den aktuellen Wert
+bzw.\ den zuletzt gemachten Gl\"attungsfehler. Ist $\alpha$ gro{\ss},
+so erh\"alt $Y_t$ ein gro{\ss}es Gewicht (aktuelle Werte sind wichtig)
+und die weit zur\"uckliegenden --- sie sind in $L_{t-1}$ enthalten ---
+bekommen ein geringes Gewicht (vergangene Werte sind weniger wichtig).
+Das umgekehrte trifft zu, wenn $\alpha$ klein ist.
+
+\begin{itemize}
+  \item[(a)] \Sexpr{mchoice2tex(solutions[1])}: \Sexpr{explanations[1]}
+  \item[(b)] \Sexpr{mchoice2tex(solutions[2])}: \Sexpr{explanations[2]}
+  \item[(c)] \Sexpr{mchoice2tex(solutions[3])}: \Sexpr{explanations[3]}
+  \item[(d)] \Sexpr{mchoice2tex(solutions[4])}: \Sexpr{explanations[4]}
+  \item[(e)] \Sexpr{mchoice2tex(solutions[5])}: \Sexpr{explanations[5]}
 \end{itemize}
 
 \end{solution}
