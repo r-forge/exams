@@ -1,6 +1,6 @@
 Package: exams
-Version: 0.2-0
-Date: 2008-02-21
+Version: 0.3-0
+Date: 2008-06-02
 Title: Generation of Simple Exams
 Author: Achim Zeileis
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
