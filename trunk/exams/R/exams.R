@@ -1,8 +1,12 @@
 ## workhorse function for compiling (collections of) exercises
 exams <- function(file, n = 1, dir = NULL, template = "plain",
-  header = list(Date = Sys.Date()), name = NULL,
+  inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
   quiet = TRUE, edir = NULL, tdir = NULL)
 {
+  ## convenience function
+  strip_path <- function(file)
+    sapply(strsplit(file, .Platform$file.sep), tail, 1)
+
   ## manage directories: 
   ##   - for producing several files an output directory is required
   if((n > 1 | length(template) > 1) & is.null(dir)) stop("Please specify an output 'dir'.")
@@ -27,7 +31,7 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   file_Rnw <- ifelse(
     tolower(substr(file_raw, nchar(file_raw)-3, nchar(file_raw))) != ".rnw",
     paste(file_raw, ".Rnw", sep = ""), file_raw)
-  file_base <- substr(file_Rnw, 1, nchar(file_Rnw)-4)
+  file_base <- file_path_sans_ext(file_Rnw)
   file_tex <- paste(file_base, ".tex", sep = "")
   file_path <- if(is.null(edir)) file_Rnw else file.path(edir, file_Rnw)
   file_path <- ifelse(file.exists(file_path),
@@ -42,7 +46,7 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   template_tex <- template_path <- ifelse(
     tolower(substr(template, nchar(template)-3, nchar(template))) != ".tex",
     paste(template, ".tex", sep = ""), template)
-  template_base <- substr(template_tex, 1, nchar(template_tex)-4)
+  template_base <- file_path_sans_ext(template_tex)
   template_path <- ifelse(file.exists(template_tex),
     template_tex, file.path(dir_pkg, "tex", template_tex))
   if(!all(file.exists(template_path))) stop(paste("The following files cannot be found: ",
@@ -63,7 +67,7 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   template_has_exercises <- sapply(template_it, function(x) "exercises" %in% x)
 
   ## output name processing
-  if(is.null(name)) name <- template_base
+  if(is.null(name)) name <- strip_path(template_base)
   make_full_name <- function(name, id, type = "")
     paste(name, gsub(" ", "0", format(c(n, id)))[-1], ifelse(type == "", "", "."), type, sep = "")
 
@@ -112,6 +116,13 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   
   ## take everything to temp dir
   file.copy(file_path, dir_temp)
+  ## including further inputs (if any)
+  if(!is.null(inputs)) {
+    inputs_path <- ifelse(file.exists(inputs), inputs, file.path(edir, inputs))
+    if(!all(file.exists(inputs_path))) stop(paste("The following inputs cannot be found: ",
+      paste(inputs[!file.exists(inputs_path)], collapse = ", "), ".", sep = ""))
+    file.copy(inputs_path, dir_temp)
+  }
   setwd(dir_temp) 
   on.exit(unlink(dir_temp), add = TRUE)
   
@@ -178,10 +189,10 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   class(metainfo) <- "exams_metainfo"  
   if(!is.null(dir)) {
     save(metainfo, file = file.path(dir, "metainfo.rda"))
-    metainfo_df <- as.data.frame(t(sapply(metainfo,
-      function(x) as.vector(sapply(x, function(y) y$string)))))
-    colnames(metainfo_df) <- paste("exercise", gsub(" ", "0", format(1:ncol(metainfo_df))), sep = "")
-    write.table(metainfo_df, file = file.path(dir, "metainfo.csv"), sep = ",")
+    ## metainfo_df <- as.data.frame(t(sapply(metainfo,
+    ##   function(x) as.vector(sapply(x, function(y) y$string)))))
+    ## colnames(metainfo_df) <- paste("exercise", gsub(" ", "0", format(1:ncol(metainfo_df))), sep = "")
+    ## write.table(metainfo_df, file = file.path(dir, "metainfo.csv"), sep = ",")
   }
 
   ## return meta information invisibly

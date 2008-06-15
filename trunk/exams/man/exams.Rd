@@ -11,7 +11,7 @@
 
 \usage{
   exams(file, n = 1, dir = NULL, template = "plain",
-    header = list(Date = Sys.Date()), name = NULL,
+    inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
     quiet = TRUE, edir = NULL, tdir = NULL)
 }
 
@@ -24,6 +24,9 @@
   \item{template}{character. A specification of a LaTeX template. The package
     currently provides \code{"exam"}, \code{"solution"}, \code{"plain"}.
     For details see below.}
+  \item{inputs}{character. Names of files that are needed as inputs during
+    LaTeX compilation (e.g., style files, headers). Either the full path
+    must be given or the file needs to be in \code{edir}.}
   \item{header}{list. A list of further options to be passed to
     the LaTeX files.}
   \item{name}{character. A name prefix for resulting exercises, by default
@@ -38,7 +41,8 @@
 
 \details{
   \code{exams} generates exams from lists of \code{\link[utils]{Sweave}}
-  source files by: (1) running \code{Sweave} on each exercise,
+  source files by:
+  (1) running \code{Sweave} on each exercise,
   (2) including the resulting LaTeX files in a \code{template},
   (3) running \code{\link[tools]{texi2dvi}} on the template, and
   (4) storing the resulting PDF file in an output \code{dir}
@@ -77,7 +81,7 @@
   
   \code{exams} creates the PDF files and stores them in an output
   directory together with the solution meta information as \code{metainfo.rda}
-  and \code{metainfo.csv} (see also below). If only a single PDF is created (currently
+  (see also below). If only a single PDF is created (currently
   the default), \code{dir} may be \code{NULL} and it is only displayed
   on the screen.
 }
