@@ -31,7 +31,7 @@
     the LaTeX files.}
   \item{name}{character. A name prefix for resulting exercises, by default
     chosen based on \code{template}.}
-  \item{quiet}{logical. Should output be surpressed when calling
+  \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[utils]{Sweave}} and \code{\link[tools]{texi2dvi}}.}
   \item{edir}{character specifying the path of the directory in which
     the files in \code{file} are stored (see also below).}
@@ -67,7 +67,7 @@
   exercises: the first exercise is chosen randomly between \code{"a"} and
   \code{"b"} while \code{"xyz"} is always included as the second exercise.
 
-  The \code{template} is a (vector of) specification(s) of LaTeX template.
+  The \code{template} is a (vector of) specification(s) of LaTeX templates.
   It can be \code{"foo"} or equivalently \code{"foo.tex"} where \code{"foo.tex"}
   should either be in the local directory or in the \code{tex} directory
   of the package. It should specify where in the template the exercises
@@ -103,33 +103,30 @@ exercise:
   \code{\link[exams]{mchoice2string}}}
 
 \examples{
-\dontrun{
 ## load package and enforce par(ask = FALSE)
 library("exams")
-options(par.ask.default = FALSE)
+options(device.ask.default = FALSE)
 
 ## define list of exercises
-exam56 <- list(
-  "ch03-boxplot",
-  c("ch05-tstat1", "ch05-tstat2", "ch05-ttest1", "ch05-ttest2"),
-  c("ch05-rsquared", "ch05-anova"),
-  c("ch05-paired1", "ch05-paired2"),
-  c("ch06-wilcoxon1", "ch06-wilcoxon2"),
-  "ch06-boxplots"
+myexam <- list(
+  "boxplots",
+  c("tstat", "ttest", "confint"),
+  c("regression", "anova"),
+  "scatterplot",
+  "relfreq"
 )
 
 ## compile a single random exam (displayed on screen)
-sol <- exams(exam56)
+sol <- exams(myexam)
 sol
 
 ## generate multiple exams (stored in output directory)
 odir <- tempfile()
-sol <- exams(exam56, n = 5, dir = odir, template = c("exam", "solution"))
+sol <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"))
 sol
 
 ## inspect solution for a particular exam
 print(sol, 3)
-}
 }
 
 \keyword{utilities}

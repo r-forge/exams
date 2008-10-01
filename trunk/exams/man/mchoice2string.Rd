@@ -1,6 +1,7 @@
 \name{mchoice2string}
 \alias{mchoice2string}
 \alias{string2mchoice}
+\alias{mchoice2text}
 
 \title{Convenience Functions for Exam Generation}
 
@@ -13,18 +14,17 @@
 \usage{
   mchoice2string(x)
   string2mchoice(x)
+  mchoice2text(x)
 }
 \arguments{
   \item{x}{an object, see below for examples}
 }
 
 \details{
-  Two small set of convenience functions for facilitating work with
+  Three convenience functions for facilitating work with
   multiple choice solutions of exams. All have almost
   trivial definitions, see also examples below.
-  
-  They should be employed in the development phase of the package
-  and might be replaced/improved in future versions.
+ 
 }
 
 \seealso{\code{\link[exams]{exams}}}
@@ -38,6 +38,9 @@
   
   ## reverse string encoding
   string2mchoice("10100")
+
+  ## switching to text
+  mchoice2text(mc)
 }
 
 \keyword{utilities}

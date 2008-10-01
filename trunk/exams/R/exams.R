@@ -215,10 +215,12 @@ print.exams_metainfo <- function(x, which = NULL, ...) {
   invisible(x)
 }
 
-
 ## convenience functions
 mchoice2string <- function(x)
   paste(as.numeric(x), collapse = "")
 
 string2mchoice <- function(x)
  strsplit(x, "")[[1]] == "1"
+
+mchoice2text <- function (x) 
+  ifelse(x, "\\\\textbf{true}", "\\\\textbf{false}")
