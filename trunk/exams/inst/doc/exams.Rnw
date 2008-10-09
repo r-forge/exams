@@ -10,13 +10,12 @@
    \And Achim Zeileis\\Wirtschaftsuniversit\"at Wien}
 \Plainauthor{Bettina Gr\"un, Achim Zeileis}
 
-\title{Automatic Generation of (Statistical) Exams}
+\title{Automatic Generation of Simple (Statistical) Exams}
 
 \Keywords{exams, multiple choice, arithmetic problems, \code{Sweave}, {\LaTeX}, \proglang{R}}
 \Plainkeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 
 \Abstract{ 
-  
   Package \pkg{exams} provides infrastructure for automatic generation
   of simple (statistical) exams. Only a pool of exercises as well as a
   master file specifying the layout of the final PDF output file need
@@ -52,7 +51,6 @@
 
 <<preliminaries, echo=FALSE, results=hide>>=
 library("exams")
-Sexpr <- "\\\\Sexpr{}"
 @
 
 \section{Introduction} \label{sec:intro}
@@ -75,26 +73,37 @@ Sexpr <- "\\\\Sexpr{}"
 % \end{itemize}
 
 The introductory statistics lecture at the Wirtschaftsuniversit\"at
-Wien, Vienna, Austria, is attended each semester by 1000 to 1500
-business students in their first or second year. Several lecturers
+Wien (WU Wien, \url{http://www.wu-wien.ac.at/}), Vienna, Austria, is attended each semester
+by about 1000--1500 students (mostly first-year business students). Several lecturers
 from the Department of Statistics and Mathematics teach this course in
-parallel. A re-design of the lecture was undertaken to ensure an
-efficient and transparent organisation for lecturers and students. The
-primary aims to achieve these goals were (1) to have scalable exams
-and (2) to allow a joint development and maintenance of a pool of
-exercises and problems for the exams by all lecturers. About 10 to 15
-lecturers were involved in contributing to the pool of exercises as
-all potential lecturers were participating in the re-design and all
-these lecturers are also potential maintainers.
+parallel. The \pkg{exams} package was written as part of a collaborative
+department initiative to re-design the course format for this lecture,
+ensuring an efficient, consistent, and transparent organization. The 
+re-design covered all aspects teaching materials, i.e., new presentation slides,
+collections of exercises, exams, etc. The main challenges in this process---that
+the \pkg{exams} package tries to address---were:
+\begin{itemize}
+  \item scalable exams (i.e., automatic generation of a large number
+        of sufficiently different exams),
+  \item associated self-study materials (i.e., collections of exercises
+        and solutions for sufficiently similar exercises),
+  \item joint development (i.e., development and maintenance of a large
+        pool of exercises in a multi-author and cross-platform setting).
+\end{itemize}
+Specifically, at WU Wien about 10--15 lecturers were working in small 
+teams of 2--4 people on different chapters for the presentation slides.
+For each chapter, the corresponding team would also provide suitable
+exercises that could be used for self-study materials, exams, and solutions.
+
 
 Before deciding on the tools to be used for the development the
 requirements had to be specified. Prior experience had shown that the
 exercises needed to be flexible in order to allow for enough variation
 and avoid ``learning by heart''. Students should not be able to guess
-already the correct answer of a multiple choice question from a
-certain problem description. This signifies that ideally for each
+the correct answer of a multiple choice question from a certain key word
+in the problem description. This signifies that ideally for each
 problem setting a set of exercises exists where all combinations of
-possible answers are correct. In addition the exercises should not
+possible answers are correct. In addition, the exercises should not
 only require students to do calculations but also cover interpretation
 of results, statistical plots and statistical software
 output. However, fast and easy correction should still be
@@ -148,7 +157,7 @@ self-studying materials containing also detailed solutions and one for
 exemplary exams which also contain a cover sheet where the correct
 solutions are already filled in. The implemented \proglang{R}
 functions were merged into the \proglang{R} package \pkg{exams}. The
-package also contains additional material like examplary exercise
+package also contains additional material like exemplary exercise
 \code{Sweave} files and master {\LaTeX} files to faciliate the
 application for new users.
 
@@ -190,7 +199,7 @@ with a summary.
 %   \item meta-data (for communication with \proglang{R}).
 % \end{itemize}
 
-The underlying motivation for each exercise is an examplary
+The underlying motivation for each exercise is an exemplary
 application of a statistical procedure. For each application a data
 generating process is specified and a sample is drawn for a specific
 generated exercise. This data is used to formulate the problem as well
@@ -199,7 +208,7 @@ as to derive the solution.
 For using the package \pkg{exams} each exercise is contained in a
 separate \code{Sweave} file. In Table~\ref{tab:Rnw} the \code{Sweave}
 file for a simple exercise asking students to compute the test
-statistics for the one sample $t$-test is shown for illustration. The
+statistics for the one-sample $t$~test is shown for illustration. The
 file consists of a part containing \proglang{R} code which implements
 the data generating process as well as the problem and answer
 generation (see the code chunk framed by \verb|<<>>=| and
@@ -213,7 +222,7 @@ echoed code as well as the results would be included in the final
 input and output.
 
 %% from Rnw
-\begin{table}
+\begin{table}[p!]
 \begin{center}
 \makebox[\textwidth]{\hrulefill}
 
@@ -228,10 +237,46 @@ cat(c("\\begin{verbatim}", Rnw, "\\end{verbatim}"), sep = "\n")
 \end{center}
 \end{table}
 
+%% to LaTeX
+\begin{table}[t!]
+\begin{center}
+\makebox[\textwidth]{\hrulefill}
+
+<<echo=FALSE, results=hide>>=
+set.seed(1090)
+Sweave("tstat.Rnw")
+tex <- readLines("tstat.tex")
+file.remove(c("tstat.Rnw", "tstat.tex"))
+@
+<<echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
+@
+
+\makebox[\textwidth]{\hrulefill}
+\caption{\label{tab:tex} {\LaTeX} output of \code{Sweave("tstat.Rnw"}.}
+\end{center}
+\end{table}
+
+%% to PDF
+\begin{table}[t!]
+\makebox[\textwidth]{\hrulefill}
+\begin{enumerate}
+
+<<echo=FALSE, results=tex>>=
+cat(tex, sep = "\n")
+@
+
+\end{enumerate}
+\makebox[\textwidth]{\hrulefill}
+\begin{center}
+\caption{\label{tab:pdf} Display of processed \code{tstat} exercise.}
+\end{center}
+\end{table}
+
 The next part consists of {\LaTeX} code for providing the question and
 the solution. Both are encapsulated in different environments of the
 same names. The data set specific numeric values are included using
-\verb|\|\verb|Sexpr{}| statments which allow to directly input numbers
+\verb|\|\verb|Sexpr{}| statements which allow to directly input numbers
 into the {\LaTeX} code without putting the \proglang{R} code or its
 results in a separate environment. The exercise environment will in
 general always be defined in the master {\LaTeX} file to ensure the
@@ -239,27 +284,27 @@ inclusion of the text in the final output file. The solution
 environment however will be defined to either hide or show the text
 depending on if exams or self-studying materials are produced.
 
-Finally some meta-data is specified which provides information on the
-type of question, the solution, some additional informative text as
-well as a tolerance for numeric solutions. All the meta-data
-specification is inside a comment environment for {\LaTeX} code such
-that it is hidden in the final output file. The type of question is
-specified with \verb|\extype{}|, which may be either \code{"mchoice"}
-for multiple choice questions or \code{"num"} for questions with a
+Finally, some meta-data is specified which provides information on the
+type of question (\verb|\extype{}|), the solution (\verb|\exsolution{}|),
+some additional informative text (\verb|\exname{}|) as
+well as a tolerance for numeric solutions (\verb|\extol{}|). All meta-data
+commands are in {\LaTeX} style but actually commented out and thus
+hidden in the final output file. The type of question is
+specified with \verb|\extype{}|, which may be either ``\code{mchoice}''
+for multiple choice questions or ``\code{num}'' for questions with a
 numeric result. The solution to the question is given in
 \verb|\exsolution{}|, which contains the numeric solution or a string
 of zero and ones for multiple choice questions. The numeric solution
 can either be a vector containing one or two elements. A solution with
 two elements is for example necessary if the result is a confidence
 interval. This can be specified by
-\verb|\exsolution{lower bound}{upper bound}|. Additional informative
-text can be included in a string via \verb|\exname{}|. This allows to
-provide more information on the type of problem. Finally
-\verb|\extol{}| for numeric solutions specifies the allowed deviation
-from the solution calculated with \proglang{R} in order to still
-assess a given answer as correct. A tolerance for numeric results
-allows to account for rounding errors. These tolerances might either
-be chosen fixed or can also be defined data set specific. The
+\verb|\exsolution{|\emph{lower}\verb|}{|\emph{upper}\verb|}|. Additional informative
+text can be included in a string via \verb|\exname{}|, this is used
+for printing the meta-information within \proglang{R}. Finally,
+the optional command \verb|\extol{}| enables specification of a
+tolerance limit (\code{0}, by default). This can be useful in automatic evaluation
+of numeric solutions if some deviation from the correct answer is
+allowed (e.g., due to rounding errors). The
 meta-information for the example is given at the bottom of
 Table~\ref{tab:Rnw}.
 
@@ -281,11 +326,12 @@ viewer specified in the options (see
 
 <<>>=
 library("exams")
+set.seed(1090)
 tstat_sol <- exams("tstat.Rnw")
 @ 
 
 The invisibly returned object is of class
-\code{"\Sexpr{class(tstat_sol)}"} and contains the meta-information
+``\code{\Sexpr{class(tstat_sol)}}'' and contains the meta-information
 provided in the exercise. Its print method displays the information
 provided by \verb|\exname{}| and then either the numeric result with
 the interval of tolerated differences in parantheses or the letters
@@ -295,41 +341,6 @@ the interval of tolerated differences in parantheses or the letters
 tstat_sol
 @ 
 
-%% to LaTeX
-\begin{table}
-\begin{center}
-\makebox[\textwidth]{\hrulefill}
-
-<<echo=FALSE, results=hide>>=
-set.seed(1090)
-Sweave("tstat.Rnw")
-tex <- readLines("tstat.tex")
-file.remove(c("tstat.Rnw", "tstat.tex"))
-@
-<<echo=FALSE, results=tex>>=
-cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
-@
-
-\makebox[\textwidth]{\hrulefill}
-\caption{\label{tab:tex} A simple exercise after processing with Sweave.}
-\end{center}
-\end{table}
-
-%% to output
-\begin{table}
-\makebox[\textwidth]{\hrulefill}
-\begin{enumerate}
-
-<<echo=FALSE, results=tex>>=
-cat(tex, sep = "\n")
-@
-
-\end{enumerate}
-\makebox[\textwidth]{\hrulefill}
-\begin{center}
-\caption{\label{tab:pdf} Display of processed exercise.}
-\end{center}
-\end{table}
 
 \section{Exams and solutions} \label{sex:exams}
 
@@ -339,16 +350,16 @@ input, weaves them in \proglang{R} and plugs them into a master
 and solution environments (possibly hiding solutions). In addition it
 needs to specify where the exercises are included, by inserting the
 markup \verb|\exinput{exercises}| at the desired location in the
-{\LaTeX} file. The file ``plain.tex'' provided by package \pkg{exams}
+{\LaTeX} file. The file \code{plain.tex} provided by package \pkg{exams}
 in subdirectory \code{tex} is a template for a minimal master {\LaTeX}
 file.
 
-Two more complicated examplary master {\LaTeX} files are included in
-the package: ``exam.tex'' and ``solution.tex''. ``exam.tex'' can be
+Two more complicated exemplary master {\LaTeX} files are included in
+the package: \code{exam.tex} and \code{solution.tex}. \code{exam.tex} can be
 used to generate exams including a front sheet for students to fill in
-their names as well as their answers to the problems. ``solution.tex''
+their names as well as their answers to the problems. \code{solution.tex}
 will result in a PDF file containing a front sheet similar to
-``exam.tex'' but with the correct answers already filled in.
+\code{exam.tex} but with the correct answers already filled in.
 
 For including a front sheet the necessary {\LaTeX} code needs to be
 included in the template which constructs the layout and provides all
@@ -384,19 +395,19 @@ the {\LaTeX} file with \verb|\begin{document}| and will be replaced by
 
 \section{Application and customization} \label{sec:customization}
 
-In general a user will want to customize the package \pkg{exams} by
-providing an own pool of exercises and adapting the template
+In general, users will want to customize the package \pkg{exams} by
+providing their own pool of exercises and adapting the template
 files. The package already includes
 \Sexpr{length(list.files(system.file("exercises",package="exams")))}
 \code{Sweave} files providing different examples which cover possible
 topics in an introductionary statistics course such as calculating the
-test statistics for a one sample $t$-test, the confidence interval for
+test statistics for a one-sample $t$~test, the confidence interval for
 the mean value of a metric variable and the predicted value of a
 fitted regression line and interpreting important basic statistical
 plots such as scatterplots or boxplots, the \proglang{R} output of
-basic statistical procedures such as a two sample $t$-test or an ANOVA
+basic statistical procedures such as a two-sample $t$~test or an ANOVA
 as well as the values contained in a marginal table derived from a
-given cross-tabulation. The pool of exercises can not only be extended
+given contingency table. The pool of exercises can not only be extended
 by including more different examples, in the sense that different
 types of statistical knowledge is tested, but also by modifying the
 described application.
@@ -408,8 +419,8 @@ is either a character vector containing the file names of the
 exercises or a list of such vectors. If a vector of file names is
 specified each exercise will be included in the final output file. For
 an exam it might be desirable to not include all questions but to
-select a subset using stratified sampling, e.g.~by including only one
-of all questions related to the one sample $t$-test. This can be
+select a subset using stratified sampling, e.g., by including only one
+of all questions related to the one-sample $t$~test. This can be
 achieved by specifying a list of vectors. For example, the
 specification \code{file = list(c("a", "b"), "xyz")} will result in an
 exam with two exercises: the first exercise is chosen randomly between
@@ -419,7 +430,7 @@ file names and the corresponding files should either be in the local
 directory, the \code{edir} directory (which can be also specified as
 an argument in \code{exams()}) or in the \code{exercises} directory of
 the package. The default value of the argument \code{template}
-``plain.tex'' is used to generate the PDF file.
+\code{plain.tex} is used to generate the PDF file.
 
 In order to allow for the automated creation of several exams the
 argument \code{n} can be set to an integer value equal to the desired
@@ -439,20 +450,20 @@ compilation and \code{quiet} for suppressing output when calling
 An example for creating two exams with five exercises each from the
 pool of examples provided by package \pkg{exams} is given by:
 <<>>=
-library("exams")
 myexam <- list("boxplots",
-               c("tstat", "ttest", "confint"),
-               c("regression", "anova"),
+               c("confint", "ttest", "tstat"),
+               c("anova", "regression"),
                "scatterplot",
                "relfreq")
-sol <- exams(myexam, n = 2, dir = tempdir(), template = "exam", 
+set.seed(1090)
+sol <- exams(myexam, n = 3, dir = tempdir(), template = "exam", 
   header = list(ID = function(i) 
     paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")))
 @ 
 
 For the header the argument ID is specified as a function which has
 argument \code{i} and the resulting ID will then be put into the
-$i^{\textrm{th}}$ exam in order to allow a matching of the correct
+$i$th exam in order to allow a matching of the correct
 solution to a given exam if only the printout is available. This
 allows also to include additional information such as the date of the
 exam or the number of the exam if several exams are written in the
@@ -460,7 +471,7 @@ course. A unique identifier for each exam can so be specified and
 unambiguous matching is possible if only the printouts are available.
 
 The resulting PDF files are stored in \code{tempdir()}. \code{exams()}
-returns invisibly an object of class \code{"\Sexpr{class(sol)}"} which
+returns invisibly an object of class ``\code{\Sexpr{class(sol)}}'' which
 consists of a list of length equal to \code{n}.  Each element of this
 list contains again a list of meta information for each
 exercise. Printing this object gives an overview of each exam with the
@@ -478,7 +489,7 @@ sol
 
 If an output directory \code{dir} is specified the object containing
 this meta-information is also saved in this directory in the file
-``metainfo.rda'' using \code{save()}. For evaluating the exams this
+\code{metainfo.rda} using \code{save()}. For evaluating the exams this
 file can be loaded and inspected to extract the correct solution after
 obtaining the ID from the available printout.
 
@@ -487,7 +498,7 @@ obtaining the ID from the available printout.
 The framework implemented by the package \pkg{exams} for automatic
 generation of statistical exams is already in use since spring 2008 by
 the Department of Statistics and Mathematics at the
-Wirtschaftsuniversit\"at Wien. The self-studying materials available
+WU Wien. The self-studying materials available
 on an online-platform to support the lecture as well as the individual
 exams for each student were generated with the package. The additional
 online material consists of exercise collections for each chapter of
@@ -516,7 +527,7 @@ with package \pkg{exams}.
 \section*{Acknowledgements}
 
 We are indebted to our colleagues at the Department
-of Statistics and Mathematics at Wirtschaftsuniversit\"at Wien---in
+of Statistics and Mathematics at WU Wien---in
 particular Regina T\"uchler and Josef Leydold---for
 testing and challenging the code and making suggestions for improvement.
 

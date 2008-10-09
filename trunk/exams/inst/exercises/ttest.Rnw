@@ -86,5 +86,5 @@ $5\%$)
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exname{Multiple Choice}
+%% \exname{Multiple choice}
 
