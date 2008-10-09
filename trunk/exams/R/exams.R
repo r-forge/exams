@@ -223,4 +223,4 @@ string2mchoice <- function(x)
  strsplit(x, "")[[1]] == "1"
 
 mchoice2text <- function (x) 
-  ifelse(x, "\\\\textbf{true}", "\\\\textbf{false}")
+  ifelse(x, "\\\\textbf{True}", "\\\\textbf{False}")
