@@ -5,7 +5,7 @@
 \title{Generation of Simple Exams}
 
 \description{
-  Sweave-based automated generation of exams including
+  Sweave-based automatic generation of exams including
   multiple choice questions and arithmetic problems.
 }
 
@@ -51,11 +51,12 @@
   Each exercise in an exam is essentially a standalone Sweave source file
   that \code{exams} knows (almost) nothing about, it just calls \code{Sweave}
   (\code{n} times). The only exception is some meta-information which
-  is passed by means of three commands back to \code{exams}. The commands
+  is passed by means of four commands back to \code{exams}. The commands
   are \code{\extype} (which may be \code{mchoice} or \code{num}),
   \code{\exsolution} (e.g., \code{3.124} for a numeric solution and
-  \code{10010} for a multiple choice solution) and \code{\exstring}
-  (containing a human-readable string with the solution).
+  \code{10010} for a multiple choice solution), \code{\exstring}
+  (containing a human-readable string with the solution), and
+  \code{\extol} (a tolerance for numeric solutions).
   
   The specification in \code{file} should be either of form \code{"foo"}
   or equivalently \code{"foo.Rnw"}, where the file \code{"foo.Rnw"} should
@@ -69,7 +70,8 @@
 
   The \code{template} is a (vector of) specification(s) of LaTeX templates.
   It can be \code{"foo"} or equivalently \code{"foo.tex"} where \code{"foo.tex"}
-  should either be in the local directory or in the \code{tex} directory
+  should either be in the local directory (or provided with the full path)
+  or in the \code{tex} directory
   of the package. It should specify where in the template the exercises
   are included, using the markup \code{\exinput{exercises}}. Additionally,
   it may contain \code{\exinput{questionnaire}} and \code{\exinput{header}}.
@@ -93,9 +95,8 @@ exercise:
   \item{mchoice}{logical. Is the exercise a multiple choice exercise?}
   \item{length}{integer. Length of solution.}
   \item{solution}{either a logical vector (for multiple choice) or numeric
-    vector (for numeric exercises).}
-  \item{string}{character. A human-readable version of the solution,
-    possibly with brief explanations.}
+    vector (for arithmetic problems).}
+  \item{string}{character. A human-readable version of the solution.}
 }
 
 \seealso{\code{\link[utils]{Sweave}},
@@ -107,7 +108,7 @@ exercise:
 library("exams")
 options(device.ask.default = FALSE)
 
-## define list of exercises
+## define an exams (= list of exercises)
 myexam <- list(
   "boxplots",
   c("tstat", "ttest", "confint"),
