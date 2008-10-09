@@ -84,11 +84,11 @@ yhr <- round(a + b*xh, 1)
 alpha <- if (abs(r) > 0 & abs(mx - xh) > 0) sign(mx - xh) * sign(r) else 1
 yhf <- round(yhr + 2 * sy * alpha, 1)
 yh <- sample(c(yhr, yhf), 1)
-questions[5] <- paste("For $X = ", as.character(xh), "$ $Y$ can be expected to be about ", 
+questions[5] <- paste("For $X = ", as.character(xh), "$, $Y$ can be expected to be about ", 
                       as.character(yh), ".", collapse="")
 solutions[5] <- abs(yh - yhr) < 0.01 * sy
-explanations[5] <- paste("The regression line implies for $Y$ at $X=", xh, 
-                         "$ a value of about $", yhr, "$.", sep="")         
+explanations[5] <- paste("The regression line at $X=", xh, 
+                         "$ implies a value of about $Y = ", yhr, "$.", sep="")         
            
 ## permute order of solutions/questions
 o <- sample(1:5)

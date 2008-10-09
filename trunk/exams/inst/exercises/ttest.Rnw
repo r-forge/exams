@@ -15,9 +15,9 @@ explanations <- character(5)
 tt <- t.test(Waiting ~ Supermarket, data = dat, var.equal = TRUE,
              alternative = sample(c("less", "greater", "two.sided"), 1))
 
-questions[1] <- "The absolute value of the test statistics is larger than 1.96."
+questions[1] <- "The absolute value of the test statistic is larger than 1.96."
 solutions[1] <- abs(tt$statistic) > 1.96
-explanations[1] <- paste("The absolute value of the test statistics is equal to ", 
+explanations[1] <- paste("The absolute value of the test statistic is equal to ", 
   round(abs(tt$statistic), digits = 3), ".", sep = "")
 
 questions[2] <- "A one-sided alternative was tested."
@@ -26,9 +26,9 @@ explanations[2] <- paste("The test aims at showing that the difference of means 
   switch(tt$alternative, "two.sided" = "unequal to", "less" = "smaller than", 
   "greater" = "larger than"), "$0$.")
 
-questions[3] <- "The $p$-value is larger than $0.05$."
+questions[3] <- "The $p$~value is larger than $0.05$."
 solutions[3] <- tt$p.value > 0.05
-explanations[3] <- paste("The $p$-value is equal to $", format.pval(tt$p.value, digits = 3),
+explanations[3] <- paste("The $p$~value is equal to $", format.pval(tt$p.value, digits = 3),
   "$.", sep = "")
 
 questions[4] <- paste("The test shows that the waiting time is longer at Sparag ",

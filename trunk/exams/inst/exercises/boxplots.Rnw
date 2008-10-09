@@ -78,7 +78,7 @@ questions <- character(5)
 solutions <- logical(5)
 explanations <- character(5)
 
-questions[1] <- "The locations of both distributions are about the same."
+questions[1] <- "The location of both distributions is about the same."
 solutions[1] <- abs(trob(A, B)) < 0.5
 explanations[1] <- if (solutions[1]) "Both distributions have a similar location." else
   paste("Distribution~", c("A", "B")[(median(A) < median(B)) + 1],
@@ -89,7 +89,7 @@ outlier <- length(unlist(outlier)) > 0
 questions[2] <- "Both distributions contain no outliers."
 solutions[2] <- !outlier
 explanations[2] <- if (solutions[2])
-  "Both Distributions have no observations which deviate more than 1.5 times the interquartile range from the median." else "There are observations which deviate more than 1.5 times the interquartile range from the median."
+  "Both distributions have no observations which deviate more than 1.5 times the interquartile range from the median." else "There are observations which deviate more than 1.5 times the interquartile range from the median."
 
 questions[3] <- "The spread in sample~A is clearly bigger than in B."
 solutions[3] <- IQR(A)/IQR(B) > 1.5

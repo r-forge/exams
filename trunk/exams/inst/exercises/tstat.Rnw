@@ -20,23 +20,23 @@ tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
   variance $s^2_{n-1}$ is equal to $\Sexpr{Var}$.
 
   Check the hypothesis that the amount filled corresponds on average
-  to the setpoint. What is the absolute value of the $t$-test
-  statistics?
+  to the setpoint. What is the absolute value of the $t$~test
+  statistic?
 \end{question}
 
 \begin{solution}
-  The $t$-test statistics is calculated by:
+  The $t$~test statistic is calculated by:
   \begin{eqnarray*}
     t & = & \frac{\bar y - \mu_0}{\sqrt{\frac{s^2_{n-1}}{n}}}
     = \frac{\Sexpr{Mean} - \Sexpr{mu}}{\sqrt{\frac{\Sexpr{Var}}{\Sexpr{n}}}}
     = \Sexpr{tstat}.
   \end{eqnarray*}
-  The absolute value of the $t$-test statistics is equal to
+  The absolute value of the $t$~test statistic is equal to
   $\Sexpr{format(abs(tstat), nsmall = 3)}$.
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{num}
 %% \exsolution{\Sexpr{format(abs(tstat), nsmall = 3)}}
-%% \exname{t-test statistics}
+%% \exname{t statistic}
 %% \extol{0.01}
