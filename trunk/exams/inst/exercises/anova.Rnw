@@ -5,7 +5,7 @@ dat <- data.frame(Evaluation = rnorm(sum(n),
     mean = rep(sample(seq(from = sample(25:55, 1), by = 1, length.out = sample(15:20, 1)), 4)/10, n),
     sd = rep(sample(70:80, 4)/100, n)),
   Occupation = factor(rep(1:4, n),
-    labels = c("Pupil", "Student", "Employee", "Retired")))
+    labels = c("Student", "Employee", "Self-Employed", "Retired")))
 dat$Evaluation[dat$Evaluation > 10] <- 10
 dat$Evaluation[dat$Evaluation <  0] <-  0
 
@@ -75,12 +75,12 @@ explanations <- explanations[o]
 @
 
 \begin{question}
-  \Sexpr{sum(n)} persons were questionned in a survey about the design
-  of an advertising campaign. Each respondent was asked to evaluate
-  the overall impression of an advertisement on a eleven-point scale
-  from 0 (bad) to 10 (good). The evaluations are separately summarized
-  with respect to type of occupation of the respondents in
-  Figure~\ref{fig:ch05-anova1}.
+  A survey with \Sexpr{sum(n)} persons was conducted to analyze the
+  design of an advertising campaign. Each respondent was asked to
+  evaluate the overall impression of the advertisement on an
+  eleven-point scale from 0 (bad) to 10 (good). The evaluations are
+  summarized separately with respect to type of occupation of the
+  respondents in Figure~\ref{fig:ch05-anova1}.
 
 \setkeys{Gin}{width=0.8\textwidth}
 \begin{figure}[htb!]

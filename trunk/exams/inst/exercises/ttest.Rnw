@@ -54,7 +54,7 @@ explanations[5] <- if (solutions[5]) paste("The test result is significant ($p <
 \begin{question}
 
   The waiting time (in minutes) at the cashier of two supermarket
-  chains with different cashier systems are compared. The following
+  chains with different cashier systems is compared. The following
   statistical test was performed:
 
 <<echo=FALSE, results=verbatim>>=

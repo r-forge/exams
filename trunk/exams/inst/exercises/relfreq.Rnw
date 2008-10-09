@@ -2,10 +2,10 @@
 ## DATA GENERATION
 create_table <- function() {
   city <- rmultinom(1, 100, prob=c(0.2, 0.4, 0.3, 0.1))
-  countryside <- rmultinom(1, 150, prob=c(0.1, 0.2, 0.4, 0.3))
-  matrix(c(city, countryside), nrow = 4,
+  suburb <- rmultinom(1, 150, prob=c(0.1, 0.2, 0.4, 0.3))
+  matrix(c(city, suburb), nrow = 4,
          dimnames = list(Evaluation = c("very good", "good", "bad", "very bad"),
-           Location = c("City", "Countryside")))
+           Location = c("City centre", "Suburb")))
 }
 public <- create_table()
 variant <- sample(1:3, 1)
@@ -50,16 +50,16 @@ question <- sample(1:3, 1)
 if (question == 1) {
   questions[3] <- if (runif(1) > 0.5) paste("The value in row 1 and column 1 in Table 1 indicates:", prop_public[1,1], 
   "percent of those, who evaluated the offered public transportation as very good,",
-  "live in a city.") else paste("The value in row 4 and column 2 in Table 1 indicates:", prop_public[4,2], 
+  "live in the city centre.") else paste("The value in row 4 and column 2 in Table 1 indicates:", prop_public[4,2], 
   "percent of those, who evaluated the offered public transportation as very bad,",
-  "live in the countryside.")
+  "live in the suburb.")
   solutions[3] <- variant == 1
   explanations[3] <- if (solutions[3]) "This is the correct interpretation of row percentages." else 
   paste("This is an interpretation of row percentages, but the table gives ", 
         percentage[variant], "percentages.")
 } else if (question == 2) {
   questions[3] <- paste("The value in row 1 and column 2 in Table 1 indicates:", prop_public[1,2], 
-                        "percent of those living in the coutryside evaluated the public transportation ",
+                        "percent of those living in the suburb evaluated the public transportation ",
                         "offered as very good.")
   solutions[3] <- variant == 2
   explanations[3] <- if (solutions[3]) "This is the correct interpretation of column percentages." else 
@@ -80,10 +80,10 @@ question <- sample(1:3, 1)
 if (question == 1) {
   if (runif(1) > 0.5) {
     questions[4] <- paste("The value in row 2 and column 1 von Table 1 indicates:", prop_public[2,1], 
-                          "percent of the respondents in the city evaluated the public transportation offered as good.")
+                          "percent of the respondents in the city centre evaluated the public transportation offered as good.")
   } else {
     questions[4] <- paste("The value in row 3 and column 2 von Table 1 indicates:", prop_public[3,2], 
-                          "percent of the respondents in the countryside evaluated the public transportation ",
+                          "percent of the respondents in the suburb evaluated the public transportation ",
                           "offered as bad.")
   } 
   solutions[4] <- variant == 2
@@ -94,14 +94,14 @@ if (question == 1) {
 } else if (question == 2) {
   questions[4] <- paste("The value in row 2 and column 2 von Table 1 indicates:", prop_public[2,2], 
                         "percentage of those, who evaluated the offered public transportation as good",
-                        "live in the countryside.")
+                        "live in the suburb.")
   solutions[4] <- variant == 1
   explanations[4] <- if (solutions[4]) "This is the correct interpretation of row percentages."
   else paste("This is an interpretation of row percentaes, but the table gives ", 
              percentage[variant], "percentages.")
 } else {
   questions[4] <- paste("The value in row 3 and column 1 von Table 1 indicates:", prop_public[3,1], 
-                        "percent of the respondents lived in the city and evaluated",
+                        "percent of the respondents lived in the city centre and evaluated",
                         "the offered public transportation as bad.")
   solutions[4] <- variant == 3
   explanations[4] <- if (solutions[4]) "This is the correct interpretation of total percentages." else 
@@ -140,10 +140,10 @@ explanations <- explanations[o]
 @
 
 \begin{question}
-  In a small country the satisfaction with the offered public
-  transportation is analyzed. One aspect of the analysis is if
-  inhabitants of a city are more satisfied with pulic transportation
-  than those living in the countryside.
+  In a small city the satisfaction with the offered public
+  transportation is evaluated. One aspect of the analysis is if
+  inhabitants of the city centre are more satisfied with pulic
+  transportation than those living in the suburb.
 
   A survey with 250 respondents gave the following cross-tabulation:
 <<echo=FALSE>>= 
