@@ -12,9 +12,11 @@
 \setlength{\parindent}{0em}
 
 %% fonts: Helvetica
-\renewcommand{\rmdefault}{phv}
 \renewcommand{\sfdefault}{phv}
-\usepackage{sfmath}
+\IfFileExists{sfmath.sty}{
+  \RequirePackage{sfmath}
+  \renewcommand{\rmdefault}{phv}
+}{}
 
 \newcommand{\extext}[1]{\phantom{\large #1}}
 \newcommand{\exmchoice}[5]{%
@@ -60,7 +62,7 @@
 
 %% title page
 \thispagestyle{empty}
-
+{\sf
 \textbf{\LARGE{R University}}
 
 \textbf{\large{Statistics Exam \myDate \hfill Exam ID \myID}}
@@ -76,7 +78,7 @@
 \vspace*{1cm}
 
 %% \exinput{questionnaire}
-
+}
 \newpage
 
 \begin{enumerate}

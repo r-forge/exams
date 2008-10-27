@@ -30,7 +30,7 @@ questions[1] <- paste("The percentage table contains ", percentage[variant1], "p
 solutions[1] <- variant1 == variant
 explanations[1] <- if (variant1 == variant) paste("The ", rowsums[variant1], 
                          " are about equal to 100 (except for possible rounding errors).") else 
-paste("The ", rowsums[variant1], "are not equal to 100.")
+paste("The ", rowsums[variant1], "do not give 100.")
 
 ## 2. interprete total/row/column percentage
 if (runif(1) > 0.5) {
@@ -142,7 +142,7 @@ explanations <- explanations[o]
 \begin{question}
   In a small city the satisfaction with the local public
   transportation is evaluated. One question of interest is whether
-  inhabitants of the city centre are more satisfied with pulic
+  inhabitants of the city centre are more satisfied with public
   transportation compared to those living in the suburbs.
 
   A survey with 250 respondents gave the following contingency tabule:
@@ -169,16 +169,15 @@ Which of the following statements are correct?
 %% SOLUTIONS
 \begin{solution}
 <<echo=FALSE>>=
-interpretation <- c("the location distributions for each level of satisfaction are given.",
-                    "the satisfaction distributions for each location type are given.",
-                    "the relative frequencies (in percentage) for location and satisfaction level are given.")
+interpretation <- c("conditional proportions for location given satisfaction level.",
+                    "conditional proportions for satisfaction level given location type.",
+                    "the proportions for each location type and satisfaction level.")
 @ 
 
-In the percentage table, the \Sexpr{rowsums[variant]} are about 100 (except for
-possible rounding errors). Hence, the table provides
-\Sexpr{percentage[variant]} percentages, i.e., conditional proportions
-for FIXME given FIXME.
-This signifies that \Sexpr{interpretation[variant]}
+In the percentage table, the \Sexpr{rowsums[variant]} are about 100
+(except for possible rounding errors). Hence, the table provides
+\Sexpr{percentage[variant]} percentages, i.e.,
+\Sexpr{interpretation[variant]}
 
 \begin{itemize}
   \item[(a)] \Sexpr{mchoice2text(solutions[1])}: \Sexpr{explanations[1]}
