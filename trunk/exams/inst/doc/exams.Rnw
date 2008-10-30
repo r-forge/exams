@@ -177,13 +177,13 @@ selected for this multi-author and cross-platform development.
 Given these tools the solution which was able to address all these
 requirements was to (1) have independent Sweave files for each
 exercise interweaving \proglang{R} and {\LaTeX} code, (2) different
-master {\LaTeX} files controlling the appearance and (3) a
+master {\LaTeX} files controlling the appearance and (3) an
 implementation of a minimal markup for communication with \proglang{R}
 plus \proglang{R} functions tying everything together. All lecturers
 contributed to the pool of exercises and hence had to write Sweave
 files. They did only need to know the structure of these files, but
 did not need to get further involved. The different master {\LaTeX}
-files contained one for generating exams, one for the self-studying
+files contained one for generating exams, one for the self-study
 materials containing also detailed solutions and one for exemplary
 exams with a cover sheet where the correct solutions are already
 filled in. The implemented \proglang{R} functions were merged into the
@@ -200,7 +200,7 @@ derived from the original \proglang{R} and {\LaTeX} code. In
 Section~\ref{sec:master} the structure of the master {\LaTeX} file for
 constructing the final PDF file from the exercise files is
 presented. Finally Section~\ref{sec:customization} gives a detailed
-overview on function \code{exams()} with an exemplary application and
+overview on function \code{exams()} with exemplary applications and
 indicates possible ways for customization before
 Section~\ref{sec:summary} concludes the paper with a summary.
 
@@ -211,23 +211,23 @@ Section~\ref{sec:summary} concludes the paper with a summary.
 %   \item data generation (typically invisible in the final exam),
 %   \item exercise,
 %   \item solution (might be hidden or shown),
-%   \item meta-data (for communication with \proglang{R}).
+%   \item meta-information (for communication with \proglang{R}).
 % \end{itemize}
 
 Each exercise is contained in a separate Sweave file. It needs to
 contain (1) a question and a solution part which are encapsulated in
 {\LaTeX} environments of the corresponding names and describe the
-problem and the solution respectively and (2) some meta information
+problem and the solution respectively and (2) some meta-information
 about the exercise such as type and the solution. Meta-information on
 the examples needs to be provided to characterize the problem and
 allow for example for automatic generation of a cover sheet with
-suitable answer fields. All meta-data commands are in {\LaTeX} style
-but are actually commented out and thus hidden in the final output
-file. The Sweave file needs to contain the specification of the type
-of question (\verb|\extype{}|), the solution (\verb|\exsolution{}|)
-and some additional informative text (\verb|\exname{}|). Optionally a
-tolerance (\verb|\extol{}|) can be specified for numeric solutions;
-the default is a tolerance of zero.
+suitable answer fields. All meta-information commands are in {\LaTeX}
+style but are actually commented out and thus hidden in the final
+output file. The Sweave file needs to contain the specification of the
+type of question (\verb|\extype{}|), the solution
+(\verb|\exsolution{}|) and some additional informative text
+(\verb|\exname{}|). Optionally a tolerance (\verb|\extol{}|) can be
+specified for numeric solutions; the default is a tolerance of zero.
 
 Each exercise represents an exemplary application of a statistical
 procedure. To allow for variability the data for the application can
@@ -311,7 +311,7 @@ final PDF output file. The final PDF file is displayed on screen by
 using either the application specified in the Windows file
 associations on a Windows operating system or with the PDF viewer
 specified in the options (see \code{getOption("pdfviewer")}) on a
-linux system.
+linux operating system.
 
 <<>>=
 library("exams")
@@ -320,11 +320,11 @@ tstat_sol <- exams("tstat.Rnw")
 @ 
 
 The invisibly returned object is of class
-``\code{\Sexpr{class(tstat_sol)}}'' and contains the meta-information
+\code{"\Sexpr{class(tstat_sol)}"} and contains the meta-information
 provided in the exercise. Its print method displays the information
 provided by \verb|\exname{}| and then after the colon either the
 numeric result with the interval of tolerated differences in
-parantheses or the answers for multiple choice questions. 
+parantheses or the answers for multiple choice questions.
 
 <<>>=
 tstat_sol
@@ -356,7 +356,7 @@ final output file. The solution environment however will be defined to
 either hide or show the text depending on if exams or self-study
 materials are produced.
 
-Finally, some meta-data is specified. The type of question is
+Finally, some meta-information is provided. The type of question is
 specified with \verb|\extype{}|, which may be either \code{mchoice}
 for multiple choice questions or \code{num} for questions with a
 numeric result. The solution to the question is given in
@@ -534,17 +534,17 @@ only an output directory can be specified but also the directory
 containing the exercise files (\code{edir}) and a temporary directory
 for intermediate results such as the constructed {\LaTeX} file
 (\code{tdir}). The argument \code{template} is a (vector of)
-specification(s) of \code{LaTeX} templates. It can be \code{"foo"} or
+specification(s) of {\LaTeX} templates. It can be \code{"foo"} or
 equivalently \code{"foo.tex"} where \code{"foo.tex"} should either be
 in the local directory (or provided with the full path) or in the
 \code{tex} directory of the package. If \code{template} is a vector,
 then for each of the \code{n} runs several output files (one for each
-template) are created. Further arguments to \code{exams()} are
-\code{header} which allows the additional inclusion of {\LaTeX}
-commands in the {\LaTeX} file, \code{inputs} which provides a vector
-of file names (including the path) which are needed during {\LaTeX}
-compilation and \code{quiet} for suppressing output when calling
-\code{Sweave()} and \code{texi2dvi()}.
+template) are created with the same questions. Further arguments to
+\code{exams()} are \code{header} which allows the additional inclusion
+of {\LaTeX} commands in the {\LaTeX} file, \code{inputs} which
+provides a vector of file names (including the path) which are needed
+during {\LaTeX} compilation and \code{quiet} for suppressing output
+when calling \code{Sweave()} and \code{texi2dvi()}.
 
 In the \code{exam.tex} template {\LaTeX} commands for specifying a
 date and an ID for the exam are defined and this information is
@@ -554,20 +554,29 @@ the $i^{\textrm{th}}$ exam by defining an appropriate function with
 argument $i$. This allows a matching of the correct solution to a
 given exam if only the printout is available and to include additional
 information such as the date of the exam or the number of the exam if
-several exams are written in the course. 
+several exams are written in the course. The following ID function
+will generate a label for the exam which contains the name ``myexam''
+and the number of the exam.
 
 <<>>=
 getID <- function(i) 
   paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")
+getID(10)
+@ 
+
+In the following five exams are generated where these IDs are included
+in the cover sheet and the resulting PDF files are stored in
+\code{tempdir()}.
+
+<<>>=
 sol <- exams(myexam, n = 5, dir = tempdir(), template = "exam", 
              header = list(ID = getID))
 @ 
 
-The resulting PDF files are stored in \code{tempdir()}. The returned
-object consists of a list of length equal to \code{n} and is of class
-``\code{\Sexpr{class(sol)}}''. Each element of this list contains
-again a list of meta information for each exercise. Printing this
-object gives an overview of each exam with the information on the
+The returned object consists of a list of length equal to \code{n} and
+is of class \code{"\Sexpr{class(sol)}"}. Each element of this list
+contains again a list of meta-information for each exercise. Printing
+this object gives an overview of each exam with the information on the
 included exercises (using the information provided by
 \verb|\exname{}|) and the corresponding results. For numeric results
 also the lower and upper bounds of the results which are within the
@@ -575,7 +584,7 @@ tolerance are provided. By default for multiple choice questions the
 true statements (from a to e) are listed and the false ones are
 omitted. This signifies that if a multiple choice question has no true
 statements, nothing is printed after the inclusion of the information
-on the question and the double point.
+on the question and the colon.
 <<>>=
 sol
 @
@@ -587,7 +596,7 @@ file can be loaded and inspected to extract the correct solution after
 obtaining the ID from the available printout.
 
 The appearance of the solutions of the multiple choice questions when
-printing the results as ``\code{\Sexpr{class(sol)}}'' objects or on
+printing the results as \code{"\Sexpr{class(sol)}"} objects or on
 the cover page can be set by the \code{mchoice.control} argument. This
 is specified by a named list with components \code{print} and
 \code{symbol}. Component \code{print} is a list with elements
@@ -640,8 +649,8 @@ with package \pkg{exams}.
 We are indebted to our colleagues at the Department of Statistics and
 Mathematics at WU Wien---in particular Regina T\"uchler and Josef
 Leydold---for testing and challenging the code and making suggestions
-for improvement. This research was partially supported by the the
-Austrian Science Foundation (FWF) under Hertha-Firnberg grant T351.
+for improvement. This research was partially supported by the Austrian
+Science Foundation (FWF) under Hertha-Firnberg grant T351.
 
 \bibliography{exams}
 
