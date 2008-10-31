@@ -43,7 +43,7 @@
 \begin{document}
 
 \SweaveOpts{engine = R, eps = FALSE, keep.source = TRUE}
-%\VignetteIndexEntry{Automatic Generation of (Statistical) Exams}
+%\VignetteIndexEntry{Automatic Generation of Simple (Statistical) Exams}
 %\VignetteDepends{stats, graphics, tools, utils}
 %\VignetteKeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 %\VignettePackage{exams}
@@ -135,7 +135,7 @@ description. Ideally for each problem setting a set of exercises
 should exist where all combinations of possible answers are
 correct. In addition, the exercises should not only require students
 to do calculations but also cover interpretation of results,
-statistical plots and statistical software output. However, fast and
+statistical graphics and statistical software output. However, fast and
 easy correction should still be possible using only the final results
 as filled in by the students on the cover sheet of their exams.
 
@@ -218,7 +218,7 @@ Each exercise is contained in a separate Sweave file. It needs to
 contain (1) a question and a solution part which are encapsulated in
 {\LaTeX} environments of the corresponding names and describe the
 problem and the solution respectively and (2) some meta-information
-about the exercise such as type and the solution. Meta-information on
+about the exercise such as type and the solution. Meta-information for
 the examples needs to be provided to characterize the problem and
 allow for example for automatic generation of a cover sheet with
 suitable answer fields. All meta-information commands are in {\LaTeX}
@@ -320,7 +320,7 @@ tstat_sol <- exams("tstat.Rnw")
 @ 
 
 The invisibly returned object is of class
-\code{"\Sexpr{class(tstat_sol)}"} and contains the meta-information
+``\code{\Sexpr{class(tstat_sol)}}'' and contains the meta-information
 provided in the exercise. Its print method displays the information
 provided by \verb|\exname{}| and then after the colon either the
 numeric result with the interval of tolerated differences in
@@ -342,7 +342,7 @@ the Sweave file by calling \code{Sweave()}. This implies that this
 part of the exercise is invisible in the final output file. If these
 options were not set the echoed code as well as the results would be
 included in the final output file in special environments used by
-Sweave for \proglang{R} input and output. For further information on
+Sweave for \proglang{R} input and output. For further information about
 the application of Sweave and a detailed description of the different
 options see \cite{exams:Leisch:2008a,exams:Leisch:2008}.
 
@@ -473,7 +473,7 @@ Sweave files providing different examples which cover possible topics
 in an introductionary statistics course such as calculating the test
 statistics for a one-sample $t$~test, the confidence interval for the
 mean value of a metric variable and the predicted value of a fitted
-regression line and interpreting important basic statistical plots
+regression line and interpreting important basic statistical graphics
 such as scatterplots or boxplots, the \proglang{R} output of basic
 statistical procedures such as a two-sample $t$~test or an ANOVA as
 well as the values contained in a marginal table derived from a given
@@ -561,7 +561,7 @@ and the number of the exam.
 <<>>=
 getID <- function(i) 
   paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")
-getID(10)
+getID(1)
 @ 
 
 In the following five exams are generated where these IDs are included
@@ -569,12 +569,13 @@ in the cover sheet and the resulting PDF files are stored in
 \code{tempdir()}.
 
 <<>>=
-sol <- exams(myexam, n = 5, dir = tempdir(), template = "exam", 
-             header = list(ID = getID))
+tdir <- tempdir()
+sol <- exams(myexam, n = 5, dir = tdir, template = "exam", 
+  header = list(ID = getID))
 @ 
 
 The returned object consists of a list of length equal to \code{n} and
-is of class \code{"\Sexpr{class(sol)}"}. Each element of this list
+is of class ``\code{\Sexpr{class(sol)}}''. Each element of this list
 contains again a list of meta-information for each exercise. Printing
 this object gives an overview of each exam with the information on the
 included exercises (using the information provided by
@@ -596,7 +597,7 @@ file can be loaded and inspected to extract the correct solution after
 obtaining the ID from the available printout.
 
 The appearance of the solutions of the multiple choice questions when
-printing the results as \code{"\Sexpr{class(sol)}"} objects or on
+printing the results as ``\code{\Sexpr{class(sol)}}'' objects or on
 the cover page can be set by the \code{mchoice.control} argument. This
 is specified by a named list with components \code{print} and
 \code{symbol}. Component \code{print} is a list with elements

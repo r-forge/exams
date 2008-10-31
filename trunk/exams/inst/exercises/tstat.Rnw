@@ -30,7 +30,7 @@ tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
     = \frac{\Sexpr{Mean} - \Sexpr{mu}}{\sqrt{\frac{\Sexpr{Var}}{\Sexpr{n}}}}
     = \Sexpr{tstat}.
   \end{eqnarray*}
-  The absolute value of the $t$~test statistic is equal to
+  The absolute value of the $t$~test statistic is thus equal to
   $\Sexpr{format(abs(tstat), nsmall = 3)}$.
 \end{solution}
 
