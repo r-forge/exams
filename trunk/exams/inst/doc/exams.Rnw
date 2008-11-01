@@ -15,18 +15,19 @@
 \Keywords{exams, multiple choice, arithmetic problems, Sweave, {\LaTeX}, \proglang{R}}
 \Plainkeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 
-\Abstract{ Package \pkg{exams} provides infrastructure for automatic
-  generation of simple (statistical) exams. A pool of exercises as
-  well as a master file specifying the layout of the final PDF output
-  file need to be provided by the user. The exercises are specified in
-  separate Sweave files containing \proglang{R} code for data
-  generation and {\LaTeX} code for problem and solution description
-  interweaved with data set specific \proglang{R} output and the
-  master file is written in {\LaTeX}.  This paper gives an overview on
-  the main design aims and principles. Possible ways of adaptation and
-  extension are outlined and the available additional material in the
-  package to help users to get started is presented.
-  
+\Abstract{
+  Package \pkg{exams} provides a framework for automatic
+  generation of simple (statistical) exams. To employ the tools,
+  users just need to supply a pool of exercises and
+  a master file controlling the layout of the final PDF document.
+  The exercises are specified in
+  separate Sweave files (containing \proglang{R} code for data
+  generation and {\LaTeX} code for problem and solution description)
+  and the master file is a {\LaTeX} document with some additional control
+  commands.  This paper gives an overview on
+  the main design aims and principles as well as strategies for adaptation
+  and extension. Hands-on illustrations---based on example exercises and control files
+  provided in the package---are presented to get new users started easily.
 }
 
 \Address{
@@ -86,26 +87,9 @@ function (x, which = NULL, width = getOption("width"), ...)
 
 \section{Introduction} \label{sec:intro}
 
-% Citations: Off the top of my head some stuff one could mention\dots
-% \begin{itemize}
-% \item combination of \proglang{R} \citep{exams:R:2008} and {\LaTeX}
-%   \citep{exams:Knuth:1984,exams:Lamport:1994},
-%   \item heavy use of Sweave \citep{exams:Leisch:2002}
-%         plus glue code in \pkg{exams},
-%   \item mixing data generation for exams, exercises and solutions
-%         uses ideas from literate data analysis
-% 	\citep{exams:Rossini:2001,exams:Leisch+Rossini:2003}
-% 	which in turn uses ideas from literate programming
-% 	\citep{exams:Knuth:1992} and reproducible research
-% 	\citep{exams:deLeeuw:2001},
-%   \item multi-author and cross-platform development by
-%         using open-source tools \proglang{R}, {\LaTeX}, and
-% 	\pkg{Subversion} \citep[SVN,][]{exams:Pilato+Collins-Sussman+Fitzpatrick:2004}.
-% \end{itemize}
-
 The introductory statistics lecture at the Wirtschaftsuniversit\"at
 Wien (WU Wien, \url{http://www.wu-wien.ac.at/}), Vienna, Austria, is
-attended each semester by about 1000--1500 students (mostly first-year
+attended each semester by about 1,000--1,500 students (mostly first-year
 business students). Several lecturers from the Department of
 Statistics and Mathematics teach this course in parallel. The
 \pkg{exams} package was written as part of a collaborative department
@@ -116,108 +100,97 @@ slides, collections of exercises, exams, etc. The main challenges in
 this process---that the \pkg{exams} package tries to address---were:
 \begin{itemize}
   \item scalable exams (i.e., automatic generation of a large number
-        of sufficiently different exams),
+        of different exams),
   \item associated self-study materials (i.e., collections of exercises
-        and solutions for sufficiently similar exercises),
+        and solutions for similar exercises),
   \item joint development (i.e., development and maintenance of a large
         pool of exercises in a multi-author and cross-platform setting).
 \end{itemize}
 Specifically, at WU Wien about 10--15 lecturers were working in small 
 teams of 2--4 people on different chapters for the presentation slides.
 For each chapter, the corresponding team would also provide suitable
-exercises that could be used for self-study materials, exams, and solutions.
+exercise templates that could be used for self-study materials, exams, and solutions.
 
 Prior experience had shown that the exercises needed to be flexible in
 order to allow for enough variation and avoid ``learning by
-heart''. Students should not be able to guess the correct answer of a
+heart'': Students should not be able to guess the correct answer of a
 multiple choice question from a certain key word in the problem
 description. Ideally for each problem setting a set of exercises
 should exist where all combinations of possible answers are
 correct. In addition, the exercises should not only require students
 to do calculations but also cover interpretation of results,
 statistical graphics and statistical software output. However, fast and
-easy correction should still be possible using only the final results
-as filled in by the students on the cover sheet of their exams.
+easy correction should still be possible based only on a short
+result as filled in by the students on the cover sheet of their exams.
 
-These requirements on the exercises already suggested to use dynamic
-documents for the exercises. For each exercise a problem description
-and a data generation process have to be specified. A random sample
-can then be drawn to generate a specific problem and its solution when
-generating an exam. The data generation process can easily be defined
-as a mixture such that the different answer combinations are about
-evenly distributed. Because the data generating process is included in
-the exercise files, arbitrary many different exercises can be
-constructed from one file where the data sample used for analysis is
-randomly generated. The exercise pool can be rather limited in size
-and in fact only needs to contain files for each type of statistical
-procedure with various different possible settings of application. For
-students the optimal learning strategy is still to understand how to
-apply the statistical tools. To increase the flexibility and variety
-while still allowing for easy correction the type of problem could
-either be multiple choice questions or problems with a numeric result
-as solution. The mixing of data generation with problem description
-and derivation used for the exercises borrows ideas from literate data
-analysis \citep{exams:Rossini:2001,exams:Leisch+Rossini:2003} which in
-turn uses ideas from literate programming \citep{exams:Knuth:1992} and
-reproducible research \citep{exams:deLeeuw:2001}.
+These requirements on maintenance, variation, and correction of exercises
+led to the following design principles for package \pkg{exams}:
+\begin{itemize}
+  \item \textit{Maintenance:} Each exercise template is a single file
+        (also just called ``exercise'').
+  \item \textit{Variation:} Exercises are dynamic documents, containing a
+        problem/solution along with a data-generating process (DGP) so that
+	random samples can be drawn easily.
+  \item \textit{Correction:} Solutions for exercises are either multiple-choice
+        answers (logical vectors) or numeric values (e.g., a test statistic
+	or a confidence interval).
+\end{itemize}
+Thus, the DGP of an exercise controls the distribution
+of possible solutions and can be utilizied to make them (approximately)
+evenly distributed and difficult to ``guess'' or ``learn by heart''.
+In addition to the variability within an exercise, one can add further
+variation by providing several exercise templates for the same type of
+problem. Depending on the flexibility of the DGP, the pool of exercises
+can thus be rather small or needs to be somewhat larger.
 
-A further complication in the development process was that not the
-same operating system was used by all contributors to the exercise
-pool. The tools employed needed therefore to be available on several
-platforms. All participants in the re-design should also be able to
-contribute easily to the pool of exercises without investing a lot of
-time in learning new tools. All lecturers were rather familiar with
-the statistical computing environment \proglang{R}
-\citep{exams:R:2008} and the typesetting system {\LaTeX}
-\citep{exams:Knuth:1984,exams:Lamport:1994}. Hence these open-source
-tools in combination with the version control system \pkg{Subversion}
-\citep[SVN,][]{exams:Pilato+Collins-Sussman+Fitzpatrick:2004} were
-selected for this multi-author and cross-platform development.
+Mixing problems/solutions and DGPs for exam generation poses challenges 
+that are similar to those of making data analyses reproducible.
+Thus, \pkg{exams} employs many ideas from literate data analysis
+\citep{exams:Rossini:2001,exams:Leisch+Rossini:2003}, literate programming
+\citep{exams:Knuth:1992} and reproducible research \citep{exams:deLeeuw:2001}. 
+Specifically, it makes extensive use of Sweave \citep{exams:Leisch:2002a}
+for mixing DGPs written in the \proglang{R} system for statistical computing
+\citep{exams:R:2008} and problem/solution descriptions written in
+the typesetting system {\LaTeX} \citep{exams:Knuth:1984,exams:Lamport:1994}. 
+Thus, the implementation in \pkg{exams} is based on
+(1)~independent Sweave files for each exercise interweaving \proglang{R} and {\LaTeX} code,
+(2)~different master {\LaTeX} files controlling the appearance and
+(3)~an implementation of a minimal markup for communication with \proglang{R}
+plus \proglang{R} functions tying everything together. 
 
-Given these tools the solution which was able to address all these
-requirements was to (1) have independent Sweave files for each
-exercise interweaving \proglang{R} and {\LaTeX} code, (2) different
-master {\LaTeX} files controlling the appearance and (3) an
-implementation of a minimal markup for communication with \proglang{R}
-plus \proglang{R} functions tying everything together. All lecturers
-contributed to the pool of exercises and hence had to write Sweave
-files. They did only need to know the structure of these files, but
-did not need to get further involved. The different master {\LaTeX}
-files contained one for generating exams, one for the self-study
-materials containing also detailed solutions and one for exemplary
-exams with a cover sheet where the correct solutions are already
-filled in. The implemented \proglang{R} functions were merged into the
-\proglang{R} package \pkg{exams}.  The package is available from the
-Comprehensive \proglang{R} Archive Network at
-\url{http://CRAN.R-project.org/package=exams}. It further contains
-additional material like exemplary exercise Sweave files and master
-{\LaTeX} files to facilitate the application for new users.
+In the development process at WU Wien, this addressed all requirements:
+All lecturers involved are familiar with \proglang{R} and {\LaTeX}
+(which are both available on all standard platforms) and can thus contribute to the
+pool of exercises. To do so, they just need to know the structure of the exercise
+Sweave files while different master {\LaTeX} files (for the department's 
+exams, exercise collections, etc.) have been written by the authors of
+the \pkg{exams} package. To provide all lecturers involved with access
+to all resources, \pkg{Subversion} \citep[SVN,][]{exams:Pilato+Collins-Sussman+Fitzpatrick:2004}
+is used for version control. This approach proved to be rather successful
+in addressing the needs of multi-author and cross-platform development.
 
-The remainder of this paper is organized as follows:
+The package \pkg{exams} that emerged from the developments at WU Wien
+is now available from the Comprehensive \proglang{R} Archive Network at
+\url{http://CRAN.R-project.org/package=exams}. To utilize it for exam
+generation, users need to generate a pool of exercises and supply a 
+master {\LaTeX} file. The package provides several examples for both
+types of file along with documentation (like this paper) and hands-on examples to get
+new users started. Hence, the remainder of this paper is organized as follows:
 Section~\ref{sec:exercises} explains the structure of the Sweave files
 defining the exercises and demonstrates how the final output file is
 derived from the original \proglang{R} and {\LaTeX} code. In
-Section~\ref{sec:master} the structure of the master {\LaTeX} file for
+Section~\ref{sec:master}, the structure of the master {\LaTeX} file for
 constructing the final PDF file from the exercise files is
-presented. Finally Section~\ref{sec:customization} gives a detailed
-overview on function \code{exams()} with exemplary applications and
-indicates possible ways for customization before
+presented. Finally Section~\ref{sec:customization} illustrates how
+to use the package in practice and how exams can be customized.
 Section~\ref{sec:summary} concludes the paper with a summary.
 
 \section{Exercises} \label{sec:exercises}
 
-% \begin{itemize}
-%   \item Sweave file
-%   \item data generation (typically invisible in the final exam),
-%   \item exercise,
-%   \item solution (might be hidden or shown),
-%   \item meta-information (for communication with \proglang{R}).
-% \end{itemize}
-
 Each exercise is contained in a separate Sweave file. It needs to
-contain (1) a question and a solution part which are encapsulated in
+contain (1)~a question and a solution part which are encapsulated in
 {\LaTeX} environments of the corresponding names and describe the
-problem and the solution respectively and (2) some meta-information
+problem and the solution respectively and (2)~some meta-information
 about the exercise such as type and the solution. Meta-information for
 the examples needs to be provided to characterize the problem and
 allow for example for automatic generation of a cover sheet with
@@ -308,10 +281,10 @@ constructed using \pkg{exams}. First, the package needs to be loaded
 and then \code{exams()} is called with the Sweave file name as
 argument to construct first the {\LaTeX} file and then generate the
 final PDF output file. The final PDF file is displayed on screen by
-using either the application specified in the Windows file
+using either the application specified in the file
 associations on a Windows operating system or with the PDF viewer
-specified in the options (see \code{getOption("pdfviewer")}) on a
-linux operating system.
+specified in the options (see \code{getOption("pdfviewer")}) on other
+operating systems (e.g., Linux or Mac OS).
 
 <<>>=
 library("exams")
@@ -550,7 +523,7 @@ In the \code{exam.tex} template {\LaTeX} commands for specifying a
 date and an ID for the exam are defined and this information is
 included in the cover page. The argument \code{header} of
 \code{exams()} can be used to specify how the ID is constructed for
-the $i^{\textrm{th}}$ exam by defining an appropriate function with
+the $i$th exam by defining an appropriate function with
 argument $i$. This allows a matching of the correct solution to a
 given exam if only the printout is available and to include additional
 information such as the date of the exam or the number of the exam if
