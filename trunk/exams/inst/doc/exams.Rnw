@@ -187,42 +187,42 @@ Section~\ref{sec:summary} concludes the paper with a summary.
 
 \section{Exercises} \label{sec:exercises}
 
-Each exercise is contained in a separate Sweave file. It needs to
-contain (1)~a question and a solution part which are encapsulated in
-{\LaTeX} environments of the corresponding names and describe the
-problem and the solution respectively and (2)~some meta-information
-about the exercise such as type and the solution. Meta-information for
-the examples needs to be provided to characterize the problem and
-allow for example for automatic generation of a cover sheet with
-suitable answer fields. All meta-information commands are in {\LaTeX}
-style but are actually commented out and thus hidden in the final
-output file. The Sweave file needs to contain the specification of the
-type of question (\verb|\extype{}|), the solution
-(\verb|\exsolution{}|) and some additional informative text
-(\verb|\exname{}|). Optionally a tolerance (\verb|\extol{}|) can be
-specified for numeric solutions; the default is a tolerance of zero.
+Each exercise is contained in a separate Sweave file and typically 
+represents an exemplary application of a statistical procedure. 
+It needs to contain (1)~a question and a solution description which are encapsulated in
+{\LaTeX} environments of the corresponding names and (2)~some meta-information
+about the exercise such as type and the solution. 
+To allow for variability, the data for the exercise can
+be generated within the Sweave file in a code chunk (typically
+suppressed in the final document). Meta-information for
+the examples needs to be provided, e.g., for computing with the solution
+within \proglang{R} or for generating lists with solutions.
 
-Each exercise represents an exemplary application of a statistical
-procedure. To allow for variability the data for the application can
-optionally be generated within the Sweave file. The data generating
-block only needs to be included in a chunk of \proglang{R} code at the
-beginning of the Sweave file. This part will in general be hidden in
-the final output, but the numbers drawn will be used to formulate a
-specific problem.
+In Table~\ref{tab:Rnw}, the Sweave file for a simple exercise asking
+students to compute a one-sample $t$~test statistic is
+shown for illustration. The four different blocks (\proglang{R} code
+with DGP, \code{question} environment, \code{solution} environment, meta
+information) can easily be distinguished. The {\LaTeX} file generated from
+a call to \code{Sweave()} is shown in Table~\ref{tab:tex}, and the final
+compiled PDF output is provided in Table~\ref{tab:pdf}.
 
-In Table~\ref{tab:Rnw} the Sweave file for a simple exercise asking
-students to compute the test statistics for the one-sample $t$~test is
-shown for illustration. The four different blocks (chunk of
-\proglang{R} code, question environment, solution environment and meta
-information) can easily be distinguished. The file resulting from
-applying \code{Sweave()} is a {\LaTeX} file and is shown in
-Table~\ref{tab:tex}. No \proglang{R} code is contained in the {\LaTeX}
-file any more, but the \verb|\|\verb|Sexpr{}| entries are replaced by
-numeric numbers and the code chunk containing the specification of the
-data generating process as well as the specific question and answer
-generation is completely omitted. The final PDF output file derived by
-inserting this {\LaTeX} file into a master {\LaTeX} file is shown in
-Table~\ref{tab:pdf}.
+The \proglang{R} code for the DGP is used as in any other
+Sweave document: The code chunk is framed by \verb|<<>>=| and \code{@}
+and options in the header control formatting (typically suppressing the
+display in the final document, as in this example). For further information about
+the application of Sweave and a detailed description of the different
+options see \cite{exams:Leisch:2008a,exams:Leisch:2008}.
+
+The core of an exercise are two blocks for the question and the
+solution in their accordingly named environments. The values generated
+by the DGP are typically included using \verb|\|\verb|Sexpr{}|
+statements. Furthermore, question/solution might contain graphics and/or
+\proglang{R} output created by Sweave. To include the {\LaTeX} output
+(see Table~\ref{tab:tex}) in some master {\LaTeX} file, this needs to define
+the \code{question} and \code{solution} environment. This mechanism can be
+used to control the display, e.g., to suppress the solution in an exam
+but to display it in associated self-study material
+(see Section~\ref{sec:master} for further details).
 
 %% from Rnw
 \begin{table}[p!]
@@ -276,77 +276,53 @@ cat(tex, sep = "\n")
 \end{center}
 \end{table}
 
-The PDF file as shown in Table~\ref{tab:pdf} can also be directly
-constructed using \pkg{exams}. First, the package needs to be loaded
-and then \code{exams()} is called with the Sweave file name as
-argument to construct first the {\LaTeX} file and then generate the
-final PDF output file. The final PDF file is displayed on screen by
-using either the application specified in the file
-associations on a Windows operating system or with the PDF viewer
-specified in the options (see \code{getOption("pdfviewer")}) on other
-operating systems (e.g., Linux or Mac OS).
+Finally, some meta-information needs to be provided. All meta-information
+commands are in {\LaTeX} style but are actually commented out and hidden in the final
+output file. There are four commands:
+\begin{itemize}
+  \item \verb|\extype{}|: type of question. It may be either \code{mchoice}
+        for multiple choice questions or \code{num} for questions with a
+        numeric result.
+  \item \verb|\exsolution{}|: solution. It contains the numeric solution or
+        a string of zeros and ones for multiple choice questions. For
+	confidence intervals, it may also specify two solutions of type
+        \verb|\exsolution{|\emph{lower}\verb|}{|\emph{upper}\verb|}|.	
+  \item \verb|\exname{}|: a name or description. This is some
+        short informative text, only used for printing of solutions
+	within \proglang{R}.
+  \item \verb|\extol{}|: tolerance limit (optional). For numeric solutions
+        a tolerance limit can be specified; by default it is assumed to be 0.
+        This can be useful automatic evaluations of numeric solutions if
+	some deviation from the correct answer is allowed (e.g., due to
+	rounding errors).
+\end{itemize}
 
+The user does not have to go from the Sweave file (Table~\ref{tab:Rnw})
+to the {\LaTeX} file (Table~\ref{tab:tex}) to the PDF file (Table~\ref{tab:pdf})
+``by hand''. The function \code{exams()} from package \pkg{exams} carries
+out all of these steps automatically and returns a suitable \proglang{R}
+object with the meta-information invisibly.
+%
 <<>>=
 library("exams")
 set.seed(1090)
 tstat_sol <- exams("tstat.Rnw")
 @ 
-
-The invisibly returned object is of class
-``\code{\Sexpr{class(tstat_sol)}}'' and contains the meta-information
-provided in the exercise. Its print method displays the information
-provided by \verb|\exname{}| and then after the colon either the
-numeric result with the interval of tolerated differences in
-parantheses or the answers for multiple choice questions.
-
+%
+After loading the package, \code{exams()} is called with the Sweave file name.
+The final PDF file is displayed on screen by default (for further options see
+Section~\ref{sec:customization}). The PDF viewer used depends on the operating
+system: On Windows, the application specified in the system's file
+associations is used. On other systems (e.g., Linux or Mac OS),
+the PDF viewer specified in the options (see \code{getOption("pdfviewer")})
+is started. \code{exams()} returns an object of class
+``\code{\Sexpr{class(tstat_sol)}}'' invisibly, which contains
+the meta-information provided in the exercise. Its print method displays
+the information provided:
+%
 <<>>=
 tstat_sol
 @ 
-
-Each Sweave file defining a exercise consists of four blocks. These
-blocks are described in more detail in the following using the example
-given in Table~\ref{tab:Rnw}.  The \proglang{R} code chunk at the
-beginning defines the data generating process and determines the
-specific numbers for problem description and the solution. The code
-chunk is framed by \verb|<<>>=| and \code{@}. The options specified at
-the beginning of the code chunk ensure that the input is not echoed
-and the results are not included in the {\LaTeX} file produced from
-the Sweave file by calling \code{Sweave()}. This implies that this
-part of the exercise is invisible in the final output file. If these
-options were not set the echoed code as well as the results would be
-included in the final output file in special environments used by
-Sweave for \proglang{R} input and output. For further information about
-the application of Sweave and a detailed description of the different
-options see \cite{exams:Leisch:2008a,exams:Leisch:2008}.
-
-The next part contains the two blocks for the question and the
-solution in their accordingly named environments. The data set
-specific numeric values are included using \verb|\|\verb|Sexpr{}|
-statements which allow to directly input numbers into the {\LaTeX}
-code. The exercise environment will in general always be defined in
-the master {\LaTeX} file to ensure the inclusion of the text in the
-final output file. The solution environment however will be defined to
-either hide or show the text depending on if exams or self-study
-materials are produced.
-
-Finally, some meta-information is provided. The type of question is
-specified with \verb|\extype{}|, which may be either \code{mchoice}
-for multiple choice questions or \code{num} for questions with a
-numeric result. The solution to the question is given in
-\verb|\exsolution{}|, which contains the numeric solution or a string
-of zero and ones for multiple choice questions. The numeric solution
-can either be a vector containing one or two elements. A solution with
-two elements is for example necessary if the result is a confidence
-interval. This can be specified by
-\verb|\exsolution{|\emph{lower}\verb|}{|\emph{upper}\verb|}|. Additional
-informative text is provided by a string via \verb|\exname{}|. This
-information is used for printing the meta-information within
-\proglang{R}. Finally, the optional command \verb|\extol{}| enables
-specification of a tolerance limit (\code{0}, by default). This can be
-useful in automatic evaluation of numeric solutions if some deviation
-from the correct answer is allowed (e.g., due to rounding errors). The
-meta-information for the example is given at the bottom of
-Table~\ref{tab:Rnw}.
 
 \section{Exams and solutions} \label{sec:master}
 
