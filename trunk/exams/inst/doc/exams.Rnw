@@ -337,9 +337,7 @@ subdirectory \code{tex} is a template for a minimal master {\LaTeX}
 file. It consists of the following {\LaTeX} code:
 
 <<echo=FALSE, results=hide>>=
-invisible(file.copy(system.file("tex", "plain.tex", package = "exams"), "plain.tex"))
-tex <- readLines("plain.tex")
-file.remove("plain.tex")
+tex <- readLines(system.file("tex", "plain.tex", package = "exams"))
 @ 
 <<echo=FALSE, results=tex>>=
 cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
@@ -518,8 +516,8 @@ in the cover sheet and the resulting PDF files are stored in
 \code{tempdir()}.
 
 <<>>=
-tdir <- tempdir()
-sol <- exams(myexam, n = 5, dir = tdir, template = "exam", 
+odir <- tempdir()
+sol <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"), 
   header = list(ID = getID))
 @ 
 
