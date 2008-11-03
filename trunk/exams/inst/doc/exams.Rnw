@@ -518,7 +518,7 @@ in the cover sheet and the resulting PDF files are stored in
 <<>>=
 odir <- tempdir()
 sol <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"), 
-  header = list(ID = getID))
+  header = list(ID = getID, Date = Sys.Date()))
 @ 
 
 The returned object consists of a list of length equal to \code{n} and
