@@ -1,7 +1,7 @@
 ## workhorse function for compiling (collections of) exercises
 exams <- function(file, n = 1, dir = NULL, template = "plain",
   inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
-  quiet = TRUE, edir = NULL, tdir = NULL, mchoice.control = NULL)
+  quiet = TRUE, edir = NULL, tdir = NULL, control = NULL)
 {
   ## convenience function
   strip_path <- function(file)
@@ -101,19 +101,19 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
          string = string)
   }
 
-  mchoice.default <- list(print = list(True = letters[1:5], False = rep("", 5)),
-                          symbol = c(True = "X", False = " "))
-  if (is.null(mchoice.control)) mchoice.control <- mchoice.default
-  else if (is(mchoice.control, "list")) {
-    mchoice.control <- c(mchoice.control, mchoice.default[!c("print", "symbol") %in% names(mchoice.control)])
-    if (!all(sapply(mchoice.control, function(x) identical(c("False", "True"), sort(names(x))))))
-      stop("'mchoice.control' not correctly specified")
-    mchoice.control$print <- lapply(mchoice.control$print, function(x) rep(x, 5))
-  } else stop("'mchoice.control' must be NULL or a list")
+  control.default <- list(mchoice.print = list(True = letters[1:5], False = rep("", 5)),
+                          mchoice.symbol = c(True = "X", False = " "))
+  if (is.null(control)) control <- control.default
+  else if (is(control, "list")) {
+    control <- c(control, control.default[!c("mchoice.print", "mchoice.symbol") %in% names(control)])
+    if (!all(sapply(control, function(x) identical(c("False", "True"), sort(names(x))))))
+      stop("'control' not correctly specified")
+    control$mchoice.print <- lapply(control$mchoice.print, function(x) rep(x, 5))
+  } else stop("'control' must be NULL or a list")
   
   ## convenience functions for writing LaTeX  
   mchoice2quest <- function(x) paste("  \\item \\exmchoice{",
-    paste(ifelse(x, mchoice.control$symbol[["True"]], mchoice.control$symbol[["False"]]), collapse = "}{"), "}", sep = "")
+    paste(ifelse(x, control$mchoice.symbol[["True"]], control$mchoice.symbol[["False"]]), collapse = "}{"), "}", sep = "")
   num2quest <- function(x) {
     rval <-  paste("  \\item \\exnum{", 
       paste(strsplit(format(c(100000.000, x), nsmall = 3, scientific = FALSE)[-1], "")[[1]][-7],
@@ -124,7 +124,7 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
     rval 
   }
 
-  mchoice2print <- function(x) paste(ifelse(x, mchoice.control$print[["True"]], mchoice.control$print[["False"]]), collapse = "")
+  mchoice2print <- function(x) paste(ifelse(x, control$mchoice.print[["True"]], control$mchoice.print[["False"]]), collapse = "")
 
   ## take everything to temp dir
   file.copy(file_path, dir_temp)

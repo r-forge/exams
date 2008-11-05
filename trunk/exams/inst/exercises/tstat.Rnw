@@ -12,14 +12,14 @@ tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
 @
 
 \begin{question}
-  A machine fills milk into $\Sexpr{mu}$ml packages. It is suspected that
-  the machine is not working correctly and that the amount of milk filled
-  differs from the setpoint $\mu_0 = \Sexpr{mu}$. A sample of $\Sexpr{n}$
-  packages filled by the machine are collected. The sample mean $\bar{y}$
-  is equal to $\Sexpr{Mean}$ and the sample variance $s^2_{n-1}$ is equal
-  to $\Sexpr{Var}$.
+  A machine fills milk into $\Sexpr{mu}$ml packages. It is suspected that the 
+  machine is not working correctly and that the amount of milk filled differs 
+  from the setpoint $\mu_0 = \Sexpr{mu}$. A sample of $\Sexpr{n}$ packages 
+  filled by the machine are collected. The sample mean $\bar{y}$ is equal to 
+  $\Sexpr{Mean}$ and the sample variance $s^2_{n-1}$ is equal to 
+  $\Sexpr{Var}$.
 
-  Test the hypothesis that the amount filled corresponds on average to the
+  Test the hypothesis that the amount filled corresponds on average to the 
   setpoint. What is the absolute value of the $t$~test statistic?
 \end{question}
 

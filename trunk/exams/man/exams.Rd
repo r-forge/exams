@@ -12,7 +12,7 @@
 \usage{
   exams(file, n = 1, dir = NULL, template = "plain",
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
-    quiet = TRUE, edir = NULL, tdir = NULL, mchoice.control = NULL)
+    quiet = TRUE, edir = NULL, tdir = NULL, control = NULL)
 }
 
 \arguments{
@@ -37,7 +37,7 @@
     the files in \code{file} are stored (see also below).}
   \item{tdir}{character specifying a temporary directory, by default
     this is chosen via \code{\link{tempdir}}.}
-  \item{mchoice.control}{A list of control arguments for the appearance of
+  \item{control}{A list of control arguments for the appearance of
     multiple choice results (see \sQuote{Details}).}
 }
 
@@ -89,14 +89,15 @@
   the default), \code{dir} may be \code{NULL} and it is only displayed
   on the screen.
 
-  The argument \code{mchoice.control} is specified by a named list with
-  elements \code{print} and \code{symbol}. The element \code{print} is
-  used for specifying the characters used for printing. It is again a
-  named list where element \code{True} gives the (five) characters used
-  for printing when the answer is correct and \code{False} if the answer
-  is wrong. The symbol used for the questionnaire output in the final
-  PDF file is defined by \code{symbol} which is vector with elements
-  \code{True} and \code{False}.
+  The argument \code{control} is specified by a named list with elements
+  \code{mchoice.print} and \code{mchoice.symbol}. The element
+  \code{mchoice.print} is used for specifying the characters used for
+  printing. It is again a named list where element \code{True} gives the
+  (five) characters used for printing when the answer is correct and
+  \code{False} if the answer is wrong. The symbol used for the
+  questionnaire output in the final PDF file is defined by
+  \code{mchoice.symbol} which is vector with elements \code{True} and
+  \code{False}.
 }
 
 \value{
@@ -140,10 +141,10 @@ sol
 ## inspect solution for a particular exam
 print(sol, 3)
 
-## modify mchoice.control argument for printing
-mymchoice.control <- list(print = list(True = LETTERS[1:5], False = "_"))
+## modify control argument for printing
+mymchoice.control <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
 sol <- exams("boxplots", template = "solution",
-             mchoice.control = mymchoice.control)
+             control = mymchoice.control)
 sol
 }
 

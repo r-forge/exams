@@ -135,13 +135,13 @@ led to the following design principles for package \pkg{exams}:
         answers (logical vectors) or numeric values (e.g., a test statistic
 	or a confidence interval).
 \end{itemize}
-Thus, the DGP of an exercise controls the distribution
-of possible solutions and can be utilizied to make them (approximately)
-evenly distributed and difficult to ``guess'' or ``learn by heart''.
-In addition to the variability within an exercise, one can add further
+Thus, the DGP of an exercise controls the distribution of possible
+solutions and can be utilized to make them (approximately) evenly
+distributed and difficult to ``guess'' or ``learn by heart''.  In
+addition to the variability within an exercise, one can add further
 variation by providing several exercise templates for the same type of
-problem. Depending on the flexibility of the DGP, the pool of exercises
-can thus be rather small or needs to be somewhat larger.
+problem. Depending on the flexibility of the DGP, the pool of
+exercises can thus be rather small or needs to be somewhat larger.
 
 Mixing problems/solutions and DGPs for exam generation poses challenges 
 that are similar to those of making data analyses reproducible.
@@ -170,48 +170,51 @@ is used for version control. This approach proved to be rather successful
 in addressing the needs of multi-author and cross-platform development.
 
 The package \pkg{exams} that emerged from the developments at WU Wien
-is now available from the Comprehensive \proglang{R} Archive Network at
-\url{http://CRAN.R-project.org/package=exams}. To utilize it for exam
-generation, users need to generate a pool of exercises and supply a 
-master {\LaTeX} file. The package provides several examples for both
-types of file along with documentation (like this paper) and hands-on examples to get
-new users started. Hence, the remainder of this paper is organized as follows:
-Section~\ref{sec:exercises} explains the structure of the Sweave files
-defining the exercises and demonstrates how the final output file is
-derived from the original \proglang{R} and {\LaTeX} code. In
-Section~\ref{sec:master}, the structure of the master {\LaTeX} file for
-constructing the final PDF file from the exercise files is
-presented. Finally Section~\ref{sec:customization} illustrates how
-to use the package in practice and how exams can be customized.
-Section~\ref{sec:summary} concludes the paper with a summary.
+is now available from the Comprehensive \proglang{R} Archive Network
+at \url{http://CRAN.R-project.org/package=exams}. To utilize it for
+exam generation, users need to generate a pool of exercises and supply
+a master {\LaTeX} file. The package provides several examples for both
+types of files along with documentation (like this paper) and hands-on
+examples to get new users started. Hence, the remainder of this paper
+is organized as follows: Section~\ref{sec:exercises} explains the
+structure of the Sweave files defining the exercises and demonstrates
+how the final output file is derived from the original \proglang{R}
+and {\LaTeX} code. In Section~\ref{sec:master}, the structure of the
+master {\LaTeX} file for constructing the final PDF file from the
+exercise files is presented. Finally Section~\ref{sec:customization}
+illustrates how to use the package in practice and how exams can be
+customized.  Section~\ref{sec:discussion} concludes the paper with a
+discussion.
 
 \section{Exercises} \label{sec:exercises}
 
-Each exercise is contained in a separate Sweave file and typically 
-represents an exemplary application of a statistical procedure. 
-It needs to contain (1)~a question and a solution description which are encapsulated in
-{\LaTeX} environments of the corresponding names and (2)~some meta-information
-about the exercise such as type and the solution. 
-To allow for variability, the data for the exercise can
-be generated within the Sweave file in a code chunk (typically
-suppressed in the final document). Meta-information for
-the examples needs to be provided, e.g., for computing with the solution
-within \proglang{R} or for generating lists with solutions.
+Each exercise is contained in a separate Sweave file and typically
+represents an exemplary application of a statistical procedure.  It
+needs to contain (1)~a question and a solution description which are
+encapsulated in {\LaTeX} environments of the corresponding names and
+(2)~some meta-information about the exercise such as type and the
+solution.  To allow for variability, the data for the exercise can be
+generated within the Sweave file in a code chunk (typically suppressed
+in the final document). Meta-information for the examples needs to be
+provided, e.g., for computing with the solution within \proglang{R} or
+for generating lists with solutions.
 
 In Table~\ref{tab:Rnw}, the Sweave file for a simple exercise asking
-students to compute a one-sample $t$~test statistic is
-shown for illustration. The four different blocks (\proglang{R} code
-with DGP, \code{question} environment, \code{solution} environment, meta
-information) can easily be distinguished. The {\LaTeX} file generated from
-a call to \code{Sweave()} is shown in Table~\ref{tab:tex}, and the final
-compiled PDF output is provided in Table~\ref{tab:pdf}.
+students to compute a one-sample $t$~test statistic is shown for
+illustration. The four different blocks (\proglang{R} code with DGP,
+\code{question} environment, \code{solution} environment,
+meta-information) can easily be distinguished. The {\LaTeX} file
+generated from a call to \code{Sweave()} is shown in
+Table~\ref{tab:tex}, and the final compiled PDF output is provided in
+Table~\ref{tab:pdf}.
 
-The \proglang{R} code for the DGP is used as in any other
-Sweave document: The code chunk is framed by \verb|<<>>=| and \code{@}
-and options in the header control formatting (typically suppressing the
-display in the final document, as in this example). For further information about
-the application of Sweave and a detailed description of the different
-options see \cite{exams:Leisch:2008a,exams:Leisch:2008}.
+The \proglang{R} code for the DGP is used as in any other Sweave
+document: The code chunk is framed by \verb|<<>>=| and \code{@} and
+options in the header control formatting (typically suppressing the
+display in the final document, as in this example). For further
+information about the application of Sweave and a detailed description
+of the different options see
+\cite{exams:Leisch:2008a,exams:Leisch:2008}.
 
 The core of an exercise are two blocks for the question and the
 solution in their accordingly named environments. The values generated
@@ -290,11 +293,11 @@ output file. There are four commands:
   \item \verb|\exname{}|: a name or description. This is some
         short informative text, only used for printing of solutions
 	within \proglang{R}.
-  \item \verb|\extol{}|: tolerance limit (optional). For numeric solutions
-        a tolerance limit can be specified; by default it is assumed to be 0.
-        This can be useful automatic evaluations of numeric solutions if
-	some deviation from the correct answer is allowed (e.g., due to
-	rounding errors).
+      \item \verb|\extol{}|: tolerance limit (optional). For numeric
+        solutions a tolerance limit can be specified; by default it is
+        assumed to be 0.  This can be useful for automatic evaluations
+        of numeric solutions if some deviation from the correct answer
+        is allowed (e.g., due to rounding errors).
 \end{itemize}
 
 The user does not have to go from the Sweave file (Table~\ref{tab:Rnw})
@@ -324,50 +327,80 @@ the information provided:
 tstat_sol
 @ 
 
-\section{Exams and solutions} \label{sec:master}
+\section[Combining exercises: The master LaTeX file]{Combining
+  exercises: The master {\LaTeX} file} \label{sec:master}
 
 \code{exams()} takes a list of exercises (Sweave files) as input,
 weaves them in \proglang{R} and plugs them into a master {\LaTeX}
-file. The master {\LaTeX} file needs to define the exercise and
-solution environments (possibly hiding solutions) and to specify where
-the exercises are included, by inserting the markup
+file. It ensures that all files needed by \code{Sweave()} and
+\code{texi2dvi()} to produce the final PDF file are available in a
+(temporary) directory. It copies the exercise files as well as
+additionally specified input files to this directory and writes to
+this directory the final {\LaTeX} file produced by processing the
+master {\LaTeX} file and replacing markups with the appropriate
+{\LaTeX} code generated with \proglang{R}. 
+
+The master {\LaTeX} file needs to define the \code{exercise} and
+\code{solution} environments (possibly hiding solutions) and to
+specify where the exercises are included, by inserting the markup
 \verb|\exinput{exercises}| at the desired location in the {\LaTeX}
 file. The file \code{plain.tex} provided by package \pkg{exams} in
 subdirectory \code{tex} is a template for a minimal master {\LaTeX}
-file. It consists of the following {\LaTeX} code:
+file (see Table~\ref{tab:master}). 
 
-<<echo=FALSE, results=hide>>=
-tex <- readLines(system.file("tex", "plain.tex", package = "exams"))
-@ 
+\begin{table}
+\begin{center}
+\makebox[\textwidth]{\hrulefill}
+
 <<echo=FALSE, results=tex>>=
+tex <- readLines(system.file("tex", "plain.tex", package = "exams"))
 cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
 @
+
+\makebox[\textwidth]{\hrulefill}
+\caption{\label{tab:master} A simple master {\LaTeX} file: \code{plain.tex}.}
+\end{center}
+\end{table}
 
 First, the document class is defined and then necessary add-on
 packages are loaded. If \proglang{R} output is displayed in the
 exercises \code{Sweave.sty} needs to be included. Please note that
 \code{texi2dvi()} ensures that this style file will be found by
 including \proglang{R}'s \code{texmf} directory in the
-\code{TEXINPUTS} path. Then the environments for question and solution
-are defined. After starting the document only the markup for inclusion
-of the exercises is inserted within an enumerate environment.
+\code{TEXINPUTS} path. Then the environments for \code{question} and
+\code{solution} are defined. The definition of the \code{solution}
+environment given in Table~\ref{tab:master} implies that the solution
+is contained in the final PDF file. If the solution should be hidden
+the definition of the \code{solution} environment needs to be
+modified, e.g., to
+\verb|\newenvironment{solution}{\comment}{\endcomment}|. After
+starting the document only the markup for inclusion of the exercises
+is inserted within an enumerate environment. Function \code{exams()}
+replaces the line \verb|%% \exinput{exercises}| by input commands for
+each exercise which shall be contained in the final PDF file given by
+\verb|\input{|{\it filename}\verb|}|.
 
-Further optional markups in the {\LaTeX} master file are
-\verb|\exinput{questionnaire}| to indicate where the answer fields for
-the questions are included in the cover page and
-\verb|\exinput{header}| for inclusion of additional {\LaTeX} commands.
-Two slightly more complicated exemplary master {\LaTeX} files are
-included in the package: \code{exam.tex} and
-\code{solution.tex}. \code{exam.tex} can be used to generate exams
-including a cover sheet for students to fill in their names as well as
-their answers to the problems. \code{solution.tex} will result in a
-PDF file containing a cover sheet similar to \code{exam.tex} but with
-the correct answers already filled in.
+Further optional markups in the {\LaTeX} master file are:
+\begin{itemize}
+\item \verb|\exinput{questionnaire}| to indicate where the answer
+  fields for the questions are included in the cover page and
+\item \verb|\exinput{header}| for inclusion of definitons of
+  additional {\LaTeX} commands.
+\end{itemize}
+
+Two slightly more complicated exemplary master {\LaTeX} files where
+these additional markups are used are included in the package:
+\code{exam.tex} and \code{solution.tex}. \code{exam.tex} can be used
+to generate exams including a cover sheet for students to fill in
+their names as well as their answers to the
+problems. \code{solution.tex} will result in a PDF file containing a
+cover sheet similar to \code{exam.tex} but with the correct answers
+already filled in.
 
 For including a cover sheet the necessary {\LaTeX} code needs to be
 included in the template which constructs the layout and provides all
 text included. The part containing the answer fields is generated by
-\proglang{R} depending on the type of problems in the
+\code{exams()} depending on the type of problems in the
 questionnaire. This automatically generated {\LaTeX} code is put into
 the {\LaTeX} file where \verb|\exinput{questionnaire}| is specified as
 markup. An enumerate environment is used where each item corresponds
@@ -377,30 +410,39 @@ solutions. This {\LaTeX} command is supposed to have nine input
 arguments where the first six include the digits to the left and the
 last three the digits to the right of the decimal point. Depending on
 the definitions of \verb|\exmchoice| and \verb|\exnum| provided in the
-template the layout of the answer is influenced as well as if the
-answer should be suppressed. Please note that this implementation has
-the limitation that at most five answer options are possible for
+template the layout of the answer fields is determined as well as if
+the correct answer is printed. Please note that this implementation
+has the limitation that at most five answer options are possible for
 multiple choice questions as well as only a precision up to three
 digits right from the decimal mark and six digits left from the
-decimal mark for numeric results.
+decimal mark for numeric results is possible.
 
 The markup \verb|\exinput{header}| in general appears before starting
 the body of the text in the master {\LaTeX} file with
 \verb|\begin{document}| and is replaced by \code{exams()} such that in
   the final {\LaTeX} file {\LaTeX} commands are included. These
-  commands have the names and values passed to \code{exams()} as a
-  named list in the argument \code{header}. This allows for example to
+  commands are constructed from a named list passed to \code{exams()}
+  in the argument \code{header}. For each element of the passed list
+  the command is constructed as \verb|\|{\it name}\verb|{|{\it
+      object}\verb|}| where {\it name} denotes the name of the list
+  element and {\it object} its value.  This allows for example to
   include a specific date information as well as consecutive numbers
   as identifiers for the exams.
 
-\section{Application and customization} \label{sec:customization}
+  \section[Application and customization: Function
+  exams()]{Application and customization: Function
+    \code{exams()}} \label{sec:customization}
 
-In the simple case where only a single Sweave file is processed
-running \code{exams()} is equivalent to first calling \code{Sweave()}
-and then \code{texi2dvi()} on the file after including it in a master
-{\LaTeX} file and not much simplification is gained by \code{exams()}.
-The advantage of \code{exams()} is that it extends this functionality
-to enable
+  In the simple case where only a single Sweave file is processed
+  running \code{exams()} is equivalent to first calling
+  \code{Sweave()} and then \code{texi2dvi()} on the file after
+  including it in a master {\LaTeX} file. In this case not much
+  simplification is gained by \code{exams()} except that non-experts
+  do not need to know these sequence of commands and do not need to
+  ensure that the necessary files are in appropriate directories to be
+  found by each of the programs.  The main advantages of
+  \code{exams()} however are that it extends this functionality to
+  enable
 \begin{itemize}
 \item construction of exams with several exercises which are
   sampled in a stratified way,
@@ -408,61 +450,12 @@ to enable
   and storage,
 \item the inclusion of a suitable cover page where the answer fields
   offered correspond to the type of questions and
-\item the subsumption of problems and solutions in an \proglang{R}
-  object. 
+\item the collection of meta-information of problems and solutions in
+  an \proglang{R} object.
 \end{itemize}
 
-In general, users will want to customize the package \pkg{exams} by
-providing their own pool of exercises and adapting the template
-files. The package already includes
-\Sexpr{length(list.files(system.file("exercises",package="exams")))}
-Sweave files providing different examples which cover possible topics
-in an introductionary statistics course such as calculating the test
-statistics for a one-sample $t$~test, the confidence interval for the
-mean value of a metric variable and the predicted value of a fitted
-regression line and interpreting important basic statistical graphics
-such as scatterplots or boxplots, the \proglang{R} output of basic
-statistical procedures such as a two-sample $t$~test or an ANOVA as
-well as the values contained in a marginal table derived from a given
-contingency table. The pool of exercises can not only be extended by
-including more different examples, in the sense that different types
-of statistical knowledge are tested, but also by modifying the
-described application.
-
-After a pool of questions has been established a PDF file containing a
-collection of these questions together with the answers can be
-generated by \code{exams(}\textit{files}\code{)} where \textit{files}
-is either a character vector containing the file names of the
-exercises or a list of such vectors. If a vector of file names is
-specified each exercise will be included in the final output file. For
-an exam it might be desirable not to include all questions but to
-select a subset using stratified sampling, e.g., by including only one
-of all questions related to the one-sample $t$~test. This can be
-achieved by specifying a list of vectors. For example, the
-specification \code{file = list(c("a", "b"), "xyz")} will result in an
-exam with two exercises: the first exercise is chosen randomly between
-\code{"a"} and \code{"b"} while \code{"xyz"} is always included as the
-second exercise. The extension \code{.Rnw} can be omitted from the
-file names and the corresponding files should either be in the local
-directory, the \code{edir} directory (which can be also specified as
-an argument in \code{exams()}) or in the \code{exercises} directory of
-the package. The default value of the argument \code{template}
-\code{plain.tex} is used to generate the PDF file.
-
-An example for creating an exam with five exercises each from the
-pool of examples provided by package \pkg{exams} is given by:
-<<>>=
-myexam <- list("boxplots",
-               c("confint", "ttest", "tstat"),
-               c("anova", "regression"),
-               "scatterplot",
-               "relfreq")
-set.seed(1090)
-sol <- exams(myexam)
-@ 
-
-\code{exams()} has the following other arguments with default values
-as shown by the synopsis of the function
+Function \code{exams()} has the following arguments with default
+values as shown by the synopsis of the function:
 \begin{verbatim}
 <<results=tex, echo=false>>=
 cat(prettyPrint(prompt(exams, filename = NA)$usage[[2]], sep = ", ", 
@@ -471,6 +464,23 @@ cat(prettyPrint(prompt(exams, filename = NA)$usage[[2]], sep = ", ",
 @ 
 \end{verbatim}
 
+The argument \code{file} is either a character vector containing the
+file names of the exercises which shall be contained in the final PDF
+file or a list of such vectors. If a vector of file names is specified
+each exercise will be included in the final output file. For an exam
+it might be desirable not to include all questions but to select a
+subset using stratified sampling, e.g., by including only one of all
+questions related to the one-sample $t$~test. This can be achieved by
+specifying a list of vectors. For example, the specification
+\code{file = list(c("a", "b"), "xyz")} will result in an exam with two
+exercises: the first exercise is chosen randomly between \code{"a"}
+and \code{"b"} while \code{"xyz"} is always included as the second
+exercise. The extension \code{.Rnw} can be omitted from the file names
+and the corresponding files should either be in the local directory,
+the \code{edir} directory (which can be also specified as an argument
+in \code{exams()}) or in the \code{exercises} directory of the
+package. 
+
 In order to allow for the automated creation of several exams the
 argument \code{n} can be set to an integer value equal to the desired
 number of different exams. In this case also an output directory where
@@ -478,32 +488,79 @@ the resulting PDF files are stored needs to be specified using
 \code{dir}. A prefix for the names of these files can be specified
 with \code{name}. The default is to use the name of the template. Not
 only an output directory can be specified but also the directory
-containing the exercise files (\code{edir}) and a temporary directory
-for intermediate results such as the constructed {\LaTeX} file
-(\code{tdir}). The argument \code{template} is a (vector of)
-specification(s) of {\LaTeX} templates. It can be \code{"foo"} or
-equivalently \code{"foo.tex"} where \code{"foo.tex"} should either be
-in the local directory (or provided with the full path) or in the
-\code{tex} directory of the package. If \code{template} is a vector,
-then for each of the \code{n} runs several output files (one for each
-template) are created with the same questions. Further arguments to
-\code{exams()} are \code{header} which allows the additional inclusion
-of {\LaTeX} commands in the {\LaTeX} file, \code{inputs} which
-provides a vector of file names (including the path) which are needed
-during {\LaTeX} compilation and \code{quiet} for suppressing output
-when calling \code{Sweave()} and \code{texi2dvi()}.
+containing the exercise files (\code{edir}, by default the current
+working directory) and a temporary directory for intermediate results
+such as the constructed {\LaTeX} file (\code{tdir}, by default its
+name is generated by \code{tempfile()}). 
 
-In the \code{exam.tex} template {\LaTeX} commands for specifying a
-date and an ID for the exam are defined and this information is
-included in the cover page. The argument \code{header} of
-\code{exams()} can be used to specify how the ID is constructed for
-the $i$th exam by defining an appropriate function with
-argument $i$. This allows a matching of the correct solution to a
-given exam if only the printout is available and to include additional
-information such as the date of the exam or the number of the exam if
-several exams are written in the course. The following ID function
-will generate a label for the exam which contains the name ``myexam''
-and the number of the exam.
+The argument \code{template} is a (vector of) specification(s) of
+{\LaTeX} templates. It can be \code{"foo"} or equivalently
+\code{"foo.tex"} where \code{"foo.tex"} should either be in the local
+directory (or provided with the full path) or in the \code{tex}
+directory of the package. If \code{template} is a vector, then for
+each of the \code{n} runs several output files (one for each template)
+are created with the same questions. Argument \code{header} allows the
+additional inclusion of {\LaTeX} commands in the final {\LaTeX} file
+in the form of \verb|\|{\it name}\verb|{|{\it object}\verb|}| as given
+by a named list. The objects specified in the named list can either be
+strings or functions with an argument indicating the number of the
+exam and returning a string.  Please note that the corresponding
+{\LaTeX} commands as well as the markup for inclusion of the header
+have to be included in the master {\LaTeX} file.
+
+Further arguments to \code{exams()} are \code{inputs} which provides a
+vector of file names (including the path) which are needed during
+{\LaTeX} compilation and are copied to the directory specified by
+\code{tdir} and \code{quiet} for suppressing output when calling
+\code{Sweave()} and \code{texi2dvi()}. Finally \code{control} allows
+to control the appearance of the solutions of multiple choice
+questions on the cover page in the solutions PDf file and when
+printing ``\code{\Sexpr{class(tstat_sol)}}'' objects.
+
+In general, users will want to customize the package \pkg{exams} by
+providing their own pool of exercises and adapting the template
+files. To illstrate the application package \pkg{exams} already
+includes
+\Sexpr{length(list.files(system.file("exercises",package="exams")))}
+Sweave files providing different illustrative examples which cover
+possible topics in an introductionary statistics course such as
+calculating the test statistics for a one-sample $t$~test, the
+confidence interval for the mean value of a metric variable and the
+predicted value of a fitted regression line and interpreting important
+basic statistical graphics such as scatterplots or boxplots, the
+\proglang{R} output of basic statistical procedures such as a
+two-sample $t$~test or an ANOVA as well as the values contained in a
+marginal table derived from a given contingency table. These exercises
+are used to illustrate how an exam with five exercises can be
+generated with \code{exams()}. First, the argument for \code{file} is
+specified by a list with five elements where each element contains at
+least one name of an excercise file. Those exercise files which
+address a similar statistical procedure such as for example the ANOVA
+exercise and the regression example are combined in one list element
+and only one of these exercises will be included in the final exam
+file.
+<<>>=
+set.seed(1090)
+myexam <- list("boxplots",
+               c("confint", "ttest", "tstat"),
+               c("anova", "regression"),
+               "scatterplot",
+               "relfreq")
+@ 
+
+To illustrate the use of the \code{header} argument we define IDs as
+well as the date to be included on the cover page in the final PDF
+file. In the master {\LaTeX} files \code{exam.tex} and
+\code{solution.tex} the commands \code{Date} as well as \code{ID} are
+defined before the markup \verb|%% \exinput{header}|. To allow
+for different IDs for each of the exams generated simultaneously with
+\code{exams()} a function with argument $i$ is specified which
+constructs the ID for the $i$th exam. This allows a matching of the
+correct solution to a given exam if only the printout is available and
+to include additional information such as the date of the exam or the
+number of the exam if several exams are written in the course. The
+following ID function will generate a label for the exam which
+contains the name ``myexam'' and the number of the exam.
 
 <<>>=
 getID <- function(i) 
@@ -511,76 +568,107 @@ getID <- function(i)
 getID(1)
 @ 
 
-In the following five exams are generated where these IDs are included
-in the cover sheet and the resulting PDF files are stored in
-\code{tempdir()}.
-
+In the following five exams are generated where these IDs as well as
+today's date are included on the cover sheet. The resulting PDF files
+are stored in the temporary directory \code{odir} where the name is
+generated by \code{tempfile()}. The argument \code{template} specifies
+two different master {\LaTeX} files and hence, \code{exams()}
+generates not only five exams PDF files but also five corresponding
+PDF files with the solutions included on the cover page. 
 <<>>=
-odir <- tempdir()
+odir <- tempfile()
 sol <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"), 
   header = list(ID = getID, Date = Sys.Date()))
 @ 
 
-The returned object consists of a list of length equal to \code{n} and
-is of class ``\code{\Sexpr{class(sol)}}''. Each element of this list
-contains again a list of meta-information for each exercise. Printing
-this object gives an overview of each exam with the information on the
-included exercises (using the information provided by
-\verb|\exname{}|) and the corresponding results. For numeric results
-also the lower and upper bounds of the results which are within the
-tolerance are provided. By default for multiple choice questions the
-true statements (from a to e) are listed and the false ones are
-omitted. This signifies that if a multiple choice question has no true
-statements, nothing is printed after the inclusion of the information
-on the question and the colon.
+The following files were generated by \code{exams()} and stored in
+\code{odir}:
 <<>>=
-sol
-@
+list.files(odir)
+@ 
 
 If an output directory \code{dir} is specified the object containing
 this meta-information is also saved in this directory in the file
 \code{metainfo.rda} using \code{save()}. For evaluating the exams this
 file can be loaded and inspected to extract the correct solution after
-obtaining the ID from the available printout.
+obtaining the ID from the available printout. To inspect the produced
+files the reader can change the output directory in the call of
+\code{exams()}, e.g., to the current working directory, in order to
+have the produced files easily accessible in a conveniently located
+directory.
+
+The returned object consists of a list of length equal to \code{n=}$5$
+and is of class ``\code{\Sexpr{class(sol)}}''. Each element of this
+list contains again a list of meta-information for each
+exercise. Printing this object gives an overview of each exam with the
+information on the included exercises (using the information provided
+by \verb|\exname{}|) and the corresponding results. For numeric
+results also the lower and upper bounds of the results which are
+within the tolerance are provided. By default for multiple choice
+questions the true statements (from a to e) are listed and the false
+ones are omitted. This signifies that if a multiple choice question
+has no true statements, nothing is printed after the inclusion of the
+information on the question and the colon.
+<<>>=
+sol
+@
 
 The appearance of the solutions of the multiple choice questions when
 printing the results as ``\code{\Sexpr{class(sol)}}'' objects or on
-the cover page can be set by the \code{mchoice.control} argument. This
-is specified by a named list with components \code{print} and
-\code{symbol}. Component \code{print} is a list with elements
-\code{True} and \code{False} which each give the symbols used for
-printing true and false answers respectively. Component \code{symbol}
-is a vector of length 2 with elements \code{True} and \code{False}
-which specify the symbols used in the answer fields on the cover page
-for exemplary exams. An example for changing the printing is given by:
+the cover page can be set by the \code{control} argument. This is
+specified by a named list with components \code{mchoice.print} and
+\code{mchoice.symbol}. Component \code{mchoice.print} is a list with
+elements \code{True} and \code{False} which each give the symbols used
+for printing true and false answers respectively. Component
+\code{mchoice.symbol} is a vector of length 2 with elements
+\code{True} and \code{False} which specify the symbols used in the
+answer fields on the cover page for exemplary exams. An example for
+changing the printing is given by:
 
 <<>>=
-mchoiceControl <- list(print = list(True = LETTERS[1:5], 
+mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], 
                          False = "_"))
-(sol <- exams(myexam, n = 1, dir = tempdir(), template = "exam", 
-              mchoice.control = mchoiceControl))
+(sol <- exams(myexam, n = 1, dir = odir, template = "exam", 
+              control = mycontrol))
 @ 
 
-\section{Summary} \label{sec:summary}
+\section{Discussion} \label{sec:discussion}
+
+The design principles of package \pkg{exams} ensure that the pool of
+exercises consisting of Sweave files and the {\LaTeX} files for the
+different PDF output files can be developed separately. Developers
+of exercises do only need to call \code{exams()} with their exercise
+Sweave file as input to inspect the PDF output and do not need to have
+any further knowledge about the internal sequence of procedures. They
+will only need to be familiar with the details described in
+Section~\ref{sec:exercises} about exercise files. Different kinds of
+materials such as exercise collections, exams or solutions files can
+be generated for the same exercises and the layout can be changed by
+modifying the master {\LaTeX} file. Several exams can be generated at
+the same time with the same exercise structure and these exams are
+saved in a common directory with suitable names together with an
+\code{.rda} file containing the meta-information. This enables the
+user to generate individual exams for students and the easy
+administration and maintenance of exams and solutions.
 
 The framework implemented by the package \pkg{exams} for automatic
 generation of statistical exams is already in use since spring 2008 by
 the Department of Statistics and Mathematics at the WU Wien. The
 self-study materials available on an online-platform to support the
-lecture as well as the individual exams for each student were
-generated with the package. The additional online material consists of
-exercise collections for each chapter of the lecture as well as
-exemplary exams including the solutions in order to familiarize
-students with the specific exam format.
+lecture as well as individual exams for each student were generated
+with the package. The additional online material consists of exercise
+collections for each chapter of the lecture as well as exemplary exams
+including the solutions in order to familiarize students with the
+specific exam format.
 
 The evaluation of exams has so far only be made by hand using the
 meta-information provided in the output of \code{exams()}. In the
-future it is aimed to scan the exams and use OCR software to
-automatically extract the results given by students and match them
-with the correct solutions. This will allow to also eliminate this
-last step of manual handling of the exams which is slightly tedious
-given the considerable number of students taking the course each
-semester.
+future it is aimed to scan the exams and use optical character
+recognition (OCR) software to automatically extract the results given
+by students and match them with the correct solutions. This will allow
+to also eliminate this last step of manual handling of the exams which
+is slightly tedious given the considerable number of students taking
+the course each semester.
 
 The feedback from the students was encouraging. They appreciated the
 possibility to optimally prepare themselves for the exams using the
@@ -592,7 +680,18 @@ containing the problems together with the solutions corresponding to
 their individual test as an attachment which can easily be generated
 with package \pkg{exams}.
 
-\section*{Acknowledgements}
+\section*{Computational details}
+<<echo=false,results=hide>>=
+SI <- sessionInfo()
+pkgs <- paste(sapply(c(SI$otherPkgs, SI$loadedOnly), function(x) 
+                     paste("\\\\pkg{", x$Package, "} ", 
+                           x$Version, sep = "")), collapse = ", ")
+@ 
+
+All computations and graphics in this paper have been done using
+\proglang{R} version \Sexpr{getRversion()} with package \Sexpr{pkgs}.
+
+\section*{Acknowledgments}
 
 We are indebted to our colleagues at the Department of Statistics and
 Mathematics at WU Wien---in particular Regina T\"uchler and Josef

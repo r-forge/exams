@@ -89,7 +89,7 @@ outlier <- length(unlist(outlier)) > 0
 questions[2] <- "Both distributions contain no outliers."
 solutions[2] <- !outlier
 explanations[2] <- if (solutions[2])
-  "Both distributions have no observations which deviate more than 1.5 times the interquartile range from the median." else "There are observations which deviate more than 1.5 times the interquartile range from the median."
+  "Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box." else "There are observations which deviate more than 1.5 times the interquartile range from the median."
 
 questions[3] <- "The spread in sample~A is clearly bigger than in B."
 solutions[3] <- IQR(A)/IQR(B) > 1.5
@@ -107,7 +107,7 @@ explanations[4] <- if (solutions[4]) paste("The skewness of both distributions i
 i <- sample(1:2, 1)
 j <- sample(1:3, 1)
 questions[5] <- paste("Distribution ", c("A", "B")[i], " is ", 
-                      c("about symmetic", "right-skewed", "left-skewed")[j], ".", sep = "")
+                      c("about symmetric", "right-skewed", "left-skewed")[j], ".", sep = "")
 SK_i <- SK(list(A, B)[[i]])
 solutions[5] <- switch(j, abs(SK_i) < 0.2,
                        SK_i >= 0.2,
