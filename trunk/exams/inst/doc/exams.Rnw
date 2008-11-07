@@ -320,7 +320,7 @@ associations is used. On other systems (e.g., Linux or Mac OS),
 the PDF viewer specified in the options (see \code{getOption("pdfviewer")})
 is started. \code{exams()} returns an object of class
 ``\code{\Sexpr{class(tstat_sol)}}'' invisibly, which contains
-the meta-information provided in the exercise. Its print method displays
+the meta-information provided in the exercise. Its \code{print()} method displays
 the information provided:
 %
 <<>>=
@@ -330,25 +330,30 @@ tstat_sol
 \section[Combining exercises: The master LaTeX file]{Combining
   exercises: The master {\LaTeX} file} \label{sec:master}
 
-\code{exams()} takes a list of exercises (Sweave files) as input,
-weaves them in \proglang{R} and plugs them into a master {\LaTeX}
-file. It ensures that all files needed by \code{Sweave()} and
-\code{texi2dvi()} to produce the final PDF file are available in a
-(temporary) directory. It copies the exercise files as well as
-additionally specified input files to this directory and writes to
-this directory the final {\LaTeX} file produced by processing the
-master {\LaTeX} file and replacing markups with the appropriate
-{\LaTeX} code generated with \proglang{R}. 
+To produce the PDF for an exam, the exercises need to be weaved,
+tied together in the master {\LaTeX} file and subsequently processed
+to PDF. More precisely, \code{exams()} takes the following approach: 
+\begin{enumerate}
+  \item Collect all Sweave files for the exercises, the master {\LaTeX}
+        file(s) and potentially  additionally specified input files.
+  \item Copy all files to a (temporary, by default) directory.
+  \item Run \code{Sweave()} for each exercise.
+  \item Produce a copy of the master {\LaTeX} file in which certain
+        control structures are substituted by dynamically generated
+	{\LaTeX} commands (e.g., for including the exercises).
+  \item Run \code{texi2dvi()} for each master {\LaTeX} file.
+  \item Store the resulting PDF file(s) in an output directory
+        or display it on the screen (for a single file only, by default).
+\end{enumerate}
+Thus, the only thing needed to combine several independent exercises
+to an exam is a master {\LaTeX} file. Its basic structure is quite
+straightforward but for more elaborate layouts it can become
+more complex. Package \pkg{exams} provides various examples of master
+{\LaTeX} files in the \code{inst/tex/} directory of the source package.
+The simplest one is \code{plain.tex} (see Table~\ref{tab:master})
+which is described here to provide a first overview.
 
-The master {\LaTeX} file needs to define the \code{exercise} and
-\code{solution} environments (possibly hiding solutions) and to
-specify where the exercises are included, by inserting the markup
-\verb|\exinput{exercises}| at the desired location in the {\LaTeX}
-file. The file \code{plain.tex} provided by package \pkg{exams} in
-subdirectory \code{tex} is a template for a minimal master {\LaTeX}
-file (see Table~\ref{tab:master}). 
-
-\begin{table}
+\begin{table}[t]
 \begin{center}
 \makebox[\textwidth]{\hrulefill}
 
@@ -362,87 +367,84 @@ cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
 \end{center}
 \end{table}
 
+The structure of \code{plain.tex} is rather straightforward:
 First, the document class is defined and then necessary add-on
-packages are loaded. If \proglang{R} output is displayed in the
-exercises \code{Sweave.sty} needs to be included. Please note that
-\code{texi2dvi()} ensures that this style file will be found by
-including \proglang{R}'s \code{texmf} directory in the
-\code{TEXINPUTS} path. Then the environments for \code{question} and
-\code{solution} are defined. The definition of the \code{solution}
-environment given in Table~\ref{tab:master} implies that the solution
-is contained in the final PDF file. If the solution should be hidden
-the definition of the \code{solution} environment needs to be
-modified, e.g., to
-\verb|\newenvironment{solution}{\comment}{\endcomment}|. After
-starting the document only the markup for inclusion of the exercises
-is inserted within an enumerate environment. Function \code{exams()}
-replaces the line \verb|%% \exinput{exercises}| by input commands for
-each exercise which shall be contained in the final PDF file given by
-\verb|\input{|{\it filename}\verb|}|.
+packages are loaded.\footnote{Note that \code{Sweave.sty} is included for
+displaying \proglang{R} output. \code{texi2dvi()} ensures that this style
+file will be found by including \proglang{R}'s \code{texmf} directory in the
+\code{TEXINPUTS} path.}
+Then the environments for \code{question} and \code{solution} are defined
+(as part of an itemize or enumerate list). Finally, the document starts
+and consists only of an enumerate list. In Step~4 of the algorithm described above,
+the control command \verb|%% \exinput{exercises}| is replaced by
+(a sequence of) \verb|\input{|{\it filename}\verb|}|, e.g., \verb|\input{tstat}|
+in our basic example from the previous section.
 
-Further optional markups in the {\LaTeX} master file are:
+Thus, all appearance options can be controlled in the {\LaTeX} code of
+the master file, e.g., by changing the definitions of the \code{question}/\code{solution}
+environments or by modifying the code around the \verb|\exinput{}| command.
+As an example, one might want to show only the questions and hide the
+solutions in the PDF. This is easily obtained by changing the definition
+of the \code{solution} environment to
+\verb|\newenvironment{solution}{\comment}{\endcomment}|.
+
+<<echo=FALSE, results=hide>>=
+tstat_char <- strsplit(gsub("\\.", "", as.character(tstat_sol[[1]][[1]]$solution)), "")[[1]]
+tstat_exnum <- rep("", 9)
+tstat_exnum[(10 - length(tstat_char)):9] <- tstat_char
+tstat_exnum <- paste("{", tstat_exnum, "}", sep = "", collapse = "")
+@
+
+The structure described so far is completely static, except for the
+\verb|\exinput{}| command. In fact, \code{exercises} is not the only argument
+allowed; at the moment two further arguments
+can be used to modify aspects of the master {\LaTeX} file dynamically:
 \begin{itemize}
-\item \verb|\exinput{questionnaire}| to indicate where the answer
-  fields for the questions are included in the cover page and
-\item \verb|\exinput{header}| for inclusion of definitons of
-  additional {\LaTeX} commands.
+\item \verb|\exinput{exercises}|: Inclusion of exercises.\\
+      Replaced by: \verb|\input{|{\it filename}\verb|}| (one for each exercise).\\
+      Example: \verb|\input{tstat}|.
+\item \verb|\exinput{questionnaire}|: Inclusion of questionnaires, e.g., for cover sheets.\\
+      Replaced by: \verb|\exnum{|{\it \dots}\verb|}| or
+                   \verb|\exmchoice{|{\it \dots}\verb|}|, respectively (one for each exercise).\\
+      Example: \verb|\exnum\Sexpr{tstat_exnum}|.
+\item \verb|\exinput{header}|: Further commands and definitions.\\
+      Replaced by: \verb|\|{\it command}\verb|{|{\it value}\verb|}| (one for each header command).\\
+      Example: \verb|\Date{\Sexpr{Sys.Date()}}|.
 \end{itemize}
-
-Two slightly more complicated exemplary master {\LaTeX} files where
-these additional markups are used are included in the package:
-\code{exam.tex} and \code{solution.tex}. \code{exam.tex} can be used
-to generate exams including a cover sheet for students to fill in
-their names as well as their answers to the
-problems. \code{solution.tex} will result in a PDF file containing a
-cover sheet similar to \code{exam.tex} but with the correct answers
-already filled in.
-
-For including a cover sheet the necessary {\LaTeX} code needs to be
-included in the template which constructs the layout and provides all
-text included. The part containing the answer fields is generated by
-\code{exams()} depending on the type of problems in the
-questionnaire. This automatically generated {\LaTeX} code is put into
-the {\LaTeX} file where \verb|\exinput{questionnaire}| is specified as
-markup. An enumerate environment is used where each item corresponds
-to one question. For multiple choice questions \verb|\exmchoice| is
-included with five arguments.  \verb|\exnum| is used for numeric
-solutions. This {\LaTeX} command is supposed to have nine input
-arguments where the first six include the digits to the left and the
-last three the digits to the right of the decimal point. Depending on
-the definitions of \verb|\exmchoice| and \verb|\exnum| provided in the
-template the layout of the answer fields is determined as well as if
-the correct answer is printed. Please note that this implementation
+For the latter two, the master {\LaTeX} file has to define the commands that are
+used in the replacement step, e.g., \verb|\exnum| has to be a command that takes nine
+arguments (corresponding to six and three digits before and after the decimal point for numeric
+solutions) and \verb|\exmchoice| has to take five arguments (corresponding to the logical
+multiple choice answers).\footnote{Note that this implementation
 has the limitation that at most five answer options are possible for
 multiple choice questions as well as only a precision up to three
-digits right from the decimal mark and six digits left from the
-decimal mark for numeric results is possible.
+digits right from the decimal mark and up to six digits left from the
+decimal mark for numeric results is possible.}
+For the header, arbitrary commands can be set up, see
+Section~\ref{sec:customization} for details.
 
-The markup \verb|\exinput{header}| in general appears before starting
-the body of the text in the master {\LaTeX} file with
-\verb|\begin{document}| and is replaced by \code{exams()} such that in
-  the final {\LaTeX} file {\LaTeX} commands are included. These
-  commands are constructed from a named list passed to \code{exams()}
-  in the argument \code{header}. For each element of the passed list
-  the command is constructed as \verb|\|{\it name}\verb|{|{\it
-      object}\verb|}| where {\it name} denotes the name of the list
-  element and {\it object} its value.  This allows for example to
-  include a specific date information as well as consecutive numbers
-  as identifiers for the exams.
+Two master {\LaTeX} files that illustrate all of the commands above are
+provided in \pkg{exams}: \code{exam.tex} and \code{solution.tex}. \code{exam.tex} can be used
+to generate exams including a cover sheet for students to fill in
+their names as well as their answers to the problems (hiding solutions
+for the exercises, obviously). \code{solution.tex} produces PDF files containing a
+cover sheet similar to \code{exam.tex} but with the correct answers
+already filled in. Furthermore, the \code{solution} environments are displayed
+for each exercise.
 
-  \section[Application and customization: Function
-  exams()]{Application and customization: Function
-    \code{exams()}} \label{sec:customization}
+\section[Application and customization: Function exams()]{Application
+  and customization: Function \code{exams()}} \label{sec:customization}
 
-  In the simple case where only a single Sweave file is processed
-  running \code{exams()} is equivalent to first calling
-  \code{Sweave()} and then \code{texi2dvi()} on the file after
-  including it in a master {\LaTeX} file. In this case not much
-  simplification is gained by \code{exams()} except that non-experts
-  do not need to know these sequence of commands and do not need to
-  ensure that the necessary files are in appropriate directories to be
-  found by each of the programs.  The main advantages of
-  \code{exams()} however are that it extends this functionality to
-  enable
+In the simple case where only a single Sweave file is processed
+running \code{exams()} is equivalent to first calling
+\code{Sweave()} and then \code{texi2dvi()} on the file after
+including it in a master {\LaTeX} file. In this case not much
+simplification is gained by \code{exams()} except that non-experts
+do not need to know these sequence of commands and do not need to
+ensure that the necessary files are in appropriate directories to be
+found by each of the programs.  The main advantages of
+\code{exams()} however are that it extends this functionality to
+enable
 \begin{itemize}
 \item construction of exams with several exercises which are
   sampled in a stratified way,
