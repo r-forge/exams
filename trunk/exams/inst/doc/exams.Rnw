@@ -338,9 +338,9 @@ to PDF. More precisely, \code{exams()} takes the following approach:
         file(s) and potentially  additionally specified input files.
   \item Copy all files to a (temporary, by default) directory.
   \item Run \code{Sweave()} for each exercise.
-  \item Produce a copy of the master {\LaTeX} file in which certain
-        control structures are substituted by dynamically generated
-	{\LaTeX} commands (e.g., for including the exercises).
+  \item Produce a copy of the master {\LaTeX} file(s) in which certain
+    control structures are substituted by dynamically generated
+    {\LaTeX} commands (e.g., for including the exercises).
   \item Run \code{texi2dvi()} for each master {\LaTeX} file.
   \item Store the resulting PDF file(s) in an output directory
         or display it on the screen (for a single file only, by default).
@@ -377,7 +377,7 @@ Then the environments for \code{question} and \code{solution} are defined
 (as part of an itemize or enumerate list). Finally, the document starts
 and consists only of an enumerate list. In Step~4 of the algorithm described above,
 the control command \verb|%% \exinput{exercises}| is replaced by
-(a sequence of) \verb|\input{|{\it filename}\verb|}|, e.g., \verb|\input{tstat}|
+(a sequence of) \verb|\input{|{\it filename}\verb|}|, e.g., \verb|\input{tstat.tex}|
 in our basic example from the previous section.
 
 Thus, all appearance options can be controlled in the {\LaTeX} code of
