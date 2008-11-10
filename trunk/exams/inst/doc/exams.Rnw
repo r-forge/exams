@@ -50,7 +50,7 @@
 %\VignettePackage{exams}
 
 <<preliminaries, echo=FALSE, results=hide>>=
-options(width = 70)
+options(width = 70, prompt = "R> ", continue = "+  ")
 library("exams")
 combine <- function(x, sep, width) {
   cs <- cumsum(nchar(x))
@@ -99,12 +99,12 @@ covered all aspects of teaching materials, i.e., new presentation
 slides, collections of exercises, exams, etc. The main challenges in
 this process---that the \pkg{exams} package tries to address---were:
 \begin{itemize}
-  \item scalable exams (i.e., automatic generation of a large number
-        of different exams),
-  \item associated self-study materials (i.e., collections of exercises
-        and solutions for similar exercises),
-  \item joint development (i.e., development and maintenance of a large
-        pool of exercises in a multi-author and cross-platform setting).
+  \item \textit{Scalable exams:} Automatic generation of a large number
+        of different exams.
+  \item \textit{Associated self-study materials:} Collections of exercises
+        and solutions from the same pool of examples.
+  \item \textit{Joint development:} Development and maintenance of a large
+        pool of exercises in a multi-author and cross-platform setting.
 \end{itemize}
 Specifically, at WU Wien about 10--15 lecturers were working in small 
 teams of 2--4 people on different chapters for the presentation slides.
@@ -472,8 +472,8 @@ the number of random replications. The remaining arguments control
 details of the processing, e.g., the directories for input/output
 files. A technical manual is available on the help page \code{?exams},
 a brief hands-on introduction to selected arguments is given below:
-\begin{itemize}
-  \item \code{file}: This is either a character vector containing the
+\begin{description}
+  \item[\normalfont \code{file}:] This is either a character vector containing the
         file names of Sweave exercises or a list of such vectors, e.g.,
 <<>>=
 myexam <- list("boxplots",
@@ -496,9 +496,9 @@ myexam <- list("boxplots",
         the \code{edir} directory or in the \code{exercises} directory of the
         installed package. 
   
-  \item \code{n}: Number of randomly generated exams.
+  \item[\normalfont \code{n}:] Number of randomly generated exams.
   
-  \item \code{dir}: Output directory for storing the resulting PDF files (and
+  \item[\normalfont \code{dir}:] Output directory for storing the resulting PDF files (and
         meta-information). If only a single PDF file is generated, this can
 	be omitted (and the result is displayed directly on the screen), otherwise
 	it has to be specified. Below we use a temporary output directory
@@ -507,19 +507,19 @@ odir <- tempfile()
 @
 	but the reader can easily change \code{odir} to some local directory.
 
-  \item \code{template}: A (vector of) master {\LaTeX} file(s). If more than
+  \item[\normalfont \code{template}:] A (vector of) master {\LaTeX} file(s). If more than
         one \code{template} is specified, one PDF output file is created for
 	each in each of the \code{n} runs. The extension \code{.tex} can be
 	omitted in the file name and the corresponding files should either
 	be in the local directory (or provided with the full path) or in the
 	\code{tex} directory of the installed package.
 	
-      \item \code{header}: Additional {\LaTeX} commands for
+  \item[\normalfont \code{header}:] Additional {\LaTeX} commands for
         replacement of \verb|\exinput{header}| in the master {\LaTeX}
         file.  It has to be a \code{list()} of \textit{command}\code{
         = }\textit{value} pairs, where \textit{value} can either be a
-      static string or a function computing a string from the index
-      $i$ of the $i$th exam. Below we use \code{ID = getID} with
+        static string or a function computing a string from the index
+        $i$ of the $i$th exam. Below we use \code{ID = getID} with
 <<>>=
 getID <- function(i) 
   paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")
@@ -529,7 +529,7 @@ getID(1)
 	will be substituted in the header of each exam.	(The {\LaTeX}
 	command \verb|\ID{}| has to be defined in the master {\LaTeX} files.)
 
-  \item Further arguments: \code{inputs} can specify a list of files
+  \item[\normalfont Further arguments:] \code{inputs} can specify a list of files
         needed during the {\LaTeX} compilation, e.g., private \code{.sty} files
 	etc. \code{name} is the (vector of) prefix(es) for the final PDF
 	files. \code{quiet = TRUE} suppresses output when calling
@@ -539,7 +539,7 @@ getID(1)
 	all files are copied and where \code{Sweave()} and \code{texi2dvi()}
 	are called. \code{control} allows a few further control options
 	(see also below).
-\end{itemize}
+\end{description}
 
 Using these arguments, a set of exams can now be easily produced:
 <<>>=
