@@ -448,7 +448,7 @@ and customizability: It controls the (dynamic) combination of the
 \item construction of exams with stratified sampling of exercises,
 \item automatic generation of multiple copies (potentially of
       multiple layouts) with suitable names and storage,
-\item inclusion of a suitable cover page wtih answer fields,
+\item inclusion of a suitable cover page with answer fields,
 \item collection of meta-information for problems and solutions in
       an \proglang{R} object.
 \end{itemize}
@@ -465,13 +465,13 @@ cat(prettyPrint(prompt(exams, filename = NA)$usage[[2]], sep = ", ",
   width = 60))
 @ 
 \end{verbatim}
-where \code{file} species a list/vector of exercise Sweave files
-(see Section~\ref{sec:exercises}), \code{template} is the name of the master
-{\LaTeX} file (see Section~\ref{sec:master}), and \code{n} is the number of
-random replications. The remaining arguments control details of the
-processing, e.g., the directories for input/output files. A technical
-manual is available on the help page \code{?exams}, a brief hands-on
-introduction to selected arguments is given below:
+where \code{file} specifies a list/vector of exercise Sweave files
+(see Section~\ref{sec:exercises}), \code{template} is the name of the
+master {\LaTeX} file (see Section~\ref{sec:master}), and \code{n} is
+the number of random replications. The remaining arguments control
+details of the processing, e.g., the directories for input/output
+files. A technical manual is available on the help page \code{?exams},
+a brief hands-on introduction to selected arguments is given below:
 \begin{itemize}
   \item \code{file}: This is either a character vector containing the
         file names of Sweave exercises or a list of such vectors, e.g.,
@@ -510,17 +510,16 @@ odir <- tempfile()
   \item \code{template}: A (vector of) master {\LaTeX} file(s). If more than
         one \code{template} is specified, one PDF output file is created for
 	each in each of the \code{n} runs. The extension \code{.tex} can be
-	omitted in the file name and the the corresponding files should either
+	omitted in the file name and the corresponding files should either
 	be in the local directory (or provided with the full path) or in the
 	\code{tex} directory of the installed package.
 	
-  \item \code{header}: Additional {\LaTeX} commands for
-        replacement of \verb|\exinput{header}| in the master {\LaTeX} file.
-	It has to be a list of
-	\code{list(}\textit{command}\code{ = }\textit{value}\code{)} pairs,
-	where \textit{value} can either be a static string or a function
-	computing a string from the index $i$ of the $i$the exam. Below we
-	use \code{ID = getID} with
+      \item \code{header}: Additional {\LaTeX} commands for
+        replacement of \verb|\exinput{header}| in the master {\LaTeX}
+        file.  It has to be a \code{list()} of \textit{command}\code{
+        = }\textit{value} pairs, where \textit{value} can either be a
+      static string or a function computing a string from the index
+      $i$ of the $i$th exam. Below we use \code{ID = getID} with
 <<>>=
 getID <- function(i) 
   paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")
@@ -565,7 +564,7 @@ in object \code{sol} above. When evaluating an exam, this can be conveniently
 \code{load()}ed and individual results can be printed:
 <<>>=
 print(sol, 1)
-print(sol, "exam3")
+print(sol, "exam5")
 @
 For numeric results, the solution is displayed, possibly including
 tolerance limits (if non-zero). For multiple choice answers,
