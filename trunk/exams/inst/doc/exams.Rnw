@@ -514,7 +514,7 @@ odir <- tempfile()
 	be in the local directory (or provided with the full path) or in the
 	\code{tex} directory of the installed package.
 	
-  \item \code{header}: A list specifying additional {\LaTeX} commands for
+  \item \code{header}: Additional {\LaTeX} commands for
         replacement of \verb|\exinput{header}| in the master {\LaTeX} file.
 	It has to be a list of
 	\code{list(}\textit{command}\code{ = }\textit{value}\code{)} pairs,
@@ -592,77 +592,40 @@ mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
 @ 
 
 
-\textbf{FIXME}
-
-In general, users will want to customize the package \pkg{exams} by
-providing their own pool of exercises and adapting the template
-files. To illstrate the application package \pkg{exams} already
-includes
-
-
-
 
 \section{Discussion} \label{sec:discussion}
 
-\textbf{FIXME}
+Package \pkg{exams} provides a framework for automatic generation of
+simple (statistical) exams and associated self-study materials.
+It is based on independent exercises in Sweave format which can be
+compiled in exams (or other collections of exercises) by providing 
+one (or more) master {\LaTeX} template(s). Because contributing to the
+pool of exercises just requires knowledge of Sweave and minimal markup
+for meta-information, \pkg{exams} facilitates joint development of
+lecture materials. 
+
+During 2007, \pkg{exams} was employed by about 10--15 lecturers
+at the Department of Statistics and Mathematics of WU Wien
+for jointly developing materials for the basic statistics lecture.
+Since Spring 2008, \pkg{exams} is used for generating collections
+of exercises and trial exams (both available prior to the actual
+exam) as well as the exams and associated solutions (which are 
+e-mailed to the students individually after correction of the test).
+Currently, exams are still corrected ``by hand'' but an automated
+procedure using optical character recognition (OCR) software is
+in preparation.
 
 
-The design principles of package \pkg{exams} ensure that the pool of
-exercises consisting of Sweave files and the {\LaTeX} files for the
-different PDF output files can be developed separately. Developers
-of exercises do only need to call \code{exams()} with their exercise
-Sweave file as input to inspect the PDF output and do not need to have
-any further knowledge about the internal sequence of procedures. They
-will only need to be familiar with the details described in
-Section~\ref{sec:exercises} about exercise files. Different kinds of
-materials such as exercise collections, exams or solutions files can
-be generated for the same exercises and the layout can be changed by
-modifying the master {\LaTeX} file. Several exams can be generated at
-the same time with the same exercise structure and these exams are
-saved in a common directory with suitable names together with an
-\code{.rda} file containing the meta-information. This enables the
-user to generate individual exams for students and the easy
-administration and maintenance of exams and solutions.
-
-The framework implemented by the package \pkg{exams} for automatic
-generation of statistical exams is already in use since spring 2008 by
-the Department of Statistics and Mathematics at the WU Wien. The
-self-study materials available on an online-platform to support the
-lecture as well as individual exams for each student were generated
-with the package. The additional online material consists of exercise
-collections for each chapter of the lecture as well as exemplary exams
-including the solutions in order to familiarize students with the
-specific exam format.
-
-The evaluation of exams has so far only be made by hand using the
-meta-information provided in the output of \code{exams()}. In the
-future it is aimed to scan the exams and use optical character
-recognition (OCR) software to automatically extract the results given
-by students and match them with the correct solutions. This will allow
-to also eliminate this last step of manual handling of the exams which
-is slightly tedious given the considerable number of students taking
-the course each semester.
-
-The feedback from the students was encouraging. They appreciated the
-possibility to optimally prepare themselves for the exams using the
-additional available material. Students are notified by e-mail to
-their student account provided by the university about their results
-after the exam. In order to ensure that they are able to understand
-how their final score was derived they were also sent the PDF file
-containing the problems together with the solutions corresponding to
-their individual test as an attachment which can easily be generated
-with package \pkg{exams}.
-
-\section*{Computational details}
-<<echo=false,results=hide>>=
-SI <- sessionInfo()
-pkgs <- paste(sapply(c(SI$otherPkgs, SI$loadedOnly), function(x) 
-                     paste("\\\\pkg{", x$Package, "} ", 
-                           x$Version, sep = "")), collapse = ", ")
-@ 
-
-All computations and graphics in this paper have been done using
-\proglang{R} version \Sexpr{getRversion()} with package \Sexpr{pkgs}.
+%% \section*{Computational details}
+%% <<echo=false,results=hide>>=
+%% SI <- sessionInfo()
+%% pkgs <- paste(sapply(c(SI$otherPkgs, SI$loadedOnly), function(x) 
+%%                      paste("\\\\pkg{", x$Package, "} ", 
+%%                            x$Version, sep = "")), collapse = ", ")
+%% @ 
+%% 
+%% All computations and graphics in this paper have been done using
+%% \proglang{R} version \Sexpr{getRversion()} with package \ Sexpr{pkgs}.
 
 \section*{Acknowledgments}
 
