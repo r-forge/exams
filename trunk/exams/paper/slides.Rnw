@@ -1,0 +1,37 @@
+\documentclass[11pt,compress,t]{beamer}
+\usetheme{Z}
+
+%% for \usepackage{Sweave}
+\SweaveOpts{engine=R, strip.white=TRUE, keep.source=TRUE, eps=FALSE}
+<<setup, echo=FALSE, results=hide>>=
+options(prompt = "R> ", continue = "+  ", width = 64,
+  digits = 4, show.signif.stars = FALSE, useFancyQuotes = FALSE)
+@
+
+<<preliminaries, echo=FALSE, results=hide>>=
+library("exams")
+@
+
+\begin{document}
+
+\title{Automatic Generation of Simple (Statistical) Exams}
+\author[Bettina Gr\"un, Achim Zeileis]{\large Bettina Gr\"un, Achim Zeileis}
+
+\lecture{Automatic Generation of Simple (Statistical) Exams}
+
+\begin{frame}
+\frametitle{Overview}
+
+\begin{itemize}
+  \item Introduction
+  \item Exercises
+  \item Combining Exercises: The Master {\LaTeX} File
+  \item Application and Customization: Function \code{exams()}
+  \item Discussion
+\end{itemize}
+
+\end{frame}
+
+\end{document}
+
+
