@@ -4,17 +4,15 @@ n <- sample(120:250, 1)
 mu <- sample(c(125, 200, 250, 500, 1000), 1)
 y <- rnorm(n, mean = mu * runif(1, min = 0.9, max = 1.1), 
            sd = mu * runif(1, min = 0.02, max = 0.06))
-
 ## QUESTION/ANSWER GENERATION
 Mean <- round(mean(y), digits = 1)
 Var <- round(var(y), digits = 2)
 tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
 @
-
 \begin{question}
+  A machine fills milk into $\Sexpr{mu}$ml packages. It is suspected that the 
   ...
 \end{question}
-
 \begin{solution}
   ...
 \end{solution}

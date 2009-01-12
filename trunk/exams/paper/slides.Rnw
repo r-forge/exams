@@ -41,16 +41,22 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
 \URL{http://statmath.wu-wien.ac.at/}
 \lecture{Automatic Generation of Simple (Statistical) Exams}
 
+\subsection{Overview}
 \begin{frame}
 \frametitle{Overview}
 \begin{itemize}
   \item Introduction
+    \begin{itemize}
+    \item Challenges
+    \item Solution implemented in the \proglang{R} package \pkg{exams}
+    \end{itemize}
   \item Exercises
   \item Combining Exercises: The Master {\LaTeX} File
   \item Application and Customization: Function \code{exams()}
   \item Discussion
 \end{itemize}
 \end{frame}
+\subsection{Introduction}
 \begin{frame}[allowframebreaks] 
   \frametitle{Introduction}
   \begin{block}{Re-design of introductory statistics lecture at WU Wien:}
@@ -61,6 +67,9 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
     Mathematics teach this course in parallel.
   \item All teaching materials are covered by the re-design:
     presentation slides, collections of exercises, exams, etc.
+  \item The re-design was accomplished through a collaborative effort
+    of all concerned faculty members working in small teams on
+    different chapters.
   \end{itemize}
 \end{block}
 \newpage
@@ -83,7 +92,6 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
   Fitzpatrick 2004)
 \end{itemize}
 \end{block}
-
 \newpage
 \begin{block}{Design principles of package \pkg{exams}:}
   \begin{itemize}
@@ -97,64 +105,88 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
     or a confidence interval).
   \end{itemize}
 \end{block}
+\subsection{Exercises}
 \end{frame}
 \begin{frame}[allowframebreaks,fragile] 
   \frametitle{Exercises}
-  Each exercise
+  Each exercise typically represents an exemplary application of a
+  statistical procedure.
+  \vspace{\stretch{1}}
+  
+  The exercise file consists of (at least):
   \begin{itemize}
-  \item is contained in a separate Sweave file,
-  \item typically represents an exemplary application of a statistical
-    procedure,
-  \item consists of
-    \begin{itemize}
-    \item a question and a solution description encapsulated in
-      corresponding \LaTeX environments and
-    \item some meta-information about the exercise:
-      \begin{itemize}
-      \item type
-      \item solution
-      \item name
-      \item tolerance
-      \end{itemize}
-    \end{itemize}
+  \item {\bf Two environments:} a question and a solution description
+    encapsulated in corresponding \LaTeX environments.
+  \item {\bf Meta-information:} about type of questions
+    (e.g.~multiple-choice or numeric), the solution, a descriptive
+    name and the allowed tolerance for numeric solutions.
   \end{itemize}
-\newpage
-A simple Sweave exercise: \code{tstat.Rnw}{\tiny
+  \vspace{\stretch{1}}
+  An exercise file can be processed in \proglang{R} by:
+<<>>=  
+library("exams")
+tstat_sol <- exams("tstat.Rnw")
+tstat_sol
+@ 
+\vspace{\stretch{2}}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{A simple Sweave exercise: \code{tstat.Rnw}}
+\vspace*{-0.7cm}
+{\scriptsize
 <<echo=FALSE, results=tex>>=
 Rnw <- readLines("tstat-shortened.Rnw")
 cat(c("\\begin{verbatim}", Rnw, "\\end{verbatim}"), sep = "\n")
 @
 }
-\newpage
-{\LaTeX} output of \code{Sweave("tstat.Rnw"}):{\tiny
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{{\LaTeX} output of \code{Sweave("tstat.Rnw")}}
+\vspace*{-0.7cm}
+{\scriptsize
+<<echo=FALSE, results=hide>>=
+tex <- readLines("tstat-shortened.tex")
+@
+<<echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
+@
+}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Display of processed \code{tstat} exercise}
+{\small
+%% to PDF
+\begin{itemize}
 <<echo=FALSE, results=hide>>=
 invisible(file.copy(system.file("exercises", "tstat.Rnw", package = "exams"), "tstat.Rnw"))
 set.seed(1090)
 Sweave("tstat.Rnw")
-tex <- readLines("tstat.tex")
-file.remove(c("tstat.tex", "tstat.Rnw"))
-@
+@ 
 <<echo=FALSE, results=tex>>=
-cat(c("\\begin{verbatim}", tex[-1], "\\end{verbatim}"), sep = "\n")
-@
-}
-\newpage
-Display of processed \code{tstat} exercise:
-{\small
-%% to PDF
-\begin{enumerate}
-<<echo=FALSE, results=tex>>=
-cat(tex, sep = "\n")
+cat(readLines("tstat.tex"), sep = "\n")
+@ 
+<<echo=FALSE, results=hide>>=
+file.remove(c("tstat.Rnw", "tstat.tex"))
 @
 
-\end{enumerate}
+\end{itemize}
 }
 \end{frame}
+\subsection{Combining Exercises: The Master {\LaTeX} File} 
   \begin{frame}[allowframebreaks,fragile] 
-    \frametitle{Combining
-      Exercises: The Master {\LaTeX} File}
-  
-\code{exams()} takes the following approach: 
+    \frametitle{Combining Exercises: The Master {\LaTeX} File}
+  \code{exams()} allows for
+\begin{itemize}
+\item construction of exams with stratified sampling of exercises,
+\item automatic generation of multiple copies (potentially of
+  multiple layouts) with suitable names and storage,
+\item inclusion of a suitable cover page with answer fields, and
+\item collection of meta-information for problems and solutions in
+      an \proglang{R} object.
+\end{itemize}  
+\end{frame}    
+  \begin{frame}[allowframebreaks,fragile] 
+    \frametitle{Sequence of work steps for \code{exams()}}
 \begin{enumerate}
   \item Collect all Sweave files for the exercises, the master {\LaTeX}
         file(s) and potentially  additionally specified input files.
@@ -167,29 +199,53 @@ cat(tex, sep = "\n")
   \item Store the resulting PDF file(s) in an output directory
         or display it on the screen (for a single file only, by default).
 \end{enumerate}
-\newpage
-A simple master {\LaTeX} file: \code{plain.tex}
-{\tiny
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{A simple master {\LaTeX} file: \code{plain.tex}}
+{\scriptsize
 <<echo=FALSE, results=tex>>=
 tex <- readLines(system.file("tex", "plain.tex", package = "exams"))
 cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
 @
 }
+
+To hide the solution the corresponding environment needs to be defined
+as a comment:
+
+{\scriptsize
+\begin{verbatim}
+\newenvironment{solution{\comment}{\endcomment}}
+\end{verbatim}
+}
 \end{frame}
+\begin{frame}[fragile]
+  \frametitle{Possible dynamic modifications}
+<<echo=FALSE, results=hide>>=
+tstat_char <- strsplit(gsub("\\.", "", as.character(tstat_sol[[1]][[1]]$solution)), "")[[1]]
+tstat_exnum <- rep("", 9)
+tstat_exnum[(10 - length(tstat_char)):9] <- tstat_char
+tstat_exnum <- paste("{", tstat_exnum, "}", sep = "", collapse = "")
+@
+  
+\begin{itemize}
+\item \verb|\exinput{exercises}|: Inclusion of exercises.\\
+      Replaced by: \verb|\input{|{\it filename}\verb|}| (one for each exercise).\\
+      Example: \verb|\input{tstat}|.
+\item \verb|\exinput{questionnaire}|: Inclusion of questionnaires, e.g., for cover sheets.\\
+      Replaced by: \verb|\exnum{|{\it \dots}\verb|}| or
+                   \verb|\exmchoice{|{\it \dots}\verb|}|, respectively (one for each exercise).\\
+      Example: \verb|\exnum\Sexpr{tstat_exnum}|.
+\item \verb|\exinput{header}|: Further commands and definitions.\\
+      Replaced by: \verb|\|{\it command}\verb|{|{\it value}\verb|}| (one for each header command).\\
+      Example: \verb|\Date{\Sexpr{Sys.Date()}}|.
+\end{itemize}
+\end{frame}
+\subsection{Application and Customization: Function
+    \code{exams()}}
 \begin{frame}[allowframebreaks,fragile] 
   \frametitle{Application and Customization: Function
     \code{exams()}}
 
-  \code{exams()} allows for
-\begin{itemize}
-\item construction of exams with stratified sampling of exercises,
-\item automatic generation of multiple copies (potentially of
-      multiple layouts) with suitable names and storage,
-\item inclusion of a suitable cover page with answer fields,
-\item collection of meta-information for problems and solutions in
-      an \proglang{R} object.
-\end{itemize}  
-\newpage
 Function \code{exams()} has the following arguments:
 \begin{verbatim}
 <<results=tex, echo=false>>=
@@ -227,8 +283,11 @@ invisible(file.copy(file.path(odir, "exam1.pdf"), "exam1.pdf"))
 
 \includegraphics[width=0.48\textwidth,keepaspectratio=true]{exam1.pdf}%
 \includegraphics[width=0.48\textwidth,keepaspectratio=true,page=2]{exam1.pdf}
-
 \newpage
+
+Several arguments allow for a fine control, e.g.~to modify the print
+output:
+
 <<>>=
 mycontrol <- list(mchoice.print = 
   list(True = LETTERS[1:5], False = "_"))
@@ -237,6 +296,7 @@ mycontrol <- list(mchoice.print =
 @ 
 
 \end{frame}
+\subsection{Discussion}
 \begin{frame} 
   \frametitle{Discussion}
   \begin{itemize}
@@ -259,10 +319,20 @@ mycontrol <- list(mchoice.print =
     \url{http://CRAN.R-project.org/package=exams}
   \end{center}
 \end{frame}
-
-\begin{frame} \frametitle{References}
+\subsection{References}
+\begin{frame}[allowframebreaks] 
+  \frametitle{References}
+  \vspace*{-0.5cm}  
   \small
   \begin{references}
+  \item Gr\"un B, Zeileis A (2008).
+    \newblock \enquote{Automatic Generation of Simple (Statistical) Exams.}
+    \newblock \emph{Report~77}, Department of Statistics and Mathematics,
+    WU Wien, Research Report Series.
+    \newblock
+    \urlprefix\url{http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.%
+      at:epub-wu-01_e1d}.
+    
   \item Knuth DE (1984).
     \newblock \emph{The {\TeX}book}, volume~A of \emph{Computers and Typesetting}.
     \newblock Addison-Wesley, Reading, Massachusetts.
