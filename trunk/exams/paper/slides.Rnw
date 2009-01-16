@@ -32,6 +32,7 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
   x <- strsplit(x, sep)[[1]]
   paste(combine(x, sep, width), collapse = paste(sep, linebreak, collapse = ""))
 }
+set.seed(1090)
 @
 
 \begin{document}
@@ -51,8 +52,8 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
     \item Solution implemented in the \proglang{R} package \pkg{exams}
     \end{itemize}
   \item Exercises
-  \item Combining Exercises: The Master {\LaTeX} File
-  \item Application and Customization: Function \code{exams()}
+  \item Combining exercises: The master {\LaTeX} file
+  \item Application and customization: Function \code{exams()}
   \item Discussion
 \end{itemize}
 \end{frame}
@@ -172,9 +173,9 @@ file.remove(c("tstat.Rnw", "tstat.tex"))
 \end{itemize}
 }
 \end{frame}
-\subsection{Combining Exercises: The Master {\LaTeX} File} 
+\subsection{Combining exercises: The master {\LaTeX} file} 
   \begin{frame}[allowframebreaks,fragile] 
-    \frametitle{Combining Exercises: The Master {\LaTeX} File}
+    \frametitle{Combining exercises: The master {\LaTeX} file} 
   \code{exams()} allows for
 \begin{itemize}
 \item construction of exams with stratified sampling of exercises,
@@ -240,10 +241,9 @@ tstat_exnum <- paste("{", tstat_exnum, "}", sep = "", collapse = "")
       Example: \verb|\Date{\Sexpr{Sys.Date()}}|.
 \end{itemize}
 \end{frame}
-\subsection{Application and Customization: Function
-    \code{exams()}}
+\subsection{Application and customization: Function exams()}
 \begin{frame}[allowframebreaks,fragile] 
-  \frametitle{Application and Customization: Function
+  \frametitle{Application and customization: Function
     \code{exams()}}
 
 Function \code{exams()} has the following arguments:
