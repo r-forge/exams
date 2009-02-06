@@ -1,6 +1,6 @@
 Package: exams
-Version: 0.9-0
-Date: 2008-11-10
+Version: 0.9-5
+Date: 2009-02-06
 Title: Automatic Generation of Simple (Statistical) Exams
 Author: Achim Zeileis, Bettina Gruen
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>

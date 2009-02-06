@@ -1,0 +1,98 @@
+
+Referee I
+
+The paper is well written and understandable. The problem has been nicely
+stated and the solution is very well thought-out. The implementation works
+well and has good documentation. I have no major issues with the manuscript.
+ 
+It would be good to see the issues of rounding of intermediate results
+discussed more. Basically, how do you know that the specified numerical
+tolerances are good enough? For example, in the t-statistic exercise:
+ 
+ Mean <- round(mean(y), digits = 1)
+ Var <- round(var(y), digits = 2)
+ tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
+ 
+Given floating point precision is being used here (in the calculation of
+tstat), it doesn't necessarily mirror what the student would do. Are the
+students given any guidelines on what level of rounding to use (or different
+methods of rounding)? Does the issue of rounding limit what the package can
+do (e.g. giving the students raw values instead of pre-summarized
+statistics)?
+ 
+It seems like the tolerance specification in exams is a manual and perhaps
+ill-defined step; is there a more robust way of setting it universally? One
+(probably excessive) solution would be to do the above calculation many
+times of different levels of rounding and use the resulting distribution to
+set the tolerance limits:
+ 
+    y <- rnorm(20, 10, 4)
+    mu <- 11
+ 
+   dig <- expand.grid(mn = 2:3,
+                      vr = 2:3,
+                      diff = 2:3,
+                      ratio = 2:3,
+                      sqrt = 2:3,
+                      tstat = 2:3)
+ 
+   foo <- function(d, data, mu)
+      {  
+        Mean <- round(mean(data), digits = d["mn"])
+        Var <- round(var(data), digits = d["vr"])
+        delta <- round(Mean - mu, digits = d["diff"])
+        ratio <- round(Var/length(data), digits = d["ratio"])
+        sqrtRatio <- round(sqrt(ratio), digits = d["sqrt"])
+        tstat <- round(delta/sqrtRatio, digits = d["tstat"])
+        tstat
+      }
+ 
+   distr <- apply(dig, 1, foo, data = y, mu = mu)
+ 
+This may be hitting a tack with a sledgehammer, but an analytical solution
+may be a better approach. I understand that students can be tenacious about
+grades and the rounding might be an issue that comes up periodically.
+ 
+Referee II
+
+Report zu "Automatic Generation of Simple (Statistical) Exams" von Gr??n und Zeileis
+
+Zusammenfassung:
+Im Artikel wird das R-Softwarepaket exams beschrieben zur Generierung von Aufgaben inkl. L??sungen f??r Statistikklausuren. Die Softwarel??sung soll skalierbar sein und damit auch erm??glichen Probeklausuren und Hausaufgaben zu erstellen. Danach werden einige Anforderungen an "gute" Aufgaben gestellt und Schlussfolgerungen f??r eine Software abgeleitet. Und im folgenden wird dann der Aufbau und die Durchf??hrung der Aufgabenerstellung bzw. der Klausurerstellung mit Hilfe von R, LaTeX, Sweave und eams beschrieben.
+
+
+Kommentar:
+----------
+
+Der Artikel m??sste eigentlich zweiteilig sein: 1. Konzeption von Aufgaben und 2. Generierung einer Vielzahl von (dynamischen) Aufgaben. Er geht nur am Rande auch auf die Konzeption von Aufgaben durch die Lehrenden ein. Grunds??tzliche Probleme werden dabei jedoch nicht angesprochen, z.B.
+
+- sinnvolle Multiple-Choice-Antworten
+- bei Zahlenaufgaben, dass Problem der Rundung im Rechenweg
+- die M??glichkeit Antworten so zu formulieren, dass bestimmte Fehler in den Antworten vorkommen 
+
+Dies ist zwar nicht Ziel des Paketes, aber dies macht eine "gute" Aufgabe wesentlich aus. Da liegen zum einen grunds??tzliche Grenzen des Paketes ("sinnvolle Multiple-Choice-Antworten") zum anderen wird nur eine sehr begrenzte Unterst??tzung geliefert ("Rundung im Rechenweg"). 
+
+Es ist eben nicht gen??gend, einfach nur eine Vielzahl von Aufgaben zu generieren und die Autoren sollten dies auch klar und deutlich sagen. Zumal in ihrem Beispiel zum t-test, z.B. in Bezug auf Rundungen, auch erheblich mehr steckt. 
+
+Die Software funktionierte genauso wie beschrieben.
+
+Einzelfragen/kommentare:
+------------------------
+
+- Bei dem Titel w??rde ich "Simple" weglassen, denn "Simple" m??ssen die Exams nicht sein und "Statistical" entweder reinschreiben oder nicht; aber bitte nicht in Klammern. 
+
+- Impliziert "Scalable exams" nicht "Associated self-study materials"? Ist es nicht eher eine Frage der Menge von Aufgaben und eigentlich nicht der Software? 
+
+- Wie handhabt man Aufgaben mit aufeinander aufbauende Teilaufgaben und mehreren Teill??sungen, z.B. 
+a) Gib die Hypothesen an um die Differenz der Mittelwerte zu testen?
+b) Wie sieht die zugeh??rige Teststatistik aus?
+c) Welchen Wert hat der Pr??fwert?
+d) Welches ist der Annahmebereich der Nullhypothese?
+e) Welche Testentscheidung wird getroffen?
+
+- Wie geht man mit Teilaufgabe a) um, wo es weder ein numerische Resultate oder Multiple-Choice-Resulate gibt? 
+
+- Warum wird nicht ein Ansatz mit Intervallarithmetik verfolgt statt mit \extol?
+
+- Die Autoren sollte ??berlegen, ob Sie die Beschreibung der Parameter auf Seite 9 k??rzen k??nnen.
+

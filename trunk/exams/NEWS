@@ -1,3 +1,12 @@
+Changes in Version 0.9-5
+
+  o The type of question was extended to allow also text results
+    and is specified by "string".
+
+  o To specify the allowed tolerance for numeric solutions now a upper
+    and a lower limit can be specified.
+
+
 Changes in Version 0.9-0
 
   o First CRAN release version.

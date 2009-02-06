@@ -10,14 +10,14 @@
    \And Achim Zeileis\\Wirtschaftsuniversit\"at Wien}
 \Plainauthor{Bettina Gr\"un, Achim Zeileis}
 
-\title{Automatic Generation of Simple (Statistical) Exams}
+\title{Automatic Generation of Standardized Large-Scale Exams}
 
 \Keywords{exams, multiple choice, arithmetic problems, Sweave, {\LaTeX}, \proglang{R}}
 \Plainkeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 
 \Abstract{
   Package \pkg{exams} provides a framework for automatic
-  generation of simple (statistical) exams. To employ the tools,
+  generation of standardized statistical exams. To employ the tools,
   users just need to supply a pool of exercises and
   a master file controlling the layout of the final PDF document.
   The exercises are specified in
@@ -61,28 +61,6 @@ prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("wid
   x <- strsplit(x, sep)[[1]]
   paste(combine(x, sep, width), collapse = paste(sep, linebreak, collapse = ""))
 }
-print.exams_metainfo <- 
-function (x, which = NULL, width = getOption("width"), ...) 
-{
-    which <- if (is.null(which)) 
-        names(x)
-    else {
-        if (is.numeric(which)) 
-            names(x)[which]
-        else which
-    }
-    n <- length(x[[1]])
-    for (i in which) {
-        cat("\n", i, "\n", sep = "")
-        for (j in 1:n) {
-            cat("    ", format(c(n, j))[-1], ". ", 
-                prettyPrint(x[[i]][[j]]$string, width = width - 4 - ceiling(log(1 + n, 10))),
-                "\n", sep = "")
-        }
-    }
-    cat("\n")
-    invisible(x)
-}
 @
 
 \section{Introduction} \label{sec:intro}
@@ -96,32 +74,61 @@ Statistics and Mathematics teach this course in parallel. The
 initiative to re-design the course format for this lecture, ensuring
 an efficient, consistent, and transparent organization. The re-design
 covered all aspects of teaching materials, i.e., new presentation
-slides, collections of exercises, exams, etc. The main challenges in
-this process---that the \pkg{exams} package tries to address---were:
+slides, collections of exercises, exams, etc. 
+
+In the course of the re-design decisions on two different aspects had
+to be made. On the one hand the content had to be agreed on depending
+on the learning outcomes, i.e.~the topics covered in the lecture as
+well as the skills checked in the exams had to be specified. On the
+other hand the technological tools had to be selected as well as the
+infrastructure provided to support the generation of the
+material. Additional constraints which also had to be taken into
+account in the process were imposed by the environment (restricted
+ressources, time frame, etc.).
+
+This paper focuses on the technology applied and the implemented
+infrustructure. The structure of the tools is driven by the
+requirements of large-scale exams and can hence be useful in this kind
+of setting rather independent of the content.  The main challenges
+with respect to the applied technology in this process---that the
+\pkg{exams} package tries to address---were:
 \begin{itemize}
   \item \textit{Scalable exams:} Automatic generation of a large number
-        of different exams.
+        of different exams in order to have an individual test for each student.
   \item \textit{Associated self-study materials:} Collections of exercises
         and solutions from the same pool of examples.
   \item \textit{Joint development:} Development and maintenance of a large
         pool of exercises in a multi-author and cross-platform setting.
 \end{itemize}
-Specifically, at WU Wien about 10--15 lecturers were working in small 
-teams of 2--4 people on different chapters for the presentation slides.
-For each chapter, the corresponding team would also provide suitable
-exercise templates that could be used for self-study materials, exams, and solutions.
+Specifically, at WU Wien about 10--15 lecturers were working in small
+teams of 2--4 people on different chapters for the presentation
+slides.  For each chapter, the corresponding team would also provide
+suitable exercise templates that could be used for self-study
+materials, exams, and solutions.
 
 Prior experience had shown that the exercises needed to be flexible in
-order to allow for enough variation and avoid ``learning by
-heart'': Students should not be able to guess the correct answer of a
-multiple choice question from a certain key word in the problem
+order to allow for enough variation and avoid ``learning by heart'':
+Students should not be able to guess the correct answer of a multiple
+choice question from a certain key word in the problem
 description. Ideally for each problem setting a set of exercises
 should exist where all combinations of possible answers are
 correct. In addition, the exercises should not only require students
 to do calculations but also cover interpretation of results,
-statistical graphics and statistical software output. However, fast and
-easy correction should still be possible based only on a short
+statistical graphics and statistical software output. However, fast
+and easy correction should still be possible based only on a short
 result as filled in by the students on the cover sheet of their exams.
+
+Additional insights and guidelines on statistical education and
+assessment are for example given in \cite{exams:Gal+Garfield:1997} and
+\cite{exams:Garfield+Chance:2000}.  They discuss issues such as topics
+covered and skills developed in statistics courses as well as suitable
+ways of assessments. Large-scale exams certainly impose special
+constraints on assessment because of limited ressources. The
+development of effective multiple choice questions which force the
+student to understand underlying statistical concepts is crucial and
+often not straight forward. For some hints on good multiple choice
+questions which are also suitable for self-study materials see for
+example \cite{exams:Klinke:2004}.
 
 These requirements on maintenance, variation, and correction of exercises
 led to the following design principles for package \pkg{exams}:
@@ -131,9 +138,11 @@ led to the following design principles for package \pkg{exams}:
   \item \textit{Variation:} Exercises are dynamic documents, containing a
         problem/solution along with a data-generating process (DGP) so that
 	random samples can be drawn easily.
-  \item \textit{Correction:} Solutions for exercises are either multiple-choice
-        answers (logical vectors) or numeric values (e.g., a test statistic
-	or a confidence interval).
+      \item \textit{Correction:} Solutions for exercises are either
+        multiple-choice answers (logical vectors), numeric values
+        (e.g., a test statistic or a confidence interval) or short
+        text answers (e.g., the name of the appropriate test for a
+        given problem).
 \end{itemize}
 Thus, the DGP of an exercise controls the distribution of possible
 solutions and can be utilized to make them (approximately) evenly
@@ -182,9 +191,11 @@ how the final output file is derived from the original \proglang{R}
 and {\LaTeX} code. In Section~\ref{sec:master}, the structure of the
 master {\LaTeX} file for constructing the final PDF file from the
 exercise files is presented. Finally Section~\ref{sec:customization}
-illustrates how to use the package in practice and how exams can be
-customized.  Section~\ref{sec:discussion} concludes the paper with a
-discussion.
+illustrates how to use the package in practice and how \pkg{exams} can
+be customized. Experience with the development of exercises and the
+application of the package are discussed in
+Section~\ref{sec:discussion}. Section~\ref{sec:summary} concludes the
+paper with a summary.
 
 \section{Exercises} \label{sec:exercises}
 
@@ -284,21 +295,31 @@ commands are in {\LaTeX} style but are actually commented out and hidden in the 
 output file. There are four commands:
 \begin{itemize}
   \item \verb|\extype{}|: type of question. It may be either \code{mchoice}
-        for multiple choice questions or \code{num} for questions with a
-        numeric result.
-  \item \verb|\exsolution{}|: solution. It contains the numeric solution or
-        a string of zeros and ones for multiple choice questions. For
-	confidence intervals, it may also specify two solutions of type
-        \verb|\exsolution{|\emph{lower}\verb|}{|\emph{upper}\verb|}|.	
+        for multiple choice questions, \code{num} for questions with a
+        numeric result or \code{string} for questions with a (short) text answer.
+  \item \verb|\exsolution{}|: solution. It contains the numeric
+        solution, a string of zeros and ones for multiple choice
+        questions or a character string. For confidence intervals, it
+        may also specify two solutions of type
+        \verb|\exsolution{|\emph{lower}\verb|}{|\emph{upper}\verb|}|.
   \item \verb|\exname{}|: a name or description. This is some
         short informative text, only used for printing of solutions
-	within \proglang{R}.
-      \item \verb|\extol{}|: tolerance limit (optional). For numeric
-        solutions a tolerance limit can be specified; by default it is
-        assumed to be 0.  This can be useful for automatic evaluations
-        of numeric solutions if some deviation from the correct answer
-        is allowed (e.g., due to rounding errors).
+        within \proglang{R}.
+  \item \verb|\extol{|\emph{lower}\verb|}{|\emph{upper}\verb|}|:
+        tolerance limit (optional). For numeric solutions two
+        tolerance limits can be specified; by default both are assumed to
+        be 0. If only the lower tolerance is specified the upper
+        tolerance is set to the same value. This can be useful for
+        automatic evaluations of numeric solutions if some deviation
+        from the correct answer is allowed (e.g., due to rounding
+        errors). 
 \end{itemize}
+The meta-information is taken from the {\LaTeX} file and hence the
+solution as well as the tolerance limits can be dynamically determined
+using \verb|\|\verb|Sexpr{}|. In Table~\ref{tab:Rnw} for example the
+solution only needs to be correct for up to two digits when rounding
+to three digits (as indicated by a tolerance of 0.01) with the
+additional constraint that it is a feasible value, i.e., positive.
 
 The user does not have to go from the Sweave file (Table~\ref{tab:Rnw})
 to the {\LaTeX} file (Table~\ref{tab:tex}) to the PDF file (Table~\ref{tab:pdf})
@@ -346,12 +367,13 @@ to PDF. More precisely, \code{exams()} takes the following approach:
         or display it on the screen (for a single file only, by default).
 \end{enumerate}
 Thus, the only thing needed to combine several independent exercises
-to an exam is a master {\LaTeX} file. Its basic structure is quite
-straightforward but for more elaborate layouts it can become
-more complex. Package \pkg{exams} provides various examples of master
-{\LaTeX} files in the \code{inst/tex/} directory of the source package.
-The simplest one is \code{plain.tex} (see Table~\ref{tab:master})
-which is described here to provide a first overview.
+to an exam is a master {\LaTeX} file. Its basic structure is rather
+straightforward but for more elaborate layouts it can become quite
+complex. Package \pkg{exams} provides various examples of master
+{\LaTeX} files in the \code{inst/tex/} directory of the source
+package.  The simplest one is \code{plain.tex} (see
+Table~\ref{tab:master}) which is described here to provide a first
+overview.
 
 \begin{table}[t]
 \begin{center}
@@ -404,8 +426,10 @@ can be used to modify aspects of the master {\LaTeX} file dynamically:
       Replaced by: \verb|\input{|{\it filename}\verb|}| (one for each exercise).\\
       Example: \verb|\input{tstat}|.
 \item \verb|\exinput{questionnaire}|: Inclusion of questionnaires, e.g., for cover sheets.\\
-      Replaced by: \verb|\exnum{|{\it \dots}\verb|}| or
-                   \verb|\exmchoice{|{\it \dots}\verb|}|, respectively (one for each exercise).\\
+      Replaced by: \verb|\exnum{|{\it \dots}\verb|}|, 
+                   \verb|\exmchoice{|{\it \dots}\verb|}|, or
+                   \verb|\exstring{|{\it \dots}\verb|}|,
+                   respectively (one for each exercise).\\
       Example: \verb|\exnum\Sexpr{tstat_exnum}|.
 \item \verb|\exinput{header}|: Further commands and definitions.\\
       Replaced by: \verb|\|{\it command}\verb|{|{\it value}\verb|}| (one for each header command).\\
@@ -414,8 +438,9 @@ can be used to modify aspects of the master {\LaTeX} file dynamically:
 For the latter two, the master {\LaTeX} file has to define the commands that are
 used in the replacement step, e.g., \verb|\exnum| has to be a command that takes nine
 arguments (corresponding to six and three digits before and after the decimal point for numeric
-solutions) and \verb|\exmchoice| has to take five arguments (corresponding to the logical
-multiple choice answers).\footnote{Note that this implementation
+solutions), \verb|\exmchoice| has to take five arguments (corresponding to the logical
+multiple choice answers) and \verb|\exstring| has to take only one argument (corresponding 
+to the solution string).\footnote{Note that this implementation
 has the limitation that at most five answer options are possible for
 multiple choice questions as well as only a precision up to three
 digits right from the decimal mark and up to six digits left from the
@@ -501,11 +526,7 @@ myexam <- list("boxplots",
   \item[\normalfont \code{dir}:] Output directory for storing the resulting PDF files (and
         meta-information). If only a single PDF file is generated, this can
 	be omitted (and the result is displayed directly on the screen), otherwise
-	it has to be specified. Below we use a temporary output directory
-<<>>=
-odir <- tempfile()
-@
-	but the reader can easily change \code{odir} to some local directory.
+	it has to be specified. 
 
   \item[\normalfont \code{template}:] A (vector of) master {\LaTeX} file(s). If more than
         one \code{template} is specified, one PDF output file is created for
@@ -519,16 +540,8 @@ odir <- tempfile()
         file.  It has to be a \code{list()} of \textit{command}\code{
         = }\textit{value} pairs, where \textit{value} can either be a
         static string or a function computing a string from the index
-        $i$ of the $i$th exam. Below we use \code{ID = getID} with
-<<>>=
-getID <- function(i) 
-  paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")
-getID(1)
-@ 
-        Thus, a different \verb|\ID{myexam|\textit{ii}\verb|}| command
-	will be substituted in the header of each exam.	(The {\LaTeX}
-	command \verb|\ID{}| has to be defined in the master {\LaTeX} files.)
-
+        $i$ of the $i$th exam. 
+        
   \item[\normalfont Further arguments:] \code{inputs} can specify a list of files
         needed during the {\LaTeX} compilation, e.g., private \code{.sty} files
 	etc. \code{name} is the (vector of) prefix(es) for the final PDF
@@ -540,6 +553,22 @@ getID(1)
 	are called. \code{control} allows a few further control options
 	(see also below).
 \end{description}
+
+We use a temporary output directory but the reader can easily change
+\code{odir} to some local directory.
+<<>>=
+odir <- tempfile()
+@ 
+
+We want a different ID for each exam. So we define a function which is
+used to substitute a different \verb|\ID{myexam|\textit{ii}\verb|}|
+command in the header of each exam. (The {\LaTeX} command \verb|\ID{}|
+has to be defined in the master {\LaTeX} files.)
+<<>>=
+getID <- function(i) 
+  paste("myexam", gsub(" ", "0", format(i, width = 2)), sep = "")
+getID(1)
+@ 
 
 Using these arguments, a set of exams can now be easily produced:
 <<>>=
@@ -590,18 +619,7 @@ mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
 (exams(myexam, n = 1, template = "exam", control = mycontrol))
 @ 
 
-
-
 \section{Discussion} \label{sec:discussion}
-
-Package \pkg{exams} provides a framework for automatic generation of
-simple (statistical) exams and associated self-study materials.
-It is based on independent exercises in Sweave format which can be
-compiled in exams (or other collections of exercises) by providing 
-one (or more) master {\LaTeX} template(s). Because contributing to the
-pool of exercises just requires knowledge of Sweave and minimal markup
-for meta-information, \pkg{exams} facilitates joint development of
-lecture materials. 
 
 During 2007, \pkg{exams} was employed by about 10--15 lecturers
 at the Department of Statistics and Mathematics of WU Wien
@@ -613,6 +631,31 @@ e-mailed to the students individually after correction of the test).
 Currently, exams are still corrected ``by hand'' but an automated
 procedure using optical character recognition (OCR) software is
 in preparation.
+
+The examples implemented covered the topics of an introductory
+statistics course. They were either multiple choice questions or
+questions with a numeric result. Students were informed that for
+numeric results intermediate results should not be rounded but saved
+in their calculators. The final results should then be rounded to
+three digits. They were told that small deviations from the correct
+solution would still be assessed as correct. Specific rules for
+rounding were not discussed. Internally most tolerances were set in a
+fixed way to ensure that students have the result correctly up to two
+digits. In practice the choice of tolerances (if within reasonable
+limits) turned out to be rather irrelevant, because most students do
+either report the exactly same solution as we derived or are far way
+off.
+
+\section{Summary} \label{sec:summary}
+
+Package \pkg{exams} provides a framework for automatic generation of
+simple (statistical) exams and associated self-study materials.
+It is based on independent exercises in Sweave format which can be
+compiled in exams (or other collections of exercises) by providing 
+one (or more) master {\LaTeX} template(s). Because contributing to the
+pool of exercises just requires knowledge of Sweave and minimal markup
+for meta-information, \pkg{exams} facilitates joint development of
+lecture materials. 
 
 
 %% \section*{Computational details}
@@ -631,7 +674,9 @@ in preparation.
 We are indebted to our colleagues at the Department of Statistics and
 Mathematics at WU Wien---in particular Regina T\"uchler and Josef
 Leydold---for testing and challenging the code and making suggestions
-for improvement. This research was partially supported by the Austrian
+for improvement. We would like to thank two anonymous referees and one
+associate editor for their valuable comments which led to several
+improvements. This research was partially supported by the Austrian
 Science Foundation (FWF) under Hertha-Firnberg grant T351.
 
 \bibliography{exams}

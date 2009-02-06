@@ -1,0 +1,21 @@
+
+AE report for JSS 420
+
+
+The paper describing the design and application of the `exam' package
+has been carefully reviewed by two referees. The `exam' package helps
+to organize and maintain a collection of exercises which can be used
+to automatically produce a potentially huge number of student-specific
+exams. Both referees and the AE suggest to publish the manuscript after 
+minor adjustments.
+
+Two points should be addressed in the revision. Both referees ask to discuss 
+the problem of rounding errors in more detail. This can be done by
+extending the t-test example. The second referee suggests to
+give recommendations how `good' questions should be formulated. While
+I acknowledge that this is somewhat out of scope, one or two
+paragraphs based on the authors' practical experience would make 
+the paper more lively.
+
+(Sorry for sending the second review in German, the referee argued
+that all persons involed understand it. Well.)
