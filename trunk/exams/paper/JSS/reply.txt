@@ -1,4 +1,40 @@
-Associate Editor
+Jan,
+
+thanks again for the reviews for our software/manuscript:
+  JSS 420
+  Automatic Generation of Simple (Statistical) Exams
+  Bettina Gruen, Achim Zeileis
+
+We have revise both, software and manuscript, trying to
+address all comments of the referees. A detailed point-to-point
+reply is included below. Here, we briefly summarize the
+major changes.
+
+Software:
+  o In addition to exercises with multiple choice and numeric
+    solutions there is now support for solutions consisting
+    of (short) strings.
+  o Asymmetric tolerances for numeric solutions are now supported,
+    e.g., allowing for interval arithmetic.
+
+Manuscript:
+  o The introduction now emphasizes the focus of our submission:
+    providing software support for large-scale exams.
+    Remarks about other (than technological) aspects are deferred
+    to a discussion section at the end of the manuscript.
+  o The last section is now split into discussion and summary.
+    The former tries to highlight some aspects of developing
+    "good" teaching materials, references the literature in that
+    field and provides some of our experiences at WU Wien.
+
+We hope that this addresses all concerns of the previous version.
+
+Best regards,
+Bettina & Achim
+
+---
+
+ASSOCIATE EDITOR
 
 > The paper describing the design and application of the `exam' package
 > has been carefully reviewed by two referees. The `exam' package helps
@@ -15,38 +51,26 @@ Associate Editor
 > paragraphs based on the authors' practical experience would make 
 > the paper more lively.
 
-The remarks of the two referees inspired us to make the following
-changes in the R code and hence in the functionality of exams():
+Thanks for these suggestions. We split up the last section into a
+discussion and summary. The former now discusses explicitely aspects
+of exam generation that are not covered by the software itself, e.g.,
+we try to highlight challenges in the design of "good" questions, also
+including references to publications that address this directly. In
+that section, we also share some of our experiences at WU Wien with the
+new material, including our strategy for dealing with rounding errors.
 
-o The answer type was limited to multiple choice or numeric. We added
-  a third category which allows for short free text answers.
+In the discussion of the software itself, we have not extended the
+t-test example with further rounding strategies. The reason is that
+the rounding error is not really dealt with in the software itself.
+The user of "exams" can decide whether a fixed tolerance should be
+used (as done in our small toy exercise) or whether the tolerance
+should be also driven by the DGP (as suggested by referee 1). This
+is now pointed out more clearly in Section 2 and brought up again
+in the new Section 5.
 
-  Please note that the generation of examples and solutions is also
-  easily possible for this type of questions. However, automatic
-  evaluation is more difficult. This was the reason why we had not
-  included this option in the first place.
+---
 
-o The tolerance limits used to be symmetric, i.e., the same amount of
-  deviation was allowed from the correct solution to both
-  sides. Because interval arithmetic might give asymmetric intervals
-  around the true value, \extol now has two arguments to specify the
-  allowed deviation to the lower and to the upper side. Please note
-  that all examples still work because if only one argument is
-  specified the second is assumed to have the same value.
-
-The following changes are made in the paper.
-
-(1) A better outline of the purpose of the paper and the issues
-covered in the introduction is provided. In adddition the reader is
-referred to additional literature on developping good multiple choice
-questions and other issues of assessment in statistical education.
-
-(2) The discussion section was splitted into a discussion and a
-summary section and the discussion extended to include more
-information about our practical experience with the use of the
-package, especially with respect to rounding.
-
-Referee I
+REFEREE 1
 
 > The paper is well written and understandable. The problem has been
 > nicely stated and the solution is very well thought-out. The
@@ -71,8 +95,10 @@ Referee I
 
 Students were instructed to not round intermediate results and to only
 round the final result to three digits. By having a fixed tolerance of
-0.01 this implies that in fact their numeric result only has to be
-correct for two digits.
+0.01 this essentially implies that in fact their numeric result only has
+to be correct to two digits. Typically, we recommend that students store
+intermediate results in their calculators so that their approach is
+quite close to what we do in R.
   
 > It seems like the tolerance specification in exams is a manual and
 > perhaps ill-defined step; is there a more robust way of setting it
@@ -109,12 +135,17 @@ correct for two digits.
 > up periodically.
 
 Certainly more elaborate ways of fixing the tolerance of numeric
-results are possible. The limits might either be derived analytically
-for each exercise and set to a fixed value or in a data-driven way
-(even for the specific dataset) and inserted using \Sexpr{} into
-\extol{}{} for the meta-information.
-  
-Referee II
+results are useful in some circumstances. This is already supported
+in "exams" because any data-driven tolerance (as illustrated in your
+code chunk above) can be passed to \extol{} using \Sexpr{}.
+
+Our fixed value 0.01 was mainly chosen for simplicity in this
+basic example. The revised manuscript now points out more clearly
+that other approaches of setting \extol{} are conceivable.
+
+---
+
+REFEREE 2
 
 > Der Artikel muesste eigentlich zweiteilig sein: 1. Konzeption von
 > Aufgaben und 2. Generierung einer Vielzahl von (dynamischen)
@@ -138,19 +169,12 @@ Referee II
 > sagen. Zumal in ihrem Beispiel zum t-test, z.B. in Bezug auf
 > Rundungen, auch erheblich mehr steckt.
 
-The aim of the paper is to describe the infrastructure implemented in
-the R package exams for generating exams and add-on material. The type
-of exercises are only limited by the available answer options
-(multiple choice, numeric and now also a short string). However, how
-to construct "good" exercises was not intended to be part of the paper
-and hence was not explained. 
+This is certainly true. Therefore, we now point out more clearly
+in the revised introduction that the aim of the software/manuscript
+is to provide computational infrastructure aiding the generation of
+exams/exercises. A few short remarks/references on how to generate
+"good" exercises are now included in the new Section 5.
 
-We added a remark to more clearly outline the purpose of the paper and
-the issues covered. For guidance on the development of "good"
-exercises the reader is referred to the work of others in the
-literature.
-
- 
 > Einzelfragen/kommentare:
 > ------------------------
 > 
@@ -164,10 +188,13 @@ We changed the title to "Automatic Generation of Standardized Exams".
 >   Ist es nicht eher eine Frage der Menge von Aufgaben und eigentlich
 >   nicht der Software?
 
-By requiring scalable exams we allow for individual exams for each
-student even for large courses. This alleviates the problem of
-cheating by eliminating the possibility to copy the solutions from the
-neighbour.
+Surely the number of exercises is crucial for scalability. The generation
+of many good exercises is a major part in the design of a scalable
+exam and this is not alleviated much by our software package.
+However, the implementation in software is not a negligible part
+of the effort. Also, a technological framework often helps to aid
+discussions about the content and broaden the scope of what is
+easy/possible to achieve in automatized exams.
  
 > - Wie handhabt man Aufgaben mit aufeinander aufbauende Teilaufgaben
 >   und mehreren Teilloesungen, z.B.
@@ -186,22 +213,22 @@ exercise and not overwritten subsequently.
 > - Wie geht man mit Teilaufgabe a) um, wo es weder ein numerische
 >   Resultate oder Multiple-Choice-Resulate gibt?
 
-Exercises which have as solution a character string were not
-possible. We added to the possible solution types "multiple choice"
-and "numeric" type "string" to allow for questions with text
-solutions.
+This is a good idea which we had not thought about previously.
+We added a new typ of exercise with a "string" solution (in addition
+to the previously available multiple choice and numeric solutions).
  
 > - Warum wird nicht ein Ansatz mit Intervallarithmetik verfolgt statt
 >   mit \extol?
 
-We now have two arguments for \extol which allows to specify different
+Another good idea that we had not thought about because we did not
+need it for our courses. \extol now allows to specify different
 deviations from the correct solution to the lower and the upper
 side. The solution from applying interval arithmetic can thus be set
-as tolerance interval.
+as a tolerance interval.
  
 > - Die Autoren sollte ueberlegen, ob Sie die Beschreibung der Parameter
 >   auf Seite 9 kuerzen koennen.
 
-Some of the R code of the example was taken out of the description of
-the parameters and was added to the example. The description of the
-function and its parameters now fits on one page.
+We now separate the argument description and the subsequent illustrative
+example more clearly. Now, the description of the function and its
+parameters fits on one page.
