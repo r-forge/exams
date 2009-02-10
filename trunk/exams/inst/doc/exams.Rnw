@@ -1,5 +1,5 @@
 \documentclass[nojss]{jss}
-%% \usepackage{thumbpdf}
+\usepackage{thumbpdf}
 %% need no \usepackage{Sweave}
 
 %% new environments for exams
@@ -10,25 +10,24 @@
    \And Achim Zeileis\\Wirtschaftsuniversit\"at Wien}
 \Plainauthor{Bettina Gr\"un, Achim Zeileis}
 
-\title{Automatic Generation of Standardized Large-Scale Exams}
+\title{Automatic Generation of Standardized Exams}
 
 \Keywords{exams, multiple choice, arithmetic problems, Sweave, {\LaTeX}, \proglang{R}}
 \Plainkeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 
-\Abstract{
-  Package \pkg{exams} provides a framework for automatic
-  generation of standardized statistical exams. To employ the tools,
-  users just need to supply a pool of exercises and
-  a master file controlling the layout of the final PDF document.
-  The exercises are specified in
+\Abstract{ Package \pkg{exams} provides a framework for automatic
+  generation of standardized statistical exams which is especially
+  useful for large-scale exams. To employ the tools, users just need
+  to supply a pool of exercises and a master file controlling the
+  layout of the final PDF document.  The exercises are specified in
   separate Sweave files (containing \proglang{R} code for data
   generation and {\LaTeX} code for problem and solution description)
-  and the master file is a {\LaTeX} document with some additional control
-  commands.  This paper gives an overview on
-  the main design aims and principles as well as strategies for adaptation
-  and extension. Hands-on illustrations---based on example exercises and control files
-  provided in the package---are presented to get new users started easily.
-}
+  and the master file is a {\LaTeX} document with some additional
+  control commands.  This paper gives an overview on the main design
+  aims and principles as well as strategies for adaptation and
+  extension. Hands-on illustrations---based on example exercises and
+  control files provided in the package---are presented to get new
+  users started easily.  }
 
 \Address{
   Bettina Gr\"un, Achim Zeileis\\
@@ -44,7 +43,7 @@
 \begin{document}
 
 \SweaveOpts{engine = R, eps = FALSE, keep.source = TRUE}
-%\VignetteIndexEntry{Automatic Generation of Simple (Statistical) Exams}
+%\VignetteIndexEntry{Automatic Generation of Standardized Exams}
 %\VignetteDepends{stats, graphics, tools, utils}
 %\VignetteKeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 %\VignettePackage{exams}
@@ -78,23 +77,23 @@ slides, collections of exercises, exams, etc.
 
 In the course of the re-design decisions on two different aspects had
 to be made. On the one hand the content had to be agreed on depending
-on the learning outcomes, i.e.~the topics covered in the lecture as
+on the learning outcomes, i.e., the topics covered in the lecture as
 well as the skills checked in the exams had to be specified. On the
 other hand the technological tools had to be selected as well as the
 infrastructure provided to support the generation of the
 material. Additional constraints which also had to be taken into
-account in the process were imposed by the environment (restricted
-ressources, time frame, etc.).
+account in the process were imposed by the environment (limited
+resources, time frame, etc.).
 
 This paper focuses on the technology applied and the implemented
-infrustructure. The structure of the tools is driven by the
+infrastructure. The structure of the tools is driven by the
 requirements of large-scale exams and can hence be useful in this kind
 of setting rather independent of the content.  The main challenges
 with respect to the applied technology in this process---that the
 \pkg{exams} package tries to address---were:
 \begin{itemize}
   \item \textit{Scalable exams:} Automatic generation of a large number
-        of different exams in order to have an individual test for each student.
+        of different exams in order to provide an individual test to each student.
   \item \textit{Associated self-study materials:} Collections of exercises
         and solutions from the same pool of examples.
   \item \textit{Joint development:} Development and maintenance of a large
@@ -122,12 +121,12 @@ Additional insights and guidelines on statistical education and
 assessment are for example given in \cite{exams:Gal+Garfield:1997} and
 \cite{exams:Garfield+Chance:2000}.  They discuss issues such as topics
 covered and skills developed in statistics courses as well as suitable
-ways of assessments. Large-scale exams certainly impose special
-constraints on assessment because of limited ressources. The
+ways of assessment. Large-scale exams certainly impose special
+constraints on assessment because of limited resources. The
 development of effective multiple choice questions which force the
 student to understand underlying statistical concepts is crucial and
 often not straight forward. For some hints on good multiple choice
-questions which are also suitable for self-study materials see for
+questions especially if they are also used for self-study materials see for
 example \cite{exams:Klinke:2004}.
 
 These requirements on maintenance, variation, and correction of exercises
@@ -153,7 +152,7 @@ problem. Depending on the flexibility of the DGP, the pool of
 exercises can thus be rather small or needs to be somewhat larger.
 
 Mixing problems/solutions and DGPs for exam generation poses challenges 
-that are similar to those of making data analyses reproducible.
+that are similar to those of making data analysis reproducible.
 Thus, \pkg{exams} employs many ideas from literate data analysis
 \citep{exams:Rossini:2001,exams:Leisch+Rossini:2003}, literate programming
 \citep{exams:Knuth:1992} and reproducible research \citep{exams:deLeeuw:2001}. 
@@ -309,17 +308,17 @@ output file. There are four commands:
         tolerance limit (optional). For numeric solutions two
         tolerance limits can be specified; by default both are assumed to
         be 0. If only the lower tolerance is specified the upper
-        tolerance is set to the same value. This can be useful for
-        automatic evaluations of numeric solutions if some deviation
+        tolerance is set to the same value. This can be useful for the
+        automatic evaluation of numeric solutions if some deviation
         from the correct answer is allowed (e.g., due to rounding
         errors). 
 \end{itemize}
 The meta-information is taken from the {\LaTeX} file and hence the
 solution as well as the tolerance limits can be dynamically determined
 using \verb|\|\verb|Sexpr{}|. In Table~\ref{tab:Rnw} for example the
-solution only needs to be correct for up to two digits when rounding
-to three digits (as indicated by a tolerance of 0.01) with the
-additional constraint that it is a feasible value, i.e., positive.
+solution only needs to be correct for two digits when rounding to
+three digits (as indicated by a tolerance of 0.01) with the additional
+constraint that it is a feasible value, i.e., positive.
 
 The user does not have to go from the Sweave file (Table~\ref{tab:Rnw})
 to the {\LaTeX} file (Table~\ref{tab:tex}) to the PDF file (Table~\ref{tab:pdf})
@@ -570,7 +569,7 @@ getID <- function(i)
 getID(1)
 @ 
 
-Using these arguments, a set of exams can now be easily produced:
+Using these arguments, a set of exams can be easily produced:
 <<>>=
 set.seed(1090)
 sol <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"), 
@@ -636,14 +635,14 @@ The examples implemented covered the topics of an introductory
 statistics course. They were either multiple choice questions or
 questions with a numeric result. Students were informed that for
 numeric results intermediate results should not be rounded but saved
-in their calculators. The final results should then be rounded to
+in their calculators. They should then round their final results to
 three digits. They were told that small deviations from the correct
 solution would still be assessed as correct. Specific rules for
 rounding were not discussed. Internally most tolerances were set in a
 fixed way to ensure that students have the result correctly up to two
 digits. In practice the choice of tolerances (if within reasonable
 limits) turned out to be rather irrelevant, because most students do
-either report the exactly same solution as we derived or are far way
+either report exactly the same solution as we derived or are far way
 off.
 
 \section{Summary} \label{sec:summary}

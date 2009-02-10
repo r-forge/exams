@@ -18,33 +18,33 @@ Associate Editor
 The remarks of the two referees inspired us to make the following
 changes in the R code and hence in the functionality of exams():
 
-o The answer type was limited to multiple choice or numeric. A third
-  category was added which allows for short free text answers. 
+o The answer type was limited to multiple choice or numeric. We added
+  a third category which allows for short free text answers.
 
   Please note that the generation of examples and solutions is also
   easily possible for this type of questions. However, automatic
-  evaluation is made more difficult. This was the reason why we had
-  not included this option in the first place.
+  evaluation is more difficult. This was the reason why we had not
+  included this option in the first place.
 
 o The tolerance limits used to be symmetric, i.e., the same amount of
   deviation was allowed from the correct solution to both
   sides. Because interval arithmetic might give asymmetric intervals
-  around the true value, \extol now has two arguments for a deviation
-  to the left and to the right. Please note that all examples still
-  work because if only one argument is specified the second is assumed
-  to have the same value.
+  around the true value, \extol now has two arguments to specify the
+  allowed deviation to the lower and to the upper side. Please note
+  that all examples still work because if only one argument is
+  specified the second is assumed to have the same value.
 
 The following changes are made in the paper.
 
 (1) A better outline of the purpose of the paper and the issues
 covered in the introduction is provided. In adddition the reader is
 referred to additional literature on developping good multiple choice
-questions and other issues in assessment in statistical education.
+questions and other issues of assessment in statistical education.
 
 (2) The discussion section was splitted into a discussion and a
 summary section and the discussion extended to include more
 information about our practical experience with the use of the
-package.
+package, especially with respect to rounding.
 
 Referee I
 
@@ -71,8 +71,8 @@ Referee I
 
 Students were instructed to not round intermediate results and to only
 round the final result to three digits. By having a fixed tolerance of
-0.01 this implied that in fact their numeric result only had to be
-correct up to two digits.
+0.01 this implies that in fact their numeric result only has to be
+correct for two digits.
   
 > It seems like the tolerance specification in exams is a manual and
 > perhaps ill-defined step; is there a more robust way of setting it
@@ -126,6 +126,17 @@ Referee II
 > - bei Zahlenaufgaben, dass Problem der Rundung im Rechenweg
 > - die Moeglichkeit Antworten so zu formulieren, dass bestimmte Fehler
 >   in den Antworten vorkommen
+>
+> Dies ist zwar nicht Ziel des Paketes, aber dies macht eine "gute"
+> Aufgabe wesentlich aus. Da liegen zum einen grundsaetzliche Grenzen
+> des Paketes ("sinnvolle Multiple-Choice-Antworten") zum anderen wird
+> nur eine sehr begrenzte Unterstaetzung geliefert ("Rundung im
+> Rechenweg").
+> 
+> Es ist eben nicht genuegend, einfach nur eine Vielzahl von Aufgaben zu
+> generieren und die Autoren sollten dies auch klar und deutlich
+> sagen. Zumal in ihrem Beispiel zum t-test, z.B. in Bezug auf
+> Rundungen, auch erheblich mehr steckt.
 
 The aim of the paper is to describe the infrastructure implemented in
 the R package exams for generating exams and add-on material. The type
@@ -138,18 +149,6 @@ We added a remark to more clearly outline the purpose of the paper and
 the issues covered. For guidance on the development of "good"
 exercises the reader is referred to the work of others in the
 literature.
- 
-> Dies ist zwar nicht Ziel des Paketes, aber dies macht eine "gute"
-> Aufgabe wesentlich aus. Da liegen zum einen grundsaetzliche Grenzen
-> des Paketes ("sinnvolle Multiple-Choice-Antworten") zum anderen wird
-> nur eine sehr begrenzte Unterstaetzung geliefert ("Rundung im
-> Rechenweg").
-> 
-> Es ist eben nicht genuegend, einfach nur eine Vielzahl von Aufgaben zu
-> generieren und die Autoren sollten dies auch klar und deutlich
-> sagen. Zumal in ihrem Beispiel zum t-test, z.B. in Bezug auf
-> Rundungen, auch erheblich mehr steckt.
-
 
  
 > Einzelfragen/kommentare:
@@ -159,7 +158,7 @@ literature.
 >   die Exams nicht sein und "Statistical" entweder reinschreiben oder
 >   nicht; aber bitte nicht in Klammern.
 
-We changed the title to "Automatic Generation of Large-Scale Exams".
+We changed the title to "Automatic Generation of Standardized Exams".
  
 > - Impliziert "Scalable exams" nicht "Associated self-study materials"?
 >   Ist es nicht eher eine Frage der Menge von Aufgaben und eigentlich
