@@ -38,4 +38,4 @@ tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
 %% \extype{num}
 %% \exsolution{\Sexpr{format(abs(tstat), nsmall = 3)}}
 %% \exname{t statistic}
-%% \extol{\Sexpr{min(0.01, abs(tstat))}}{0.01}
+%% \extol{0.01}
