@@ -1,7 +1,7 @@
 Package: exams
 Version: 0.9-5
 Date: 2009-02-06
-Title: Automatic Generation of Simple (Statistical) Exams
+Title: Automatic Generation of Standardized Exams for Large-Lecture Courses
 Author: Achim Zeileis, Bettina Gruen
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 Description: Sweave-based automatic generation of exams with
