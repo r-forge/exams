@@ -5,7 +5,7 @@ thanks again for the reviews for our software/manuscript:
   Automatic Generation of Simple (Statistical) Exams
   Bettina Gruen, Achim Zeileis
 
-We have revise both, software and manuscript, trying to
+We have revised both, software and manuscript, trying to
 address all comments of the referees. A detailed point-to-point
 reply is included below. Here, we briefly summarize the
 major changes.
@@ -51,13 +51,14 @@ ASSOCIATE EDITOR
 > paragraphs based on the authors' practical experience would make 
 > the paper more lively.
 
-Thanks for these suggestions. We split up the last section into a
+Thanks for these suggestions. We split up the last section into
 discussion and summary. The former now discusses explicitely aspects
 of exam generation that are not covered by the software itself, e.g.,
 we try to highlight challenges in the design of "good" questions, also
 including references to publications that address this directly. In
-that section, we also share some of our experiences at WU Wien with the
-new material, including our strategy for dealing with rounding errors.
+that section, we also share some of our experiences at WU Wien with
+the new material, including our strategy for dealing with rounding
+errors.
 
 In the discussion of the software itself, we have not extended the
 t-test example with further rounding strategies. The reason is that
@@ -182,7 +183,7 @@ exams/exercises. A few short remarks/references on how to generate
 >   die Exams nicht sein und "Statistical" entweder reinschreiben oder
 >   nicht; aber bitte nicht in Klammern.
 
-We changed the title to "Automatic Generation of Standardized Exams".
+We changed the title to "Automatic Generation of Exams in R".
  
 > - Impliziert "Scalable exams" nicht "Associated self-study materials"?
 >   Ist es nicht eher eine Frage der Menge von Aufgaben und eigentlich

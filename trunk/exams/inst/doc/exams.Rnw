@@ -10,7 +10,8 @@
    \And Achim Zeileis\\Wirtschaftsuniversit\"at Wien}
 \Plainauthor{Bettina Gr\"un, Achim Zeileis}
 
-\title{Automatic Generation of Standardized Exams}
+\title{Automatic Generation of Exams in \proglang{R}}
+\Plaintitle{Automatic Generation of Exams in R}
 
 \Keywords{exams, multiple choice, arithmetic problems, Sweave, {\LaTeX}, \proglang{R}}
 \Plainkeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
@@ -43,7 +44,7 @@
 \begin{document}
 
 \SweaveOpts{engine = R, eps = FALSE, keep.source = TRUE}
-%\VignetteIndexEntry{Automatic Generation of Standardized Exams}
+%\VignetteIndexEntry{Automatic Generation of Exams in R}
 %\VignetteDepends{stats, graphics, tools, utils}
 %\VignetteKeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 %\VignettePackage{exams}
@@ -92,32 +93,15 @@ slides.  For each chapter, the corresponding team would also provide
 suitable exercise templates that could be used for self-study
 materials, exams, and solutions.
 
-Prior experience had shown that the exercises needed to be flexible in
-order to allow for enough variation and avoid ``learning by heart'':
-Students should not be able to guess the correct answer of a multiple
-choice question from a certain key word in the problem
-description. Ideally for each problem setting a set of exercises
-should exist where all combinations of possible answers are
-correct. In addition, the exercises should not only require students
-to do calculations but also cover interpretation of results,
-statistical graphics and statistical software output. However, fast
-and easy correction should still be possible based only on a short
-result as filled in by the students on the cover sheet of their exams.
-
-Additional insights and guidelines on statistical education and
-assessment are for example given in \cite{exams:Gal+Garfield:1997} and
-\cite{exams:Garfield+Chance:2000}.  They discuss issues such as topics
-covered and skills developed in statistics courses as well as suitable
-ways of assessment. Large-scale exams certainly impose special
-constraints on assessment because of limited resources. The
-development of effective multiple choice questions which force the
-student to understand underlying statistical concepts is crucial and
-often not straight forward. For some hints on good multiple choice
-questions especially if they are also used for self-study materials see for
-example \cite{exams:Klinke:2004}.
-
-These requirements on maintenance, variation, and correction of exercises
-led to the following design principles for package \pkg{exams}:
+The pool of exercises does not only need to contain different types of
+exercises, but also variants of the same type to avoid that students
+learn the solutions ``by heart''. Correction should be fast and
+easy. This restricts the suitable types of exercises to those which
+either have a single number as result which only need to be checked to
+assess the correctness, multiple-choice questions or questions which
+require only a short text answer. These requirements on maintenance,
+variation, and correction of exercises led to the following design
+principles for package \pkg{exams}:
 \begin{itemize}
   \item \textit{Maintenance:} Each exercise template is a single file
         (also just called ``exercise'').
@@ -152,17 +136,6 @@ Thus, the implementation in \pkg{exams} is based on
 (2)~different master {\LaTeX} files controlling the appearance and
 (3)~an implementation of a minimal markup for communication with \proglang{R}
 plus \proglang{R} functions tying everything together. 
-
-In the development process at WU Wien, this addressed all requirements:
-All lecturers involved are familiar with \proglang{R} and {\LaTeX}
-(which are both available on all standard platforms) and can thus contribute to the
-pool of exercises. To do so, they just need to know the structure of the exercise
-Sweave files while different master {\LaTeX} files (for the department's 
-exams, exercise collections, etc.) have been written by the authors of
-the \pkg{exams} package. To provide all lecturers involved with access
-to all resources, \pkg{Subversion} \citep[SVN,][]{exams:Pilato+Collins-Sussman+Fitzpatrick:2004}
-is used for version control. This approach proved to be rather successful
-in addressing the needs of multi-author and cross-platform development.
 
 The package \pkg{exams} that emerged from the developments at WU Wien
 is now available from the Comprehensive \proglang{R} Archive Network
@@ -606,33 +579,77 @@ mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
 
 \section{Discussion} \label{sec:discussion}
 
-During 2007, \pkg{exams} was employed by about 10--15 lecturers
-at the Department of Statistics and Mathematics of WU Wien
-for jointly developing materials for the basic statistics lecture.
-Since Spring 2008, \pkg{exams} is used for generating collections
-of exercises and trial exams (both available prior to the actual
-exam) as well as the exams and associated solutions (which are 
+During 2007, \pkg{exams} was employed by about 10--15 lecturers at the
+Department of Statistics and Mathematics of WU Wien for jointly
+developing materials for the basic statistics lecture. With package
+\pkg{exams} we were able to address the technological requirements and
+facilitate the development process. All lecturers involved were
+familiar with \proglang{R} and {\LaTeX} (which are both available on
+all standard platforms) and could thus contribute to the pool of
+exercises. To do so, they just needed to know the structure of the
+exercise Sweave files while different master {\LaTeX} files (for the
+department's exams, exercise collections, etc.) have been written by
+the authors of the \pkg{exams} package.  As an additional tool we
+decided to use \pkg{Subversion}
+\citep[SVN,][]{exams:Pilato+Collins-Sussman+Fitzpatrick:2004} for
+version control in order to provide all lecturers involved with access
+to all resources. In combination with the package this approach proved
+to be rather successful in addressing the needs of multi-author and
+cross-platform development.
+
+Our starting point for the development of the exercise pool was that
+business students are more likely to be only consumers of statistics
+in their careers and daily lives instead of doing statistical analysis
+themselves. Hence, the exercises should not only require students to
+do calculations but also cover interpretation of results, statistical
+graphics and statistical software output. No restrictions on the
+content are imposed by package \pkg{exams}. However, it requires the
+exercises to have a certain structure. At WU Wien this helped us to
+define a common suitable format for the exercises and their solutions
+a-priori and communicate this to the contributing lecturers as well as
+the students.
+
+For multiple choice questions it is possible to either ensure that
+exactly one option is correct or to allow that all to no options are
+correct. We decided on the second variant and students were instructed
+accordingly. If the strategy is chosen that only exactly one option is
+always correct random answering needs to be prevented by penalizing
+incorrect answers and has the drawback that the correct answer can be
+guessed by eliminating wrong options. With respect to tolerances for
+the numeric solutions we decided to require a certain fixed precision,
+i.e., the solutions which are rounded to three digits only need to be
+correct for two digits. Other approaches to assess the correctness of
+numerical solutions are also feasible with package
+\pkg{exams}. Interval arithmetic could for example be used to
+determine the interval of suitable solutions. In addition the
+tolerances can be set to ensure that only feasible values are within
+the tolerance limits, e.g., by using for the one-sample $t$~test
+statistic example
+\verb|\extol{\|\verb|Sexpr{min(0.01, abs(tstat))}}{0.01}| to ensure to
+have only positive values within the tolerance.
+
+Package \pkg{exams} provides the technological framework for the
+generation of structured exams. The user does not need to worry about
+these details and can focus on the specification of the content and
+the development of the pool of exercises. For further information and
+guidelines on statistical education and assessment see for example
+\cite{exams:Gal+Garfield:1997} and \cite{exams:Garfield+Chance:2000}.
+They discuss issues such as topics covered and skills developed in
+statistics courses as well as suitable ways of assessment. Large-scale
+exams certainly impose special constraints on assessment because of
+limited resources. The development of effective multiple choice
+questions which force the student to understand underlying statistical
+concepts is crucial and often not straight forward. For some hints on
+good multiple choice questions especially if they are also used for
+self-study materials see for example \cite{exams:Klinke:2004}.
+
+Since Spring 2008, \pkg{exams} is used at WU Wien for generating
+collections of exercises and trial exams (both available prior to the
+actual exam) as well as the exams and associated solutions (which are
 e-mailed to the students individually after correction of the test).
 Currently, exams are still corrected ``by hand'' but an automated
-procedure using optical character recognition (OCR) software is
-in preparation.
-
-The examples implemented covered the topics of an introductory
-statistics course. They were either multiple choice questions or
-questions with a numeric result. Students were informed that for
-numeric results intermediate results should not be rounded but saved
-in their calculators. They should then round their final results to
-three digits. They were told that small deviations from the correct
-solution would still be assessed as correct. Specific rules for
-rounding were not discussed. Internally most tolerances were set in a
-fixed way to ensure that students have the result correctly up to two
-digits. In practice the choice of tolerances (if within reasonable
-limits) turned out to be rather irrelevant, because most students do
-either report exactly the same solution as we derived or are far way
-off.
-
-Example:
-\verb|\extol{\|\verb|Sexpr{min(0.01, abs(tstat))}}{0.01}|.
+procedure using optical character recognition (OCR) software is in
+preparation.
 
 \section{Summary} \label{sec:summary}
 
