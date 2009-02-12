@@ -97,7 +97,7 @@ The pool of exercises does not only need to contain different types of
 exercises, but also variants of the same type to avoid that students
 learn the solutions ``by heart''. Correction should be fast and
 easy. This restricts the suitable types of exercises to those which
-either have a single number as result which only need to be checked to
+either have a single number as result which only needs to be checked to
 assess the correctness, multiple-choice questions, or potentially
 questions which require only a short text answer. These requirements on maintenance,
 variation, and correction of exercises led to the following design
@@ -270,7 +270,7 @@ output file. There are four commands:
 	solutions if some deviation from the correct answer is allowed
 	(e.g., due to rounding errors). If a single tolerance value is supplied,
 	a symmetric interval around the true value is used. Alternatively,
-	different tolerences can be supplied for falling below or exceeding
+	different tolerances can be supplied for falling below or exceeding
 	the true value via \verb|\extol{|\emph{lower}\verb|}{|\emph{upper}\verb|}|.
 \end{itemize}
 The meta-information is read from the {\LaTeX} file (e.g., as in Table~\ref{tab:tex})
@@ -583,7 +583,7 @@ mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
 
 Package \pkg{exams} provides the technological framework for the
 generation of structured exams, especially for large-lecture courses.
-Given a relatively simple structure of exams (sequence of ``standalone'' exercises
+Given a relatively simple structure of exams (sequence of ``stand-alone'' exercises
 with multiple-choice/numeric/short text solutions), it is designed
 to be as flexible as possible. Thus, users should not have to worry
 about implementation details and can focus on the specification of the
@@ -607,7 +607,7 @@ As pointed out above, \pkg{exams} does not really address the problem
 of designing ``good'' exercises. However, the infrastructure supports
 several commonly-used strategies for setting up different types of exercises
 which in turn can support the decisions about the content. For example,
-in the case of multiple-choice two typicaly strategies are: Either
+in the case of multiple-choice two typical strategies are: Either
 only one option is correct or any one option can be correct or false.
 In the former case, the evaluation typically penalizes incorrect answers
 (to avoid random guessing) while in the latter case the number of potential
@@ -623,8 +623,8 @@ this problem is to practice with the students how to avoid the imprecisions
 and just require a certain accuracy of the solution (as in the $t$~test example in
 Tables~\ref{tab:Rnw} and \ref{tab:tex}). A more flexible approach
 would be to derive the tolerance dynamically (as part of the DGP)
-assuring that typical small imprecisions lead to results within
-tolerance limits while typcal mistakes are are not. In any case,
+assuring that common small imprecisions lead to results within
+tolerance limits while typical mistakes are not. In any case,
 employing interval arithmetic can be useful leading to potentially
 asymmetric tolerance limits. Similarly, feasible solutions could
 be restricted asymmetrically e.g., in the $t$~test example above
@@ -658,19 +658,6 @@ Currently, exams are still corrected ``by hand'' but an automated
 procedure using optical character recognition (OCR) software is in
 preparation.
 
-%% Our starting point for the development of the exercise pool was that
-%% business students are more likely to be only consumers of statistics
-%% in their careers and daily lives instead of doing statistical analysis
-%% themselves. Hence, the exercises should not only require students to
-%% do calculations but also cover interpretation of results, statistical
-%% graphics and statistical software output. No restrictions on the
-%% content are imposed by package \pkg{exams}. However, it requires the
-%% exercises to have a certain structure. At WU Wien this helped us to
-%% define a common suitable format for the exercises and their solutions
-%% a-priori and communicate this to the contributing lecturers as well as
-%% the students.
-
-
 \section{Summary} \label{sec:summary}
 
 Package \pkg{exams} provides a framework for automatic generation of
@@ -681,18 +668,6 @@ one (or more) master {\LaTeX} template(s). Because contributing to the
 pool of exercises just requires knowledge of Sweave and minimal markup
 for meta-information, \pkg{exams} facilitates joint development of
 lecture materials. 
-
-
-%% \section*{Computational details}
-%% <<echo=false,results=hide>>=
-%% SI <- sessionInfo()
-%% pkgs <- paste(sapply(c(SI$otherPkgs, SI$loadedOnly), function(x) 
-%%                      paste("\\\\pkg{", x$Package, "} ", 
-%%                            x$Version, sep = "")), collapse = ", ")
-%% @ 
-%% 
-%% All computations and graphics in this paper have been done using
-%% \proglang{R} version \Sexpr{getRversion()} with package \ Sexpr{pkgs}.
 
 \section*{Acknowledgments}
 

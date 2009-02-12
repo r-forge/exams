@@ -1,10 +1,11 @@
 Changes in Version 0.9-5
 
-  o The type of question was extended to allow also text results
-    and is specified by "string".
+  o The possible types of questions were extended to allow also text
+    results. The new type is specified by "string".
 
-  o To specify the allowed tolerance for numeric solutions now a upper
-    and a lower limit can be specified.
+  o To specify the allowed tolerance for numeric solutions now
+    different tolerances can be supplied for falling below or
+    exceeding the true value via \extol{lower}{upper}.
 
 
 Changes in Version 0.9-0
