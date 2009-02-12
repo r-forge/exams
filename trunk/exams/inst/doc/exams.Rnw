@@ -98,8 +98,8 @@ exercises, but also variants of the same type to avoid that students
 learn the solutions ``by heart''. Correction should be fast and
 easy. This restricts the suitable types of exercises to those which
 either have a single number as result which only need to be checked to
-assess the correctness, multiple-choice questions or questions which
-require only a short text answer. These requirements on maintenance,
+assess the correctness, multiple-choice questions, or potentially
+questions which require only a short text answer. These requirements on maintenance,
 variation, and correction of exercises led to the following design
 principles for package \pkg{exams}:
 \begin{itemize}
@@ -111,7 +111,7 @@ principles for package \pkg{exams}:
       \item \textit{Correction:} Solutions for exercises are either
         multiple-choice answers (logical vectors), numeric values
         (e.g., a test statistic or a confidence interval) or short
-        text answers (e.g., the name of the appropriate test for a
+        text answers (e.g., the appropriate null hypothesis corresponding to a
         given problem).
 \end{itemize}
 Thus, the DGP of an exercise controls the distribution of possible
@@ -254,10 +254,10 @@ commands are in {\LaTeX} style but are actually commented out and hidden in the 
 output file. There are four commands:
 \begin{itemize}
   \item \verb|\extype{}|: type of question. It may be either \code{mchoice}
-        for multiple choice questions, \code{num} for questions with a
+        for multiple-choice questions, \code{num} for questions with a
         numeric result or \code{string} for questions with a (short) text answer.
   \item \verb|\exsolution{}|: solution. It contains the numeric
-        solution, a string of zeros and ones for multiple choice
+        solution, a string of zeros and ones for multiple-choice
         questions or a character string. For confidence intervals, it
         may also specify two numeric solutions of type
         \verb|\exsolution{|\emph{lower}\verb|}{|\emph{upper}\verb|}|.
@@ -333,20 +333,6 @@ package.  The simplest one is \code{plain.tex} (see
 Table~\ref{tab:master}) which is described here to provide a first
 overview.
 
-\begin{table}[t]
-\begin{center}
-\makebox[\textwidth]{\hrulefill}
-
-<<echo=FALSE, results=tex>>=
-tex <- readLines(system.file("tex", "plain.tex", package = "exams"))
-cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
-@
-
-\makebox[\textwidth]{\hrulefill}
-\caption{\label{tab:master} A simple master {\LaTeX} file: \code{plain.tex}.}
-\end{center}
-\end{table}
-
 The structure of \code{plain.tex} is rather straightforward:
 First, the document class is defined and then necessary add-on
 packages are loaded.\footnote{Note that \code{Sweave.sty} is included for
@@ -359,6 +345,20 @@ and consists only of an enumerate list. In Step~4 of the algorithm described abo
 the control command \verb|%% \exinput{exercises}| is replaced by
 (a sequence of) \verb|\input{|{\it filename}\verb|}|, e.g., \verb|\input{tstat.tex}|
 in our basic example from the previous section.
+
+\begin{table}[t!]
+\begin{center}
+\makebox[\textwidth]{\hrulefill}
+
+<<echo=FALSE, results=tex>>=
+tex <- readLines(system.file("tex", "plain.tex", package = "exams"))
+cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
+@
+
+\makebox[\textwidth]{\hrulefill}
+\caption{\label{tab:master} A simple master {\LaTeX} file: \code{plain.tex}.}
+\end{center}
+\end{table}
 
 Thus, all appearance options can be controlled in the {\LaTeX} code of
 the master file, e.g., by changing the definitions of the \code{question}/\code{solution}
@@ -397,10 +397,10 @@ For the latter two, the master {\LaTeX} file has to define the commands that are
 used in the replacement step, e.g., \verb|\exnum| has to be a command that takes nine
 arguments (corresponding to six and three digits before and after the decimal point for numeric
 solutions), \verb|\exmchoice| has to take five arguments (corresponding to the logical
-multiple choice answers) and \verb|\exstring| has to take only one argument (corresponding 
+multiple-choice answers) and \verb|\exstring| has to take only one argument (corresponding 
 to the solution string).\footnote{Note that this implementation
 has the limitation that at most five answer options are possible for
-multiple choice questions as well as only a precision up to three
+multiple-choice questions as well as only a precision up to three
 digits right from the decimal mark and up to six digits left from the
 decimal mark for numeric results is possible.}
 For the header, arbitrary commands can be set up, see
@@ -554,12 +554,12 @@ print(sol, 1)
 print(sol, "exam5")
 @
 For numeric results, the solution is displayed, possibly including
-tolerance limits (if non-zero). For multiple choice answers,
+tolerance limits (if non-zero). For multiple-choice answers,
 the true statements (coded with letters a--e) are listed and the false
-ones are omitted. Consequently, if a multiple choice question
+ones are omitted. Consequently, if a multiple-choice question
 has no true statements, no letters are displayed.
 
-The appearance of multiple choice solutions when
+The appearance of multiple-choice solutions when
 printing ``\code{\Sexpr{class(sol)}}'' objects in \proglang{R}
 or in the questionnaire in {\LaTeX} can be modified using the
 \code{control} argument. This is
@@ -579,6 +579,60 @@ mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
 
 \section{Discussion} \label{sec:discussion}
 
+\subsubsection*{Infrastructure vs.\ content}
+
+Package \pkg{exams} provides the technological framework for the
+generation of structured exams, especially for large-lecture courses.
+Given a relatively simple structure of exams (sequence of ``standalone'' exercises
+with multiple-choice/numeric/short text solutions), it is designed
+to be as flexible as possible. Thus, users should not have to worry
+about implementation details and can focus on the specification of the
+content and the development of the pool of exercises. While the package's
+structure can aid the design and development of the exercises, the package can, of course,
+not assure that ``good'' exercises (from an educational point of view)
+are generated. As this is beyond the scope of \pkg{exams}, some brief pointers
+to the relevant literature on statistical education and assessment are given here:
+\cite{exams:Gal+Garfield:1997} and \cite{exams:Garfield+Chance:2000}
+discuss issues such as topics covered and skills developed in
+statistics courses as well as suitable ways of assessment. 
+The development of effective multiple-choice
+questions which force the student to understand underlying statistical
+concepts is crucial and often not straightforward. Strategies for
+good multiple-choice questions, especially if they are also used for
+self-study materials, are suggested by \cite{exams:Klinke:2004}.
+
+\subsubsection*{Strategies for setting up exercises}
+
+As pointed out above, \pkg{exams} does not really address the problem
+of designing ``good'' exercises. However, the infrastructure supports
+several commonly-used strategies for setting up different types of exercises
+which in turn can support the decisions about the content. For example,
+in the case of multiple-choice two typicaly strategies are: Either
+only one option is correct or any one option can be correct or false.
+In the former case, the evaluation typically penalizes incorrect answers
+(to avoid random guessing) while in the latter case the number of potential
+patterns is sufficiently large that no penalization is necessary. In
+both cases, it is good practice to check the DGP employed for generating
+the answers and look at the resulting distribution of answer patterns.
+For exercises with numerical solutions, on the other hand, a typical
+problem in practice is how to set the tolerance. While the instructor
+will want to catch typical mistakes (e.g., wrong standardization, etc.),
+certain imprecisions (e.g., rounding errors in intermediate steps)
+might be tolerable. The simpler and somewhat more rigid approach to
+this problem is to practice with the students how to avoid the imprecisions
+and just require a certain accuracy of the solution (as in the $t$~test example in
+Tables~\ref{tab:Rnw} and \ref{tab:tex}). A more flexible approach
+would be to derive the tolerance dynamically (as part of the DGP)
+assuring that typical small imprecisions lead to results within
+tolerance limits while typcal mistakes are are not. In any case,
+employing interval arithmetic can be useful leading to potentially
+asymmetric tolerance limits. Similarly, feasible solutions could
+be restricted asymmetrically e.g., in the $t$~test example above
+the solution always has to be positive which could be ensured via
+\verb|\extol{\|\verb|Sexpr{min(0.01, abs(tstat))}}{0.01}|.
+
+\subsubsection*{Experiences at WU Wien}
+
 During 2007, \pkg{exams} was employed by about 10--15 lecturers at the
 Department of Statistics and Mathematics of WU Wien for jointly
 developing materials for the basic statistics lecture. With package
@@ -596,53 +650,6 @@ version control in order to provide all lecturers involved with access
 to all resources. In combination with the package this approach proved
 to be rather successful in addressing the needs of multi-author and
 cross-platform development.
-
-Our starting point for the development of the exercise pool was that
-business students are more likely to be only consumers of statistics
-in their careers and daily lives instead of doing statistical analysis
-themselves. Hence, the exercises should not only require students to
-do calculations but also cover interpretation of results, statistical
-graphics and statistical software output. No restrictions on the
-content are imposed by package \pkg{exams}. However, it requires the
-exercises to have a certain structure. At WU Wien this helped us to
-define a common suitable format for the exercises and their solutions
-a-priori and communicate this to the contributing lecturers as well as
-the students.
-
-For multiple choice questions it is possible to either ensure that
-exactly one option is correct or to allow that all to no options are
-correct. We decided on the second variant and students were instructed
-accordingly. If the strategy is chosen that only exactly one option is
-always correct random answering needs to be prevented by penalizing
-incorrect answers and has the drawback that the correct answer can be
-guessed by eliminating wrong options. With respect to tolerances for
-the numeric solutions we decided to require a certain fixed precision,
-i.e., the solutions which are rounded to three digits only need to be
-correct for two digits. Other approaches to assess the correctness of
-numerical solutions are also feasible with package
-\pkg{exams}. Interval arithmetic could for example be used to
-determine the interval of suitable solutions. In addition the
-tolerances can be set to ensure that only feasible values are within
-the tolerance limits, e.g., by using for the one-sample $t$~test
-statistic example
-\verb|\extol{\|\verb|Sexpr{min(0.01, abs(tstat))}}{0.01}| to ensure to
-have only positive values within the tolerance.
-
-Package \pkg{exams} provides the technological framework for the
-generation of structured exams. The user does not need to worry about
-these details and can focus on the specification of the content and
-the development of the pool of exercises. For further information and
-guidelines on statistical education and assessment see for example
-\cite{exams:Gal+Garfield:1997} and \cite{exams:Garfield+Chance:2000}.
-They discuss issues such as topics covered and skills developed in
-statistics courses as well as suitable ways of assessment. Large-scale
-exams certainly impose special constraints on assessment because of
-limited resources. The development of effective multiple choice
-questions which force the student to understand underlying statistical
-concepts is crucial and often not straight forward. For some hints on
-good multiple choice questions especially if they are also used for
-self-study materials see for example \cite{exams:Klinke:2004}.
-
 Since Spring 2008, \pkg{exams} is used at WU Wien for generating
 collections of exercises and trial exams (both available prior to the
 actual exam) as well as the exams and associated solutions (which are
@@ -650,6 +657,19 @@ e-mailed to the students individually after correction of the test).
 Currently, exams are still corrected ``by hand'' but an automated
 procedure using optical character recognition (OCR) software is in
 preparation.
+
+%% Our starting point for the development of the exercise pool was that
+%% business students are more likely to be only consumers of statistics
+%% in their careers and daily lives instead of doing statistical analysis
+%% themselves. Hence, the exercises should not only require students to
+%% do calculations but also cover interpretation of results, statistical
+%% graphics and statistical software output. No restrictions on the
+%% content are imposed by package \pkg{exams}. However, it requires the
+%% exercises to have a certain structure. At WU Wien this helped us to
+%% define a common suitable format for the exercises and their solutions
+%% a-priori and communicate this to the contributing lecturers as well as
+%% the students.
+
 
 \section{Summary} \label{sec:summary}
 
