@@ -1,6 +1,6 @@
 Package: exams
-Version: 0.9-5
-Date: 2009-02-12
+Version: 1.0-0
+Date: 2009-02-20
 Title: Automatic Generation of Standardized Exams for Large-Lecture Courses
 Author: Achim Zeileis, Bettina Gruen
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
