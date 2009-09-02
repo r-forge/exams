@@ -39,7 +39,7 @@ exams <- function(file, n = 1, nrep = NULL, dir = NULL, template = "plain",
   if (any(sapply(file, length) < nrep)) {
     index <- which(sapply(file, length) < nrep)
     warning(paste("Only", sapply(file, length)[index], "instead of", nrep[index],
-                  "files sampled for the", index, "list element."))
+                  "files sampled from list element", index, "of the file argument."))
   }
   
   file_raw <- unlist(file)
