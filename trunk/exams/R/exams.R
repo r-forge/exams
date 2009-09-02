@@ -1,8 +1,8 @@
 ## workhorse function for compiling (collections of) exercises
-exams <- function(file, n = 1, dir = NULL, template = "plain",
+exams <- function(file, n = 1, nrep = NULL, dir = NULL, template = "plain",
   inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
   quiet = TRUE, edir = NULL, tdir = NULL, control = NULL)
-{
+{  
   ## convenience function
   strip_path <- function(file)
     sapply(strsplit(file, .Platform$file.sep), tail, 1)
@@ -27,6 +27,21 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   ##   - check existence (use local files if they exist, otherwise take from package)
   ##   - setup sampling (draw random configuration)
   file_id <- rep(seq_along(file), sapply(file, length))
+
+  ## Change Claudio
+  nfile <- length(file)
+  if (is.null(nrep))
+    nrep <- rep(1, nfile)
+  else if (length(nrep) < nfile)
+    nrep <- rep(nrep, length.out=nfile)
+  ## Change Claudio
+  
+  if (any(sapply(file, length) < nrep)) {
+    index <- which(sapply(file, length) < nrep)
+    warning(paste("Only", sapply(file, length)[index], "instead of", nrep[index],
+                  "files sampled for the", index, "list element."))
+  }
+  
   file_raw <- unlist(file)
   file_Rnw <- ifelse(
     tolower(substr(file_raw, nchar(file_raw)-3, nchar(file_raw))) != ".rnw",
@@ -37,10 +52,13 @@ exams <- function(file, n = 1, dir = NULL, template = "plain",
   file_path <- ifelse(file.exists(file_path),
     file_path, file.path(dir_pkg, "exercises", file_path))
   if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
-    paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))  
-  sample_id <- function() sapply(unique(file_id),
-    function(i) if(sum(file_id == i) > 1) sample(which(file_id == i), 1) else which(file_id == i))
+    paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))
 
+  ## Change Claudio
+  sample_id <- function() unlist(sapply(unique(file_id),
+    function(i) if((nsum <- sum(file_id == i)) > 1) sample(which(file_id == i), min(nsum,nrep[i])) else which(file_id == i)))
+  ## Change Claudio
+  
   ## similarly: template pre-processing
   template_raw <- template
   template_tex <- template_path <- ifelse(

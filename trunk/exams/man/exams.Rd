@@ -10,7 +10,7 @@
 }
 
 \usage{
-  exams(file, n = 1, dir = NULL, template = "plain",
+  exams(file, n = 1, nrep = NULL, dir = NULL, template = "plain",
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
     quiet = TRUE, edir = NULL, tdir = NULL, control = NULL)
 }
@@ -18,7 +18,11 @@
 \arguments{
   \item{file}{character. A specification of a (list of) exercise files,
     for details see below.}
-  \item{n}{integer. The number of copies to be compiled from \code{file}.}
+  \item{n}{integer. The number of copies to be compiled from
+    \code{file}.}
+  \item{nrep}{integer. The number of exercise files sampled from each
+    list element of \code{file}. The elements are recycled (if
+    necessary) to match the length of \code{file}.}
   \item{dir}{character. The output directory, this has to be set if
     \code{n} is greater than 1 (or \code{template} is longer than 1).}
   \item{template}{character. A specification of a LaTeX template. The package

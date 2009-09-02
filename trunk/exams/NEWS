@@ -1,3 +1,8 @@
+Changes in Version 1.0-2
+
+  o The argument nrep was added to exams in order to allow sampling
+    more than one exercise file from each list element of the argument file. 
+
 Changes in Version 1.0-1
   
   o The man page of exams was modified to use suitable markup commands.
