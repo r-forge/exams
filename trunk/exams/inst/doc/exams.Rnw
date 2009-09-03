@@ -540,8 +540,7 @@ getID(1)
 Using these arguments, a set of exams can be easily produced:
 <<>>=
 set.seed(1090)
-mynsamp <- c(1, 2, 1, 1, 1)
-sol <- exams(myexam, n = 5, nsamp = mynsamp, dir = odir, 
+sol <- exams(myexam, n = 5, nsamp = c(1, 2, 1, 1, 1), dir = odir, 
  template = c("exam", "solution"), 
  header = list(ID = getID, Date = Sys.Date()))
 @ 
@@ -586,8 +585,7 @@ printing is given by:
 
 <<>>=
 mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
-(exams(myexam, n = 1, nsamp = mynsamp, 
-       template = "exam", control = mycontrol))
+(exams(myexam, n = 1, template = "exam", control = mycontrol))
 @ 
  
 \clearpage
