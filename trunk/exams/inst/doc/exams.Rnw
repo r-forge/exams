@@ -487,9 +487,8 @@ myexam <- list("boxplots",
   
   \item[\normalfont \code{n}:] Number of randomly generated exams.
     
-  \item[\normalfont \code{nrep}:] Number of elements sampled from each
-        list element of \code{file}. The elements are recycled (if necessary) to match 
-        the length of \code{file}. 
+  \item[\normalfont \code{nsamp}:] Number of elements sampled from each
+        list element of \code{file}. Sampling without replacement is used (if possible).
   
   \item[\normalfont \code{dir}:] Output directory for storing the resulting PDF files (and
         meta-information). If only a single PDF file is generated, this can
@@ -541,8 +540,8 @@ getID(1)
 Using these arguments, a set of exams can be easily produced:
 <<>>=
 set.seed(1090)
-mynrep <- c(1, 2, 1, 1, 1)
-sol <- exams(myexam, n = 5, nrep = mynrep, dir = odir, 
+mynsamp <- c(1, 2, 1, 1, 1)
+sol <- exams(myexam, n = 5, nsamp = mynsamp, dir = odir, 
  template = c("exam", "solution"), 
  header = list(ID = getID, Date = Sys.Date()))
 @ 
@@ -587,7 +586,7 @@ printing is given by:
 
 <<>>=
 mycontrol <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
-(exams(myexam, n = 1, nrep = mynrep, 
+(exams(myexam, n = 1, nsamp = mynsamp, 
        template = "exam", control = mycontrol))
 @ 
  

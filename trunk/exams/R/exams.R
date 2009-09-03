@@ -1,5 +1,5 @@
 ## workhorse function for compiling (collections of) exercises
-exams <- function(file, n = 1, nrep = NULL, dir = NULL, template = "plain",
+exams <- function(file, n = 1, nsamp = NULL, dir = NULL, template = "plain",
   inputs = NULL, header = list(Date = Sys.Date()), name = NULL,
   quiet = TRUE, edir = NULL, tdir = NULL, control = NULL)
 {  
@@ -21,27 +21,26 @@ exams <- function(file, n = 1, nrep = NULL, dir = NULL, template = "plain",
     stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
   dir_pkg <- .find.package("exams")
   
+  ## number of available exercises in each element of 'file'
+  ## and number of selected samples per element
+  nfile <- length(file)
+  if(is.null(nsamp)) nsamp <- 1
+  if(length(nsamp) < nfile) nsamp <- rep(nsamp, length.out = nfile)
+  navail <- sapply(file, length)  
+  if(any(navail < nsamp)) {
+    ix <- which(navail < nsamp)
+    warning(paste("Only", navail[ix], "exercise(s) available in element", ix,
+      "of the 'file' argument. Sampling with replacement will be used in order to obtain",
+      nsamp[ix], "replications."))
+  }
+  
   ## file pre-processing:
   ##   - transform to vector (remember grouping IDs)
   ##   - add paths (generate "foo", "foo.Rnw", "foo.tex", and "path/to/foo.Rnw")
   ##   - check existence (use local files if they exist, otherwise take from package)
   ##   - setup sampling (draw random configuration)
-  file_id <- rep(seq_along(file), sapply(file, length))
+  file_id <- rep(seq_along(file), navail)
 
-  ## Change Claudio
-  nfile <- length(file)
-  if (is.null(nrep))
-    nrep <- rep(1, nfile)
-  else if (length(nrep) < nfile)
-    nrep <- rep(nrep, length.out=nfile)
-  ## Change Claudio
-  
-  if (any(sapply(file, length) < nrep)) {
-    index <- which(sapply(file, length) < nrep)
-    warning(paste("Only", sapply(file, length)[index], "instead of", nrep[index],
-                  "files sampled from list element", index, "of the file argument."))
-  }
-  
   file_raw <- unlist(file)
   file_Rnw <- ifelse(
     tolower(substr(file_raw, nchar(file_raw)-3, nchar(file_raw))) != ".rnw",
@@ -54,10 +53,13 @@ exams <- function(file, n = 1, nrep = NULL, dir = NULL, template = "plain",
   if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
     paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))
 
-  ## Change Claudio
-  sample_id <- function() unlist(sapply(unique(file_id),
-    function(i) if((nsum <- sum(file_id == i)) > 1) sample(which(file_id == i), min(nsum,nrep[i])) else which(file_id == i)))
-  ## Change Claudio
+  sample_id <- function() unlist(lapply(unique(file_id), function(i) {
+    wi <- file_id == i
+    if(sum(wi) > 1)
+      sample(which(wi), nsamp[i], replace = navail[i] < nsamp[i])
+    else
+      rep(which(wi), length.out = nsamp[i])
+  }))
   
   ## similarly: template pre-processing
   template_raw <- template
