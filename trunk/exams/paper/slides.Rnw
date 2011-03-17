@@ -37,10 +37,9 @@ set.seed(1090)
 
 \begin{document}
 
-\title{Automatic Generation of Simple (Statistical) Exams}
+\title{Automatic Generation of Exams in R}
 \author[Bettina Gr\"un, Achim Zeileis]{\large Bettina Gr\"un, Achim Zeileis}
-\URL{http://statmath.wu-wien.ac.at/}
-\lecture{Automatic Generation of Simple (Statistical) Exams}
+\lecture{Automatic Generation of Exams in R}
 
 \subsection{Overview}
 \begin{frame}
@@ -87,7 +86,7 @@ set.seed(1090)
 
 \begin{block}{Tools chosen:}
 \begin{itemize}
-\item \proglang{R} (\proglang{R} Development Core Team 2008) and
+\item \proglang{R} (\proglang{R} Development Core Team 2011) and
   \LaTeX (Knuth 1984; Lamport 1994) $\Rightarrow$ Sweave (Leisch 2002)
 \item \proglang{Subversion} (SVN, Pilato, Collins-Sussman, and
   Fitzpatrick 2004)
@@ -325,13 +324,11 @@ mycontrol <- list(mchoice.print =
   \vspace*{-0.5cm}  
   \small
   \begin{references}
-  \item Gr\"un B, Zeileis A (2008).
-    \newblock \enquote{Automatic Generation of Simple (Statistical) Exams.}
-    \newblock \emph{Report~77}, Department of Statistics and Mathematics,
-    WU Wien, Research Report Series.
+  \item Gr\"un B, Zeileis A (2009).
+    \newblock \enquote{Automatic Generation of Exams in R.}
+    \newblock Journal of Statistical Software, \textbf{29}(10), 1--14.
     \newblock
-    \urlprefix\url{http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.%
-      at:epub-wu-01_e1d}.
+    \urlprefix\url{http://www.jstatsoft.org/v29/i10/}.
     
   \item Knuth DE (1984).
     \newblock \emph{The {\TeX}book}, volume~A of \emph{Computers and Typesetting}.
@@ -352,7 +349,7 @@ mycontrol <- list(mchoice.print =
     \newblock O'Reilly.
     \newblock Full book available online at \url{http://svnbook.red-bean.com/}.
   
-  \item \proglang{R} Development Core Team (2008).
+  \item \proglang{R} Development Core Team (2011).
     \newblock \emph{\proglang{R}: {A} Language and Environment for Statistical
       Computing}.
     \newblock \proglang{R} Foundation for Statistical Computing, Vienna, Austria.
