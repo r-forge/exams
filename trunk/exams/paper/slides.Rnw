@@ -185,7 +185,7 @@ file.remove(c("tstat.Rnw", "tstat.tex"))
   multiple layouts) with suitable names and storage.
 \item Inclusion of a suitable cover page with answer fields.
 \item Collection of meta-information for problems and solutions in
-      an \proglang{R} object.
+      an \proglang{R}~object.
 \end{itemize}  
 \end{frame}    
   \begin{frame}[fragile] 
@@ -257,7 +257,8 @@ tstat_exnum <- paste("{", tstat_exnum, "}", sep = "", collapse = "")
 cat(prettyPrint(prompt(exams, filename = NA)$usage[[2]], sep = ", ", 
   linebreak = paste("\n", paste(rep(" ", nchar("exams") + 1), collapse = ""), sep= ""),
   width = 42))
-@ 
+@
+
 \end{Scode}
 
 \bigskip
@@ -333,13 +334,9 @@ mycontrol <- list(mchoice.print =
   \item Since Spring 2008, \pkg{exams} is used at WU Wien for
     generating collections of exercises, trial exams, exams and
     solutions.
+  \item Package \pkg{exams} is available from the Comprehensive \proglang{R}
+    Archive Network at \url{http://CRAN.R-project.org/package=exams}.
   \end{itemize}
-
-  Package \pkg{exams} is available from the Comprehensive \proglang{R}
-  Archive Network at
-  \begin{center}
-    \url{http://CRAN.R-project.org/package=exams}
-  \end{center}
 \end{frame}
 
 \subsection{References}
