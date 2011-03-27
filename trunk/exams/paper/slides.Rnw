@@ -1,16 +1,5 @@
 \documentclass[11pt,compress,t]{beamer}
 \usetheme{Z}
-\newenvironment{references}
-{\begin{list}{}{
-      \def\makelabel##1{\raggedright ##1\hfil}
-      \itemsep      0mm
-      \leftmargin   0mm
-      \labelsep     5mm
-      \labelwidth   0mm}}
-  {\end{list}}
-\newcommand{\enquote}[1]{``#1''}
-\newcommand{\newblock}{}
-\newcommand{\urlprefix}{}
 %% new environments for exams
 \newenvironment{question}{\item \textbf{Problem}\newline}{}
 \renewenvironment{solution}{\textbf{Solution}\newline}{}
@@ -42,6 +31,7 @@ set.seed(1090)
 \lecture{Automatic Generation of Exams in R}
 
 \subsection{Overview}
+
 \begin{frame}
 \frametitle{Overview}
 \begin{itemize}
@@ -56,9 +46,10 @@ set.seed(1090)
   \item Discussion
 \end{itemize}
 \end{frame}
+
 \subsection{Introduction}
-\begin{frame}[allowframebreaks] 
-  \frametitle{Introduction}
+\begin{frame}
+\frametitle{Introduction}
   \begin{block}{Re-design of introductory statistics lecture at WU Wien:}
   \begin{itemize}
   \item The course is attended each semester by 1,000--1,500 students
@@ -72,7 +63,11 @@ set.seed(1090)
     different chapters.
   \end{itemize}
 \end{block}
-\newpage
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+
 \begin{block}{Main challenges:}
   \begin{itemize}
   \item \textit{Scalable exams:} Automatic generation of a large number
@@ -87,12 +82,16 @@ set.seed(1090)
 \begin{block}{Tools chosen:}
 \begin{itemize}
 \item \proglang{R} (\proglang{R} Development Core Team 2011) and
-  \LaTeX (Knuth 1984; Lamport 1994) $\Rightarrow$ Sweave (Leisch 2002)
-\item \proglang{Subversion} (SVN, Pilato, Collins-Sussman, and
+  {\LaTeX} (Knuth 1984; Lamport 1994) $\Rightarrow$ Sweave (Leisch 2002)
+\item \proglang{Subversion} (SVN; Pilato, Collins-Sussman, and
   Fitzpatrick 2004)
 \end{itemize}
 \end{block}
-\newpage
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+
 \begin{block}{Design principles of package \pkg{exams}:}
   \begin{itemize}
   \item \textit{Maintenance:} Each exercise template is a single file
@@ -101,24 +100,26 @@ set.seed(1090)
     problem/solution along with a data-generating process (DGP) so that
     random samples can be drawn easily.
   \item \textit{Correction:} Solutions for exercises are either multiple-choice
-    answers (logical vectors) or numeric values (e.g., a test statistic
-    or a confidence interval).
+    answers (logical vectors), or numeric values (e.g., a test statistic
+    or a confidence interval), or short text answers (character strings).
   \end{itemize}
 \end{block}
-\subsection{Exercises}
 \end{frame}
-\begin{frame}[allowframebreaks,fragile] 
-  \frametitle{Exercises}
+
+\subsection{Exercises}
+
+\begin{frame}[fragile] 
+\frametitle{Exercises}
   Each exercise typically represents an exemplary application of a
   statistical procedure.
   \vspace{\stretch{1}}
   
   The exercise file consists of (at least):
   \begin{itemize}
-  \item {\bf Two environments:} a question and a solution description
-    encapsulated in corresponding \LaTeX environments.
-  \item {\bf Meta-information:} about type of questions
-    (e.g.~multiple-choice or numeric), the solution, a descriptive
+  \item \emph{Two environments:} A question and a solution description
+    encapsulated in corresponding {\LaTeX} environments.
+  \item \emph{Meta-information:} About type of questions
+    (e.g., multiple-choice or numeric), the solution, a descriptive
     name and the allowed tolerance for numeric solutions.
   \end{itemize}
   \vspace{\stretch{1}}
@@ -140,6 +141,8 @@ cat(c("\\begin{verbatim}", Rnw, "\\end{verbatim}"), sep = "\n")
 @
 }
 \end{frame}
+
+
 \begin{frame}[fragile]
 \frametitle{{\LaTeX} output of \code{Sweave("tstat.Rnw")}}
 \vspace*{-0.7cm}
@@ -173,19 +176,19 @@ file.remove(c("tstat.Rnw", "tstat.tex"))
 }
 \end{frame}
 \subsection{Combining exercises: The master {\LaTeX} file} 
-  \begin{frame}[allowframebreaks,fragile] 
+  \begin{frame}[fragile] 
     \frametitle{Combining exercises: The master {\LaTeX} file} 
   \code{exams()} allows for
 \begin{itemize}
-\item construction of exams with stratified sampling of exercises,
-\item automatic generation of multiple copies (potentially of
-  multiple layouts) with suitable names and storage,
-\item inclusion of a suitable cover page with answer fields, and
-\item collection of meta-information for problems and solutions in
+\item Construction of exams with stratified sampling of exercises.
+\item Automatic generation of multiple copies (potentially of
+  multiple layouts) with suitable names and storage.
+\item Inclusion of a suitable cover page with answer fields.
+\item Collection of meta-information for problems and solutions in
       an \proglang{R} object.
 \end{itemize}  
 \end{frame}    
-  \begin{frame}[allowframebreaks,fragile] 
+  \begin{frame}[fragile] 
     \frametitle{Sequence of work steps for \code{exams()}}
 \begin{enumerate}
   \item Collect all Sweave files for the exercises, the master {\LaTeX}
@@ -214,7 +217,7 @@ as a comment:
 
 {\scriptsize
 \begin{verbatim}
-\newenvironment{solution{\comment}{\endcomment}}
+\newenvironment{solution}{\comment}{\endcomment}
 \end{verbatim}
 }
 \end{frame}
@@ -232,42 +235,53 @@ tstat_exnum <- paste("{", tstat_exnum, "}", sep = "", collapse = "")
       Replaced by: \verb|\input{|{\it filename}\verb|}| (one for each exercise).\\
       Example: \verb|\input{tstat}|.
 \item \verb|\exinput{questionnaire}|: Inclusion of questionnaires, e.g., for cover sheets.\\
-      Replaced by: \verb|\exnum{|{\it \dots}\verb|}| or
-                   \verb|\exmchoice{|{\it \dots}\verb|}|, respectively (one for each exercise).\\
+      Replaced by: \verb|\exnum{|{\it \dots}\verb|}|,
+                   \verb|\exmchoice{|{\it \dots}\verb|}|, or
+		   \verb|\exstring{|{\it \dots}\verb|}|, respectively (one for each exercise).\\
       Example: \verb|\exnum\Sexpr{tstat_exnum}|.
 \item \verb|\exinput{header}|: Further commands and definitions.\\
       Replaced by: \verb|\|{\it command}\verb|{|{\it value}\verb|}| (one for each header command).\\
       Example: \verb|\Date{\Sexpr{Sys.Date()}}|.
 \end{itemize}
 \end{frame}
-\subsection{Application and customization: Function exams()}
-\begin{frame}[allowframebreaks,fragile] 
-  \frametitle{Application and customization: Function
-    \code{exams()}}
 
-Function \code{exams()} has the following arguments:
-\begin{verbatim}
+
+\subsection{Application and customization: Function exams()}
+
+\begin{frame}[fragile] 
+\frametitle{Application and customization: Function \code{exams()}}
+
+\textbf{Arguments:}
+\begin{Scode}
 <<results=tex, echo=false>>=
 cat(prettyPrint(prompt(exams, filename = NA)$usage[[2]], sep = ", ", 
   linebreak = paste("\n", paste(rep(" ", nchar("exams") + 1), collapse = ""), sep= ""),
   width = 42))
 @ 
-\end{verbatim}
-\newpage
+\end{Scode}
+
+\bigskip
+
+\textbf{Illustration:}
 <<>>=
-myexam <- list("boxplots",
+myexam <- list(
+  "boxplots",
   c("confint", "ttest", "tstat"),
   c("anova", "regression"),
   "scatterplot",
   "relfreq")
-odir <- tempfile()
-getID <- function(i) 
-  paste("myexam", gsub(" ", "0", format(i, width = 2)), 
-        sep = "")
+getID <- function(i) paste("myexam",
+  gsub(" ", "0", format(i, width = 2)), sep = "")
 getID(1)
-@ 
-\newpage
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Application and customization: Function \code{exams()}}
+
 <<>>=
+odir <- tempfile()
 set.seed(1090)
 sol <- exams(myexam, n = 3, dir = odir, 
   template = c("exam", "solution"), 
@@ -275,16 +289,25 @@ sol <- exams(myexam, n = 3, dir = odir,
 list.files(odir)
 print(sol, 1)
 @ 
-\newpage
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Application and customization: Function \code{exams()}}
+
 <<results=hide, echo=false>>=
 invisible(file.copy(file.path(odir, "exam1.pdf"), "exam1.pdf"))
 @
 
 \includegraphics[width=0.48\textwidth,keepaspectratio=true]{exam1.pdf}%
 \includegraphics[width=0.48\textwidth,keepaspectratio=true,page=2]{exam1.pdf}
-\newpage
 
-Several arguments allow for a fine control, e.g.~to modify the print
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Application and customization: Function \code{exams()}}
+
+Several arguments allow for a fine control, e.g., to modify the print
 output:
 
 <<>>=
@@ -303,11 +326,11 @@ mycontrol <- list(mchoice.print =
     generation of simple (statistical) exams and associated self-study
     materials.
   \item It is based on independent exercises in Sweave format which
-    can be compiled in exams (or other collections of exercises) by
+    can be compiled into exams (or other collections of exercises) by
     providing one (or more) master {\LaTeX} template(s).
   \item Contributing to the pool of exercises only requires knowledge
     of Sweave and minimal markup for meta-information.
-  \item Since Spring 2008, \pkg{exams} is used at the WU Wien for
+  \item Since Spring 2008, \pkg{exams} is used at WU Wien for
     generating collections of exercises, trial exams, exams and
     solutions.
   \end{itemize}
@@ -318,43 +341,50 @@ mycontrol <- list(mchoice.print =
     \url{http://CRAN.R-project.org/package=exams}
   \end{center}
 \end{frame}
+
 \subsection{References}
-\begin{frame}[allowframebreaks] 
-  \frametitle{References}
-  \vspace*{-0.5cm}  
-  \small
-  \begin{references}
-  \item Gr\"un B, Zeileis A (2009).
-    \newblock \enquote{Automatic Generation of Exams in R.}
-    \newblock Journal of Statistical Software, \textbf{29}(10), 1--14.
-    \newblock
-    \urlprefix\url{http://www.jstatsoft.org/v29/i10/}.
+\begin{frame}
+\frametitle{References}
+
+\footnotesize
+
+Gr\"un B, Zeileis A (2009).
+  \dquote{Automatic Generation of Exams in R.}
+  \textit{Journal of Statistical Software}, \textbf{29}(10), 1--14.
+  URL~\url{http://www.jstatsoft.org/v29/i10/}
+  
+\bigskip
     
-  \item Knuth DE (1984).
-    \newblock \emph{The {\TeX}book}, volume~A of \emph{Computers and Typesetting}.
-    \newblock Addison-Wesley, Reading, Massachusetts.
-    
-  \item Lamport L (1994).
-    \newblock \emph{{\LaTeX}: A Document Preparation System}.
-    \newblock Addison-Wesley, Reading, Massachusetts, 2nd edition.
+Knuth DE (1984).
+  \textit{The {\TeX}book}, volume~A of \emph{Computers and Typesetting}.
+  Addison-Wesley, Reading, Massachusetts.
+
+\bigskip
+
+Lamport L (1994).
+  \textit{{\LaTeX}: A Document Preparation System}, 2nd edition.
+  Addison-Wesley, Reading, Massachusetts.
+
+\bigskip
+
+Leisch F (2002).
+  \textit{Dynamic Generation of Statistical Reports Using Literate Data Analysis.}
+  In W~H\"ardle, B~R\"onz (eds.), \dquote{COMPSTAT 2002 -- Proceedings
+      in Computational Statistics,} pp.~575--580. Physica Verlag, Heidelberg.
+
+\bigskip
+
+Pilato CM, Collins-Sussman B, Fitzpatrick BW (2004).
+  \textit{Version Control with \pkg{Subversion}}.
+  O'Reilly. Full book available at \url{http://svnbook.red-bean.com/}.
   
-  \item Leisch F (2002).
-    \newblock \enquote{Dynamic Generation of Statistical Reports Using Literate
-      Data Analysis.}
-    \newblock In W~H\"ardle, B~R\"onz (eds.), \enquote{COMPSTAT 2002 -- Proceedings
-      in Computational Statistics,} pp. 575--580. Physica Verlag, Heidelberg.
-  
-  \item Pilato CM, Collins-Sussman B, Fitzpatrick BW (2004).
-    \newblock \emph{Version Control with \pkg{Subversion}}.
-    \newblock O'Reilly.
-    \newblock Full book available online at \url{http://svnbook.red-bean.com/}.
-  
-  \item \proglang{R} Development Core Team (2011).
-    \newblock \emph{\proglang{R}: {A} Language and Environment for Statistical
-      Computing}.
-    \newblock \proglang{R} Foundation for Statistical Computing, Vienna, Austria.
-    \newblock {ISBN} 3-900051-07-0, \urlprefix\url{http://www.R-project.org/}.
-  \end{references}
+\bigskip
+
+\proglang{R} Development Core Team (2011).
+  \textit{\proglang{R}: {A} Language and Environment for Statistical Computing}.
+  \proglang{R} Foundation for Statistical Computing, Vienna, Austria.
+  {ISBN} 3-900051-07-0, URL~\url{http://www.R-project.org/}.
+
 \end{frame}
 \end{document}
 

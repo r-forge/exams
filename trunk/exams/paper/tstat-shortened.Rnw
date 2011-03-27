@@ -10,7 +10,7 @@ Var <- round(var(y), digits = 2)
 tstat <- round((Mean - mu)/sqrt(Var/n), digits = 3)
 @
 \begin{question}
-  A machine fills milk into $\Sexpr{mu}$ml packages. It is suspected that the 
+  A machine fills milk into $\Sexpr{mu}$ml packages. It is suspected that
   ...
 \end{question}
 \begin{solution}

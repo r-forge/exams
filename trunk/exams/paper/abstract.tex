@@ -1,0 +1,88 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, hanging, hyperref, natbib, parskip, times}
+\usepackage[pdftex]{graphicx}
+\hypersetup{
+  colorlinks,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\let\section=\subsubsection
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}} 
+\let\proglang=\textit
+\let\code=\texttt 
+\renewcommand{\title}[1]{\begin{center}{\bf \LARGE #1}\end{center}}
+\newcommand{\affiliations}{\footnotesize}
+\newcommand{\keywords}{\paragraph{Keywords:}}
+
+\setlength{\topmargin}{-15mm}
+\setlength{\oddsidemargin}{-2mm}
+\setlength{\textwidth}{165mm}
+\setlength{\textheight}{250mm}
+
+\begin{document}
+\pagestyle{empty}
+
+\title{Automatic generation of exams in \proglang{R}}
+
+\begin{center}
+  {\bf Bettina Gr\"un$^{1}$, Achim Zeileis$^{2,^\star}$}
+\end{center}
+
+\begin{affiliations}
+1. Department of Applied Statistics, Johannes Kepler Universit{\"a}t Linz \\[-2pt]
+2. Department of Statistics, Universit{\"a}t Innsbruck \\[-2pt]
+$^\star$Contact author: \href{mailto:Achim.Zeileis@R-project.org}{Achim.Zeileis@R-project.org}
+\end{affiliations}
+
+\keywords Exams, Multiple Choice, Arithmetic Problems
+
+\vskip 0.8cm
+
+Package \pkg{exams} provides a framework for automatic generation of
+standardized statistical exams which is especially useful for
+large-scale exams. To employ the tools, users just need to supply a
+pool of exercises and a master file controlling the layout of the
+final PDF document. The exercises are specified in separate Sweave
+files (containing \proglang{R} code for data generation and {\LaTeX} code for
+problem and solution description) and the master file is a {\LaTeX}
+document with some additional control commands. An
+overview is given of the main design aims and principles as well as strategies
+for adaptation and extension. Hands-on illustrations -- based on
+example exercises and control files provided in the package -- are
+presented to get new users started easily.
+
+
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Gr\"un and Zeileis}{Gr\"un and
+  Zeileis}{2009}]{ref1}
+Gr\"un, B. and A.~Zeileis (2009).
+\newblock Automatic generation of exams in \textsf{R}.
+\newblock {\em Journal of Statistical Software\/}~{\em 29\/}(10), 1--14.
+\newblock \url{http://www.jstatsoft.org/v29/i10/}
+
+\end{thebibliography}
+
+\end{document}
+
+%% Plain text version
+
+Automatic Generation of Exams in R
+Bettina Grün, Achim Zeileis
+
+Package exams provides a framework for automatic generation of
+standardized statistical exams which is especially useful for
+large-scale exams. To employ the tools, users just need to supply a
+pool of exercises and a master file controlling the layout of the
+final PDF document. The exercises are specified in separate Sweave
+files (containing R code for data generation and LaTeX code for
+problem and solution description) and the master file is a LaTeX
+document with some additional control commands. This paper gives an
+overview of the main design aims and principles as well as strategies
+for adaptation and extension. Hands-on illustrations - based on
+example exercises and control files provided in the package - are
+presented to get new users started easily.
+
+Keywords: exams, multiple choice, arithmetic problems, Sweave, LaTeX, R.
+
