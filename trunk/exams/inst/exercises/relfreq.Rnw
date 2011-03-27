@@ -145,7 +145,7 @@ explanations <- explanations[o]
   inhabitants of the city centre are more satisfied with public
   transportation compared to those living in the suburbs.
 
-  A survey with 250 respondents gave the following contingency tabule:
+  A survey with 250 respondents gave the following contingency table:
 <<echo=FALSE>>= 
 public
 @
