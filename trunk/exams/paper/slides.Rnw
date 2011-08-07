@@ -57,7 +57,7 @@ set.seed(1090)
   \item Several lecturers from the Department of Statistics and
     Mathematics teach this course in parallel.
   \item All teaching materials are covered by the re-design:
-    presentation slides, collections of exercises, exams, etc.
+    Presentation slides, collections of exercises, exams, etc.
   \item The re-design was accomplished through a collaborative effort
     of all concerned faculty members working in small teams on
     different chapters.
@@ -193,7 +193,7 @@ file.remove(c("tstat.Rnw", "tstat.tex"))
 \begin{enumerate}
   \item Collect all Sweave files for the exercises, the master {\LaTeX}
         file(s) and potentially  additionally specified input files.
-  \item Copy all files to a (temporary, by default) directory.
+  \item Copy all files to a directory (temporary, by default).
   \item Run \code{Sweave()} for each exercise.
   \item Produce a copy of the master {\LaTeX} file(s) in which certain
     control structures are substituted by dynamically generated
@@ -334,6 +334,8 @@ mycontrol <- list(mchoice.print =
   \item Since Spring 2008, \pkg{exams} is used at WU Wien for
     generating collections of exercises, trial exams, exams and
     solutions.
+  \item Statistics exams at Universit\"at Innsbruck will be generated
+    by \pkg{exams} with interface to online learning platform.
   \item Package \pkg{exams} is available from the Comprehensive \proglang{R}
     Archive Network at \url{http://CRAN.R-project.org/package=exams}.
   \end{itemize}
