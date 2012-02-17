@@ -16,14 +16,9 @@ same as now in exams
 *** num
 same as now in exams, 1 or 2 numeric answers
 
-*** vec
-currently under development in BOKUexams: result is a numeric vector,
-logical questions are encoded as 0/1, \exsoltype{} states which
-question has which type, questions can be grouped to form mchoice
-blocks or simply draw a box around questions that are closely related.
-In principle we could simply generalize num, but \exsolution{}{} does
-not scale well for many answers, \exsolution{1|2|3|4} or whatever is
-much easier to split. So for backwards compatibility I suggest to use
-a new type. In addition many elearning platforms have question type
-"numeric" where the solution has to be scalar.
+*** cloze
+(german: "lueckentext")
+solves problem of vector solution in Moodle: each answer can
+either be numeric, a string or a single choice from several
+answers. So we don't need "vec" anymore.
 
