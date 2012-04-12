@@ -113,7 +113,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       ## infer and save supplements
       sfile <- sapply(Sys.glob("*.*"), function(x) file.info(x)$mtime > stime)
       sfile <- names(sfile)[sfile]
-      sfile <- sfile[!(sfile %in% c(file_tex[idj], file_Rnw))]
+      sfile <- sfile[!(sfile %in% c(file_tex, file_Rnw))]
       if(length(sfile) > 0L) file.copy(sfile, dir_supp_ij)
 
       ## collect LaTeX file
@@ -128,5 +128,5 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   }
 
   invisible(exm)
-
 }
+

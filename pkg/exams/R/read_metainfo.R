@@ -108,7 +108,8 @@ read_metainfo <- function(file)
 	  exsolution[2L] - extol[1L], "--", exsolution[2L] + extol[2L], "])", sep = "")
       }
     },
-    "string" = paste(exname, ": ", paste(exsolution, collapse = "\n"), sep = "")
+    "string" = paste(exname, ": ", paste(exsolution, collapse = "\n"), sep = ""),
+    "cloze" = paste(exname, ": ", paste(exsolution, collapse = " | "), sep = "")
   )
 
   ## return everything (backward compatible with earlier versions)

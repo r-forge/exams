@@ -4,7 +4,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 {
   pdfwrite <- make_exams_pdfwrite(template = template, inputs = inputs, header = header,
     name = name, quiet = quiet, control = control)
-  xexams(file, n = n, nsamp = NULL,
+  xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 }
