@@ -1,10 +1,23 @@
 import("stats", "graphics", "tools", "utils")
 
 export(
+  ## version 1 interface
   "exams",
   "mchoice2string",
   "string2mchoice",
-  "mchoice2text"       
+  "mchoice2text",
+  
+  ## version 2 extensible interface (and helper functions)
+  "xexams",
+  "read_exercise",
+  "read_metainfo",
+  "extract_command",
+  "extract_environment",
+  "extract_items",
+
+  ## new modular PDF driver
+  "exams2pdf",
+  "make_exams_pdfwrite"  
 )
 
 S3method("print", "exams_metainfo")
