@@ -17,10 +17,10 @@ export(
 
   ## new modular PDF driver
   "exams2pdf",
-  "make_exams_pdfwrite"
+  "make_exams_pdfwrite",
 
   ## image driver
-  "ex2img",
+  "ex2image",
   "tex2image",
 
   ## html driver
