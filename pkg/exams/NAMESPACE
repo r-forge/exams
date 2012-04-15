@@ -17,7 +17,16 @@ export(
 
   ## new modular PDF driver
   "exams2pdf",
-  "make_exams_pdfwrite"  
+  "make_exams_pdfwrite"
+
+  ## image driver
+  "ex2img",
+  "tex2image",
+
+  ## html driver
+  "ex2html",
+  "tex4ht",
+  "tth"
 )
 
 S3method("print", "exams_metainfo")
