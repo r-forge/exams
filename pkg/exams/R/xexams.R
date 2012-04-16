@@ -118,7 +118,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## collect LaTeX file
       exm[[i]][[j]] <- driver$read(file_tex[idj])
-      exm[[i]][[j]]$supplements <- structure(file.path(dir_supp_ij, sfile), names = sfile)
+      exm[[i]][[j]]$supplements <- structure(file.path(dir_supp_ij, sfile), names = sfile, dir = dir_supp_ij)
 
       if(!is.null(driver$transform)) exm[[i]][[j]] <- driver$transform(exm[[i]][[j]])
     }

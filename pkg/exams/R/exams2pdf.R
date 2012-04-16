@@ -2,14 +2,14 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()), name = NULL, control = NULL,
   quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL)
 {
-  pdfwrite <- make_exams_pdfwrite(template = template, inputs = inputs, header = header,
+  pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs, header = header,
     name = name, quiet = quiet, control = control)
   xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 }
 
-make_exams_pdfwrite <- function(template = "plain", inputs = NULL,
+make_exams_write_pdf <- function(template = "plain", inputs = NULL,
   header = list(Date = Sys.Date()), name = NULL, quiet = TRUE, control = NULL)
 {
   ## template pre-processing

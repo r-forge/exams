@@ -56,11 +56,11 @@ tex2image <- function(tex, format = "png", width = 6,
   texlines <- paste("\\documentclass[", pt, "pt]{article}", sep = "")
   texlines <- c(
     texlines,
-    "\\usepackage[ngerman]{babel}",
+    "\\usepackage[ngerman]{babel}", ## FIXME: modularize usepackages
     "\\usepackage{a4wide, Sweave, verbatim}",
     "\\usepackage[latin1]{inputenc}",
-    "\\usepackage[T1]{fontenc}", 
-    "\\usepackage{amsmath,amssymb,amsfonts,thumbpdf}",
+    "\\usepackage[T1]{fontenc}",
+    "\\usepackage{amsmath,amssymb,amsfonts}",
     "\\usepackage{graphicx}",
     "\\usepackage{fancybox}",
     "\\usepackage{slashbox, booktabs}",
