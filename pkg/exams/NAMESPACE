@@ -10,6 +10,7 @@ export(
   ## version 2 extensible interface (and helper functions)
   "xexams",
   "read_exercise",
+  "read_images",
   "read_metainfo",
   "extract_command",
   "extract_environment",
@@ -20,11 +21,12 @@ export(
   "make_exams_write_pdf",
 
   ## image driver
-  "ex2image",
+  "make_exercise_transform_html_img",
   "tex2image",
 
   ## html driver
-  "ex2html",
+  "make_exercise_transform_html_tex4ht",
+  "make_exercise_transform_html_tth",
   "tex4ht",
   "tth"
 )
