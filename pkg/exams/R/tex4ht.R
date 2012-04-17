@@ -53,7 +53,7 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   imgnxhtml <- NULL
   if(length(images)) {
     if(is.character(images))
-      images <- read.images(images)
+      images <- read_images(images)
     imgn <- names(images)
     for(i in file_path_sans_ext(imgn)) {
       if(length(d <- grep(i, x, fixed = TRUE))) {

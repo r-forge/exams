@@ -31,7 +31,7 @@ tth <- function(x, images = NULL, width = 600, body = TRUE, verbose = FALSE, ...
   ## copy and resize possible images
   if(length(images)) {
     if(is.character(images))
-      images <- read.images(images)
+      images <- read_images(images)
     imgn <- names(images)
     for(i in file_path_sans_ext(imgn)) {
       if(length(d <- grep(i, x, fixed = TRUE))) {

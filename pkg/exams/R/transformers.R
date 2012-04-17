@@ -1,122 +1,83 @@
 ## transforms the tex parts of exercise to images
 ## of arbitrary format using function tex2image()
-ex2image <- function(x, ...)
+make_exercise_transform_html_img <- function(x, base64 = TRUE, ...)
 {
-  ## data handling
+  bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
+  sdir <- attr(x$supplements, "dir")
   images <- NULL
-  bsname <- if(is.null(x$metainfo$name)) basename(tempfile()) else gsub("\\s", "-", x$metainfo$name)
-  if(!length(x$supplements)) {
-    sdir <- tempfile()
-    dir.create(sdir)
-  } else sdir <- dirname(x$supplements)
-
-  ## transform question
-  if(length(x$question)) {
-    imgname <- paste(bsname, "question", sep = "-")
-    dir <- tex2image(x$question, idir = sdir, show = FALSE, bsname = imgname, ...)
-    imgpath <- file.path(sdir, imgname)
-    names(imgpath) <- imgname
-    file.copy(dir, imgpath)
-    x$question <- imgpath
-    images <- c(images, imgpath)
-  }
-
-  ## transform questionlist
-  if(length(x$questionlist)) {
-    for(k in seq_along(x$questionlist)) {
-      imgname <- paste(bsname, "questionlist", k, sep = "-")
-      dir <- tex2image(x$questionlist[k], idir = sdir, show = FALSE, bsname = imgname, ...)
-      imgpath <- file.path(sdir, imgname)
-      names(imgpath) <- imgname
-      file.copy(dir, imgpath)
-      x$questionlist[k] <- imgpath
-      images <- c(images, imgpath)
+  for(i in c("question", "questionlist", "solution", "solutionlist")) {
+    imgname <- paste(bsname, i , sep = "-")
+    if(grepl("list", i)) {
+      imgname <- paste(imgname, 1:length(x[[i]]), sep = "-")
+      k <- seq_along(x[[i]])
+    } else k <- list(seq_along(x[[i]]))
+    if(length(k)) {
+      for(j in 1:length(k)) {
+        dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
+        imgpath <- file.path(sdir, basename(dir))
+        if(base64) {
+          require("base64")
+          img <- base64::img(dir)
+        } else {
+          names(imgpath) <- imgname[j]
+          file.copy(dir, imgpath)
+          img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" />', sep = '')
+        }
+        if(grepl("list", i))
+          x[[i]][k[[j]]] <- img
+        else
+          x[[i]] <- img
+        if(!base64)
+          images <- c(images, imgpath)
+      }
     }
   }
-
-  ## transform solution
-  if(length(x$solution)) {
-    imgname <- paste(bsname, "solution", sep = "-")
-    dir <- tex2image(x$solution, idir = sdir, show = FALSE, bsname = imgname, ...)
-    imgpath <- file.path(sdir, imgname)
-    names(imgpath) <- imgname
-    file.copy(dir, imgpath)
-    x$solution <- imgpath
-    images <- c(images, imgpath)
-  }
-
-  ## transform solutionlist
-  if(length(x$solutionlist)) {
-    for(k in seq_along(x$solutionlist)) {
-      imgname <- paste(bsname, "solutionlist", k, sep = "-")
-      dir <- tex2image(x$solutionlist[k], idir = sdir, show = FALSE, bsname = imgname, ...)
-      imgpath <- file.path(sdir, imgname)
-      names(imgpath) <- imgname
-      file.copy(dir, imgpath)
-      x$solutionlist[k] <- imgpath
-      images <- c(images, imgpath)
-    }
-  }
-
-  ## overwrite supplements
-  x$supplements <- images
-
-  class(x) <- c("img", "list")
+  if(!base64)
+    x$supplements <- images
   x
 }
 
 
-## transforms the tex parts of exercise to html
-## using tex4ht() or tth(), images are included
-## using base64 encoding
-ex2html <- function(x, converter = "tex4ht", ...)
+## transforms the tex parts of exercise to html using tex4ht()
+make_exercise_transform_html_tex4ht <- function(x, ...)
+{
+  x <- make_ex2html(x, converter = "tex4ht", ...)
+  x
+}
+
+
+## transforms the tex parts of exercise to html using tth()
+make_exercise_transform_html_tth <- function(x, ...)
+{
+  x <- make_ex2html(x, converter = "tth", ...)
+  x
+}
+
+
+## html converter helper function
+make_ex2html <- function(x, converter = "tex4ht", ...)
 {
   args <- list(...)
-  args$images <- x$supplements
-
-  ## data handling
-  images <- NULL
-  bsname <- if(is.null(x$metainfo$name)) basename(tempfile()) else gsub("\\s", "-", x$metainfo$name)
-  if(!length(x$supplements)) {
-    sdir <- tempfile()
-    dir.create(sdir)
-  } else sdir <- dirname(x$supplements)
-
-  ## transform question
-  if(length(x$question)) {
-    args$x <- x$question
-    args$bsname <- paste(bsname, "question", sep = "-")
-    x$question <- do.call(converter, args)
-  }
-
-  ## transform questionlist
-  if(length(x$questionlist)) {
-    for(k in seq_along(x$questionlist)) {
-      args$x <- x$questionlist[k]
-      args$bsname <- paste(bsname, "questionlist", k, sep = "-")
-      x$questionlist[k] <- do.call(converter, args)
+  if(length(x$supplements))
+    args$images <- x$supplements
+  bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
+  sdir <- attr(x$supplements, "dir")
+  for(i in c("question", "questionlist", "solution", "solutionlist")) {
+    texname <- paste(bsname, i , sep = "-")
+    if(grepl("list", i)) {
+      texname <- paste(texname, 1:length(x[[i]]), sep = "-")
+      k <- seq_along(x[[i]])
+    } else k <- list(seq_along(x[[i]]))
+    if(length(k)) {
+      for(j in 1:length(k)) {
+        args$x <- x[[i]][k[[j]]]
+        args$bsname <- texname[j]
+        if(grepl("list", i))
+          x[[i]][k[[j]]] <- do.call(converter, args)
+        else 
+          x[[i]] <- do.call(converter, args)
+      }
     }
   }
-
-  ## transform solution
-  if(length(x$solution)) {
-    args$x <- x$solution
-    args$bsname <- paste(bsname, "solution", sep = "-")
-    x$solution <- do.call(converter, args)
-  }
-
-  ## transform solutionlist
-  if(length(x$solutionlist)) {
-    for(k in seq_along(x$solutionlist)) {
-      args$x <- x$solutionlist[k]
-      args$bsname <- paste(bsname, "solutionlist", k, sep = "-")
-      x$solutionlist[k] <- do.call(converter, args)
-    }
-  }
-
-  ## overwrite supplements
-  x$supplements <- character(0)
-
-  class(x) <- c("html", "list")
   x
 }
