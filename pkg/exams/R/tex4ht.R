@@ -3,7 +3,7 @@
 ## images are included by Base64 encoding
 tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   body = TRUE, bsname = "tex4ht-Rinternal", template = NULL,
-  tdir = NULL, verbose = FALSE, ...)
+  tdir = NULL, verbose = FALSE, base64 = TRUE, ...)
 {
   require("base64")
   if(file.exists(x[1]))
@@ -98,21 +98,37 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     }
   }
 
-  ## base64 encoding of images
+  ## image handling
+  imgs <- NULL
   if(length(i <- grep("src=\"", y, fixed = TRUE))) {
     fimg <- tempfile()
+    if(!base64) {
+      imgfiles <- tempfile()
+      dir.create(imgfiles)
+    }
     for(j in i) {
       for(e in c(".png", ".jpg", ".gif")) {
         if(grepl(e, y[j], ignore.case = TRUE)) {
           file <- alt <- strsplit(y[j], "src=\"")[[1]][2]
           alt <- strsplit(alt, "alt=\"")[[1]][2]
           file <- paste(strsplit(file, e)[[1]][1], e, sep = "")
-          ## need to copy image, since long names don't work with img
-          file.copy(file.path(getwd(), file), fimg, overwrite = TRUE)
-          file <- base64::img(fimg)
-          file <- gsub("<img ", "", file, fixed = TRUE)
-          file <- gsub("image\" />", alt, file, fixed = TRUE)
-          y[j] <- file
+          if(base64) {
+            ## need to copy image, since long names don't work with img
+            file.copy(file.path(getwd(), file), fimg, overwrite = TRUE)
+            file <- base64::img(fimg)
+            file <- gsub("<img ", "", file, fixed = TRUE)
+            file <- gsub("image\" />", alt, file, fixed = TRUE)
+            y[j] <- file
+          } else {
+            file.copy(file.path(getwd(), file), file.path(imgfiles, file), overwrite = TRUE)
+            oowd <- getwd()
+            setwd(imgfiles)
+## FIXME
+            cmd <- paste("convert -resize ", width, "x ", file, " ", file, sep = "")
+            system(cmd)
+            setwd(oowd)
+            imgs <- c(imgs, file.path(imgfiles, file))
+          }
         }
       }
     }
@@ -154,6 +170,9 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
 
   ## remove tmp file
   unlink(tempf, recursive = TRUE, force = TRUE)
+
+  ## add imgs if not base64
+  attr(y, "images") <- imgs
 
   setwd(owd)
   y

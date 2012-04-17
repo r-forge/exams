@@ -1,6 +1,6 @@
 ## transforms the tex parts of exercise to images
 ## of arbitrary format using function tex2image()
-make_exercise_transform_html_img <- function(x, base64 = TRUE, ...)
+make_exercise_transform_html_img <- function(x, base64 = TRUE, width = 550, ...)
 {
   bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
   sdir <- attr(x$supplements, "dir")
@@ -18,10 +18,13 @@ make_exercise_transform_html_img <- function(x, base64 = TRUE, ...)
         if(base64) {
           require("base64")
           img <- base64::img(dir)
+          alt <- grep('alt="image"', img)
+          img[alt] <- gsub('alt="image"', paste('alt="image" width="', width, '"', sep = ''),
+            img[alt], fixed = TRUE)
         } else {
           names(imgpath) <- imgname[j]
           file.copy(dir, imgpath)
-          img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" />', sep = '')
+          img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" width="', width, '" />', sep = '')
         }
         if(grepl("list", i))
           x[[i]][k[[j]]] <- img
@@ -41,7 +44,7 @@ make_exercise_transform_html_img <- function(x, base64 = TRUE, ...)
 ## transforms the tex parts of exercise to html using tex4ht()
 make_exercise_transform_html_tex4ht <- function(x, ...)
 {
-  x <- make_ex2html(x, converter = "tex4ht", ...)
+  x <- make_ex2html(x, converter = "tex4ht", base64 = FALSE, ...)
   x
 }
 
@@ -72,10 +75,19 @@ make_ex2html <- function(x, converter = "tex4ht", ...)
       for(j in 1:length(k)) {
         args$x <- x[[i]][k[[j]]]
         args$bsname <- texname[j]
+        html <- do.call(converter, args)
         if(grepl("list", i))
-          x[[i]][k[[j]]] <- do.call(converter, args)
+          x[[i]][k[[j]]] <- html
         else 
-          x[[i]] <- do.call(converter, args)
+          x[[i]] <- html
+        if(!is.null(attr(html, "images"))) {
+          for(i in attr(html, "images")) {
+            if(length(grep(basename(i), list.files(sdir))) < 1) {
+              file.copy(i, file.path(sdir, basename(i)))
+              x$supplements <- c(x$supplements, i)
+            }
+          }
+        }
       }
     }
   }

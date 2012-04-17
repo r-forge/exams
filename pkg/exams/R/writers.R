@@ -1,57 +1,61 @@
-## writer function for the UIBK exams server in xml format
-xml4uibk <- function(x, dir = NULL, name = NULL, ...)
+make_exams_write_html <- function(x, dir, info, doctype = NULL, head = NULL, solution = TRUE, ...)
 {
-  args <- list(...)
-  if(is.null(dir)) {
-    dir <- tempfile()
-    dir.create(dir)
+  tdir <- tempfile()
+  sdir <- NULL
+  dir.create(tdir)
+  on.exit(unlink(tdir))
+  if(is.null(doctype)) {
+    doctype <- c(
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"',
+      '"http://www.w3.org/TR/html4/strict.dtd">'
+    )
   }
-
-  scipen <- getOption("scipen")
-  options("scipen" = 100)  
-
-  examid <- olatid(14)
-
-  if(is.null(name)) name <- paste("Online-Test", Sys.Date(), sep = "-")
-
-  txt <- c(
-    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-    "<!DOCTYPE questestinterop SYSTEM \"ims_qtiasiv1p2p1.dtd\">",
-    "",
-    "<questestinterop>",
-    paste("<assessment ident=",
-      if(is.null(args$ident)) paste("\"uibkolat_22_", examid, sep = "") else args$ident,
-      "\" title=\"", if(is.null(args$title)) name else args$title, "\">", sep = ""),
-    "<qtimetadata>",
-    "<qtimetadatafield>",
-    "<fieldlabel>qmd_assessmenttype</fieldlabel>",
-    "<fieldentry>Assessment</fieldentry>",
-    "</qtimetadatafield>",
-    "</qtimetadata>",
-    paste("<assessmentcontrol feedbackswitch=\"",
-      if(is.null(args$feedbackswitch)) "Yes" else args$feedbackswitch, "\" hintswitch=\"",
-      if(is.null(args$hintswitch)) "No" else args$hintswitch, "\" solutionswitch=\"",
-      if(is.null(args$solutionswitch)) "No" else args$solutionswitch, "\"/>", sep = ""),
-    paste("<outcomes_processing scoremodel=\"",
-      if(is.null(args$scoremodel)) "SumOfScores" else args$scoremodel, "\">", sep = ""),
-    "<outcomes>",
-    paste("<decvar varname=\"SCORE\" vartype=\"Decimal\" cutvalue=\"",
-      if(is.null(args$cutvalue)) 0.0 else args$cutvalue, "\"/>", sep = ""),
-    "</outcomes>",
-    "</outcomes_processing>"
-  )
-
-  secid <- examid + 1
-
-  ## FIXME: not clear how to set up the samples in each question/section within xexams()?
-  ## maybe transform only outside of xexams()???
-  for(i in seq_along(x)) {
-    a <- 1
+  if(is.null(head)) {
+    head <- c(
+      '<head>',
+      paste('<title> ', 'exam', info$id, ' </title>', sep = ''),
+      '<style type="text/css">',
+      'body{font-family:Arial;}',
+      '</style>',
+      '</head>'
+    )
   }
-
-  x
+  html <- c(doctype, "<html>", head, "<body>", paste('<h2>', 'Exam', info$id, ' </h2>'), "<ol>")
+  for(ex in x) {
+    html <- c(html, "<li>", "<h4>", "Question", "</h4>", ex$question, "<br/>")
+    if(length(ex$questionlist)) {
+      html <- c(html, '<ol type="a">')
+      for(i in ex$questionlist)
+        html <- c(html, "<li>", i, "</li>")
+      html <- c(html, "</ol>", "<br/>")
+    }
+    if(solution) {
+      html <- c(html, "<h4>", "Solution", "</h4>")
+      if(length(ex$solutionlist)) {
+        html <- c(html, '<ol type="a">')
+        for(i in ex$solutionlist)
+          html <- c(html, "<li>", i, "</li>")
+        html <- c(html, "</ol>", "<br/>")
+      }
+      if(length(ex$solution)) {
+        html <- c(html, ex$solution, "<br/>")
+      }
+    }
+    html <- c(html, "</li>")
+    if(length(ex$supplements)) {
+      for(i in ex$supplements) {
+        if(any(grepl(basename(i), html)))
+          file.copy(i, file.path(tdir, basename(i)))
+      }
+    }
+    sdir <- c(sdir, attr(ex$supplements, "dir"))
+  }
+  html <- c(html, "</ol>", "</body>", "</html>")
+  if(length(sdir))
+    for(i in sdir) gsub(i, "", html, fixed = TRUE)
+  writeLines(html, file.path(tdir, paste("exam", info$id, ".html", sep = "")))
+  out_dir <- file.path(dir, paste("exam", info$id, sep = ""))
+  dir.create(out_dir)
+  file.copy(file.path(tdir, list.files(tdir)), file.path(out_dir, list.files(tdir)))
+  invisible(NULL)
 }
-
-
-## convenience function
-olatid <- function(x) as.numeric(paste(sample(1:9, x, replace = TRUE), collapse = ""))
