@@ -17,7 +17,7 @@ export(
 
   ## new modular PDF driver
   "exams2pdf",
-  "make_exams_pdfwrite",
+  "make_exams_write_pdf",
 
   ## image driver
   "ex2image",
