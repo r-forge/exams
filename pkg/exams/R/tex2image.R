@@ -68,7 +68,7 @@ tex2image <- function(tex, format = "png", width = 6,
     "\\usepackage{hyperref}",
     "\\usepackage{color}",
     "\\pagestyle{empty}",
-    "\\setlength{\parindent}{0pt}"
+    "\\setlength{\\parindent}{0pt}"
   )
   for(i in template)
     texlines <- c(texlines, i)
