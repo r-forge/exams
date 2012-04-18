@@ -75,10 +75,16 @@ tex2image <- function(tex, format = "png", width = 6,
   texlines <- c(texlines, "\\begin{document}")
   for(i in itemplate)
     texlines <- c(texlines, i)
-  texlines <- c(texlines, paste("\\frame{\\parbox[t]{", width, "in}{", sep = ""))
-  texlines <- c(texlines, "\\vspace*{0.1cm}")
+  if(!any(grepl("begin{figure}", tex, fixed = TRUE)) &&
+     !any(grepl("caption{", tex, fixed = TRUE))) {
+    texlines <- c(texlines, paste("\\frame{\\parbox[t]{", width, "in}{", sep = ""))
+    texlines <- c(texlines, "\\vspace*{0.1cm}")
+  }
   texlines <- c(texlines, tex)
-  texlines <- c(texlines, "\\vspace*{0.1cm}}}")
+  if(!any(grepl("begin{figure}", tex, fixed = TRUE)) &&
+     !any(grepl("caption{", tex, fixed = TRUE))) {
+    texlines <- c(texlines, "\\vspace*{0.1cm}}}")
+  }
   texlines <- c(texlines, "\\end{document}")
   file.create(paste(tdir, "/", bsname, ".log", sep = ""))
   image <- paste(bsname, ".", format, sep = "")

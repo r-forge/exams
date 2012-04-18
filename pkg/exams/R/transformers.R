@@ -4,6 +4,8 @@ make_exercise_transform_html_img <- function(x, base64 = TRUE, width = 550, ...)
 {
   bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
   sdir <- attr(x$supplements, "dir")
+  if(length(x$supplements))
+    x$supplements <- pdf2png4html(x$supplements, ...)
   images <- NULL
   for(i in c("question", "questionlist", "solution", "solutionlist")) {
     imgname <- paste(bsname, i , sep = "-")
@@ -13,25 +15,27 @@ make_exercise_transform_html_img <- function(x, base64 = TRUE, width = 550, ...)
     } else k <- list(seq_along(x[[i]]))
     if(length(k)) {
       for(j in 1:length(k)) {
-        dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
-        imgpath <- file.path(sdir, basename(dir))
-        if(base64) {
-          require("base64")
-          img <- base64::img(dir)
-          alt <- grep('alt="image"', img)
-          img[alt] <- gsub('alt="image"', paste('alt="image" width="', width, '"', sep = ''),
-            img[alt], fixed = TRUE)
-        } else {
-          names(imgpath) <- imgname[j]
-          file.copy(dir, imgpath)
-          img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" width="', width, '" />', sep = '')
+        if(!is.null(x[[i]][k[[j]]])) {
+          dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
+          imgpath <- file.path(sdir, basename(dir))
+          if(base64) {
+            require("base64")
+            img <- base64::img(dir)
+            alt <- grep('alt="image"', img)
+            img[alt] <- gsub('alt="image"', paste('alt="image" width="', width, '"', sep = ''),
+              img[alt], fixed = TRUE)
+          } else {
+            names(imgpath) <- imgname[j]
+            file.copy(dir, imgpath)
+            img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" width="', width, '" />', sep = '')
+          }
+          if(grepl("list", i))
+            x[[i]][k[[j]]] <- img
+          else
+            x[[i]] <- img
+          if(!base64)
+            images <- c(images, imgpath)
         }
-        if(grepl("list", i))
-          x[[i]][k[[j]]] <- img
-        else
-          x[[i]] <- img
-        if(!base64)
-          images <- c(images, imgpath)
       }
     }
   }
