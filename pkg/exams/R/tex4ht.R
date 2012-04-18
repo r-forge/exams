@@ -73,7 +73,7 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     cmd <- paste("htlatex", file_path_sans_ext(bsname), "\"html\" \" -cmozhtf\"")
   if(!verbose)
     cmd <- paste(cmd, "> Rinternal.tex4ht.log")
-  log <- system(cmd)
+  log <- system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
   if(verbose)
     cat("************** END TEX4HT *************\n")
   y <- readLines(file.path(tempf, paste(bsname, "html", sep = ".")))
@@ -125,10 +125,11 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
       i <- grep("</body>", y)
       y <- y[1:(i - 1)]
     }
-    ## remove indent tags
-    y <- gsub('<p class="indent" >', '', y)
-    y <- gsub('<p class="noindent" >', '', y)
   }
+
+  ## remove indent tags
+  y <- gsub('<p class="indent" >', '', y)
+  y <- gsub('<p class="noindent" >', '', y)
 
   ## copy images to directory for further processing
   if(!base64) {

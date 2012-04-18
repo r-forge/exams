@@ -124,7 +124,6 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     }
 
     if(!is.null(driver$write)) driver$write(exm[[i]], dir = dir, info = list(id = i, n = n)) ## FIXME: do we need further information?
-  
   }
 
   invisible(exm)

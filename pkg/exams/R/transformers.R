@@ -57,12 +57,30 @@ make_exercise_transform_html_tth <- function(x, ...)
 }
 
 
+## helper functions for exams2html
+## includes tex2image, tex4ht and tth conversion
+make_exercise_transform_html <- function(converter = "img", base64 = TRUE, body = TRUE, width = 550, ...)
+{
+  if(converter %in% c("img", "image", "tex2image")) {
+    foo <- function(x) {
+      make_exercise_transform_html_img(x, base64, width, ...)
+    }
+  } else {
+    foo <- function(x) {
+      make_ex2html(x, converter, base64 = base64, body = body, width = width, ...)
+    }
+  }
+  foo
+}
+
+
 ## html converter helper function
+## for tex4ht and tth conversion
 make_ex2html <- function(x, converter = "tex4ht", ...)
 {
   args <- list(...)
   if(length(x$supplements))
-    args$images <- x$supplements
+    args$images <- pdf2png4html(x$supplements, ...)
   bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
   sdir <- attr(x$supplements, "dir")
   for(i in c("question", "questionlist", "solution", "solutionlist")) {
@@ -73,23 +91,49 @@ make_ex2html <- function(x, converter = "tex4ht", ...)
     } else k <- list(seq_along(x[[i]]))
     if(length(k)) {
       for(j in 1:length(k)) {
-        args$x <- x[[i]][k[[j]]]
-        args$bsname <- texname[j]
-        html <- do.call(converter, args)
-        imgs <- attr(html, "images")
-        attr(html, "images") <- NULL
-        if(grepl("list", i))
-          x[[i]][k[[j]]] <- paste(html, collapse = "\n", sep = "")
-        else 
-          x[[i]] <- html
-        if(!is.null(imgs)) {
-          file.copy(imgs, file.path(sdir, basename(imgs)), overwrite = TRUE)
-          for(jj in imgs)
-            if(!any(grepl(basename(jj), x$supplements)))
-              x$supplements <- c(x$supplements, file.path(sdir, basename(jj)))
+        if(!is.null(x[[i]][k[[j]]])) {
+          args$x <- x[[i]][k[[j]]]
+          args$bsname <- texname[j]
+          html <- do.call(converter, args)
+          imgs <- attr(html, "images")
+          attr(html, "images") <- NULL
+          if(grepl("list", i))
+            x[[i]][k[[j]]] <- paste(html, collapse = "\n", sep = "")
+          else 
+            x[[i]] <- html
+          if(!is.null(imgs)) {
+            file.copy(imgs, file.path(sdir, basename(imgs)), overwrite = TRUE)
+            for(jj in imgs)
+              if(!any(grepl(basename(jj), x$supplements)))
+                x$supplements <- c(x$supplements, file.path(sdir, basename(jj)))
+          }
         }
       }
     }
   }
+  x
+}
+
+
+## pdf to png conversion
+pdf2png4html <- function(x, density = 350, ...)
+{
+  owd <- getwd()
+  nx <- names(x)
+  for(i in seq_along(x)) {
+    if(file_ext(x[i]) == "pdf") {
+      dx <- dirname(x)
+      setwd(dx)
+      bsx <- basename(x[i])
+      to <- paste(file_path_sans_ext(bsx), "png", sep = ".")
+      cmd <- paste("convert -density", density, bsx, to)
+      system(cmd)
+      file.remove(x[i])
+      x[i] <- file.path(dx, to)
+      nx[i] <- to
+      setwd(owd)
+    }
+  }
+  names(x) <- nx
   x
 }

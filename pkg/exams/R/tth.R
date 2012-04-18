@@ -2,8 +2,6 @@
 ## images are included by Base64 encoding
 tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbose = FALSE, ...)
 {
-  require("base64")
-
   if(file.exists(x[1]))
     x <- readLines(x)
 
@@ -55,6 +53,7 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
   ## further image handling
   y <- paste(y, "\n", sep = "")
   if(base64) {
+    require("base64")
     irx <- '<img src="(.*.png)" alt=".*.png" />'
     iry <- paste(".*", irx, ".*", sep = "")
     imgs <-  grep(irx, y)

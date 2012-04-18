@@ -25,8 +25,14 @@ export(
   "tex2image",
 
   ## html driver
+  "exams2html",
+  "make_exercise_transform_html_img",
   "make_exercise_transform_html_tex4ht",
   "make_exercise_transform_html_tth",
+  "make_exercise_transform_html",
+  "make_exams_write_html",
+  "make_ex2html",
+  "pdf2png4html",
   "tex4ht",
   "tth"
 )
