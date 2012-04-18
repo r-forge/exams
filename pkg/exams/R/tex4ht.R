@@ -5,7 +5,6 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   body = TRUE, bsname = "tex4ht-Rinternal", template = NULL,
   tdir = NULL, verbose = FALSE, base64 = TRUE, ...)
 {
-  require("base64")
   if(file.exists(x[1]))
     x <- readLines(x)
 
@@ -39,8 +38,8 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   x <- gsub("\\\\end\\{Schunk}", "", x)
 
   ## remove eqnarray environment
-  if(jsmath)
-    x <- gsub("eqnarray", "align", x, fixed = TRUE)
+  ## if(jsmath)
+  ##   x <- gsub("eqnarray", "align", x, fixed = TRUE)
 
   ## create temp dir
   tempf <- if(is.null(tdir)) tempfile() else path.expand(tdir)
@@ -50,21 +49,16 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   setwd(tempf)
 
   ## and copy & resize possible images
-  imgnxhtml <- NULL
   if(length(images)) {
-    if(is.character(images))
-      images <- read_images(images)
-    imgn <- names(images)
-    for(i in file_path_sans_ext(imgn)) {
-      if(length(d <- grep(i, x, fixed = TRUE))) {
-        j <- grep(i, imgn, fixed = TRUE)
-        x[d] <- gsub(i, imgn[j], x[d], fixed = TRUE)
-        writeBin(images[[j]], imgn[j])
-        cmd <- paste("convert -resize ", width, "x ", imgn[j], " ", imgn[j], " > ", imgn[j], ".log", sep = "")
-        system(cmd)
-        imgnxhtml <- c(imgnxhtml, imgn[j])
-      }
-    }
+    images <- path.expand(images)
+    bsimg <- basename(images)
+    file.copy(images, file.path(tempf, bsimg)) 
+    cmd <- paste("convert -resize ", width, "x ", bsimg, " ", bsimg, " > Rinternal.im.log", sep = "")
+    check <- system(cmd)
+    for(i in dirname(images))
+      x <- gsub(i, "", x, fixed = TRUE)
+    for(i in seq_along(bsimg))
+      x <- gsub(file_path_sans_ext(bsimg[i]), bsimg[i], x, fixed = TRUE)
   }
 
   ## write .tex file
@@ -98,54 +92,26 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     }
   }
 
-  ## image handling
-  imgs <- NULL
-  if(length(i <- grep("src=\"", y, fixed = TRUE))) {
+  ## further image handling
+  if(base64 && length(i <- grep("src=\"", y, fixed = TRUE))) {
     fimg <- tempfile()
-    if(!base64) {
-      imgfiles <- tempfile()
-      dir.create(imgfiles)
-    }
     for(j in i) {
       for(e in c(".png", ".jpg", ".gif")) {
         if(grepl(e, y[j], ignore.case = TRUE)) {
           file <- alt <- strsplit(y[j], "src=\"")[[1]][2]
           alt <- strsplit(alt, "alt=\"")[[1]][2]
           file <- paste(strsplit(file, e)[[1]][1], e, sep = "")
-          if(base64) {
-            ## need to copy image, since long names don't work with img
-            file.copy(file.path(getwd(), file), fimg, overwrite = TRUE)
-            file <- base64::img(fimg)
-            file <- gsub("<img ", "", file, fixed = TRUE)
-            file <- gsub("image\" />", alt, file, fixed = TRUE)
-            y[j] <- file
-          } else {
-            file.copy(file.path(getwd(), file), file.path(imgfiles, file), overwrite = TRUE)
-            oowd <- getwd()
-            setwd(imgfiles)
-## FIXME
-            cmd <- paste("convert -resize ", width, "x ", file, " ", file, sep = "")
-            system(cmd)
-            setwd(oowd)
-            imgs <- c(imgs, file.path(imgfiles, file))
-          }
+          ## need to copy image, since long names don't work with img
+          file.copy(file.path(tempf, file), fimg, overwrite = TRUE)
+          file <- base64::img(fimg)
+          file <- gsub("<img ", "", file, fixed = TRUE)
+          file <- gsub("image\" />", alt, file, fixed = TRUE)
+          y[j] <- file
         }
       }
     }
     unlink(fimg, force = TRUE)
   }
-
-  #if(!is.null(imgnxhtml)) {
-  #  for(i in imgnxhtml) {
-  #    j <- grep(i, y, fixed = TRUE)
-  #    tf <- tempfile()
-  #    on.exit(unlink(tf), add = TRUE)
-  #    base64::encode(i, tf)
-  #    im64 <- paste("data:image/", file_ext(i), ";base64,\n",
-  #      paste(readLines(tf), collapse = "\n"), sep = "")
-  #    y[j] <- sub(i, im64, y[j], fixed = TRUE)
-  #  }
-  #}
 
   ## get only body context
   if(body) {
@@ -159,20 +125,28 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
       i <- grep("</body>", y)
       y <- y[1:(i - 1)]
     }
+    ## remove indent tags
+    y <- gsub('<p class="indent" >', '', y)
+    y <- gsub('<p class="noindent" >', '', y)
   }
 
-  ## remove indent tags
-  y <- gsub('<p class="indent" >', '', y)
-  y <- gsub('<p class="noindent" >', '', y)
+  ## copy images to directory for further processing
+  if(!base64) {
+    imgdir <- tempfile()
+    dir.create(imgdir)
+    files <- list.files(tempf); imgs <- NULL
+    for(i in files) {
+      for(e in c(".png", ".jpg", ".gif")) {
+        if(grepl(e, i, ignore.case = TRUE)) {
+          file.copy(i, file.path(imgdir, i))
+          imgs <- c(imgs, file.path(imgdir, i))
+        }
+      }
+    }
+    attr(y, "images") <- imgs
+  }
 
-  ## remove blank lines
-  y <- y[-grep("^ *$", y)]
-
-  ## remove tmp file
   unlink(tempf, recursive = TRUE, force = TRUE)
-
-  ## add imgs if not base64
-  attr(y, "images") <- imgs
 
   setwd(owd)
   y

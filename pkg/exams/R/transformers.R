@@ -44,7 +44,7 @@ make_exercise_transform_html_img <- function(x, base64 = TRUE, width = 550, ...)
 ## transforms the tex parts of exercise to html using tex4ht()
 make_exercise_transform_html_tex4ht <- function(x, ...)
 {
-  x <- make_ex2html(x, converter = "tex4ht", base64 = FALSE, ...)
+  x <- make_ex2html(x, converter = "tex4ht", ...)
   x
 }
 
@@ -76,17 +76,17 @@ make_ex2html <- function(x, converter = "tex4ht", ...)
         args$x <- x[[i]][k[[j]]]
         args$bsname <- texname[j]
         html <- do.call(converter, args)
+        imgs <- attr(html, "images")
+        attr(html, "images") <- NULL
         if(grepl("list", i))
-          x[[i]][k[[j]]] <- html
+          x[[i]][k[[j]]] <- paste(html, collapse = "\n", sep = "")
         else 
           x[[i]] <- html
-        if(!is.null(attr(html, "images"))) {
-          for(i in attr(html, "images")) {
-            if(length(grep(basename(i), list.files(sdir))) < 1) {
-              file.copy(i, file.path(sdir, basename(i)))
-              x$supplements <- c(x$supplements, i)
-            }
-          }
+        if(!is.null(imgs)) {
+          file.copy(imgs, file.path(sdir, basename(imgs)), overwrite = TRUE)
+          for(jj in imgs)
+            if(!any(grepl(basename(jj), x$supplements)))
+              x$supplements <- c(x$supplements, file.path(sdir, basename(jj)))
         }
       }
     }

@@ -1,6 +1,6 @@
 ## function to create a html file with tth
 ## images are included by Base64 encoding
-tth <- function(x, images = NULL, width = 600, body = TRUE, verbose = FALSE, ...)
+tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbose = FALSE, ...)
 {
   require("base64")
 
@@ -28,20 +28,17 @@ tth <- function(x, images = NULL, width = 600, body = TRUE, verbose = FALSE, ...
   owd <- getwd()
   setwd(tempf)
 
-  ## copy and resize possible images
+  ## and copy & resize possible images
   if(length(images)) {
-    if(is.character(images))
-      images <- read_images(images)
-    imgn <- names(images)
-    for(i in file_path_sans_ext(imgn)) {
-      if(length(d <- grep(i, x, fixed = TRUE))) {
-        j <- grep(i, imgn, fixed = TRUE)
-        x[d] <- gsub(i, imgn[j], x[d], fixed = TRUE)
-        writeBin(images[[j]], imgn[j])
-        cmd <- paste("convert -resize ", width, "x ", imgn[j], " ", imgn[j], " > ", imgn[j], ".log", sep = "")
-        system(cmd)
-      }
-    }
+    images <- path.expand(images)
+    bsimg <- basename(images)
+    file.copy(images, file.path(tempf, bsimg)) 
+    cmd <- paste("convert -resize ", width, "x ", bsimg, " ", bsimg, " > Rinternal.im.log", sep = "")
+    check <- system(cmd)
+    for(i in dirname(images))
+      x <- gsub(i, "", x, fixed = TRUE)
+    for(i in seq_along(bsimg))
+      x <- gsub(file_path_sans_ext(bsimg[i]), bsimg[i], x, fixed = TRUE)
   }
 
   ## create .html
@@ -55,15 +52,31 @@ tth <- function(x, images = NULL, width = 600, body = TRUE, verbose = FALSE, ...
   y <- gsub('<div class="p"><!----></div>', "", y, fixed = TRUE)
   y <- y[-grep("^ *$", y)]    
   
-  ## base64 encoding of images
+  ## further image handling
   y <- paste(y, "\n", sep = "")
-  irx <- '<img src="(.*.png)" alt=".*.png" />'
-  iry <- paste(".*", irx, ".*", sep = "")
-  imgs <-  grep(irx, y)
-  for(i in imgs) {
-    file <- sub(iry, "\\1", y[i])
-    im64 <- base64::img(file)
-    y[i] <- sub(irx, im64, y[i])
+  if(base64) {
+    irx <- '<img src="(.*.png)" alt=".*.png" />'
+    iry <- paste(".*", irx, ".*", sep = "")
+    imgs <-  grep(irx, y)
+    for(i in imgs) {
+      file <- sub(iry, "\\1", y[i])
+      im64 <- base64::img(file)
+      y[i] <- sub(irx, im64, y[i])
+    }
+  } else {
+    ## copy images to directory for further processing
+    imgdir <- tempfile()
+    dir.create(imgdir)
+    files <- list.files(tempf); imgs <- NULL
+    for(i in files) {
+      for(e in c(".png", ".jpg", ".gif")) {
+        if(grepl(e, i, ignore.case = TRUE)) {
+          file.copy(i, file.path(imgdir, i))
+          imgs <- c(imgs, file.path(imgdir, i))
+        }
+      }
+    }
+    attr(y, "images") <- imgs
   }
 
   ## remove tmp file
