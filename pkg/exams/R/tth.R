@@ -4,6 +4,8 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
 {
   if(file.exists(x[1]))
     x <- readLines(x)
+  #Z# Maybe better:
+  #Z# if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
   ## setup necessary .tex file for tex4ht conversion
   if(!any(grepl("documentclass", x)))
@@ -12,6 +14,9 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
     x <- c("\\begin{document}\n", x)
   if(!any(grepl("end{document}", x, fixed = TRUE)))
     x <- c(x, "\\end{document}\n")
+  #Z# Is this necessary for tth as well? I seem to recall it was just
+  #Z# necessary for tex4ht but not tth.
+  #Z# If it is: Offer possibility of a template file.
 
   x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
   x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
@@ -19,12 +24,17 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
   x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
   x <- gsub("\\\\begin\\{Schunk}", "", x)
   x <- gsub("\\\\end\\{Schunk}", "", x)
+  #Z# This could be modularized into a list of environments that neet to be replaced, e.g.,
+  #Z#   environments = list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL)
+  #Z# and then one could cycle through names(environments).
 
   ## create temp dir
   tempf <- tempfile()
   dir.create(tempf)
   owd <- getwd()
   setwd(tempf)
+  #Z# One could move the on.exit(unlink(...)) and on.exit(setwd(...)) up here which may
+  #Z# be easier to maintain in the future.
 
   ## and copy & resize possible images
   if(length(images)) {
@@ -38,6 +48,8 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
     for(i in seq_along(bsimg))
       x <- gsub(file_path_sans_ext(bsimg[i]), bsimg[i], x, fixed = TRUE)
   }
+  #Z# Why do you do the resize conversion? One has control over the size
+  #Z# within the original .Rnw anyway.
 
   ## create .html
   cmd <- if(body) "tth -r -u -e2" else "tth -u -r2 -e2"
@@ -66,7 +78,8 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
     ## copy images to directory for further processing
     imgdir <- tempfile()
     dir.create(imgdir)
-    files <- list.files(tempf); imgs <- NULL
+    files <- list.files(tempf)
+    imgs <- NULL
     for(i in files) {
       for(e in c(".png", ".jpg", ".gif")) {
         if(grepl(e, i, ignore.case = TRUE)) {
