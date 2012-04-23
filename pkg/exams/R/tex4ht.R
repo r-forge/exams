@@ -7,6 +7,8 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
 {
   if(file.exists(x[1]))
     x <- readLines(x)
+  #Z# Maybe better:
+  #Z# if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
   ## setup necessary .tex file for tex4ht conversion
   if(!any(grepl("begin{document}", x, fixed = TRUE))) {
@@ -29,6 +31,11 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     }
     x <- c("\\documentclass{article}", template, "\\begin{document}", x, "\\end{document}")
   }
+  #Z# The default should not be German-specific. Also, I'm not sure whether
+  #Z# all of the packages are above are really needed. For example, Sweave is
+  #Z# pruned anyway.
+  #Z# Ideally, the template should be as close as possible to the templates
+  #Z# that are used for the PDF drivers.
 
   x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
   x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
@@ -36,6 +43,10 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
   x <- gsub("\\\\begin\\{Schunk}", "", x)
   x <- gsub("\\\\end\\{Schunk}", "", x)
+  #Z# This could be modularized into a list of environments that neet to be replaced, e.g.,
+  #Z#   environments = list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL)
+  #Z# and then one could cycle through names(environments).
+  #Z$ Also eqnarray = "align" could be included here if still necessary:
 
   ## remove eqnarray environment
   ## if(jsmath)
@@ -47,6 +58,8 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     dir.create(tempf, showWarnings = FALSE)
   owd <- getwd()
   setwd(tempf)
+  #Z# One could move the on.exit(unlink(...)) and on.exit(setwd(...)) up here which may
+  #Z# be easier to maintain in the future.
 
   ## and copy & resize possible images
   if(length(images)) {
@@ -60,23 +73,21 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     for(i in seq_along(bsimg))
       x <- gsub(file_path_sans_ext(bsimg[i]), bsimg[i], x, fixed = TRUE)
   }
+  #Z# Why do you do the resize conversion? One has control over the size
+  #Z# within the original .Rnw anyway.
 
   ## write .tex file
   writeLines(x, paste(bsname, "tex", sep = "."))
 
   ## create html with jsMath
-  if(verbose)
-    cat("***** START COMPILING WITH TEX4HT *****\n")
-  if(jsmath)
-    cmd <- paste("htlatex", file_path_sans_ext(bsname), "\"html,jsmath\" \" -cmozhtf\"")
-  else
-    cmd <- paste("htlatex", file_path_sans_ext(bsname), "\"html\" \" -cmozhtf\"")
-  if(!verbose)
-    cmd <- paste(cmd, "> Rinternal.tex4ht.log")
+  if(verbose) cat("***** START COMPILING WITH TEX4HT *****\n")
+  cmd <- paste("htlatex", file_path_sans_ext(bsname),
+    if(jsmath) "\"html,jsmath\" \" -cmozhtf\"" else "\"html\" \" -cmozhtf\"")
+  if(!verbose) cmd <- paste(cmd, "> Rinternal.tex4ht.log")
   log <- system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
-  if(verbose)
-    cat("************** END TEX4HT *************\n")
+  if(verbose) cat("************** END TEX4HT *************\n")
   y <- readLines(file.path(tempf, paste(bsname, "html", sep = ".")))
+  #Z# Code above slightly streamlined
 
   ## get ccs file
   css <- if(any(grepl(".css", list.files()))) readLines(file.path(tempf, paste(bsname, "css", sep = "."))) else NULL
@@ -112,6 +123,7 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     }
     unlink(fimg, force = TRUE)
   }
+  #Z# Why is the extra file.copy() necessary above but not in tth()?
 
   ## get only body context
   if(body) {
@@ -130,12 +142,15 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   ## remove indent tags
   y <- gsub('<p class="indent" >', '', y)
   y <- gsub('<p class="noindent" >', '', y)
+  #Z# Can these be avoided by changing the template to something else?
+  #Z# Some users may like the indentation and use a corresponding template...
 
   ## copy images to directory for further processing
   if(!base64) {
     imgdir <- tempfile()
     dir.create(imgdir)
-    files <- list.files(tempf); imgs <- NULL
+    files <- list.files(tempf)
+    imgs <- NULL
     for(i in files) {
       for(e in c(".png", ".jpg", ".gif")) {
         if(grepl(e, i, ignore.case = TRUE)) {
