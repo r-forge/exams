@@ -1,37 +1,37 @@
 ## function to create a html file with tth
 ## images are included by Base64 encoding
-tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbose = FALSE, ...)
+tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbose = FALSE,
+  template = "html-plain", ...)
 {
   if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
   ## setup necessary .tex file for tex4ht conversion
-  if(!any(grepl("documentclass", x)))
-    x <- c("\\documentclass{article}\n", x)
-  if(!any(grepl("begin{document}", x, fixed = TRUE)))
-    x <- c("\\begin{document}\n", x)
-  if(!any(grepl("end{document}", x, fixed = TRUE)))
-    x <- c(x, "\\end{document}\n")
-  #Z# Is this necessary for tth as well? I seem to recall it was just
-  #Z# necessary for tex4ht but not tth.
-  #Z# If it is: Offer possibility of a template file.
+  if(!any(grepl("begin{document}", x, fixed = TRUE))) {
+    template <- if(is.null(template) || template %in% c("html-plain", "plain")) {
+      readLines(file.path(.find.package("exams"), "tex", "html-plain.tex"))
+    } else readLines(template)
+    i <- grep("%% \\exinput{latex}", template, fixed = TRUE)
+    x <- c(template[1:(i - 1)], x, template[(i + 1):length(template)])
+  }
 
-  x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
-  x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
-  x <- gsub("\\\\begin\\{Soutput}", "\\\\begin{verbatim}", x)
-  x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
-  x <- gsub("\\\\begin\\{Schunk}", "", x)
-  x <- gsub("\\\\end\\{Schunk}", "", x)
-  #Z# This could be modularized into a list of environments that neet to be replaced, e.g.,
-  #Z#   environments = list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL)
-  #Z# and then one could cycle through names(environments).
+  ## replacement of special environments
+  environments <- list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL, eqnarray = "align")
+  for(e in names(environments)) {
+    pattern <- paste("\\\\begin{", e, "}", sep = "")
+    replacement <- paste("\\\\begin{", environments[[e]], "}", sep = "")
+    x <- gsub(pattern, replacement, x, fixed = TRUE)
+    pattern <- paste("\\\\end{", e, "}", sep = "")
+    replacement <- paste("\\\\end{", environments[[e]], "}", sep = "")
+    x <- gsub(pattern, replacement, x, fixed = TRUE)
+  }
 
   ## create temp dir
   tempf <- tempfile()
   dir.create(tempf)
   owd <- getwd()
   setwd(tempf)
-  #Z# One could move the on.exit(unlink(...)) and on.exit(setwd(...)) up here which may
-  #Z# be easier to maintain in the future.
+  on.exit(unlink(tempf, recursive = TRUE, force = TRUE))
+  on.exit(setwd(owd), add = TRUE)
 
   ## and copy & resize possible images
   if(length(images)) {
@@ -88,9 +88,5 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
     attr(y, "images") <- imgs
   }
 
-  ## remove tmp file
-  unlink(tempf, recursive = TRUE, force = TRUE)
-
-  setwd(owd)
   y
 }

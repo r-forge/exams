@@ -16,22 +16,16 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     x <- c(template[1:(i - 1)], x, template[(i + 1):length(template)])
   }
 
-  x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
-  x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
-  x <- gsub("\\\\begin\\{Soutput}", "\\\\begin{verbatim}", x)
-  x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
-  x <- gsub("\\\\begin\\{Schunk}", "", x)
-  x <- gsub("\\\\end\\{Schunk}", "", x)
-
-  envirom
-  #Z# This could be modularized into a list of environments that neet to be replaced, e.g.,
-  #Z#   environments = list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL)
-  #Z# and then one could cycle through names(environments).
-  #Z$ Also eqnarray = "align" could be included here if still necessary:
-
-  ## remove eqnarray environment
-  ## if(jsmath)
-  ##   x <- gsub("eqnarray", "align", x, fixed = TRUE)
+  ## replacement of special environments
+  environments <- list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL, eqnarray = "align")
+  for(e in names(environments)) {
+    pattern <- paste("\\\\begin{", e, "}", sep = "")
+    replacement <- paste("\\\\begin{", environments[[e]], "}", sep = "")
+    x <- gsub(pattern, replacement, x, fixed = TRUE)
+    pattern <- paste("\\\\end{", e, "}", sep = "")
+    replacement <- paste("\\\\end{", environments[[e]], "}", sep = "")
+    x <- gsub(pattern, replacement, x, fixed = TRUE)
+  }
 
   ## create temp dir
   tempf <- if(is.null(tdir)) tempfile() else path.expand(tdir)
@@ -39,8 +33,8 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     dir.create(tempf, showWarnings = FALSE)
   owd <- getwd()
   setwd(tempf)
-  #Z# One could move the on.exit(unlink(...)) and on.exit(setwd(...)) up here which may
-  #Z# be easier to maintain in the future.
+  on.exit(unlink(tempf, recursive = TRUE, force = TRUE))
+  on.exit(setwd(owd), add = TRUE)
 
   ## and copy & resize possible images
   if(length(images)) {
@@ -121,8 +115,8 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   }
 
   ## remove indent tags
-  y <- gsub('<p class="indent" >', '', y)
-  y <- gsub('<p class="noindent" >', '', y)
+  ## y <- gsub('<p class="indent" >', '', y)
+  ## y <- gsub('<p class="noindent" >', '', y)
   #Z# Can these be avoided by changing the template to something else?
   #Z# Some users may like the indentation and use a corresponding template...
 
@@ -143,8 +137,5 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     attr(y, "images") <- imgs
   }
 
-  unlink(tempf, recursive = TRUE, force = TRUE)
-
-  setwd(owd)
   y
 }
