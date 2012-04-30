@@ -87,6 +87,5 @@ tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbo
     }
     attr(y, "images") <- imgs
   }
-
   y
 }

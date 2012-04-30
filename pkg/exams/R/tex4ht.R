@@ -136,6 +136,5 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     }
     attr(y, "images") <- imgs
   }
-
   y
 }
