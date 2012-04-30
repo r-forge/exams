@@ -2,10 +2,7 @@
 ## images are included by Base64 encoding
 tth <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE, verbose = FALSE, ...)
 {
-  if(file.exists(x[1]))
-    x <- readLines(x)
-  #Z# Maybe better:
-  #Z# if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
+  if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
   ## setup necessary .tex file for tex4ht conversion
   if(!any(grepl("documentclass", x)))

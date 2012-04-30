@@ -2,40 +2,19 @@
 ## math may be represented with the jsMath functionality
 ## images are included by Base64 encoding
 tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
-  body = TRUE, bsname = "tex4ht-Rinternal", template = NULL,
+  body = TRUE, bsname = "tex4ht-Rinternal", template = "html-plain",
   tdir = NULL, verbose = FALSE, base64 = TRUE, ...)
 {
-  if(file.exists(x[1]))
-    x <- readLines(x)
-  #Z# Maybe better:
-  #Z# if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
+  if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
   ## setup necessary .tex file for tex4ht conversion
   if(!any(grepl("begin{document}", x, fixed = TRUE))) {
-    ## include templates
-    if(is.null(template)) {
-      template <- c(
-      "\\usepackage[ngerman]{babel}",
-      "\\usepackage{a4wide, Sweave, verbatim}",
-      "\\usepackage[latin1]{inputenc}",
-      "\\usepackage[T1]{fontenc}", 
-      "\\usepackage{amsmath,amssymb,amsfonts}",
-      "\\usepackage{graphicx}",
-      "\\usepackage{fancybox}",
-      "\\usepackage{slashbox, booktabs}",
-      "\\usepackage{array}",
-      "\\usepackage{hyperref}",
-      "\\pagestyle{empty}",
-      "\\usepackage{color}"
-      )
-    }
-    x <- c("\\documentclass{article}", template, "\\begin{document}", x, "\\end{document}")
+    template <- if(is.null(template) || template %in% c("html-plain", "plain")) {
+      readLines(file.path(.find.package("exams"), "tex", "html-plain.tex"))
+    } else readLines(template)
+    i <- grep("%% \\exinput{latex}", template, fixed = TRUE)
+    x <- c(template[1:(i - 1)], x, template[(i + 1):length(template)])
   }
-  #Z# The default should not be German-specific. Also, I'm not sure whether
-  #Z# all of the packages are above are really needed. For example, Sweave is
-  #Z# pruned anyway.
-  #Z# Ideally, the template should be as close as possible to the templates
-  #Z# that are used for the PDF drivers.
 
   x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
   x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
@@ -43,6 +22,8 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
   x <- gsub("\\\\begin\\{Schunk}", "", x)
   x <- gsub("\\\\end\\{Schunk}", "", x)
+
+  envirom
   #Z# This could be modularized into a list of environments that neet to be replaced, e.g.,
   #Z#   environments = list(Sinput = "verbatim", Soutput = "verbatim", Schunk = NULL)
   #Z# and then one could cycle through names(environments).

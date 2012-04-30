@@ -1,12 +1,12 @@
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
-  quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  converter = "img", base64 = FALSE, width = 550,
-  body = TRUE, solution = TRUE, doctype = NULL, head = NULL, ...)
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  converter = "img", base64 = FALSE, width = 550, body = TRUE,
+  solution = TRUE, doctype = NULL, head = NULL, ...)
 {
   htmltransform <- make_exercise_transform_html(converter = converter,
     base64 = base64, body = body, width = width, ...)
   htmlwrite <- make_exams_write_html(dir = dir, doctype = doctype,
-    head = head, solution = solution, ...)
+    head = head, solution = solution, name = name, ...)
 
   xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL,
@@ -16,7 +16,8 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 
 ## writes the final html site
-make_exams_write_html <- function(dir, doctype = NULL, head = NULL, solution = TRUE, ...)
+make_exams_write_html <- function(dir, doctype = NULL,
+  head = NULL, solution = TRUE, name = NULL, ...)
 {
   function(x, dir, info)
   {
@@ -73,8 +74,10 @@ make_exams_write_html <- function(dir, doctype = NULL, head = NULL, solution = T
     html <- c(html, "</ol>", "</body>", "</html>")
     if(length(sdir))
       for(i in sdir) gsub(i, "", html, fixed = TRUE)
-    writeLines(html, file.path(tdir, paste("exam", info$id, ".html", sep = "")))
-    out_dir <- file.path(dir, paste("exam", info$id, sep = ""))
+    if(is.null(name))
+      name <- "exam"
+    writeLines(html, file.path(tdir, paste(name, info$id, ".html", sep = "")))
+    out_dir <- file.path(dir, paste(name, info$id, sep = ""))
     dir.create(out_dir)
     file.copy(file.path(tdir, list.files(tdir)), file.path(out_dir, list.files(tdir)))
     invisible(NULL)
