@@ -3,10 +3,15 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   converter = "img", base64 = FALSE, width = 550, body = TRUE,
   solution = TRUE, doctype = NULL, head = NULL, ...)
 {
+  wasNULL <- FALSE
+  if(is.null(dir)) {
+    dir <- tempfile()
+    wasNULL <- TRUE
+  } 
   htmltransform <- make_exercise_transform_html(converter = converter,
     base64 = base64, body = body, width = width, ...)
   htmlwrite <- make_exams_write_html(dir = dir, doctype = doctype,
-    head = head, solution = solution, name = name, ...)
+    head = head, solution = solution, name = name, wasNULL = wasNULL, ...)
 
   xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL,
@@ -80,6 +85,11 @@ make_exams_write_html <- function(dir, doctype = NULL,
     out_dir <- file.path(dir, paste(name, info$id, sep = ""))
     dir.create(out_dir)
     file.copy(file.path(tdir, list.files(tdir)), file.path(out_dir, list.files(tdir)))
+    args <- list(...)
+    if(!is.null(args$wasNULL) && args$wasNULL) {
+      system(paste(shQuote(getOption("browser")),
+        shQuote(file.path(out_dir, paste(name, info$id, ".html", sep = "")))), wait = FALSE)
+    }
     invisible(NULL)
   }
 }

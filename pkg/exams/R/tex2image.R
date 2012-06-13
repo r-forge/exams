@@ -5,7 +5,7 @@ tex2image <- function(tex, format = "png", width = 6,
   template = c("\\usepackage{sfmath}",
     "\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
-  itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal")
+  itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)
 {
   if((length(text) < 2L) && file.exists(tex)) {
     texfile <- file_path_as_absolute(tex)
