@@ -1,8 +1,8 @@
 ## function to create a html file with tth or ttm
 ## images are included by Base64 encoding
 ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
-  verbose = FALSE, template = "html-plain", translator = "ttm", inputs = NULL,
-  ...)
+  verbose = FALSE, template = "html-plain", translator = "ttm",
+  inputs = ifelse(body, '-r -u -e2', '-u -r2 -e2'), ...)
 {
   if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
@@ -50,8 +50,7 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   #Z# within the original .Rnw anyway.
 
   ## create .html
-  cmd <- paste(translator, if(body) "-r -u -e2" else "-u -r2 -e2")
-  cmd <- paste(cmd, inputs)
+  cmd <- paste(translator, inputs)
   if(!verbose)
     cmd <- paste(cmd, "2>/dev/null")
   y <- system(cmd, intern = TRUE, input = x)
