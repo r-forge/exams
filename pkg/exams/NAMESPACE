@@ -34,7 +34,7 @@ export(
   "make_ex2html",
   "pdf2png4html",
   "tex4ht",
-  "tth"
+  "ttx"
 )
 
 S3method("print", "exams_metainfo")

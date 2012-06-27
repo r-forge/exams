@@ -3,8 +3,14 @@
 ## images are included by Base64 encoding
 tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   body = TRUE, bsname = "tex4ht-Rinternal", template = "html-plain",
-  tdir = NULL, verbose = FALSE, base64 = TRUE, ...)
+  tdir = NULL, verbose = FALSE, base64 = TRUE, translator = "htlatex",
+  inputs = ifelse(jsmath, '"html,jsmath" " -cmozhtf"', '"html" " -cmozhtf"'),
+  ...)
 {
+  ## other options
+  ## translator = 'mk4ht mzlatex'
+  ## inputs = '"html,mathplayer"'
+
   if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
 
   ## setup necessary .tex file for tex4ht conversion
@@ -54,14 +60,18 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   ## write .tex file
   writeLines(x, paste(bsname, "tex", sep = "."))
 
-  ## create html with jsMath
+  ## create html
   if(verbose) cat("***** START COMPILING WITH TEX4HT *****\n")
-  cmd <- paste("htlatex", file_path_sans_ext(bsname),
-    if(jsmath) "\"html,jsmath\" \" -cmozhtf\"" else "\"html\" \" -cmozhtf\"")
+  cmd <- paste(translator, file_path_sans_ext(bsname), inputs)
   if(!verbose) cmd <- paste(cmd, "> Rinternal.tex4ht.log")
   log <- system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
   if(verbose) cat("************** END TEX4HT *************\n")
-  y <- readLines(file.path(tempf, paste(bsname, "html", sep = ".")))
+  for(e in c("html", "xml", "xht"))
+    if(length(rf <- grep(paste(bsname, e, sep = "."), list.files(tempf))))
+      rf <- list.files(tempf)[rf]
+  if(!length(rf))
+    stop("problems processing tex4ht(), no 'html', 'xml' or 'xht' output generated!")
+  y <- readLines(file.path(tempf, rf))
   #Z# Code above slightly streamlined
 
   ## get ccs file

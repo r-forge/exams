@@ -22,7 +22,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 ## writes the final html site
 make_exams_write_html <- function(dir, doctype = NULL,
-  head = NULL, solution = TRUE, name = NULL, ...)
+  head = NULL, solution = TRUE, name = NULL, mathjax = FALSE, ...)
 {
   function(x, dir, info)
   {
@@ -43,6 +43,12 @@ make_exams_write_html <- function(dir, doctype = NULL,
         '<style type="text/css">',
         'body{font-family:Arial;}',
         '</style>',
+        if(mathjax) {
+          c('<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
+          '</script>')
+        } else {
+          NULL
+        },
         '</head>'
       )
     }
