@@ -4,14 +4,18 @@
 tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   body = TRUE, bsname = "tex4ht-Rinternal", template = "html-plain",
   tdir = NULL, verbose = FALSE, base64 = TRUE, translator = "htlatex",
-  inputs = ifelse(jsmath, '"html,jsmath" " -cmozhtf"', '"html" " -cmozhtf"'),
+  inputs = ifelse(jsmath, '"html,jsmath,graphics-" " -cmozhtf"', '"html,graphics-" " -cmozhtf"'),
   ...)
 {
   ## other options
   ## translator = 'mk4ht mzlatex'
   ## inputs = '"html,mathplayer"'
 
-  if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
+  if(length(x) == 1L && file.exists(x[1L])) {
+    tdir <- dirname(x)
+    bsname <- file_path_sans_ext(basename(x))
+    x <- readLines(x)
+  }
 
   ## setup necessary .tex file for tex4ht conversion
   if(!any(grepl("begin{document}", x, fixed = TRUE))) {
@@ -34,12 +38,14 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   }
 
   ## create temp dir
-  tempf <- if(is.null(tdir)) tempfile() else path.expand(tdir)
+  if(is.null(tdir)) {
+    dir.create(tempf <- tempfile())
+    on.exit(unlink(tempf, recursive = TRUE, force = TRUE))
+  } else tempf <- path.expand(tdir)
   if(!file.exists(tempf))
     dir.create(tempf, showWarnings = FALSE)
   owd <- getwd()
   setwd(tempf)
-  on.exit(unlink(tempf, recursive = TRUE, force = TRUE))
   on.exit(setwd(owd), add = TRUE)
 
   ## and copy & resize possible images
@@ -48,11 +54,21 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
     bsimg <- basename(images)
     file.copy(images, file.path(tempf, bsimg)) 
     cmd <- paste("convert -resize ", width, "x ", bsimg, " ", bsimg, " > Rinternal.im.log", sep = "")
-    check <- system(cmd)
+    system(cmd)
     for(i in dirname(images))
       x <- gsub(i, "", x, fixed = TRUE)
     for(i in seq_along(bsimg))
       x <- gsub(file_path_sans_ext(bsimg[i]), bsimg[i], x, fixed = TRUE)
+  }
+  ## converting other possible images stored as .pdf
+  if(length(pdfs <- grep(".pdf", list.files(), value = TRUE))) {
+    pngs <- paste(file_path_sans_ext(pdfs), "png", sep = ".")
+    for(i in seq_along(pdfs)) {
+      cmd <- paste("convert -resize ", width, "x ", pdfs[i], " ", pngs[i], " > Rinternal.im.log", sep = "")
+      system(cmd)
+    }
+    ## FIXME problem with file endings, since latex may supress them
+    file.copy(pngs, file_path_sans_ext(pngs))
   }
   #Z# Why do you do the resize conversion? One has control over the size
   #Z# within the original .Rnw anyway.
@@ -69,8 +85,10 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   for(e in c("html", "xml", "xht"))
     if(length(rf <- grep(paste(bsname, e, sep = "."), list.files(tempf))))
       rf <- list.files(tempf)[rf]
-  if(!length(rf))
-    stop("problems processing tex4ht(), no 'html', 'xml' or 'xht' output generated!")
+  if(!length(rf)) {
+    warning("problems processing tex4ht(), probably no 'html', 'xml' or 'xht' output generated!")
+    rf <- paste(bsname, "html", sep = ".")
+  }
   y <- readLines(file.path(tempf, rf))
   #Z# Code above slightly streamlined
 

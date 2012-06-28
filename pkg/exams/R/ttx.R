@@ -1,10 +1,13 @@
 ## function to create a html file with tth or ttm
 ## images are included by Base64 encoding
 ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
-  verbose = FALSE, template = "html-plain", translator = "ttm",
+  verbose = FALSE, template = "html-plain", tdir = NULL, translator = "ttm",
   inputs = ifelse(body, '-r -u -e2', '-u -r2 -e2'), ...)
 {
-  if(length(x) == 1L && file.exists(x[1L])) x <- readLines(x)
+  if(length(x) == 1L && file.exists(x[1L])) {
+    tdir <- dirname(x)
+    x <- readLines(x)
+  }
 
   ## setup necessary .tex file for tex4ht conversion
   if(!any(grepl("begin{document}", x, fixed = TRUE))) {
@@ -27,11 +30,14 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   }
 
   ## create temp dir
-  tempf <- tempfile()
-  dir.create(tempf)
+  if(is.null(tdir)) {
+    dir.create(tempf <- tempfile())
+    on.exit(unlink(tempf, recursive = TRUE, force = TRUE))
+  } else tempf <- path.expand(tdir)
+  if(!file.exists(tempf))
+    dir.create(tempf, showWarnings = FALSE)
   owd <- getwd()
   setwd(tempf)
-  on.exit(unlink(tempf, recursive = TRUE, force = TRUE))
   on.exit(setwd(owd), add = TRUE)
 
   ## and copy & resize possible images
@@ -40,7 +46,7 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
     bsimg <- basename(images)
     file.copy(images, file.path(tempf, bsimg)) 
     cmd <- paste("convert -resize ", width, "x ", bsimg, " ", bsimg, " > Rinternal.im.log", sep = "")
-    check <- system(cmd)
+    system(cmd)
     for(i in dirname(images))
       x <- gsub(i, "", x, fixed = TRUE)
     for(i in seq_along(bsimg))
@@ -62,25 +68,45 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   
   ## further image handling
   y <- paste(y, "\n", sep = "")
-  if(base64) {
+  if(!is.null(inputs) && grepl("-e2", inputs, fixed = TRUE) && base64) {
     require("base64")
     irx <- '<img src="(.*.png)" alt=".*.png" />'
     iry <- paste(".*", irx, ".*", sep = "")
-    imgs <-  grep(irx, y)
+    imgs <- grep(irx, y)
     for(i in imgs) {
       file <- sub(iry, "\\1", y[i])
+      cmd <- paste("convert -resize ", width, "x ", file, " ", file, " > Rinternal.im.log", sep = "")
+      system(cmd)
       im64 <- base64::img(file)
       y[i] <- sub(irx, im64, y[i])
     }
+
+    ## remove all other files than .html
+    for(e in c("pdf", "png", "gif", "tif", "jpg", "jpeg"))
+      if(length(logf <- grep(e, file_ext(list.files(tempf)))))
+        file.remove(list.files(tempf)[logf])  
   } else {
+    ## converting other possible images stored as .pdf
+    if(length(pdfs <- grep("pdf", file_ext(list.files(tempf)), value = TRUE))) {
+      pngs <- paste(file_path_sans_ext(pdfs), "png", sep = ".")
+      for(i in seq_along(pdfs)) {
+        cmd <- paste("convert -resize ", width, "x ", pdfs[i], " ", pngs[i], " > Rinternal.im.log", sep = "")
+        system(cmd)
+      }
+      ## FIXME problem with file endings, since latex may supress them
+      file.copy(pngs, file_path_sans_ext(pngs))
+    }
+
     ## copy images to directory for further processing
     imgdir <- tempfile()
     dir.create(imgdir)
     files <- list.files(tempf)
     imgs <- NULL
     for(i in files) {
-      for(e in c(".png", ".jpg", ".gif")) {
-        if(grepl(e, i, ignore.case = TRUE)) {
+      for(e in c("png", "jpg", "gif")) {
+        if(grepl(e, file_ext(i), ignore.case = TRUE)) {
+          cmd <- paste("convert -resize ", width, "x ", i, " ", i, " > Rinternal.im.log", sep = "")
+          system(cmd)
           file.copy(i, file.path(imgdir, i))
           imgs <- c(imgs, file.path(imgdir, i))
         }
@@ -88,5 +114,10 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
     }
     attr(y, "images") <- imgs
   }
+
+  ## remove possible .log files
+  if(length(logf <- grep("log", file_ext(list.files(tempf)))))
+    file.remove(list.files(tempf)[logf])  
+
   y
 }

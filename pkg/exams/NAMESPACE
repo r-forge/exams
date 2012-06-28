@@ -24,8 +24,9 @@ export(
   "make_exercise_transform_html_img",
   "tex2image",
 
-  ## html driver
+  ## html xml driver
   "exams2html",
+  "exams2x",
   "make_exercise_transform_html_img",
   "make_exercise_transform_html_tex4ht",
   "make_exercise_transform_html_tth",
@@ -34,7 +35,8 @@ export(
   "make_ex2html",
   "pdf2png4html",
   "tex4ht",
-  "ttx"
+  "ttx",
+  "show.html"
 )
 
 S3method("print", "exams_metainfo")
