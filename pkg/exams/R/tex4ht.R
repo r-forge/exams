@@ -4,12 +4,12 @@
 tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
   body = TRUE, bsname = "tex4ht-Rinternal", template = "html-plain",
   tdir = NULL, verbose = FALSE, base64 = TRUE, translator = "htlatex",
-  inputs = ifelse(jsmath, '"html,jsmath,graphics-" " -cmozhtf"', '"html,graphics-" " -cmozhtf"'),
+  opts = ifelse(jsmath, '"html,jsmath,graphics-" " -cmozhtf"', '"html,graphics-" " -cmozhtf"'),
   ...)
 {
   ## other options
   ## translator = 'mk4ht mzlatex'
-  ## inputs = '"html,mathplayer"'
+  ## opts = '"html,mathplayer"'
 
   if(length(x) == 1L && file.exists(x[1L])) {
     tdir <- dirname(x)
@@ -78,7 +78,7 @@ tex4ht <- function(x, images = NULL, width = 600, jsmath = TRUE,
 
   ## create html
   if(verbose) cat("***** START COMPILING WITH TEX4HT *****\n")
-  cmd <- paste(translator, file_path_sans_ext(bsname), inputs)
+  cmd <- paste(translator, file_path_sans_ext(bsname), opts)
   if(!verbose) cmd <- paste(cmd, "> Rinternal.tex4ht.log")
   log <- system(cmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
   if(verbose) cat("************** END TEX4HT *************\n")

@@ -2,7 +2,7 @@
 ## images are included by Base64 encoding
 ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   verbose = FALSE, template = "html-plain", tdir = NULL, translator = "ttm",
-  inputs = ifelse(body, '-r -u -e2', '-u -r2 -e2'), ...)
+  opts = ifelse(body, '-r -u -e2', '-u -r2 -e2'), ...)
 {
   if(length(x) == 1L && file.exists(x[1L])) {
     tdir <- dirname(x)
@@ -56,7 +56,7 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   #Z# within the original .Rnw anyway.
 
   ## create .html
-  cmd <- paste(translator, inputs)
+  cmd <- paste(translator, opts)
   if(!verbose)
     cmd <- paste(cmd, "2>/dev/null")
   y <- system(cmd, intern = TRUE, input = x)
@@ -68,7 +68,7 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   
   ## further image handling
   y <- paste(y, "\n", sep = "")
-  if(!is.null(inputs) && grepl("-e2", inputs, fixed = TRUE) && base64) {
+  if(!is.null(opts) && grepl("-e2", opts, fixed = TRUE) && base64) {
     require("base64")
     irx <- '<img src="(.*.png)" alt=".*.png" />'
     iry <- paste(".*", irx, ".*", sep = "")

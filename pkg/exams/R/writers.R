@@ -1,7 +1,7 @@
 ## version based on exams2pdf, first generates a full .tex file
 ## then, the converter is applied to generate the html file
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
-  tex.template = "plain", tex.inputs = NULL, tex.header = list(Date = Sys.Date()),
+  template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   mathjax = FALSE, converter = "ttx", ...)
 {
@@ -12,8 +12,8 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   } 
   options("xexams.html.directory" = dir)
 
-  htmlwrite <- make_exams_write_pdf(template = tex.template, inputs = tex.inputs,
-    header = tex.header, name = name, quiet = quiet, control = control)
+  htmlwrite <- make_exams_write_pdf(template = template, inputs = inputs,
+    header = header, name = name, quiet = quiet, control = control)
 
   exm <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = htmlwrite),
