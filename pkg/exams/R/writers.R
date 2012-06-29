@@ -1,30 +1,53 @@
-## version based on exams2pdf, first generates a full .tex file
-## then, the converter is applied to generate the html file
+## version based on make_exams_write_pdf(),
+## first generates a full .tex file, then,
+## the converter ex2html() is applied to generate
+## the final .html file
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  mathjax = FALSE, converter = "ttx", ...)
+  mathjax = FALSE, converter = "ttx", show = NULL, ...)
 {
-  wasNULL <- FALSE
+  ## if dir = NULL, the function will create a tempfile()
+  ## and show the .html file in the default browser
+  ## using function show.html()
+  show <- if(is.null(show)) FALSE else show
   if(is.null(dir)) {
     dir <- tempfile()
-    wasNULL <- TRUE
-  } 
-  options("xexams.html.directory" = dir)
+    show <- TRUE
+  }
 
-  htmlwrite <- make_exams_write_pdf(template = template, inputs = inputs,
+  ## this is parsed to function make_exams_write_pdf(), to generate
+  ## the final .html file
+  options("ex2html" = make_exams_write_tex2html(converter = converter,
+    mathjax = mathjax, show = show, ...))
+
+  pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs,
     header = header, name = name, quiet = quiet, control = control)
 
-  exm <- xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = htmlwrite),
+  xexams(file, n = n, nsamp = nsamp,
+    driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+}
 
+
+## writer function for .html conversion of one single exam
+## based on a full .tex file
+make_exams_write_tex2html <- function(converter = "ttx", mathjax = FALSE, show = TRUE, ...)
+{
   args <- list(...)
-  args$body <- FALSE
-  texfiles <- getOption("xexams.html.directory.texfiles")
-  for(tex in texfiles) {
-    args$x <- tex
-    args$tdir <- dir
+  function(tex, dir)
+  {
+    bsname <- file_path_sans_ext(basename(tex))
+    hdir <- file.path(dir, bsname)
+    dir.create(hdir)
+    owd <- getwd()
+    setwd(hdir)
+    on.exit(setwd(owd))
+    cfiles <- list.files(owd)
+    file.copy(file.path(owd, cfiles), file.path(hdir, cfiles))
+    args$body <- FALSE
+    args$x <- file.path(hdir, tex)
+    args$tdir <- hdir
     html <- do.call(converter, args)
     if(mathjax) {
       if(length(i <- grep("</head>", html))) {
@@ -35,25 +58,39 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
         )
       }
     }
-    htmlfile <- paste(file_path_sans_ext(tex), "html", sep = ".")
+    for(cf in cfiles) {
+      if(file.exists(cf <- file.path(hdir, cf)))
+        file.remove(cf)
+    }
+    htmlfile <- paste(bsname, "html", sep = ".")
     writeLines(html, htmlfile)
     if(!is.null(imgs <- attr(html, "images"))) {
       for(i in imgs)
-        file.copy(i, file.path(dir, basename(i)))
+        file.copy(i, file.path(hdir, basename(i)))
     }
-    if(wasNULL) show.html(htmlfile)
+    if(show) show.html(htmlfile)
   }
-  copiedfiles <- getOption("xexams.html.directory.copiedfiles")
-  if(length(copiedfiles <- copiedfiles[file.exists(copiedfiles)]))
-    file.remove(copiedfiles)
+}
 
-  options(
-    "xexams.html.directory" = NULL,
-    "xexams.html.directory.texfiles" = NULL,
-    "xexams.html.directory.copiedfiles" = NULL
-  )
 
-  invisible(exm)
+## show html code in browser
+show.html <- function(x)
+{
+  if(length(x) == 1L && file.exists(x[1L])) {
+    tempf <- dirname(x)
+    fname <- basename(x)
+  } else {
+    dir.create(tempf <- tempfile())
+    fname <- "show.html"
+    writeLines(x, file.path(tempf, fname))
+    if(!is.null(imgs <- attr(x, "images"))) {
+      for(i in imgs)
+        file.copy(i, file.path(tempf, basename(i)))
+    }
+  }
+  system(paste(shQuote(getOption("browser")),
+    shQuote(file.path(tempf, fname))), wait = FALSE)
+  invisible(NULL)
 }
 
 
@@ -170,22 +207,16 @@ make_exams_write_html <- function(dir, doctype = NULL,
 }
 
 
-## show html code in browser
-show.html <- function(x)
+## a writer function for OLAT .xml test files
+## currently the supported mode is only multiple choice
+make_exams_write_olat <- function(dir, doctype = NULL,
+  head = NULL, solution = TRUE, name = NULL, mathjax = FALSE, ...)
 {
-  if(length(x) == 1L && file.exists(x[1L])) {
-    tempf <- dirname(x)
-    fname <- basename(x)
-  } else {
-    dir.create(tempf <- tempfile())
-    fname <- "show.html"
-    writeLines(x, file.path(tempf, fname))
-    if(!is.null(imgs <- attr(x, "images"))) {
-      for(i in imgs)
-        file.copy(i, file.path(tempf, basename(i)))
-    }
+  function(x, dir, info)
+  {
+    tdir <- tempfile()
+    sdir <- NULL
+    dir.create(tdir)
+    on.exit(unlink(tdir))
   }
-  system(paste(shQuote(getOption("browser")),
-    shQuote(file.path(tempf, fname))), wait = FALSE)
-  invisible(NULL)
 }

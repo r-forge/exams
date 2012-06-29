@@ -86,15 +86,19 @@ ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
       if(length(logf <- grep(e, file_ext(list.files(tempf)))))
         file.remove(list.files(tempf)[logf])  
   } else {
-    ## converting other possible images stored as .pdf
-    if(length(pdfs <- grep("pdf", file_ext(list.files(tempf)), value = TRUE))) {
-      pngs <- paste(file_path_sans_ext(pdfs), "png", sep = ".")
-      for(i in seq_along(pdfs)) {
-        cmd <- paste("convert -resize ", width, "x ", pdfs[i], " ", pngs[i], " > Rinternal.im.log", sep = "")
-        system(cmd)
+    ## FIXME problem with file endings, since latex may supress them
+    ## converting other possible images stored as .pdf,
+    ## caused if option -e2 is turned off in argument opts
+    if(is.null(opts)) {
+      if(length(pdfs <- grep("pdf", file_ext(lf <- list.files(tempf))))) {
+        pngs <- paste(file_path_sans_ext(pdfs <- lf[pdfs]), "png", sep = ".")
+        for(i in seq_along(pdfs)) {
+          cmd <- paste("convert -resize ", width, "x ", pdfs[i], " ",
+            pngs[i], " > Rinternal.im.log", sep = "")
+          system(cmd)
+        }
+        file.copy(pngs, file_path_sans_ext(pngs))
       }
-      ## FIXME problem with file endings, since latex may supress them
-      file.copy(pngs, file_path_sans_ext(pngs))
     }
 
     ## copy images to directory for further processing

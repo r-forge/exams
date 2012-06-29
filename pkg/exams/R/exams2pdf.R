@@ -160,20 +160,9 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       writeLines(tmpl, out_tex[j])
       texi2dvi(out_tex[j], pdf = TRUE, clean = TRUE, quiet = quiet)
 
-      ## optionally, copy all files to specified dir for processing with exams2html()
-      if(!is.null(xhtmldir <- getOption("xexams.html.directory"))) {
-        xhtmlexdir <- file_path_sans_ext(out_tex[j])
-        dir.create(file.path(xhtmldir, xhtmlexdir))
-        file.copy(list.files(), file.path(xhtmldir, xhtmlexdir, list.files()))
-        options("xexams.html.directory.texfiles" = c(
-          getOption("xexams.html.directory.texfiles"),
-          file.path(xhtmldir, xhtmlexdir, out_tex[j])
-        ))
-        options("xexams.html.directory.copiedfiles" = c(
-          getOption("xexams.html.directory.copiedfiles"),
-          file.path(xhtmldir, xhtmlexdir, list.files())
-        ))
-      }
+      ## optionally, processing with ex2html()
+      if(!is.null(ex2html <- getOption("ex2html")))
+        ex2html(out_tex[j], dir)
     }
 
     ## check output PDF files and copy to output directory
