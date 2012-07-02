@@ -111,7 +111,6 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   htmltransform <- make_exercise_transform_html(converter = converter,
     base64 = base64, body = body, width = width, ...)
 
-  writer <- paste("make_exams_write", type, sep = "_")
   args <- list(...)
   args$dir <- dir
   args$doctype <- doctype
@@ -119,12 +118,28 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   args$solution <- solution
   args$name <- name
   args$wasNULL <- wasNULL
-  htmlwrite <- do.call(writer, args)
+  writer <- paste("make_exams_write", type, sep = "_")
 
-  xexams(file, n = n, nsamp = nsamp,
+  htmlwrite <- if(type == "olat" && n < 2) {
+    do.call(writer, args)
+  } else {
+    if(type == "olat")
+      NULL
+    else
+      do.call(writer, args)
+  }
+
+  exm <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL,
     transform = htmltransform, write = htmlwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+
+  if(type == "olat" && n > 1) {
+    fun <- do.call("make_exams_write_olat", args)
+    fun(exm, dir, list(id = 1, n = n))
+  }
+
+  invisible(exm)
 }
 
 
@@ -226,8 +241,7 @@ make_exams_write_olat <- function(dir, doctype = NULL,
 
     ## generate the exam ids and title
     imsid <- olatid(14L)
-    examid <- imsid
-    secid <- imsid + 1L
+    examid <- secid <- imsid
     title <- name
 
     ## create the .xml directory all files are written to
@@ -246,15 +260,6 @@ make_exams_write_olat <- function(dir, doctype = NULL,
       '<fieldentry>Assessment</fieldentry>',
       '</qtimetadatafield>',
       '</qtimetadata>',
-      '<objectives>',
-      '<material>',
-      paste('<mattext><![CDATA[', if(is.null(args$objectives)) {
-          'To complete from to ...'
-        } else {
-          args$objectives
-        }, ']]></mattext>', sep = ''),
-      '</material>',
-      '</objectives>',
       paste('<assessmentcontrol feedbackswitch="',
         if(is.null(args$feedbackswitch)) 'Yes' else args$feedbackswitch, '" hintswitch="',
         if(is.null(args$hintswitch)) 'Yes' else args$hintswitch, '" solutionswitch="',
@@ -265,18 +270,8 @@ make_exams_write_olat <- function(dir, doctype = NULL,
       paste('<decvar varname="SCORE" vartype="Decimal" cutvalue="',
         if(is.null(args$cutvalue)) 1 else args$cutvalue, '"/>', sep = ''),
       '</outcomes>',
-      '</outcomes_processing>',
-      paste('<section ident="uibkolat_23_', secid, '" title="', args$sectitle, '">', sep = ''),
-      '<objectives>',
-      '<material>',
-      paste('<mattext><![CDATA[', args$secobjectives, ']]></mattext>', sep = ''),
-      '</material>',
-      '</objectives>',
-      '<selection_ordering>',
-      '<selection/>',
-      paste('<order order_type="',
-        if(is.null(args$order_type)) 'Sequential' else args$order_type, '"/>', sep = ''),
-      '</selection_ordering>')
+      '</outcomes_processing>'
+    )
 
     ## cycle through all exams and questions
     ## need to collect the number of questions
@@ -284,20 +279,45 @@ make_exams_write_olat <- function(dir, doctype = NULL,
       nq <- length(exm)
       exm <- list(exm)
     } else nq <- length(exm[[1]])
+
+    args$sectitle <- rep(args$sectitle, length.out = nq)
+    args$number <- if(is.null(args$number)) {
+      rep(1, nq)
+    } else rep(args$number, length.out = nq)
+    args$order_type <- rep(args$order_type, length.out = nq)
+
     for(j in 1:nq) {
-      for(i in seq_along(exm))
+      xml <- c(xml,
+        paste('<section ident="uibkolat_23_', (secid <- secid + 1), '" title="',
+          if(is.null(args$sectitle[j])) paste("Section", j) else args$sectitle[j], '">', sep = ''),
+        '<selection_ordering>',
+        '<selection>',
+        paste('<selection_number>', args$number[j], '</selection_number>', sep = ''),
+        '</selection>',
+        paste('<order order_type="',
+        if(is.null(args$order_type[j])) 'Random' else args$order_type[j], '"/>', sep = ''),
+        '</selection_ordering>'
+      )
+      for(i in seq_along(exm)) {
         xml <- c(xml, make_exercise_write_olat(exm[[i]][[j]]))
+      }
+      xml <- c(xml, "</section>")
     }
 
     ## complete the .xml file
     xml <- c(xml,
-      "</section>",
       "</assessment>",
       "</questestinterop>"
     )
     
     ## write to .xml
     writeLines(xml, file.path(xmldir, "qti.xml"))
+
+    ## compress
+    owd <- getwd()
+    setwd(xmldir)
+    zip(zipfile = paste(name, "zip", sep = "."), files = list.files(xmldir))
+    setwd(owd)
   }
 }
 
@@ -401,9 +421,9 @@ write.olat.exercise.mchoice <- function(x)
   }
 
   xml <- c(xml,
-    "</and>",
-    "<not>",
-    "<or>"
+    '</and>',
+    '<not>',
+    '<or>'
   )
 
   ## point to the wrong answer
@@ -416,15 +436,38 @@ write.olat.exercise.mchoice <- function(x)
     }
   }
 
+  xml <- c(xml,
+    '</or>',
+    '</not>',
+    '</conditionvar>',
+    paste('<setvar varname="', ic$varname, '" action="', ic$action, '">',
+      if(is.null(x$points)) 1 else x$points, '</setvar>', sep = ''),
+    paste('<displayfeedback feedbacktype="', ic$feedbacktype,
+      '" linkrefid="Mastery"/>', sep = ''),
+    '</respcondition>', 
+    paste('<respcondition title="Fail" continue="', ic$continue, '">', sep = ''),
+    '<conditionvar>',
+    '<or>'
+  )
+
+#  for(i in seq_along(x$metainfo$solution)) {
+#    if(!x$metainfo$solution[i]) {
+#      xml <- c(xml,
+#        paste('<varequal respident="', respid, '" case="',
+#          ic$case, '">', quid[i], '</varequal>', sep = '')
+#      )
+#    }
+#  }
+
   ## FIXME not clear what options may be used
   xml <- c(xml,
-    "</or>",
-    "</conditionvar>",
-    "<setvar varname=\"SCORE\" action=\"Set\">0</setvar>",
-    "<displayfeedback feedbacktype=\"Response\" linkrefid=\"Fail\"/>",
-    "<displayfeedback feedbacktype=\"Solution\" linkrefid=\"Solution\"/>",
-    "<displayfeedback feedbacktype=\"Hint\" linkrefid=\"Hint\"/>",
-    "</respcondition>"
+    '</or>',
+    '</conditionvar>',
+    '<setvar varname="SCORE" action="Set">0</setvar>',
+    '<displayfeedback feedbacktype="Response" linkrefid="Fail"/>',
+    '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+    '<displayfeedback feedbacktype="Hint" linkrefid="Hint"/>',
+    '</respcondition>'
   )
 
   for(i in seq_along(x$metainfo$solution)) {
@@ -509,7 +552,7 @@ write.olat.exercise.num <- function(x) NULL
 olatitem.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedbackswitch = "No",
   hintswitch = "No", solutionswitch = "Yes", width = 500, rcardinality = "Multiple", rtiming = "No",
   shuffle = "Yes", rshuffle = "Yes", varname = "SCORE", vartype = "Decimal", defaultval = 0,
-  minvalue = 0, maxvalue = 1, cutvalue = 1, respcondtitle = c("Mastery", "Fail"), continue = "Yes",
+  minvalue = 0, maxvalue = 1, cutvalue = 0, respcondtitle = c("Mastery", "Fail"), continue = "Yes",
   case = "Yes", action = "Set", feedbacktype = "Response", feedbackstyle = "Incremental", ...)
 {
   if(is.null(stime)) {
@@ -517,7 +560,7 @@ olatitem.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedba
     stime <- gsub(":", "", stime)
   }
   if(is.null(title))
-    title <- "OlatXmlItem"
+    title <- "Question"
   title <- file_path_sans_ext(title)
   rval <- list(
     "title" = title,
@@ -529,8 +572,12 @@ olatitem.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedba
     "width" = width,
     "rcardinality" = rcardinality,
     "rtiming" = rtiming,
-    "shuffle" = shuffle,
-    "rshuffle" = rshuffle,
+    "shuffle" = if(is.logical(shuffle)) {
+      if(shuffle) "Yes" else "No"
+    } else shuffle,
+    "rshuffle" = if(is.logical(rshuffle)) {
+      if(rshuffle) "Yes" else "No"
+    } else rshuffle,
     "varname" = varname,
     "vartype" = vartype,
     "defaultval" = defaultval,
