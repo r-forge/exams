@@ -7,22 +7,32 @@ tex2image <- function(tex, format = "png", width = 6,
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
   itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)
 {
-  if((length(text) < 2L) && file.exists(tex)) {
-    texfile <- file_path_as_absolute(tex)
-    tex <- readLines(con = texfile)
-    texdir <- dirname(texfile)
-    texfile <- paste("tex2image-", basename(texfile), sep = "")
-    bsname <- file_path_sans_ext(texfile)
-  } else
-    texdir <- tempdir()
-  if(is.null(edir))
-    edir <- texdir
   there <- FALSE
   if(is.null(tdir)) {
     tdir <- tempfile()
     there <- TRUE
   }
   tdir <- file.path(path.expand(tdir), "tex2image")
+
+  if((length(text) < 2L) && file.exists(tex)) {
+    texfile <- file_path_as_absolute(tex)
+    tex <- readLines(con = texfile)
+    texdir <- dirname(texfile)
+    cfiles <- list.files(texdir)
+    file.copy(file.path(texdir, cfiles), file.path(tdir, cfiles))
+    texfile <- paste("tex2image-", basename(texfile), sep = "")
+    bsname <- file_path_sans_ext(texfile)
+  } else texdir <- tempdir()
+
+  if(any(grepl("\\documentclass", tex, fixed = TRUE))) {
+    begin <- grep("\\begin{document}", tex, fixed = TRUE)
+    end <- grep("\\end{document}", tex, fixed = TRUE)
+    tex <- tex[(begin + 1):(end - 1)]
+  }
+
+  if(is.null(edir))
+    edir <- texdir
+
   dir.create(tdir, recursive = TRUE, showWarnings = FALSE)
   if(there)
     on.exit(unlink(tdir))
@@ -90,6 +100,7 @@ tex2image <- function(tex, format = "png", width = 6,
   file.create(paste(tdir, "/", bsname, ".log", sep = ""))
   image <- paste(bsname, ".", format, sep = "")
   writeLines(text = texlines, con = paste(tdir, "/", bsname, ".tex", sep = ""))
+print(tdir)
   texi2dvi(file = paste(bsname, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
   if(format == "png") {
     cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",

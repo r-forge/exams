@@ -46,8 +46,8 @@ make_exams_write_tex2html <- function(converter = "ttx", mathjax = FALSE, show =
     cfiles <- list.files(owd)
     file.copy(file.path(owd, cfiles), file.path(hdir, cfiles))
     args$body <- FALSE
-    args$x <- file.path(hdir, tex)
-    args$tdir <- hdir
+    args$tex <- file.path(hdir, tex)
+    args$tdir <- args$idir <- hdir
     html <- do.call(converter, args)
     if(mathjax) {
       if(length(i <- grep("</head>", html))) {
@@ -205,7 +205,7 @@ make_exams_write_html <- function(dir, doctype = NULL,
     }
     html <- c(html, "</ol>", "</body>", "</html>")
     if(length(sdir))
-      for(i in sdir) gsub(i, "", html, fixed = TRUE)
+      for(i in sdir) html <- gsub(paste(i, "/", sep = ""), "", html, fixed = TRUE)
     if(is.null(name))
       name <- "exam"
     writeLines(html, file.path(tdir, paste(name, info$id, ".html", sep = "")))
@@ -233,7 +233,6 @@ make_exams_write_olat <- function(dir, doctype = NULL,
   {
     ## generate a temporary dir
     tdir <- tempfile()
-    sdir <- NULL
     dir.create(tdir)
     on.exit(unlink(tdir))
 

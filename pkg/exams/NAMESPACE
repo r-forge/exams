@@ -26,11 +26,11 @@ export(
   ## html xml driver
   "exams2html",
   "exams2x",
-  "make_exercise_transform_htmlimg",
   "make_exercise_transform_x",
+  "make_exercise_transform_tex2image",
+  "make_exercise_transform_ttx",
   "make_exams_write_html",
   "make_exams_write_tex2html",
-  "make_ex2x",
   "pdf2png4html",
   "tex4ht",
   "ttx",

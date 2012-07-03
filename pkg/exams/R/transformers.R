@@ -1,9 +1,20 @@
+## helper transformator function,
+## includes tex2image(), ttx() conversion
+make_exercise_transform_x <- function(converter = "ttx", base64 = TRUE, body = TRUE, width = 550, ...)
+{
+  if(converter %in% c("img", "image", "tex2image"))
+    return(function(x) make_exercise_transform_tex2image(x, base64, width, ...))
+  else
+    return(function(x) make_exercise_transform_ttx(x, base64, body = body, width = width, ...))
+}
+
+
 ## transforms the tex parts of exercise to images
 ## of arbitrary format using function tex2image()
-make_exercise_transform_htmlimg <- function(x, base64 = TRUE, width = 550, ...)
+make_exercise_transform_tex2image <- function(x, base64 = TRUE, width = 550, ...)
 {
   bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
-  sdir <- dirname(x$supplements[1])
+  sdir <- attr(x$supplements, "dir")
   if(length(x$supplements))
     x$supplements <- pdf2png4html(x$supplements, ...)
   images <- NULL
@@ -45,46 +56,46 @@ make_exercise_transform_htmlimg <- function(x, base64 = TRUE, width = 550, ...)
       file.copy(i, fp)
       if(!(fp %in% x$supplements))
         x$supplements <- c(x$supplements, fp)
-    } 
+    }
+    attr(x$supplements, "dir") <- sdir
   }
   x
 }
 
 
-## helper functions for exams2x()
-## includes tex2image, tex4ht and tth conversion
-make_exercise_transform_x <- function(converter = "img", base64 = TRUE, body = TRUE, width = 550, ...)
+## exercise conversion with ttx()
+make_exercise_transform_ttx <- function(x, base64 = TRUE, ...)
 {
-  if(converter %in% c("img", "image", "tex2image")) {
-    foo <- function(x) {
-      make_exercise_transform_htmlimg(x, base64, width, ...)
-    }
-  } else {
-    foo <- function(x) {
-      make_ex2x(x, converter, base64, body = body, width = width, ...)
-    }
-  }
-  foo
-}
+  ## what need to be transormed with ttx()?
+  what <- c(
+    "question" = list(x$question),
+    "questionlist" = as.list(x$questionlist),
+    "solution" = list(x$solution),
+    "solutionlist" = as.list(x$solutionlist)
+  )
 
+  ## transform the .tex chunks
+  trex <- ttx(what, images = x$supplements, ...)
+  namtrex <- names(trex)
 
-## converter helper function
-make_ex2x <- function(x, converter = "ttx", base64 = TRUE, ...)
-{
-  which <- list()
-  for(i in c("question", "questionlist", "solution", "solutionlist"))
-    if(!is.null(x[[i]]))
-      which[[i]] <- x[[i]]
-  x[names(which)] <- tmp <- ttx(which, images = x$supplements, ...)
-  if(!base64 && !is.null(imgs <- attr(tmp, "images"))) {
-    sdir <- dirname(x$supplements[1])
+  ## replace .tex chunks with ttx() output
+  x$question <- trex$question
+  x$questionlist <- sapply(trex[grep("questionlist", namtrex)], paste, collapse = "\n")
+  x$solution <- trex$solution
+  x$solutionlist <- sapply(trex[grep("solutionlist", namtrex)], paste, collapse = "\n")
+
+  ## replace/copy possible images to exercise supplement directory
+  if(!base64 && !is.null(imgs <- attr(trex, "images"))) {
+    sdir <- attr(x$supplements, "dir")
     for(i in imgs) {
       fp <- file.path(sdir, basename(i))
       file.copy(i, fp)
       if(!(fp %in% x$supplements))
         x$supplements <- c(x$supplements, fp)
-    } 
+    }
+    attr(x$supplements, "dir") <- sdir
   }
+
   x
 }
 
