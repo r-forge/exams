@@ -13,12 +13,19 @@ tex2image <- function(tex, format = "png", width = 6,
     there <- TRUE
   }
   tdir <- file.path(path.expand(tdir), "tex2image")
+  dir.create(tdir, recursive = TRUE, showWarnings = FALSE)
+  if(there)
+    on.exit(unlink(tdir))
 
   if((length(text) < 2L) && file.exists(tex)) {
     texfile <- file_path_as_absolute(tex)
     tex <- readLines(con = texfile)
     texdir <- dirname(texfile)
     cfiles <- list.files(texdir)
+    cfiles <- cfiles[cfiles != "tex2image"]
+    cfiles <- cfiles[cfiles != basename(texfile)]
+    if(length(pdfs <- grep("pdf", file_ext(cfiles))))
+      cfiles <- cfiles[-pdfs]
     file.copy(file.path(texdir, cfiles), file.path(tdir, cfiles))
     texfile <- paste("tex2image-", basename(texfile), sep = "")
     bsname <- file_path_sans_ext(texfile)
@@ -33,9 +40,6 @@ tex2image <- function(tex, format = "png", width = 6,
   if(is.null(edir))
     edir <- texdir
 
-  dir.create(tdir, recursive = TRUE, showWarnings = FALSE)
-  if(there)
-    on.exit(unlink(tdir))
   owd <- getwd()
   setwd(tdir)
   if(length(graphics <- grep("includegraphics", tex, fixed = TRUE, value = TRUE))) {
@@ -78,7 +82,10 @@ tex2image <- function(tex, format = "png", width = 6,
     "\\usepackage{hyperref}",
     "\\usepackage{color}",
     "\\pagestyle{empty}",
-    "\\setlength{\\parindent}{0pt}"
+    "\\setlength{\\parindent}{0pt}",
+    "\\newenvironment{question}{\\item \\textbf{Problem}\\newline}{}",
+    "\\newenvironment{solution}{\\textbf{Solution}\\newline}{}",
+    "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{enumerate}}{\\end{enumerate}}"
   )
   for(i in template)
     texlines <- c(texlines, i)
@@ -100,7 +107,6 @@ tex2image <- function(tex, format = "png", width = 6,
   file.create(paste(tdir, "/", bsname, ".log", sep = ""))
   image <- paste(bsname, ".", format, sep = "")
   writeLines(text = texlines, con = paste(tdir, "/", bsname, ".tex", sep = ""))
-print(tdir)
   texi2dvi(file = paste(bsname, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
   if(format == "png") {
     cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
