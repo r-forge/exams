@@ -79,15 +79,15 @@ read_metainfo <- function(file)
     "cloze" = {
       if(is.null(exclozetype)) {
         warning("no \\exclozetype{} specified, taken to be string")
-	exclozetype <- "string"
+	      exclozetype <- "string"
       }
       if(length(exclozetype) > 1L & length(exclozetype) != slength)
         warning("length of \\exclozetype does not match length of \\exsolution")
       exclozetype <- rep(exclozetype, length.out = slength)
       for(i in 1L:slength) exsolution[i] <- switch(match.arg(exclozetype[i], c("mchoice", "num", "string")),
         "mchoice" = as.numeric(exsolution[i]), ## FIXME: or use which(string2mchoice()) ?
-	"num" = as.numeric(exsolution[i]),
-	"string" = exsolution[i])
+	      "num" = as.numeric(exsolution[i]),
+	      "string" = exsolution[i])
     })
   slength <- length(exsolution)
 
@@ -104,8 +104,8 @@ read_metainfo <- function(file)
       if(slength == 1L) {
         paste(exname, ": ", exsolution, " (", exsolution - extol[1L], "--", exsolution + extol[2L], ")", sep = "")
       } else {
-	paste(exname, ": [", exsolution[1L], ", ", exsolution[2L], "] ([", exsolution[1L] - extol[1L], "--", exsolution[1L] + extol[2L], ", ",
-	  exsolution[2L] - extol[1L], "--", exsolution[2L] + extol[2L], "])", sep = "")
+	      paste(exname, ": [", exsolution[1L], ", ", exsolution[2L], "] ([", exsolution[1L] - extol[1L], "--", exsolution[1L] + extol[2L], ", ",
+	        exsolution[2L] - extol[1L], "--", exsolution[2L] + extol[2L], "])", sep = "")
       }
     },
     "string" = paste(exname, ": ", paste(exsolution, collapse = "\n"), sep = ""),
@@ -115,7 +115,6 @@ read_metainfo <- function(file)
   ## return everything (backward compatible with earlier versions)
   list(
     file = file_path_sans_ext(file),
-    
     type = extype,
     name = exname,
     title = extitle,
@@ -129,7 +128,6 @@ read_metainfo <- function(file)
     time = extime,
     shuffle = exshuffle,
     single = exsingle,
-    
     length = slength,
     string = string
   )

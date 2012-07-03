@@ -21,11 +21,11 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   options("ex2html" = make_exams_write_tex2html(converter = converter,
     mathjax = mathjax, show = show, ...))
 
-  pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs,
+  htmlwrite <- make_exams_write_pdf(template = template, inputs = inputs,
     header = header, name = name, quiet = quiet, control = control)
 
   xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = pdfwrite),
+    driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = htmlwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 }
 
@@ -102,13 +102,16 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   type = "html", converter = "ttx", base64 = TRUE, width = 550,
   body = TRUE, solution = TRUE, doctype = NULL, head = NULL, ...)
 {
+  if(type == "olat" && !base64)
+    stop('argument base64 must be TRUE for type == "olat"!')
+
   wasNULL <- FALSE
   if(is.null(dir)) {
     dir <- tempfile()
     wasNULL <- TRUE
   }
 
-  htmltransform <- make_exercise_transform_html(converter = converter,
+  xtransform <- make_exercise_transform_x(converter = converter,
     base64 = base64, body = body, width = width, ...)
 
   args <- list(...)
@@ -120,24 +123,19 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   args$wasNULL <- wasNULL
   writer <- paste("make_exams_write", type, sep = "_")
 
-  htmlwrite <- if(type == "olat" && n < 2) {
+  xwriter <- if(type == "olat" && n < 2) {
     do.call(writer, args)
   } else {
-    if(type == "olat")
-      NULL
-    else
-      do.call(writer, args)
+    if(type == "olat") NULL else do.call(writer, args)
   }
 
   exm <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL,
-    transform = htmltransform, write = htmlwrite),
+    transform = xtransform, write = xwriter),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
-  if(type == "olat" && n > 1) {
-    fun <- do.call("make_exams_write_olat", args)
-    fun(exm, dir, list(id = 1, n = n))
-  }
+  if(type == "olat" && n > 1)
+    do.call(writer, args)(exm, dir, list(id = 1, n = n))
 
   invisible(exm)
 }
@@ -268,7 +266,7 @@ make_exams_write_olat <- function(dir, doctype = NULL,
         if(is.null(args$scoremodel)) 'SumOfScores' else args$scoremodel, '">', sep = ''),
       '<outcomes>',
       paste('<decvar varname="SCORE" vartype="Decimal" cutvalue="',
-        if(is.null(args$cutvalue)) 1 else args$cutvalue, '"/>', sep = ''),
+        if(is.null(args$cutvalue)) 0 else args$cutvalue, '"/>', sep = ''),
       '</outcomes>',
       '</outcomes_processing>'
     )
@@ -355,27 +353,39 @@ write.olat.exercise.mchoice <- function(x)
   ## obtain controling parameters
   ic <- do.call("olatitem.control", delete.args(olatitem.control, x$metainfo))
 
-  ## write the question
+  ## hard setting mp-question specific arguments
+  ic$rcardinality <- "Multiple"
+
+  ## start general question setup
   xml <- c(
     paste('<item ident="', itemid, '" title="', ic$title,
       '" maxattempts="', ic$maxattempts,'">', sep = ''),
-    # "<objectives>",
-    # "<material>",
-    # paste("<mattext><![CDATA[", exinfo, "]]></mattext>", sep = ""),
-    # "</material>",
-    # "</objectives>",
+    '<objectives>',
+    '<material>',
+    paste('<mattext><![CDATA[', x$info, ']]></mattext>', sep = ''),
+    '</material>',
+    '</objectives>',
     paste('<itemcontrol feedbackswitch="', ic$feedbackswitch, '" hintswitch="',
       ic$hintswitch, '" solutionswitch="', ic$solutionswitch, '"/>', sep = ''),
-    '<presentation>',
+    '<presentation>')
+
+  ## insert the question
+  xml <- c(xml,
     '<material>',
     '<mattext texttype="text/html"><![CDATA[',
     x$question,
     ']]></mattext>',
-    '</material>',
+    '</material>'
+  )
+
+  ## some more question controling
+  xml <- c(xml,
     paste('<response_lid ident="', respid, '" rcardinality="',
       ic$rcardinality, '" rtiming="', ic$rtiming, '">', sep = ''),
-    paste('<render_choice shuffle="', ic$shuffle, '" minnumber="0" maxnumber="',
-      length(x$solutionlist), '">', sep = '')
+    paste('<render_choice shuffle="', ic$shuffle,
+      '" minnumber="', if(is.null(ic$minnumber)) 0 else ic$minnumber,
+      '" maxnumber="', if(is.null(ic$maxnumber)) length(x$solutionlist) else ic$maxnumber,
+      '">', sep = '')
   )
 
   ## cycling through all answers
@@ -393,17 +403,24 @@ write.olat.exercise.mchoice <- function(x)
     )
   }
 
-  ## more controling of the item
+  ## finish possible answers
   xml <- c(xml,
     '</render_choice>',
     '</response_lid>',
-    '</presentation>',
+    '</presentation>'
+  )
+
+  ## control the answer mechanism of the item
+  xml <- c(xml,
     '<resprocessing>',
     '<outcomes>',
     paste('<decvar varname="', ic$varname, '" vartype="', ic$vartype,
       '" defaultval="', ic$defaultval, '" minvalue="', ic$minvalue,
       '" maxvalue="', ic$maxvalue, '" cutvalue="', ic$cutvalue, '"/>', sep = ''),
-    '</outcomes>',
+    '</outcomes>')
+
+  ## which are the correct questions?
+  xml <- c(xml,
     paste('<respcondition title="', 'Mastery', '" continue="',
       ic$continue, '">', sep = ''),
     '<conditionvar>',
@@ -444,20 +461,14 @@ write.olat.exercise.mchoice <- function(x)
       if(is.null(x$points)) 1 else x$points, '</setvar>', sep = ''),
     paste('<displayfeedback feedbacktype="', ic$feedbacktype,
       '" linkrefid="Mastery"/>', sep = ''),
-    '</respcondition>', 
+    '</respcondition>')
+
+  ## actions for wrong selected answers
+  xml <- c(xml,
     paste('<respcondition title="Fail" continue="', ic$continue, '">', sep = ''),
     '<conditionvar>',
     '<or>'
   )
-
-#  for(i in seq_along(x$metainfo$solution)) {
-#    if(!x$metainfo$solution[i]) {
-#      xml <- c(xml,
-#        paste('<varequal respident="', respid, '" case="',
-#          ic$case, '">', quid[i], '</varequal>', sep = '')
-#      )
-#    }
-#  }
 
   ## FIXME not clear what options may be used
   xml <- c(xml,
@@ -483,7 +494,6 @@ write.olat.exercise.mchoice <- function(x)
     )
   }
 
-  ## hints
   xml <- c(xml,
     '<respcondition title="Fail" continue="Yes">',
     '<conditionvar>',
@@ -494,17 +504,24 @@ write.olat.exercise.mchoice <- function(x)
     '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
     '<displayfeedback feedbacktype="Hint" linkrefid="Hint"/>',
     '</respcondition>',
-    '</resprocessing>',
-    '<itemfeedback ident="Hint" view="All">',
-    paste('<hint feedbackstyle="', ic$feedbackstyle, '">', sep = ''),
-    '<hintmaterial>',
-    '<material>',
-    '<mattext><![CDATA[]]></mattext>',
-    '</material>',
-    '</hintmaterial>',
-    '</hint>',
-    '</itemfeedback>'
-  )
+    '</resprocessing>')
+
+  ## hints
+  if(!is.null(x$hints)) {
+    xml <- c(xml,
+      '<itemfeedback ident="Hint" view="All">',
+      paste('<hint feedbackstyle="', ic$feedbackstyle, '">', sep = ''),
+      '<hintmaterial>',
+      '<material>',
+      '<mattext><![CDATA[',
+      x$hints,
+      ']]></mattext>',
+      '</material>',
+      '</hintmaterial>',
+      '</hint>',
+      '</itemfeedback>'
+    )
+  }
 
   ## solution
   if(!is.null(x$solution)) {
@@ -513,26 +530,25 @@ write.olat.exercise.mchoice <- function(x)
       '<solution>',
       '<solutionmaterial>',
       '<material>',
-      '<mattext texttype="text/html"><![CDATA[<p><br /><br /><b>Aufgabe</b><br />',
+      '<mattext texttype="text/html"><![CDATA[',
       x$question,
-      '<br /><br /><b>L&#246sung</b><br />',
       x$solution,
-      '</p>]]></mattext>',
+      ']]></mattext>',
       '</material>',
       '</solutionmaterial>',
       '</solution>',
       '</itemfeedback>'
     )
+  }
 
-    ## feedback if selected answer is wrong
+  ## feedback if selected answer is wrong
+  if(!is.null(x$feedback)) { 
     xml <- c(xml,
       '<itemfeedback ident="Fail" view="All">',
       '<material>',
-      '<mattext texttype="text/html"><![CDATA[<p><br /><br /><b>Aufgabe</b><br />',
-      x$question,
-      '<br /><br /><b>L&#246sung</b><br />',
-      x$solution,
-      '</p>]]></mattext>',
+      '<mattext texttype="text/html"><![CDATA[',
+      x$feedback,
+      ']]></mattext>',
       '</material>',
       '</itemfeedback>'
     )
@@ -551,9 +567,10 @@ write.olat.exercise.num <- function(x) NULL
 ## control parameters of one xml item in OLAT
 olatitem.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedbackswitch = "No",
   hintswitch = "No", solutionswitch = "Yes", width = 500, rcardinality = "Multiple", rtiming = "No",
-  shuffle = "Yes", rshuffle = "Yes", varname = "SCORE", vartype = "Decimal", defaultval = 0,
-  minvalue = 0, maxvalue = 1, cutvalue = 0, respcondtitle = c("Mastery", "Fail"), continue = "Yes",
-  case = "Yes", action = "Set", feedbacktype = "Response", feedbackstyle = "Incremental", ...)
+  shuffle = "Yes", minnumber = NULL, maxnumber = NULL, rshuffle = "Yes", varname = "SCORE",
+  vartype = "Decimal", defaultval = 0, minvalue = 0, maxvalue = 0, cutvalue = 0,
+  respcondtitle = c("Mastery", "Fail"), continue = "Yes", case = "Yes", action = "Set",
+  feedbacktype = "Response", feedbackstyle = "Incremental", ...)
 {
   if(is.null(stime)) {
     stime <- gsub(" ", "", Sys.time())
@@ -575,6 +592,8 @@ olatitem.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedba
     "shuffle" = if(is.logical(shuffle)) {
       if(shuffle) "Yes" else "No"
     } else shuffle,
+    "minnumber" = minnumber,
+    "maxnumber" = maxnumber,
     "rshuffle" = if(is.logical(rshuffle)) {
       if(rshuffle) "Yes" else "No"
     } else rshuffle,

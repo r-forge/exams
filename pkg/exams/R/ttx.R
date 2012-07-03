@@ -1,9 +1,40 @@
+## function to reduce transformation time
+## for the segements of a question
+apply_ttx_on_list <- function(object,
+  sep = "\\007\\007\\007\\007\\007", ...)
+{
+  ## add seperator as last line to each chunk
+  object <- lapply(object, "c", sep)
+
+  ## call ttx() on collapsed chunks
+  rval <- tmp <- ttx(unlist(object), ...)
+
+  ## split chunks again on sep
+  ix <- substr(rval, 1, nchar(sep)) == sep
+  rval <- split(rval, c(0, head(cumsum(ix), -1L)))
+  names(rval) <- names(object)
+
+  ## omit last line in each chunk (containing sep) again
+  rval <- lapply(rval, head, -1L)
+
+  ## store ttx images
+  attr(rval, "images") <- attr(tmp, "images")
+
+  rval
+}
+
 ## function to create a html file with tth or ttm
 ## images are included by Base64 encoding
 ttx <- function(x, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   verbose = FALSE, template = "html-plain", tdir = NULL, translator = "ttm",
   opts = ifelse(body, '-r -u -e2', '-u -r2 -e2'), ...)
 {
+  if(is.list(x)) {
+    return(apply_ttx_on_list(x, images = images, base64 = base64, width = width,
+      body = body, verbose = verbose, template = template, tdir = tdir,
+      translator = translator, opts = opts, ...))
+  }
+
   if(length(x) == 1L && file.exists(x[1L])) {
     tdir <- dirname(x)
     x <- readLines(x)

@@ -21,19 +21,16 @@ export(
   "make_exams_write_pdf",
 
   ## image driver
-  "make_exercise_transform_html_img",
   "tex2image",
 
   ## html xml driver
   "exams2html",
   "exams2x",
-  "make_exercise_transform_html_img",
-  "make_exercise_transform_html_tex4ht",
-  "make_exercise_transform_html_tth",
-  "make_exercise_transform_html",
+  "make_exercise_transform_htmlimg",
+  "make_exercise_transform_x",
   "make_exams_write_html",
   "make_exams_write_tex2html",
-  "make_ex2html",
+  "make_ex2x",
   "pdf2png4html",
   "tex4ht",
   "ttx",
