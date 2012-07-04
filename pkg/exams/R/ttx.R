@@ -26,7 +26,7 @@ apply_ttx_on_list <- function(object,
 
 ## function to create a html file with tth or ttm
 ## images are included by Base64 encoding
-ttx <- function(tex, images = NULL, base64 = TRUE, width = 600, body = TRUE,
+ttx <- function(tex, images = NULL, base64 = TRUE, width = 550, body = TRUE,
   verbose = FALSE, template = "html-plain", tdir = NULL, translator = "ttm",
   opts = ifelse(body, '-r -u -e2', '-u -r2 -e2'), ...)
 {
@@ -153,8 +153,8 @@ ttx <- function(tex, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   }
 
   ## remove possible .log files
-  if(length(logf <- grep("log", file_ext(list.files(tempf)))))
-    file.remove(list.files(tempf)[logf])  
+  if(length(logf <- grep("log", file_ext(f <- list.files(tempf)))))
+    file.remove(f[logf]) 
 
   y
 }

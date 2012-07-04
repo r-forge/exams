@@ -102,9 +102,6 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   type = "html", converter = "ttx", base64 = TRUE, width = 550,
   body = TRUE, solution = TRUE, doctype = NULL, head = NULL, ...)
 {
-  if(type == "olat" && !base64)
-    stop('argument base64 must be TRUE for type == "olat"!')
-
   wasNULL <- FALSE
   if(is.null(dir)) {
     dir <- tempfile()

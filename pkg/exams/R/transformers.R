@@ -74,8 +74,11 @@ make_exercise_transform_ttx <- function(x, base64 = TRUE, ...)
     "solutionlist" = as.list(x$solutionlist)
   )
 
+  ## guarantee same image widths
+  set.img.width(x$supplements, list(...)$width)
+
   ## transform the .tex chunks
-  trex <- ttx(what, images = x$supplements, ...)
+  trex <- ttx(what, images = x$supplements, base64 = base64, ...)
   namtrex <- names(trex)
 
   ## replace .tex chunks with ttx() output
@@ -121,4 +124,27 @@ pdf2png4html <- function(x, density = 350, ...)
   }
   names(x) <- nx
   x
+}
+
+
+## function to set image widths
+set.img.width <- function(x, width = 550) {
+  if(!is.null(x) && file.exists(x[1])) {
+    if(is.null(width))
+      width <- 550
+    owd <- getwd()
+    dir <- dirname(x[1])
+    setwd(dir)
+    on.exit(setwd(owd))
+    for(f in list.files(dir)) {
+      if(file_ext(f) %in% c("jpg", "jpeg", "png", "tif")) {
+        cmd <- paste("convert -resize ", width, "x ", f, " ", f, " > set.img.width.log", sep = "")
+        system(cmd)
+      }
+    }
+    ## remove possible .log files
+    if(length(logf <- grep("log", file_ext(f <- list.files(dir)))))
+      file.remove(f[logf]) 
+  }
+  invisible(NULL)
 }
