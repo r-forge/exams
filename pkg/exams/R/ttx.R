@@ -92,6 +92,7 @@ ttx <- function(tex, images = NULL, base64 = TRUE, width = 600, body = TRUE,
   if(!verbose)
     cmd <- paste(cmd, "2>/dev/null")
   y <- system(cmd, intern = TRUE, input = tex)
+
   if(length(i <- grep("<br /><br /><hr /><small>File translated from", y, fixed = TRUE)))
     y <- c(y[1:(i - 1)], "</html>")
 

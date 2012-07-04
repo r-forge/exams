@@ -350,7 +350,7 @@ write.olat.exercise.mchoice <- function(x)
   for(i in x$questionlist) quid <- c(quid, olatid(11L))
 
   ## obtain controling parameters
-  ic <- do.call("olatitem.control", delete.args(olatitem.control, x$metainfo))
+  ic <- do.call("olat.item.control", delete.args(olat.item.control, x$metainfo))
 
   ## hard setting mp-question specific arguments
   ic$rcardinality <- "Multiple"
@@ -564,7 +564,7 @@ write.olat.exercise.num <- function(x) NULL
 
 
 ## control parameters of one xml item in OLAT
-olatitem.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedbackswitch = "No",
+olat.item.control <- function(title = NULL, stime = NULL, maxattempts = 1, feedbackswitch = "No",
   hintswitch = "No", solutionswitch = "Yes", width = 500, rcardinality = "Multiple", rtiming = "No",
   shuffle = "Yes", minnumber = NULL, maxnumber = NULL, rshuffle = "Yes", varname = "SCORE",
   vartype = "Decimal", defaultval = 0, minvalue = 0, maxvalue = 0, cutvalue = 0,
