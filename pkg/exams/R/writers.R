@@ -118,20 +118,19 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   args$solution <- solution
   args$name <- name
   args$wasNULL <- wasNULL
+  args$base64 <- base64
   writer <- paste("make_exams_write", type, sep = "_")
 
-  xwriter <- if(type == "olat" && n < 2) {
+  xwriter <- if((type == "olat" && n < 2) || (type == "html")) {
     do.call(writer, args)
-  } else {
-    if(type == "olat") NULL else do.call(writer, args)
-  }
+  } else NULL
 
   exm <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL,
     transform = xtransform, write = xwriter),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
-  if(type == "olat" && n > 1)
+  if(is.null(xwriter))
     do.call(writer, args)(exm, dir, list(id = 1, n = n))
 
   invisible(exm)
@@ -293,7 +292,7 @@ make_exams_write_olat <- function(dir, doctype = NULL,
         '</selection_ordering>'
       )
       for(i in seq_along(exm)) {
-        xml <- c(xml, make_exercise_write_olat(exm[[i]][[j]]))
+        xml <- c(xml, make_exercise_write_olat(exm[[i]][[j]], xmldir, args$base64))
       }
       xml <- c(xml, "</section>")
     }
@@ -321,33 +320,33 @@ olatid <- function(x) as.numeric(paste(sample(1:9, x, replace = TRUE), collapse 
 
 
 ## write a single exercise in olat .xml format
-make_exercise_write_olat <- function(x)
+make_exercise_write_olat <- function(x, dir, base64)
 {
   if(is.null(x$metainfo$type))
     stop("no exercise type specified, cannot process OLAT exam generation!")
-  class(x) <- c(paste("exercise", x$metainfo$type, sep = "."), "list")
-  write.olat(x)
+  class(x) <- c(x$metainfo$type, "list")
+  write.olat.exercise(x, dir, base64)
 }
 
 
 ## generic exercise writer function for olat questions
-write.olat <- function(x) 
+write.olat.exercise <- function(x, dir, base64)
 {
-  UseMethod("write.olat")
+  UseMethod("write.olat.exercise")
 }
 
 
 ## function to write multiple choice questions
-write.olat.exercise.mchoice <- function(x)
+write.olat.exercise.mchoice <- function(x, dir, base64)
 {
+  ## obtain controling parameters
+  ic <- do.call("olat.item.control", delete.args(olat.item.control, x$metainfo))
+
   ## generate an unique id
   itemid <- paste("QTIEDIT:MCQ", olatid(11L), sep = ":")
   respid <- olatid(11L)
   quid <- NULL
   for(i in x$questionlist) quid <- c(quid, olatid(11L))
-
-  ## obtain controling parameters
-  ic <- do.call("olat.item.control", delete.args(olat.item.control, x$metainfo))
 
   ## hard setting mp-question specific arguments
   ic$rcardinality <- "Multiple"
@@ -552,12 +551,27 @@ write.olat.exercise.mchoice <- function(x)
 
   xml <- c(xml, "</item>")
 
+  ## copy images to dir if !base64
+  if(!base64) {
+    if(!file.exists(mdir <- file.path(dir, "media")))
+      dir.create(mdir)
+    if(!is.null(x$supplements)) {
+      for(i in seq_along(basename(x$supplements))) {
+        if(any(grepl(f <- basename(x$supplements[i]), xml))) {
+          nn <- paste("pic", respid, f, sep = "-")
+          file.copy(x$supplements[i], file.path(mdir, nn))
+          xml <- gsub(f, paste("media", nn, sep = "/"), xml)
+        }
+      }
+    }
+  }
+
   xml
 }
 
 
 ## not implemented yet
-write.olat.exercise.num <- function(x) NULL
+write.olat.exercise.num <- function(x, ...) NULL
 
 
 ## control parameters of one xml item in OLAT
