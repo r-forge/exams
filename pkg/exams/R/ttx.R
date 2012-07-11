@@ -154,7 +154,11 @@ ttx <- function(tex, images = NULL, base64 = TRUE, width = 550, body = TRUE,
 
   ## remove possible .log files
   if(length(logf <- grep("log", file_ext(f <- list.files(tempf)))))
-    file.remove(f[logf]) 
+    file.remove(f[logf])
+
+  ## check for empty last line
+  if(y[n <- length(y)] == "")
+    y <- y[1:(n - 1)]
 
   y
 }

@@ -12,9 +12,7 @@
   </defaultValue>
  </outcomeDeclaration>
  <testPart identifier="testpartID" navigationMode="nonlinear" submissionMode="individual">
-
-  \exinput{sections}
-
+   ##ItemRefs
  </testPart>
  <outcomeProcessing>
   <setOutcomeValue identifier="SCORE">
