@@ -1,0 +1,98 @@
+<assessmentItem schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" identifier="##ItemIdentifier" title="##ItemTitle" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <responseDeclaration identifier="##ResponseIdentifier" cardinality="single" baseType="float">
+  <correctResponse>
+   <value>
+     ##CorrectAnswer
+   </value>
+  </correctResponse>
+ </responseDeclaration>
+ <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+  <defaultValue>
+   <value>0</value>
+  </defaultValue>
+ </outcomeDeclaration>
+ <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+  <defaultValue>
+   <value>
+     ##ItemPoints
+   </value>
+  </defaultValue>
+ </outcomeDeclaration>
+ <outcomeDeclaration identifier="FEEDBACKBASIC" cardinality="single" baseType="identifier" view="testConstructor">
+  <defaultValue>
+   <value>empty</value>
+  </defaultValue>
+ </outcomeDeclaration>
+ <outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>
+   ##ItemBody
+ <responseProcessing>
+  <responseCondition>
+   <responseIf>
+    <equal ##ItemTolerance>
+     <variable identifier="##ResponseIdentifier"/>
+     <correct identifier="##ResponseIdentifier"/>
+    </equal>
+    <setOutcomeValue identifier="SCORE">
+     <sum>
+      <variable identifier="SCORE"/>
+      <baseValue baseType="float">
+        ##ItemPoints
+      </baseValue>
+     </sum>
+    </setOutcomeValue>
+   </responseIf>
+  </responseCondition>
+  <responseCondition>
+   <responseIf>
+    <not>
+     <isNull>
+      <variable identifier="##ResponseIdentifier"/>
+     </isNull>
+    </not>
+    <setOutcomeValue identifier="FEEDBACKBASIC">
+     <baseValue baseType="identifier">incorrect</baseValue>
+    </setOutcomeValue>
+   </responseIf>
+  </responseCondition>
+  <responseCondition>
+   <responseIf>
+    <and>
+     <not>
+      <match>
+       <variable identifier="FEEDBACKBASIC"/>
+       <baseValue baseType="identifier">empty</baseValue>
+      </match>
+     </not>
+     <equal toleranceMode="exact">
+      <variable identifier="SCORE"/>
+      <variable identifier="MAXSCORE"/>
+     </equal>
+    </and>
+    <setOutcomeValue identifier="FEEDBACKBASIC">
+     <baseValue baseType="identifier">correct</baseValue>
+    </setOutcomeValue>
+   </responseIf>
+  </responseCondition>
+  <responseCondition>
+   <responseIf>
+    <and>
+     <not>
+      <match>
+       <baseValue baseType="identifier">correct</baseValue>
+       <variable identifier="FEEDBACKBASIC"/>
+      </match>
+     </not>
+    </and>
+    <setOutcomeValue identifier="FEEDBACKMODAL">
+     <multiple>
+      <variable identifier="FEEDBACKMODAL"/>
+      <baseValue baseType="identifier">##FeedbackIdentifier</baseValue>
+     </multiple>
+    </setOutcomeValue>
+   </responseIf>
+  </responseCondition>
+ </responseProcessing>
+ <modalFeedback identifier="##FeedbackIdentifier" outcomeIdentifier="FEEDBACKMODAL" showHide="show" title="##FeedbackTitle">
+   ##FeedbackText
+ </modalFeedback>
+</assessmentItem>
