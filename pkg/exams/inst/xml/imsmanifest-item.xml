@@ -1,0 +1,32 @@
+  <imscp:resource identifier="##ItemIdentifier" type="imsqti_item_xmlv2p1" href="##ItemIdentifier.xml">
+   <imsmd:metadata>
+    <imsmd:lom>
+     <imsmd:general>
+      <imsmd:identifier>##ItemIdentifier</imsmd:identifier>
+      <imsmd:title>
+       <imsmd:langstring>MP1</imsmd:langstring>
+      </imsmd:title>
+      <imsmd:language>de</imsmd:language>
+      <imsmd:description>
+       <imsmd:langstring>Description of ##ItemIdentifier</imsmd:langstring>
+      </imsmd:description>
+     </imsmd:general>
+     <imsmd:lifecycle>
+      <imsmd:contribute>
+       <imsmd:role>
+        <imsmd:source>
+         <imsmd:langstring lang="en">LOMv1.0</imsmd:langstring>
+        </imsmd:source>
+        <imsmd:value>
+         <imsmd:langstring lang="en">author</imsmd:langstring>
+        </imsmd:value>
+       </imsmd:role>
+       <imsmd:entity>
+        <imsmd:vcard>BEGIN:VCARD VERSION:3.0 N:c403129; FN: c403129 ORG: URL: TITLE: TEL;TYPE=WORK,VOICE: ADR;TYPE=intl,postal,parcel,work:;;;;;;EMAIL;TYPE=PREF,INTERNET: END:VCARD</imsmd:vcard>
+       </imsmd:entity>
+      </imsmd:contribute>
+     </imsmd:lifecycle>
+    </imsmd:lom>
+   </imsmd:metadata>
+   <imscp:file href="##ItemIdentifier.xml"/>
+  </imscp:resource>
