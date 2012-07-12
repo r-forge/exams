@@ -4,11 +4,11 @@
      <imsmd:general>
       <imsmd:identifier>##ItemIdentifier</imsmd:identifier>
       <imsmd:title>
-       <imsmd:langstring>MP1</imsmd:langstring>
+       <imsmd:langstring>##ItemTitle</imsmd:langstring>
       </imsmd:title>
       <imsmd:language>de</imsmd:language>
       <imsmd:description>
-       <imsmd:langstring>Description of ##ItemIdentifier</imsmd:langstring>
+       <imsmd:langstring>##ItemDescription</imsmd:langstring>
       </imsmd:description>
      </imsmd:general>
      <imsmd:lifecycle>
@@ -18,7 +18,7 @@
          <imsmd:langstring lang="en">LOMv1.0</imsmd:langstring>
         </imsmd:source>
         <imsmd:value>
-         <imsmd:langstring lang="en">author</imsmd:langstring>
+         <imsmd:langstring lang="en">##ItemAuthor</imsmd:langstring>
         </imsmd:value>
        </imsmd:role>
        <imsmd:entity>

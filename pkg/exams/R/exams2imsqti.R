@@ -23,6 +23,8 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
   if(!file.exists(dir))
     dir.create(dir)
 
+  pkg_dir <- .find.package("exams")
+
   ## obtain the number of exams and questions
   nx <- length(x)
   nq <- length(x[[1]])
@@ -32,7 +34,7 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
   
   ## get the assement template
   template.assessment <- if(is.null(template.assessment)) {
-    file.path(.find.package("exams"), "xml", "imsqti-test.xml")
+    file.path(pkg_dir, "xml", "imsqti-test.xml")
   } else path.expand(template.assessment)
   if(!file.exists(template.assessment))
     stop(paste("The following file cannot be found: ", template.assessment, "!", sep = ""))
@@ -48,7 +50,7 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
 
   ## get the item templates
   if(is.null(template.items)) {
-    xml_dir <- file.path(.find.package("exams"), "xml")
+    xml_dir <- file.path(pkg_dir, "xml")
     item_templates <- grep("item", list.files(xml_dir), value = TRUE)
     xml.items <- list()
     for(i in seq_along(item_templates)) {
@@ -82,6 +84,7 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
   }
 
   ## insert the items in assessment
+  oit <- file_path_sans_ext(items)
   for(i in seq_along(items)) {
     items[i] <-   paste('<assessmentItemRef identifier="', file_path_sans_ext(items[i]),
       '" href="', items[i], '" fixed="false" />', sep = "")
@@ -101,9 +104,36 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
   writeLines(xml.assessment, file.path(dir, paste(name, "xml", sep = ".")))
 
   ## copy ims manifest and other
-  cfiles <- file.path(file.path(.find.package("exams"), "xml"),
-    c("imscp_v1p1.xsd", "imsmanifest.xml", "imsmd_v1p2p2.xsd", "imsqti_v2p1.xsd"))
+  cfiles <- file.path(file.path(pkg_dir, "xml"),
+    c("imscp_v1p1.xsd", "imsmd_v1p2p2.xsd", "imsqti_v2p1.xsd"))
   file.copy(cfiles, dir)
+
+  ## get the manifest files
+  xml.manifest <- readLines(file.path(pkg_dir, "xml", "imsmanifest.xml"))
+  xml.manifest.item <- readLines(file.path(pkg_dir, "xml", "imsmanifest-item.xml"))
+
+  ## MANIFEST FILES, FIXME not clear if needed
+  ## insert test identifier
+  xml.manifest <- gsub("##TestIdentifier", name, xml.manifest, fixed = TRUE)
+
+  ## insert the test title
+  xml.manifest <- gsub("##TestTitle", name, xml.manifest, fixed = TRUE)
+
+  ## insertin the item refs and manifests
+  irefs <- imanifests <- NULL
+  for(i in seq_along(oit)) {
+    irefs <- c(irefs, paste('<imscp:dependency identifierref="', oit[i], '"/>', sep = ""))
+    im <- gsub("##ItemIdentifier", oit[i], xml.manifest.item, fixed = TRUE)
+    im <- gsub("##ItemTitle", oit[i], im, fixed = TRUE)
+    imanifests <- c(imanifests, im)
+  }
+
+  ## insert refs and item manifests
+  xml.manifest <- input_text("##ItemRefs", irefs, xml.manifest)
+  xml.manifest <- input_text("##ItemManifests", imanifests, xml.manifest)
+
+  ## write to dir
+  writeLines(xml.manifest, file.path(dir, "imsmanifest.xml"))
 
   ## compress
   owd <- getwd()

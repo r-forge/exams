@@ -1,19 +1,17 @@
 <imscp:manifest schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2p2 imsmd_v1p2p2.xsd" identifier="manifestID" xmlns:imscp="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_v1p2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1">
  <imscp:organizations/>
-
-
  <imscp:resources>
-  <imscp:resource identifier="Test1_1446310568" type="imsqti_assessment_xmlv2p1" href="Test1_1446310568.xml">
+  <imscp:resource identifier="##TestIdentifier" type="imsqti_assessment_xmlv2p1" href="##TestIdentifier.xml">
    <imsmd:metadata>
     <imsmd:lom>
      <imsmd:general>
-      <imsmd:identifier>Test1_1446310568</imsmd:identifier>
+      <imsmd:identifier>##TestIdentifier</imsmd:identifier>
       <imsmd:title>
-       <imsmd:langstring>test1</imsmd:langstring>
+       <imsmd:langstring>##TestTitle</imsmd:langstring>
       </imsmd:title>
       <imsmd:language>en</imsmd:language>
       <imsmd:description>
-       <imsmd:langstring>Beschreibung von test1.</imsmd:langstring>
+       <imsmd:langstring>##TestDescription</imsmd:langstring>
       </imsmd:description>
      </imsmd:general>
      <imsmd:lifecycle>
@@ -23,7 +21,7 @@
          <imsmd:langstring lang="en">LOMv1.0</imsmd:langstring>
         </imsmd:source>
         <imsmd:value>
-         <imsmd:langstring lang="en">author</imsmd:langstring>
+         <imsmd:langstring lang="en">##TestAuthor</imsmd:langstring>
         </imsmd:value>
        </imsmd:role>
        <imsmd:entity>
@@ -33,82 +31,10 @@
      </imsmd:lifecycle>
     </imsmd:lom>
    </imsmd:metadata>
-   <imscp:file href="Test1_1446310568.xml"/>
-
-   <imscp:dependency identifierref="MP1_1995042101"/>
-   <imscp:dependency identifierref="NUM1_709488809"/>
-
+   <imscp:file href="##TestIdentifier.xml"/>
+     ##ItemRefs
   </imscp:resource>
-
-
-  <imscp:resource identifier="MP1_1995042101" type="imsqti_item_xmlv2p1" href="MP1_1995042101.xml">
-   <imsmd:metadata>
-    <imsmd:lom>
-     <imsmd:general>
-      <imsmd:identifier>MP1_1995042101</imsmd:identifier>
-      <imsmd:title>
-       <imsmd:langstring>MP1</imsmd:langstring>
-      </imsmd:title>
-      <imsmd:language>de</imsmd:language>
-      <imsmd:description>
-       <imsmd:langstring>Beschreibung von MP1</imsmd:langstring>
-      </imsmd:description>
-     </imsmd:general>
-     <imsmd:lifecycle>
-      <imsmd:contribute>
-       <imsmd:role>
-        <imsmd:source>
-         <imsmd:langstring lang="en">LOMv1.0</imsmd:langstring>
-        </imsmd:source>
-        <imsmd:value>
-         <imsmd:langstring lang="en">author</imsmd:langstring>
-        </imsmd:value>
-       </imsmd:role>
-       <imsmd:entity>
-        <imsmd:vcard>BEGIN:VCARD VERSION:3.0 N:c403129; FN: c403129 ORG: URL: TITLE: TEL;TYPE=WORK,VOICE: ADR;TYPE=intl,postal,parcel,work:;;;;;;EMAIL;TYPE=PREF,INTERNET: END:VCARD</imsmd:vcard>
-       </imsmd:entity>
-      </imsmd:contribute>
-     </imsmd:lifecycle>
-    </imsmd:lom>
-   </imsmd:metadata>
-   <imscp:file href="MP1_1995042101.xml"/>
-  </imscp:resource>
-
-
-  <imscp:resource identifier="NUM1_709488809" type="imsqti_item_xmlv2p1" href="NUM1_709488809.xml">
-   <imsmd:metadata>
-    <imsmd:lom>
-     <imsmd:general>
-      <imsmd:identifier>NUM1_709488809</imsmd:identifier>
-      <imsmd:title>
-       <imsmd:langstring>NUM1</imsmd:langstring>
-      </imsmd:title>
-      <imsmd:language>en</imsmd:language>
-      <imsmd:description>
-       <imsmd:langstring>Beschreibung von NUM1</imsmd:langstring>
-      </imsmd:description>
-     </imsmd:general>
-     <imsmd:lifecycle>
-      <imsmd:contribute>
-       <imsmd:role>
-        <imsmd:source>
-         <imsmd:langstring lang="en">LOMv1.0</imsmd:langstring>
-        </imsmd:source>
-        <imsmd:value>
-         <imsmd:langstring lang="en">author</imsmd:langstring>
-        </imsmd:value>
-       </imsmd:role>
-       <imsmd:entity>
-        <imsmd:vcard>BEGIN:VCARD VERSION:3.0 N:c403129; FN: c403129 ORG: URL: TITLE: TEL;TYPE=WORK,VOICE: ADR;TYPE=intl,postal,parcel,work:;;;;;;EMAIL;TYPE=PREF,INTERNET: END:VCARD</imsmd:vcard>
-       </imsmd:entity>
-      </imsmd:contribute>
-     </imsmd:lifecycle>
-    </imsmd:lom>
-   </imsmd:metadata>
-   <imscp:file href="NUM1_709488809.xml"/>
-  </imscp:resource>
-
-
+    ##ItemManifests
  </imscp:resources>
 </imscp:manifest>
 
