@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" identifier="##ItemIdentifier" title="##ItemTitle" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <responseDeclaration identifier="##ResponseIdentifier" cardinality="multiple" baseType="identifier">
   <correctResponse>
@@ -32,9 +33,7 @@
      <variable identifier="##ResponseIdentifier"/>
     </isNull>
     <setOutcomeValue identifier="FEEDBACKBASIC">
-     <baseValue baseType="identifier">
-       ##ItemPoints
-     </baseValue>
+     <baseValue baseType="identifier">empty</baseValue>
     </setOutcomeValue>
    </responseIf>
    <responseElseIf>

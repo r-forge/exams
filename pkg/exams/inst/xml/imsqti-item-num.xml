@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" identifier="##ItemIdentifier" title="##ItemTitle" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <responseDeclaration identifier="##ResponseIdentifier" cardinality="single" baseType="float">
   <correctResponse>

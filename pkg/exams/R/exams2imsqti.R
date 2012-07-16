@@ -10,18 +10,20 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
     driver = list(sweave = list(quiet = quiet), read = NULL, transform = transform2x),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
-  make_exams_write_imsqti(exm, dir, name, ...)
+  make_exams_write_imsqti(exm, dir, tdir, name, ...)
 
   invisible(exm)
 }
 
 
-make_exams_write_imsqti <- function(x, dir, name = NULL,
+make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
   template.assessment = NULL, template.items = NULL, ...)
 {
   dir <- path.expand(dir)
-  if(!file.exists(dir))
-    dir.create(dir)
+  tdir <- if(is.null(tdir)) tempfile() else path.expand(tdir)
+  if(!file.exists(tdir))
+    dir.create(tdir)
+  on.exit(unlink(tdir))
 
   pkg_dir <- .find.package("exams")
 
@@ -42,11 +44,11 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
 
   ## create a name
   name <- if(is.null(name)) {
-    paste(file_path_sans_ext(basename(template.assessment)), test_id, sep = "_")
+    paste("ImsQtiExam", test_id, sep = "-")
   } else name
 
   ## create the directory where the .xml files are stored
-  dir.create(dir <- file.path(dir, name))
+  dir.create(tdir <- file.path(tdir, name))
 
   ## get the item templates
   if(is.null(template.items)) {
@@ -69,27 +71,42 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
     }
   }
 
+  ## create section ids
+  sec_ids <- paste(paste("Sec", 1:nq, sep = ""), make_id(10, nq), sep = "_")
+
+  ## get additional arguments
+  args <- list(...)
+
   ## cycle through all exams and questions
   ## similar questions are combined in a section, questions are then sampled from the sections
-  items <- points <- NULL
+  items <- points <- sections <- NULL
   for(j in 1:nq) {
+    sections <- c(sections,
+      paste('<assessmentSection identifier="', sec_ids[j], '" fixed="false" title="', paste("Section", j),
+        '" visible="true">', sep = ""),
+      paste('<selection select="', if(is.null(args$nselect)) 1 else args$nselect, '"/>', sep = "")
+      ##paste('<ordering shuffle="', if(is.null(args$shuffle)) 'true' else args$shuffle, '"/>', sep = ""),
+      ##'<rubricBlock view="candidate">Section description...</rubricBlock>'
+    )
     for(i in 1:nx) {
       ex <- x[[i]][[j]]
       type <- ex$metainfo$type
       class(ex) <- c(type, "list")
-      file_name <- write.imsqti.item(ex, dir, xml.items[[type]], ...)
-      items <- c(items, file_name)
-      points <- c(points, attr(file_name, "points"))
+      file_name <- write.imsqti.item(ex, tdir, xml.items[[type]], ...)
+      if(!is.null(file_name)) {
+        items <- c(items, file_name)
+        points <- c(points, attr(file_name, "points"))
+        sections <- c(sections,
+          paste('<assessmentItemRef identifier="', file_path_sans_ext(file_name),
+          '" href="', file_name, '" fixed="false"/>', sep = "")
+        )
+      }
     }
+    sections <- c(sections, '</assessmentSection>')
   }
 
-  ## insert the items in assessment
-  oit <- file_path_sans_ext(items)
-  for(i in seq_along(items)) {
-    items[i] <-   paste('<assessmentItemRef identifier="', file_path_sans_ext(items[i]),
-      '" href="', items[i], '" fixed="false" />', sep = "")
-  }
-  xml.assessment <- input_text("##ItemRefs", items, xml.assessment)
+  ## insert the sections in assessment
+  xml.assessment <- input_text("##AssessmentSections", sections, xml.assessment)
 
   ## input the test points
   xml.assessment <- gsub("##TestPoints", sum(points), xml.assessment, fixed = TRUE)
@@ -101,12 +118,12 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
   xml.assessment <- gsub("##TestIdentifier", name, xml.assessment, fixed = TRUE)
 
   ## write assessment to file
-  writeLines(xml.assessment, file.path(dir, paste(name, "xml", sep = ".")))
+  writeLines(xml.assessment, file.path(tdir, paste(name, "xml", sep = ".")))
 
   ## copy ims manifest and other
   cfiles <- file.path(file.path(pkg_dir, "xml"),
     c("imscp_v1p1.xsd", "imsmd_v1p2p2.xsd", "imsqti_v2p1.xsd"))
-  file.copy(cfiles, dir)
+  file.copy(cfiles, tdir)
 
   ## get the manifest files
   xml.manifest <- readLines(file.path(pkg_dir, "xml", "imsmanifest.xml"))
@@ -121,10 +138,11 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
 
   ## insertin the item refs and manifests
   irefs <- imanifests <- NULL
+  oit <- file_path_sans_ext(items)
   for(i in seq_along(oit)) {
     irefs <- c(irefs, paste('<imscp:dependency identifierref="', oit[i], '"/>', sep = ""))
     im <- gsub("##ItemIdentifier", oit[i], xml.manifest.item, fixed = TRUE)
-    im <- gsub("##ItemTitle", oit[i], im, fixed = TRUE)
+    im <- gsub("##ItemTitle", "MCHOICE", im, fixed = TRUE)
     imanifests <- c(imanifests, im)
   }
 
@@ -133,13 +151,18 @@ make_exams_write_imsqti <- function(x, dir, name = NULL,
   xml.manifest <- input_text("##ItemManifests", imanifests, xml.manifest)
 
   ## write to dir
-  writeLines(xml.manifest, file.path(dir, "imsmanifest.xml"))
+  writeLines(xml.manifest, file.path(tdir, "imsmanifest.xml"))
 
   ## compress
   owd <- getwd()
-  setwd(dir)
-  zip(zipfile = paste(name, "zip", sep = "."), files = list.files(dir))
+  setwd(tdir)
+  zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(tdir))
   setwd(owd)
+
+  ## copy the final .zip file
+  file.copy(file.path(tdir, zipname), file.path(dir, zipname))
+
+  invisible(NULL)
 }
 
 
@@ -187,14 +210,16 @@ write.imsqti.item.mchoice <- function(x, dir, xml, ...)
   check_tags(c("##ItemBody", "##ResponseIdentifier", "##CorrectAnswer"), xml, x$metainfo$type)
 
   ## create a unique item, response and feedback identifier
-  item_id <- paste("MP1", make_id(9), sep = "_")
+  item_id <- paste("MCHOICE", make_id(9), sep = "_")
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
-  feed_id <- paste("FEEDBACK", make_id(8), sep = "_")
+  feed_id <- paste("FEEDBACK", make_id(7), sep = "_")
 
-  ## input the item body
+  ## create the item body
   body <- c(
     '<itemBody>',
+    '<p xmlns="">',
     paste(x$question, collapse = "\n"),
+    '</p>',
     paste('<choiceInteraction responseIdentifier="', resp_id, '" shuffle="false" maxChoices="0">')
   )
 

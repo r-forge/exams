@@ -34,7 +34,11 @@ export(
   "pdf2png4html",
   "tex4ht",
   "ttx",
-  "show.html"
+  "show.html",
+
+  ## imsqti driver
+  "exams2imsqti",
+  "make_exams_write_imsqti"
 )
 
 S3method("print", "exams_metainfo")

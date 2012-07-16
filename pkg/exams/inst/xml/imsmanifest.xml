@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <imscp:manifest schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2p2 imsmd_v1p2p2.xsd" identifier="manifestID" xmlns:imscp="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:imsmd="http://www.imsglobal.org/xsd/imsmd_v1p2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1">
  <imscp:organizations/>
  <imscp:resources>
@@ -11,7 +12,7 @@
       </imsmd:title>
       <imsmd:language>en</imsmd:language>
       <imsmd:description>
-       <imsmd:langstring>##TestDescription</imsmd:langstring>
+       <imsmd:langstring>Test description...</imsmd:langstring>
       </imsmd:description>
      </imsmd:general>
      <imsmd:lifecycle>
@@ -21,7 +22,7 @@
          <imsmd:langstring lang="en">LOMv1.0</imsmd:langstring>
         </imsmd:source>
         <imsmd:value>
-         <imsmd:langstring lang="en">##TestAuthor</imsmd:langstring>
+         <imsmd:langstring lang="en">author</imsmd:langstring>
         </imsmd:value>
        </imsmd:role>
        <imsmd:entity>

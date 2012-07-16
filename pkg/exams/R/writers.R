@@ -138,11 +138,16 @@ exams2x <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 
 ## writes the final html site
-make_exams_write_html <- function(dir, doctype = NULL,
+make_exams_write_html <- function(doctype = NULL,
   head = NULL, solution = TRUE, name = NULL, mathjax = FALSE, ...)
 {
   function(x, dir, info)
   {
+    args <- list(...)
+    if(is.null(dir)) {
+      dir.create(dir <- tempfile())
+      args$wasNULL <- TRUE
+    }
     tdir <- tempfile()
     sdir <- NULL
     dir.create(tdir)
@@ -208,7 +213,6 @@ make_exams_write_html <- function(dir, doctype = NULL,
     out_dir <- file.path(dir, paste(name, info$id, sep = ""))
     dir.create(out_dir)
     file.copy(file.path(tdir, list.files(tdir)), file.path(out_dir, list.files(tdir)))
-    args <- list(...)
     if(!is.null(args$wasNULL) && args$wasNULL)
       show.html(file.path(out_dir, paste(name, info$id, ".html", sep = "")))
     invisible(NULL)
@@ -216,9 +220,9 @@ make_exams_write_html <- function(dir, doctype = NULL,
 }
 
 
-## a writer function for OLAT .xml test files
+## a writer function for OLAT IMS QTI 1.2 .xml test files
 ## currently the supported mode is only multiple choice
-make_exams_write_olat <- function(dir, doctype = NULL,
+make_exams_write_olat <- function(doctype = NULL,
   head = NULL, solution = TRUE, name = NULL, mathjax = FALSE, ...)
 {
   if(is.null(name))
@@ -238,7 +242,7 @@ make_exams_write_olat <- function(dir, doctype = NULL,
     title <- name
 
     ## create the .xml directory all files are written to
-    xmldir <- file.path(dir, name)
+    xmldir <- file.path(tdir, name)
     dir.create(xmldir)
 
     ## start the master .xml file
@@ -309,7 +313,9 @@ make_exams_write_olat <- function(dir, doctype = NULL,
     ## compress
     owd <- getwd()
     setwd(xmldir)
-    zip(zipfile = paste(name, "zip", sep = "."), files = list.files(xmldir))
+    zip(zipfile = (zipname <- paste(name, "zip", sep = ".")), files = list.files(xmldir))
+    file.copy(zipname, file.path(dir, zipname))
+    unlink(xmldir)
     setwd(owd)
   }
 }
