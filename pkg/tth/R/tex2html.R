@@ -9,7 +9,7 @@ TTH <- ""
                           .Platform$r_arch, "tth.exe -r -u -e2 -y0")
     } else {
         TTH <<- file.path(libname, pkgname, "libs", 
-                          .Platform$r_arch, "tth -r -u -e2 -y0 2>/dev/null")
+                          .Platform$r_arch, "tth -r -u -e2 -y0")
     }
 }
 
@@ -18,7 +18,7 @@ TTH <- ""
 
 tth <- function(x, delblanks=TRUE)
 {
-    y <- system(tth:::TTH, intern=TRUE, input=x)
+    y <- system(tth:::TTH, input=x, intern=TRUE, ignore.stderr=TRUE)
 
     if(delblanks)
         y <- y[-grep("^ *$", y)]    
