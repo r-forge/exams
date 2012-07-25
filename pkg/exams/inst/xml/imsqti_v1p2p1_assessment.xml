@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE questestinterop SYSTEM "ims_qtiasiv1p2p1.dtd">
+
+<questestinterop>
+<assessment ident="##TestIdent" title="##TestTitle">
+<qtimetadata>
+<qtimetadatafield>
+<fieldlabel>qmd_assessmenttype</fieldlabel>
+<fieldentry>Assessment</fieldentry>
+</qtimetadatafield>
+</qtimetadata>
+<outcomes_processing scoremodel="SumOfScores">
+<outcomes>
+<decvar varname="SCORE" vartype="Decimal" cutvalue="0" />
+</outcomes>
+</outcomes_processing>
+##TestSections
+</assessment>
+</questestinterop>
+

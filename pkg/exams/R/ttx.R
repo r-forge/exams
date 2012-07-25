@@ -97,10 +97,9 @@ ttx <- function(tex, images = NULL, base64 = TRUE, width = 550, body = TRUE,
     y <- c(y[1:(i - 1)], "</html>")
 
   y <- gsub('<div class="p"><!----></div>', "", y, fixed = TRUE)
-  y <- y[-grep("^ *$", y)]    
+  y <- y[-grep("^ *$", y)]
   
   ## further image handling
-  y <- paste(y, "\n", sep = "")
   if(!is.null(opts) && grepl("-e2", opts, fixed = TRUE) && base64) {
     require("base64")
     irx <- '<img src="(.*.png)" alt=".*.png" />'
@@ -155,10 +154,6 @@ ttx <- function(tex, images = NULL, base64 = TRUE, width = 550, body = TRUE,
   ## remove possible .log files
   if(length(logf <- grep("log", file_ext(f <- list.files(tempf)))))
     file.remove(f[logf])
-
-  ## check for empty last line
-  if(y[n <- length(y)] == "")
-    y <- y[1:(n - 1)]
 
   y
 }

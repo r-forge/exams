@@ -105,7 +105,9 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       if(!dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
 
       ## start time (minus one second)
-      stime <- Sys.time() - .001
+      ## FIXME: stime <- Sys.time() - 0.001
+      ## now set to
+      stime <- Sys.time() - 1
     
       ## run Sweave
       driver$sweave(file_Rnw[idj])
