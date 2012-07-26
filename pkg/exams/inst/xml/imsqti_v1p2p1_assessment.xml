@@ -9,6 +9,7 @@
 <fieldentry>Assessment</fieldentry>
 </qtimetadatafield>
 </qtimetadata>
+<assessmentcontrol feedbackswitch="No" hintswitch="No" solutionswitch="Yes"/>
 <outcomes_processing scoremodel="SumOfScores">
 <outcomes>
 <decvar varname="SCORE" vartype="Decimal" cutvalue="0" />
@@ -17,4 +18,3 @@
 ##TestSections
 </assessment>
 </questestinterop>
-
