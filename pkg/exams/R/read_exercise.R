@@ -4,9 +4,8 @@ read_exercise <- function(file)
   x <- readLines(file)
   
   ## convenience helper function
-  ## FIXME: if(length(x) < 1L) return(NULL) removed,
-  ##   caused problems if question has only one sentence!
   drop_text_if_empty <- function(x) {
+    if(length(x) < 1L) return(NULL)
     if(all(grepl("^[[:space:]]*$", x))) return(NULL)
     return(x)
   }

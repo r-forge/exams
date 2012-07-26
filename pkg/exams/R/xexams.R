@@ -106,7 +106,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## start time (minus one second)
       ## FIXME: stime <- Sys.time() - 0.001
-      ## now set to
+      ## also tried - 0.1, not working, now set to
       stime <- Sys.time() - 1
     
       ## run Sweave
