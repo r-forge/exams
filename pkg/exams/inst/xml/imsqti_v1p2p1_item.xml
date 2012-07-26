@@ -1,4 +1,4 @@
-<item ident="##ItemId" title="" maxattempts="1">
+<item ident="##ItemId" title="" maxattempts="##ItemMaxAttempts">
 <itemcontrol feedbackswitch="No" hintswitch="No" solutionswitch="Yes"/>
 <presentation>
 ##ItemBody

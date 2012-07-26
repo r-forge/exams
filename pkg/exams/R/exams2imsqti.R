@@ -129,6 +129,10 @@ write.imsqti.item <- function(x, dir, xml, base64 = NULL)
   ## insert an item id
   xml <- gsub("##ItemId", iname <- paste("QTIEDIT", xcq, paste(xname, make_id(10), sep = "_"),
     sep = ":"), xml)
+
+  ## insert maximum attempts
+  xml <- gsub("##ItemMaxAttempts",
+    if(is.null(x$metainfo$maxattempts)) "1" else as.character(x$metainfo$maxattempts), xml)
   
   ## get the item body
   class(x) <- c(type, "list")
@@ -326,7 +330,7 @@ get.item.body.num <- function(x, dir, base64 = NULL, ...)
   points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
   ## the correct solution as text
-  soltext <- gsub(" ", "", as.character(x$metainfo$solution), fixed = TRUE)
+  soltext <- paste(gsub(" ", "", as.character(x$metainfo$solution), fixed = TRUE), collapse = "-")
 
   ## start general question setup
   xml <- c(
