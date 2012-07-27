@@ -11,7 +11,7 @@ including documentation can be obtained from any Debian mirror, e.g.
 Each version which is distributed as part of the R package is also
 available at
 
-  http://exams.r-forge.r-project.org/tth-src/
+  http://exams.R-Forge.R-project.org/tth-src/
 
 as original sources, Debian patches and Debian patched version (the
 latter is used in the R package).

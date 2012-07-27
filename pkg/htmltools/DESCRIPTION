@@ -2,17 +2,17 @@ Package: htmltools
 Version: 4.03-0
 Date: 2012-07-17
 Authors@R: c(person("Romain", "Francois", role = "aut",
-               comment = "author of base64 C sources")
+               comment = "author of base64 C sources"),
              person(c("Ian", "H."), "Hutchinson", role = "aut",
 	       comment = "author of tth/ttm C sources"),
 	     person("Friedrich", "Leisch", role = c("aut", "cre"),
 	       email = "Friedrich.Leisch@R-project.org", comment = "author of R wrappers to tth/ttm"),
 	     person("Bob", "Trower", role = "ctb",
 	       comment = "author of base64 code at http://base64.sourceforge.net/"))
-Title: R Tools for Producing HTML (Base 64 Coding and R Interface to the tth/ttm TeX to HTML Translator)
+Title: R Tools for Producing HTML (Base64 Coding and R Interface to the tth/ttm TeX to HTML Translator)
 Depends: R (>= 2.14.0)
 Description: This package provides various tools for producing HTML. In particular,
-  R functions for decoding and encoding Base 64 in R are provided as well as
+  R functions for decoding and encoding base64 in R are provided as well as
   wrappers to the command line utilities tth/ttm which allow for conversion of (La)TeX 
   documents and snippets to HTML and MathML. Source code of tth and 
   ttm is included for easy installation on all platforms.
