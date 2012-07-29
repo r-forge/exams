@@ -1,10 +1,11 @@
 Package: tth
 Version: 4.03-0
-Date: 2012-07-28
+Date: 2012-07-29
 Authors@R: c(person(c("Ian", "H."), "Hutchinson", role = "aut",
 	       comment = "author of tth/ttm C sources"),
-	     person("Friedrich", "Leisch", role = c("aut", "cre"),
-	       email = "Friedrich.Leisch@R-project.org", comment = "author of R wrappers to tth/ttm"))
+	     person("Friedrich", "Leisch", role = "cre",
+	       email = "Friedrich.Leisch@R-project.org",
+	       comment = "maintainer of R package distribution"))
 Title: C Sources of the tth/ttm TeX to HTML Translator
 Depends: R (>= 2.14.0)
 Description: C source code of the tth/ttm TeX to HTML translators for easy
