@@ -6,5 +6,6 @@ export(
   "b64img",
 
   "tth",
-  "ttm"
+  "ttm",
+  "tth.control"
 )
