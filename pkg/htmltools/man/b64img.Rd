@@ -56,7 +56,7 @@ No checking on the file is performed, so it is up to the user to
 make sure the input file is indeed a PNG file.
 }
 
-\seealso{\link{b64encode} is used to encode the file}
+\seealso{\code{\link{b64encode}} is used to encode the file}
 
 \examples{
 \dontrun{

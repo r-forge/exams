@@ -28,6 +28,6 @@ Base64 page at Wikipedia: \url{http://en.wikipedia.org/wiki/Base64}.
 Romain Francois, based on code by Bob Trower.
 }
 
-\seealso{\link{b64encode} for the reverse operation}
+\seealso{\code{\link{b64encode}} for the reverse operation}
 \keyword{programming}
 
