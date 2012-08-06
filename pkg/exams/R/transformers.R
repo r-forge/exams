@@ -1,22 +1,26 @@
 ## helper transformator function,
-## includes tex2image(), ttx() conversion
-make_exercise_transform_x <- function(converter = "ttx", base64 = TRUE, body = TRUE, width = 550, ...)
+## includes tex2image(), tth() and ttm() .html conversion
+make_exercise_transform_x <- function(converter = "ttm", ...)
 {
-  if(converter %in% c("img", "image", "tex2image"))
-    return(function(x) make_exercise_transform_tex2image(x, base64, width, ...))
-  else
-    return(function(x) make_exercise_transform_ttx(x, base64, body = body, width = width, ...))
+  cfun <- if(is.function(converter)) {
+    function(x) converter(x, ...)
+  } else {
+    switch(converter,
+      "tex2image" = function(x) make_exercise_transform_tex2image(x, ...),
+      "tth" = function(x) make_exercise_transform_ttx(x, converter, ...),
+      "ttm" = function(x) make_exercise_transform_ttx(x, converter, ...)
+    )
+  }
+  cfun
 }
 
 
 ## transforms the tex parts of exercise to images
 ## of arbitrary format using function tex2image()
-make_exercise_transform_tex2image <- function(x, base64 = TRUE, width = 550, ...)
+make_exercise_transform_tex2image <- function(x, b64 = TRUE, ...)
 {
   bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
   sdir <- attr(x$supplements, "dir")
-  if(length(x$supplements))
-    x$supplements <- pdf2png4html(x$supplements, ...)
   images <- NULL
   for(i in c("question", "questionlist", "solution", "solutionlist")) {
     imgname <- paste(bsname, i , sep = "-")
@@ -29,28 +33,34 @@ make_exercise_transform_tex2image <- function(x, base64 = TRUE, width = 550, ...
         if(!is.null(x[[i]][k[[j]]])) {
           dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
           imgpath <- file.path(sdir, basename(dir))
-          if(base64) {
-            require("base64")
-            img <- base64::img(dir)
-            alt <- grep('alt="image"', img)
-            img[alt] <- gsub('alt="image"', paste('alt="image" width="', width, '"', sep = ''),
-              img[alt], fixed = TRUE)
+          if(b64) {
+            require("htmltools")
+            img <- b64img(dir)
+            for(sf in dir(sdir)) {
+              if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
+                if(length(grep(file_path_sans_ext(sf), x[[i]][k[[j]]], fixed = TRUE))) {
+                  file.remove(file.path(sdir, sf))
+                  x$supplements <- x$supplements[!grepl(sf, x$supplements)]
+                  attr(x$supplements, "dir") <- sdir        
+                }
+              }
+            }
           } else {
             names(imgpath) <- imgname[j]
             file.copy(dir, imgpath)
-            img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" width="', width, '" />', sep = '')
+            img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" />', sep = '')
           }
           if(grepl("list", i))
             x[[i]][k[[j]]] <- img
           else
             x[[i]] <- img
-          if(!base64)
+          if(!b64)
             images <- c(images, imgpath)
         }
       }
     }
   }
-  if(!base64) {
+  if(!b64) {
     for(i in images) {
       fp <- file.path(sdir, basename(i))
       file.copy(i, fp)
@@ -64,8 +74,11 @@ make_exercise_transform_tex2image <- function(x, base64 = TRUE, width = 550, ...
 
 
 ## exercise conversion with ttx()
-make_exercise_transform_ttx <- function(x, base64 = TRUE, ...)
+make_exercise_transform_ttx <- function(x, converter = "ttm", b64 = TRUE, ...)
 {
+  owd <- getwd()
+  setwd(sdir <- attr(x$supplements, "dir"))
+
   ## what need to be transormed with ttx()?
   what <- c(
     "question" = list(x$question),
@@ -74,77 +87,69 @@ make_exercise_transform_ttx <- function(x, base64 = TRUE, ...)
     "solutionlist" = as.list(x$solutionlist)
   )
 
-  ## guarantee same image widths
-  set.img.width(x$supplements, list(...)$width)
-
   ## transform the .tex chunks
-  trex <- ttx(what, images = x$supplements, base64 = base64, ...)
+  args <- list("x" = what, ...)
+  trex <- apply_ttx_on_list(what, converter, ...)
   namtrex <- names(trex)
 
-  ## replace .tex chunks with ttx() output
+  ## b64 image handling
+  if(b64 && length(sfiles <- dir(sdir))) {
+    require("htmltools")
+    for(sf in sfiles) {
+      if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
+        for(i in seq_along(trex)) {
+          if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
+            tf <- tempfile()
+            on.exit(unlink(tf))
+            b64encode(sf, tf)
+            b64i <- sprintf("data:image/png;base64,\n%s", paste(readLines(tf), collapse = "\n"))
+            trex[[i]][j] <- gsub(paste('src="', sf, '"', sep = ''),
+              paste('src="', b64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
+            file.remove(file.path(sdir, sf))
+            x$supplements <- x$supplements[!grepl(sf, x$supplements)]
+          }
+        }
+      }
+    }
+    attr(x$supplements, "dir") <- sdir
+  }
+
+  ## replace .tex chunks with tth(), ttm() output
   x$question <- trex$question
   x$questionlist <- sapply(trex[grep("questionlist", namtrex)], paste, collapse = "\n")
   x$solution <- trex$solution
   x$solutionlist <- sapply(trex[grep("solutionlist", namtrex)], paste, collapse = "\n")
 
-  ## replace/copy possible images to exercise supplement directory
-  if(!base64 && !is.null(imgs <- attr(trex, "images"))) {
-    sdir <- attr(x$supplements, "dir")
-    for(i in imgs) {
-      fp <- file.path(sdir, basename(i))
-      file.copy(i, fp)
-      if(!(fp %in% x$supplements))
-        x$supplements <- c(x$supplements, fp)
-    }
-    attr(x$supplements, "dir") <- sdir
-  }
+  setwd(owd)
 
   x
 }
 
 
-## pdf to png conversion
-pdf2png4html <- function(x, density = 350, ...)
+## function to apply ttx() on every
+## element of a list in a fast way
+apply_ttx_on_list <- function(object,
+  converter = "ttm", sep = "\\007\\007\\007\\007\\007", ...)
 {
-  owd <- getwd()
-  nx <- names(x)
-  for(i in seq_along(x)) {
-    if(file_ext(x[i]) == "pdf") {
-      dx <- dirname(x)
-      setwd(dx)
-      bsx <- basename(x[i])
-      to <- paste(file_path_sans_ext(bsx), "png", sep = ".")
-      cmd <- paste("convert -density", density, bsx, to)
-      system(cmd)
-      file.remove(x[i])
-      x[i] <- file.path(dx, to)
-      nx[i] <- to
-      setwd(owd)
-    }
-  }
-  names(x) <- nx
-  x
+  require("htmltools")
+
+  ## add seperator as last line to each chunk
+  object <- lapply(object, "c", sep)
+
+  ## call ttx() on collapsed chunks
+  rval <- tmp <- do.call(converter, list("x" = unlist(object), ...))
+
+  ## split chunks again on sep
+  ix <- substr(rval, 1, nchar(sep)) == sep
+  rval <- split(rval, c(0, head(cumsum(ix), -1L)))
+  names(rval) <- names(object)
+
+  ## omit last line in each chunk (containing sep) again
+  rval <- lapply(rval, head, -1L)
+
+  ## store ttx images
+  attr(rval, "images") <- attr(tmp, "images")
+
+  rval
 }
 
-
-## function to set image widths
-set.img.width <- function(x, width = 550) {
-  if(!is.null(x) && file.exists(x[1])) {
-    if(is.null(width))
-      width <- 550
-    owd <- getwd()
-    dir <- dirname(x[1])
-    setwd(dir)
-    on.exit(setwd(owd))
-    for(f in list.files(dir)) {
-      if(file_ext(f) %in% c("jpg", "jpeg", "png", "tif")) {
-        cmd <- paste("convert -resize ", width, "x ", f, " ", f, " > set.img.width.log", sep = "")
-        system(cmd)
-      }
-    }
-    ## remove possible .log files
-    if(length(logf <- grep("log", file_ext(f <- list.files(dir)))))
-      file.remove(f[logf]) 
-  }
-  invisible(NULL)
-}

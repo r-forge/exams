@@ -1,7 +1,7 @@
-## NOTE: needs pdflatex and ImageMagick url: http://www.imagemagick.org/
+## NOTE: needs ImageMagick url: http://www.imagemagick.org/
 tex2image <- function(tex, format = "png", width = 6, 
   pt = 12, density = 350, edir = NULL, tdir = NULL, idir = NULL,
-  width.border = 0L, col.border = "white", resize = 1300, shave = 4,
+  width.border = 0L, col.border = "white", resize = 650, shave = 4,
   template = c("\\usepackage{sfmath}",
     "\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),

@@ -1,24 +1,27 @@
 exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  type = "html", converter = "ttx", base64 = TRUE, width = 550,
-  body = TRUE, solution = TRUE, doctype = NULL, head = NULL, ...)
+  resolution = 100, width = 4, height = 4, ...)
 {
-  transform2x <- make_exercise_transform_x(converter = converter,
-    base64 = base64, body = body, width = width, ...)
+  ## set up .html transformer
+  htmltransform <- make_exercise_transform_x(...)
 
+  ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet), read = NULL,
-      transform = transform2x, write = NULL),
+    driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+      resolution = resolution, width = width, height = height), read = NULL,
+      transform = htmltransform, write = NULL),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
-  make_exams_write_imsqti(exm, dir, tdir, name, base64, ...)
+  ## write exam in IMS QTI 1.2 standard to .xml file
+  make_exams_write_imsqti(exm, dir, tdir, name, ...)
 
   invisible(exm)
 }
 
 
+## writes .xml assessments in IMS QTI 1.2 standard
 make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
-  base64 = NULL, template.assessment = NULL, template.item = NULL, ...)
+  template.assessment = NULL, template.item = NULL, ...)
 {
   dir <- path.expand(dir)
   if(is.null(tdir)) {
@@ -84,7 +87,7 @@ make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
 
     ## now, insert the questions
     for(i in 1:nx)
-      sections <- c(sections, ex <- write.imsqti.item(x[[i]][[j]], test_dir, item_xml, base64))
+      sections <- c(sections, ex <- write.imsqti.item(x[[i]][[j]], test_dir, item_xml))
 
     ## end section
     sections <- c(sections, '</section>')
@@ -112,7 +115,7 @@ make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
 
 
 ## functions for item construction
-write.imsqti.item <- function(x, dir, xml, base64 = NULL)
+write.imsqti.item <- function(x, dir, xml)
 {
   ## get the question type
   type <- x$metainfo$type
@@ -136,7 +139,7 @@ write.imsqti.item <- function(x, dir, xml, base64 = NULL)
   
   ## get the item body
   class(x) <- c(type, "list")
-  body <- get.item.body(x, dir, base64)
+  body <- get.item.body(x, dir)
 
   ## insert the body text
   xml <- input_text("##ItemBody", body, xml)
@@ -150,21 +153,14 @@ write.imsqti.item <- function(x, dir, xml, base64 = NULL)
   ## insert possible feedback
   xml <- input_text("##ItemFeedback", x$feedback, xml)
 
-  ## copy images to dir if !base64
-  if(!is.null(base64) && !base64) {
+  ## copy supplements
+  if(length(x$supplements)) {
     if(!file.exists(media_dir <- file.path(dir, "media")))
       dir.create(media_dir)
-    if(!is.null(x$supplements)) {
-      for(i in seq_along(basename(x$supplements))) {
-        if(any(grepl(f <- basename(x$supplements[i]), xml))) {
-          nn <- paste("pic", iname, f, sep = "_")
-          file.copy(x$supplements[i], file.path(media_dir, nn))
-          for(imgpath in grep(f, xml, value = TRUE)) {
-            imgpath <- strsplit(imgpath, "src=")[[1]][2]
-            imgpath <- gsub('"', '', strsplit(imgpath, " alt=")[[1]][1], fixed = TRUE)
-            xml <- gsub(imgpath, paste("media", nn, sep = "/"), xml)
-          }
-        }
+    for(i in seq_along(x$supplements)) {
+      file.copy(x$supplements[i], file.path(media_dir, f <- basename(x$supplements[i])))
+      if(any(grepl(f, xml))) {
+        xml <- gsub(f, paste("media", f, sep = "/"), xml, fixed = TRUE)
       }
     }
   }
@@ -174,14 +170,14 @@ write.imsqti.item <- function(x, dir, xml, base64 = NULL)
 
 
 ## create question specific item bodies
-get.item.body <- function(x, dir, base64 = NULL)
+get.item.body <- function(x, dir)
 {
   UseMethod("get.item.body")
 }
 
 
 ## multiple/single choice item writer function
-get.item.body.mchoice <- get.item.body.schoice <- function(x, dir, base64 = NULL)
+get.item.body.mchoice <- get.item.body.schoice <- function(x, dir)
 {
   ## generate ids
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
@@ -321,7 +317,7 @@ get.item.body.mchoice <- get.item.body.schoice <- function(x, dir, base64 = NULL
 
 
 ## numeric item body writer function
-get.item.body.num <- function(x, dir, base64 = NULL, ...)
+get.item.body.num <- function(x, dir, ...)
 {
   ## generate an unique id
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")

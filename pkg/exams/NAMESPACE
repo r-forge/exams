@@ -23,18 +23,15 @@ export(
   ## image driver
   "tex2image",
 
-  ## html xml driver
+  ## HTML/XML driver
   "exams2html",
   "make_exercise_transform_x",
   "make_exercise_transform_tex2image",
   "make_exercise_transform_ttx",
   "make_exams_write_html",
-  "pdf2png4html",
-  "tex4ht",
-  "ttx",
   "show.html",
 
-  ## imsqti driver
+  ## IMS QTI 1.2 driver
   "exams2imsqti",
   "make_exams_write_imsqti"
 )

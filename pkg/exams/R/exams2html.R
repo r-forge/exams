@@ -1,22 +1,24 @@
 ## generate exams in .html format
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  converter = "ttx", base64 = TRUE, width = 550,
-  body = TRUE, solution = TRUE, doctype = NULL, head = NULL, ...)
+  solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
+  width = 4, height = 4, ...)
 {
+  ## specify a directory if 'dir = NULL'
   if(is.null(dir)) {
     dir.create(dir <- tempfile())
     dirNULL <- TRUE
   } else dirNULL <- FALSE
 
-  htmltransform <- make_exercise_transform_x(converter = converter,
-    base64 = base64, body = body, width = width, ...)
-
+  ## set up .html transformer and writer function
+  htmltransform <- make_exercise_transform_x(...)
   htmlwrite <- make_exams_write_html(doctype, head, solution, name, dirNULL = dirNULL, ...)
 
+  ## create final .html exam
   xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet), read = NULL,
-      transform = htmltransform, write = htmlwrite),
+    driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+      resolution = resolution, width = width, height = height),
+      read = NULL, transform = htmltransform, write = htmlwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 }
 
@@ -72,8 +74,7 @@ make_exams_write_html <- function(doctype = NULL,
       html <- c(html, "</li>")
       if(length(ex$supplements)) {
         for(i in ex$supplements) {
-          if(any(grepl(basename(i), html)))
-            file.copy(i, file.path(tdir, basename(i)))
+          file.copy(i, file.path(tdir, basename(i)))
         }
       }
       sdir <- c(sdir, attr(ex$supplements, "dir"))
