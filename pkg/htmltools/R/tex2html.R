@@ -28,17 +28,11 @@ TTH <- TTM <- ""
     }
 }
 
-tth <- function(x, ..., delblanks = TRUE, documentclass = TRUE)
+tth <- function(x, ..., delblanks = TRUE)
 {
-    ## if requested, check that a documentclass call is in TeX
-    if(!identical(documentclass, FALSE) && length(grep("\\documentclass", x, fixed = TRUE)) < 1L) {
-        if(!is.character(documentclass)) documentclass <- ""
-        x <- c(sprintf("\\documentclass{%s}", documentclass), x)
-    }
-    
     ## call tth
     y <- system(paste(htmltools:::TTH, tth.control(...)),
-      input = c(documentclass, x), intern = TRUE, ignore.stderr = TRUE)
+      input = x, intern = TRUE, ignore.stderr = TRUE)
 
     ## delete blanks if requested
     if(delblanks) y <- y[-grep("^ *$", y)]
@@ -46,14 +40,8 @@ tth <- function(x, ..., delblanks = TRUE, documentclass = TRUE)
     return(y)
 }
 
-ttm <- function(x, ..., delblanks = TRUE, documentclass = TRUE)
+ttm <- function(x, ..., delblanks = TRUE)
 {
-    ## if requested, check that a documentclass call is in TeX
-    if(!identical(documentclass, FALSE) && length(grep("\\documentclass", x, fixed = TRUE)) < 1L) {
-        if(!is.character(documentclass)) documentclass <- ""
-        x <- c(sprintf("\\documentclass{%s}", documentclass), x)
-    }
-    
     ## call tth
     y <- system(paste(htmltools:::TTM, tth.control(...)),
       input = x, intern = TRUE, ignore.stderr = TRUE)
@@ -65,7 +53,7 @@ ttm <- function(x, ..., delblanks = TRUE, documentclass = TRUE)
 }
 
 tth.control <- function(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
-  i = FALSE, j = NULL, L = NULL, n = NULL, p = NULL, r = TRUE, t = FALSE, u = FALSE,
+  i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE, t = FALSE, u = FALSE,
   w = NULL, y = 2, xmakeindxcmd = NULL, v = FALSE)
 {
   ## collect all arguments
@@ -84,7 +72,7 @@ tth.control <- function(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FA
       }
     }
   }
-  for(i in c("a", "c", "d", "g", "i", "r", "t", "u", "v", "V")) {
+  for(i in c("a", "c", "d", "g", "i", "L", "r", "t", "u", "v", "V")) {
     if(!is.null(rval[[i]])) {
       if(!is.logical(rval[[i]]) | length(rval[[i]]) != 1L) {
         warning(sprintf("argument %s needs to be a single logical, changed to default", i))
@@ -100,7 +88,7 @@ tth.control <- function(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FA
       }
     }
   }
-  for(i in c("L", "p", "xmakeindxcmd")) {
+  for(i in c("p", "xmakeindxcmd")) {
     if(!is.null(rval[[i]])) {
       if(!is.character(rval[[i]]) | length(rval[[i]]) != 1L) {
         warning(sprintf("argument %s needs to be a single character, changed to default", i))

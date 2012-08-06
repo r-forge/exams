@@ -11,20 +11,16 @@ complete documents.
 }
 
 \usage{
-tth(x, \dots, delblanks = TRUE, documentclass = TRUE)
-ttm(x, \dots, delblanks = TRUE, documentclass = TRUE)
+tth(x, \dots, delblanks = TRUE)
+ttm(x, \dots, delblanks = TRUE)
 
 tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
-  i = FALSE, j = NULL, L = NULL, n = NULL, p = NULL, r = TRUE,
+  i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE,
   t = FALSE, u = FALSE, w = NULL, y = 2, xmakeindxcmd = NULL, v = FALSE)
 }
 \arguments{
   \item{x}{character vector of (La)TeX code.}
   \item{delblanks}{logical, delete blank or empty lines?}
-  \item{documentclass}{logical or character. Should \code{x} be checked for
-    a documentclass declaration and, if missing, add one? If character, e.g.,
-    \code{documentclass = "article"}, the corresponding documentclass is added.
-    Default is an empty documentclass.}
   \item{\dots}{arguments passed to \code{tth.control}.}
   \item{a}{logical. Enable automatic calls of LaTeX? If no aux file exists,
     attempt to call. picture environment conversion using \code{latex2gif}.
@@ -40,8 +36,7 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   \item{i}{logical. Use italic font for equations (like TeX)? Default roman.
     For \code{tth} only.}
   \item{j}{numeric specifying index page length. Default is 20 lines.}
-  \item{L}{character with file for telling \code{tth} the base file (no extension) for
-    LaTeX auxiliary input, enabling LaTeX commands (e.g., frac) without a documentclass line.}
+  \item{L}{logical. Should LaTeX commands (e.g., frac) be enabled without a docmentclass line?}
   \item{n}{numeric HTML title format control: \code{0} raw, \code{1} expand macros, \code{2} expand
     equations.}
   \item{p}{character specifying additional directories (paths) to search for input files.}
