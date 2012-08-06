@@ -11,8 +11,8 @@ complete documents.
 }
 
 \usage{
-tth(x, \dots, delblanks = TRUE)
-ttm(x, \dots, delblanks = TRUE)
+tth(x, \dots, delblanks = TRUE, Sweave = TRUE)
+ttm(x, \dots, delblanks = TRUE, Sweave = TRUE)
 
 tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE,
@@ -20,7 +20,9 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
 }
 \arguments{
   \item{x}{character vector of (La)TeX code.}
-  \item{delblanks}{logical, delete blank or empty lines?}
+  \item{delblanks}{logical. Delete blank or empty lines?}
+  \item{Sweave}{logical. Should the Sweave code environments Sinput/Soutput be
+    replaced by verabtim (and Schunk deleted) prior to conversion with \code{tth}/\code{ttm}?}
   \item{\dots}{arguments passed to \code{tth.control}.}
   \item{a}{logical. Enable automatic calls of LaTeX? If no aux file exists,
     attempt to call. picture environment conversion using \code{latex2gif}.
