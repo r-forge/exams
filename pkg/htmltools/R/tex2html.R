@@ -31,13 +31,15 @@ TTH <- TTM <- ""
 tth <- function(x, ..., delblanks = TRUE, Sweave = TRUE)
 {
     ## replace/remove Sweave code environments
-    x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
-    x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
-    x <- gsub("\\\\begin\\{Soutput}", "\\\\begin{verbatim}", x)
-    x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
-    x <- gsub("\\\\begin\\{Schunk}", "", x)
-    x <- gsub("\\\\end\\{Schunk}", "", x)    
-
+    if(Sweave) {
+        x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
+        x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
+        x <- gsub("\\\\begin\\{Soutput}", "\\\\begin{verbatim}", x)
+        x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
+        x <- gsub("\\\\begin\\{Schunk}", "", x)
+        x <- gsub("\\\\end\\{Schunk}", "", x)    
+    }
+    
     ## call tth
     y <- system(paste(htmltools:::TTH, tth.control(...)),
       input = x, intern = TRUE, ignore.stderr = TRUE)
@@ -51,12 +53,14 @@ tth <- function(x, ..., delblanks = TRUE, Sweave = TRUE)
 ttm <- function(x, ..., delblanks = TRUE, Sweave = TRUE)
 {
     ## replace/remove Sweave code environments
-    x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
-    x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
-    x <- gsub("\\\\begin\\{Soutput}", "\\\\begin{verbatim}", x)
-    x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
-    x <- gsub("\\\\begin\\{Schunk}", "", x)
-    x <- gsub("\\\\end\\{Schunk}", "", x)    
+    if(Sweave) {
+        x <- gsub("\\\\begin\\{Sinput}", "\\\\begin{verbatim}", x)
+        x <- gsub("\\\\end\\{Sinput}", "\\\\end{verbatim}", x)
+        x <- gsub("\\\\begin\\{Soutput}", "\\\\begin{verbatim}", x)
+        x <- gsub("\\\\end\\{Soutput}", "\\\\end{verbatim}", x)
+        x <- gsub("\\\\begin\\{Schunk}", "", x)
+        x <- gsub("\\\\end\\{Schunk}", "", x)    
+    }
 
     ## call tth
     y <- system(paste(htmltools:::TTM, tth.control(...)),
