@@ -6,19 +6,19 @@ TTH <- TTM <- ""
     ## version is proof of concept
     if(length(tthpath <- find.package("tth", quiet=TRUE))) {
         if(.Platform$OS.type == "windows") {
-            TTH <<- file.path(tthpath, "libs", .Platform$r_arch, "tth.exe -r -u -e2 -y0")
-            TTM <<- file.path(tthpath, "libs", .Platform$r_arch, "ttm.exe -r -u -e2 -y0")
+            TTH <<- file.path(tthpath, "libs", .Platform$r_arch, "tth.exe")
+            TTM <<- file.path(tthpath, "libs", .Platform$r_arch, "ttm.exe")
         } else {
-            TTH <<- file.path(tthpath, "libs", .Platform$r_arch, "tth -r -u -e2 -y0")
-            TTM <<- file.path(tthpath, "libs", .Platform$r_arch, "ttm -r -u -e2 -y0")
+            TTH <<- file.path(tthpath, "libs", .Platform$r_arch, "tth")
+            TTM <<- file.path(tthpath, "libs", .Platform$r_arch, "ttm")
         }
     } else {
         if(.Platform$OS.type == "windows") {
-            TTH <<- "tth.exe -r -u -e2 -y0"
-            TTM <<- "ttm.exe -r -u -e2 -y0"
+            TTH <<- "tth.exe"
+            TTM <<- "ttm.exe"
         } else {
-            TTH <<- "tth -r -u -e2 -y0"
-            TTM <<- "ttm -r -u -e2 -y0"
+            TTH <<- "tth"
+            TTM <<- "ttm"
         }
         test <- try(system(htmltools:::TTH, input = "Try running tth!",
                            intern = TRUE, ignore.stderr = TRUE), silent=TRUE)
@@ -28,19 +28,39 @@ TTH <- TTM <- ""
     }
 }
 
-tth <- function(x, ..., delblanks = TRUE)
+tth <- function(x, ..., delblanks = TRUE, documentclass = TRUE)
 {
+    ## if requested, check that a documentclass call is in TeX
+    if(!identical(documentclass, FALSE) && length(grep("\\documentclass", x, fixed = TRUE)) < 1L) {
+        if(!is.character(documentclass)) documentclass <- ""
+        x <- c(sprintf("\\documentclass{%s}", documentclass), x)
+    }
+    
+    ## call tth
     y <- system(paste(htmltools:::TTH, tth.control(...)),
-      input = x, intern = TRUE, ignore.stderr = TRUE)
+      input = c(documentclass, x), intern = TRUE, ignore.stderr = TRUE)
+
+    ## delete blanks if requested
     if(delblanks) y <- y[-grep("^ *$", y)]
+
     return(y)
 }
 
-ttm <- function(x, ..., delblanks = TRUE)
+ttm <- function(x, ..., delblanks = TRUE, documentclass = TRUE)
 {
+    ## if requested, check that a documentclass call is in TeX
+    if(!identical(documentclass, FALSE) && length(grep("\\documentclass", x, fixed = TRUE)) < 1L) {
+        if(!is.character(documentclass)) documentclass <- ""
+        x <- c(sprintf("\\documentclass{%s}", documentclass), x)
+    }
+    
+    ## call tth
     y <- system(paste(htmltools:::TTM, tth.control(...)),
       input = x, intern = TRUE, ignore.stderr = TRUE)
+
+    ## delete blanks if requested
     if(delblanks) y <- y[-grep("^ *$", y)]    
+
     return(y)
 }
 

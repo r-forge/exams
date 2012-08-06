@@ -11,8 +11,8 @@ complete documents.
 }
 
 \usage{
-tth(x, \dots, delblanks = TRUE)
-ttm(x, \dots, delblanks = TRUE)
+tth(x, \dots, delblanks = TRUE, documentclass = TRUE)
+ttm(x, \dots, delblanks = TRUE, documentclass = TRUE)
 
 tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   i = FALSE, j = NULL, L = NULL, n = NULL, p = NULL, r = TRUE,
@@ -21,6 +21,10 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
 \arguments{
   \item{x}{character vector of (La)TeX code.}
   \item{delblanks}{logical, delete blank or empty lines?}
+  \item{documentclass}{logical or character. Should \code{x} be checked for
+    a documentclass declaration and, if missing, add one? If character, e.g.,
+    \code{documentclass = "article"}, the corresponding documentclass is added.
+    Default is an empty documentclass.}
   \item{\dots}{arguments passed to \code{tth.control}.}
   \item{a}{logical. Enable automatic calls of LaTeX? If no aux file exists,
     attempt to call. picture environment conversion using \code{latex2gif}.
