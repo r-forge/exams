@@ -1,6 +1,6 @@
 Package: htmltools
 Version: 0.1-0
-Date: 2012-07-28
+Date: 2012-08-07
 Authors@R: c(person("Romain", "Francois", role = "aut",
                comment = "author of base64 C sources"),
 	     person("Friedrich", "Leisch", role = c("aut", "cre"),
