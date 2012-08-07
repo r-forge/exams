@@ -106,7 +106,11 @@ make_exercise_transform_ttx <- function(x, converter = "ttm", b64 = TRUE, ...)
             trex[[i]][j] <- gsub(paste('src="', sf, '"', sep = ''),
               paste('src="', b64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
             file.remove(file.path(sdir, sf))
+print(x$supplements)
+cat("next!!!\n")
             x$supplements <- x$supplements[!grepl(sf, x$supplements)]
+print(x$supplements)
+cat("finish\n")
           }
         }
       }
