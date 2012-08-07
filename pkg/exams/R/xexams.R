@@ -50,7 +50,6 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   ##   - check existence (use local files if they exist, otherwise take from package)
   ##   - setup sampling (draw random configuration)
   file_id <- rep(seq_along(file), navail)
-
   file_raw <- unlist(file)
   file_Rnw <- ifelse(
     tolower(substr(file_raw, nchar(file_raw)-3, nchar(file_raw))) != ".rnw",
@@ -104,27 +103,26 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       dir_supp_ij <- file.path(dir_supp_i, names(exm[[i]])[j])
       if(!dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
 
-      ## start time (minus one second)
-      ## FIXME: stime <- Sys.time() - 0.001
-      ## also tried - 0.1, not working, now set to
-      stime <- Sys.time() - 1
-    
-      ## run Sweave
+      ## dirver: Sweave
       driver$sweave(file_Rnw[idj])
 
-      ## infer and save supplements
-      sfile <- sapply(Sys.glob("*.*"), function(x) file.info(x)$mtime > stime)
-      sfile <- names(sfile)[sfile]
-      sfile <- sfile[!(sfile %in% c(file_tex, file_Rnw))]
-      if(length(sfile) > 0L) file.copy(sfile, dir_supp_ij)
-
-      ## collect LaTeX file
+      ## driver: read LaTeX file
       exm[[i]][[j]] <- driver$read(file_tex[idj])
+
+      ## infer and save supplements
+      sfile <- Sys.glob("*.*")
+      sfile <- sfile[!(sfile %in% c(file_tex, file_Rnw))]
+      if(length(sfile) > 0L) {
+        file.copy(sfile, dir_supp_ij)
+	file.remove(sfile)
+      }
       exm[[i]][[j]]$supplements <- structure(file.path(dir_supp_ij, sfile), names = sfile, dir = dir_supp_ij)
 
+      ## driver: transform exercise (e.g., LaTeX -> HTML)
       if(!is.null(driver$transform)) exm[[i]][[j]] <- driver$transform(exm[[i]][[j]])
     }
 
+    ## driver: write output for each exam
     if(!is.null(driver$write)) driver$write(exm[[i]], dir = dir, info = list(id = i, n = n)) ## FIXME: do we need further information?
   }
 
