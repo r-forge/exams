@@ -139,7 +139,7 @@ write.imsqti.item <- function(x, dir, xml)
   
   ## get the item body
   class(x) <- c(type, "list")
-  body <- get.item.body(x, dir)
+  body <- get.item.body(x)
 
   ## insert the body text
   xml <- input_text("##ItemBody", body, xml)
@@ -157,10 +157,15 @@ write.imsqti.item <- function(x, dir, xml)
   if(length(x$supplements)) {
     if(!file.exists(media_dir <- file.path(dir, "media")))
       dir.create(media_dir)
+    j <- 1
+    while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", j, sep = "")))) {
+      j <- j + 1
+    }
+    dir.create(ms_dir <- file.path(media_dir, sup_dir))
     for(i in seq_along(x$supplements)) {
-      file.copy(x$supplements[i], file.path(media_dir, f <- basename(x$supplements[i])))
+      file.copy(x$supplements[i], file.path(ms_dir, f <- basename(x$supplements[i])))
       if(any(grepl(f, xml))) {
-        xml <- gsub(f, paste("media", f, sep = "/"), xml, fixed = TRUE)
+        xml <- gsub(f, paste("media", sup_dir, f, sep = "/"), xml, fixed = TRUE)
       }
     }
   }
@@ -170,14 +175,14 @@ write.imsqti.item <- function(x, dir, xml)
 
 
 ## create question specific item bodies
-get.item.body <- function(x, dir)
+get.item.body <- function(x)
 {
   UseMethod("get.item.body")
 }
 
 
 ## multiple/single choice item writer function
-get.item.body.mchoice <- get.item.body.schoice <- function(x, dir)
+get.item.body.mchoice <- get.item.body.schoice <- function(x)
 {
   ## generate ids
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
@@ -317,7 +322,7 @@ get.item.body.mchoice <- get.item.body.schoice <- function(x, dir)
 
 
 ## numeric item body writer function
-get.item.body.num <- function(x, dir, ...)
+get.item.body.num <- function(x)
 {
   ## generate an unique id
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
