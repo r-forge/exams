@@ -29,7 +29,7 @@ make_exams_write_wu <- function(name = NULL, ...)
     name <- paste(name, as.character(Sys.Date()), info$id, sep = "-")
 
     dir.create(tdir <- tempfile())
-    ## on.exit(unlink(tdir))
+    on.exit(unlink(tdir))
     dir.create(test_dir <- file.path(tdir, name))
 
     ## start to write the exam.xml

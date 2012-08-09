@@ -37,7 +37,11 @@ export(
 
   ## WU driver
   "exams2wu",
-  "make_exams_write_wu"
+  "make_exams_write_wu",
+
+  ## Moodle driver
+  "exams2moodle",
+  "make_exams_write_moodle"
 )
 
 S3method("print", "exams_metainfo")
