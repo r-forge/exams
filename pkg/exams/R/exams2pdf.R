@@ -144,6 +144,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         wi <-  grep("\\exinput{questionnaire}", tmpl, fixed = TRUE)
         tmpl[wi] <- paste(c("\\begin{enumerate}", sapply(seq_along(typ), function(i)
 	  switch(typ[i],
+	    "schoice" = mchoice2quest(sol[[i]]),
 	    "mchoice" = mchoice2quest(sol[[i]]),
             "num" =  num2quest(sol[[i]]),
             "string" = string2quest(sol[[i]]))),

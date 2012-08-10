@@ -29,9 +29,9 @@ read_exercise <- function(file)
   metainfo <- read_metainfo(file)
   
   ## consistency checks
-  if(!is.null(questionlist) && metainfo$type == "mchoice" && metainfo$length != length(questionlist))
+  if(!is.null(questionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(questionlist))
     warning("length of \\exsolution and {answerlist} does not match")
-  if(!is.null(solutionlist) && metainfo$type == "mchoice" && metainfo$length != length(solutionlist))
+  if(!is.null(solutionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(solutionlist))
     warning("length of \\exsolution and {answerlist} does not match")
   
   list(

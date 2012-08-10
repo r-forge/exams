@@ -50,8 +50,8 @@ read_metainfo <- function(file)
   x <- readLines(file)
 
   ## Description ###################################
-  extype <- match.arg(extract_command(x, "extype"), ## type of question: mchoice, num, string, or cloze
-    c("mchoice", "num", "string", "cloze"))  
+  extype <- match.arg(extract_command(x, "extype"), ## type of question: schoice, mchoice, num, string, or cloze
+    c("schoice", "mchoice", "num", "string", "cloze"))  
   exname <- extract_command(x, "exname")            ## short name/description, only used for printing within R
   extitle <- extract_command(x, "extitle")          ## pretty longer title
   exsection <- extract_command(x, "exsection")      ## sections for groups of exercises, use slashes for subsections (like URL)
@@ -66,13 +66,14 @@ read_metainfo <- function(file)
   ## E-Learning & Exam ###################################
   expoints  <- extract_command(x, "expoints",  "numeric") ## default points
   extime    <- extract_command(x, "extime",    "numeric") ## default time in seconds
-  exshuffle <- extract_command(x, "exshuffle", "logical") ## shuffle mchoice answers?
+  exshuffle <- extract_command(x, "exshuffle", "logical") ## shuffle schoice/mchoice answers?
   exsingle  <- extract_command(x, "exsingle",  "logical") ## use radio buttons?
 
   ## process valid solution types (in for loop for each cloze element)
   slength <- length(exsolution)
   stopifnot(slength >= 1L)
   exsolution <- switch(extype,
+    "schoice" = string2mchoice(exsolution, single = TRUE),
     "mchoice" = string2mchoice(exsolution),
     "num" = as.numeric(exsolution),
     "string" = exsolution,
@@ -84,10 +85,10 @@ read_metainfo <- function(file)
       if(length(exclozetype) > 1L & length(exclozetype) != slength)
         warning("length of \\exclozetype does not match length of \\exsolution")
       exclozetype <- rep(exclozetype, length.out = slength)
-      for(i in 1L:slength) exsolution[i] <- switch(match.arg(exclozetype[i], c("mchoice", "num", "string")),
-        "mchoice" = as.numeric(exsolution[i]), ## FIXME: or use which(string2mchoice()) ?
-	      "num" = as.numeric(exsolution[i]),
-	      "string" = exsolution[i])
+      for(i in 1L:slength) exsolution[i] <- switch(match.arg(exclozetype[i], c("schoice", "num", "string")),
+        "schoice" = as.numeric(exsolution[i]), ## FIXME: or use which(string2mchoice()) ?
+        "num" = as.numeric(exsolution[i]),
+        "string" = exsolution[i])
     })
   slength <- length(exsolution)
 
@@ -97,6 +98,7 @@ read_metainfo <- function(file)
 
   ## compute "nice" string for printing solution in R
   string <- switch(extype,
+    "schoice" = paste(exname, ": ", which(exsolution), sep = ""),                                                      ## FIXME: currently fixed
     "mchoice" = paste(exname, ": ", paste(if(any(exsolution)) which(exsolution) else "-", collapse = ", "), sep = ""), ## FIXME: currently fixed
     "num" = if(max(extol) <= 0) {
       paste(exname, ": ", exsolution, sep = "")
