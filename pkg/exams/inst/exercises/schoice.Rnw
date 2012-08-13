@@ -1,0 +1,52 @@
+<<echo=FALSE, results=hide>>=
+n <- 40
+dat <- data.frame("x" = runif(n, -3, 3))
+dat$y <- with(dat, 1.5 + sin(x) + rnorm(n, sd = 0.1))
+
+questions <- c(
+  "The relationship between x and y is nonlinear.",
+  "The relationship between x and y is linear.",
+  "There is no relationship between x and y.",
+  "The relationship between x and y is quadratic.",
+  "The relationship between x and y is negative."
+)
+solutions <- c(TRUE, FALSE, FALSE, FALSE, FALSE)
+
+id <- sample(1:5, 5, replace = FALSE)
+questions <- questions[id]
+solutions <- solutions[id]
+@
+
+\begin{question}
+See the following scatterplot of $x$ and $y$ data:
+\begin{center}
+<<fig=TRUE, height=5, width=6, echo=FALSE, eps=FALSE, results=hide>>=
+plot(dat)
+@
+\end{center}
+Which of the following answers is correct?
+\begin{answerlist}
+  \item \Sexpr{questions[1]}
+  \item \Sexpr{questions[2]}
+  \item \Sexpr{questions[3]}
+  \item \Sexpr{questions[4]}
+  \item \Sexpr{questions[5]}
+\end{answerlist}
+\end{question}
+
+%% SOLUTIONS
+\begin{solution}
+\begin{answerlist}
+  \item \Sexpr{mchoice2text(solutions[1])}
+  \item \Sexpr{mchoice2text(solutions[2])}
+  \item \Sexpr{mchoice2text(solutions[3])}
+  \item \Sexpr{mchoice2text(solutions[4])}
+  \item \Sexpr{mchoice2text(solutions[5])}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(solutions)}}
+%% \exname{Single choice}
+
