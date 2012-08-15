@@ -1,0 +1,128 @@
+<<echo=FALSE, results=hide>>=
+## DATA
+n <- sample(30:50, 1)
+m <- sample(1:4, 1)
+s <- runif(1, 0.5, 2)
+delta <- ifelse(runif(1) < 0.2, sample(8:12), 0)
+p2 <- runif(1, 0.45, 0.55)
+skewed <- left <- FALSE
+if(!delta) {
+    skewed <- runif(1) < 0.6
+    left <- runif(1) < 0.3
+}
+
+dgpBoxhist <- function(n = 40, mean = 0, sd = 1, delta = 0,
+  p2 = 0.5, skewed = FALSE, left = FALSE)
+{
+  SK <- function(x) abs(diff(diff(fivenum(x)[2:4]))/diff(fivenum(x)[c(2, 4)]))
+  sim <- function(x){
+    x <- rnorm(n)
+    if(skewed) exp(x) else x
+  }
+
+  x <- sim()
+  if(skewed) while(SK(x) < 0.7) x <- sim() else while(SK(x) > 0.15) x <- sim()
+  if(left) x <- -x
+
+  x <- mean + sd * scale(x)
+  k <- sample(1:n, round(p2 * n))
+  x[k] <- x[k] + delta
+  as.vector(sample(x))
+}
+x <- round(dgpBoxhist(n = n, mean = m, sd = s, delta = delta, 
+  p2 = p2, skewed = skewed, left = left), digits = 2)
+
+b <- boxplot(x, plot = FALSE)
+spread <- tol <- signif(diff(range(c(b$stats, b$out)))/25, 1)
+
+write.csv2(data.frame(x), file = "boxhist.csv") ## FIXME: instead of \exdatafile{}
+
+## QUESTION/SOLUTION
+nq <- 8
+questions <- explanations <- character(nq)
+solutions <- ag <- numeric(nq)
+soltype <- rep("mchoice", nq)
+
+questions[1] <- "The distribution is unimodal."
+solutions[1] <- !delta
+ag[1] <- 1 ## FIXME: currently not implemented in read_metainfo()
+
+questions[2] <- "The distribution is symmetric."
+solutions[2] <- !skewed ## FIXME: !(skewed | delta) ?
+ag[2] <- 2
+    
+questions[3] <- "The distribution is right-skewed."
+solutions[3] <- skewed & !left
+ag[3] <- 2
+
+questions[4] <- "The distribution is left-skewed."
+solutions[4] <- skewed & left
+ag[4] <- 2
+
+questions[5] <- "The boxplot shows outliers."
+solutions[5] <- length(b$out) > 0
+ag[5] <- 3
+explanations[1:5] <- ifelse(solutions[1:5], "True", "False")
+
+questions[6] <- "A quarter of the observations is smaller than which value?"
+solutions[6] <- explanations[6] <- signif(b$stats[2], 3)
+soltype[6] <- "num"
+ag[6] <- 4
+    
+questions[7] <- "A quarter of the observations is greater than which value?"
+solutions[7] <- explanations[7] <- signif(b$stats[4], 3)
+soltype[7] <- "num"
+ag[7] <- 5
+
+questions[8] <- paste("Half of the observations are",
+  sample(c("smaller", "greater"), 1), "than which value?")
+solutions[8] <- explanations[8] <- signif(b$stats[3], 3)
+soltype[8] <- "num"
+ag[8] <- 6
+
+answerlist <- function(x) {
+  cat("  \\begin{answerlist}\n")
+  cat(paste("    \\item ", x, sep = "", collapse = "\n"))
+  cat("\n  \\end{answerlist}\n")
+}
+@    
+
+\begin{question}
+  For the \Sexpr{n} observations of the variable \texttt{x} in the data file
+  \texttt{\url{boxhist.csv}} draw a histogram, a boxplot and a stripchart.
+  Based on the graphics, answer the following questions or check the correct
+  statements, respectively. \emph{(Comment: The tolerance for numeric answers is
+  $\pm\Sexpr{tol}$, the true/false statements are either about correct or clearly wrong.)}
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@ 
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=hide, fig=TRUE,width=8,height=4>>=
+par(mfrow = c(1, 2))
+boxplot(x)
+hist(x)
+rug(x)
+@ 
+  
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(paste(explanations, ".", sep = ""))
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}
+%% \exclozetype{\Sexpr{paste(soltype, collapse = "|")}}
+%% \exname{boxhist}
+%% \exsection{boxhist}
+%% \extitle{Boxplot und Histogramm}
+%% \extol{\Sexpr{tol}}
+%% \exversion{0.1}
+%% \exanswergroups{\Sexpr{paste(ag, collapse = "|")}}
+
