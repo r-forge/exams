@@ -102,10 +102,12 @@ answerlist(questions)
 
 \begin{solution}
 
-<<echo=FALSE, results=hide, fig=TRUE,width=8,height=4>>=
+<<echo=FALSE, results=hide, fig=TRUE,width=9,height=4.5>>=
 par(mfrow = c(1, 2))
-boxplot(x)
-hist(x)
+boxplot(x, axes = FALSE)
+axis(2, at = signif(b$stats, 3), las = 1)
+box()
+hist(x, freq = FALSE, main = "")
 rug(x)
 @ 
   
