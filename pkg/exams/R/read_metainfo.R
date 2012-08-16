@@ -18,7 +18,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
       if(type=="logical") return(FALSE) else return(NULL)
   }
   if(length(rval) > 1L) {
-    warning("command", sQuote(command), "occurse more than once, last instance used")
+    warning("command", sQuote(command), "occurs more than once, last instance used")
     rval <- tail(rval, 1L)
   }
   
@@ -80,15 +80,18 @@ read_metainfo <- function(file)
     "cloze" = {
       if(is.null(exclozetype)) {
         warning("no \\exclozetype{} specified, taken to be string")
-	      exclozetype <- "string"
+	exclozetype <- "string"
       }
       if(length(exclozetype) > 1L & length(exclozetype) != slength)
         warning("length of \\exclozetype does not match length of \\exsolution")
       exclozetype <- rep(exclozetype, length.out = slength)
-      for(i in 1L:slength) exsolution[i] <- switch(match.arg(exclozetype[i], c("schoice", "num", "string")),
-        "schoice" = as.numeric(exsolution[i]), ## FIXME: or use which(string2mchoice()) ?
-        "num" = as.numeric(exsolution[i]),
-        "string" = exsolution[i])
+      exsolution <- as.list(exsolution)
+      for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string")),
+        "schoice" = string2mchoice(exsolution[[i]], single = TRUE), ## FIXME: like this?
+        "mchoice" = string2mchoice(exsolution[[i]]),
+        "num" = as.numeric(exsolution[[i]]),
+        "string" = exsolution[[i]])
+      exsolution
     })
   slength <- length(exsolution)
 
@@ -111,7 +114,7 @@ read_metainfo <- function(file)
       }
     },
     "string" = paste(exname, ": ", paste(exsolution, collapse = "\n"), sep = ""),
-    "cloze" = paste(exname, ": ", paste(exsolution, collapse = " | "), sep = "")
+    "cloze" = paste(exname, ": ", paste(sapply(exsolution, paste, collapse = ", "), collapse = " | "), sep = "")
   )
 
   ## return everything (backward compatible with earlier versions)

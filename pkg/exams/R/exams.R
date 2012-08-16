@@ -112,7 +112,7 @@ exams <- function(file, n = 1, nsamp = NULL, dir = NULL, template = "plain",
     )
     slength <- length(sol)
     string <- switch(type,
-      "schoice" = paste(nam, ": ", which(sol), sep = ""),
+      "schoice" = paste(nam, ": ", mchoice2print(sol), sep = ""),
       "mchoice" = paste(nam, ": ", mchoice2print(sol), sep = ""),
       "num" = if(max(tol) <= 0) {
         paste(nam, ": ", sol, sep = "")
