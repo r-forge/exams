@@ -1,25 +1,41 @@
 ## generate exams in .html format
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
   width = 4, height = 4, ...)
 {
-  ## specify a directory if 'dir = NULL'
+  ## output directory or display on the fly (n == 1L & is.null(dir))
+  display <- is.null(dir)
   if(is.null(dir)) {
-    dir.create(dir <- tempfile())
-    dirNULL <- TRUE
-  } else dirNULL <- FALSE
+    if(n == 1L) {
+      display <- TRUE
+      dir.create(dir <- tempfile())
+    } else {
+      stop("Please specify an output 'dir'.")
+    }
+  }
 
   ## set up .html transformer and writer function
   htmltransform <- make_exercise_transform_x(...)
-  htmlwrite <- make_exams_write_html(doctype, head, solution, name, dirNULL = dirNULL, ...)
+  htmlwrite <- make_exams_write_html(doctype, head, solution, name, ...)
 
   ## create final .html exam
-  xexams(file, n = n, nsamp = nsamp,
+  rval <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
       resolution = resolution, width = width, height = height),
       read = NULL, transform = htmltransform, write = htmlwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+
+  ## display single .html on the fly
+  if(display) {
+    out <- file.path(dir, paste(name, 1, sep = ""), paste(name, "1.html", sep = ""))
+    ## FIXME: Maybe omit extra exam layer directory?
+    if(.Platform$OS.type == "windows") shell.exec(out)
+      else system(paste(shQuote(getOption("browser")), shQuote(out)), wait = FALSE)
+  }
+  
+  ## return xexams object invisibly
+  invisible(rval)
 }
 
 
@@ -61,14 +77,14 @@ make_exams_write_html <- function(doctype = NULL,
       }
       if(solution) {
         html <- c(html, "<h4>", "Solution", "</h4>")
+        if(length(ex$solution)) {
+          html <- c(html, ex$solution, "<br/>")
+        }
         if(length(ex$solutionlist)) {
           html <- c(html, '<ol type="a">')
           for(i in ex$solutionlist)
             html <- c(html, "<li>", i, "</li>")
           html <- c(html, "</ol>", "<br/>")
-        }
-        if(length(ex$solution)) {
-          html <- c(html, ex$solution, "<br/>")
         }
       }
       html <- c(html, "</li>")
@@ -82,14 +98,11 @@ make_exams_write_html <- function(doctype = NULL,
     html <- c(html, "</ol>", "</body>", "</html>")
     if(length(sdir))
       for(i in sdir) html <- gsub(paste(i, "/", sep = ""), "", html, fixed = TRUE)
-    if(is.null(name))
-      name <- "exam"
+    if(is.null(name)) name <- "exam"
     writeLines(html, file.path(tdir, paste(name, info$id, ".html", sep = "")))
     out_dir <- file.path(dir, paste(name, info$id, sep = ""))
     dir.create(out_dir)
     file.copy(file.path(tdir, list.files(tdir)), file.path(out_dir, list.files(tdir)))
-    if(!is.null(args$dirNULL) && args$dirNULL)
-      show.html(file.path(out_dir, paste(name, info$id, ".html", sep = "")))
     invisible(NULL)
   }
 }

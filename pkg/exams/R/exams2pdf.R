@@ -2,11 +2,35 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()), name = NULL, control = NULL,
   quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL)
 {
+  ## output directory or display on the fly (n == 1L & is.null(dir) & length(template) == 1L)
+  display <- is.null(dir)
+  if(is.null(dir)) {
+    if(n == 1L & length(template) == 1L) {
+      display <- TRUE
+      dir.create(dir <- tempfile())
+    } else {
+      stop("Please specify an output 'dir'.")
+    }
+  }
+  
+  ## create PDF write with custom options
   pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs, header = header,
     name = name, quiet = quiet, control = control)
-  xexams(file, n = n, nsamp = nsamp,
+
+  ## generate xexams
+  rval <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet), read = NULL, transform = NULL, write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+
+  ## display single .pdf on the fly
+  if(display) {
+    out <- file.path(dir, paste(template, "1.pdf", sep = ""))
+    if(.Platform$OS.type == "windows") shell.exec(out)
+      else system(paste(shQuote(getOption("pdfviewer")), shQuote(out)), wait = FALSE)
+  }
+  
+  ## return xexams object invisibly
+  invisible(rval)
 }
 
 make_exams_write_pdf <- function(template = "plain", inputs = NULL,
