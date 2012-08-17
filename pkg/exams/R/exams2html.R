@@ -30,8 +30,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   if(display) {
     out <- file.path(dir, paste(name, 1, sep = ""), paste(name, "1.html", sep = ""))
     ## FIXME: Maybe omit extra exam layer directory?
-    if(.Platform$OS.type == "windows") shell.exec(out)
-      else system(paste(shQuote(getOption("browser")), shQuote(out)), wait = FALSE)
+    browseURL(out)
   }
   
   ## return xexams object invisibly
