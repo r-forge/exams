@@ -122,8 +122,5 @@ show.html <- function(x)
         file.copy(i, file.path(tempf, basename(i)))
     }
   }
-  system(paste(shQuote(getOption("browser")),
-    shQuote(file.path(tempf, fname))), wait = FALSE)
-  invisible(NULL)
+  browseURL(file.path(tempf, fname))
 }
-
