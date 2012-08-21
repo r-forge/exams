@@ -30,6 +30,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   if(display) {
     out <- file.path(dir, paste(name, 1, sep = ""), paste(name, "1.html", sep = ""))
     ## FIXME: Maybe omit extra exam layer directory?
+    out <- normalizePath(out)
     browseURL(out)
   }
   
@@ -122,5 +123,5 @@ show.html <- function(x)
         file.copy(i, file.path(tempf, basename(i)))
     }
   }
-  browseURL(file.path(tempf, fname))
+  browseURL(normalizePath(file.path(tempf, fname)))
 }

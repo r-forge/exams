@@ -24,7 +24,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## display single .pdf on the fly
   if(display) {
-    out <- file.path(dir, paste(template, "1.pdf", sep = ""))
+    out <- normalizePath(file.path(dir, paste(template, "1.pdf", sep = "")))
     if(.Platform$OS.type == "windows") shell.exec(out)
       else system(paste(shQuote(getOption("pdfviewer")), shQuote(out)), wait = FALSE)
   }
