@@ -28,8 +28,9 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## display single .html on the fly
   if(display) {
-    out <- file.path(dir, paste(name, 1, sep = ""), paste(name, "1.html", sep = ""))
+    ## out <- file.path(dir, paste(name, 1, sep = ""), paste(name, "1.html", sep = ""))
     ## FIXME: Maybe omit extra exam layer directory?
+    out <- file.path(dir, paste(name, "1.html", sep = ""))
     out <- normalizePath(out)
     browseURL(out)
   }
@@ -47,7 +48,6 @@ make_exams_write_html <- function(doctype = NULL,
   {
     args <- list(...)
     tdir <- tempfile()
-    sdir <- NULL
     dir.create(tdir)
     on.exit(unlink(tdir))
     if(is.null(doctype)) {
@@ -66,7 +66,9 @@ make_exams_write_html <- function(doctype = NULL,
         '</head>'
       )
     }
+    if(is.null(name)) name <- "exam"
     html <- c(doctype, "<html>", head, "<body>", paste('<h2>', 'Exam', info$id, ' </h2>'), "<ol>")
+    j <- 1
     for(ex in x) {
       html <- c(html, "<li>", "<h4>", "Question", "</h4>", ex$question, "<br/>")
       if(length(ex$questionlist)) {
@@ -89,20 +91,35 @@ make_exams_write_html <- function(doctype = NULL,
       }
       html <- c(html, "</li>")
       if(length(ex$supplements)) {
+        if(!file.exists(file.path(tdir, "media")))
+          dir.create(file.path(tdir, "media"))
+        if(!file.exists(media_dir <- file.path(tdir, "media", nid <- paste(name, info$id, sep = ""))))
+          dir.create(media_dir)
+        if(!file.exists(ex_dir <- file.path(media_dir, exj <- paste("exercise", j, sep = ""))))
+          dir.create(ex_dir)
         for(i in ex$supplements) {
-          file.copy(i, file.path(tdir, basename(i)))
+          file.copy(i, file.path(ex_dir, basename(i)))
+          if(any(grep(dirname(i), html, fixed = TRUE)))
+            html <- gsub(dirname(i), file.path("media", nid, exj), html, fixed = TRUE)
+          src <- paste('src="', basename(i), sep = "")
+          if(any(grep(src, html, fixed = TRUE))) {
+            html <- gsub(src, paste('src="', file.path("media", nid, exj, basename(i)),
+              sep = ""), html, fixed = TRUE)
+          }
+          href <- paste('href="', basename(i), sep = "")
+          if(any(grep(href, html, fixed = TRUE))) {
+            html <- gsub(href, paste('href="', file.path("media", nid, exj, basename(i)),
+              sep = ""), html, fixed = TRUE)
+          }
         }
       }
-      sdir <- c(sdir, attr(ex$supplements, "dir"))
+      j <- j + 1
     }
     html <- c(html, "</ol>", "</body>", "</html>")
-    if(length(sdir))
-      for(i in sdir) html <- gsub(paste(i, "/", sep = ""), "", html, fixed = TRUE)
-    if(is.null(name)) name <- "exam"
     writeLines(html, file.path(tdir, paste(name, info$id, ".html", sep = "")))
-    out_dir <- file.path(dir, paste(name, info$id, sep = ""))
-    dir.create(out_dir)
-    file.copy(file.path(tdir, list.files(tdir)), file.path(out_dir, list.files(tdir)))
+    ## out_dir <- file.path(dir, paste(name, info$id, sep = ""))
+    ## dir.create(out_dir)
+    file.copy(file.path(tdir, list.files(tdir)), dir, recursive = TRUE)
     invisible(NULL)
   }
 }
