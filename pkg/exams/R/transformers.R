@@ -1,23 +1,16 @@
 ## helper transformator function,
 ## includes tex2image(), tth() and ttm() .html conversion
-make_exercise_transform_x <- function(converter = "ttm", ...)
+make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"), b64 = TRUE, ...)
 {
-  cfun <- if(is.function(converter)) {
-    function(x) converter(x, ...)
-  } else {
-    switch(converter,
-      "tex2image" = function(x) make_exercise_transform_tex2image(x, ...),
-      "tth" = function(x) make_exercise_transform_ttx(x, converter, ...),
-      "ttm" = function(x) make_exercise_transform_ttx(x, converter, ...)
-    )
-  }
-  cfun
-}
+  converter <- match.arg(converter)
+  if(b64 | converter %in% c("tth", "tth")) stopifnot(require("htmltools"))
 
+
+  if(converter == "tex2image") {
 
 ## transforms the tex parts of exercise to images
 ## of arbitrary format using function tex2image()
-make_exercise_transform_tex2image <- function(x, b64 = TRUE, ...)
+function(x)
 {
   bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
   sdir <- attr(x$supplements, "dir")
@@ -34,7 +27,6 @@ make_exercise_transform_tex2image <- function(x, b64 = TRUE, ...)
           dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
           imgpath <- file.path(sdir, basename(dir))
           if(b64) {
-            require("htmltools")
             img <- b64img(dir)
             for(sf in dir(sdir)) {
               if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
@@ -73,8 +65,38 @@ make_exercise_transform_tex2image <- function(x, b64 = TRUE, ...)
 }
 
 
+  } else {
+
+
+## function to apply ttx() on every
+## element of a list in a fast way
+apply_ttx_on_list <- function(object,
+  converter = "ttm", sep = "\\007\\007\\007\\007\\007", ...)
+{
+
+  ## add seperator as last line to each chunk
+  object <- lapply(object, "c", sep)
+
+  ## call ttx() on collapsed chunks
+  rval <- tmp <- do.call(converter, list("x" = unlist(object), ...))
+
+  ## split chunks again on sep
+  ix <- substr(rval, 1, nchar(sep)) == sep
+  rval <- split(rval, c(0, head(cumsum(ix), -1L)))
+  names(rval) <- names(object)
+
+  ## omit last line in each chunk (containing sep) again
+  rval <- lapply(rval, head, -1L)
+
+  ## store ttx images
+  attr(rval, "images") <- attr(tmp, "images")
+
+  rval
+}
+
+
 ## exercise conversion with ttx()
-make_exercise_transform_ttx <- function(x, converter = "ttm", b64 = TRUE, ...)
+function(x)
 {
   owd <- getwd()
   setwd(sdir <- attr(x$supplements, "dir"))
@@ -94,7 +116,6 @@ make_exercise_transform_ttx <- function(x, converter = "ttm", b64 = TRUE, ...)
 
   ## b64 image handling
   if(b64 && length(sfiles <- dir(sdir))) {
-    require("htmltools")
     for(sf in sfiles) {
       if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
         for(i in seq_along(trex)) {
@@ -126,30 +147,11 @@ make_exercise_transform_ttx <- function(x, converter = "ttm", b64 = TRUE, ...)
 }
 
 
-## function to apply ttx() on every
-## element of a list in a fast way
-apply_ttx_on_list <- function(object,
-  converter = "ttm", sep = "\\007\\007\\007\\007\\007", ...)
-{
-  require("htmltools")
-
-  ## add seperator as last line to each chunk
-  object <- lapply(object, "c", sep)
-
-  ## call ttx() on collapsed chunks
-  rval <- tmp <- do.call(converter, list("x" = unlist(object), ...))
-
-  ## split chunks again on sep
-  ix <- substr(rval, 1, nchar(sep)) == sep
-  rval <- split(rval, c(0, head(cumsum(ix), -1L)))
-  names(rval) <- names(object)
-
-  ## omit last line in each chunk (containing sep) again
-  rval <- lapply(rval, head, -1L)
-
-  ## store ttx images
-  attr(rval, "images") <- attr(tmp, "images")
-
-  rval
+  }
 }
+
+
+
+
+
 
