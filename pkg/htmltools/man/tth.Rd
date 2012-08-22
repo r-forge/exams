@@ -11,8 +11,8 @@ complete documents.
 }
 
 \usage{
-tth(x, \dots, delblanks = TRUE, Sweave = TRUE)
-ttm(x, \dots, delblanks = TRUE, Sweave = TRUE)
+tth(x, \dots, fixup = TRUE, Sweave = TRUE)
+ttm(x, \dots, fixup = TRUE, Sweave = TRUE)
 
 tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE,
@@ -20,7 +20,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
 }
 \arguments{
   \item{x}{character vector of (La)TeX code.}
-  \item{delblanks}{logical. Delete blank or empty lines?}
+  \item{fixup}{logical. Should the resulting code be fixed up by deleting blank or
+    empty lines and by replacing certain math symbols (such as not lower/greater etc.)?}
   \item{Sweave}{logical. Should the Sweave code environments Sinput/Soutput be
     replaced by verabtim (and Schunk deleted) prior to conversion with \code{tth}/\code{ttm}?}
   \item{\dots}{arguments passed to \code{tth.control}.}
