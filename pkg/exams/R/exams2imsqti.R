@@ -3,7 +3,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   resolution = 100, width = 4, height = 4, ...)
 {
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_x(...)
+  htmltransform <- make_exercise_transform_html(...)
 
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,

@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   width = 4, height = 4, ...)
 {
   ## set up .xml transformer and writer function
-  htmltransform <- make_exercise_transform_x(...)
+  htmltransform <- make_exercise_transform_html(...)
   moodlewrite <- make_exams_write_moodle(name, ...)
 
   ## create final .xml exam
@@ -46,8 +46,9 @@ make_exams_write_moodle <- function(name = NULL, ...)
     ## cycle trough th questions
     sfiles <- NULL
     for(ex in x) {
-      class(ex) <- c(ex$metainfo$type, "list")
-      exam.xml <- c(exam.xml, write.moodle.question(ex))
+      type <- ex$metainfo$type
+      class(ex) <- c(if(type == "schoice") "mchoice" else type, "list")
+      exam.xml <- c(exam.xml, write_moodle_question(ex, single = if(type == "schoice") TRUE else FALSE))
       sfiles <- c(sfiles, x$supplements)
     }
 
@@ -75,14 +76,14 @@ make_exams_write_moodle <- function(name = NULL, ...)
 
 
 ## generic WU question writer function
-write.moodle.question <- function(x)
+write_moodle_question <- function(x, ...)
 {
-  UseMethod("write.moodle.question")
+  UseMethod("write_moodle_question")
 }
 
 
-## write moodle mchoice question
-write.moodle.question.mchoice <- function(x)
+## write moodle mchoice/schoice question
+write_moodle_question.mchoice <- function(x, single = FALSE, ...)
 {
   ## set up question .xml
   id <- make_id(10)
@@ -100,7 +101,7 @@ write.moodle.question.mchoice <- function(x)
     paste('<shuffleanswers>',
       if(!is.null(x$metainfo$shuffle)) as.integer(x$metainfo$shuffle) else 1, '</shuffleanswers>',
       sep = ""),
-    '<single>false</single>'
+    paste('<single>', if(single) 'true' else 'false', '</single>', sep = "")
   )
   n <- length(x$solutionlist)
   frac <- rep(-100, n)
@@ -130,13 +131,14 @@ write.moodle.question.mchoice <- function(x)
 
 
 ## write moodle num question
-write.moodle.question.num <- function(x)
+write_moodle_question.num <- function(x, ...)
 {
   ## set up question .xml
   id <- make_id(10)
   xml <- c(
     '<question type="numerical">',
-    paste('<name><text>', gsub(" ", "_", paste(x$metainfo$name, id, sep = "_")), '</text></name>', sep = ""),
+    paste('<name><text>', gsub(" ", "_", paste(x$metainfo$name, id, sep = "_")),
+      '</text></name>', sep = ""),
     '<questiontext format="html">',
     '<text><![CDATA[',
     x$question,

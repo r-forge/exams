@@ -23,11 +23,9 @@ export(
   ## image driver
   "tex2image",
 
-  ## HTML/XML driver
+  ## HTML driver
   "exams2html",
-  "make_exercise_transform_x",
-  "make_exercise_transform_tex2image",
-  "make_exercise_transform_ttx",
+  "make_exercise_transform_html",
   "make_exams_write_html",
   "show.html",
 

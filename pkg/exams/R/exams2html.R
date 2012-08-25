@@ -16,7 +16,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   }
 
   ## set up .html transformer and writer function
-  htmltransform <- make_exercise_transform_x(...)
+  htmltransform <- make_exercise_transform_html(...)
   htmlwrite <- make_exams_write_html(doctype, head, solution, name, ...)
 
   ## create final .html exam

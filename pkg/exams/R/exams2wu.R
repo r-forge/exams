@@ -2,10 +2,10 @@
 exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
-  width = 4, height = 4, ...)
+  width = 4, height = 4, converter = "tex2image", b64 = FALSE, ...)
 {
   ## set up .xml transformer and writer function
-  htmltransform <- make_exercise_transform_x(converter = "tex2image", b64 = FALSE)
+  htmltransform <- make_exercise_transform_html(converter = converter, b64 = b64, ...)
   wuwrite <- make_exams_write_wu(name, ...)
 
   ## create final .xml exam
@@ -52,8 +52,9 @@ make_exams_write_wu <- function(name = NULL, ...)
 
     ## cycle trough th questions
     for(ex in x) {
-      class(ex) <- c(ex$metainfo$type, "list")
-      exam.xml <- c(exam.xml, write.wu.question(ex, test_dir, ...))
+      type <- ex$metainfo$type
+      class(ex) <- c(if(type == "schoice") "mchoice" else type, "list")
+      exam.xml <- c(exam.xml, write_wu_question(ex, test_dir, ...))
     }
 
     ## finish the exam xml
@@ -83,15 +84,15 @@ make_exams_write_wu <- function(name = NULL, ...)
 
 
 ## generic WU question writer function
-write.wu.question <- function(x, dir, ...)
+write_wu_question <- function(x, dir, ...)
 {
-  UseMethod("write.wu.question")
+  UseMethod("write_wu_question")
 }
 
 
 ## write WU mchoice question
 ## only question type at the moment
-write.wu.question.mchoice <- function(x, dir, ...)
+write_wu_question.mchoice <- function(x, dir, ...)
 {
   args <- list(...)
   time <- gsub("-", "", paste(as.character(Sys.Date()), make_id(10), sep = ""))
