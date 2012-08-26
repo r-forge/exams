@@ -76,7 +76,9 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       ## split chunks again on sep
       ix <- substr(rval, 1, nchar(sep)) == sep
       rval <- split(rval, c(0, head(cumsum(ix), -1L)))
-      names(rval) <- names(object)
+
+      ## FIXME: length of rval may be smaller than the length of object?
+      names(rval) <- rep(names(object), length.out = length(rval))
 
       ## omit last line in each chunk (containing sep) again
       rval <- lapply(rval, head, -1L)
