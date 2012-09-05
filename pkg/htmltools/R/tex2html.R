@@ -44,13 +44,14 @@ tth <- function(x, ..., fixup = TRUE, Sweave = TRUE)
     }
     
     ## call tth
-    y <- system(paste(htmltools:::TTH, tth.control(...)),
+    y <- system(paste(shQuote(htmltools:::TTH), tth.control(...)),
       input = x, intern = TRUE, ignore.stderr = TRUE)
 
     if(fixup) {
         ## delete blanks
         y <- y[-grep("^ *$", y)]
         ## fixup certain math symbols
+	## might add further, see e.g., http://www.tlt.psu.edu/suggestions/international/bylanguage/mathchart.html
         tab <- rbind(
             c("\\not =",        "&#8800;"),
             c("\\not &lt;",     "&#8814;"),
@@ -86,7 +87,7 @@ ttm <- function(x, ..., fixup = TRUE, Sweave = TRUE)
     }
 
     ## call tth
-    y <- system(paste(htmltools:::TTM, tth.control(...)),
+    y <- system(paste(shQuote(htmltools:::TTM), tth.control(...)),
       input = x, intern = TRUE, ignore.stderr = TRUE)
 
     if(fixup) {
