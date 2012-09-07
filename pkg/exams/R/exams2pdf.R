@@ -160,7 +160,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       if(template_has_header[j]) {
         wi <-  grep("\\exinput{header}", tmpl, fixed = TRUE)
         tmpl[wi] <- if(length(header) < 1) "" else paste("\\", names(header), "{",
- 	  sapply(header, function(x) if(is.function(x)) x(i) else as.character(x)), "}", collapse = "\n", sep = "")
+ 	  sapply(header, function(x) if(is.function(x)) x(id) else as.character(x)), "}", collapse = "\n", sep = "")
       }
 
       ## input questionnaire
