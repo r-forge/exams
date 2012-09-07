@@ -12,19 +12,20 @@
 }
 
 \usage{
-  mchoice2string(x)
-  string2mchoice(x)
+  mchoice2string(x, single = TRUE)
+  string2mchoice(x, single = TRUE)
   mchoice2text(x)
 }
 \arguments{
   \item{x}{an object, see below for examples}
+  \item{x}{logical. Should the function check whether exactly
+    a single answer is true?}
 }
 
 \details{
   Three convenience functions for facilitating work with
   multiple choice solutions of exams. All have almost
-  trivial definitions, see also examples below.
- 
+  trivial definitions, see also examples below. 
 }
 
 \seealso{\code{\link[exams]{exams}}}
