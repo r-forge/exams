@@ -12,13 +12,13 @@
 }
 
 \usage{
-  mchoice2string(x, single = TRUE)
-  string2mchoice(x, single = TRUE)
+  mchoice2string(x, single = FALSE)
+  string2mchoice(x, single = FALSE)
   mchoice2text(x)
 }
 \arguments{
   \item{x}{an object, see below for examples}
-  \item{x}{logical. Should the function check whether exactly
+  \item{single}{logical. Should the function check whether exactly
     a single answer is true?}
 }
 

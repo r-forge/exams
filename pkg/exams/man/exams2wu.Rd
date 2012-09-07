@@ -9,7 +9,7 @@
 }
 
 \usage{
-  exams2wu((file, n = 1L, nsamp = NULL, dir = NULL, name = NULL, 
+  exams2wu(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL, 
     quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, solution = TRUE, 
     doctype = NULL, head = NULL, resolution = 100, width = 4, 
     height = 4, converter = "tex2image", b64 = FALSE, \dots)
@@ -47,7 +47,7 @@
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML.}
   \item{b64}{logical. Should images be embeddeg using Base 64 coding?}    
-  \item{dots}{arguments passed on to \code{make_exercise_transform_html}.}
+  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
 \details{

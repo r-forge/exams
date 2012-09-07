@@ -44,7 +44,7 @@
     header is employed, setting the font to Arial.}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}  
-  \item{dots}{arguments passed on to \code{make_exercise_transform_html}.}
+  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
 \details{

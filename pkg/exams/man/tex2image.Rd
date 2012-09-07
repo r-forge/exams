@@ -17,7 +17,23 @@
 }
 
 \arguments{
-  Still to do.
+  \item{tex}{ still to do. }
+  \item{format}{ still to do. }
+  \item{width}{ still to do. }
+  \item{pt}{ still to do. }
+  \item{density}{ still to do. }
+  \item{edir}{ still to do. }
+  \item{tdir}{ still to do. }
+  \item{idir}{ still to do. }
+  \item{width.border}{ still to do. }
+  \item{col.border}{ still to do. }
+  \item{resize}{ still to do. }
+  \item{shave}{ still to do. }
+  \item{template}{ still to do. }
+  \item{itemplate}{ still to do. }
+  \item{show}{ still to do. }
+  \item{bsname}{ still to do. }
+  \item{\dots}{ still to do. }
 }
 
 \details{

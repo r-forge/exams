@@ -39,11 +39,11 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
 
-  \item{x}{}  
-  \item{template.assessment}{}  
-  \item{template.item}{}  
+  \item{x}{ still to do. }  
+  \item{template.assessment}{ still to do. }
+  \item{template.item}{ still to do. }
     
-  \item{dots}{arguments passed on to \code{make_exercise_transform_html}.}
+  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
 \details{
