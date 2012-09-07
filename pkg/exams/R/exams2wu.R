@@ -9,10 +9,11 @@ exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   wuwrite <- make_exams_write_wu(name, ...)
 
   ## create final .xml exam
-  xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
-      resolution = resolution, width = width, height = height),
-      read = NULL, transform = htmltransform, write = wuwrite),
+  xexams(file, n = n, nsamp = nsamp, driver = list(
+      sweave = list(quiet = quiet, pdf = FALSE, png = TRUE, resolution = resolution, width = width, height = height),
+      read = NULL,
+      transform = htmltransform,
+      write = wuwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 }
 
@@ -92,6 +93,9 @@ write_wu_question <- function(x, dir, ...)
 
 ## write WU mchoice question
 ## only question type at the moment
+
+## FIXME: add identical schoice method?
+
 write_wu_question.mchoice <- function(x, dir, ...)
 {
   args <- list(...)
