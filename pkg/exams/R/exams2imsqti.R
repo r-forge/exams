@@ -6,14 +6,28 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   htmltransform <- make_exercise_transform_html(...)
 
   ## generate the exam
-  exm <- xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
-      resolution = resolution, width = width, height = height), read = NULL,
-      transform = htmltransform, write = NULL),
+  exm <- xexams(file, n = n, nsamp = nsamp, driver = list(
+      sweave = list(quiet = quiet, pdf = FALSE, png = TRUE, resolution = resolution, width = width, height = height),
+      read = NULL,
+      transform = htmltransform,
+      write = NULL),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
   ## write exam in IMS QTI 1.2 standard to .xml file
   make_exams_write_imsqti(exm, dir, tdir, name, ...)
+
+  ## FIXME:
+  ## - make_exams_write_imsqti() is not really a make_* function
+  ## - passing '...' to both make_exercise_transform_html() and
+  ##   make_exams_write_imsqti() will lead to trouble. Either list
+  ##   arguments for one of the two explicitly or use separate
+  ##   argument lists a la transform_args = list() and
+  ##   write_args = list() or something like that.
+  ## - the default for 'dir' is NULL which probably can't work, can it?
+  ## - are all possible combinations of file/n/nsamp that
+  ##   are supported by the old exams() also supported by this?
+  ##   e.g., can file be list or does it have to be a vector to
+  ##   work correctly?
 
   invisible(exm)
 }
@@ -113,6 +127,8 @@ make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
   invisible(NULL)
 }
 
+## FIXME: Why do the following function names employ periods for
+## separating words?
 
 ## functions for item construction
 write.imsqti.item <- function(x, dir, xml)
@@ -179,7 +195,6 @@ get.item.body <- function(x)
 {
   UseMethod("get.item.body")
 }
-
 
 ## multiple/single choice item writer function
 get.item.body.mchoice <- get.item.body.schoice <- function(x)
@@ -376,18 +391,20 @@ get.item.body.num <- function(x)
   xml
 }
 
+## FIXME: No support for question of style "string" and/or "cloze" in IMS QTI?
 
 ## function to create identfier ids
-make_id <- function(size, n = 1)
-{
-  rval <- NULL
-  for(i in 1:n)
-    rval <- c(rval, as.numeric(paste(sample(1:9, size, replace = TRUE), collapse = "")))
-  rval
+## README: speedup by avoiding for() loop and allowing zeros except for first digit
+make_id <- function(size, n = 1L) {
+  rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
+  rval[1L, ] <- pmax(1L, rval[1L, ])
+  colSums(rval * 10^((size - 1L):0L))
 }
 
-
 ## input text in character vector
+## FIXME: Why is this function needed, wouldn't gsub() be enough?
+## If the problem is that replacement can be of length > 1, then
+## simply use gsub(pattern, paste(replacement, collapse = "\n"), x)?
 input_text <- function(pattern, replacement, x)
 {
   if(length(i <- grep(pattern, x, fixed = TRUE)))
@@ -396,17 +413,18 @@ input_text <- function(pattern, replacement, x)
 }
 
 
-## other functions, not in use yet
-## functions to input test and item controls text
-controllist <- function(...) structure(list(...), class = "controllist")
-
-as.character.controllist <- function(x, ...)
-{
-  paste(
-    names(x),
-    " = \"",
-    sapply(x, paste, collapse = " "),
-    "\"", sep = "", collapse = " "
-  )
-}
+## README: commented for now
+## ## other functions, not in use yet
+## ## functions to input test and item controls text
+## controllist <- function(...) structure(list(...), class = "controllist")
+## 
+## as.character.controllist <- function(x, ...)
+## {
+##   paste(
+##     names(x),
+##     " = \"",
+##     sapply(x, paste, collapse = " "),
+##     "\"", sep = "", collapse = " "
+##   )
+## }
 
