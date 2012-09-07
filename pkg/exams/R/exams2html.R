@@ -4,7 +4,7 @@
 ## generate exams in .html format
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
+  solution = TRUE, doctype = NULL, head = NULL, mathjax = FALSE, resolution = 100,
   width = 4, height = 4, ...)
 {
   ## output directory or display on the fly (n == 1L & is.null(dir))
@@ -20,7 +20,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## set up .html transformer and writer function
   htmltransform <- make_exercise_transform_html(...)
-  htmlwrite <- make_exams_write_html(doctype, head, solution, name, ...)
+  htmlwrite <- make_exams_write_html(doctype, head, mathjax, solution, name, ...)
 
   ## FIXME: passing '...' to make_exams_write_html seems to be unnecessary
   ## see below
@@ -46,7 +46,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 ## writes the final .html site
 make_exams_write_html <- function(doctype = NULL,
-  head = NULL, solution = TRUE, name = NULL, ...)
+  head = NULL, mathjax = FALSE, solution = TRUE, name = NULL, ...)
 {
   function(x, dir, info)
   {
@@ -61,12 +61,19 @@ make_exams_write_html <- function(doctype = NULL,
       )
     }
     if(is.null(head)) {
+      mathjax <- if(mathjax) c(
+        '<script type="text/javascript"',
+        '  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
+        '</script>'
+      ) else character(0)
+
       head <- c(
         '<head>',
         paste('<title> ', 'exam', info$id, ' </title>', sep = ''),
         '<style type="text/css">',
         'body{font-family:Arial;}',
         '</style>',
+	mathjax,
         '</head>'
       )
     }
