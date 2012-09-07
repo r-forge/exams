@@ -20,14 +20,13 @@ export(
   "exams2pdf",
   "make_exams_write_pdf",
 
-  ## image driver
+  ## LaTeX to image converter
   "tex2image",
 
   ## HTML driver
   "exams2html",
   "make_exercise_transform_html",
   "make_exams_write_html",
-  "show.html",
 
   ## IMS QTI 1.2 driver
   "exams2imsqti",
