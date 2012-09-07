@@ -9,4 +9,5 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
 Description: Sweave-based automatic generation of exams with
   multiple-choice questions and arithmetic problems.
 Depends: R (>= 2.0.0), stats, graphics, tools, utils
+Suggests: htmltools, tth
 License: GPL-2
