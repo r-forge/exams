@@ -1,8 +1,17 @@
-## NOTE: needs ImageMagick url: http://www.imagemagick.org/
+## NOTE: needs commands "convert" and optionally "display" from
+## ImageMagick (http://www.imagemagick.org/)
+
+## FIXME: Would it be possible to make the 'tex' argument optionally
+## a list? Then we could maybe collapse the code with \newpage statements
+## in between, then cycle through the resulting pages of the PDF and
+## collect the individual images, returning them in a list again.
+## This could considerably speed up the processing of
+## exams2html(..., converter = "teximage") ...
+
 tex2image <- function(tex, format = "png", width = 6, 
   pt = 12, density = 350, edir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650, shave = 4,
-  template = c("\\usepackage{sfmath}",
+  template = c("\\usepackage{sfmath}",  ## FIXME: this should really be a more complete template
     "\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
   itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)

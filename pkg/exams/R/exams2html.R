@@ -1,3 +1,6 @@
+## FIXME: exams2html("anova", converter = "tex2image") currently does
+## not work due to verbatim R output. Same for "ttest".
+
 ## generate exams in .html format
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
@@ -19,6 +22,9 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   htmltransform <- make_exercise_transform_html(...)
   htmlwrite <- make_exams_write_html(doctype, head, solution, name, ...)
 
+  ## FIXME: passing '...' to make_exams_write_html seems to be unnecessary
+  ## see below
+
   ## create final .html exam
   rval <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
@@ -28,8 +34,6 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## display single .html on the fly
   if(display) {
-    ## out <- file.path(dir, paste(name, 1, sep = ""), paste(name, "1.html", sep = ""))
-    ## FIXME: Maybe omit extra exam layer directory?
     out <- file.path(dir, paste(name, "1.html", sep = ""))
     out <- normalizePath(out)
     browseURL(out)
@@ -46,7 +50,7 @@ make_exams_write_html <- function(doctype = NULL,
 {
   function(x, dir, info)
   {
-    args <- list(...)
+    args <- list(...) ## FIXME: Is this used at all?
     tdir <- tempfile()
     dir.create(tdir)
     on.exit(unlink(tdir))
@@ -126,6 +130,8 @@ make_exams_write_html <- function(doctype = NULL,
 
 
 ## show .html code in browser
+## FIXME: This is currently also exported in the NAMESPACE. Do we want
+## that or was this function mainly useful for internal testing?
 show.html <- function(x)
 {
   if(length(x) == 1L && file.exists(x[1L])) {
