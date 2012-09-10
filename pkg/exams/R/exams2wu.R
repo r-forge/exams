@@ -2,10 +2,10 @@
 exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
-  width = 4, height = 4, converter = "tex2image", b64 = FALSE, ...)
+  width = 4, height = 4, converter = "tex2image", base64 = FALSE, ...)
 {
   ## set up .xml transformer and writer function
-  htmltransform <- make_exercise_transform_html(converter = converter, b64 = b64, ...)
+  htmltransform <- make_exercise_transform_html(converter = converter, base64 = base64, ...)
   wuwrite <- make_exams_write_wu(name, ...)
 
   ## create final .xml exam

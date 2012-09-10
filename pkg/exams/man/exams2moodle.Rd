@@ -59,8 +59,8 @@
 
 \seealso{
   \code{\link[exams]{xexams}},
-  \code{\link[htmltools]{ttm}},
-  \code{\link[htmltools]{tth}},
+  \code{\link[tth]{ttm}},
+  \code{\link[tth]{tth}},
   \code{\link[exams]{tex2image}},
   \code{\link[exams]{make_exercise_transform_html}},
 }

@@ -12,7 +12,7 @@
   exams2wu(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL, 
     quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, solution = TRUE, 
     doctype = NULL, head = NULL, resolution = 100, width = 4, 
-    height = 4, converter = "tex2image", b64 = FALSE, \dots)
+    height = 4, converter = "tex2image", base64 = FALSE, \dots)
 
   make_exams_write_wu(name = NULL, \dots)
 }
@@ -46,7 +46,7 @@
     graphics passed to \code{\link[utils]{Sweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML.}
-  \item{b64}{logical. Should images be embeddeg using Base 64 coding?}    
+  \item{base64}{logical. Should images be embeddeg using Base 64 coding?}    
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
@@ -62,8 +62,8 @@
 
 \seealso{
   \code{\link[exams]{xexams}},
-  \code{\link[htmltools]{ttm}},
-  \code{\link[htmltools]{tth}},
+  \code{\link[tth]{ttm}},
+  \code{\link[tth]{tth}},
   \code{\link[exams]{tex2image}},
   \code{\link[exams]{make_exercise_transform_html}},
 }

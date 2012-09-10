@@ -1,9 +1,10 @@
 ## helper transformator function,
 ## includes tex2image(), tth() and ttm() .html conversion
-make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"), b64 = TRUE, ...)
+make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"), base64 = TRUE, ...)
 {
   converter <- match.arg(converter)
-  if(b64 | converter %in% c("tth", "ttm")) stopifnot(require("htmltools"))
+  if(base64) stopifnot(require("base64enc"))
+  if(converter %in% c("tth", "ttm")) stopifnot(require("tth"))
 
   if(converter == "tex2image") {
     ## transforms the tex parts of exercise to images
@@ -24,8 +25,8 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
             if(!is.null(x[[i]][k[[j]]])) {
               dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
               imgpath <- file.path(sdir, basename(dir))
-              if(b64) {
-                img <- b64img(dir)
+              if(base64) {
+                img <- sprintf('<img src="%s" alt="%s" />', dataURI(file = dir, mime = "image/png"), dir)
                 for(sf in dir(sdir)) {
                   if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
                     if(length(grep(file_path_sans_ext(sf), x[[i]][k[[j]]], fixed = TRUE))) {
@@ -44,13 +45,13 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
                 x[[i]][k[[j]]] <- img
               else
                 x[[i]] <- img
-              if(!b64)
+              if(!base64)
                 images <- c(images, imgpath)
             }
           }
         }
       }
-      if(!b64) {
+      if(!base64) {
         for(i in images) {
           fp <- file.path(sdir, basename(i))
           file.copy(i, fp)
@@ -108,18 +109,15 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       trex <- apply_ttx_on_list(what, converter, ...)
       namtrex <- names(trex)
 
-      ## b64 image handling
-      if(b64 && length(sfiles <- dir(sdir))) {
+      ## base64 image handling
+      if(base64 && length(sfiles <- dir(sdir))) {
         for(sf in sfiles) {
           if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
             for(i in seq_along(trex)) {
               if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
-                tf <- tempfile()
-                on.exit(unlink(tf))
-                b64encode(sf, tf)
-                b64i <- sprintf("data:image/png;base64,\n%s", paste(readLines(tf), collapse = "\n"))
+                base64i <- dataURI(file = sf, mime = "image/png")
                 trex[[i]][j] <- gsub(paste('src="', sf, '"', sep = ''),
-                  paste('src="', b64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
+                  paste('src="', base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
                 file.remove(file.path(sdir, sf))
                 x$supplements <- x$supplements[!grepl(sf, x$supplements)]
               }

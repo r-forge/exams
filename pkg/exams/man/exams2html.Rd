@@ -16,7 +16,7 @@
     height = 4, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
-    b64 = TRUE, \dots)
+    base64 = TRUE, \dots)
     
   make_exams_write_html(doctype = NULL, head = NULL, mathjax = FALSE,
     solution = TRUE, name = NULL, \dots)
@@ -53,7 +53,7 @@
     graphics passed to \code{\link[utils]{Sweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML. For details see below.}
-  \item{b64}{logical. Should images be embeddeg using Base 64 coding?}
+  \item{base64}{logical. Should images be embeddeg using Base 64 coding?}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
@@ -70,8 +70,8 @@
   using \code{make_exercise_transform_html}. This transforms the
   LaTeX code in \code{question}/\code{questionlist} and
   \code{solution}/\code{solutionlist} by leveraging one of three
-  functions: \code{\link[htmltools]{ttm}} produces HTML with MathML
-  for mathematical formulas, \code{\link[htmltools]{tth}} produces
+  functions: \code{\link[tth]{ttm}} produces HTML with MathML
+  for mathematical formulas, \code{\link[tth]{tth}} produces
   plain HTML that aims to emulate mathematical formulas, and
   \code{\link[exams]{tex2image}} runs LaTeX and turns the result into
   a single image. In all cases, images can either be stored in
@@ -94,8 +94,8 @@
 
 \seealso{
   \code{\link[exams]{xexams}},
-  \code{\link[htmltools]{ttm}},
-  \code{\link[htmltools]{tth}},
+  \code{\link[tth]{ttm}},
+  \code{\link[tth]{tth}},
   \code{\link[exams]{tex2image}}
 }
 
