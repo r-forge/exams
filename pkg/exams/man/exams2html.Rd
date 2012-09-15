@@ -12,8 +12,8 @@
 \usage{
   exams2html(file, n = 1L, nsamp = NULL, dir = NULL, name = "exam", 
     quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, solution = TRUE, 
-    doctype = NULL, head = NULL, mathjax = FALSE, resolution = 100, width = 4, 
-    height = 4, \dots)
+    doctype = NULL, head = NULL, mathjax = FALSE, resolution = 100,
+    width = 4, height = 4, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
     base64 = TRUE, \dots)
@@ -80,6 +80,17 @@
   For step (4) a simple writer function is set up on the fly that
   embeds the transformed HTML code into a hard-coded template and
   writes a single HTML file for each exam.
+
+  When generating only a single exam (as in the examples below),
+  \code{exams2html} tries to display this directly in a browser.
+  \code{\link[utils]{browseURL}} is used for this which needs
+  \code{getOption("browser")} to be set appropriately. While this is
+  typically the case in plain R, it may not be in RStudio as this
+  currently overwrites the standard (or custom profile) settings.
+  Hence, in RStudio the \code{browser} option has to be set manually,
+  e.g., to \code{options(browser = NULL)} on Windows,
+  \code{options(browser = "/usr/bin/firefox")} on Linux, or
+  \code{options(browser = "/Applications/Firefox")} on OS X.
 }
 
 \value{
@@ -96,7 +107,8 @@
   \code{\link[exams]{xexams}},
   \code{\link[tth]{ttm}},
   \code{\link[tth]{tth}},
-  \code{\link[exams]{tex2image}}
+  \code{\link[exams]{tex2image}},
+  \code{\link[utils]{browseURL}}
 }
 
 \examples{
@@ -115,7 +127,7 @@ exams2html(list(
 
 ## show various versions of displaying mathematical formulae
 
-## via MathML (displayed correctly in MathML-aware browsers such as Firefox)
+## via MathML (displayed correctly in MathML-aware browsers, e.g. Firefox)
 exams2html("tstat")
 
 ## via MathML + MathJax (should work in all major browsers,
