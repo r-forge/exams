@@ -80,7 +80,7 @@ tex2image <- function(tex, format = "png", width = 6,
   texlines <- c(
     texlines,
     "\\usepackage[ngerman]{babel}", ## FIXME: modularize usepackages
-    "\\usepackage{a4wide, Sweave, verbatim}",
+    "\\usepackage{a4wide, verbatim}",
     "\\usepackage[latin1]{inputenc}",
     "\\usepackage[T1]{fontenc}",
     "\\usepackage{amsmath,amssymb,amsfonts}",
@@ -90,11 +90,16 @@ tex2image <- function(tex, format = "png", width = 6,
     "\\usepackage{array}",
     "\\usepackage{hyperref}",
     "\\usepackage{color}",
+    "\\usepackage{fancyvrb}",
     "\\pagestyle{empty}",
     "\\setlength{\\parindent}{0pt}",
     "\\newenvironment{question}{\\item \\textbf{Problem}\\newline}{}",
     "\\newenvironment{solution}{\\textbf{Solution}\\newline}{}",
-    "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{enumerate}}{\\end{enumerate}}"
+    "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{enumerate}}{\\end{enumerate}}",
+    "\\newenvironment{Schunk}{\\fontsize{9}{10}\\selectfont}{}", ## FIXME: verbatim!
+    "\\newenvironment{Scode}{verbatim}{}",
+    "\\newenvironment{Sinput}{verbatim}{}",
+    "\\newenvironment{Soutput}{verbatim}{}"
   )
   for(i in template)
     texlines <- c(texlines, i)

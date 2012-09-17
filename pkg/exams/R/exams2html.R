@@ -20,10 +20,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## set up .html transformer and writer function
   htmltransform <- make_exercise_transform_html(...)
-  htmlwrite <- make_exams_write_html(doctype, head, mathjax, solution, name, ...)
-
-  ## FIXME: passing '...' to make_exams_write_html seems to be unnecessary
-  ## see below
+  htmlwrite <- make_exams_write_html(doctype, head, mathjax, solution, name)
 
   ## create final .html exam
   rval <- xexams(file, n = n, nsamp = nsamp,
@@ -46,11 +43,10 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 ## writes the final .html site
 make_exams_write_html <- function(doctype = NULL,
-  head = NULL, mathjax = FALSE, solution = TRUE, name = NULL, ...)
+  head = NULL, mathjax = FALSE, solution = TRUE, name = NULL)
 {
   function(x, dir, info)
   {
-    args <- list(...) ## FIXME: Is this used at all?
     tdir <- tempfile()
     dir.create(tdir)
     on.exit(unlink(tdir))
