@@ -1,6 +1,8 @@
 exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  resolution = 100, width = 4, height = 4, ...)
+  resolution = 100, width = 4, height = 4,
+  num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL, string = NULL,
+  ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -14,29 +16,25 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
       dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
   ## write exam in IMS QTI 1.2 standard to .xml file
-  exams_write_imsqti(exm, dir, tdir, name)
+##FIXME##exams_write_imsqti(exm, dir, tdir, name,
+  
+  itembody = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
 
-  ## FIXME:
-  ## - make_exams_write_imsqti() is not really a make_* function
-  ## - passing '...' to both make_exercise_transform_html() and
-  ##   make_exams_write_imsqti() will lead to trouble. Either list
-  ##   arguments for one of the two explicitly or use separate
-  ##   argument lists a la transform_args = list() and
-  ##   write_args = list() or something like that.
-  ## - the default for 'dir' is NULL which probably can't work, can it?
-  ## - are all possible combinations of file/n/nsamp that
-  ##   are supported by the old exams() also supported by this?
-  ##   e.g., can file be list or does it have to be a vector to
-  ##   work correctly?
+  for(i in c("num", "mchoice", "schoice", "cloze")) {
+    if(is.null(itembody[[i]])) itembody[[i]] <- list()
+    if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
+      paste("make_itembody_", i, sep = ""), itembody[[i]])
+  }
 
-  invisible(exm)
-}
+##FIXME##   invisible(exm)
+##FIXME##}
+##FIXME##
+##FIXME##
+##FIXME#### writes .xml assessments in IMS QTI 1.2 standard
+##FIXME##exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
+##FIXME##  template.assessment = NULL, template.item = NULL)
+##FIXME##{
 
-
-## writes .xml assessments in IMS QTI 1.2 standard
-exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
-  template.assessment = NULL, template.item = NULL)
-{
   dir <- path.expand(dir)
   if(is.null(tdir)) {
     dir.create(tdir <- tempfile())
@@ -188,13 +186,13 @@ write_imsqti_item <- function(x, dir, xml)
 
 
 ## create question specific item bodies
-get_item_body <- function(x)
+get_item_body <- function(x, ...)
 {
   UseMethod("get_item_body")
 }
 
 ## multiple/single choice item writer function
-get_item_body.mchoice <- get_item_body.schoice <- function(x)
+get_item_body.mchoice <- get_item_body.schoice <- function(x, type, ...)
 {
   ## generate ids
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
