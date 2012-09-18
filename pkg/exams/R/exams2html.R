@@ -30,7 +30,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   if(display) {
     out <- file.path(dir, paste(name, "1.html", sep = ""))
     out <- normalizePath(out)
-    browseURL(out)
+    browseFile(out)
   }
   
   ## return xexams object invisibly
@@ -128,6 +128,17 @@ make_exams_write_html <- function(doctype = NULL,
   }
 }
 
+## an internal wrapper for browseURL to work around RStudio's current setting of
+## getOption("browser")
+browseFile <- function(file) {
+  if(is.function(br <- getOption("browser"))) {
+    if(any(grepl("rs_browseURL", deparse(br), fixed = TRUE)) & .Platform$OS.type != "windows")
+      warning(paste("Browsing local files may not work with RStudio's default settings.",
+        "Please see ?exams2html on how to set the 'browser' option.", collapse = "\n"))
+  }
+  browseURL(file)
+}
+
 
 ## show .html code in browser
 ## FIXME: This is currently also exported in the NAMESPACE. Do we want
@@ -146,5 +157,5 @@ show.html <- function(x)
         file.copy(i, file.path(tempf, basename(i)))
     }
   }
-  browseURL(normalizePath(file.path(tempf, fname)))
+  browseFile(normalizePath(file.path(tempf, fname)))
 }
