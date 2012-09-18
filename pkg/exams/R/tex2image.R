@@ -1,14 +1,12 @@
 ## NOTE: needs commands "convert" and optionally "display" from
 ## ImageMagick (http://www.imagemagick.org/)
-## In addition, if tex input is a list(), needs pdftk for splitting .pdf files
 tex2image <- function(tex, format = "png", width = 6, 
   pt = 12, density = 350, edir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650, shave = 4,
-  packages = c("a4wide", "sfmath", "verbatim", "amsmath", "amssymb", "amsfonts", "graphicx",
-    "fancybox", "slashbox", "booktabs", "array", "hyperref", "color", "fancyvrb"),
-  template = c("\\renewcommand{\\sfdefault}{phv}",
+  packages = c("amsmath", "amssymb", "amsfonts"),
+  header = c("\\setlength{\\parindent}{0pt}", "\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
-  itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)
+  header2 = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)
 {
   there <- FALSE
   if(is.null(tdir)) {
@@ -42,6 +40,9 @@ tex2image <- function(tex, format = "png", width = 6,
 
   if(is.null(edir))
     edir <- texdir
+
+  packages <- unique(c(packages, c("Sweave", "a4wide", "verbatim", "graphicx", "url",
+    "fancybox", "slashbox", "booktabs", "array", "color", "fancyvrb")))
 
   owd <- getwd()
   setwd(tdir)
@@ -77,22 +78,12 @@ tex2image <- function(tex, format = "png", width = 6,
   }
   texlines <- c(
     texlines,
-    "\\pagestyle{empty}",
-    "\\setlength{\\parindent}{0pt}",
-    "\\newenvironment{question}{\\item \\textbf{Problem}\\newline}{}",
-    "\\newenvironment{solution}{\\textbf{Solution}\\newline}{}",
-    "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{enumerate}}{\\end{enumerate}}",
-    "\\newenvironment{Schunk}{\\fontsize{9}{10}\\selectfont}{}",
-    "\\newenvironment{Scode}{\\verbatim}{\\endverbatim}",
-    "\\newenvironment{Sinput}{\\verbatim}{\\endverbatim}",
-    "\\newenvironment{Soutput}{\\verbatim}{\\endverbatim}"
+    "\\pagestyle{empty}"
   )
-  for(i in template)
-    texlines <- c(texlines, i)
+  texlines <- c(texlines, header)
   texlines <- c(texlines, paste("\\setlength{\\textwidth}{", width, "in}", sep = ""))
   texlines <- c(texlines, "\\begin{document}")
-  for(i in itemplate)
-    texlines <- c(texlines, i)
+  texlines <- c(texlines, header2)
   tex <- if(!is.list(tex)) list(tex) else tex
   pic_names <- if(is.null(names(tex))) {
     paste(bsname, "pic", 1:length(tex), sep = "_")
@@ -117,21 +108,16 @@ tex2image <- function(tex, format = "png", width = 6,
   file.create(paste(tdir, "/", bsname, ".log", sep = ""))
   writeLines(text = texlines, con = paste(tdir, "/", bsname, ".tex", sep = ""))
   texi2dvi(file = paste(bsname, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
-  if(nt > 1) {
-    system(paste("pdftk", paste(bsname, "pdf", sep = "."), "burst output",
-      paste(bsname, "pic", "%02d.pdf", sep = "_")))
-    bsname <- grep(paste(bsname, "pic", sep = "_"), list.files(tdir), fixed = TRUE, value = TRUE)
-    bsname <- file_path_sans_ext(bsname)
-  }
-  image <- paste(bsname, ".", format, sep = "")
+
+  image <- paste(bsname, if(nt > 1) 1:nt else NULL, ".", format, sep = "")
   dirout <- rep(NA, length(bsname))
-  for(i in seq_along(bsname)) {
+  for(i in 1:nt) {
     if(format == "png") {
       cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
-        bsname[i], ".pdf -transparent white ", image[i], " > ", bsname[i], ".log", sep = "")
+        bsname, ".pdf[", i - 1, "] -transparent white ", image[i], " > ", bsname, i, ".log", sep = "")
     } else {
       cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
-        bsname[i], ".pdf ", image[i], " > ", bsname[i], ".log", sep = "")
+        bsname, ".pdf[", i - 1, "] ", image[i], " > ", bsname, i, ".log", sep = "")
     }
     system(cmd)
     if(!is.null(resize)) {
