@@ -75,7 +75,7 @@ make_exams_write_moodle <- function(name = NULL, ...)
 }
 
 
-## generic WU question writer function
+## generic moodle question writer function
 write_moodle_question <- function(x, ...)
 {
   UseMethod("write_moodle_question")
