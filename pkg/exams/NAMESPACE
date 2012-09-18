@@ -30,7 +30,6 @@ export(
 
   ## IMS QTI 1.2 driver
   "exams2imsqti",
-  "exams_write_imsqti",
 
   ## WU driver
   "exams2wu",
