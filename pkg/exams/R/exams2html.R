@@ -1,6 +1,3 @@
-## FIXME: exams2html("anova", converter = "tex2image") currently does
-## not work due to verbatim R output. Same for "ttest".
-
 ## generate exams in .html format
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
@@ -69,7 +66,7 @@ make_exams_write_html <- function(doctype = NULL,
         '<style type="text/css">',
         'body{font-family:Arial;}',
         '</style>',
-	mathjax,
+	      mathjax,
         '</head>'
       )
     }

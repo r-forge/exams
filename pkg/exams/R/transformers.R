@@ -13,46 +13,46 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
     {
       bsname <- if(is.null(x$metainfo$file)) basename(tempfile()) else x$metainfo$file
       sdir <- attr(x$supplements, "dir")
-      images <- NULL
+      images <- list(); inames <- NULL
       for(i in c("question", "questionlist", "solution", "solutionlist")) {
-        imgname <- paste(bsname, i , sep = "-")
         if(grepl("list", i)) {
-          imgname <- paste(imgname, 1:length(x[[i]]), sep = "-")
-          k <- seq_along(x[[i]])
-        } else k <- list(seq_along(x[[i]]))
-        if(length(k)) {
-          for(j in 1:length(k)) {
-            if(!is.null(x[[i]][k[[j]]])) {
-              dir <- tex2image(x[[i]][k[[j]]], idir = sdir, show = FALSE, bsname = imgname[j], ...)
-              imgpath <- file.path(sdir, basename(dir))
-              if(base64) {
-                img <- sprintf('<img src="%s" alt="%s" />', dataURI(file = dir, mime = "image/png"), dir)
-                for(sf in dir(sdir)) {
-                  if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
-                    if(length(grep(file_path_sans_ext(sf), x[[i]][k[[j]]], fixed = TRUE))) {
-                      file.remove(file.path(sdir, sf))
-                      x$supplements <- x$supplements[!grepl(sf, x$supplements)]
-                      attr(x$supplements, "dir") <- sdir        
-                    }
-                  }
-                }
-              } else {
-                names(imgpath) <- imgname[j]
-                file.copy(dir, imgpath)
-                img <- paste('<img src="', imgpath, '" alt="', imgname[j], '" />', sep = '')
-              }
-              if(grepl("list", i))
-                x[[i]][k[[j]]] <- img
-              else
-                x[[i]] <- img
-              if(!base64)
-                images <- c(images, imgpath)
-            }
+          images <- c(images, as.list(x[[i]]))
+          inames <- c(inames, paste(i, 1:length(x[[i]]), sep = "_"))
+        } else {
+          images <- c(images, list(x[[i]]))
+          inames <- c(inames, i)
+        }
+      }
+      names(images) <- inames
+      dir <- tex2image(images, idir = sdir, show = FALSE, bsname = bsname, ...)
+      inames <- file_path_sans_ext(basename(dir))
+      if(base64) {
+        for(i in seq_along(dir))
+          dir[i] <- sprintf('<img src="%s" alt="%s" />', dataURI(file = dir[i], mime = "image/png"), dir[i])
+        for(sf in dir(sdir)) {
+          if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
+            file.remove(file.path(sdir, sf))
+            x$supplements <- x$supplements[!grepl(sf, x$supplements)]
+            attr(x$supplements, "dir") <- sdir        
           }
         }
       }
+      for(i in c("question", "questionlist", "solution", "solutionlist")) {
+        if(grepl("list", i)) {
+          j <- grep(i, inames)
+        } else {
+          j <- grep(i, inames)
+          j <- j[!grepl("list", inames[j])]
+        }
+        x[[i]] <- if(base64) {
+          dir[j]
+        } else {
+          paste("<img src=\"", dir[j], "\" alt=\"", inames[j], "\" />", sep = "")
+        }
+        names(x[[i]]) <- inames[j]
+      }
       if(!base64) {
-        for(i in images) {
+        for(i in dir) {
           fp <- file.path(sdir, basename(i))
           file.copy(i, fp)
           if(!(fp %in% x$supplements))
@@ -60,6 +60,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
         }
         attr(x$supplements, "dir") <- sdir
       }
+
       x
     }
   } else {

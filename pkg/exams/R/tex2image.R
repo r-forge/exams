@@ -1,18 +1,12 @@
 ## NOTE: needs commands "convert" and optionally "display" from
 ## ImageMagick (http://www.imagemagick.org/)
-
-## FIXME: Would it be possible to make the 'tex' argument optionally
-## a list? Then we could maybe collapse the code with \newpage statements
-## in between, then cycle through the resulting pages of the PDF and
-## collect the individual images, returning them in a list again.
-## This could considerably speed up the processing of
-## exams2html(..., converter = "teximage") ...
-
+## In addition, if tex input is a list(), needs pdftk for splitting .pdf files
 tex2image <- function(tex, format = "png", width = 6, 
   pt = 12, density = 350, edir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650, shave = 4,
-  template = c("\\usepackage{sfmath}",  ## FIXME: this should really be a more complete template
-    "\\renewcommand{\\sfdefault}{phv}",
+  packages = c("a4wide", "sfmath", "verbatim", "amsmath", "amssymb", "amsfonts", "graphicx",
+    "fancybox", "slashbox", "booktabs", "array", "hyperref", "color", "fancyvrb"),
+  template = c("\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
   itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)
 {
@@ -26,7 +20,7 @@ tex2image <- function(tex, format = "png", width = 6,
   if(there)
     on.exit(unlink(tdir))
 
-  if((length(text) < 2L) && file.exists(tex)) {
+  if(!is.list(tex) && (length(text) < 2L) && file.exists(tex)) {
     texfile <- file_path_as_absolute(tex)
     tex <- readLines(con = texfile)
     texdir <- dirname(texfile)
@@ -51,7 +45,7 @@ tex2image <- function(tex, format = "png", width = 6,
 
   owd <- getwd()
   setwd(tdir)
-  if(length(graphics <- grep("includegraphics", tex, fixed = TRUE, value = TRUE))) {
+  if(length(graphics <- grep("includegraphics", unlist(tex), fixed = TRUE, value = TRUE))) {
     if(is.null(idir))
       idir <- texdir
     idir <- path.expand(idir)
@@ -77,29 +71,21 @@ tex2image <- function(tex, format = "png", width = 6,
     } else stop(paste("graphic is missing in ", texdir, "!", sep = ""))
   }
   texlines <- paste("\\documentclass[", pt, "pt]{article}", sep = "")
+  for(i in packages) {
+    brackets <- if(grepl("{", i, fixed = TRUE)) NULL else c("{", "}")
+    texlines <- c(texlines, paste("\\usepackage", brackets[1], i, brackets[2], sep = ""))
+  }
   texlines <- c(
     texlines,
-    "\\usepackage[ngerman]{babel}", ## FIXME: modularize usepackages
-    "\\usepackage{a4wide, verbatim}",
-    "\\usepackage[latin1]{inputenc}",
-    "\\usepackage[T1]{fontenc}",
-    "\\usepackage{amsmath,amssymb,amsfonts}",
-    "\\usepackage{graphicx}",
-    "\\usepackage{fancybox}",
-    "\\usepackage{slashbox, booktabs}",
-    "\\usepackage{array}",
-    "\\usepackage{hyperref}",
-    "\\usepackage{color}",
-    "\\usepackage{fancyvrb}",
     "\\pagestyle{empty}",
     "\\setlength{\\parindent}{0pt}",
     "\\newenvironment{question}{\\item \\textbf{Problem}\\newline}{}",
     "\\newenvironment{solution}{\\textbf{Solution}\\newline}{}",
     "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{enumerate}}{\\end{enumerate}}",
-    "\\newenvironment{Schunk}{\\fontsize{9}{10}\\selectfont}{}", ## FIXME: verbatim!
-    "\\newenvironment{Scode}{verbatim}{}",
-    "\\newenvironment{Sinput}{verbatim}{}",
-    "\\newenvironment{Soutput}{verbatim}{}"
+    "\\newenvironment{Schunk}{\\fontsize{9}{10}\\selectfont}{}",
+    "\\newenvironment{Scode}{\\verbatim}{\\endverbatim}",
+    "\\newenvironment{Sinput}{\\verbatim}{\\endverbatim}",
+    "\\newenvironment{Soutput}{\\verbatim}{\\endverbatim}"
   )
   for(i in template)
     texlines <- c(texlines, i)
@@ -107,51 +93,70 @@ tex2image <- function(tex, format = "png", width = 6,
   texlines <- c(texlines, "\\begin{document}")
   for(i in itemplate)
     texlines <- c(texlines, i)
-  if(!any(grepl("begin{figure}", tex, fixed = TRUE)) &&
-     !any(grepl("caption{", tex, fixed = TRUE))) {
-    texlines <- c(texlines, paste("\\frame{\\parbox[t]{", width, "in}{", sep = ""))
-    texlines <- c(texlines, "\\vspace*{0.1cm}")
-  }
-  texlines <- c(texlines, tex)
-  if(!any(grepl("begin{figure}", tex, fixed = TRUE)) &&
-     !any(grepl("caption{", tex, fixed = TRUE))) {
-    texlines <- c(texlines, "\\vspace*{0.1cm}}}")
+  tex <- if(!is.list(tex)) list(tex) else tex
+  pic_names <- if(is.null(names(tex))) {
+    paste(bsname, "pic", 1:length(tex), sep = "_")
+  } else paste(bsname, names(tex), sep = "_")
+  pic_names <- paste(pic_names, format, sep = ".")
+  nt <- length(tex)
+  for(i in 1:nt) {
+    if(!any(grepl("begin{figure}", tex[[i]], fixed = TRUE)) &&
+      !any(grepl("caption{", tex[[i]], fixed = TRUE))) {
+      texlines <- c(texlines, paste("\\frame{\\parbox[t]{", width, "in}{", sep = ""))
+      texlines <- c(texlines, "\\vspace*{0.1cm}")
+    }
+    texlines <- c(texlines, tex[[i]])
+    if(!any(grepl("begin{figure}", tex[[i]], fixed = TRUE)) &&
+      !any(grepl("caption{", tex[[i]], fixed = TRUE))) {
+      texlines <- c(texlines, "\\vspace*{0.1cm}}}")
+    }
+    if(nt > 1)
+      texlines <- c(texlines, "\\newpage")
   }
   texlines <- c(texlines, "\\end{document}")
   file.create(paste(tdir, "/", bsname, ".log", sep = ""))
-  image <- paste(bsname, ".", format, sep = "")
   writeLines(text = texlines, con = paste(tdir, "/", bsname, ".tex", sep = ""))
   texi2dvi(file = paste(bsname, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
-  if(format == "png") {
-    cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
-      bsname, ".pdf -transparent white ", image, " > ", bsname, ".log", sep = "")
-  } else {
-    cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
-      bsname, ".pdf ", image, " > ", bsname, ".log", sep = "")
+  if(nt > 1) {
+    system(paste("pdftk", paste(bsname, "pdf", sep = "."), "burst output",
+      paste(bsname, "pic", "%02d.pdf", sep = "_")))
+    bsname <- grep(paste(bsname, "pic", sep = "_"), list.files(tdir), fixed = TRUE, value = TRUE)
+    bsname <- file_path_sans_ext(bsname)
   }
-  system(cmd)
-  if(!is.null(resize)) {
-    cmd <- paste("convert -resize ", resize, "x ", image, " ", image, " > ", bsname, ".log", sep = "")
+  image <- paste(bsname, ".", format, sep = "")
+  dirout <- rep(NA, length(bsname))
+  for(i in seq_along(bsname)) {
+    if(format == "png") {
+      cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
+        bsname[i], ".pdf -transparent white ", image[i], " > ", bsname[i], ".log", sep = "")
+    } else {
+      cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
+        bsname[i], ".pdf ", image[i], " > ", bsname[i], ".log", sep = "")
+    }
     system(cmd)
-  } else resize <- 800
-  width.border <- as.integer(width.border)
-  if(width.border > 0L) {
-    width.border <- paste(width.border, "x", width.border, sep = "")
-    system(paste("convert ", image, " -bordercolor ", col.border, " -border ", width.border, " ",
-      image, " > ", bsname, ".log", sep = ""))
-  }
-  dirout <- file.path(path.expand(edir), image)
-  file.copy(from = file.path(tdir, image), 
-    to = dirout, overwrite = TRUE)
-  if(show) {
-    if(.Platform$OS.type == "windows") 
-      shell.exec(dirout)
-    else {
-      resize <- as.integer(resize)
-      resize <- paste(resize, "x", resize, sep = "")
-      try(system(paste("display -resize ", resize, " -auto-orient ",  
-        dirout, sep = ""), wait = FALSE))
-    } 
+    if(!is.null(resize)) {
+      cmd <- paste("convert -resize ", resize, "x ", image[i], " ", image[i], " > ", bsname[i], ".log", sep = "")
+      system(cmd)
+    } else resize <- 800
+    width.border <- as.integer(width.border)
+    if(width.border > 0L) {
+      width.border <- paste(width.border, "x", width.border, sep = "")
+      system(paste("convert ", image[i], " -bordercolor ", col.border, " -border ", width.border, " ",
+        image[i], " > ", bsname[i], ".log", sep = ""))
+    }
+    dirout[i] <- file.path(path.expand(edir), pic_names[i])
+    file.copy(from = file.path(tdir, image[i]), 
+      to = dirout[i], overwrite = TRUE)
+    if(show) {
+      if(.Platform$OS.type == "windows") 
+        shell.exec(dirout[i])
+      else {
+        resize <- as.integer(resize)
+        resize <- paste(resize, "x", resize, sep = "")
+        try(system(paste("display -resize ", resize, " -auto-orient ",  
+          dirout[i], sep = ""), wait = FALSE))
+      } 
+    }
   }
   setwd(owd)
   
