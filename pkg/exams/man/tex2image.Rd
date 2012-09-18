@@ -5,15 +5,17 @@
 
 \description{
   Transformation of LaTeX code into an image by compiling
-  to PDF and then transforming to PNG via ImageMagick.
+  to PDF and then transforming to PNG (by default) via
+  ImageMagick.
 }
 
 \usage{
-  tex2image(tex, format = "png", width = 6, pt = 12, density = 350, 
-    edir = NULL, tdir = NULL, idir = NULL, width.border = 0L, 
-    col.border = "white", resize = 650, shave = 4, template, 
-    itemplate = NULL, show = TRUE, bsname = "tex2image-Rinternal", 
-    \dots)
+tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
+  dir = NULL, tdir = NULL, idir = NULL,
+  width.border = 0L, col.border = "white", resize = 650, shave = 4,
+  packages = c("amsmath", "amssymb", "amsfonts"),
+  header, header2 = NULL, Sweave = TRUE, show = TRUE,
+  name = "tex2image", \dots)
 }
 
 \arguments{
@@ -49,7 +51,11 @@
 }
 
 \examples{
-## still to do
+\dontrun{
+tex <- c("This is \\\\textbf{bold} and this \\\\textit{italic}.",
+  "Points on the unit circle: $x^2 + y^2 = 1$.")
+tex2image(tex)
+}
 }
 
 \keyword{utilities}

@@ -1,22 +1,19 @@
-## NOTE: needs commands "convert" and optionally "display" from
-## ImageMagick (http://www.imagemagick.org/)
+## NOTE: needs commands "convert" from ImageMagick (http://www.imagemagick.org/)
 tex2image <- function(tex, format = "png", width = 6, 
-  pt = 12, density = 350, edir = NULL, tdir = NULL, idir = NULL,
+  pt = 12, density = 350, dir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650, shave = 4,
   packages = c("amsmath", "amssymb", "amsfonts"),
-  header = c("\\setlength{\\parindent}{0pt}", "\\renewcommand{\\sfdefault}{phv}",
+  header = c("\\setlength{\\parindent}{0pt}",
+    "\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
-  header2 = NULL, show = TRUE, bsname = "tex2image-Rinternal", ...)
+  header2 = NULL, Sweave = TRUE, show = TRUE, name = "tex2image", ...)
 {
-  there <- FALSE
   if(is.null(tdir)) {
     tdir <- tempfile()
-    there <- TRUE
+    on.exit(unlink(tdir))
   }
   tdir <- file.path(path.expand(tdir), "tex2image")
   dir.create(tdir, recursive = TRUE, showWarnings = FALSE)
-  if(there)
-    on.exit(unlink(tdir))
 
   if(!is.list(tex) && (length(text) < 2L) && file.exists(tex)) {
     texfile <- file_path_as_absolute(tex)
@@ -29,7 +26,7 @@ tex2image <- function(tex, format = "png", width = 6,
       cfiles <- cfiles[-pdfs]
     file.copy(file.path(texdir, cfiles), file.path(tdir, cfiles))
     texfile <- paste("tex2image-", basename(texfile), sep = "")
-    bsname <- file_path_sans_ext(texfile)
+    name <- file_path_sans_ext(texfile)
   } else texdir <- tempdir()
 
   if(any(grepl("\\documentclass", tex, fixed = TRUE))) {
@@ -38,14 +35,15 @@ tex2image <- function(tex, format = "png", width = 6,
     tex <- tex[(begin + 1):(end - 1)]
   }
 
-  if(is.null(edir))
-    edir <- texdir
-
-  packages <- unique(c(packages, c("Sweave", "a4wide", "verbatim", "graphicx", "url",
-    "fancybox", "slashbox", "booktabs", "array", "color", "fancyvrb")))
+  if(is.null(dir))
+    dir <- texdir
 
   owd <- getwd()
   setwd(tdir)
+  on.exit(setwd(owd), add = TRUE)
+  
+  packages <- unique(c(packages, c("a4wide", "graphicx", "url", "color")))
+
   if(length(graphics <- grep("includegraphics", unlist(tex), fixed = TRUE, value = TRUE))) {
     if(is.null(idir))
       idir <- texdir
@@ -71,11 +69,13 @@ tex2image <- function(tex, format = "png", width = 6,
         file.copy(from = file.path(idir, f), to = file.path(tdir, f), overwrite = TRUE)
     } else stop(paste("graphic is missing in ", texdir, "!", sep = ""))
   }
-  texlines <- paste("\\documentclass[", pt, "pt]{article}", sep = "")
+  texlines <- paste("\\documentclass[a4paper,", pt, "pt]{article}", sep = "")
   for(i in packages) {
     brackets <- if(grepl("{", i, fixed = TRUE)) NULL else c("{", "}")
     texlines <- c(texlines, paste("\\usepackage", brackets[1], i, brackets[2], sep = ""))
   }
+  if(Sweave) texlines <- c(texlines, paste("\\usepackage{",
+    file.path(R.home("share"), "texmf", "tex", "latex", "Sweave"), "}", sep = ""))
   texlines <- c(
     texlines,
     "\\pagestyle{empty}"
@@ -86,8 +86,8 @@ tex2image <- function(tex, format = "png", width = 6,
   texlines <- c(texlines, header2)
   tex <- if(!is.list(tex)) list(tex) else tex
   pic_names <- if(is.null(names(tex))) {
-    paste(bsname, "pic", 1:length(tex), sep = "_")
-  } else paste(bsname, names(tex), sep = "_")
+    paste(name, 1:length(tex), sep = "_")
+  } else paste(name, names(tex), sep = "_")
   pic_names <- paste(pic_names, format, sep = ".")
   nt <- length(tex)
   for(i in 1:nt) {
@@ -105,38 +105,37 @@ tex2image <- function(tex, format = "png", width = 6,
       texlines <- c(texlines, "\\newpage")
   }
   texlines <- c(texlines, "\\end{document}")
-  file.create(paste(tdir, "/", bsname, ".log", sep = ""))
-  writeLines(text = texlines, con = paste(tdir, "/", bsname, ".tex", sep = ""))
-  texi2dvi(file = paste(bsname, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
+  file.create(paste(tdir, "/", name, ".log", sep = ""))
+  writeLines(text = texlines, con = paste(tdir, "/", name, ".tex", sep = ""))
+  texi2dvi(file = paste(name, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
 
-  image <- paste(bsname, if(nt > 1) 1:nt else NULL, ".", format, sep = "")
-  dirout <- rep(NA, length(bsname))
+  image <- paste(name, if(nt > 1) 1:nt else NULL, ".", format, sep = "")
+  dirout <- rep(NA, length(name))
   for(i in 1:nt) {
     if(format == "png") {
       cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
-        bsname, ".pdf[", i - 1, "] -transparent white ", image[i], " > ", bsname, i, ".log", sep = "")
+        name, ".pdf[", i - 1, "] -transparent white ", image[i], " > ", name, i, ".log", sep = "")
     } else {
       cmd <- paste("convert -trim -shave ", shave, "x", shave," -density ", density, " ",
-        bsname, ".pdf[", i - 1, "] ", image[i], " > ", bsname, i, ".log", sep = "")
+        name, ".pdf[", i - 1, "] ", image[i], " > ", name, i, ".log", sep = "")
     }
     system(cmd)
     if(!is.null(resize)) {
-      cmd <- paste("convert -resize ", resize, "x ", image[i], " ", image[i], " > ", bsname[i], ".log", sep = "")
+      cmd <- paste("convert -resize ", resize, "x ", image[i], " ", image[i], " > ", name[i], ".log", sep = "")
       system(cmd)
     } else resize <- 800
     width.border <- as.integer(width.border)
     if(width.border > 0L) {
       width.border <- paste(width.border, "x", width.border, sep = "")
       system(paste("convert ", image[i], " -bordercolor ", col.border, " -border ", width.border, " ",
-        image[i], " > ", bsname[i], ".log", sep = ""))
+        image[i], " > ", name[i], ".log", sep = ""))
     }
-    dirout[i] <- file.path(path.expand(edir), pic_names[i])
+    dirout[i] <- file.path(path.expand(dir), pic_names[i])
     file.copy(from = file.path(tdir, image[i]), 
       to = dirout[i], overwrite = TRUE)
     dirout[i] <- normalizePath(dirout[i])
     if(show) browseFile(dirout[i])
-  }
-  setwd(owd)
+  }  
   
   return(invisible(dirout))
 }
