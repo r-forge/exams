@@ -1,4 +1,4 @@
-exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
+exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4, ...)
 {
@@ -11,10 +11,10 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
       read = NULL,
       transform = htmltransform,
       write = NULL),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+      dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
   ## write exam in IMS QTI 1.2 standard to .xml file
-  make_exams_write_imsqti(exm, dir, tdir, name, ...)
+  make_exams_write_imsqti(exm, dir, tdir, name)
 
   ## FIXME:
   ## - make_exams_write_imsqti() is not really a make_* function
@@ -35,7 +35,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 ## writes .xml assessments in IMS QTI 1.2 standard
 make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
-  template.assessment = NULL, template.item = NULL, ...)
+  template.assessment = NULL, template.item = NULL)
 {
   dir <- path.expand(dir)
   if(is.null(tdir)) {
@@ -66,9 +66,6 @@ make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
   if(!file.exists(template.item))
     stop(paste("The following file cannot be found: ", template.item, "!", sep = ""))
   item_xml <- readLines(template.item)
-
-  ## get additional arguments
-  args <- list(...)
 
   ## generate the test id
   test_id <- make_id(9)
