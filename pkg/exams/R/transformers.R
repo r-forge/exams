@@ -15,12 +15,14 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       sdir <- attr(x$supplements, "dir")
       images <- list(); inames <- NULL
       for(i in c("question", "questionlist", "solution", "solutionlist")) {
-        if(grepl("list", i)) {
-          images <- c(images, as.list(x[[i]]))
-          inames <- c(inames, paste(i, 1:length(x[[i]]), sep = "_"))
-        } else {
-          images <- c(images, list(x[[i]]))
-          inames <- c(inames, i)
+        if(!is.null(x[[i]])) {
+          if(grepl("list", i)) {
+            images <- c(images, as.list(x[[i]]))
+            inames <- c(inames, paste(i, 1:length(x[[i]]), sep = "_"))
+          } else {
+            images <- c(images, list(x[[i]]))
+            inames <- c(inames, i)
+          }
         }
       }
       names(images) <- inames
