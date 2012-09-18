@@ -147,16 +147,8 @@ tex2image <- function(tex, format = "png", width = 6,
     dirout[i] <- file.path(path.expand(edir), pic_names[i])
     file.copy(from = file.path(tdir, image[i]), 
       to = dirout[i], overwrite = TRUE)
-    if(show) {
-      if(.Platform$OS.type == "windows") 
-        shell.exec(dirout[i])
-      else {
-        resize <- as.integer(resize)
-        resize <- paste(resize, "x", resize, sep = "")
-        try(system(paste("display -resize ", resize, " -auto-orient ",  
-          dirout[i], sep = ""), wait = FALSE))
-      } 
-    }
+    dirout[i] <- normalizePath(dirout[i])
+    if(show) browseFile(dirout[i])
   }
   setwd(owd)
   
