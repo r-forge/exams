@@ -98,7 +98,7 @@ exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
 
     ## now, insert the questions
     for(i in 1:nx)
-      sections <- c(sections, ex <- write.imsqti.item(x[[i]][[j]], test_dir, item_xml))
+      sections <- c(sections, ex <- write_imsqti_item(x[[i]][[j]], test_dir, item_xml))
 
     ## end section
     sections <- c(sections, '</section>')
@@ -107,7 +107,7 @@ exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
   ## finalize the test xml file, insert id, name and sections
   test_xml <- gsub("##TestIdent", name, test_xml)
   test_xml <- gsub("##TestTitle", name, test_xml)
-  test_xml <- input_text("##TestSections", sections, test_xml)
+  test_xml <- gsub("##TestSections", paste(sections, collapse = "\n"), test_xml)
 
   ## write to dir
   writeLines(test_xml, file.path(test_dir, "qti.xml"))
@@ -128,7 +128,7 @@ exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
 ## separating words?
 
 ## functions for item construction
-write.imsqti.item <- function(x, dir, xml)
+write_imsqti_item <- function(x, dir, xml)
 {
   ## get the question type
   type <- x$metainfo$type
@@ -152,19 +152,19 @@ write.imsqti.item <- function(x, dir, xml)
   
   ## get the item body
   class(x) <- c(type, "list")
-  body <- get.item.body(x)
+  body <- get_item_body(x)
 
   ## insert the body text
-  xml <- input_text("##ItemBody", body, xml)
+  xml <- gsub("##ItemBody", paste(body, collapse = "\n"), xml)
 
   ## insert possible solution
-  xml <- input_text("##ItemSolution", x$solution, xml)
+  xml <- gsub("##ItemSolution", paste(x$solution, collapse = "\n"), xml)
 
   ## insert possible hints
-  xml <- input_text("##ItemHints", x$hints, xml)
+  xml <- gsub("##ItemHints", paste(x$hints, collapse = "\n"), xml)
 
   ## insert possible feedback
-  xml <- input_text("##ItemFeedback", x$feedback, xml)
+  xml <- gsub("##ItemFeedback", paste(x$feedback, collapse = "\n"), xml)
 
   ## copy supplements
   if(length(x$supplements)) {
@@ -188,13 +188,13 @@ write.imsqti.item <- function(x, dir, xml)
 
 
 ## create question specific item bodies
-get.item.body <- function(x)
+get_item_body <- function(x)
 {
-  UseMethod("get.item.body")
+  UseMethod("get_item_body")
 }
 
 ## multiple/single choice item writer function
-get.item.body.mchoice <- get.item.body.schoice <- function(x)
+get_item_body.mchoice <- get_item_body.schoice <- function(x)
 {
   ## generate ids
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
@@ -334,7 +334,7 @@ get.item.body.mchoice <- get.item.body.schoice <- function(x)
 
 
 ## numeric item body writer function
-get.item.body.num <- function(x)
+get_item_body.num <- function(x)
 {
   ## generate an unique id
   resp_id <- paste("RESPONSE", make_id(7), sep = "_")
@@ -396,17 +396,6 @@ make_id <- function(size, n = 1L) {
   rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
   rval[1L, ] <- pmax(1L, rval[1L, ])
   colSums(rval * 10^((size - 1L):0L))
-}
-
-## input text in character vector
-## FIXME: Why is this function needed, wouldn't gsub() be enough?
-## If the problem is that replacement can be of length > 1, then
-## simply use gsub(pattern, paste(replacement, collapse = "\n"), x)?
-input_text <- function(pattern, replacement, x)
-{
-  if(length(i <- grep(pattern, x, fixed = TRUE)))
-    x <- c(x[1:(i - 1)], replacement, x[(i + 1):length(x)])
-  x
 }
 
 
