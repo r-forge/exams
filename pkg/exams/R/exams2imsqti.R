@@ -14,7 +14,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
       dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
   ## write exam in IMS QTI 1.2 standard to .xml file
-  make_exams_write_imsqti(exm, dir, tdir, name)
+  exams_write_imsqti(exm, dir, tdir, name)
 
   ## FIXME:
   ## - make_exams_write_imsqti() is not really a make_* function
@@ -34,7 +34,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## writes .xml assessments in IMS QTI 1.2 standard
-make_exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
+exams_write_imsqti <- function(x, dir, tdir = NULL, name = NULL,
   template.assessment = NULL, template.item = NULL)
 {
   dir <- path.expand(dir)
