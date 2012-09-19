@@ -16,6 +16,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
   }
 
   ## set up .html transformer and writer function
+  name <- if(n == 1L && is.null(name)) "exam" else name
   htmltransform <- make_exercise_transform_html(...)
   htmlwrite <- make_exams_write_html(name = name, question = question,
     solution = solution, template = template, mathjax = mathjax)

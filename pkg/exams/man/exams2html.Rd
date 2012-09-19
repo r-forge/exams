@@ -11,7 +11,7 @@
 
 \usage{
   exams2html(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
-  name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
   mathjax = FALSE, resolution = 100, width = 4, height = 4, \dots)
 
