@@ -10,16 +10,16 @@
 }
 
 \usage{
-  exams2html(file, n = 1L, nsamp = NULL, dir = NULL, name = "exam", 
-    quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, solution = TRUE, 
-    doctype = NULL, head = NULL, mathjax = FALSE, resolution = 100,
-    width = 4, height = 4, \dots)
+  exams2html(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
+  name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+  mathjax = FALSE, resolution = 100, width = 4, height = 4, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
     base64 = TRUE, \dots)
     
-  make_exams_write_html(doctype = NULL, head = NULL, mathjax = FALSE,
-    solution = TRUE, name = NULL, \dots)
+  make_exams_write_html(name = NULL, question = NULL, solution = NULL,
+    template = NULL, mathjax = FALSE)
 }
 
 \arguments{
@@ -32,6 +32,8 @@
     with replacement is used.)}
   \item{dir}{character. The output directory, this has to be set if
     \code{n} is greater than 1.}
+  \item{template}{character. A specification of a HTML template. The package
+    currently provides \code{"plain"}.}
   \item{name}{character. A name prefix for resulting exercises.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[utils]{Sweave}}?}
@@ -41,14 +43,12 @@
     this is chosen via \code{\link[base]{tempdir}}.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
-  \item{solution}{logical. Should the solution be included in the HTML
-    output?}
+  \item{question}{character or logical. Should the question be included in the HTML
+    output? If \code{question} is a character it will be used as a header for resulting questions.
+    Argument \code{question} may also be a vector that controls the output for the templates.}
+  \item{solution}{character or logical, see to argument \code{question}.}
   \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
     be included for rendering mathematical formulas?}
-  \item{doctype}{character vector with a DOCTYPE tag for the HTML page.
-    By default HTML4 is employed.}
-  \item{head}{character vector for the head tag. By default a simple
-    header is employed, setting the font to Arial.}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX

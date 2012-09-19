@@ -1,8 +1,8 @@
 ## generate exams in .html format
-exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
-  name = "exam", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  solution = TRUE, doctype = NULL, head = NULL, mathjax = FALSE, resolution = 100,
-  width = 4, height = 4, ...)
+exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+  mathjax = FALSE, resolution = 100, width = 4, height = 4, ...)
 {
   ## output directory or display on the fly (n == 1L & is.null(dir))
   display <- is.null(dir)
@@ -17,7 +17,8 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## set up .html transformer and writer function
   htmltransform <- make_exercise_transform_html(...)
-  htmlwrite <- make_exams_write_html(doctype, head, mathjax, solution, name)
+  htmlwrite <- make_exams_write_html(name = name, question = question,
+    solution = solution, template = template, mathjax = mathjax)
 
   ## create final .html exam
   rval <- xexams(file, n = n, nsamp = nsamp,
@@ -39,92 +40,146 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 
 ## writes the final .html site
-make_exams_write_html <- function(doctype = NULL,
-  head = NULL, mathjax = FALSE, solution = TRUE, name = NULL)
+make_exams_write_html <- function(name = NULL, question = NULL,
+  solution = NULL, template = NULL, mathjax = FALSE)
 {
-  function(x, dir, info)
-  {
-    tdir <- tempfile()
-    dir.create(tdir)
-    on.exit(unlink(tdir))
-    if(is.null(doctype)) {
-      doctype <- c(
-        '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"',
-        '"http://www.w3.org/TR/html4/strict.dtd">'
-      )
-    }
-    if(is.null(head)) {
-      mathjax <- if(mathjax) c(
-        '<script type="text/javascript"',
-        '  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
-        '</script>'
-      ) else character(0)
+  ## the package directory
+  pkg_dir <- .find.package("exams")
 
-      head <- c(
-        '<head>',
-        paste('<title> ', 'exam', info$id, ' </title>', sep = ''),
-        '<style type="text/css">',
-        'body{font-family:Arial;}',
-        '</style>',
-	      mathjax,
-        '</head>'
-      )
+  ## get the .html template files
+  template <- if(is.null(template)) {
+    file.path(.find.package("exams"), "html", "plain.html")
+  } else path.expand(template)
+  template <- ifelse(
+    tolower(substr(template, nchar(template) - 4L, nchar(template))) != ".html",
+    paste(template, ".html", sep = ""), template)
+  template <- ifelse(file.exists(template),
+    template, file.path(pkg_dir, "html", basename(template)))
+  if(!all(file.exists(template))) {
+    stop(paste("The following files cannot be found: ",
+      paste(template[!file.exists(template)], collapse = ", "), ".", sep = ""))
+  }
+
+  ## output name processing
+  nt <- length(template)
+  name <- if(is.null(name)) file_path_sans_ext(basename(template)) else rep(name, length.out = nt)
+  if(nt > 1 && length(unique(name)) < nt)
+    name <- paste(name, 1:nt, sep = "")
+
+  ## read the templates
+  template <- lapply(template, readLines)
+
+  ## question and solution control
+  foo <- function(x, what) {
+    if(is.null(x)) {
+      paste("<h4>", what, "</h4>", sep = "")
+    } else {
+      if(is.logical(x)) {
+        if(x) paste("<h4>", what, "</h4>", sep = "") else NA
+      } else x
     }
-    if(is.null(name)) name <- "exam"
-    html <- c(doctype, "<html>", head, "<body>", paste('<h2>', 'Exam', info$id, ' </h2>'), "<ol>")
-    j <- 1
-    for(ex in x) {
-      html <- c(html, "<li>", "<h4>", "Question", "</h4>", ex$question, "<br/>")
-      if(length(ex$questionlist)) {
-        html <- c(html, '<ol type="a">')
-        for(i in ex$questionlist)
-          html <- c(html, "<li>", i, "</li>")
-        html <- c(html, "</ol>", "<br/>")
-      }
-      if(solution) {
-        html <- c(html, "<h4>", "Solution", "</h4>")
-        if(length(ex$solution)) {
-          html <- c(html, ex$solution, "<br/>")
-        }
-        if(length(ex$solutionlist)) {
-          html <- c(html, '<ol type="a">')
-          for(i in ex$solutionlist)
-            html <- c(html, "<li>", i, "</li>")
-          html <- c(html, "</ol>", "<br/>")
-        }
-      }
-      html <- c(html, "</li>")
-      if(length(ex$supplements)) {
-        if(!file.exists(file.path(tdir, "media")))
-          dir.create(file.path(tdir, "media"))
-        if(!file.exists(media_dir <- file.path(tdir, "media", nid <- paste(name, info$id, sep = ""))))
-          dir.create(media_dir)
-        if(!file.exists(ex_dir <- file.path(media_dir, exj <- paste("exercise", j, sep = ""))))
-          dir.create(ex_dir)
-        for(i in ex$supplements) {
-          file.copy(i, file.path(ex_dir, basename(i)))
-          if(any(grep(dirname(i), html, fixed = TRUE)))
-            html <- gsub(dirname(i), file.path("media", nid, exj), html, fixed = TRUE)
-          src <- paste('src="', basename(i), sep = "")
-          if(any(grep(src, html, fixed = TRUE))) {
-            html <- gsub(src, paste('src="', file.path("media", nid, exj, basename(i)),
-              sep = ""), html, fixed = TRUE)
+  }
+  question <- unlist(lapply(rep(if(is.null(question)) TRUE else question, length.out = nt),
+    foo, what = "Question"))
+  solution <- unlist(lapply(rep(if(is.null(solution)) TRUE else solution, length.out = nt),
+    foo, what = "Solution"))
+
+  ## the link to mathjax
+  mj_link <- paste('<script type="text/javascript"',
+    '  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
+    '</script>', collapse = "\n")
+  mathjax <- rep(mathjax, length.out = nt)
+
+  function(exm, dir, info)
+  {
+    ## basic indexes
+    id <- info$id
+    n <- info$n
+    m <- length(exm)
+
+    ## current directory
+    dir_orig <- getwd()
+    on.exit(setwd(dir_orig))
+
+    ## temporary directory
+    dir_temp <- tempfile()
+    if(!file.exists(dir_temp) && !dir.create(dir_temp))
+      stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
+    setwd(dir_temp) 
+    on.exit(unlink(dir_temp), add = TRUE)
+
+    for(i in 1:nt) {
+      html_body <- "<ol>"
+
+      ## question and solution insertion
+      for(j in seq_along(exm)) {
+        html_body <- c(html_body, "<li>")
+        if(!is.na(question[i])) {
+          html_body <- c(html_body, question[i], exm[[j]]$question, "<br/>")
+          if(length(exm[[j]]$questionlist)) {
+            html_body <- c(html_body, '<ol type="a">')
+            for(ql in exm[[j]]$questionlist)
+              html_body <- c(html_body, "<li>", ql, "</li>")
+            html_body <- c(html_body, "</ol>", "<br/>")
           }
-          href <- paste('href="', basename(i), sep = "")
-          if(any(grep(href, html, fixed = TRUE))) {
-            html <- gsub(href, paste('href="', file.path("media", nid, exj, basename(i)),
-              sep = ""), html, fixed = TRUE)
+        }
+        if(!is.na(solution[i])) {
+          html_body <- c(html_body, solution[i], exm[[j]]$solution, "<br/>")
+          if(length(exm[[j]]$solutionlist)) {
+            html_body <- c(html_body, '<ol type="a">')
+            for(sl in exm[[j]]$solutionlist)
+              html_body <- c(html_body, "<li>", sl, "</li>")
+            html_body <- c(html_body, "</ol>", "<br/>")
+          }
+        }
+        html_body <- c(html_body, "</li>")
+
+        ## handle and copy possible supplements
+        if(length(exm[[j]]$supplements)) {
+          if(!file.exists(media_dir <- file.path(dir_temp, "media")))
+            dir.create(media_dir)
+          if(!file.exists(exm_dir <- file.path(media_dir, exi <- paste("supplements", id, sep = ""))))
+            dir.create(exm_dir)
+          if(!file.exists(ex_dir <- file.path(exm_dir, exj <- paste("exercise", j, sep = ""))))
+            dir.create(ex_dir)
+          for(sup in exm[[j]]$supplements) {
+            file.copy(sup, file.path(ex_dir, basename(sup)))
+            if(any(grep(dirname(sup), html_body, fixed = TRUE))) {
+              html_body <- gsub(dirname(sup), file.path("media", exi, exj),
+                html_body, fixed = TRUE)
+            }
+            src <- paste('src="', basename(sup), sep = "")
+            if(any(grep(src, html_body, fixed = TRUE))) {
+              html_body <- gsub(src, paste('src="', file.path("media", exi, exj, basename(sup)),
+                sep = ""), html_body, fixed = TRUE)
+            }
+            href <- paste('href="', basename(sup), sep = "")
+            if(any(grep(href, html_body, fixed = TRUE))) {
+              html_body <- gsub(href, paste('href="', file.path("media", exi, exj, basename(sup)),
+                sep = ""), html_body, fixed = TRUE)
+            }
           }
         }
       }
-      j <- j + 1
+      html_body <- c(html_body, "</ol>")
+
+      ## insert the exam id
+      html <- gsub("##id", id, template[[i]], fixed = TRUE)
+
+      ## if required insert mathjax link
+      if(mathjax[i]) {
+        jd <- grep("</head>", html, fixed = TRUE)
+        html <- c(html[jd - 1], mj_link, html[jd:length(html)])
+      }
+
+      ## insert .html body
+      html <- gsub("##\\exinput{exercises}", paste(html_body, collapse = "\n"), html, fixed = TRUE)
+
+      ## write and copy final .html code
+      writeLines(html, file.path(dir_temp, paste(name[i], id, ".html", sep = "")))
+      file.copy(file.path(dir_temp, list.files(dir_temp)), dir, recursive = TRUE)
+      invisible(NULL)
     }
-    html <- c(html, "</ol>", "</body>", "</html>")
-    writeLines(html, file.path(tdir, paste(name, info$id, ".html", sep = "")))
-    ## out_dir <- file.path(dir, paste(name, info$id, sep = ""))
-    ## dir.create(out_dir)
-    file.copy(file.path(tdir, list.files(tdir)), dir, recursive = TRUE)
-    invisible(NULL)
   }
 }
 

@@ -9,7 +9,8 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp, driver = list(
-      sweave = list(quiet = quiet, pdf = FALSE, png = TRUE, resolution = resolution, width = width, height = height),
+      sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+        resolution = resolution, width = width, height = height),
       read = NULL,
       transform = htmltransform,
       write = NULL),
@@ -18,7 +19,8 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
   ## write exam in IMS QTI 1.2 standard to .xml file
 ##FIXME##exams_write_imsqti(exm, dir, tdir, name,
   
-  itembody = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
+  itembody = list(num = num, mchoice = mchoice, schoice = schoice,
+    cloze = cloze, string = string)
 
   for(i in c("num", "mchoice", "schoice", "cloze")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
