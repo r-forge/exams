@@ -21,8 +21,8 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## start .xml assessement creation
   ## get the possible item body functions and options  
-  itembody = list(num = num, mchoice = mchoice, schoice = schoice,
-    cloze = cloze, string = string)
+  itembody = list(num = num, mchoice = mchoice, schoice = schoice)
+
   for(i in c("num", "mchoice", "schoice")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
