@@ -1,7 +1,11 @@
+## create IMS QTI 1.2.1 .xml files
+## specifications and examples available at:
+## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
+## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
 exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL, string = NULL,
+  num = NULL, mchoice = NULL, schoice = mchoice,
   template = NULL, ...)
 {
   ## set up .html transformer
@@ -39,7 +43,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## get the .xml template
   template <- if(is.null(template)) {
-    file.path(.find.package("exams"), "xml", "imsqti121.xml")
+    file.path(.find.package("exams"), "xml", "imsqti12.xml")
   } else path.expand(template)
   template <- ifelse(
     tolower(substr(template, nchar(template) - 3L, nchar(template))) != ".xml",
@@ -121,7 +125,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
       xcq <- switch(type,
         "mchoice" = "MCQ",
         "schoice" = "SCQ",
-        "num" = "FIB"
+        "num" = "NUM" ## FIB
       )
 
       ## insert an item id
@@ -156,9 +160,10 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
     sec_xml <- c(sec_xml, "", "</section>")
   }
 
-  ## finalize the test xml file, insert id, name and sections
+  ## finalize the test xml file, insert id, name, duration and sections
   xml <- gsub("##TestIdent", name, xml)
   xml <- gsub("##TestTitle", name, xml)
+  xml <- gsub("##TestDuration", "", xml)  ## FIXME: duration in <duration>P0Y0M0DT0H1M35S</duration>
   xml <- gsub("##TestSections", paste(sec_xml, collapse = "\n"), xml)
 
   ## write to dir
@@ -194,7 +199,7 @@ make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuff
     xml <- c(
       '<presentation>',
       '<material>',
-      '<mattext texttype="text/html"><![CDATA[',
+      '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
       x$question,
       ']]></mattext>',
       '</material>'
@@ -217,7 +222,7 @@ make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuff
         paste('<response_label ident="', qu_id[i], '" rshuffle="', if(rshuffle) 'Yes' else 'No',
           '">', sep = ''),
         '<material>',
-        '<mattext texttype="text/html"><![CDATA[',
+        '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
         x$questionlist[i],
         ']]></mattext>',
         '</material>',
@@ -280,7 +285,7 @@ make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuff
       '</not>',
       '</conditionvar>',
       paste('<setvar varname="SCORE" action="Set">',
-        if(is.null(x$points)) 1 else x$points, '</setvar>', sep = ''),
+        if(is.null(x$metainfo$points)) 1 else x$metainfo$points, '</setvar>', sep = ''),
       paste('<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>', sep = ''),
       '</respcondition>')
 
@@ -361,7 +366,75 @@ make_itembody_num <- function(defaultval = NULL, minvalue = NULL, maxvalue = NUL
       '<flow>',
       '<material>',
       '<matbreak/>',
-      '<mattext texttype="text/html"><![CDATA[',
+      '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+      x$question,
+      ']]></mattext>',
+      '<matbreak/>',
+      '</material>',
+      paste('<response_num ident="', resp_id,
+        '" rcardinality="Single" rtiming="No" numtype="Decimal">', sep = ''),
+      paste('<render_fib fibtype="Decimal" prompt="Box" maxchars="', nchar(soltext), '">', sep = ""),
+      '<response_label ident="A"/>',
+      '</render_fib>',
+      '</response_num>',
+      '</flow>',
+      '</presentation>',
+      '<resprocessing>',
+      '<outcomes>',
+      paste('<decvar varname="REALSCORE" vartype="Integer" defaultval="',
+        if(is.null(defaultval)) 0 else defaultval, '"/>', sep = ''),
+      '</outcomes>',
+      '<respcondition title="Mastery" continue="Yes">',
+      '<conditionvar>',
+      paste('<vargte respident="', resp_id, '">', x$metainfo$solution + max(x$metainfo$tolerance),
+        '</vargte>', sep = ""),
+      paste('<vargte respident="', resp_id, '">', x$metainfo$solution - max(x$metainfo$tolerance),
+        '</vargte>', sep = ""),
+      '</conditionvar>',
+      paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = ""),
+      '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
+      '</respcondition>'
+    )
+
+    xml <- c(xml,
+      '<respcondition title="Fail" continue="Yes">',
+      '<conditionvar>',
+      '<other/>',
+      '</conditionvar>',
+      '<setvar varname="SCORE" action="Set">0</setvar>',
+      '<displayfeedback feedbacktype="Response" linkrefid="Fail"/>',
+      '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+      '<displayfeedback feedbacktype="Hint" linkrefid="Hint"/>',
+      '</respcondition>',
+      '</resprocessing>'
+    )
+
+    xml
+  }
+}
+
+
+## special num type function using a string answer
+make_itembody_num4olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+  cutvalue = NULL, ...)
+{
+  function(x) {
+    ## generate an unique id
+    resp_id <- paste("RESPONSE", make_id(7), sep = "_")
+
+    ## how many points?
+    points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+
+    ## the correct solution as text
+    soltext <- paste(gsub(" ", "", as.character(x$metainfo$solution), fixed = TRUE), collapse = "-")
+
+    ## start general question setup
+    xml <- c(
+      '<presentation>',
+      '<flow>',
+      '<material>',
+      '<matbreak/>',
+      '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
       x$question,
       ']]></mattext>',
       '<matbreak/>',

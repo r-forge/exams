@@ -1,6 +1,9 @@
 \name{exams2imsqti}
 \alias{exams2imsqti}
-\alias{make_exams_write_imsqti}
+\alias{make_itembody}
+\alias{make_itembody_num}
+\alias{make_itembody_mchoice}
+\alias{make_itembody_schoice}
 
 \title{Generation of Exams in IMS QTI 1.2 Format}
 
@@ -9,12 +12,24 @@
 }
 
 \usage{
-  exams2imsqti(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL, 
-    quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, resolution = 100, 
-    width = 4, height = 4, \dots)
+  exams2imsqti(file, n = 1L, nsamp = NULL, dir,
+    name = NULL, quiet = TRUE, edir = NULL,
+    tdir = NULL, sdir = NULL, resolution = 100,
+    width = 4, height = 4, num = NULL, mchoice = NULL,
+    schoice = mchoice, template = NULL, \dots)
 
-  make_exams_write_imsqti(x, dir, tdir = NULL, name = NULL,
-    template.assessment = NULL, template.item = NULL, \dots)
+  make_itembody_num(defaultval = NULL, minvalue = NULL,
+    maxvalue = NULL, cutvalue = NULL, \dots)
+
+  make_itembody_mchoice(rtiming = NULL, shuffle = TRUE,
+    minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
+    defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+    cutvalue = NULL, \dots)
+
+  make_itembody_schoice(rtiming = NULL, shuffle = TRUE,
+    minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
+    defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+    cutvalue = NULL, \dots)
 }
 
 \arguments{
@@ -38,11 +53,21 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
-
-  \item{x}{ still to do. }  
-  \item{template.assessment}{ still to do. }
-  \item{template.item}{ still to do. }
-    
+  \item{num}{function or named list applied on numerical, i.e. type \code{num},
+    questions. If \code{num} is a function, \code{num} will be used
+    for generating the item body of the question, see function \code{make_itembody_num()}.
+    If \code{num} is a named list, these arguments will be passed to function
+    \code{make_itembody_num()}.}
+  \item{mchoice}{function or named list applied on multiple choice, i.e. type \code{mchoice},
+    questions, see argument \code{num}.}
+  \item{schoice}{function or named list applied on single choice, i.e. type \code{schoice},
+    questions, see argument \code{num}.}
+  \item{template}{character. The IMS QTI template that should be used.}
+  \item{rtiming, shuffle, minnumber, maxnumber, rshuffle,
+    defaultval, minvalue, maxvalue, cutvalue}{
+    arguments used for IMS QTI 1.2 item construction, for details see the XML specifictaion files at
+    \url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html} and
+    \url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669}.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
