@@ -32,6 +32,7 @@ export(
   "exams2imsqti",
   "make_itembody_mchoice",
   "make_itembody_num",
+  "make_itembody_num4olat",
 
   ## WU driver
   "exams2wu",

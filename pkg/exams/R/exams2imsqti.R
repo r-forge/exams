@@ -1,4 +1,4 @@
-## create IMS QTI 1.2.1 .xml files
+## create IMS QTI 1.2 .xml files
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
@@ -185,7 +185,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
 ## multiple/single choice item writer function
 make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuffle = TRUE,
   minnumber = NULL, maxnumber = NULL, rshuffle = shuffle, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, ...)
+  maxvalue = NULL, cutvalue = NULL)
 {
   function(x) {
     ## generate ids
@@ -348,7 +348,7 @@ make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuff
 
 ## numeric item body writer function
 make_itembody_num <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-  cutvalue = NULL, ...)
+  cutvalue = NULL)
 {
   function(x) {
     ## generate an unique id
@@ -416,7 +416,7 @@ make_itembody_num <- function(defaultval = NULL, minvalue = NULL, maxvalue = NUL
 
 ## special num type function using a string answer
 make_itembody_num4olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-  cutvalue = NULL, ...)
+  cutvalue = NULL, digits = 2)
 {
   function(x) {
     ## generate an unique id
@@ -426,7 +426,7 @@ make_itembody_num4olat <- function(defaultval = NULL, minvalue = NULL, maxvalue 
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
     ## the correct solution as text
-    soltext <- paste(gsub(" ", "", as.character(x$metainfo$solution), fixed = TRUE), collapse = "-")
+    soltext <- format(round(x$metainfo$solution, digits = digits), nsmall = digits)
 
     ## start general question setup
     xml <- c(

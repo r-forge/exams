@@ -2,6 +2,7 @@
 \alias{exams2imsqti}
 \alias{make_itembody}
 \alias{make_itembody_num}
+\alias{make_itembody_num4olat}
 \alias{make_itembody_mchoice}
 \alias{make_itembody_schoice}
 
@@ -19,17 +20,20 @@
     schoice = mchoice, template = NULL, \dots)
 
   make_itembody_num(defaultval = NULL, minvalue = NULL,
-    maxvalue = NULL, cutvalue = NULL, \dots)
+    maxvalue = NULL, cutvalue = NULL)
+
+  make_itembody_num4olat(defaultval = NULL, minvalue = NULL,
+    maxvalue = NULL, cutvalue = NULL, digits = 2)
 
   make_itembody_mchoice(rtiming = NULL, shuffle = TRUE,
     minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, \dots)
+    cutvalue = NULL)
 
   make_itembody_schoice(rtiming = NULL, shuffle = TRUE,
     minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, \dots)
+    cutvalue = NULL)
 }
 
 \arguments{
@@ -68,6 +72,7 @@
     arguments used for IMS QTI 1.2 item construction, for details see the XML specifictaion files at
     \url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html} and
     \url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669}.}
+  \item{digits}{integer. how many digits should be used?}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
