@@ -29,10 +29,10 @@ export(
   "make_exams_write_html",
 
   ## IMS QTI 1.2 driver
-  "exams2imsqti",
-  "make_itembody_mchoice",
-  "make_itembody_num",
-  "make_itembody_num4olat",
+  "exams2imsqti12",
+  "make_itembody_mchoice12",
+  "make_itembody_num12",
+  "make_itembody_num124olat",
 
   ## WU driver
   "exams2wu",

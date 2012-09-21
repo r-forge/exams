@@ -2,7 +2,7 @@
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
-exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
+exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice,
@@ -26,7 +26,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
   for(i in c("num", "mchoice", "schoice")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
-      paste("make_itembody_", i, sep = ""), itembody[[i]])
+      paste("make_itembody_", i, "12", sep = ""), itembody[[i]])
   }
 
   ## create a temporary directory
@@ -183,7 +183,7 @@ exams2imsqti <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## multiple/single choice item writer function
-make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuffle = TRUE,
+make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, shuffle = TRUE,
   minnumber = NULL, maxnumber = NULL, rshuffle = shuffle, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL)
 {
@@ -347,7 +347,7 @@ make_itembody_mchoice <- make_itembody_schoice <- function(rtiming = NULL, shuff
 
 
 ## numeric item body writer function
-make_itembody_num <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_num12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL)
 {
   function(x) {
@@ -415,7 +415,7 @@ make_itembody_num <- function(defaultval = NULL, minvalue = NULL, maxvalue = NUL
 
 
 ## special num type function using a string answer
-make_itembody_num4olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_num124olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL, digits = 2)
 {
   function(x) {

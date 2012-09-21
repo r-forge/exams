@@ -1,10 +1,10 @@
-\name{exams2imsqti}
-\alias{exams2imsqti}
-\alias{make_itembody}
-\alias{make_itembody_num}
-\alias{make_itembody_num4olat}
-\alias{make_itembody_mchoice}
-\alias{make_itembody_schoice}
+\name{exams2imsqti12}
+\alias{exams2imsqti12}
+\alias{make_itembody12}
+\alias{make_itembody_num12}
+\alias{make_itembody_num4olat12}
+\alias{make_itembody_mchoice12}
+\alias{make_itembody_schoice12}
 
 \title{Generation of Exams in IMS QTI 1.2 Format}
 
@@ -13,24 +13,24 @@
 }
 
 \usage{
-  exams2imsqti(file, n = 1L, nsamp = NULL, dir,
+  exams2imsqti12(file, n = 1L, nsamp = NULL, dir,
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, resolution = 100,
     width = 4, height = 4, num = NULL, mchoice = NULL,
     schoice = mchoice, template = NULL, \dots)
 
-  make_itembody_num(defaultval = NULL, minvalue = NULL,
+  make_itembody_num12(defaultval = NULL, minvalue = NULL,
     maxvalue = NULL, cutvalue = NULL)
 
-  make_itembody_num4olat(defaultval = NULL, minvalue = NULL,
+  make_itembody_num124olat(defaultval = NULL, minvalue = NULL,
     maxvalue = NULL, cutvalue = NULL, digits = 2)
 
-  make_itembody_mchoice(rtiming = NULL, shuffle = TRUE,
+  make_itembody_mchoice12(rtiming = NULL, shuffle = TRUE,
     minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL)
 
-  make_itembody_schoice(rtiming = NULL, shuffle = TRUE,
+  make_itembody_schoice12(rtiming = NULL, shuffle = TRUE,
     minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL)
