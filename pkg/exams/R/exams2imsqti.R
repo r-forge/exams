@@ -105,7 +105,7 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
     ## now, insert the questions
     for(i in 1:nx) {
       ## the question name
-      qu_name <- toupper(paste(strsplit(exm[[i]][[j]]$metainfo$name, " ")[[1]], collapse = ""))
+      qu_name <- exm[[i]][[j]]$metainfo$name
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
