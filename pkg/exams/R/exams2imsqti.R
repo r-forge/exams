@@ -5,7 +5,7 @@
 exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  num = NULL, mchoice = NULL, schoice = mchoice,
+  num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL,
   template = NULL, ...)
 {
   ## set up .html transformer
@@ -23,7 +23,7 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
   ## get the possible item body functions and options  
   itembody = list(num = num, mchoice = mchoice, schoice = schoice)
 
-  for(i in c("num", "mchoice", "schoice")) {
+  for(i in c("num", "mchoice", "schoice", "cloze")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
       paste("make_itembody_", i, "12", sep = ""), itembody[[i]])
@@ -464,6 +464,96 @@ make_itembody_num124olat <- function(defaultval = NULL, minvalue = NULL, maxvalu
       '<and>',
       '<or>',
       paste('<varequal respident="', resp_id, '" case="No"><![CDATA[', soltext, ']]></varequal>', sep = ""),
+      '</or>',
+      '</and>',
+      '</conditionvar>',
+      '<setvar varname="SCORE" action="Set">1.0</setvar>',
+      '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
+      '</respcondition>'
+    )
+
+    xml <- c(xml,
+      '<respcondition title="Fail" continue="Yes">',
+      '<conditionvar>',
+      '<other/>',
+      '</conditionvar>',
+      '<setvar varname="SCORE" action="Set">0</setvar>',
+      '<displayfeedback feedbacktype="Response" linkrefid="Fail"/>',
+      '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+      '<displayfeedback feedbacktype="Hint" linkrefid="Hint"/>',
+      '</respcondition>',
+      '</resprocessing>'
+    )
+
+    xml
+  }
+}
+
+
+## cloze question item body
+make_itembody_cloze12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+  cutvalue = NULL)
+{
+  function(x) {
+    ## how many points?
+    points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+
+    ## the correct solution as text
+    soltext <- unlist(x$metainfo$solution)
+
+    ## generate an unique id
+    resp_id <- paste("RESPONSE", make_id(7, n <- length(soltext)), sep = "_")
+
+    ## start general question setup
+    xml <- c(
+      '<presentation>',
+      '<flow>',
+      '<material>',
+      '<matbreak/>',
+      '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+      x$question,
+      ']]></mattext>',
+      '<matbreak/>',
+      '</material>')
+  
+    for(i in 1:n) {
+      xml <- c(xml,
+        '<material>',
+        paste('<mattext><![CDATA[', i, '.]]></mattext>', sep = ""),
+        '</material>',
+        paste('<response_str ident="', resp_id[i], '" rcardinality="Single">', sep = ""),
+        paste('<render_fib columns="', nchar(soltext[i]), '" maxchars="', nchar(soltext[i]), '">', sep = ""),
+        '<flow_label class="Block">',
+        paste('<response_label ident="', resp_id[i], '" rshuffle="Yes"/>', sep = ""),
+        '</flow_label>',
+        '</render_fib>',
+        '</response_str>',
+        '<matbreak/>')
+    }  
+
+    xml <- c(xml,
+      '</flow>',
+      '</presentation>',
+      '<resprocessing>',
+      '<outcomes>',
+      paste('<decvar varname="SCORE" vartype="Decimal" defaultval="',
+        if(is.null(defaultval)) 0 else defaultval, '" minvalue="',
+        if(is.null(minvalue)) 0 else minvalue, '" maxvalue="',
+        if(is.null(maxvalue)) points else maxvalue, '" cutvalue="',
+        if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
+      '</outcomes>',
+      '<respcondition title="Mastery" continue="Yes">',
+      '<conditionvar>',
+      '<and>',
+      '<or>')
+
+    for(i in 1:n) {
+      xml <- c(xml,
+        paste('<varequal respident="', resp_id[i],
+          '" case="Yes"><![CDATA[', soltext[i], ']]></varequal>', sep = ""))
+    }
+
+    xml <- c(xml,
       '</or>',
       '</and>',
       '</conditionvar>',
