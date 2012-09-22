@@ -26,8 +26,8 @@
 <order order_type="Random"/>
 </selection_ordering>
 
-<item ident="##ItemId" title="##ItemTitle" maxattempts="3">
-<itemcontrol feedbackswitch="No" hintswitch="No" solutionswitch="No"/>
+<item ident="##ItemId" title="##ItemTitle">
+<itemcontrol feedbackswitch="No" hintswitch="No" solutionswitch="Yes"/>
 ##ItemBody
 <itemfeedback ident="Solution" view="All">
 <solution>

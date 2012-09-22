@@ -30,6 +30,7 @@ export(
 
   ## IMS QTI 1.2 driver
   "exams2imsqti12",
+  "make_itembody_cloze12",
   "make_itembody_mchoice12",
   "make_itembody_num12",
   "make_itembody_num124olat",

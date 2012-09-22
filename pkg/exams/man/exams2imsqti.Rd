@@ -19,6 +19,10 @@
     width = 4, height = 4, num = NULL, mchoice = NULL,
     schoice = mchoice, template = NULL, \dots)
 
+  make_itembody_cloze12(defaultval = NULL, minvalue = NULL,
+    maxvalue = NULL, cutvalue = NULL, lang = "en", digits = 2,
+    enumerate = TRUE)
+
   make_itembody_num12(defaultval = NULL, minvalue = NULL,
     maxvalue = NULL, cutvalue = NULL)
 
@@ -28,12 +32,12 @@
   make_itembody_mchoice12(rtiming = NULL, shuffle = TRUE,
     minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL)
+    cutvalue = NULL, enumerate = TRUE)
 
   make_itembody_schoice12(rtiming = NULL, shuffle = TRUE,
     minnumber = NULL, maxnumber = NULL, rshuffle = shuffle,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL)
+    cutvalue = NULL, enumerate = TRUE)
 }
 
 \arguments{
@@ -67,6 +71,7 @@
   \item{schoice}{function or named list applied on single choice, i.e. type \code{schoice},
     questions, see argument \code{num}.}
   \item{template}{character. The IMS QTI template that should be used.}
+  \item{de, enumerate, lang}{item specific stuff, still to do.}
   \item{rtiming, shuffle, minnumber, maxnumber, rshuffle,
     defaultval, minvalue, maxvalue, cutvalue}{
     arguments used for IMS QTI 1.2 item construction, for details see the XML specifictaion files at
