@@ -19,7 +19,7 @@
     width = 4, height = 4, num = NULL, mchoice = NULL,
     schoice = mchoice, cloze = NULL, template = NULL, \dots)
 
-  make_itembody_cloze_qti12(defaultval = NULL, minvalue = NULL,
+  make_itembody_cloze_olat(defaultval = NULL, minvalue = NULL,
     maxvalue = NULL, cutvalue = NULL, lang = "en", digits = 2,
     enumerate = TRUE)
 

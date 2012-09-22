@@ -497,7 +497,7 @@ make_itembody_num_olat <- function(defaultval = NULL, minvalue = NULL, maxvalue 
 
 
 ## cloze question item body
-make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_cloze_olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL, lang = "en", digits = 2, enumerate = TRUE)
 {
   function(x) {
