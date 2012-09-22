@@ -26,7 +26,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
         }
       }
       names(images) <- inames
-      dir <- tex2image(images, idir = sdir, show = FALSE, bsname = bsname, ...)
+      dir <- tex2image(images, idir = sdir, show = FALSE, name = bsname, ...)
       inames <- file_path_sans_ext(basename(dir))
       if(base64) {
         for(i in seq_along(dir))

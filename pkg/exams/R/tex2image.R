@@ -6,7 +6,7 @@ tex2image <- function(tex, format = "png", width = 6,
   header = c("\\setlength{\\parindent}{0pt}",
     "\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
-  header2 = NULL, Sweave = TRUE, show = TRUE, name = "tex2image", ...)
+  header2 = NULL, Sweave = TRUE, show = TRUE, name = "tex2image")
 {
   if(is.null(tdir)) {
     tdir <- tempfile()
