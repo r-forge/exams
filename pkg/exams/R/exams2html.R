@@ -49,13 +49,13 @@ make_exams_write_html <- function(name = NULL, question = NULL,
 
   ## get the .html template files
   template <- if(is.null(template)) {
-    file.path(.find.package("exams"), "html", "plain.html")
+    file.path(.find.package("exams"), "xml", "plain.html")
   } else path.expand(template)
   template <- ifelse(
     tolower(substr(template, nchar(template) - 4L, nchar(template))) != ".html",
     paste(template, ".html", sep = ""), template)
   template <- ifelse(file.exists(template),
-    template, file.path(pkg_dir, "html", basename(template)))
+    template, file.path(pkg_dir, "xml", basename(template)))
   if(!all(file.exists(template))) {
     stop(paste("The following files cannot be found: ",
       paste(template[!file.exists(template)], collapse = ", "), ".", sep = ""))
