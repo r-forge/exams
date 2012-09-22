@@ -45,7 +45,7 @@
   into various output formats such as PDF, HTML, or XML (e.g., for Moodle or IMS QTI).
   \code{xexams} is typically not called by the user directly but is used as a common
   infrastructure for functions such as \code{\link[exams]{exams2pdf}}, \code{\link[exams]{exams2html}},
-  \code{\link[exams]{exams2moodle}}, \code{\link[exams]{exams2imsqti}}, or
+  \code{\link[exams]{exams2moodle}}, \code{\link[exams]{exams2qti12}}, or
   \code{\link[exams]{exams2wu}}.
   
   \code{xexams} generates exams from lists (or vectors) of Sweave source files by:
@@ -85,7 +85,7 @@
   \code{\link[exams]{exams2pdf}},
   \code{\link[exams]{exams2html}},
   \code{\link[exams]{exams2moodle}},
-  \code{\link[exams]{exams2imsqti}},
+  \code{\link[exams]{exams2qti12}},
   \code{\link[exams]{exams2wu}}
   }
 

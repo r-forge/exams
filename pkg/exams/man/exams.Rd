@@ -42,7 +42,7 @@
   \item{edir}{character specifying the path of the directory in which
     the files in \code{file} are stored (see also below).}
   \item{tdir}{character specifying a temporary directory, by default
-    this is chosen via \code{\link{tempdir}}.}
+    this is chosen via \code{\link[base]{tempdir}}.}
   \item{control}{A list of control arguments for the appearance of
     multiple choice results (see \sQuote{Details}).}
 }

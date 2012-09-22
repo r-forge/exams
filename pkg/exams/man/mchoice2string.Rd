@@ -16,12 +16,15 @@
   mchoice2string(x, single = FALSE)
   string2mchoice(x, single = FALSE)
   mchoice2text(x)
-  answerlist(..., sep = ". ")
+  answerlist(\dots, sep = ". ")
 }
 \arguments{
-  \item{x}{an object, see below for examples}
+  \item{x}{an object, see below for examples.}
   \item{single}{logical. Should the function check whether exactly
     a single answer is true?}
+  \item{\dots}{character vectors to be included in answer lists.}
+  \item{sep}{character for separation between vectors, see below
+    for examples.}
 }
 
 \details{
