@@ -3,7 +3,7 @@
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
 ## FIXME: maxattempts="3" in <item> template?
-exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
+exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL,
@@ -27,7 +27,7 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
   for(i in c("num", "mchoice", "schoice", "cloze")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
-      paste("make_itembody_", i, "12", sep = ""), itembody[[i]])
+      paste("make_itembody_", i, "_qti12", sep = ""), itembody[[i]])
   }
 
   ## create a temporary directory
@@ -184,7 +184,7 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## multiple/single choice item writer function
-make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, shuffle = FALSE,
+make_itembody_mchoice_qti12 <- make_itembody_schoice_qti12 <- function(rtiming = NULL, shuffle = FALSE,
   minnumber = NULL, maxnumber = NULL, rshuffle = shuffle, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE)
 {
@@ -351,7 +351,7 @@ make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, s
 
 
 ## numeric item body writer function
-make_itembody_num12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_num_qti12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL)
 {
   function(x) {
@@ -420,7 +420,7 @@ make_itembody_num12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = N
 
 
 ## special num type function using a string answer
-make_itembody_num124olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_num_olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL, digits = 2)
 {
   function(x) {
@@ -497,7 +497,7 @@ make_itembody_num124olat <- function(defaultval = NULL, minvalue = NULL, maxvalu
 
 
 ## cloze question item body
-make_itembody_cloze12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL, lang = "en", digits = 2, enumerate = TRUE)
 {
   function(x) {

@@ -35,11 +35,12 @@ export(
   "make_exams_write_html",
 
   ## IMS QTI 1.2 driver
-  "exams2imsqti12",
-  "make_itembody_cloze12",
-  "make_itembody_mchoice12",
-  "make_itembody_num12",
-  "make_itembody_num124olat",
+  "exams2qti12",
+  "make_itembody_cloze_qti12",
+  "make_itembody_mchoice_qti12",
+  "make_itembody_schoice_qti12",
+  "make_itembody_num_qti12",
+  "make_itembody_num_olat",
 
   ## WU server driver
   "exams2wu",
