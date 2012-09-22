@@ -2,6 +2,7 @@
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
+## FIXME: maxattempts="3" in <item> template?
 exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
@@ -21,7 +22,7 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## start .xml assessement creation
   ## get the possible item body functions and options  
-  itembody = list(num = num, mchoice = mchoice, schoice = schoice)
+  itembody = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze)
 
   for(i in c("num", "mchoice", "schoice", "cloze")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
@@ -85,7 +86,7 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## create a name
   name <- if(is.null(name)) {
-    paste("ImsQtiAssessment", test_id, sep = "_")
+    paste("Rexams", test_id, sep = "_")
   } else name
 
   ## create the directory where the test is stored
@@ -110,30 +111,32 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
       ibody <- gsub("##ItemBody",
-        paste(itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
+        paste(thebody <- itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
         item, fixed = TRUE)
 
       ## insert possible solution
-      ibody <- gsub("##ItemSolution",
-        paste(c(if(length(exm[[i]][[j]]$solution)) c(exm[[i]][[j]]$solution, '<br/>') else NULL,
-         if(length(exm[[i]][[j]]$solutionlist)) {
-           paste(exm[[i]][[j]]$solutionlist, collapse = '<br/>\n')
-         } else NULL), collapse = "\n"),
-        ibody, fixed = TRUE)
-
-      ## get the question spec string
-      xcq <- switch(type,
-        "mchoice" = "MCQ",
-        "schoice" = "SCQ",
-        "num" = "NUM" ## FIB
-      )
+      enumerate <- attr(thebody, "enumerate")
+      if(is.null(enumerate)) enumerate <- FALSE
+      xsolution <- exm[[i]][[j]]$solution
+      if(length(nsol <- length(exm[[i]][[j]]$solutionlist))) {
+        xsolution <- c(xsolution, "<br/>")
+        if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+        xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+          exm[[i]][[j]]$questionlist, if(length(exm[[i]][[j]]$solutionlist)) "</br>" else NULL,
+          exm[[i]][[j]]$solutionlist, if(enumerate) rep('</li>', nsol) else NULL))
+        if(enumerate) xsolution <- c(xsolution, '</ol>')
+      }
+      ibody <- gsub("##ItemSolution", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
       ## insert an item id
-      ibody <- gsub("##ItemId", iname <- paste("QTIEDIT", xcq, paste(qu_name, make_id(10), sep = "_"),
-        sep = ":"), ibody)
+      ibody <- gsub("##ItemId", iname <- paste("QTIEDIT", attr(thebody, "type"),
+        paste("Rexams", make_id(10), sep = "_"), sep = ":"), ibody)
 
       ## insert an item title
       ibody <- gsub("##ItemTitle", qu_name, ibody, fixed = TRUE)
+
+      ## include bod in section
+      sec_xml <- c(sec_xml, ibody, "")
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
@@ -152,8 +155,6 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
           }
         }
       }
-
-      sec_xml <- c(sec_xml, ibody, "")
     }
 
     ## close the section
@@ -183,9 +184,9 @@ exams2imsqti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## multiple/single choice item writer function
-make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, shuffle = TRUE,
+make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, shuffle = FALSE,
   minnumber = NULL, maxnumber = NULL, rshuffle = shuffle, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL)
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE)
 {
   function(x) {
     ## generate ids
@@ -216,6 +217,7 @@ make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, s
     )
 
     ## cycling through all answers
+    enumletters <- if(enumerate) paste(letters[1:length(x$questionlist)], ".", sep = "") else NULL
     for(i in seq_along(x$questionlist)) {
       xml <- c(xml,
         '<flow_label class="List">',
@@ -223,7 +225,7 @@ make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, s
           '">', sep = ''),
         '<material>',
         '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
-        x$questionlist[i],
+        paste(enumletters[i], x$questionlist[i]),
         ']]></mattext>',
         '</material>',
         '</response_label>',
@@ -340,6 +342,8 @@ make_itembody_mchoice12 <- make_itembody_schoice12 <- function(rtiming = NULL, s
       '</respcondition>',
       '</resprocessing>'
     )
+    attr(xml, "enumerate") <- enumerate
+    attr(xml, "type") <- if(x$metainfo$type == "mchoice") "MCQ" else "SCQ"
 
     xml
   }
@@ -408,6 +412,7 @@ make_itembody_num12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = N
       '</respcondition>',
       '</resprocessing>'
     )
+    attr(xml, "type") <- "NUM"
 
     xml
   }
@@ -484,6 +489,7 @@ make_itembody_num124olat <- function(defaultval = NULL, minvalue = NULL, maxvalu
       '</respcondition>',
       '</resprocessing>'
     )
+    attr(xml, "type") <- "FIB"
 
     xml
   }
@@ -492,14 +498,35 @@ make_itembody_num124olat <- function(defaultval = NULL, minvalue = NULL, maxvalu
 
 ## cloze question item body
 make_itembody_cloze12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-  cutvalue = NULL)
+  cutvalue = NULL, lang = "en", digits = 2, enumerate = TRUE)
 {
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
+    yn <- switch(lang,
+      "en" = "(yes = 1, no = 2)",
+      "de" = "(ja = 1, nein = 2)",
+      "fr" = "(oui = 1, no = 2)",
+      "es" = "(si = 1, no = 2)"
+    )
+
     ## the correct solution as text
-    soltext <- unlist(x$metainfo$solution)
+    soltext <- list()
+    for(j in seq_along(x$metainfo$solution)) {
+      field <- NULL
+      qtext <- if(length(x$questionlist)) x$questionlist[j] else NULL
+      if(length(grep("choice", x$metainfo$clozetype[j]))) {
+        qtext <- paste(qtext, yn)
+        field <- if(x$metainfo$solution[[j]][1]) "1" else "2"
+      }
+      if(length(grep("string", x$metainfo$clozetype[j])))
+        field <- as.character(x$metainfo$solution[[j]][1])
+      if(length(grep("num", x$metainfo$clozetype[j])))
+        field <- format(round(x$metainfo$solution[[j]][1], digits = digits), nsmall = digits)
+      if(!is.null(qtext)) qtext <- paste(c(qtext, "</br>"), collapse = "\n")
+      soltext[[j]] <- list("text" = qtext, "field" = field)
+    }
 
     ## generate an unique id
     resp_id <- paste("RESPONSE", make_id(7, n <- length(soltext)), sep = "_")
@@ -516,15 +543,17 @@ make_itembody_cloze12 <- function(defaultval = NULL, minvalue = NULL, maxvalue =
       '<matbreak/>',
       '</material>')
   
+    enumletters <- if(enumerate) paste(letters[1:n], ". ", sep = "") else NULL
     for(i in 1:n) {
       xml <- c(xml,
         '<material>',
-        paste('<mattext><![CDATA[', i, '.]]></mattext>', sep = ""),
+        paste('<mattext><![CDATA[', enumletters[i], soltext[[i]]$text, ']]></mattext>', sep = ""),
         '</material>',
         paste('<response_str ident="', resp_id[i], '" rcardinality="Single">', sep = ""),
-        paste('<render_fib columns="', nchar(soltext[i]), '" maxchars="', nchar(soltext[i]), '">', sep = ""),
+        paste('<render_fib columns="', nchar(soltext[[i]]$field), '" maxchars="',
+          nchar(soltext[[i]]$field), '">', sep = ""),
         '<flow_label class="Block">',
-        paste('<response_label ident="', resp_id[i], '" rshuffle="Yes"/>', sep = ""),
+        paste('<response_label ident="', resp_id[i], '" rshuffle="No"/>', sep = ""),
         '</flow_label>',
         '</render_fib>',
         '</response_str>',
@@ -544,17 +573,17 @@ make_itembody_cloze12 <- function(defaultval = NULL, minvalue = NULL, maxvalue =
       '</outcomes>',
       '<respcondition title="Mastery" continue="Yes">',
       '<conditionvar>',
-      '<and>',
-      '<or>')
+      '<and>')
 
     for(i in 1:n) {
       xml <- c(xml,
+        '<or>',
         paste('<varequal respident="', resp_id[i],
-          '" case="Yes"><![CDATA[', soltext[i], ']]></varequal>', sep = ""))
+          '" case="No"><![CDATA[', soltext[[i]]$field, ']]></varequal>', sep = ""),
+        '</or>')
     }
 
     xml <- c(xml,
-      '</or>',
       '</and>',
       '</conditionvar>',
       '<setvar varname="SCORE" action="Set">1.0</setvar>',
@@ -574,6 +603,8 @@ make_itembody_cloze12 <- function(defaultval = NULL, minvalue = NULL, maxvalue =
       '</respcondition>',
       '</resprocessing>'
     )
+    attr(xml, "type") <- "FIB"
+    attr(xml, "enumerate") <- enumerate
 
     xml
   }
