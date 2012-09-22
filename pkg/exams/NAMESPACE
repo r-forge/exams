@@ -21,13 +21,12 @@ export(
   "extract_environment",
   "extract_items",
 
+  ## LaTeX to image converter (via ImageMagick's convert)
+  "tex2image",
+
   ## new modular PDF driver
   "exams2pdf",
   "make_exams_write_pdf",
-
-  ## LaTeX to image converter
-  ## (based on ImageMagick's convert)
-  "tex2image",
 
   ## HTML driver
   "exams2html",
@@ -36,7 +35,7 @@ export(
 
   ## IMS QTI 1.2 driver
   "exams2qti12",
-  "make_itembody_cloze_olat",
+  "make_itembody_cloze_qti12",
   "make_itembody_mchoice_qti12",
   "make_itembody_schoice_qti12",
   "make_itembody_num_qti12",

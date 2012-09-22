@@ -3,11 +3,12 @@
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
 ## FIXME: maxattempts="3" in <item> template?
+
 exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL,
-  template = NULL, ...)
+  template = "qti12", ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -15,10 +16,10 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
-      sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
-        resolution = resolution, width = width, height = height),
-        read = NULL, transform = htmltransform, write = NULL),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+         resolution = resolution, width = width, height = height),
+       read = NULL, transform = htmltransform, write = NULL),
+     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 
   ## start .xml assessement creation
   ## get the possible item body functions and options  
@@ -28,6 +29,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
       paste("make_itembody_", i, "_qti12", sep = ""), itembody[[i]])
+    if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
 
   ## create a temporary directory
@@ -35,17 +37,16 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   if(is.null(tdir)) {
     dir.create(tdir <- tempfile())
     on.exit(unlink(tdir))
-  } else tdir <- path.expand(tdir)
-  if(!file.exists(tdir))
-    dir.create(tdir)
+  } else {
+    tdir <- path.expand(tdir)
+  }
+  if(!file.exists(tdir)) dir.create(tdir)
 
   ## the package directory
   pkg_dir <- .find.package("exams")
 
   ## get the .xml template
-  template <- if(is.null(template)) {
-    file.path(.find.package("exams"), "xml", "imsqti12.xml")
-  } else path.expand(template)
+  template <- path.expand(template)
   template <- ifelse(
     tolower(substr(template, nchar(template) - 3L, nchar(template))) != ".xml",
     paste(template, ".xml", sep = ""), template)
@@ -53,22 +54,22 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
     template, file.path(pkg_dir, "xml", basename(template)))
   if(!all(file.exists(template))) {
     stop(paste("The following files cannot be found: ",
-      paste(template[!file.exists(template)], collapse = ", "), ".", sep = ""))
+      paste(basename(template)[!file.exists(template)], collapse = ", "), ".", sep = ""))
   }
-  xml <- readLines(template[1])
+  xml <- readLines(template[1L])
 
   ## check template for section and item inclusion
   ## extract the template for the assessement, sections and items
-  if(length(section_start <- grep("<section ident", xml, fixed = TRUE)) != 1 ||
-    length(section_end <- grep("</section>", xml, fixed = TRUE)) != 1) {
-    stop(paste("The .xml template", template,
-      "must contain of exactly one opening and closing section tag!"))
+  if(length(section_start <- grep("<section ident", xml, fixed = TRUE)) != 1L ||
+    length(section_end <- grep("</section>", xml, fixed = TRUE)) != 1L) {
+    stop(paste("The XML template", template,
+      "must contain exactly one opening and closing <section> tag!"))
   }
   section <- xml[section_start:section_end]
   if(length(item_start <- grep("<item ident", section, fixed = TRUE)) != 1 ||
     length(item_end <- grep("</item>", section, fixed = TRUE)) != 1) {
-    stop(paste("The .xml template", template,
-      "must contain of exactly one opening and closing item tag!"))
+    stop(paste("The XML template", template,
+      "must contain exactly one opening and closing <item> tag!"))
   }
   xml <- c(xml[1:(section_start - 1)], "##TestSections", xml[(section_end + 1):length(xml)])
   item <- section[item_start:item_end]
@@ -85,9 +86,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   sec_ids <- paste(paste("Sec", 1:nq, sep = ""), make_id(10, nq), sep = "_")
 
   ## create a name
-  name <- if(is.null(name)) {
-    paste("Rexams", test_id, sep = "_")
-  } else name
+  if(is.null(name)) name <- paste(file_path_sans_ext(basename(template)), test_id, sep = "_")
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
@@ -497,7 +496,7 @@ make_itembody_num_olat <- function(defaultval = NULL, minvalue = NULL, maxvalue 
 
 
 ## cloze question item body
-make_itembody_cloze_olat <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
+make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
   cutvalue = NULL, lang = "en", digits = 2, enumerate = TRUE)
 {
   function(x) {

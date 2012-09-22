@@ -12,7 +12,10 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
       stop("Please specify an output 'dir'.")
     }
   }
-  
+
+  ## output name processing 
+  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+
   ## create PDF write with custom options
   pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs, header = header,
     name = name, quiet = quiet, control = control)
@@ -24,7 +27,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
   ## display single .pdf on the fly
   if(display) {
-    out <- normalizePath(file.path(dir, paste(template, "1.pdf", sep = "")))
+    out <- normalizePath(file.path(dir, paste(name, "1.pdf", sep = "")))
     if(.Platform$OS.type == "windows") shell.exec(out)
       else system(paste(shQuote(getOption("pdfviewer")), shQuote(out)), wait = FALSE)
   }
@@ -62,10 +65,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
   template_has_exercises <- sapply(template_it, function(x) "exercises" %in% x)
 
   ## output name processing
-  if(is.null(name)) {
-    strip_path <- function(file) sapply(strsplit(file, .Platform$file.sep), tail, 1L)
-    name <- strip_path(template_base)
-  }
+  if(is.null(name)) name <- file_path_sans_ext(basename(template_base))
 
   ## check further inputs (if any)
   if(!is.null(inputs)) {

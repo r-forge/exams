@@ -1,5 +1,5 @@
 ## generate exams in .html format
-exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
+exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL, template = "plain",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
   mathjax = FALSE, resolution = 100, width = 4, height = 4, ...)
@@ -15,11 +15,13 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
     }
   }
 
+  ## output name processing 
+  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+
   ## set up .html transformer and writer function
-  name <- if(n == 1L && is.null(name)) "exam" else name
   htmltransform <- make_exercise_transform_html(...)
-  htmlwrite <- make_exams_write_html(name = name, question = question,
-    solution = solution, template = template, mathjax = mathjax)
+  htmlwrite <- make_exams_write_html(template = template, name = name,
+    question = question, solution = solution, mathjax = mathjax)
 
   ## create final .html exam
   rval <- xexams(file, n = n, nsamp = nsamp,
@@ -41,8 +43,8 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
 
 
 ## writes the final .html site
-make_exams_write_html <- function(name = NULL, question = NULL,
-  solution = NULL, template = NULL, mathjax = FALSE)
+make_exams_write_html <- function(template = "plain", name = NULL,
+  question = "<h4>Question</h4>", solution = "<h4>Solution</h4>", mathjax = FALSE)
 {
   ## the package directory
   pkg_dir <- .find.package("exams")

@@ -10,7 +10,7 @@
 }
 
 \usage{
-  exams2html(file, n = 1L, nsamp = NULL, dir = NULL, template = NULL,
+  exams2html(file, n = 1L, nsamp = NULL, dir = NULL, template = "plain",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
   mathjax = FALSE, resolution = 100, width = 4, height = 4, \dots)
@@ -18,8 +18,9 @@
   make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
     base64 = TRUE, \dots)
     
-  make_exams_write_html(name = NULL, question = NULL, solution = NULL,
-    template = NULL, mathjax = FALSE)
+  make_exams_write_html(template = "plain", name = NULL,
+    question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+    mathjax = FALSE)
 }
 
 \arguments{
@@ -33,7 +34,7 @@
   \item{dir}{character. The output directory, this has to be set if
     \code{n} is greater than 1.}
   \item{template}{character. A specification of a HTML template. The package
-    currently provides \code{"plain"}.}
+    currently provides \code{"plain.html"}.}
   \item{name}{character. A name prefix for resulting exercises.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[utils]{Sweave}}?}

@@ -17,9 +17,9 @@
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, resolution = 100,
     width = 4, height = 4, num = NULL, mchoice = NULL,
-    schoice = mchoice, cloze = NULL, template = NULL, \dots)
+    schoice = mchoice, cloze = NULL, template = "qti12", \dots)
 
-  make_itembody_cloze_olat(defaultval = NULL, minvalue = NULL,
+  make_itembody_cloze_qti12(defaultval = NULL, minvalue = NULL,
     maxvalue = NULL, cutvalue = NULL, lang = "en", digits = 2,
     enumerate = TRUE)
 
@@ -69,7 +69,8 @@
   \item{mchoice, schoice, cloze}{function or named list applied to multiple choice, 
     single choice and cloze questions (i.e., type \code{mchoice}, \code{schoice}, \code{cloze}),
     respectively. See argument \code{num} for more details.}
-  \item{template}{character. The IMS QTI template that should be used.}
+  \item{template}{character. The IMS QTI 1.2 template that should be used. Currently,
+    the package provides \code{"qti12.xml"}.}
   \item{enumerate, lang}{item specific stuff, still to do.}
   \item{rtiming, shuffle, minnumber, maxnumber, rshuffle, defaultval, minvalue,
     maxvalue, cutvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
