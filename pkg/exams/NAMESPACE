@@ -3,12 +3,17 @@ import("stats", "graphics", "tools", "utils")
 export(
   ## version 1 interface
   "exams",
+
+  ## formatters
   "mchoice2string",
   "string2mchoice",
   "mchoice2text",
+  "answerlist",
   
-  ## version 2 extensible interface (and helper functions)
+  ## version 2 extensible interface
   "xexams",
+  
+  ## exercise reader and helper functions
   "read_exercise",
   "read_images",
   "read_metainfo",
@@ -21,6 +26,7 @@ export(
   "make_exams_write_pdf",
 
   ## LaTeX to image converter
+  ## (based on ImageMagick's convert)
   "tex2image",
 
   ## HTML driver
@@ -35,7 +41,7 @@ export(
   "make_itembody_num12",
   "make_itembody_num124olat",
 
-  ## WU driver
+  ## WU server driver
   "exams2wu",
   "make_exams_write_wu",
 

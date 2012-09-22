@@ -79,12 +79,6 @@ questions[8] <- paste("Half of the observations are",
 solutions[8] <- explanations[8] <- signif(b$stats[3], 3)
 soltype[8] <- "num"
 ag[8] <- 6
-
-answerlist <- function(x) {
-  cat("  \\begin{answerlist}\n")
-  cat(paste("    \\item ", x, sep = "", collapse = "\n"))
-  cat("\n  \\end{answerlist}\n")
-}
 @    
 
 \begin{question}
@@ -127,4 +121,3 @@ answerlist(paste(explanations, ".", sep = ""))
 %% \extol{\Sexpr{tol}}
 %% \exversion{0.1}
 %% \exanswergroups{\Sexpr{paste(ag, collapse = "|")}}
-
