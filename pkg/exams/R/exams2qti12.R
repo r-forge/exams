@@ -497,18 +497,11 @@ make_itembody_num_olat <- function(defaultval = NULL, minvalue = NULL, maxvalue 
 
 ## cloze question item body
 make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-  cutvalue = NULL, lang = "en", digits = 2, enumerate = TRUE)
+  cutvalue = NULL, description = "(true = 1, false = 2)", digits = 2, enumerate = TRUE)
 {
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
-
-    yn <- switch(lang,
-      "en" = "(yes = 1, no = 2)",
-      "de" = "(ja = 1, nein = 2)",
-      "fr" = "(oui = 1, no = 2)",
-      "es" = "(si = 1, no = 2)"
-    )
 
     ## the correct solution as text
     soltext <- list()
@@ -516,7 +509,7 @@ make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxval
       field <- NULL
       qtext <- if(length(x$questionlist)) x$questionlist[j] else NULL
       if(length(grep("choice", x$metainfo$clozetype[j]))) {
-        qtext <- paste(qtext, yn)
+        if(!is.null(description)) qtext <- paste(qtext, description)
         field <- if(x$metainfo$solution[[j]][1]) "1" else "2"
       }
       if(length(grep("string", x$metainfo$clozetype[j])))
