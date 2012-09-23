@@ -83,13 +83,12 @@
   writes a single HTML file for each exam.
 
   When generating only a single exam (as in the examples below),
-  \code{exams2html} tries to display this directly in a browser.
-  \code{\link[utils]{browseURL}} is used for this which needs
-  \code{getOption("browser")} to be set appropriately. While this is
-  typically the case in plain R, it may not be in RStudio as this
-  currently overwrites the standard (or custom profile) settings.
-  Hence, in RStudio the \code{browser} option has to be set manually,
-  e.g., to \code{options(browser = NULL)} on Windows,
+  \code{exams2html} tries to display this directly in a browser
+  using \code{\link[utils]{browseURL}}. This may not work properly
+  in RStudio versions older than 0.97.133. To avoid these problems,
+  one can either upgrade to a more recent version of RStudio or set
+  R's \code{browser} option manually to a suitable value, e.g.,
+  to \code{options(browser = NULL)} on Windows,
   \code{options(browser = "/usr/bin/firefox")} on Linux, or
   \code{options(browser = "/Applications/Firefox")} on OS X.
 }

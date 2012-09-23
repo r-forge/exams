@@ -186,21 +186,26 @@ make_exams_write_html <- function(template = "plain", name = NULL,
   }
 }
 
-## an internal wrapper for browseURL to work around RStudio's current setting of
-## getOption("browser")
+## an internal wrapper for browseURL to work around the setting of getOption("browser")
+## in RStudio < 0.97.133
 browseFile <- function(file) {
-  if(is.function(br <- getOption("browser"))) {
-    if(any(grepl("rs_browseURL", deparse(br), fixed = TRUE)) & .Platform$OS.type != "windows")
-      warning(paste("Browsing local files may not work with RStudio's default settings.",
-        "Please see ?exams2html on how to set the 'browser' option.", collapse = "\n"))
+  if(is.function(br <- getOption("browser")) & .Platform$OS.type != "windows") {
+    rstudio_browser <- any(grepl("rs_browseURL", deparse(br), fixed = TRUE))
+    rstudio_version <- try(packageVersion("rstudio"), silent = TRUE)
+    rstudio_version <- if(inherits(rstudio_version, "try-error")) {
+      FALSE
+    } else {
+      compareVersion(as.character(rstudio_version), "0.97.133") < 0
+    }
+    if(rstudio_browser & rstudio_version) warning(paste(
+      "Browsing local files may not work with the default settings in RStudio < 0.97.133.",
+      "Please upgrade RStudio or see ?exams2html on how to set the 'browser' option.", collapse = "\n"))
   }
   browseURL(file)
 }
 
 
-## show .html code in browser
-## FIXME: This is currently also exported in the NAMESPACE. Do we want
-## that or was this function mainly useful for internal testing?
+## show .html code in browser, only used for internal testing
 show.html <- function(x)
 {
   if(length(x) == 1L && file.exists(x[1L])) {
