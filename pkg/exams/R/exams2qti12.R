@@ -2,12 +2,10 @@
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
-## FIXME: maxattempts="3" in <item> template?
-
 exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL,
+  num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL, string = NULL,
   template = "qti12", ...)
 {
   ## set up .html transformer
@@ -23,12 +21,11 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## start .xml assessement creation
   ## get the possible item body functions and options  
-  itembody = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze)
+  itembody = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
 
-  for(i in c("num", "mchoice", "schoice", "cloze")) {
+  for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
-    if(is.list(itembody[[i]])) itembody[[i]] <- do.call(
-      paste("make_itembody_", i, "_qti12", sep = ""), itembody[[i]])
+    if(is.list(itembody[[i]])) itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
 
@@ -578,7 +575,7 @@ make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxval
     xml <- c(xml,
       '</and>',
       '</conditionvar>',
-      '<setvar varname="SCORE" action="Set">1.0</setvar>',
+      paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
       '</respcondition>'
     )
@@ -603,6 +600,208 @@ make_itembody_cloze_qti12 <- function(defaultval = NULL, minvalue = NULL, maxval
 }
 
 ## FIXME: No support for question of style "string" and/or "cloze" in IMS QTI?
+
+
+get_itemquestion <- function(x)
+{
+  x <- if(!is.null(x)) {
+    c(
+      '<material>',
+      '<matbreak/>',
+      '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+      x,
+      ']]></mattext>',
+      '<matbreak/>',
+      '</material>'
+    )
+  } else NULL
+  
+  x
+}
+
+
+make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
+  minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2)
+{
+  function(x) {
+    ## how many points?
+    points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+
+    ## how many questions
+    solution <- if(!is.list(x$metainfo$solution)) {
+      list(x$metainfo$solution)
+    } else x$metainfo$solution
+    n <- length(solution)
+
+    questionlist <- if(!is.list(x$questionlist)) {
+      if(x$metainfo$type == "cloze") as.list(x$questionlist) else list(x$questionlist)
+    } else x$questionlist
+    if(length(questionlist) < 1) questionlist <- NULL
+
+    tolerance <- if(!is.list(x$metainfo$tolerance)) {
+      if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
+    } else x$questionlist
+    tolerance <- rep(tolerance, length.out = n)
+
+    ## set question type(s)
+    type <- x$metainfo$type
+    type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
+
+    ## start item presentation
+    ## and insert question
+    xml <- c(
+      '<presentation>',
+      '<flow>',
+      get_itemquestion(x$question)
+    )
+
+    ## insert responses
+    ids <- el <- list()
+    for(i in 1:n) {
+      ## generate ids
+      ids[[i]] <- list("response" = paste("RESPONSE", make_id(7), sep = "_"),
+        "questions" = paste(type, make_id(10, length(x$metainfo$solution)), sep = "_"))
+
+      ## insert choice type responses
+      if(length(grep("choice", type[i]))) {
+        xml <- c(xml,
+          paste('<response_lid ident="', ids[[i]]$response, '" rcardinality="',
+            if(type[i] == "mchoice") "Multiple" else "Single", '" rtiming=',
+            if(rtiming) '"Yes"' else '"No"', '>', sep = ''),
+          paste('<render_choice shuffle=', if(shuffle) '"Yes"' else '"No">', sep = '')
+        )
+        for(j in seq_along(solution[[i]])) {
+          xml <- c(xml,
+            '<flow_label class="List">',
+            paste('<response_label ident="', ids[[i]]$questions[j], '" rshuffle="',
+              if(rshuffle) 'Yes' else 'No', '">', sep = ''),
+            '<material>',
+            '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+             paste(if(enumerate) {
+               paste(letters[if(length(solution[[i]]) == 1) i else j], ".", sep = "")
+             } else NULL, questionlist[[i]][j]),
+            ']]></mattext>',
+            '</material>',
+            '</response_label>',
+            '</flow_label>'
+          )
+        }
+
+        ## finish response tag
+        xml <- c(xml,
+          '</render_choice>',
+          '</response_lid>'
+        )
+      } 
+      if(type[i] == "string" || type[i] == "num") {
+        for(j in seq_along(solution[[i]])) {
+          soltext <- if(type[i] == "num") {
+            format(round(solution[[i]][j], digits), nsmall = digits)
+          } else {
+            if(!is.character(solution[[i]][j])) {
+              format(round(solution[[i]][j], digits), nsmall = digits)
+            } else solution[[i]][j]
+          }
+          xml <- c(xml,
+            if(!is.null(questionlist[[i]][j])) {
+              c('<material>',
+                paste('<mattext><![CDATA[', paste(if(enumerate) {
+                  paste(letters[if(length(solution[[i]]) == 1) i else j], ".", sep = '')
+                } else NULL, questionlist[[i]][j]), ']]></mattext>', sep = ""),
+                '</material>',
+                '<matbreak/>'
+              )
+            } else NULL,
+            paste(if(type[i] == "string") '<response_str ident="' else '<response_num ident="',
+              ids[[i]]$response, '" rcardinality="Single">', sep = ''),
+            paste('<render_fib columns="', nchar(soltext), '" maxchars="', nchar(soltext), '">', sep = ''),
+            '<flow_label class="Block">',
+            paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
+            '</flow_label>',
+            '</render_fib>',
+            if(type[i] == "string") '</response_str>' else '</response_num>',
+            '<matbreak/>'
+          )
+        }
+      }
+    }
+
+    ## finish presentation
+    xml <- c(xml, '</flow>', '</presentation>')
+
+    ## start resprocessing
+    xml <- c(xml,
+      '<resprocessing>',
+      '<outcomes>',
+      paste('<decvar varname="SCORE" vartype="Decimal" defaultval="',
+        if(is.null(defaultval)) 0 else defaultval, '" minvalue="',
+        if(is.null(minvalue)) 0 else minvalue, '" maxvalue="',
+        if(is.null(maxvalue)) points else maxvalue, '" cutvalue="',
+        if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
+      '</outcomes>')
+
+    ## scoring for the correct answers
+    xml <- c(xml,
+      '<respcondition title="Mastery" continue="Yes">',
+      '<conditionvar>',
+      '<and>'
+    )
+
+    for(i in 1:n) {
+      if(length(grep("choice", type[i]))) {
+        for(j in seq_along(solution[[i]])) {
+          if(solution[[i]][j]) {
+            xml <- c(xml,
+              paste('<varequal respident="', ids[[i]]$response,
+                '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
+            )
+          }
+        }
+      }
+      if(type[i] == "string" || type[i] == "num") {
+        for(j in seq_along(solution[[i]])) {
+          if(type[i] == "string") {
+            soltext <- if(!is.character(solution[[i]][j])) {
+              format(round(solution[[i]][j], digits), nsmall = digits)
+            } else solution[[i]][j]
+            xml <- c(xml, paste('<varequal respident="', ids[[i]]$response,
+              '" case="No"><![CDATA[', soltext, ']]></varequal>', sep = "")
+            )
+          } else {
+            xml <- c(xml,
+              ##paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
+              ##  format(round(solution[[i]][j] + max(tolerance[[i]]), digits), nsmall = digits),
+              ##  ']]></vargte>', sep = ""),
+              ##paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
+              ##  format(round(solution[[i]][j] - max(tolerance[[i]]), digits), nsmall = digits),
+              ##  ']]></vargte>', sep = ""),
+              paste('<varequal respident="', ids[[i]]$response,
+                '" case="No"><![CDATA[', format(round(solution[[i]][j], digits), nsmall = digits),
+                ']]></varequal>', sep = "")
+            )
+          }
+        }
+      }
+    }
+
+    xml <- c(xml,
+      '</and>',
+      '</conditionvar>',
+      paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = ''),
+      paste('<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>', sep = ''),
+      '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+      '</respcondition>',
+      '</resprocessing>'
+    )
+
+    attr(xml, "enumerate") <- enumerate
+    attr(xml, "type") <- if(x$metainfo$type == "mchoice") "MCQ" else "SCQ"
+
+    xml
+  }
+}
+
 
 ## function to create identfier ids
 ## README: speedup by avoiding for() loop and allowing zeros except for first digit
