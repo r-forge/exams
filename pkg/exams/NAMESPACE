@@ -35,11 +35,6 @@ export(
 
   ## IMS QTI 1.2 driver
   "exams2qti12",
-  "make_itembody_cloze_qti12",
-  "make_itembody_mchoice_qti12",
-  "make_itembody_schoice_qti12",
-  "make_itembody_num_qti12",
-  "make_itembody_num_olat",
   "make_itembody_qti12",
 
   ## WU server driver
