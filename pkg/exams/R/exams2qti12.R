@@ -125,14 +125,10 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       ibody <- gsub("##ItemSolution", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
       ## insert an item id
-      ibody <- gsub("##ItemId", iname <- paste("QTIEDIT", attr(thebody, "type"),
-        paste("Rexams", make_id(10), sep = "_"), sep = ":"), ibody)
+      ibody <- gsub("##ItemId", iname <- paste(attr(thebody, "type"), make_id(10), sep = "_"), ibody)
 
       ## insert an item title
       ibody <- gsub("##ItemTitle", qu_name, ibody, fixed = TRUE)
-
-      ## include bod in section
-      sec_xml <- c(sec_xml, ibody, "")
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
@@ -146,11 +142,14 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           file.copy(exm[[i]][[j]]$supplements[si],
             file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-          if(any(grepl(f, sec_xml))) {
-            sec_xml <- gsub(f, paste("media", sup_dir, f, sep = "/"), sec_xml, fixed = TRUE)
+          if(any(grepl(f, ibody))) {
+            ibody <- gsub(f, paste("media", sup_dir, f, sep = "/"), ibody, fixed = TRUE)
           }
         }
       }
+
+      ## include body in section
+      sec_xml <- c(sec_xml, ibody, "")
     }
 
     ## close the section
@@ -179,24 +178,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 }
 
 
-get_itemquestion <- function(x)
-{
-  x <- if(!is.null(x)) {
-    c(
-      '<material>',
-      '<matbreak/>',
-      '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
-      x,
-      ']]></mattext>',
-      '<matbreak/>',
-      '</material>'
-    )
-  } else NULL
-  
-  x
-}
-
-
+## QTI 1.2 item body constructor function
+## includes item <presentation> and <resprocessing> tags
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2)
@@ -230,7 +213,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(
       '<presentation>',
       '<flow>',
-      get_itemquestion(x$question)
+      if(!is.null(x$question)) {
+        c(
+          '<material>',
+          '<matbreak/>',
+          '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+          x$question,
+          ']]></mattext>',
+          '<matbreak/>',
+          '</material>'
+        )
+      } else NULL
     )
 
     ## insert responses
@@ -274,7 +267,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(type[i] == "string" || type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
-            as.character(solution[[i]][j])
+            format(round(solution[[i]][j], digits), nsmall = digits)
           } else {
             if(!is.character(solution[[i]][j])) {
               format(round(solution[[i]][j], digits), nsmall = digits)
@@ -292,7 +285,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             } else NULL,
             paste(if(type[i] == "string") '<response_str ident="' else '<response_num ident="',
               ids[[i]]$response, '" rcardinality="Single">', sep = ''),
-            paste('<render_fib columns="', nchar(soltext), '" maxchars="', nchar(soltext), '">', sep = ''),
+            paste('<render_fib maxchars="', maxchars <- if(type[i] == "string") {
+                nchar(soltext)
+              } else {
+                max(c(nchar(soltext), 10))
+              }, '" columns="', maxchars, '">', sep = ''),
             '<flow_label class="Block">',
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
             '</flow_label>',
@@ -325,11 +322,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<and>'
     )
 
+    correct_answers <- NULL
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
           if(solution[[i]][j]) {
-            xml <- c(xml,
+            correct_answers <- c(correct_answers,
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
             )
@@ -342,20 +340,20 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             soltext <- if(!is.character(solution[[i]][j])) {
               format(round(solution[[i]][j], digits), nsmall = digits)
             } else solution[[i]][j]
-            xml <- c(xml, paste('<varequal respident="', ids[[i]]$response,
+            correct_answers <- c(correct_answers, paste('<varequal respident="', ids[[i]]$response,
               '" case="No"><![CDATA[', soltext, ']]></varequal>', sep = "")
             )
           } else {
-            xml <- c(xml,
+            correct_answers <- c(correct_answers,
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="No"><![CDATA[', format(round(solution[[i]][j], digits), nsmall = digits),
-                ']]></varequal>', sep = ""),
-              paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
-                solution[[i]][j] - max(tolerance[[i]]),
-                ']]></vargte>', sep = ""),
-              paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
-                solution[[i]][j] + max(tolerance[[i]]),
-                ']]></varlte>', sep = "")
+                ']]></varequal>', sep = "")
+#              paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
+#                solution[[i]][j] - max(tolerance[[i]]),
+#                ']]></vargte>', sep = ""),
+#              paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
+#                solution[[i]][j] + max(tolerance[[i]]),
+#                ']]></varlte>', sep = "")
             )
           }
         }
@@ -363,17 +361,31 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     xml <- c(xml,
+      correct_answers,
       '</and>',
       '</conditionvar>',
       paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = ''),
       paste('<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>', sep = ''),
+      '</respcondition>'
+    )
+
+    ## handling incorrect answers
+    xml <- c(xml,
+      '<respcondition title="Fail" continue="Yes">',
+      '<conditionvar>',
+      '<not>',
+      '<and>',
+      correct_answers,
+      '</and>',
+      '</not>',
+      '</conditionvar>',
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>',
       '</resprocessing>'
     )
 
     attr(xml, "enumerate") <- enumerate
-    attr(xml, "type") <- if(x$metainfo$type == "mchoice") "MCQ" else "SCQ"
+    attr(xml, "type") <- x$metainfo$type
 
     xml
   }

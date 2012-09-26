@@ -15,7 +15,15 @@
 <outcomes>
 <decvar varname="SCORE" vartype="Decimal" cutvalue="0" />
 </outcomes>
+<displayfeedback feedbacktype="Response" linkrefid="AssessmentFeedback"/>
 </outcomes_processing>
+<assessfeedback title="AssessmentFeedback" ident="AssessmentFeedback">
+<flow_mat>
+<material>
+<mattext>##AssessmentFeedback</mattext>
+</material>
+</flow_mat>
+</assessfeedback>
 
 <section ident="##SectionId" title="##SectionTitle">
 
