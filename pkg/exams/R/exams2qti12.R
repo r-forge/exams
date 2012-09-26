@@ -127,6 +127,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       ## insert an item id
       ibody <- gsub("##ItemId", iname <- paste(attr(thebody, "type"), make_id(10), sep = "_"), ibody)
 
+      ## attach item id to metainfo
+      exm[[i]][[j]]$metainfo$id <- iname
+
       ## insert an item title
       ibody <- gsub("##ItemTitle", qu_name, ibody, fixed = TRUE)
 
@@ -398,6 +401,34 @@ make_id <- function(size, n = 1L) {
   rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
   rval[1L, ] <- pmax(1L, rval[1L, ])
   colSums(rval * 10^((size - 1L):0L))
+}
+
+
+## write qti12 solutions to .html file
+write_qti12_html <- function(exm, dir, name = NULL)
+{
+  if(is.null(name))
+    name <- "qti12sol"
+
+  htmlwrite <- make_exams_write_html(template = NULL, name = name,
+    question = TRUE, solution = TRUE, mathjax = FALSE)
+
+  ## write all questions into one exam
+  n <- length(exm)
+  nq <- length(exm[[1]])
+  exmout <- list()
+
+  counter <- 1
+  for(j in 1:nq) {
+    for(i in 1:n) {
+      exmout[[name]][[counter]] <- exm[[i]][[j]]
+      counter <- counter + 1
+    }
+  }
+
+  htmlwrite(exmout[[name]], dir = dir, info = list(id = "", n = length(exmout)))
+
+  invisible(NULL)
 }
 
 

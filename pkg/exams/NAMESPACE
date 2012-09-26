@@ -36,6 +36,7 @@ export(
   ## IMS QTI 1.2 driver
   "exams2qti12",
   "make_itembody_qti12",
+  "write_qti12_html",
 
   ## WU server driver
   "exams2wu",
