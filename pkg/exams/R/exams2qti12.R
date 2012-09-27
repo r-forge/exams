@@ -106,6 +106,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
+
+      ## create an id
+      iname <- paste(type, make_id(10), sep = "_")
+
+      ## attach item id to metainfo
+      exm[[i]][[j]]$metainfo$id <- iname
+
       ibody <- gsub("##ItemBody",
         paste(thebody <- itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
         item, fixed = TRUE)
@@ -125,10 +132,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       ibody <- gsub("##ItemSolution", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
       ## insert an item id
-      ibody <- gsub("##ItemId", iname <- paste(attr(thebody, "type"), make_id(10), sep = "_"), ibody)
-
-      ## attach item id to metainfo
-      exm[[i]][[j]]$metainfo$id <- iname
+      ibody <- gsub("##ItemId", iname, ibody)
 
       ## insert an item title
       ibody <- gsub("##ItemTitle", qu_name, ibody, fixed = TRUE)
@@ -232,9 +236,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## insert responses
     ids <- el <- list()
     for(i in 1:n) {
+      ## get item id
+      iid <- x$metainfo$id
+
       ## generate ids
-      ids[[i]] <- list("response" = paste("RESPONSE", make_id(7), sep = "_"),
-        "questions" = paste(type, make_id(10, length(x$metainfo$solution)), sep = "_"))
+      ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
+        "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
 
       ## insert choice type responses
       if(length(grep("choice", type[i]))) {
@@ -270,7 +277,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(type[i] == "string" || type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
-            format(round(solution[[i]][j], digits), nsmall = digits)
+             format(round(solution[[i]][j], digits), nsmall = digits) ## FIXME: num; as.character(solution[[i]][j])
           } else {
             if(!is.character(solution[[i]][j])) {
               format(round(solution[[i]][j], digits), nsmall = digits)
@@ -286,7 +293,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                 '<matbreak/>'
               )
             } else NULL,
-            paste(if(type[i] == "string") '<response_str ident="' else '<response_num ident="',
+            paste(if(type[i] == "string") '<response_str ident="' else '<response_str ident="', ## FIXME: num; '<response_num ident="'
               ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib maxchars="', maxchars <- if(type[i] == "string") {
                 nchar(soltext)
@@ -297,7 +304,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
             '</flow_label>',
             '</render_fib>',
-            if(type[i] == "string") '</response_str>' else '</response_num>',
+            if(type[i] == "string") '</response_str>' else '</response_str>', ## FIXME: num; '</response_num>'
             '<matbreak/>'
           )
         }
@@ -351,7 +358,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="No"><![CDATA[', format(round(solution[[i]][j], digits), nsmall = digits),
                 ']]></varequal>', sep = "")
-#              paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
+#              paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[', FIXME: num
 #                solution[[i]][j] - max(tolerance[[i]]),
 #                ']]></vargte>', sep = ""),
 #              paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
@@ -388,7 +395,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     )
 
     attr(xml, "enumerate") <- enumerate
-    attr(xml, "type") <- x$metainfo$type
 
     xml
   }
@@ -426,9 +432,56 @@ write_qti12_html <- function(exm, dir, name = NULL)
     }
   }
 
-  htmlwrite(exmout[[name]], dir = dir, info = list(id = "", n = length(exmout)))
+  htmlwrite(exmout[[name]], dir = path.expand(dir), info = list(id = "", n = length(exmout)))
 
   invisible(NULL)
+}
+
+
+## get test item id`s
+get_test_iids <- function(file)
+{
+  stopifnot(file.exists(file <- file.path(file)))
+
+  results <- readLines(file)
+  results <- legend <- results[grep("Laufnummer", results):length(results)]
+  results <- results[1:((i <- grep("Legende", results)) - 1)]
+  results <- results[results != ""]
+
+  legend <- legend[(i + 1):length(legend)]
+  legend <- legend[1:(grep("SCQ,Single Choice Question", legend) - 1)]
+  legend <- legend[legend != ""]
+
+  for(j in c(',,minValue', ',,maxValue', ',,cutValue', ',,,,'))
+    legend <- legend[!grepl(j, legend)]
+
+  writeLines(results, rf <- paste(tempfile(), "csv", sep = "."))
+  results <- read.csv(rf, header = TRUE)
+
+  questions <- NULL
+  j <- grep("Gesamtdauer", cnr <- colnames(results)) + 1
+  k <- ncol(results)
+  of <- tempfile()
+  cat("", file = of)
+  for(i in 1:nrow(results)) {
+    which <- results[i, j:k]
+    which <- paste(",", gsub("X", "", cnr[j:k][!is.na(which)]), ",", sep = "")
+    quid <- NULL
+    for(w in which) {
+      tmp <- strsplit(legend[grep(w, legend)], ",")[[1]]
+      tmp <- paste(strsplit(tmp[tmp != ""][2], "_")[[1]][1:2], collapse = "_")
+      quid <- c(quid, tmp)
+    }
+    quid <- unique(quid)
+    cat(paste(results[i, 1], results[i, 2], results[i, 3], results[i, 4],
+      paste(quid, collapse = ","), sep = ","), "\n",
+      file = of, append = TRUE)
+  }
+  questions <- read.csv(of, header = FALSE)
+  colnames(questions) <- c("Name", "Vorname", "Benutzer", "MatNr",
+    paste("Frage", 1:length(5:ncol(questions)), sep = "_"))
+
+  questions
 }
 
 
