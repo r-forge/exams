@@ -8,6 +8,6 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
 	     person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"))
 Description: Sweave-based automatic generation of exams with
   multiple-choice questions and arithmetic problems.
-Depends: R (>= 2.0.0), stats, graphics, tools, utils
-Suggests: base64enc, tth
+Depends: R (>= 2.0.0), stats, graphics, tools, utils, tth
+Suggests: base64enc
 License: GPL-2
