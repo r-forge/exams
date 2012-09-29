@@ -87,15 +87,23 @@
 }
 
 \examples{
-mylist <- list(
+## load package and enforce par(ask = FALSE)
+library("exams")
+options(device.ask.default = FALSE)
+
+## define an exams (= list of exercises)
+myexam <- list(
   "boxplots",
   c("tstat", "ttest", "confint"),
   c("regression", "anova"),
   "scatterplot",
   "relfreq"
 )
+
+## generate .zip with QTI 1.2 exam in temporary directory
 mydir <- tempdir()
-exams2qti12(mylist, n = 5, dir = mydir)
+exams2qti12(myexam, n = 5, dir = mydir)
+dir(mydir)
 }
 
 \keyword{utilities}
