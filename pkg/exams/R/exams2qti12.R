@@ -5,7 +5,7 @@
 exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  num = NULL, mchoice = NULL, schoice = mchoice, cloze = NULL, string = NULL,
+  num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti12", ...)
 {
   ## set up .html transformer
