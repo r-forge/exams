@@ -1,6 +1,6 @@
 Package: exams
 Version: 1.9-0
-Date: 2012-10-01
+Date: 2012-10-23
 Title: Automatic Generation of Standardized Exams for Large-Lecture Courses
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
              person(given = "Bettina", family = "Gruen", role = "aut", email = "Bettina.Gruen@jku.at"),
