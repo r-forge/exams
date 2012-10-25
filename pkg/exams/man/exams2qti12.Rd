@@ -14,12 +14,16 @@
     tdir = NULL, sdir = NULL, resolution = 100,
     width = 4, height = 4, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    template = "qti12", \dots)
+    template = "qti12", duration = NULL,
+    stitle = "Question", ititle = NULL, maxattempts = 1,
+    feedbackswitch = FALSE, hintswitch = FALSE,
+    solutionswitch = FALSE, cutvalue = NULL, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, enumerate = TRUE, digits = 2)
+    cutvalue = NULL, enumerate = TRUE, digits = 2,
+    tolerance = is.null(digits))
 }
 
 \arguments{
@@ -53,11 +57,27 @@
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
   \item{template}{character. The IMS QTI 1.2 template that should be used. Currently,
     the package provides \code{"qti12.xml"}.}
+  \item{duration}{integer. Set the duration of the exam in minutes.}
+  \item{stitle}{character. A title that should be used for the sections. May be a vector of
+    length 1 to use the same title for each section, or a vector containing different section
+    titles.}
+  \item{ititle}{character. A title that should be used for the assessement items. May be a vector 
+    of length 1 to use the same title for each item, or a vector containing different item
+    titles. Note that the maximum of different item titles is the number of sections/questions
+    that are used for the exam.}
+  \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
+    \code{Inf}.}
+  \item{feedbackswitch}{logical. Should the question/item feedbackswitch be enabled.}
+  \item{hintswitch}{logical. Should the question/item hintswitch be enabled.}
+  \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled.}
+  \item{cutvalue}{numeric. The cutvalue for which the exam is passed.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
-    maxvalue, cutvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
+    maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
   \item{enumerate}{logical. Insert potential solutions in enumerated list?}
   \item{digits}{integer. How many digits should be used for \code{num} exercises?}
+  \item{tolerance}{logical. If \code{digits = NULL}, type \code{num} questions will use a
+    tolerance interval for checking if the supplied answer/number is correct.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
