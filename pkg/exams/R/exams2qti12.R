@@ -189,7 +189,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 ## includes item <presentation> and <resprocessing> tags
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2)
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2,
+  char4num = TRUE, interval = FALSE)
 {
   function(x) {
     ## how many points?
@@ -277,7 +278,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(type[i] == "string" || type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
-             format(round(solution[[i]][j], digits), nsmall = digits) ## FIXME: num; as.character(solution[[i]][j])
+             if(char4num) format(round(solution[[i]][j], digits), nsmall = digits) else solution[[i]][j]
           } else {
             if(!is.character(solution[[i]][j])) {
               format(round(solution[[i]][j], digits), nsmall = digits)
@@ -293,8 +294,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                 '<matbreak/>'
               )
             } else NULL,
-            paste(if(type[i] == "string") '<response_str ident="' else '<response_str ident="', ## FIXME: num; '<response_num ident="'
-              ids[[i]]$response, '" rcardinality="Single">', sep = ''),
+            paste(if(type[i] == "string") '<response_str ident="' else {
+              if(char4num) '<response_str ident="' else '<response_num ident="'
+              }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib maxchars="', maxchars <- if(type[i] == "string") {
                 nchar(soltext)
               } else {
@@ -304,7 +306,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
             '</flow_label>',
             '</render_fib>',
-            if(type[i] == "string") '</response_str>' else '</response_str>', ## FIXME: num; '</response_num>'
+            if(type[i] == "string") '</response_str>' else {
+              if(char4num) '</response_str>' else '</response_num>'
+            },
             '<matbreak/>'
           )
         }
@@ -355,15 +359,22 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             )
           } else {
             correct_answers <- c(correct_answers,
-              paste('<varequal respident="', ids[[i]]$response,
-                '" case="No"><![CDATA[', format(round(solution[[i]][j], digits), nsmall = digits),
-                ']]></varequal>', sep = "")
-#              paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[', FIXME: num
-#                solution[[i]][j] - max(tolerance[[i]]),
-#                ']]></vargte>', sep = ""),
-#              paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
-#                solution[[i]][j] + max(tolerance[[i]]),
-#                ']]></varlte>', sep = "")
+              if(!interval) {
+                paste('<varequal respident="', ids[[i]]$response,
+                  '" case="No"><![CDATA[', if(char4num) {
+                    format(round(solution[[i]][j], digits), nsmall = digits)
+                  } else solution[[i]][j],
+                  ']]></varequal>', sep = "")
+              } else {
+                c(
+                  paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
+                    solution[[i]][j] - max(tolerance[[i]]),
+                    ']]></vargte>', sep = ""),
+                  paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
+                    solution[[i]][j] + max(tolerance[[i]]),
+                    ']]></varlte>', sep = "")
+                )
+              }
             )
           }
         }
