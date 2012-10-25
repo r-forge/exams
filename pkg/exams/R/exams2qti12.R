@@ -8,7 +8,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti12",
   duration = NULL, stitle = "Question", ititle = NULL, maxattempts = 1,
-  feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = TRUE, cutvalue = NULL, ...)
+  feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = FALSE, cutvalue = NULL, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
