@@ -80,11 +80,11 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
 
   ## function for internal ids
-  make_test_ids <- function(type = c("test", "section", "item"), nid = c(0, 0, 0), m = NULL, k = NULL)
+  make_test_ids <- function(type = c("test", "section", "item"), nid = c(9, 0, 0), m = NULL, k = NULL)
   {
     nid <- rep(nid, length.out = 3)
     switch(type,
-      "test" = paste(name, make_id(if(nid[1] < 1) 9 else nid[1]), sep = "_"),
+      "test" = paste(name, if(nid[1] < 1) NULL else paste("_", make_id(nid[1]), sep = ""), sep = ""),
       "section" = paste("section", if(!is.null(m)) {
           paste("_", formatC(1:m, flag = "0", width = nchar(m)), sep = "")
         } else NULL,
@@ -97,7 +97,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   }
 
   ## generate the test id
-  test_id <- make_test_ids(type = "test")
+  test_id <- name <- make_test_ids(type = "test")
 
   ## create section ids
   sec_ids <- make_test_ids(type = "section", m = nq)
