@@ -76,14 +76,31 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   nx <- length(exm)
   nq <- length(exm[[1L]])
 
+  ## create a name
+  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+
+  ## function for internal ids
+  make_test_ids <- function(type = c("test", "section", "item"), nid = c(0, 0, 0), m = NULL, k = NULL)
+  {
+    nid <- rep(nid, length.out = 3)
+    switch(type,
+      "test" = paste(name, make_id(if(nid[1] < 1) 9 else nid[1]), sep = "_"),
+      "section" = paste("section", if(!is.null(m)) {
+          paste("_", formatC(1:m, flag = "0", width = nchar(m)), sep = "")
+        } else NULL,
+        if(nid[2] > 0) paste("_", make_id(nid[2], m), sep = "") else NULL, sep = ""),
+      "item" = paste("item", if(!is.null(k)) {
+          paste("_", formatC(1:k, flag = "0", width = nchar(k)), sep = "")
+        } else NULL,
+        if(nid[3] > 0) paste("_", make_id(nid[3], k), sep = "") else NULL, sep = "")
+    )
+  }
+
   ## generate the test id
-  test_id <- make_id(9)
+  test_id <- make_test_ids(type = "test")
 
   ## create section ids
-  sec_ids <- paste(paste("Sec", 1:nq, sep = ""), make_id(10, nq), sep = "_")
-
-  ## create a name
-  if(is.null(name)) name <- paste(file_path_sans_ext(basename(template)), test_id, sep = "_")
+  sec_ids <- make_test_ids(type = "section", m = nq)
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
@@ -99,6 +116,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
     sec_xml <- gsub("##SectionTitle", "Question", sec_xml, fixed = TRUE)
 
+    ## create item ids
+    item_ids <- make_test_ids(type = "item", k = nx)
+
     ## now, insert the questions
     for(i in 1:nx) {
       ## the question name
@@ -108,7 +128,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       type <- exm[[i]][[j]]$metainfo$type
 
       ## create an id
-      iname <- paste(type, make_id(10), sep = "_")
+      iname <- paste(item_ids[i], type, sep = "_")
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
@@ -415,6 +435,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 ## function to create identfier ids
 ## README: speedup by avoiding for() loop and allowing zeros except for first digit
 make_id <- function(size, n = 1L) {
+  if(is.null(n)) n <- 1L
   rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
   rval[1L, ] <- pmax(1L, rval[1L, ])
   colSums(rval * 10^((size - 1L):0L))
