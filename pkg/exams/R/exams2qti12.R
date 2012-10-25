@@ -6,7 +6,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  template = "qti12", ...)
+  template = "qti12",
+  duration = NULL, stitle = "Question", ititle = NULL, maxattempts = 1,
+  feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = TRUE, cutvalue = NULL, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -80,27 +82,24 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
 
   ## function for internal ids
-  make_test_ids <- function(type = c("test", "section", "item"), nid = c(9, 0, 0), m = NULL, k = NULL)
+  make_test_ids <- function(n, type = c("test", "section", "item"))
   {
-    nid <- rep(nid, length.out = 3)
     switch(type,
-      "test" = paste(name, if(nid[1] < 1) NULL else paste("_", make_id(nid[1]), sep = ""), sep = ""),
-      "section" = paste("section", if(!is.null(m)) {
-          paste("_", formatC(1:m, flag = "0", width = nchar(m)), sep = "")
-        } else NULL,
-        if(nid[2] > 0) paste("_", make_id(nid[2], m), sep = "") else NULL, sep = ""),
-      "item" = paste("item", if(!is.null(k)) {
-          paste("_", formatC(1:k, flag = "0", width = nchar(k)), sep = "")
-        } else NULL,
-        if(nid[3] > 0) paste("_", make_id(nid[3], k), sep = "") else NULL, sep = "")
+      "test" = paste(name, make_id(9), sep = "_"),
+      paste(type, formatC(1:n, flag = "0", width = nchar(n)), sep = "_")
     )
   }
 
   ## generate the test id
-  test_id <- name <- make_test_ids(type = "test")
+  test_id <- make_test_ids(type = "test")
 
   ## create section ids
-  sec_ids <- make_test_ids(type = "section", m = nq)
+  sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
+
+  ## create section/item titles
+  if(is.null(stitle)) stitle <- ""
+  stitle <- rep(stitle, length.out = nq)
+  if(!is.null(ititle)) ititle <- rep(ititle, length.out = nq)
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
@@ -114,16 +113,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
     sec_xml <- c(sec_xml, gsub("##SectionId", sec_ids[j], section, fixed = TRUE))
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
-    sec_xml <- gsub("##SectionTitle", "Question", sec_xml, fixed = TRUE)
+    sec_xml <- gsub("##SectionTitle", stitle[j], sec_xml, fixed = TRUE)
 
     ## create item ids
-    item_ids <- make_test_ids(type = "item", k = nx)
+    item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
 
     ## now, insert the questions
     for(i in 1:nx) {
-      ## the question name
-      qu_name <- exm[[i]][[j]]$metainfo$name
-
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
 
@@ -155,7 +151,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       ibody <- gsub("##ItemId", iname, ibody)
 
       ## insert an item title
-      ibody <- gsub("##ItemTitle", qu_name, ibody, fixed = TRUE)
+      ibody <- gsub("##ItemTitle",
+        if(is.null(ititle)) exm[[i]][[j]]$metainfo$name else ititle[j],
+        ibody, fixed = TRUE)
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
@@ -183,11 +181,45 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
     sec_xml <- c(sec_xml, "", "</section>")
   }
 
-  ## finalize the test xml file, insert id, name, duration and sections
-  xml <- gsub("##TestIdent", name, xml)
+  ## process duration to P0Y0M0DT0H1M35S format
+  if(!is.null(duration)) {
+    dursecs <- round(duration * 60)
+    dur <- dur %/% 86400 ## days
+    dursecs <- dursecs - dur * 86400
+    duration <- paste("P0Y0M", dur, "DT", sep = "")
+    dur <- dur %/% 3600 ## hours
+    dursecs <- dursecs - dur * 3600
+    duration <- paste(duration, dur, "H", sep = "")
+    dur <- dur %/% 60 ## minutes
+    dursecs <- dursecs - dur * 60
+    duration <- paste(duration, dur, "M", dursecs, "S", sep = "")
+  } else {
+    duration <- ""
+  }
+
+  ## process cutvalue/maximal number of attempts
+  make_integer_tag <- function(x, type, default = 1) {
+    if(is.null(x)) x <- Inf
+    x <- round(as.numeric(x))
+    if(x < 1) {
+      warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
+      x <- 1
+    }
+    if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
+  }
+  maxattempts <- make_integer_tag(maxattempts, type = "maxattempts", default = 1)
+  cutvalue <- make_integer_tag(cutvalue, type = "cutvalue", default = 0)
+
+  ## finalize the test xml file, insert ids/titles, sections, and further control details
+  xml <- gsub("##TestIdent", test_id, xml)
   xml <- gsub("##TestTitle", name, xml)
-  xml <- gsub("##TestDuration", "", xml)  ## FIXME: duration in <duration>P0Y0M0DT0H1M35S</duration>
+  xml <- gsub("##TestDuration", duration, xml)
   xml <- gsub("##TestSections", paste(sec_xml, collapse = "\n"), xml)
+  xml <- gsub("##MaxAttempts", maxattempts, xml)
+  xml <- gsub("##CutValue", cutvalue, xml)
+  xml <- gsub("##FeedbackSwitch", if(feedbackswitch) "Yes" else "No", xml)
+  xml <- gsub("##HintSwitch",     if(hintswitch)     "Yes" else "No", xml)
+  xml <- gsub("##SolutionSwitch", if(solutionswitch) "Yes" else "No", xml)
 
   ## write to dir
   writeLines(xml, file.path(test_dir, "qti.xml"))
@@ -209,8 +241,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 ## includes item <presentation> and <resprocessing> tags
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2,
-  char4num = TRUE, interval = FALSE)
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits))
 {
   function(x) {
     ## how many points?
@@ -227,10 +258,10 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     } else x$questionlist
     if(length(questionlist) < 1) questionlist <- NULL
 
-    tolerance <- if(!is.list(x$metainfo$tolerance)) {
+    tol <- if(!is.list(x$metainfo$tolerance)) {
       if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
     } else x$questionlist
-    tolerance <- rep(tolerance, length.out = n)
+    tol <- rep(tol, length.out = n)
 
     ## set question type(s)
     type <- x$metainfo$type
@@ -298,11 +329,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(type[i] == "string" || type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
-             if(char4num) format(round(solution[[i]][j], digits), nsmall = digits) else solution[[i]][j]
+             if(!is.null(digits)) format(round(solution[[i]][j], digits), nsmall = digits) else solution[[i]][j]
           } else {
-            if(!is.character(solution[[i]][j])) {
-              format(round(solution[[i]][j], digits), nsmall = digits)
-            } else solution[[i]][j]
+            if(!is.character(solution[[i]][j])) format(solution[[i]][j]) else solution[[i]][j]
           }
           xml <- c(xml,
             if(!is.null(questionlist[[i]][j])) {
@@ -379,19 +408,19 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             )
           } else {
             correct_answers <- c(correct_answers,
-              if(!interval) {
+              if(!tolerance) {
                 paste('<varequal respident="', ids[[i]]$response,
-                  '" case="No"><![CDATA[', if(char4num) {
+                  '" case="No"><![CDATA[', if(!is.null(digits)) {
                     format(round(solution[[i]][j], digits), nsmall = digits)
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
               } else {
                 c(
                   paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
-                    solution[[i]][j] - max(tolerance[[i]]),
+                    solution[[i]][j] - max(tol[[i]]),
                     ']]></vargte>', sep = ""),
                   paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
-                    solution[[i]][j] + max(tolerance[[i]]),
+                    solution[[i]][j] + max(tol[[i]]),
                     ']]></varlte>', sep = "")
                 )
               }
