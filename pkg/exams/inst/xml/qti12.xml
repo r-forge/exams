@@ -13,7 +13,7 @@
 <assessmentcontrol feedbackswitch="##FeedbackSwitch" hintswitch="##HintSwitch" solutionswitch="##SolutionSwitch"/>
 <outcomes_processing scoremodel="SumOfScores">
 <outcomes>
-<decvar varname="SCORE" vartype="Decimal" ##CutValue />
+<decvar varname="SCORE" vartype="Decimal" ##CutValue/>
 </outcomes>
 <displayfeedback feedbacktype="Response" linkrefid="AssessmentFeedback"/>
 </outcomes_processing>
