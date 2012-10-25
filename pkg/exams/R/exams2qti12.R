@@ -344,7 +344,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               )
             } else NULL,
             paste(if(type[i] == "string") '<response_str ident="' else {
-              if(char4num) '<response_str ident="' else '<response_num ident="'
+              if(!tolerance) '<response_str ident="' else '<response_num ident="'
               }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib maxchars="', maxchars <- if(type[i] == "string") {
                 nchar(soltext)
@@ -356,7 +356,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '</flow_label>',
             '</render_fib>',
             if(type[i] == "string") '</response_str>' else {
-              if(char4num) '</response_str>' else '</response_num>'
+              if(!tolerance) '</response_str>' else '</response_num>'
             },
             '<matbreak/>'
           )
