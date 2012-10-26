@@ -241,7 +241,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 ## includes item <presentation> and <resprocessing> tags
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits))
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits),
+  maxchars = 12)
 {
   function(x) {
     ## how many points?
@@ -347,9 +348,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               if(!tolerance) '<response_str ident="' else '<response_num ident="'
               }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib maxchars="', maxchars <- if(type[i] == "string") {
-                nchar(soltext)
+                max(c(nchar(soltext), maxchars))
               } else {
-                max(c(nchar(soltext), 10))
+                max(c(nchar(soltext), maxchars))
               }, '" columns="', maxchars, '">', sep = ''),
             '<flow_label class="Block">',
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),

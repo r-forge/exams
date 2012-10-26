@@ -23,7 +23,7 @@
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL, enumerate = TRUE, digits = 2,
-    tolerance = is.null(digits))
+    tolerance = is.null(digits), maxchars = 12)
 }
 
 \arguments{
@@ -78,6 +78,9 @@
   \item{digits}{integer. How many digits should be used for \code{num} exercises?}
   \item{tolerance}{logical. If \code{digits = NULL}, type \code{num} questions will use a
     tolerance interval for checking if the supplied answer/number is correct.}
+  \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
+    fields. The actual number of characters is selected as the maximum number of
+    characters of this value and the actual solution.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
