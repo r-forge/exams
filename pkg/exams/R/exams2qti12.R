@@ -7,8 +7,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti12",
-  duration = NULL, stitle = "Question", ititle = NULL, maxattempts = 1,
-  feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = FALSE, cutvalue = NULL, ...)
+  duration = NULL, stitle = "Question", ititle = NULL, adescription = NULL, sdescription = NULL, 
+  maxattempts = 1, feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = FALSE,
+  cutvalue = NULL, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -96,10 +97,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   ## create section ids
   sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
 
-  ## create section/item titles
+  ## create section/item titles and section description
   if(is.null(stitle)) stitle <- ""
   stitle <- rep(stitle, length.out = nq)
   if(!is.null(ititle)) ititle <- rep(ititle, length.out = nq)
+  if(is.null(adescription)) adescription <- ""
+  if(is.null(sdescription)) sdescription <- ""
+  sdescription <- rep(sdescription, length.out = nq)
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
@@ -114,6 +118,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
     sec_xml <- gsub("##SectionTitle", stitle[j], sec_xml, fixed = TRUE)
+
+    ## insert a section description -> exm[[1]][[j]]$metainfo$description?
+    sec_xml <- gsub("##SectionDescription", sdescription[j], sec_xml, fixed = TRUE)
 
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
@@ -220,6 +227,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   xml <- gsub("##FeedbackSwitch", if(feedbackswitch) "Yes" else "No", xml)
   xml <- gsub("##HintSwitch",     if(hintswitch)     "Yes" else "No", xml)
   xml <- gsub("##SolutionSwitch", if(solutionswitch) "Yes" else "No", xml)
+  xml <- gsub("##AssessmentDescription", adescription, xml)
 
   ## write to dir
   writeLines(xml, file.path(test_dir, "qti.xml"))

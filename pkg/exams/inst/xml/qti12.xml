@@ -10,6 +10,11 @@
 <fieldentry>Assessment</fieldentry>
 </qtimetadatafield>
 </qtimetadata>
+<objectives>
+<material>
+<mattext><![CDATA[##AssessmentDescription]]></mattext>
+</material>
+</objectives>
 <assessmentcontrol feedbackswitch="##FeedbackSwitch" hintswitch="##HintSwitch" solutionswitch="##SolutionSwitch"/>
 <outcomes_processing scoremodel="SumOfScores">
 <outcomes>
@@ -27,6 +32,11 @@
 
 <section ident="##SectionId" title="##SectionTitle">
 
+<objectives>
+<material>
+<mattext><![CDATA[##SectionDescription]]></mattext>
+</material>
+</objectives>
 <selection_ordering>
 <selection>
 <selection_number>1</selection_number>
