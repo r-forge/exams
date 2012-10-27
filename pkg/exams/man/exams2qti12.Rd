@@ -17,7 +17,7 @@
     template = "qti12", duration = NULL,
     stitle = "Question", ititle = NULL, maxattempts = 1,
     feedbackswitch = FALSE, hintswitch = FALSE,
-    solutionswitch = FALSE, cutvalue = NULL, \dots)
+    solutionswitch = FALSE, cutvalue = 0, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
