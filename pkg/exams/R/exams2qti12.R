@@ -7,7 +7,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti12",
-  duration = NULL, stitle = "Question", ititle = NULL, adescription = NULL, sdescription = NULL, 
+  duration = NULL, stitle = "Exercise", ititle = "Question",
+  adescription = "Please solve the following exercises.",
+  sdescription = "Please answer the following question.", 
   maxattempts = 1, feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = FALSE,
   cutvalue = 0, ...)
 {
