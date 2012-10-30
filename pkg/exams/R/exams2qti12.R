@@ -583,18 +583,22 @@ olat_results <- function(file, xexam = NULL)
         if(inherits(ssol, "try-error")) ssol <- NA
         solx <- NA
         if(!is.null(xexam)) {
-          solx <- xexam[[id]][[i]]$metainfo$solution
-          if(grepl("choice", xexam[[id]][[i]]$metainfo$type[1])){
+          solx  <- xexam[[id]][[i]]$metainfo$solution
+          tolx  <- xexam[[id]][[i]]$metainfo$tolerance
+	  typex <- xexam[[id]][[i]]$metainfo$type[1]
+	  ptsx  <- xexam[[id]][[i]]$metainfo$points
+	  if(is.null(ptsx)) ptsx <- 1
+          if(typex %in% c("mchoice", "schoice")) {
             solx <- exams::mchoice2string(solx)
             scheck <- ssol == solx
-            if(scheck && points < 1)
-              points <- if(is.null(xexam[[id]][[i]]$metainfo$points)) 1 else xexam[[id]][[i]]$metainfo$points
-          } else {
-            scheck <- as.numeric(ssol) == as.numeric(solx)
-            if(!is.na(scheck) && scheck && points < 1)
-              points <- if(is.null(xexam[[id]][[i]]$metainfo$points)) 1 else xexam[[id]][[i]]$metainfo$points
-            ssol <- as.numeric(ssol)
-          }
+            if(scheck && points < 1) points <- ptsx
+          } else if(typex == "num") {
+	    ssol <- as.numeric(ssol)
+            scheck <- (ssol >= solx - tolx[1L]) & (ssol <= solx + tolx[2L])
+            if(!is.na(scheck) && scheck && points < 1) points <- ptsx
+          } else if(typex == "cloze") {
+            stop("OLAT cloze reader not yet implemented")
+	  }
         }
         res <- data.frame(id + (i - 1) * ns, as.numeric(points), ssol, solx,
           as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")), as.numeric(dur),
