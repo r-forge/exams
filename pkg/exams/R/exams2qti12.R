@@ -514,19 +514,13 @@ write_qti12_html <- function(exm, dir, name = NULL)
 
 
 ## get OLAT test results
-olat_results <- function(file, xexam)
+olat_results <- function(file, xexam = NULL)
 {
   ## checking
   stopifnot(file.exists(file <- path.expand(file)))
-
-  ## assume xexams object
-  ## number of sections and items
-  ns <- length(xexam)
-  ni <- unique(sapply(xexam, length))
-  stopifnot(length(ni) == 1L)
  
   ## read data
-  x <- readLines(file)
+  x <- readLines(file, warn = FALSE)
   x <- read.table(file, header = TRUE, sep = "\t",
     colClasses = "character", skip = 1, fill = TRUE,
     nrows = min(which(x == "")) - 3)
@@ -550,7 +544,18 @@ olat_results <- function(file, xexam)
   ipmat <- t(sapply(y, function(d) nchar(as.character(d[, ncol(d) - 1L])) > 10L))
 
   ## which person solved which items
+
+  ## assume xexams object
+  ## number of sections and items
+#  ns <- length(xexam)
+#  ni <- unique(sapply(xexam, length))
+#  stopifnot(length(ni) == 1L)
   ix1 <- lapply(1:ncol(ipmat), function(i) which(as.vector(ipmat[,i])))
+  ni <- max(unlist(lapply(ix1, length)))
+  ns <- length(unique(iid)) / ni
+
+  stopifnot(ns %% 1 == 0)
+
   ix2 <- lapply(ix1, function(i) {
     ix <- rep(NA, ni)
     ix[1L + i %/% ns] <- i %% ns
@@ -558,26 +563,57 @@ olat_results <- function(file, xexam)
   })
 
   ## compute results
-  res <- NULL
-  for(j in seq_along(ix2)) {
-    tmp <- data.frame("")
-    for(i in seq_along(ix2[[j]])) {
-      d <- y[[ix2[[j]][i]]][j, ]
-      d <- if(is.null(d)) {
-        data.frame(t(rep(NA, 4)))
-      } else d[apply(d, 1, function(x) any(x != "")), ]
-      nd <- gsub(paste("X", ix2[[j]][i], "_", sep = ""), "", names(d))
-      nd <- gsub("..s.", "", nd, fixed = TRUE)
-      nd <- paste(paste("EX", i, sep = ""), nd, sep = ".")
-      if(nrow(d) < 1) d <- data.frame(t(rep(NA, ncol(d))))
-      names(d) <- nd
-      d[[paste("EX", i, ".ID", sep = "")]] <- ix2[[j]][i]
-      tmp <- cbind(tmp, d)
-    }
-    res <- rbind(res, as.matrix(tmp[, -1]))
+  process_item_result <- function(j)
+  {
+    rval <- lapply(1:length(ix2[[j]]), function(i) {
+      id <- ix2[[j]][i]
+      if(!is.na(id)) {
+        ir <- y[[id + (i - 1) * ns]][j, ]
+        k <- ncol(ir)
+        points <- as.numeric(ir[, k - 2])
+        points <- if(is.na(points)) 0 else points
+        start <- ir[, k - 1]
+        dur <- ir[, k]
+        ssol <- ir[, 1:(k - 3)]
+        ssol <- if(length(ssol) > 1) {
+          try(paste(ssol[-length(ssol)], collapse = ""), silent = TRUE)
+        } else {
+          try(gsub(",", ".", ssol, fixed = TRUE), silent = TRUE)
+        }
+        if(inherits(ssol, "try-error")) ssol <- NA
+        solx <- NA
+        if(!is.null(xexam)) {
+          solx <- xexam[[id]][[i]]$metainfo$solution
+          if(grepl("choice", xexam[[id]][[i]]$metainfo$type[1])){
+            solx <- exams::mchoice2string(solx)
+            scheck <- ssol == solx
+            if(scheck && points < 1)
+              points <- if(is.null(xexam[[id]][[i]]$metainfo$points)) 1 else xexam[[id]][[i]]$metainfo$points
+          } else {
+            scheck <- as.numeric(ssol) == as.numeric(solx)
+            if(!is.na(scheck) && scheck && points < 1)
+              points <- if(is.null(xexam[[id]][[i]]$metainfo$points)) 1 else xexam[[id]][[i]]$metainfo$points
+            ssol <- as.numeric(ssol)
+          }
+        }
+        res <- data.frame(id + (i - 1) * ns, as.numeric(points), ssol, solx,
+          as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")), as.numeric(dur),
+          stringsAsFactors = FALSE)
+      } else res <- data.frame(t(rep(NA, 6)))
+      res[res == ""] <- NA
+      names(res) <- paste(c("id", "points", "answer", "solution", "start", "duration"), i, sep = ".")
+      return(res)
+    })
+    return(data.frame(rval, stringsAsFactors = FALSE))
   }
-  res <- cbind(x[, 2:nc], as.data.frame(res, stringsAsFactors = FALSE))
+
+  res <- lapply(1:length(ix2), process_item_result)
+  rval <- res[[1]]
+  for(j in 2:length(res))
+    rval <- rbind(rval, res[[j]])
+  res <- cbind(x[, 2:nc], rval)
   names(res) <- gsub("Institutionsnummer", "MatrNr", names(res))
+  names(res) <- gsub("..s.", "", names(res), fixed = TRUE)
 
   res
 }
