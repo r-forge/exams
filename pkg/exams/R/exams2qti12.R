@@ -243,6 +243,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   ## copy the final .zip file
   file.copy(file.path(test_dir, zipname), file.path(dir, zipname))
 
+  ## assign test id as an attribute
+  attr(exm, "test_id") <- test_id
+
   invisible(exm)
 }
 
@@ -510,50 +513,73 @@ write_qti12_html <- function(exm, dir, name = NULL)
 }
 
 
-## get test item id`s
-get_test_iids <- function(file)
+## get OLAT test results
+olat_results <- function(file, xexam)
 {
-  stopifnot(file.exists(file <- file.path(file)))
+  ## checking
+  stopifnot(file.exists(file <- path.expand(file)))
 
-  results <- readLines(file)
-  results <- legend <- results[grep("Laufnummer", results):length(results)]
-  results <- results[1:((i <- grep("Legende", results)) - 1)]
-  results <- results[results != ""]
+  ## assume xexams object
+  ## number of sections and items
+  ns <- length(xexam)
+  ni <- unique(sapply(xexam, length))
+  stopifnot(length(ni) == 1L)
+ 
+  ## read data
+  x <- readLines(file)
+  x <- read.table(file, header = TRUE, sep = "\t",
+    colClasses = "character", skip = 1, fill = TRUE,
+    nrows = min(which(x == "")) - 3)
 
-  legend <- legend[(i + 1):length(legend)]
-  legend <- legend[1:(grep("SCQ,Single Choice Question", legend) - 1)]
-  legend <- legend[legend != ""]
+  ## number of columns of person info
+  nc <- min(grep("X1_", names(x), fixed = TRUE)) - 1
 
-  for(j in c(',,minValue', ',,maxValue', ',,cutValue', ',,,,'))
-    legend <- legend[!grepl(j, legend)]
+  ## only test results
+  y <- x[, -(1:nc)]
 
-  writeLines(results, rf <- paste(tempfile(), "csv", sep = "."))
-  results <- read.csv(rf, header = TRUE)
+  ## columns pertaining to items
+  iid <- na.omit(as.numeric(unlist(sapply(
+    strsplit(substr(names(y), 2, nchar(names(y))),
+    "_", fixed = TRUE), head, 1))))
 
-  questions <- NULL
-  j <- grep("Gesamtdauer", cnr <- colnames(results)) + 1
-  k <- ncol(results)
-  of <- tempfile()
-  cat("", file = of)
-  for(i in 1:nrow(results)) {
-    which <- results[i, j:k]
-    which <- paste(",", gsub("X", "", cnr[j:k][!is.na(which)]), ",", sep = "")
-    quid <- NULL
-    for(w in which) {
-      tmp <- strsplit(legend[grep(w, legend)], ",")[[1]]
-      tmp <- paste(strsplit(tmp[tmp != ""][2], "_")[[1]][1:2], collapse = "_")
-      quid <- c(quid, tmp)
+  ## item-wise data.frame
+  y <- lapply(split(x = seq_along(iid), f = iid),
+    function(ind) y[, ind, drop = FALSE])
+
+  ## logical item x person matrix
+  ipmat <- t(sapply(y, function(d) nchar(as.character(d[, ncol(d) - 1L])) > 10L))
+
+  ## which person solved which items
+  ix1 <- lapply(1:ncol(ipmat), function(i) which(as.vector(ipmat[,i])))
+  ix2 <- lapply(ix1, function(i) {
+    ix <- rep(NA, ni)
+    ix[1L + i %/% ns] <- i %% ns
+    ix
+  })
+
+  ## compute results
+  res <- NULL
+  for(j in seq_along(ix2)) {
+    tmp <- data.frame("")
+    for(i in seq_along(ix2[[j]])) {
+      d <- y[[ix2[[j]][i]]][j, ]
+      d <- if(is.null(d)) {
+        data.frame(t(rep(NA, 4)))
+      } else d[apply(d, 1, function(x) any(x != "")), ]
+      nd <- gsub(paste("X", ix2[[j]][i], "_", sep = ""), "", names(d))
+      nd <- gsub("..s.", "", nd, fixed = TRUE)
+      nd <- paste(paste("EX", i, sep = ""), nd, sep = ".")
+      if(nrow(d) < 1) d <- data.frame(t(rep(NA, ncol(d))))
+      names(d) <- nd
+      d[[paste("EX", i, ".ID", sep = "")]] <- ix2[[j]][i]
+      tmp <- cbind(tmp, d)
     }
-    quid <- unique(quid)
-    cat(paste(results[i, 1], results[i, 2], results[i, 3], results[i, 4],
-      paste(quid, collapse = ","), sep = ","), "\n",
-      file = of, append = TRUE)
+    res <- rbind(res, as.matrix(tmp[, -1]))
   }
-  questions <- read.csv(of, header = FALSE)
-  colnames(questions) <- c("Name", "Vorname", "Benutzer", "MatNr",
-    paste("Frage", 1:length(5:ncol(questions)), sep = "_"))
+  res <- cbind(x[, 2:nc], as.data.frame(res, stringsAsFactors = FALSE))
+  names(res) <- gsub("Institutionsnummer", "MatrNr", names(res))
 
-  questions
+  res
 }
 
 
