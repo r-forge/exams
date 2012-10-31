@@ -399,12 +399,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<and>'
     )
 
-    correct_answers <- NULL
+    correct_answers <- wrong_answers <- NULL
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
           if(solution[[i]][j]) {
             correct_answers <- c(correct_answers,
+              paste('<varequal respident="', ids[[i]]$response,
+                '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
+            )
+          } else {
+            wrong_answers <- c(wrong_answers,
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
             )
@@ -447,6 +452,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml,
       correct_answers,
       '</and>',
+      if(!is.null(wrong_answers)) {
+        c('<not>', '<or>', wrong_answers, '</or>', '</not>')
+      } else {
+        NULL
+      },
       '</conditionvar>',
       paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = ''),
       paste('<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>', sep = ''),
@@ -458,9 +468,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<respcondition title="Fail" continue="Yes">',
       '<conditionvar>',
       '<not>',
-      '<and>',
-      correct_answers,
-      '</and>',
+      if(is.null(wrong_answers)) {
+        c('<and>', correct_answers, '</and>')
+      } else {
+        c('<or>', wrong_answers, '</or>')
+      },
       '</not>',
       '</conditionvar>',
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
