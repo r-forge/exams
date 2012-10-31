@@ -586,38 +586,37 @@ olat_results <- function(file, xexam = NULL)
         points <- if(is.na(points)) 0 else points
         start <- ir[, k - 1]
         dur <- ir[, k]
-        ssol <- ir[, 1:(k - 3)]
-        ssol <- if(length(ssol) > 1) {
-          try(paste(ssol[-length(ssol)], collapse = ""), silent = TRUE)
+        ssol <- ssol0 <- ir[, 1:(k - 3)]
+        if(length(ssol) > 1) {
+          ssol <- ssol0 <- try(paste(ssol[-length(ssol)], collapse = ""), silent = TRUE)
         } else {
-          try(gsub(",", ".", ssol, fixed = TRUE), silent = TRUE)
+          ssol <- try(gsub(",", ".", ssol, fixed = TRUE), silent = TRUE)
         }
-        if(inherits(ssol, "try-error")) ssol <- NA
-        solx <- NA
+        if(inherits(ssol, "try-error")) ssol <- ssol0 <- NA
+        solx <- scheck <- NA
         if(!is.null(xexam)) {
           solx  <- xexam[[id]][[i]]$metainfo$solution
           tolx  <- xexam[[id]][[i]]$metainfo$tolerance
-	  typex <- xexam[[id]][[i]]$metainfo$type[1]
-	  ptsx  <- xexam[[id]][[i]]$metainfo$points
-	  if(is.null(ptsx)) ptsx <- 1
+	        typex <- xexam[[id]][[i]]$metainfo$type[1]
+	        ptsx  <- xexam[[id]][[i]]$metainfo$points
+	        if(is.null(ptsx)) ptsx <- 1
           if(typex %in% c("mchoice", "schoice")) {
             solx <- exams::mchoice2string(solx)
-            scheck <- ssol == solx
-            if(scheck && points < 1) points <- ptsx
+            scheck <- (ssol == solx) * ptsx
           } else if(typex == "num") {
-	    ssol <- as.numeric(ssol)
-            scheck <- (ssol >= solx - tolx[1L]) & (ssol <= solx + tolx[2L])
-            if(!is.na(scheck) && scheck && points < 1) points <- ptsx
+	          ssol <- as.numeric(ssol)
+            scheck <- ((ssol >= solx - tolx[1L]) & (ssol <= solx + tolx[2L])) * ptsx
           } else if(typex == "cloze") {
             stop("OLAT cloze reader not yet implemented")
-	  }
+	        }
         }
-        res <- data.frame(id + (i - 1) * ns, as.numeric(points), ssol, solx,
+        if(is.na(scheck)) scheck <- 0
+        res <- data.frame(id + (i - 1) * ns, as.numeric(points), scheck, ssol0, solx,
           as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")), as.numeric(dur),
           stringsAsFactors = FALSE)
-      } else res <- data.frame(t(rep(NA, 6)))
+      } else res <- data.frame(t(rep(NA, 7)))
       res[res == ""] <- NA
-      names(res) <- paste(c("id", "points", "answer", "solution", "start", "duration"), i, sep = ".")
+      names(res) <- paste(c("id", "points", "check", "answer", "solution", "start", "duration"), i, sep = ".")
       return(res)
     })
     return(data.frame(rval, stringsAsFactors = FALSE))
