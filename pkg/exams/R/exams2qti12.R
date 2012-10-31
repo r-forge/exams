@@ -210,9 +210,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   make_integer_tag <- function(x, type, default = 1) {
     if(is.null(x)) x <- Inf
     x <- round(as.numeric(x))
-    if(x < 1) {
+    if(x < default) {
       warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
-      x <- 1
+      x <- default
     }
     if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
   }
