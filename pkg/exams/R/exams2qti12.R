@@ -588,7 +588,7 @@ olat_results <- function(file, xexam = NULL)
         dur <- ir[, k]
         ssol <- ssol0 <- ir[, 1:(k - 3)]
         if(length(ssol) > 1) {
-          ssol <- ssol0 <- try(paste(ssol[-length(ssol)], collapse = ""), silent = TRUE)
+          ssol <- ssol0 <- try(gsub(".", "0", paste(ssol[-length(ssol)], collapse = ""), fixed = TRUE), silent = TRUE)
         } else {
           ssol <- try(gsub(",", ".", ssol, fixed = TRUE), silent = TRUE)
         }
