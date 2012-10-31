@@ -570,7 +570,7 @@ olat_results <- function(file, xexam = NULL)
 
   ix2 <- lapply(ix1, function(i) {
     ix <- rep(NA, ni)
-    ix[1L + i %/% ns] <- i %% ns
+    ix[1L + (i - 1L) %/% ns] <- 1L + (i - 1L) %% ns
     ix
   })
 
@@ -594,7 +594,7 @@ olat_results <- function(file, xexam = NULL)
         }
         if(inherits(ssol, "try-error")) ssol <- ssol0 <- NA
         solx <- scheck <- NA
-        if(!is.null(xexam)) {
+        if(!is.null(xexam) & !is.na(id)) {
           solx  <- xexam[[id]][[i]]$metainfo$solution
           tolx  <- xexam[[id]][[i]]$metainfo$tolerance
 	        typex <- xexam[[id]][[i]]$metainfo$type[1]
@@ -614,7 +614,7 @@ olat_results <- function(file, xexam = NULL)
         res <- data.frame(id + (i - 1) * ns, as.numeric(points), scheck, ssol0, solx,
           as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")), as.numeric(dur),
           stringsAsFactors = FALSE)
-      } else res <- data.frame(t(rep(NA, 7)))
+      } else res <- data.frame(t(rep(NA, 7L)))
       res[res == ""] <- NA
       names(res) <- paste(c("id", "points", "check", "answer", "solution", "start", "duration"), i, sep = ".")
       return(res)
@@ -624,8 +624,7 @@ olat_results <- function(file, xexam = NULL)
 
   res <- lapply(1:length(ix2), process_item_result)
   rval <- res[[1]]
-  for(j in 2:length(res))
-    rval <- rbind(rval, res[[j]])
+  for(j in 2:length(res)) rval <- rbind(rval, res[[j]])
   res <- cbind(x[, 2:nc], rval)
   names(res) <- gsub("Institutionsnummer", "MatrNr", names(res))
   names(res) <- gsub("..s.", "", names(res), fixed = TRUE)
