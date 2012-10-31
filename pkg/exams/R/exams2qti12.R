@@ -631,6 +631,26 @@ olat_results <- function(file, xexam = NULL)
   names(res) <- gsub("Institutionsnummer", "MatrNr", names(res))
   names(res) <- gsub("..s.", "", names(res), fixed = TRUE)
 
+  true_false <- apply(res, 2, function(x) {
+    if(is.character(x)) {
+      x == "true" || x == "false"
+    } else FALSE
+  })
+  if(any(true_false)) {
+    for(i in which(true_false)) {
+      wh <- FALSE
+      if(!any(grepl("false", res[[i]]))) {
+        res[[i]] <- rep(TRUE, length(res[[i]]))
+        wh <- TRUE
+      }
+      if(!any(grepl("true", res[[i]]))) {
+        wh <- TRUE
+        res[[i]] <- rep(FALSE, length(res[[i]]))
+      }
+      if(!wh) res[[i]] <- res[[i]] == "true"
+    }
+  }
+
   res
 }
 
