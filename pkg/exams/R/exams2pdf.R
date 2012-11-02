@@ -120,7 +120,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     if(!is.null(supps)) file.copy(supps, dir_temp)
     
     ## extract required metainfo
-    fil <- sapply(exm, function(x) x$metainfo$file)
+    fil <- names(exm) #to assure different file names# sapply(exm, function(x) x$metainfo$file)
     typ <- sapply(exm, function(x) x$metainfo$type)
     sol <- lapply(exm, function(x) x$metainfo$solution)
 
