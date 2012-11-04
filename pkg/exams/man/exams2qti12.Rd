@@ -15,9 +15,11 @@
     width = 4, height = 4, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti12", duration = NULL,
-    stitle = "Question", ititle = NULL, maxattempts = 1,
-    feedbackswitch = FALSE, hintswitch = FALSE,
-    solutionswitch = FALSE, cutvalue = 0, \dots)
+    stitle = "Exercise", ititle = "Question",
+    adescription = "Please solve the following exercises.",
+    sdescription = "Please answer the following question.", 
+    maxattempts = 1, cutvalue = 0, feedbackswitch = FALSE,
+    hintswitch = FALSE, solutionswitch = FALSE, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -65,12 +67,14 @@
     of length 1 to use the same title for each item, or a vector containing different item
     titles. Note that the maximum of different item titles is the number of sections/questions
     that are used for the exam.}
+  \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
+  \item{sdescription}{character. Vector of descriptions for each section.}
   \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
     \code{Inf}.}
+  \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
   \item{feedbackswitch}{logical. Should the question/item feedbackswitch be enabled.}
   \item{hintswitch}{logical. Should the question/item hintswitch be enabled.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled.}
-  \item{cutvalue}{numeric. The cutvalue for which the exam is passed.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}

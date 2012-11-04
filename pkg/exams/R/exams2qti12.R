@@ -10,8 +10,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
-  maxattempts = 1, feedbackswitch = FALSE, hintswitch = FALSE, solutionswitch = FALSE,
-  cutvalue = 0, ...)
+  maxattempts = 1, cutvalue = 0, feedbackswitch = FALSE, hintswitch = FALSE,
+  solutionswitch = FALSE, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -488,7 +488,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
 
 ## function to create identfier ids
-## README: speedup by avoiding for() loop and allowing zeros except for first digit
 make_id <- function(size, n = 1L) {
   if(is.null(n)) n <- 1L
   rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
@@ -497,39 +496,16 @@ make_id <- function(size, n = 1L) {
 }
 
 
-## write qti12 solutions to .html file
-write_qti12_html <- function(exm, dir, name = NULL)
-{
-  if(is.null(name))
-    name <- "qti12sol"
-
-  htmlwrite <- make_exams_write_html(template = NULL, name = name,
-    question = TRUE, solution = TRUE, mathjax = FALSE)
-
-  ## write all questions into one exam
-  n <- length(exm)
-  nq <- length(exm[[1]])
-  exmout <- list()
-
-  counter <- 1
-  for(j in 1:nq) {
-    for(i in 1:n) {
-      exmout[[name]][[counter]] <- exm[[i]][[j]]
-      counter <- counter + 1
-    }
-  }
-
-  htmlwrite(exmout[[name]], dir = path.expand(dir), info = list(id = "", n = length(exmout)))
-
-  invisible(NULL)
-}
-
-
 ## get OLAT test results
-olat_results <- function(file, xexam = NULL)
+read_olat_results <- function(file, xexam = NULL)
 {
   ## checking
   stopifnot(file.exists(file <- path.expand(file)))
+
+  ## read xexam (if any)
+  if(!is.null(xexam)) {
+    if(is.character(xexam)) xexam <- readRDS(xexam)
+  }
  
   ## read data
   x <- readLines(file, warn = FALSE)
