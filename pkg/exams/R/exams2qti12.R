@@ -147,7 +147,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       if(is.null(enumerate)) enumerate <- FALSE
       xsolution <- exm[[i]][[j]]$solution
       if(length(nsol <- length(exm[[i]][[j]]$solutionlist))) {
-        xsolution <- c(xsolution, "<br/>")
+        xsolution <- c(xsolution, if(length(xsolution)) "<br/>" else NULL)
         if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
         xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
           exm[[i]][[j]]$questionlist, if(length(exm[[i]][[j]]$solutionlist)) "</br>" else NULL,
@@ -467,14 +467,15 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml,
       '<respcondition title="Fail" continue="Yes">',
       '<conditionvar>',
-      '<not>',
+      if(!is.null(wrong_answers)) NULL else '<not>',
       if(is.null(wrong_answers)) {
         c('<and>', correct_answers, '</and>')
       } else {
         c('<or>', wrong_answers, '</or>')
       },
-      '</not>',
+      if(!is.null(wrong_answers)) NULL else '</not>',
       '</conditionvar>',
+      paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''), ## FIXME: other actions if wrong?
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>',
       '</resprocessing>'
