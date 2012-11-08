@@ -512,7 +512,7 @@ read_olat_results <- function(file, xexam = NULL)
   x <- readLines(file, warn = FALSE)
   x <- read.table(file, header = TRUE, sep = "\t",
     colClasses = "character", skip = 1, fill = TRUE,
-    nrows = min(which(x == "")) - 3)
+    nrows = min(which(x == "")) - 3, quote = "\"")
 
   ## number of columns of person info
   nc <- min(grep("X1_", names(x), fixed = TRUE)) - 1
