@@ -1,0 +1,221 @@
+\documentclass[nojss]{jss}
+\usepackage{thumbpdf}
+%% need no \usepackage{Sweave}
+
+%% additional commands
+\newcommand{\squote}[1]{`{#1}'}
+\newcommand{\dquote}[1]{``{#1}''}
+\newcommand{\class}[1]{\dquote{\code{#1}}}
+%% for internal use
+\newcommand{\fixme}[1]{\emph{\marginpar{FIXME} (#1)}}
+\newcommand{\readme}[1]{\emph{\marginpar{README} (#1)}}
+
+%% new environments for exams
+\newenvironment{question}{\item \textbf{Problem}\newline}{}
+\newenvironment{solution}{\textbf{Solution}\newline}{}
+
+\author{Nikolaus Umlauf\\Universit\"at Innsbruck\\
+   \And Friedrich Leisch\\Universit\"at f\"ur\\Bodenkultur Wien
+   \And Achim Zeileis\\Universit\"at Innsbruck}
+\Plainauthor{Nikolaus Umlauf, Friedrich Leisch, Achim Zeileis}
+
+\title{Flexible Generation of E-Learning Exams in \proglang{R}: \pkg{Moodle} Quizzes, \pkg{OLAT} Assessments, and Beyond}
+\Plaintitle{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond}
+\Shorttitle{Flexible Generation of E-Learning Exams in \proglang{R}}
+
+\Keywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, \proglang{R}, {\LaTeX}, HTML, XML, \pkg{Moodle}, \pkg{OLAT}}
+\Plainkeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, Moodle, OLAT}
+
+\Abstract{ 
+  \pkg{exams} extensions
+  
+  still based on \code{Sweave}, but rather than just calling {\LaTeX} to
+  produce PDF files, each weaved exercise is read into \proglang{R}
+  
+  advantage: can be rendered into a wider range of output formats, e.g.,
+  {\LaTeX} can be converted to HTML and embedded into XML formats that
+  can be read into online learning platforms such as \pkg{Moodle} or
+  \pkg{OLAT}
+  
+  contribution:
+  (1)~illustration of readily available functionality,
+  (2)~design of the underlying infrastructure,
+  (3)~discussion how other functionality can be built on top of the
+  existing tools.
+}
+
+\Address{
+  Nikolaus Umlauf, Achim Zeileis\\
+  Department of Statistics\\
+  Faculty of Economics and Statistics\\
+  Universit\"at Innsbruck\\
+  Universit\"atsstr.~15\\
+  6020 Innsbruck, Austria\\
+  E-mail: \email{Nikolaus.Umlauf@uibk.ac.at}, \email{Achim.Zeileis@R-project.org}\\
+  URL: \url{http://eeecon.uibk.ac.at/~umlauf/}, \url{http://eeecon.uibk.ac.at/~zeileis/}\\
+
+  Friedrich Leisch\\
+  Institute of Applied Statistics and Computing\\
+  Universit\"at f\"ur Bodenkultur Wien\\
+  Peter Jordan-Str.~82\\
+  1180 Wien, Austria\\
+  E-mail: \email{Friedrich.Leisch@R-project.org}\\
+  URL: \url{http://www.rali.boku.ac.at/friedrichleisch.html}
+}
+
+\begin{document}
+
+\SweaveOpts{engine = R, eps = FALSE, keep.source = TRUE}
+%\VignetteIndexEntry{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments and Beyond}
+%\VignetteDepends{stats, graphics, tools, utils, tth, base64enc}
+%\VignetteKeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, Moodle, OLAT}
+%\VignettePackage{exams}
+
+<<preliminaries, echo=FALSE, results=hide>>=
+options(width = 70, prompt = "R> ", continue = "+  ")
+library("exams")
+library("base64enc")
+library("tth")
+@
+
+\section{Introduction} \label{sec:intro}
+
+The design for version~1 of the \pkg{exams} package was conceived
+seven years ago (in 2006) when the original authors
+\citep{exams:Gruen+Zeileis:2009} were involved in a redesign of the
+introductory statistics lecture at WU Wirtschaftsuniversit\"at Wien.
+Back then the main goal was to be able to produce exams along with
+associated self-study materials as PDF (portable document format)
+files. Thus, the main focus was still on printable materials for
+classic classroom exams. Although e-learning systems started to become
+available back at that time, they were still not very widely used
+and, more importantly, rather few easy-to-use standards for specifying
+e-learning exams were available (e.g., WU Wien used a partially
+self-developed e-learning system). However, since 2006 the situation
+has clearly changed: E-learning systems are now abundant with many
+universities offering one (ore more) e-learning system(s) in which
+all students are readily registered. Consequently, many lecturers
+routinely offer online exams (or tests, quizzes, assessments)
+for large-lecture courses -- either as self-study materials or as
+(part of) the main assessment of the course.
+
+
+standards for formats, such as IMS QTI (REF, 1.2, 2.0, 2.1)
+
+open-source systems \pkg{Moodle} (REF) or \pkg{OLAT} (for online learning and training, REF),
+commercial \pkg{Blackboard} (REF)
+
+new ``Mathematics~101'' lecture at Universit\"at Innsbruck,
+attended by about 1,600~students (mostly first-year business and economics
+students)
+
+large team, joint work on models, distributed programming of exercises
+is now available from the Comprehensive \proglang{R} Archive Network
+at \url{http://CRAN.R-project.org/package=exams}
+
+
+\section[Using the exams package]{Using the \pkg{exams} package} \label{sec:usage}
+
+\subsection[Version 1: PDF exams() from Sweave exercises]{Version~1: PDF \code{exams()} from Sweave exercises}
+
+Sweave exercises
+
+\code{exams}
+
+\subsection[Version 2: Producing PDF, HTML, or XML for Moodle or OLAT]{Version~2: Producing PDF, HTML, or XML for \pkg{Moodle} or \pkg{OLAT}}
+
+\subsubsection[exams2pdf()]{\code{exams2pdf()}}
+
+proof-of-concept reimplementation of \code{exams()}
+
+\subsubsection[exams2html()]{\code{exams2html()}}
+
+\subsubsection[exams2moodle()]{\code{exams2moodle()}}
+
+\subsubsection[exams2qti12()]{\code{exams2qti12()}}
+
+
+\section{Design} \label{sec:design}
+
+\section[The xexams() wrapper function]{The \code{xexams()} wrapper function}
+
+\code{xexams}
+
+drivers to \code{sweave}, \code{read}, \code{transform}, \code{write}
+
+we provide some drivers (e.g., \code{read_exercise}) as well as various
+driver generators (e.g., \code{make_exercise_transform_html})
+
+for example for \code{exams2html}:
+\begin{enumerate}
+  \item \code{sweave:} \code{Sweave} is called with \code{pdf = FALSE} and
+    \code{png = TRUE} and (by default) with \code{quiet = TRUE}, \code{resolution = 100},
+    \code{width = 4}, \code{height = 4}.
+  \item \code{read}: \code{read_exercise}.
+  \item \code{transform}: \code{make_exercise_transform_html(...)}.
+  \item \code{write}: \code{make_exams_write_html(template = "plain", ...)}.
+\end{enumerate}
+
+
+return value is nested list (Table~\ref{tab:xexam}), currently not classed
+
+\begin{table}{t!}
+\hrulefill
+\begin{Code}
+list(               ## of 'exams', length: n
+  list(             ## of 'exercises', length: k
+    list(           ## of exercise content, length: 6
+      question,
+      questionlist,
+      solution,
+      solutionlist,
+      metainfo,
+      supplements
+    )
+  )
+)
+\end{Code}
+\hrulefill
+\caption{\label{tab:xexam} Structure of the return value of \code{xexams}.}
+\end{table}
+
+\subsection[The read driver: read_exercise() and read_metainfo()]{The \code{read} driver: \code{read\_exercise()} and \code{read\_metainfo()}}
+
+\subsection[LaTeX-to-HTML transform driver generator: make_exercise_transform_html()]{{\LaTeX}-to-HTML \code{transform} driver generator: \code{make\_exercise\_transform\_html()}}
+
+\subsection[PDF and HTML write driver generators]{PDF and HTML \code{write} driver generators}
+
+\subsection[Further functions for processing xexams return values]{Further functions for processing \code{xexams} return values}
+
+\code{exams2moodle}, \code{exams2qti12}
+
+
+\section{Writing further drivers}
+
+use \code{examswu} for illustration
+
+
+\section{Discussion}
+
+infrastructure vs.\ content
+
+strategies for setting up exercises
+
+experiences at Universit\"at Innsbruck
+
+
+\section{Summary} \label{sec:summary}
+
+
+
+\section*{Acknowledgments}
+
+We are indebted to our colleagues at the Department of Statistics
+at Universit\"at Innsbruck for testing and challenging the code and making
+suggestions for improvement. This project was also partially supported
+by an e-learning grant by the Universit\"at Innsbruck. \fixme{Does this
+have a reference/number?}
+
+\bibliography{exams}
+
+\end{document}
