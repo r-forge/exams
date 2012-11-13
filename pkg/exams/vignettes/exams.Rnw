@@ -6,8 +6,8 @@
 \newenvironment{question}{\item \textbf{Problem}\newline}{}
 \newenvironment{solution}{\textbf{Solution}\newline}{}
 
-\author{Bettina Gr\"un\\Wirtschaftsuniversit\"at Wien
-   \And Achim Zeileis\\Wirtschaftsuniversit\"at Wien}
+\author{Bettina Gr\"un\\Johannes Kepler\\Universit\"at Linz
+   \And Achim Zeileis\\Universit\"at Innsbruck}
 \Plainauthor{Bettina Gr\"un, Achim Zeileis}
 
 \title{Automatic Generation of Exams in \proglang{R}}
@@ -37,14 +37,22 @@
 }
 
 \Address{
-  Bettina Gr\"un, Achim Zeileis\\
-  Department of Statistics and Mathematics\\
-  Wirtschaftsuniversit\"at Wien\\
-  Augasse 2--6\\
-  A-1090 Wien, Austria\\
-  E-mail: \email{Bettina.Gruen@wu.ac.at}, \email{Achim.Zeileis@R-project.org}\\
-  URL: \url{http://statmath.wu.ac.at/~gruen/},\\
-  \phantom{URL:} \url{http://statmath.wu.ac.at/~zeileis/}
+  Bettina Gr\"un\\
+  Institut f\"ur Angewandte Statistik\\
+  Johannes Kepler Universit{\"a}t Linz\\
+  Altenbergerstra{\ss}e 69\\
+  4040 Linz, Austria\\
+  E-mail: \email{Bettina.Gruen@jku.at}\\
+  URL: \url{http://ifas.jku.at/gruen/}\\
+
+  Achim Zeileis\\
+  Department of Statistics\\
+  Faculty of Economics and Statistics\\
+  Universit\"at Innsbruck\\
+  Universit\"atsstr.~15\\
+  6020 Innsbruck, Austria\\
+  E-mail: \email{Achim.Zeileis@R-project.org}\\
+  URL: \url{http://eeecon.uibk.ac.at/~zeileis/}
 }
 
 \begin{document}
