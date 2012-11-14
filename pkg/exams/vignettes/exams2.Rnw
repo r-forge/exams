@@ -23,7 +23,7 @@
 \Plaintitle{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond}
 \Shorttitle{Flexible Generation of E-Learning Exams in \proglang{R}}
 
-\Keywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, \proglang{R}, {\LaTeX}, HTML, XML, \pkg{Moodle}, \pkg{OLAT}}
+\Keywords{exams, e-learning, multiple choice, arithmetic problems, \code{Sweave}, \proglang{R}, {\LaTeX}, HTML, XML, \pkg{Moodle}, \pkg{OLAT}}
 \Plainkeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, Moodle, OLAT}
 
 \Abstract{ 
@@ -100,16 +100,20 @@ for large-lecture courses -- either as self-study materials or as
 (part of) the main assessment of the course.
 
 
-standards for formats, such as IMS QTI (REF, 1.2, 2.0, 2.1)
+standards for formats, such as IMS QTI~1.2 \citep{exams:QTI12:2012} and its successor
+formats~2.0 and~2.1.
 
-open-source systems \pkg{Moodle} (REF) or \pkg{OLAT} (for online learning and training, REF),
-commercial \pkg{Blackboard} (REF)
+open-source systems \pkg{Moodle} \citep{exams:Moodle:2012} or \pkg{OLAT} \citep[for
+online learning and training][]{exams:OLAT:2012}, commercial \pkg{Blackboard} \citep{exams:Blackboard:2010}
 
 new ``Mathematics~101'' lecture at Universit\"at Innsbruck,
 attended by about 1,600~students (mostly first-year business and economics
 students)
 
 large team, joint work on models, distributed programming of exercises
+
+new version of the \pkg{exams} package for the \proglang{R} system for 
+statistical computing \citep{exams:R:2012}
 is now available from the Comprehensive \proglang{R} Archive Network
 at \url{http://CRAN.R-project.org/package=exams}
 
@@ -122,22 +126,117 @@ Sweave exercises
 
 \code{exams}
 
+<<exams1, echo=TRUE, eval=FALSE>>=
+library("exams")
+set.seed(1090)
+exams("tstat.Rnw")
+@
+
+%% from Rnw
+\begin{table}[p!]
+\centering
+\makebox[\textwidth]{\hrulefill}
+
+<<echo=FALSE, results=tex>>=
+invisible(file.copy(system.file("exercises", "tstat.Rnw", package = "exams"), "tstat.Rnw"))
+Rnw <- readLines("tstat.Rnw")
+cat(c("\\begin{verbatim}", Rnw, "\\end{verbatim}"), sep = "\n")
+@
+
+\makebox[\textwidth]{\hrulefill}
+\caption{\label{tab:Rnw} A simple Sweave exercise: \code{tstat.Rnw}.}
+\end{table}
+
+%% to LaTeX
+\begin{table}[t!]
+\centering
+\makebox[\textwidth]{\hrulefill}
+
+<<echo=FALSE, results=hide>>=
+set.seed(1090)
+Sweave("tstat.Rnw")
+tex <- readLines("tstat.tex")
+file.remove(c("tstat.Rnw", "tstat.tex"))
+@
+<<echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
+@
+
+\makebox[\textwidth]{\hrulefill}
+\caption{\label{tab:tex} {\LaTeX} output of \code{Sweave("tstat.Rnw"}).}
+\end{table}
+
+%% to PDF
+\begin{table}[t!]
+\centering
+\makebox[\textwidth]{\hrulefill}
+\begin{enumerate}
+
+<<echo=FALSE, results=tex>>=
+cat(tex, sep = "\n")
+@
+
+\end{enumerate}
+\makebox[\textwidth]{\hrulefill}
+\caption{\label{tab:pdf} Display of processed \code{tstat} exercise.}
+\end{table}
+
+<<myexam1>>=
+myexam <- list(
+  "boxplots",
+  c("confint", "ttest", "tstat"),
+  c("anova", "regression"),
+  "scatterplot",
+  "relfreq")
+odir <- tempfile()
+set.seed(1090)
+x1 <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"))
+@
+
 \subsection[Version 2: Producing PDF, HTML, or XML for Moodle or OLAT]{Version~2: Producing PDF, HTML, or XML for \pkg{Moodle} or \pkg{OLAT}}
 
-\subsubsection[exams2pdf()]{\code{exams2pdf()}}
+\subsubsection[Producing PDF documents: exams2pdf()]{Producing PDF documents: \code{exams2pdf()}}
 
 proof-of-concept reimplementation of \code{exams()}
 
-\subsubsection[exams2html()]{\code{exams2html()}}
+<<exams2pdf, eval=FALSE>>=
+set.seed(1090)
+exams2pdf("tstat.Rnw")
+@
 
-\subsubsection[exams2moodle()]{\code{exams2moodle()}}
+\subsubsection[Producing HTML documents: exams2html()]{Producing HTML documents: \code{exams2html()}}
 
-\subsubsection[exams2qti12()]{\code{exams2qti12()}}
+<<exams2html, eval=FALSE>>=
+set.seed(1090)
+exams2html("tstat.Rnw")
+@
 
+need screenshot
+
+mention problem with browsing local HTML files on some platforms
+in \pkg{RStudio} \citep{exams:RStudio:2012} for versions $< 0.97.133$ in a footnote
+
+\subsubsection[Producing Moodle XML: exams2moodle()]{Producing \pkg{Moodle} XML: \code{exams2moodle()}}
+
+<<exams2moodle, eval=FALSE>>=
+set.seed(1090)
+exams2moodle(myexam, n = 5, dir = odir)
+@
+
+need screenshot
+
+\subsubsection[Producing QTI 1.2 XML (for OLAT): exams2qti12()]{Producing QTI 1.2 XML (for \pkg{OLAT}): \code{exams2qti12()}}
+
+<<exams2qti12, eval=FALSE>>=
+set.seed(1090)
+exams2qti12(myexam, n = 5, dir = odir)
+@
+
+need screenshot
 
 \section{Design} \label{sec:design}
 
-\section[The xexams() wrapper function]{The \code{xexams()} wrapper function}
+\subsection[The xexams() wrapper function]{The \code{xexams()} wrapper function}
 
 \code{xexams}
 
@@ -159,7 +258,7 @@ for example for \code{exams2html}:
 
 return value is nested list (Table~\ref{tab:xexam}), currently not classed
 
-\begin{table}{t!}
+\begin{table}[t!]
 \hrulefill
 \begin{Code}
 list(               ## of 'exams', length: n
@@ -181,7 +280,29 @@ list(               ## of 'exams', length: n
 
 \subsection[The read driver: read_exercise() and read_metainfo()]{The \code{read} driver: \code{read\_exercise()} and \code{read\_metainfo()}}
 
-\subsection[LaTeX-to-HTML transform driver generator: make_exercise_transform_html()]{{\LaTeX}-to-HTML \code{transform} driver generator: \code{make\_exercise\_transform\_html()}}
+\subsection[LaTeX-to-HTML transform driver generator]{{\LaTeX}-to-HTML \code{transform} driver generator}
+
+\code{make_exercise_transform_html()}
+
+\pkg{TtH} \citep{exams:Hutchinson:2012} with \proglang{C}~functions \code{tth} ({\TeX} to HTML), \code{ttm} ({\TeX} to HTML/MathML)
+
+\proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012} with suitable \proglang{R} wrapper functions
+
+\code{tex2image()} which runs \code{texi2dvi()} from the base \proglang{R} package \pkg{tools}
+and subsequently converts the resulting PDF to a raster image using a \code{system()} call to
+\pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2012}. Thus, for this function
+\pkg{ImageMagick} is assumed to be installed and in the search path.
+
+images can either be part of the supplementary files or embedded directly in the HTML code
+using Base64 encoding \citep[via the \pkg{base64enc} package in \proglang{R}][]{exams:Urbanek:2012}
+
+Displaying MathML in web pages has become very easy: \pkg{Firefox} long had native support for MathML and
+for the Microsoft \pkg{Internet Explorer} the \pkg{MathPlayer} plugin \citep{exams:MathPlayer:2012} has
+long been available. Meanwhile, other major browsers like Google \pkg{Chrome}, \pkg{Opera}, or \pkg{Safari}
+also support MathML \citep[Section~1.2][]{exams:Vismor:2012}. Furthermore, \pkg{MathJax}
+\citep{exams:MathJax:2012}, an open-source \proglang{JavaScript} engine, can be used to render
+MathML formulas on a server rather than in the local browser.
+
 
 \subsection[PDF and HTML write driver generators]{PDF and HTML \code{write} driver generators}
 
@@ -192,7 +313,7 @@ list(               ## of 'exams', length: n
 
 \section{Writing further drivers}
 
-use \code{examswu} for illustration
+use \code{exams2wu} for illustration?
 
 
 \section{Discussion}
