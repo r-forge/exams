@@ -163,6 +163,7 @@ make_moodlequestion <- function(name = NULL, shuffle = TRUE)
       ']]>',
       '</text>',
       '</questiontext>',
+      '<penalty>1</penalty>', ## FIXME: check if penalty tag is needed!?
       paste('<defaultgrade>', points, '</defaultgrade>', sep = '')
     )
 
