@@ -17,7 +17,7 @@
 }
 
 \references{
-  Hutchinson IH (2012). \emph{TTH: The TeX to HTML Translator}, Version 0.43.
+  Hutchinson IH (2012). \emph{TtH: The TeX to HTML Translator}, Version 4.03.
   \url{http://hutchinson.belmont.ma.us/tth/}
 }
 
