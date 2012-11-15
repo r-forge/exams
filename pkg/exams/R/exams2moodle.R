@@ -21,7 +21,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(moodlequestion[[i]])) moodlequestion[[i]] <- list()
-    if(is.list(moodlequestion[[i]])) moodlequestion[[i]] <- do.call("make_moodlequestion23", moodlequestion[[i]])
+    if(is.list(moodlequestion[[i]])) moodlequestion[[i]] <- do.call("make_question_moodle23", moodlequestion[[i]])
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
 
@@ -133,7 +133,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## Moodle 2.3 question constructor function
-make_moodlequestion23 <- function(name = NULL, shuffle = TRUE)
+make_question_moodle23 <- function(name = NULL, shuffle = TRUE)
 {
   function(x) {
     ## how many points?
