@@ -44,7 +44,7 @@ export(
 
   ## Moodle driver
   "exams2moodle",
-  "make_exams_write_moodle"
+  "make_moodlequestion"
 )
 
 S3method("print", "exams_metainfo")
