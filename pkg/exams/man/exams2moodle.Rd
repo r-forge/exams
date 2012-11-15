@@ -1,6 +1,6 @@
 \name{exams2moodle}
 \alias{exams2moodle}
-\alias{make_exams_write_moodle}
+\alias{make_moodlequestion}
 
 \title{Generation of Exams in Moodle XML Format}
 
