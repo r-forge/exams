@@ -170,6 +170,8 @@ concludes the paper.
 
 \section[Using the exams package]{Using the \pkg{exams} package} \label{sec:usage}
 
+\fixme{brief overview of functions and their return values}
+
 \subsection[Version 1: PDF exams() from Sweave exercises]{Version~1: PDF \code{exams()} from \code{Sweave} exercises}
 
 Exercise templates (or just ``exercises'' for short) are essentially
@@ -308,7 +310,7 @@ set.seed(1090)
 exams2moodle(myexam, n = 5, dir = odir)
 @
 
-need screenshot
+\fixme{need Moodle screenshot}
 
 \subsubsection[Producing QTI 1.2 XML (for OLAT): exams2qti12()]{Producing QTI 1.2 XML (for \pkg{OLAT}): \code{exams2qti12()}}
 
@@ -440,6 +442,7 @@ MathML formulas on a server rather than in the local browser.
 
 \code{exams2moodle}, \code{exams2qti12}
 
+mention MathML display of matrices within OLAT
 
 \section[Extending the exams toolbox and writing new drivers]{Extending the \pkg{exams} toolbox and writing new drivers} \label{sec:extensions}
 
