@@ -12,10 +12,10 @@ export(
   
   ## version 2 extensible interface
   "xexams",
+  "exams_metainfo",
   
   ## exercise reader and helper functions
   "read_exercise",
-  "read_images",
   "read_metainfo",
   "extract_command",
   "extract_environment",
@@ -36,7 +36,6 @@ export(
   ## IMS QTI 1.2 driver
   "exams2qti12",
   "make_itembody_qti12",
-  #"write_qti12_html",
 
   ## WU server driver
   "exams2wu",

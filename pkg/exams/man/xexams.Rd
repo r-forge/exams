@@ -1,5 +1,6 @@
 \name{xexams}
 \alias{xexams}
+\alias{exams_metainfo}
 
 \title{Extensible Generation of Exams}
 
@@ -12,6 +13,7 @@
   xexams(file, n = 1L, nsamp = NULL,
     driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
     dir = NULL, edir = NULL, tdir = NULL, sdir = NULL)
+  exams_metainfo(x, \dots)
 }
 
 \arguments{
@@ -37,6 +39,8 @@
     this is chosen via \code{\link[base]{tempdir}}.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
+  \item{x}{a list as returned by \code{xexams}.}
+  \item{\dots}{currently not used.}
 }
 
 \details{
@@ -77,6 +81,10 @@
   A list of exams (of length \code{n}),
   each of which is a list of exercises (whose length depends on the length of \code{file} and \code{nsamp}),
   each of which is a list (whose length/contents depends on \code{driver$read}).
+
+  When using the default reader, the resulting list can be simplified
+  using \code{exams_metainfo}, returning the same (classed) structure
+  as the older \code{\link[exams]{exams}} interface.
 }
 
 \seealso{
@@ -116,6 +124,10 @@ x[[1]][[1]]$supplements
 
 ## The metainformation is a list read for the \ex*{} items
 x[[1]][[1]]$metainfo
+
+## The metainformation can also be extracted/printed as
+## in the old exams() (rather than xexams()) interface
+exams_metainfo(x)
 }
 
 \keyword{utilities}

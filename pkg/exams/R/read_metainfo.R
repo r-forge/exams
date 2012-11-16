@@ -50,9 +50,9 @@ read_metainfo <- function(file)
   x <- readLines(file)
 
   ## Description ###################################
-  extype <- match.arg(extract_command(x, "extype"), ## type of question: schoice, mchoice, num, string, or cloze
+  extype <- match.arg(extract_command(x, "extype"), ## exercise type: schoice, mchoice, num, string, or cloze
     c("schoice", "mchoice", "num", "string", "cloze"))  
-  exname <- extract_command(x, "exname")            ## short name/description, only used for printing within R
+  exname <- extract_command(x, "exname")            ## short name/description, only to be used for printing within R
   extitle <- extract_command(x, "extitle")          ## pretty longer title
   exsection <- extract_command(x, "exsection")      ## sections for groups of exercises, use slashes for subsections (like URL)
   exversion <- extract_command(x, "exversion")      ## version of exercise
@@ -61,7 +61,7 @@ read_metainfo <- function(file)
   exsolution <- extract_command(x, "exsolution")    ## solution, valid values depend on extype
   extol <- extract_command(x, "extol", "numeric")   ## optional tolerance limit for numeric solutions
   exclozetype <- extract_command(x, "exclozetype")  ## type of individual cloze solutions
-  exdatafile <- extract_command(x, "exdatafile")    ## names of optional supplementary files
+# exdatafile <- extract_command(x, "exdatafile")    ## names of optional supplementary files
 
   ## E-Learning & Exam ###################################
   expoints  <- extract_command(x, "expoints",  "numeric") ## default points
@@ -128,7 +128,7 @@ read_metainfo <- function(file)
     solution = exsolution,
     tolerance = extol,
     clozetype = exclozetype,
-    datafile = exdatafile,
+#   datafile = exdatafile,
     points = expoints,
     time = extime,
     shuffle = exshuffle,

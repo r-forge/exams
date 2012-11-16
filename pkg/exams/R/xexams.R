@@ -129,3 +129,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   invisible(exm)
 }
 
+exams_metainfo <- function(x, ...) {
+  if(inherits(x, "exams_metainfo")) return(x)
+  structure(lapply(x, function(xi) lapply(xi, "[[", "metainfo")),
+    class = "exams_metainfo")
+}
