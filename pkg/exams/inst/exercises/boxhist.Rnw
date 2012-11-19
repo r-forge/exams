@@ -115,9 +115,9 @@ answerlist(paste(explanations, ".", sep = ""))
 %% \extype{cloze}
 %% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}
 %% \exclozetype{\Sexpr{paste(soltype, collapse = "|")}}
+%% \exanswergroups{\Sexpr{paste(ag, collapse = "|")}}
 %% \exname{boxhist}
 %% \exsection{boxhist}
-%% \extitle{Boxplot und Histogramm}
+%% \extitle{Boxplot and histogram}
 %% \extol{\Sexpr{tol}}
 %% \exversion{0.1}
-%% \exanswergroups{\Sexpr{paste(ag, collapse = "|")}}
