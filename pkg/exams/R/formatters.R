@@ -15,7 +15,7 @@ mchoice2text <- function(x)
 
 answerlist <- function(..., sep = ". ")
   writeLines(c(
-    "  \\begin{answerlist}",
-    paste("    \\item", do.call("paste", list(..., sep = sep))),
-    "  \\end{answerlist}"
+    "\\begin{answerlist}",
+    paste("  \\item", do.call("paste", list(..., sep = sep))),
+    "\\end{answerlist}"
   ))
