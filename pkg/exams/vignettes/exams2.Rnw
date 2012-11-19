@@ -14,10 +14,10 @@
 \newenvironment{question}{\item \textbf{Problem}\newline}{}
 \newenvironment{solution}{\textbf{Solution}\newline}{}
 
-\author{Nikolaus Umlauf\\Universit\"at Innsbruck\\
-   \And Friedrich Leisch\\Universit\"at f\"ur\\Bodenkultur Wien
-   \And Achim Zeileis\\Universit\"at Innsbruck}
-\Plainauthor{Nikolaus Umlauf, Friedrich Leisch, Achim Zeileis}
+\author{Achim Zeileis\\Universit\"at Innsbruck
+   \And Nikolaus Umlauf\\Universit\"at Innsbruck\\
+   \And Friedrich Leisch\\Universit\"at f\"ur\\Bodenkultur Wien}
+\Plainauthor{Achim Zeileis, Nikolaus Umlauf, Friedrich Leisch}
 
 \title{Flexible Generation of E-Learning Exams in \proglang{R}: \pkg{Moodle} Quizzes, \pkg{OLAT} Assessments, and Beyond}
 \Plaintitle{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond}
@@ -26,33 +26,33 @@
 \Keywords{exams, e-learning, multiple choice, arithmetic problems, \code{Sweave}, \proglang{R}, {\LaTeX}, HTML, XML, \pkg{Moodle}, \pkg{OLAT}}
 \Plainkeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, Moodle, OLAT}
 
-\Abstract{ 
-  \pkg{exams} extensions
-  
-  still based on \code{Sweave}, but rather than just calling {\LaTeX} to
-  produce PDF files, each weaved exercise is read into \proglang{R}
-  
-  advantage: can be rendered into a wider range of output formats, e.g.,
-  {\LaTeX} can be converted to HTML and embedded into XML formats that
-  can be read into online learning platforms such as \pkg{Moodle} or
-  \pkg{OLAT}
-  
-  contribution:
-  (1)~illustration of readily available functionality,
-  (2)~design of the underlying infrastructure,
-  (3)~discussion how other functionality can be built on top of the
-  existing tools.
+\Abstract{
+  The capabilities of the package \pkg{exams} for automatic generation
+  of (statistical) exams in \proglang{R} are considerably extended:
+  It is still based on separate \code{Sweave} files for each exercise --
+  but rather than just producing different types of PDF output
+  files (e.g., for exams, self-study materials, etc.), the package can
+  now render the \emph{same} exercises into a wide variety of output formats.
+  These include HTML (with various options for displaying mathematical
+  content) and XML specifications for online exams in learning
+  management systems such as \pkg{Moodle} or \pkg{OLAT}.  
+  This flexibility is accomplished by a new modular and extensible design of the
+  package that allows for reading all weaved exercises into \proglang{R} and
+  managing associated supplementary files (such as graphics or data files).  
+  The manuscript discusses the readily available user interfaces, 
+  the design of the underlying infrastructure, and how new functionality can
+  be built on top of the existing tools.
 }
 
 \Address{
-  Nikolaus Umlauf, Achim Zeileis\\
+  Achim Zeileis, Nikolaus Umlauf\\
   Department of Statistics\\
   Faculty of Economics and Statistics\\
   Universit\"at Innsbruck\\
   Universit\"atsstr.~15\\
   6020 Innsbruck, Austria\\
-  E-mail: \email{Nikolaus.Umlauf@uibk.ac.at}, \email{Achim.Zeileis@R-project.org}\\
-  URL: \url{http://eeecon.uibk.ac.at/~umlauf/}, \url{http://eeecon.uibk.ac.at/~zeileis/}\\
+  E-mail: \email{Achim.Zeileis@R-project.org}, \email{Nikolaus.Umlauf@uibk.ac.at}\\
+  URL: \url{http://eeecon.uibk.ac.at/~zeileis/}, \url{http://eeecon.uibk.ac.at/~umlauf/}\\
 
   Friedrich Leisch\\
   Institute of Applied Statistics and Computing\\
@@ -72,7 +72,7 @@
 %\VignettePackage{exams}
 
 <<preliminaries, echo=FALSE, results=hide>>=
-options(width = 70, prompt = "R> ", continue = "+  ")
+options(width = 76, prompt = "R> ", continue = "+  ")
 library("exams")
 library("base64enc")
 library("tth")
@@ -108,7 +108,7 @@ and supported by a large world-wide user community, or \pkg{OLAT}
 or the commercial \pkg{Blackboard} system, developed by \citep{exams:Blackboard:2010}.
 Standards for specifying and exchanging e-learning exams/assessements
 have also emerged. While \pkg{Moodle} relies on its own \pkg{Moodle}
-XML (extensible markup language) format, \pkg{OLAT} and \pkg{Blackboard}
+XML format, \pkg{OLAT} and \pkg{Blackboard}
 employ certain subsets of the international QTI (question \& test interoperability)
 standard, version~1.2, maintained by the \cite{exams:QTI12:2012}.
 The successor formats are QTI~2.0 and the current QTI~2.1 which is
@@ -157,8 +157,6 @@ package are only somewhat extended compared to version~1:
     cross-platform setting because each team member can independently develop
     and edit a single exercise.
 \end{itemize}
-
-
 In the remainder of this paper we illustrate in Section~\ref{sec:usage} how to use
 both the old and new exam-generating functions that are readily available in the
 package. Subsequently, we provide details about the design underyling the toolbox
@@ -170,7 +168,16 @@ concludes the paper.
 
 \section[Using the exams package]{Using the \pkg{exams} package} \label{sec:usage}
 
-\fixme{brief overview of functions and their return values}
+In this section we provide an overview of the most important user interfaces provided
+by the \pkg{exams} package. First, the format of the exercise \code{Sweave} files
+is reviewed along with the old (version~1) \code{exams()} function. Subsequently,
+the new (version~2) functions are introduced: \code{exams2pdf()} and
+\code{exams2html()} produce one PDF or HTML file for each exam, respectively. In case
+of just a single exam, this is shown interactively in a viewer/browser.
+\code{exams2moodle()} and \code{exams2qti12()} generate \pkg{Moodle} and QTI~1.2 exams,
+respectively. They always produce just a single ZIP file -- containing the exam XML
+specification(s) -- which can be easily uploaded into \pkg{Moodle} and \pkg{OLAT}, respectively.
+
 
 \subsection[Version 1: PDF exams() from Sweave exercises]{Version~1: PDF \code{exams()} from \code{Sweave} exercises}
 
@@ -180,11 +187,11 @@ They are composed of the following elements:
 \begin{itemize}
   \item \proglang{R} code chunks (as usual within \verb|<<>>=| and \code{@})
     for random data generation.
-  \item A question and solution description contained in a {\LaTeX}
-    environment of corresponding names. Both can contain \proglang{R}
-    code chunks again or include data via \verb|\Sexpr{}|.
-  \item Some metainformation about the exercise type (numeric, multiple
-    choice, \dots), its correct solution etc. All meta-information commands
+  \item Question and solution descriptions contained in {\LaTeX}
+    environments of corresponding names. Both can contain \proglang{R}
+    code chunks again or include data via \verb|\|\verb|Sexpr{}|.
+  \item Metainformation about the exercise type (numeric, multiple
+    choice, \dots), its correct solution etc. All metainformation commands
     are in {\LaTeX} style but are actually commented out and hidden in the final
     output file.
 \end{itemize}
@@ -205,14 +212,14 @@ library("exams")
 set.seed(1090)
 exams("tstat.Rnw")
 @
-
-To include the {\LaTeX} output
-(see Figure~\ref{fig:tex}) in some master {\LaTeX} file, this needs to define
-the \code{question} and \code{solution} environment. This mechanism can be
-used to control the display, e.g., to suppress the solution in an exam
-but to display it in associated self-study material
-(see Section~\ref{sec:master} for further details).
-
+Here, the \code{exams()} function looks for the exercise template \code{tstat.Rnw}
+first in the local working directory and then within the installed \pkg{exams} package
+where this file is provided. Then it copies the exercise \code{.Rnw} to a temporary
+directory, calls \code{Sweave()} to generate the \code{.tex}, and includes this
+in the default {\LaTeX} template for exams before producing the \code{.pdf}. As,
+by default, just a single \code{.pdf} exam is produced and no output directory
+is specified, a PDF viewer pops up and displays the resulting exam (as in
+Figure~\ref{fig:pdf}).
 
 %% from Rnw
 \begin{figure}[p!]
@@ -269,6 +276,13 @@ cat(tex, sep = "\n")
 MathML is employed for mathematic equations, as rendered by a \pkg{Firefox} browser.}
 \end{figure}
 
+
+While applying \code{exams()} to just a single exercise is very useful while
+writing/programming an exercise, a full exam will typically encompass several different
+exercises. Also, it may require suppressing the solutions, including a title page
+with a questionnaire form, etc. The former can be achieved by supplying a
+(list of) vector(s) of exercises while the latter can be accomodated by
+using different templates:
 <<myexam1>>=
 myexam <- list(
   "boxplots",
@@ -278,46 +292,170 @@ myexam <- list(
   "relfreq")
 odir <- tempfile()
 set.seed(1090)
-x1 <- exams(myexam, n = 5, dir = odir, template = c("exam", "solution"))
+x1 <- exams(myexam, n = 3, dir = odir, template = c("exam", "solution"))
 @
+The \code{myexam} list contains five exercises: the first one is always \code{boxplots.Rnw}
+while the second exercise is randomly drawn from \code{confint.Rnw}, \code{ttest.Rnw},
+\code{tstat.Rnw}, and so on for the remaining exercises. Then, \code{exams()} is used to draw
+\code{n = 5} random exams and produce one exam and one solution PDF for each.
+(All involved \code{.Rnw} files and \code{.tex} templates are provided in the installed
+\pkg{exams} package.) The resulting output files are stored along with the extracted
+metainformation in the output directory:
+<<myexam1-odir>>=
+dir(odir)
+@
+More details on usage and customization of this function are provided by \cite{exams:Gruen+Zeileis:2009}.
+An overview of the most important arguments that are also shared by the version~2 interfaces
+is given in Table~\ref{tab:args}.
+
+\begin{table}[t!]
+\centering
+\begin{tabular}{lp{13cm}} \hline
+Argument          & Description \\ \hline
+\code{file}       & A (list of) character vector(s) specifying the (base) names of
+                    the \code{Sweave} exercise files. \\
+\code{n}          & The number of exams to be generated from the list of exercises. Default: 1.\\
+\code{nsamp}      & The number of exercise files sampled from each list element of \code{file}.
+                    Default: One for each list element.\\ \hline
+\code{dir}        & Path to output directory. Default: Single PDF or HTML files are shown directly
+                    in a viewer/browser (i.e., \code{exams}/\code{exams2pdf}/\code{exams2html}
+		    with \code{n = 1}). In all other cases no default is provided.\\ 
+\code{name}       & Name prefix for the resulting exam files.\\
+\code{template}   & Character specifying the (base) names of a {\LaTeX}, HTML, or XML file
+                    template for the exam (except for \code{exams2moodle()}). Default:
+		    A function-specific template provided within the \pkg{exams} installation.\\
+\code{edir}       & Path to the directory in which the exercises in \code{file} are stored.
+                    Default: Working directory (or within the \pkg{exams} installation). \\
+\code{tdir}       & Path to a temporary directory in which \code{Sweave()} is carried out.
+                    Default: New \code{tempdir()}. \\
+\code{sdir}       & Path to the directory in which supplementary files (e.g., graphics or
+                    data files) are stored (except for \code{exams()}). Default: New \code{tempdir()}. \\ \hline
+\end{tabular}
+\caption{\label{tab:args} Common arguments of the main user interfaces for generating exams:
+  \texttt{exams()}, \texttt{exams2pdf()}, \texttt{exams2html()}, \texttt{exams2moodle()}, \texttt{exams2qti12()}.
+  The first group of arguments pertains to the specification of the exam(s) and the second
+  section to the handling of files and input/temporary/output directories.
+  For further function-specific arguments and more details/examples, see the corresponding manual pages.}
+\end{table}
 
 \subsection[Version 2: Producing PDF, HTML, or XML for Moodle or OLAT]{Version~2: Producing PDF, HTML, or XML for \pkg{Moodle} or \pkg{OLAT}}
 
+The new infrastructure added to the \pkg{exams} package on the road to version~2 is
+providing more flexibility and enables a much broader variety of output formats while keeping the
+specification of the exercise templates fully backward compatible and only slightly extended.
+While the design of the underlying workhorse functions is rather different (see Section~\ref{sec:design}),
+the new user interfaces are very similar to the old one, sharing most of its arguments (see Table~\ref{tab:args}).
+Hence, for users of the previous version of the package, it is easy and straightforward to
+adapt to the new facilities.
+
 \subsubsection[Producing PDF documents: exams2pdf()]{Producing PDF documents: \code{exams2pdf()}}
 
-proof-of-concept reimplementation of \code{exams()}
-
+The function \code{exams2pdf()} is simply a proof-of-concept reimplementation of \code{exams()}
+using the new extensible infrastructure of the \pkg{exams} package. For the user virtually nothing
+changes:
 <<exams2pdf, eval=FALSE>>=
 set.seed(1090)
 exams2pdf("tstat.Rnw")
 @
+pops up the same PDF as shown in Figure~\ref{fig:pdf}. The main difference is that unlike \code{exams()}
+the function \code{exams2pdf()} returns not only the metainformation from the exercise but additionally
+also the {\LaTeX} code for the question and solution environments as well as paths to supplementary
+materials (such as graphics or data files). Section~\ref{sec:design} explains
+the structure of the return values in more detail and illustrates how this can be used.
+
 
 \subsubsection[Producing HTML documents: exams2html()]{Producing HTML documents: \code{exams2html()}}
 
+As a first step towards including exams generated from \code{Sweave} files into e-learning
+exams, it is typically necessary to be able to generate an HTML version of the exams. Hence, the
+function \code{exams2html()} is designed analogously to \code{exams()}/\code{exams2pdf()} but
+produces HTML files. In case of just a single generated exam, this is displayed in a browser
+using base \proglang{R}'s \code{browseURL()} function\footnote{In \pkg{RStudio}
+\citep{exams:RStudio:2012}, versions prior to~0.97.133, the \code{"browser"} option is set
+to a function that cannot browse local HTML files on some platforms. Recent versions of
+\pkg{RStudio} have resolved this problem and \code{?exams2html} also provides 
+workarounds for older \pkg{RStudio} versions.}. Again, this is particularly useful while
+writing/programming a new exercise template.
+For example,
 <<exams2html, eval=FALSE>>=
 set.seed(1090)
 exams2html("tstat.Rnw")
 @
+generates the HTML file shown in Figure~\ref{fig:exams2html-tstat} which corresponds directly to the PDF
+file from Figure~\ref{fig:pdf}. Note that for properly viewing the formulas in this HTML file,
+a browser with MathML support is required. This is discussed in more detail in Section~\ref{sec:transform_html}.
+Here, \pkg{Iceweasel} is used -- Debian's rebranding of the \pkg{Firefox} browser which as native MathML support.
 
+To transform the {\LaTeX} questions/solutions to something that a web browser can
+render, three options are available: translation of the {\LaTeX} to (1)~plain HTML,
+(2)~HTML plus MathML for mathematical formulas (default), or conversion of the corresponding PDF
+to (3)~HTML with one embedded raster images for the whole question and solution, respectively.
+The former two options are considerably faster and more elegant -- they just require the
+\proglang{R}~package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012} that make
+the `{\TeX}-to-HTML' converter \pkg{TtH} \citep{exams:Hutchinson:2012} easily available
+in~\proglang{R}. Also, by default, the \pkg{base64enc} package \citep{exams:Urbanek:2012}
+is employed for embedding graphics in Base64 encoding. More details on this approach
+are provided in Section~\ref{sec:transform_html}.
 
-mention problem with browsing local HTML files on some platforms
-in \pkg{RStudio} \citep{exams:RStudio:2012} for versions $< 0.97.133$ in a footnote
+The HTML files produced with approaches~(1) and~(2) can also easily contain hyperlinks to
+supplementary files. For example, if the \proglang{R} code in the \code{Sweave} file
+generates a file \code{mydata.rda}, say, then simply including \verb|\url{mydata.rda}|
+in the question/solution will result in a suitable hyperlink. The supplementary data
+files for each random replication of the exercise is managed fully automatically and
+a copy of the data is created in an (exam-specific) sub-directory of the output directory.
+Run \code{exams2html("boxhist.Rnw")} for such an example.
 
 \subsubsection[Producing Moodle XML: exams2moodle()]{Producing \pkg{Moodle} XML: \code{exams2moodle()}}
 
-<<exams2moodle, eval=FALSE>>=
+To incorporate exams generated from \code{Sweave} exercises into learning management
+systems, such as \pkg{Moodle}, two building blocks are typically required: (1)~questions/solutions
+are available in plain text or HTML format, and (2)~questions/solutions can be embedded
+along with the metainformation about the possible and correct solutions into some
+exam description format. (1)~can be accomplished as outlined in the
+previous subsection for \code{exams2html()} and for \pkg{Moodle} (2)~requires
+embedding everything into \pkg{Moodle} XML format. Both steps can be easily carried
+out using the \code{exams2moodle()} function:
+<<exams2moodle, eval=TRUE>>=
 set.seed(1090)
-exams2moodle(myexam, n = 5, dir = odir)
+exams2moodle(myexam, n = 3, dir = odir)
 @
+This draws the same three random exams from the \code{myexam} list that were already
+generated in PDF format above. The output file, stored again in \code{odir}, is a
+single ZIP file containing the exercise-specific XML files.
+<<myexam2-odir>>=
+dir(odir)
+@
+This ZIP file \code{moodlequiz.zip} can be easily imported into a \pkg{Moodle} quiz and then further
+customized. Figure~REF \fixme{need Moodle screenshot} shows the first random draw
+of the \code{boxplots} exercise in the resulting \pkg{Moodle} quiz (again rendered
+by a \pkg{Firefox} browser).
 
-\fixme{need Moodle screenshot}
+As before, supplementary files are automatically managed and can easily be
+included using \verb|\url{}| in the underlying {\LaTeX} code. Graphics are
+by default included in the HTML code directly using Base64 encoding.
+
 
 \subsubsection[Producing QTI 1.2 XML (for OLAT): exams2qti12()]{Producing QTI 1.2 XML (for \pkg{OLAT}): \code{exams2qti12()}}
 
-<<exams2qti12, eval=FALSE>>=
+The generation of QTI~1.2 assessments (for \pkg{OLAT}) proceeds essentially in the
+same way as for the \pkg{Moodle} quizzes. The same three random draws of exams from
+\code{myexam} can be prepared in QTI~1.2 format via:
+<<exams2qti12, eval=TRUE>>=
 set.seed(1090)
-exams2qti12(myexam, n = 5, dir = odir)
+exams2qti12(myexam, n = 3, dir = odir)
 @
+This produces a single ZIP file \code{qti.zip}, again written to \code{odir}.
+<<myexam3-odir>>=
+dir(odir)
+@
+The ZIP file can again be easily imported into an \pkg{OLAT} test where some
+further customization can be performed\footnote{While customization of the
+features of the overall assessment was always possible for us, \pkg{OLAT}
+typically did not allow for modification of the individual exercise item.
+We were not able to track down which part of the QTI~1.2 XML caused this.}.
+The first \code{boxplots} exercise from the exam generated above is shown in
+(a German installation of) \pkg{OLAT} in Figure~\ref{fig:exams2qti12-boxplots}
+(again as rendered by a \pkg{Firefox} browser).
 
 \begin{figure}[t!]
 \centering
@@ -326,10 +464,24 @@ exams2qti12(myexam, n = 5, dir = odir)
   \code{myexam} in (a German installation of) \pkg{OLAT} (as rendered by a \pkg{Firefox} browser).}
 \end{figure}
 
+The main difference of the generated ZIP file, compared to the \pkg{Moodle} version, is that it just
+contains a single XML file (rather than exercise-specific XML files) for the whole
+assessment. The QTI~1.2 standard allows for rather fine control of the properties
+of the exercises (also known as items in QTI~1.2) and the exams (also known as assessments).
+Hence, \code{exams2qti12()} provides a variety of options for controlling
+the appearance of exam/exercises. Also, the underlying XML template could be
+adapted and extended.
+
 
 \section{Design} \label{sec:design}
 
 \subsection{Extended specification of exercises}
+
+num, mchoice, string plus schoice plus cloze
+
+answerlist
+
+more metainfo
 
 \begin{table}[t!]
 \centering
@@ -388,9 +540,9 @@ for example for \code{exams2html}:
 \end{enumerate}
 
 
-return value is nested list (Table~\ref{tab:xexam}), currently not classed
+return value is nested list (Figure~\ref{fig:xexam}), currently not classed
 
-\begin{table}[t!]
+\begin{figure}[t!]
 \hrulefill
 \begin{Code}
 list(               ## of 'exams', length: n
@@ -407,12 +559,12 @@ list(               ## of 'exams', length: n
 )
 \end{Code}
 \hrulefill
-\caption{\label{tab:xexam} Structure of the return value of \code{xexams}.}
-\end{table}
+\caption{\label{fig:xexam} Structure of the return value of \code{xexams}.}
+\end{figure}
 
 \subsection[The read driver: read_exercise() and read_metainfo()]{The \code{read} driver: \code{read\_exercise()} and \code{read\_metainfo()}}
 
-\subsection[LaTeX-to-HTML transform driver generator]{{\LaTeX}-to-HTML \code{transform} driver generator}
+\subsection[LaTeX-to-HTML transform driver generator]{{\LaTeX}-to-HTML \code{transform} driver generator} \label{sec:transform_html}
 
 \code{make_exercise_transform_html()}
 
