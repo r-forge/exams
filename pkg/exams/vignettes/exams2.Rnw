@@ -475,13 +475,19 @@ adapted and extended.
 
 \section{Design} \label{sec:design}
 
+\fixme{Briefly explain the idea that a new function xexams does the handling
+of different driver functions.}
+
 \subsection{Extended specification of exercises}
 
-num, mchoice, string plus schoice plus cloze
-
-answerlist
-
-more metainfo
+As discussed in Section~\ref{sec:usage} and illustrated in Figure~\ref{fig:Rnw}, each exercise
+is simply an \code{Sweave} file containing \proglang{R} code for data generation,
+\code{{question}}/\code{{solution}} environments with {\LaTeX} text, and
+metainformation about the type of exercise and the correct solution etc. This
+design was introduced by \cite{exams:Gruen+Zeileis:2009} but is somewhat extended
+in the new version to provide some more options for the generation of e-learning exams.
+See Table~\ref{tab:metainfo} for an overview for a list of exercise types and
+corresponding metainformation commands.
 
 \begin{table}[t!]
 \centering
@@ -515,9 +521,67 @@ Command & Description \\ \hline
 \caption{\label{tab:metainfo} Overview of metainformation commands in exercises. The commands in the
   first section allow for a general description, those in the section section for question/answer
   specification, and those in the last section for customization in e-learning environments. Only
-  \texttt{extype} and \texttt{exsolution} are required (but \texttt{exname} is recommended
+  \texttt{extype} and \texttt{exsolution} are always required (but \texttt{exname} is recommended
   additionally for nice printing in \proglang{R}).}
 \end{table}
+
+Each exercise must specify at least an \verb|\extype{}| and an \verb|\exsolution{}| and
+should typically also have a short \verb|\exname{}|. There are now five different \code{extype}s.
+Two types that have a single question and answer:
+\begin{itemize}
+  \item \code{num} for questions with a numeric answer, e.g., \verb|\exsolution{1.23}|.
+  \item \code{string} for questions with a (short) text answer, e.g., \verb|\exsolution{median}|.
+\end{itemize}
+Three types have a list of questions (or statements)
+\begin{itemize}
+  \item \code{mchoice} for multiple-choice questions where each element of the
+    question/statement can either be true or false, e.g., \verb|\exsolution{01011}|.
+  \item \code{schoice} for single-choice questions where exactly one of the
+    questions/statements is true and all others are false, e.g., \verb|\exsolution{01000}|.
+  \item \code{cloze} for a combination of questions/statements with \code{num},
+    \code{string}, or \code{mchoice} answers. Thus, each element of the question
+    has either a numeric, short text, or logical answer, e.g., \verb|\exsolution{1.23}{0}{median}|.
+    For \code{cloze} types an extra \code{clozetype} has to be specified, e.g.,
+    \verb|\exclozetype{num}{mchoice}{string}|.    
+    \fixme{Support for longer mchoice answers through answer groups -- at least for Moodle?}
+\end{itemize}
+The types \code{schoice} and \code{mchoice} have been newly introduced. The purpose
+of the former is mainly to allow for different processing of options (e.g., for
+assigning points to correct/wrong results) between \code{mchoice} and \code{schoice}.
+The \code{cloze} type was introduced because both \pkg{Moodle} and QTI~1.2 have
+support for it (albeit in slightly different ways, for details see below).
+
+For the three types with lists of questions (\code{mchoice}, \code{schoice}, \code{cloze}),
+the \code{{question}} and \code{{solution}} environments should each contain at the end
+an \code{{answerlist}} environment. In the \code{{question}} this should list an \verb|\item|
+for each question/statement and in the \code{{solution}} the corresponding answers/explanations
+can be provided. The \code{{answerlist}} environment can either be written as usual (typically
+leveraging \verb|\|\verb|Sexpr{}|) or by using the \code{answerlist()} function provided
+by the \pkg{exams} package. For illustration, we set up a multiple-choice question with
+three statements about Switzerland. First, we generate an \code{{answerlist}} for the
+\code{{question}}.
+<<answerlist-question>>=
+qu <- c("Zurich is the capital of Switzerland.",
+        "Italian is an official language in Switzerland.",
+        "Switzerland is part of the European Union (EU).")
+answerlist(qu)
+@
+Then the corresponding \code{{answerlist}} for the \code{{solution}} is set up.
+<<answerlist-solution>>=
+sol <- c(FALSE, TRUE, FALSE)
+ex <- c("The capital of Switzerland is Bern.",
+        "The official languages are: German, French, Italian, Romansh.",
+        "Switzerland is part of the Schengen Area but not the EU.")
+answerlist(ifelse(sol, "True", "False"), ex)
+@
+
+For more examples see the exercise files in the \code{inst/exercises} directoy
+of the \pkg{exams} source package. There are various multiple-choice questions
+with and without figures and/or verbatim \proglang{R} output (e.g., \code{anova},
+\code{boxplots}, \code{cholesky}, amoung others). The files \code{tstat} and
+\code{tstat2} illustrate how the same type of exercise can be coded as a
+\code{num} or \code{schoice} question, respectively. The \code{cloze} type
+is employed in \code{boxhist}.
 
 
 \subsection[The xexams() wrapper function]{The \code{xexams()} wrapper function}
