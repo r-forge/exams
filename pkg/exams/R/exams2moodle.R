@@ -238,7 +238,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       qtext <- c('<pre>', x$question)
       for(i in seq_along(x$metainfo$clozetype)) {
         qtext <- c(qtext, paste(if(enumerate) paste(letters[i], ".", sep = "") else NULL, x$questionlist[i]))
-        if(x$metainfo$clozetype[i] %in% c("mchoice", "schoice")) {
+        if(grepl("choice", x$metainfo$clozetype[i])) {
           tmp <- paste('{', 1, ':', cloze_mchoice_display, ':', sep = '')
           tol <- rep(x$metainfo$tolerance, length.out = k <- length(x$metainfo$solution[[i]]))
           for(j in 1:k) {
