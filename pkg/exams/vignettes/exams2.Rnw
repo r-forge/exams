@@ -753,7 +753,7 @@ Internally, \code{make_exercise_transform_html()} can leverage three different \
 former two come from the \proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012}
 and internally call the two \proglang{C}~functions \code{tth} ({\TeX} to HTML) and \code{ttm} ({\TeX} to HTML/MathML)
 taken from the \pkg{TtH} suite of \cite{exams:Hutchinson:2012}. The last option, \code{tex2image},
-is a function provided by the \pkg{exams} package itself. It proceeds by first runing \code{texi2dvi()}
+is a function provided by the \pkg{exams} package itself. It proceeds by first runing \code{texi2dvi(pdf = TRUE)}
 from the base \proglang{R} package \pkg{tools} and subsequently converting the resulting PDF to a raster
 image in a \code{system()} call to \pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2012}.
 Thus, for this function \pkg{ImageMagick} is assumed to be installed and in the search path.
@@ -792,17 +792,77 @@ and thus waiving the need for having them as supplementary files.
 
 \subsection[PDF and HTML write driver generators]{PDF and HTML \code{write} driver generators}
 
+In the first three steps of \code{xexams()}, exams are randomly drawn and weaved, read into \proglang{R},
+and potentially transformed from {\LaTeX} to HTML (or some other format). However, so far,
+no output files have been generated. The original idea of \cite{exams:Gruen+Zeileis:2009}
+was to produce one or more output files for each of the \code{n} generated exams. To do so
+in \code{xexams()} a \code{write} driver can be specified. The package provides several
+generating functions for suitable drivers, especially for generating PDF and HTML files.
+As before, the idea is to pass customization options to the driver generator which can
+then be plugged into \code{xexams()}.
+
+For PDF output files, the following driver generator is available:
 \begin{Code}
   make_exams_write_pdf(template = "plain", name = NULL,
     inputs = NULL, header = list(Date = Sys.Date()), quiet = TRUE,
     control = NULL)
 \end{Code}
+This is employed in \code{exams2pdf()} and proceeds in the same way as described
+by \cite{exams:Gruen+Zeileis:2009} for the \code{exams()} function. It includes the \code{question}/\code{questionlist}
+and \code{solution}/\code{solutionlist} in a {\LaTeX} \code{template}, then runs \code{texi2dvi(pdf = TRUE)}
+from the base \pkg{tools} package, and finally copies the resulting PDF files to a desired output
+directory. The default \code{plain.tex} template is provided within the \pkg{exams} package and
+also more than one template can be employed as illustrated in Section~\ref{sec:usage}. Details
+about the remaining customization arguments are provided on the manual page and in \cite{exams:Gruen+Zeileis:2009}.
 
+\begin{figure}[t!]
+\hrulefill
+\begin{Code}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam ##id</title>
+<style type="text/css">
+body{font-family:Arial;}
+</style>
+</head>
+
+<body>
+<h2>Exam ##id</h2>
+
+##\exinput{exercises}
+
+</body>
+</html>
+\end{Code}
+\hrulefill
+\caption{\label{fig:plain.html} Default HTML \code{template} file \texttt{plain.html} employed in
+  \texttt{make\_exams\_write\_html()}. Elements marked by \texttt{\#\#} are being replaced in each
+  replication of the exam.}
+\end{figure}
+
+For HTML output files, a similar driver generator is available:
 \begin{Code}
   make_exams_write_html(template = "plain", name = NULL,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
     mathjax = FALSE)
 \end{Code}
+This is employed in \code{exams2html()} and is also based on a \code{template}. By default the \code{plain.html}
+file is used that is provided within \pkg{exams} and shown in Figure~\ref{fig:exams2html-tstat}. This contains placeholders marked with
+\verb|##| that are to be replaced in each randomly drawn exam. The \verb|##id| is simply replaced with a
+numeric ID and \verb|##\exinput{exercises}| is replaced by an ordered list (\code{<ol>}) containing
+the question/solution. If the \code{question} and \code{solution} arguments to \code{make_exams_write_html()}
+are character strings, these are added as titles in the list. Alternatively, either argument can also
+be set to \code{FALSE} which avoids inclusion of the corresponding element of the exercise in the
+resulting HTML file.
+
+As an additional convenience setting \code{mathjax = TRUE} includes the \code{<script>} tag for loading
+the \pkg{MathJax} \proglang{JavaScript}. Then \pkg{MathJax} rather than the browser handles the
+rendering of the MathML formulas (if any) in the HTML file. To experiment with this option, one
+can simply use examples like \code{exams2html("tstat", mathjax = TRUE)}.
+
 
 
 \subsection[Further functions for processing xexams return values]{Further functions for processing \code{xexams} return values}
@@ -815,6 +875,11 @@ mention MathML display of matrices within OLAT
 
 
 \section[Extending the exams toolbox and writing new drivers]{Extending the \pkg{exams} toolbox and writing new drivers} \label{sec:extensions}
+
+In some case it is not sufficient to use the arguments of the existing \code{exams2}\emph{xyz}\code{()} functions 
+or to provide alternative \code{template}s to them. In particular, when a completely different output format
+is required, e.g., a different XML format.
+
 
 use \code{exams2wu} for illustration?
 
