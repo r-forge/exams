@@ -710,43 +710,126 @@ structure sufficiently simple to use in their programs.
 
 \subsection[LaTeX-to-HTML transform driver generator]{{\LaTeX}-to-HTML \code{transform} driver generator} \label{sec:transform_html}
 
-\code{make_exercise_transform_html()}
+When embedding statistical/mathematical exercises into web pages or learning management systems,
+the exercises' {\LaTeX} text -- typically containing mathematical notation -- has to be transformed
+in some way so that it can be rendered by a browser. Until relatively recently, this posed the notorious problem of how
+to display the mathematical formulas and often the only good answer was to
+embed raster images of the formulas (e.g., produced through {\LaTeX}). However, this
+situation has clearly changed \citep[see e.g.,][]{exams:Vismor:2012} and there are now various
+convenient options: e.g., using the mathematical markup language MathML \citep{exams:W3C+MathML:2010,exams:Wiki+MathML:2012}
+or keeping {\LaTeX} formulas in the web page and embedding some \proglang{JavaScript} for rendering them.
 
-\pkg{TtH} \citep{exams:Hutchinson:2012} with \proglang{C}~functions \code{tth} ({\TeX} to HTML), \code{ttm} ({\TeX} to HTML/MathML)
-
-\proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012} with suitable \proglang{R} wrapper functions
-
-\code{tex2image()} which runs \code{texi2dvi()} from the base \proglang{R} package \pkg{tools}
-and subsequently converts the resulting PDF to a raster image using a \code{system()} call to
-\pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2012}. Thus, for this function
-\pkg{ImageMagick} is assumed to be installed and in the search path.
-
-images can either be part of the supplementary files or embedded directly in the HTML code
-using Base64 encoding \citep[via the \pkg{base64enc} package in \proglang{R},][]{exams:Urbanek:2012}
-
-Displaying MathML in web pages has become very easy: \pkg{Firefox} long had native support for MathML and
+Especially the display of MathML in web pages has become very easy: \pkg{Firefox} long had native support for it and
 for the Microsoft \pkg{Internet Explorer} the \pkg{MathPlayer} plugin \citep{exams:MathPlayer:2012} has
-long been available. Meanwhile, other major browsers like Google \pkg{Chrome}, \pkg{Opera}, or \pkg{Safari}
-also support MathML \citep[Section~1.2]{exams:Vismor:2012}. Furthermore, \pkg{MathJax}
+long been available. More recently, other major browsers like Google \pkg{Chrome}, \pkg{Opera}, or \pkg{Safari}
+also added support for MathML \citep[see][Section~1.2]{exams:Vismor:2012}. Furthermore, \pkg{MathJax}
 \citep{exams:MathJax:2012}, an open-source \proglang{JavaScript} engine, can be used to render
-MathML formulas on a server rather than in the local browser.
+MathML (or {\LaTeX}) formulas on a server rather than in the local browser.
 
+Therefore, the new \pkg{exams} package offers functionality for automatically transforming
+the {\LaTeX} exercises to HTML within \proglang{R} and by default employs MathML for all
+mathematical notation (e.g., as demonstrated in Figure~\ref{fig:exams2html-tstat}).
+More specifically, the package provides the driver generator
+\code{make_exercise_transform_html()}. It returns a function suitable for plug-in into the
+\code{transform} driver in \code{xexams()} which then replaces the {\LaTeX} code in
+\code{question}/\code{questionlist} and \code{solution}/\code{solutionlist} with HTML code.
+For illustration, we set up a particular function \code{trafo()} below and apply it to
+the first exercise in the first exam within the object \code{x} that we had considered before:
 <<myexam4-xexams4>>=
-trafo <- make_exercise_transform_html(converter = "tth", base64 = FALSE)
+trafo <- make_exercise_transform_html(converter = "ttm", base64 = FALSE)
 writeLines(trafo(x[[1]][[1]])$question)
 @
+It can be seen that the resulting exercise employs HTML text, e.g., uses \code{<em>} instead
+of \verb|\emph| or \code{<img>} instead of \verb|\includegraphics|.\footnote{It may be noteworthy to
+that the conversion (a)~assumes the graphics to be in \texttt{.png} format and (b)~does not
+resolve the figure reference at the beginning of the text correctly. For (a), we just need
+to make sure that the \texttt{sweave} driver in \texttt{xexams()} has \texttt{png = TRUE} (and
+\texttt{pdf = FALSE}) which is accounted for in \texttt{exams2html()} etc. Issue (b), however,
+needs to be avoided by formulating the underlying \texttt{.Rnw} differently (or by tolerating the
+missing number).}
+
+Internally, \code{make_exercise_transform_html()} can leverage three different \code{converter}s:
+\code{ttm} (default), \code{tth}, or \code{tex2image}. The
+former two come from the \proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012}
+and internally call the two \proglang{C}~functions \code{tth} ({\TeX} to HTML) and \code{ttm} ({\TeX} to HTML/MathML)
+taken from the \pkg{TtH} suite of \cite{exams:Hutchinson:2012}. The last option, \code{tex2image},
+is a function provided by the \pkg{exams} package itself. It proceeds by first runing \code{texi2dvi()}
+from the base \proglang{R} package \pkg{tools} and subsequently converting the resulting PDF to a raster
+image in a \code{system()} call to \pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2012}.
+Thus, for this function \pkg{ImageMagick} is assumed to be installed and in the search path.
+All three converters have their benefits and drawbacks:
+\begin{itemize}
+  \item \code{tth} is typically preferable if there is no or only very simple mathematical notation.
+    The resulting HTML can then be rendered in any modern browser.
+  \item \code{ttm} is preferable if there is some moderately complicated mathematical notation
+    (e.g., fractions or equation arrays etc.). As argued above this can still be easily
+    displayed in suitable browsers or by employing \pkg{MathJax} in the web page.
+  \item \code{tex2image} is the ``last resort'' if neither of the two above approaches work.
+    For example, if more complex {\LaTeX} commands/packages need to be used which are not
+    supported by \code{tth}/\code{ttm}.
+\end{itemize}
+To explore the differences of the results, the converters can also be called directly
+on character strings containing {\LaTeX}. Below we use two simple code lines for which
+\code{tth()} would probably be sufficient:
+<<ttm-tth-tex2image>>=
+tex <- c("This is \\textbf{bold} and this \\textit{italic}.",
+  "Points on the unit circle: $x^2 + y^2 = 1$.")
+ttm(tex)
+tth(tex)
+(tex2image(tex, dir = odir, show = FALSE))
+@
+Note that \code{tex2image(tex)} returns the path to a raster image file which by default
+is also shown directly in the browser.
+
+Finally, our illustration of \code{make_exercise_transform_html()} also employed a second
+option, \code{base64 = FALSE}, which still needs more detailed explanation. After converting
+an exercise from {\LaTeX} to HTML code (using either of the three converters above), the
+HTML code may contain \code{<img>} tags with references to supplementary files. Optionally,
+by using the default \code{base64 = TRUE}, these images can be embedded directly into the
+HTML code in Base64 encoding \citep[via the \pkg{base64enc} package in \proglang{R},][]{exams:Urbanek:2012}
+and thus waiving the need for having them as supplementary files.
+
 
 \subsection[PDF and HTML write driver generators]{PDF and HTML \code{write} driver generators}
 
+\begin{Code}
+  make_exams_write_pdf(template = "plain", name = NULL,
+    inputs = NULL, header = list(Date = Sys.Date()), quiet = TRUE,
+    control = NULL)
+\end{Code}
+
+\begin{Code}
+  make_exams_write_html(template = "plain", name = NULL,
+    question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+    mathjax = FALSE)
+\end{Code}
+
+
 \subsection[Further functions for processing xexams return values]{Further functions for processing \code{xexams} return values}
 
-\code{exams2moodle}, \code{exams2qti12}
+\code{exams2moodle()} with \code{make_question_moodle23()}
+
+\code{exams2qti12()} with \code{make_itembody_qti12()}
 
 mention MathML display of matrices within OLAT
+
 
 \section[Extending the exams toolbox and writing new drivers]{Extending the \pkg{exams} toolbox and writing new drivers} \label{sec:extensions}
 
 use \code{exams2wu} for illustration?
+
+\code{exams2wu()} essentially proceeds in the following way
+\begin{Code}
+  htmltransform <- make_exercise_transform_html(converter = "tex2image",
+    base64 = FALSE)
+  wuwrite <- make_exams_write_wu(...)
+  xexams(file, n, nsamp, driver = list(
+      sweave = list(quiet = TRUE, pdf = FALSE, png = TRUE, ...),
+      read = NULL,
+      transform = htmltransform,
+      write = wuwrite),
+    ...)
+\end{Code}
 
 
 \section{Discussion and summary} \label{sec:discussion}
