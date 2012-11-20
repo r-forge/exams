@@ -28,8 +28,9 @@
 
 \Abstract{
   The capabilities of the package \pkg{exams} for automatic generation
-  of (statistical) exams in \proglang{R} are considerably extended:
-  It is still based on separate \code{Sweave} files for each exercise --
+  of (statistical) exams in \proglang{R} are extended by adding support for learning
+  management systems:
+  Exam generation is still based on separate \code{Sweave} files for each exercise --
   but rather than just producing different types of PDF output
   files (e.g., for exams, self-study materials, etc.), the package can
   now render the \emph{same} exercises into a wide variety of output formats.
@@ -586,25 +587,44 @@ is employed in \code{boxhist}.
 
 \subsection[The xexams() wrapper function]{The \code{xexams()} wrapper function}
 
-\code{xexams}
+To avoid recoding certain tedious tasks -- such as copying/reading files and handling
+temporary directories -- again for each of the user interfaces introduced
+in Section~\ref{sec:usage}, the new \pkg{exams} package provides a modular and
+extensible framework for building new exam-generating functions. This framework
+is tied together by the \code{xexams()} function which is typically not called by
+users directly but forms the basis for all new \code{exams2}\emph{xyz} interfaces.
 
-drivers to \code{sweave}, \code{read}, \code{transform}, \code{write}
-
-we provide some drivers (e.g., \code{read_exercise}) as well as various
-driver generators (e.g., \code{make_exercise_transform_html})
-
-for example for \code{exams2html}:
+To accomplish this, \code{xexams()} also takes the arguments listed in Table~\ref{tab:args}
+(except \code{name} and \code{template}), draws exams from the exercise \code{file}
+list, and does all the necessary file/directory handling. Furthermore,
+it takes a \code{driver} argument that needs to be a list of four functions
+\code{driver = list(sweave, read, transform, write)}. These are utilized as follows:
 \begin{enumerate}
-  \item \code{sweave:} \code{Sweave()} is called with \code{pdf = FALSE} and
-    \code{png = TRUE} and (by default) with \code{quiet = TRUE}, \code{resolution = 100},
-    \code{width = 4}, \code{height = 4}.
-  \item \code{read}: \code{read_exercise()}.
-  \item \code{transform}: \code{make_exercise_transform_html(...)}.
-  \item \code{write}: \code{make_exams_write_html(template = "plain", ...)}.
+  \item \emph{Weave:} For each of the selected exercise files (within all \code{n} exams)
+    \code{driver$sweave(file)} is run to weave the \code{.Rnw} file into a \code{.tex} file.
+    If \code{sweave = NULL} (the default), the standard \code{Sweave()} function is used.
+    If \code{sweave = list(...)} is a list, e.g., \code{list(pdf = FALSE, png = TRUE)},
+    this is passed as arguments to \code{Sweave()}.
+  \item \emph{Read:} Each resulting \code{.tex} file is read into \proglang{R} using
+    \code{driver$read(file)}. By default (\code{read = NULL}), the function
+    \code{read_exercise()} is used (see below), resulting in a list of character
+    vectors with the {\LaTeX} code for question/solution plus metainformation.
+  \item \emph{Transform:} Each of these exercise-wise list objects can subsequently be transformed by
+    \code{driver$transform(object)} which can be leveraged for transformations from
+    {\LaTeX} to HTML etc. By default (\code{transform = NULL}), no transformation is applied.
+  \item \emph{Write:} The (possibly transformed) lists of exercises read into \proglang{R}
+    for each exam object, can be written out to one ore more files per exam in an
+    output directory via \code{driver$write(object, dir, info = list(id, n))}.
+    By default (\code{write = NULL}), no files are written.
 \end{enumerate}
-
-
-return value is nested list (Figure~\ref{fig:xexam}), currently not classed
+After performing each of the driver functions, \code{xexams()} returns invisibly
+a nested list object (currently unclassed) as illustrated in Figure~\ref{fig:xexam}.
+It is a list of \emph{exams} (of length \code{n}),
+each of which is a list of \emph{exercises} (whose length depends on the length of \code{file} and \code{nsamp}),
+each of which is a list (whose length/contents depends on \code{driver$read}). When
+used with the default \code{read_exercise()}, each exercise is a list of length~6
+containing the question/solution texts, metainformation, and paths to supplementary
+files. These will be introduced in more detail in the next section.
 
 \begin{figure}[t!]
 \hrulefill
@@ -623,10 +643,72 @@ list(               ## of 'exams', length: n
 )
 \end{Code}
 \hrulefill
-\caption{\label{fig:xexam} Structure of the return value of \code{xexams}.}
+\caption{\label{fig:xexam} Structure of the return value of \texttt{xexams()}, when used with the
+  default \code{read} driver \texttt{read\_exercises()}.}
 \end{figure}
 
+All of the interfaces introduced in Section~\ref{sec:usage} employ the standard
+\code{Sweave()} function for the weaving step (possibly with custom arguments)
+and the \code{read_exercise()} function for the reading step. They mainly differ
+in the transformation and writing step. \code{exams2pdf()} needs no transformation
+and the writer first sets up a \code{.tex} file for each exam, calls \code{texi2dvi(pdf = TRUE)},
+and then copies the resulting \code{.pdf} file to the output \code{dir}. \code{exams2html()}
+on the other hand uses a {\TeX}-to-HTML transformation and the writer then sets
+up a \code{.html} file for each exam and copies it to the output \code{dir}. Finally,
+\code{exams2moodle()} and \code{exams2qti12()} both also use a transformation to
+HTML but have no writer. The reason for this is that they do not write one file
+per exam (i.e., with only one replication per exercise) but rather need to produce
+XML files that include all different replications of each exercise. Hence, they take
+the list returned by \code{xexams()} and process it subsequently in different ways. The details for all
+these steps are explained in the subsequent subsections.
+
 \subsection[The read driver: read_exercise() and read_metainfo()]{The \code{read} driver: \code{read\_exercise()} and \code{read\_metainfo()}}
+
+The function \code{read_exercise()} reads the weaved exercises, i.e.,
+files like that shown in Figure~\ref{fig:tex}. It simply extracts the text lines
+from the \code{{question}} and \code{{solution}} environments and stores them
+in vectors of the same name. If these environments contain \code{{answerlist}}
+environments, these are extracted and stored separately in \code{questionlist} and \code{solutionlist}
+vectors, respectively. Finally, the metainformation is extracted using
+\code{read_metainfo()} which not only stores character vectors but also transforms
+them to suitable types (depending on the \code{extype}) and performs some
+sanity checks. The resulting metainformation is a list with elements essentially
+corresponding to the commands from Table~\ref{tab:metainfo}.
+
+For illustration, we run \code{xexams()} to select the same three exams as
+used in the \pkg{Moodle} and \pkg{OLAT} examples above. However, using the
+default \code{driver} specification, \code{xexams()} just performs the weaving
+and reading steps (and has no transformation or writing step):
+<<myexam4-xexams1>>=
+set.seed(1090)
+x <- xexams(myexam, n = 3)
+@
+The resulting object is a nested list as shown in Figure~\ref{fig:xexam} with
+\Sexpr{length(x)}~exams of \Sexpr{length(x[[1]])}~exercises each (drawn from
+the \code{myexam} list). Using \code{x[[i]][[j]]}, the \code{j}-th exercise
+of the \code{i}-th exam can be accessed. Here, we explore the first exercise
+(\code{boxplots}, a multiple-choice question) from the first exam that is also
+shown in Figure~\ref{fig:exams2qti12-boxplots}.
+Its general question text (in {\LaTeX}) is printed below -- it requires
+a graphic which is stored in a supplementary file in a temporary directory.
+<<myexam4-xexams2>>=
+writeLines(x[[1]][[1]]$question)
+x[[1]][[1]]$supplements
+@
+The corresponding list of statements about the graphic is stored separately.
+It is shown below along with the most important metainformation elements.
+<<myexam4-xexams3>>=
+x[[1]][[1]]$questionlist
+x[[1]][[1]]$metainfo[c("file", "type", "solution")]
+@
+In summary, \code{xexams()} combined with the default readers is relatively
+straightforward to use in other progams (such as the \code{exams2}\emph{xyz}
+functions). The return value is somewhat ``raw'' as it is not classed and
+has not dedicated methods for subsetting etc. However, we refrained from
+using a more elaborate structure as this function is not meant to be
+called by end-users while we expected other developers to find the current
+structure sufficiently simple to use in their programs.
+
 
 \subsection[LaTeX-to-HTML transform driver generator]{{\LaTeX}-to-HTML \code{transform} driver generator} \label{sec:transform_html}
 
@@ -642,15 +724,19 @@ and subsequently converts the resulting PDF to a raster image using a \code{syst
 \pkg{ImageMagick} is assumed to be installed and in the search path.
 
 images can either be part of the supplementary files or embedded directly in the HTML code
-using Base64 encoding \citep[via the \pkg{base64enc} package in \proglang{R}][]{exams:Urbanek:2012}
+using Base64 encoding \citep[via the \pkg{base64enc} package in \proglang{R},][]{exams:Urbanek:2012}
 
 Displaying MathML in web pages has become very easy: \pkg{Firefox} long had native support for MathML and
 for the Microsoft \pkg{Internet Explorer} the \pkg{MathPlayer} plugin \citep{exams:MathPlayer:2012} has
 long been available. Meanwhile, other major browsers like Google \pkg{Chrome}, \pkg{Opera}, or \pkg{Safari}
-also support MathML \citep[Section~1.2][]{exams:Vismor:2012}. Furthermore, \pkg{MathJax}
+also support MathML \citep[Section~1.2]{exams:Vismor:2012}. Furthermore, \pkg{MathJax}
 \citep{exams:MathJax:2012}, an open-source \proglang{JavaScript} engine, can be used to render
 MathML formulas on a server rather than in the local browser.
 
+<<myexam4-xexams4>>=
+trafo <- make_exercise_transform_html(converter = "tth", base64 = FALSE)
+writeLines(trafo(x[[1]][[1]])$question)
+@
 
 \subsection[PDF and HTML write driver generators]{PDF and HTML \code{write} driver generators}
 
