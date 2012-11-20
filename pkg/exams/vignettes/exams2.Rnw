@@ -2,10 +2,6 @@
 \usepackage{thumbpdf}
 %% need no \usepackage{Sweave}
 
-%% additional commands
-\newcommand{\squote}[1]{`{#1}'}
-\newcommand{\dquote}[1]{``{#1}''}
-\newcommand{\class}[1]{\dquote{\code{#1}}}
 %% for internal use
 \newcommand{\fixme}[1]{\emph{\marginpar{FIXME} (#1)}}
 \newcommand{\readme}[1]{\emph{\marginpar{README} (#1)}}
@@ -321,21 +317,22 @@ Argument          & Description \\ \hline
 \code{dir}        & Path to output directory. Default: Single PDF or HTML files are shown directly
                     in a viewer/browser (i.e., \code{exams}/\code{exams2pdf}/\code{exams2html}
 		    with \code{n = 1}). In all other cases no default is provided.\\ 
-\code{name}       & Name prefix for the resulting exam files.\\
-\code{template}   & Character specifying the (base) names of a {\LaTeX}, HTML, or XML file
-                    template for the exam (except for \code{exams2moodle()}). Default:
-		    A function-specific template provided within the \pkg{exams} installation.\\
 \code{edir}       & Path to the directory in which the exercises in \code{file} are stored.
                     Default: Working directory (or within the \pkg{exams} installation). \\
 \code{tdir}       & Path to a temporary directory in which \code{Sweave()} is carried out.
                     Default: New \code{tempdir()}. \\
 \code{sdir}       & Path to the directory in which supplementary files (e.g., graphics or
                     data files) are stored (except for \code{exams()}). Default: New \code{tempdir()}. \\ \hline
+\code{name}       & Name prefix for the resulting exam files.\\
+\code{template}   & Character specifying the (base) names of a {\LaTeX}, HTML, or XML file
+                    template for the exam (except for \code{exams2moodle()}). Default:
+		    A function-specific template provided within the \pkg{exams} installation.\\ \hline
 \end{tabular}
 \caption{\label{tab:args} Common arguments of the main user interfaces for generating exams:
   \texttt{exams()}, \texttt{exams2pdf()}, \texttt{exams2html()}, \texttt{exams2moodle()}, \texttt{exams2qti12()}.
-  The first group of arguments pertains to the specification of the exam(s) and the second
-  section to the handling of files and input/temporary/output directories.
+  The first group of arguments pertains to the specification of the exam(s), the second
+  group to the handling of input/temporary/output directories, and the last group to name and setup
+  for the resulting files.
   For further function-specific arguments and more details/examples, see the corresponding manual pages.}
 \end{table}
 
@@ -362,7 +359,9 @@ pops up the same PDF as shown in Figure~\ref{fig:pdf}. The main difference is th
 the function \code{exams2pdf()} returns not only the metainformation from the exercise but additionally
 also the {\LaTeX} code for the question and solution environments as well as paths to supplementary
 materials (such as graphics or data files). Section~\ref{sec:design} explains
-the structure of the return values in more detail and illustrates how this can be used.
+the structure of the return values in more detail and illustrates how this can be used.\footnote{To
+obtain the same type of return value as from the \texttt{exams()} function, \texttt{exams\_metainfo(exams2}\emph{xyz}\texttt{(...))}
+can be used.}
 
 
 \subsubsection[Producing HTML documents: exams2html()]{Producing HTML documents: \code{exams2html()}}
@@ -392,7 +391,7 @@ render, three options are available: translation of the {\LaTeX} to (1)~plain HT
 (2)~HTML plus MathML for mathematical formulas (default), or conversion of the corresponding PDF
 to (3)~HTML with one embedded raster images for the whole question and solution, respectively.
 The former two options are considerably faster and more elegant -- they just require the
-\proglang{R}~package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012} that make
+\proglang{R}~package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012} that makes
 the `{\TeX}-to-HTML' converter \pkg{TtH} \citep{exams:Hutchinson:2012} easily available
 in~\proglang{R}. Also, by default, the \pkg{base64enc} package \citep{exams:Urbanek:2012}
 is employed for embedding graphics in Base64 encoding. More details on this approach
@@ -507,12 +506,12 @@ Command & Description \\ \hline
 \verb|\exsolution{}|  & Correct solution (required). It must contain a numeric solution for \code{num},
                         a string of zeros/ones for \code{mchoice}/\code{schoice}, or a character
 			string of \code{string}. For \code{cloze} a combination of these can
-			be specified, e.g., \verb|\exsolution{1.23}{0}{median}|. \\
+			be specified, e.g., \verb|\exsolution{1.23|001|median}|. \\
 \verb|\extolerance{}| & Tolerance limits (of length~1 or~2) for \code{num} solutions. If unspecified
                         the tolerance is 0. For length~2, the lower and upper tolerance can be
 			specified separately.\\
 \verb|\exclozetype{}| & List of types for the elements of a \code{cloze} exercise, e.g.,
-                        \verb|\exclozetype{num}{mchoice}{string}| for the example above. \\ \hline
+                        \verb|\exclozetype{num|schoice|string}| for the example above. \\ \hline
 \verb|\expoints{}|    & Default points for correct solution. \\
 \verb|\extime{}|      & Default time (in seconds) for solution. \\
 \verb|\exshuffle{}|   & Logical indicating whether \code{mchoice}/\code{schoice}
@@ -541,10 +540,9 @@ Three types have a list of questions (or statements)
     questions/statements is true and all others are false, e.g., \verb|\exsolution{01000}|.
   \item \code{cloze} for a combination of questions/statements with \code{num},
     \code{string}, or \code{mchoice} answers. Thus, each element of the question
-    has either a numeric, short text, or logical answer, e.g., \verb|\exsolution{1.23}{0}{median}|.
+    has either a numeric, short text, or single/multiple-choice answer, e.g., \verb|\exsolution{1.23|001|median}|.
     For \code{cloze} types an extra \code{clozetype} has to be specified, e.g.,
-    \verb|\exclozetype{num}{mchoice}{string}|.    
-    \fixme{Support for longer mchoice answers through answer groups -- at least for Moodle?}
+    \verb|\exclozetype{num|schoice|string}|.    
 \end{itemize}
 The types \code{schoice} and \code{mchoice} have been newly introduced. The purpose
 of the former is mainly to allow for different processing of options (e.g., for
