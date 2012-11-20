@@ -2,7 +2,7 @@
 ## http://docs.moodle.org/23/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  resolution = 100, width = 4, height = 4,
+  resolution = 100, width = 4, height = 4, mid = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   zip = FALSE, ...)
 {
@@ -47,7 +47,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   make_test_ids <- function(n, type = c("test", "section", "item"))
   {
     switch(type,
-      "test" = paste(name, make_id(9), sep = "_"),
+      "test" = if(mid) paste(name, make_id(9), sep = "_") else name,
       paste(type, formatC(1:n, flag = "0", width = nchar(n)), sep = "_")
     )
   }
@@ -136,8 +136,9 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## Moodle 2.3 question constructor function
-make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, answernumbering = "abc",
-  usecase = FALSE, cloze_mchoice_display = "MULTICHOICE_V")
+make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
+  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE_H",
+  truefalse = c("True", "False"), enumerate = TRUE)
 {
   function(x) {
     ## how many points?
@@ -167,11 +168,14 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, ans
     )
 
     ## insert the solution
-    if(length(x$solution)) {
+    if(length(x$solution) && solution) {
       xml <- c(xml,
         '<generalfeedback format="html">',
         '<text><![CDATA[<p>', x$solution,
-        if(!type %in% c("mchoice", "schoice") && length(x$solutionlist)) x$solutionlist else NULL,
+        if(!type %in% c("mchoice", "schoice") && (nsol <- length(x$solutionlist))) {
+          c('</br>', paste(if(enumerate) paste(letters[1:nsol], ".", sep = "") else NULL, x$solutionlist,
+            collapse = if(enumerate) '</br>' else NULL))
+        } else NULL,
         '</p>]]></text>',
         '</generalfeedback>'
       )
@@ -233,16 +237,34 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, ans
     if(type == "cloze") {
       qtext <- c('<pre>', x$question)
       for(i in seq_along(x$metainfo$clozetype)) {
-        qtext <- c(qtext, x$questionlist[i])
-        if(x$metainfo$clozetype[i] %in% c("mchoice", "schoice")) { ## FIXME: schoice
-          tmp <- paste('{', length(x$metainfo$solution[i]), ':', cloze_mchoice_display, ':', sep = '')
-          for(j in seq_along(x$metainfo$solution[[i]])) {
-            sol <- if(!is.null(x$solutionlist[[i]][j])) x$solutionlist[[i]][j] else j
-            tmp <- paste(tmp, paste(if(x$metainfo$solution[[i]][j]) '=' else '~', sol, sep = ''), sep = '')
+        qtext <- c(qtext, paste(if(enumerate) paste(letters[i], ".", sep = "") else NULL, x$questionlist[i]))
+        if(x$metainfo$clozetype[i] %in% c("mchoice", "schoice")) {
+          tmp <- paste('{', 1, ':', cloze_mchoice_display, ':', sep = '')
+          tol <- rep(x$metainfo$tolerance, length.out = k <- length(x$metainfo$solution[[i]]))
+          for(j in 1:k) {
+            if(k < 2) {
+              sol <- paste(if(x$metainfo$solution[[i]][j]) c('%0%', '~%100%') else c('%100%', '~%0%'),
+                truefalse, sep = '', collapse = '')
+            } else {
+              sol <- if(!is.null(x$solutionlist[[i]][j])) x$solutionlist[[i]][j] else x$metainfo$solution[[i]][j]
+              sol <- paste(if(j > 1) '~' else NULL,
+                if(x$metainfo$solution[[i]][j]) paste('%',  1 / k * 100, '%') else '%0%',
+                sol, sep = '')
+            }
+            tmp <- paste(tmp, sol, sep = '')
           }
           tmp <- paste(tmp, '}', sep = '')
+          qtext <- c(qtext, tmp)
         }
-        qtext <- c(qtext, tmp)
+        if(x$metainfo$clozetype[i] == "num") {
+          qtext <- c(qtext, paste('{', 1, ':NUMERICAL:=', x$metainfo$solution[[i]][j],
+            ':', tol[j], '}', sep = ''))
+        }
+        if(x$metainfo$clozetype[i] == "string") {
+          qtext <- c(qtext, paste('{', 1, ':SHORTANSWER:%100%', x$metainfo$solution[[i]],
+            if(!usecase) paste('~%100%', tolower(x$metainfo$solution[[i]]), sep = '') else NULL,
+            '}', sep = ''))
+        }
       }
       qtext <- c(qtext, '</pre>')
       xml <- gsub('##QuestionText', paste(qtext, collapse = "\n"), xml)
