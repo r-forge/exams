@@ -126,6 +126,15 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
 
     ## write out LaTeX code
     for(j in 1L:m) {
+    
+      ## collapse answer groups of clozes (if necessary)
+      if(exm[[j]]$metainfo$type == "cloze") {
+        g <- rep(seq_along(exm[[j]]$metainfo$solution), sapply(exm[[j]]$metainfo$solution, length))
+        exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), paste, collapse = " / ")
+        exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), paste, collapse = " / ")
+      }
+      
+      ## combine question+questionlist and solution+solutionlist
       writeLines(c(
         "",
 	"\\begin{question}",
