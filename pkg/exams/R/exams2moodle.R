@@ -126,7 +126,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   } else zipname <- list.files(test_dir)
 
   ## copy the final .zip file
-  file.copy(file.path(test_dir, zipname), file.path(dir, zipname))
+  file.copy(file.path(test_dir, zipname), if(zip) file.path(dir, zipname) else dir, recursive = TRUE)
 
   ## assign test id as an attribute
   attr(exm, "test_id") <- test_id
@@ -136,7 +136,8 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## Moodle 2.3 question constructor function
-make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, answernumbering = "abc")
+make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, answernumbering = "abc",
+  usecase = FALSE, cloze_mchoice_display = "MULTICHOICE_V")
 {
   function(x) {
     ## how many points?
@@ -161,7 +162,7 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, ans
       paste('<text>', name, '</text>'),
       '</name>',
       '<questiontext format="html">',
-      '<text><![CDATA[<p>', x$question, '</p>]]></text>',
+      '<text><![CDATA[<p>', if(type != "cloze") x$question else '##QuestionText', '</p>]]></text>',
       '</questiontext>'
     )
 
@@ -169,7 +170,9 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, ans
     if(length(x$solution)) {
       xml <- c(xml,
         '<generalfeedback format="html">',
-        '<text><![CDATA[<p>', x$solution, '</p>]]></text>',
+        '<text><![CDATA[<p>', x$solution,
+        if(!type %in% c("mchoice", "schoice") && length(x$solutionlist)) x$solutionlist else NULL,
+        '</p>]]></text>',
         '</generalfeedback>'
       )
     }
@@ -214,6 +217,35 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, ans
         paste('<tolerance>', x$metainfo$tolerance[1], '</tolerance>', sep = ''),
         '</answer>'
       )
+    }
+
+    ## string questions
+    if(type == "shortanswer") {
+      xml <- c(xml,
+        paste('<usecase>', usecase * 1, '</usecase>', sep = ''),
+        '<answer fraction="100" format="moodle_auto_format">',
+        '<text>', x$metainfo$solution, '</text>',
+        '</answer>'
+      )
+    }
+
+    ## cloze type questions
+    if(type == "cloze") {
+      qtext <- c('<pre>', x$question)
+      for(i in seq_along(x$metainfo$clozetype)) {
+        qtext <- c(qtext, x$questionlist[i])
+        if(x$metainfo$clozetype[i] %in% c("mchoice", "schoice")) { ## FIXME: schoice
+          tmp <- paste('{', length(x$metainfo$solution[i]), ':', cloze_mchoice_display, ':', sep = '')
+          for(j in seq_along(x$metainfo$solution[[i]])) {
+            sol <- if(!is.null(x$solutionlist[[i]][j])) x$solutionlist[[i]][j] else j
+            tmp <- paste(tmp, paste(if(x$metainfo$solution[[i]][j]) '=' else '~', sol, sep = ''), sep = '')
+          }
+          tmp <- paste(tmp, '}', sep = '')
+        }
+        qtext <- c(qtext, tmp)
+      }
+      qtext <- c(qtext, '</pre>')
+      xml <- gsub('##QuestionText', paste(qtext, collapse = "\n"), xml)
     }
 
     ## end the question
