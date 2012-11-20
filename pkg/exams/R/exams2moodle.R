@@ -3,7 +3,8 @@
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL, ...)
+  num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
+  zip = FALSE, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -55,23 +56,23 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   test_id <- make_test_ids(type = "test")
 
   ## create section ids
-  question_ids <- paste(test_id, make_test_ids(nq, type = "question"), sep = "_")
+  question_ids <- paste(test_id, make_test_ids(nq, type = "question"), sep = "/")
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
 
   ## start the quiz .xml
-  xml <- c('<?xml version="1.0" encoding="UTF-8"?>', '<quiz>')
+  xml <- c('<?xml version="1.0" encoding="UTF-8"?>', '<quiz>\n')
 
   ## cycle through all questions and samples
   for(j in 1:nq) {
     ## first, create the category tag for the question
     xml <- c(xml,
-      '<question type="category">',
+      '\n<question type="category">',
       '<category>',
       paste('<text>$course$/', question_ids[j], '</text>', sep = ''),
       '</category>',
-      '</question>')
+      '</question>\n')
 
     ## create ids for all samples
     sample_ids <- paste(question_ids[j], make_test_ids(nx, type = "sample"), sep = "_")
@@ -117,10 +118,12 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   writeLines(xml, file.path(test_dir, paste(name, "xml", sep = ".")))
 
   ## compress
-  owd <- getwd()
-  setwd(test_dir)
-  zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir))
-  setwd(owd)
+  if(zip) {
+    owd <- getwd()
+    setwd(test_dir)
+    zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir))
+    setwd(owd)
+  } else zipname <- list.files(test_dir)
 
   ## copy the final .zip file
   file.copy(file.path(test_dir, zipname), file.path(dir, zipname))
@@ -133,7 +136,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
 
 ## Moodle 2.3 question constructor function
-make_question_moodle23 <- function(name = NULL, shuffle = TRUE)
+make_question_moodle23 <- function(name = NULL, shuffle = TRUE, penalty = 0, answernumbering = "abc")
 {
   function(x) {
     ## how many points?
@@ -153,42 +156,51 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE)
 
     ## start the question xml
     xml <- c(
-      paste('<question type="', type, '">', sep = ''),
+      paste('\n<question type="', type, '">', sep = ''),
       '<name>',
       paste('<text>', name, '</text>'),
       '</name>',
       '<questiontext format="html">',
-      '<text><![CDATA[',
-      x$question,
-      ']]>',
-      '</text>',
-      '</questiontext>',
-      '<penalty>1</penalty>', ## FIXME: check if penalty tag is needed!?
+      '<text><![CDATA[<p>', x$question, '</p>]]></text>',
+      '</questiontext>'
+    )
+
+    ## insert the solution
+    if(length(x$solution)) {
+      xml <- c(xml,
+        '<generalfeedback format="html">',
+        '<text><![CDATA[<p>', x$solution, '</p>]]></text>',
+        '</generalfeedback>'
+      )
+    }
+
+    ## penalty and points
+    xml <- c(xml,
+      paste('<penalty>', penalty, '</penalty>', sep = ''),
       paste('<defaultgrade>', points, '</defaultgrade>', sep = '')
     )
 
     ## multiple choice processing
     if(type == "multichoice") {
       xml <- c(xml,
-        paste('<shuffleanswers>', if(shuffle) 1 else 0, '</shuffleanswers>', sep = ''),
-        paste('<single>', if(x$metainfo$type == "schoice") 'true' else 'false', '</single>', sep = '')
+        paste('<shuffleanswers>', if(shuffle) 'true' else 'false', '</shuffleanswers>', sep = ''),
+        paste('<single>', if(x$metainfo$type == "schoice") 'true' else 'false', '</single>', sep = ''),
+        paste('<answernumbering>', answernumbering, '</answernumbering>', sep = '')
       )
 
       n <- length(x$solutionlist)
-      frac <- rep(-100, n)
+      frac <- rep(0, n)
       frac[x$metainfo$solution] <- 100 / sum(x$metainfo$solution)
       for(i in 1:n) {
         xml <- c(
           xml,
-          paste('<answer fraction="', frac[i], '">', sep = ''),
-          '<text>',
-          x$questionlist[i],
-          '</text>',
-          '<feedback format="html">',
-          '<text><![CDATA[',
-          if(!is.null(x$solutionlist)) x$solutionlist[i] else NULL,
-          ']]></text>',
-          '</feedback>',
+          paste('<answer fraction="', frac[i], '" format="html">', sep = ''),
+          '<text><![CDATA[<p>', x$questionlist[i], '</p>]]></text>',
+          if(!is.null(x$solutionlist[i])) {
+            c('<feedback format="html">',
+            '<text><![CDATA[<p>', x$solutionlist[i], '</p>]]></text>',
+            '</feedback>')
+          } else NULL,
           '</answer>'
         )
       }
@@ -197,19 +209,15 @@ make_question_moodle23 <- function(name = NULL, shuffle = TRUE)
     ## numeric question processing
     if(type == "numerical") {
       xml <- c(xml,
-        '<answer fraction="100">',
+        '<answer fraction="100" format="moodle_auto_format">',
         paste('<text>', x$metainfo$solution, '</text>', sep = ''),
         paste('<tolerance>', x$metainfo$tolerance[1], '</tolerance>', sep = ''),
-        '<feedback format="html">',
-        '<text><![CDATA[',
-        x$solution,
-        ']]></text>',
-        '</feedback>',
         '</answer>'
       )
     }
 
-    xml <- c(xml, '</question>')
+    ## end the question
+    xml <- c(xml, '</question>\n')
 
     ## path replacements
     xml <- gsub(paste(attr(x$supplements, "dir"), .Platform$file.sep, sep = ""), "", xml)
