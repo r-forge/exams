@@ -2,7 +2,8 @@
 ## http://docs.moodle.org/23/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
-  resolution = 100, width = 4, height = 4, mid = FALSE,
+  resolution = 100, width = 4, height = 4,
+  testid = FALSE, stitle = NULL,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   zip = FALSE, ...)
 {
@@ -47,7 +48,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   make_test_ids <- function(n, type = c("test", "section", "item"))
   {
     switch(type,
-      "test" = if(mid) paste(name, make_id(9), sep = "_") else name,
+      "test" = if(testid) paste(name, make_id(9), sep = "_") else name,
       paste(type, formatC(1:n, flag = "0", width = nchar(n)), sep = "_")
     )
   }
@@ -58,6 +59,12 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
 
+  exsecs <- rep(NA, length = nq)
+  if(!is.null(stitle)) {
+    if((ks <- length(stitle)) > nq) stop("more section titles than exercises specified!")
+    exsecs[1:ks] <- stitle
+  }
+
   ## start the quiz .xml
   xml <- c('<?xml version="1.0" encoding="UTF-8"?>', '<quiz>\n')
 
@@ -65,8 +72,11 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   for(j in 1:nq) {
     ## search for \exsection{}
     exsec <- if(is.null(exm[[1]][[j]]$metainfo$section)) {
-      paste("question", j, sep = "_")
+      paste("Exercise", formatC(j, flag = "0", width = nchar(nq)))
     } else exm[[1]][[j]]$metainfo$section
+
+    ## if specified, overule the section
+    if(!is.na(exsecs[j])) exsec <- exsecs[j]
 
     ## first, create the category tag for the question
     xml <- c(xml,
@@ -90,8 +100,8 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
       ## add sample number to name
       if(nx > 1) {
         if(is.null(exm[[i]][[j]]$metainfo$name)) {
-          exm[[i]][[j]]$metainfo$name <- paste("question",
-            formatC(j, flag = "0", width = nchar(nq)), sep = "_")
+          exm[[i]][[j]]$metainfo$name <- paste("Exercise",
+            formatC(j, flag = "0", width = nchar(nq)))
         }
         exm[[i]][[j]]$metainfo$name <- paste(exm[[i]][[j]]$metainfo$name,
           formatC(i, flag = "0", width = nchar(nx)))
