@@ -146,14 +146,24 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
       enumerate <- attr(thebody, "enumerate")
       if(is.null(enumerate)) enumerate <- FALSE
       xsolution <- exm[[i]][[j]]$solution
-      if(length(nsol <- length(exm[[i]][[j]]$solutionlist))) {
+      if(length(length(exm[[i]][[j]]$solutionlist))) {
         xsolution <- c(xsolution, if(length(xsolution)) "<br/>" else NULL)
         if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+        if(exm[[i]][[j]]$metainfo$type == "cloze") {
+          g <- rep(seq_along(exm[[i]][[j]]$metainfo$solution), sapply(exm[[i]][[j]]$metainfo$solution, length))
+          ql <- sapply(split(exm[[i]][[j]]$questionlist, g), paste, collapse = " / ")
+          sl <- sapply(split(exm[[i]][[j]]$solutionlist, g), paste, collapse = " / ")
+        } else {
+          ql <- exm[[i]][[j]]$questionlist
+          sl <- exm[[i]][[j]]$solutionlist
+        }
+        nsol <- length(ql)
         xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
-          exm[[i]][[j]]$questionlist, if(length(exm[[i]][[j]]$solutionlist)) "</br>" else NULL,
-          exm[[i]][[j]]$solutionlist, if(enumerate) rep('</li>', nsol) else NULL))
+          ql, if(length(exm[[i]][[j]]$solutionlist)) "</br>" else NULL,
+          sl, if(enumerate) rep('</li>', nsol) else NULL))
         if(enumerate) xsolution <- c(xsolution, '</ol>')
       }
+
       ibody <- gsub("##ItemSolution", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
       ## insert an item id
@@ -268,13 +278,16 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     n <- length(solution)
 
     questionlist <- if(!is.list(x$questionlist)) {
-      if(x$metainfo$type == "cloze") as.list(x$questionlist) else list(x$questionlist)
+      if(x$metainfo$type == "cloze") {
+        g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
+        split(x$questionlist, g)
+      } else list(x$questionlist)
     } else x$questionlist
     if(length(questionlist) < 1) questionlist <- NULL
 
     tol <- if(!is.list(x$metainfo$tolerance)) {
       if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
-    } else x$questionlist
+    } else x$metainfo$tolerance
     tol <- rep(tol, length.out = n)
 
     ## set question type(s)
@@ -325,7 +338,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '<material>',
             '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
              paste(if(enumerate) {
-               paste(letters[if(length(solution[[i]]) == 1) i else j], ".", sep = "")
+               paste(letters[if(x$metainfo$type == "cloze") i else j], ".", sep = "")
              } else NULL, questionlist[[i]][j]),
             ']]></mattext>',
             '</material>',
@@ -351,7 +364,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             if(!is.null(questionlist[[i]][j])) {
               c('<material>',
                 paste('<mattext><![CDATA[', paste(if(enumerate) {
-                  paste(letters[if(length(solution[[i]]) == 1) i else j], ".", sep = '')
+                  paste(letters[i], ".", sep = '')
                 } else NULL, questionlist[[i]][j]), ']]></mattext>', sep = ""),
                 '</material>',
                 '<matbreak/>'
