@@ -876,14 +876,28 @@ mention MathML display of matrices within OLAT
 
 \section[Extending the exams toolbox and writing new drivers]{Extending the \pkg{exams} toolbox and writing new drivers} \label{sec:extensions}
 
-In some case it is not sufficient to use the arguments of the existing \code{exams2}\emph{xyz}\code{()} functions 
+In some cases it is not sufficient to use the arguments of the existing \code{exams2}\emph{xyz}\code{()} functions 
 or to provide alternative \code{template}s to them. In particular, when a completely different output format
-is required, e.g., a different XML format.
+is required (e.g., a different XML format), it might be necessary to develop new drivers for the \pkg{exams}
+toolbox. One example for such a situation is the software product that is currently employed for generating
+\emph{printed} large-lecture exams at Universit\"at Innsbruck. This allows for
+\begin{itemize}
+  \item specification of (static) single/multiple-choice exercises in a browser interface,
+  \item production of so-called ``scrambled'' PDF exams from it (where the static questions and solutions are simply shuffled),
+  \item optical character recognition (OCR) of scans from the exams' title pages,
+  \item computation of the points/marks achieved by the students.
+\end{itemize}
+Although, the \pkg{exams} package can also generate PDF exams directly, an interface to this exam
+server is desirable because it can handle the OCR automatically and the students can easily log into
+the server to see their personal results and inspect their exam scan.
 
-
-use \code{exams2wu} for illustration?
-
-\code{exams2wu()} essentially proceeds in the following way
+Fortunately, this exam server (developed by a spin-off company of WU Wien) also
+employs an XML specification for importing/exporting its exams. Therefore, it was easily
+possible for us to establish a new \code{exams2wu()} interface that produces one ZIP file
+for each exam, including the XML plus supplementary graphics. A corresponding \code{write} driver
+generator \code{make_exams_write_wu()} is also supplied in the package. Its details are not
+discussed here because the XML format adopted is specific to this WU-developed software which
+is not widely used. The \code{exams2wu()} interface then essentially proceeds in the following manner:
 \begin{Code}
   htmltransform <- make_exercise_transform_html(converter = "tex2image",
     base64 = FALSE)
@@ -895,17 +909,114 @@ use \code{exams2wu} for illustration?
       write = wuwrite),
     ...)
 \end{Code}
+First, an HTML \code{transform} driver is set up which uses the \code{"tex2image"} converter
+because the WU-developed software does not support MathML. Then, it sets up the custom
+\code{write} driver using a couple of extra arguments (\code{...}) whose details are suppressed here
+for simplicity. Finally, \code{xexams()} is called with (1)~the default \code{sweave} driver
+\code{Sweave()} with options set to producing PNG but not PDF graphics,
+(2)~the default \code{read} driver, (3)~the \code{tex2image}-based {\TeX}-to-HTML \code{transform}
+driver, (4)~the custom \code{write} driver.
+
+Of course, the part that involves a certain amount of coding is to program the \code{write}
+driver (or driver generator, as here). However, the building blocks for the weave/read/transform
+steps can be easily recycled. Also, if readers of this manuscript need to code their own driver
+generator, we recommend to use the drivers from the \pkg{exams} package for inspiration. Last
+not least, \fixme{forum at R-Forge?}.
 
 
-\section{Discussion and summary} \label{sec:discussion}
+\section{Summary and discussion} \label{sec:discussion}
 
-infrastructure vs.\ content
+\subsubsection*{Summary}
 
-strategies for setting up exercises
+Motivated by the need for automatic generation of exams (or quizzes, tests, assessments) for
+learning management systems, the \pkg{exams} package is turned into an extensible toolbox
+for exam generation. While previous versions of the package just supported generation of
+random replications of exams in PDF format, the new version of the package provides
+interfaces for various output formats, such as PDF, HTML, or XML specifications for
+\pkg{Moodle} or \pkg{OLAT}. All exam output formats are based on the \emph{same}
+specification of exercise \code{Sweave} files whose format was only slightly extended
+compared to previous versions. The flexibility of producing different output formats
+is accomplished by adopting a new extensible framework that consists of the following
+modular steps: (1)~\emph{weaving} a single exercise, (2)~\emph{reading} the resulting
+{\LaTeX} text and metainformation into \proglang{R}, (3)~\emph{transforming} the text
+(if necessary, e.g., from {\LaTeX} to HTML), (4)~\emph{writing} the text into output
+files such as {\LaTeX}, HTML, or XML templates. Flexible building blocks are
+available for each of the steps that can either be customized for the existing output
+formats or reused for generating new output formats.
 
-experiences at Universit\"at Innsbruck
+\subsubsection*{Infrastructure vs.\ content}
+
+As emphasized in the discussion of version~1 of \pkg{exams} \citep{exams:Gruen+Zeileis:2009},
+the objective of the package is to provide the technological infrastructure for automatic
+generation of exams, especially for large-lecture courses. Thus, users of \pkg{exams}
+should not have to worry about implementation details and can focus on the content
+of their exams when they build up a pool of exercises accompanying a particular course.
+Creating ``good'' exercises from an educational (rather than computational) point
+of view is not a trivial task but guidelines for this are beyond the scope of
+the \pkg{exams} package and this manuscript. Hence, we just provide a few references
+to the relevant literature on statistical education and assessment:
+\cite{exams:Gal+Garfield:1997} and \cite{exams:Garfield+Chance:2000}
+discuss issues such as topics covered and skills developed in
+statistics courses as well as suitable ways of assessment. Strategies for
+good multiple-choice questions, especially if they are also used for
+self-study materials, are suggested by \cite{exams:Klinke:2004}.
+
+\subsubsection*{Strategies for setting up exercises}
+
+When switching a course to the \pkg{exams} infrastructure, clearly the most
+work has to go into the generation of the content, i.e., the \code{Sweave} exercises.
+However, by the modular design of the package it is easy to distribute the
+workload among a large team of contributors. Each person can just work on
+stand-alone \code{.Rnw} files, e.g., for a particular exercises type or for
+the exercises pertaining to a specific chapter from the lecture etc. Depending
+on the output formats, it is typically a good idea to make sure that
+the exercise, \code{foo.Rnw} say, works as desired by runing \code{exams2pdf("foo.Rnw")}
+and \code{exams2html("foo.Rnw")} to make sure that it can be appropriately rendered
+in both PDF and HTML. To check that the solution is correctly entered in the
+metainformation, it helps to run \code{exams_metainfo(exams2html("foo.Rnw"))} (or analogously
+for \code{exams2pdf()}).
+
+When the pool of exercises is ready, then it is typically useful to set up
+a convenience wrapper function that (a)~selects the desired exercises from this
+pool and (b)~produces the desired output format(s) for them. For the latter
+step, it may just be necessary to set the arguments of one of the \code{exams2}\emph{xyz}\code{()}
+functions appropriately or maybe to write a custom \code{template} that can be
+plugged into the function. However, the customization of such a wrapper function
+is typically not a lot of work and can be performed by a single person, e.g.,
+the team member with some more experience in the technologies involved (\proglang{R}, HTML, XML, \dots). 
 
 
+\subsubsection*{Experiences at Universit\"at Innsbruck}
+
+In 2012, the Department of Statistics at Universit\"at Innsbruck built
+up infrastructure for a new ``Mathematics 101'' course. The team included
+seven professors and lecturers, and six student assistants. All professors
+and lecturers were previously familiar with \proglang{R} and {\LaTeX}
+(but not necessarily with HTML or XML) while several of the student
+assistants had experience in neither. The workload was then split up
+so that the professors and lecturers designed the content of the
+exercises and programmed prototypes. The student assistants then
+typically performed tasks such as checking the correctness of the
+exercises, testing out the random data generation or making it more
+flexible, and creating variations of existing exercises by making
+small modifications in the underlying ``stories'' or changing the
+data generating process. Even though, many of the student assistants
+had no prior knowledge of \proglang{R} and {\LaTeX}, they were 
+rather quickly able to work on the exercise \code{Sweave} files (with
+all the usual small problems that often occur when learning \proglang{R}/{\LaTeX}).
+
+The resulting pool of exercises is maintained in a \pkg{Subversion} repository
+\citep[SVN,][]{exams:Pilato+Collins-Sussman+Fitzpatrick:2004} for
+version control so that all team members can easily obtain the latest
+version or contribute fixes/improvements. In combination with the
+\pkg{exams} package this approach proved to be rather successful in
+addressing the needs of multi-author and cross-platform development.
+
+After having the pool of exercises established, just one team member
+is concerned with running \code{exams2qti12()} and uploading the resulting
+ZIP file into \pkg{OLAT} for the biweekly online tests. And
+for creating the printed tests at the end of the semester the
+\code{exams2wu()} interface is employed.
 
 
 \section*{Acknowledgments}
