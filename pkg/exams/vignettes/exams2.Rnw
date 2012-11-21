@@ -771,12 +771,20 @@ All three converters have their benefits and drawbacks:
 To explore the differences of the results, the converters can also be called directly
 on character strings containing {\LaTeX}. Below we use two simple code lines for which
 \code{tth()} would probably be sufficient:
-<<ttm-tth-tex2image>>=
+<<ttm-tth>>=
 tex <- c("This is \\textbf{bold} and this \\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
 ttm(tex)
 tth(tex)
+@
+%% avoid evaluation of tex2image() in order to have no system dependency on ImageMagick
+<<tex2image, eval=FALSE>>=
 (tex2image(tex, dir = odir, show = FALSE))
+@
+<<tex2image-out, echo=FALSE>>=
+t2i <- file.path(odir, "tex2image_1.png")
+foo <- file.create(t2i)
+print(t2i)
 @
 Note that \code{tex2image(tex)} returns the path to a raster image file which by default
 is also shown directly in the browser.
