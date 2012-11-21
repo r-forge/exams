@@ -338,7 +338,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '<material>',
             '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
              paste(if(enumerate) {
-               paste(letters[if(x$metainfo$type == "cloze") i else j], ".", sep = "")
+               paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                 if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                 sep = "")
              } else NULL, questionlist[[i]][j]),
             ']]></mattext>',
             '</material>',
