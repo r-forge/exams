@@ -41,7 +41,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   nq <- length(exm[[1L]])
 
   ## create a name
-  if(is.null(name)) name <- "MoodleExam"
+  if(is.null(name)) name <- "moodlequiz"
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))
@@ -55,9 +55,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   ## generate the test id
   test_id <- make_test_ids(type = "test")
 
-  ## create section ids
-  question_ids <- paste(test_id, make_test_ids(nq, type = "question"), sep = "/")
-
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
 
@@ -66,16 +63,21 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
   ## cycle through all questions and samples
   for(j in 1:nq) {
+    ## search for \exsection{}
+    exsec <- if(is.null(exm[[1]][[j]]$metainfo$section)) {
+      paste("question", j, sep = "_")
+    } else exm[[1]][[j]]$metainfo$section
+
     ## first, create the category tag for the question
     xml <- c(xml,
       '\n<question type="category">',
       '<category>',
-      paste('<text>$course$/', question_ids[j], '</text>', sep = ''),
+      paste('<text>$course$/', test_id, '/', exsec, '</text>', sep = ''),
       '</category>',
       '</question>\n')
 
     ## create ids for all samples
-    sample_ids <- paste(question_ids[j], make_test_ids(nx, type = "sample"), sep = "_")
+    sample_ids <- paste(exsec, make_test_ids(nx, type = "sample"), sep = "_")
 
     ## create the questions
     for(i in 1:nx) {
@@ -84,6 +86,16 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
       ## attach sample id to metainfo
       exm[[i]][[j]]$metainfo$id <- paste(sample_ids[i], type, sep = "_")
+
+      ## add sample number to name
+      if(nx > 1) {
+        if(is.null(exm[[i]][[j]]$metainfo$name)) {
+          exm[[i]][[j]]$metainfo$name <- paste("question",
+            formatC(j, flag = "0", width = nchar(nq)), sep = "_")
+        }
+        exm[[i]][[j]]$metainfo$name <- paste(exm[[i]][[j]]$metainfo$name,
+          formatC(i, flag = "0", width = nchar(nx)))
+      }
 
       ## create the .xml
       question_xml <- moodlequestion[[type]](exm[[i]][[j]])
@@ -137,7 +149,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
 ## Moodle 2.3 question constructor function
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
-  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE_H",
+  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
   truefalse = c("True", "False"), enumerate = TRUE)
 {
   function(x) {
@@ -173,8 +185,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         '<generalfeedback format="html">',
         '<text><![CDATA[<p>', x$solution,
         if(!type %in% c("mchoice", "schoice") && (nsol <- length(x$solutionlist))) {
-          c('</br>', paste(if(enumerate) paste(letters[1:nsol], ".", sep = "") else NULL, x$solutionlist,
-            collapse = if(enumerate) '</br>' else NULL))
+          g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
+          soll <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
+          c(if(enumerate) '<ol type = "a">' else '</br>',
+            paste(if(enumerate) "<li>" else NULL, soll, if(enumerate) "</li>" else NULL),
+            if(enumerate) '</ol>' else NULL)
         } else NULL,
         '</p>]]></text>',
         '</generalfeedback>'
@@ -235,38 +250,68 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
     ## cloze type questions
     if(type == "cloze") {
-      qtext <- c('<pre>', x$question)
-      for(i in seq_along(x$metainfo$clozetype)) {
-        qtext <- c(qtext, paste(if(enumerate) paste(letters[i], ".", sep = "") else NULL, x$questionlist[i]))
+      ## how many questions
+      solution <- if(!is.list(x$metainfo$solution)) {
+        list(x$metainfo$solution)
+      } else x$metainfo$solution
+      n <- length(solution)
+
+      questionlist <- if(!is.list(x$questionlist)) {
+        if(x$metainfo$type == "cloze") as.list(x$questionlist) else list(x$questionlist)
+      } else x$questionlist
+      if(length(questionlist) < 1) questionlist <- NULL
+
+      ## split id for the questionlist
+      sid <- unlist(sapply(1:n, function(i) rep(i, length(solution[[i]]))))
+
+      ## tolerance of numerical questions
+      tol <- if(!is.list(x$metainfo$tolerance)) {
+        if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
+      } else x$metainfo$tolerance
+      tol <- rep(tol, length.out = n)
+
+      ## cycle through all questions
+      qtext <- NULL
+      for(i in 1:n) {
+        ql <- questionlist[sid == i]
+        k <- length(ql)
         if(grepl("choice", x$metainfo$clozetype[i])) {
           tmp <- paste('{', 1, ':', cloze_mchoice_display, ':', sep = '')
-          tol <- rep(x$metainfo$tolerance, length.out = k <- length(x$metainfo$solution[[i]]))
-          for(j in 1:k) {
-            if(k < 2) {
-              sol <- paste(if(x$metainfo$solution[[i]][j]) c('%0%', '~%100%') else c('%100%', '~%0%'),
-                truefalse, sep = '', collapse = '')
-            } else {
-              sol <- if(!is.null(x$solutionlist[[i]][j])) x$solutionlist[[i]][j] else x$metainfo$solution[[i]][j]
-              sol <- paste(if(j > 1) '~' else NULL,
-                if(x$metainfo$solution[[i]][j]) paste('%',  1 / k * 100, '%') else '%0%',
-                sol, sep = '')
+          if(k < 2) {
+            tmp <- paste(ql, tmp)
+            ql <- paste(if(solution[[i]][1]) c('%0%', '~%100%') else c('%100%', '~%0%'),
+              truefalse, sep = '', collapse = '')
+          } else {
+            ql2 <- NULL
+            for(j in 1:k) {
+              p <- sum(solution[[i]])
+              p <- if(p == 0) 0 else 1 /  p * 100
+              ql2 <- paste(ql2, if(j > 1) '~' else NULL,
+                if(solution[[i]][j]) paste('%',  p, '%', sep = '') else '%0%',
+                ql[j], sep = '')
             }
-            tmp <- paste(tmp, sol, sep = '')
+            ql <- ql2
           }
+          tmp <- paste(tmp, ql, sep = '')
           tmp <- paste(tmp, '}', sep = '')
           qtext <- c(qtext, tmp)
         }
         if(x$metainfo$clozetype[i] == "num") {
-          qtext <- c(qtext, paste('{', 1, ':NUMERICAL:=', x$metainfo$solution[[i]][j],
-            ':', tol[j], '}', sep = ''))
+          for(j in 1:k) {
+            qtext <- c(qtext, paste(ql[j], ' {', 1, ':NUMERICAL:=', solution[[i]][j],
+              ':', tol[[i]][1], '}', sep = ''))
+          }
         }
         if(x$metainfo$clozetype[i] == "string") {
-          qtext <- c(qtext, paste('{', 1, ':SHORTANSWER:%100%', x$metainfo$solution[[i]],
-            if(!usecase) paste('~%100%', tolower(x$metainfo$solution[[i]]), sep = '') else NULL,
-            '}', sep = ''))
+          for(j in 1:k) {
+            qtext <- c(qtext, paste(ql[j], ' {', 1, ':SHORTANSWER:%100%', solution[[i]][j],
+              if(!usecase) paste('~%100%', tolower(solution[[i]][j]), sep = '') else NULL,
+              '}', sep = ''))
+          }
         }
       }
-      qtext <- c(qtext, '</pre>')
+      if(enumerate) qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
+      qtext <- c('<pre>', x$question, qtext, '</pre>')
       xml <- gsub('##QuestionText', paste(qtext, collapse = "\n"), xml)
     }
 
