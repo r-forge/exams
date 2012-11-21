@@ -3,7 +3,7 @@
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  testid = FALSE, stitle = NULL,
+  iname = TRUE, stitle = NULL, testid = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   zip = FALSE, ...)
 {
@@ -82,7 +82,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
     xml <- c(xml,
       '\n<question type="category">',
       '<category>',
-      paste('<text>$course$/', test_id, '/', exsec, '</text>', sep = ''),
+      paste('<text>$course$/', if(iname) paste(test_id, '/', sep = '') else NULL, exsec, '</text>', sep = ''),
       '</category>',
       '</question>\n')
 
