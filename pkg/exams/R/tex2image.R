@@ -42,7 +42,7 @@ tex2image <- function(tex, format = "png", width = 6,
   setwd(tdir)
   on.exit(setwd(owd), add = TRUE)
   
-  packages <- unique(c(packages, c("a4wide", "graphicx", "url", "color")))
+  packages <- unique(c(packages, c("a4wide", "graphicx", "url", "color", "realboxes")))
 
   if(length(graphics <- grep("includegraphics", unlist(tex), fixed = TRUE, value = TRUE))) {
     if(is.null(idir))
@@ -93,13 +93,12 @@ tex2image <- function(tex, format = "png", width = 6,
   for(i in 1:nt) {
     if(!any(grepl("begin{figure}", tex[[i]], fixed = TRUE)) &&
       !any(grepl("caption{", tex[[i]], fixed = TRUE))) {
-      texlines <- c(texlines, paste("\\frame{\\parbox[t]{", width, "in}{", sep = ""))
-      texlines <- c(texlines, "\\vspace*{0.1cm}")
+      texlines <- c(texlines, paste("\\Fbox{\\begin{minipage}[t]{", width, "in}", sep = ""))
     }
     texlines <- c(texlines, tex[[i]])
     if(!any(grepl("begin{figure}", tex[[i]], fixed = TRUE)) &&
       !any(grepl("caption{", tex[[i]], fixed = TRUE))) {
-      texlines <- c(texlines, "\\vspace*{0.1cm}}}")
+      texlines <- c(texlines, "\\end{minipage}}")
     }
     if(nt > 1)
       texlines <- c(texlines, "\\newpage")
