@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   resolution = 100, width = 4, height = 4,
   iname = TRUE, stitle = NULL, testid = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  zip = TRUE, ...)
+  zip = FALSE, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -110,23 +110,63 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
       ## create the .xml
       question_xml <- moodlequestion[[type]](exm[[i]][[j]])
 
-      ## copy supplements
+      ## include supplements using base64 encoding and data uri
       if(length(exm[[i]][[j]]$supplements)) {
-        if(!file.exists(media_dir <- file.path(test_dir, "media")))
-          dir.create(media_dir)
-        sj <- 1
-        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
-          sj <- sj + 1
+
+        fileURI <- function(file) {
+          ## see mime types at
+          ## http://www.freeformatter.com/mime-types-list.html
+          stopifnot(require("base64enc"))
+          f_ext <- file_ext(file)
+          if(f_ext %in% c("png", "jpg", "jpeg", "gif", "csv", "raw", "txt", "xls")) {
+            mime <- switch(file_ext(file),
+              "png" = "image/png",
+              "jpg" = "image/jpeg",
+              "jpeg" = "image/jpeg",
+              "gif" = "image/gif",
+              "csv" = "text",
+              "raw" = "text",
+              "txt" = "text",
+              "xls" = "application/vnd.ms-excel"
+            )
+            rval <- dataURI(file = file, mime = mime)
+          } else {
+            owd <- getwd()
+            setwd(dirname(file))
+            zip(zipfile = zipname <- paste(file_path_sans_ext(basename(file)), "zip", sep = "."),
+              files = basename(file))
+            rval <- dataURI(file = zipname, mime = "application/zip")
+            setwd(owd)
+          }
+          rval
         }
-        dir.create(ms_dir <- file.path(media_dir, sup_dir))
+
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
-          file.copy(exm[[i]][[j]]$supplements[si],
-            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-          if(any(grepl(f, question_xml))) {
-            question_xml <- gsub(f, paste("media", sup_dir, f, sep = "/"), question_xml, fixed = TRUE)
+          if(any(grepl(f <- basename(exm[[i]][[j]]$supplements[si]), question_xml))) {
+            question_xml <- gsub(paste(f, '"', sep = ''),
+              paste(fileURI(exm[[i]][[j]]$supplements[si]), '"', sep = ''),
+              question_xml, fixed = TRUE)
           }
         }
       }
+
+## old version, where supplements are copied into a media folder
+#      if(length(exm[[i]][[j]]$supplements)) {
+#        if(!file.exists(media_dir <- file.path(test_dir, "media")))
+#          dir.create(media_dir)
+#        sj <- 1
+#        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
+#          sj <- sj + 1
+#        }
+#        dir.create(ms_dir <- file.path(media_dir, sup_dir))
+#        for(si in seq_along(exm[[i]][[j]]$supplements)) {
+#          file.copy(exm[[i]][[j]]$supplements[si],
+#            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
+#          if(any(grepl(f, question_xml))) {
+#            question_xml <- gsub(f, paste("media", sup_dir, f, sep = "/"), question_xml, fixed = TRUE)
+#          }
+#        }
+#      }
 
       ## add question to quiz .xml
       xml <- c(xml, question_xml)
