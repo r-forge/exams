@@ -114,7 +114,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
       if(length(exm[[i]][[j]]$supplements)) {
 
         fileURI <- function(file) {
-          ## see mime types at
+          ## see mime types at e.g.
           ## http://www.freeformatter.com/mime-types-list.html
           stopifnot(require("base64enc"))
           f_ext <- tolower(file_ext(file))
