@@ -187,7 +187,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
           file.copy(exm[[i]][[j]]$supplements[si],
             file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
           if(any(grepl(f, ibody))) {
-            ibody <- gsub(f, paste("media", sup_dir, f, sep = "/"), ibody, fixed = TRUE)
+            ibody <- gsub(paste(f, '"', sep = ''),
+              paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
           }
         }
       }

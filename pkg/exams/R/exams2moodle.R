@@ -112,39 +112,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
 
       ## include supplements using base64 encoding and data uri
       if(length(exm[[i]][[j]]$supplements)) {
-
-        fileURI <- function(file) {
-          ## see mime types at e.g.
-          ## http://www.freeformatter.com/mime-types-list.html
-          stopifnot(require("base64enc"))
-          f_ext <- tolower(file_ext(file))
-          if(f_ext %in% c("bmp", "png", "jpg", "jpeg", "gif",
-            "csv", "raw", "txt", "xls", "rda", "dta")) {
-            mime <- switch(file_ext(file),
-              "bmp" = "image/bmp",
-              "png" = "image/png",
-              "jpg" = "image/jpeg",
-              "jpeg" = "image/jpeg",
-              "gif" = "image/gif",
-              "csv" = "text",
-              "raw" = "text",
-              "txt" = "text",
-              "xls" = "application/vnd.ms-excel",
-              "rda" = "application/octet-stream",
-              "dta" = "application/octet-stream"
-            )
-            rval <- dataURI(file = file, mime = mime)
-          } else {
-            owd <- getwd()
-            setwd(dirname(file))
-            zip(zipfile = zipname <- paste(file_path_sans_ext(basename(file)), "zip", sep = "."),
-              files = basename(file))
-            rval <- dataURI(file = zipname, mime = "application/zip")
-            setwd(owd)
-          }
-          rval
-        }
-
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           if(any(grepl(f <- basename(exm[[i]][[j]]$supplements[si]), question_xml))) {
             question_xml <- gsub(paste(f, '"', sep = ''),

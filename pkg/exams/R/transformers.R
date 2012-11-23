@@ -30,7 +30,8 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       inames <- file_path_sans_ext(basename(dir))
       if(base64) {
         for(i in seq_along(dir))
-          dir[i] <- sprintf('<img src="%s" alt="%s" />', dataURI(file = dir[i], mime = "image/png"), dir[i])
+          dir[i] <- sprintf('<img src="%s" alt="%s" />', dataURI(file = dir[i],
+            mime = paste('image', format = file_ext(dir[i]), sep = '/')), dir[i])
         for(sf in dir(sdir)) {
           if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
             file.remove(file.path(sdir, sf))
@@ -112,18 +113,16 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       trex <- apply_ttx_on_list(what, converter, ...)
       namtrex <- names(trex)
 
-      ## base64 image handling
+      ## base64 image/supplements handling
       if(base64 && length(sfiles <- dir(sdir))) {
         for(sf in sfiles) {
-          if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
-            for(i in seq_along(trex)) {
-              if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
-                base64i <- dataURI(file = sf, mime = "image/png")
-                trex[[i]][j] <- gsub(paste('src="', sf, '"', sep = ''),
-                  paste('src="', base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
-                file.remove(file.path(sdir, sf))
-                x$supplements <- x$supplements[!grepl(sf, x$supplements)]
-              }
+          for(i in seq_along(trex)) {
+            if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
+              base64i <- fileURI(file = sf)
+              trex[[i]][j] <- gsub(paste(sf, '"', sep = ''),
+                paste(base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
+              file.remove(file.path(sdir, sf))
+              x$supplements <- x$supplements[!grepl(sf, x$supplements)]
             }
           }
         }
