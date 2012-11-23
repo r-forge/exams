@@ -117,9 +117,11 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
           ## see mime types at
           ## http://www.freeformatter.com/mime-types-list.html
           stopifnot(require("base64enc"))
-          f_ext <- file_ext(file)
-          if(f_ext %in% c("png", "jpg", "jpeg", "gif", "csv", "raw", "txt", "xls")) {
+          f_ext <- tolower(file_ext(file))
+          if(f_ext %in% c("bmp", "png", "jpg", "jpeg", "gif",
+            "csv", "raw", "txt", "xls", "rda", "dta")) {
             mime <- switch(file_ext(file),
+              "bmp" = "image/bmp",
               "png" = "image/png",
               "jpg" = "image/jpeg",
               "jpeg" = "image/jpeg",
@@ -127,7 +129,9 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
               "csv" = "text",
               "raw" = "text",
               "txt" = "text",
-              "xls" = "application/vnd.ms-excel"
+              "xls" = "application/vnd.ms-excel",
+              "rda" = "application/octet-stream",
+              "dta" = "application/octet-stream"
             )
             rval <- dataURI(file = file, mime = mime)
           } else {
@@ -149,24 +153,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
           }
         }
       }
-
-## old version, where supplements are copied into a media folder
-#      if(length(exm[[i]][[j]]$supplements)) {
-#        if(!file.exists(media_dir <- file.path(test_dir, "media")))
-#          dir.create(media_dir)
-#        sj <- 1
-#        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
-#          sj <- sj + 1
-#        }
-#        dir.create(ms_dir <- file.path(media_dir, sup_dir))
-#        for(si in seq_along(exm[[i]][[j]]$supplements)) {
-#          file.copy(exm[[i]][[j]]$supplements[si],
-#            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-#          if(any(grepl(f, question_xml))) {
-#            question_xml <- gsub(f, paste("media", sup_dir, f, sep = "/"), question_xml, fixed = TRUE)
-#          }
-#        }
-#      }
 
       ## add question to quiz .xml
       xml <- c(xml, question_xml)
