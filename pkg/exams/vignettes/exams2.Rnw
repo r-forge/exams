@@ -405,6 +405,8 @@ files for each random replication of the exercise is managed fully automatically
 a copy of the data is created in an (exam-specific) sub-directory of the output directory.
 Run \code{exams2html("boxhist.Rnw")} for such an example.
 
+\fixme{multiple instances}
+
 \subsubsection[Producing Moodle XML: exams2moodle()]{Producing \pkg{Moodle} XML: \code{exams2moodle()}}
 
 To incorporate exams generated from \code{Sweave} exercises into learning management
@@ -426,13 +428,23 @@ single XML file.
 dir(odir)
 @
 This XML file \code{moodlequiz.xml} can be easily imported into a \pkg{Moodle} quiz and then further
-customized. Figure~REF \fixme{need Moodle screenshot} shows the first random draw
+customized. Figure~\ref{fig:exams2moodle-boxplots} shows the first random draw
 of the \code{boxplots} exercise in the resulting \pkg{Moodle} quiz (again rendered
 by a \pkg{Firefox} browser).
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.9\textwidth]{screenshots/exams2moodle-boxplots.png}
+\caption{\label{fig:exams2moodle-boxplots} Display of exercise~1 (\code{boxplots}) from
+  \code{myexam} in \pkg{Moodle} (as rendered by a \pkg{Firefox} browser).}
+\end{figure}
 
 As before, supplementary files are automatically managed and can easily be
 included using \verb|\url{}| in the underlying {\LaTeX} code. Graphics are
 by default included in the HTML code directly using Base64 encoding.
+
+\fixme{comment on import to question bank, add all replications of each exercise as ``random'' questions
+into a quiz and customize, solutions}
 
 
 \subsubsection[Producing QTI 1.2 XML (for OLAT): exams2qti12()]{Producing QTI 1.2 XML (for \pkg{OLAT}): \code{exams2qti12()}}
@@ -471,6 +483,8 @@ of the exercises (also known as items in QTI~1.2) and the exams (also known as a
 Hence, \code{exams2qti12()} provides a variety of options for controlling
 the appearance of exam/exercises. Also, the underlying XML template could be
 adapted and extended.
+
+\fixme{comment on where solutions are shown}
 
 
 \section{Design} \label{sec:design}
