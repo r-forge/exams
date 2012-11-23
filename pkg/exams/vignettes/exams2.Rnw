@@ -172,8 +172,8 @@ the new (version~2) functions are introduced: \code{exams2pdf()} and
 \code{exams2html()} produce one PDF or HTML file for each exam, respectively. In case
 of just a single exam, this is shown interactively in a viewer/browser.
 \code{exams2moodle()} and \code{exams2qti12()} generate \pkg{Moodle} and QTI~1.2 exams,
-respectively. They always produce just a single ZIP file -- containing the exam XML
-specification(s) -- which can be easily uploaded into \pkg{Moodle} and \pkg{OLAT}, respectively.
+respectively. They always produce just a single XML or ZIP file
+which can be easily uploaded into \pkg{Moodle} and \pkg{OLAT}, respectively.
 
 
 \subsection[Version 1: PDF exams() from Sweave exercises]{Version~1: PDF \code{exams()} from \code{Sweave} exercises}
@@ -421,11 +421,11 @@ exams2moodle(myexam, n = 3, dir = odir)
 @
 This draws the same three random exams from the \code{myexam} list that were already
 generated in PDF format above. The output file, stored again in \code{odir}, is a
-single ZIP file containing the exercise-specific XML files.
+single XML file.
 <<myexam2-odir>>=
 dir(odir)
 @
-This ZIP file \code{moodlequiz.zip} can be easily imported into a \pkg{Moodle} quiz and then further
+This XML file \code{moodlequiz.xml} can be easily imported into a \pkg{Moodle} quiz and then further
 customized. Figure~REF \fixme{need Moodle screenshot} shows the first random draw
 of the \code{boxplots} exercise in the resulting \pkg{Moodle} quiz (again rendered
 by a \pkg{Firefox} browser).
@@ -455,16 +455,16 @@ This produces a single ZIP file \code{qti.zip}, again written to \code{odir}.
 <<myexam3-odir>>=
 dir(odir)
 @
-The ZIP file can again be easily imported into an \pkg{OLAT} test where some
+The ZIP file can again be easily imported into an \pkg{OLAT} test configuration where
 further customization can be performed\footnote{While customization of the
 features of the overall assessment was always possible for us, \pkg{OLAT}
-typically did not allow for modification of the individual exercise item.
-We were not able to track down which part of the QTI~1.2 XML caused this.}.
+typically did not always allow for modification of the individual exercise item.
+We were not able to track down which part of the QTI~1.2 XML specification causes this.}.
 The first \code{boxplots} exercise from the exam generated above is shown in
 (a German installation of) \pkg{OLAT} in Figure~\ref{fig:exams2qti12-boxplots}
 (again as rendered by a \pkg{Firefox} browser).
 
-The main difference of the generated ZIP file, compared to the \pkg{Moodle} version, is that it just
+The main difference \fixme{needs updating} of the generated ZIP file, compared to the \pkg{Moodle} version, is that it just
 contains a single XML file (rather than exercise-specific XML files) for the whole
 assessment. The QTI~1.2 standard allows for rather fine control of the properties
 of the exercises (also known as items in QTI~1.2) and the exams (also known as assessments).
@@ -475,8 +475,18 @@ adapted and extended.
 
 \section{Design} \label{sec:design}
 
-\fixme{Briefly explain the idea that a new function xexams does the handling
-of different driver functions.}
+All the new \code{exams2}\emph{xyz}\code{()} interfaces for generating exams in
+different formats (with currently \emph{xyz} $\in$ \{\code{pdf}, \code{html}, \code{moodle}, \code{qti12}\})
+are built by combining the modular building blocks provided by version~2 of \pkg{exams}.
+The idea is that the \code{Sweave} exercises are first \emph{weaved} to {\LaTeX}, 
+\emph{read} into \proglang{R}, potentially \emph{transformed} (e.g., to HTML), and
+then \emph{written} to suitable output file formats. Different customizable
+driver functions (or even driver-generating functions) for performing the
+weave/read/transform/write steps are available in \pkg{exams}.
+Internally, all the \code{exams2}\emph{xyz}\code{()} interfaces choose certain
+drivers and then call a function \code{xexams()} (for extensible exams) that handles
+all temporary files/directories and suitably executes the drivers. In the following subsections,
+all these building blocks are introduced in detail.
 
 \subsection{Extended specification of exercises}
 
@@ -511,7 +521,7 @@ Command & Description \\ \hline
                         the tolerance is 0. For length~2, the lower and upper tolerance can be
 			specified separately.\\
 \verb|\exclozetype{}| & List of types for the elements of a \code{cloze} exercise, e.g.,
-                        \verb+\exclozetype{num|schoice|string}+ for the example above. \\ \hline
+                        \verb+\exclozetype{num|mchoice|string}+ for the example above. \\ \hline
 \verb|\expoints{}|    & Default points for correct solution. \\
 \verb|\extime{}|      & Default time (in seconds) for solution. \\
 \verb|\exshuffle{}|   & Logical indicating whether \code{mchoice}/\code{schoice}
@@ -541,8 +551,8 @@ Three types have a list of questions (or statements)
   \item \code{cloze} for a combination of questions/statements with \code{num},
     \code{string}, or \code{mchoice} answers. Thus, each element of the question
     has either a numeric, short text, or single/multiple-choice answer, e.g., \verb+\exsolution{1.23|001|median}+.
-    For \code{cloze} types an extra \code{clozetype} has to be specified, e.g.,
-    \verb+\exclozetype{num|schoice|string}+.
+    To specify the individual \code{cloze} types\code{clozetype} has to be given, e.g.,
+    \verb+\exclozetype{num|mchoice|string}+.
 \end{itemize}
 The types \code{schoice} and \code{mchoice} have been newly introduced. The purpose
 of the former is mainly to allow for different processing of options (e.g., for
