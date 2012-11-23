@@ -710,7 +710,7 @@ The resulting object is a nested list as shown in Figure~\ref{fig:xexam} with
 the \code{myexam} list). Using \code{x[[i]][[j]]}, the \code{j}-th exercise
 of the \code{i}-th exam can be accessed. Here, we explore the first exercise
 (\code{boxplots}, a multiple-choice question) from the first exam that is also
-shown in Figure~\ref{fig:exams2qti12-boxplots}.
+shown in Figures~\ref{fig:exams2moodle-boxplots} and~\ref{fig:exams2qti12-boxplots}.
 Its general question text (in {\LaTeX}) is printed below -- it requires
 a graphic which is stored in a supplementary file in a temporary directory.
 <<myexam4-xexams2>>=
@@ -1060,5 +1060,35 @@ by an e-learning grant by the Universit\"at Innsbruck. \fixme{Does this
 have a reference/number?}
 
 \bibliography{exams}
+
+\newpage
+
+\begin{appendix}
+
+\section[List of Sweave exercises in exams]{List of \texttt{Sweave} exercises in \pkg{exams}}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{llp{10cm}}
+\hline
+File & Type & Description \\ \hline
+\code{confint} & \code{num} & \\
+\code{lagrange} & \code{num} & \\
+\code{regression} & \code{num} & \\
+\code{tstat} & \code{num} & \\ \hline
+\code{anova} & \code{mchoice} & \\
+\code{boxplots} & \code{mchoice} & \\
+\code{cholesky} & \code{mchoice} & \\
+\code{relfreq} & \code{mchoice} & \\
+\code{scatterplot} & \code{mchoice} & \\
+\code{ttest} & \code{mchoice} & \\ \hline
+\code{tstat2} & \code{schoice} & \\ \hline
+\code{boxhist} & \code{cloze} & \\ \hline
+\end{tabular}
+\caption{\label{tab:exercises} List of \texttt{Sweave} exercises provided as examples
+in \code{exams/inst/exercises}.}
+\end{table}
+
+\end{appendix}
 
 \end{document}
