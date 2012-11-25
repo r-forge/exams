@@ -11,7 +11,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, feedbackswitch = FALSE, hintswitch = FALSE,
-  solutionswitch = FALSE, ...)
+  solutionswitch = FALSE, zip = TRUE, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -246,13 +246,15 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   writeLines(xml, file.path(test_dir, "qti.xml"))
 
   ## compress
-  owd <- getwd()
-  setwd(test_dir)
-  zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir))
-  setwd(owd)
+  if(zip) {
+    owd <- getwd()
+    setwd(test_dir)
+    zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir))
+    setwd(owd)
+  } else zipname <- list.files(test_dir)
 
   ## copy the final .zip file
-  file.copy(file.path(test_dir, zipname), file.path(dir, zipname))
+  file.copy(file.path(test_dir, zipname), if(zip) file.path(dir, zipname) else dir, recursive = TRUE)
 
   ## assign test id as an attribute
   attr(exm, "test_id") <- test_id
