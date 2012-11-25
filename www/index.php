@@ -17,7 +17,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title><?php echo $group_name; ?></title>
+	<title>exams: Automatic Generation of Exams in R</title>
 	<link href="http://<?php echo $themeroot; ?>styles/estilo1.css" rel="stylesheet" type="text/css" />
   </head>
 
@@ -26,26 +26,34 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <!-- R-Forge Logo -->
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
-<a href="http://r-forge.r-project.org/"><img src="http://<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
+<a href="http://R-Forge.R-project.org/"><img src="http://<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
 </table>
 
 
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
 
-<?php if ($handle=fopen('http://'.$domain.'/export/projtitl.php?group_name='.$group_name,'r')){
-$contents = '';
-while (!feof($handle)) {
-	$contents .= fread($handle, 8192);
-}
-fclose($handle);
-echo $contents; } ?>
+<h2>exams: Automatic Generation of Exams in R</h2>
 
-<!-- end of project description -->
+<p>Sweave-based automatic generation of exams including multiple-choice questions and arithmetic problems.
+Exams can be produced in various formats, including PDF, HTML, Moodle XML, QTI 1.2 (for OLAT).</p>
 
-<p> No content added. </p>
+<h3>Version 2: Exams in PDF, HTML, Moodle XML, QTI 1.2 (for OLAT)</h3>
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<ul>
+  <li>Manuscript in Working Paper Series (Universit&auml;t Innsbruck).</li>
+  <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337">Support forum</a> for e-learning exams in Moodle, OLAT, etc.</li>
+  <li><a href="">Project summary</a> on R-Forge.</li>
+  <li><a href="tth-src">Source distribution</a> of the C code for the TeX-to-HTML converter TtH.</li>
+</ul>
+
+
+<h3>Version 1: Exams (and self-study materials) as PDF files</h3>
+
+<ul>
+  <li><a href="http://www.jstatsoft.org/v29/i10/">Manuscript in Journal of Statistical Software</a>.</li>
+  <li><a href="http://eeecon.uibk.ac.at/~zeileis/papers/useR-2011.pdf">Presentation at useR! 2011 conference</a>.</li>
+</ul>
 
 </body>
 </html>
