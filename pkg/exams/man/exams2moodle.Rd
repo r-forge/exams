@@ -12,10 +12,15 @@
   exams2moodle(file, n = 1L, nsamp = NULL, dir,
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, resolution = 100,
-    width = 4, height = 4, num = NULL, mchoice = NULL,
-    schoice = mchoice, string = NULL, cloze = NULL, \dots)
+    width = 4, height = 4, iname = TRUE, stitle = NULL,
+    testid = FALSE, num = NULL, mchoice = NULL,
+    schoice = mchoice, string = NULL, cloze = NULL,
+    zip = FALSE, \dots)
 
-  make_question_moodle23(name = NULL, shuffle = TRUE)
+  make_question_moodle23(name = NULL, solution = TRUE,
+    shuffle = FALSE, penalty = 0, answernumbering = "abc",
+    usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
+    truefalse = c("True", "False"), enumerate = TRUE)
 }
 
 \arguments{
@@ -39,6 +44,9 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
+  \item{iname}{FIXME}
+  \item{stitle}{FIXME}
+  \item{testid}{FIXME}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
     for generating the item body of the question, see function \code{make_itembody_qti12()}.
@@ -47,8 +55,16 @@
   \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice, 
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
+  \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
+  \item{solution}{logical. FIXME}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will
     force Moodle to additionally shuffle the provided answer list.}
+  \item{penalty}{FIXME}
+  \item{answernumbering}{FIXME}
+  \item{usecase}{FIXME}
+  \item{cloze_mchoice_display}{FIXME}
+  \item{truefalse}{FIXME}
+  \item{enumerate}{FIXME}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
@@ -64,6 +80,9 @@
 }
 
 \references{
+  Dougiamas M, et al. (2012). \emph{Moodle, Version 2.3}.
+  \url{http://moodle.org/}.
+
   MoodleDocs (2012).
   \emph{Moodle XML Format}.
   \url{http://docs.moodle.org/23/en/Moodle_XML}
@@ -82,7 +101,29 @@
 }
 
 \examples{
-## still to do
+## load package and enforce par(ask = FALSE)
+library("exams")
+options(device.ask.default = FALSE)
+
+## define an exams (= list of exercises)
+myexam <- list(
+  "boxplots",
+  c("tstat", "ttest", "confint"),
+  c("regression", "anova"),
+  c("scatterplot", "boxhist"),
+  "relfreq"
+)
+
+## output directory
+mydir <- tempdir()
+
+## generate .zip with QTI 1.2 exam in temporary directory
+## using a few customization options
+exams2moodle(myexam, n = 3, dir = mydir,
+  num = list(solution = FALSE),
+  mchoice = list(shuffle = TRUE)
+)
+dir(mydir)
 }
 
 \keyword{utilities}

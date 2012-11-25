@@ -19,7 +19,8 @@
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.", 
     maxattempts = 1, cutvalue = 0, feedbackswitch = FALSE,
-    hintswitch = FALSE, solutionswitch = FALSE, \dots)
+    hintswitch = FALSE, solutionswitch = FALSE,
+    zip = TRUE, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -75,6 +76,7 @@
   \item{feedbackswitch}{logical. Should the question/item feedbackswitch be enabled.}
   \item{hintswitch}{logical. Should the question/item hintswitch be enabled.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled.}
+  \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
@@ -90,6 +92,8 @@
 
 \details{
   Still to do.
+
+  FIXME: Comment on \code{digits = NULL} for numeric exercises.
 }
 
 \references{
@@ -123,13 +127,19 @@ myexam <- list(
   "boxplots",
   c("tstat", "ttest", "confint"),
   c("regression", "anova"),
-  "scatterplot",
+  c("scatterplot", "boxhist"),
   "relfreq"
 )
 
-## generate .zip with QTI 1.2 exam in temporary directory
+## output directory
 mydir <- tempdir()
-exams2qti12(myexam, n = 5, dir = mydir)
+
+## generate .zip with QTI 1.2 exam in temporary directory
+## using a few customization options
+exams2qti12(myexam, n = 3, dir = mydir,
+  num = list(digits = 1),
+  mchoice = list(shuffle = TRUE)
+)
 dir(mydir)
 }
 

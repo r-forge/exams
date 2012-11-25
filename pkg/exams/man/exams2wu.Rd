@@ -69,7 +69,9 @@
 }
 
 \examples{
+\dontrun{
 ## still to do
+}
 }
 
 \keyword{utilities}
