@@ -43,7 +43,7 @@ Exams can be produced in various formats, including PDF, HTML, Moodle XML, QTI 1
 <ul>
   <li>Manuscript in Working Paper Series (Universit&auml;t Innsbruck).</li>
   <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337">Support forum</a> for e-learning exams in Moodle, OLAT, etc.</li>
-  <li><a href="">Project summary</a> on R-Forge.</li>
+  <li><a href="http://R-Forge.R-project.org/projects/exams/">Project summary</a> on R-Forge.</li>
   <li><a href="tth-src">Source distribution</a> of the C code for the TeX-to-HTML converter TtH.</li>
 </ul>
 
