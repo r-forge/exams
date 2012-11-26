@@ -1,3 +1,12 @@
+Changes in Version 1.9-0
+
+  o Major revision of the "exams" package, adding flexible support for
+    generation of exams in different formats including PDF, HTML,
+    Moodle XML, and QTI 1.2 (for OLAT). This new version of the exams
+    package (called "version 2") is described in a new vignette:
+    vignette("exams2", package = "exams")
+
+
 Changes in Version 1.0-4
 
   o Added an {answerlist} environment in the LaTeX templates (inst/tex)
