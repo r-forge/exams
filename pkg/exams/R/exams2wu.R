@@ -26,7 +26,7 @@ make_exams_write_wu <- function(name = NULL, ...)
     args <- list(...)
 
     if(is.null(name))
-      name <- "WUexam"
+      name <- "wuexam"
     name <- paste(name, as.character(Sys.Date()), info$id, sep = "-")
 
     dir.create(tdir <- tempfile())
@@ -151,7 +151,7 @@ write_wu_question.mchoice <- function(x, dir, ...)
   xml <- gsub('src="', 'name="', xml)
   
   ## create the question directory and store all files
-  dir.create(exdir <- file.path(dir, name))
+  dir.create(exdir <- file.path(path.expand(dir), name))
   writeLines(xml, file.path(exdir, paste(name, "xml", sep = ".")))
   if(!is.null(x$supplements) && length(x$supplements))
     for(i in x$supplements)
