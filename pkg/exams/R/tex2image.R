@@ -49,21 +49,11 @@ tex2image <- function(tex, format = "png", width = 6,
       idir <- texdir
     idir <- path.expand(idir)
     files <- list.files(idir)
+    cp <- NULL
     for(k in 1L:length(graphics)) {
-      g <- strsplit(graphics[k], "")[[1L]]
-      take <- NULL
-      do <- TRUE
-      i <- length(g) - 1L
-      while(do) {
-        if(g[i] == "{")
-          do <- FALSE
-        else
-          take <- c(take, g[i])
-        i <- i - 1L
-      }
-      graphics[k] <- paste(take[length(take):1L], sep = "", collapse = "")
+      graphics[k] <- extract_command(graphics[k], "includegraphics")
+      cp <- c(cp, grep(graphics[k], files, fixed = TRUE, value = TRUE))
     }
-    cp <- grep(graphics, files, fixed = TRUE, value = TRUE)
     if(length(cp)) {
       for(f in cp) 
         file.copy(from = file.path(idir, f), to = file.path(tdir, f), overwrite = TRUE)
