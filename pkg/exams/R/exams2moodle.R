@@ -3,9 +3,9 @@
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
-  iname = TRUE, stitle = NULL, testid = FALSE,
+  iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  zip = FALSE, ...)
+  ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
