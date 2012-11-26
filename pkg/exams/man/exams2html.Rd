@@ -55,7 +55,7 @@
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML. For details see below.}
   \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
-    also be a character vector of file endings that should be base64 encoded, e.g.
+    also be a character vector of file endings that should be Base 64 encoded, e.g.
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
