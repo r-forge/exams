@@ -3,8 +3,16 @@
 make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"), base64 = TRUE, ...)
 {
   converter <- match.arg(converter)
-  if(base64) stopifnot(require("base64enc"))
   if(converter %in% c("tth", "ttm")) stopifnot(require("tth"))
+
+  ## base64 checks
+  if(is.null(base64)) base64 <- TRUE
+  base64 <- if(is.logical(base64) && base64) {
+    c("bmp", "gif", "jpeg", "jpg", "png")
+  } else {
+    if(is.logical(base64)) NA  else tolower(base64)
+  }
+  if(b64 <- !all(is.na(base64))) stopifnot(require("base64enc"))
 
   if(converter == "tex2image") {
     ## transforms the tex parts of exercise to images
@@ -28,12 +36,12 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       names(images) <- inames
       dir <- tex2image(images, idir = sdir, show = FALSE, name = bsname, ...)
       inames <- file_path_sans_ext(basename(dir))
-      if(base64) {
+      if(b64) {
         for(i in seq_along(dir))
           dir[i] <- sprintf('<img src="%s" alt="%s" />', dataURI(file = dir[i],
             mime = paste('image', format = file_ext(dir[i]), sep = '/')), dir[i])
         for(sf in dir(sdir)) {
-          if(length(grep(file_ext(sf), c("png", "jpg", "jpeg", "gif"), ignore.case = TRUE))) {
+          if(length(grep(file_ext(sf), base64, ignore.case = TRUE))) {
             file.remove(file.path(sdir, sf))
             x$supplements <- x$supplements[!grepl(sf, x$supplements)]
             attr(x$supplements, "dir") <- sdir        
@@ -47,14 +55,14 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
           j <- grep(i, inames)
           j <- j[!grepl("list", inames[j])]
         }
-        x[[i]] <- if(base64) {
+        x[[i]] <- if(b64) {
           dir[j]
         } else {
           paste("<img src=\"", dir[j], "\" alt=\"", inames[j], "\" />", sep = "")
         }
         names(x[[i]]) <- inames[j]
       }
-      if(!base64) {
+      if(!b64) {
         for(i in dir) {
           fp <- file.path(sdir, basename(i))
           file.copy(i, fp)
@@ -114,10 +122,10 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       namtrex <- names(trex)
 
       ## base64 image/supplements handling
-      if(base64 && length(sfiles <- dir(sdir))) {
+      if(b64 && length(sfiles <- dir(sdir))) {
         for(sf in sfiles) {
           for(i in seq_along(trex)) {
-            if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
+            if(length(j <- grep(sf, trex[[i]], fixed = TRUE)) && file_ext(sf) %in% base64) {
               base64i <- fileURI(file = sf)
               trex[[i]][j] <- gsub(paste(sf, '"', sep = ''),
                 paste(base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
