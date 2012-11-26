@@ -255,7 +255,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   } else zipname <- list.files(test_dir)
 
   ## copy the final .zip file
-  file.copy(file.path(test_dir, zipname), if(zip) file.path(dir, zipname) else dir, recursive = TRUE)
+  file.copy(file.path(test_dir, zipname), dir, recursive = TRUE)
 
   ## assign test id as an attribute
   attr(exm, "test_id") <- test_id
