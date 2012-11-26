@@ -45,12 +45,12 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
-    tag in the final \code{.xml} file? This option may be useful when questions should be added to
+    tag in the final XML file? This option may be useful when questions should be added to
     certain already existing question banks, i.e. \code{iname = TRUE} will include the exam
     \code{name} by \code{$course$/ExamName/}.}
   \item{stitle}{character. For the questions specified in argument \code{file}, additional section
     titles may be set. The section titles will then be added to the \code{<category>}
-    tag in the final \code{.xml} file (see also argument \code{iname}), i.e. the section name
+    tag in the final XML file (see also argument \code{iname}), i.e. the section name
     for each question will be written to \code{$course$/ExamName/SectionName}. Note that section
     names may also be provided in the \code{\\exsection{}} tag in the \code{.Rnw} file of the
     question. However, section names that are specified in \code{stitle} will overwrite
@@ -67,7 +67,7 @@
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
   \item{solution}{logical. Should the question solution, if available, be added in the question
-     \code{.xml}?}
+     XML?}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will
     force Moodle to additionally shuffle the provided answer list.}
   \item{penalty}{numeric. Specifies the penalty tag for a question.}
@@ -85,7 +85,32 @@
 }
 
 \details{
-  Still to do.
+  \code{exams2moodle} will produce a XML file that may be uploaded in Moodle. It proceeds by (1)
+  calling \code{\link[utils]{Sweave}} on each exercise, (2) reading the resulting LaTeX code, (3)
+  transforming the LaTeX code to HTML, and (4) embedding the HTML code in a XML file using the
+  Moodle 2.3 standards for exams/quizzes.
+
+  For steps (1) and (2) the standard drivers in \code{xexams} are used. In step (3), a suitable
+  transformation function is set up on the fly using \code{make_exercise_transform_html}, see also
+  the details section in \code{\link{exams2html}}.
+
+  For step (4), the function will cycle through all questions and exams to generate the final XML
+  file in Moodle 2.3 standard. The structure of the resulting XML file is such that one category
+  will be set for the exam/quiz using the exam/quiz \code{name} (or this category may be
+  suppressed (i.e., not included in the XML) by setting \code{iname = FALSE}), followed by one
+  category/section for each question, while the replicates of each question will be included in the
+  corresponding category/section. Note that category/section names may also be provided in the
+  \code{\\exsection{}} tag in the \code{.Rnw} files, or within argument \code{stitle} in
+  \code{exams2moodle}. This may be useful when questions should automatically be added to already
+  existing Moodle question banks. (See also the argument descriptions above)
+
+  The XML code for each question is then generated using function \code{make_question_moodle23}.
+  Note that for each question type, either the arguments of \code{make_question_moodle23} may be set
+  within \code{num}, \code{mchoice}, \code{schoice}, \code{string} and \code{cloze} in
+  \code{exams2moodle}, by providing a named list of specifications that should be used, or for each
+  questiontype, a function that produces the question XML code may be provided to \code{num},
+  \code{mchoice}, \code{schoice}, \code{string} and \code{cloze}. E.g., to suppress the solution
+  for numeric questions one may set \code{num = list(solution = FALSE)}.
 }
 
 \value{
