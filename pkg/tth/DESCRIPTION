@@ -1,6 +1,6 @@
 Package: tth
 Version: 4.03-0
-Date: 2012-11-12
+Date: 2012-11-26
 Authors@R: c(person(c("Ian", "H."), "Hutchinson", role = "aut",
 	       comment = "author of tth/ttm C sources"),
 	     person("Friedrich", "Leisch", role = c("aut", "cre"),
