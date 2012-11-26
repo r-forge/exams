@@ -10,8 +10,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
-  maxattempts = 1, cutvalue = 0, feedbackswitch = FALSE, hintswitch = FALSE,
-  solutionswitch = FALSE, zip = TRUE, ...)
+  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -231,6 +230,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
   cutvalue <- make_integer_tag(cutvalue, type = "cutvalue", default = 0)
 
   ## finalize the test xml file, insert ids/titles, sections, and further control details
+  feedbackswitch <- FALSE ## currently hard-coded
+  hintswitch <- FALSE
   xml <- gsub("##TestIdent", test_id, xml)
   xml <- gsub("##TestTitle", name, xml)
   xml <- gsub("##TestDuration", duration, xml)

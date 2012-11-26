@@ -18,8 +18,7 @@
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.", 
-    maxattempts = 1, cutvalue = 0, feedbackswitch = FALSE,
-    hintswitch = FALSE, solutionswitch = FALSE,
+    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
@@ -73,9 +72,9 @@
   \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
     \code{Inf}.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
-  \item{feedbackswitch}{logical. Should the question/item feedbackswitch be enabled.}
-  \item{hintswitch}{logical. Should the question/item hintswitch be enabled.}
-  \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled.}
+  \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
+    In OLAT this means that the correct solution is shown after an incorrect solution
+    was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
