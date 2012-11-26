@@ -457,9 +457,9 @@ formats.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=\textwidth]{screenshots/exams2qti12-boxplots.png}
+\includegraphics[width=0.93\textwidth]{screenshots/exams2qti12-boxplots.png}
 \caption{\label{fig:exams2qti12-boxplots} Display of exercise~1 (\code{boxplots}) from
-  \code{myexam} in (a German installation of) \pkg{OLAT} (as rendered by a \pkg{Firefox} browser).}
+  \code{myexam} in \pkg{OLAT} (as rendered by a \pkg{Firefox} browser).}
 \end{figure}
 
 The generation of QTI~1.2 assessments (for \pkg{OLAT}) proceeds essentially in the
@@ -482,16 +482,19 @@ dir(odir)
 The ZIP file can again be easily imported into an \pkg{OLAT} test configuration where
 further customization can be performed\footnote{While customization of the
 features of the overall assessment was always possible for us, \pkg{OLAT}
-typically did not always allow for modification of the individual exercise item.
+typically did not allow for modification of the individual exercise items.
 We were not able to track down which part of the QTI~1.2 XML specification causes this.}.
 The first \code{boxplots} exercise from the exam generated above is shown in
-(a German installation of) \pkg{OLAT} in Figure~\ref{fig:exams2qti12-boxplots}
+\pkg{OLAT} in Figure~\ref{fig:exams2qti12-boxplots}
 (again as rendered by a \pkg{Firefox} browser). The corresponding solutions
-can be displayed in \pkg{OLAT} immediately after completing each
-individual exercise as a hint or after the exam as a solution
-\fixme{Niki, please check this and also complete the corresponding manual page}.
-By default, both are disabled but could be enabled by using the corresponding switch,
-see \code{?exams2qti12}.
+are displayed in \pkg{OLAT} immediately after \emph{incorrectly} completing an
+individual exercise. The display of solutions can also be suppressed completely
+by setting \code{solutionswitch = FALSE} in \code{exams2qti12()}.\footnote{In our
+e-learning exams, we typically employ these default settings (i.e.,
+\code{maxattemps = 1} and \code{solutionswitch = TRUE}). Alternatively,
+we give the students an unlimited number of attempts to solve an exercise
+(\code{maxattempts = Inf}) but then suppress solutions completely (\code{solutionswitch = FALSE})
+because otherwise the correct solution would be displayed after the first incorrect attempt.}
 
 The main difference of the generated ZIP file for QTI~1.2, compared to the \pkg{Moodle} XML output,
 is that in addition to the \code{qti.xml} file further supplementary files can be included.
@@ -545,27 +548,29 @@ Command & Description \\ \hline
 			\code{cloze} for cloze solutions (i.e., combinations of the above). \\
 \verb|\exname{}|      & Short name/description (to be used for printing within \proglang{R}). \\
 \verb|\extitle{}|     & Pretty longer title (for \pkg{Moodle}). \\
-\verb|\exsection{}|   & Section of the exercise (with slashes for subsections as in a URL). \\
+\verb|\exsection{}|   & Section of the exercise (for \pkg{Moodle}, with slashes for subsections as in a URL). \\
 \verb|\exversion{}|   & Version of the exercise. \\ \hline
 \verb|\exsolution{}|  & Correct solution (required). It must contain a numeric solution for \code{num},
                         a string of zeros/ones for \code{mchoice}/\code{schoice}, or a character
 			string of \code{string}. For \code{cloze} a combination of these can
 			be specified, e.g., \verb+\exsolution{1.23|001|median}+. \\
 \verb|\extolerance{}| & Tolerance limits (of length~1 or~2) for \code{num} solutions. If unspecified
-                        the tolerance is 0. For length~2, the lower and upper tolerance can be
+                        the tolerance is 0. For length~2 (not supported in \pkg{Moodle}), the lower and upper tolerance can be
 			specified separately.\\
 \verb|\exclozetype{}| & List of types for the elements of a \code{cloze} exercise, e.g.,
-                        \verb+\exclozetype{num|mchoice|string}+ for the example above. \\ \hline
-\verb|\expoints{}|    & Default points for correct solution. \\
-\verb|\extime{}|      & Default time (in seconds) for solution. \\
-\verb|\exshuffle{}|   & Logical indicating whether \code{mchoice}/\code{schoice}
-                        answers should be shuffled (in \pkg{Moodle} or other e-learning systems). \\
-\verb|\exsingle{}|    & Logical indicating whether radio buttons should be used in \pkg{Moodle}. \\ \hline
+                        \verb+\exclozetype{num|mchoice|string}+ for the example above. \\ 
+\verb|\expoints{}|    & Points for correct solution. Default is 1.\\
+%% \verb|\extime{}|      & Default time (in seconds) for solution. \\
+%% \verb|\exshuffle{}|   & Logical indicating whether \code{mchoice}/\code{schoice}
+%%                         answers should be shuffled (in \pkg{Moodle} or other e-learning systems). \\
+%% \verb|\exsingle{}|    & Logical indicating whether radio buttons should be used in \pkg{Moodle}. \\
+\hline
 \end{tabular}
 \caption{\label{tab:metainfo} Overview of metainformation commands in exercises. The commands in the
-  first section allow for a general description, those in the section section for question/answer
-  specification, and those in the last section for customization in e-learning environments. Only
-  \texttt{extype} and \texttt{exsolution} are always required (but \texttt{exname} is recommended
+  first section allow for a general description, those in the second section for question/answer
+  specification.
+  %%and those in the last section for customization in e-learning environments.
+  Only \texttt{extype} and \texttt{exsolution} are always required (but \texttt{exname} is recommended
   additionally for nice printing in \proglang{R}).}
 \end{table}
 
@@ -972,6 +977,24 @@ of the \pkg{Moodle} interface. It also has separate \code{num}, \code{mchoice},
 each of which is by default generated by \code{make_itembody_qti12()} (as exercises
 are called items in \pkg{OLAT}), possibly supplying further arguments for
 customization.
+%
+\begin{Code}
+  exams2qti12(file, n = 1L, nsamp = NULL, dir,
+    template = "qti12", name = NULL, edir = NULL, tdir = NULL, sdir = NULL,
+    quiet = TRUE, resolution = 100, width = 4, height = 4,
+    num = NULL, mchoice = NULL, schoice = mchoice, string = NULL,
+    cloze = NULL, duration = NULL, stitle = "Exercise", ititle = "Question",
+    adescription = "Please solve the following exercises.",
+    sdescription = "Please answer the following question.", 
+    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE, ...)
+
+  make_itembody_qti12(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
+    minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
+    maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2,
+    tolerance = is.null(digits), maxchars = 12)
+\end{Code}
+%
+For details about the arguments see \code{?exams2qti12}.
 The main difference between the \pkg{Moodle} XML and QTI~1.2 XML specifications is
 that the former just provides some control over the individual exercises (or questions, items)
 whereas the latter also has control options for the whole exam (or assessment).
@@ -982,6 +1005,23 @@ with exactly one \code{<item>} with a placeholder \verb|##ItemBody|. Then,
 \code{exams2qti12()} reads the template, replicates the \code{<section>} \code{n} times and
 the \code{<item>} for each exercise, and inserts the \verb|##ItemBody| with the
 XML transformation functions for \code{num}, \code{mchoice}, etc.
+
+One detail of the QTI~1.2 interfaces should be briefly explained: Although the QTI~1.2
+XML standard supports numeric exercises/items through its \verb|<response_num>| tag, this is
+not fully implemented in all QTI-based learning management systems. Namely, \pkg{OLAT} has no
+official support for this type of exercises. Hence, \code{exams2qti12()} by default
+uses the following workaround: If the \code{digits} argument is some finite value (default: \code{2}),
+the correct numeric solution is formatted to a character string with \code{digits} decimal
+places. Then, the correct solution is entered as a string solution (\verb|<response_str>|)
+which means that answers entered in the system will only be recognized as correct if they
+exactly match the correct string (e.g., \code{111.1} would not be recognized as correct
+if the string \code{111.10} with \code{digits = 2} is used). Alternatively, one can set
+\code{num = list(digits = NULL)} in \code{exams2qti12()} so that \verb|<response_num>|
+will be used in the XML code. This has the inteded effect that the solution is recognized
+as numeric and the corresponding \code{tolerance} is employed, however it also has the
+uninteded side effect that correct solutions are not displayed in the final results page of
+the exam. Hence, we have set \code{digits = 2} by default but we hope that future releases
+of \pkg{OLAT} are improved to also fully support \code{digits = NULL}.
 
 In summary, most end users should just have to call the main interfaces \code{exams2moodle()}
 or \code{exams2qti12()} and customize by setting options for \code{num}, \code{mchoice}, etc.\
@@ -1160,8 +1200,8 @@ is available on \proglang{R}-Forge at
 We are indebted to all our colleagues and mathematics team members at the Department of Statistics
 at Universit\"at Innsbruck -- especially Bettina Lubach, Lorenz Oberhammer, and Alexander Razen --
 for testing and challenging the code and making suggestions for improvement.
-This project was also partially supported by an e-learning grant by the Universit\"at Innsbruck,
-project number 147290.
+This project was also partially supported by an e-learning grant (\#147290)
+by the Universit\"at Innsbruck.
 
 \bibliography{exams}
 
