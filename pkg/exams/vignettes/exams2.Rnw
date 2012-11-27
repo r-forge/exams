@@ -803,7 +803,7 @@ Internally, \code{make_exercise_transform_html()} can leverage three different \
 former two come from the \proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012}
 and internally call the two \proglang{C}~functions \code{tth} ({\TeX} to HTML) and \code{ttm} ({\TeX} to HTML/MathML)
 taken from the \pkg{TtH} suite of \cite{exams:Hutchinson:2012}. The last option, \code{tex2image},
-is a function provided by the \pkg{exams} package itself. It proceeds by first runing \code{texi2dvi(pdf = TRUE)}
+is a function provided by the \pkg{exams} package itself. It proceeds by first running \code{texi2dvi(pdf = TRUE)}
 from the base \proglang{R} package \pkg{tools} and subsequently converting the resulting PDF to a raster
 image in a \code{system()} call to \pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2012}.
 Thus, for this function \pkg{ImageMagick} is assumed to be installed and in the search path.
@@ -1128,7 +1128,7 @@ workload among a large team of contributors. Each person can just work on
 stand-alone \code{.Rnw} files, e.g., for a particular exercises type or for
 the exercises pertaining to a specific chapter from the lecture etc. Depending
 on the output formats, it is typically a good idea to make sure that
-the exercise, \code{foo.Rnw} say, works as desired by runing \code{exams2pdf("foo.Rnw")}
+the exercise, \code{foo.Rnw} say, works as desired by running \code{exams2pdf("foo.Rnw")}
 and \code{exams2html("foo.Rnw")} to make sure that it can be appropriately rendered
 in both PDF and HTML. To check that the solution is correctly entered in the
 metainformation, it helps to run \code{exams_metainfo(exams2html("foo.Rnw"))} (or analogously
