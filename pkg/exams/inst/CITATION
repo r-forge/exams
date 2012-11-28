@@ -1,5 +1,3 @@
-citHeader("To cite exams in publications use:")
-
 citEntry(entry = "Article",
   title        = "Automatic Generation of Exams in {R}",
   author       = personList(as.person("Bettina Gr\\\"un"),
