@@ -1197,9 +1197,8 @@ is available on \proglang{R}-Forge at
 
 \section*{Acknowledgments}
 
-We are indebted to all our colleagues and mathematics team members at the Department of Statistics
-at Universit\"at Innsbruck -- especially Bettina Lubach, Lorenz Oberhammer, and Alexander Razen --
-for testing and challenging the code and making suggestions for improvement.
+We are indebted to all our colleagues in the ``Mathematics'' team at the Department of Statistics
+at Universit\"at Innsbruck for testing and challenging the code and making suggestions for improvement.
 This project was also partially supported by an e-learning grant (\#2011.241)
 by the Universit\"at Innsbruck.
 
