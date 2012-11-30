@@ -83,12 +83,22 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       ## add seperator as last line to each chunk
       object <- lapply(object, "c", sep)
 
-      ## FIXME: delete blank lines "", not sure if 100% ok
-      obj <- unlist(object)
-      obj <- obj[obj != ""]
-
       ## call ttx() on collapsed chunks
-      rval <- tmp <- do.call(converter, list("x" = obj, ...))
+      rval <- tmp <- do.call(converter, list("x" = unlist(object), ...))
+
+      ## extra check, e.g. if "</div>\\007\\007\\007\\007\\007"
+      nsep <- nchar(sep)
+      for(i in grep(sep, rval, fixed = TRUE)) {
+        if(nchar(rval[i]) > nsep) {
+          check <- (st <- strsplit(rval[i], "")[[1L]]) %in% strsplit(sep, "")[[1L]]
+          if(!check[1L]) {
+            nt <- c(paste(st[!check], collapse = ""), paste(st[check], collapse = ""))
+          } else {
+            nt <- c(paste(st[check], collapse = ""), paste(st[!check], collapse = ""))
+          }
+          rval <- c(rval[1:(i - 1)], nt, rval[(i + 1):length(rval)])
+        }
+      }
 
       ## split chunks again on sep
       ix <- substr(rval, 1, nchar(sep)) == sep
