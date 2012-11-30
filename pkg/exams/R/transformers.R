@@ -58,7 +58,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
         x[[i]] <- if(b64) {
           dir[j]
         } else {
-          paste("<img src=\"", dir[j], "\" alt=\"", inames[j], "\" />", sep = "")
+          paste("<img src=\"", file.path(sdir, basename(dir[j])), "\" alt=\"", inames[j], "\" />", sep = "")
         }
         names(x[[i]]) <- inames[j]
       }
