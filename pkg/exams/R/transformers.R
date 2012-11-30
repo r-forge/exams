@@ -83,8 +83,12 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       ## add seperator as last line to each chunk
       object <- lapply(object, "c", sep)
 
+      ## FIXME: delete blank lines "", not sure if 100% ok
+      obj <- unlist(object)
+      obj <- obj[obj != ""]
+
       ## call ttx() on collapsed chunks
-      rval <- tmp <- do.call(converter, list("x" = unlist(object), ...))
+      rval <- tmp <- do.call(converter, list("x" = obj, ...))
 
       ## split chunks again on sep
       ix <- substr(rval, 1, nchar(sep)) == sep
