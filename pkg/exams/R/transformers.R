@@ -81,40 +81,32 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       sep = "\\007\\007\\007\\007\\007", ...)
     {
       ## add seperator as last line to each chunk
-      object <- lapply(object, "c", sep)
+      object <- lapply(object, c, sep)
 
       ## call ttx() on collapsed chunks
-      rval <- tmp <- do.call(converter, list("x" = unlist(object), ...))
-
-      ## extra check, e.g. if "</div>\\007\\007\\007\\007\\007"
-      nsep <- nchar(sep)
-      for(i in grep(sep, rval, fixed = TRUE)) {
-        if(nchar(rval[i]) > nsep) {
-          check <- (st <- strsplit(rval[i], "")[[1L]]) %in% strsplit(sep, "")[[1L]]
-          if(!check[1L]) {
-            nt <- c(paste(st[!check], collapse = ""), paste(st[check], collapse = ""))
-          } else {
-            nt <- c(paste(st[check], collapse = ""), paste(st[!check], collapse = ""))
-          }
-          rval <- c(rval[1:(i - 1)], nt, rval[(i + 1):length(rval)])
-        }
-      }
+      rval <- do.call(converter, list("x" = unlist(object), ...))
+      img <- attr(rval, "images")
 
       ## split chunks again on sep
-      ix <- substr(rval, 1, nchar(sep)) == sep
+      ix <- grepl(sep, rval, fixed = TRUE)
       rval <- split(rval, c(0, head(cumsum(ix), -1L)))
 
       ## FIXME: length of rval may be smaller than the length of object?
       names(rval) <- rep(names(object), length.out = length(rval))
 
-      ## omit last line in each chunk (containing sep) again
-      rval <- lapply(rval, head, -1L)
+      ## omit sep from last line in each chunk
+      cleansep <- function(x) {
+        n <- length(x)
+        if(x[n] == sep) return(x[-n])
+        return(c(x[-n], gsub(sep, "", x[n], fixed = TRUE)))
+      }
+      rval <- lapply(rval, cleansep)
 
       ## store ttx images
-      attr(rval, "images") <- attr(tmp, "images")
+      attr(rval, "images") <- img
 
       rval
-    }
+    } 
 
     ## exercise conversion with ttx()
     function(x)
