@@ -95,10 +95,9 @@ For the matrix
 \begin{eqnarray*}
   A &= \Sexpr{toLatex(A)}.
 \end{eqnarray*}
-compute the matrix $L = (\ell_{ij})_{1 \leq i,j \leq \Sexpr{n}}$ from the Cholesky decomposition
-\begin{eqnarray*}
-  A &= L L^\top
-\end{eqnarray*}
+compute the matrix $L = (\ell_{ij})_{1 \leq i,j \leq \Sexpr{n}}$ from the
+Cholesky decomposition $ A = L L^\top$.
+
 Which of the following statements are true?
 <<echo=FALSE, results=hide, results=tex>>=
 answerlist(mc$questions)
