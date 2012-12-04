@@ -2,11 +2,12 @@
 exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
-  width = 4, height = 4, converter = "tex2image", base64 = FALSE, ...)
+  width = 4, height = 4, converter = "tex2image", base64 = FALSE,
+  auto_scramble = TRUE, ...)
 {
   ## set up .xml transformer and writer function
   htmltransform <- make_exercise_transform_html(converter = converter, base64 = base64, ...)
-  wuwrite <- make_exams_write_wu(name, ...)
+  wuwrite <- make_exams_write_wu(name, auto_scramble = auto_scramble, ...)
 
   ## create final .xml exam
   xexams(file, n = n, nsamp = nsamp, driver = list(
@@ -19,7 +20,7 @@ exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 
 
 ## writes the final .xml site
-make_exams_write_wu <- function(name = NULL, ...)
+make_exams_write_wu <- function(name = NULL, auto_scramble = TRUE, ...)
 {
   function(x, dir, info)
   {
@@ -47,7 +48,7 @@ make_exams_write_wu <- function(name = NULL, ...)
       '<description/>',
       paste('<grading area="', if(is.null(args$gradingarea)) 'sd' else args$gradingarea,
         '" shortname="', if(is.null(args$gradingshortname)) 'teilgenommen' else args$gradingshortname, '"/>', sep = ""),
-      '<usage_details allowed_time="0" final_exam="false" practice="false" auto_scramble="true"/>',
+      paste('<usage_details allowed_time="0" final_exam="false" practice="false" auto_scramble="', tolower(as.character(auto_scramble)), '"/>', sep = ""),
       '<directory>'
     )
 

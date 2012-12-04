@@ -12,9 +12,10 @@
   exams2wu(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL, 
     quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, solution = TRUE, 
     doctype = NULL, head = NULL, resolution = 100, width = 4, 
-    height = 4, converter = "tex2image", base64 = FALSE, \dots)
+    height = 4, converter = "tex2image", base64 = FALSE,
+    auto_scramble = TRUE, \dots)
 
-  make_exams_write_wu(name = NULL, \dots)
+  make_exams_write_wu(name = NULL, auto_scramble = TRUE, \dots)
 }
 
 \arguments{
@@ -46,7 +47,8 @@
     graphics passed to \code{\link[utils]{Sweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML.}
-  \item{base64}{logical. Should images be embeddeg using Base 64 coding?}    
+  \item{base64}{logical. Should images be embeddeg using Base 64 coding?}  
+  \item{auto_scramble}{logical. Should answers be scrambled automaticall?}  
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
