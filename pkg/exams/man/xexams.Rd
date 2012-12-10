@@ -50,7 +50,7 @@
   \code{xexams} is typically not called by the user directly but is used as a common
   infrastructure for functions such as \code{\link[exams]{exams2pdf}}, \code{\link[exams]{exams2html}},
   \code{\link[exams]{exams2moodle}}, \code{\link[exams]{exams2qti12}}, or
-  \code{\link[exams]{exams2wu}}.
+  \code{\link[exams]{exams2lops}}.
   
   \code{xexams} generates exams from lists (or vectors) of Sweave source files by:
   (1) running \code{driver$sweave} on each Sweave exercise (by default \code{\link[utils]{Sweave}}),
@@ -94,7 +94,7 @@
   \code{\link[exams]{exams2html}},
   \code{\link[exams]{exams2moodle}},
   \code{\link[exams]{exams2qti12}},
-  \code{\link[exams]{exams2wu}}
+  \code{\link[exams]{exams2lops}}
   }
 
 \examples{
