@@ -1,5 +1,5 @@
 ## generate exams in .xml format
-exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
+exams2lops <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
   width = 4, height = 4, converter = "tex2image", base64 = FALSE,
@@ -7,27 +7,27 @@ exams2wu <- function(file, n = 1L, nsamp = NULL, dir = NULL,
 {
   ## set up .xml transformer and writer function
   htmltransform <- make_exercise_transform_html(converter = converter, base64 = base64, ...)
-  wuwrite <- make_exams_write_wu(name, auto_scramble = auto_scramble, ...)
+  lopswrite <- make_exams_write_lops(name, auto_scramble = auto_scramble, ...)
 
   ## create final .xml exam
   xexams(file, n = n, nsamp = nsamp, driver = list(
       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE, resolution = resolution, width = width, height = height),
       read = NULL,
       transform = htmltransform,
-      write = wuwrite),
+      write = lopswrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 }
 
 
 ## writes the final .xml site
-make_exams_write_wu <- function(name = NULL, auto_scramble = TRUE, ...)
+make_exams_write_lops <- function(name = NULL, auto_scramble = TRUE, ...)
 {
   function(x, dir, info)
   {
     args <- list(...)
 
     if(is.null(name))
-      name <- "wuexam"
+      name <- "lopsexam"
     name <- paste(name, as.character(Sys.Date()), info$id, sep = "-")
 
     dir.create(tdir <- tempfile())
@@ -56,7 +56,7 @@ make_exams_write_wu <- function(name = NULL, auto_scramble = TRUE, ...)
     for(ex in x) {
       type <- ex$metainfo$type
       class(ex) <- c(if(type == "schoice") "mchoice" else type, "list")
-      exam.xml <- c(exam.xml, write_wu_question(ex, test_dir, ...))
+      exam.xml <- c(exam.xml, write_lops_question(ex, test_dir, ...))
     }
 
     ## finish the exam xml
@@ -86,9 +86,9 @@ make_exams_write_wu <- function(name = NULL, auto_scramble = TRUE, ...)
 
 
 ## generic WU question writer function
-write_wu_question <- function(x, dir, ...)
+write_lops_question <- function(x, dir, ...)
 {
-  UseMethod("write_wu_question")
+  UseMethod("write_lops_question")
 }
 
 
@@ -97,7 +97,7 @@ write_wu_question <- function(x, dir, ...)
 
 ## FIXME: add identical schoice method?
 
-write_wu_question.mchoice <- function(x, dir, ...)
+write_lops_question.mchoice <- function(x, dir, ...)
 {
   args <- list(...)
   time <- gsub("-", "", paste(as.character(Sys.Date()), make_id(10), sep = ""))

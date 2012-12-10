@@ -38,8 +38,8 @@ export(
   "make_itembody_qti12",
 
   ## WU server driver
-  "exams2wu",
-  "make_exams_write_wu",
+  "exams2lops",
+  "make_exams_write_lops",
 
   ## Moodle driver
   "exams2moodle",
