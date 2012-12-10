@@ -1,6 +1,7 @@
 \documentclass[nojss]{jss}
 \usepackage{thumbpdf}
 %% need no \usepackage{Sweave}
+%\shortcites{exams:Blesius+Moreno-Ger+Neumann:2007,exams:Agea+Crespo-Garcia+Delgado-Kloos:2009}
 
 %% for internal use
 \newcommand{\fixme}[1]{\emph{\marginpar{FIXME} (#1)}}
@@ -19,8 +20,8 @@
 \Plaintitle{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond}
 \Shorttitle{Flexible Generation of E-Learning Exams in \proglang{R}}
 
-\Keywords{exams, e-learning, multiple choice, arithmetic problems, \code{Sweave}, \proglang{R}, {\LaTeX}, HTML, XML, \pkg{Moodle}, \pkg{OLAT}}
-\Plainkeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, Moodle, OLAT}
+\Keywords{exams, e-learning, multiple choice, arithmetic problems, \code{Sweave}, \proglang{R}, {\LaTeX}, HTML, XML, IMS QTI, \pkg{Moodle}, \pkg{OLAT}}
+\Plainkeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, IMS QTI, Moodle, OLAT}
 
 \Abstract{
   The capabilities of the package \pkg{exams} for automatic generation
@@ -65,7 +66,7 @@
 \SweaveOpts{engine = R, eps = FALSE, keep.source = TRUE}
 %\VignetteIndexEntry{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments and Beyond}
 %\VignetteDepends{stats, graphics, tools, utils, tth, base64enc}
-%\VignetteKeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, Moodle, OLAT}
+%\VignetteKeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, IMS QTI, Moodle, OLAT}
 %\VignettePackage{exams}
 
 <<preliminaries, echo=FALSE, results=hide>>=
@@ -88,7 +89,7 @@ classic classroom exams. Although e-learning systems started to become
 available more easily back at that time, they were still not very widely used
 and, more importantly, rather few easy-to-use standards for specifying
 e-learning exams were available (e.g., WU Wien used a partially
-self-developed e-learning system).
+self-developed e-learning system based on \pkg{.LRN}, see \citealp{exams:Blesius+Moreno-Ger+Neumann:2007}).
 
 However, since 2006 the situation
 has clearly changed: E-learning systems are now abundant with many
@@ -104,8 +105,8 @@ and supported by a large world-wide user community, or \pkg{OLAT}
 (for online learning and training), developed by \cite{exams:OLAT:2012},
 or the commercial \pkg{Blackboard} system, developed by \citep{exams:Blackboard:2010}.
 Standards for specifying and exchanging e-learning exams/assessements
-have also emerged. While \pkg{Moodle} relies on its own \pkg{Moodle}
-XML format, \pkg{OLAT} and \pkg{Blackboard}
+have also emerged \citep[see][for an overview]{exams:Agea+Crespo-Garcia+Delgado-Kloos:2009}.
+While \pkg{Moodle} relies on its own \pkg{Moodle} XML format, \pkg{OLAT} and \pkg{Blackboard}
 employ certain subsets of the international QTI (question \& test interoperability)
 standard, version~1.2, maintained by the \cite{exams:QTI12:2012}.
 The successor formats are QTI~2.0 and the current QTI~2.1 which is
@@ -1034,7 +1035,7 @@ for QTI~1.2, a different template could be used.
 
 In some cases it is not sufficient to use the arguments of the existing \code{exams2}\emph{xyz}\code{()} functions 
 or to provide alternative \code{template}s to them. In particular, when a completely different output format
-is required (e.g., a different XML format), it might be necessary to develop new drivers for the \pkg{exams}
+is required (e.g., a different XML format), it might be necessary to develop new drivers for the \code{xexams()}
 toolbox. One example for such a situation is the software product that is currently employed for generating
 \emph{printed} large-lecture exams at Universit\"at Innsbruck. This allows for
 \begin{itemize}
@@ -1045,28 +1046,28 @@ toolbox. One example for such a situation is the software product that is curren
 \end{itemize}
 Although, the \pkg{exams} package can also generate PDF exams directly, an interface to this exam
 server is desirable because it can handle the OCR automatically and the students can easily log into
-the server to see their personal results and inspect their exam scan.
+the exam server to see their personal results and inspect their exam scan.
 
-Fortunately, this exam server (developed by a spin-off company of WU Wien) also
+Fortunately, this so-called LOPS exam server (developed by a spin-off company of WU Wien) also
 employs an XML specification for importing/exporting its exams. Therefore, it was easily
-possible for us to establish a new \code{exams2wu()} interface that produces one ZIP file
+possible for us to establish a new \code{exams2lops()} interface that produces one ZIP file
 for each exam, including the XML plus supplementary graphics. A corresponding \code{write} driver
-generator \code{make_exams_write_wu()} is also supplied in the package. Its details are not
+generator \code{make_exams_write_lops()} is also supplied in the package. Its details are not
 discussed here because the XML format adopted is specific to this WU-developed software which
-is not widely used. The \code{exams2wu()} interface then essentially proceeds in the following manner:
+is not widely used. The \code{exams2lops()} interface then essentially proceeds in the following manner:
 \begin{Code}
   htmltransform <- make_exercise_transform_html(converter = "tex2image",
     base64 = FALSE)
-  wuwrite <- make_exams_write_wu(...)
+  lopswrite <- make_exams_write_lops(...)
   xexams(file, n, nsamp, driver = list(
       sweave = list(quiet = TRUE, pdf = FALSE, png = TRUE, ...),
       read = NULL,
       transform = htmltransform,
-      write = wuwrite),
+      write = lopswrite),
     ...)
 \end{Code}
 First, an HTML \code{transform} driver is set up which uses the \code{"tex2image"} converter
-because the WU-developed software does not support MathML. Then, it sets up the custom
+because the LOPS server does not support MathML. Then, it sets up the custom
 \code{write} driver using a couple of extra arguments (\code{...}) whose details are suppressed here
 for simplicity. Finally, \code{xexams()} is called with (1)~the default \code{sweave} driver
 \code{Sweave()} with options set to producing PNG but not PDF graphics,
@@ -1174,7 +1175,7 @@ After having the pool of exercises established, just one team member
 is concerned with running \code{exams2qti12()} and uploading the resulting
 ZIP file into \pkg{OLAT} for the biweekly online tests. And
 for creating the printed tests at the end of the semester the
-\code{exams2wu()} interface is employed.
+\code{exams2lops()} interface is employed.
 
 
 \subsubsection*{Outlook}
