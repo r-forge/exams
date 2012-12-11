@@ -14,10 +14,12 @@ tth <- function(x, ..., fixup = TRUE, Sweave = TRUE)
     }
     
     ## call tth
-    TTH <- file.path(find.package("tth", quiet = TRUE), "libs", .Platform$r_arch,
-      if(.Platform$OS.type == "windows") "tth.exe" else "tth")
+    TTH <- file.path(find.package("tth", quiet = TRUE), "libs",
+                     .Platform$r_arch,
+                     if(.Platform$OS.type == "windows") "tth.exe" else "tth")
+    
     y <- system(paste(shQuote(TTH), tth.control(...)),
-      input = x, intern = TRUE, ignore.stderr = TRUE)
+                input = x, intern = TRUE, ignore.stderr = TRUE)
 
     if(fixup) {
         ## delete blanks
@@ -136,4 +138,51 @@ tth.control <- function(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FA
   rval <- paste("-", names(rval), ifelse(sapply(rval, isTRUE), "", unlist(rval)),
     sep = "", collapse = " ")
   return(rval)
+}
+
+###**********************************************************
+
+tth1 <- function(x, ..., fixup = TRUE, Sweave = TRUE)
+{
+    ## replace/remove Sweave code environments
+    if(Sweave) {
+        tab <- rbind(
+            c("\\\\begin\\{Sinput}",  "\\\\begin{verbatim}"),
+            c("\\\\end\\{Sinput}",    "\\\\end{verbatim}"),
+            c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
+            c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
+            c("\\\\begin\\{Schunk}",  ""),
+            c("\\\\end\\{Schunk}",    "")
+	)
+        for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
+    }
+    
+    ## call tth
+    TTH <- file.path(find.package("tth", quiet = TRUE), "libs",
+                     .Platform$r_arch,
+                     if(.Platform$OS.type == "windows") "tth.exe" else "tth")
+    
+    y <- system(paste(shQuote(TTH), tth.control(...)),
+                input = x, intern = TRUE, ignore.stderr = TRUE)
+
+
+    if(fixup) {
+        ## delete blanks
+        y <- y[-grep("^ *$", y)]
+        ## fixup certain math symbols
+	## might add further, see e.g.,
+        ## http://www.tlt.psu.edu/suggestions/international/bylanguage/mathchart.html
+        tab <- rbind(
+            c("\\\\not +=",        "&#8800;"),
+            c("\\\\not +&lt;",     "&#8814;"),
+            c("\\\\not +&gt;",     "&#8815;"),
+            c("\\\\not +&#8804;",  "&#8816;"),
+            c("\\\\nleq;",         "&#8816;"),
+            c("\\\\not +&#8805;",  "&#8817;"),
+            c("\\\\ngeq",          "&#8817;")
+        )
+        for(i in 1:nrow(tab)) y <- gsub(tab[i,1L], tab[i,2L], y)
+    }
+
+    return(y)
 }
