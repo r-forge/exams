@@ -1,89 +1,94 @@
-tth <- function(x, ..., fixup = TRUE, Sweave = TRUE)
-{
-    ## replace/remove Sweave code environments
-    if(Sweave) {
-        tab <- rbind(
-            c("\\\\begin\\{Sinput}",  "\\\\begin{verbatim}"),
-            c("\\\\end\\{Sinput}",    "\\\\end{verbatim}"),
-            c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
-            c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
-            c("\\\\begin\\{Schunk}",  ""),
-            c("\\\\end\\{Schunk}",    "")
-	)
-        for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
-    }
+## <FIXME>
+## Achim's original tth and ttm functions without regular expressions
+## Delete eventually after some testing
+##
+## tth <- function(x, ..., fixup = TRUE, Sweave = TRUE)
+## {
+##     ## replace/remove Sweave code environments
+##     if(Sweave) {
+##         tab <- rbind(
+##             c("\\\\begin\\{Sinput}",  "\\\\begin{verbatim}"),
+##             c("\\\\end\\{Sinput}",    "\\\\end{verbatim}"),
+##             c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
+##             c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
+##             c("\\\\begin\\{Schunk}",  ""),
+##             c("\\\\end\\{Schunk}",    "")
+## 	)
+##         for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
+##     }
     
-    ## call tth
-    TTH <- file.path(find.package("tth", quiet = TRUE), "libs",
-                     .Platform$r_arch,
-                     if(.Platform$OS.type == "windows") "tth.exe" else "tth")
+##     ## call tth
+##     TTH <- file.path(find.package("tth", quiet = TRUE), "libs",
+##                      .Platform$r_arch,
+##                      if(.Platform$OS.type == "windows") "tth.exe" else "tth")
     
-    y <- system(paste(shQuote(TTH), tth.control(...)),
-                input = x, intern = TRUE, ignore.stderr = TRUE)
+##     y <- system(paste(shQuote(TTH), tth.control(...)),
+##                 input = x, intern = TRUE, ignore.stderr = TRUE)
 
-    if(fixup) {
-        ## delete blanks
-        y <- y[-grep("^ *$", y)]
-        ## fixup certain math symbols
-	## might add further, see e.g., http://www.tlt.psu.edu/suggestions/international/bylanguage/mathchart.html
-        tab <- rbind(
-            c("\\not =",        "&#8800;"),
-            c("\\not &lt;",     "&#8814;"),
-            c("\\not  &lt;",    "&#8814;"),
-            c("\\not &gt;",     "&#8815;"),
-            c("\\not  &gt;",    "&#8815;"),
-            c("\\not &#8804;",  "&#8816;"),
-            c("\\not  &#8804;", "&#8816;"),
-            c("\\nleq;",        "&#8816;"),
-            c("\\not &#8805;",  "&#8817;"),
-            c("\\not  &#8805;", "&#8817;"),
-            c("\\ngeq",         "&#8817;")
-        )
-        for(i in 1:nrow(tab)) y <- gsub(tab[i,1L], tab[i,2L], y, fixed = TRUE)
-    }
+##     if(fixup) {
+##         ## delete blanks
+##         y <- y[-grep("^ *$", y)]
+##         ## fixup certain math symbols
+## 	## might add further, see e.g., http://www.tlt.psu.edu/suggestions/international/bylanguage/mathchart.html
+##         tab <- rbind(
+##             c("\\not =",        "&#8800;"),
+##             c("\\not &lt;",     "&#8814;"),
+##             c("\\not  &lt;",    "&#8814;"),
+##             c("\\not &gt;",     "&#8815;"),
+##             c("\\not  &gt;",    "&#8815;"),
+##             c("\\not &#8804;",  "&#8816;"),
+##             c("\\not  &#8804;", "&#8816;"),
+##             c("\\nleq;",        "&#8816;"),
+##             c("\\not &#8805;",  "&#8817;"),
+##             c("\\not  &#8805;", "&#8817;"),
+##             c("\\ngeq",         "&#8817;")
+##         )
+##         for(i in 1:nrow(tab)) y <- gsub(tab[i,1L], tab[i,2L], y, fixed = TRUE)
+##     }
 
-    return(y)
-}
+##     return(y)
+## }
 
-ttm <- function(x, ..., fixup = TRUE, Sweave = TRUE)
-{
-    ## replace/remove Sweave code environments
-    if(Sweave) {
-        tab <- rbind(
-            c("\\\\begin\\{Sinput}",  "\\\\begin{verbatim}"),
-            c("\\\\end\\{Sinput}",    "\\\\end{verbatim}"),
-            c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
-            c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
-            c("\\\\begin\\{Schunk}",  ""),
-            c("\\\\end\\{Schunk}",    "")
-	)
-        for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
-    }
+## ttm <- function(x, ..., fixup = TRUE, Sweave = TRUE)
+## {
+##     ## replace/remove Sweave code environments
+##     if(Sweave) {
+##         tab <- rbind(
+##             c("\\\\begin\\{Sinput}",  "\\\\begin{verbatim}"),
+##             c("\\\\end\\{Sinput}",    "\\\\end{verbatim}"),
+##             c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
+##             c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
+##             c("\\\\begin\\{Schunk}",  ""),
+##             c("\\\\end\\{Schunk}",    "")
+## 	)
+##         for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
+##     }
 
-    ## call ttm
-    TTM <- file.path(find.package("tth", quiet = TRUE), "libs", .Platform$r_arch,
-      if(.Platform$OS.type == "windows") "ttm.exe" else "ttm")
-    y <- system(paste(shQuote(TTM), tth.control(...)),
-      input = x, intern = TRUE, ignore.stderr = TRUE)
+##     ## call ttm
+##     TTM <- file.path(find.package("tth", quiet = TRUE), "libs", .Platform$r_arch,
+##       if(.Platform$OS.type == "windows") "ttm.exe" else "ttm")
+##     y <- system(paste(shQuote(TTM), tth.control(...)),
+##       input = x, intern = TRUE, ignore.stderr = TRUE)
 
-    if(fixup) {
-        ## delete blanks
-        y <- y[-grep("^ *$", y)]
-        ## fixup certain math symbols
-        tab <- rbind(
-            c("\\not<mo>=</mo>",    "<mo>&neq;</mo>"),
-            c("\\not<mo>&lt;</mo>", "<mo>&nlt;</mo>"),
-            c("\\not<mo>&le;</mo>", "<mo>&nleq;</mo>"),
-            c("\\nleq",             "<mo>&nleq;</mo>"),
-            c("\\not<mo>&gt;</mo>", "<mo>&ngt;</mo>"),
-            c("\\not<mo>&ge;</mo>", "<mo>&ngeq;</mo>"),
-            c("\\ngeq",             "<mo>&ngeq;</mo>")
-        )
-        for(i in 1:nrow(tab)) y <- gsub(tab[i,1L], tab[i,2L], y, fixed = TRUE)
-    }
+##     if(fixup) {
+##         ## delete blanks
+##         y <- y[-grep("^ *$", y)]
+##         ## fixup certain math symbols
+##         tab <- rbind(
+##             c("\\not<mo>=</mo>",    "<mo>&neq;</mo>"),
+##             c("\\not<mo>&lt;</mo>", "<mo>&nlt;</mo>"),
+##             c("\\not<mo>&le;</mo>", "<mo>&nleq;</mo>"),
+##             c("\\nleq",             "<mo>&nleq;</mo>"),
+##             c("\\not<mo>&gt;</mo>", "<mo>&ngt;</mo>"),
+##             c("\\not<mo>&ge;</mo>", "<mo>&ngeq;</mo>"),
+##             c("\\ngeq",             "<mo>&ngeq;</mo>")
+##         )
+##         for(i in 1:nrow(tab)) y <- gsub(tab[i,1L], tab[i,2L], y, fixed = TRUE)
+##     }
 
-    return(y)
-}
+##     return(y)
+## }
+## </FIXME>
 
 tth.control <- function(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE, t = FALSE, u = FALSE,
@@ -142,7 +147,7 @@ tth.control <- function(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FA
 
 ###**********************************************************
 
-tth1 <- function(x, ..., fixup = TRUE, Sweave = TRUE)
+tth <- function(x, ..., fixup = TRUE, Sweave = TRUE)
 {
     ## replace/remove Sweave code environments
     if(Sweave) {
@@ -188,7 +193,7 @@ tth1 <- function(x, ..., fixup = TRUE, Sweave = TRUE)
 }
 
 
-ttm1 <- function(x, ..., fixup = TRUE, Sweave = TRUE)
+ttm <- function(x, ..., fixup = TRUE, Sweave = TRUE)
 {
     ## replace/remove Sweave code environments
     if(Sweave) {
