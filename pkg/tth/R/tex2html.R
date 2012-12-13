@@ -75,7 +75,7 @@
 ##         y <- y[-grep("^ *$", y)]
 ##         ## fixup certain math symbols
 ##         tab <- rbind(
-##             c("\\not<mo>=</mo>",    "<mo>&neq;</mo>"),
+##             c("\\not<mo>=</mo>",    "<mo>&ne;</mo>"),
 ##             c("\\not<mo>&lt;</mo>", "<mo>&nlt;</mo>"),
 ##             c("\\not<mo>&le;</mo>", "<mo>&nleq;</mo>"),
 ##             c("\\nleq",             "<mo>&nleq;</mo>"),
@@ -220,7 +220,7 @@ ttm <- function(x, ..., fixup = TRUE, Sweave = TRUE)
         y <- y[-grep("^ *$", y)]
         ## fixup certain math symbols
         tab <- rbind(
-            c("\\\\not *<mo>=</mo>",    "<mo>&neq;</mo>"),
+            c("\\\\not *<mo>=</mo>",    "<mo>&ne;</mo>"),
             c("\\\\not *<mo>&lt;</mo>", "<mo>&nlt;</mo>"),
             c("\\\\not *<mo>&le;</mo>", "<mo>&nleq;</mo>"),
             c("\\\\nleq",             "<mo>&nleq;</mo>"),
