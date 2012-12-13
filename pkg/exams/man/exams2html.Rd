@@ -10,7 +10,7 @@
 }
 
 \usage{
-  exams2html(file, n = 1L, nsamp = NULL, dir = NULL, template = "plain",
+  exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
   mathjax = FALSE, resolution = 100, width = 4, height = 4, \dots)
@@ -32,7 +32,7 @@
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
   \item{dir}{character. The output directory, this has to be set if
-    \code{n} is greater than 1.}
+    \code{n} is greater than 1. Current working directory is used by default.}
   \item{template}{character. A specification of a HTML template. The package
     currently provides \code{"plain.html"}.}
   \item{name}{character. A name prefix for resulting exercises.}

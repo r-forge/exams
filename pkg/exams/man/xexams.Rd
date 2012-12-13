@@ -12,7 +12,7 @@
 \usage{
   xexams(file, n = 1L, nsamp = NULL,
     driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
-    dir = NULL, edir = NULL, tdir = NULL, sdir = NULL)
+    dir = ".", edir = NULL, tdir = NULL, sdir = NULL)
   exams_metainfo(x, \dots)
 }
 

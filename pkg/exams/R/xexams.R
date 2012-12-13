@@ -1,6 +1,6 @@
 xexams <- function(file, n = 1L, nsamp = NULL,
   driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
-  dir = NULL, edir = NULL, tdir = NULL, sdir = NULL)
+  dir = ".", edir = NULL, tdir = NULL, sdir = NULL)
 {
   ## process driver
   if(is.null(driver$sweave)) {
@@ -16,11 +16,11 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
   ## manage directories: 
   ##   - for producing several files an output directory is required
-  if(is.null(dir) & !is.null(driver$write)) stop("Please specify an output 'dir'.") ## FIXME: default current dir?
+  if(is.null(dir) & !is.null(driver$write)) stop("Please specify an output 'dir'.")
   if(!is.null(dir) && !file.exists(dir) && !dir.create(dir))
     stop(gettextf("Cannot create output directory '%s'.", dir))
   ##   - further: dir (output), dir_orig (original), dir_temp (temp), dir_pkg (package), dir_supp (supplements)
-  if(!is.null(dir)) dir <- file_path_as_absolute(dir) ## FIXME: package tools not auto-loaded?
+  if(!is.null(dir)) dir <- file_path_as_absolute(dir)
   dir_orig <- getwd()
   on.exit(setwd(dir_orig))
   dir_temp <- if(is.null(tdir)) tempfile() else tdir

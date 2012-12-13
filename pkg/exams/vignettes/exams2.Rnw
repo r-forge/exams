@@ -317,7 +317,7 @@ Argument          & Description \\ \hline
                     Default: One for each list element.\\ \hline
 \code{dir}        & Path to output directory. Default: Single PDF or HTML files are shown directly
                     in a viewer/browser (i.e., \code{exams}/\code{exams2pdf}/\code{exams2html}
-		    with \code{n = 1}). In all other cases no default is provided.\\ 
+		    with \code{n = 1}). In all other cases the current working directory is used.\\ 
 \code{edir}       & Path to the directory in which the exercises in \code{file} are stored.
                     Default: Working directory (or within the \pkg{exams} installation). \\
 \code{tdir}       & Path to a temporary directory in which \code{Sweave()} is carried out.
@@ -1201,7 +1201,7 @@ is available on \proglang{R}-Forge at
 We are indebted to all our colleagues in the ``Mathematics'' team at the Department of Statistics
 at Universit\"at Innsbruck for testing and challenging the code and making suggestions for improvement.
 This project was also partially supported by an e-learning grant (\#2011.241)
-by the Universit\"at Innsbruck.
+of the Universit\"at Innsbruck.
 
 \bibliography{exams}
 

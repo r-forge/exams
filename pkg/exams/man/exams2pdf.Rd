@@ -9,7 +9,7 @@
 }
 
 \usage{
-  exams2pdf(file, n = 1L, nsamp = NULL, dir = NULL, template = "plain", 
+  exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = "plain", 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL)
   
@@ -27,7 +27,8 @@
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
   \item{dir}{character. The output directory, this has to be set if
-    \code{n} is greater than 1 (or \code{template} is longer than 1).}
+    \code{n} is greater than 1 (or \code{template} is longer than 1).
+    Current working directory is used by default.}
   \item{template}{character. A specification of a LaTeX template. The package
     currently provides \code{"exam"}, \code{"solution"}, \code{"plain"}.
     For details see below.}

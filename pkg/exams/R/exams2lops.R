@@ -1,5 +1,5 @@
 ## generate exams in .xml format
-exams2lops <- function(file, n = 1L, nsamp = NULL, dir = NULL,
+exams2lops <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   solution = TRUE, doctype = NULL, head = NULL, resolution = 100,
   width = 4, height = 4, converter = "tex2image", base64 = FALSE,

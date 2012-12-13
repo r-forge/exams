@@ -1,16 +1,15 @@
-exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = NULL,
+exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()), name = NULL, control = NULL,
   quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL)
 {
-  ## output directory or display on the fly (n == 1L & is.null(dir) & length(template) == 1L)
-  display <- is.null(dir)
-  if(is.null(dir)) {
-    if(n == 1L & length(template) == 1L) {
-      display <- TRUE
-      dir.create(dir <- tempfile())
-    } else {
-      stop("Please specify an output 'dir'.")
-    }
+  ## output directory or display on the fly
+  display <- missing(dir)
+  if(missing(dir) & n == 1L & length(template) == 1L) {
+    display <- TRUE
+    dir.create(dir <- tempfile())
+  } else {
+    display <- FALSE
+    if(is.null(dir)) stop("Please specify an output 'dir'.")
   }
 
   ## output name processing 

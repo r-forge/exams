@@ -2,7 +2,7 @@
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
-exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir,
+exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,

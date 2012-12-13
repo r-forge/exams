@@ -9,7 +9,7 @@
 }
 
 \usage{
-  exams2moodle(file, n = 1L, nsamp = NULL, dir,
+  exams2moodle(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, resolution = 100,
     width = 4, height = 4, iname = TRUE, stitle = NULL,
@@ -31,8 +31,7 @@
     if possible. (Only if some element of \code{nsamp} is larger than
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
-  \item{dir}{character. The output directory, this has to be set if
-    \code{n} is greater than 1.}
+  \item{dir}{character. The default is the current working directory.}
   \item{name}{character. A name prefix for resulting exercises and ZIP file.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[utils]{Sweave}}?}

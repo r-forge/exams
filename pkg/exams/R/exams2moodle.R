@@ -1,6 +1,6 @@
 ## generate exams in Moodle 2.3 .xml format
 ## http://docs.moodle.org/23/en/Moodle_XML_format
-exams2moodle <- function(file, n = 1L, nsamp = NULL, dir,
+exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   resolution = 100, width = 4, height = 4,
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
