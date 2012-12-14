@@ -5,9 +5,8 @@
 
 \title{R Interface to the tth/ttm TeX to HTML Converter}
 
-\description{
-Convert TeX or LaTeX markup to HTML or HTML+MathML. Works for snippets as well as
-complete documents.
+\description{ Convert TeX or LaTeX markup to HTML or HTML+MathML. Works
+  for snippets as well as complete documents.
 }
 
 \usage{
@@ -25,9 +24,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   \item{Sweave}{logical. Should the Sweave code environments Sinput/Soutput be
     replaced by verabtim (and Schunk deleted) prior to conversion with \code{tth}/\code{ttm}?}
   \item{\dots}{arguments passed to \code{tth.control}.}
-  \item{a}{logical. Enable automatic calls of LaTeX? If no aux file exists,
-    attempt to call. picture environment conversion using \code{latex2gif}.
-    Default omit.}
+  \item{a}{logicalm attempt automatic picture environment conversion
+    using \code{latex2gif}? Default omit.}
   \item{c}{logical. Prefix header \code{"Content-type: text/HTML"} (for direct web serving)?}
   \item{d}{logical. Disable definitions with delimited arguments? Default enable.}
   \item{e}{numeric specifying epsfbox handling: \code{0} no conversion, just ref.
@@ -58,19 +56,18 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
     \code{2} (even higher verbosity for debugging).}
 }
 
-\details{
-  \code{tth} and \code{ttm} are simple R wrapper functions, calling C functions of
-  the same name which either need to be provided by the R package \pkg{tth} or
-  be installed on the system (and available in the search path). The C functions
-  have been written by Hutchinson (2012) and a detailed manual is available online
-  at \url{http://hutchinson.belmont.ma.us/tth/manual.cgi} (which actually produces
-  an HTML version of the manual in real time using tth).
-}
+\details{ \code{tth} and \code{ttm} are simple R wrapper functions,
+  calling command line tools of the same name which either need to be
+  provided by the R package \pkg{tth} or be installed on the system (and
+  available in the search path). The command line tools have been
+  written by Hutchinson (2012) and a detailed manual is available online
+  at \url{http://hutchinson.belmont.ma.us/tth/manual.cgi} (which
+  actually produces an HTML version of the manual in real time using
+  tth).  }
 
-\value{
-  \code{tth}/\code{ttm} return a character vector with HTML code. \code{tth.control}
-  returns a character vector with collapsed (non-default) control arguments.
-}
+\value{ \code{tth}/\code{ttm} return a character vector with HTML
+  code. \code{tth.control} returns a character vector with collapsed
+  (non-default) control arguments.  }
 
 \references{
   Hutchinson IH (2012). \emph{TtH: The TeX to HTML Translator}, Version 4.03.
@@ -78,7 +75,7 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
 }
 
 \examples{
-tex <- c("This is \\\\textbf{bold} and this \\\\textit{italic}.",
+tex <- c("This is \\textbf{bold} and this \\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
 tth(tex)
 ttm(tex)
