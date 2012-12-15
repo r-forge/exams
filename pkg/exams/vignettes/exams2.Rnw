@@ -26,11 +26,10 @@
 \Abstract{
   The capabilities of the package \pkg{exams} for automatic generation
   of (statistical) exams in \proglang{R} are extended by adding support for learning
-  management systems:
-  Exam generation is still based on separate \code{Sweave} files for each exercise --
+  management systems: As in earlier versions of the package
+  exam generation is still based on separate \code{Sweave} files for each exercise --
   but rather than just producing different types of PDF output
-  files (e.g., for exams, self-study materials, etc.), the package can
-  now render the \emph{same} exercises into a wide variety of output formats.
+  files, the package can now render the \emph{same} exercises into a wide variety of output formats.
   These include HTML (with various options for displaying mathematical
   content) and XML specifications for online exams in learning
   management systems such as \pkg{Moodle} or \pkg{OLAT}.  
