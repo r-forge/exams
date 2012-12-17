@@ -384,7 +384,7 @@ exams2html("tstat.Rnw")
 generates the HTML file shown in Figure~\ref{fig:exams2html-tstat} which corresponds directly to the PDF
 file from Figure~\ref{fig:pdf}. Note that for properly viewing the formulas in this HTML file,
 a browser with MathML support is required. This is discussed in more detail in Section~\ref{sec:transform_html}.
-Here, \pkg{Iceweasel} is used -- Debian's rebranding of the \pkg{Firefox} browser which as native MathML support.
+Here, \pkg{Iceweasel} is used -- Debian's rebranding of the \pkg{Firefox} browser which has native MathML support.
 
 To transform the {\LaTeX} questions/solutions to something that a web browser can
 render, three options are available: translation of the {\LaTeX} to (1)~plain HTML,
@@ -873,22 +873,7 @@ directory. The default \code{plain.tex} template is provided within the \pkg{exa
 also more than one template can be employed as illustrated in Section~\ref{sec:usage}. Details
 about the remaining customization arguments are provided on the manual page and in \cite{exams:Gruen+Zeileis:2009}.
 
-For HTML output files, a similar driver generator is available:
-\begin{Code}
-  make_exams_write_html(template = "plain", name = NULL,
-    question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-    mathjax = FALSE)
-\end{Code}
-This is employed in \code{exams2html()} and is also based on a \code{template}. By default the \code{plain.html}
-file is used that is provided within \pkg{exams} and shown in Figure~\ref{fig:exams2html-tstat}. This contains placeholders marked with
-\verb|##| that are to be replaced in each randomly drawn exam. The \verb|##id| is simply replaced with a
-numeric ID ($1, \dots, \mathtt{n}$) and \verb|##\exinput{exercises}| is replaced by an ordered list (\code{<ol>}) containing
-the question/solution. If the \code{question} and \code{solution} arguments to \code{make_exams_write_html()}
-are character strings, these are added as titles in the list. Alternatively, either argument can also
-be set to \code{FALSE} which avoids inclusion of the corresponding element of the exercise in the
-resulting HTML file.
-
-\begin{figure}[t!]
+\begin{figure}[b!]
 \hrulefill
 \begin{Code}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -915,6 +900,21 @@ body{font-family:Arial;}
   \texttt{make\_exams\_write\_html()}. Elements marked by \texttt{\#\#} are being replaced in each
   replication of the exam.}
 \end{figure}
+
+For HTML output files, a similar driver generator is available:
+\begin{Code}
+  make_exams_write_html(template = "plain", name = NULL,
+    question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+    mathjax = FALSE)
+\end{Code}
+This is employed in \code{exams2html()} and is also based on a \code{template}. By default the \code{plain.html}
+file is used that is provided within \pkg{exams} and shown in Figure~\ref{fig:plain.html}. This contains placeholders marked with
+\verb|##| that are to be replaced in each randomly drawn exam. The \verb|##id| is simply replaced with a
+numeric ID ($1, \dots, \mathtt{n}$) and \verb|##\exinput{exercises}| is replaced by an ordered list (\code{<ol>}) containing
+the question/solution. If the \code{question} and \code{solution} arguments to \code{make_exams_write_html()}
+are character strings, these are added as titles in the list. Alternatively, either argument can also
+be set to \code{FALSE} which avoids inclusion of the corresponding element of the exercise in the
+resulting HTML file.
 
 As an additional convenience setting \code{mathjax = TRUE} includes the \code{<script>} tag for loading
 the \pkg{MathJax} \proglang{JavaScript}. Then, \pkg{MathJax} (rather than the browser) handles the
@@ -1002,9 +1002,10 @@ Therefore, the XML specification is somewhat more complex. Hence, \code{exams2qt
 also takes a \code{template} argument that is by default set to the \code{qti12.xml}
 file provided within \pkg{exams}. The template must contain exactly one \code{<section>}
 with exactly one \code{<item>} with a placeholder \verb|##ItemBody|. Then,
-\code{exams2qti12()} reads the template, replicates the \code{<section>} \code{n} times and
-the \code{<item>} for each exercise, and inserts the \verb|##ItemBody| with the
-XML transformation functions for \code{num}, \code{mchoice}, etc.
+\code{exams2qti12()} reads the template, replicates the \code{<section>} for each exercise,
+replicates the \code{<item>} \code{n} times within each \code{<section>}, and then
+inserts the \verb|##ItemBody| with the XML transformation functions for \code{num},
+\code{mchoice}, etc.
 
 One detail of the QTI~1.2 interfaces should be briefly explained: Although the QTI~1.2
 XML standard supports numeric exercises/items through its \verb|<response_num>| tag, this is
@@ -1077,7 +1078,7 @@ Of course, the part that involves a certain amount of coding is to program the \
 driver (or driver generator, as here). However, the building blocks for the weave/read/transform
 steps can be easily recycled. Also, if readers of this manuscript need to code their own driver
 generator, we recommend to use the drivers from the \pkg{exams} package for inspiration. Last
-not least, the \pkg{exams} package is hosted and \proglang{R}-Forge \citep{exams:Theussl+Zeileis:2009}
+but not least, the \pkg{exams} package is hosted and \proglang{R}-Forge \citep{exams:Theussl+Zeileis:2009}
 and also provides a forum for support and discussions of e-learning exams in \proglang{R} at
 \url{http://R-Forge.R-project.org/forum/?group_id=1337}.
 
