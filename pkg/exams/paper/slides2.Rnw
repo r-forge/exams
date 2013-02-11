@@ -7,22 +7,11 @@
 
 %% for \usepackage{Sweave}
 \SweaveOpts{engine=R, strip.white=TRUE, keep.source=TRUE, eps=FALSE}
-<<setup, echo=FALSE, results=hide>>=
+<<preliminaries, echo=FALSE, results=hide>>=
 options(prompt = "R> ", continue = "+  ", width = 55,
   digits = 4, show.signif.stars = FALSE, useFancyQuotes = FALSE)
-@
 
-<<preliminaries, echo=FALSE, results=hide>>=
 library("exams")
-combine <- function(x, sep, width) {
-  cs <- cumsum(nchar(x))
-  remaining <- if (any(cs[-1] > width)) combine(x[c(FALSE, cs[-1] > width)], sep, width)
-  c(paste(x[c(TRUE, cs[-1] <= width)], collapse= sep), remaining)
-}
-prettyPrint <- function(x, sep = " ", linebreak = "\n\t", width = getOption("width")) {
-  x <- strsplit(x, sep)[[1]]
-  paste(combine(x, sep, width), collapse = paste(sep, linebreak, collapse = ""))
-}
 set.seed(1090)
 @
 
@@ -299,7 +288,7 @@ file.copy(file.path(odir, "exam1.pdf"), "slides2-exam1.pdf")
 \bigskip
 
 A single exam is popped up in a browser, multiple exams are written to an output directory:
-<<exams2html3, eval = FALSE>>=
+<<exams2html, eval = FALSE>>=
 set.seed(1090)
 exams2html(myexam, n = 3, dir = odir)
 @
@@ -377,7 +366,7 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2moodle-boxplots.png
 \bigskip
 
 Multiple replications are written to a single zipped XML file in the output directory:
-<<exams2moodle, eval=FALSE>>=
+<<exams2qti12, eval=FALSE>>=
 set.seed(1090)
 exams2qti12(myexam, n = 3, dir = odir)
 @
@@ -435,12 +424,12 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
     QTI~1.2 (for \pkg{OLAT}).
   \item Contributing to the pool of exercises only requires knowledge
     of \code{Sweave} and minimal markup for metainformation.
+  \item Hosted on \proglang{R}-Forge, providing a support forum:
+    \url{http://R-Forge.R-project.org/projects/exams/}
 \end{itemize}
 
 \end{frame}
 
-
-\subsection{Discussion}
 
 \begin{frame} 
 \frametitle{Discussion}
