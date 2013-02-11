@@ -43,10 +43,11 @@ Exams can be produced in various formats, including PDF, HTML, Moodle XML, QTI 1
   <li>Development version on <a href="http://R-Forge.R-project.org/R/?group_id=1337">R-Forge</a>.</li>
 </ul>
 
-<h3>Version 2: Exams in PDF, HTML, Moodle XML, QTI 1.2 (for OLAT)</h3>
+<h3>Version 2: Exams in PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT)</h3>
 
 <ul>
   <li><a href="http://EconPapers.RePEc.org/RePEc:inn:wpaper:2012-27">Manuscript</a> in Working Paper Series (Universit&auml;t Innsbruck).</li>
+  <li><a href="http://eeecon.uibk.ac.at/~zeileis/papers/Psychoco-2013.pdf">Presentation slides</a> from Psychoco 2013 workshop.</li>
   <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337">Support forum</a> for e-learning exams in Moodle, OLAT, etc.</li>
   <li><a href="http://R-Forge.R-project.org/projects/exams/">Project summary</a> on R-Forge.</li>
   <li><a href="tth-src">Source distribution</a> of the C code for the TeX-to-HTML converter TtH.</li>
