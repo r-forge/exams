@@ -75,6 +75,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
 }
 
 \examples{
+## Make sure you have \\\\textbf and \\\\textit with two backlashes
+## in the strings below (help page will show only one).
 tex <- c("This is \\textbf{bold} and this \\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
 tth(tex)
