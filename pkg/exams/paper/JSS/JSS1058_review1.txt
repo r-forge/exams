@@ -1,0 +1,82 @@
+
+Report about "Flexible Generation of E-Learning Exams in R: Moodle Quizzes,
+OLAT Assessments, and Beyond"
+
+In general I like the idea and article, but the article is too long and
+needs to be shortened.  A drawback is that the use of the software under
+Ubuntu requires a lot of easily avoidable search in my linux system, search
+in the internet and source code inspection:
+
+* My first problem was the errormessage "... is not ASCII and does not
+  declare an encoding".  The R help was useless since it was not clear how
+  the exams package generates its Sweave files.  Finally I changed the
+  encoding of my rnw files to ASCII via 'recode'.
+
+* Since my first 'myexam' contained just my exam headers I got the next
+  errormessage 'slength >= 1L is not TRUE'.  I guess that somehow the
+  missing meta information in my rnw files is responsible for this.  Meta
+  information seemed useless to me since my headers only contained fields
+  for the student name, id and general hints.  An easy possibility to insert
+  some static text without any exercise would have been nice.  A look in the
+  2009 paper of Gr??n and Zeileis revealed that somewhere in my system the
+  templates files used by the 'exams' package are hidden.  I found them
+  under /usr/local/lib/R/site-library/exams/tex .  For writing an R package
+  a command 'package.skeleton' exists, maybe something like this would be
+  possible also for the exams package creating some template files like
+  'plain' (solutions and exercises) and 'exam' (only exercises).  Finally, I
+  solved this problem with extending the question environment with optional
+  parameter which called \item[] ...  and creating an empty exercise with
+  this optional parameter.
+
+* After copying the template file in my working directory I created an exam
+  only with "tstat.Rnw" with my own template file.  Integrating our logo as
+  a PNG graphics in my own header file leads to the errormessage "!  LaTeX
+  Error: File `logo' not found.".  After digging in the system I found under
+  /tmp/RtmprrdDQN/file1c084150cdff/ the temporary directory used; identified
+  by time stamp :( Of course the logo.png was not copied to the temporary
+  directory.  Which meant for me I had to create my own temporary directory
+  where I copied the missing file.  Maybe it would helpful either to add a
+  parameter which allows to copy additional files or simply to copy all
+  files from the working directory to the temporary directory.  I also guess
+  if I integrate external graphics in my exercises the same will happen.
+
+* After creating a subdirectory "exercises" with six exercises the following
+  call gave the errormessage that exercise files can not be found: "Error in
+  exams(myexam, template = "plain", edir = "./exercises", tdir = "./tmp") :
+  The following files cannot be found: ...".  The exams command looked into
+  "/usr/local/lib/R/site-library/exams/exercises/./exercises" for the
+  exercise files and an absolute path for edir was necessary.  It would be
+  nice if the exams command would also search in subdirectories of the edir
+  such that one can build a directory structure containing exercises
+  seperated by topics.
+
+* And again an encoding problem, but recoding did not help this time. The
+  problem was that the current working directory was not my test directory
+  but my home directory.  Therefore the plain.tex was again taken from
+  "/usr/local/lib/R/site-library/exams/tex" rather my own plain.tex from my
+  test directory.  After changing the working directory of R to my test
+  directory also the relative directory paths worked.
+
+* Adding more exercises lead again to an encoding problem. Calling recode
+  and cleaning my tmp directory helped now.
+
+* Replacing in my R program 'exams' by 'exams2pdf'/'exams2moodle' lead to
+  the error message "Error: slength >= 1L is not TRUE".  A internet search
+  showed that the Metainformation \exsolution in the rnw-files was empty. 
+  Again it was necessary to clean my tmp directory such that the corrected
+  files will be copied there.
+
+* After correcting this error 'exams2moodle' complained about "Error in if
+  (x[n] == sep) return(x[-n]) : Argument has length 0".
+
+The only thing what really worked without any problems was the most simple
+example from the paper via copy and paste.  Creating my own exam was a pain. 
+It took me more then a day to get a PDF version of a current exam by myself. 
+A bit more information from the exams's command, e.g.  which directories are
+used, more informative error messages would have helped a lot.  Since we are
+transfering ourself statistics exercises from LaTeX to Moodle the
+'exams2moodle' would have been interesting to us, but I'am not willing to
+spend more time on it.
+
+Until the software is not improved I can not recommend a publication of the
+article.

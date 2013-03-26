@@ -1,0 +1,13 @@
+
+AE Report on JSS 1058
+
+The manuscript was reviewed by two experts in the field. The first referee,
+in general, likes idea, design, and implementation but faces several
+technical problems when trying to set-up his/her own exam. The second
+referee has a number of questions regarding possible extentions of the
+package.
+
+I agree with both referees that a paper on the exams package is suitable for
+JSS. However, the authors should try to address the practical problems
+reported by the first referee.
+

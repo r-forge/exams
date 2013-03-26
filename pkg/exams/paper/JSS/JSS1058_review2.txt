@@ -1,0 +1,36 @@
+
+The manuscript is very well written and solves an interesting and real
+problem. I enjoyed reading it.
+
+My questions/comments:
+
+1) The convention of using exams2xyz is interesting. Why was there not a
+straight-forward application of object oriented programming where there is
+one common class (say 'exams') and methods to generate the appropriate
+format (much in the same way that 'print' displays an object)?
+
+2) Not much is said about assigning points to questions, especially
+multiple choice problems. I know that this is possible in Moodle. Wouldn't
+this require manual tinkering with the resulting XML files? If not, it
+would be helpful to show some details in the manuscript.
+
+3) While I don't have any issue with using LaTeX as the base markup
+language, it may leave some unwilling to use this framework. I have seen
+more willingness to accept markdown as a base format from the LaTeX
+uninitiated. Do the authors have any insight into this from a sociology
+perspective and a technical perspective (i.e. translation of markdown to
+other formats)?
+
+4) Can the system accommodate multi-part questions? For example, if the
+same data set is used over a series of questions, should the data be
+created repeatedly for each questions? Suppose I have a simple 2-way
+factorial design. I may want to ask a series of questions based on the
+same data regarding: the full main effects and interaction model, the main
+effects only model, model diagnostics, post-hoc comparisons, etc. How
+would one structure such a problem in this system.
+
+5) I would recommend rewriting the sentence "Here, we focus on an
+illustration how to generate different output formats form such
+exercises." Perhaps to much alliteration for me, but it took me a minute
+to parse that text.
+

@@ -1,0 +1,301 @@
+----------
+REVIEWER 1
+----------
+
+> In general I like the idea and article, but the article is too long and
+> needs to be shortened. A drawback is that the use of the software under
+> Ubuntu requires a lot of easily avoidable search in my linux system, search
+> in the internet and source code inspection:
+
+FIXME
+Z: I agree that the manuscript is rather long and that it would be nice to have
+something more accessible. However, there are many technical details involved
+when one wants to make full use of the package. Has anyone good ideas on
+how to restructure the paper?
+
+CHECK
+Many of these comments pertain only to exams() and exams2pdf() and how to
+customize the LaTeX master template etc. It is true that the manuscript does
+not discuss these issues sufficiently. The reason for this is that the old
+Grün & Zeileis (2009) manuscript already did this (and the new exams2pdf()
+interface is largely backward compatible with the old exams() function).
+Therefore, we point out more clearly at the end of Sections 2.1 and 2.2,
+respectively, that PDF output is discused in the old manuscript and not
+repeated here.
+
+> * My first problem was the errormessage "... is not ASCII and does not
+>   declare an encoding".  The R help was useless since it was not clear how
+>   the exams package generates its Sweave files.  Finally I changed the
+>   encoding of my rnw files to ASCII via 'recode'.
+
+FIXME
+Z: My usual recommendation for this is to just write ASCII files in the first
+place. But maybe there is a better recommendation that works in different
+locales. Fritz, what do you recommend for Sweave()? (Sweave is the source
+of the error message above.)
+
+> * Since my first 'myexam' contained just my exam headers I got the next
+>   errormessage 'slength >= 1L is not TRUE'.  I guess that somehow the
+>   missing meta information in my rnw files is responsible for this.  Meta
+>   information seemed useless to me since my headers only contained fields
+>   for the student name, id and general hints.  An easy possibility to insert
+>   some static text without any exercise would have been nice. 
+
+FIXME
+Z: Does anyone of you understand what the reviewer means here? The whole point
+is that the exercises should _not_ contain the questionnaire. Do you see what
+I'm missing?
+
+>   A look in the
+>   2009 paper of Gr??n and Zeileis revealed that somewhere in my system the
+>   templates files used by the 'exams' package are hidden.  I found them
+>   under /usr/local/lib/R/site-library/exams/tex .  For writing an R package
+>   a command 'package.skeleton' exists, maybe something like this would be
+>   possible also for the exams package creating some template files like
+>   'plain' (solutions and exercises) and 'exam' (only exercises). 
+
+FIXME
+Z: In the old paper we explained in detail how the templates work and where
+in the package we provide them. So I wouldn't say the files are "hidden".
+Also I don't see what an exams.skeleton() should look like. Do you have
+better ideas for this?
+
+CHECK
+At the end of Section 2.1 we provide some more details about the LaTeX templates.
+In particular we now point out the the exam.tex and solution.tex are provided
+in the source package and are also included in installed versions of the
+package (as you also point out above). For further details about the
+customization of the LaTeX master templates, see Grün & Zeileis (2009).
+
+>   Finally, I
+>   solved this problem with extending the question environment with optional
+>   parameter which called \item[] ...  and creating an empty exercise with
+>   this optional parameter.
+
+FIXME
+Z: No clue what this is supposed to me...
+
+> * After copying the template file in my working directory I created an exam
+>   only with "tstat.Rnw" with my own template file.  Integrating our logo as
+>   a PNG graphics in my own header file leads to the errormessage "!  LaTeX
+>   Error: File `logo' not found.".  After digging in the system I found under
+>   /tmp/RtmprrdDQN/file1c084150cdff/ the temporary directory used; identified
+>   by time stamp :( Of course the logo.png was not copied to the temporary
+>   directory.  Which meant for me I had to create my own temporary directory
+>   where I copied the missing file.  Maybe it would helpful either to add a
+>   parameter which allows to copy additional files or simply to copy all
+>   files from the working directory to the temporary directory.
+
+CHECK
+Yes, that is what the argument 'inputs' is intended for. This is pointed out
+in ?exams and ?exams2pdf as well as Grün & Zeileis (2009).
+
+> * After creating a subdirectory "exercises" with six exercises the following
+>   call gave the errormessage that exercise files can not be found: "Error in
+>   exams(myexam, template = "plain", edir = "./exercises", tdir = "./tmp") :
+>   The following files cannot be found: ...".  The exams command looked into
+>   "/usr/local/lib/R/site-library/exams/exercises/./exercises" for the
+>   exercise files and an absolute path for edir was necessary. 
+
+CHECK
+We cannot reproduce this problem. Both absolute and relative paths work fine for
+us. Consider the following example:
+
+## create and change to temporary directory
+td <- tempdir()
+setwd(td)
+
+## create sub-directory exercises
+dir.create("exercises")
+
+## make a copy of tstat.Rnw in exercises sub-directory
+file.copy(file.path(find.package("exams"), "exercises", "tstat.Rnw"),
+  file.path("exercises", "tstat-copy.Rnw"))
+
+## the template itself is not found
+exams2pdf("tstat-copy")
+
+## but all of these work correctly
+exams2pdf("tstat-copy", edir = "exercises")
+exams2pdf("tstat-copy", edir = "./exercises")
+exams2pdf("tstat-copy", edir = file.path(td, "exercises"))
+
+>   It would be
+>   nice if the exams command would also search in subdirectories of the edir
+>   such that one can build a directory structure containing exercises
+>   seperated by topics.
+
+FIXME
+This is actually a good idea but I haven't got a good and robust solution for
+it. Currently, xexams() proceeds in three steps: (1) If no edir is specified,
+look for file_Rnw locally. (2) If edir is specified, look for file_Rnw there.
+(3) If these do not exist, look for file_Rnw in the installed package.
+
+file_path <- if(is.null(edir)) file_Rnw else file.path(edir, file_Rnw)
+file_path <- ifelse(file.exists(file_path),
+  file_path, file.path(dir_pkg, "exercises", file_path))
+if(!all(file.exists(file_path))) stop("...")
+
+Thus, currently xexams() does not list directories and then matches file
+names. Instead, it just uses file.exists() on specific file paths. Can either
+one of you think of a robust way to go sequentially through subdirectors
+and return the first exact match if any?
+
+> * And again an encoding problem, but recoding did not help this time. The
+>   problem was that the current working directory was not my test directory
+>   but my home directory.  Therefore the plain.tex was again taken from
+>   "/usr/local/lib/R/site-library/exams/tex" rather my own plain.tex from my
+>   test directory.  After changing the working directory of R to my test
+>   directory also the relative directory paths worked.
+
+FIXME
+Do you understand what this is supposed to mean?
+
+> * Adding more exercises lead again to an encoding problem. Calling recode
+>   and cleaning my tmp directory helped now.
+
+FIXME
+It seems to me that the reviewer had some problem with the encoding settings but
+it's not clear to me what the system locale was and what file encoding was used
+(or what it was changed to with 'recode').
+
+> * Replacing in my R program 'exams' by 'exams2pdf'/'exams2moodle' lead to
+>   the error message "Error: slength >= 1L is not TRUE".  A internet search
+>   showed that the Metainformation \exsolution in the rnw-files was empty. 
+
+CHECK
+Yes, the error message was too opaque. The new version of exams now reports
+the following error: 'no \exsolution{} specified'
+
+> * After correcting this error 'exams2moodle' complained about "Error in if
+>   (x[n] == sep) return(x[-n]) : Argument has length 0".
+
+FIXME
+I could not replicate this. Niki do you have an idea how this could happen?
+ 
+> The only thing what really worked without any problems was the most simple
+> example from the paper via copy and paste.  Creating my own exam was a pain. 
+> It took me more then a day to get a PDF version of a current exam by myself. 
+> A bit more information from the exams's command, e.g.  which directories are
+> used, more informative error messages would have helped a lot.  Since we are
+> transfering ourself statistics exercises from LaTeX to Moodle the
+> 'exams2moodle' would have been interesting to us, but I'am not willing to
+> spend more time on it.
+
+CHECK
+Our feeling is that converting an existing exam template (created without
+the R package) to the "exams" package can be a challenge because the structure/setup
+may be rather different and fine-tuning of the layout/formatting works somewhat
+differently. In our experience it is better to start fresh from simple
+exercise templates, first leaving the layouting to the package before
+exploring refined formatting options.
+
+So for users of the R package had very different starting points and very different
+needs when switching to the R package. Due to this heterogeneity we didn't see
+a natural way for assisting in this process or streamlining the tasks that need
+to be done. However, we do provide hands-on assistance in the R-Forge forum.
+Thus, if you or your colleagues are still interested in setting up Moodle
+infrastructure, we encourage you to contact us in the forum and we will try to
+help you.
+
+FIXME
+The text above is the politically correct version of: "It is really necessary to 
+read the manual in detail. Because we understand that this is tedious and the
+devil is in the detail, we can read the manual to you if you ask us a specific
+question." Do we have a better answer? Fritz, maybe you can make suggestions based
+on your experiences at BOKU?
+
+
+----------
+REVIEWER 2
+----------
+
+> The manuscript is very well written and solves an interesting and real
+> problem. I enjoyed reading it.
+> 
+> My questions/comments:
+> 
+> 1) The convention of using exams2xyz is interesting. Why was there not a
+> straight-forward application of object oriented programming where there is
+> one common class (say 'exams') and methods to generate the appropriate
+> format (much in the same way that 'print' displays an object)?
+
+CHECK
+When writing the new version of the "exams" package we discussed such a setup
+of first reading everything into R and then writing everything out to some
+desired file again. We decided against this because reading all supplementary
+graphics, data files, etc. into R would make the exams object potentially
+really huge. Hence, we store these supplementary files only on the disk and
+directly weave/read/transform/write in one go. Especially, in situations where
+you create a large e-learning exam (say 1,000 copies of a dozen exercises)
+this seemed to be a more practical solution, albeit not quite as elegant as
+a formal object-oriented approach.
+ 
+> 2) Not much is said about assigning points to questions, especially
+> multiple choice problems. I know that this is possible in Moodle. Wouldn't
+> this require manual tinkering with the resulting XML files? If not, it
+> would be helpful to show some details in the manuscript.
+
+FIXME
+At the moment we just have \expoints{} with the number of points for the
+overall exam because for OLAT we have to do the rest of the customization within
+OLAT anyway. But maybe Moodle has more options for this. Fritz, which Moodle
+tags can be leveraged for this?
+
+One idea could be to have a generic \exextra{}{} command for passing extra
+metainformation to systems like Moodle, e.g., \exextra{answernumbering}{ABCD}.
+Alternatively, we could of course extend the set of \ex*{} commands, e.g.,
+\exanswernumbering{ABCD} but the drawback would be that these are only recognized
+by some interfaces and it would be hard to anticipate all potential tags
+we may need in the future.
+
+But maybe, Fritz, you have a better suggestion based on your experiences at
+BOKU?
+
+> 3) While I don't have any issue with using LaTeX as the base markup
+> language, it may leave some unwilling to use this framework. I have seen
+> more willingness to accept markdown as a base format from the LaTeX
+> uninitiated. Do the authors have any insight into this from a sociology
+> perspective and a technical perspective (i.e. translation of markdown to
+> other formats)?
+
+CHECK
+The reason for using LaTeX is that in statistics and mathematics exams we
+regularly need mathematical notation, especially for showing the correct
+solutions. (This is true for most exercises in the exams package.)
+Markdown is no alternative for this.
+
+And for the case where no mathematical notation is needed, the markup
+required is really minimal, just {question}/{solution} and the \ex*
+metainformation. Therefore, it is our feeling that there is no pressing
+need for more explicit Markdown format
+
+> 4) Can the system accommodate multi-part questions? For example, if the
+> same data set is used over a series of questions, should the data be
+> created repeatedly for each questions? Suppose I have a simple 2-way
+> factorial design. I may want to ask a series of questions based on the
+> same data regarding: the full main effects and interaction model, the main
+> effects only model, model diagnostics, post-hoc comparisons, etc. How
+> would one structure such a problem in this system.
+
+CHECK
+When the different parts are rather small, then using "cloze" exercises
+(as in boxhist.Rnw) are a convenient option. When the parts are larger
+(as in the scenario you describe above), you can simply reuse the data
+that was created which is directly available in the global environment.
+Consider the following simple example:
+
+exams2html("boxplots")
+stripchart(y ~ x, data = dat, vertical = TRUE)
+
+Thus, if you assure that one exercise is always carried out after the
+other, the (somewhat quick & dirty) solution is to just use the same
+data again.
+
+> 5) I would recommend rewriting the sentence "Here, we focus on an
+> illustration how to generate different output formats form such
+> exercises." Perhaps to much alliteration for me, but it took me a minute
+> to parse that text.
+
+CHECK
+Thanks, rephrased now.
