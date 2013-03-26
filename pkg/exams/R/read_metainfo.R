@@ -71,7 +71,7 @@ read_metainfo <- function(file)
 
   ## process valid solution types (in for loop for each cloze element)
   slength <- length(exsolution)
-  stopifnot(slength >= 1L)
+  if(slength < 1L) stop("no \\exsolution specified")
   exsolution <- switch(extype,
     "schoice" = string2mchoice(exsolution, single = TRUE),
     "mchoice" = string2mchoice(exsolution),
