@@ -52,7 +52,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_id <- rep(seq_along(file), navail)
   file_raw <- unlist(file)
   file_Rnw <- ifelse(
-    tolower(substr(file_raw, nchar(file_raw)-3, nchar(file_raw))) != ".rnw",
+    tolower(substr(file_raw, nchar(file_raw)-3L, nchar(file_raw))) != ".rnw",
     paste(file_raw, ".Rnw", sep = ""), file_raw)
   file_base <- file_path_sans_ext(file_Rnw)
   file_tex <- paste(file_base, ".tex", sep = "")
