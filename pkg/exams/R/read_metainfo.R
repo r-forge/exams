@@ -71,7 +71,7 @@ read_metainfo <- function(file)
 
   ## process valid solution types (in for loop for each cloze element)
   slength <- length(exsolution)
-  if(slength < 1L) stop("no \\exsolution specified")
+  if(slength < 1L) stop("no \\exsolution{} specified")
   exsolution <- switch(extype,
     "schoice" = string2mchoice(exsolution, single = TRUE),
     "mchoice" = string2mchoice(exsolution),
@@ -83,7 +83,7 @@ read_metainfo <- function(file)
 	exclozetype <- "string"
       }
       if(length(exclozetype) > 1L & length(exclozetype) != slength)
-        warning("length of \\exclozetype does not match length of \\exsolution")
+        warning("length of \\exclozetype{} does not match length of \\exsolution{}")
       exclozetype <- rep(exclozetype, length.out = slength)
       exsolution <- as.list(exsolution)
       for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string")),
