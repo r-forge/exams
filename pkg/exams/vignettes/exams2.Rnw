@@ -199,8 +199,8 @@ They are composed of the following elements:
 \end{itemize}
 The underlying ideas are eplained in more detail by
 \cite{exams:Gruen+Zeileis:2009} and Section~\ref{sec:design} provides
-more technical details. Here, we focus on an illustration how to generate
-different output formats form such exercises.
+more technical details. Here, we focus on illustrating how different output
+formats can be generated from such exercises.
 
 In Figure~\ref{fig:Rnw}, the \code{Sweave} file for a simple exercise asking
 students to compute a one-sample $t$~test statistic is shown for
@@ -299,16 +299,19 @@ x1 <- exams(myexam, n = 3, dir = odir, template = c("exam", "solution"))
 The \code{myexam} list contains five exercises: the first one is always \code{boxplots.Rnw}
 while the second exercise is randomly drawn from \code{confint.Rnw}, \code{ttest.Rnw},
 \code{tstat.Rnw}, and so on for the remaining exercises. Then, \code{exams()} is used to draw
-\code{n = 5} random exams and produce one exam and one solution PDF for each.
-(All involved \code{.Rnw} files and \code{.tex} templates are provided in the installed
-\pkg{exams} package.) The resulting output files are stored along with the extracted
-metainformation in the output directory:
+\code{n = 5} random exams and produce one exam and one solution PDF for each. The \code{template}
+argument takes names of {\LaTeX} files which provide the {\LaTeX} headers and footers.
+These templates can be used to create a title page with a questionnaire form (for student
+name, id, signature, etc.), show or suppress solutions, and set further formatting details.
+All involved \code{.Rnw} files (with exercises) and \code{.tex} templates employed in
+the example above are provided in the \pkg{exams} source package and its installed versions.
+The resulting output files are stored along with the extracted metainformation in the output directory:
 <<myexam1-odir>>=
 dir(odir)
 @
-More details on usage and customization of this function are provided by \cite{exams:Gruen+Zeileis:2009}.
-An overview of the most important arguments that are also shared by the version~2 interfaces
-is given in Table~\ref{tab:args}.
+More details on basic usage and more advanced customization of this function are
+provided by \cite{exams:Gruen+Zeileis:2009}. An overview of the most important arguments
+that are also shared by the version~2 interfaces is given in Table~\ref{tab:args}.
 
 \begin{table}[t!]
 \centering
@@ -360,13 +363,17 @@ changes:
 set.seed(1090)
 exams2pdf("tstat.Rnw")
 @
-pops up the same PDF as shown in Figure~\ref{fig:pdf}. The main difference is that unlike \code{exams()}
-the function \code{exams2pdf()} returns not only the metainformation from the exercise but additionally
+pops up the same PDF as shown in Figure~\ref{fig:pdf}. We refrain from further discussion
+of customization of the PDF output because this is discussed in \cite{exams:Gruen+Zeileis:2009}
+with details about {\LaTeX} master templates, additional auxiliary files, showing/hiding solutions
+etc. Here we only point out the main difference between the old \code{exams()} function and the
+new \code{exams2pdf()}: The latter not only returns the metainformation from the exercise but additionally
 also the {\LaTeX} code for the question and solution environments as well as paths to supplementary
 materials (such as graphics or data files). Section~\ref{sec:design} explains
 the structure of the return values in more detail and illustrates how this can be used.\footnote{To
 obtain the same type of return value as from the \texttt{exams()} function, \texttt{exams\_metainfo(exams2}\emph{xyz}\texttt{(...))}
 can be used.}
+
 
 
 \subsubsection[Producing HTML documents: exams2html()]{Producing HTML documents: \code{exams2html()}}
