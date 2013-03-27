@@ -126,7 +126,7 @@ exams2pdf("tstat-copy", edir = file.path(td, "exercises"))
 >   seperated by topics.
 
 FIXME
-This is actually a good idea but I haven't got a good and robust solution for
+Z: This is actually a good idea but I haven't got a good and robust solution for
 it. Currently, xexams() proceeds in three steps: (1) If no edir is specified,
 look for file_Rnw locally. (2) If edir is specified, look for file_Rnw there.
 (3) If these do not exist, look for file_Rnw in the installed package.
@@ -149,13 +149,13 @@ and return the first exact match if any?
 >   directory also the relative directory paths worked.
 
 FIXME
-Do you understand what this is supposed to mean?
+Z: Do you understand what this is supposed to mean?
 
 > * Adding more exercises lead again to an encoding problem. Calling recode
 >   and cleaning my tmp directory helped now.
 
 FIXME
-It seems to me that the reviewer had some problem with the encoding settings but
+Z: It seems to me that the reviewer had some problem with the encoding settings but
 it's not clear to me what the system locale was and what file encoding was used
 (or what it was changed to with 'recode').
 
@@ -171,7 +171,7 @@ the following error: 'no \exsolution{} specified'
 >   (x[n] == sep) return(x[-n]) : Argument has length 0".
 
 FIXME
-I could not replicate this. Niki do you have an idea how this could happen?
+Z: I could not replicate this. Niki do you have an idea how this could happen?
  
 > The only thing what really worked without any problems was the most simple
 > example from the paper via copy and paste.  Creating my own exam was a pain. 
@@ -199,7 +199,7 @@ infrastructure, we encourage you to contact us in the forum and we will try to
 help you.
 
 FIXME
-The text above is the politically correct version of: "It is really necessary to 
+Z: The text above is the politically correct version of: "It is really necessary to 
 read the manual in detail. Because we understand that this is tedious and the
 devil is in the detail, we can read the manual to you if you ask us a specific
 question." Do we have a better answer? Fritz, maybe you can make suggestions based
@@ -237,7 +237,7 @@ a formal object-oriented approach.
 > would be helpful to show some details in the manuscript.
 
 FIXME
-At the moment we just have \expoints{} with the number of points for the
+Z: At the moment we just have \expoints{} with the number of points for the
 overall exam because for OLAT we have to do the rest of the customization within
 OLAT anyway. But maybe Moodle has more options for this. Fritz, which Moodle
 tags can be leveraged for this?
