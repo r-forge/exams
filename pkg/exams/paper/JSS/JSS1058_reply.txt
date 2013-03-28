@@ -59,6 +59,10 @@ Z: In the old paper we explained in detail how the templates work and where
 in the package we provide them. So I wouldn't say the files are "hidden".
 Also I don't see what an exams.skeleton() should look like. Do you have
 better ideas for this?
+N: I can see his point a bit, when people start to use exams and additionally do not
+have much R experience, they usually get confused about package structures, paths,
+and so forth. Maybe we should add a more detailed demo (or new help site) in the package
+instead of a exams.skeleton()?
 
 CHECK
 At the end of Section 2.1 we provide some more details about the LaTeX templates.
@@ -140,6 +144,9 @@ Thus, currently xexams() does not list directories and then matches file
 names. Instead, it just uses file.exists() on specific file paths. Can either
 one of you think of a robust way to go sequentially through subdirectors
 and return the first exact match if any?
+N: I just added a little and experimental helper function that recursively searches
+files, search_files(). It actually works quite well, however, I did not fully
+test it yet.
 
 > * And again an encoding problem, but recoding did not help this time. The
 >   problem was that the current working directory was not my test directory
@@ -172,6 +179,7 @@ the following error: 'no \exsolution{} specified'
 
 FIXME
 Z: I could not replicate this. Niki do you have an idea how this could happen?
+N: No, we need some more replication code.
  
 > The only thing what really worked without any problems was the most simple
 > example from the paper via copy and paste.  Creating my own exam was a pain. 
