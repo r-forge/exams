@@ -25,7 +25,8 @@
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL, enumerate = TRUE, digits = 2,
-    tolerance = is.null(digits), maxchars = 12)
+    tolerance = is.null(digits), maxchars = 12,
+    points = NULL)
 }
 
 \arguments{
@@ -85,6 +86,9 @@
   \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
     fields. The actual number of characters is selected as the maximum number of
     characters of this value and the actual solution.}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
+    in the \code{.Rnw} file.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 

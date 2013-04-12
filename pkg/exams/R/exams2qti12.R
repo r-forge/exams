@@ -269,11 +269,12 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits),
-  maxchars = 12)
+  maxchars = 12, points = NULL)
 {
   function(x) {
     ## how many points?
-    points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+    if(is.null(points))
+      points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
