@@ -146,10 +146,24 @@ setwd(odir)
 \frametitle{Exercises: \code{dist.Rnw}}
 \vspace*{-0.7cm}
 {\scriptsize
+\color{black}\only<beamer|3->{\color{gray}}%
 <<dist.Rnw, echo=FALSE, results=tex>>=
-cat(c("\\begin{verbatim}", Rnw, "\\end{verbatim}"), sep = "\n")
+cat(c("\\begin{verbatim}", Rnw[1:5], "\\end{verbatim}"), sep = "\n")
+@
+\vspace*{-0.3cm}\color{black}\only<beamer|2,4->{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[7:11], "\\end{verbatim}"), sep = "\n")
+@
+\vspace*{-0.3cm}\color{black}\only<beamer|2-3,5->{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[13:21], "\\end{verbatim}"), sep = "\n")
+@
+\vspace*{-0.3cm}\color{black}\only<beamer|2-4>{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[23:26], "\\end{verbatim}"), sep = "\n")
 @
 }
+
 \end{frame}
 
 \begin{frame}[fragile]
