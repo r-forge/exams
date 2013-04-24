@@ -180,11 +180,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     )
 
     ## insert the solution
-    if(length(x$solution) && solution) {
+    if((length(x$solution) | (nsol <- length(x$solutionlist))) && solution) {
       xml <- c(xml,
         '<generalfeedback format="html">',
         '<text><![CDATA[<p>', x$solution,
-        if(!type %in% c("mchoice", "schoice") && (nsol <- length(x$solutionlist))) {
+        if(!type %in% c("mchoice", "schoice") && nsol) {
           g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
           soll <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
           c(if(enumerate) '<ol type = "a">' else '</br>',
