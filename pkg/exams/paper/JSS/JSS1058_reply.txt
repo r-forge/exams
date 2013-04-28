@@ -20,7 +20,7 @@ not discuss these issues sufficiently. The reason for this is that the old
 Grün & Zeileis (2009) manuscript already did this (and the new exams2pdf()
 interface is largely backward compatible with the old exams() function).
 Therefore, we point out more clearly at the end of Sections 2.1 and 2.2,
-respectively, that PDF output is discused in the old manuscript and not
+respectively, that PDF output is discussed in the old manuscript and not
 repeated here.
 
 > * My first problem was the errormessage "... is not ASCII and does not
@@ -198,7 +198,7 @@ differently. In our experience it is better to start fresh from simple
 exercise templates, first leaving the layouting to the package before
 exploring refined formatting options.
 
-So for users of the R package had very different starting points and very different
+So far users of the R package had very different starting points and very different
 needs when switching to the R package. Due to this heterogeneity we didn't see
 a natural way for assisting in this process or streamlining the tasks that need
 to be done. However, we do provide hands-on assistance in the R-Forge forum.
