@@ -7,11 +7,9 @@ REVIEWER 1
 > Ubuntu requires a lot of easily avoidable search in my linux system, search
 > in the internet and source code inspection:
 
-FIXME
-Z: I agree that the manuscript is rather long and that it would be nice to have
-something more accessible. However, there are many technical details involved
-when one wants to make full use of the package. Has anyone good ideas on
-how to restructure the paper?
+FIXME-Z
+Point out restructuring of manuscript, better explanation of usage vs. design,
+and exams.skeleton() function.
 
 CHECK
 Many of these comments pertain only to exams() and exams2pdf() and how to
@@ -28,41 +26,39 @@ repeated here.
 >   the exams package generates its Sweave files.  Finally I changed the
 >   encoding of my rnw files to ASCII via 'recode'.
 
-FIXME
+FIXME-FL
 Z: My usual recommendation for this is to just write ASCII files in the first
 place. But maybe there is a better recommendation that works in different
 locales. Fritz, what do you recommend for Sweave()? (Sweave is the source
-of the error message above.)
+of the error message above.) If supported, where should we set the locale,
+in the .Rnw or in the weave driver or...?
 
 > * Since my first 'myexam' contained just my exam headers I got the next
 >   errormessage 'slength >= 1L is not TRUE'.  I guess that somehow the
 >   missing meta information in my rnw files is responsible for this.  Meta
 >   information seemed useless to me since my headers only contained fields
 >   for the student name, id and general hints.  An easy possibility to insert
->   some static text without any exercise would have been nice. 
-
-FIXME
-Z: Does anyone of you understand what the reviewer means here? The whole point
-is that the exercises should _not_ contain the questionnaire. Do you see what
-I'm missing?
-
->   A look in the
+>   some static text without any exercise would have been nice. A look in the
 >   2009 paper of Gr??n and Zeileis revealed that somewhere in my system the
 >   templates files used by the 'exams' package are hidden.  I found them
 >   under /usr/local/lib/R/site-library/exams/tex .  For writing an R package
 >   a command 'package.skeleton' exists, maybe something like this would be
 >   possible also for the exams package creating some template files like
->   'plain' (solutions and exercises) and 'exam' (only exercises). 
+>   'plain' (solutions and exercises) and 'exam' (only exercises). Finally, I
+>   solved this problem with extending the question environment with optional
+>   parameter which called \item[] ...  and creating an empty exercise with
+>   this optional parameter.
 
-FIXME
-Z: In the old paper we explained in detail how the templates work and where
-in the package we provide them. So I wouldn't say the files are "hidden".
-Also I don't see what an exams.skeleton() should look like. Do you have
-better ideas for this?
-N: I can see his point a bit, when people start to use exams and additionally do not
-have much R experience, they usually get confused about package structures, paths,
-and so forth. Maybe we should add a more detailed demo (or new help site) in the package
-instead of a exams.skeleton()?
+FIXME-NU/Z
+Write new function
+  exams.skeleton(
+    dir = ".",
+    type = c("num", "schoice", "mchoice", "cloze", "string"),
+    writer = c(exams2html", "exams2pdf")
+  )
+that creates a directory with a README.txt, demo.R, and subdirectories for
+exercises/ and templates/. For this a "string" exercise still needs to be
+added to the package. Idea: What is the name of the R function for...?
 
 CHECK
 At the end of Section 2.1 we provide some more details about the LaTeX templates.
@@ -70,14 +66,6 @@ In particular we now point out the the exam.tex and solution.tex are provided
 in the source package and are also included in installed versions of the
 package (as you also point out above). For further details about the
 customization of the LaTeX master templates, see Grün & Zeileis (2009).
-
->   Finally, I
->   solved this problem with extending the question environment with optional
->   parameter which called \item[] ...  and creating an empty exercise with
->   this optional parameter.
-
-FIXME
-Z: No clue what this is supposed to me...
 
 > * After copying the template file in my working directory I created an exam
 >   only with "tstat.Rnw" with my own template file.  Integrating our logo as
@@ -90,7 +78,6 @@ Z: No clue what this is supposed to me...
 >   parameter which allows to copy additional files or simply to copy all
 >   files from the working directory to the temporary directory.
 
-CHECK
 Yes, that is what the argument 'inputs' is intended for. This is pointed out
 in ?exams and ?exams2pdf as well as Grün & Zeileis (2009).
 
@@ -101,7 +88,6 @@ in ?exams and ?exams2pdf as well as Grün & Zeileis (2009).
 >   "/usr/local/lib/R/site-library/exams/exercises/./exercises" for the
 >   exercise files and an absolute path for edir was necessary. 
 
-CHECK
 We cannot reproduce this problem. Both absolute and relative paths work fine for
 us. Consider the following example:
 
@@ -129,24 +115,8 @@ exams2pdf("tstat-copy", edir = file.path(td, "exercises"))
 >   such that one can build a directory structure containing exercises
 >   seperated by topics.
 
-FIXME
-Z: This is actually a good idea but I haven't got a good and robust solution for
-it. Currently, xexams() proceeds in three steps: (1) If no edir is specified,
-look for file_Rnw locally. (2) If edir is specified, look for file_Rnw there.
-(3) If these do not exist, look for file_Rnw in the installed package.
-
-file_path <- if(is.null(edir)) file_Rnw else file.path(edir, file_Rnw)
-file_path <- ifelse(file.exists(file_path),
-  file_path, file.path(dir_pkg, "exercises", file_path))
-if(!all(file.exists(file_path))) stop("...")
-
-Thus, currently xexams() does not list directories and then matches file
-names. Instead, it just uses file.exists() on specific file paths. Can either
-one of you think of a robust way to go sequentially through subdirectors
-and return the first exact match if any?
-N: I just added a little and experimental helper function that recursively searches
-files, search_files(). It actually works quite well, however, I did not fully
-test it yet.
+Thanks, this is a good idea. In case an 'edir' is specified, it is now searched
+recursively for the exercise .Rnw files.
 
 > * And again an encoding problem, but recoding did not help this time. The
 >   problem was that the current working directory was not my test directory
@@ -154,33 +124,27 @@ test it yet.
 >   "/usr/local/lib/R/site-library/exams/tex" rather my own plain.tex from my
 >   test directory.  After changing the working directory of R to my test
 >   directory also the relative directory paths worked.
-
-FIXME
-Z: Do you understand what this is supposed to mean?
-
+>
 > * Adding more exercises lead again to an encoding problem. Calling recode
 >   and cleaning my tmp directory helped now.
 
-FIXME
-Z: It seems to me that the reviewer had some problem with the encoding settings but
-it's not clear to me what the system locale was and what file encoding was used
-(or what it was changed to with 'recode').
+Similar to some other problems reported above, we were not able to track down
+these particular problems. But we hope that we have adressed it with the improvements
+discussed above.
 
 > * Replacing in my R program 'exams' by 'exams2pdf'/'exams2moodle' lead to
 >   the error message "Error: slength >= 1L is not TRUE".  A internet search
 >   showed that the Metainformation \exsolution in the rnw-files was empty. 
 
-CHECK
 Yes, the error message was too opaque. The new version of exams now reports
 the following error: 'no \exsolution{} specified'
 
 > * After correcting this error 'exams2moodle' complained about "Error in if
 >   (x[n] == sep) return(x[-n]) : Argument has length 0".
 
-FIXME
-Z: I could not replicate this. Niki do you have an idea how this could happen?
-N: No, we need some more replication code.
- 
+Sorry, we were not able to replicate this problem with the information provided
+and hence were not able to fix it.
+
 > The only thing what really worked without any problems was the most simple
 > example from the paper via copy and paste.  Creating my own exam was a pain. 
 > It took me more then a day to get a PDF version of a current exam by myself. 
@@ -206,12 +170,11 @@ Thus, if you or your colleagues are still interested in setting up Moodle
 infrastructure, we encourage you to contact us in the forum and we will try to
 help you.
 
-FIXME
+FIXME-Z
 Z: The text above is the politically correct version of: "It is really necessary to 
 read the manual in detail. Because we understand that this is tedious and the
 devil is in the detail, we can read the manual to you if you ask us a specific
-question." Do we have a better answer? Fritz, maybe you can make suggestions based
-on your experiences at BOKU?
+question."
 
 
 ----------
@@ -239,12 +202,15 @@ you create a large e-learning exam (say 1,000 copies of a dozen exercises)
 this seemed to be a more practical solution, albeit not quite as elegant as
 a formal object-oriented approach.
  
+FIXME-Z
+Goal of exams is to write files to disk, not to represent everything in R objects...
+ 
 > 2) Not much is said about assigning points to questions, especially
 > multiple choice problems. I know that this is possible in Moodle. Wouldn't
 > this require manual tinkering with the resulting XML files? If not, it
 > would be helpful to show some details in the manuscript.
 
-FIXME
+FIXME-FL
 Z: At the moment we just have \expoints{} with the number of points for the
 overall exam because for OLAT we have to do the rest of the customization within
 OLAT anyway. But maybe Moodle has more options for this. Fritz, which Moodle
@@ -267,7 +233,6 @@ BOKU?
 > perspective and a technical perspective (i.e. translation of markdown to
 > other formats)?
 
-CHECK
 The reason for using LaTeX is that in statistics and mathematics exams we
 regularly need mathematical notation, especially for showing the correct
 solutions. (This is true for most exercises in the exams package.)
@@ -286,7 +251,6 @@ need for more explicit Markdown format
 > effects only model, model diagnostics, post-hoc comparisons, etc. How
 > would one structure such a problem in this system.
 
-CHECK
 When the different parts are rather small, then using "cloze" exercises
 (as in boxhist.Rnw) are a convenient option. When the parts are larger
 (as in the scenario you describe above), you can simply reuse the data
@@ -305,5 +269,18 @@ data again.
 > exercises." Perhaps to much alliteration for me, but it took me a minute
 > to parse that text.
 
-CHECK
 Thanks, rephrased now.
+
+
+FIXME-FL
+Suggest ways to set point percentages for different answers in mchoice/cloze
+questions.
+
+FIXME-NU
+Implement flexible cloze formatting for exams2moodel and preferably also
+for exams2qti12. Idea: If magic string ":ANSWER1:" is in the questionlist,
+then we assume that the authors of the .Rnw do all layouting themselves.
+If not: Add a list at the end of question as we do currently.
+
+FIXME-Z
+Add boxhist2.Rnw exercise that uses the flexible :ANSWER1: cloze style.
