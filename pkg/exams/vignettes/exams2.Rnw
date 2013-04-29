@@ -1228,7 +1228,7 @@ of the Universit\"at Innsbruck.
 \begin{tabular}{llp{10.9cm}}
 \hline
 File & Type & Description \\ \hline
-\code{confint}     & \code{num}     & Confidence interval for one-sample mean, i.e., result of lenght two (for version~1 interface).\\
+\code{confint}     & \code{num}     & Confidence interval for one-sample mean, i.e., result of length two (for version~1 interface).\\
 \code{dist}        & \code{num}     & Very simple numeric exercise (for introductory illustrations).\\
 \code{lagrange}    & \code{num}     & Lagrange optimzation under constraint. Result is randomly selected to be one of three potential quantities. \\
 \code{regression}  & \code{num}     & Prediction in simple linear regression.\\
