@@ -275,6 +275,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       for(i in 1:n) {
         ql <- questionlist[sid == i]
         k <- length(ql)
+        tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
           tmp <- paste('{', 1, ':', cloze_mchoice_display, ':', sep = '')
           if(k < 2) {
@@ -294,24 +295,28 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           }
           tmp <- paste(tmp, ql, sep = '')
           tmp <- paste(tmp, '}', sep = '')
-          qtext <- c(qtext, tmp)
         }
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
-            qtext <- c(qtext, paste(ql[j], ' {', 1, ':NUMERICAL:=', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', 1, ':NUMERICAL:=', solution[[i]][j],
               ':', tol[[i]][1], '}', sep = ''))
           }
         }
         if(x$metainfo$clozetype[i] == "string") {
           for(j in 1:k) {
-            qtext <- c(qtext, paste(ql[j], ' {', 1, ':SHORTANSWER:%100%', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', 1, ':SHORTANSWER:%100%', solution[[i]][j],
               if(!usecase) paste('~%100%', tolower(solution[[i]][j]), sep = '') else NULL,
               '}', sep = ''))
           }
         }
+        ## insert in :ANSWERi: tag
+        if(any(grepl(ai <- paste(":ANSWER", i, ":", sep = ""), x$question, fixed = TRUE))) {
+          x$question <- gsub(ai, paste(tmp, collapse = ", "), x$question, fixed = TRUE)
+        } else qtext <- c(qtext, tmp)
       }
-      if(enumerate) qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
-      qtext <- c(x$question, qtext) #FIXME: NU's version had# c('<pre>', x$question, qtext, '</pre>')
+      if(!is.null(qtext) & enumerate)
+        qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
+      qtext <- c(x$question, qtext)
       xml <- gsub('##QuestionText', paste(qtext, collapse = "\n"), xml)
     }
 
