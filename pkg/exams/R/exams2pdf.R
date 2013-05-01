@@ -90,7 +90,17 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     rval 
   }
   string2quest <- function(x) paste("  \\item \\exstring{", x, "}", sep = "")  
-  
+  cloze2quest <- function(x, type) paste(
+      "  \\item \n",
+      "  \\begin{enumerate}\n   ",
+      paste(sapply(seq_along(x), function(i) switch(type[i],
+        "schoice" = mchoice2quest(c(x[[i]], rep(FALSE, 5 - length(x[[i]])))), ## FIXME: need to improve \exmchoice in exam/solution! ##
+        "mchoice" = mchoice2quest(c(x[[i]], rep(FALSE, 5 - length(x[[i]])))), ## FIXME ##
+        "num" = num2quest(x[[i]]),
+        "string" = string2quest(x[[i]]))), collapse = "\\\\\n    "),
+      "\n  \\end{enumerate}",
+      collapse = "\n"
+    )
 
   ## set up actual write function
   function(exm, dir, info)
@@ -122,6 +132,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     fil <- names(exm) #to assure different file names# sapply(exm, function(x) x$metainfo$file)
     typ <- sapply(exm, function(x) x$metainfo$type)
     sol <- lapply(exm, function(x) x$metainfo$solution)
+    clz <- lapply(exm, function(x) x$metainfo$clozetype)
 
     ## write out LaTeX code
     for(j in 1L:m) {
@@ -179,6 +190,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
 	    "schoice" = mchoice2quest(sol[[i]]),
 	    "mchoice" = mchoice2quest(sol[[i]]),
             "num" =  num2quest(sol[[i]]),
+            "cloze" =  cloze2quest(sol[[i]], clz[[i]]),
             "string" = string2quest(sol[[i]]))),
  	  "\\end{enumerate}", ""), collapse = "\n")
       }
