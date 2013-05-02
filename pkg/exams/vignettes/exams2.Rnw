@@ -159,31 +159,33 @@ package are only somewhat extended compared to version~1:
     cross-platform setting because each team member can independently develop
     and edit a single exercise.
 \end{itemize}
-In the remainder of this paper we illustrate in Section~\ref{sec:usage} how to use
-both the old and new exam-generating functions that are readily available in the
-package. Subsequently, we provide details about the design underyling the toolbox
-for the new infrastructure in Section~\ref{sec:design}. Furthermore, Section~\ref{sec:extensions}
-provides details on how to extend this toolbox, e.g., to other e-learning
-environments or exam servers. Finally, a discussion in Section~\ref{sec:discussion}
-concludes the paper.
+The remainder of this paper consists of two major parts: First, we illustrate in
+Section~\ref{sec:usage} how to use both the old and new exam-generating functions
+that are readily available in the package. This serves as a first introduction
+and is sufficient for getting a good overview of the available features
+and how to get started. Second, Section~\ref{sec:design} provides details about
+the design underyling the toolbox for the new infrastructure. This section -- as well
+as the subsequent Section~\ref{sec:extensions} showing how to extend the toolbox --
+may be skipped upon first reading but it contains many important details that are
+likely to be required when actually starting to create course materials with the
+package. Finally, a discussion in Section~\ref{sec:discussion} concludes the paper.
 
-\fixme{Point out that Section~\ref{sec:usage} is sufficient for getting an overview
-of the package and getting started. But all is needed for full customization etc.}
+\readme{Rewrote last paragraph.}
 
 \section[Using the exams package]{Using the \pkg{exams} package} \label{sec:usage}
 
 In this section we provide an overview of the most important user interfaces provided
-by the \pkg{exams} package. First, the format of the exercise \code{Sweave} files
+by the \pkg{exams} package. This serves as a first introduction, assuming only
+(basic) knowledge of \code{Sweave} \citep{exams:Leisch:2008a,exams:Leisch:2008}.
+First, the format of the exercise \code{Sweave} files
 is reviewed along with the old (version~1) \code{exams()} function. Subsequently,
-the new (version~2) functions are introduced: \code{exams2pdf()} and
-\code{exams2html()} produce one PDF or HTML file for each exam, respectively. In case
+the new (version~2) functions of type \code{exams2}\emph{xyz}\code{()}
+are introduced: \code{exams2pdf()} and \code{exams2html()} produce one PDF or HTML
+file for each exam, respectively. In case
 of just a single exam, this is shown interactively in a viewer/browser.
 \code{exams2moodle()} and \code{exams2qti12()} generate \pkg{Moodle} and QTI~1.2 exams,
 i.e., just a single XML or ZIP file, respectively, which can be easily uploaded into
 \pkg{Moodle} and \pkg{OLAT}.
-
-\fixme{Prerequisite: Sweave. Getting started with exams: this document. Details on
-{\LaTeX}/PDF exams in Gruen and Zeileis 2009}
 
 \subsection[Version 1: PDF exams() from Sweave exercises]{Version~1: PDF \code{exams()} from \code{Sweave} exercises}
 
@@ -452,7 +454,9 @@ customized: First, the XML file is imported into the question bank in \pkg{Moodl
 all replications of each exercise can be added as ``random'' questions into a quiz
 (and potentially further customized). Figure~\ref{fig:exams2moodle-boxplots} shows the first random draw
 of the \code{boxplots} exercise in the resulting \pkg{Moodle} quiz (again rendered
-by a \pkg{Firefox} browser).
+by a \pkg{Firefox} browser). More details on how to customize \pkg{exams}-generated
+questions for \pkg{Moodle} are provided in Appendix~\ref{sec:moodlecustom}.
+\readme{Appendix still needs to be written.}
 
 \begin{figure}[t!]
 \centering
@@ -468,7 +472,7 @@ all these supplements in a single XML file, Base64 encoding is employed for all
 supplements. See the manual page for the list of all supported supplement file
 formats.
 
-\fixme{Reference to Section~\ref{sec:moodlecustom} in appendix.}
+
 
 \subsubsection[Producing QTI 1.2 XML (for OLAT): exams2qti12()]{Producing QTI 1.2 XML (for \pkg{OLAT}): \code{exams2qti12()}}
 
@@ -528,10 +532,58 @@ underlying XML template could be adapted and extended.
 
 \subsection{Creating the first exam}
 
-\fixme{Get started with exams.skeleton().
-Forward reference to all exercises in Table~\ref{tab:exercises} in appendix.
-Recommend to first adapt exercises, then customize layout/formatting.
-Especially, first use simple markup that works in all output formats.}
+\readme{new subsection}
+
+When creating the first ``real'' exam with \pkg{exams}, i.e., when starting to
+prepare course materials with the help of the package, it is our experience
+that it works best to start (almost) from scratch with some simple examples.
+The package provides a wide range of examples for typical exercises (see
+Table~\ref{tab:exercises} in the appendix for an overview) which can serve as a
+starting point and it is often useful to copy parts of these exercises to
+create new ones. In particular, we recommend to keep the formatting as simple
+as possible for two reasons: (1)~The resulting exercises are typically more
+robust and work well with different \code{exams2}\emph{xyz}\code{()} interfaces
+(especially both in {\LaTeX} and in HTML). (2)~Some formatting issues require
+attention to technical details, e.g., as discussed in Section~\ref{sec:design}.
+
+Thus, we recommend to start with exercises taking inspiration from the available
+examples and only using basic {\LaTeX} markup for mathematical notation
+and formatting. To aid this process, \pkg{exams} provides the function
+\code{exams_skeleton()} (or equivalently \code{exams.skeleton()}) which
+creates a directory with a copy of the exercises from Table~\ref{tab:exercises}
+and the required templates (e.g., for {\LaTeX}, HTML, or XML) along with
+a `\code{demo.R}' script illustrating the use of the various
+\code{exams2}\emph{xyz}\code{()} interfaces.
+
+As an illustration, assume
+that we are interested in using \code{exams2moodle()} and \code{exams2pdf()}
+for generating both \pkg{Moodle} and PDF exams (for printout). To test that the
+{\LaTeX}-to-HTML conversion for \pkg{Moodle} actually works for all exercises,
+we additionally want to inspect the results of \code{exams2html()}. Hence,
+the code below calls \code{exams_skeleton()} specifying these three writers.
+Here, we employ a temporary directory but users may set the \code{dir} argument
+to something like \code{"C:/myexam/"} or \code{"~/myexam/"} etc.
+<<exams_skeleton>>=
+mydir <- tempdir()
+exams_skeleton(dir = mydir, absolute = TRUE,
+  writer = c("exams2html", "exams2pdf", "exams2moodle"))
+dir(mydir)
+@
+The directory then contains the file `\code{demo.R}' which can be opened in
+any editor for \proglang{R} scripts. The script illustrates how to create
+various kinds of output using the \code{exams2html()}, \code{exams2pdf()},
+and \code{exams2moodle()} functions based on the exercises and templates
+in the subdirectories of the same name. Absolute paths are employed in the
+script to refer to these subdirectories (while the default \code{absolute = FALSE}
+would result in relative paths being used).
+
+The function \code{exams_skeleton()} always copies all exercise files to the
+directory but the `\code{demo.R}' script only employs one example for each
+exercise type, i.e., \code{num}, \code{schoice}, \code{mchoice}, \code{string}.
+To restrict this set of exercises, the \code{type} argument of \code{exams_skeleton()}
+can be used, e.g., for setting \code{type = c("num", "schoice")}. In any case,
+it should be easy to modify the `\code{demo.R}' script, omitting or adding
+exercises that are readily available in the subdirectory.
 
 
 \section{Design} \label{sec:design}
@@ -539,17 +591,17 @@ Especially, first use simple markup that works in all output formats.}
 All the new \code{exams2}\emph{xyz}\code{()} interfaces for generating exams in
 different formats (with currently \emph{xyz} $\in$ \{\code{pdf}, \code{html}, \code{moodle}, \code{qti12}\})
 are built by combining the modular building blocks provided by version~2 of \pkg{exams}.
+All functions have the same goal, i.e., to write exam files in a certain format
+to the hard disk.
 The approach is that the \code{Sweave} exercises are first \emph{weaved} to {\LaTeX}, 
 \emph{read} into \proglang{R}, potentially \emph{transformed} (e.g., to HTML), and
-then \emph{written} to suitable output file formats. Different customizable
+then \emph{written} to suitable output file formats on the disk. Different customizable
 driver functions (or even driver-generating functions) for performing the
 weave/read/transform/write steps are available in \pkg{exams}.
 Internally, all the \code{exams2}\emph{xyz}\code{()} interfaces choose certain
 drivers and then call the new function \code{xexams()} (for extensible exams) that handles
 all temporary files/directories and suitably executes the drivers. In the following subsections,
 all these building blocks are introduced in detail.
-
-\fixme{Point out somewhere that the goal is to write files to disk.}
 
 \subsection{Extended specification of exercises}
 
