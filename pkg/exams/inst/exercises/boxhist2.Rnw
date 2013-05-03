@@ -113,5 +113,5 @@ answerlist(paste(unlist(explanations), ".", sep = ""))
 %% \exname{boxhist}
 %% \exsection{boxhist}
 %% \extitle{Boxplot and histogram}
-%% \extol{\Sexpr{tol}}
+%% \extol{0|0|0|\Sexpr{tol}|\Sexpr{tol}|\Sexpr{tol}}
 %% \exversion{0.2}
