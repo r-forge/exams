@@ -13,7 +13,8 @@
   exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-  mathjax = FALSE, resolution = 100, width = 4, height = 4, \dots)
+  mathjax = FALSE, resolution = 100, width = 4, height = 4,
+  encoding = "", \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
     base64 = TRUE, \dots)
@@ -52,6 +53,7 @@
     be included for rendering mathematical formulas?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
+  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML. For details see below.}
   \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
@@ -139,6 +141,9 @@ exams2html("tstat", mathjax = TRUE)
 
 ## via plain HTML (works in all browsers but with inferior formatting)
 exams2html("tstat", converter = "tth")
+
+## example file with special characters (Euro symbol, German Umlaut)
+exams2html("currency", encoding="utf8", template="plain8")
 
 ## via HTML with embedded picture (works in all browsers but
 ## is slow and requires LaTeX and ImageMagick)

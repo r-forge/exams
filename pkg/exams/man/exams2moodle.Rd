@@ -12,7 +12,8 @@
   exams2moodle(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, resolution = 100,
-    width = 4, height = 4, iname = TRUE, stitle = NULL,
+    width = 4, height = 4,  encoding = "",
+    iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     \dots)
@@ -43,6 +44,7 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
+  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to
     certain already existing question banks, i.e. \code{iname = TRUE} will include the exam

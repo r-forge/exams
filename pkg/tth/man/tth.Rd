@@ -14,7 +14,7 @@ tth(x, \dots, fixup = TRUE, Sweave = TRUE)
 ttm(x, \dots, fixup = TRUE, Sweave = TRUE)
 
 tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
-  i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE,
+  i = FALSE, j = NULL, L = NULL, n = NULL, p = NULL, r = TRUE,
   t = FALSE, u = FALSE, w = NULL, y = 2, xmakeindxcmd = NULL, v = FALSE)
 }
 \arguments{
@@ -37,7 +37,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   \item{i}{logical. Use italic font for equations (like TeX)? Default roman.
     For \code{tth} only.}
   \item{j}{numeric specifying index page length. Default is 20 lines.}
-  \item{L}{logical. Should LaTeX commands (e.g., frac) be enabled without a docmentclass line?}
+  \item{L}{character, the base  file  (no  extension)  for  LaTeX  auxiliary
+    input.}
   \item{n}{numeric HTML title format control: \code{0} raw, \code{1} expand macros, \code{2} expand
     equations.}
   \item{p}{character specifying additional directories (paths) to search for input files.}

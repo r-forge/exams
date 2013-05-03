@@ -1,7 +1,7 @@
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-  mathjax = FALSE, resolution = 100, width = 4, height = 4, ...)
+  mathjax = FALSE, resolution = 100, width = 4, height = 4, encoding="", ...)
 {
   ## output directory or display on the fly
   display <- missing(dir)
@@ -15,7 +15,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain"
 
   ## output name processing 
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
-
+  
   ## set up .html transformer and writer function
   htmltransform <- make_exercise_transform_html(...)
   htmlwrite <- make_exams_write_html(template = template, name = name,
@@ -24,7 +24,8 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain"
   ## create final .html exam
   rval <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
-      resolution = resolution, width = width, height = height),
+      resolution = resolution, width = width, height = height,
+                  encoding = encoding),
       read = NULL, transform = htmltransform, write = htmlwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
 

@@ -12,7 +12,8 @@
   exams2qti12(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, resolution = 100,
-    width = 4, height = 4, num = NULL, mchoice = NULL,
+    width = 4, height = 4, encoding = "",
+    num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti12", duration = NULL,
     stitle = "Exercise", ititle = "Question",
@@ -49,6 +50,7 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
+  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
     for generating the item body of the question, see function \code{make_itembody_qti12()}.
