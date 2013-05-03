@@ -6,7 +6,7 @@ CURR <- c(USD=1.3109, GBP=0.8431)
 ADIDAS <- 84.8492
 nr <- sample(10:100, 1)
 cu <- sample(1:2, 1)
-x <- round(ADIDAS*nr*CURR[cu], 2)
+x <- round(ADIDAS*nr*CURR[cu], 3)
 @
 
 \begin{question}
@@ -18,8 +18,8 @@ shares, how much are they worth in \Sexpr{names(CURR)[cu]}?
 \end{question}
 
 \begin{solution}
-  The correct answer is \Sexpr{x}, you have to multiply stock price,
-  number of shares and exchange rate.
+The worth is the number of shares $\times$ stock price $\times$ exchange rate, i.e.,
+$\Sexpr{nr} \times \Sexpr{ADIDAS} \times \Sexpr{CURR[cu]} \approx \Sexpr{x}$.
 \end{solution}
 
 %% \extype{num}
