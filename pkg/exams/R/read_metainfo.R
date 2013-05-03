@@ -97,7 +97,7 @@ read_metainfo <- function(file)
 
   ## lower/upper tolerance value
   if(is.null(extol)) extol <- 0
-  extol <- rep(extol, length.out = 2L) ## FIXME: or expand to length of solutions? (not backward compatible)
+  extol <- rep(extol, length.out = slength)
 
   ## compute "nice" string for printing solution in R
   string <- switch(extype,
@@ -107,10 +107,10 @@ read_metainfo <- function(file)
       paste(exname, ": ", exsolution, sep = "")
     } else {
       if(slength == 1L) {
-        paste(exname, ": ", exsolution, " (", exsolution - extol[1L], "--", exsolution + extol[2L], ")", sep = "")
+        paste(exname, ": ", exsolution, " (", exsolution - extol, "--", exsolution + extol, ")", sep = "")
       } else {
-	      paste(exname, ": [", exsolution[1L], ", ", exsolution[2L], "] ([", exsolution[1L] - extol[1L], "--", exsolution[1L] + extol[2L], ", ",
-	        exsolution[2L] - extol[1L], "--", exsolution[2L] + extol[2L], "])", sep = "")
+	paste(exname, ": [", exsolution[1L], ", ", exsolution[2L], "] ([", exsolution[1L] - extol[1L], "--", exsolution[1L] + extol[1L], ", ",
+	  exsolution[2L] - extol[2L], "--", exsolution[2L] + extol[2L], "])", sep = "")
       }
     },
     "string" = paste(exname, ": ", paste(exsolution, collapse = "\n"), sep = ""),
