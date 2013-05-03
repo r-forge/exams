@@ -229,12 +229,23 @@ solution, albeit not quite as elegant as a formal object-oriented approach.
 > this require manual tinkering with the resulting XML files? If not, it
 > would be helpful to show some details in the manuscript.
 
-FIXME-FL
-Z: At the moment we just have \expoints{} with the number of points for the
-overall exam because for OLAT we have to do the rest of the customization within
-OLAT anyway. But maybe Moodle has more options for this. Fritz, which Moodle
-tags can be leveraged for this?
+In the original version we just had \expoints{} with the number of
+points for the overall exam because for OLAT we have to do the rest of
+the customization within OLAT anyway. For Moodle we had one fixed
+scheme how to assign points to multiple choice items. We have now
+generalised this to a user-speciefied function that implements a
+particular multiple choice policy. Available policies are one wrong
+answer cancels all correct ones, one wrong cancels one correct,
+etc. Thanks a lot for your question which led to a much more elegant
+solution.
 
+FIXME-NU
+Integrate mchoice policies into exams2moodle.
+
+FIXME-FL or NU
+Describe policies in paper (after implementation)
+
+FIXME-FL
 One idea could be to have a generic \exextra{}{} command for passing extra
 metainformation to systems like Moodle, e.g., \exextra{answernumbering}{ABCD}.
 Alternatively, we could of course extend the set of \ex*{} commands, e.g.,
@@ -243,7 +254,14 @@ by some interfaces and it would be hard to anticipate all potential tags
 we may need in the future.
 
 But maybe, Fritz, you have a better suggestion based on your experiences at
-BOKU?
+
+F: I currently don't need more tags beyond what we have in
+read_metainfo, and certainly not answernumbering. But \exextra could
+make a lot of sense, because one could very quickly use an extra
+option for a particular driver -> on 2do list for future versions?
+Implement without using seems silly to me.
+
+
 
 > 3) While I don't have any issue with using LaTeX as the base markup
 > language, it may leave some unwilling to use this framework. I have seen
@@ -291,12 +309,9 @@ data again.
 Thanks, rephrased now.
 
 
-FIXME-FL
-Suggest ways to set point percentages for different answers in mchoice/cloze
-questions.
-
 FIXME-NU
 Implement flexible cloze formatting for exams2moodel and preferably also
-for exams2qti12. Idea: If magic string ":ANSWER1:" is in the questionlist,
+for exams2qti12. Idea: If magic string "##ANSWER1#" is in the questionlist,
 then we assume that the authors of the .Rnw do all layouting themselves.
 If not: Add a list at the end of question as we do currently.
+
