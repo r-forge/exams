@@ -24,4 +24,5 @@ shares, how much are they worth in \Sexpr{names(CURR)[cu]}?
 
 %% \extype{num}
 %% \exsolution{\Sexpr{x}}
-%% \exname{R functions}
+%% \exname{Currency exchange rates}
+%% \extol{0.02}

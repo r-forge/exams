@@ -48,12 +48,12 @@ we could not compile that LaTeX file without errors.
 As for the encoding issue: We typically recommend to write exercises as
 ASCII files (by using LaTeX commands for special characters) as these can
 be easily compiled on different platforms using different locale settings.
-However, we tried to facilitate using certain encodings...
+However, we tried to facilitate using certain encodings, UTF-8 should
+now be working for HTML, PDF and Moodle. 
 
-FIXME-FL
-Fritz, what do you recommend for Sweave()? (Sweave is the source
-of the error message above.) If supported, where should we set the locale,
-in the .Rnw or in the weave driver or...?
+FIXME-IBK
+Does it work with OLAT?
+
 
 > * Since my first 'myexam' contained just my exam headers I got the next
 >   errormessage 'slength >= 1L is not TRUE'.  I guess that somehow the
