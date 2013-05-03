@@ -98,13 +98,17 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## attach sample id to metainfo
       exm[[i]][[j]]$metainfo$id <- paste(sample_ids[i], type, sep = "_")
 
-      ## add sample number to name
-      exm[[i]][[j]]$metainfo$name <- paste("Replication",
-        formatC(i, flag = "0", width = nchar(nx)), ":",
-        if(!is.null(exm[[i]][[j]]$metainfo$title)) {
-          exm[[i]][[j]]$metainfo$title
-        } else exm[[i]][[j]]$metainfo$file)
-
+      ## add sample and question number to name
+      sqname <- ""
+      if(nx>1L) sqname <- paste("R", formatC(i, flag = "0", width = nchar(nx)), " ", sep="")
+      exm[[i]][[j]]$metainfo$name <-
+          paste(sqname,
+                "Q", formatC(j, flag = "0", width = nchar(nq)),
+                " : ",
+                if(!is.null(exm[[i]][[j]]$metainfo$title)) {
+                    exm[[i]][[j]]$metainfo$title
+                } else exm[[i]][[j]]$metainfo$file,
+                sep="")
       ## create the .xml
       question_xml <- moodlequestion[[type]](exm[[i]][[j]])
 
