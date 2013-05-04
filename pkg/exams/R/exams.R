@@ -72,6 +72,20 @@ exams <- function(file, n = 1, nsamp = NULL, dir = NULL, template = "plain",
   if(!all(file.exists(template_path))) stop(paste("The following files cannot be found: ",
     paste(template_raw[!file.exists(template_path)], collapse = ", "), ".", sep = ""))  
 
+  ## check for using old templates
+  if(file.path(dir_pkg, "tex", "exam.tex") %in% template_path) {
+    warning(paste(strwrap(paste(
+      "The template exam.tex has been adapted to exams2pdf() and is not fully compatible",
+      "with exams() anymore. Please change to exams2pdf() or use exams() with the template oexam.tex."
+      ), exdent = 2), collapse = "\n"))
+  }
+  if(file.path(dir_pkg, "tex", "solution.tex") %in% template_path) {
+    warning(paste(strwrap(paste(
+      "The template solution.tex has been adapted to exams2pdf() and is not fully compatible",
+      "with exams() anymore. Please change to exams2pdf() or use exams() with the template osolution.tex."
+      ), exdent = 2), collapse = "\n"))
+  }
+
   ## read template
   template <- lapply(template_path, readLines)
   ## which input types in template?

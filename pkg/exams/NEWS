@@ -1,7 +1,28 @@
 Changes in Version 1.9-5
 
+  o exams_skeleton()
+  
+  o encoding
+  
+  o points
+
   o If the "edir" argument is specified in exams2xyz(), then all
     files in edir _and_ its subdirectories are searched recursively.
+
+  o Asymmetric tolerance intervals are not supported in the exams2xyz()
+    interfaces anymore. Instead, vectors of solutions in "cloze"
+    exercises can have vectors of tolerances.
+
+  o The original exam.tex/solution.tex templates have been renamed to
+    oexam.tex/osolution.tex. The function exams() needs to be used
+    with oexam/osolution while exam/solution are now optimized for
+    exams2pdf(). The reason is that the questionnaire command has
+    been changed. For a multiple-choice question with five answers
+    and correct solutions 1 and 4, say, exams() produces
+    \exmchoice{X}{ }{ }{X}{ } while exams2pdf now uses
+    \exmchoice{X}[ ][ ][X][ ], i.e., with optional instead of required
+    arguments. The latter solution is not restricted to multiple-choice
+    questions with exactly five answers anymore.
 
 
 Changes in Version 1.9-4

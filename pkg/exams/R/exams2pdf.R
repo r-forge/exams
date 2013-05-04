@@ -80,8 +80,13 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
   } else {
     c(True = "X", False = " ")
   }
-  mchoice2quest <- function(x) paste("  \\item \\exmchoice{",
-    paste(ifelse(x, mchoice.symbol[["True"]], mchoice.symbol[["False"]]), collapse = "}{"), "}", sep = "")
+  mchoice2quest <- function(x) {
+    rval <- ifelse(x, mchoice.symbol[["True"]], mchoice.symbol[["False"]])
+    rval <- if(length(rval) == 1L) paste("{", rval, "}", sep = "") else {
+      paste("{", rval[1L], "}[", paste(rval[-1L], collapse = "]["), "]", sep = "")
+    }
+    paste("  \\item \\exmchoice", rval, sep = "")
+  }
   num2quest <- function(x) {
     rval <-  paste("  \\item \\exnum{", 
       paste(strsplit(format(c(100000.000, x), nsmall = 3, scientific = FALSE)[-1], "")[[1]][-7],
@@ -96,8 +101,8 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       "  \\item \n",
       "  \\begin{enumerate}\n   ",
       paste(sapply(seq_along(x), function(i) switch(type[i],
-        "schoice" = mchoice2quest(c(x[[i]], rep(FALSE, 5 - length(x[[i]])))), ## FIXME: need to improve \exmchoice in exam/solution! ##
-        "mchoice" = mchoice2quest(c(x[[i]], rep(FALSE, 5 - length(x[[i]])))), ## FIXME ##
+        "schoice" = mchoice2quest(x[[i]]),
+        "mchoice" = mchoice2quest(x[[i]]),
         "num" = num2quest(x[[i]]),
         "string" = string2quest(x[[i]]))), collapse = "\\\\\n    "),
       "\n  \\end{enumerate}",
