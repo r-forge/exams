@@ -11,7 +11,7 @@ x <- round(ADIDAS*nr*CURR[cu], 3)
 
 \begin{question}
 On 2013-05-03 one Euro (€) was buying \Sexpr{CURR[1]} US Dollars (\$) and
-\Sexpr{CURR[2]} Britisch Pounds (\pounds). At Frankfurter Börse around
+\Sexpr{CURR[2]} Britisch Pounds (£). At Frankfurter Börse around
 noon adidas AG was the largest winner compared with the day before
 with a price of EUR \Sexpr{ADIDAS} per share. If you buy \Sexpr{nr}
 shares, how much are they worth in \Sexpr{names(CURR)[cu]}?
