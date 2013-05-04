@@ -76,12 +76,12 @@ statements, respectively. \emph{(Comment: The tolerance for numeric answers is
 $\pm\Sexpr{tol}$, the true/false statements are either about correct or clearly wrong.)}
 
 \begin{tabular}{lr}
-The distribution is unimodal:                         & :ANSWER1: \\
-The distribution is:                                  & :ANSWER2: \\
-The boxplot shows outliers:                           & :ANSWER3: \\
-A quarter of the observations is smaller than:        & :ANSWER4: \\
-A quarter of the observations is greater than:        & :ANSWER5: \\
-Half of the observations are \Sexpr{smallgreat} than: & :ANSWER6:
+The distribution is unimodal:                         & ##ANSWER1## \\
+The distribution is:                                  & ##ANSWER2## \\
+The boxplot shows outliers:                           & ##ANSWER3## \\
+A quarter of the observations is smaller than:        & ##ANSWER4## \\
+A quarter of the observations is greater than:        & ##ANSWER5## \\
+Half of the observations are \Sexpr{smallgreat} than: & ##ANSWER6##
 \end{tabular}
 
 <<echo=FALSE, results=hide, results=tex>>=

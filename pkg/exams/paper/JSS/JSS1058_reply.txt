@@ -53,6 +53,7 @@ now be working for HTML, PDF and Moodle.
 
 FIXME-IBK
 Does it work with OLAT?
+NU: Should work, since the qti12 template uses encoding="UTF-8" in the header.
 
 
 > * Since my first 'myexam' contained just my exam headers I got the next
