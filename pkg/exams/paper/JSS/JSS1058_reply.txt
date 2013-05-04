@@ -240,8 +240,8 @@ answer cancels all correct ones, one wrong cancels one correct,
 etc. Thanks a lot for your question which led to a much more elegant
 solution.
 
-FIXME-NU
-Integrate mchoice policies into exams2moodle.
+FIXME-FL
+Check mchoice policies in exams2moodle, what to do when there is no correct solution?
 
 FIXME-FL or NU
 Describe policies in paper (after implementation)
@@ -308,11 +308,4 @@ data again.
 > to parse that text.
 
 Thanks, rephrased now.
-
-
-FIXME-NU
-Implement flexible cloze formatting for exams2moodel and preferably also
-for exams2qti12. Idea: If magic string "##ANSWER1#" is in the questionlist,
-then we assume that the authors of the .Rnw do all layouting themselves.
-If not: Add a list at the end of question as we do currently.
 

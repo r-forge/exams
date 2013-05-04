@@ -1,6 +1,10 @@
 \name{exams2moodle}
 \alias{exams2moodle}
 \alias{make_question_moodle23}
+\alias{cancelOne}
+\alias{cancelAll}
+\alias{subtractNegsum}
+\alias{}
 
 \title{Generation of Exams in Moodle XML Format}
 
@@ -21,7 +25,12 @@
   make_question_moodle23(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
-    truefalse = c("True", "False"), enumerate = TRUE)
+    truefalse = c("True", "False"), enumerate = TRUE,
+    choice_policy = cancelAll)
+
+  cancelOne(x)
+  cancelAll(x)
+  subtractNegsum(x)
 }
 
 \arguments{
@@ -86,7 +95,14 @@
     the user may specify the possible options shown.}
   \item{enumerate}{logical. In \code{cloze} questions, if set to \code{TRUE}, the answerlist and
     solutionlist will be enumerated.}
-  \item{points}{}
+  \item{choice_policy}{function to be used in combination with choice type questions, default is
+    \code{cancelAll}. This function implements the point rule for wrong and correct answering. Three
+    different functions are provided: \code{cancelOne} cancels one correct given one wrong answer,
+    \code{cancelAll} cancels all correct given one wrong answer and function \code{subtractNegsum}
+    subtracts \code{1 / sum(wrong) * 100}\% for each wrong answer, where the sum of all correct
+    answers is 100\%.}
+  \item{x}{logical, vector of wrong and correct solutions to be supplied to the \code{choice_policy}
+    function, as provided in the \code{metainfo} of e.g. a multiple choice exercise.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
