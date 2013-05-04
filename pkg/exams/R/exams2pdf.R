@@ -149,13 +149,13 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         g <- rep(seq_along(exm[[j]]$metainfo$solution), sapply(exm[[j]]$metainfo$solution, length))
         exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), paste, collapse = " / ")
         exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), paste, collapse = " / ")
-        if(any(grep("##ANSWER1##", exm[[j]]$question, fixed = TRUE))) {
-          for(qj in seq_along(exm[[j]]$questionlist)) {
+        for(qj in seq_along(exm[[j]]$questionlist)) {
+          if(any(grepl(paste("##ANSWER", qj, "##", sep = ""), exm[[j]]$question, fixed = TRUE))) {
             ans <- exm[[j]]$questionlist[qj]
             exm[[j]]$question <- gsub(paste("##ANSWER", qj, "##", sep = ""),
               ans, exm[[j]]$question, fixed = TRUE)
+            exm[[j]]$questionlist[qj] <- NA
           }
-          exm[[j]]$questionlist <- NULL
         }
       }
       
@@ -164,9 +164,9 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         "",
 	"\\begin{question}",
         exm[[j]]$question,
-	if(is.null(exm[[j]]$questionlist)) NULL else c(
+	if(is.null(exm[[j]]$questionlist) | all(is.na(exm[[j]]$questionlist))) NULL else c(
 	  "\\begin{answerlist}",
-          paste("  \\item", exm[[j]]$questionlist),
+          paste("  \\item", na.omit(exm[[j]]$questionlist)),
 	  "\\end{answerlist}"),
 	"\\end{question}",
 	"",
