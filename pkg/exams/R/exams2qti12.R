@@ -10,7 +10,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
-  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE, ...)
+  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
+  points = NULL, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -107,6 +108,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(sdescription)) sdescription <- ""
   sdescription <- rep(sdescription, length.out = nq)
 
+  ## points setting
+  points <- rep(points, length.out = nq)
+
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
 
@@ -129,6 +133,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     ## now, insert the questions
     for(i in 1:nx) {
+      ## overule points
+      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[j]
+
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
 

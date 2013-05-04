@@ -20,14 +20,13 @@
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.", 
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-    zip = TRUE, \dots)
+    zip = TRUE, points = NULL, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL, enumerate = TRUE, digits = 2,
-    tolerance = is.null(digits), maxchars = 12,
-    points = NULL)
+    tolerance = is.null(digits), maxchars = 12)
 }
 
 \arguments{
@@ -78,6 +77,10 @@
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
+    in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
+    the exam.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
@@ -88,9 +91,6 @@
   \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
     fields. The actual number of characters is selected as the maximum number of
     characters of this value and the actual solution.}
-  \item{points}{integer. How many points should be assigned to each exercise? Note that this
-    argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
-    in the \code{.Rnw} file.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 

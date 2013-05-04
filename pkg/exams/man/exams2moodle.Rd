@@ -16,7 +16,7 @@
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    \dots)
+    points = NULL, \dots)
 
   make_question_moodle23(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -67,6 +67,10 @@
   \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice, 
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
+    in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
+    the exam.}
   \item{solution}{logical. Should the question solution, if available, be added in the question
      XML?}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will
@@ -82,6 +86,7 @@
     the user may specify the possible options shown.}
   \item{enumerate}{logical. In \code{cloze} questions, if set to \code{TRUE}, the answerlist and
     solutionlist will be enumerated.}
+  \item{points}{}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 

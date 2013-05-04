@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding="", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  ...)
+  points = NULL, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -66,6 +66,9 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     exsecs[1:ks] <- stitle
   }
 
+  ## points setting
+  points <- rep(points, length.out = nq)
+
   ## start the quiz .xml
   xml <- c('<?xml version="1.0" encoding="UTF-8"?>', '<quiz>\n')
 
@@ -92,6 +95,9 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     ## create the questions
     for(i in 1:nx) {
+      ## overule points
+      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[j]
+
       ## get the question type
       type <- exm[[i]][[j]]$metainfo$type
 
