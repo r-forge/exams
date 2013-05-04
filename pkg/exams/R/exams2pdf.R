@@ -149,6 +149,14 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         g <- rep(seq_along(exm[[j]]$metainfo$solution), sapply(exm[[j]]$metainfo$solution, length))
         exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), paste, collapse = " / ")
         exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), paste, collapse = " / ")
+        if(any(grep("##ANSWER1##", exm[[j]]$question, fixed = TRUE))) {
+          for(qj in seq_along(exm[[j]]$questionlist)) {
+            ans <- exm[[j]]$questionlist[qj]
+            exm[[j]]$question <- gsub(paste("##ANSWER", qj, "##", sep = ""),
+              ans, exm[[j]]$question, fixed = TRUE)
+          }
+          exm[[j]]$questionlist <- NULL
+        }
       }
       
       ## combine question+questionlist and solution+solutionlist
