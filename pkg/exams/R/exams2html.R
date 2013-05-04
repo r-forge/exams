@@ -177,7 +177,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
       html_body <- c(html_body, "</ol>")
 
       ## insert the exam id
-      html <- gsub("##id", id, template[[i]], fixed = TRUE)
+      html <- gsub("##ID##", id, template[[i]], fixed = TRUE)
 
       ## if required insert mathjax link
       if(mathjax[i]) {
@@ -186,7 +186,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
       }
 
       ## insert .html body
-      html <- gsub("##\\exinput{exercises}", paste(html_body, collapse = "\n"), html, fixed = TRUE)
+      html <- gsub("##\\exinput{exercises}##", paste(html_body, collapse = "\n"), html, fixed = TRUE)
 
       ## write and copy final .html code
       writeLines(html, file.path(dir_temp, paste(name[i], id, ".html", sep = "")))

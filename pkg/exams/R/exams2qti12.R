@@ -73,7 +73,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     stop(paste("The XML template", template,
       "must contain exactly one opening and closing <item> tag!"))
   }
-  xml <- c(xml[1:(section_start - 1)], "##TestSections", xml[(section_end + 1):length(xml)])
+  xml <- c(xml[1:(section_start - 1)], "##TestSections##", xml[(section_end + 1):length(xml)])
   item <- section[item_start:item_end]
   section <- section[1:(item_start - 1)]
 
@@ -116,13 +116,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   items <- points <- sec_xml <- NULL
   for(j in 1:nq) {
     ## first, create the section header
-    sec_xml <- c(sec_xml, gsub("##SectionId", sec_ids[j], section, fixed = TRUE))
+    sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section, fixed = TRUE))
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
-    sec_xml <- gsub("##SectionTitle", stitle[j], sec_xml, fixed = TRUE)
+    sec_xml <- gsub("##SectionTitle##", stitle[j], sec_xml, fixed = TRUE)
 
     ## insert a section description -> exm[[1]][[j]]$metainfo$description?
-    sec_xml <- gsub("##SectionDescription", sdescription[j], sec_xml, fixed = TRUE)
+    sec_xml <- gsub("##SectionDescription##", sdescription[j], sec_xml, fixed = TRUE)
 
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
@@ -138,7 +138,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
 
-      ibody <- gsub("##ItemBody",
+      ibody <- gsub("##ItemBody##",
         paste(thebody <- itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
         item, fixed = TRUE)
 
@@ -164,13 +164,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         if(enumerate) xsolution <- c(xsolution, '</ol>')
       }
 
-      ibody <- gsub("##ItemSolution", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
+      ibody <- gsub("##ItemSolution##", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
       ## insert an item id
-      ibody <- gsub("##ItemId", iname, ibody)
+      ibody <- gsub("##ItemId##", iname, ibody)
 
       ## insert an item title
-      ibody <- gsub("##ItemTitle",
+      ibody <- gsub("##ItemTitle##",
         if(is.null(ititle)) exm[[i]][[j]]$metainfo$name else ititle[j],
         ibody, fixed = TRUE)
 
@@ -233,16 +233,16 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## finalize the test xml file, insert ids/titles, sections, and further control details
   feedbackswitch <- FALSE ## currently hard-coded
   hintswitch <- FALSE
-  xml <- gsub("##TestIdent", test_id, xml)
-  xml <- gsub("##TestTitle", name, xml)
-  xml <- gsub("##TestDuration", duration, xml)
-  xml <- gsub("##TestSections", paste(sec_xml, collapse = "\n"), xml)
-  xml <- gsub("##MaxAttempts", maxattempts, xml)
-  xml <- gsub("##CutValue", cutvalue, xml)
-  xml <- gsub("##FeedbackSwitch", if(feedbackswitch) "Yes" else "No", xml)
-  xml <- gsub("##HintSwitch",     if(hintswitch)     "Yes" else "No", xml)
-  xml <- gsub("##SolutionSwitch", if(solutionswitch) "Yes" else "No", xml)
-  xml <- gsub("##AssessmentDescription", adescription, xml)
+  xml <- gsub("##TestIdent##", test_id, xml)
+  xml <- gsub("##TestTitle##", name, xml)
+  xml <- gsub("##TestDuration##", duration, xml)
+  xml <- gsub("##TestSections##", paste(sec_xml, collapse = "\n"), xml)
+  xml <- gsub("##MaxAttempts##", maxattempts, xml)
+  xml <- gsub("##CutValue##", cutvalue, xml)
+  xml <- gsub("##FeedbackSwitch##", if(feedbackswitch) "Yes" else "No", xml)
+  xml <- gsub("##HintSwitch##",     if(hintswitch)     "Yes" else "No", xml)
+  xml <- gsub("##SolutionSwitch##", if(solutionswitch) "Yes" else "No", xml)
+  xml <- gsub("##AssessmentDescription##", adescription, xml)
 
   ## write to dir
   writeLines(xml, file.path(test_dir, "qti.xml"))

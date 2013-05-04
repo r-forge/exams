@@ -180,7 +180,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       paste('<text>', name, '</text>'),
       '</name>',
       '<questiontext format="html">',
-      '<text><![CDATA[<p>', if(type != "cloze") x$question else '##QuestionText', '</p>]]></text>',
+      '<text><![CDATA[<p>', if(type != "cloze") x$question else '##QuestionText##', '</p>]]></text>',
       '</questiontext>'
     )
 
@@ -314,15 +314,15 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
               '}', sep = ''))
           }
         }
-        ## insert in :ANSWERi: tag
-        if(any(grepl(ai <- paste(":ANSWER", i, ":", sep = ""), x$question, fixed = TRUE))) {
+        ## insert in ##ANSWERi## tag
+        if(any(grepl(ai <- paste("##ANSWER", i, "##", sep = ""), x$question, fixed = TRUE))) {
           x$question <- gsub(ai, paste(tmp, collapse = ", "), x$question, fixed = TRUE)
         } else qtext <- c(qtext, tmp)
       }
       if(!is.null(qtext) & enumerate)
         qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
       qtext <- c(x$question, qtext)
-      xml <- gsub('##QuestionText', paste(qtext, collapse = "\n"), xml)
+      xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml)
     }
 
     ## end the question
