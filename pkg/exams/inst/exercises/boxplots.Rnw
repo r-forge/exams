@@ -113,6 +113,7 @@ SK_i <- SK(list(A, B)[[i]])
 solutions[5] <- switch(j, abs(SK_i) < 0.2,
                        SK_i >= 0.2,
                        SK_i <= -0.2)
+solutions <- rep(FALSE, 5)
 explanations[5] <- paste("Distribution ", c("A", "B")[i], " is ",
                          ifelse(abs(SK_i) < 0.2, "about symmetric.", 
                                 ifelse(SK_i >= 0.2, "right-skewed.", "left-skewed.")))

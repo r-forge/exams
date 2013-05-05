@@ -161,15 +161,22 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 ## Moodle 2.3 question constructor function
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
-  truefalse = c("True", "False"), enumerate = TRUE, choice_policy = cancelAll)
+  truefalse = c("True", "False"), enumerate = TRUE, choice_policy = NULL)
 {
   function(x) {
-    ## check choice policies
-    if(!is.function(choice_policy))
-      stop("argument choice_policy must be function, for examples see function ?cancelOne.")
-
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+
+    ## set the choice policy
+    if(is.null(choice_policy)) {
+      choice_policy <- switch(x$metainfo$type,
+        "mchoice" = cancelNone,
+        "schoice" = cancelNone,
+      )
+    } else {
+      if(!is.function(choice_policy))
+        stop("argument choice_policy must be function, see the documentation ?cancelNone.")
+    }
 
     ## match question type
     type <- switch(x$metainfo$type,
@@ -351,6 +358,17 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
 
 ## mchoice policies
+## no canceling of correct answers
+cancelNone <- function(x)
+{
+  x <- as.logical(x)
+  z <- if(all(!x)) {
+    warning("No correct answer in choice exercise!")
+    rep(0, length(x))
+  } else x / sum(x)
+  z
+}
+
 ## one wrong cancels one correct
 cancelOne <- function(x)
 {

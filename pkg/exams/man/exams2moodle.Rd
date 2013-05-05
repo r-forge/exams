@@ -1,6 +1,7 @@
 \name{exams2moodle}
 \alias{exams2moodle}
 \alias{make_question_moodle23}
+\alias{cancelNone}
 \alias{cancelOne}
 \alias{cancelAll}
 \alias{subtractNegsum}
@@ -26,8 +27,9 @@
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
     truefalse = c("True", "False"), enumerate = TRUE,
-    choice_policy = cancelAll)
+    choice_policy = NULL)
 
+  cancelNone(x)
   cancelOne(x)
   cancelAll(x)
   subtractNegsum(x)
@@ -96,11 +98,13 @@
   \item{enumerate}{logical. In \code{cloze} questions, if set to \code{TRUE}, the answerlist and
     solutionlist will be enumerated.}
   \item{choice_policy}{function to be used in combination with choice type questions, default is
-    \code{cancelAll}. This function implements the point rule for wrong and correct answering. Three
-    different functions are provided: \code{cancelOne} cancels one correct given one wrong answer,
+    \code{cancelNone}, i.e., using the fraction tag in the Moodle XML, this function generates the
+    weights that are assigned to each item. Four different functions are provided: \code{cancelNone}
+    only assigns positive weights to correct answers ans else zero, \code{cancelOne} cancels one
+    correct given one wrong answer (i.e. assigns negative weights to each wrong answer),
     \code{cancelAll} cancels all correct given one wrong answer and function \code{subtractNegsum}
     subtracts \code{1 / sum(wrong) * 100}\% for each wrong answer, where the sum of all correct
-    answers is 100\%.}
+    answers is 100\%. Example: \code{cancelOne(c(TRUE, FALSE, TRUE, FALSE, FALSE))}.}
   \item{x}{logical, vector of wrong and correct solutions to be supplied to the \code{choice_policy}
     function, as provided in the \code{metainfo} of e.g. a multiple choice exercise.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}

@@ -240,9 +240,6 @@ answer cancels all correct ones, one wrong cancels one correct,
 etc. Thanks a lot for your question which led to a much more elegant
 solution.
 
-FIXME-FL
-Check mchoice policies in exams2moodle, what to do when there is no correct solution?
-
 FIXME-FL or NU
 Describe policies in paper (after implementation)
 
