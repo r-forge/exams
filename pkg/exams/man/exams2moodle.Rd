@@ -5,7 +5,6 @@
 \alias{cancelOne}
 \alias{cancelAll}
 \alias{subtractNegsum}
-\alias{}
 
 \title{Generation of Exams in Moodle XML Format}
 
