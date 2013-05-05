@@ -419,13 +419,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    ## scoring for the correct answers
-    xml <- c(xml,
-      '<respcondition title="Mastery" continue="Yes">',
-      '<conditionvar>',
-      '<and>'
-    )
-
+    ## FIXME insert choice points actions -> ADD!
     correct_answers <- wrong_answers <- NULL
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
@@ -476,6 +470,13 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       }
     }
 
+    ## scoring for the correct answers
+    xml <- c(xml,
+      '<respcondition title="Mastery" continue="Yes">',
+      '<conditionvar>',
+      '<and>'
+    )
+
     xml <- c(xml,
       correct_answers,
       '</and>',
@@ -503,6 +504,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(!is.null(wrong_answers)) NULL else '</not>',
       '</conditionvar>',
       paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''), ## FIXME: other actions if wrong?
+      '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+      '</respcondition>'
+    )
+
+    ## in all other cases also show solution
+    xml <- c(xml,
+      '<respcondition title="Fail" continue="Yes">',
+      '<conditionvar>',
+      '<other/>',
+      '</conditionvar>',
+      '<setvar varname="SCORE" action="Set">0</setvar>',
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>',
       '</resprocessing>'
