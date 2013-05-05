@@ -172,6 +172,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       choice_policy <- switch(x$metainfo$type,
         "mchoice" = cancelNone,
         "schoice" = cancelNone,
+        "cloze" = cancelNone
       )
     } else {
       if(!is.function(choice_policy))
