@@ -128,8 +128,7 @@ ee <- exams_eval()
 ## points that can be achieved are 0/1
 ee$pointvec()
 
-## checkanswer() returns TRUE for correct, FALSE for incorrect and
-## NA for missing answer
+## checkanswer() returns 1 for correct, -1 for incorrect and 0 for missing answer
 ee$checkanswer(1.23, 1.23)
 ee$checkanswer(1.23, "1.23")
 ee$checkanswer(1.23, "1,23")
