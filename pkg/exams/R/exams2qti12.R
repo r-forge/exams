@@ -117,7 +117,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## cycle through all exams and questions
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
-  items <- points <- sec_xml <- NULL
+  items <- sec_xml <- NULL
   for(j in 1:nq) {
     ## first, create the section header
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section, fixed = TRUE))
