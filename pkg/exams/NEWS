@@ -4,7 +4,7 @@ Changes in Version 1.9-5
   
   o encoding
   
-  o points
+  o exams_eval()
 
   o If the "edir" argument is specified in exams2xyz(), then all
     files in edir _and_ its subdirectories are searched recursively.

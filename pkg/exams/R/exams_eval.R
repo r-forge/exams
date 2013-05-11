@@ -1,4 +1,4 @@
-exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "true"))
+exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "false2", "true"))
 {
   ## rule for negative points in partial evaluation of mchoice answers
   rule <- match.arg(rule)
@@ -94,7 +94,10 @@ exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "tru
     if(is.null(correct)) stop("Need 'correct' answer to compute points vector.")
     type <- extype(correct)
     if(type$type == "mchoice") {
-      n <- if(rule == "false") pmax(sum(!type$correct), 2) else sum(type$correct)
+      n <- switch(rule,
+        "false" = sum(!type$correct),
+	"false2" = pmax(sum(!type$correct), 2),
+	"true" = sum(type$correct))
       return(c("pos" = 1/sum(type$correct), "neg" = -1/n))
     } else {
       return(c("pos" = 1, "neg" = negative))
@@ -121,109 +124,3 @@ exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "tru
   )
 }
 
-if(FALSE) {
-## default evaluation policy: partial = FALSE, negative = FALSE
-ee <- exams_eval()
-
-## points that can be achieved are 0/1
-ee$pointvec()
-
-## checkanswer() returns 1 for correct, -1 for incorrect and 0 for missing answer
-ee$checkanswer(1.23, 1.23)
-ee$checkanswer(1.23, "1.23")
-ee$checkanswer(1.23, "1,23")
-ee$checkanswer(1.23, 1.24)
-ee$checkanswer(1.23, 1.24, tolerance = 0.01)
-ee$checkanswer(1.23, NA)
-ee$checkanswer(1.23, NULL)
-ee$checkanswer(1.23, "")
-
-## similarly for logical (mchoice/schoice) answers
-## (which allows either string or logical specification)
-ee$checkanswer("10000", "10000")
-ee$checkanswer(c(TRUE, FALSE, FALSE, FALSE, FALSE), c(TRUE, FALSE, FALSE, FALSE, FALSE))
-ee$checkanswer(c(TRUE, FALSE, FALSE, FALSE, FALSE), "10000")
-ee$checkanswer("10000", "01000")
-ee$checkanswer("10000", "11000")
-
-## and analogously for strings
-ee$checkanswer("foo", "foo")
-ee$checkanswer("foo", "bar")
-ee$checkanswer("foo", "")
-
-## obtain points achieved
-ee$pointsum("10000", "10000")
-ee$pointsum("10000", "01000")
-ee$pointsum("10000", "00000")
-ee$pointsum("10000", NA)
-
-## ---------------------------------------------------------
-## evaluation policy with -25% penalty for wrong answers
-ee <- exams_eval(partial = FALSE, negative = -0.25)
-
-## points that can be achieved are 1/-0.25 (or zero)
-ee$pointvec()
-
-## obtain points achieved
-ee$pointsum("10000", "10000")
-ee$pointsum("10000", "01000")
-ee$pointsum("10000", "00000")
-ee$pointsum("10000", NA)
-ee$pointsum(1.23, 1.23)
-ee$pointsum(1.23, 2.34)
-ee$pointsum(1.23, NA)
-
-## ---------------------------------------------------------
-## evaluation policy with partial points
-## (but without negative points overall)
-ee <- exams_eval(partial = TRUE)
-
-## points that can be achieved are 1/3 (1/#true)
-## or -1/2 (1/#false)
-ee$pointvec("10101")
-
-## obtain points achieved
-ee$pointsum("10101", "10101")
-ee$pointsum("10101", "10100")
-ee$pointsum("10101", "11100")
-ee$pointsum("10101", "01010")
-ee$pointsum("10101", "00000")
-
-## show individual answer check
-ee$checkanswer("10101", "10101")
-ee$checkanswer("10101", "10100")
-ee$checkanswer("10101", "11100")
-ee$checkanswer("10101", "01010")
-ee$checkanswer("10101", "00000")
-
-## numeric/string answers are not affected by partial=TRUE
-ee$checkanswer(1.23, 1.23)
-ee$pointsum(1.23, 1.23)
-ee$checkanswer(1.23, 2.34)
-ee$pointsum(1.23, 2.34)
-
-## ---------------------------------------------------------
-## evaluation policy with partial points
-## (and with up to -25% negative points overall)
-ee <- exams_eval(partial = TRUE, negative = -0.25)
-
-## points that can be achieved are 1/3 (1/#true)
-## or -1/2 (1/#false)
-ee$pointvec("10101")
-
-## obtain points achieved
-ee$pointsum("10101", "10101")
-ee$pointsum("10101", "01010")
-ee$pointsum("10101", "00000")
-
-## show individual answer check
-ee$checkanswer("10101", "10101")
-ee$checkanswer("10101", "10100")
-ee$checkanswer("10101", "11100")
-ee$checkanswer("10101", "01010")
-ee$checkanswer("10101", "00000")
-
-## numeric/string answers are not affected by partial=TRUE
-ee$pointsum(1.23, 1.23)
-ee$pointsum(1.23, 2.34)
-}
