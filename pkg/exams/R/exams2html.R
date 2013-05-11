@@ -1,7 +1,7 @@
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-  mathjax = FALSE, resolution = 100, width = 4, height = 4, encoding="", ...)
+  mathjax = FALSE, resolution = 100, width = 4, height = 4, encoding = "", ...)
 {
   ## output directory or display on the fly
   display <- missing(dir)

@@ -129,7 +129,18 @@ exams2html(list(
   "relfreq"
 ))
 
-## show various versions of displaying mathematical formulae
+## examples with different locales (UTF-8, ISO-8859-15)
+## using special characters (Euro and Pound symbol, German umlaut)
+if(!identical(Sys.getlocale(), "C")) {
+## UTF-8
+exams2html("currency8", encoding = "utf8", template = "plain8")
+
+## ISO Latin 9 (aka ISO-8859-15)
+exams2html("currency9", encoding = "latin9", template = "plain9")
+}
+
+
+## various versions of displaying mathematical formulae
 
 ## via MathML (displayed correctly in MathML-aware browsers, e.g. Firefox)
 exams2html("tstat")
@@ -142,17 +153,10 @@ exams2html("tstat", mathjax = TRUE)
 ## via plain HTML (works in all browsers but with inferior formatting)
 exams2html("tstat", converter = "tth")
 
-## example file with special characters (Euro and Pound symbol, German Umlaut)
-exams2html("currency", encoding="utf8", template="plain8")
-
-## same in ISO Latin 9 (AKA ISO-8859-15)
-exams2html("currency9", encoding="latin9", template="plain9")
-
-
 ## via HTML with embedded picture (works in all browsers but
 ## is slow and requires LaTeX and ImageMagick)
 \dontrun{
-exams2html("tstat", converter = "tth")
+exams2html("tstat", converter = "tex2image")
 }
 }
 }

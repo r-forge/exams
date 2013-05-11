@@ -452,14 +452,13 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 
 \pkg{At Universit\"at Innsbruck:}
 \begin{itemize}
-  \item Mathematics course with \pkg{OLAT} support (for 1,600 participants in winter term 2012/13).
+  \item Mathematics course with \pkg{OLAT} support (summer/winter term 2012/13 combined: 3,000~participants).
   \item Team of about 10 persons (professors, lecturers, student assistants) contribute to the
     pool of exercises.
   \item During the semester, several online tests (and self tests) are carried out in
     \pkg{OLAT} (via \code{exams2qti12}) using numerical and multiple-choice exercises.
   \item Two written exams (via \code{exams2pdf}) are carried out using single-choice exercises.
     Results are scanned by university services and processed by some optical character recognition.
-  \item Individual solutions to tests/exams are provided to the students on a web portal (via \code{exams2html}).    
 \end{itemize}
 
 \end{frame}
@@ -474,7 +473,7 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 
 Zeileis A, Gr\"un B, Leisch F, Umlauf N (2013).
   \textit{\pkg{exams}: Automatic Generation of Exams in \proglang{R}.}
-  \proglang{R}~package version~1.9-3.
+  \proglang{R}~package version~1.9-5.
   URL~\url{http://CRAN.R-project.org/package=exams}
 
 \bigskip
