@@ -56,11 +56,11 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   if("exams2pdf" %in% writer) {
     file.copy(file.path(pdir, "tex", c("exam.tex", "solution.tex")), templ)
     if(encoding != "") {
-      x <- readLines(file.path(templ, "exam.tex"))
+      x <- readLines(file.path(pdir, "tex", "exam.tex"))
       i <- grep("documentclass", x, fixed = TRUE)[1L]
       x <- c(x[1L:i], "", sprintf('\\usepackage[%s]{inputenc}', enc), "", x[-(1L:i)])
       writeLines(x, file.path(templ, "exam.tex"))
-      x <- readLines(file.path(templ, "solution.tex"))
+      x <- readLines(file.path(pdir, "tex", "solution.tex"))
       i <- grep("documentclass", x, fixed = TRUE)[1L]
       x <- c(x[1L:i], "", sprintf('\\usepackage[%s]{inputenc}', enc), "", x[-(1L:i)])
       writeLines(x, file.path(templ, "solution.tex"))      
@@ -69,7 +69,7 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   if("exams2html" %in% writer) {
     file.copy(file.path(pdir, "xml", "plain.html"), templ)
     if(encoding != "") {
-      x <- readLines(file.path(templ, "plain.html"))
+      x <- readLines(file.path(pdir, "xml", "plain.html"))
       i <- grep("</head>", x, fixed = TRUE)[1L] - 1L
       x <- c(x[1L:i], "", sprintf('<meta charset="%s">', charset), "", x[-(1L:i)])
       writeLines(x, file.path(templ, "plain.html"))
