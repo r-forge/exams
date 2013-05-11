@@ -340,7 +340,8 @@ Argument          & Description \\ \hline
 \code{name}       & Name prefix for the resulting exam files.\\
 \code{template}   & Character specifying the (base) names of a {\LaTeX}, HTML, or XML file
                     template for the exam (except for \code{exams2moodle()}). Default:
-		    A function-specific template provided within the \pkg{exams} installation.\\ \hline
+		    A function-specific template provided within the \pkg{exams} installation.\\
+\code{encoding}   & Character specifying the encoding to be used (in version~2 interfaces only). \\\hline
 \end{tabular}
 \caption{\label{tab:args} Common arguments of the main user interfaces for generating exams:
   \texttt{exams()}, \texttt{exams2pdf()}, \texttt{exams2html()}, \texttt{exams2moodle()}, \texttt{exams2qti12()}.
@@ -585,6 +586,17 @@ can be used, e.g., for setting \code{type = c("num", "schoice")}. In any case,
 it should be easy to modify the `\code{demo.R}' script, omitting or adding
 exercises that are readily available in the subdirectory.
 
+Finally, to illustrate how different encodings can be used, \code{exams_skeleton()}
+can also be called with an \code{encoding} argument, e.g., setting
+\code{encoding = "UTF-8"}. This modifies the \code{demo.R} script as well
+as the HTML and {\LaTeX} templates accordingly. The \code{encoding}s
+\code{"latin1"} (or \code{"ISO-8859-1"}) and \code{"latin9"} (or \code{"ISO-8859-15"})
+have also been tested. As usual, employing \code{Sweave} files in a particular encoding
+can be very convenient for special characters (such as accents or umlauts) but might
+also lead to problems if they are used in different locales (e.g., on different
+operating systems). An alternative route (employed by the authors of the \pkg{exams}
+package) is to employ \code{Sweave} ASCII files only, using {\LaTeX} commands for
+special characters.
 
 \section{Design} \label{sec:design}
 
@@ -1314,6 +1326,11 @@ File & Type & Description \\ \hline
 \code{confint2}    & \code{cloze}   & Cloze version (for all version~2 interfaces) constructed from the numeric \code{confint}.\\
 \code{dist2}       & \code{cloze}   & Extended cloze version of the numeric \code{dist}.\\
 \code{tstat2}      & \code{schoice} & Single-choice version constructed from the numeric \code{tstat}.\\ \hline
+\code{currency8}   & \code{num}     & Exercise in UTF-8 encoding (with Euro and Pound symbol
+                                      and German umlaut).\\ 
+\code{currency9}   & \code{num}     & Same exercise in Latin-9 (or ISO-8859-15) encoding.\\ \hline
+\code{currency1}   & \code{num}     & Same exercise in Latin-1 (or ISO-8859-1) encoding (omitting
+                                      the Euro symbol).\\ \hline
 \end{tabular}
 \caption{\label{tab:exercises} List of \texttt{Sweave} exercises provided as examples
 in \code{exams/inst/exercises}.}
