@@ -36,9 +36,21 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
 
   ## encoding
   enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
-  if(enc == "utf8")   exrc <- c(exrc, "currency8.Rnw")
-  if(enc == "latin1") exrc <- c(exrc, "currency1.Rnw")
-  if(enc == "latin9") exrc <- c(exrc, "currency9.Rnw")
+  if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
+  if(enc == "iso885915") enc <- "latin9"
+  charset <- encoding
+  if(enc == "utf8") {
+    exrc <- c(exrc, "currency8.Rnw")
+    charset <- "UTF-8"
+  }
+  if(enc == "latin1") {
+    exrc <- c(exrc, "currency1.Rnw")
+    charset <- "ISO-8859-1"
+  }
+  if(enc == "latin9") {
+    exrc <- c(exrc, "currency9.Rnw")
+    charset <- "ISO-8859-15"
+  }
   
   ## copy templates
   if("exams2pdf" %in% writer) {
@@ -59,7 +71,7 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
     if(encoding != "") {
       x <- readLines(file.path(templ, "plain.html"))
       i <- grep("</head>", x, fixed = TRUE)[1L] - 1L
-      x <- c(x[1L:i], "", sprintf('<meta charset="%s">', encoding), "", x[-(1L:i)])
+      x <- c(x[1L:i], "", sprintf('<meta charset="%s">', charset), "", x[-(1L:i)])
       writeLines(x, file.path(templ, "plain.html"))
     }
   }
@@ -76,7 +88,8 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
     '## (alternatively try a list of vectors of more exercises)',
     sprintf('myexam <- c("%s")', paste(exrc, collapse = '", "')),
     if(enc %in% c("utf8", "latin1", "latin9")) sprintf(
-    '## (note that the currency exercise is in %s encoding)', encoding) else NULL,
+    '## note that the currency exercise is in %s encoding',
+      paste(unique(c(encoding, charset)), collapse = "/")) else NULL,
     '',
     ''
   )
