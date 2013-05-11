@@ -164,7 +164,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         "",
 	"\\begin{question}",
         exm[[j]]$question,
-	if(is.null(exm[[j]]$questionlist) | all(is.na(exm[[j]]$questionlist))) NULL else c(
+	if(is.null(exm[[j]]$questionlist) || all(is.na(exm[[j]]$questionlist))) NULL else c(
 	  "\\begin{answerlist}",
           paste("  \\item", na.omit(exm[[j]]$questionlist)),
 	  "\\end{answerlist}"),
