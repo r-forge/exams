@@ -1,4 +1,4 @@
-%% This file should be encoded as UTF-8 to test encodings.
+%% This file should be encoded as Latin-9 (ISO 8559 15) to test encodings.
 %% Please don't change this file if this could change the encoding.
 
 <<echo=FALSE, results=hide>>=
