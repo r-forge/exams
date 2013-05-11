@@ -142,8 +142,12 @@ exams2html("tstat", mathjax = TRUE)
 ## via plain HTML (works in all browsers but with inferior formatting)
 exams2html("tstat", converter = "tth")
 
-## example file with special characters (Euro symbol, German Umlaut)
+## example file with special characters (Euro and Pound symbol, German Umlaut)
 exams2html("currency", encoding="utf8", template="plain8")
+
+## same in ISO Latin 9 (AKA ISO-8859-15)
+exams2html("currency9", encoding="latin9", template="plain9")
+
 
 ## via HTML with embedded picture (works in all browsers but
 ## is slow and requires LaTeX and ImageMagick)
