@@ -77,6 +77,11 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   }
   if("exams2qti12" %in% writer) {
     file.copy(file.path(pdir, "xml", "qti12.xml"), templ)
+    if(encoding != "") {
+      x <- readLines(file.path(pdir, "xml", "qti12.xml"))
+      x[1L] <- gsub("UTF-8", charset, x[1L], fixed = TRUE)
+      writeLines(x, file.path(templ, "qti12.xml"))
+    }
   }
   
   ## start script
