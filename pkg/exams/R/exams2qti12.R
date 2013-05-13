@@ -135,7 +135,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## now, insert the questions
     for(i in 1:nx) {
       ## overule points
-      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[j]
+      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type

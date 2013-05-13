@@ -101,7 +101,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## create the questions
     for(i in 1:nx) {
       ## overule points
-      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[j]
+      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
 
       ## get the question type
       type <- exm[[i]][[j]]$metainfo$type
@@ -219,7 +219,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     ## penalty and points
     xml <- c(xml,
       paste('<penalty>', penalty, '</penalty>', sep = ''),
-      paste('<defaultgrade>', points, '</defaultgrade>', sep = '')
+      paste('<defaultgrade>', sum(points), '</defaultgrade>', sep = '')
     )
 
     ## multiple choice processing
@@ -279,6 +279,10 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       } else x$metainfo$solution
       n <- length(solution)
 
+      points <- rep(points, length.out = n)
+      xml[grep('<defaultgrade>', xml, fixed = TRUE)] <- paste('<defaultgrade>', sum(points),
+        '</defaultgrade>', sep = '')
+
       questionlist <- if(!is.list(x$questionlist)) {
         if(x$metainfo$type == "cloze") as.list(x$questionlist) else list(x$questionlist)
       } else x$questionlist
@@ -300,7 +304,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         k <- length(ql)
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
-          tmp <- paste('{', 1, ':', cloze_mchoice_display, ':', sep = '')
+          tmp <- paste('{', points[i], ':', cloze_mchoice_display, ':', sep = '')
 
           frac <- solution[[i]]
           if(length(frac) < 2)
@@ -327,13 +331,13 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', 1, ':NUMERICAL:=', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
               ':', max(tol[[i]]), '}', sep = ''))
           }
         }
         if(x$metainfo$clozetype[i] == "string") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', 1, ':SHORTANSWER:%100%', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', points[i], ':SHORTANSWER:%100%', solution[[i]][j],
               if(!usecase) paste('~%100%', tolower(solution[[i]][j]), sep = '') else NULL,
               '}', sep = ''))
           }
