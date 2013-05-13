@@ -39,16 +39,16 @@ write.csv2(data.frame(x), file = "boxhist.csv") ## FIXME: instead of \exdatafile
 
 ## QUESTION/SOLUTION
 questions <- solutions <- explanations <- rep(list(""), 6)
-type <- rep(list("mchoice"), 6)
+type <- rep(list("schoice"), 6)
 
-questions[[1]] <- "The distribution is unimodal."
-solutions[[1]] <- !delta
+questions[[1]] <- paste("The distribution is ", c("", "\\emph{not} "), "unimodal.", sep = "")
+solutions[[1]] <- c(!delta, delta)
 
 questions[[2]] <- paste("The distribution is", c("symmetric.", "right-skewed.", "left-skewed."))
-solutions[[2]] <- c(!skewed, skewed & !left, skewed & left) ## FIXME: !skewed -> !skewed | delta ?
+solutions[[2]] <- c(!skewed, skewed & !left, skewed & left)
     
-questions[[3]] <- "The boxplot shows outliers."
-solutions[[3]] <- length(b$out) > 0
+questions[[3]] <- paste("The boxplot shows ", c("", "\\emph{no} "), "outliers.", sep = "")
+solutions[[3]] <- c(length(b$out) > 0, length(b$out) < 1)
 
 questions[[4]] <- "A quarter of the observations is smaller than which value?"
 solutions[[4]] <- explanations[[4]] <- signif(b$stats[[2]], 3)
