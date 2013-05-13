@@ -71,7 +71,8 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## points setting
-  points <- rep(points, length.out = nq)
+  if(!is.null(points))
+    points <- rep(points, length.out = nq)
 
   ## start the quiz .xml
   xml <- c('<?xml version="1.0" encoding="UTF-8"?>', '<quiz>\n')

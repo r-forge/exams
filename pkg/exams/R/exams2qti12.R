@@ -109,7 +109,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription <- rep(sdescription, length.out = nq)
 
   ## points setting
-  points <- rep(points, length.out = nq)
+  if(!is.null(points))
+    points <- rep(points, length.out = nq)
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
