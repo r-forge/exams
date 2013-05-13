@@ -20,18 +20,15 @@
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    points = NULL, \dots)
+    points = NULL,
+    eval = list(partial = FALSE, negative = FALSE, rule = "false"),
+    \dots)
 
   make_question_moodle23(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
     truefalse = c("True", "False"), enumerate = TRUE,
-    choice_policy = NULL)
-
-  cancelNone(x)
-  cancelOne(x)
-  cancelAll(x)
-  subtractNegsum(x)
+    eval = list(partial = FALSE, negative = FALSE, rule = "false"))
 }
 
 \arguments{
@@ -104,8 +101,8 @@
     \code{cancelAll} cancels all correct given one wrong answer and function \code{subtractNegsum}
     subtracts \code{1 / sum(wrong) * 100}\% for each wrong answer, where the sum of all correct
     answers is 100\%. Example: \code{cancelOne(c(TRUE, FALSE, TRUE, FALSE, FALSE))}.}
-  \item{x}{logical, vector of wrong and correct solutions to be supplied to the \code{choice_policy}
-    function, as provided in the \code{metainfo} of e.g. a multiple choice exercise.}
+  \item{eval}{named list, specifies the settings for the evaluation policy, see function
+    \code{\link{exams_eval}}.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
