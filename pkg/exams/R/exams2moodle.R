@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding="", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, ...)
+  points = NULL, eval = list(partial = FALSE, negative = FALSE, rule = "false"), ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -24,7 +24,11 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(moodlequestion[[i]])) moodlequestion[[i]] <- list()
-    if(is.list(moodlequestion[[i]])) moodlequestion[[i]] <- do.call("make_question_moodle23", moodlequestion[[i]])
+    if(is.list(moodlequestion[[i]])) {
+      if(is.null(moodlequestion[[i]]$eval))
+        moodlequestion[[i]]$eval <- eval
+      moodlequestion[[i]] <- do.call("make_question_moodle23", moodlequestion[[i]])
+    }
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
 
@@ -161,23 +165,15 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 ## Moodle 2.3 question constructor function
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
-  truefalse = c("True", "False"), enumerate = TRUE, choice_policy = NULL)
+  truefalse = c("True", "False"), enumerate = TRUE,
+  eval = list(partial = FALSE, negative = FALSE, rule = "false"))
 {
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
-    ## set the choice policy
-    if(is.null(choice_policy)) {
-      choice_policy <- switch(x$metainfo$type,
-        "mchoice" = cancelNone,
-        "schoice" = cancelNone,
-        "cloze" = cancelNone
-      )
-    } else {
-      if(!is.function(choice_policy))
-        stop("argument choice_policy must be function, see the documentation ?cancelNone.")
-    }
+    ## choice policy
+    eval <- if(!all(names(exams_eval()) %in% names(eval))) do.call("exams_eval", eval) else eval
 
     ## match question type
     type <- switch(x$metainfo$type,
@@ -233,9 +229,13 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         paste('<answernumbering>', answernumbering, '</answernumbering>', sep = '')
       )
 
-      n <- length(x$solutionlist)
-      frac <- moodlePercent(choice_policy(x$metainfo$solution))
-      for(i in 1:n) {
+      frac <- as.integer(x$metainfo$solution)
+      pv <- eval$pointvec(paste(frac, sep = "", collapse = ""))
+      frac[x$metainfo$solution] <- pv["pos"]
+      frac[!x$metainfo$solution] <- pv["neg"]
+      frac <- moodlePercent(frac)
+
+      for(i in 1:length(x$solutionlist)) {
         xml <- c(
           xml,
           paste('<answer fraction="', frac[i], '" format="html">', sep = ''),
@@ -300,20 +300,25 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
           tmp <- paste('{', 1, ':', cloze_mchoice_display, ':', sep = '')
+
+          frac <- solution[[i]]
+          if(length(frac) < 2)
+            frac <- c(frac, !frac)
+          frac2 <- frac
+          pv <- eval$pointvec(frac)
+          frac[frac2] <- pv["pos"]
+          frac[!frac2] <- pv["neg"]
+          p <- moodlePercent(frac)
+
           if(k < 2) {
             tmp <- paste(ql, tmp)
-            p <- moodlePercent(choice_policy(if(solution[[i]][1]) c(0, 1) else c(1, 0)))
             p <- paste('%', p, '%', sep = '')
             p[2] <- paste('~', p[2], sep = '')
-            ql <- paste(p, truefalse, sep = '', collapse = '')
+            ql <- paste(p, truefalse[rev(frac2 + 1)], sep = '', collapse = '')
           } else {
             ql2 <- NULL
-            p <- moodlePercent(choice_policy(solution[[i]]))
-            for(j in 1:k) {
-              ql2 <- paste(ql2, if(j > 1) '~' else NULL,
-                if(solution[[i]][j]) paste('%',  p[j], '%', sep = '') else '%0%',
-                ql[j], sep = '')
-            }
+            for(j in 1:k)
+              ql2 <- paste(ql2, if(j > 1) '~' else NULL, paste('%',  p[j], '%', sep = ''), ql[j], sep = '')
             ql <- ql2
           }
           tmp <- paste(tmp, ql, sep = '')
@@ -358,59 +363,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 }
 
 
-## mchoice policies
-## no canceling of correct answers
-cancelNone <- function(x)
-{
-  x <- as.logical(x)
-  z <- if(all(!x)) {
-    warning("No correct answer in choice exercise!")
-    rep(0, length(x))
-  } else x / sum(x)
-  z
-}
-
-## one wrong cancels one correct
-cancelOne <- function(x)
-{
-  x <- as.logical(x)
-  p <- sum(x)
-  if(p == 0L)
-    stop("Need at least one correct answer!")
-  p <- 1 / p
-  z <- rep(-p, length(x))
-  z[x] <- p
-  z
-}
-
-## one wrong cancels all correct
-cancelAll <- function(x)
-{
-  x <- as.logical(x)
-  p <- sum(x)
-  if(p == 0L)
-    stop("Need at least one correct answer!")
-  p <- 1 / p
-  z <- rep(-1, length(x))
-  z[x] <- p
-  z
-}
-
-## IBK "standard rule" (first in the presentation)
-subtractNegsum <- function(x)
-{
-  x <- as.logical(x)
-  pp <- sum(x)
-  pn <- sum(!x)
-  if(pp == 0L || pn == 0L)
-    stop("Need at least one correct and wrong answer!")
-  pn <- 1 / pn
-  if(pn == 1L) pn <- 0.5
-  z <- rep(-pn, length(x))
-  z[x] <- 1 / pp
-  z
-}
-
 ## "Numbers" Moodle currently accepts as fraction value
 ## for mchoice items
 moodleFractions <- c(100,90,83.33333,80,75,70,
@@ -418,7 +370,7 @@ moodleFractions <- c(100,90,83.33333,80,75,70,
                      33.33333,30,25,20,16.66667,
                      14.28571, 12.5,11.11111, 10,5)
 
-## Convert a number in [0,1] to one of the percentages
+## Convert a number in [0, 1] to one of the percentages
 ## above if the difference is less then 1
 moodlePercent <- function(p)
 {
