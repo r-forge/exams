@@ -40,7 +40,8 @@ extract_items <- function(x) {
     ## make sure we get items on multiple lines right
     x <- paste(x, collapse = " ")
     x <- gsub("^ *\\\\item *", "", x)
-    x <- strsplit(x," *\\\\item *")[[1L]]
+    x <- strsplit(x," *\\\\item")[[1L]] ## CHECKME, was: " *\\\\item *"
+    x <- gsub("^ ", "", x)              ## CHECKME, now leading white space removed here
     gsub(" +$", "", x)
 }
 
