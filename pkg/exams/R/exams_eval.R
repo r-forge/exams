@@ -1,4 +1,4 @@
-exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "false2", "true"))
+exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "false2", "true", "all"))
 {
   ## rule for negative points in partial evaluation of mchoice answers
   rule <- match.arg(rule)
@@ -97,7 +97,8 @@ exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "fal
       n <- switch(rule,
         "false" = sum(!type$correct),
 	"false2" = pmax(sum(!type$correct), 2),
-	"true" = sum(type$correct))
+	"true" = sum(type$correct),
+	"all" = 1)
       return(c("pos" = 1/sum(type$correct), "neg" = -1/n))
     } else {
       return(c("pos" = 1, "neg" = negative))

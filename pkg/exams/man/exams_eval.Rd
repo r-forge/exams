@@ -9,7 +9,7 @@
 
 \usage{
 exams_eval(partial = FALSE, negative = FALSE,
-  rule = c("false", "false2", "true"))
+  rule = c("false", "false2", "true", "all"))
 }
 
 \arguments{
@@ -38,10 +38,11 @@ exams_eval(partial = FALSE, negative = FALSE,
   or it can employ a partial credit strategy. In the latter case, each
   selected correct choice will yield the fraction 1/ncorrect of points.
   When an incorrect choice is selected, it should give negative points.
-  Three strategies are currently implemented: \code{"false"} uses
-  1/nwrong while \code{"false"} uses 1/max(nwrong, 2). Finally,
+  Four strategies are currently implemented: \code{"false"} uses
+  1/nwrong while \code{"false"} uses 1/max(nwrong, 2);
   \code{"true"} uses 1/ncorrect (so that each wrong selection cancels
-  one correct selection). When aggregating the partial percentages,
+  one correct selection); an \code{"all"} uses 1 (so that a single wrong
+  selection cancels all correct selections). When aggregating the partial percentages,
   the overall points can become negative. By setting \code{negative}
   a lower bound can be set: \code{negative = TRUE} sets no bound while
   \code{negative = FALSE} sets the bound to zero. Any other numeric
