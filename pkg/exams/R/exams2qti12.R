@@ -11,7 +11,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
-  points = NULL, ...)
+  points = NULL, eval = list(partial = FALSE, negative = FALSE, rule = "false"), ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -31,7 +31,11 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
-    if(is.list(itembody[[i]])) itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
+    if(is.list(itembody[[i]])) {
+      if(is.null(itembody[[i]]$eval))
+        itembody[[i]]$eval <- eval
+      itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
+    }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
 
@@ -278,11 +282,14 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits),
-  maxchars = 12)
+  maxchars = 12, eval = list(partial = FALSE, negative = FALSE, rule = "false"))
 {
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+
+    ## choice policy
+    eval <- if(!all(names(exams_eval()) %in% names(eval))) do.call("exams_eval", eval) else eval
 
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
@@ -410,6 +417,15 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml, '</flow>', '</presentation>')
 
     ## start resprocessing
+    ## evaluate points
+    if(length(grep("choice", type[i])) & eval$partial) {
+      pv <- eval$pointvec(solution[[i]])
+      pp <- rep(0, length.out = length(solution[[i]]))
+      pp[solution[[i]]] <- pv["pos"]
+      pp[!solution[[i]]] <- pv["neg"]
+      pp <- pp * points
+    }
+
     xml <- c(xml,
       '<resprocessing>',
       '<outcomes>',
