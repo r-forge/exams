@@ -288,9 +288,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
-    ## choice policy
-    eval <- if(!all(names(exams_eval()) %in% names(eval))) do.call("exams_eval", eval) else eval
-
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
       list(x$metainfo$solution)
@@ -313,6 +310,13 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
+
+    ## choice policy
+    eval <- if(!all(names(exams_eval()) %in% names(eval))) {
+      if(x$metainfo$type %in% c("num", "string", "cloze"))
+        eval$partial <- FALSE
+      do.call("exams_eval", eval)
+    } else eval
 
     ## start item presentation
     ## and insert question
@@ -568,7 +572,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      '<setvar varname="SCORE" action="Set">0</setvar>',
+      paste('<setvar varname="SCORE" action="Set">', pv["neg"], '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>',
       '</resprocessing>'
