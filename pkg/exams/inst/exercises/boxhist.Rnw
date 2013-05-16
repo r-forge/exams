@@ -42,7 +42,7 @@ questions <- solutions <- explanations <- rep(list(""), 6)
 type <- rep(list("schoice"), 6)
 
 questions[[1]] <- paste("The distribution is ", c("", "\\emph{not} "), "unimodal.", sep = "")
-solutions[[1]] <- c(!delta, delta)
+solutions[[1]] <- c(delta < 1, delta > 1)
 
 questions[[2]] <- paste("The distribution is", c("symmetric.", "right-skewed.", "left-skewed."))
 solutions[[2]] <- c(!skewed, skewed & !left, skewed & left)
