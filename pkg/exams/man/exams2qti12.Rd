@@ -20,13 +20,16 @@
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.", 
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-    zip = TRUE, points = NULL, \dots)
+    zip = TRUE, points = NULL,
+    eval = list(partial = FALSE, negative = FALSE, rule = "false"),
+    \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL, enumerate = TRUE, digits = 2,
-    tolerance = is.null(digits), maxchars = 12)
+    tolerance = is.null(digits), maxchars = 12,
+    eval = list(partial = FALSE, negative = FALSE, rule = "false"))
 }
 
 \arguments{
@@ -81,6 +84,8 @@
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
     in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
     the exam.}
+  \item{eval}{named list, specifies the settings for the evaluation policy, see function
+    \code{\link{exams_eval}}.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
