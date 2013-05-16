@@ -416,16 +416,23 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## finish presentation
     xml <- c(xml, '</flow>', '</presentation>')
 
-    ## start resprocessing
     ## evaluate points
-    if(length(grep("choice", type[i])) & eval$partial) {
-      pv <- eval$pointvec(solution[[i]])
-      pp <- rep(0, length.out = length(solution[[i]]))
-      pp[solution[[i]]] <- pv["pos"]
-      pp[!solution[[i]]] <- pv["neg"]
-      pp <- pp * points
+    pv <- eval$pointvec(if(x$metainfo$type != "cloze") {
+        solution[[i]]
+      } else paste(rep("01", length = length(solution)), collapse = "", sep = ""))
+    if(eval$partial) {
+      pv <- pv * points
     }
 
+    if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
+      minvalue <- if(grepl("choice", type[i]) & x$metainfo$type != "cloze") {
+         sum(pv["neg"] * 1 * (!solution[[i]]))
+      } else {
+        if(x$metainfo$type != "cloze") pv["neg"] else pv["neg"] * length(solution)
+      }
+    }
+
+    ## start resprocessing
     xml <- c(xml,
       '<resprocessing>',
       '<outcomes>',
@@ -436,7 +443,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    ## FIXME insert choice points actions -> ADD!
     correct_answers <- wrong_answers <- NULL
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
@@ -486,6 +492,33 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
       }
     }
+    ## partial points
+    if(eval$partial) {
+      if(length(correct_answers)) {
+        for(j in correct_answers) {
+          xml <- c(xml,
+            '<respcondition continue="Yes" title="Mastery">',
+            '<conditionvar>',
+            j,
+            '</conditionvar>',
+            paste('<setvar varname="SCORE" action="Add">', pv["pos"], '</setvar>', sep = ''),
+            '</respcondition>'
+          )
+        }
+      }
+      if(length(wrong_answers)) {
+        for(j in wrong_answers) {
+          xml <- c(xml,
+            '<respcondition continue="Yes" title="Fail">',
+            '<conditionvar>',
+            j,
+            '</conditionvar>',
+            paste('<setvar varname="SCORE" action="Add">', pv["neg"], '</setvar>', sep = ''),
+            '</respcondition>'
+          )
+        }
+      }
+    }  
 
     ## scoring for the correct answers
     xml <- c(xml,
@@ -503,7 +536,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         NULL
       },
       '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = ''),
+      if(!eval$partial) {
+        paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '')
+      } else NULL,
       paste('<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>', sep = ''),
       '</respcondition>'
     )
@@ -520,7 +555,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       },
       if(!is.null(wrong_answers)) NULL else '</not>',
       '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''), ## FIXME: other actions if wrong?
+      if(!eval$partial) {
+        paste('<setvar varname="SCORE" action="Set">', pv["neg"], '</setvar>', sep = '')
+      } else NULL,
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>'
     )
