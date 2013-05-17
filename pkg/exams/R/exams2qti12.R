@@ -307,6 +307,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     } else x$metainfo$tolerance
     tol <- rep(tol, length.out = n)
 
+    if(x$metainfo$type == "cloze")
+      points <- sum(rep(points, length.out = n))
+
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
@@ -314,8 +317,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## evaluation policy
     if(is.null(eval) || length(eval) < 1L) eval <- exams_eval()
     if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
-    eval <- eval[match(names(eval), c("partial", "negative", "rule"), nomatch = 0)]
-    if(x$metainfo$type != "mchoice") eval$partial <- FALSE ## FIXME partial default for cloze?
+    eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
+    if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE ## FIXME partial default for cloze?
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
     ## start item presentation
@@ -518,13 +521,33 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             j,
             '</conditionvar>',
             paste('<setvar varname="SCORE" action="Add">', pv["neg"], '</setvar>', sep = ''),
+            '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
             '</respcondition>'
           )
         }
       }
-    }  
+    }
 
-    ## scoring for the correct answers
+    ## partial cloze incorrect num string answers
+    if(eval$partial & x$metainfo$type == "cloze") {
+      for(i in 1:n) {
+        if(type[i] == "string" || type[i] == "num") {
+          xml <- c(xml,
+            '<respcondition title="Fail" continue="Yes">',
+            '<conditionvar>',
+            '<not>',
+            correct_answers[i],
+            '</not>',
+            '</conditionvar>',
+            paste('<setvar varname="SCORE" action="Add">', pv["neg"], '</setvar>', sep = ''),
+            '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+            '</respcondition>'
+          )
+        }
+      }
+    }
+
+    ## scoring/solution display for the correct answers
     xml <- c(xml,
       '<respcondition title="Mastery" continue="Yes">',
       '<conditionvar>',
@@ -566,13 +589,14 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '</respcondition>'
     )
 
+
     ## in all other cases also show solution
     xml <- c(xml,
       '<respcondition title="Fail" continue="Yes">',
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', pv["neg"], '</setvar>', sep = ''),
+      if(!eval$partial) paste('<setvar varname="SCORE" action="Set">', pv["neg"], '</setvar>', sep = '') else NULL,
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>',
       '</resprocessing>'
