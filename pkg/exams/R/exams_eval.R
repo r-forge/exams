@@ -1,4 +1,4 @@
-exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false", "false2", "true", "all", "none"))
+exams_eval <- function(partial = FALSE, negative = FALSE, rule = c("false2", "false", "true", "all", "none"))
 {
   ## rule for negative points in partial evaluation of mchoice answers
   rule <- match.arg(rule)

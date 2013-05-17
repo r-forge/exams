@@ -11,7 +11,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
-  points = NULL, eval = list(partial = FALSE, negative = FALSE, rule = "false"), ...)
+  points = NULL, eval = list(partial = FALSE, negative = FALSE), ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -282,7 +282,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = FALSE, negative = FALSE, rule = "false"))
+  maxchars = 12, eval = list(partial = FALSE, negative = FALSE))
 {
   function(x) {
     ## how many points?
@@ -311,12 +311,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
 
-    ## choice policy
-    eval <- if(!all(names(exams_eval()) %in% names(eval))) {
-      if(x$metainfo$type %in% c("num", "string", "cloze"))
-        eval$partial <- FALSE
-      do.call("exams_eval", eval)
-    } else eval
+    ## evaluation policy
+    if(is.null(eval) || length(eval) < 1L) eval <- exams_eval()
+    if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
+    eval <- eval[match(names(eval), c("partial", "negative", "rule"), nomatch = 0)]
+    if(x$metainfo$type != "mchoice") eval$partial <- FALSE ## FIXME partial default for cloze?
+    eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
     ## start item presentation
     ## and insert question

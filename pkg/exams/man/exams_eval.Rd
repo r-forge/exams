@@ -9,7 +9,7 @@
 
 \usage{
 exams_eval(partial = FALSE, negative = FALSE,
-  rule = c("false", "false2", "true", "all", "none"))
+  rule = c("false2", "false", "true", "all", "none"))
 }
 
 \arguments{
