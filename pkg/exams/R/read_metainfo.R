@@ -118,6 +118,11 @@ read_metainfo <- function(file)
     "cloze" = paste(exname, ": ", paste(sapply(exsolution, paste, collapse = ", "), collapse = " | "), sep = "")
   )
 
+  ## points should be a vector for cloze
+  if(!is.null(expoints) & extype == "cloze") {
+    expoints <- rep(expoints, length.out = slength)
+  }
+
   ## return everything (backward compatible with earlier versions)
   list(
     file = file_path_sans_ext(file),
@@ -129,7 +134,6 @@ read_metainfo <- function(file)
     solution = exsolution,
     tolerance = extol,
     clozetype = exclozetype,
-#   datafile = exdatafile,
     points = expoints,
     time = extime,
     shuffle = exshuffle,
