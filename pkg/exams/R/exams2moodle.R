@@ -217,6 +217,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     }
 
     ## penalty and points
+    if(type == "cloze")
+      points <- rep(points, length.out = length(x$metainfo$solution))
     xml <- c(xml,
       paste('<penalty>', penalty, '</penalty>', sep = ''),
       paste('<defaultgrade>', sum(points), '</defaultgrade>', sep = '')
@@ -279,7 +281,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       } else x$metainfo$solution
       n <- length(solution)
 
-      points <- rep(points, length.out = n)
       xml[grep('<defaultgrade>', xml, fixed = TRUE)] <- paste('<defaultgrade>', sum(points),
         '</defaultgrade>', sep = '')
 

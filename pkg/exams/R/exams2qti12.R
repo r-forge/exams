@@ -433,9 +433,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
       minvalue <- if(grepl("choice", type[i]) & x$metainfo$type != "cloze") {
-         sum(pv["neg"] * 1 * (!solution[[i]]))
+         sum(pv["neg"] * 1 * (if(eval$partial) !solution[[i]] else 1))
       } else {
-        if(x$metainfo$type != "cloze") pv["neg"] else pv["neg"] * length(solution)
+        if(x$metainfo$type != "cloze") pv["neg"] else pv["neg"] * if(eval$partial) length(solution) else 1
       }
     }
 
