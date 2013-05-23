@@ -39,7 +39,7 @@ exams_eval(partial = FALSE, negative = FALSE,
   selected correct choice will yield the fraction 1/ncorrect of points.
   When an incorrect choice is selected, it should give negative points.
   Four strategies are currently implemented: \code{"false"} uses
-  1/nwrong while \code{"false"} uses 1/max(nwrong, 2);
+  1/nwrong while \code{"false2"} uses 1/max(nwrong, 2);
   \code{"true"} uses 1/ncorrect (so that each wrong selection cancels
   one correct selection); \code{"all"} uses 1 (so that a single wrong
   selection cancels all correct selections); and \code{"none"} uses 0

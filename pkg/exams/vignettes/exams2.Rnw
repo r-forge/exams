@@ -109,7 +109,8 @@ in the current version.}
 or the commercial \pkg{Blackboard} system, developed by \citep{exams:Blackboard:2010}.
 Standards for specifying and exchanging e-learning exams/assessements
 have also emerged \citep[see][for an overview]{exams:Agea+Crespo-Garcia+Delgado-Kloos:2009}.
-While \pkg{Moodle} relies on its own \pkg{Moodle} XML format, \pkg{OLAT} and \pkg{Blackboard}
+While \pkg{Moodle} specifies its own \pkg{Moodle} XML format (but can
+import and export several other formats), \pkg{OLAT} and \pkg{Blackboard}
 employ certain subsets of the international QTI (question \& test interoperability)
 standard, version~1.2, maintained by the \cite{exams:QTI12:2012}.
 The successor formats are QTI~2.0 and the current QTI~2.1 which is
@@ -123,7 +124,7 @@ to have support for generating e-learning exams \emph{from the same pool
 of exercises}. In fact, this became an apparent need when the authors
 of the present manuscript took over new large-lecture statistics and
 mathematics courses at their respective institutions (Universit\"at Innsbruck
-and Universit\"at f\"ur Bodenkultur Wien, respectively). For example,
+and Universit\"at f\"ur Bodenkultur Wien, BOKU, respectively). For example,
 the new ``Mathematics~101'' lecture at Universit\"at Innsbruck is
 currently attended by about 1,600~students (mostly first-year business and
 economics students) and accompanied by biweekly online exams conducted in
@@ -403,7 +404,7 @@ exams2html("tstat.Rnw")
 generates the HTML file shown in Figure~\ref{fig:exams2html-tstat} which corresponds directly to the PDF
 file from Figure~\ref{fig:pdf}. Note that for properly viewing the formulas in this HTML file,
 a browser with MathML support is required. This is discussed in more detail in Section~\ref{sec:transform_html}.
-Here, \pkg{Iceweasel} is used -- Debian's rebranding of the \pkg{Firefox} browser which has native MathML support.
+Here, \pkg{Iceweasel} is used -- Debian Linux's rebranding of the \pkg{Firefox} browser which has native MathML support.
 
 To transform the {\LaTeX} questions/solutions to something that a web browser can
 render, three options are available: translation of the {\LaTeX} to (1)~plain HTML,
@@ -449,15 +450,17 @@ generated in PDF format above. The output file, stored again in \code{odir}, is 
 single XML file.
 <<myexam2-odir>>=
 dir(odir)
-@
-This XML file \code{moodlequiz.xml} can be easily imported into a \pkg{Moodle} quiz and then further
-customized: First, the XML file is imported into the question bank in \pkg{Moodle}. Then,
-all replications of each exercise can be added as ``random'' questions into a quiz
-(and potentially further customized). Figure~\ref{fig:exams2moodle-boxplots} shows the first random draw
-of the \code{boxplots} exercise in the resulting \pkg{Moodle} quiz (again rendered
-by a \pkg{Firefox} browser). More details on how to customize \pkg{exams}-generated
-questions for \pkg{Moodle} are provided in Appendix~\ref{sec:moodlecustom}.
-\readme{Appendix still needs to be written.}
+@ This XML file \code{moodlequiz.xml} can be easily imported into a
+\pkg{Moodle} quiz and then further customized: First, the XML file is
+imported into the question bank in \pkg{Moodle}. Then, all
+replications of each exercise can be added as ``random'' questions
+into a quiz (and potentially further
+customized). Figure~\ref{fig:exams2moodle-boxplots} shows the first
+random draw of the \code{boxplots} exercise in the resulting
+\pkg{Moodle} quiz (again rendered by a \pkg{Firefox} browser). More
+details on how \pkg{exams}-generated questions can be integrated in
+\pkg{Moodle} are provided in Section~\ref{sec:boku}.
+
 
 \begin{figure}[t!]
 \centering
@@ -1269,6 +1272,47 @@ ZIP file into \pkg{OLAT} for the biweekly online tests. And
 for creating the printed tests at the end of the semester the
 \code{exams2lops()} interface is employed.
 
+\subsubsection*{Experiences at BOKU Wien}
+\label{sec:boku}
+
+\readme{new subsection}
+
+At BOKU a web-based online exercise system had been in place for
+several years \citep{exams:Moder:2011}. The old system used
+\proglang{Fortran} to generate data and a standalone web-interface for
+students to enter results and get feedback. The storylines of the old
+system were transfered into Sweave files, the \proglang{Fortran} code
+was re-programmed in \proglang{R} for more flexibility in random
+number generation. Workload management was similar as in Innsbruck:
+Professors and lecturers supervised the effort, but programming of
+examples was done by a team of PhD students, two of which were new at
+the department and had only limited prior experience with R (all had
+some experience in {\LaTeX}).
+
+There are three types of \pkg{exams}-generated exercises used
+throughout three ``Statistics 101'' courses totalling more than 1200
+students: 
+\begin{itemize}
+ \item Online exercises where students get immediate feedback on
+  correctness of results,
+ \item homework exercises where students create a small report as PDF
+  and upload this to the server, and
+ \item pen and paper multiple choice exams as in package \pkg{exams}
+  version~1.
+\end{itemize}
+For the pen-and-paper multiple choice tests a mixture of
+\code{exams2pdf()} and \code{exams2moodle()} is currently used: Moodle
+in principle generates exercise and answer sheets for multiple choice
+exams. However, in the current implementation the question text may
+not contain figures and mathematical equations are really ugly. So
+question sheets are generated directly as PDF, but the XML for Moodle
+is also created, which generates then in turn the answer sheets and is
+used for automatic scanning and grading. A much more detailed
+description of contents and example types has been written as a
+seperate manuscript and is currently under review. The focus of this
+paper is to be a technical manual of the new features of package
+\pkg{exams}.
+
 
 \subsubsection*{Outlook}
 
@@ -1336,9 +1380,6 @@ File & Type & Description \\ \hline
 in \code{exams/inst/exercises}.}
 \end{table}
 
-\section[Customization of Moodle exams]{Customization of \pkg{Moodle} exams} \label{sec:moodlecustom}
-
-\fixme{More details on how to exploit Moodle features and work with exams output within Moodle.}
 
 \end{appendix}
 
