@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding="", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, eval = list(partial = FALSE, negative = FALSE, rule = "false"), ...)
+  points = NULL, eval = list(partial = TRUE, negative = FALSE, rule = "false"), ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -167,7 +167,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
   truefalse = c("True", "False"), enumerate = TRUE,
-  eval = list(partial = FALSE, negative = FALSE, rule = "false"))
+  eval = list(partial = TRUE, negative = FALSE, rule = "false"))
 {
   function(x) {
     ## how many points?
