@@ -34,6 +34,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     if(is.list(itembody[[i]])) {
       if(is.null(itembody[[i]]$eval))
         itembody[[i]]$eval <- eval
+      if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
+        itembody[[i]]$eval$rule <- "none"
       itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -318,7 +320,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(is.null(eval) || length(eval) < 1L) eval <- exams_eval()
     if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
     eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
-    if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE ## FIXME partial default for cloze?
+    if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
+    if(x$metainfo$type == "cloze" & is.null(eval$rule)) eval$rule <- "none"
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
     ## start item presentation
@@ -430,6 +433,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(eval$partial) {
       pv <- pv * points
     }
+    pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
 
     if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
       minvalue <- if(grepl("choice", type[i]) & x$metainfo$type != "cloze") {
