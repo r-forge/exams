@@ -1,10 +1,6 @@
 \name{exams2moodle}
 \alias{exams2moodle}
 \alias{make_question_moodle23}
-\alias{cancelNone}
-\alias{cancelOne}
-\alias{cancelAll}
-\alias{subtractNegsum}
 
 \title{Generation of Exams in Moodle XML Format}
 
@@ -21,14 +17,14 @@
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL,
-    eval = list(partial = FALSE, negative = FALSE, rule = "false"),
+    eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
     \dots)
 
   make_question_moodle23(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
     truefalse = c("True", "False"), enumerate = TRUE,
-    eval = list(partial = FALSE, negative = FALSE, rule = "false"))
+    eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
 }
 
 \arguments{
@@ -93,14 +89,6 @@
     the user may specify the possible options shown.}
   \item{enumerate}{logical. In \code{cloze} questions, if set to \code{TRUE}, the answerlist and
     solutionlist will be enumerated.}
-  \item{choice_policy}{function to be used in combination with choice type questions, default is
-    \code{cancelNone}, i.e., using the fraction tag in the Moodle XML, this function generates the
-    weights that are assigned to each item. Four different functions are provided: \code{cancelNone}
-    only assigns positive weights to correct answers ans else zero, \code{cancelOne} cancels one
-    correct given one wrong answer (i.e. assigns negative weights to each wrong answer),
-    \code{cancelAll} cancels all correct given one wrong answer and function \code{subtractNegsum}
-    subtracts \code{1 / sum(wrong) * 100}\% for each wrong answer, where the sum of all correct
-    answers is 100\%. Example: \code{cancelOne(c(TRUE, FALSE, TRUE, FALSE, FALSE))}.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}

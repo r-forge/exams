@@ -8,7 +8,7 @@
 }
 
 \usage{
-exams_eval(partial = FALSE, negative = FALSE,
+exams_eval(partial = TRUE, negative = FALSE,
   rule = c("false2", "false", "true", "all", "none"))
 }
 
@@ -58,7 +58,7 @@ exams_eval(partial = FALSE, negative = FALSE,
     \code{(correct}, \code{answer}, and \code{tolerance = 0}.
     It checks whether \code{answer} (sufficiently) matches
     \code{answer} or not. It returns 1 for correct, -1 for wrong
-    and 0 for not attempted. In case of \code{partial=TRUE}, the
+    and 0 for not attempted. In case of \code{partial = TRUE}, the
     functions returns a vector for multiple-choice questions.}
   \item{pointvec}{function with argument \code{correct = NULL}.
     It computes the point vector for correct and wrong answers,
@@ -76,8 +76,8 @@ exams_eval(partial = FALSE, negative = FALSE,
 }
 
 \examples{
-## default evaluation policy: partial = FALSE, negative = FALSE
-ee <- exams_eval()
+## evaluation policy: partial = FALSE, negative = FALSE
+ee <- exams_eval(partial = FALSE, negative = FALSE)
 
 ## points that can be achieved are 0/1
 ee$pointvec()
