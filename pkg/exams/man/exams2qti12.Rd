@@ -27,7 +27,7 @@
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, enumerate = TRUE, digits = 2,
+    cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = FALSE, negative = FALSE))
 }
@@ -91,8 +91,8 @@
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
   \item{enumerate}{logical. Insert potential solutions in enumerated list?}
   \item{digits}{integer. How many digits should be used for \code{num} exercises?}
-  \item{tolerance}{logical. If \code{digits = NULL}, type \code{num} questions will use a
-    tolerance interval for checking if the supplied answer/number is correct.}
+  \item{tolerance}{logical. Should tolerance intervals be used for checking if the supplied
+    \code{num} answer/number is correct? The default is to use tolerance intervals if \code{digits = NULL}.}
   \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
     fields. The actual number of characters is selected as the maximum number of
     characters of this value and the actual solution.}
@@ -139,15 +139,14 @@
   \code{mchoice = list(shuffle = TRUE)} will force only multiple choice questions to have a shuffled
   answerlist.
   
-  Note that the default correct solution for numeric answers is a character string that is generated
-  by the rounded value of the exact solution provided in the \code{metainfo} of the question (and
-  may be controlled by argument in \code{digits} in \code{make_itembody_qti12}). I.e. in a test, the
-  answer must be provided exactly to the decimal places specified in \code{digits} and has no upper
+  Note that in OLAT/OpenOLAT \code{num} exercises are not officially supported but in fact work
+  correctly. The only drawback is that the correct solution is not shown at the end of the assessment
+  (although it is used for all internal computations). A potential workaround is to implement
+  \code{num} exercises via \code{string} by exactly matching the given solution to the correct
+  solution at a given rounding. This may be controlled by argument in \code{digits} in \code{make_itembody_qti12}.  
+  I.e. in a test, the answer must be provided exactly to the decimal places specified in \code{digits} and has no upper
   or lower tolerance level (e.g., if the exact solution is 16.4562 and \code{digits = 2}, then the
-  correct answer in the test will be \code{"16.46"}, i.e., a character string of 5 characters). This
-  may be easily changed by setting \code{num = list(digits = NULL)} to suppress rounding, while the
-  numeric question should then provide a tolerance level, which should be set within the
-  \code{.Rnw}, but may also be hard-set in \code{make_itembody_qti12}.
+  correct answer in the test will be \code{"16.46"}, i.e., a character string of 5 characters).
 }
 
 \references{

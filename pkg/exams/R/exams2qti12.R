@@ -283,7 +283,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 ## includes item <presentation> and <resprocessing> tags
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2, tolerance = is.null(digits),
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
   maxchars = 12, eval = list(partial = FALSE, negative = FALSE))
 {
   function(x) {
