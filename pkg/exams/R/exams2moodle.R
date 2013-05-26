@@ -27,6 +27,11 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     if(is.list(moodlequestion[[i]])) {
       if(is.null(moodlequestion[[i]]$eval))
         moodlequestion[[i]]$eval <- eval
+      if(is.list(moodlequestion[[i]]$eval)) {
+        if(!eval$partial) stop("Moodle can only process partial credits!")
+        if(i == "cloze" & is.null(moodlequestion[[i]]$eval$rule))
+          moodlequestion[[i]]$eval$rule <- "none"
+      }
       moodlequestion[[i]] <- do.call("make_question_moodle23", moodlequestion[[i]])
     }
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -174,7 +179,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
     ## choice policy
-    eval <- if(!all(names(exams_eval()) %in% names(eval))) do.call("exams_eval", eval) else eval
+    eval <- if(!all(names(exams_eval()) %in% names(eval))) {
+      if(x$metainfo$type == "cloze" & is.null(eval$rule))
+        eval$rule <- "none"
+      do.call("exams_eval", eval)
+    } else eval
 
     ## match question type
     type <- switch(x$metainfo$type,
@@ -234,6 +243,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
       frac <- as.integer(x$metainfo$solution)
       pv <- eval$pointvec(paste(frac, sep = "", collapse = ""))
+      pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
+
       frac[x$metainfo$solution] <- pv["pos"]
       frac[!x$metainfo$solution] <- pv["neg"]
       frac <- moodlePercent(frac)
@@ -312,6 +323,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             frac <- c(frac, !frac)
           frac2 <- frac
           pv <- eval$pointvec(frac)
+          pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
           frac[frac2] <- pv["pos"]
           frac[!frac2] <- pv["neg"]
           p <- moodlePercent(frac)
