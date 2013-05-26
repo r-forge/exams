@@ -95,12 +95,12 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
     type <- extype(correct)
     if(type$type == "mchoice") {
       n <- switch(rule,
-        "false" = sum(!type$correct),
-	"false2" = pmax(sum(!type$correct), 2),
-	"true" = sum(type$correct),
-	"all" = 1,
+        "false" = -1/sum(!type$correct),
+	"false2" = -1/pmax(sum(!type$correct), 2),
+	"true" = -1/sum(type$correct),
+	"all" = -1,
 	"none" = 0)
-      return(c("pos" = 1/sum(type$correct), "neg" = -1/n))
+      return(c("pos" = 1/sum(type$correct), "neg" = n))
     } else {
       return(c("pos" = 1, "neg" = negative))
     }
