@@ -1041,8 +1041,9 @@ For the \pkg{Moodle} interface, the function has the following arguments:
     quiet = TRUE, resolution = 100, width = 4, height = 4,
     iname = TRUE, stitle = NULL, testid = FALSE,
     num = NULL, mchoice = NULL, schoice = mchoice, string = NULL,
-    cloze = NULL, zip = FALSE, ...)
+    cloze = NULL, zip = FALSE, rule = NULL, ...)
 \end{Code}
+\fixme{Describe new \code{rule} argument, link to Appendix~\ref{sec:eevaluation} \dots}
 Thus, in addition to the usual arguments from the first two lines (see Table~\ref{tab:args}),
 the third line has those arguments passed to \code{Sweave}, and lines~4--6 have
 the arguments responsible for the XML formatting. These are employed in the following steps:
@@ -1081,14 +1082,17 @@ customization.
     cloze = NULL, duration = NULL, stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.", 
-    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE, ...)
+    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
+    eval = list(partial = FALSE, negative = FALSE), ...)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
     minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
     maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = 2,
-    tolerance = is.null(digits), maxchars = 12)
+    tolerance = is.null(digits), maxchars = 12,
+    eval = list(partial = FALSE, negative = FALSE))
 \end{Code}
 %
+\fixme{Describe new \code{eval} argument, link to Appendix~\ref{sec:eevaluation} \dots}
 For details about the arguments see \code{?exams2qti12}.
 The main difference between the \pkg{Moodle} XML and QTI~1.2 XML specifications is
 that the former just provides some control over the individual exercises (or questions, items)
@@ -1380,6 +1384,9 @@ File & Type & Description \\ \hline
 in \code{exams/inst/exercises}.}
 \end{table}
 
+\section[Evaluating exams]{Evaluating exams} \label{sec:eevaluation}
+
+\fixme{Describe evaluation tools\dots}
 
 \end{appendix}
 

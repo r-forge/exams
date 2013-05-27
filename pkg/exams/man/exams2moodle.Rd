@@ -16,9 +16,7 @@
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    points = NULL,
-    eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-    \dots)
+    points = NULL, rule = NULL, \dots)
 
   make_question_moodle23(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -74,6 +72,8 @@
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
     in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
     the exam.}
+  \item{rule}{character specifying which rule to use for negative partial credits. see function
+    \code{\link{exams_eval}}. Note that the default using cloze exercises is \code{rule = "none"}.}
   \item{solution}{logical. Should the question solution, if available, be added in the question
      XML?}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will

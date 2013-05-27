@@ -433,7 +433,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(eval$partial) {
       pv <- pv * points
     }
-    pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
 
     if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
       minvalue <- if(grepl("choice", type[i]) & x$metainfo$type != "cloze") {

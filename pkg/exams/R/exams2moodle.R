@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding="", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE, rule = "false2"), ...)
+  points = NULL, rule = NULL, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -26,9 +26,9 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     if(is.null(moodlequestion[[i]])) moodlequestion[[i]] <- list()
     if(is.list(moodlequestion[[i]])) {
       if(is.null(moodlequestion[[i]]$eval))
-        moodlequestion[[i]]$eval <- eval
+        moodlequestion[[i]]$eval <- list("partial" = TRUE, "rule" = rule)
       if(is.list(moodlequestion[[i]]$eval)) {
-        if(!eval$partial) stop("Moodle can only process partial credits!")
+        if(!moodlequestion[[i]]$eval$partial) stop("Moodle can only process partial credits!")
         if(i == "cloze" & is.null(moodlequestion[[i]]$eval$rule))
           moodlequestion[[i]]$eval$rule <- "none"
       }
@@ -323,7 +323,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             frac <- c(frac, !frac)
           frac2 <- frac
           pv <- eval$pointvec(frac)
-          pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
           frac[frac2] <- pv["pos"]
           frac[!frac2] <- pv["neg"]
           p <- moodlePercent(frac)
