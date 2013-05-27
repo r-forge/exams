@@ -24,7 +24,7 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   \item{Sweave}{logical. Should the Sweave code environments Sinput/Soutput be
     replaced by verabtim (and Schunk deleted) prior to conversion with \code{tth}/\code{ttm}?}
   \item{\dots}{arguments passed to \code{tth.control}.}
-  \item{a}{logicalm attempt automatic picture environment conversion
+  \item{a}{logical. Attempt automatic picture environment conversion
     using \code{latex2gif}? Default omit.}
   \item{c}{logical. Prefix header \code{"Content-type: text/HTML"} (for direct web serving)?}
   \item{d}{logical. Disable definitions with delimited arguments? Default enable.}
