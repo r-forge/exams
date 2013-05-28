@@ -237,8 +237,8 @@ When writing the new version of the \textbf{exams} package we discussed such a s
 of first reading everything into R and then writing everything out to some
 desired file again. We decided against this because reading all supplementary
 graphics, data files, etc. into R would make the exams object potentially
-really huge. But as the goal of the exams package is really to write exams
-in different formats to the disk (rather creating representations of the
+really huge. But as the goal of the \textbf{exams} package is really to write exams
+in different formats to the disk (rather than creating representations of the
 exams within R), we decided not to read everything into R. Hence, we store
 supplementary files only on the disk and directly weave/read/transform/write
 in one go. Especially, in situations where you create a large e-learning exam
@@ -291,13 +291,13 @@ other formats)?}
 
 The reason for using {\LaTeX} is that in statistics and mathematics exams we
 regularly need mathematical notation, especially for showing the correct
-solutions. (This is true for most exercises in the exams package.)
+solutions. (This is true for most exercises in the \textbf{exams} package.)
 Markdown is no alternative for this.
 
 And for the case where no mathematical notation is needed, the markup
-required is really minimal, just {question}/{solution} and the \verb|\ex*|
-metainformation. Therefore, it is our feeling that there is no pressing
-need for more explicit Markdown format
+required is really minimal, just \verb|{question}|/\verb|{solution}| and
+the \verb|\ex*| metainformation. Therefore, it is our feeling that there
+is no pressing need for more explicit Markdown format.
 
 \item {\it
 Can the system accommodate multi-part questions? For example, if the
