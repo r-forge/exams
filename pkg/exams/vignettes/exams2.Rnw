@@ -99,11 +99,11 @@ for large-lecture courses -- either as self-study materials or as
 (part of) the main assessment of the course.
 
 Among the more popular choices of learning management systems are the
-open-source systems \pkg{Moodle}, developed by \cite{exams:Moodle:2012} 
+open-source systems \pkg{Moodle}, developed by \cite{exams:Moodle:2013} 
 and supported by a large world-wide user community, or \pkg{OLAT}
 (for online learning and training), developed by \cite{exams:OLAT:2012},\footnote{
 Note that the \pkg{OLAT} project was forked recently and now some of the
-core contributors develop \pkg{OpenOLAT} \citep{exams:OpenOLAT:2012}.
+core contributors develop \pkg{OpenOLAT} \citep{exams:OpenOLAT:2013}.
 Essentially all discussion of \pkg{OLAT} in this manuscript also applies to \pkg{OpenOLAT}
 in the current version.}
 or the commercial \pkg{Blackboard} system, developed by \citep{exams:Blackboard:2010}.
@@ -112,9 +112,9 @@ have also emerged \citep[see][for an overview]{exams:Agea+Crespo-Garcia+Delgado-
 While \pkg{Moodle} specifies its own \pkg{Moodle} XML format (but can
 import and export several other formats), \pkg{OLAT} and \pkg{Blackboard}
 employ certain subsets of the international QTI (question \& test interoperability)
-standard, version~1.2, maintained by the \cite{exams:QTI12:2012}.
+standard, version~1.2, maintained by the \cite{exams:QTI12:2002}.
 The successor formats are QTI~2.0 and the current QTI~2.1 which is
-for example employed in the \pkg{ONYX} testsuite \citep{exams:BPS:2012}
+for example employed in the \pkg{ONYX} testsuite \citep{exams:BPS:2013}
 that also offers interfaces to \pkg{OLAT} and \pkg{Blackboard}.
 
 Therefore, although the PDF exams produced by version~1 of the \pkg{exams}
@@ -135,7 +135,7 @@ including easy-to-use functions for \pkg{Moodle} quizzes and \pkg{OLAT}
 assessments.
 
 The new version of the \pkg{exams} package for the \proglang{R} system for 
-statistical computing \citep{exams:R:2012} is now available from the
+statistical computing \citep{exams:R:2013} is now available from the
 Comprehensive \proglang{R} Archive Network at \url{http://CRAN.R-project.org/package=exams}.
 As prior versions of \pkg{exams} it employs ideas and technologies
 from literate programming and reproducible research
@@ -301,7 +301,7 @@ myexam <- list(
   "relfreq")
 odir <- tempfile()
 set.seed(1090)
-x1 <- exams(myexam, n = 3, dir = odir, template = c("exam", "solution"))
+x1 <- exams(myexam, n = 3, dir = odir, template = c("oexam", "osolution"))
 @
 The \code{myexam} list contains five exercises: the first one is always \code{boxplots.Rnw}
 while the second exercise is randomly drawn from \code{confint.Rnw}, \code{ttest.Rnw},
@@ -317,8 +317,10 @@ The resulting output files are stored along with the extracted metainformation i
 dir(odir)
 @
 More details on basic usage and more advanced customization of this function are
-provided by \cite{exams:Gruen+Zeileis:2009}. An overview of the most important arguments
-that are also shared by the version~2 interfaces is given in Table~\ref{tab:args}.
+provided by \cite{exams:Gruen+Zeileis:2009}\footnote{A slightly updated version of the
+manuscript is also contained as \code{vignette("exams", package = "exams")} within the package}.
+An overview of the most important arguments that are also shared by the version~2 interfaces
+is given in Table~\ref{tab:args}.
 
 \begin{table}[t!]
 \centering
@@ -391,7 +393,7 @@ exams, it is typically necessary to be able to generate an HTML version of the e
 function \code{exams2html()} is designed analogously to \code{exams()}/\code{exams2pdf()} but
 produces HTML files. In case of just a single generated exam, this is displayed in a browser
 using base \proglang{R}'s \code{browseURL()} function\footnote{In \pkg{RStudio}
-\citep{exams:RStudio:2012}, versions prior to~0.97.133, the \code{"browser"} option is set
+\citep{exams:RStudio:2013}, versions prior to~0.97.133, the \code{"browser"} option is set
 to a function that cannot browse local HTML files on some platforms. Recent versions of
 \pkg{RStudio} have resolved this problem and \code{?exams2html} also provides 
 workarounds for older \pkg{RStudio} versions.}. Again, this is particularly useful while
@@ -411,7 +413,7 @@ render, three options are available: translation of the {\LaTeX} to (1)~plain HT
 (2)~HTML plus MathML for mathematical formulas (default), or conversion of the corresponding PDF
 to (3)~HTML with one embedded raster images for the whole question and solution, respectively.
 The former two options are considerably faster and more elegant -- they just require the
-\proglang{R}~package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012} that makes
+\proglang{R}~package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2013} that makes
 the `{\TeX}-to-HTML' converter \pkg{TtH} \citep{exams:Hutchinson:2012} easily available
 in~\proglang{R}. Also, by default, the \pkg{base64enc} package \citep{exams:Urbanek:2012}
 is employed for embedding graphics in Base64 encoding. More details on this approach
@@ -459,7 +461,7 @@ customized). Figure~\ref{fig:exams2moodle-boxplots} shows the first
 random draw of the \code{boxplots} exercise in the resulting
 \pkg{Moodle} quiz (again rendered by a \pkg{Firefox} browser). More
 details on how \pkg{exams}-generated questions can be integrated in
-\pkg{Moodle} are provided in Section~\ref{sec:boku}.
+\pkg{Moodle} are provided in Section~\ref{sec:discussion}.
 
 
 \begin{figure}[t!]
@@ -568,14 +570,14 @@ the code below calls \code{exams_skeleton()} specifying these three writers.
 Here, we employ a temporary directory but users may set the \code{dir} argument
 to something like \code{"C:/myexam/"} or \code{"~/myexam/"} etc.
 <<exams_skeleton>>=
-mydir <- tempdir()
+mydir <- file.path(tempdir(), "myexam")
 exams_skeleton(dir = mydir, absolute = TRUE,
   writer = c("exams2html", "exams2pdf", "exams2moodle"))
 dir(mydir)
 @
 The directory then contains the file `\code{demo.R}' which can be opened in
-any editor for \proglang{R} scripts. The script illustrates how to create
-various kinds of output using the \code{exams2html()}, \code{exams2pdf()},
+any editor for \proglang{R}~scripts. The script illustrates how to create
+various kinds of output using the \code{exams2html()},\linebreak \code{exams2pdf()},
 and \code{exams2moodle()} functions based on the exercises and templates
 in the subdirectories of the same name. Absolute paths are employed in the
 script to refer to these subdirectories (while the default \code{absolute = FALSE}
@@ -647,11 +649,10 @@ Command & Description \\ \hline
                         a string of zeros/ones for \code{mchoice}/\code{schoice}, or a character
 			string of \code{string}. For \code{cloze} a combination of these can
 			be specified, e.g., \verb+\exsolution{1.23|001|median}+. \\
-\verb|\extolerance{}| & Tolerance limits (of length~1 or~2) for \code{num} solutions. If unspecified
-                        the tolerance is 0. For length~2 (not supported in \pkg{Moodle}), the lower and upper tolerance can be
-			specified separately.\\
+\verb|\extolerance{}| & Tolerance for \code{num} solutions or a vector of tolerances (expanded if
+                        necessary) for \code{cloze} solutions. If unspecified the tolerance is 0. \\
 \verb|\exclozetype{}| & List of types for the elements of a \code{cloze} exercise, e.g.,
-                        \verb+\exclozetype{num|mchoice|string}+ for the example above. \\ 
+                        \verb+\exclozetype{num|schoice|string}+ for the example above. \\ 
 \verb|\expoints{}|    & Points for correct solution. Default is 1.\\
 %% \verb|\extime{}|      & Default time (in seconds) for solution. \\
 %% \verb|\exshuffle{}|   & Logical indicating whether \code{mchoice}/\code{schoice}
@@ -684,7 +685,7 @@ Three types have a list of questions (or statements):
     \code{string}, or \code{mchoice} answers. Thus, each element of the question
     has either a numeric, short text, or single/multiple-choice answer, e.g., \verb+\exsolution{1.23|001|median}+.
     To specify the individual \code{cloze} types, a \code{clozetype} has to be given, e.g.,
-    \verb+\exclozetype{num|mchoice|string}+.
+    \verb+\exclozetype{num|schoice|string}+.
 \end{itemize}
 The types \code{schoice} and \code{cloze} have been newly introduced. The purpose
 of the former is mainly to allow for different processing of options (e.g., for
@@ -861,14 +862,14 @@ in some way so that it can be rendered by a browser. Until relatively recently, 
 to display the mathematical formulas and often the only good answer was to
 embed raster images of the formulas. However, this
 situation has clearly changed \citep[see e.g.,][]{exams:Vismor:2012} and there are now various
-convenient options: e.g., using the mathematical markup language MathML \citep{exams:W3C+MathML:2010,exams:Wiki+MathML:2012}
+convenient options: e.g., using the mathematical markup language MathML \citep{exams:W3C+MathML:2010,exams:Wiki+MathML:2013}
 or keeping {\LaTeX} formulas in the web page and embedding some \proglang{JavaScript} for rendering them.
 
 Especially the display of MathML in web pages has become very easy: \pkg{Firefox} long had native support for it and
-for the Microsoft \pkg{Internet Explorer} the \pkg{MathPlayer} plugin \citep{exams:MathPlayer:2012} has
+for the Microsoft \pkg{Internet Explorer} the \pkg{MathPlayer} plugin \citep{exams:MathPlayer:2013} has
 long been available. More recently, other major browsers like Google \pkg{Chrome}, \pkg{Opera}, or \pkg{Safari}
 also added support for MathML \citep[see][Section~1.2]{exams:Vismor:2012}. Furthermore, \pkg{MathJax}
-\citep{exams:MathJax:2012}, an open-source \proglang{JavaScript} engine, can be used to render
+\citep{exams:MathJax:2013}, an open-source \proglang{JavaScript} engine, can be used to render
 MathML (or {\LaTeX}) formulas on a server rather than in the local browser.
 
 Therefore, the new \pkg{exams} package offers functionality for automatically transforming
@@ -895,12 +896,12 @@ missing number).}
 
 Internally, \code{make_exercise_transform_html()} can leverage three different \code{converter}s:
 \code{ttm} (default), \code{tth}, or \code{tex2image}. The
-former two come from the \proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2012}
+former two come from the \proglang{R} package \pkg{tth} \citep{exams:Hutchinson+Leisch+Zeileis:2013}
 and internally call the two \proglang{C}~functions \code{tth} ({\TeX} to HTML) and \code{ttm} ({\TeX} to HTML/MathML)
 taken from the \pkg{TtH} suite of \cite{exams:Hutchinson:2012}. The last option, \code{tex2image},
 is a function provided by the \pkg{exams} package itself. It proceeds by first running \code{texi2dvi(pdf = TRUE)}
 from the base \proglang{R} package \pkg{tools} and subsequently converting the resulting PDF to a raster
-image in a \code{system()} call to \pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2012}.
+image in a \code{system()} call to \pkg{ImageMagick}'s \code{convert} function \citep{exams:ImageMagick:2013}.
 Thus, for this function \pkg{ImageMagick} is assumed to be installed and in the search path.
 All three converters have their benefits and drawbacks:
 \begin{itemize}
@@ -1043,7 +1044,7 @@ For the \pkg{Moodle} interface, the function has the following arguments:
     num = NULL, mchoice = NULL, schoice = mchoice, string = NULL,
     cloze = NULL, zip = FALSE, rule = NULL, ...)
 \end{Code}
-\fixme{Describe new \code{rule} argument, link to Appendix~\ref{sec:eevaluation} \dots}
+\fixme{Describe new \code{rule} argument, link to Appendix~\ref{sec:eval} \dots}
 Thus, in addition to the usual arguments from the first two lines (see Table~\ref{tab:args}),
 the third line has those arguments passed to \code{Sweave}, and lines~4--6 have
 the arguments responsible for the XML formatting. These are employed in the following steps:
@@ -1092,7 +1093,7 @@ customization.
     eval = list(partial = FALSE, negative = FALSE))
 \end{Code}
 %
-\fixme{Describe new \code{eval} argument, link to Appendix~\ref{sec:eevaluation} \dots}
+\fixme{Describe new \code{eval} argument, link to Appendix~\ref{sec:eval} \dots}
 For details about the arguments see \code{?exams2qti12}.
 The main difference between the \pkg{Moodle} XML and QTI~1.2 XML specifications is
 that the former just provides some control over the individual exercises (or questions, items)
@@ -1258,7 +1259,7 @@ typically performed tasks such as checking the correctness of the
 exercises, testing out the random data generation or making it more
 flexible, and creating variations of existing exercises by making
 small modifications in the underlying ``stories'' or changing the
-data generating process. Even though, many of the student assistants
+data generating process. Even though many of the student assistants
 had no prior knowledge of \proglang{R} and {\LaTeX}, they were 
 rather quickly able to work on the exercise \code{Sweave} files (with
 all the usual small problems that often occur when learning \proglang{R}/{\LaTeX}).
@@ -1274,23 +1275,20 @@ After having the pool of exercises established, just one team member
 is concerned with running \code{exams2qti12()} and uploading the resulting
 ZIP file into \pkg{OLAT} for the biweekly online tests. And
 for creating the printed tests at the end of the semester the
-\code{exams2lops()} interface is employed.
+\code{exams2lops()} or \code{exams2pdf()} interfaces are employed.
 
 \subsubsection*{Experiences at BOKU Wien}
-\label{sec:boku}
-
-\readme{new subsection}
 
 At BOKU a web-based online exercise system had been in place for
 several years \citep{exams:Moder:2011}. The old system used
 \proglang{Fortran} to generate data and a standalone web-interface for
 students to enter results and get feedback. The storylines of the old
-system were transfered into Sweave files, the \proglang{Fortran} code
+system were transfered into \code{Sweave} files, the \proglang{Fortran} code
 was re-programmed in \proglang{R} for more flexibility in random
 number generation. Workload management was similar as in Innsbruck:
 Professors and lecturers supervised the effort, but programming of
 examples was done by a team of PhD students, two of which were new at
-the department and had only limited prior experience with R (all had
+the department and had only limited prior experience with \proglang{R} (all had
 some experience in {\LaTeX}).
 
 There are three types of \pkg{exams}-generated exercises used
@@ -1356,7 +1354,8 @@ of the Universit\"at Innsbruck.
 \begin{tabular}{llp{10.9cm}}
 \hline
 File & Type & Description \\ \hline
-\code{confint}     & \code{num}     & Confidence interval for one-sample mean, i.e., result of length two (for version~1 interface).\\
+\code{confint}     & \code{num}     & Confidence interval for one-sample mean, i.e., result of length two
+                                      (for version~1 interface; for version~2 see \code{confint2} below).\\
 \code{dist}        & \code{num}     & Very simple numeric exercise (for introductory illustrations).\\
 \code{lagrange}    & \code{num}     & Lagrange optimzation under constraint. Result is randomly selected to be one of three potential quantities. \\
 \code{regression}  & \code{num}     & Prediction in simple linear regression.\\
@@ -1368,15 +1367,17 @@ File & Type & Description \\ \hline
 \code{relfreq}     & \code{mchoice} & Interpretation of 2-way contingency table.\\
 \code{scatterplot} & \code{mchoice} & Interpretation of scatterplot.\\
 \code{ttest}       & \code{mchoice} & Interpretation of \code{t.test()} output.\\ \hline
+\code{tstat2}      & \code{schoice} & Single-choice version constructed from the numeric \code{tstat}.\\ \hline
+\code{function}    & \code{string}  & Simple string exercise asking for the name of specific \proglang{R}~functions.\\ \hline
 \code{boxhist}     & \code{cloze}   & Based on randomly generated data as (exercise-specific) \code{.csv} files
                                       some quantiles have to be computed (\code{num}) and interpretations of a boxplot
 				      and histogram have to be made (\code{mchoice}). \\
+\code{boxhist2}    & \code{cloze}   & Same exercise but with custom layout of the answer fields (for \code{exams2moodle()} only). \\
 \code{confint2}    & \code{cloze}   & Cloze version (for all version~2 interfaces) constructed from the numeric \code{confint}.\\
-\code{dist2}       & \code{cloze}   & Extended cloze version of the numeric \code{dist}.\\
-\code{tstat2}      & \code{schoice} & Single-choice version constructed from the numeric \code{tstat}.\\ \hline
+\code{dist2}       & \code{cloze}   & Extended cloze version of the numeric \code{dist}.\\ \hline
 \code{currency8}   & \code{num}     & Exercise in UTF-8 encoding (with Euro and Pound symbol
                                       and German umlaut).\\ 
-\code{currency9}   & \code{num}     & Same exercise in Latin-9 (or ISO-8859-15) encoding.\\ \hline
+\code{currency9}   & \code{num}     & Same exercise in Latin-9 (or ISO-8859-15) encoding.\\ 
 \code{currency1}   & \code{num}     & Same exercise in Latin-1 (or ISO-8859-1) encoding (omitting
                                       the Euro symbol).\\ \hline
 \end{tabular}
@@ -1384,7 +1385,7 @@ File & Type & Description \\ \hline
 in \code{exams/inst/exercises}.}
 \end{table}
 
-\section[Evaluating exams]{Evaluating exams} \label{sec:eevaluation}
+\section{Evaluation policies} \label{sec:eval}
 
 \fixme{Describe evaluation tools\dots}
 
