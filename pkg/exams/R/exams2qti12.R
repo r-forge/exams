@@ -11,7 +11,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
-  points = NULL, eval = list(partial = FALSE, negative = FALSE), ...)
+  points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -284,7 +284,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = FALSE, negative = FALSE))
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE))
 {
   function(x) {
     ## how many points?

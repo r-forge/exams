@@ -21,7 +21,7 @@
     sdescription = "Please answer the following question.", 
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
-    eval = list(partial = FALSE, negative = FALSE),
+    eval = list(partial = TRUE, negative = FALSE),
     \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
@@ -29,7 +29,7 @@
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
-    eval = list(partial = FALSE, negative = FALSE))
+    eval = list(partial = TRUE, negative = FALSE))
 }
 
 \arguments{
