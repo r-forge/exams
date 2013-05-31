@@ -5,11 +5,38 @@
 
 \begin{document}
 
-%% encoding in exams2xyz()
+\noindent
+Dear editors and reviewers,
 
-%% exams_skeleton() in Section 2.3
+\noindent
+thank you for the constructive and helpful feedback on our \textbf{exams}
+package and manuscript
+``Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond''.
+These led to substantial improvements in both the software and the accompanying
+manuscript. The major changes are the following:
+\begin{itemize}
+  \item Support of encodings (UTF-8, ISO-8859-1/15, etc.)
+        in \texttt{exams2}\emph{xyz}\texttt{()}.
 
-%% evaluation policies in Sections ... and Appendix B
+  \item A new functions \verb|exams_skeleton()| (described in Section~2.3)
+        that helps to set up exercises and templates along with a demo
+	script in a new directory.
+
+  \item Different evaluation policies (especially for multiple-choice exercises)
+        in both Moodle and QTI~1.2/OLAT as well as some auxiliary tools in \textsf{R}.
+	Details are in the new Appendix~B and the corresponding manual page
+	\verb|?exams_eval|.
+\end{itemize}
+We hope that this addresses all concerns of the previous version.
+
+
+\noindent
+Best regards,
+
+\noindent
+Achim, Niki, Fritz
+
+\newpage
 
 \textbf{\Large Reviewer 1}
 
@@ -257,34 +284,11 @@ multiple choice problems. I know that this is possible in Moodle. Wouldn't
 this require manual tinkering with the resulting XML files? If not, it
 would be helpful to show some details in the manuscript.}
 
-In the original version we just had \verb|\expoints{}| with the number of
-points for the overall exam because for OLAT we have to do the rest of
-the customization within OLAT anyway. For Moodle we had one fixed
-scheme how to assign points to multiple choice items. We have now
-generalised this to a user-speciefied function that implements a
-particular multiple choice policy. Available policies are one wrong
-answer cancels all correct ones, one wrong cancels one correct,
-etc. Thanks a lot for your question which led to a much more elegant
-solution.
-
-FIXME-FL or NU
-Describe policies in paper (after implementation)
-
-FIXME-FL
-One idea could be to have a generic \verb|\exextra{}{}| command for passing extra
-metainformation to systems like Moodle, e.g., \verb|\exextra{answernumbering}{ABCD}|.
-Alternatively, we could of course extend the set of \verb|\ex*{}| commands, e.g.,
-\verb|\exanswernumbering{ABCD}| but the drawback would be that these are only recognized
-by some interfaces and it would be hard to anticipate all potential tags
-we may need in the future.
-
-But maybe, Fritz, you have a better suggestion based on your experiences at Boku?
-
-F: I currently don't need more tags beyond what we have in
-\verb|read_metainfo|, and certainly not answernumbering. But \verb|\exextra| could
-make a lot of sense, because one could very quickly use an extra
-option for a particular driver $\rightarrow$ on 2do list for future versions?
-Implement without using seems silly to me.
+Thank you for this suggestion. There are indeed many more possibilities
+for assigning points to multiple-choice questions than we had implemented
+originally. Now we have implemented a range of different strategies
+both for QTI~1.2/OLAT and Moodle. These are described in detail in
+Appendix~B and on the manual page \verb|?exams2qti12|.
 
 
 \item {\it
