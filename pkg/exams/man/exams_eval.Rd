@@ -4,7 +4,7 @@
 \title{Auxiliary Tools for Evaluating Exams}
 
 \description{
-  Generate various helper functions for evaluating exams.
+  Generation various helper functions for evaluating exams.
 }
 
 \usage{
@@ -24,21 +24,22 @@ exams_eval(partial = TRUE, negative = FALSE,
 
 \details{
   The function \code{exams_eval} is a convenience wrapper for specifying
-  various types of evaluation policies.
+  various types of evaluation policies. It returns a set of auxiliary
+  functions that may be useful in the evaluation of exams.
   
   Exercises of types \code{"num"} or \code{"string"} can essentially be
   just correct or wrong. In the former case they will give 100 percent of
   all points, in the latter either 0 percent or some negative percentage
   can be assigned. If negative percentages are used (e.g., \code{negative = 0.25}),
-  then it should be distinguished between solved incorrectly and not attempted
+  then it needs to be distinguished between solved incorrectly and not attempted
   to solve (which should yield 0 percent).
   
   However, for multiple-choice answers the evaluation policy can either
-  pertain to the answer pattern as a whole (which can be correct or wrong)
+  pertain to the answer pattern as a whole (which can be correct or wrong, see above)
   or it can employ a partial credit strategy. In the latter case, each
   selected correct choice will yield the fraction 1/ncorrect of points.
-  When an incorrect choice is selected, it should give negative points.
-  Four strategies are currently implemented: \code{"false"} uses
+  When an incorrect choice is selected, it should lead to negative points.
+  Five strategies are currently implemented: \code{"false"} uses
   1/nwrong while \code{"false2"} uses 1/max(nwrong, 2);
   \code{"true"} uses 1/ncorrect (so that each wrong selection cancels
   one correct selection); \code{"all"} uses 1 (so that a single wrong
@@ -48,6 +49,25 @@ exams_eval(partial = TRUE, negative = FALSE,
   a lower bound can be set: \code{negative = TRUE} sets no bound while
   \code{negative = FALSE} sets the bound to zero. Any other numeric
   value could be set as well, e.g., \code{negative = 0.25}.
+  
+  The functions returned by \code{exams_eval} internally just distinguish
+  between \code{num}, \code{string}, and \code{mchoice} answers.
+  Thus, if evaluations for \code{schoice} or \code{cloze} exercises are
+  required, these have to be built by appropriately reusing the building
+  blocks for \code{num}/\code{string}/\code{mchoice}. For example, 
+  the components of \code{cloze} exercises have to be evaluated individually
+  and then aggregated as desired. Or, if a distinction between \code{mchoice}
+  and \code{schoice} regarding partial credits is needed, one evaluation
+  has to be set up with \code{partial = TRUE} and the other with
+  \code{partial = FALSE}.
+
+  Thus, \code{exams_eval} might not give the complete finished evaluation
+  policy for an entire exam but supplies the most important building blocks
+  for setting this up \dQuote{by hand}.  
+  Internally, \code{exams_eval} is also used by
+  \code{\link[exams]{exams2moodle}} and \code{\link[exams]{exams2qti12}}
+  for writing the evaluation specifications in the respective XML
+  specifications.
 }
 
 \value{
@@ -57,11 +77,11 @@ exams_eval(partial = TRUE, negative = FALSE,
   \item{checkanswer}{function with arguments
     \code{(correct}, \code{answer}, and \code{tolerance = 0}.
     It checks whether \code{answer} (sufficiently) matches
-    \code{answer} or not. It returns 1 for correct, -1 for wrong
-    and 0 for not attempted. In case of \code{partial = TRUE}, the
+    \code{correct} or not. It returns \code{1} for correct, \code{-1}
+    for wrong and \code{0} for not attempted. In case of \code{partial = TRUE}, the
     functions returns a vector for multiple-choice questions.}
   \item{pointvec}{function with argument \code{correct = NULL}.
-    It computes the point vector for correct and wrong answers,
+    It computes the vector of points for correct and wrong answers,
     respectively.}
   \item{pointsum}{function with arguments
     \code{(correct}, \code{answer}, and \code{tolerance = 0}.
@@ -69,14 +89,13 @@ exams_eval(partial = TRUE, negative = FALSE,
 }
 
 \seealso{
-  \code{\link[exams]{exams2html}},
-  \code{\link[exams]{exams2pdf}},
   \code{\link[exams]{exams2moodle}},
   \code{\link[exams]{exams2qti12}}
 }
 
 \examples{
-## evaluation policy: partial = FALSE, negative = FALSE
+## binary evaluation policy with solutions being either correct
+## or wrong: partial = FALSE, negative = FALSE
 ee <- exams_eval(partial = FALSE, negative = FALSE)
 
 ## points that can be achieved are 0/1
@@ -126,11 +145,13 @@ ee$pointsum("10000", NA)
 ee$pointsum(1.23, 1.23)
 ee$pointsum(1.23, 2.34)
 ee$pointsum(1.23, NA)
+ee$pointsum(1.23, 1.24)
+ee$pointsum(1.23, 1.24, tolerance = 0.1)
 
 ## ---------------------------------------------------------
-## evaluation policy with partial points
+## default evaluation policy with partial points
 ## (but without negative points overall)
-ee <- exams_eval(partial = TRUE)
+ee <- exams_eval()
 
 ## points that can be achieved are 1/3 (1/#true)
 ## or -1/2 (1/#false)
