@@ -14,7 +14,7 @@ tth(x, \dots, fixup = TRUE, Sweave = TRUE)
 ttm(x, \dots, fixup = TRUE, Sweave = TRUE)
 
 tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
-  i = FALSE, j = NULL, L = NULL, n = NULL, p = NULL, r = TRUE,
+  i = FALSE, j = NULL, L = TRUE, n = NULL, p = NULL, r = TRUE,
   t = FALSE, u = FALSE, w = NULL, y = 2, xmakeindxcmd = NULL, v = FALSE)
 }
 \arguments{
