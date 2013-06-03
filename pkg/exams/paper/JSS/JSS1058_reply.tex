@@ -1,14 +1,16 @@
-\documentclass[a4paper]{article}
-\usepackage{a4wide}
-\renewcommand{\rmdefault}{phv}
-\renewcommand{\sfdefault}{phv}
+\documentclass[american]{uibkletter}
 
 \begin{document}
 
-\noindent
-Dear editors and reviewers,
+\begin{letter}{
+Journal of Statistical Software\\
+University of California, Los Angeles\\
+United States of America}
 
-\noindent
+\concerning{JSS 1058 revision}
+
+\opening{Dear editors and reviewers,}
+
 thank you for the constructive and helpful feedback on our \textbf{exams}
 package and manuscript
 ``Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond''.
@@ -18,7 +20,7 @@ manuscript. The major changes are the following:
   \item Support of encodings (UTF-8, ISO-8859-1/15, etc.)
         in \texttt{exams2}\emph{xyz}\texttt{()}.
 
-  \item A new functions \verb|exams_skeleton()| (described in Section~2.3)
+  \item A new function \verb|exams_skeleton()| (described in Section~2.3)
         that helps to set up exercises and templates along with a demo
 	script in a new directory.
 
@@ -30,11 +32,10 @@ manuscript. The major changes are the following:
 We hope that this addresses all concerns of the previous version.
 
 
-\noindent
-Best regards,
+\closing{Best regards,}
 
-\noindent
-Achim, Niki, Fritz
+
+\end{letter}
 
 \newpage
 
@@ -219,7 +220,7 @@ the following error: `no \verb|\exsolution{}| specified'
 
 \item {\it
 After correcting this error `\texttt{exams2moodle}' complained about ``Error in
-\texttt{if (x[n] == sep) return(x[-n])} : Argument has length 0''.}
+\texttt{if (x[n] == sep)}\linebreak \texttt{return(x[-n])} : Argument has length 0''.}
 
 Sorry, we were not able to replicate this problem with the information provided
 and hence were not able to fix it.
