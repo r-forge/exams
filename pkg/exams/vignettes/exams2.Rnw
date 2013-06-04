@@ -348,7 +348,7 @@ The resulting output files are stored along with the extracted metainformation i
 dir(odir)
 @
 More details on basic usage and more advanced customization of this function are
-provided by \cite{exams:Gruen+Zeileis:2009}, als provided in an updated version as
+provided by \cite{exams:Gruen+Zeileis:2009}, also provided in an updated version as
 \code{vignette("exams", package = "exams")}. The latter also discusses some small changes
 and enhancements made for \code{exams()} (and \code{exams2pdf()}, respectively).
 An overview of the most important arguments that are also shared by the version~2 interfaces
@@ -980,24 +980,24 @@ about the remaining customization arguments are provided on the manual page and 
 <html>
 
 <head>
-<title>Exam ##id</title>
+<title>Exam ##ID##</title>
 <style type="text/css">
 body{font-family:Arial;}
 </style>
 </head>
 
 <body>
-<h2>Exam ##id</h2>
+<h2>Exam ##ID##</h2>
 
-##\exinput{exercises}
+##\exinput{exercises}##
 
 </body>
 </html>
 \end{Code}
 \hrulefill
 \caption{\label{fig:plain.html} Default HTML \code{template} file \texttt{plain.html} employed in
-  \texttt{make\_exams\_write\_html()}. Elements marked by \texttt{\#\#} are being replaced in each
-  replication of the exam.}
+  \texttt{make\_exams\_write\_html()}. Elements marked by \texttt{\#\#...\#\#} are being replaced in
+  each replication of the exam.}
 \end{figure}
 
 For HTML output files, a similar driver generator is available:
@@ -1008,8 +1008,8 @@ For HTML output files, a similar driver generator is available:
 \end{Code}
 This is employed in \code{exams2html()} and is also based on a \code{template}. By default the \code{plain.html}
 file is used that is provided within \pkg{exams} and shown in Figure~\ref{fig:plain.html}. This contains placeholders marked with
-\verb|##| that are to be replaced in each randomly drawn exam. The \verb|##id| is simply replaced with a
-numeric ID ($1, \dots, \mathtt{n}$) and \verb|##\exinput{exercises}| is replaced by an ordered list (\code{<ol>}) containing
+\verb|##...##| that are to be replaced in each randomly drawn exam. The \verb|##ID##| is simply replaced with a
+numeric ID ($1, \dots, \mathtt{n}$) and \verb|##\exinput{exercises}##| is replaced by an ordered list (\code{<ol>}) containing
 the question/solution. If the \code{question} and \code{solution} arguments to \code{make_exams_write_html()}
 are character strings, these are added as titles in the list. Alternatively, either argument can also
 be set to \code{FALSE} which avoids inclusion of the corresponding element of the exercise in the
@@ -1105,10 +1105,10 @@ whereas the latter also has control options for the whole exam (or assessment).
 Therefore, the XML specification is somewhat more complex. Hence, \code{exams2qti12()}
 also takes a \code{template} argument that is by default set to the \code{qti12.xml}
 file provided within \pkg{exams}. The template must contain exactly one \code{<section>}
-with exactly one \code{<item>} with a placeholder \verb|##ItemBody|. Then,
+with exactly one \code{<item>} with a placeholder \verb|##ItemBody##|. Then,
 \code{exams2qti12()} reads the template, replicates the \code{<section>} for each exercise,
 replicates the \code{<item>} \code{n} times within each \code{<section>}, and then
-inserts the \verb|##ItemBody| with the XML transformation functions for \code{num},
+inserts the \verb|##ItemBody##| with the XML transformation functions for \code{num},
 \code{mchoice}, etc.
 
 Similar to \code{exams2moodle()}, one can specify the \code{points} for each
