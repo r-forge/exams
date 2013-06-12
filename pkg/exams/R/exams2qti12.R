@@ -428,8 +428,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## evaluate points
     pv <- eval$pointvec(if(x$metainfo$type != "cloze") {
-        solution[[i]]
-      } else paste(rep("01", length = length(solution)), collapse = "", sep = ""))
+      solution[[i]]
+    } else paste(rep("01", length = length(solution)), collapse = "", sep = ""))
     if(eval$partial) {
       pv <- pv * points
     }
@@ -455,7 +455,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    correct_answers <- wrong_answers <- NULL
+    correct_answers <- wrong_answers <- correct_answers_num_tol <- NULL
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
@@ -490,20 +490,38 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
               } else {
-                c(
+                paste(c(
+                  '<or>', '<and>',
                   paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] - max(tol[[i]]),
                     ']]></vargte>', sep = ""),
                   paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] + max(tol[[i]]),
-                    ']]></varlte>', sep = "")
-                )
+                    ']]></varlte>', sep = ""),
+                  '</and>', 
+                  paste('<varequal respident="', ids[[i]]$response,
+                    '" case="No"><![CDATA[', if(!is.null(digits)) {
+                      format(round(solution[[i]][j], digits), nsmall = digits)
+                    } else solution[[i]][j],
+                  ']]></varequal>', sep = ""),
+                  '</or>'
+                 )
+                , collapse = '\n')
               }
             )
+            if(tolerance) {
+              correct_answers_num_tol <- c(correct_answers_num_tol,
+                paste('<varequal respident="', ids[[i]]$response,
+                  '"><![CDATA[', if(!is.null(digits)) {
+                    format(round(solution[[i]][j], digits), nsmall = digits)
+                  } else solution[[i]][j],
+                  ']]></varequal>', sep = ""))
+            }
           }
         }
       }
     }
+
     ## partial points
     if(eval$partial) {
       if(length(correct_answers)) {
@@ -571,7 +589,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(!eval$partial) {
         paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '')
       } else NULL,
-      paste('<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>', sep = ''),
+      '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
       '</respcondition>'
     )
 
