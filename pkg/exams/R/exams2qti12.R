@@ -284,7 +284,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), force_num_display = TRUE)
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num_display = TRUE)
 {
   function(x) {
     ## how many points?
@@ -490,7 +490,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
               } else {
-                if(force_num_display) {
+                if(fix_num_display) {
                   correct_num <- c(correct_num,
                     paste('<varequal respident="', ids[[i]]$response,
                       '" case="No"><![CDATA[', if(!is.null(digits)) {
@@ -500,14 +500,14 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   )
                 }
                 paste(
-                  '<and>',
+                  '<and>\n',
                   paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] - max(tol[[i]]),
-                    ']]></vargte>', sep = ""),
+                    ']]></vargte>\n', sep = ""),
                   paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] + max(tol[[i]]),
-                    ']]></varlte>', sep = ""),
-                  '</and>', collapse = '\n'
+                    ']]></varlte>\n', sep = ""),
+                  '</and>', collapse = '\n', sep = ''
                 )
               }
             )
@@ -568,12 +568,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml,
       '<respcondition title="Mastery" continue="Yes">',
       '<conditionvar>',
-      '<and>'
+      if(length(correct_answers) > 1) '<and>' else NULL
     )
 
     xml <- c(xml,
       correct_answers,
-      '</and>',
+      if(length(correct_answers) > 1) '</and>' else NULL,
       if(!is.null(wrong_answers)) {
         c('<not>', '<or>', wrong_answers, '</or>', '</not>')
       } else {
@@ -608,7 +608,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<conditionvar>',
       if(!is.null(wrong_answers)) NULL else '<not>',
       if(is.null(wrong_answers)) {
-        c('<and>', correct_answers, '</and>')
+        c(if(length(correct_answers) > 1) '<and>' else NULL,
+          correct_answers,
+          if(length(correct_answers) > 1) '</and>' else NULL)
       } else {
         c('<or>', wrong_answers, '</or>')
       },
@@ -622,17 +624,29 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     )
 
 
-    ## in all other cases also show solution
+    ## handle all other cases
     xml <- c(xml,
       '<respcondition title="Fail" continue="Yes">',
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      if(!eval$partial) paste('<setvar varname="SCORE" action="Set">', pv["neg"], '</setvar>', sep = '') else NULL,
+      paste('<setvar varname="SCORE" action="Set">', if(!eval$partial) pv["neg"] else 0, '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-      '</respcondition>',
-      '</resprocessing>'
+      '</respcondition>'
     )
+
+    ## handle unanswered cases
+#    xml <- c(xml,
+#      '<respcondition title="Fail" continue="Yes">',
+#      '<conditionvar>',
+#      '<unanswered/>',
+#      '</conditionvar>',
+#      '<setvar varname="SCORE" action="Set">0</setvar>',
+#      '</respcondition>'
+#    )
+
+    ## end of response processing
+    xml <- c(xml, '</resprocessing>')
 
     attr(xml, "enumerate") <- enumerate
 

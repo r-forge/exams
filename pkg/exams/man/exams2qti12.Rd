@@ -30,7 +30,7 @@
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    force_num_display)
+    fix_num_display)
 }
 
 \arguments{
@@ -97,7 +97,7 @@
   \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
     fields. The actual number of characters is selected as the maximum number of
     characters of this value and the actual solution.}
-  \item{force_num_display}{logical. This is a special flag ton enable/force the dipslay of the
+  \item{fix_num_display}{logical. This is a special flag ton enable/force the dipslay of the
     correct solutions for numeric exercises/answers. Note that this is a workaround, which works
     e.g. within OLAT.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
