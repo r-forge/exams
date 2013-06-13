@@ -284,7 +284,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE))
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), force_num_display = TRUE)
 {
   function(x) {
     ## how many points?
@@ -455,7 +455,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    correct_answers <- wrong_answers <- correct_answers_num_tol <- NULL
+    correct_answers <- wrong_answers <- correct_num <- NULL
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
@@ -490,33 +490,27 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
               } else {
-                paste(c(
-                  '<or>', '<and>',
+                if(force_num_display) {
+                  correct_num <- c(correct_num,
+                    paste('<varequal respident="', ids[[i]]$response,
+                      '" case="No"><![CDATA[', if(!is.null(digits)) {
+                      format(round(solution[[i]][j], digits), nsmall = digits)
+                      } else solution[[i]][j],
+                      ']]></varequal>', sep = "")
+                  )
+                }
+                paste(
+                  '<and>',
                   paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] - max(tol[[i]]),
                     ']]></vargte>', sep = ""),
                   paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] + max(tol[[i]]),
                     ']]></varlte>', sep = ""),
-                  '</and>', 
-                  paste('<varequal respident="', ids[[i]]$response,
-                    '" case="No"><![CDATA[', if(!is.null(digits)) {
-                      format(round(solution[[i]][j], digits), nsmall = digits)
-                    } else solution[[i]][j],
-                  ']]></varequal>', sep = ""),
-                  '</or>'
-                 )
-                , collapse = '\n')
+                  '</and>', collapse = '\n'
+                )
               }
             )
-            if(tolerance) {
-              correct_answers_num_tol <- c(correct_answers_num_tol,
-                paste('<varequal respident="', ids[[i]]$response,
-                  '"><![CDATA[', if(!is.null(digits)) {
-                    format(round(solution[[i]][j], digits), nsmall = digits)
-                  } else solution[[i]][j],
-                  ']]></varequal>', sep = ""))
-            }
           }
         }
       }
@@ -592,6 +586,21 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
       '</respcondition>'
     )
+
+    ## force display of correct answers of num exercises
+    if(length(correct_num)) {
+      for(j in correct_num) {
+        xml <- c(xml,
+          '<respcondition continue="Yes" title="Mastery">',
+          '<conditionvar>',
+          j,
+          '</conditionvar>',
+          paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
+          paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = ''),
+          '</respcondition>'
+        )
+      }
+    }
 
     ## handling incorrect answers
     xml <- c(xml,
