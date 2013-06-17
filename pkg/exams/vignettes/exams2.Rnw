@@ -337,7 +337,7 @@ x1 <- exams(myexam, n = 3, dir = odir, template = c("exam", "solution"))
 The \code{myexam} list contains five exercises: the first one is always \code{boxplots.Rnw}
 while the second exercise is randomly drawn from \code{confint.Rnw}, \code{ttest.Rnw},
 \code{tstat.Rnw}, and so on for the remaining exercises. Then, \code{exams()} is used to draw
-\code{n = 5} random exams and produce one exam and one solution PDF for each. The \code{template}
+\code{n = 3} random exams and produce one exam and one solution PDF for each. The \code{template}
 argument takes names of {\LaTeX} files which provide the {\LaTeX} headers and footers.
 These templates can be used to create a title page with a questionnaire form (for student
 name, id, signature, etc.), show or suppress solutions, and set further formatting details.
