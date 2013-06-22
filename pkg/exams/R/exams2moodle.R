@@ -1,7 +1,7 @@
 ## generate exams in Moodle 2.3 .xml format
 ## http://docs.moodle.org/23/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding="", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
@@ -17,7 +17,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
          resolution = resolution, width = width, height = height,
          encoding = encoding),
        read = NULL, transform = htmltransform, write = NULL),
-     dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
 
   ## get the possible moodle question body functions and options
   moodlequestion = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)

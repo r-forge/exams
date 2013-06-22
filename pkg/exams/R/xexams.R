@@ -1,7 +1,9 @@
 xexams <- function(file, n = 1L, nsamp = NULL,
   driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
-  dir = ".", edir = NULL, tdir = NULL, sdir = NULL)
+  dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE)
 {
+  if(verbose) cat("Exams generation initialized.\n\n")
+
   ## process driver
   if(is.null(driver$sweave)) {
     driver$sweave <- function(f) Sweave(f, quiet = TRUE)
@@ -30,6 +32,10 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   dir_supp <- if(is.null(sdir)) tempfile() else sdir
   if(!file.exists(dir_supp) && !dir.create(dir_supp))
     stop(gettextf("Cannot create temporary work directory '%s'.", dir_supp))
+  if(verbose) {
+    cat(sprintf("Supplement directory: %s\n", dir_supp))
+    cat(sprintf("Temporary directory: %s\n", dir_temp))
+  }
   
   ## number of available exercises in each element of 'file'
   ## and number of selected samples per element
@@ -60,6 +66,9 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_path <- ifelse(!is.na(file_path), file_path, file.path(dir_pkg, "exercises", file_Rnw))
   if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
     paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))
+  if(verbose) {
+    cat(sprintf("Exercises: %s\n", paste(file_base, collapse = ", ")))
+  }
 
   sample_id <- function() unlist(lapply(unique(file_id), function(i) {
     wi <- file_id == i
@@ -81,7 +90,10 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   names(exm) <- paste("exam", formatC(1L:n, width = floor(log10(n)) + 1L, flag = "0"), sep = "")
   
   ## cycle through exams: call Sweave, read LaTeX, store supplementary files
+  if(verbose) cat("\nGeneration of individual exams.")
   for(i in 1L:n) {
+  
+    if(verbose) cat(paste("\n", format(c(i, n))[1L], ":", sep = ""))
   
     ## sub-directory for supplementary files
     dir_supp_i <- file.path(dir_supp, names(exm)[i])
@@ -97,12 +109,13 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## id of exercise within full list of files
       idj <- id[j]
+      if(verbose) cat(paste(" ", file_base[idj], if(j < m) " /" else "", sep = ""))
 
       ## sub-directory for supplementary files
       dir_supp_ij <- file.path(dir_supp_i, names(exm[[i]])[j])
       if(!dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
 
-      ## dirver: Sweave
+      ## driver: Sweave
       driver$sweave(file_Rnw[idj])
 
       ## driver: read LaTeX file
@@ -120,6 +133,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       ## driver: transform exercise (e.g., LaTeX -> HTML)
       if(!is.null(driver$transform)) exm[[i]][[j]] <- driver$transform(exm[[i]][[j]])
     }
+
+    if(verbose) cat(" ... done.")
 
     ## driver: write output for each exam
     if(!is.null(driver$write)) driver$write(exm[[i]], dir = dir, info = list(id = i, n = n)) ## FIXME: do we need further information?

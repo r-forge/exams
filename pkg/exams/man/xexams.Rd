@@ -12,7 +12,7 @@
 \usage{
   xexams(file, n = 1L, nsamp = NULL,
     driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
-    dir = ".", edir = NULL, tdir = NULL, sdir = NULL)
+    dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE)
   exams_metainfo(x, \dots)
 }
 
@@ -39,6 +39,8 @@
     this is chosen via \code{\link[base]{tempdir}}.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
+  \item{verbose}{logical. Should information on progress of exam generation
+    be reported?}
   \item{x}{a list as returned by \code{xexams}.}
   \item{\dots}{currently not used.}
 }

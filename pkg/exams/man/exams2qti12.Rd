@@ -11,8 +11,8 @@
 \usage{
   exams2qti12(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
-    tdir = NULL, sdir = NULL, resolution = 100,
-    width = 4, height = 4, encoding = "",
+    tdir = NULL, sdir = NULL, verbose = FALSE,
+    resolution = 100, width = 4, height = 4, encoding = "",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti12", duration = NULL,
@@ -51,6 +51,8 @@
     this is chosen via \code{\link[base]{tempdir}}.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
+  \item{verbose}{logical. Should information on progress of exam generation
+    be reported?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[utils]{Sweave}}.}
   \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}

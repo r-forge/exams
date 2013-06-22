@@ -11,7 +11,8 @@
 \usage{
   exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = "plain", 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
-    control = NULL, encoding = "", quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL)
+    control = NULL, encoding = "", quiet = TRUE, edir = NULL, tdir = NULL,
+    sdir = NULL, verbose = FALSE)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, quiet = TRUE,
@@ -50,6 +51,8 @@
     this is chosen via \code{\link[base]{tempdir}}.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
+  \item{verbose}{logical. Should information on progress of exam generation
+    be reported?}
 }
 
 \details{

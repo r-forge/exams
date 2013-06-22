@@ -1,5 +1,5 @@
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
   mathjax = FALSE, resolution = 100, width = 4, height = 4, encoding = "", ...)
 {
@@ -27,7 +27,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain"
       resolution = resolution, width = width, height = height,
                   encoding = encoding),
       read = NULL, transform = htmltransform, write = htmlwrite),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir)
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
 
   ## display single .html on the fly
   if(display) {

@@ -1,3 +1,18 @@
+Changes in Version 1.9-7
+
+  o Added verbose = FALSE option to xexams() and exams2xyz() interfaces.
+    If set to TRUE, progress information on the exam generation is
+    printed.
+
+  o Added fix_num_display = FALSE option in exams2qti12() interface.
+    Because OLAT does not display the correct answer of response_num
+    items with tolerances (vargt/varlt), a workaround was added.
+    In addition to the version with tolerances an exact equality
+    is checked (varequal), adding and removing a 0.00001 points.
+    Thus, evaluation of the exams is not affected by the display
+    in OLAT is fixed.
+
+
 Changes in Version 1.9-6
 
   o Changed tests/encodings.R to use 'encoding = "Latin-9"' (rather

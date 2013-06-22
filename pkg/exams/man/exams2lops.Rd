@@ -10,8 +10,8 @@
 
 \usage{
   exams2lops(file, n = 1L, nsamp = NULL, dir = ".", name = NULL, 
-    quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, solution = TRUE, 
-    doctype = NULL, head = NULL, resolution = 100, width = 4, 
+    quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+    solution = TRUE, doctype = NULL, head = NULL, resolution = 100, width = 4, 
     height = 4,  encoding = "", converter = "tex2image", base64 = FALSE,
     auto_scramble = TRUE, \dots)
 
@@ -36,6 +36,8 @@
     this is chosen via \code{\link[base]{tempdir}}.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
+  \item{verbose}{logical. Should information on progress of exam generation
+    be reported?}
   \item{solution}{logical. Should the solution be included in the HTML
     output?}
   \item{doctype}{character vector with a DOCTYPE tag for the HTML page.
