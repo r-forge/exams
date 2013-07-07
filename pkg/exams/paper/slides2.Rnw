@@ -404,23 +404,23 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Exams: QTI~1.2 for \pkg{OLAT}}
-
-\textbf{Caveats:} When using exams generated for \pkg{OLAT}.
-\begin{itemize}
-  \item The text describing the correct solution can only be shown immediately after
-    entering a wrong solution but not after completing the whole exam.    
-  \item Numeric exercises are not officially supported by \pkg{OLAT}. They do
-    work correctly (with tolerance ranges) but the correct solution is never shown.
-    Hence, by default text matching (with a specific precision and without tolerance ranges)
-    is employed.
-  \item Spaces between columns in matrices have to be enlarged because \pkg{OLAT}
-    otherwise collapses them.
-  \item Editing of exercises within \pkg{OLAT} does not work.
-\end{itemize}
-
-\end{frame}
+%% \begin{frame}[fragile]
+%% \frametitle{Exams: QTI~1.2 for \pkg{OLAT}}
+%% 
+%% \textbf{Caveats:} When using exams generated for \pkg{OLAT}.
+%% \begin{itemize}
+%%   \item The text describing the correct solution can only be shown immediately after
+%%     entering a wrong solution but not after completing the whole exam.    
+%%   \item Numeric exercises are not officially supported by \pkg{OLAT}. They do
+%%     work correctly (with tolerance ranges) but the correct solution is never shown.
+%%     Hence, by default text matching (with a specific precision and without tolerance ranges)
+%%     is employed.
+%%   \item Spaces between columns in matrices have to be enlarged because \pkg{OLAT}
+%%     otherwise collapses them.
+%%   \item Editing of exercises within \pkg{OLAT} does not work.
+%% \end{itemize}
+%% 
+%% \end{frame}
 
 
 \subsection{Discussion}
@@ -452,7 +452,8 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 
 \pkg{At Universit\"at Innsbruck:}
 \begin{itemize}
-  \item Mathematics course with \pkg{OLAT} support (summer/winter term 2012/13 combined: 3,000~participants).
+  \item Mathematics course with \pkg{OLAT} support (summer/winter term 2012/13 combined:
+    more than 3,000~participants).
   \item Team of about 10 persons (professors, lecturers, student assistants) contribute to the
     pool of exercises.
   \item During the semester, several online tests (and self tests) are carried out in
