@@ -474,7 +474,7 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 
 Zeileis A, Gr\"un B, Leisch F, Umlauf N (2013).
   \textit{\pkg{exams}: Automatic Generation of Exams in \proglang{R}.}
-  \proglang{R}~package version~1.9-5.
+  \proglang{R}~package version~1.9-6.
   URL~\url{http://CRAN.R-project.org/package=exams}
 
 \bigskip
