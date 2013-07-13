@@ -21,6 +21,7 @@ export(
   "read_exercise",
   "read_metainfo",
   "extract_command",
+  "extract_extra",
   "extract_environment",
   "extract_items",
 

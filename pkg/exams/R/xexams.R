@@ -93,7 +93,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   if(verbose) cat("\nGeneration of individual exams.")
   for(i in 1L:n) {
   
-    if(verbose) cat(paste("\n", format(c(i, n))[1L], ":", sep = ""))
+    if(verbose) cat(paste("\nExam ", format(c(i, n))[1L], ":", sep = ""))
   
     ## sub-directory for supplementary files
     dir_supp_i <- file.path(dir_supp, names(exm)[i])
@@ -109,16 +109,18 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## id of exercise within full list of files
       idj <- id[j]
-      if(verbose) cat(paste(" ", file_base[idj], if(j < m) " /" else "", sep = ""))
+      if(verbose) cat(paste(" ", file_base[idj], " (", sep = ""))
 
       ## sub-directory for supplementary files
       dir_supp_ij <- file.path(dir_supp_i, names(exm[[i]])[j])
       if(!dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
 
       ## driver: Sweave
+      if(verbose) cat("s")
       driver$sweave(file_Rnw[idj])
 
       ## driver: read LaTeX file
+      if(verbose) cat("r")
       exm[[i]][[j]] <- driver$read(file_tex[idj])
 
       ## infer and save supplements
@@ -131,14 +133,17 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       exm[[i]][[j]]$supplements <- structure(file.path(dir_supp_ij, sfile), names = sfile, dir = dir_supp_ij)
 
       ## driver: transform exercise (e.g., LaTeX -> HTML)
+      if(verbose) cat("t")
       if(!is.null(driver$transform)) exm[[i]][[j]] <- driver$transform(exm[[i]][[j]])
+      if(verbose) cat(")")
     }
 
-    if(verbose) cat(" ... done.")
-
     ## driver: write output for each exam
+    if(verbose) cat(" ... w")
     if(!is.null(driver$write)) driver$write(exm[[i]], dir = dir, info = list(id = i, n = n)) ## FIXME: do we need further information?
+    if(verbose) cat(" ... done.")
   }
+  if(verbose) cat("\n")
 
   invisible(exm)
 }

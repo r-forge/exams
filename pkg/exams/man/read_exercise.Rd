@@ -1,6 +1,7 @@
 \name{read_exercise}
 \alias{read_exercise}
 \alias{extract_command}
+\alias{extract_extra}
 \alias{extract_environment}
 \alias{extract_items}
 \alias{read_metainfo}
@@ -49,7 +50,8 @@
 
   \code{read_metainfo} returns a list with the following elements.
   Most elements may also be \code{NULL} (or empty) if the underlying
-  information is not specified in the \code{file}.
+  information is not specified in the \code{file}. If \code{file} specifies
+  extra information, there may also be additional list elements.
   \item{file}{character with file name (without extension) of the Sweave exercise
     template.}
   \item{type}{character indicating exercise type: \code{num}, \code{mchoice},
