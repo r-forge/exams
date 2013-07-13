@@ -56,7 +56,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
   ## which input types in template?
   input_types <- function(x) {
     x <- x[grep("\\exinput", x, fixed = TRUE)]
-    if(length(x) < 1L) stop("templates must specify at least one \\exinput{}")
+    if(length(x) < 1L) return(NULL) #was# stop("templates must specify at least one \\exinput{}")
     as.vector(sapply(strsplit(sapply(strsplit(x,
       paste("\\exinput{", sep = ""), fixed = TRUE), tail, 1L), "}"), head, 1L))
   }
