@@ -38,6 +38,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
 
 extract_extra <- function(x) {
   comm <- x[grep("\\exextra[", x, fixed = TRUE)]
+  if(length(comm) < 1L) return(list())
   comm <- sapply(strsplit(comm, "\\exextra[", fixed = TRUE), "[", 2L)
   comm <- sapply(strsplit(comm, "]", fixed = TRUE), "[", 1L)
   nam <- strsplit(comm, ",", fixed = TRUE)
