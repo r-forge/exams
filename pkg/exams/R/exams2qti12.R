@@ -324,6 +324,21 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(x$metainfo$type == "cloze" & is.null(eval$rule)) eval$rule <- "none"
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
+    ## character fields
+    maxchars <- if(is.null(x$metainfo$maxchars)) {
+      if(is.null(dim(maxchars))) {
+        tmp <- if(length(maxchars) < 2) {
+           c(maxchars, NA, NA)
+        } else maxchars[1:3]
+        maxchars <- NULL
+        for(i in 1:n) maxchars <- rbind(maxchars, tmp)
+        rownames(maxchars) <- 1:n
+        colnames(maxchars) <- c("nchar", "ncol", "nrow")
+        maxchars
+      }
+    } else x$metainfo$maxchars
+    stopifnot(all(dim(maxchars) %in% c(n, 3)))
+
     ## start item presentation
     ## and insert question
     xml <- c(
@@ -405,11 +420,16 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             paste(if(type[i] == "string") '<response_str ident="' else {
               if(!tolerance) '<response_str ident="' else '<response_num ident="'
               }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
-            paste('<render_fib maxchars="', maxchars <- if(type[i] == "string") {
-                max(c(nchar(soltext), maxchars))
-              } else {
-                max(c(nchar(soltext), maxchars))
-              }, '" columns="', maxchars, '">', sep = ''),
+            paste('<render_fib',
+              if(!is.na(maxchars[i, 1])) {
+                paste(' maxchars="', max(c(nchar(soltext), maxchars[i, 1])), sep = '')
+              } else NULL,
+              if(!is.na(maxchars[i, 2])) {
+                paste(' rows="', maxchars[i, 2], sep = '')
+              } else NULL,
+              if(!is.na(maxchars[i, 3])) {
+                paste(' columns="', maxchars[i, 3], sep = '')
+              } else NULL, '">', sep = ''),
             '<flow_label class="Block">',
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
             '</flow_label>',
