@@ -309,8 +309,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     } else x$metainfo$tolerance
     tol <- rep(tol, length.out = n)
 
+    q_points <- rep(points, length.out = n)
     if(x$metainfo$type == "cloze")
-      points <- sum(rep(points, length.out = n))
+      points <- sum(q_points)
 
     ## set question type(s)
     type <- x$metainfo$type
@@ -358,7 +359,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     )
 
     ## insert responses
-    ids <- el <- list()
+    ids <- el <- pv <- list()
     for(i in 1:n) {
       ## get item id
       iid <- x$metainfo$id
@@ -366,6 +367,14 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       ## generate ids
       ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
         "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
+
+      ## evaluate points for each question
+      pv[[i]] <- eval$pointvec(solution[[i]])
+      if(eval$partial) {
+        pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
+        if(length(grep("choice", type[i])))
+          pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
+      }
 
       ## insert choice type responses
       if(length(grep("choice", type[i]))) {
@@ -446,21 +455,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## finish presentation
     xml <- c(xml, '</flow>', '</presentation>')
 
-    ## evaluate points
-    pv <- eval$pointvec(if(x$metainfo$type != "cloze") {
-      solution[[i]]
-    } else paste(rep("01", length = length(solution)), collapse = "", sep = ""))
-    if(eval$partial) {
-      pv <- pv * points
-    }
-
     if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
       if(eval$negative) {
-        minvalue <- if(grepl("choice", type[i]) & x$metainfo$type != "cloze") {
-           sum(pv["neg"] * 1 * (if(eval$partial) !solution[[i]] else 1))
-        } else {
-          if(x$metainfo$type != "cloze") pv["neg"] else pv["neg"] * if(eval$partial) length(solution) else 1
-        }
+        minvalue <- sum(sapply(pv, function(x) { x["neg"] }))
       } else minvalue <- 0
     }
 
@@ -475,17 +472,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    correct_answers <- wrong_answers <- correct_num <- NULL
+    correct_answers <- wrong_answers <- correct_num <- vector(mode = "list", length = n)
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
           if(solution[[i]][j]) {
-            correct_answers <- c(correct_answers,
+            correct_answers[[i]] <- c(correct_answers[[i]],
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
             )
           } else {
-            wrong_answers <- c(wrong_answers,
+            wrong_answers[[i]] <- c(wrong_answers[[i]],
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
             )
@@ -498,11 +495,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             soltext <- if(!is.character(solution[[i]][j])) {
               format(round(solution[[i]][j], digits), nsmall = digits)
             } else solution[[i]][j]
-            correct_answers <- c(correct_answers, paste('<varequal respident="', ids[[i]]$response,
+            correct_answers[[i]] <- c(correct_answers[[i]], paste('<varequal respident="', ids[[i]]$response,
               '" case="No"><![CDATA[', soltext, ']]></varequal>', sep = "")
             )
           } else {
-            correct_answers <- c(correct_answers,
+            correct_answers[[i]] <- c(correct_answers[[i]],
               if(!tolerance) {
                 paste('<varequal respident="', ids[[i]]$response,
                   '" case="No"><![CDATA[', if(!is.null(digits)) {
@@ -511,7 +508,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   ']]></varequal>', sep = "")
               } else {
                 if(fix_num_display) {
-                  correct_num <- c(correct_num,
+                  correct_num[[i]] <- c(correct_num[[i]],
                     paste('<varequal respident="', ids[[i]]$response,
                       '" case="No"><![CDATA[', if(!is.null(digits)) {
                       format(round(solution[[i]][j], digits), nsmall = digits)
@@ -534,52 +531,73 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           }
         }
       }
+      if(!is.null(correct_answers[[i]])) {
+        attr(correct_answers[[i]], "points") <- pv[[i]]
+        attr(correct_answers[[i]], "type") <- type[i]
+      }
+      if(!is.null(wrong_answers[[i]]))
+        attr(wrong_answers[[i]], "points") <- pv[[i]]
     }
+
+    ## delete NULL list elements
+    correct_answers <- delete.NULLs(correct_answers)
+    wrong_answers <- delete.NULLs(wrong_answers)
+    correct_num <- unlist(delete.NULLs(correct_num))
 
     ## partial points
     if(eval$partial) {
       if(length(correct_answers)) {
-        for(j in correct_answers) {
-          xml <- c(xml,
-            '<respcondition continue="Yes" title="Mastery">',
-            '<conditionvar>',
-            j,
-            '</conditionvar>',
-            paste('<setvar varname="SCORE" action="Add">', pv["pos"], '</setvar>', sep = ''),
-            '</respcondition>'
-          )
+        for(i in seq_along(correct_answers)) {
+          for(j in correct_answers[[i]]) {
+            xml <- c(xml,
+              '<respcondition continue="Yes" title="Mastery">',
+              '<conditionvar>',
+              j,
+              '</conditionvar>',
+              paste('<setvar varname="SCORE" action="Add">',
+                attr(correct_answers[[i]], "points")["pos"], '</setvar>', sep = ''),
+              '</respcondition>'
+            )
+          }
         }
       }
       if(length(wrong_answers)) {
-        for(j in wrong_answers) {
-          xml <- c(xml,
-            '<respcondition continue="Yes" title="Fail">',
-            '<conditionvar>',
-            j,
-            '</conditionvar>',
-            paste('<setvar varname="SCORE" action="Add">', pv["neg"], '</setvar>', sep = ''),
-            '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-            '</respcondition>'
-          )
+        for(i in seq_along(wrong_answers)) {
+          for(j in wrong_answers[[i]]) {
+            xml <- c(xml,
+              '<respcondition continue="Yes" title="Fail">',
+              '<conditionvar>',
+              j,
+              '</conditionvar>',
+              paste('<setvar varname="SCORE" action="Add">',
+                attr(wrong_answers[[i]], "points")["neg"], '</setvar>', sep = ''),
+              '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+              '</respcondition>'
+            )
+          }
         }
       }
     }
 
     ## partial cloze incorrect num string answers
     if(eval$partial & x$metainfo$type == "cloze") {
-      for(i in 1:n) {
-        if(type[i] == "string" || type[i] == "num") {
-          xml <- c(xml,
-            '<respcondition title="Fail" continue="Yes">',
-            '<conditionvar>',
-            '<not>',
-            correct_answers[i],
-            '</not>',
-            '</conditionvar>',
-            paste('<setvar varname="SCORE" action="Add">', pv["neg"], '</setvar>', sep = ''),
-            '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-            '</respcondition>'
-          )
+      if(length(correct_answers)) {
+        for(i in seq_along(correct_answers)) {
+          ctype <- attr(correct_answers[[i]], "type")
+          if(ctype == "string" || ctype == "num") {
+            xml <- c(xml,
+              '<respcondition title="Fail" continue="Yes">',
+              '<conditionvar>',
+              '<not>',
+              correct_answers[[i]],
+              '</not>',
+              '</conditionvar>',
+              paste('<setvar varname="SCORE" action="Add">',
+                attr(correct_answers[[i]], "points")["neg"], '</setvar>', sep = ''),
+              '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+              '</respcondition>'
+            )
+          }
         }
       }
     }
@@ -623,6 +641,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     ## handling incorrect answers
+    correct_answers <- unlist(correct_answers)
+    wrong_answers <- unlist(wrong_answers)
     xml <- c(xml,
       '<respcondition title="Fail" continue="Yes">',
       '<conditionvar>',
@@ -637,7 +657,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(!is.null(wrong_answers)) NULL else '</not>',
       '</conditionvar>',
       if(!eval$partial) {
-        paste('<setvar varname="SCORE" action="Set">', pv["neg"], '</setvar>', sep = '')
+        paste('<setvar varname="SCORE" action="Set">', minvalue, '</setvar>', sep = '')
       } else NULL,
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>'
@@ -650,7 +670,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', if(!eval$partial) pv["neg"] else 0, '</setvar>', sep = ''),
+      paste('<setvar varname="SCORE" action="Set">', if(!eval$partial) minvalue else 0, '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>'
     )
@@ -681,6 +701,14 @@ make_id <- function(size, n = 1L) {
   rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
   rval[1L, ] <- pmax(1L, rval[1L, ])
   colSums(rval * 10^((size - 1L):0L))
+}
+
+
+## delete NULL list elements
+delete.NULLs <- function(x.list) {
+  rval <- x.list[unlist(lapply(x.list, length) != 0)]
+  rval <- if(length(rval)) rval else NULL
+  rval
 }
 
 
