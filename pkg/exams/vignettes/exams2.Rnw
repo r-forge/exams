@@ -55,9 +55,9 @@
   Institute of Applied Statistics and Computing\\
   Universit\"at f\"ur Bodenkultur Wien\\
   Peter Jordan-Str.~82\\
-  1180 Wien, Austria\\
+  1190 Wien, Austria\\
   E-mail: \email{Friedrich.Leisch@R-project.org}\\
-  URL: \url{http://www.rali.boku.ac.at/friedrichleisch.html}
+  URL: \url{http://www.rali.boku.ac.at/leisch.html}
 }
 
 \begin{document}
