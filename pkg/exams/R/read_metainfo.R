@@ -82,6 +82,7 @@ read_metainfo <- function(file)
   extime    <- extract_command(x, "extime",    "numeric") ## default time in seconds
   exshuffle <- extract_command(x, "exshuffle", "logical") ## shuffle schoice/mchoice answers?
   exsingle  <- extract_command(x, "exsingle",  "logical") ## use radio buttons?
+  exmaxchars  <- extract_command(x, "exmaxchars") ## use radio buttons?
 
   ## User-Defined ###################################
   exextra <- extract_extra(x)
@@ -139,6 +140,22 @@ read_metainfo <- function(file)
     expoints <- rep(expoints, length.out = slength)
   }
 
+  ## possible char setting options
+  if(!is.null(exmaxchars)) {
+    exmaxchars <- rep(exmaxchars, length.out = slength)
+    exmaxchars <- lapply(exmaxchars, function(x) {
+      x <- gsub("\\s", ",", x)
+      x <- strsplit(x, ",")[[1]]
+      x <- x[x != ""]
+      if(any(x == "NA"))
+        x[x == "NA"] <- NA
+      mode(x) <- "integer"
+      x
+    })
+    if(slength < 2)
+      exmaxchars <- exmaxchars[[1]]
+  }
+
   ## return everything (backward compatible with earlier versions)
   rval <- list(
     file = file_path_sans_ext(file),
@@ -155,7 +172,8 @@ read_metainfo <- function(file)
     shuffle = exshuffle,
     single = exsingle,
     length = slength,
-    string = string
+    string = string,
+    maxchars = exmaxchars
   )
   rval <- c(rval, exextra)
   return(rval)

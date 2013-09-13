@@ -327,18 +327,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## character fields
     maxchars <- if(is.null(x$metainfo$maxchars)) {
-      if(is.null(dim(maxchars))) {
-        tmp <- if(length(maxchars) < 2) {
+        if(length(maxchars) < 2) {
            c(maxchars, NA, NA)
         } else maxchars[1:3]
-        maxchars <- NULL
-        for(i in 1:n) maxchars <- rbind(maxchars, tmp)
-        rownames(maxchars) <- 1:n
-        colnames(maxchars) <- c("nchar", "ncol", "nrow")
-        maxchars
-      }
     } else x$metainfo$maxchars
-    stopifnot(all(dim(maxchars) %in% c(n, 3)))
+    if(!is.list(maxchars))
+      maxchars <- list(maxchars)
+    maxchars <- rep(maxchars, length.out = n)
+    for(j in seq_along(maxchars)) {
+      if(length(maxchars[[j]]) < 2)
+        maxchars[[j]] <- c(maxchars[[j]], NA, NA)
+    }
 
     ## start item presentation
     ## and insert question
@@ -430,15 +429,15 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               if(!tolerance) '<response_str ident="' else '<response_num ident="'
               }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib',
-              if(!is.na(maxchars[i, 1])) {
-                paste(' maxchars="', max(c(nchar(soltext), maxchars[i, 1])), sep = '')
+              if(!is.na(maxchars[[i]][1])) {
+                paste(' maxchars="', max(c(nchar(soltext), maxchars[[i]][1])), '"', sep = '')
               } else NULL,
-              if(!is.na(maxchars[i, 2])) {
-                paste(' rows="', maxchars[i, 2], sep = '')
+              if(!is.na(maxchars[[i]][2])) {
+                paste(' rows="', maxchars[[i]][2], '"', sep = '')
               } else NULL,
-              if(!is.na(maxchars[i, 3])) {
-                paste(' columns="', maxchars[i, 3], sep = '')
-              } else NULL, '">', sep = ''),
+              if(!is.na(maxchars[[i]][3])) {
+                paste(' columns="', maxchars[[i]][3], '"', sep = '')
+              } else NULL, '>', sep = ''),
             '<flow_label class="Block">',
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
             '</flow_label>',
