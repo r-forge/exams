@@ -17,13 +17,23 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   htmltransform <- make_exercise_transform_html(...)
 
   ## generate the exam
-  exm <- xexams(file, n = n, nsamp = nsamp,
-   driver = list(
-       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
-         resolution = resolution, width = width, height = height,
-         encoding = encoding),
-       read = NULL, transform = htmltransform, write = NULL),
-     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
+  is.xexam <- FALSE
+  if(is.list(file)) {
+    if(any(grepl("exam1", names(file))))
+      is.xexam <- TRUE
+  }
+  if(!is.xexam) {
+    exm <- xexams(file, n = n, nsamp = nsamp,
+      driver = list(
+        sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+          resolution = resolution, width = width, height = height,
+          encoding = encoding),
+        read = NULL, transform = htmltransform, write = NULL),
+      dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
+  } else {
+    exm <- file
+    rm(file)
+  }
 
   ## start .xml assessement creation
   ## get the possible item body functions and options  
@@ -86,7 +96,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## obtain the number of exams and questions
   nx <- length(exm)
-  nq <- length(exm[[1L]])
+  nq <- if(!is.xexam) length(exm[[1L]]) else length(exm)
 
   ## create a name
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
@@ -135,11 +145,22 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## insert a section description -> exm[[1]][[j]]$metainfo$description?
     sec_xml <- gsub("##SectionDescription##", sdescription[j], sec_xml, fixed = TRUE)
 
+    ## special handler
+    if(is.xexam) nx <- length(exm[[j]])
+
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
 
     ## now, insert the questions
     for(i in 1:nx) {
+      ## special handling of indices
+      if(is.xexam) {
+        if(i < 2)
+          jk <- j
+        j <- i
+        i <- jk
+      }
+
       ## overule points
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
 
