@@ -633,7 +633,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       correct_answers,
       if(length(correct_answers) > 1) '</and>' else NULL,
       if(!is.null(wrong_answers)) {
-        c('<not>', '<or>', wrong_answers, '</or>', '</not>')
+        c('<not>', '<or>', unlist(wrong_answers), '</or>', '</not>')
       } else {
         NULL
       },
@@ -663,6 +663,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## handling incorrect answers
     correct_answers <- unlist(correct_answers)
     wrong_answers <- unlist(wrong_answers)
+
     xml <- c(xml,
       '<respcondition title="Fail" continue="Yes">',
       '<conditionvar>',
