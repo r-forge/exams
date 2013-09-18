@@ -168,7 +168,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       type <- exm[[i]][[j]]$metainfo$type
 
       ## create an id
-      iname <- paste(item_ids[i], type, sep = "_")
+      iname <- paste(item_ids[if(is.xexam) j else i], type, sep = "_")
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
