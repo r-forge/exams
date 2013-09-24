@@ -9,7 +9,7 @@ Changes in Version 1.9-7
     items with tolerances (vargt/varlt), a workaround was added.
     In addition to the version with tolerances an exact equality
     is checked (varequal), adding and removing a 0.00001 points.
-    Thus, evaluation of the exams is not affected by the display
+    Thus, evaluation of the exams is not affected but the display
     in OLAT is fixed.
 
 
