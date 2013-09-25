@@ -526,7 +526,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                     format(round(solution[[i]][j], digits), nsmall = digits)
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
-              } else {
+              } else { 
                 if(fix_num_display) {
                   correct_num[[i]] <- c(correct_num[[i]],
                     paste('<varequal respident="', ids[[i]]$response,
