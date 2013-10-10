@@ -660,6 +660,24 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       }
     }
 
+    ## force display of all other correct answers
+    if(length(correct_answers)) {
+      for(j in seq_along(correct_answers)) {
+        if(attr(correct_answers[[j]], "type") != "num") {
+          xml <- c(xml,
+            '<respcondition continue="Yes" title="Mastery">',
+            '<conditionvar>',
+            correct_answers[[j]],
+            '</conditionvar>',
+            paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
+            paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = ''),
+            '</respcondition>'
+          )
+        }
+      }
+    }
+
+
     ## handling incorrect answers
     correct_answers <- unlist(correct_answers)
     wrong_answers <- unlist(wrong_answers)
