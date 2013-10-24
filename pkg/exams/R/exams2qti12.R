@@ -305,7 +305,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num_display = TRUE)
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE)
 {
   function(x) {
     ## how many points?
@@ -447,7 +447,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               )
             } else NULL,
             paste(if(type[i] == "string") '<response_str ident="' else {
-              if(!tolerance) '<response_str ident="' else '<response_num ident="'
+              if(!tolerance | fix_num) '<response_str ident="' else '<response_num ident="'
               }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib',
               if(!is.na(maxchars[[i]][1])) {
@@ -464,7 +464,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '</flow_label>',
             '</render_fib>',
             if(type[i] == "string") '</response_str>' else {
-              if(!tolerance) '</response_str>' else '</response_num>'
+              if(!tolerance | fix_num) '</response_str>' else '</response_num>'
             },
             '<matbreak/>'
           )
@@ -526,8 +526,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                     format(round(solution[[i]][j], digits), nsmall = digits)
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
-              } else { 
-                if(fix_num_display) {
+              } else {
+                if(fix_num) {
                   correct_num[[i]] <- c(correct_num[[i]],
                     paste('<varequal respident="', ids[[i]]$response,
                       '" case="No"><![CDATA[', if(!is.null(digits)) {
