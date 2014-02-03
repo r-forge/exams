@@ -2,7 +2,7 @@
 ## http://docs.moodle.org/23/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, encoding="", 
+  resolution = 100, width = 4, height = 4, encoding = "", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, ...)
@@ -11,6 +11,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   htmltransform <- make_exercise_transform_html(...)
 
   ## generate the exam
+  if(encoding == "") encoding <- "utf8"
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
        sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
@@ -79,8 +80,20 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(!is.null(points))
     points <- rep(points, length.out = nq)
 
+  ## encoding
+  enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
+  if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
+  if(enc == "iso885915") enc <- "latin9"
+  charset <- encoding
+  if(enc == "utf8")
+    charset <- "UTF-8"
+  if(enc == "latin1")
+    charset <- "ISO-8859-1"
+  if(enc == "latin9")
+    charset <- "ISO-8859-15"
+
   ## start the quiz .xml
-  xml <- c('<?xml version="1.0" encoding="UTF-8"?>', '<quiz>\n')
+  xml <- c(paste('<?xml version="1.0" encoding="', charset, '"?>', sep = ''), '<quiz>\n')
 
   ## cycle through all questions and samples
   for(j in 1:nq) {
