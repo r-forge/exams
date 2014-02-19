@@ -78,7 +78,7 @@ make_exams_write_lops <- function(name = NULL, auto_scramble = TRUE, ...)
     setwd(owd)
 
     ## copy the final .zip file
-    file.copy(file.path(test_dir, zipname), file.path(dir, zipname))
+    file.copy(file.path(test_dir, zipname), file.path(dir, zipname), overwrite = TRUE)
 
     invisible(NULL)
   }

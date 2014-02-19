@@ -227,7 +227,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       warning(paste("could not generate the following files:", paste(out_pdf[!out_ok], collapse = ", ")))
       out_pdf <- out_pdf[out_ok]
     }
-    if(!is.null(out_pdf)) file.copy(out_pdf, dir)
+    if(!is.null(out_pdf)) file.copy(out_pdf, dir, overwrite = TRUE)
     invisible(out_pdf)
   }
 }
