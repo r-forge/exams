@@ -899,3 +899,41 @@ read_olat_results <- function(file, xexam = NULL)
 ##   )
 ## }
 
+
+## Valid QTI xml code
+validQTI <- function(file = "~/tmp/qti12.zip", dtd = NULL, tdir = "~/tmp/dtd")
+{
+  require("tools")
+
+  owd <- getwd()
+  on.exit(setwd(owd))
+
+  if(is.null(dtd))
+    dtd <- "http://www.imsglobal.org/question/qtiv1p2/qtiasifulldtd/ims_qtiasiv1p2.dtd"
+  dtd2 <- readLines(dtd)
+  if(is.null(tdir))
+    tdir <- tempfile()
+  if(!file.exists(tdir)) {
+    dir.create(tdir)
+    on.exit(unlink(tdir), add = TRUE)
+  }
+  file.copy(file, file.path(tdir, basename(file)))
+
+  setwd(tdir)
+
+  if(file_ext(file) == "zip") {
+    unzip(file)
+  }
+  xml <- grep(".xml", dir(tdir), value = TRUE)
+  if(!length(xml)) stop("no xml file found for validation!")
+  xml2 <- readLines(xml)
+  i <- grep(".dtd", xml2, fixed = TRUE)
+  dtd_name <- strsplit(xml2[i], '"', fixed = TRUE)[[1]][2]
+  writeLines(dtd2, file.path(tdir, dtd_name))
+
+  cmd <- paste('xmllint --valid', xml, " > /dev/null")
+  system(cmd)
+
+  invisible(NULL)
+}
+
