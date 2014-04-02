@@ -443,7 +443,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   paste(letters[i], ".", sep = '')
                 } else NULL, questionlist[[i]][j]), ']]></mattext>', sep = ""),
                 '</material>',
-                '<matbreak/>'
+                '<material>', '<matbreak/>', '</material>'
               )
             } else NULL,
             paste(if(type[i] == "string") '<response_str ident="' else {
@@ -466,7 +466,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             if(type[i] == "string") '</response_str>' else {
               if(!tolerance | fix_num) '</response_str>' else '</response_num>'
             },
-            '<matbreak/>'
+            '<material>', '<matbreak/>', '</material>'
           )
         }
       }
@@ -630,7 +630,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     )
 
     xml <- c(xml,
-      correct_answers,
+      unlist(correct_answers),
       if(length(correct_answers) > 1 | grepl("choice", x$metainfo$type)) '</and>' else NULL,
       if(!is.null(wrong_answers)) {
         c('<not>', '<or>', unlist(wrong_answers), '</or>', '</not>')
@@ -940,7 +940,7 @@ validQTI <- function(file = "~/tmp/qti12.zip", dtd = NULL, tdir = "~/tmp/dtd")
 
 ## Small wrapper to check xml code
 vQTI <- function(file = c("boxplots", "tstat", "boxhist", "superheroes"),
-  dir = NULL, dtd = NULL, ...)
+  dir = "~/tmp", dtd = NULL, ...)
 {
   if(is.null(dir)) {
     dir.create(dir <- tempfile())
