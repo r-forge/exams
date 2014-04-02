@@ -900,7 +900,7 @@ read_olat_results <- function(file, xexam = NULL)
 ## }
 
 
-## Valid QTI xml code
+## Valid QTI xml code, uses xmllint
 validQTI <- function(file = "~/tmp/qti12.zip", dtd = NULL, tdir = "~/tmp/dtd")
 {
   require("tools")
@@ -935,5 +935,20 @@ validQTI <- function(file = "~/tmp/qti12.zip", dtd = NULL, tdir = "~/tmp/dtd")
   system(cmd)
 
   invisible(NULL)
+}
+
+
+## Small wrapper to check xml code
+vQTI <- function(file = c("boxplots", "tstat", "boxhist", "superheroes"),
+  dir = NULL, dtd = NULL, ...)
+{
+  if(is.null(dir)) {
+    dir.create(dir <- tempfile())
+    on.exit(unlink(dir))
+  }
+
+  exams2qti12(file, dir = dir, name = "vQTI", ...)
+
+  validQTI(file = file.path(dir, "vQTI.zip"), dtd = dtd)
 }
 
