@@ -211,10 +211,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         paste('<assessmentItemRef identifier="', iname, '" href="', iname, '.xml" fixed="false"/>', sep = '')
       )
       sec_items_D <- c(sec_items_D,
-        paste('<dependency identifierref="', iname, '"/>', sep = '')
+        paste('<dependency identifierref="', paste(iname, 'id', sep = '_'), '"/>', sep = '')
       )
       sec_items_R <- c(sec_items_R,
-        paste('<resource identifier="', iname, '" type="imsqti_item_xmlv2p1" href="', iname, '.xml">', sep = ''),
+        paste('<resource identifier="', paste(iname, 'id', sep = '_'), '" type="imsqti_item_xmlv2p1" href="', iname, '.xml">', sep = ''),
         paste('<file href="', iname, '.xml"/>', sep = ''),
         '</resource>'
       )
@@ -416,40 +416,43 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## response processing
     xml <- c(xml, '<responseProcessing>')
 
-    ## partial
-    if(eval$partial) {
-      for(i in 1:n) {
-        xml <- c(xml,
-          '<responseIf>',
-          '<not>',
-          '<isNull>',
-          paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
-          '</isNull>',
-          '</not>',
-          '<setOutcomeValue identifier="SCORE">',
-          '<sum>',
-          '<variable identifier="SCORE"/>',
-
-          if(length(grep("choice", type[i]))) {
-            1
-          },
-
-          '</sum>',
-          '</setOutcomeValue>',
-          '<setOutcomeValue identifier="FEEDBACKBASIC">',
-          '<baseValue baseType="identifier">incorrect</baseValue>',
-          '</setOutcomeValue>',
-          '</responseIf>'
-        )
-      }
-    }
-
-    ## no partial
+    ## not answered, then points
     for(i in 1:n) {
-
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<isNull>',
+        paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+        '</isNull>',
+        '<setOutcomeValue identifier="SCORE">',
+        '<sum>',
+        '<variable identifier="SCORE"/>',
+        '<baseValue baseType="float">0.0</baseValue>', ## FIXME: points when not answered?
+        '</sum>',
+        '</setOutcomeValue>',
+        '<setOutcomeValue identifier="FEEDBACKBASIC">',
+        '<baseValue baseType="identifier">incorrect</baseValue>',
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '<responseElse>',
+        '<setOutcomeValue identifier="SCORE">',
+        '<sum>',
+        '<variable identifier="SCORE"/>',
+         if(length(grep("choice", type[i]))) {
+           if(eval$partial) {
+             paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = '')
+           } else {
+             paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = '')
+           }
+         },
+        '</sum>',
+        '</setOutcomeValue>',
+        '</responseElse>',
+        '</responseCondition>'
+      )
     }
 
-    xml <- c(xml, '</responseProcessing>')
+    xml <- c(xml, '</responseProcessing>', '</assessmentItem>')
 
     xml
   }
