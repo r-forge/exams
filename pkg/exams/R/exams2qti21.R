@@ -1,7 +1,7 @@
 ## create IMS QTI 2.1 .xml files
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/#version2.1
-## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
+## https://www.ibm.com/developerworks/library/x-qti/
 exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding  = "",
@@ -143,7 +143,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   items <- sec_xml <- sec_items_D <- sec_items_R <- NULL
   for(j in 1:nq) {
     ## first, create the section header
-    sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section_xml, fixed = TRUE), "")
+    sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section_xml, fixed = TRUE))
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
     sec_xml <- gsub("##SectionTitle##", stitle[j], sec_xml, fixed = TRUE)
@@ -184,6 +184,28 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ibody <- itembody[[type]](exm[[i]][[j]])
 
+      ## copy supplements
+      if(length(exm[[i]][[j]]$supplements)) {
+        if(!file.exists(media_dir <- file.path(test_dir, "media")))
+          dir.create(media_dir)
+        sj <- 1
+        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
+          sj <- sj + 1
+        }
+        dir.create(ms_dir <- file.path(media_dir, sup_dir))
+        for(si in seq_along(exm[[i]][[j]]$supplements)) {
+          file.copy(exm[[i]][[j]]$supplements[si],
+            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
+          if(any(grepl(f, ibody))) {
+            ibody <- gsub(paste(f, '"', sep = ''),
+              paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+          }
+        }
+      }
+
+      ## write the item xml to file
+      writeLines(ibody, file.path(test_dir, paste(iname, "xml", sep = ".")))
+
       ## include body in section
       sec_items_A <- c(sec_items_A,
         paste('<assessmentItemRef identifier="', iname, '" href="', iname, '.xml" fixed="false"/>', sep = '')
@@ -203,12 +225,43 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   manifest_xml <- gsub('##AssessmentId##',
     test_id, manifest_xml, fixed = TRUE)
+  manifest_xml <- gsub('##AssessmentTitle##',
+    name, manifest_xml, fixed = TRUE)
   manifest_xml <- gsub('##ManifestItemDependencies##',
     paste(sec_items_D, collapse = '\n'), manifest_xml, fixed = TRUE)
   manifest_xml <- gsub('##ManifestItemRessources##',
     paste(sec_items_R, collapse = '\n'), manifest_xml, fixed = TRUE)
+  manifest_xml <- gsub("##AssessmentDescription##", adescription, manifest_xml, fixed = TRUE)
 
-  writeLines(manifest_xml)
+  assessment_xml <- gsub('##AssessmentId##', test_id, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##TestpartId##', paste(test_id, 'part1', sep = '_'),
+    assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##TestTitle##', name, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'),
+    assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##Score##', cutvalue, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##MaxScore##',
+    if(!is.null(points)) sum(unlist(points)) else 10000, assessment_xml, fixed = TRUE)
+
+  ## write xmls to dir
+  writeLines(manifest_xml, file.path(test_dir, "imsmanifest.xml"))
+  writeLines(assessment_xml, file.path(test_dir, paste(test_id, "xml", sep = ".")))
+
+  ## compress
+  if(zip) {
+    owd <- getwd()
+    setwd(test_dir)
+    zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir))
+    setwd(owd)
+  } else zipname <- list.files(test_dir)
+
+  ## copy the final .zip file
+  file.copy(file.path(test_dir, zipname), dir, recursive = TRUE)
+
+  ## assign test id as an attribute
+  attr(exm, "test_id") <- test_id
+
+  invisible(exm)
 }
 
 
@@ -271,7 +324,134 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         maxchars[[j]] <- c(maxchars[[j]], NA, NA)
     }
 
-    "This is the item XML."
+    ## start item presentation
+    ## and insert question
+    xml <- paste('<assessmentItem schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
+    
+    ## cycle trough all questions
+    ids <- el <- pv <- list()
+    for(i in 1:n) {
+      ## get item id
+      iid <- x$metainfo$id
+
+      ## generate ids
+      ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
+        "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
+
+      ## evaluate points for each question
+      pv[[i]] <- eval$pointvec(solution[[i]])
+      if(eval$partial) {
+        pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
+        if(length(grep("choice", type[i])))
+          pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
+      }
+
+      ## insert choice type responses
+      if(length(grep("choice", type[i]))) {
+        xml <- c(xml,
+          paste('<responseDeclaration identifier="', ids[[i]]$response,
+            '" cardinality="', if(type[i] == "mchoice") "multiple" else "single", '" baseType="identifier">', sep = ''),
+          '<correctResponse>'
+        )
+        for(j in seq_along(solution[[i]])) {
+          if(solution[[i]][j]) {
+            xml <- c(xml,
+              paste('<value>', ids[[i]]$questions[j], '</value>', sep = '')
+            )
+          }
+        }
+        xml <- c(xml, '</correctResponse>',
+          paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
+            '" lowerBound="', if(is.null(minvalue)) "0.0" else minvalue, '">', sep = '')
+        )
+        for(j in seq_along(solution[[i]])) {
+          xml <- c(xml,
+            paste('<mapEntry mapKey="', ids[[i]]$questions[j], '" mappedValue="',
+              if(solution[[i]][j]) pv[[i]]["pos"] else pv[[i]]["neg"], '"/>', sep = '')
+          )
+        }
+        xml <- c(xml, '</mapping>', '</responseDeclaration>')
+      }
+    }
+
+    xml <- c(xml,
+      '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      '<value>0</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>',
+      '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      paste('<value>', sum(q_points), '</value>', sep = ''),
+      '</defaultValue>',
+      '</outcomeDeclaration>'
+    )
+
+    ## starting the itembody
+    xml <- c(xml, '<itemBody>')
+    if(!is.null(x$question))
+      xml <- c(xml, '<p>', x$question, '</p>')
+
+    for(i in 1:n) {
+      if(length(grep("choice", type[i]))) {
+        xml <- c(xml,
+          paste('<choiceInteraction responseIdentifier="', ids[[i]]$response,
+            '" shuffle="', if(shuffle) 'true' else 'false','" maxChoices="0">', sep = '')
+        )
+        for(j in seq_along(solution[[i]])) {
+          xml <- c(xml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
+            '<p>',
+             paste(if(enumerate) {
+               paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                 if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                 sep = "")
+             } else NULL, questionlist[[i]][j]),
+            '</p>',
+            '</simpleChoice>'
+          )
+        }
+      }
+    }
+
+    ## response processing
+    xml <- c(xml, '<responseProcessing>')
+
+    ## partial
+    if(eval$partial) {
+      for(i in 1:n) {
+        xml <- c(xml,
+          '<responseIf>',
+          '<not>',
+          '<isNull>',
+          paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+          '</isNull>',
+          '</not>',
+          '<setOutcomeValue identifier="SCORE">',
+          '<sum>',
+          '<variable identifier="SCORE"/>',
+
+          if(length(grep("choice", type[i]))) {
+            1
+          },
+
+          '</sum>',
+          '</setOutcomeValue>',
+          '<setOutcomeValue identifier="FEEDBACKBASIC">',
+          '<baseValue baseType="identifier">incorrect</baseValue>',
+          '</setOutcomeValue>',
+          '</responseIf>'
+        )
+      }
+    }
+
+    ## no partial
+    for(i in 1:n) {
+
+    }
+
+    xml <- c(xml, '</responseProcessing>')
+
+    xml
   }
 }
 

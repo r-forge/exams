@@ -428,7 +428,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           '</render_choice>',
           '</response_lid>'
         )
-      } 
+      }
       if(type[i] == "string" || type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
