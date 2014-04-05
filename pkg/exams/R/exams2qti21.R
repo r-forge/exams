@@ -457,25 +457,3 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml
   }
 }
-
-
-## Function to nicely format XML files
-formatXML <- function(files = NULL, dir = ".")
-{
-  rpkg <- paste(c("X", "M", "L"), collapse = "")
-  call <- paste("re", "quire(", rpkg, ")", sep = "", collapse = "")
-  eval(parse(text = call))
-  if(is.null(files)) files <- dir(dir)
-  dir.create(fdir <- file.path(dir, "formatXML"))
-  owd <- getwd()
-  setwd(dir)
-  on.exit(setwd(owd))
-  for(f in files) {
-    xml <- try(xmlTreeParse(f)$doc$children[[1]], silent = TRUE)
-    if(inherits(xml, "try-error")) warning(paste("could not format file:", f))
-    sink(file.path(fdir, f))
-    print(xml)
-    sink()
-  }
-}
-
