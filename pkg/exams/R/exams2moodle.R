@@ -5,10 +5,10 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding = "", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, rule = NULL, supplements = TRUE, ...)
+  points = NULL, rule = NULL, base64 = TRUE, ...)
 {
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(..., base64 = supplements)
+  htmltransform <- make_exercise_transform_html(..., base64 = base64)
 
   ## generate the exam
   if(encoding == "") encoding <- "utf8"
@@ -142,7 +142,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
       question_xml <- moodlequestion[[type]](exm[[i]][[j]])
 
       ## include supplements using base64 encoding and data uri (unless suppressed)
-      if(supplements && length(exm[[i]][[j]]$supplements)) {
+      if(isTRUE(base64) && length(exm[[i]][[j]]$supplements)) {
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           if(any(grepl(f <- basename(exm[[i]][[j]]$supplements[si]), question_xml))) {
             question_xml <- gsub(paste(f, '"', sep = ''),
