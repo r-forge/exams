@@ -16,7 +16,7 @@
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    points = NULL, rule = NULL, \dots)
+    points = NULL, rule = NULL, supplements = TRUE, \dots)
 
   make_question_moodle23(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -61,7 +61,7 @@
     \code{\\exsection{}} tags. \code{stitle} may also include \code{NA}, e.g.
     \code{stitle = c("Exercise 1", NA, "Exercise 3")}.}
   \item{testid}{logical. Should an unique test id be added to the exam \code{name}.}
-  \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
+  \item{zip}{logical. Should the resulting XML file be zipped?}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
     for generating the item body of the question, see function \code{make_itembody_qti12()}.
@@ -76,6 +76,10 @@
     the exam.}
   \item{rule}{character specifying which rule to use for negative partial credits. see function
     \code{\link{exams_eval}}. Note that the default using cloze exercises is \code{rule = "none"}.}
+  \item{supplements}{logical. Should supplements be included in the Moodle XML file
+    (via Base64 encoding)? If set to \code{FALSE} supplements like graphics or data are
+    completely omitted (and hence exercises are typically incomplete). This can be mainly
+    used for testing purposes in case there are problems with the Base64 encoding.}
   \item{solution}{logical. Should the question solution, if available, be added in the question
      XML?}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will
