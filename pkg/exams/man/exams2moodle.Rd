@@ -77,9 +77,9 @@
   \item{rule}{character specifying which rule to use for negative partial credits. see function
     \code{\link{exams_eval}}. Note that the default using cloze exercises is \code{rule = "none"}.}
   \item{supplements}{logical. Should supplements be included in the Moodle XML file
-    (via Base64 encoding)? If set to \code{FALSE} supplements like graphics or data are
+    (via Base 64 encoding)? If set to \code{FALSE} supplements like graphics or data are
     completely omitted (and hence exercises are typically incomplete). This can be mainly
-    used for testing purposes in case there are problems with the Base64 encoding.}
+    used for testing purposes in case there are problems with the Base 64 encoding.}
   \item{solution}{logical. Should the question solution, if available, be added in the question
      XML?}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will
