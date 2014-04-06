@@ -63,6 +63,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_base <- file_path_sans_ext(file_Rnw)
   file_tex <- paste(file_base, ".tex", sep = "")
   file_path <- search_files(file_Rnw, edir, recursive = !is.null(edir))
+  file_path <- ifelse(is.na(file_path) & file.exists(file_raw), file_raw, file_path)
   file_path <- ifelse(!is.na(file_path), file_path, file.path(dir_pkg, "exercises", file_Rnw))
   if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
     paste(file_raw[!file.exists(file_path)], collapse = ", "), ".", sep = ""))
@@ -77,10 +78,16 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     else
       rep(which(wi), length.out = nsamp[i])
   }))
-  
+ 
+  ## substitute (back)slashes by underscores in temporary file names
+  ## to allow handling of relative file paths (in addition to edir argument)
+  file_Rnw <- sub("^(\\./|\\.\\./)+", "", file_Rnw)
+  file_tex <- sub("^(\\./|\\.\\./)+", "", file_tex)
+  file_Rnw <- gsub("/", "_", file_Rnw, fixed = TRUE)
+  file_tex <- gsub("/", "_", file_tex, fixed = TRUE)
 
   ## take everything to temp dir
-  file.copy(file_path, dir_temp)
+  file.copy(file_path, file.path(dir_temp, file_Rnw))
   setwd(dir_temp) 
   on.exit(unlink(dir_temp), add = TRUE)
   
