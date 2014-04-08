@@ -99,7 +99,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     stop(paste("The XML template", template,
       "must contain exactly one opening and closing <manifest> tag!"))
   }
-  manifest_xml <- c('<?xml version="1.0" encoding="UTF-8"?>', xml[start:end])
+  manifest_xml <- xml[start:end]
 
   ## obtain the number of exams and questions
   nx <- length(exm)
@@ -205,7 +205,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       }
 
       ## write the item xml to file
-      writeLines(ibody, file.path(test_dir, paste(iname, "xml", sep = ".")))
+      writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', ibody),
+        file.path(test_dir, paste(iname, "xml", sep = ".")))
 
       ## include body in section
       sec_items_A <- c(sec_items_A,
@@ -233,6 +234,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   manifest_xml <- gsub('##ManifestItemRessources##',
     paste(sec_items_R, collapse = '\n'), manifest_xml, fixed = TRUE)
   manifest_xml <- gsub("##AssessmentDescription##", adescription, manifest_xml, fixed = TRUE)
+  manifest_xml <- gsub("##Date##", '2014-04-08T05:35:56', manifest_xml, fixed = TRUE)
 
   assessment_xml <- gsub('##AssessmentId##', test_id, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##TestpartId##', paste(test_id, 'part1', sep = '_'),
@@ -245,8 +247,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     if(!is.null(points)) sum(unlist(points)) else 10000, assessment_xml, fixed = TRUE)
 
   ## write xmls to dir
-  writeLines(manifest_xml, file.path(test_dir, "imsmanifest.xml"))
-  writeLines(assessment_xml, file.path(test_dir, paste(test_id, "xml", sep = ".")))
+  writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml),
+    file.path(test_dir, "imsmanifest.xml"))
+  writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', assessment_xml),
+    file.path(test_dir, paste(test_id, "xml", sep = ".")))
 
   ## compress
   if(zip) {
@@ -327,7 +331,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## start item presentation
     ## and insert question
-    xml <- paste('<assessmentItem xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
+    xml <- paste('<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false">', sep = '')
     
     ## cycle trough all questions
     ids <- el <- pv <- list()
