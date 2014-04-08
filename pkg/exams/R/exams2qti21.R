@@ -2,6 +2,7 @@
 ## specifications and examples available at:
 ## http://www.imsglobal.org/question/#version2.1
 ## https://www.ibm.com/developerworks/library/x-qti/
+## https://www.onyx-editor.de/
 exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding  = "",
@@ -98,7 +99,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     stop(paste("The XML template", template,
       "must contain exactly one opening and closing <manifest> tag!"))
   }
-  manifest_xml <- xml[start:end]
+  manifest_xml <- c('<?xml version="1.0" encoding="UTF-8"?>', xml[start:end])
 
   ## obtain the number of exams and questions
   nx <- length(exm)
@@ -326,7 +327,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## start item presentation
     ## and insert question
-    xml <- paste('<assessmentItem schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
+    xml <- paste('<assessmentItem xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
     
     ## cycle trough all questions
     ids <- el <- pv <- list()
@@ -410,8 +411,12 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '</simpleChoice>'
           )
         }
+        xml <- c(xml, '</choiceInteraction>')
       }
     }
+
+    ## close itembody
+    xml <- c(xml, '</itemBody>')
 
     ## response processing
     xml <- c(xml, '<responseProcessing>')
