@@ -142,6 +142,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
   items <- sec_xml <- sec_items_D <- sec_items_R <- NULL
+  maxscore <- 0
   for(j in 1:nq) {
     ## first, create the section header
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section_xml, fixed = TRUE))
@@ -173,6 +174,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## overule points
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
+      if(i < 2)
+        maxscore <- maxscore + if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
@@ -245,8 +248,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'),
     assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', cutvalue, assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##MaxScore##',
-    if(!is.null(points)) sum(unlist(points)) else 10000, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##CutValue##', cutvalue, assessment_xml, fixed = TRUE)
 
   ## write xmls to dir
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml),
@@ -381,7 +384,11 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
             paste('<mapEntry mapKey="', ids[[i]]$questions[j], '" mappedValue="',
-              if(solution[[i]][j]) pv[[i]]["pos"] else pv[[i]]["neg"], '"/>', sep = '')
+              if(eval$partial) {
+                if(solution[[i]][j]) pv[[i]]["pos"] else pv[[i]]["neg"]
+              } else {
+                if(solution[[i]][j]) q_points[i] / sum(solution[[i]] * 1) else minvalue * sum(solution[[i]] * 1)
+              }, '"/>', sep = '')
           )
         }
         xml <- c(xml, '</mapping>', '</responseDeclaration>')
@@ -404,7 +411,12 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<value>empty</value>',
       '</defaultValue>',
       '</outcomeDeclaration>',
-      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
+      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>',
+      '<outcomeDeclaration identifier="WORKSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      '<value>0.0</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>'
     )
 
     ## starting the itembody
@@ -456,9 +468,14 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml,
       if(n > 1) '</and>' else NULL,
       '<setOutcomeValue identifier="FEEDBACKBASIC">',
-      '<baseValue baseType="identifier">notanswered</baseValue>',
+      '<baseValue baseType="identifier">empty</baseValue>',
       '</setOutcomeValue>',
       '</responseIf>',
+      '<responseElseIf>',
+      '<setOutcomeValue identifier="FEEDBACKBASIC">',
+      '<baseValue baseType="identifier">correct</baseValue>',
+      '</setOutcomeValue>',
+      '</responseElseIf>',
       '</responseCondition>'
     )
 
@@ -470,9 +487,9 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '<isNull>',
         paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
         '</isNull>',
-        '<setOutcomeValue identifier="SCORE">',
+        '<setOutcomeValue identifier="WORKSCORE">',
         '<sum>',
-        '<variable identifier="SCORE"/>',
+        '<variable identifier="WORKSCORE"/>',
         '<baseValue baseType="float">0.0</baseValue>', ## FIXME: points when not answered?
         '</sum>',
         '</setOutcomeValue>',
@@ -495,21 +512,18 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '<not>',
         '<match>',
         '<variable identifier="FEEDBACKBASIC"/>',
-        '<baseValue baseType="identifier">notanswered</baseValue>',
+        '<baseValue baseType="identifier">empty</baseValue>',
         '</match>',
         '</not>',
-        '<and>',
-        '<setOutcomeValue identifier="SCORE">',
+        '</and>',
+        '<setOutcomeValue identifier="WORKSCORE">',
         '<sum>',
-        '<variable identifier="SCORE"/>',
+        '<variable identifier="WORKSCORE"/>',
         switch(type[i],
           "mchoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
           "schoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = '')
         ),
         '</sum>',
-        '</setOutcomeValue>',
-        '<setOutcomeValue identifier="FEEDBACKBASIC">',
-        '<baseValue baseType="identifier">answered</baseValue>',
         '</setOutcomeValue>',
         '</responseIf>',
         '</responseCondition>'
@@ -517,34 +531,66 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     ## show solution when answered and wrong
+    xml <- c(xml,
+      '<responseCondition>',
+      '<responseIf>',
+      '<gte>',
+      '<variable identifier="WORKSCORE"/>',
+      '<variable identifier="MAXSCORE"/>',
+      '</gte>',
+      '<setOutcomeValue identifier="FEEDBACK">',
+      '<baseValue baseType="identifier">correct</baseValue>',
+      '</setOutcomeValue>',
+      '</responseIf>',
+      '<responseElse>',
+      '<setOutcomeValue identifier="FEEDBACK">',
+      '<baseValue baseType="identifier">incorrect</baseValue>',
+      '</setOutcomeValue>',
+      '</responseElse>',
+      '</responseCondition>'
+    )
+
+    xml <- c(xml,
+      '<responseCondition>',
+      '<responseIf>',
+      '<and>',
+      '<match>',
+      '<baseValue baseType="identifier">incorrect</baseValue>',
+      '<variable identifier="FEEDBACKBASIC"/>',
+      '</match>',
+      '</and>',
+      '<setOutcomeValue identifier="SCORE">',
+      '<sum>',
+      '<variable identifier="SCORE"/>',
+      paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
+      '</sum>',
+      '</setOutcomeValue>',
+      '</responseIf>',
+      '<responseElse>',
+      '<setOutcomeValue identifier="SCORE">',
+      '<sum>',
+      '<variable identifier="SCORE"/>',
+      if(!eval$partial) {
+        paste('<baseValue baseType="float">', sum(q_points), '</baseValue>', sep = '')
+      } else {
+        '<variable identifier="WORKSCORE"/>'
+      },
+      '</sum>',
+      '</setOutcomeValue>',
+      '</responseElse>',
+      '</responseCondition>'
+    )
+
     fid <- make_id(9, 1)
     xml <- c(xml,
       '<responseCondition>',
       '<responseIf>',
       '<and>',
       '<match>',
+      '<baseValue baseType="identifier">incorrect</baseValue>',
       '<variable identifier="FEEDBACKBASIC"/>',
-      '<baseValue baseType="identifier">answered</baseValue>',
       '</match>',
-      '<not>',
-      '<equal toleranceMode="exact">',
-      '<variable identifier="SCORE"/>',
-      '<variable identifier="MAXSCORE"/>',
-      '</equal>',
-      '</not>',
       '</and>',
-      '<setOutcomeValue identifier="FEEDBACKBASIC">',
-      '<baseValue baseType="identifier">correct</baseValue>',
-      '</setOutcomeValue>',
-      ## score when not partial
-      if(!eval$partial) {
-        c(
-          '<setOutcomeValue identifier="SCORE">',
-          paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
-          '</setOutcomeValue>'
-        )
-      },
-      ## set feedback
       '<setOutcomeValue identifier="FEEDBACKMODAL">',
       '<multiple>',
       '<variable identifier="FEEDBACKMODAL"/>',
@@ -558,7 +604,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## create solution
     xsolution <- x$solution
     if(length(length(x$solutionlist))) {
-      xsolution <- c(xsolution, if(length(xsolution)) "<br/>" else NULL)
+      xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
       if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
       if(x$metainfo$type == "cloze") {
         g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
@@ -570,7 +616,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       }
       nsol <- length(ql)
       xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
-        ql, if(length(x$solutionlist)) "</br>" else NULL,
+        ql, if(length(x$solutionlist)) "<br />" else NULL,
         sl, if(enumerate) rep('</li>', nsol) else NULL))
       if(enumerate) xsolution <- c(xsolution, '</ol>')
     }
@@ -579,7 +625,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## solution when wrong
     xml <- c(xml,
-      paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show" title="Feedback wrong">', sep = ''),
+      paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
       '<p>',
       xsolution,
       '</p>',
@@ -591,3 +637,4 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml
   }
 }
+
