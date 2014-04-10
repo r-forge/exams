@@ -393,6 +393,16 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
         xml <- c(xml, '</mapping>', '</responseDeclaration>')
       }
+      ## numeric responses
+      if(type[i] == "num") {
+        xml <- c(xml,
+          paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="float">', sep = ''),
+        '<correctResponse>',
+          paste('<value>', solution[[i]], '</value>', sep = ''),
+          '</correctResponse>',
+          '</responseDeclaration>'
+        )
+      }
     }
 
     xml <- c(xml,
@@ -428,7 +438,8 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(length(grep("choice", type[i]))) {
         xml <- c(xml,
           paste('<choiceInteraction responseIdentifier="', ids[[i]]$response,
-            '" shuffle="', if(shuffle) 'true' else 'false','" maxChoices="0">', sep = '')
+            '" shuffle="', if(shuffle) 'true' else 'false','" maxChoices="',
+            if(type[i] == "schoice") "1" else "0", '">', sep = '')
         )
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
@@ -443,6 +454,21 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           )
         }
         xml <- c(xml, '</choiceInteraction>')
+      }
+      if(type[i] == "num") {
+        for(j in seq_along(solution[[i]])) {
+          xml <- c(xml,
+            '<p>',
+             paste(if(enumerate & n > 1) {
+               paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                 if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                 sep = "")
+             } else NULL, questionlist[[i]][j]),
+            paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
+            '</p>',
+            '</simpleChoice>'
+          )
+        }
       }
     }
 
