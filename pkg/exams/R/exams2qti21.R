@@ -413,6 +413,11 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     xml <- c(xml,
+      '<outcomeDeclaration identifier="WORKSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      '<value>0.0</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>',
       '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">',
       '<defaultValue>',
       '<value>0.0</value>',
@@ -428,12 +433,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<value>empty</value>',
       '</defaultValue>',
       '</outcomeDeclaration>',
-      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>',
-      '<outcomeDeclaration identifier="WORKSCORE" cardinality="single" baseType="float">',
-      '<defaultValue>',
-      '<value>0.0</value>',
-      '</defaultValue>',
-      '</outcomeDeclaration>'
+      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
     )
 
     ## starting the itembody
@@ -535,18 +535,11 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       xml <- c(xml,
         '<responseCondition>',
         '<responseIf>',
-        '<and>',
-        '<not>',
-        '<isNull>',
-        paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
-        '</isNull>',
-        '</not>',
-        '<not>',
+        if(type[i] == "num") '<and>' else NULL,
         '<match>',
         '<variable identifier="FEEDBACKBASIC"/>',
-        '<baseValue baseType="identifier">empty</baseValue>',
+        '<baseValue baseType="identifier">correct</baseValue>',
         '</match>',
-        '</not>',
         if(type[i] == "num") {
           c(
             paste('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
@@ -556,7 +549,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '</equal>'
           )
         },
-        '</and>',
+        if(type[i] == "num") '</and>' else NULL,
         '<setOutcomeValue identifier="WORKSCORE">',
         '<sum>',
         '<variable identifier="WORKSCORE"/>',
@@ -646,21 +639,23 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## create solution
     xsolution <- x$solution
     if(length(length(x$solutionlist))) {
-      xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
-      if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
-      if(x$metainfo$type == "cloze") {
-        g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
-        ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
-        sl <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
-      } else {
-        ql <- x$questionlist
-        sl <- x$solutionlist
+      if(!all(is.na(x$solutionlist))) {
+        xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
+        if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+        if(x$metainfo$type == "cloze") {
+          g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
+          ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
+          sl <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
+        } else {
+          ql <- x$questionlist
+          sl <- x$solutionlist
+        }
+        nsol <- length(ql)
+        xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+          ql, if(length(x$solutionlist)) "<br />" else NULL,
+          sl, if(enumerate) rep('</li>', nsol) else NULL))
+        if(enumerate) xsolution <- c(xsolution, '</ol>')
       }
-      nsol <- length(ql)
-      xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
-        ql, if(length(x$solutionlist)) "<br />" else NULL,
-        sl, if(enumerate) rep('</li>', nsol) else NULL))
-      if(enumerate) xsolution <- c(xsolution, '</ol>')
     }
 
     xml <- c(xml, '</responseProcessing>')

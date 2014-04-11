@@ -182,21 +182,23 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(is.null(enumerate)) enumerate <- FALSE
       xsolution <- exm[[i]][[j]]$solution
       if(length(length(exm[[i]][[j]]$solutionlist))) {
-        xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
-        if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
-        if(exm[[i]][[j]]$metainfo$type == "cloze") {
-          g <- rep(seq_along(exm[[i]][[j]]$metainfo$solution), sapply(exm[[i]][[j]]$metainfo$solution, length))
-          ql <- sapply(split(exm[[i]][[j]]$questionlist, g), paste, collapse = " / ")
-          sl <- sapply(split(exm[[i]][[j]]$solutionlist, g), paste, collapse = " / ")
-        } else {
-          ql <- exm[[i]][[j]]$questionlist
-          sl <- exm[[i]][[j]]$solutionlist
+        if(!all(is.na(exm[[i]][[j]]$solutionlist))) {
+          xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
+          if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+          if(exm[[i]][[j]]$metainfo$type == "cloze") {
+            g <- rep(seq_along(exm[[i]][[j]]$metainfo$solution), sapply(exm[[i]][[j]]$metainfo$solution, length))
+            ql <- sapply(split(exm[[i]][[j]]$questionlist, g), paste, collapse = " / ")
+            sl <- sapply(split(exm[[i]][[j]]$solutionlist, g), paste, collapse = " / ")
+          } else {
+            ql <- exm[[i]][[j]]$questionlist
+            sl <- exm[[i]][[j]]$solutionlist
+          }
+          nsol <- length(ql)
+          xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+            ql, if(length(exm[[i]][[j]]$solutionlist)) "<br />" else NULL,
+            sl, if(enumerate) rep('</li>', nsol) else NULL))
+          if(enumerate) xsolution <- c(xsolution, '</ol>')
         }
-        nsol <- length(ql)
-        xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
-          ql, if(length(exm[[i]][[j]]$solutionlist)) "<br />" else NULL,
-          sl, if(enumerate) rep('</li>', nsol) else NULL))
-        if(enumerate) xsolution <- c(xsolution, '</ol>')
       }
 
       ibody <- gsub("##ItemSolution##", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
