@@ -211,7 +211,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ibody <- gsub('&nbsp;', '', ibody, fixed = TRUE)
 
       ## write the item xml to file
-      writeLines(ibody, file.path(test_dir, paste(iname, "xml", sep = ".")))
+      writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', ibody),
+        file.path(test_dir, paste(iname, "xml", sep = ".")))
 
       ## include body in section
       sec_items_A <- c(sec_items_A,
@@ -254,7 +255,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## write xmls to dir
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml),
     file.path(test_dir, "imsmanifest.xml"))
-  writeLines(assessment_xml, file.path(test_dir, paste(test_id, "xml", sep = ".")))
+  writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', assessment_xml),
+    file.path(test_dir, paste(test_id, "xml", sep = ".")))
 
   ## compress
   if(zip) {
@@ -432,7 +434,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
     if(!is.null(x$question))
-      xml <- c(xml, '<p>', x$question, '</p>')
+      xml <- c(xml, '<p>', '<![CDATA[', x$question, ']]', '</p>')
 
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
@@ -459,14 +461,15 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
             '<p>',
+            if(length(questionlist[[i]][j])) '<![CDATA[',
              paste(if(enumerate & n > 1) {
                paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
              } else NULL, questionlist[[i]][j]),
+            if(length(questionlist[[i]][j])) ']]',
             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
-            '</p>',
-            '</simpleChoice>'
+            '</p>'
           )
         }
       }
@@ -541,13 +544,23 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '<baseValue baseType="identifier">empty</baseValue>',
         '</match>',
         '</not>',
+        if(type[i] == "num") {
+          c(
+            paste('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
+              max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">', sep = ''),
+            paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+            paste('<correct identifier="', ids[[i]]$response, '"/>', sep = ''),
+            '</equal>'
+          )
+        },
         '</and>',
         '<setOutcomeValue identifier="WORKSCORE">',
         '<sum>',
         '<variable identifier="WORKSCORE"/>',
         switch(type[i],
           "mchoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
-          "schoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = '')
+          "schoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
+          "num" = paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = '')
         ),
         '</sum>',
         '</setOutcomeValue>',
@@ -560,10 +573,10 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml,
       '<responseCondition>',
       '<responseIf>',
-      '<gte>',
+      '<equal toleranceMode="exact">',
       '<variable identifier="WORKSCORE"/>',
       '<variable identifier="MAXSCORE"/>',
-      '</gte>',
+      '</equal>',
       '<setOutcomeValue identifier="FEEDBACK">',
       '<baseValue baseType="identifier">correct</baseValue>',
       '</setOutcomeValue>',
@@ -652,9 +665,9 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## solution when wrong
     xml <- c(xml,
       paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-      '<p>',
+      '<p>', '<![CDATA[',
       xsolution,
-      '</p>',
+      ']]', '</p>',
       '</modalFeedback>'
     )
 
