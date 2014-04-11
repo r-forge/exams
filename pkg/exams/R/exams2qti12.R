@@ -633,12 +633,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     xml <- c(xml,
       '<respcondition title="Mastery" continue="Yes">',
       '<conditionvar>',
-      if(length(correct_answers) > 1 | grepl("choice", x$metainfo$type)) '<and>' else NULL
+      if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '<and>' else NULL
     )
 
     xml <- c(xml,
       unlist(correct_answers),
-      if(length(correct_answers) > 1 | grepl("choice", x$metainfo$type)) '</and>' else NULL,
+      if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '</and>' else NULL,
       if(!is.null(wrong_answers)) {
         c('<not>', '<or>', unlist(wrong_answers), '</or>', '</not>')
       } else {
