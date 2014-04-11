@@ -124,7 +124,7 @@ tex2image <- function(tex, format = "png", width = 6,
       to = dirout[i], overwrite = TRUE)
     dirout[i] <- normalizePath(dirout[i])
     if(show) browseFile(dirout[i])
-  }  
+  }
   
   return(invisible(dirout))
 }

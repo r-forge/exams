@@ -200,9 +200,14 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           file.copy(exm[[i]][[j]]$supplements[si],
             file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-          if(any(grepl(f, ibody))) {
-            ibody <- gsub(paste(f, '"', sep = ''),
-              paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+          if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+            ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+              file.path('media', sup_dir), ibody, fixed = TRUE)
+          } else {
+            if(any(grepl(f, ibody))) {
+              ibody <- gsub(paste(f, '"', sep = ''),
+                paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+            }
           }
         }
       }
@@ -434,7 +439,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
     if(!is.null(x$question))
-      xml <- c(xml, '<p>', '<![CDATA[', x$question, ']]', '</p>')
+      xml <- c(xml, '<p>', x$question, '</p>')
 
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
@@ -461,13 +466,11 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
             '<p>',
-            if(length(questionlist[[i]][j])) '<![CDATA[',
              paste(if(enumerate & n > 1) {
                paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
-             } else NULL, questionlist[[i]][j]),
-            if(length(questionlist[[i]][j])) ']]',
+             } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL),
             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
             '</p>'
           )
@@ -665,9 +668,9 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## solution when wrong
     xml <- c(xml,
       paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-      '<p>', '<![CDATA[',
+      '<p>',
       xsolution,
-      ']]', '</p>',
+      '</p>',
       '</modalFeedback>'
     )
 

@@ -148,7 +148,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
         }
         if(!is.na(solution[i])) {
           html_body <- c(html_body, solution[i], exm[[j]]$solution, "<br/>")
-          if(length(exm[[j]]$solutionlist)) {
+          if(length(exm[[j]]$solutionlist) & !all(is.na(exm[[j]]$solutionlist))) {
             html_body <- c(html_body, '<ol type="a">')
             for(sl in exm[[j]]$solutionlist)
               html_body <- c(html_body, "<li>", sl, "</li>")

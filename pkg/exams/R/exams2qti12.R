@@ -221,9 +221,14 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           file.copy(exm[[i]][[j]]$supplements[si],
             file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-          if(any(grepl(f, ibody))) {
-            ibody <- gsub(paste(f, '"', sep = ''),
-              paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+          if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+            ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+              file.path('media', sup_dir), ibody, fixed = TRUE)
+          } else {
+            if(any(grepl(f, ibody))) {
+              ibody <- gsub(paste(f, '"', sep = ''),
+                paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+            }
           }
         }
       }

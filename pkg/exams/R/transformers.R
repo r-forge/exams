@@ -49,18 +49,20 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
         }
       }
       for(i in c("question", "questionlist", "solution", "solutionlist")) {
-        if(grepl("list", i)) {
-          j <- grep(i, inames)
-        } else {
-          j <- grep(i, inames)
-          j <- j[!grepl("list", inames[j])]
-        }
-        x[[i]] <- if(b64) {
-          dir[j]
-        } else {
-          paste("<img src=\"", file.path(sdir, basename(dir[j])), "\" alt=\"", inames[j], "\" />", sep = "")
-        }
-        names(x[[i]]) <- inames[j]
+        if(!is.null(x[[i]])) {
+          if(grepl("list", i)) {
+            j <- grep(i, inames)
+          } else {
+            j <- grep(i, inames)
+            j <- j[!grepl("list", inames[j])]
+          }
+          x[[i]] <- if(b64) {
+            dir[j]
+          } else {
+            paste("<img src=\"", file.path(sdir, basename(dir[j])), "\" alt=\"", inames[j], "\" />", sep = "")
+          }
+          names(x[[i]]) <- inames[j]
+        } else x[[i]] <- NA
       }
       if(!b64) {
         for(i in dir) {
