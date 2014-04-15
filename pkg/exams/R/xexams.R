@@ -87,8 +87,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_tex <- gsub("/", "_", file_tex, fixed = TRUE)
 
   ## take everything to temp dir
-  file.copy(file_path, file.path(dir_temp, file_Rnw))
-  setwd(dir_temp) 
+  file.copy(file_path[!duplicated(file_path)], file.path(dir_temp, file_Rnw[!duplicated(file_path)]))
+  setwd(dir_temp)
   on.exit(unlink(dir_temp), add = TRUE)
   
   ## set up list of exams (length n) with list of exercises (length m = sum(nsamp))

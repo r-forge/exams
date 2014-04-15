@@ -325,7 +325,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       ## cycle through all questions
       qtext <- NULL
       for(i in 1:n) {
-        ql <- questionlist[sid == i]
+        ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
         k <- length(ql)
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
