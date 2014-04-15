@@ -86,7 +86,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_Rnw <- gsub("/", "_", file_Rnw, fixed = TRUE)
   file_tex <- gsub("/", "_", file_tex, fixed = TRUE)
 
-  ## take everything to temp dir
+  ## take everything to temp dir (avoiding appending duplicated files)
   file.copy(file_path[!duplicated(file_path)], file.path(dir_temp, file_Rnw[!duplicated(file_path)]))
   setwd(dir_temp)
   on.exit(unlink(dir_temp), add = TRUE)
