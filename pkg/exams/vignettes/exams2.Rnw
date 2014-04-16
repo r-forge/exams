@@ -1347,6 +1347,8 @@ is available on \proglang{R}-Forge at
 
 We are indebted to all our colleagues in the ``Mathematics'' team at the Department of Statistics
 at Universit\"at Innsbruck for testing and challenging the code and making suggestions for improvement.
+Furthermore, code patches, discussions, and feedback by Dominik Ernst (Universit\"at f\"ur Bodenkultur Wien)
+and Niels Smits (Vrije Universiteit Amsterdam) are gratefully acknowledged.
 This project was also partially supported by an e-learning grant (\#2011.241)
 of the Universit\"at Innsbruck.
 
