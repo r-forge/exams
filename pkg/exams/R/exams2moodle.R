@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding = "", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, rule = NULL, pluginfile=TRUE, ...)
+  points = NULL, rule = NULL, pluginfile = TRUE, ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(..., base64 = !pluginfile)
@@ -156,17 +156,14 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
                                 "</file>")
 
               # Prepend @@PLUGINFILE@@ to link target
-              question_xml <- gsub(href,
-                                   newhref,
-                                   question_xml,
-                                   fixed=TRUE)
+              question_xml <- gsub(href, newhref, question_xml, fixed = TRUE)
 
               # Insert base64 encoded file at the end of <questiontext>
-              idx <- which(grepl(newhref, question_xml, fixed=TRUE))
-              textend <- which(grepl("</text>", question_xml, fixed=TRUE))
-              textend <- head(textend[textend>idx], 1)
+              idx <- which(grepl(newhref, question_xml, fixed = TRUE))
+              textend <- which(grepl("</text>", question_xml, fixed = TRUE))
+              textend <- head(textend[textend > idx], 1)
 
-              question_xml <- append(question_xml, filetag, after=textend)
+              question_xml <- append(question_xml, filetag, after = textend)
             } else {
               question_xml <- gsub(paste(f, '"', sep = ''),
                 paste(fileURI(exm[[i]][[j]]$supplements[si]), '"', sep = ''),
