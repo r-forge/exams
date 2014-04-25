@@ -1,33 +1,30 @@
-.fix_character_entity_references <- function(x, mode = "hex") {
-  modes <- c("named", "hex", "dec")
-  mode <- match.arg(mode, modes)
-  for(i in modes[modes != mode]) {
-    byc <- bycodes[, c(i, mode)]
-    byc <- byc[!duplicated(byc[, 1L]), ]
-    xbyc <- .get_character_entities(x, mode=i)
-    for(j in xbyc) {
-        k <- min(which(byc[,1L]==j))
-        x <- gsub(j, byc[k, 2L], x, fixed = TRUE)
+.character_entity_reference_modes <- c("named", "hex", "dec")
+
+.fix_character_entity_references <- function(x, mode = "hex")
+{
+  mode <- match.arg(mode, .character_entity_reference_modes)
+  for(i in .character_entity_reference_modes[.character_entity_reference_modes != mode]) {
+    byc <- bycodes[, c(i, mode), drop = FALSE]
+    byc <- byc[!duplicated(byc[, 1L]), , drop = FALSE]
+    byc <- byc[byc[, 1L] %in% .get_character_entity_references(x, mode = i), , drop = FALSE]
+    if(nrow(byc) > 0L) {
+      for(j in 1:nrow(byc)) {
+        x <- gsub(byc[j, 1L], byc[j, 2L], x, fixed = TRUE)
+      }
     }
   }
   return(x)
 }
 
-
-.get_character_entities <- function(x, mode = "hex")
+.get_character_entity_references <- function(x, mode = "hex")
 {
-    modes <- c("named", "hex", "dec")
-    mode <- match.arg(mode, modes)
-
-    if(mode=="named")
-    {
-        gr <- gregexpr("\\&[^#&]+;", x)
-    } else if(mode=="hex") {
-        gr <- gregexpr("\\&\\#x[[:alnum:]]+;", x)
-    } else {
-        gr <- gregexpr("\\&\\#[[:digit:]]+;", x)
-    }
-    unique(unlist(regmatches(x, gr)))
+  mode <- match.arg(mode, .character_entity_reference_modes)
+  gr <- switch(mode,
+    "named" = gregexpr("\\&[^#&]+;", x),
+    "hex" = gregexpr("\\&\\#x[[:alnum:]]+;", x),
+    "dec" = gregexpr("\\&\\#[[:digit:]]+;", x)
+  )
+  unique(unlist(regmatches(x, gr)))
 }
         
 
