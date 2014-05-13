@@ -14,6 +14,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
 {
+  require("tools")
+
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
 
@@ -543,11 +545,6 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     xml <- c(xml,
-      '<outcomeDeclaration identifier="WORKSCORE" cardinality="single" baseType="float">',
-      '<defaultValue>',
-      '<value>0.0</value>',
-      '</defaultValue>',
-      '</outcomeDeclaration>',
       '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">',
       '<defaultValue>',
       '<value>0.0</value>',
@@ -563,7 +560,12 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<value>empty</value>',
       '</defaultValue>',
       '</outcomeDeclaration>',
-      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
+      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>',
+      '<outcomeDeclaration identifier="WORKSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      '<value>0.0</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>'
     )
 
     ## starting the itembody
@@ -635,11 +637,11 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<baseValue baseType="identifier">empty</baseValue>',
       '</setOutcomeValue>',
       '</responseIf>',
-      '<responseElseIf>',
+      '<responseElse>',
       '<setOutcomeValue identifier="FEEDBACKBASIC">',
       '<baseValue baseType="identifier">correct</baseValue>',
       '</setOutcomeValue>',
-      '</responseElseIf>',
+      '</responseElse>',
       '</responseCondition>'
     )
 
@@ -705,12 +707,12 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<variable identifier="WORKSCORE"/>',
       '<variable identifier="MAXSCORE"/>',
       '</equal>',
-      '<setOutcomeValue identifier="FEEDBACK">',
+      '<setOutcomeValue identifier="FEEDBACKBASIC">',
       '<baseValue baseType="identifier">correct</baseValue>',
       '</setOutcomeValue>',
       '</responseIf>',
       '<responseElse>',
-      '<setOutcomeValue identifier="FEEDBACK">',
+      '<setOutcomeValue identifier="FEEDBACKBASIC">',
       '<baseValue baseType="identifier">incorrect</baseValue>',
       '</setOutcomeValue>',
       '</responseElse>',
