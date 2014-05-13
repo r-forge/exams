@@ -542,6 +542,19 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           '</responseDeclaration>'
         )
       }
+      ## string responses
+      if(type[i] == "string") {
+        xml <- c(xml,
+          paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
+        '<correctResponse>',
+          paste('<value>', solution[[i]], '</value>', sep = ''),
+          '</correctResponse>',
+          paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval, '">', sep = ''),
+          paste('<mapEntry mapKey="', solution[[i]], '" mappedValue="', pv[[i]]["pos"], '"/>', sep = ''),
+          '</mapping>',
+          '</responseDeclaration>'
+        )
+      }
     }
 
     xml <- c(xml,
@@ -560,12 +573,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<value>empty</value>',
       '</defaultValue>',
       '</outcomeDeclaration>',
-      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>',
-      '<outcomeDeclaration identifier="WORKSCORE" cardinality="single" baseType="float">',
-      '<defaultValue>',
-      '<value>0.0</value>',
-      '</defaultValue>',
-      '</outcomeDeclaration>'
+      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
     )
 
     ## starting the itembody
@@ -606,6 +614,23 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
             },
             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
+            '</p>'
+          )
+        }
+      }
+      if(type[i] == "string") {
+        for(j in seq_along(solution[[i]])) {
+          xml <- c(xml,
+            '<p>',
+            if(!is.null(questionlist[[i]][j])) {
+              paste(if(enumerate & n > 1) {
+                paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                  sep = "")
+               } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+            },
+            paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
+              '" expectedLength="', maxchars[[i]][1], '"/>', sep = ''),
             '</p>'
           )
         }
@@ -653,9 +678,9 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '<isNull>',
         paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
         '</isNull>',
-        '<setOutcomeValue identifier="WORKSCORE">',
+        '<setOutcomeValue identifier="SCORE">',
         '<sum>',
-        '<variable identifier="WORKSCORE"/>',
+        '<variable identifier="SCORE"/>',
         '<baseValue baseType="float">0.0</baseValue>', ## FIXME: points when not answered?
         '</sum>',
         '</setOutcomeValue>',
@@ -684,12 +709,13 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           )
         },
         if(type[i] == "num") '</and>' else NULL,
-        '<setOutcomeValue identifier="WORKSCORE">',
+        '<setOutcomeValue identifier="SCORE">',
         '<sum>',
-        '<variable identifier="WORKSCORE"/>',
+        '<variable identifier="SCORE"/>',
         switch(type[i],
           "mchoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
           "schoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
+          "string" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
           "num" = paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = '')
         ),
         '</sum>',
@@ -704,7 +730,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<responseCondition>',
       '<responseIf>',
       '<equal toleranceMode="exact">',
-      '<variable identifier="WORKSCORE"/>',
+      '<variable identifier="SCORE"/>',
       '<variable identifier="MAXSCORE"/>',
       '</equal>',
       '<setOutcomeValue identifier="FEEDBACKBASIC">',
@@ -735,18 +761,6 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '</sum>',
       '</setOutcomeValue>',
       '</responseIf>',
-      '<responseElse>',
-      '<setOutcomeValue identifier="SCORE">',
-      '<sum>',
-      '<variable identifier="SCORE"/>',
-      if(!eval$partial) {
-        paste('<baseValue baseType="float">', sum(q_points), '</baseValue>', sep = '')
-      } else {
-        '<variable identifier="WORKSCORE"/>'
-      },
-      '</sum>',
-      '</setOutcomeValue>',
-      '</responseElse>',
       '</responseCondition>'
     )
 
