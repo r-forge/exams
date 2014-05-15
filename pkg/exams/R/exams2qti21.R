@@ -12,12 +12,13 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
+  points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = TRUE,
+  mode = "hex", debug = TRUE, ...)
 {
   require("tools")
 
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(...)
+  htmltransform <- make_exercise_transform_html(..., base64 = base64, mode = "hex")
 
   ## generate the exam
   is.xexam <- FALSE
@@ -187,165 +188,64 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
-
+      if(debug) {
+        exm[[i]][[j]]$question <- "Here is the questiontext..."
+        exm[[i]][[j]]$solution <- "This is the solutiontext..."
+        exm[[i]][[j]]$solutionlist <- NA
+      }
       ibody <- itembody[[type]](exm[[i]][[j]])
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
-        if(!file.exists(media_dir <- file.path(test_dir, "media")))
-          dir.create(media_dir)
-        sj <- 1
-        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
-          sj <- sj + 1
+        if(!base64) {
+          if(!file.exists(media_dir <- file.path(test_dir, "media")))
+            dir.create(media_dir)
+          sj <- 1
+          while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
+            sj <- sj + 1
+          }
+          dir.create(ms_dir <- file.path(media_dir, sup_dir))
         }
-        dir.create(ms_dir <- file.path(media_dir, sup_dir))
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
-          file.copy(exm[[i]][[j]]$supplements[si],
-            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-          if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
-            ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
-              file.path('media', sup_dir), ibody, fixed = TRUE)
+          f <- basename(exm[[i]][[j]]$supplements[si])
+          if(base64) {
+            require("base64enc")
+            replacement <- fileURI(exm[[i]][[j]]$supplements[si])
+
+            if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+              ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+                replacement, ibody, fixed = TRUE)
+            } else {
+              if(any(grepl(f, ibody))) {
+                ibody <- gsub(paste(f, '"', sep = ''),
+                  paste(replacement, '"', sep = ''), ibody, fixed = TRUE)
+              }
+            }
           } else {
-            if(any(grepl(f, ibody))) {
-              ibody <- gsub(paste(f, '"', sep = ''),
-                paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+            file.copy(exm[[i]][[j]]$supplements[si],
+              file.path(ms_dir, f))
+
+            fid <- gsub('\\', '', gsub('/', '_', file.path('media', sup_dir, f), fixed = TRUE), fixed = TRUE)
+            fhref <- file.path('media', sup_dir, f)
+            sec_items_R <- c(sec_items_R,
+              paste('<resource identifier="', paste(fid, 'id', sep = '_'),
+                '" type="imsqti_item_xmlv2p1" href="', fhref, '">', sep = ''),
+              paste('<file href="', fhref, '"/>', sep = ''),
+              '</resource>'
+            )
+
+            if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+              ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+                file.path('media', sup_dir), ibody, fixed = TRUE)
+            } else {
+              if(any(grepl(f, ibody))) {
+                ibody <- gsub(paste(f, '"', sep = ''),
+                  paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+              }
             }
           }
         }
       }
-
-      ## FIXME: fixups
-      fxtab <- rbind(
-        c('&nbsp;', ''),
-        c('&fnof;', '&#x192;'),
-        c('&Alpha;', '&#x391;'),
-        c('&Beta;', '&#x392;'),
-        c('&Gamma;', '&#x393;'),
-        c('&Delta;', '&#x394;'),
-        c('&Epsilon;', '&#x395;'),
-        c('&Zeta;', '&#x396;'),
-        c('&Eta;', '&#x397;'),
-        c('&Theta;', '&#x398;'),
-        c('&Iota;', '&#x399;'),
-        c('&Kappa;', '&#x39A;'),
-        c('&Lambda;', '&#x39B;'),
-        c('&Mu;', '&#x39C;'),
-        c('&Nu;', '&#x39D;'),
-        c('&Xi;', '&#x39E;'),
-        c('&Omicron;', '&#x39F;'),
-        c('&Pi;', '&#x3A0;'),
-        c('&Rho;', '&#x3A1;'),
-        c('&Sigma;', '&#x3A3;'),
-        c('&Tau;', '&#x3A4;'),
-        c('&Upsilon;', '&#x3A5;'),
-        c('&Phi;', '&#x3A6;'),
-        c('&Chi;', '&#x3A7;'),
-        c('&Psi;', '&#x3A8;'),
-        c('&Omega;', '&#x3A9;'),
-        c('&alpha;', '&#x3B1;'),
-        c('&beta;', '&#x3B2;'),
-        c('&gamma;', '&#x3B3;'),
-        c('&delta;', '&#x3B4;'),
-        c('&epsilon;', '&#x3B5;'),
-        c('&zeta;', '&#x3B6;'),
-        c('&eta;', '&#x3B7;'),
-        c('&theta;', '&#x3B8;'),
-        c('&iota;', '&#x3B9;'),
-        c('&kappa;', '&#x3BA;'),
-        c('&lambda;', '&#x3BB;'),
-        c('&mu;', '&#x3BC;'),
-        c('&nu;', '&#x3BD;'),
-        c('&xi;', '&#x3BE;'),
-        c('&omicron;', '&#x3BF;'),
-        c('&pi;', '&#x3C0;'),
-        c('&rho;', '&#x3C1;'),
-        c('&sigmaf;', '&#x3C2;'),
-        c('&sigma;', '&#x3C3;'),
-        c('&tau;', '&#x3C4;'),
-        c('&upsilon;', '&#x3C5;'),
-        c('&phi;', '&#x3C6;'),
-        c('&chi;', '&#x3C7;'),
-        c('&psi;', '&#x3C8;'),
-        c('&omega;', '&#x3C9;'),
-        c('&thetasym;', '&#x3D1;'),
-        c('&upsih;', '&#x3D2;'),
-        c('&piv;', '&#x3D6;'),
-        c('&bull;', '&#x2022;'),
-        c('&hellip;', '&#x2026;'),
-        c('&prime;', '&#x2032;'),
-        c('&Prime;', '&#x2033;'),
-        c('&oline;', '&#x203E;'),
-        c('&frasl;', '&#x2044;'),
-        c('&weierp;', '&#x2118;'),
-        c('&image;', '&#x2111;'),
-        c('&real;', '&#x211C;'),
-        c('&trade;', '&#x2122;'),
-        c('&alefsym;', '&#x2135;'),
-        c('&larr;', '&#x2190;'),
-        c('&uarr;', '&#x2191;'),
-        c('&rarr;', '&#x2192;'),
-        c('&darr;', '&#x2193;'),
-        c('&harr;', '&#x2194;'),
-        c('&crarr;', '&#x21B5;'),
-        c('&lArr;', '&#x21D0;'),
-        c('&uArr;', '&#x21D1;'),
-        c('&rArr;', '&#x21D2;'),
-        c('&dArr;', '&#x21D3;'),
-        c('&hArr;', '&#x21D4;'),
-        c('&forall;', '&#x2200;'),
-        c('&part;', '&#x2202;'),
-        c('&exist;', '&#x2203;'),
-        c('&empty;', '&#x2205;'),
-        c('&nabla;', '&#x2207;'),
-        c('&isin;', '&#x2208;'),
-        c('&notin;', '&#x2209;'),
-        c('&ni;', '&#x220B;'),
-        c('&prod;', '&#x220F;'),
-        c('&sum;', '&#x2211;'),
-        c('&minus;', '&#x2212;'),
-        c('&lowast;', '&#x2217;'),
-        c('&radic;', '&#x221A;'),
-        c('&prop;', '&#x221D;'),
-        c('&infin;', '&#x221E;'),
-        c('&ang;', '&#x2220;'),
-        c('&and;', '&#x2227;'),
-        c('&or;', '&#x2228;'),
-        c('&cap;', '&#x2229;'),
-        c('&cup;', '&#x222A;'),
-        c('&int;', '&#x222B;'),
-        c('&there4;', '&#x2234;'),
-        c('&sim;', '&#x223C;'),
-        c('&cong;', '&#x2245;'),
-        c('&asymp;', '&#x2248;'),
-        c('&ne;', '&#x2260;'),
-        c('&equiv;', '&#x2261;'),
-        c('&le;', '&#x2264;'),
-        c('&ge;', '&#x2265;'),
-        c('&sub;', '&#x2282;'),
-        c('&sup;', '&#x2283;'),
-        c('&nsub;', '&#x2284;'),
-        c('&sube;', '&#x2286;'),
-        c('&supe;', '&#x2287;'),
-        c('&oplus;', '&#x2295;'),
-        c('&otimes;', '&#x2297;'),
-        c('&perp;', '&#x22A5;'),
-        c('&sdot;', '&#x22C5;'),
-        c('&lceil;', '&#x2308;'),
-        c('&rceil;', '&#x2309;'),
-        c('&lfloor;', '&#x230A;'),
-        c('&rfloor;', '&#x230B;'),
-        c('&lang;', '&#x2329;'),
-        c('&rang;', '&#x232A;'),
-        c('&loz;', '&#x25CA;'),
-        c('&spades;', '&#x2660;'),
-        c('&clubs;', '&#x2663;'),
-        c('&hearts;', '&#x2665;'),
-        c('&diams;', '&#x2666;'),
-        c('&OverBar;', '&#175;'),
-        c('&UnderBar;', '&#818;') 
-      )
-      for(i in 1:nrow(fxtab))
-        ibody <- gsub(fxtab[i, 1L], fxtab[i, 2L], ibody)
 
       ## write the item xml to file
       writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', ibody),
@@ -518,15 +418,27 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
         xml <- c(xml, '</correctResponse>',
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
-            '" lowerBound="', if(!eval$negative) "0.0" else minvalue, '">', sep = '')
+            '" lowerBound="', if(!eval$negative) "0.0" else {
+              if(x$metainfo$type == "cloze") pv[[i]]["neg"] else minvalue
+            }, '">', sep = '')
         )
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
             paste('<mapEntry mapKey="', ids[[i]]$questions[j], '" mappedValue="',
               if(eval$partial) {
-                if(solution[[i]][j]) pv[[i]]["pos"] else pv[[i]]["neg"]
+                if(solution[[i]][j]) {
+                  if(x$metainfo$type == "cloze") {
+                    pv[[i]]["pos"] / sum(solution[[i]])
+                  } else pv[[i]]["pos"]
+                } else {
+                  if(x$metainfo$type == "cloze") {
+                    pv[[i]]["neg"] / sum(!solution[[i]])
+                  } else pv[[i]]["neg"]
+                }
               } else {
-                if(solution[[i]][j]) q_points[i] / sum(solution[[i]] * 1) else minvalue * sum(solution[[i]] * 1)
+                if(solution[[i]][j]) q_points[i] / sum(solution[[i]] * 1) else {
+                  pv[[i]]["neg"] * length(solution[[i]])
+                }
               }, '"/>', sep = '')
           )
         }
@@ -630,7 +542,11 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
             },
             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
-              '" expectedLength="', maxchars[[i]][1], '"/>', sep = ''),
+              '" expectedLength="', if(!is.na(maxchars[[i]][2])) {
+                maxchars[[i]][2]
+              } else maxchars[[i]][1], '" ', if(!is.na(maxchars[[i]][3])) {
+                paste( 'expectedLines="', maxchars[[i]][3], '" ', sep = '')
+              } else NULL, '/>', sep = ''),
             '</p>'
           )
         }
