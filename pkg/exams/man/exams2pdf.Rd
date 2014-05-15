@@ -48,7 +48,8 @@
   \item{edir}{character specifying the path of the directory in which
     the files in \code{file} are stored (see also below).}
   \item{tdir}{character specifying a temporary directory, by default
-    this is chosen via \code{\link[base]{tempdir}}.}
+    this is chosen via \code{\link[base]{tempdir}}. Note that this
+    is cleaned up and potentially temporary files are deleted.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{verbose}{logical. Should information on progress of exam generation
