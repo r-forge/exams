@@ -3,6 +3,8 @@
 ## http://www.imsglobal.org/question/#version2.1
 ## https://www.ibm.com/developerworks/library/x-qti/
 ## https://www.onyx-editor.de/
+## http://validator.imsglobal.org/qti/index.jsp
+## https://webapps.ph.ed.ac.uk/qtiworks/anonymous/validator 
 exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding  = "",
@@ -13,7 +15,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = TRUE,
-  mode = "hex", debug = TRUE, ...)
+  mode = "hex", ...)
 {
   require("tools")
 
@@ -177,8 +179,12 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## overule points
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
-      if(i < 2)
-        maxscore <- maxscore + if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
+      if(i < 2) {
+        tpts <- if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
+        if(exm[[i]][[j]]$metainfo$type == "cloze")
+          tpts <- sum(rep(tpts, length = length(exm[[i]][[j]]$metainfo$solution)))
+        maxscore <- maxscore + tpts
+      }
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
@@ -188,11 +194,14 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
-      if(debug) {
+
+      ## switch for debugging
+      if(FALSE) {
         exm[[i]][[j]]$question <- "Here is the questiontext..."
         exm[[i]][[j]]$solution <- "This is the solutiontext..."
         exm[[i]][[j]]$solutionlist <- NA
       }
+
       ibody <- itembody[[type]](exm[[i]][[j]])
 
       ## copy supplements
@@ -387,12 +396,8 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
       }
     }
-
-    if(is.null(minvalue)) {
-      if(eval$negative) {
-        minvalue <- sum(sapply(pv, function(x) { x["neg"] }))
-      } else minvalue <- 0
-    }
+    if(is.null(minvalue))
+        minvalue <- 0
 
     for(i in 1:n) {
       ## get item id
@@ -419,7 +424,13 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         xml <- c(xml, '</correctResponse>',
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
             '" lowerBound="', if(!eval$negative) "0.0" else {
-              if(x$metainfo$type == "cloze") pv[[i]]["neg"] else minvalue
+              if(x$metainfo$type == "cloze") {
+                if(eval$partial) pv[[i]]["neg"] else "0.0"
+              } else {
+                if(eval$partial) {
+                  pv[[i]]["neg"] * sum(!solution[[i]])
+                } else "0.0"
+              }
             }, '">', sep = '')
         )
         for(j in seq_along(solution[[i]])) {
@@ -487,6 +498,16 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '</outcomeDeclaration>',
       '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
     )
+
+    if(!is.null(minvalue)) {
+      xml <- c(xml,
+        '<outcomeDeclaration identifier="MINSCORE" cardinality="single" baseType="float">',
+        '<defaultValue>',
+        paste('<value baseType="float">', minvalue, '</value>', sep = ''),
+        '</defaultValue>',
+        '</outcomeDeclaration>'
+      )
+    }
 
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
@@ -637,6 +658,26 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '</sum>',
         '</setOutcomeValue>',
         '</responseIf>',
+        if(!grepl("choice", type[i]) & eval$partial) {
+          c('<responseElseIf>',
+            '<match>',
+            '<variable identifier="FEEDBACKBASIC"/>',
+            '<baseValue baseType="identifier">correct</baseValue>',
+            '</match>',
+            '<setOutcomeValue identifier="SCORE">',
+            '<sum>',
+            '<variable identifier="SCORE"/>',
+            paste('<baseValue baseType="float">', pv[[i]]["neg"], '</baseValue>', sep = ''),
+            '</sum>',
+            '</setOutcomeValue>',
+            '</responseElseIf>',
+            '<responseElse>',
+            '<setOutcomeValue identifier="FEEDBACKBASIC">',
+            '<baseValue baseType="identifier">incorrect</baseValue>',
+            '</setOutcomeValue>',
+            '</responseElse>'
+          )
+        } else NULL,
         '</responseCondition>'
       )
     }
@@ -657,28 +698,37 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<setOutcomeValue identifier="FEEDBACKBASIC">',
       '<baseValue baseType="identifier">incorrect</baseValue>',
       '</setOutcomeValue>',
+      if(!eval$partial) {
+        c('<setOutcomeValue identifier="SCORE">',
+          paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
+          '</setOutcomeValue>')
+      } else NULL,
       '</responseElse>',
       '</responseCondition>'
     )
 
-    xml <- c(xml,
-      '<responseCondition>',
-      '<responseIf>',
-      '<and>',
-      '<match>',
-      '<baseValue baseType="identifier">incorrect</baseValue>',
-      '<variable identifier="FEEDBACKBASIC"/>',
-      '</match>',
-      '</and>',
-      '<setOutcomeValue identifier="SCORE">',
-      '<sum>',
-      '<variable identifier="SCORE"/>',
-      paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
-      '</sum>',
-      '</setOutcomeValue>',
-      '</responseIf>',
-      '</responseCondition>'
-    )
+    ## set the minimum points
+    if(!is.null(minvalue)) {
+      xml <- c(xml,
+        '<responseCondition>',
+        '<and>',
+        '<match>',
+        '<baseValue baseType="identifier">incorrect</baseValue>',
+        '<variable identifier="FEEDBACKBASIC"/>',
+        '</match>',
+        '<not>',
+        '<gte>',
+        '<variable identifier="SCORE"/>', 
+        '<variable identifier="MINSCORE"/>',
+        '</gte>',
+        '</not>',
+        '</and>',
+        '<setOutcomeValue identifier="SCORE">',
+        paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
+        '</setOutcomeValue>',
+        '</responseCondition>'
+      )
+    }
 
     fid <- make_id(9, 1)
     xml <- c(xml,
