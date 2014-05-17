@@ -15,8 +15,9 @@
 <value>##MaxScore##</value>
 </defaultValue>
 </outcomeDeclaration>
+##TimeLimits##
 <testPart identifier="##TestpartId##" navigationMode="nonlinear" submissionMode="individual">
-<itemSessionControl allowComment="false"/>
+<itemSessionControl allowComment="false" maxAttempts="##MaxAttempts##"/>
 ##AssessmentSections##
 </testPart>
 <outcomeProcessing>

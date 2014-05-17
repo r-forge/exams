@@ -296,7 +296,18 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', cutvalue, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##CutValue##', cutvalue, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts)), assessment_xml, fixed = TRUE)
+
+  ## assessment duration provided in minutes
+  if(!is.null(duration)) {
+    dursecs <- round(duration * 60)
+    duration <- paste('<timeLimits maxTime="', dursecs, '"/>', sep = '')
+  } else {
+    duration <- ""
+  }
+
+  assessment_xml <- gsub('##TimeLimits##', duration, assessment_xml, fixed = TRUE)
 
   ## write xmls to dir
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml),
@@ -323,10 +334,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
 
 ## QTI 2.1 item body constructor function
-make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
-  minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE)
+make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE,
+  defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
+  digits = NULL, tolerance = is.null(digits), maxchars = 12,
+  eval = list(partial = TRUE, negative = FALSE))
 {
   function(x) {
     ## how many points?
@@ -488,7 +499,7 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '</outcomeDeclaration>',
       '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">',
       '<defaultValue>',
-      paste('<value>', sum(q_points), '</value>', sep = ''),
+      paste('<value>', if(is.null(maxvalue)) sum(q_points) else maxvalue, '</value>', sep = ''),
       '</defaultValue>',
       '</outcomeDeclaration>',
       '<outcomeDeclaration identifier="FEEDBACKBASIC" cardinality="single" baseType="identifier" view="testConstructor">',
