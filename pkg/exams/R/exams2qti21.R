@@ -197,6 +197,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
 
+      ## overrule item name
+      if(!is.null(ititle))
+        exm[[i]][[j]]$metainfo$name <- ititle[j]
+
       ## switch for debugging
       if(FALSE) {
         exm[[i]][[j]]$question <- "Here is the questiontext..."
