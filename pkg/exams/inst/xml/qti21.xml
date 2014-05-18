@@ -17,7 +17,7 @@
 </outcomeDeclaration>
 ##TimeLimits##
 <testPart identifier="##TestpartId##" navigationMode="nonlinear" submissionMode="individual">
-<itemSessionControl allowComment="false" maxAttempts="##MaxAttempts##"/>
+<itemSessionControl allowComment="false" maxAttempts="##MaxAttempts##" showSolution="##ShowSolution##"/>
 ##AssessmentSections##
 </testPart>
 <outcomeProcessing>

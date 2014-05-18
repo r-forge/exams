@@ -4,7 +4,8 @@
 ## https://www.ibm.com/developerworks/library/x-qti/
 ## https://www.onyx-editor.de/
 ## http://validator.imsglobal.org/qti/index.jsp
-## https://webapps.ph.ed.ac.uk/qtiworks/anonymous/validator 
+## https://webapps.ph.ed.ac.uk/qtiworks/anonymous/validator
+## http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html
 exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding  = "",
@@ -52,6 +53,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         itembody[[i]]$eval <- eval
       if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
         itembody[[i]]$eval$rule <- "none"
+      itembody[[i]]$solutionswitch <- solutionswitch
       itembody[[i]] <- do.call("make_itembody_qti21", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -298,6 +300,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts)), assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##ShowSolution##', if(solutionswitch) 'true' else 'false', assessment_xml, fixed = TRUE)
 
   ## assessment duration provided in minutes
   if(!is.null(duration)) {
@@ -337,7 +340,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
-  eval = list(partial = TRUE, negative = FALSE))
+  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE)
 {
   function(x) {
     ## how many points?
@@ -492,7 +495,8 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE,
     }
 
     xml <- c(xml,
-      '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">',
+      paste('<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" ',
+        'normalMaximum="', sum(q_points), '" normalMinimum="', minvalue, '">', sep = ''),
       '<defaultValue>',
       '<value>0.0</value>',
       '</defaultValue>',
@@ -741,58 +745,62 @@ make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE,
       )
     }
 
-    fid <- make_id(9, 1)
-    xml <- c(xml,
-      '<responseCondition>',
-      '<responseIf>',
-      '<and>',
-      '<match>',
-      '<baseValue baseType="identifier">incorrect</baseValue>',
-      '<variable identifier="FEEDBACKBASIC"/>',
-      '</match>',
-      '</and>',
-      '<setOutcomeValue identifier="FEEDBACKMODAL">',
-      '<multiple>',
-      '<variable identifier="FEEDBACKMODAL"/>',
-      paste('<baseValue baseType="identifier">Feedback', fid, '</baseValue>', sep = ''),
-      '</multiple>',
-      '</setOutcomeValue>',
-      '</responseIf>',
-      '</responseCondition>'
-    )
+    if(solutionswitch) {
+      fid <- make_id(9, 1)
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<and>',
+        '<match>',
+        '<baseValue baseType="identifier">incorrect</baseValue>',
+        '<variable identifier="FEEDBACKBASIC"/>',
+        '</match>',
+        '</and>',
+        '<setOutcomeValue identifier="FEEDBACKMODAL">',
+        '<multiple>',
+        '<variable identifier="FEEDBACKMODAL"/>',
+        paste('<baseValue baseType="identifier">Feedback', fid, '</baseValue>', sep = ''),
+        '</multiple>',
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
 
-    ## create solution
-    xsolution <- x$solution
-    if(length(length(x$solutionlist))) {
-      if(!all(is.na(x$solutionlist))) {
-        xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
-        if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
-        if(x$metainfo$type == "cloze") {
-          g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
-          ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
-          sl <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
-        } else {
-          ql <- x$questionlist
-          sl <- x$solutionlist
+      ## create solution
+      xsolution <- x$solution
+      if(length(length(x$solutionlist))) {
+        if(!all(is.na(x$solutionlist))) {
+          xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
+          if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+          if(x$metainfo$type == "cloze") {
+            g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
+            ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
+            sl <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
+          } else {
+            ql <- x$questionlist
+            sl <- x$solutionlist
+          }
+          nsol <- length(ql)
+          xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+            ql, if(length(x$solutionlist)) "<br />" else NULL,
+            sl, if(enumerate) rep('</li>', nsol) else NULL))
+          if(enumerate) xsolution <- c(xsolution, '</ol>')
         }
-        nsol <- length(ql)
-        xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
-          ql, if(length(x$solutionlist)) "<br />" else NULL,
-          sl, if(enumerate) rep('</li>', nsol) else NULL))
-        if(enumerate) xsolution <- c(xsolution, '</ol>')
       }
     }
 
     xml <- c(xml, '</responseProcessing>')
 
     ## solution when wrong
-    xml <- c(xml,
-      paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-      '<p>',
-      xsolution,
-      '</p>',
-      '</modalFeedback>'
-    )
+    if(solutionswitch) {
+      xml <- c(xml,
+        paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
+        '<p>',
+        xsolution,
+        '</p>',
+        '</modalFeedback>'
+      )
+    }
 
     xml <- c(xml, '</assessmentItem>')
 
