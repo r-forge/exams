@@ -37,9 +37,11 @@ export(
   "make_exercise_transform_html",
   "make_exams_write_html",
 
-  ## IMS QTI 1.2 driver
+  ## IMS QTI drivers
   "exams2qti12",
   "make_itembody_qti12",
+  "exams2qti21",
+  "make_itembody_qti21",
 
   ## WU server driver
   "exams2lops",

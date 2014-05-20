@@ -18,8 +18,6 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = TRUE,
   mode = "hex", ...)
 {
-  require("tools")
-
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(..., base64 = base64, mode = "hex")
 
@@ -300,7 +298,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##TestTitle##', name, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'),
     assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##Score##', cutvalue, assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts)), assessment_xml, fixed = TRUE)
@@ -341,7 +339,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
 
 ## QTI 2.1 item body constructor function
-make_itembody_qti21 <- function(rtiming = FALSE, shuffle = FALSE,
+make_itembody_qti21 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE)

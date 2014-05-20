@@ -1,11 +1,15 @@
 \name{exams2qti12}
 \alias{exams2qti12}
 \alias{make_itembody_qti12}
+\alias{exams2qti21}
+\alias{make_itembody_qti21}
+\alias{exams2qti}
+\alias{make_itembody_qti}
 
-\title{Generation of Exams in IMS QTI 1.2 Format}
+\title{Generation of Exams in IMS QTI 1.2 and 2.1 Format}
 
 \description{
-  Automatic generation of exams in IMS QTI 1.2 format.
+  Automatic generation of exams in IMS QTI 1.2 and 2.1 format.
 }
 
 \usage{
@@ -24,6 +28,21 @@
     eval = list(partial = TRUE, negative = FALSE),
     \dots)
 
+  exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
+    name = NULL, quiet = TRUE, edir = NULL,
+    tdir = NULL, sdir = NULL, verbose = FALSE,
+    resolution = 100, width = 4, height = 4, encoding  = "",
+    num = NULL, mchoice = NULL,
+    schoice = mchoice, string = NULL, cloze = NULL,
+    template = "qti21", duration = NULL,
+    stitle = "Exercise", ititle = "Question",
+    adescription = "Please solve the following exercises.",
+    sdescription = "Please answer the following question.", 
+    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
+    zip = TRUE, points = NULL,
+    eval = list(partial = TRUE, negative = FALSE),
+    base64 = TRUE, mode = "hex", \dots)
+
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
@@ -31,6 +50,12 @@
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
     fix_num = TRUE)
+
+  make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
+    minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
+    digits = NULL, tolerance = is.null(digits), maxchars = 12,
+    eval = list(partial = TRUE, negative = FALSE),
+    solutionswitch = TRUE)
 }
 
 \arguments{
@@ -59,14 +84,15 @@
   \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
-    for generating the item body of the question, see function \code{make_itembody_qti12()}.
+    for generating the item body of the question, see function \code{make_itembody_qti12()}
+    (or \code{make_itembody_qti21()}).
     If \code{num} is a named list, these arguments will be passed to function
-    \code{make_itembody_qti12()}.}
+    \code{make_itembody_qti12()} (or \code{make_itembody_qti21()} using \code{exams2qti21()}).}
   \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice, 
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
-  \item{template}{character. The IMS QTI 1.2 template that should be used. Currently,
-    the package provides \code{"qti12.xml"}.}
+  \item{template}{character. The IMS QTI 1.2 or 2.1 template that should be used. Currently,
+    the package provides \code{"qti12.xml"} and \code{"qti21.xml"}.}
   \item{duration}{integer. Set the duration of the exam in minutes.}
   \item{stitle}{character. A title that should be used for the sections. May be a vector of
     length 1 to use the same title for each section, or a vector containing different section
@@ -90,9 +116,14 @@
     the exam.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
+  \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
+    also be a character vector of file endings that should be Base 64 encoded, e.g.
+    \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.}
+  \item{mode}{character. See function \code{\link[tth]{tth}}.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
-    specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
+    specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.
+    Genereting IMS QTI 2.1 items using \code{exams2qti21()} the arguments have similar meaning.}
   \item{enumerate}{logical. Insert potential solutions in enumerated list?}
   \item{digits}{integer. How many digits should be used for \code{num} exercises?}
   \item{tolerance}{logical. Should tolerance intervals be used for checking if the supplied
@@ -154,19 +185,33 @@
   I.e. in a test, the answer must be provided exactly to the decimal places specified in \code{digits} and has no upper
   or lower tolerance level (e.g., if the exact solution is 16.4562 and \code{digits = 2}, then the
   correct answer in the test will be \code{"16.46"}, i.e., a character string of 5 characters).
+
+  Generating exams/assessment in IMS QTI 2.1 format using \code{exams2qti21()} and \code{make_itembody_qti21()}
+  is performed in a similar way as described in the above. Note that the IMS QTI 2.1 generators are
+  still work in progress. The generated XML files have been validated using the IMS validator provided
+  at \url{http://validator.imsglobal.org/qti/index.jsp}. Furthermore, generated exams/assessments have
+  been tested using the ONYX-Editor and Player, see \url{https://www.onyx-editor.de/onyx/editor?2}.
 }
 
 \references{
   IMS Global Learning Consortium, Inc. (2012).
   \emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.
   \url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
+
+  IMS Global Learning Consortium, Inc. (2012).
+  \emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
+  \url{http://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
+
+  BPS Bildungsportal Sachsen GmbH (2014).
+  \emph{ONYX Testsuite}.
+  \url{https://www.bps-system.de/cms/en/products/onyx-testsuite/}
 }
 
 \value{
-  \code{exams2qti12} returns a list of exams as generated by \code{\link[exams]{xexams}}.
+  \code{exams2qti12} and \code{exams2qti21} return a list of exams as generated by \code{\link[exams]{xexams}}.
   
-  \code{make_itembody_qti12} returns a function that generates the XML code
-  for the itembody tag in IMS QTI 1.2 format.
+  \code{make_itembody_qti12} and \code{make_itembody_qti21} return a function that generates the XML code
+  for the itembody tag in IMS QTI 1.2 and IMS QTI 2.1 format.
 }
 
 \seealso{
