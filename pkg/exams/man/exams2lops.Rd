@@ -59,7 +59,7 @@
   \code{exams2lops} will produce a \code{.zip} file that may be uploaded. It proceeds by (1)
   calling \code{\link[utils]{Sweave}} on each exercise, (2) reading the resulting LaTeX code, (3)
   transforming the LaTeX code to HTML, and (4) embedding the HTML code in a XML file using the
-  Moodle 2.3 standards for exams/quizzes.
+  LOPS exam server XML format (WU Wien).
 
   For steps (1) and (2) the standard drivers in \code{xexams} are used. In step (3), a suitable
   transformation function is set up on the fly using \code{make_exercise_transform_html}, see also
@@ -69,10 +69,17 @@
   into the final XML files for each question and the exam.
 
   Note that in \code{make_exams_write_lops} only multiple and single choice questions are supported at
-  the moment, since the LOPS exam server format (WU Wien) is used to generate printed versions for large scale
+  the moment, since the LOPS exam server XML format (WU Wien) is used to generate printed versions for large scale
   multiple choice exams. In addition, only images of the question/questionlist/solution/solutionlist
   should be generated, since the server has only minimum support for e.g. MathML markup used to
   produce mathematical formulas.
+}
+
+\references{
+Zeileis A, Umlauf N, Leisch F (2014).
+  Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
+  \emph{Journal of Statistical Software}, \bold{58}(1), 1--33.
+  \url{http://www.jstatsoft.org/v58/i01/}.
 }
 
 \value{
