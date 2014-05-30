@@ -1,5 +1,5 @@
-## generate exams in Moodle 2.3 .xml format
-## http://docs.moodle.org/23/en/Moodle_XML_format
+## generate exams in Moodle XML format
+## http://docs.moodle.org/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding = "", 
@@ -33,7 +33,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
         if(i == "cloze" & is.null(moodlequestion[[i]]$eval$rule))
           moodlequestion[[i]]$eval$rule <- "none"
       }
-      moodlequestion[[i]] <- do.call("make_question_moodle23", moodlequestion[[i]])
+      moodlequestion[[i]] <- do.call("make_question_moodle", moodlequestion[[i]])
     }
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
@@ -202,7 +202,8 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 
-## Moodle 2.3 question constructor function
+## Moodle question constructor function (originally for Moodle 2.3)
+make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
   truefalse = c("True", "False"), enumerate = TRUE,
