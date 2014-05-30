@@ -80,6 +80,13 @@
   \code{"b"} while \code{"xyz"} is always included as the second exercise.
 }
 
+\references{
+Zeileis A, Umlauf N, Leisch F (2014).
+  Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
+  \emph{Journal of Statistical Software}, \bold{58}(1), 1--34.
+  \url{http://www.jstatsoft.org/v58/i01/}.
+}
+
 \value{
   A list of exams (of length \code{n}),
   each of which is a list of exercises (whose length depends on the length of \code{file} and \code{nsamp}),

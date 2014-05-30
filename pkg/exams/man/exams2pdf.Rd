@@ -57,9 +57,9 @@
 }
 
 \details{
-  \code{exams2pdf} is a proof-of-concept implementation of the new
-  extensible \code{\link[exams]{xexams}} framework. It is a (slightly less
-  efficient) reimplementation of the old \code{\link[exams]{exams}} function.
+  \code{exams2pdf} is a more flexible re-implementation of old (version 1)
+  \code{\link[exams]{exams}} function (Gruen and Zeileis 2009), using the new extensible
+  \code{\link[exams]{xexams}} framework (Zeileis et al. 2014).
   
   It proceeds by using \code{make_exams_write_pdf} to set up a custom
   \code{driver$write} function on the fly before calling \code{xexams}.
@@ -71,6 +71,17 @@
   screen while for \code{n > 1} some output directory \code{dir} has
   to be specified where the PDF files are stored. For more details see
   the original \code{\link[exams]{exams}} function.
+}
+
+\references{
+Gruen B, Zeileis A (2009). Automatic Generation of Exams in R.
+  \emph{Journal of Statistical Software}, \bold{29}(10), 1--14.
+  \url{http://www.jstatsoft.org/v29/i10/}.
+
+Zeileis A, Umlauf N, Leisch F (2014).
+  Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
+  \emph{Journal of Statistical Software}, \bold{58}(1), 1--34.
+  \url{http://www.jstatsoft.org/v58/i01/}.
 }
 
 \value{

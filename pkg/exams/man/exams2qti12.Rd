@@ -138,7 +138,15 @@
 }
 
 \details{
-  \code{exams2qti12} will produce a \code{.zip} file that may be uploaded (e.g. in OLAT) including
+  The Question & Test Interoperability (QTI) is an international XML standard for specifying
+  e-learning tests (IMS Global Learning Consortium, Inc. 2012ab). The standard evolved over various
+  versions with the first release culminating in the QTI 1.2 standard and the stable version
+  of the second release currently at QTI 2.1. While both versions share many similarities, they
+  differ in many details. Hence, separate functions \code{exams2qti12} and \code{exams2qti21} are
+  provided. The former has already been thoroughly tested and the latter is still in beta testing
+  stage and might change in future releases.
+  
+  \code{exams2qti12} produces a \code{.zip} file that may be uploaded (e.g. in OLAT). This includes
   the final XML file of the exam/assessement as well as possible supplement folders that include
   images, data sets etc. used for the exam. It proceeds by (1) calling \code{\link[utils]{Sweave}}
   on each exercise, (2) reading the resulting LaTeX code, (3) transforming the LaTeX code to HTML,
@@ -153,9 +161,9 @@
   file in IMS QTI 1.2 standard. Therefore, each question will be included in the XML as one section.
   The replicates of each question will be written as question items of the section.
 
-  The function uses the hard-coded XML template for IMS QTI 1.2 assessements and items to generate
+  The function uses the XML template for IMS QTI 1.2 assessements and items to generate
   the exam (per default, this is the XML file \code{qti12.xml} provided in the \code{xml} folder of
-  this package). The assessement template must contain of one section including one item.
+  this package). The assessement template must provide one section including one item.
   \code{exams2qti12} will then use the single item template to generate all items, as well as the
   assessement and section specifications set within the template.
 
@@ -178,33 +186,38 @@
   answerlist.
   
   Note that in OLAT/OpenOLAT \code{num} exercises are not officially supported but in fact work
-  correctly. The only drawback is that the correct solution is not shown at the end of the assessment
-  (although it is used for all internal computations). A potential workaround is to implement
-  \code{num} exercises via \code{string} by exactly matching the given solution to the correct
-  solution at a given rounding. This may be controlled by argument in \code{digits} in \code{make_itembody_qti12}.  
-  I.e. in a test, the answer must be provided exactly to the decimal places specified in \code{digits} and has no upper
-  or lower tolerance level (e.g., if the exact solution is 16.4562 and \code{digits = 2}, then the
+  correctly. The only drawback is that in certain settings the correct solution is not shown at the
+  end of the assessment (although it is used for all internal computations). Therefore, two workarounds
+  are implemented. Either \code{fix_num} can be set to \code{TRUE} (default), then a fix is added
+  by double-checking the result, or \code{digits} can be set to a fixed value (e.g., \code{digits = 2}).
+  In the latter case, the \code{num} exercise is represented by a \code{string}. Then the answer must
+  be provided exactly to the decimal places specified (e.g., if the exact solution is 16.4562, then the
   correct answer in the test will be \code{"16.46"}, i.e., a character string of 5 characters).
 
   Generating exams/assessment in IMS QTI 2.1 format using \code{exams2qti21()} and \code{make_itembody_qti21()}
-  is performed in a similar way as described in the above. Note that the IMS QTI 2.1 generators are
+  is performed in a similar way as described above. Note that the IMS QTI 2.1 generators are
   still work in progress. The generated XML files have been validated using the IMS validator provided
   at \url{http://validator.imsglobal.org/qti/index.jsp}. Furthermore, generated exams/assessments have
-  been tested using the ONYX-Editor and Player, see \url{https://www.onyx-editor.de/onyx/editor?2}.
+  been tested using the ONYX Editor and Player, see \url{https://www.onyx-editor.de/onyx/editor?2}.
 }
 
 \references{
-  IMS Global Learning Consortium, Inc. (2012).
-  \emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.
-  \url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
+IMS Global Learning Consortium, Inc. (2012a).
+\emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.
+\url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
 
-  IMS Global Learning Consortium, Inc. (2012).
-  \emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
-  \url{http://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
+IMS Global Learning Consortium, Inc. (2012b).
+\emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
+\url{http://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
 
-  BPS Bildungsportal Sachsen GmbH (2014).
-  \emph{ONYX Testsuite}.
-  \url{https://www.bps-system.de/cms/en/products/onyx-testsuite/}
+BPS Bildungsportal Sachsen GmbH (2014).
+\emph{ONYX Testsuite}.
+\url{http://www.bps-system.de/cms/en/products/onyx-testsuite/}
+
+Zeileis A, Umlauf N, Leisch F (2014).
+  Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
+  \emph{Journal of Statistical Software}, \bold{58}(1), 1--34.
+  \url{http://www.jstatsoft.org/v58/i01/}.
 }
 
 \value{
