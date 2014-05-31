@@ -57,20 +57,20 @@
 }
 
 \details{
-  \code{exams2pdf} is a more flexible re-implementation of old (version 1)
+  \code{exams2pdf} is a more flexible re-implementation of the old (version 1)
   \code{\link[exams]{exams}} function (Gruen and Zeileis 2009), using the new extensible
-  \code{\link[exams]{xexams}} framework (Zeileis et al. 2014).
+  \code{\link[exams]{xexams}} framework (Zeileis et al. 2014). A detailed
+  introduction is provided in \code{vignette("exams", package = "exams")}, also
+  pointing out relative advantages of the new interface.
   
-  It proceeds by using \code{make_exams_write_pdf} to set up a custom
+  \code{exams2pdf} proceeds by using \code{make_exams_write_pdf} to set up a custom
   \code{driver$write} function on the fly before calling \code{xexams}.
   This custom driver combines each exams with the desired \code{template}
   (and \code{inputs} etc.) and then calls \code{\link[tools]{texi2dvi}}
-  on the resulting LaTeX file to produce PDF output.
-  
+  on the resulting LaTeX file to produce PDF output.  
   For a single exams (\code{n = 1}) the resulting PDF is displayed on
   screen while for \code{n > 1} some output directory \code{dir} has
-  to be specified where the PDF files are stored. For more details see
-  the original \code{\link[exams]{exams}} function.
+  to be specified where the PDF files are stored.
 }
 
 \references{

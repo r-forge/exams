@@ -30,6 +30,14 @@
   files (such as graphics or data files) are stored and the 
   metainformation is extracted (by calling \code{read_metainfo} which
   also includes sanity checks).
+  
+  The supported metainformation commands are described in detail in
+  \code{vignette("exams2", package = "exams")}, see Table 2. Essentially
+  the \code{extype} command in the LaTeX file is mapped to the \code{type}
+  element of the returned list etc. (see the Value section below), using
+  the right storage mode for each command (numeric, character, logical).
+  Additionally, there is an \code{exextra} command which allows to set
+  up arbitrary additional metainformation elements.
 }
 
 \value{
