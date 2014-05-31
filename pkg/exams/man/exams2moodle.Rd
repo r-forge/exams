@@ -131,6 +131,15 @@
 }
 
 \references{
+Dougiamas M, et al. (2014). \emph{Moodle, Version 2.6}.
+  \url{http://moodle.org/}.
+
+MoodleDocs (2014). \emph{Moodle XML Format}.
+  \url{http://docs.moodle.org/en/Moodle_XML}
+
+Qedoc (2010). \emph{Moodle XML Format}.
+  \url{http://www.qedoc.org/qedoc/index.php?title=Moodle_XML_format}
+
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
   \emph{Journal of Statistical Software}, \bold{58}(1), 1--34.
@@ -142,19 +151,6 @@ Zeileis A, Umlauf N, Leisch F (2014).
 
   \code{make_question_moodle} returns a function that generates the XML code
   for the question in Moodle's XML standard.
-}
-
-\references{
-  Dougiamas M, et al. (2014). \emph{Moodle, Version 2.6}.
-  \url{http://moodle.org/}.
-
-  MoodleDocs (2014).
-  \emph{Moodle XML Format}.
-  \url{http://docs.moodle.org/en/Moodle_XML}
-  
-  Qedoc (2010).
-  \emph{Moodle XML Format}.
-  \url{http://www.qedoc.org/qedoc/index.php?title=Moodle_XML_format}
 }
 
 \seealso{
