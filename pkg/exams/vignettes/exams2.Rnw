@@ -340,7 +340,7 @@ myexam <- list(
   "relfreq")
 odir <- tempfile()
 set.seed(1090)
-x1 <- exams(myexam, n = 3, dir = odir, template = c("exam", "solution"))
+exams(myexam, n = 3, dir = odir, template = c("exam", "solution"))
 @
 The \code{myexam} list contains five exercises: the first one is always \code{boxplots.Rnw}
 while the second exercise is randomly drawn from \code{confint.Rnw}, \code{ttest.Rnw},
@@ -356,11 +356,10 @@ The resulting output files are stored along with the extracted metainformation i
 dir(odir)
 @
 More details on basic usage and more advanced customization of this function are
-provided by \cite{exams:Gruen+Zeileis:2009}, also provided in an updated version as
-\code{vignette("exams", package = "exams")}. The latter also discusses some small changes
-and enhancements made for \code{exams()} (and \code{exams2pdf()}, respectively).
-An overview of the most important arguments that are also shared by the version~2 interfaces
-is given in Table~\ref{tab:args}.
+provided by the vignette \code{vignette("exams", package = "exams")} which is an updated
+version of \cite{exams:Gruen+Zeileis:2009}. The vignette actually uses the new and somewhat more flexible
+\code{exams2pdf()} function rather than \code{exams()} and discusses the enhancements
+made for the former (see also below).
 
 \subsection[Version 2: Producing PDF, HTML, or XML for Moodle or OLAT]{Version~2: Producing PDF, HTML, or XML for \pkg{Moodle} or \pkg{OLAT}}
 
@@ -374,7 +373,7 @@ adapt to the new facilities.
 
 \subsubsection[Producing PDF documents: exams2pdf()]{Producing PDF documents: \code{exams2pdf()}}
 
-The function \code{exams2pdf()} is a more flexible reimplementation of \code{exams()}
+As mentioned above, the function \code{exams2pdf()} is a more flexible reimplementation of \code{exams()}
 using the new extensible infrastructure of the \pkg{exams} package. For the user virtually nothing
 changes:
 <<exams2pdf, eval=FALSE>>=
