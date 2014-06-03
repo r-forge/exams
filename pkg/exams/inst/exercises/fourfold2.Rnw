@@ -1,0 +1,100 @@
+<<echo=FALSE, results=hide>>=
+ok <- FALSE
+while(!ok) {
+  pe <- round(runif(1, 0.05, 0.1), digits = 2)
+  ph <- round(runif(1, 0.05, 0.2), digits = 2)
+  peh <- round(runif(1, 0.2, 0.4), digits = 2)
+
+  prob1 <- pe * peh
+  prob2 <- pe * (1 - peh)
+  prob3 <- ph - prob1
+  prob4 <- (1 - ph) - prob2
+
+  tab <- cbind(c(prob1, prob3), c(prob2, prob4))
+
+  sol <- c(tab[1, 1] / sum(tab[, 1]), tab[1, 1] / sum(tab[1, ]),
+    tab[2, 1] / sum(tab[2, ]), tab[1, 2] / sum(tab[1, ]))
+
+  n <- sample(50:100, size = 1)
+  k <- n * ph
+
+  ok <- sum(tab) == 1 & all(tab > 0) & all(tab < 1) & ((k %% 1) == 0)
+}
+
+sol <- round(100 * c(tab, colSums(tab), rowSums(tab), sum(tab)), digits = 2)
+@
+
+
+
+\begin{question}
+An industry-leading company seeks a qualified candidate for a management position.
+A management consultancy carries out an assessment center which concludes in making
+a positive or negative recommendation for each candidate: From previous assessments they know that of those
+candidates that are actually eligible for the position (event $E$) $\Sexpr{FIXME * 100}\%$ get a
+positive recommendation (event $R$). However, out of those candidates that are not eligible
+$\Sexpr{FIXME * 100}\%$ get a negative recommendation. Overall, they know that only
+$\Sexpr{pe * 100}\%$ of all job applicants are actually eligible.
+
+What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)
+
+\begin{tabular}{|c|cc|c|}
+\hline
+                 & $~R~$         & $~\overline{R}~$ & \\ \hline
+$~E~$            & ~##ANSWER1##~ & ~##ANSWER3##~    & ~##ANSWER7##~ \\
+$~\overline{E}~$ & ~##ANSWER2##~ & ~##ANSWER4##~    & ~##ANSWER8##~ \\ \hline
+                 & ~##ANSWER5##~ & ~##ANSWER6##~    & ~##ANSWER9##~ \\
+\hline
+\end{tabular}
+
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(rep("", length(sol)))
+@
+
+\end{question}
+
+
+\begin{solution}
+Starting from
+$$
+P(E \cap R) = P(E) \cdot P(R | E) = \Sexpr{pe} \cdot \Sexpr{peh} = \Sexpr{prob1},
+$$
+we obtain
+$$
+P(E \cap \overline{R}) = P(E) \cdot P(\overline{R} | E) = P(E) \cdot (1 - P(R | E)) =
+  \Sexpr{pe} \cdot (1 - \Sexpr{peh}) = \Sexpr{prob2}.
+$$
+The remaining probabilities are calculated by:
+$$
+P(\overline{E} \cap R) = P(R) - P(E \cap R) = \Sexpr{ph} - \Sexpr{pe * peh} = \Sexpr{prob3}
+$$
+and
+$$
+P(\overline{E} \cap \overline{R}) = 1 - (P(E \cap R) + P(E \cap \overline{R}) + P(\overline{E} \cap R)) =
+  1 - \Sexpr{prob1 + prob2 + prob3} = \Sexpr{prob4}.
+$$
+
+% \color[rgb]{0.3,0.3,0.3}
+
+
+\begin{answerlist}
+\item $P(E \cap R) = \Sexpr{prob1 * 100}\%$
+\item $P(\overline{E} \cap R) = \Sexpr{prob3 * 100}\%$
+\item $P(E \cap \overline{R}) = \Sexpr{prob2 * 100}\%$
+\item $P(\overline{E} \cap \overline{R}) = \Sexpr{prob4 * 100}\%$
+\item $P(E \cap R) + P(\overline{E} \cap R) = \Sexpr{(prob1 + prob3) * 100}\%$
+\item $P(E \cap \overline{R}) + P(\overline{E} \cap \overline{R}) = \Sexpr{(prob2 + prob4) * 100}\%$
+\item $P(E \cap R) + P(E \cap \overline{R}) = \Sexpr{(prob1 + prob2) * 100}\%$
+\item $P(\overline{E} \cap R) + P(\overline{E} \cap \overline{R}) = \Sexpr{(prob3 + prob4) * 100}\%$
+\item $P(E \cap R) + P(E \cap \overline{R}) + P(\overline{E} \cap R) +
+  P(\overline{E} \cap \overline{R}) = 100\%$
+\end{answerlist}
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(sol, collapse = "|")}}
+%% \exclozetype{num|num|num|num|num|num|num|num|num}
+%% \exname{fourfold}
+%% \extol{0.05}
