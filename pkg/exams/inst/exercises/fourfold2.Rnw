@@ -1,14 +1,14 @@
 <<echo=FALSE, results=hide>>=
 ok <- FALSE
 while(!ok) {
-  pe <- round(runif(1, 0.05, 0.1), digits = 2)
-  ph <- round(runif(1, 0.05, 0.2), digits = 2)
-  peh <- round(runif(1, 0.2, 0.4), digits = 2)
+  pe <- round(runif(1, 0.05, 0.15), digits = 2)
+  per <- round(runif(1, 0.6, 0.8), digits = 2)
+  pnenr <- round(runif(1, 0.6, 0.8), digits = 2)
 
-  prob1 <- pe * peh
-  prob2 <- pe * (1 - peh)
-  prob3 <- ph - prob1
-  prob4 <- (1 - ph) - prob2
+  prob1 <- pe * per
+  prob2 <- pe * (1 - per)
+  prob3 <- (1 - pe) * (1 - pnenr)
+  prob4 <- (1 - pe) * pnenr
 
   tab <- cbind(c(prob1, prob3), c(prob2, prob4))
 
@@ -22,24 +22,25 @@ while(!ok) {
 }
 
 sol <- round(100 * c(tab, colSums(tab), rowSums(tab), sum(tab)), digits = 2)
+tab2 <- cbind(rbind(tab, colSums(tab)), c(rowSums(tab), 1))
+tab2 <- format(tab2 * 100, digits = 2, nsmall = 2)
 @
-
 
 
 \begin{question}
 An industry-leading company seeks a qualified candidate for a management position.
 A management consultancy carries out an assessment center which concludes in making
-a positive or negative recommendation for each candidate: From previous assessments they know that of those
-candidates that are actually eligible for the position (event $E$) $\Sexpr{FIXME * 100}\%$ get a
-positive recommendation (event $R$). However, out of those candidates that are not eligible
-$\Sexpr{FIXME * 100}\%$ get a negative recommendation. Overall, they know that only
+a positive or negative recommendation for each candidate: From previous assessments they know that
+of those candidates that are actually eligible for the position (event $E$) $\Sexpr{per * 100}\%$
+get a positive recommendation (event $R$). However, out of those candidates that are not eligible
+$\Sexpr{pnenr * 100}\%$ get a negative recommendation. Overall, they know that only
 $\Sexpr{pe * 100}\%$ of all job applicants are actually eligible.
 
 What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)
 
 \begin{tabular}{|c|cc|c|}
 \hline
-                 & $~R~$         & $~\overline{R}~$ & \\ \hline
+                 & $~R~$         & $~\overline{R}~$ & $~\phantom{E}~$ \\ \hline
 $~E~$            & ~##ANSWER1##~ & ~##ANSWER3##~    & ~##ANSWER7##~ \\
 $~\overline{E}~$ & ~##ANSWER2##~ & ~##ANSWER4##~    & ~##ANSWER8##~ \\ \hline
                  & ~##ANSWER5##~ & ~##ANSWER6##~    & ~##ANSWER9##~ \\
@@ -56,23 +57,32 @@ answerlist(rep("", length(sol)))
 \begin{solution}
 Starting from
 $$
-P(E \cap R) = P(E) \cdot P(R | E) = \Sexpr{pe} \cdot \Sexpr{peh} = \Sexpr{prob1},
+P(E \cap R) = P(E) \cdot P(R | E) = \Sexpr{pe} \cdot \Sexpr{per} = \Sexpr{prob1},
 $$
 we obtain
 $$
 P(E \cap \overline{R}) = P(E) \cdot P(\overline{R} | E) = P(E) \cdot (1 - P(R | E)) =
-  \Sexpr{pe} \cdot (1 - \Sexpr{peh}) = \Sexpr{prob2}.
+  \Sexpr{pe} \cdot (1 - \Sexpr{per}) = \Sexpr{prob2}.
 $$
 The remaining probabilities are calculated by:
 $$
-P(\overline{E} \cap R) = P(R) - P(E \cap R) = \Sexpr{ph} - \Sexpr{pe * peh} = \Sexpr{prob3}
+P(\overline{E} \cap R) = P(\overline{E}) \cdot (1 - P(\overline{R} | \overline{E})) =
+  \Sexpr{1 - pe} \cdot (1 - \Sexpr{pnenr}) = \Sexpr{prob3}
 $$
 and
 $$
-P(\overline{E} \cap \overline{R}) = 1 - (P(E \cap R) + P(E \cap \overline{R}) + P(\overline{E} \cap R)) =
-  1 - \Sexpr{prob1 + prob2 + prob3} = \Sexpr{prob4}.
+P(\overline{E} \cap \overline{R}) = P(\overline{E}) \cdot P(\overline{R} | \overline{E}) =
+  \Sexpr{1 - pe} \cdot \Sexpr{pnenr} = \Sexpr{prob4}.
 $$
 
+\begin{tabular}{|c|cc|c|}
+\hline
+                 & $~R~$                  & $~\overline{R}~$       & \\ \hline
+$~E~$            & ~\bf $\Sexpr{tab2[1, 1]}$~                      & ~\color[rgb]{0.3,0.3,0.3} $\Sexpr{tab2[1, 2]}$~ & ~\color[rgb]{0.3,0.3,0.3} $\Sexpr{tab2[1, 3]}$~ \\
+$~\overline{E}~$ & ~\color[rgb]{0.3,0.3,0.3} $\Sexpr{tab2[2, 1]}$~ & ~\bf $\Sexpr{tab2[2, 2]}$~                      & ~\color[rgb]{0.3,0.3,0.3} $\Sexpr{tab2[2, 3]}$~ \\ \hline
+                 & ~\color[rgb]{0.3,0.3,0.3} $\Sexpr{tab2[3, 1]}$~ & ~\color[rgb]{0.3,0.3,0.3} $\Sexpr{tab2[3, 2]}$~ & ~\bf $\Sexpr{tab2[3, 3]}$~ \\
+\hline
+\end{tabular}
 % \color[rgb]{0.3,0.3,0.3}
 
 
@@ -81,12 +91,11 @@ $$
 \item $P(\overline{E} \cap R) = \Sexpr{prob3 * 100}\%$
 \item $P(E \cap \overline{R}) = \Sexpr{prob2 * 100}\%$
 \item $P(\overline{E} \cap \overline{R}) = \Sexpr{prob4 * 100}\%$
-\item $P(E \cap R) + P(\overline{E} \cap R) = \Sexpr{(prob1 + prob3) * 100}\%$
-\item $P(E \cap \overline{R}) + P(\overline{E} \cap \overline{R}) = \Sexpr{(prob2 + prob4) * 100}\%$
-\item $P(E \cap R) + P(E \cap \overline{R}) = \Sexpr{(prob1 + prob2) * 100}\%$
-\item $P(\overline{E} \cap R) + P(\overline{E} \cap \overline{R}) = \Sexpr{(prob3 + prob4) * 100}\%$
-\item $P(E \cap R) + P(E \cap \overline{R}) + P(\overline{E} \cap R) +
-  P(\overline{E} \cap \overline{R}) = 100\%$
+\item $P(R) = \Sexpr{(prob1 + prob3) * 100}\%$
+\item $P(\overline{R}) = \Sexpr{(prob2 + prob4) * 100}\%$
+\item $P(E) = \Sexpr{(prob1 + prob2) * 100}\%$
+\item $P(\overline{E}) = \Sexpr{(prob3 + prob4) * 100}\%$
+\item $P(\Omega) = 100\%$
 \end{answerlist}
 
 \end{solution}
