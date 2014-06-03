@@ -15,7 +15,7 @@ while(!ok) {
   sol <- c(tab[1, 1] / sum(tab[, 1]), tab[1, 1] / sum(tab[1, ]),
     tab[2, 1] / sum(tab[2, ]), tab[1, 2] / sum(tab[1, ]))
 
-  ok <- sum(tab) == 1 & all(tab > 0) & all(tab < 1) & ((k %% 1) == 0)
+  ok <- sum(tab) == 1 & all(tab > 0) & all(tab < 1)
 }
 
 sol <- round(100 * c(tab, colSums(tab), rowSums(tab), sum(tab)), digits = 2)
