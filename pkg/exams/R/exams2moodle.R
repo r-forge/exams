@@ -207,7 +207,8 @@ make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
   truefalse = c("True", "False"), enumerate = TRUE,
-  eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
+  eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
+  fix_cloze = TRUE)
 {
   function(x) {
     ## how many points?
@@ -344,26 +345,37 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       } else x$metainfo$tolerance
       tol <- rep(tol, length.out = n)
 
-      ## cycle through all questions
-      ## first check num to format
-      nums <- NULL
-      for(i in 1:n) {
-        ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
-        k <- length(ql)
-        if(x$metainfo$clozetype[i] == "num") {
-          for(j in 1:k) nums <- c(nums, solution[[i]][j])
+      ## optionally fix the num answer field width
+      ## by supplying an additional wrong answer
+      if(fix_cloze) {
+        nums <- NULL
+        for(i in 1:n) {
+          ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
+          k <- length(ql)
+          if(x$metainfo$clozetype[i] == "num") {
+            for(j in 1:k) {
+              nums <- rbind(nums,
+                c(solution[[i]][j] - max(tol[[i]]),
+                solution[[i]][j] + max(tol[[i]])))
+            }
+          }
         }
-      }
-      if(!is.null(nums)) {
-        fnums <- format(nums)
-        num_w <- max(unlist(sapply(fnums, nchar)))
-        do <- TRUE
-        while(do) {
-          fnums <- make_id(num_w)
-          do <- fnums %in% nums
+        if(!is.null(nums)) {
+          fnums <- format(as.numeric(nums))
+          num_w <- max(unlist(sapply(fnums, nchar)))
+          do <- TRUE
+          while(do) {
+            fnums <- make_id(num_w)
+            tolcheck <- NULL
+            for(i in 1:nrow(nums)) {
+              tolcheck <- c(tolcheck, fnums >= nums[i, 1] & fnums <= nums[i, 2])
+            }
+            do <- (fnums %in% nums) & any(tolcheck)
+          }
         }
       }
 
+      ## cycle through all questions
       qtext <- NULL; inum <- 1
       for(i in 1:n) {
         ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
@@ -398,7 +410,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
             tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
-              ':', max(tol[[i]]), paste('~%0%', fnums, ":0", sep = ''), '}', sep = ''))
+              ':', max(tol[[i]]), if(fix_cloze) paste('~%0%', fnums, ":0", sep = '') else NULL,
+              '}', sep = ''))
           }
         }
         if(x$metainfo$clozetype[i] == "string") {
