@@ -1485,7 +1485,7 @@ without negative points for wrong answers in one of its components.
 
 Because this exercise type is able to pool any number of numeric, short text and
 single/multiple-choice answers and is also more flexible according the visual design of the question
-using Moodle, a slightly advanced coding of the \code{.Rnw} is needed.
+using \pkg{Moodle}, a slightly advanced coding of the \code{.Rnw} is needed.
 
 First of all, it should be noted that even in cases where a solution \code{answerlist} is not
 required, it is recommended to supply one. Even if it is an empty list, e.g., created by
@@ -1508,14 +1508,14 @@ cat('%% \\exsolution{\\Sexpr{paste(solutions, collapse = "|")}}')
 \end{verbatim}
 which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
 
-Using Moodle, it is also possible to place answer fields anywhere in the text. This option can
+Using \pkg{Moodle}, it is also possible to place answer fields anywhere in the text. This option can
 be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
 \code{\#\#ANSWER1\#\#}, \code{\#\#ANSWER2\#\#}, \ldots, \code{\#\#ANSWER5\#\#}, if the \code{cloze} 
 exercises contains 5 answers. The order of the tags corresponds to the order of the supplied
 solutions in \verb|\exsolution{}|, hence, the number of answer tags must be equal to the number of
 solutions.
 
-\fixme{OLAT/Moodle images and small description of the \code{cloze} examples \dots}
+\fixme{\pkg{OLAT}/\pkg{Moodle} images and small description of the \code{cloze} examples \dots}
 
 \end{appendix}
 
