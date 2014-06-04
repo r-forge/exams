@@ -1401,7 +1401,10 @@ File & Type & Description \\ \hline
 \code{boxhist2}    & \code{cloze}   & Same exercise but with custom layout of the answer fields (for \code{exams2moodle()} only). \\
 \code{confint2}    & \code{cloze}   & Cloze version (for all version~2 interfaces) constructed from the numeric
                                       exercise \code{confint}.\\
-\code{dist2}       & \code{cloze}   & Extended cloze version of the numeric \code{dist}.\\ \hline
+\code{dist2}       & \code{cloze}   & Extended cloze version of the numeric \code{dist}.\\
+\code{fourfold}    & \code{cloze}   & Computation of joint probabilities in a fourfold table
+                                      based on given (conditional) probabilities.\\
+\code{fourfold2}   & \code{cloze}   & Same exercise but with table layout of the answer fields (for \code{exams2moodle()} only). \\  \hline
 \code{currency8}   & \code{num}     & Exercise in UTF-8 encoding (with Euro and Pound symbol
                                       and German umlaut).\\ 
 \code{currency9}   & \code{num}     & Same exercise in Latin-9 (or ISO-8859-15) encoding.\\ 
@@ -1411,6 +1414,8 @@ File & Type & Description \\ \hline
 \caption{\label{tab:exercises} List of \texttt{Sweave} exercises provided as examples
 in \code{exams/inst/exercises}.}
 \end{table}
+
+\pagebreak
 
 \section{Evaluation policies} \label{sec:eval}
 
@@ -1479,9 +1484,14 @@ allow to set them differently for different exercise types).
 In both interfaces, \code{cloze} exercises always use partial credits
 without negative points for wrong answers in one of its components.
 
-\newpage
-
 \section{Cloze exercises} \label{sec:cloze}
+
+\begin{figure}[b!]
+\centering
+\includegraphics[width=0.95\textwidth]{screenshots/exams2qti12-boxhist.png}
+\caption{\label{fig:exams2qti12-boxhist} Display of \code{boxhist} exercise in
+  \pkg{OpenOLAT} (as rendered by a \pkg{Firefox} browser).}
+\end{figure}
 
 Because this exercise type is able to pool any number of numeric, short text and
 single/multiple-choice answers and is also more flexible according the visual design of the question
@@ -1507,6 +1517,18 @@ cat('%% \\exsolution{\\Sexpr{paste(solutions, collapse = "|")}}')
 @
 \end{verbatim}
 which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.7\textwidth]{screenshots/exams2moodle-fourfold.png}
+
+\vspace*{0.2cm}
+
+\includegraphics[width=0.7\textwidth]{screenshots/exams2moodle-fourfold2.png}
+
+\caption{\label{fig:exams2moodle-fourfold} Display of \code{fourfold} (top) and \code{fourfold2} (bottom)
+  exercise in \pkg{Moodle} (as rendered by a \pkg{Firefox} browser).}
+\end{figure}
 
 Using \pkg{Moodle}, it is also possible to place answer fields anywhere in the text. This option can
 be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
