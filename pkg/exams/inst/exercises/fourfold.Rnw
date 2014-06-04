@@ -21,9 +21,8 @@ while(!ok) {
 tab2 <- cbind(rbind(tab, colSums(tab)), c(rowSums(tab), 1))
 tab2 <- format(tab2 * 100, digits = 2, nsmall = 2)
 
-sol <- round(100 * c(tab, colSums(tab), rowSums(tab), sum(tab)), digits = 2)
-lab <- c("E \\cap R", "\\overline{E} \\cap R", "E \\cap \\overline{R}", "\\overline{E} \\cap \\overline{R}",
-  "R", "\\overline{R}", "E", "\\overline{E}", "\\Omega")
+sol <- round(100 * as.vector(tab), digits = 2)
+lab <- c("E \\cap R", "\\overline{E} \\cap R", "E \\cap \\overline{R}", "\\overline{E} \\cap \\overline{R}")
 @
 
 
@@ -38,17 +37,8 @@ $\Sexpr{pe * 100}\%$ of all job applicants are actually eligible.
 
 What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)
 
-\begin{tabular}{|c|cc|c|}
-\hline
-                 & ~$R$~           & ~$\overline{R}$~   & sum\\ \hline
-~$E$~            & ~##ANSWER1##\%~ & ~##ANSWER3##\%~    & ~##ANSWER7##\%~ \\
-~$\overline{E}$~ & ~##ANSWER2##\%~ & ~##ANSWER4##\%~    & ~##ANSWER8##\%~ \\ \hline
-sum              & ~##ANSWER5##\%~ & ~##ANSWER6##\%~    & ~##ANSWER9##\%~ \\
-\hline
-\end{tabular}
-
 <<echo=FALSE, results=hide, results=tex>>=
-answerlist(rep("", length(sol)))
+answerlist(paste("$P(", lab, ")$", sep = ""))
 @
 
 \end{question}
@@ -83,6 +73,6 @@ answerlist(paste("$P(", lab, ") = ", format(sol), "\\%$", sep = ""))
 %% META-INFORMATION
 %% \extype{cloze}
 %% \exsolution{\Sexpr{paste(sol, collapse = "|")}}
-%% \exclozetype{num|num|num|num|num|num|num|num|num}
+%% \exclozetype{num|num|num|num}
 %% \exname{fourfold}
 %% \extol{0.05}
