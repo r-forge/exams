@@ -1511,7 +1511,7 @@ which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
 Using \pkg{Moodle}, it is also possible to place answer fields anywhere in the text. This option can
 be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
 \code{\#\#ANSWER1\#\#}, \code{\#\#ANSWER2\#\#}, \ldots, \code{\#\#ANSWER5\#\#}, if the \code{cloze} 
-exercises contains 5 answers. The order of the tags corresponds to the order of the supplied
+exercise contains 5 answers. The order of the tags corresponds to the order of the supplied
 solutions in \verb|\exsolution{}|, hence, the number of answer tags must be equal to the number of
 solutions.
 
