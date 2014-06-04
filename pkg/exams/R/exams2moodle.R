@@ -345,7 +345,26 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       tol <- rep(tol, length.out = n)
 
       ## cycle through all questions
-      qtext <- NULL
+      ## first check num to format
+      nums <- NULL
+      for(i in 1:n) {
+        ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
+        k <- length(ql)
+        if(x$metainfo$clozetype[i] == "num") {
+          for(j in 1:k) nums <- c(nums, solution[[i]][j])
+        }
+      }
+      if(!is.null(nums)) {
+        fnums <- format(nums)
+        num_w <- max(unlist(sapply(fnums, nchar)))
+        do <- TRUE
+        while(do) {
+          fnums <- make_id(num_w)
+          do <- fnums %in% nums
+        }
+      }
+
+      qtext <- NULL; inum <- 1
       for(i in 1:n) {
         ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
         k <- length(ql)
@@ -379,7 +398,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
             tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
-              ':', max(tol[[i]]), '}', sep = ''))
+              ':', max(tol[[i]]), paste('~%0%', fnums, ":0", sep = ''), '}', sep = ''))
           }
         }
         if(x$metainfo$clozetype[i] == "string") {
