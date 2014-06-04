@@ -1479,6 +1479,44 @@ allow to set them differently for different exercise types).
 In both interfaces, \code{cloze} exercises always use partial credits
 without negative points for wrong answers in one of its components.
 
+\newpage
+
+\section{Cloze exercises} \label{sec:cloze}
+
+Because this exercise type is able to pool any number of numeric, short text and
+single/multiple-choice answers and is also more flexible according the visual design of the question
+using Moodle, a slightly advanced coding of the \code{.Rnw} is needed.
+
+First of all, it should be noted that even in cases where a solution \code{answerlist} is not
+required, it is recommended to supply one. Even if it is an empty list, e.g., created by
+<<>>=
+answerlist(rep("", length = 3))
+@
+The reason is that producing PDF files using \code{exams2pdf()} gives an error if it is not provided
+and it is generally advisable to check rendering in multiple formats during the production process.
+
+To ease the set up of the solution meta-information, the recommended work flow is to create a
+\code{solutions} \code{list} with length of the given answers in the exercises, i.e., each
+\code{list} element holds the correct solution of the corresponding sub-question. Note that the
+solutions for choice type answers need to be in binary format, which can be achieved, e.g., by the
+convenience function \code{mchoice2string()}. The solution \code{list} can then be parsed into the
+solution meta-information tag by
+\begin{verbatim}
+<<echo=FALSE, results=tex>>=
+cat('%% \\exsolution{\\Sexpr{paste(solutions, collapse = "|")}}')
+@
+\end{verbatim}
+which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
+
+Using Moodle, it is also possible to place answer fields anywhere in the text. This option can
+be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
+\code{\#\#ANSWER1\#\#}, \code{\#\#ANSWER2\#\#}, \ldots, \code{\#\#ANSWER5\#\#}, if the \code{cloze} 
+exercises contains 5 answers. The order of the tags corresponds to the order of the supplied
+solutions in \verb|\exsolution{}|, hence, the number of answer tags must be equal to the number of
+solutions.
+
+\fixme{OLAT/Moodle images and small description of the \code{cloze} examples \dots}
+
 \end{appendix}
 
 \end{document}
