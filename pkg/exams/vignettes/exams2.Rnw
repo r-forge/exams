@@ -629,7 +629,7 @@ drivers and then call the new function \code{xexams()} (for extensible exams) th
 all temporary files/directories and suitably executes the drivers. In the following subsections,
 all these building blocks are introduced in detail.
 
-\subsection{Extended specification of exercises}
+\subsection{Extended specification of exercises} \label{sec:exercises}
 
 As discussed in Section~\ref{sec:usage} and illustrated in Figure~\ref{fig:Rnw}, each exercise
 is simply an \code{Sweave} file containing \proglang{R} code for data generation,
@@ -736,9 +736,10 @@ with and without figures and/or verbatim \proglang{R} output (e.g., \code{anova}
 \code{boxplots}, \code{cholesky}, among others). The files \code{tstat} and
 \code{tstat2} illustrate how the same type of exercise can be coded as a
 \code{num} or \code{schoice} question, respectively. The \code{cloze} type
-is employed in \code{boxhist} (with more flexible formatting specifically
-for \pkg{Moodle} in \code{boxhist2}). See also Table~\ref{tab:exercises} in the
-appendix for an overview.
+is employed in, e.g., \code{boxhist} or \code{fourfold} (with more flexible formatting specifically
+for \pkg{Moodle} in \code{boxhist2} and \code{fourfold2}, respectively).
+See also Table~\ref{tab:exercises} in the appendix for an overview and
+Appendix~\ref{sec:cloze} for more details on cloze exercises.
 
 
 \subsection[The xexams() wrapper function]{The \code{xexams()} wrapper function}
@@ -1493,30 +1494,38 @@ without negative points for wrong answers in one of its components.
   \pkg{OpenOLAT} (as rendered by a \pkg{Firefox} browser).}
 \end{figure}
 
-Because this exercise type is able to pool any number of numeric, short text and
-single/multiple-choice answers and is also more flexible according the visual design of the question
-using \pkg{Moodle}, a slightly advanced coding of the \code{.Rnw} is needed. To facilitate the
-creation of such exercises the \pkg{exams} package provides 6 examples, see
-Table~\ref{tab:exercises}, which cover several situations where \code{cloze} types can be useful.
+Many large-scale exams focus on multiple or single choice exercise because they
+are easy to evaluate, especially when conducted in classical printed form. However,
+e-learning exams offer many more possibilities beyond the multiple/single choice
+format by combining different types of questions in a single exercise. The
+\pkg{exams} package provides \code{cloze} exercises that can combine numeric,
+multiple/single choice, and string questions, see Section~\ref{sec:exercises}
+for a first introduction. As this type of exercises is very flexible, it is both
+very useful especially for statistics exercises but also somewhat more challenging
+to set up. Hence, we provide some additional explanations for cloze exercises here.
 
-The recommended work-flow is to set up parallel \code{list}s with length equal to the number of
-sub-questions in the exercise, to ease the creation of the \code{answerlist}s and the final
-solution meta-information. Please note that even in cases where a solution \code{answerlist}
-is not required, it should be one supplied. Even if it is an empty list, e.g., created by
-<<echo=TRUE, results=hide>>=
-answerlist(rep("", length = 3))
+Figure~\ref{fig:exams2qti12-boxhist} shows the \code{boxhist} exercise (see also
+Table~\ref{tab:exercises}) as a typical cloze in \pkg{OpenOLAT}. It was produced by
+<<exams2qti12-boxhist, eval=FALSE>>=
+set.seed(1090)
+exams2qti12("boxhist", n = 1, name = "boxhist")
 @
-(the output is suppressed). The reason is that producing PDF files using \code{exams2pdf()} gives an
-error if it is not provided and it is generally recommended to check rendering in multiple formats
-during the production process. Also note that the solutions for choice type answers need to be in
-binary format, too, see also the convenience function \code{mchoice2string()}. The \code{solutions}
-\code{list} can then be parsed into the solution meta-information tag by
-\begin{verbatim}
-<<echo=FALSE, results=tex>>=
-cat('%% \\exsolution{\\Sexpr{paste(solutions, collapse = "|")}}')
-@
-\end{verbatim}
-which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
+It provides the link to a data file with comma-separated values (CSV) that can be
+downloaded by the test takers and analyzed. There are six questions: three single
+choice questions (about modality, skewness, and outliers) and three numeric questions
+about quartiles. In \pkg{Moodle} the display is similar but drow-down menus are used
+for the single choice questions.
+
+To set up such a \code{cloze} question the six separation solutions have to be provided,
+in this particular random version as
+\verb+\exsolution{10|001|10|2.54|3.9|3.72}+, and the corresponding types as
+\verb+\exclozetype{schoice|schoice|schoice|num|num|num}+. The individual questions
+shown in the exercise are taken from the \code{answerlist} within the \code{question}
+which has to consist of $10$ ($= 2 + 3 + 2 + 1 + 1 + 1$) items. The corresponding
+\code{answerlist} in the \code{solution} also has to consist of 10~items. However,
+empty items are allowed which can be easily set up via \code{answerlist(rep("", 10))}.
+See the \code{boxhist} (or the \code{fourfold}) exercise in the \pkg{exams} package
+for examples how to dynamically produce all metainformation commands in the correct format.
 
 \begin{figure}[t!]
 \centering
@@ -1530,16 +1539,27 @@ which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
   exercise in \pkg{Moodle} (as rendered by a \pkg{Firefox} browser).}
 \end{figure}
 
-An example of the presentation of the \code{boxhist} exercise in \pkg{OpenOLAT} is provided in
-Figure~\ref{fig:exams2qti12-boxhist}. The exercise creates a data-set which needs to be downloaded
-to correctly solve the single choice and numeric questions, which are displayed after the main text.
-Using \pkg{Moodle}, it is also possible to place answer fields anywhere in the text. This option can
-be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
-\code{\#\#ANSWER1\#\#}, \code{\#\#ANSWER2\#\#}, \ldots, \code{\#\#ANSWER5\#\#}, if the \code{cloze} 
-exercise contains 5 answers. The order of the tags corresponds to the order of the supplied
-solutions in \verb|\exsolution{}|, hence, the number of answer tags must be equal to the number of
-solutions. In Figure~\ref{fig:exams2moodle-fourfold} the resulting presentation of an exercise
-without (\code{fourfold}) and included answer tags (\code{fourfold2}) is exemplified.
+Furthermore, the \pkg{Moodle} XML format allows for finer control of the arrangement of the
+answer fields in the question. By default, all questions are collected at the end of the
+exercise (based on the corresponding \code{answerlist}). Alternatively, the answer fields
+for the individual questions can be placed anywhere within the text, arranged in a particular
+layout (e.g., a matrix or a table) etc. To do so, one simply has to place fields
+\verb+##ANSWER1##+, \verb+##ANSWER2##+, \dots within the \code{question} text. Then,
+\code{exams2moodle()} will replace the placeholders by the corresponding answer fields (i.e.,
+drop-down menus or numeric entry fields). The \code{boxhist2} exercise in \pkg{exams} shows
+how to do this as an alternative to \code{boxhist}.
+
+Another example for a cloze exercise is given by \code{fourfold} and \code{fourfold2}, respectively.
+The exercise provides some (conditional) probabilities and asks about the corresponding
+joint probabilities in the associated fourfold table. In \code{fourfold} (see upper panel of
+Figure~\ref{fig:exams2moodle-fourfold}) the standard layout as a list of question fields
+is used while \code{fourfold2} employs the custom \pkg{Moodle} layout (see lower panel of
+Figure~\ref{fig:exams2moodle-fourfold}), actually displaying a fourfold table (plus marginal
+sums). (Both versions have again been created after \code{set.seed(1090)}.)
+
+\fixme{Trade-off: flexibility vs.\ layout. Inclusion vs.\ omission of answerlist.}
+
+
 
 \end{appendix}
 
