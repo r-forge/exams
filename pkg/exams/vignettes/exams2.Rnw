@@ -1495,22 +1495,22 @@ without negative points for wrong answers in one of its components.
 
 Because this exercise type is able to pool any number of numeric, short text and
 single/multiple-choice answers and is also more flexible according the visual design of the question
-using \pkg{Moodle}, a slightly advanced coding of the \code{.Rnw} is needed.
+using \pkg{Moodle}, a slightly advanced coding of the \code{.Rnw} is needed. To facilitate the
+creation of such exercises the \pkg{exams} package provides 6 examples, see
+Table~\ref{tab:exercises}, which cover several situations where \code{cloze} types can be useful.
 
-First of all, it should be noted that even in cases where a solution \code{answerlist} is not
-required, it is recommended to supply one. Even if it is an empty list, e.g., created by
-<<>>=
+The recommended work-flow is to set up parallel \code{list}s with length equal to the number of
+sub-questions in the exercise, to ease the creation of the \code{answerlist}s and the final
+solution meta-information. Please note that even in cases where a solution \code{answerlist}
+is not required, it should be one supplied. Even if it is an empty list, e.g., created by
+<<echo=TRUE, results=hide>>=
 answerlist(rep("", length = 3))
 @
-The reason is that producing PDF files using \code{exams2pdf()} gives an error if it is not provided
-and it is generally advisable to check rendering in multiple formats during the production process.
-
-To ease the set up of the solution meta-information, the recommended work flow is to create a
-\code{solutions} \code{list} with length of the given answers in the exercises, i.e., each
-\code{list} element holds the correct solution of the corresponding sub-question. Note that the
-solutions for choice type answers need to be in binary format, which can be achieved, e.g., by the
-convenience function \code{mchoice2string()}. The solution \code{list} can then be parsed into the
-solution meta-information tag by
+(the output is suppressed). The reason is that producing PDF files using \code{exams2pdf()} gives an
+error if it is not provided and it is generally recommended to check rendering in multiple formats
+during the production process. Also note that the solutions for choice type answers need to be in
+binary format, too, see also the convenience function \code{mchoice2string()}. The \code{solutions}
+\code{list} can then be parsed into the solution meta-information tag by
 \begin{verbatim}
 <<echo=FALSE, results=tex>>=
 cat('%% \\exsolution{\\Sexpr{paste(solutions, collapse = "|")}}')
@@ -1530,14 +1530,16 @@ which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
   exercise in \pkg{Moodle} (as rendered by a \pkg{Firefox} browser).}
 \end{figure}
 
+An example of the presentation of the \code{boxhist} exercise in \pkg{OpenOLAT} is provided in
+Figure \ref{fig:exams2qti12-boxhist}. The exercise creates a data-set which needs to be downloaded
+to correctly solve the single choice and numeric questions, which are displayed after the main text.
 Using \pkg{Moodle}, it is also possible to place answer fields anywhere in the text. This option can
 be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
 \code{\#\#ANSWER1\#\#}, \code{\#\#ANSWER2\#\#}, \ldots, \code{\#\#ANSWER5\#\#}, if the \code{cloze} 
 exercise contains 5 answers. The order of the tags corresponds to the order of the supplied
 solutions in \verb|\exsolution{}|, hence, the number of answer tags must be equal to the number of
-solutions.
-
-\fixme{\pkg{OLAT}/\pkg{Moodle} images and small description of the \code{cloze} examples \dots}
+solutions. In Figure~\ref{fig:exams2moodle-fourfold} the resulting presentation of an exercise
+without (\code{fourfold}) and included answer tags (\code{fourfold2}) is exemplified.
 
 \end{appendix}
 
