@@ -1531,7 +1531,7 @@ which can be exploited in similar fashion for the \verb|\exclozetype{}| tag.
 \end{figure}
 
 An example of the presentation of the \code{boxhist} exercise in \pkg{OpenOLAT} is provided in
-Figure \ref{fig:exams2qti12-boxhist}. The exercise creates a data-set which needs to be downloaded
+Figure~\ref{fig:exams2qti12-boxhist}. The exercise creates a data-set which needs to be downloaded
 to correctly solve the single choice and numeric questions, which are displayed after the main text.
 Using \pkg{Moodle}, it is also possible to place answer fields anywhere in the text. This option can
 be triggered by supplying \code{\#\#ANSWER...\#\#} tags in the \code{question} environment, e.g.,
