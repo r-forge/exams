@@ -346,8 +346,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
       ## optionally fix the num answer field width
       ## by supplying an additional wrong answer
-      fixcloze <- if(is.null(x$metainfo$fixcloze)) FALSE else TRUE
-      if(fixcloze) {
+      numwidth <- if(is.null(x$metainfo$numwidth)) FALSE else TRUE
+      if(numwidth) {
         nums <- NULL
         for(i in 1:n) {
           ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
@@ -361,7 +361,13 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           }
         }
         if(!is.null(nums)) {
-          fnums <- format(as.numeric(nums))
+          if(is.logical(x$metainfo$numwidth)) {
+            fnums <- format(as.numeric(nums))
+          } else {
+            fnums <- if(!is.character(x$metainfo$numwidth)) {
+              paste(rep("1", length = as.integer(x$metainfo$numwidth)), sep = "", collapse = "")
+            } else x$metainfo$numwidth
+          }
           num_w <- max(unlist(sapply(fnums, nchar)))
           do <- TRUE
           while(do) {
@@ -410,7 +416,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
             tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
-              ':', max(tol[[i]]), if(fixcloze) paste('~%0%', fnums, ":0", sep = '') else NULL,
+              ':', max(tol[[i]]), if(numwidth) paste('~%0%', fnums, ":0", sep = '') else NULL,
               '}', sep = ''))
           }
         }

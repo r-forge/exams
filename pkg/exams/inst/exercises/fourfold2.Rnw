@@ -86,4 +86,4 @@ answerlist(paste("$P(", lab, ") = ", format(sol), "\\%$", sep = ""))
 %% \exclozetype{num|num|num|num|num|num|num|num|num}
 %% \exname{fourfold}
 %% \extol{0.05}
-%% \exextra[fixcloze]{TRUE}
+%% \exextra[numwidth,logical]{TRUE}
