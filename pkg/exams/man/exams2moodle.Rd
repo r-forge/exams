@@ -23,8 +23,7 @@
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
     truefalse = c("True", "False"), enumerate = TRUE,
-    eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-    fix_cloze = TRUE)
+    eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
 }
 
 \arguments{
@@ -99,9 +98,6 @@
     solutionlist will be enumerated.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
-  \item{fix_cloze}{logical. Fix the width of numeric answer fields using cloze type exercises.
-    A wrong answer is added to each embedded answer field with zero points and weights, such that
-    the resulting width of all numeric answer fields is equal.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 

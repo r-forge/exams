@@ -207,8 +207,7 @@ make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
   truefalse = c("True", "False"), enumerate = TRUE,
-  eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-  fix_cloze = TRUE)
+  eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
 {
   function(x) {
     ## how many points?
@@ -347,7 +346,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
       ## optionally fix the num answer field width
       ## by supplying an additional wrong answer
-      if(fix_cloze) {
+      fixcloze <- if(is.null(x$metainfo$fixcloze)) FALSE else TRUE
+      if(fixcloze) {
         nums <- NULL
         for(i in 1:n) {
           ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
@@ -410,7 +410,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
             tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
-              ':', max(tol[[i]]), if(fix_cloze) paste('~%0%', fnums, ":0", sep = '') else NULL,
+              ':', max(tol[[i]]), if(fixcloze) paste('~%0%', fnums, ":0", sep = '') else NULL,
               '}', sep = ''))
           }
         }
