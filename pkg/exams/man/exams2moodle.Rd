@@ -102,12 +102,12 @@
 }
 
 \details{
-  \code{exams2moodle} will produce a XML file that may be uploaded in Moodle. It proceeds by (1)
+  \code{exams2moodle} produces an XML file that may be uploaded into Moodle. It proceeds by (1)
   calling \code{\link[utils]{Sweave}} on each exercise, (2) reading the resulting LaTeX code, (3)
   transforming the LaTeX code to HTML, and (4) embedding the HTML code in a XML file using the
   Moodle standards for exams/quizzes.
 
-  For steps (1) and (2) the standard drivers in \code{xexams} are used. In step (3), a suitable
+  For steps (1) and (2) the standard drivers in \code{\link{xexams}} are used. In step (3), a suitable
   transformation function is set up on the fly using \code{make_exercise_transform_html}, see also
   the details section in \code{\link{exams2html}}.
 
@@ -119,7 +119,7 @@
   corresponding category/section. Note that category/section names may also be provided in the
   \code{\\exsection{}} tag in the \code{.Rnw} files, or within argument \code{stitle} in
   \code{exams2moodle}. This may be useful when questions should automatically be added to already
-  existing Moodle question banks. (See also the argument descriptions above)
+  existing Moodle question banks. (See also the argument descriptions above.)
 
   The XML code for each question is then generated using function \code{make_question_moodle}.
   Note that for each question type, either the arguments of \code{make_question_moodle} may be set
@@ -128,6 +128,19 @@
   questiontype, a function that produces the question XML code may be provided to \code{num},
   \code{mchoice}, \code{schoice}, \code{string} and \code{cloze}. E.g., to suppress the solution
   for numeric questions one may set \code{num = list(solution = FALSE)}.
+
+  When specifying cloze exercises, two approaches are possible: Either a \code{answerlist} with
+  all questions is provided within the \code{question} or, alternatively, the answer fields can
+  be placed anywhere in the \code{question} text. For the latter, the strings \code{##ANSWER1##},
+  \code{##ANSWER2##}, etc., have to be used, see the exercises \code{"boxhist2.Rnw"} and
+  \code{"fourfold2.Rnw"} for illustration and Appendix C in Zeileis et al. (2014) for further
+  details.
+  
+  To fix the width of numeric answer fields withing cloze exercises (in order not to convey any
+  clues about the length of the correct solution), the \code{\\exextra[numwidth]} metainformation
+  command can be used in the \code{.Rnw} exercise. For example, it can be set to
+  \code{\\exextra[numwidth,logical]{TRUE}}, \code{\\exextra[numwidth,numeric]{5}}, or
+  \code{\\exextra[numwidth,character]{100.0}}.
 }
 
 \references{
