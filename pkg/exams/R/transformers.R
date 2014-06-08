@@ -62,7 +62,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
             paste("<img src=\"", file.path(sdir, basename(dir[j])), "\" alt=\"", inames[j], "\" />", sep = "")
           }
           names(x[[i]]) <- inames[j]
-        } else x[[i]] <- NA
+        }
       }
       if(!b64) {
         for(i in dir) {
@@ -151,6 +151,10 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "tex2image"
       x$questionlist <- sapply(trex[grep("questionlist", namtrex)], paste, collapse = "\n")
       x$solution <- trex$solution
       x$solutionlist <- sapply(trex[grep("solutionlist", namtrex)], paste, collapse = "\n")
+
+      for(j in c("question", "questionlist", "solution", "solutionlist")) {
+        if(length(x[[j]]) < 1L) x[[j]] <- NULL
+      }
 
       setwd(owd)
 

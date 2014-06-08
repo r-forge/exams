@@ -284,12 +284,12 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       frac[!x$metainfo$solution] <- pv["neg"]
       frac <- moodlePercent(frac)
 
-      for(i in 1:length(x$solutionlist)) {
+      for(i in seq_along(x$questionlist)) {
         xml <- c(
           xml,
           paste('<answer fraction="', frac[i], '" format="html">', sep = ''),
           '<text><![CDATA[<p>', x$questionlist[i], '</p>]]></text>',
-          if(!is.null(x$solutionlist[i])) {
+          if(!is.null(x$solutionlist)) {
             c('<feedback format="html">',
             '<text><![CDATA[<p>', x$solutionlist[i], '</p>]]></text>',
             '</feedback>')

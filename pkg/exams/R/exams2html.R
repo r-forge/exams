@@ -120,7 +120,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
         if(exm[[j]]$metainfo$type == "cloze") {
           g <- rep(seq_along(exm[[j]]$metainfo$solution), sapply(exm[[j]]$metainfo$solution, length))
           exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), paste, collapse = " / ")
-          exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), paste, collapse = " / ")
+          if(!is.null(exm[[j]]$solutionlist)) exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), paste, collapse = " / ")
           for(qj in seq_along(exm[[j]]$questionlist)) {
             if(any(grepl(paste("##ANSWER", qj, "##", sep = ""), exm[[j]]$question, fixed = TRUE))) {
               ans <- exm[[j]]$questionlist[qj]
@@ -135,20 +135,20 @@ make_exams_write_html <- function(template = "plain", name = NULL,
         if(!is.null(exm[[j]]$metainfo$id)) {
           html_body <- c(html_body, paste("<b> ID: ", exm[[j]]$metainfo$id, "</b>", sep = ""), "<br/>")
         }
-        if(!is.na(question[i])) {
+        if(!is.null(question[i])) {
           html_body <- c(html_body, question[i], exm[[j]]$question, "<br/>")
-          if(length(exm[[j]]$questionlist) & !all(is.na(exm[[j]]$questionlist))) {
+          if(length(exm[[j]]$questionlist) & !is.null(exm[[j]]$questionlist)) {
             html_body <- c(html_body, '<ol type="a">')
             for(ql in exm[[j]]$questionlist) {
-              if(!is.na(ql))
+              if(!is.null(ql))
                 html_body <- c(html_body, "<li>", ql, "</li>")
             }
             html_body <- c(html_body, "</ol>", "<br/>")
           }
         }
-        if(!is.na(solution[i])) {
+        if(!is.null(solution[i])) {
           html_body <- c(html_body, solution[i], exm[[j]]$solution, "<br/>")
-          if(length(exm[[j]]$solutionlist) & !all(is.na(exm[[j]]$solutionlist))) {
+          if(length(exm[[j]]$solutionlist) & !is.null(exm[[j]]$solutionlist)) {
             html_body <- c(html_body, '<ol type="a">')
             for(sl in exm[[j]]$solutionlist)
               html_body <- c(html_body, "<li>", sl, "</li>")
