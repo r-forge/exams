@@ -663,8 +663,8 @@ Command & Description \\ \hline
 \verb|\exclozetype{}| & List of types for the elements of a \code{cloze} exercise, e.g.,
                         \verb+\exclozetype{num|schoice|string}+ for the example above. \\ 
 \verb|\expoints{}|    & Points for (fully) correct solution. Default is 1.\\ \hline
-\verb|\exextra[]{}|   & Additional metainformation, currently not used by any interface but read
-		        and stored. The default storage type is character, e.g.,
+\verb|\exextra[]{}|   & Additional metainformation to be read and stored, e.g., for new custom
+                        interfaces. The default storage type is character, e.g.,
 			\verb|\exextra[myinfo]{1.23}| yields a metainformation element
 			\code{myinfo} of \code{"1.23"}. The type can also be numeric or logical,
 			e.g., \verb+\exextra[myinfo,logical]{FALSE|FALSE|TRUE}+. \\
@@ -1289,7 +1289,7 @@ is concerned with running \code{exams2qti12()} and uploading the resulting
 ZIP file into \pkg{OLAT} for the biweekly online tests. And
 for creating the printed tests at the end of the semester the
 \code{exams2lops()} or \code{exams2pdf()} interfaces are employed.\footnote{Meanwhile,
-further OCR infrastructure for scanning multiple/single choice exams
+further OCR infrastructure for scanning multiple/single-choice exams
 within \proglang{R} has been developed. This is not part of \pkg{exams}, yet,
 but interested readers are welcome to contact the authors.}
 
@@ -1316,12 +1316,12 @@ students:
   correctness of results,
  \item homework exercises where students create a small report as PDF
   and upload this to the server, and
- \item pen and paper multiple choice exams as in package \pkg{exams}
+ \item pen-and-paper multiple-choice exams as in package \pkg{exams}
   version~1.
 \end{itemize}
-For the pen-and-paper multiple choice tests a mixture of
+For the pen-and-paper multiple-choice tests a mixture of
 \code{exams2pdf()} and \code{exams2moodle()} is currently used: Moodle
-in principle generates exercise and answer sheets for multiple choice
+in principle generates exercise and answer sheets for multiple-choice
 exams. However, in the current implementation the question text may
 not contain figures and mathematical equations are really ugly. So
 question sheets are generated directly as PDF, but the XML for Moodle
@@ -1494,13 +1494,13 @@ without negative points for wrong answers in one of its components.
   \pkg{OpenOLAT} (as rendered by a \pkg{Firefox} browser).}
 \end{figure}
 
-Many large-scale exams focus on multiple or single choice exercise because they
+Many large-scale exams focus on multiple- or single-choice exercise because these
 are easy to evaluate, especially when conducted in classical printed form. However,
-e-learning exams offer many more possibilities beyond the multiple/single choice
+e-learning exams offer many more possibilities beyond the multiple/single-choice
 format by combining different types of questions in a single exercise. The
 \pkg{exams} package provides \code{cloze} exercises that can combine numeric,
-multiple/single choice, and string questions, see Section~\ref{sec:exercises}
-for a first introduction. As this type of exercises is very flexible, it is both
+multiple/single-choice, and string questions, see Section~\ref{sec:exercises}
+for an overview. As this type of exercises is very flexible, it can be both,
 very useful especially for statistics exercises but also somewhat more challenging
 to set up. Hence, we provide some additional explanations for cloze exercises here.
 
@@ -1511,19 +1511,19 @@ set.seed(1090)
 exams2qti12("boxhist", n = 1, name = "boxhist")
 @
 It provides the link to a data file with comma-separated values (CSV) that can be
-downloaded by the test takers and analyzed. There are six questions: three single
-choice questions (about modality, skewness, and outliers) and three numeric questions
+downloaded by the test takers and analyzed. There are six questions: three
+single-choice questions (about modality, skewness, and outliers) and three numeric questions
 about quartiles. In \pkg{Moodle} the display is similar but drow-down menus are used
-for the single choice questions.
+for the single-choice questions.
 
-To set up such a \code{cloze} question the six separation solutions have to be provided,
+To set up such a \code{cloze} exercise, separate solutions have to be provided for all questions,
 in this particular random version as
-\verb+\exsolution{10|001|10|2.54|3.9|3.72}+, and the corresponding types as
+\verb+\exsolution{10|001|10|2.54|3.9|3.72}+ along with the corresponding types as
 \verb+\exclozetype{schoice|schoice|schoice|num|num|num}+. The individual questions
 shown in the exercise are taken from the \code{answerlist} within the \code{question}
-which has to consist of $10$ ($= 2 + 3 + 2 + 1 + 1 + 1$) items. The corresponding
-\code{answerlist} in the \code{solution} also has to consist of 10~items. However,
-empty items are allowed which can be easily set up via \code{answerlist(rep("", 10))}.
+which has to consist of $10$ ($= 2 + 3 + 2 + 1 + 1 + 1$) items. Hence, if a
+corresponding \code{answerlist} is also provided in the \code{solution}, it also has to
+consist of 10~items. (Alternatively, the \code{solution} can also have no \code{answerlist} at all.)
 See the \code{boxhist} (or the \code{fourfold}) exercise in the \pkg{exams} package
 for examples how to dynamically produce all metainformation commands in the correct format.
 
@@ -1549,17 +1549,20 @@ layout (e.g., a matrix or a table) etc. To do so, one simply has to place fields
 drop-down menus or numeric entry fields). The \code{boxhist2} exercise in \pkg{exams} shows
 how to do this as an alternative to \code{boxhist}.
 
-Another example for a cloze exercise is given by \code{fourfold} and \code{fourfold2}, respectively.
+Another illustration for a cloze exercise is given by \code{fourfold} and \code{fourfold2}, respectively.
 The exercise provides some (conditional) probabilities and asks about the corresponding
-joint probabilities in the associated fourfold table. In \code{fourfold} (see upper panel of
+joint probabilities in the associated fourfold table. In \code{fourfold} (see the upper panel of
 Figure~\ref{fig:exams2moodle-fourfold}) the standard layout as a list of question fields
-is used while \code{fourfold2} employs the custom \pkg{Moodle} layout (see lower panel of
+is used while \code{fourfold2} employs the custom \pkg{Moodle} layout (see the lower panel of
 Figure~\ref{fig:exams2moodle-fourfold}), actually displaying a fourfold table (plus marginal
-sums). (Both versions have again been created after \code{set.seed(1090)}.)
-
-\fixme{Trade-off: flexibility vs.\ layout. Inclusion vs.\ omission of answerlist.}
-
-
+sums). Both versions have again been created after \code{set.seed(1090)}. Users of the
+\pkg{exams} infrastructure thus have to decide whether they need more flexibility through
+setting up clozes that can be processed by all \code{exams2}\emph{xyz}\code{()} interfaces
+(such as \code{boxhist} or \code{fourfold}) or whether they prefer to have a nicer layout
+(as in \code{boxhist2} or \code{fourfold2}). If the latter is chosen, then we recommend
+to always include a \code{answerlist} in the \code{question} even in cases where it is not necessary
+(as in \code{fourfold2}) so that the exercise can be processed without error in
+\code{exams2html()} or \code{exams2pdf()} when programming/checking the exercise.
 
 \end{appendix}
 
