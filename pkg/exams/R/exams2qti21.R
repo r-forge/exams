@@ -770,7 +770,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
       ## create solution
       xsolution <- x$solution
-      if(length(length(x$solutionlist))) {
+      if(!is.null(x$solutionlist)) {
         if(!all(is.na(x$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
           if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')

@@ -181,7 +181,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       enumerate <- attr(thebody, "enumerate")
       if(is.null(enumerate)) enumerate <- FALSE
       xsolution <- exm[[i]][[j]]$solution
-      if(length(length(exm[[i]][[j]]$solutionlist))) {
+      if(!is.null(exm[[i]][[j]]$solutionlist)) {
         if(!all(is.na(exm[[i]][[j]]$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
           if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
