@@ -155,7 +155,7 @@ Qedoc (2010). \emph{Moodle XML Format}.
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
-  \emph{Journal of Statistical Software}, \bold{58}(1), 1--34.
+  \emph{Journal of Statistical Software}, \bold{58}(1), 1--36.
   \url{http://www.jstatsoft.org/v58/i01/}.
 }
 

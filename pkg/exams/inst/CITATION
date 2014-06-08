@@ -27,13 +27,13 @@ citEntry(entry = "Article",
   year         = "2014",
   volume       = "58",
   number       = "1",
-  pages        = "1--34",
+  pages        = "1--36",
   url          = "http://www.jstatsoft.org/v58/i01/",
 
   textVersion  =
   paste("Achim Zeileis, Nikolaus Umlauf, Friedrich Leisch (2012).", 
 	"Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.",
-        "Journal of Statistical Software 58(1), 1-34.",
+        "Journal of Statistical Software 58(1), 1-36.",
         "URL http://www.jstatsoft.org/v58/i01/."),
 	
   header       = "If you use any other exams2xyz() interface, please cite:"
