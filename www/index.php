@@ -47,7 +47,7 @@ Exams can be produced in various formats, including PDF, HTML, Moodle XML, QTI 1
 
 <ul>
   <li><a href="http://www.jstatsoft.org/v58/i01/">Manuscript</a> in Journal of Statistical Software, 58(1), 1-36.</li>
-  <li><a href="http://eeecon.uibk.ac.at/~zeileis/papers/Psychoco-2013.pdf">Presentation slides</a> from Psychoco 2013 workshop.</li>
+  <li><a href="http://eeecon.uibk.ac.at/~zeileis/papers/useR-2013.pdf">Presentation slides</a> from useR! 2013 conference.</li>
   <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337">Support forum</a> for e-learning exams in Moodle, OLAT, etc.</li>
   <li><a href="http://R-Forge.R-project.org/projects/exams/">Project summary</a> on R-Forge.</li>
   <li><a href="tth-src">Source distribution</a> of the C code for the TeX-to-HTML converter TtH.</li>
