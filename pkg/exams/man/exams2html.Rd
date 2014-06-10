@@ -32,8 +32,10 @@
     if possible. (Only if some element of \code{nsamp} is larger than
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
-  \item{dir}{character. The output directory, this has to be set if
-    \code{n} is greater than 1. Current working directory is used by default.}
+  \item{dir}{character specifying the output directory (default:
+    current working directory). If only a single HTML file is produced
+    and no \code{dir} is explicitly specified, the file is displayed in the
+    browser rather than saved in \code{dir}.}
   \item{template}{character. A specification of a HTML template. The package
     currently provides \code{"plain.html"}.}
   \item{name}{character. A name prefix for resulting exercises.}

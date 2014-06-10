@@ -27,9 +27,10 @@
     if possible. (Only if some element of \code{nsamp} is larger than
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
-  \item{dir}{character. The output directory, this has to be set if
-    \code{n} is greater than 1 (or \code{template} is longer than 1).
-    Current working directory is used by default.}
+  \item{dir}{character specifying the output directory (default:
+    current working directory). If only a single PDF file is produced
+    and no \code{dir} is explicitly specified, the file is displayed on the
+    screen rather than saved in \code{dir}.}
   \item{template}{character. A specification of a LaTeX template. The package
     currently provides \code{"exam"}, \code{"solution"}, \code{"plain"}.
     For details see below.}
@@ -68,9 +69,9 @@
   This custom driver combines each exams with the desired \code{template}
   (and \code{inputs} etc.) and then calls \code{\link[tools]{texi2dvi}}
   on the resulting LaTeX file to produce PDF output.  
-  For a single exams (\code{n = 1}) the resulting PDF is displayed on
-  screen while for \code{n > 1} some output directory \code{dir} has
-  to be specified where the PDF files are stored.
+  For a single exam (\code{n = 1}) the resulting PDF is displayed on
+  screen (unless \code{dir} is explicitly specified) while for \code{n > 1} 
+  the PDF files are stored in the output directory \code{dir}.
 }
 
 \references{
