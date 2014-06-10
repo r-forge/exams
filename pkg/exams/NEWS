@@ -34,6 +34,11 @@ Changes in Version 2.0-0
     Thus, evaluation of the exams is not affected but the display
     in OLAT is fixed.
 
+  o The {answerlist} in the {solution} environment can now also be
+    omitted (in mchoice, schoice, cloze exercises). It is still recommended
+    to include it but all exams2xyz() interfaces can process exercises
+    correctly that do not provide it.
+
 
 Changes in Version 1.9-6
 
