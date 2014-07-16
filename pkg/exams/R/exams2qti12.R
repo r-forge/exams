@@ -246,13 +246,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## process duration to P0Y0M0DT0H1M35S format
   if(!is.null(duration)) {
     dursecs <- round(duration * 60)
-    dur <- dur %/% 86400 ## days
+    dur <- dursecs %/% 86400 ## days
     dursecs <- dursecs - dur * 86400
     duration <- paste("P0Y0M", dur, "DT", sep = "")
-    dur <- dur %/% 3600 ## hours
+    dur <- dursecs %/% 3600 ## hours
     dursecs <- dursecs - dur * 3600
     duration <- paste(duration, dur, "H", sep = "")
-    dur <- dur %/% 60 ## minutes
+    dur <- dursecs %/% 60 ## minutes
     dursecs <- dursecs - dur * 60
     duration <- paste(duration, dur, "M", dursecs, "S", sep = "")
   } else {

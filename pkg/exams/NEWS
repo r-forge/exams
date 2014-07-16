@@ -1,5 +1,10 @@
 Changes in Version 2.0-0
 
+  o Bug fix in processing of "duration" in exams2qti12().
+
+
+Changes in Version 2.0-0
+
   o New version accompanying publication of exams version 2 in the
     Journal of Statistical Software, 58(1), 1-36. See
     vignette("exams2", package = "exams") for more details.
