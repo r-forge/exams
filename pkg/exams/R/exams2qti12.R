@@ -254,7 +254,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     duration <- paste(duration, dur, "H", sep = "")
     dur <- dursecs %/% 60 ## minutes
     dursecs <- dursecs - dur * 60
-    duration <- paste(duration, dur, "M", dursecs, "S", sep = "")
+    duration <- paste("<duration>", duration, dur, "M", dursecs, "S", "</duration>", sep = "")
   } else {
     duration <- ""
   }
