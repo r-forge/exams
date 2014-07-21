@@ -397,11 +397,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
       ## evaluate points for each question
       pv[[i]] <- eval$pointvec(solution[[i]])
-      if(eval$partial) {
-        pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
-        if(length(grep("choice", type[i])))
-          pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
-      }
+      pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
+      if(length(grep("choice", type[i])))
+        pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
 
       ## insert choice type responses
       if(length(grep("choice", type[i]))) {
