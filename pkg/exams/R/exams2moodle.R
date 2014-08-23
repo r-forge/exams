@@ -144,7 +144,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## include supplements using base64 encoding, with either moodle's
       ## pluginfile mechanism or data URIs
       if(length(exm[[i]][[j]]$supplements) > 0) {
-        require("base64enc")
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           if(any(grepl(f <- basename(exm[[i]][[j]]$supplements[si]), question_xml))) {
             if(isTRUE(pluginfile)) {
@@ -152,7 +151,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
               href    <- paste0("\"", f,"\"")
               newhref <- paste0("\"", newfn,"\"")
               filetag <- paste0("<file name=\"", f, "\" encoding=\"base64\">",
-                                base64encode(exm[[i]][[j]]$supplements[si]),
+                                base64enc::base64encode(exm[[i]][[j]]$supplements[si]),
                                 "</file>")
 
               # Prepend @@PLUGINFILE@@ to link target
