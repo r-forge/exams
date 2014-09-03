@@ -426,6 +426,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
               '}', sep = ''))
           }
         }
+        if(x$metainfo$clozetype[i] == "verbatim") {
+          for(j in 1:k) {
+            tmp <- c(tmp, paste0(ql[j], ' {', points[i], solution[[i]][j], '}'))
+          }
+        }
 
         ## FIXME, there is a NULL when using boxhist2?
         tmp <- gsub('NULL', '', tmp)
