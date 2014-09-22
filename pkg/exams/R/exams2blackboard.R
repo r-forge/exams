@@ -32,6 +32,115 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
+
+  ## create a temporary directory
+  dir <- path.expand(dir)
+  if(is.null(tdir)) {
+    dir.create(tdir <- tempfile())
+    on.exit(unlink(tdir))
+  } else {
+    tdir <- path.expand(tdir)
+  }
+  if(!file.exists(tdir)) dir.create(tdir)
+
+  ## FIXME: templates???
+
+  ## obtain the number of exams and questions
+  nx <- length(exm)
+  nq <- length(exm[[1L]])
+
+  ## create a name
+  if(is.null(name)) name <- "bbexam"
+
+  ## function for internal ids
+  make_test_ids <- function(n, type = c("test", "section", "item"))
+  {
+    switch(type,
+      "test" = paste(name, make_id(9), sep = "_"),
+      paste(type, formatC(1:n, flag = "0", width = nchar(n)), sep = "_")
+    )
+  }
+
+  ## generate the test id
+  test_id <- make_test_ids(type = "test")
+
+  ## create section ids
+  sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
+
+  ## points setting
+  if(!is.null(points))
+    points <- rep(points, length.out = nq)
+
+  ## create the directory where the test is stored
+  dir.create(test_dir <- file.path(tdir, name))
+
+  xml <- NULL
+  for(j in 1:nq) {
+    ## create item ids
+    item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
+
+    for(i in 1:nx) {
+      ## overule points
+      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
+
+      ## get and insert the item body
+      type <- exm[[i]][[j]]$metainfo$type
+
+      ## create an id
+      iname <- paste(item_ids[i], type, sep = "_")
+
+      ## attach item id to metainfo
+      exm[[i]][[j]]$metainfo$id <- iname
+
+      ibody <- itembody[[type]](exm[[i]][[j]])
+
+      ## copy supplements
+      if(length(exm[[i]][[j]]$supplements)) {
+        if(!file.exists(media_dir <- file.path(test_dir, "media")))
+          dir.create(media_dir)
+        sj <- 1
+        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
+          sj <- sj + 1
+        }
+        dir.create(ms_dir <- file.path(media_dir, sup_dir))
+        for(si in seq_along(exm[[i]][[j]]$supplements)) {
+          file.copy(exm[[i]][[j]]$supplements[si],
+            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
+          if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+            ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+              file.path('media', sup_dir), ibody, fixed = TRUE)
+          } else {
+            if(any(grepl(f, ibody))) {
+              ibody <- gsub(paste(f, '"', sep = ''),
+                paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+            }
+          }
+        }
+      }
+
+      ## add item to final xml
+      xml <- c(xml, ibody, "")
+    }
+  }
+
+  ## write to dir
+  writeLines(xml, file.path(test_dir, paste(name, "xml", sep = ".")))
+
+  ## compress
+  if(zip) {
+    owd <- getwd()
+    setwd(test_dir)
+    zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir))
+    setwd(owd)
+  } else zipname <- list.files(test_dir)
+
+  ## copy the final .zip file
+  file.copy(file.path(test_dir, zipname), dir, recursive = TRUE)
+
+  ## assign test id as an attribute
+  attr(exm, "test_id") <- test_id
+
+  invisible(exm)
 }
 
 
@@ -39,7 +148,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_blackboard <- function(...)
 {
   function(x) {
-    return("")
+    return("1")
   }
 }
 
