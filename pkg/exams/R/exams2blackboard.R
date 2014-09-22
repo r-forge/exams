@@ -1,3 +1,47 @@
+exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+  resolution = 100, width = 4, height = 4, encoding  = "",
+  num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
+  template = NULL, zip = TRUE,
+  points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
+{
+  ## set up .html transformer
+  htmltransform <- make_exercise_transform_html(...)
+
+  ## create exam
+  exm <- xexams(file, n = n, nsamp = nsamp,
+    driver = list(
+      sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+        resolution = resolution, width = width, height = height,
+        encoding = encoding),
+      read = NULL, transform = htmltransform, write = NULL),
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
+
+  ## start .xml assessement creation
+  ## get the possible item body functions and options  
+  itembody = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
+
+  for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
+    if(is.null(itembody[[i]])) itembody[[i]] <- list()
+    if(is.list(itembody[[i]])) {
+      if(is.null(itembody[[i]]$eval))
+        itembody[[i]]$eval <- eval
+      if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
+        itembody[[i]]$eval$rule <- "none"
+      itembody[[i]] <- do.call("make_itembody_blackboard", itembody[[i]])
+    }
+    if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
+  }
+}
+
+
+## Blackboard item body constructor function
+make_itembody_blackboard <- function(...)
+{
+  function(x) {
+    return("")
+  }
+}
 
 
 #function for generating random identifiers 
