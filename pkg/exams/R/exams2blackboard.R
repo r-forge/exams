@@ -379,7 +379,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         )
       }
       if(type[i] == "string" || type[i] == "num") {
-        stop('"string" and num "type" quations not supported in exams2blackboard() yet!')
+        stop('"string" and "num" type questions not supported in exams2blackboard() yet!')
 
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
