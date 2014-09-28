@@ -114,7 +114,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## cycle through all exams and questions
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
-  items <- sec_xml <- NULL
+  items <- sec_xml <- NULL; all_points <- rep(0, length = nq)
   for(j in 1:nq) {
     ## first, create the section header
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section, fixed = TRUE))
@@ -122,10 +122,14 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
 
+    all_points[[j]] <- 0
+
     ## now, insert the questions
     for(i in 1:nx) {
       ## overule points
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
+      if(i < 2)
+        all_points[j] <- exm[[i]][[j]]$metainfo$points
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
@@ -258,7 +262,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     '<ANSWERATTACHMENTSENABLED>false</ANSWERATTACHMENTSENABLED>',
     '<QUESTIONMETADATAENABLED>false</QUESTIONMETADATAENABLED>',
     '<DEFAULTPOINTVALUEENABLED>false</DEFAULTPOINTVALUEENABLED>',
-    '<DEFAULTPOINTVALUE>10.0</DEFAULTPOINTVALUE>',
+    paste('<DEFAULTPOINTVALUE>', sum(all_points), '</DEFAULTPOINTVALUE>', sep = ''),
     '<ANSWERPARTIALCREDITENABLED>false</ANSWERPARTIALCREDITENABLED>',
     '<ANSWERRANDOMORDERENABLED>true</ANSWERRANDOMORDERENABLED>',
     '<ANSWERORIENTATIONENABLED>true</ANSWERORIENTATIONENABLED>',
