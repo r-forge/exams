@@ -224,6 +224,50 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## write to dir
   writeLines(xml, file.path(test_dir, "res00002.dat"))
 
+  ## write manifest file
+  xml <- c(
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<manifest identifier="man00001" xmlns:bb="http://www.blackboard.com/content-packaging/">',
+    '<organizations default="toc00001">',
+    '<organization identifier="toc00001"/>',
+    '</organizations>',
+    '<resources>',
+    '<resource bb:file="res00001.dat" bb:title="Categories" identifier="res00001" type="course/x-bb-category" xml:base="res00001"/>',
+    '<resource bb:file="res00002.dat" bb:title="tryout" identifier="res00002" type="assessment/x-bb-qti-pool" xml:base="res00002">',
+    '</resource>',
+    '<resource bb:file="res00003.dat" bb:title="Assessment Creation Settings" identifier="res00003" type="course/x-bb-courseassessmentcreationsettings" xml:base="res00003"/>',
+    '</resources>',
+    '</manifest>'
+  )
+  writeLines(xml, file.path(test_dir, "imsmanifest.xml"))
+
+  ## some more setting files
+  xml <- c(
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    paste('<CATEGORIES><CATEGORY id="_', make_id(4, 1),'_1"><TITLE>"OMII-A"</TITLE><TYPE>category</TYPE><COURSEID value="_38547_1"/></CATEGORY></CATEGORIES>', sep = '')
+  )
+  writeLines(xml, file.path(test_dir, "res00001.dat"))
+
+  xml <- c(
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<ASSESSMENTCREATIONSETTINGS>',
+    paste('<ASSESSMENTCREATIONSETTING id="', make_id(5, 1),
+      '_1"><QTIASSESSMENTID value="_', make_id(6, 1), '_1"/>', sep = ''),
+    '<ANSWERFEEDBACKENABLED>false</ANSWERFEEDBACKENABLED>',
+    '<QUESTIONATTACHMENTSENABLED>true</QUESTIONATTACHMENTSENABLED>',
+    '<ANSWERATTACHMENTSENABLED>false</ANSWERATTACHMENTSENABLED>',
+    '<QUESTIONMETADATAENABLED>false</QUESTIONMETADATAENABLED>',
+    '<DEFAULTPOINTVALUEENABLED>false</DEFAULTPOINTVALUEENABLED>',
+    '<DEFAULTPOINTVALUE>10.0</DEFAULTPOINTVALUE>',
+    '<ANSWERPARTIALCREDITENABLED>false</ANSWERPARTIALCREDITENABLED>',
+    '<ANSWERRANDOMORDERENABLED>true</ANSWERRANDOMORDERENABLED>',
+    '<ANSWERORIENTATIONENABLED>true</ANSWERORIENTATIONENABLED>',
+    '<ANSWERNUMBEROPTIONSENABLED>true</ANSWERNUMBEROPTIONSENABLED>',
+    '</ASSESSMENTCREATIONSETTING>',
+    '</ASSESSMENTCREATIONSETTINGS>'
+  )
+  writeLines(xml, file.path(test_dir, "res00003.dat"))
+
   ## compress
   if(zip) {
     owd <- getwd()
@@ -246,7 +290,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE)
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE,
+  qti12 = FALSE)
 {
   function(x) {
     ## how many points?
@@ -303,28 +348,47 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## start item presentation
     ## and insert question
-    xml <- c(
-      '<presentation>',
-      '<flow class="Block">',
-      '<flow class="QUESTION_BLOCK">',
-      '<flow class="FORMATTED_TEXT_BLOCK">',
-      if(!is.null(x$question)) {
-        c(
-          '<material>',
-          '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
-          x$question,
-          ']]></mattext>',
-          '<matbreak/>',
-          '</material>'
-        )
-      } else NULL,
-      rep('</flow>', 3)
-    )
+    if(qti12) {
+      xml <- c(
+        '<presentation>',
+        '<flow>',
+        if(!is.null(x$question)) {
+          c(
+            '<material>',
+            '<matbreak/>',
+            '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+            x$question,
+            ']]></mattext>',
+            '<matbreak/>',
+            '</material>'
+          )
+        } else NULL
+      )
+    } else {
+      xml <- c(
+        '<presentation>',
+        '<flow class="Block">',
+        '<flow class="QUESTION_BLOCK">',
+        '<flow class="FORMATTED_TEXT_BLOCK">',
+        if(!is.null(x$question)) {
+          c(
+            '<material>',
+            '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+            x$question,
+            ']]></mattext>',
+            '<matbreak/>',
+            '</material>'
+          )
+        } else NULL,
+        rep('</flow>', 3)
+      )
+    }
 
     ## insert responses
     ids <- el <- pv <- list()
     for(i in 1:n) {
-      xml <- c(xml, '<flow class="RESPONSE_BLOCK">')
+      if(!qti12)
+        xml <- c(xml, '<flow class="RESPONSE_BLOCK">')
 
       ## get item id
       iid <- x$metainfo$id
@@ -348,28 +412,47 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           paste('<render_choice shuffle=', if(shuffle) '"Yes"' else '"No">', sep = '')
         )
         for(j in seq_along(solution[[i]])) {
-          xml <- c(xml,
-            '<flow_label class="Block">',
-            paste('<response_label ident="', ids[[i]]$questions[j], '" rshuffle="',
-              if(rshuffle) 'Yes' else 'No', '" rarea="Ellipse" rrange="Exact">', sep = ''),
-            '<flow_mat class="FORMATTED_TEXT_BLOCK">',
-            '<material>',
-            '<mat_extension>',
-            '<mat_formattedtext type="HTML">',
-            '<![CDATA[',
-             paste(if(enumerate) {
-               paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
-                 if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+          if(qti12) {
+            xml <- c(xml,
+              '<flow_label class="List">',
+              paste('<response_label ident="', ids[[i]]$questions[j], '" rshuffle="',
+                if(rshuffle) 'Yes' else 'No', '">', sep = ''),
+              '<material>',
+              '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+               paste(if(enumerate) {
+                 paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                   if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
-             } else NULL, questionlist[[i]][j]),
-            ']]>',
-            '</mat_formattedtext>',
-            '</mat_extension>',
-            '</material>',
-            '</flow_mat>',
-            '</response_label>',
-            '</flow_label>'
-          )
+               } else NULL, questionlist[[i]][j]),
+              ']]></mattext>',
+              '</material>',
+              '</response_label>',
+              '</flow_label>'
+            )
+          } else {
+            xml <- c(xml,
+              '<flow_label class="Block">',
+              paste('<response_label ident="', ids[[i]]$questions[j], '" rshuffle="',
+                if(rshuffle) 'Yes' else 'No', '" rarea="Ellipse" rrange="Exact">', sep = ''),
+              '<flow_mat class="FORMATTED_TEXT_BLOCK">',
+              '<material>',
+              '<mat_extension>',
+              '<mat_formattedtext type="HTML">',
+              '<![CDATA[',
+               paste(if(enumerate) {
+                 paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                   if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                 sep = "")
+               } else NULL, questionlist[[i]][j]),
+              ']]>',
+              '</mat_formattedtext>',
+              '</mat_extension>',
+              '</material>',
+              '</flow_mat>',
+              '</response_label>',
+              '</flow_label>'
+            )
+          }
         }
 
         ## finish response tag
@@ -379,8 +462,8 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         )
       }
       if(type[i] == "string" || type[i] == "num") {
-        stop('"string" and "num" type questions not supported in exams2blackboard() yet!')
-
+        if(!qti12)
+          stop('"string" and "num" type questions not supported in exams2blackboard() yet!')
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
              if(!is.null(digits)) format(round(solution[[i]][j], digits), nsmall = digits) else solution[[i]][j]
@@ -421,11 +504,12 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           )
         }
       }
-      xml <- c(xml, '</flow>')
+      if(!qti12)
+        xml <- c(xml, '</flow>')
     }
 
     ## finish presentation
-    xml <- c(xml, '</presentation>')
+    xml <- c(xml, if(qti12) '</flow>' else NULL, '</presentation>')
 
     if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
       if(eval$negative) {
@@ -686,6 +770,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 }
 
 
+###############################
+## OLD TESTING SECTION NIELS ##
+###############################
 #function for generating random identifiers 
 randomstring<-function(a=1,n=31){
 z<-vector(length=a)

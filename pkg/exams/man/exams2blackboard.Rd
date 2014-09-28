@@ -29,7 +29,7 @@
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = TRUE)
+    fix_num = TRUE, qti12 = FALSE)
 }
 
 \arguments{
@@ -91,6 +91,7 @@
   \item{fix_num}{logical. This is a special flag to enable/force the display of the
     correct solutions for numeric exercises/answers as well as to obtain results when archiving tests.
     Note that this is only a workaround.}
+  \item{qti12}{logical. For reverse compability to plain QTI 1.2 XML format.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
