@@ -122,14 +122,12 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
 
-    all_points[[j]] <- 0
-
     ## now, insert the questions
     for(i in 1:nx) {
       ## overule points
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
       if(i < 2)
-        all_points[j] <- exm[[i]][[j]]$metainfo$points
+        all_points[j] <- if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
 
       ## get and insert the item body
       type <- exm[[i]][[j]]$metainfo$type
