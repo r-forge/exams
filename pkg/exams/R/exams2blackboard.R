@@ -235,12 +235,13 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     '</organizations>',
     '<resources>',
     '<resource bb:file="res00001.dat" bb:title="Categories" identifier="res00001" type="course/x-bb-category" xml:base="res00001"/>',
-    '<resource bb:file="res00002.dat" bb:title="tryout" identifier="res00002" type="assessment/x-bb-qti-pool" xml:base="res00002">',
+    '<resource bb:file="res00002.dat" bb:title="%s" identifier="res00002" type="assessment/x-bb-qti-pool" xml:base="res00002">',
     '</resource>',
     '<resource bb:file="res00003.dat" bb:title="Assessment Creation Settings" identifier="res00003" type="course/x-bb-courseassessmentcreationsettings" xml:base="res00003"/>',
     '</resources>',
     '</manifest>'
   )
+  xml <- sprintf(xml, name)
   writeLines(xml, file.path(test_dir, "imsmanifest.xml"))
 
   ## some more setting files
