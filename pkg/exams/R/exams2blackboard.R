@@ -111,6 +111,19 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
 
+  ## get correct question type spec for blackboard
+  ## FIXME: not all questiontypes of BB listed here!
+  bb_questiontype <- function(x, item = FALSE) {
+    type <- switch(x,
+      "mchoice" = if(item) "Multiple Answer" else "Multiple Choice",
+      "schoice" = "Single Choice",
+      "num" = "Numeric",
+      "cloze" = "Cloze",
+      "string" = "String"
+    )
+    type
+  }
+
   ## cycle through all exams and questions
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
@@ -118,6 +131,9 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(j in 1:nq) {
     ## first, create the section header
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section, fixed = TRUE))
+
+    ## insert question type: FIXME multiple types in one section?
+    sec_xml <- gsub("##QuestionType##", bb_questiontype(exm[[1]][[j]]$metainfo$type), sec_xml, fixed = TRUE)
 
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
@@ -137,7 +153,6 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
-
       ibody <- gsub("##ItemBody##",
         paste(thebody <- itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
         item, fixed = TRUE)
@@ -195,6 +210,9 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
         }
       }
 
+      ## insert question type
+      ibody <- gsub("##QuestionType##", bb_questiontype(type, item = TRUE), ibody, fixed = TRUE)
+
       ## include body in section
       sec_xml <- c(sec_xml, ibody, "")
     }
@@ -225,6 +243,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## write to dir
   writeLines(xml, file.path(test_dir, "res00002.dat"))
+  formatXML(file.path(test_dir, "res00002.dat"), overwrite = TRUE)
 
   ## write manifest file
   xml <- c(
@@ -243,6 +262,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   )
   xml <- sprintf(xml, name)
   writeLines(xml, file.path(test_dir, "imsmanifest.xml"))
+  formatXML(file.path(test_dir, "imsmanifest.xml"), overwrite = TRUE)
 
   ## some more setting files
   xml <- c(
@@ -250,6 +270,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     paste('<CATEGORIES><CATEGORY id="_', make_id(4, 1),'_1"><TITLE>"OMII-A"</TITLE><TYPE>category</TYPE><COURSEID value="_38547_1"/></CATEGORY></CATEGORIES>', sep = '')
   )
   writeLines(xml, file.path(test_dir, "res00001.dat"))
+  formatXML(file.path(test_dir, "res00001.dat"), overwrite = TRUE)
 
   xml <- c(
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -270,6 +291,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     '</ASSESSMENTCREATIONSETTINGS>'
   )
   writeLines(xml, file.path(test_dir, "res00003.dat"))
+  formatXML(file.path(test_dir, "res00003.dat"), overwrite = TRUE)
 
   ## compress
   if(zip) {
@@ -359,9 +381,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           c(
             '<material>',
             '<matbreak/>',
-            '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+            '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
             x$question,
-            ']]></mattext>',
+            ']]></mat_formattedtext></mat_extension>',
             '<matbreak/>',
             '</material>'
           )
@@ -376,9 +398,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         if(!is.null(x$question)) {
           c(
             '<material>',
-            '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+            '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
             x$question,
-            ']]></mattext>',
+            ']]></mat_formattedtext></mat_extension>',
             '<matbreak/>',
             '</material>'
           )
@@ -421,13 +443,13 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               paste('<response_label ident="', ids[[i]]$questions[j], '" rshuffle="',
                 if(rshuffle) 'Yes' else 'No', '">', sep = ''),
               '<material>',
-              '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
+              '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
                paste(if(enumerate) {
                  paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
                } else NULL, questionlist[[i]][j]),
-              ']]></mattext>',
+              ']]></mat_formattedtext></mat_extension>',
               '</material>',
               '</response_label>',
               '</flow_label>'
@@ -476,9 +498,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           xml <- c(xml,
             if(!is.null(questionlist[[i]][j])) {
               c('<material>',
-                paste('<mattext><![CDATA[', paste(if(enumerate) {
+                paste('<mat_extension><mat_formattedtext type="HTML"><![CDATA[', paste(if(enumerate) {
                   paste(letters[i], ".", sep = '')
-                } else NULL, questionlist[[i]][j]), ']]></mattext>', sep = ""),
+                } else NULL, questionlist[[i]][j]), ']]></mat_formattedtext></mat_extension>', sep = ""),
                 '</material>',
                 '<material>', '<matbreak/>', '</material>'
               )
@@ -770,6 +792,53 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     xml
   }
+}
+
+
+## Function to nicely format XML files
+formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
+{
+  stopifnot(require("XML"))
+  stopifnot(require("tools"))
+  xml.string <- add <- FALSE
+  if(!is.null(files) & is.null(dir)) {
+    if(!all(file.exists(files))) {
+      xml.string <- TRUE
+      tf <- tempfile()
+      writeLines(files, tf)
+      files <- tf
+      on.exit(unlink(files))
+      add <- TRUE
+    } else dir <- dirname(files)
+  } else {
+    if(is.null(files))
+      files <- dir(dir, full.names = TRUE)
+  }
+  if(is.null(tdir)) {
+    dir.create(tdir <- tempfile())
+    on.exit(unlink(tdir))
+    add <- TRUE
+  }
+  if(!file.exists(tdir)) stop("temporary directory missing!")
+  owd <- getwd()
+  on.exit(setwd(owd), add = add)
+  files <- files[!file.info(files)$isdir]
+  if(!length(files)) stop("cannot find any files for XML formatting!")
+  for(f in files) {
+    setwd(dirname(f))
+    fbn <- basename(f)
+    xml <- try(xmlTreeParse(fbn)$doc$children[[1]], silent = TRUE)
+    if(inherits(xml, "try-error")) warning(paste("could not format file:", f))
+    sink(file.path(tdir, fbn))
+    print(xml)
+    sink()
+  }
+  fbn <- basename(files)
+  fn <- if(overwrite) fbn else paste(file_path_sans_ext(fbn), "-formatted.", file_ext(files), sep = "")
+  if(!xml.string)
+    return(file.copy(file.path(tdir, fbn), file.path(dir, fn), overwrite = overwrite))
+  else
+    return(readLines(file.path(tdir, fbn)))
 }
 
 
