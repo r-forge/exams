@@ -847,9 +847,9 @@ read_olat_results <- function(file, xexam = NULL)
 	        }
         }
         if(is.na(scheck)) scheck <- 0
+	toPOSIXct <- function(x) ifelse(is.na(x) | x == "", NA, as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")))
         res <- data.frame(id + (i - 1) * ns, as.numeric(points), scheck, ssol0, solx,
-          as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")), as.numeric(dur),
-          stringsAsFactors = FALSE)
+          toPOSIXct(start), as.numeric(dur), stringsAsFactors = FALSE)
       } else res <- data.frame(t(rep(NA, 7L)))
       res[res == ""] <- NA
       names(res) <- paste(c("id", "points", "check", "answer", "solution", "start", "duration"), i, sep = ".")
