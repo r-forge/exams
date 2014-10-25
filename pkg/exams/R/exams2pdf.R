@@ -104,8 +104,9 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         "schoice" = mchoice2quest(x[[i]]),
         "mchoice" = mchoice2quest(x[[i]]),
         "num" = num2quest(x[[i]]),
-        "string" = string2quest(x[[i]]))), collapse = "\\\\\n    "),
-        "verbatim" = stop("Question type 'verbatim' is not supported by exams2pdf"),
+        "string" = string2quest(x[[i]]),
+        "verbatim" = stop("Question type 'verbatim' is not supported by exams2pdf")
+      )), collapse = "\\\\\n    "),
       "\n  \\end{enumerate}",
       collapse = "\n"
     )
