@@ -497,7 +497,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    correct_answers <- wrong_answers <- correct_num <- vector(mode = "list", length = n)
+    correct_answers <- wrong_answers <- correct_num <- wrong_num <- vector(mode = "list", length = n)
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
@@ -541,7 +541,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                       ']]></varequal>', sep = "")
                   )
                 }
-                paste(
+                wrong_num[[i]] <- paste(
                   '<and>\n',
                   paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] - max(tol[[i]]),
@@ -566,8 +566,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## delete NULL list elements
     correct_answers <- delete.NULLs(correct_answers)
-    wrong_answers <- delete.NULLs(wrong_answers)
+    wrong_answers <- delete.NULLs(wrong_answers) 
     correct_num <- unlist(delete.NULLs(correct_num))
+    wrong_num <- delete.NULLs(wrong_num)
+    if(length(wrong_num)) {
+      wrong_num <- sapply(wrong_num, function(x) {
+        paste('<not>', x, '</not>', collapse = '\n')
+      })
+      wrong_num <- unlist(wrong_num)
+    }
+
+
 
     ## partial points
     if(eval$partial) {
@@ -685,7 +694,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## handling incorrect answers
     correct_answers <- unlist(correct_answers)
-    wrong_answers <- unlist(wrong_answers)
+    wrong_answers <- c(unlist(wrong_answers), unlist(wrong_num))
 
     xml <- c(xml,
       '<respcondition title="Fail" continue="Yes">',
