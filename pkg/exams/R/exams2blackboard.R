@@ -631,7 +631,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         for(i in seq_along(correct_answers)) {
           for(j in correct_answers[[i]]) {
             xml <- c(xml,
-              '<respcondition continue="Yes" title="Mastery">',
+              '<respcondition continue="Yes" title="correct">',
               '<conditionvar>',
               j,
               '</conditionvar>',
@@ -646,7 +646,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         for(i in seq_along(wrong_answers)) {
           for(j in wrong_answers[[i]]) {
             xml <- c(xml,
-              '<respcondition continue="Yes" title="Fail">',
+              '<respcondition continue="Yes" title="incorrect">',
               '<conditionvar>',
               j,
               '</conditionvar>',
@@ -667,7 +667,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           ctype <- attr(correct_answers[[i]], "type")
           if(ctype == "string" || ctype == "num") {
             xml <- c(xml,
-              '<respcondition title="Fail" continue="Yes">',
+              '<respcondition title="incorrect" continue="Yes">',
               '<conditionvar>',
               '<not>',
               correct_answers[[i]],
@@ -685,7 +685,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## scoring/solution display for the correct answers
     xml <- c(xml,
-      '<respcondition title="Mastery" continue="Yes">',
+      '<respcondition title="correct" continue="Yes">',
       '<conditionvar>',
       if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '<and>' else NULL
     )
@@ -702,7 +702,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
       if(!eval$partial) {
         paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '')
       } else NULL,
-      '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
+      '<displayfeedback feedbacktype="Response" linkrefid="correct"/>',
       '</respcondition>'
     )
 
@@ -710,7 +710,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
     if(length(correct_num)) {
       for(j in correct_num) {
         xml <- c(xml,
-          '<respcondition continue="Yes" title="Mastery">',
+          '<respcondition continue="Yes" title="correct">',
           '<conditionvar>',
           j,
           '</conditionvar>',
@@ -726,7 +726,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
       for(j in seq_along(correct_answers)) {
         if(attr(correct_answers[[j]], "type") != "num") {
           xml <- c(xml,
-            '<respcondition continue="Yes" title="Mastery">',
+            '<respcondition continue="Yes" title="correct">',
             '<conditionvar>',
             correct_answers[[j]],
             '</conditionvar>',
@@ -744,7 +744,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
     wrong_answers <- unlist(wrong_answers)
 
     xml <- c(xml,
-      '<respcondition title="Fail" continue="Yes">',
+      '<respcondition title="incorrect" continue="Yes">',
       '<conditionvar>',
       if(!is.null(wrong_answers)) NULL else '<not>',
       if(is.null(wrong_answers)) {
@@ -766,7 +766,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## handle all other cases
     xml <- c(xml,
-      '<respcondition title="Fail" continue="Yes">',
+      '<respcondition title="incorrect" continue="Yes">',
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
@@ -777,7 +777,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## handle unanswered cases
 #    xml <- c(xml,
-#      '<respcondition title="Fail" continue="Yes">',
+#      '<respcondition title="incorrect" continue="Yes">',
 #      '<conditionvar>',
 #      '<unanswered/>',
 #      '</conditionvar>',
