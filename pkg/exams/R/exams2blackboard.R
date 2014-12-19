@@ -799,7 +799,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
 {
   stopifnot(require("XML"))
-  stopifnot(require("tools"))
   xml.string <- add <- FALSE
   if(!is.null(files) & is.null(dir)) {
     if(!all(file.exists(files))) {
@@ -957,46 +956,45 @@ mc2bb<-function(exam.object,inst="Make these items",correct=1,naam="tryout",desc
 }
 
 
-## TESTING.
-if(FALSE) {
-options(SweaveSyntax = SweaveSyntaxNoweb) 
-library(exams)
-odir <- "C:\\BB"
-#exams2html("anova.Rnw",dir=odir)
-
-## to produce the building blocks for the same exerce:
-## set up a LaTeX-to-HTML converter based on tth and base64enc
-htmltrafo <- make_exercise_transform_html()
-
-## set the options for calling Sweave
-args <- list(quiet = TRUE, pdf = FALSE, png = TRUE, resolution = 100,
-  height = 4, width = 4)
-
-## generate 1 exam with 1 exercise (anova.Rnw) in HTML+MathML
-set.seed(1090)
-exm <- xexams("boxplots", n = 10,
-  driver = list(sweave = args, read = NULL, transform = htmltrafo))
-  
-## question (without multiple choice statements)
-exm[[1]][[1]]$question[-11]
-
-## multiple choice statements
-exm[[1]][[1]]$questionlist
-
-## correct solution text
-exm[[1]][[1]]$solution
-
-## and explanations corresponding to multiple choice statements
-exm[[1]][[1]]$solutionlist
-
-#In the $question I excluded line 11 because this contains the PNG image (in Base64 encoding). This is too long to usefully print on the screen...
-
-#To see what the HTML text looks like in a browser you can also do
-
-#exams:::show.html(exm[[1]][[1]]$question)
-
-##source("D:/My Documents/Onderwijs/QTI.XML/exams2BB.R")
-
-mc2bb(exm)
-}
-
+## ## TESTING.
+## if(FALSE) {
+## options(SweaveSyntax = SweaveSyntaxNoweb) 
+## library(exams)
+## odir <- "C:\\BB"
+## #exams2html("anova.Rnw",dir=odir)
+## 
+## ## to produce the building blocks for the same exerce:
+## ## set up a LaTeX-to-HTML converter based on tth and base64enc
+## htmltrafo <- make_exercise_transform_html()
+## 
+## ## set the options for calling Sweave
+## args <- list(quiet = TRUE, pdf = FALSE, png = TRUE, resolution = 100,
+##   height = 4, width = 4)
+## 
+## ## generate 1 exam with 1 exercise (anova.Rnw) in HTML+MathML
+## set.seed(1090)
+## exm <- xexams("boxplots", n = 10,
+##   driver = list(sweave = args, read = NULL, transform = htmltrafo))
+##   
+## ## question (without multiple choice statements)
+## exm[[1]][[1]]$question[-11]
+## 
+## ## multiple choice statements
+## exm[[1]][[1]]$questionlist
+## 
+## ## correct solution text
+## exm[[1]][[1]]$solution
+## 
+## ## and explanations corresponding to multiple choice statements
+## exm[[1]][[1]]$solutionlist
+## 
+## #In the $question I excluded line 11 because this contains the PNG image (in Base64 encoding). This is too long to usefully print on the screen...
+## 
+## #To see what the HTML text looks like in a browser you can also do
+## 
+## #exams:::show.html(exm[[1]][[1]]$question)
+## 
+## ##source("D:/My Documents/Onderwijs/QTI.XML/exams2BB.R")
+## 
+## mc2bb(exm)
+## }
