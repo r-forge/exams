@@ -11,7 +11,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   htmltransform <- make_exercise_transform_html(..., base64 = !pluginfile)
 
   ## generate the exam
-  if(encoding == "") encoding <- "utf8"
+  if(encoding == "") encoding <- "UTF-8"
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
        sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,

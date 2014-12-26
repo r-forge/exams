@@ -1,8 +1,7 @@
 Changes in Version 2.0-1
 
-  o Added first development version of exams2blackboard(). This is still
-    experimental and likely to change in future versions. It essentially
-    behaves as exams2qti12() but with some additional processing for Blackboard.
+  o The default encoding in exams2moodle() is now ensured to be "UTF-8" rather
+    than "utf8" for improved cross-platform compatibility.
 
   o \exshuffle{TRUE} is now also used in read_exercise() so that schoice/mchoice
     exercises (or schoice/mchoice components in cloze exercises) are shuffled
