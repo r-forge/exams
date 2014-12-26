@@ -1,3 +1,10 @@
+Changes in Version 2.1-0
+
+  o Added first development version of exams2blackboard(). This is still
+    experimental and likely to change in future versions. It essentially
+    behaves as exams2qti12() but with some additional processing for Blackboard.
+
+
 Changes in Version 2.0-1
 
   o The default encoding in exams2moodle() is now ensured to be "UTF-8" rather
