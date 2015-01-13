@@ -798,7 +798,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 ## Function to nicely format XML files
 formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
 {
-  stopifnot(require("XML"))
+  stopifnot(requireNamespace("XML"))
   xml.string <- add <- FALSE
   if(!is.null(files) & is.null(dir)) {
     if(!all(file.exists(files))) {
