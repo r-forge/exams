@@ -1,8 +1,8 @@
-Changes in Version 2.1-0
+Changes in Version 2.0-2
 
-  o Added first development version of exams2blackboard(). This is still
-    experimental and likely to change in future versions. It essentially
-    behaves as exams2qti12() but with some additional processing for Blackboard.
+  o Added an optional transform = NULL argument in exams2pdf().
+  
+  o Avoid require(...) calls for suggested packages.
 
 
 Changes in Version 2.0-1
