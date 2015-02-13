@@ -1,4 +1,4 @@
-Supported: \extype{}s:
+Supported \extype{}s:
 
 *** void
 (anyone a better name???)
