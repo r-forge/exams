@@ -82,7 +82,8 @@ read_metainfo <- function(file)
   extime    <- extract_command(x, "extime",    "numeric") ## default time in seconds
   exshuffle <- extract_command(x, "exshuffle", "logical") ## shuffle schoice/mchoice answers?
   exsingle  <- extract_command(x, "exsingle",  "logical") ## use radio buttons?
-  exmaxchars  <- extract_command(x, "exmaxchars") ## use radio buttons?
+  exmaxchars  <- extract_command(x, "exmaxchars")         ## maximum number of characters in string answers
+  exabstention <- extract_command(x, "exabstention")      ## string for abstention in schoice/mchoice answers
 
   ## User-Defined ###################################
   exextra <- extract_extra(x)
@@ -174,7 +175,8 @@ read_metainfo <- function(file)
     single = exsingle,
     length = slength,
     string = string,
-    maxchars = exmaxchars
+    maxchars = exmaxchars,
+    abstention = exabstention
   )
   rval <- c(rval, exextra)
   return(rval)

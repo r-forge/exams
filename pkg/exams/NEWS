@@ -4,6 +4,10 @@ Changes in Version 2.1-0
     experimental and likely to change in future versions. It essentially
     behaves as exams2qti12() but with some additional processing for Blackboard.
 
+  o Added "abstention" option in schoice/mchoice questions in exams2moodle().
+    This can also be set directly through an \exabstention{} tag in the
+    corresponding .Rnw exercise.
+
 
 Changes in Version 2.0-2
 

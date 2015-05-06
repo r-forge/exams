@@ -87,6 +87,10 @@
   \item{length}{numeric with length of \code{solution}.}
   \item{string}{character with a collapsed string of the solution (and tolerance)
     for backward compatibility with \code{\link[exams]{exams}}.}
+  \item{maxchars}{character with the maximum number of characters
+    allowed in QTI text answers (exercise type: string).}
+  \item{abstention}{character with the label to be used for an abstention
+    button in schoice/mchoice answers (currently only supported by Moodle).}
 }
 
 \seealso{

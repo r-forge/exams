@@ -22,7 +22,7 @@
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
-    truefalse = c("True", "False"), enumerate = TRUE,
+    truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
     eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
 }
 
@@ -96,6 +96,9 @@
     the user may specify the possible options shown.}
   \item{enumerate}{logical. In \code{cloze} questions, if set to \code{TRUE}, the answerlist and
     solutionlist will be enumerated.}
+  \item{abstention}{character or logical. Should an explicit abstention option be added
+    in single/multiple choice exercises? The character text specified is used for an
+    extra button in Moodle which (when selected) always leads to zero points.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
   \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
@@ -144,14 +147,11 @@
 }
 
 \references{
-Dougiamas M, et al. (2014). \emph{Moodle, Version 2.6}.
+Dougiamas M, et al. (2015). \emph{Moodle, Version 2.8}.
   \url{http://moodle.org/}.
 
-MoodleDocs (2014). \emph{Moodle XML Format}.
+MoodleDocs (2015). \emph{Moodle XML Format}.
   \url{http://docs.moodle.org/en/Moodle_XML}
-
-Qedoc (2010). \emph{Moodle XML Format}.
-  \url{http://www.qedoc.org/qedoc/index.php?title=Moodle_XML_format}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.

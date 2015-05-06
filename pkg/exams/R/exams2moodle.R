@@ -205,7 +205,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
-  truefalse = c("True", "False"), enumerate = TRUE,
+  truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
 {
   function(x) {
@@ -230,6 +230,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
     ## question name
     if(is.null(name)) name <- x$metainfo$name
+
+    ## extra abstention option
+    if(is.null(abstention)) abstention <- x$metainfo$abstention
+    if(is.null(abstention) || identical(abstention, FALSE)) abstention <- ""
+    if(isTRUE(abstention)) abstention <- "Abstention"
 
     ## start the question xml
     xml <- c(
@@ -293,6 +298,17 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             '<text><![CDATA[<p>', x$solutionlist[i], '</p>]]></text>',
             '</feedback>')
           } else NULL,
+          '</answer>'
+        )
+      }
+
+      ## add abstention option (if any)
+      if(abstention != "") {
+        xml <- c(xml,
+          '<answer fraction="0" format="html">',
+          '<text><![CDATA[<p>',
+          abstention,
+          '</p>]]></text>',
           '</answer>'
         )
       }
