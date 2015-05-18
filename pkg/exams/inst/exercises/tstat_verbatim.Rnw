@@ -1,6 +1,4 @@
-
 <<echo=FALSE, results=hide>>=
-
 # Data generation
 alpha <- 0.01
 n <- 17
@@ -37,21 +35,18 @@ solutiontext[2] <- paste0(
 solutiontext <- paste0(
     paste0(solutiontext, collapse="|"), "|", 
     if(reject_h0) "01" else "10")
-
-
 @
 
 \begin{question}
- Measuring the protein concentration in raw milk you obtain the following sample
- of $n=\Sexpr{n}$ observations. Test the two-sided hypothesis $H_0: \mu = \Sexpr{mu}$
- given that the sample measurements follow a normal distribution.
+Measuring the protein concentration in raw milk you obtain the following sample
+of $n=\Sexpr{n}$ observations. Test the two-sided hypothesis $H_0: \mu = \Sexpr{mu}$
+given that the sample measurements follow a normal distribution.
 
 \begin{ttfamily}
 <<results=verbatim, echo=FALSE>>=
 print(x)
 @
 \end{ttfamily}
-
 
 Fill in the gaps below:
 
@@ -66,7 +61,6 @@ Fill in the gaps below:
 \end{answerlist}
 
 \end{question}
-
 
 
 %% META-INFORMATION
