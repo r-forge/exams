@@ -8,6 +8,10 @@ Changes in Version 2.1-0
     This can also be set directly through an \exabstention{} tag in the
     corresponding .Rnw exercise.
 
+  o Fixed bug in file paths created for "media" supplements in QTI XML formats.
+    File names had an unnecessary trailing slash which lead to unrecognized
+    suffixes in some browsers.
+
 
 Changes in Version 2.0-2
 
