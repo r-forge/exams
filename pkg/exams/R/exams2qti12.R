@@ -229,7 +229,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
           } else {
             if(any(grepl(f, ibody))) {
               ibody <- gsub(paste(f, '"', sep = ''),
-                paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+                paste('media', '/', sup_dir, '/', f, '"', sep = ''), ibody, fixed = TRUE)
             }
           }
         }
