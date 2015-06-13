@@ -2,6 +2,7 @@ read_exercise <- function(file)
 {
   ## read all text
   x <- readLines(file)
+  ext <- tools::file_ext(file)
   
   ## convenience helper function
   zap_text_if_empty <- function(x) {
@@ -11,18 +12,20 @@ read_exercise <- function(file)
   }
 
   ## process question
-  question <- extract_environment(x, "question")
-  questionlist <- ql <- extract_environment(question, "answerlist", value = FALSE)
+  question <- extract_environment(x, "question", markup = ext)
+  questionlist <- ql <- extract_environment(question, "answerlist", value = FALSE, markup = ext)
   if(!is.null(questionlist)) {
-    questionlist <- extract_items(question[(ql[1L] + 1L):(ql[2L] - 1L)])
+    qli <- if(ext == "tex") (ql[1L] + 1L):(ql[2L] - 1L) else (ql[1L] + 2L):ql[2L]
+    questionlist <- extract_items(question[qli], markup = ext)
     question <- zap_text_if_empty(question[-(ql[1L]:ql[2L])])
   }
 
   ## process solution
-  solution <- extract_environment(x, "solution")
-  solutionlist <- sl <- extract_environment(solution, "answerlist", value = FALSE)
+  solution <- extract_environment(x, "solution", markup = ext)
+  solutionlist <- sl <- extract_environment(solution, "answerlist", value = FALSE, markup = ext)
   if(!is.null(solutionlist)) {
-    solutionlist <- extract_items(solution[(sl[1L] + 1L):(sl[2L] - 1L)])
+    sli <- if(ext == "tex") (sl[1L] + 1L):(sl[2L] - 1L) else (sl[1L] + 2L):sl[2L]
+    solutionlist <- extract_items(solution[sli], markup = ext)
     solution <- zap_text_if_empty(solution[-(sl[1L]:sl[2L])])
   }
 
@@ -30,9 +33,9 @@ read_exercise <- function(file)
   
   ## consistency checks
   if(!is.null(questionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(questionlist))
-    warning("length of \\exsolution and {answerlist} does not match")
+    warning("length of exsolution and questionlist does not match")
   if(!is.null(solutionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(solutionlist))
-    warning("length of \\exsolution and {answerlist} does not match")
+    warning("length of exsolution and solutionlist does not match")
 
   ## perform shuffling?
   if(isTRUE(metainfo$shuffle) & metainfo$type %in% c("schoice", "mchoice")) {
