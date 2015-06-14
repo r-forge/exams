@@ -50,8 +50,6 @@ explanations[5] <- if (solutions[5]) paste("The test result is significant (p < 
   "0.") else paste(ifelse(tt$alternative != "greater", "", 
   paste("The test aims at showing that the waiting time at Sparag is longer than at Consumo.")),
   ifelse(tt$p.value < 0.05, "", "The test result ist not significant (p >= 0.05)."))
-
-logical2text <- function(x) ifelse(x, "**True**", "**False**")
 ```
 
 Question
@@ -80,11 +78,11 @@ Solution
 
 Solutionlist
 ------------
-* `r logical2text(solutions[1])`: `r explanations[1]`
-* `r logical2text(solutions[2])`: `r explanations[2]`
-* `r logical2text(solutions[3])`: `r explanations[3]`
-* `r logical2text(solutions[4])`: `r explanations[4]`
-* `r logical2text(solutions[5])`: `r explanations[5]`
+* `r mchoice2text(solutions[1], markup = "md")`: `r explanations[1]`
+* `r mchoice2text(solutions[2], markup = "md")`: `r explanations[2]`
+* `r mchoice2text(solutions[3], markup = "md")`: `r explanations[3]`
+* `r mchoice2text(solutions[4], markup = "md")`: `r explanations[4]`
+* `r mchoice2text(solutions[5], markup = "md")`: `r explanations[5]`
 
 
 Meta-information

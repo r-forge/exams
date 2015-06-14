@@ -72,7 +72,6 @@ o <- sample(1:5)
 questions <- questions[o]
 solutions <- solutions[o]
 explanations <- explanations[o]
-logical2text <- function(x) ifelse(x, "**True**", "**False**")
 ```
 
 Question
@@ -123,11 +122,11 @@ The statements above can now be evaluated as right or wrong.
 
 Solutionlist
 ------------
-* `r logical2text(solutions[1])`: `r explanations[1]`
-* `r logical2text(solutions[2])`: `r explanations[2]`
-* `r logical2text(solutions[3])`: `r explanations[3]`
-* `r logical2text(solutions[4])`: `r explanations[4]`
-* `r logical2text(solutions[5])`: `r explanations[5]`
+* `r mchoice2text(solutions[1], markup = "md")`: `r explanations[1]`
+* `r mchoice2text(solutions[2], markup = "md")`: `r explanations[2]`
+* `r mchoice2text(solutions[3], markup = "md")`: `r explanations[3]`
+* `r mchoice2text(solutions[4], markup = "md")`: `r explanations[4]`
+* `r mchoice2text(solutions[5], markup = "md")`: `r explanations[5]`
 
 Meta-information
 ================

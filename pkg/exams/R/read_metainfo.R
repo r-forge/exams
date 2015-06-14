@@ -27,7 +27,7 @@ extract_environment <- function(x, env, value = TRUE, markup = c("tex", "md"))
     } else {
       alllines[alllines > b + 1L]
     }
-    e <- if(length(e) > 0L) min(e) - 2L else length(x)
+    e <- if(length(e) > 0L) min(e) - 3L else length(x)
     if(value) return(x[(b + 2L):e]) else return(c(b, e))
   }
 }
@@ -109,8 +109,8 @@ extract_items <- function(x, markup = c("tex", "md"))
   ## make sure we get items on multiple lines right
   x <- paste(x, collapse = " ")
   x <- gsub("^ *\\\\item *", "", x)
-  x <- strsplit(x, " *\\\\item")[[1L]] ## CHECKME, was: " *\\\\item *"
-  x <- gsub("^ ", "", x)	       ## CHECKME, now leading white space removed here
+  x <- strsplit(x, " *\\\\item")[[1L]]
+  x <- gsub("^ ", "", x)
   gsub(" +$", "", x)
 }
 

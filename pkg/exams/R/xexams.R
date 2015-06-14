@@ -164,7 +164,7 @@ exams_metainfo <- function(x, ...) {
     class = "exams_metainfo")
 }
 
-xweave <- function(file, quiet = TRUE, encoding = NULL, envir = parent.frame(), ...)
+xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(), ...)
 {
   ext <- tolower(tools::file_ext(file))
   if(ext == "rnw") {

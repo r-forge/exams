@@ -20,18 +20,18 @@ filled by the machine are collected. The sample mean $\bar{y}$ is equal to
 `r Var`.
 
 Test the hypothesis that the amount filled corresponds on average to the 
-setpoint. What is the absolute value of the t test statistic?
+setpoint. What is the absolute value of the t-test statistic?
 
 
 Solution
 =========
-The t test statistic is calculated by:
+The t-test statistic is calculated by:
 \begin{align}
   t & = \frac{\bar y - \mu_0}{\sqrt{\frac{s^2_{n-1}}{n}}}
   = \frac{`r Mean` - `r mu`}{\sqrt{\frac{`r Var`}{`r n`}}}
   = `r tstat`.
 \end{align}
-The absolute value of the t test statistic is thus equal to
+The absolute value of the t-test statistic is thus equal to
 `r format(abs(tstat), nsmall = 3)`.
 
 
