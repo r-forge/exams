@@ -58,10 +58,13 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_id <- rep(seq_along(file), navail)
   file_raw <- unlist(file)
   file_Rnw <- ifelse(
-    tolower(substr(file_raw, nchar(file_raw)-3L, nchar(file_raw))) != ".rnw",
-    paste(file_raw, ".Rnw", sep = ""), file_raw)
-  file_base <- file_path_sans_ext(file_Rnw)
-  file_tex <- paste(file_base, ".tex", sep = "")
+    tolower(substr(file_raw, nchar(file_raw) - 3L, nchar(file_raw))) %in% c(".rnw", ".rmd"),
+    file_raw, paste(file_raw, ".Rnw", sep = ""))
+  file_base <- tools::file_path_sans_ext(file_Rnw)
+  file_ext <- tolower(tools::file_ext(file_Rnw))
+  file_ext <- gsub("r", "", file_ext, fixed = TRUE)
+  file_ext[file_ext == "nw"] <- "tex"
+  file_tex <- paste(file_base, file_ext, sep = ".")
   file_path <- search_files(file_Rnw, edir, recursive = !is.null(edir))
   file_path <- ifelse(is.na(file_path) & file.exists(file_raw), file_raw, file_path)
   file_path <- ifelse(!is.na(file_path), file_path, file.path(dir_pkg, "exercises", file_Rnw))
