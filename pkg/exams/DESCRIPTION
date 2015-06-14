@@ -1,6 +1,6 @@
 Package: exams
 Version: 2.1-0
-Date: 2015-05-06
+Date: 2015-06-14
 Title: Automatic Generation of Exams in R
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
              person(given = "Bettina", family = "Gruen", role = "aut", email = "Bettina.Gruen@jku.at"),
@@ -13,6 +13,6 @@ Description: Sweave-based automatic generation of exams including multiple-choic
 	PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1.
 Depends: R (>= 2.15.0)
 Imports: stats, graphics, tools, utils
-Suggests: base64enc, tth, XML
+Suggests: base64enc, knitr, rmarkdown, tth, XML
 License: GPL-2 | GPL-3
 URL: http://exams.R-Forge.R-project.org/

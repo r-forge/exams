@@ -21,7 +21,7 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   pdir <- find.package("exams")
   if(absolute) dir <- file_path_as_absolute(dir)
   
-  ## select exercises fro demo script and all available exercises
+  ## select exercises for demo script and all available exercises
   exrc <- c(
     "num"     = "tstat.Rnw",
     "schoice" = "tstat2.Rnw",

@@ -6,10 +6,10 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
   ## process driver
   if(is.null(driver$sweave)) {
-    driver$sweave <- function(f) Sweave(f, quiet = TRUE)
+    driver$sweave <- xweave
   } else if(is.list(driver$sweave)) {
     driver_sweave_args <- driver$sweave
-    driver$sweave <- function(f) do.call("Sweave", c(list(file = f), driver_sweave_args))
+    driver$sweave <- function(f) do.call("xweave", c(list(file = f), driver_sweave_args))
   }
   if(is.null(driver$read)) driver$read <- read_exercise
   stopifnot(is.function(driver$sweave), is.function(driver$read),
@@ -162,4 +162,16 @@ exams_metainfo <- function(x, ...) {
   if(inherits(x, "exams_metainfo")) return(x)
   structure(lapply(x, function(xi) lapply(xi, "[[", "metainfo")),
     class = "exams_metainfo")
+}
+
+xweave <- function(file, quiet = TRUE, encoding = NULL, envir = parent.frame(), ...)
+{
+  ext <- tolower(tools::file_ext(file))
+  if(ext == "rnw") {
+    if(is.null(encoding)) encoding <- ""
+    utils::Sweave(file, encoding = encoding, quiet = quiet, ...)
+  } else {
+    if(is.null(encoding)) encoding <- getOption("encoding")
+    knitr::knit(file, quiet = quiet, envir = envir, encoding = encoding)
+  }
 }
