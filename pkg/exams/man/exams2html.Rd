@@ -2,6 +2,7 @@
 \alias{exams2html}
 \alias{make_exams_write_html}
 \alias{make_exercise_transform_html}
+\alias{make_exercise_transform_pandoc}
 
 \title{Generation of Exams in HTML Format}
 
@@ -11,10 +12,10 @@
 
 \usage{
   exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-  mathjax = FALSE, resolution = 100, width = 4, height = 4,
-  encoding = "", \dots)
+    name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+    question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+    mathjax = FALSE, resolution = 100, width = 4, height = 4,
+    encoding = "", \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
     base64 = TRUE, \dots)

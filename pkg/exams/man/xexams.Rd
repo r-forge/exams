@@ -48,7 +48,8 @@
 
 \details{
   \code{xexams} is meant to provide an extensible framework for generating exams
-  based on exercises in \code{\link[utils]{Sweave}} format and rendering them
+  based on exercises in R/LaTeX format (for \code{\link[utils]{Sweave}}) or
+  R/Markdown format (for \code{\link[knitr]{knit}}) and rendering them
   into various output formats such as PDF, HTML, or XML (e.g., for Moodle or IMS QTI).
   \code{xexams} is typically not called by the user directly but is used as a common
   infrastructure for functions such as \code{\link[exams]{exams2pdf}}, \code{\link[exams]{exams2html}},
@@ -56,21 +57,22 @@
   \code{\link[exams]{exams2lops}}.
   
   \code{xexams} generates exams from lists (or vectors) of Sweave source files by:
-  (1) running \code{driver$sweave} on each Sweave exercise (by default \code{\link[utils]{Sweave}}),
-  (2) running \code{driver$read} on the resulting LaTeX file which by default
+  (1) running \code{driver$sweave} on each exercise (by default \code{\link[utils]{Sweave}}
+    or \code{\link[knitr]{knit}}),
+  (2) running \code{driver$read} on the resulting LaTeX/Markdown file which by default
     uses \code{\link[exams]{read_exercise}} to read question/solution texts plus
     metainformation and stores the result in a list,
   (3) running \code{driver$transform} on this list for possible transformations
     (e.g., from LaTeX to HTML),
   (4) running \code{driver$write} on the list of exercises within each exam.
 
-  Each exercise in an exam is essentially a standalone Sweave source file
+  Each exercise in an exam is essentially a standalone source file
   that \code{xexams} knows (almost) nothing about, it just calls \code{driver$sweave}
   in each iteration and assumes that \code{driver$read} can read the resulting
-  LaTeX file into a list.
+  LaTeX or Markdown file into a list.
   
-  The specification in \code{file} should be either of form \code{"foo"}
-  or equivalently \code{"foo.Rnw"}, where the file \code{"foo.Rnw"} should
+  The specification in \code{file} should be either of form \code{"foo.Rnw"}
+  (or equivalently just \code{"foo"}) or \code{"foo.Rmd"}, where the file should
   either be in the local directory, the \code{edir} directory or in
   the \code{exercises} directory of the package. \code{file} can either
   be a simple vector or a list of vectors. In the latter case, exercises
