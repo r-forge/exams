@@ -54,7 +54,7 @@ explanations[3] <- paste("The fraction of explained variance is $", format(round
   "$ and hence ", ifelse(solutions[3], "", "_not_"), " larger than ", r2a, ".", sep = "")
 
 questions[4] <- paste("It can be shown that the evaluation of the respondents depends on their occupation.",
-                      "(Significance level $5%$)")
+                      "(Significance level $5$%)")
 solutions[4] <- myanova[2,6] < 0.05
 explanations[4] <- paste("The $p$ value is $", format.pval(myanova[2,6], digits = 3),
   "$ and hence", ifelse(solutions[4], "", "_not_"),
@@ -122,11 +122,11 @@ The statements above can now be evaluated as right or wrong.
 
 Solutionlist
 ------------
-* `r mchoice2text(solutions[1], markup = "md")`: `r explanations[1]`
-* `r mchoice2text(solutions[2], markup = "md")`: `r explanations[2]`
-* `r mchoice2text(solutions[3], markup = "md")`: `r explanations[3]`
-* `r mchoice2text(solutions[4], markup = "md")`: `r explanations[4]`
-* `r mchoice2text(solutions[5], markup = "md")`: `r explanations[5]`
+* `r mchoice2text(solutions[1], markup = "markdown")`: `r explanations[1]`
+* `r mchoice2text(solutions[2], markup = "markdown")`: `r explanations[2]`
+* `r mchoice2text(solutions[3], markup = "markdown")`: `r explanations[3]`
+* `r mchoice2text(solutions[4], markup = "markdown")`: `r explanations[4]`
+* `r mchoice2text(solutions[5], markup = "markdown")`: `r explanations[5]`
 
 Meta-information
 ================

@@ -1,7 +1,7 @@
 import("stats", "graphics", "tools", "utils")
 
 export(
-  ## version 1 interface
+  ## outdated version 1 interface
   "exams",
 
   ## formatters
@@ -35,6 +35,7 @@ export(
   ## HTML driver
   "exams2html",
   "make_exercise_transform_html",
+  "make_exercise_transform_pandoc",
   "make_exams_write_html",
 
   ## IMS QTI drivers

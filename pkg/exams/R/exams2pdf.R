@@ -16,6 +16,9 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## output name processing 
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
 
+  ## pandoc (if necessary) as default transformer
+  if(missing(transform)) transform <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE)
+
   ## create PDF write with custom options
   pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs, header = header,
     name = name, quiet = quiet, control = control)

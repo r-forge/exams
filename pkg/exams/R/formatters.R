@@ -10,16 +10,16 @@ string2mchoice <- function(x, single = FALSE) {
   return(x)
 }
 
-mchoice2text <- function(x, markup = c("tex", "md"))
+mchoice2text <- function(x, markup = c("latex", "markdown"))
 {
   switch(match.arg(markup),
-    "tex" = ifelse(x, "\\\\textbf{True}", "\\\\textbf{False}"),
-    "md" = ifelse(x, "**True**", "**False**"))
+    "latex" = ifelse(x, "\\\\textbf{True}", "\\\\textbf{False}"),
+    "markdown" = ifelse(x, "**True**", "**False**"))
 }
 
-answerlist <- function(..., sep = ". ", markup = c("tex", "md"))
+answerlist <- function(..., sep = ". ", markup = c("latex", "markdown"))
 {
-  if(match.arg(markup) == "tex") {
+  if(match.arg(markup) == "latex") {
     writeLines(c(
       "\\begin{answerlist}",
       paste("  \\item", do.call("paste", list(..., sep = sep))),

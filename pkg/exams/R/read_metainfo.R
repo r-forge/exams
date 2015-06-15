@@ -1,7 +1,7 @@
-extract_environment <- function(x, env, value = TRUE, markup = c("tex", "md"))
+extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markdown"))
 {
   markup <- match.arg(markup)
-  if(markup == "tex") {
+  if(markup == "latex") {
     b <- grep(paste0("\\\\(begin|end)\\{", env, "\\}"), x)
     if(length(b) == 0L) return(NULL)
     if(length(b)!= 2L) stop("no unique begin/end pair for", sQuote(env), "found")
@@ -32,14 +32,14 @@ extract_environment <- function(x, env, value = TRUE, markup = c("tex", "md"))
   }
 }
 
-extract_command <- function(x, command, type = c("character", "logical", "numeric"), markup = c("tex", "md"))
+extract_command <- function(x, command, type = c("character", "logical", "numeric"), markup = c("latex", "markdown"))
 {
   ## return type and markup type
   type <- match.arg(type)
   markup <- match.arg(markup)
 
   ## find command line
-  command <- if(markup == "tex") paste0("\\", command) else paste0(command, ":")
+  command <- if(markup == "latex") paste0("\\", command) else paste0(command, ":")
   rval <- x[grep(command, x, fixed = TRUE)]
   if(length(rval) < 1L) {
       if(type == "logical") return(FALSE) else return(NULL)
@@ -49,7 +49,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
     rval <- tail(rval, 1L)
   }
   
-  if(markup == "tex") {
+  if(markup == "latex") {
     ## strip off everything in brackets
     ## omit everything before \command{
     rval <- strsplit(rval, paste(command, "{", sep = ""), fixed = TRUE)[[1L]][2L]
@@ -73,13 +73,13 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
   do.call(paste("as", type, sep = "."), list(rval))
 }
 
-extract_extra <- function(x, markup = c("tex", "md"))
+extract_extra <- function(x, markup = c("latex", "markdown"))
 {
   ## markup type
   markup <- match.arg(markup)
 
   ## search for extra commands
-  comm0 <- if(markup == "tex") "\\exextra[" else "exextra["
+  comm0 <- if(markup == "latex") "\\exextra[" else "exextra["
   comm <- x[grep(comm0, x, fixed = TRUE)]  
   if(length(comm) < 1L) return(list())
   
@@ -98,13 +98,13 @@ extract_extra <- function(x, markup = c("tex", "md"))
   return(rval)
 }
 
-extract_items <- function(x, markup = c("tex", "md"))
+extract_items <- function(x, markup = c("latex", "markdown"))
 {
   ## markup type
   markup <- match.arg(markup)
 
   ## map markdown to tex
-  if(markup == "md") x <- gsub("^\\* ", "\\\\item ", x)
+  if(markup == "markdown") x <- gsub("^\\* ", "\\\\item ", x)
     
   ## make sure we get items on multiple lines right
   x <- paste(x, collapse = " ")
@@ -118,31 +118,34 @@ read_metainfo <- function(file)
 {
   ## read file
   x <- readLines(file)
-  ext <- tools::file_ext(file)
+  markup <- switch(tools::file_ext(file),
+    "tex" = "latex",
+    "md" = "markdown"
+  )
 
   ## Description ###################################
-  extype <- match.arg(extract_command(x, "extype", markup = ext), ## exercise type: schoice, mchoice, num, string, or cloze
+  extype <- match.arg(extract_command(x, "extype", markup = markup), ## exercise type: schoice, mchoice, num, string, or cloze
     c("schoice", "mchoice", "num", "string", "cloze"))  
-  exname <- extract_command(x, "exname", markup = ext)            ## short name/description, only to be used for printing within R
-  extitle <- extract_command(x, "extitle", markup = ext)          ## pretty longer title
-  exsection <- extract_command(x, "exsection", markup = ext)      ## sections for groups of exercises, use slashes for subsections (like URL)
-  exversion <- extract_command(x, "exversion", markup = ext)      ## version of exercise
+  exname <- extract_command(x, "exname", markup = markup)            ## short name/description, only to be used for printing within R
+  extitle <- extract_command(x, "extitle", markup = markup)          ## pretty longer title
+  exsection <- extract_command(x, "exsection", markup = markup)      ## sections for groups of exercises, use slashes for subsections (like URL)
+  exversion <- extract_command(x, "exversion", markup = markup)      ## version of exercise
 
   ## Question & Solution ###########################
-  exsolution <- extract_command(x, "exsolution", markup = ext)    ## solution, valid values depend on extype
-  extol <- extract_command(x, "extol", "numeric", markup = ext)   ## optional tolerance limit for numeric solutions
-  exclozetype <- extract_command(x, "exclozetype", markup = ext)  ## type of individual cloze solutions
+  exsolution <- extract_command(x, "exsolution", markup = markup)    ## solution, valid values depend on extype
+  extol <- extract_command(x, "extol", "numeric", markup = markup)   ## optional tolerance limit for numeric solutions
+  exclozetype <- extract_command(x, "exclozetype", markup = markup)  ## type of individual cloze solutions
 
   ## E-Learning & Exam ###################################
-  expoints  <- extract_command(x, "expoints",  "numeric", markup = ext) ## default points
-  extime    <- extract_command(x, "extime",    "numeric", markup = ext) ## default time in seconds
-  exshuffle <- extract_command(x, "exshuffle", "logical", markup = ext) ## shuffle schoice/mchoice answers?
-  exsingle  <- extract_command(x, "exsingle",  "logical", markup = ext) ## use radio buttons?
-  exmaxchars  <- extract_command(x, "exmaxchars", markup = ext)         ## maximum number of characters in string answers
-  exabstention <- extract_command(x, "exabstention", markup = ext)      ## string for abstention in schoice/mchoice answers
+  expoints  <- extract_command(x, "expoints",  "numeric", markup = markup) ## default points
+  extime    <- extract_command(x, "extime",    "numeric", markup = markup) ## default time in seconds
+  exshuffle <- extract_command(x, "exshuffle", "logical", markup = markup) ## shuffle schoice/mchoice answers?
+  exsingle  <- extract_command(x, "exsingle",  "logical", markup = markup) ## use radio buttons?
+  exmaxchars  <- extract_command(x, "exmaxchars", markup = markup)         ## maximum number of characters in string answers
+  exabstention <- extract_command(x, "exabstention", markup = markup)      ## string for abstention in schoice/mchoice answers
 
   ## User-Defined ###################################
-  exextra <- extract_extra(x, markup = ext)
+  exextra <- extract_extra(x, markup = markup)
 
   ## process valid solution types (in for loop for each cloze element)
   slength <- length(exsolution)
@@ -162,7 +165,7 @@ read_metainfo <- function(file)
       exclozetype <- rep(exclozetype, length.out = slength)
       exsolution <- as.list(exsolution)
       for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string", "verbatim")),
-        "schoice" = string2mchoice(exsolution[[i]], single = TRUE), ## FIXME: like this?
+        "schoice" = string2mchoice(exsolution[[i]], single = TRUE),
         "mchoice" = string2mchoice(exsolution[[i]]),
         "num" = as.numeric(exsolution[[i]]),
         "string" = exsolution[[i]],
@@ -217,7 +220,7 @@ read_metainfo <- function(file)
   ## return everything (backward compatible with earlier versions)
   rval <- list(
     file = tools::file_path_sans_ext(file),
-    markup = ext,
+    markup = markup,
     type = extype,
     name = exname,
     title = extitle,

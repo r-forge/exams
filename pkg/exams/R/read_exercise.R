@@ -2,7 +2,10 @@ read_exercise <- function(file)
 {
   ## read all text
   x <- readLines(file)
-  ext <- tools::file_ext(file)
+  markup <- switch(tools::file_ext(file),
+    "tex" = "latex",
+    "md" = "markdown"
+  )
   
   ## convenience helper function
   zap_text_if_empty <- function(x) {
@@ -12,20 +15,20 @@ read_exercise <- function(file)
   }
 
   ## process question
-  question <- extract_environment(x, "question", markup = ext)
-  questionlist <- ql <- extract_environment(question, "answerlist", value = FALSE, markup = ext)
+  question <- extract_environment(x, "question", markup = markup)
+  questionlist <- ql <- extract_environment(question, "answerlist", value = FALSE, markup = markup)
   if(!is.null(questionlist)) {
-    qli <- if(ext == "tex") (ql[1L] + 1L):(ql[2L] - 1L) else (ql[1L] + 2L):ql[2L]
-    questionlist <- extract_items(question[qli], markup = ext)
+    qli <- if(markup == "latex") (ql[1L] + 1L):(ql[2L] - 1L) else (ql[1L] + 2L):ql[2L]
+    questionlist <- extract_items(question[qli], markup = markup)
     question <- zap_text_if_empty(question[-(ql[1L]:ql[2L])])
   }
 
   ## process solution
-  solution <- extract_environment(x, "solution", markup = ext)
-  solutionlist <- sl <- extract_environment(solution, "answerlist", value = FALSE, markup = ext)
+  solution <- extract_environment(x, "solution", markup = markup)
+  solutionlist <- sl <- extract_environment(solution, "answerlist", value = FALSE, markup = markup)
   if(!is.null(solutionlist)) {
-    sli <- if(ext == "tex") (sl[1L] + 1L):(sl[2L] - 1L) else (sl[1L] + 2L):sl[2L]
-    solutionlist <- extract_items(solution[sli], markup = ext)
+    sli <- if(markup == "latex") (sl[1L] + 1L):(sl[2L] - 1L) else (sl[1L] + 2L):sl[2L]
+    solutionlist <- extract_items(solution[sli], markup = markup)
     solution <- zap_text_if_empty(solution[-(sl[1L]:sl[2L])])
   }
 

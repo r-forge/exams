@@ -77,12 +77,12 @@ statements, respectively. _(Comment: The tolerance for numeric answers is
 $\pm`r tol`$, the true/false statements are either about correct or clearly wrong.)_
 
 ```{r questionlist, echo = FALSE, results = "asis"}
-answerlist(unlist(questions), markup = "md")
+answerlist(unlist(questions), markup = "markdown")
 ```
 
 Solution
 ========
-```{r boxplot_hist, echo = FALSE, results = "hide", fig.height = 4.5, fig.width = 9, fig.path = ""}
+```{r boxplot_hist, echo = FALSE, results = "hide", fig.height = 4.5, fig.width = 9, fig.path = "", fig.cap = ""}
 par(mfrow = c(1, 2))
 boxplot(x, axes = FALSE)
 axis(2, at = signif(b$stats, 3), las = 1)
@@ -92,7 +92,7 @@ rug(x)
 ```
 
 ```{r solutionlist, echo = FALSE, results = "asis"}
-answerlist(paste(unlist(explanations), ".", sep = ""), markup = "md")
+answerlist(paste(unlist(explanations), ".", sep = ""), markup = "markdown")
 ```
 
 Meta-information

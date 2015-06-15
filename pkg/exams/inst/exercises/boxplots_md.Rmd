@@ -125,14 +125,14 @@ given by two samples (A und B) are represented by parallel boxplots.
 Which of the following statements are correct?  _(Comment: The
 statements are either about correct or clearly wrong.)_
 
-```{r boxplot, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = ""}
+```{r boxplot, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
 par(mar = c(2.5, 2, 1, 0.5))
 dat <- data.frame(y = c(A, B), x = factor(rep(c("A", "B"), c(length(A), length(B)))))
 boxplot(y ~ x, data = dat, xlab = "", ylab = "")
 ```
 
 ```{r questionlist, echo = FALSE, results = "asis"}
-answerlist(questions, markup = "md")
+answerlist(questions, markup = "markdown")
 ```
 
 
@@ -140,7 +140,7 @@ Solution
 ========
 
 ```{r solutionlist, echo = FALSE, results = "asis"}
-answerlist(mchoice2text(solutions, markup = "md"), explanations, markup = "md")
+answerlist(mchoice2text(solutions, markup = "markdown"), explanations, markup = "markdown")
 ```
 
 Meta-information

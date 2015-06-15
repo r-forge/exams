@@ -18,7 +18,7 @@ while(length(unique(questions)) < 5) {
   fact <- sample(c(-1, 1), 5, replace = TRUE)
   questions <- round(sign * abs(tstat + fact * fuzz), digits = 3)
 }
-questions <- paste("$", format(questions, nsmall = 3), "$", sep = "")
+questions <- paste("$", gsub("^ +", "", format(questions, nsmall = 3)), "$", sep = "")
 solutions <- c(TRUE, rep(FALSE, 4))
 
 o <- sample(1:5)
@@ -39,7 +39,7 @@ Test the hypothesis that the amount filled corresponds on average to the
 setpoint. What is the value of the t-test statistic?
 
 ```{r questionlist, echo = FALSE, results = "asis"}
-answerlist(questions, markup = "md")
+answerlist(questions, markup = "markdown")
 ```
 
 Solution
@@ -54,7 +54,7 @@ The the t-test statistic is thus equal to
 $`r format(tstat, nsmall = 3)`$.
 
 ```{r solutionlist, echo = FALSE, results = "asis"}
-answerlist(mchoice2text(solutions, markup = "md"), markup = "md")
+answerlist(mchoice2text(solutions, markup = "markdown"), markup = "markdown")
 ```
 
 Meta-information
