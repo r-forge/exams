@@ -17,7 +17,7 @@
     mathjax = FALSE, resolution = 100, width = 4, height = 4,
     encoding = "", \dots)
 
-  make_exercise_transform_html(converter = c("ttm", "tth", "tex2image"),
+  make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
     base64 = TRUE, \dots)
     
   make_exams_write_html(template = "plain", name = NULL,
@@ -80,13 +80,14 @@
   For step (3) a suitable transformation function is set up on the fly
   using \code{make_exercise_transform_html}. This transforms the
   LaTeX code in \code{question}/\code{questionlist} and
-  \code{solution}/\code{solutionlist} by leveraging one of three
+  \code{solution}/\code{solutionlist} by leveraging one of four
   functions: \code{\link[tth]{ttm}} produces HTML with MathML
   for mathematical formulas, \code{\link[tth]{tth}} produces
-  plain HTML that aims to emulate mathematical formulas, and
-  \code{\link[exams]{tex2image}} runs LaTeX and turns the result into
-  a single image. In all cases, images can either be stored in
-  supplementary files or embedded directly in Base 64 coding.
+  plain HTML that aims to emulate mathematical formulas,
+  \code{\link[rmarkdown]{pandoc_convert}} employs pandoc offering different
+  options for handling formulas, and \code{\link[exams]{tex2image}} runs
+  LaTeX and turns the result into a single image. In all cases, images
+  can either be stored in supplementary files or embedded directly in Base 64 coding.
   
   For step (4) a simple writer function is set up on the fly that
   embeds the transformed HTML code into a hard-coded template and
