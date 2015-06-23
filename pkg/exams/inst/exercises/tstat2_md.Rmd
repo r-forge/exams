@@ -45,11 +45,13 @@ answerlist(questions, markup = "markdown")
 Solution
 ========
 The t-test statistic is calculated by:
-\begin{eqnarray*}
+$$
+\begin{aligned}
   t & = & \frac{\bar y - \mu_0}{\sqrt{\frac{s^2_{n-1}}{n}}}
   = \frac{`r Mean` - `r mu`}{\sqrt{\frac{`r Var`}{`r n`}}}
   = `r tstat`.
-\end{eqnarray*}
+\end{aligned}
+$$
 The the t-test statistic is thus equal to
 $`r format(tstat, nsmall = 3)`$.
 
