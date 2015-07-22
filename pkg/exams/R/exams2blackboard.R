@@ -826,7 +826,7 @@ formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
   for(f in files) {
     setwd(dirname(f))
     fbn <- basename(f)
-    xml <- try(xmlTreeParse(fbn)$doc$children[[1]], silent = TRUE)
+    xml <- try(XML::xmlTreeParse(fbn)$doc$children[[1]], silent = TRUE)
     if(inherits(xml, "try-error")) warning(paste("could not format file:", f))
     sink(file.path(tdir, fbn))
     print(xml)
