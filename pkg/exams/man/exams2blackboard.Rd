@@ -43,7 +43,7 @@
   \item{dir}{character. The default is the current working directory.}
   \item{name}{character. A name prefix for resulting exercises and ZIP file.}
   \item{quiet}{logical. Should output be suppressed when calling
-    \code{\link[utils]{Sweave}}?}
+    \code{\link[exams]{xweave}}?}
   \item{edir}{character specifying the path of the directory in which
     the files in \code{file} are stored (see also below).}
   \item{tdir}{character specifying a temporary directory, by default
@@ -54,8 +54,8 @@
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
-    graphics passed to \code{\link[utils]{Sweave}}.}
-  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
+    graphics passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
     for generating the item body of the question, see function \code{make_itembody_blackboard()}.

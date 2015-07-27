@@ -41,7 +41,7 @@
     currently provides \code{"plain.html"}.}
   \item{name}{character. A name prefix for resulting exercises.}
   \item{quiet}{logical. Should output be suppressed when calling
-    \code{\link[utils]{Sweave}}?}
+    \code{\link[exams]{xweave}}?}
   \item{edir}{character specifying the path of the directory in which
     the files in \code{file} are stored (see also below).}
   \item{tdir}{character specifying a temporary directory, by default
@@ -58,8 +58,8 @@
   \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
     be included for rendering mathematical formulas?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
-    graphics passed to \code{\link[utils]{Sweave}}.}
-  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
+    graphics passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML. For details see below.}
   \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
@@ -70,7 +70,7 @@
 
 \details{
   \code{exams2html} generates exams in a very simple HTML format
-  using \code{\link[exams]{xexams}}. It proceeds by (1) calling \code{\link[utils]{Sweave}}
+  using \code{\link[exams]{xexams}}. It proceeds by (1) calling \code{\link[exams]{xweave}}
   on each exercise, (2) reading the resulting LaTeX code, (3) transforming
   the LaTeX code to HTML, and (4) embedding the HTML code in a very
   simple exercise template (which is currently hard-coded).

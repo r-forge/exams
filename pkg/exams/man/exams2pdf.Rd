@@ -43,9 +43,9 @@
     chosen based on \code{template}.}
   \item{control}{A list of control arguments for the appearance of
     multiple choice results (see details).}
-  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
+  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{quiet}{logical. Should output be suppressed when calling
-    \code{\link[utils]{Sweave}} and \code{\link[tools]{texi2dvi}}.}
+    \code{\link[exams]{xweave}} and \code{\link[tools]{texi2dvi}}.}
   \item{transform}{function. An optional transform driver passed to
     \code{xexams} (by default no transformation is used).}
   \item{edir}{character specifying the path of the directory in which

@@ -35,9 +35,9 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL, jses
   \item{qname}{character. A vector of names for each question/exercise in \code{file}.
     By default, the \code{name} is used.}
   \item{quiet}{logical. Should output be suppressed when calling
-    \code{\link[utils]{Sweave}} and \code{\link[tools]{texi2dvi}}.}
-  \item{resolution, width, height}{numeric, passed to \code{\link[utils]{Sweave}}.}
-  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
+    \code{\link[exams]{xweave}} and \code{\link[tools]{texi2dvi}}.}
+  \item{resolution, width, height}{numeric, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{url,sessionkey,jsessionid}{character specifying (1) the base URL of the ARSnova API,
     (2) the 8-digit ARSnova session key, (3) the JSESSIONID cookie of an active ARSnova session.
     If all are provided all questions are imported directly into the existing ARSnova session.
@@ -57,7 +57,7 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL, jses
 
 \details{
   \code{exams2arsnova} generates exams in the JSON format for ARSnova
-  using \code{\link[exams]{xexams}}. It proceeds by (1) calling \code{\link[utils]{Sweave}}
+  using \code{\link[exams]{xexams}}. It proceeds by (1) calling \code{\link[exams]{xweave}}
   on each exercise, (2) reading the resulting LaTeX code, (3) transforming
   the LaTeX code to Markdown, and (4) embedding the Markdown code into the
   JSON format for ARSnova (and optionally imports it into a running

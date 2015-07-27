@@ -37,7 +37,7 @@
   \item{dir}{character. The default is the current working directory.}
   \item{name}{character. A name prefix for resulting exercises and ZIP file.}
   \item{quiet}{logical. Should output be suppressed when calling
-    \code{\link[utils]{Sweave}}?}
+    \code{\link[exams]{xweave}}?}
   \item{edir}{character specifying the path of the directory in which
     the files in \code{file} are stored (see also below).}
   \item{tdir}{character specifying a temporary directory, by default
@@ -48,8 +48,8 @@
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
-    graphics passed to \code{\link[utils]{Sweave}}.}
-  \item{encoding}{character, passed to \code{\link[utils]{Sweave}}.}
+    graphics passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to
     certain already existing question banks, i.e. \code{iname = TRUE} will include the exam
@@ -106,7 +106,7 @@
 
 \details{
   \code{exams2moodle} produces an XML file that may be uploaded into Moodle. It proceeds by (1)
-  calling \code{\link[utils]{Sweave}} on each exercise, (2) reading the resulting LaTeX code, (3)
+  calling \code{\link[exams]{xweave}} on each exercise, (2) reading the resulting LaTeX code, (3)
   transforming the LaTeX code to HTML, and (4) embedding the HTML code in a XML file using the
   Moodle standards for exams/quizzes.
 

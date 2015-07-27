@@ -26,7 +26,7 @@
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
   \item{driver}{list with elements \code{sweave} (weaver function or list of arguments
-    for the default \code{\link[utils]{Sweave}}), \code{read} (function
+    for the default \code{\link[exams]{xweave}}), \code{read} (function
     for reading exercise files, defaulting to \code{\link[exams]{read_exercise}}),
     \code{transform} (function to transform each exercise, by default
     no transformations are done), \code{write} (function to write exams
@@ -48,17 +48,17 @@
 
 \details{
   \code{xexams} is meant to provide an extensible framework for generating exams
-  based on exercises in R/LaTeX format (for \code{\link[utils]{Sweave}}) or
-  R/Markdown format (for \code{\link[knitr]{knit}}) and rendering them
+  based on exercises in R/LaTeX format (via \code{\link[utils]{Sweave}}) or
+  R/Markdown format (via \code{\link[knitr]{knit}}) and rendering them
   into various output formats such as PDF, HTML, or XML (e.g., for Moodle or IMS QTI).
   \code{xexams} is typically not called by the user directly but is used as a common
   infrastructure for functions such as \code{\link[exams]{exams2pdf}}, \code{\link[exams]{exams2html}},
   \code{\link[exams]{exams2moodle}}, \code{\link[exams]{exams2qti12}}, or
   \code{\link[exams]{exams2lops}}.
   
-  \code{xexams} generates exams from lists (or vectors) of Sweave source files by:
-  (1) running \code{driver$sweave} on each exercise (by default \code{\link[utils]{Sweave}}
-    or \code{\link[knitr]{knit}}),
+  \code{xexams} generates exams from lists (or vectors) of Rnw/Rmd source files by:
+  (1) running \code{driver$sweave} on each exercise (by default \code{\link[exams]{xweave}} is
+    used, calling \code{\link[utils]{Sweave}} or \code{\link[knitr]{knit}}),
   (2) running \code{driver$read} on the resulting LaTeX/Markdown file which by default
     uses \code{\link[exams]{read_exercise}} to read question/solution texts plus
     metainformation and stores the result in a list,
@@ -100,7 +100,7 @@ Zeileis A, Umlauf N, Leisch F (2014).
 }
 
 \seealso{
-  \code{\link[utils]{Sweave}},
+  \code{\link[exams]{xweave}},
   \code{\link[exams]{exams}},
   \code{\link[exams]{exams2pdf}},
   \code{\link[exams]{exams2html}},
