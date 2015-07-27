@@ -59,8 +59,8 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
       if(n < 1L) return(x)
       del <- c(
         if(x[1L] == "") 1L else NULL,
-        if(x[n] == sep && x[n - 1L] == "") n - 1L else NULL,
-	if(x[n] == sep) n else NULL
+        if(grepl(sep, x[n], fixed = TRUE) && x[n - 1L] == "") n - 1L else NULL,
+	if(grepl(sep, x[n], fixed = TRUE)) n else NULL
       )
       if(length(del) > 0L) return(x[-del]) else return(x)
     }
@@ -113,7 +113,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
       attr(x$supplements, "dir") <- sdir
     }
 
-    ## replace .tex chunks with tth(), ttm() output
+    ## replace .tex chunks with pandoc output
     x$question <- trex$question
     x$questionlist <- unname(sapply(trex[grep("questionlist", namtrex)], paste, collapse = "\n"))
     x$solution <- trex$solution
