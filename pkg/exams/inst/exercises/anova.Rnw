@@ -80,19 +80,13 @@ explanations <- explanations[o]
   evaluate the overall impression of the advertisement on an
   eleven-point scale from 0 (bad) to 10 (good). The evaluations are
   summarized separately with respect to type of occupation of the
-  respondents in Figure~\ref{fig:ch05-anova1}.
+  respondents in the following figure.
 
 \setkeys{Gin}{width=0.8\textwidth}
-\begin{figure}[htb!]
-\begin{center}
-\footnotesize
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
 par(mar = c(4, 4, 1, 1))
 plot(Evaluation ~ Occupation, data = dat)
 @
-\caption{\label{fig:ch05-anova1} Parallel boxplots}
-\end{center}
-\end{figure}
 
 To analyse the influence of occupation on the evaluation of the
 advertisement an analysis of variance was performed:

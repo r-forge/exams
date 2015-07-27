@@ -93,18 +93,13 @@ explanations <- explanations[o]
 @
 
 \begin{question}
-  Figure~\ref{fig:scatterplot} shows a scatterplot. Which of the
-  following statements are correct?
+The following figure shows a scatterplot. Which of the
+following statements are correct?
 
 \setkeys{Gin}{width=0.7\textwidth}
-\begin{figure}[htb!]
-\begin{center}
 <<fig=TRUE, height = 5, width = 6, echo=FALSE, eps=FALSE, results=hide>>=
 plot(x, y)
 @
-\caption{\label{fig:scatterplot} Scatterplot}
-\end{center}
-\end{figure}
 
 \begin{answerlist}
   \item \Sexpr{questions[1]}
