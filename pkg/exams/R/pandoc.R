@@ -10,6 +10,22 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
   }
   if(b64 <- !all(is.na(base64))) stopifnot(requireNamespace("base64enc"))
 
+  ## fixup Sweave environments when convertin to something else than LaTeX
+  fixup_sweave <- function(x, from = "markdown", to = "latex") {
+    if(from != "latex" | to == "latex") return(x)
+    ## replace/remove Sweave code environments    
+    tab <- rbind(
+    	c("\\\\begin\\{Sinput}",  "\\\\begin{verbatim}"),
+    	c("\\\\end\\{Sinput}",    "\\\\end{verbatim}"),
+    	c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
+    	c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
+    	c("\\\\begin\\{Schunk}",  ""),
+    	c("\\\\end\\{Schunk}",    "")
+    )
+    for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
+    return(x)  
+  }
+
   ## function to apply ttx() on every
   ## element of a list in a fast way
   apply_pandoc_on_list <- function(object, from = "markdown",
@@ -21,10 +37,16 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
     ## call ttx() on collapsed chunks
     infile <- tempfile()
     outfile <- tempfile()
-    writeLines(unlist(object), infile)
+    writeLines(fixup_sweave(unlist(object), from = from, to = to), infile)
     rmarkdown::pandoc_convert(input = infile, output = outfile,
       from = from, to = to, ...)
     rval <- readLines(outfile)
+
+    ## fixup <span> in markdown (can occur for LaTeX -> Markdown)
+    if(from == "latex" && substr(to, 1, 8) == "markdown") {
+      rval <- gsub("<span>", "", rval, fixed = TRUE)
+      rval <- gsub("</span>", "", rval, fixed = TRUE)
+    }
 
     ## split chunks again on sep
     ix <- grepl(sep, rval, fixed = TRUE)
@@ -71,12 +93,18 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
 
     ## base64 image/supplements handling
     if(b64 && length(sfiles <- dir(sdir))) {
+      if(to == "html") {
+        pre <- suf <- '"'
+      } else {
+        pre <- '('
+	suf <- ')'
+      }
       for(sf in sfiles) {
   	for(i in seq_along(trex)) {
-  	  if(length(j <- grep(sf, trex[[i]], fixed = TRUE)) && file_ext(sf) %in% base64) {
+  	  if(length(j <- grep(sf, trex[[i]], fixed = TRUE)) && tools::file_ext(sf) %in% base64) {
   	    base64i <- fileURI(file = sf)
-  	    trex[[i]][j] <- gsub(paste(sf, '"', sep = ''),
-  	      paste(base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
+  	    trex[[i]][j] <- gsub(paste0(pre, sf, suf),
+  	      paste0(pre, base64i, suf), trex[[i]][j], fixed = TRUE)
   	    file.remove(file.path(sdir, sf))
   	    x$supplements <- x$supplements[!grepl(sf, x$supplements)]
   	  }

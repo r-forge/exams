@@ -55,10 +55,11 @@ export(
   ## Moodle driver
   "exams2moodle",
   "make_question_moodle",
-  "make_question_moodle23"
+  "make_question_moodle23",
 
-  # ## ARSnova driver
-  # "exams2arsnova"
+  ## ARSnova driver
+  "exams2arsnova",
+  "make_exams_write_arsnova"
 )
 
 S3method("print", "exams_metainfo")

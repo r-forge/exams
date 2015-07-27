@@ -1,36 +1,37 @@
-exams2arsnova <- function(file, n = 1L, dir = ".", name = "VU",
-  quiet = TRUE, resolution = 100, width = 4, height = 4, encoding = "", converter = "ttm",
-  url = "https://arsnova.eu/", sessionkey = NULL, jsessionid = NULL,
-  active = TRUE, showstatistic = FALSE, showanswer = FALSE, abstention = TRUE,
+exams2arsnova <- function(file, n = 1L, dir = ".",
+  name = "R/exams", sname = NULL, qname = NULL,
+  quiet = TRUE, resolution = 100, width = 4, height = 4, encoding = "",
+  url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
+  active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE, abstention = TRUE,
   variant = "lecture", ssl.verifypeer = TRUE, ...)
 {
-  ## check whether JSON data can actually be POSTed
-  post <- TRUE
-  if(is.null(url) | is.null(sessionkey) | is.null(jsessionid)) post <- FALSE
+  ## names (session, questions)
+  if(is.null(sname)) sname <- name
+  if(length(sname) != 2L) sname <- rep(sname, length.out = 2L)
+  sname[1L] <- abbreviate(sname[1L], 50L)
+  sname[2L] <- abbreviate(sname[2L], 8L)
+  if(is.null(qname)) qname <- name
+  if(length(qname) == 1L && length(file) > 1L) qname <- paste0(qname, "/",
+    formatC(1:length(file), width = floor(log10(length(file))) + 1L, flag = "0"))
+    
+  if(length(qname) != length(file)) stop("length of 'file' and 'qname' do not match")
 
-  ## custom reader with rather crude fixup of LaTeX elements
-  arsnovaread <- function(...) {
-    rval <- read_exercise(...)
-    rval$questionlist <- gsub("$", "", rval$questionlist, fixed = TRUE)
-    rval$questionlist <- gsub("\\", "", rval$questionlist, fixed = TRUE)
-    rval
-  }
+  ## Markdown transformer (Github flavor for \( rather than $ math mode)
+  mdtransform <- make_exercise_transform_pandoc(to = "markdown_github")
 
-  ## HTML transformer
-  # htmltransform <- make_exercise_transform_html(converter = converter, base64 = TRUE)
-  htmltransform <- make_exercise_transform_pandoc(to = "markdown")
-
-  ## create PDF write with custom options
-  arsnovawrite <- make_exams_arsnovawrite(url = url, sessionkey = sessionkey, jsessionid = jsessionid,
-    post = post, name = name, active = active, showstatistic = showstatistic, showanswer = showanswer,
-    abstention = abstention, variant = variant, ssl.verifypeer = ssl.verifypeer)
+  ## create JSON/RCurl write with custom options
+  arsnovawrite <- make_exams_write_arsnova(url = url, sessionkey = sessionkey, jsessionid = jsessionid,
+    name = name, sname = sname, qname = qname,
+    active = active, votingdisabled = votingdisabled, showstatistic = showstatistic,
+    showanswer = showanswer, abstention = abstention, variant = variant,
+    ssl.verifypeer = ssl.verifypeer)
 
   ## generate xexams
   rval <- xexams(file, n = n, dir = dir,
     driver = list(
       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE, resolution = resolution, width = width, height = height, encoding = encoding),
-      read = arsnovaread,
-      transform = htmltransform,
+      read = NULL,
+      transform = mdtransform,
       write = arsnovawrite),
     ...)
 
@@ -38,31 +39,52 @@ exams2arsnova <- function(file, n = 1L, dir = ".", name = "VU",
   invisible(rval)
 }
 
-make_exams_arsnovawrite <- function(url, sessionkey, jsessionid, post = TRUE,
-    name = "VU", active = TRUE, showstatistic = FALSE, showanswer = FALSE,
-    abstention = TRUE, variant = "lecture", ssl.verifypeer = TRUE)
+make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
+  name = "R/exams", sname = NULL, qname = NULL, active = TRUE, votingdisabled = FALSE, showstatistic = FALSE,
+  showanswer = FALSE, abstention = TRUE, variant = "lecture",
+  ssl.verifypeer = TRUE)
 {
+  ## check whether JSON data can actually be POSTed (by question)
+  ## or should be exported to a file (full session)
+  post <- TRUE  
+  if(is.null(url) | is.null(jsessionid) | is.null(sessionkey)) post <- FALSE
+
   ## curl info
-  url <- if(substr(url, nchar(url), nchar(url)) == "/") url <- substr(url, 1L, nchar(url) - 1L)
-  url <- sprintf("%s/lecturerquestion/?sessionkey=%s", url, sessionkey)
-  head <- c("Content-Type: application/json; charset=UTF-8",
-    paste0("Cookie: JSESSIONID=", jsessionid))
+  if(post) {
+    if(substr(url, nchar(url), nchar(url)) == "/") url <- substr(url, 1L, nchar(url) - 1L)
+    url <- sprintf("%s/lecturerquestion/?sessionkey=%s", url, sessionkey)
+    head <- c("Content-Type: application/json; charset=UTF-8",
+      paste0("Cookie: JSESSIONID=", jsessionid))
+  }
 
   ## question list template
   qtemp <- list(
     type = "skill_question",
     questionType = "abcd",
     questionVariant = match.arg(variant, c("lecture", "preparation")),
-    subject = name,
+    subject = "name",
     text = NULL,
     active = active,
     releasedFor = "all",
     possibleAnswers = list(),
     noCorrect = FALSE,
     sessionKeyword = sessionkey,
+    votingDisabled = votingdisabled,
     showStatistic = showstatistic,
     showAnswer = showanswer,
     abstention = abstention
+  )
+  ## session list template
+  stemp <- list(
+    exportData = list(
+      session = list(
+        name = if(is.null(sname)) name else sname[1L],
+        shortName = if(is.null(sname)) name else sname[2L],
+        active = active
+      ),
+      questions = list(),
+      feedbackQuestions = list()
+    )
   )
   
   ## set up actual write function
@@ -80,14 +102,17 @@ make_exams_arsnovawrite <- function(url, sessionkey, jsessionid, post = TRUE,
       stop(paste("the following exercises are not supported:",
         paste(wrong_type, collapse = ", ")))
     }
+
+    ## placeholder in session template
+    stemp$exportData$questions <- vector(mode = "list", length = m)
   
     for(j in 1L:m) {
       ## copy question template and adapt subject
-      json <- qtemp      
-      if(m > 1L) json$subject <- paste0(name, "/", formatC(j,  width = floor(log10(m)) + 1L, flag = "0"))
+      json <- qtemp
+      json$subject <- if(is.null(qname)) name else qname[j]
 
       ## collapse question text
-      json$text <- paste(exm[[j]]$question, collapse = " ")
+      json$text <- paste(exm[[j]]$question, collapse = "\n")
 
       ## questionType and possibleAnswers
       if(exm[[j]]$metainfo$type %in% c("schoice", "mchoice")) {
@@ -100,29 +125,33 @@ make_exams_arsnovawrite <- function(url, sessionkey, jsessionid, post = TRUE,
       }
       if(exm[[j]]$metainfo$type %in% c("num", "string")) json$questionType <- "freetext"
 
-      ## convert to JSON
-      json <- RJSONIO::toJSON(json)      
-
+      ## if there is an existing session, just add questions
       if(post) {
+        ## convert to json
+        json <- RJSONIO::toJSON(json)
+	## POST via RCurl
         w <- RCurl::basicTextGatherer()
         rval <- RCurl::curlPerform(url = url, httpheader = head, postfields = json, writefunction = w$update,
           ssl.verifypeer = ssl.verifypeer)
 	if(rval != 0) warning(paste("question", j, "could not be posted"))
 	w$reset()
       } else {
-        ## entire curl command string
-        curl <- sprintf("curl '%s' -X POST %s --data '%s'",
-          url, paste0("-H '", head, "'", collapse = " "), json)
-
-        ## assign names for output files
-        fil <- paste0(name, "-",
-          formatC(id, width = floor(log10(n)) + 1L, flag = "0"), "-",
-          formatC(j,  width = floor(log10(m)) + 1L, flag = "0"), ".json")
-
-        ## create and compile output json
-        writeLines(json, fil)
-        file.copy(fil, dir, overwrite = TRUE)
+        stemp$exportData$questions[[j]] <- json	
       }
+    }
+    
+    ## collect json file for entire session (rather than individual questions only)
+    if(!post) {
+      ## json string for whole session
+      json <- RJSONIO::toJSON(stemp)      
+      ## assign names for output files
+      fil <- gsub("/", "", name, fixed = TRUE)
+      fil <- gsub(" ", "-", fil, fixed = TRUE)
+      fil <- paste0(fil, "-",
+        formatC(id, width = floor(log10(n)) + 1L, flag = "0"), ".json")
+      ## create and copy output json
+      writeLines(json, fil)
+      file.copy(fil, dir, overwrite = TRUE)
     }
   }
 }

@@ -164,12 +164,19 @@ exams_metainfo <- function(x, ...) {
     class = "exams_metainfo")
 }
 
-xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(), ...)
+xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(), png = FALSE, ...)
 {
   ext <- tolower(tools::file_ext(file))
   if(ext == "rnw") {
     if(is.null(encoding)) encoding <- ""
-    utils::Sweave(file, encoding = encoding, quiet = quiet, ...)
+    utils::Sweave(file, encoding = encoding, quiet = quiet, png = png, ...)
+    if(png) {
+      file <- paste0(tools::file_path_sans_ext(file), ".tex")
+      tex <- readLines(file)
+      tex <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.png", tex)
+      tex <- gsub("}.png", ".png}", tex, fixed = TRUE)
+      writeLines(tex, file)
+    }
   } else {
     if(is.null(encoding)) encoding <- getOption("encoding")
     knitr::knit(file, quiet = quiet, envir = envir, encoding = encoding)
