@@ -1,5 +1,22 @@
 Changes in Version 2.1-0
 
+  o Exercises can now either be in .Rnw format (R/LaTeX, as in previous versions)
+    or in .Rmd format (R/Markdown). A new function xweave() is provided for
+    weaving either format by either calling utils::Sweave() for .Rnw and
+    knitr::knit() for .Rmd. If .Rmd exercises are used, the weaved exercises
+    require conversion by pandoc (see below).
+
+  o Added new make_exercise_transform_pandoc() transfomer generator, interfacing
+    rmarkdown::pandoc_convert(). This provides an additional option for generating
+    HTML output and additionally enables Markdown output (e.g., for ARSnova, see
+    below).
+
+  o Added new interface exams2arsnova() for exporting exams/quizzes to the
+    interactive audience response system ARSnova (https://arsnova.eu/). This
+    can either create JSON output files (via RJSONIO::toJSON) that need to be
+    manually imported into ARSnova - or the JSON string can directly be imported
+    into an active ARSnova session (via RCurl).
+
   o Added first development version of exams2blackboard(). This is still
     experimental and likely to change in future versions. It essentially
     behaves as exams2qti12() but with some additional processing for Blackboard.
