@@ -60,7 +60,10 @@ export(
 
   ## ARSnova driver
   "exams2arsnova",
-  "make_exams_write_arsnova"
+  "make_exams_write_arsnova",
+  
+  ## TCExam driver
+  "exams2tcexam"
 )
 
 S3method("print", "exams_metainfo")
