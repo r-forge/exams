@@ -49,9 +49,13 @@ export(
   "exams2blackboard",
   "make_itembody_blackboard",
 
-  ## WU exam server driver
+  ## WU exam server driver (LOPS)
   "exams2lops",
   "make_exams_write_lops",
+
+  ## mimicked WU exam server driver (NOPS)
+  "exams2nops",
+  "make_nops_template",
 
   ## Moodle driver
   "exams2moodle",

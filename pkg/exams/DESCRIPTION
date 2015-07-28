@@ -1,6 +1,6 @@
 Package: exams
 Version: 2.1-0
-Date: 2015-07-27
+Date: 2015-07-28
 Title: Automatic Generation of Exams in R
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
              person(given = "Bettina", family = "Gruen", role = "aut", email = "Bettina.Gruen@jku.at"),

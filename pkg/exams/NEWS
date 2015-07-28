@@ -11,6 +11,10 @@ Changes in Version 2.1-0
     HTML output and additionally enables Markdown output (e.g., for ARSnova, see
     below).
 
+  o Added new interface exams2nops() for generating PDF exams that can be
+    printed, scanned, and automatically evaluated. Accompanying functions
+    nops_scan() (using the png package) and nops_eval() are provided as well.
+
   o Added new interface exams2arsnova() for exporting exams/quizzes to the
     interactive audience response system ARSnova (https://arsnova.eu/). This
     can either create JSON output files (via RJSONIO::toJSON) that need to be
