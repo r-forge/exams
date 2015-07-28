@@ -273,8 +273,8 @@ if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 \\newcommand{\\myWarning}{\\@Warning}
 \\newcommand{\\myAnswers}{\\@Answers}
 \\newcommand{\\myFillAnswers}{\\@FillAnswers}
-\\newcommand{\\myPoint}{\\@myPoint}
-\\newcommand{\\myPoints}{\\@myPoints}
+\\newcommand{\\myPoint}{\\@Point}
+\\newcommand{\\myPoints}{\\@Points}
 
 \\makeatother
 

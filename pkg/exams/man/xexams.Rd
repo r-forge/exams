@@ -12,7 +12,8 @@
 \usage{
   xexams(file, n = 1L, nsamp = NULL,
     driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
-    dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE)
+    dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+    points = NULL)
   exams_metainfo(x, \dots)
 }
 
@@ -42,6 +43,10 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within the \code{expoints} tags
+    of the exercise files (if any). The vector of points supplied should either have
+    length 1 or the number of exercises in the exam.}
   \item{x}{a list as returned by \code{xexams}.}
   \item{\dots}{currently not used.}
 }

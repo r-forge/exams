@@ -1,6 +1,7 @@
 xexams <- function(file, n = 1L, nsamp = NULL,
   driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
-  dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE)
+  dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+  points = NULL)
 {
   if(verbose) cat("Exams generation initialized.\n\n")
 
@@ -99,6 +100,15 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   exm <- rep(list(vector(mode = "list", length = m)), n)
   names(exm) <- paste("exam", formatC(1L:n, width = floor(log10(n)) + 1L, flag = "0"), sep = "")
   
+  ## if global points are specified recycle to the correct length
+  if(!is.null(points)) {
+    if(length(points) == 1L) points <- rep.int(points, m)
+    if(length(points) != m) {
+      points <- NULL
+      warning(sprintf("'points' was ignored because it is not of length 1 or %s", m))
+    }
+  }
+  
   ## cycle through exams: call Sweave, read LaTeX, store supplementary files
   if(verbose) cat("\nGeneration of individual exams.")
   for(i in 1L:n) {
@@ -141,6 +151,9 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 	file.remove(sfile)
       }
       exm[[i]][[j]]$supplements <- structure(file.path(dir_supp_ij, sfile), names = sfile, dir = dir_supp_ij)
+
+      ## add points globally (if specified)
+      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[j]
 
       ## driver: transform exercise (e.g., LaTeX -> HTML)
       if(verbose) cat("t")

@@ -12,7 +12,8 @@
   exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = "plain", 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "", quiet = TRUE, transform = NULL,
-    edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE)
+    edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+    points = NULL)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, quiet = TRUE,
@@ -57,6 +58,10 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within the \code{expoints} tags
+    of the exercise files (if any). The vector of points supplied should either have
+    length 1 or the number of exercises in the exam.}
 }
 
 \details{
