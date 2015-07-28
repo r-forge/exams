@@ -29,6 +29,15 @@ Changes in Version 2.1-0
     This can also be set directly through an \exabstention{} tag in the
     corresponding .Rnw exercise.
 
+  o Added various convenience functions for creating single- or multiple-choice
+    questions from either a single numeric result (num_to_schoice) or from a
+    matrix solution (matrix_to_schoice, matrix_to_mchoice, det_to_schoice).
+
+  o Added various convenience functions for formatting numbers within exercises:
+    fmt() for conveniently displaying a certain number of digits, round2()
+    for rounding away from zero, char_with_braces() for adding braces to negative
+    numbers, and a toLatex() method for "matrix" objects.
+
   o Fixed bug in file paths created for "media" supplements in QTI XML formats.
     File names had an unnecessary trailing slash which lead to unrecognized
     suffixes in some browsers.

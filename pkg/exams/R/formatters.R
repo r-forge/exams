@@ -33,3 +33,41 @@ answerlist <- function(..., sep = ". ", markup = c("latex", "markdown"))
     ))
   }
 }
+
+toLatex.matrix <- function(object, skip = FALSE, fix = getOption("olat_fix"), ...)
+{
+  ## workaround for OLAT's mis-layouting of matrices
+  fix <- if(is.null(fix)) FALSE else !identical(fix, FALSE)
+  collapse <- if(fix) " & \\\\phantom{aa} & " else " & "
+  nc <- if(fix) ncol(object) * 2 - 1 else ncol(object)
+
+  ## collapse matrix to LaTeX code lines
+  tmp <- apply(object, 1, paste, collapse = collapse)
+  tmp <- paste(tmp, collapse = if(skip) " \\\\smallskip \\\\smallskip \\\\\\\\  " else " \\\\\\\\ ")
+  tmp <- paste("\\\\left( \\\\begin{array}{",
+    paste(rep("r", nc), collapse = ""), "} ",
+    tmp,
+    " \\\\end{array} \\\\right)", sep = "")
+  return(tmp)
+}
+
+round2 <- function (x, digits = 0) 
+  round(x + sign(x) * 1e-10, digits)
+
+fmt <- function(x, digits = 2L, zeros = digits < 4L) {
+  x <- round2(x, digits = digits)
+  if(zeros) {
+    format(x, nsmall = digits, scientific = FALSE, digits = 12)
+  } else {
+    format(x, scientific = FALSE, digits = 12)
+  }
+}
+
+char_with_braces <- function(x) {
+  rval <- paste(ifelse(x >= 0, "", "("), x, ifelse(x >= 0, "", ")"), sep = "")
+  dim(rval) <- dim(x)
+  return(rval)
+}
+
+num_to_tol <- function(x, reltol = 0.0002, min = 0.01, digits = 2)
+  pmax(min, round(reltol * abs(x), digits = digits))
