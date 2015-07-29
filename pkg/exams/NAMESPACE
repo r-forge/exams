@@ -67,6 +67,7 @@ export(
   "exams2nops",
   "make_nops_template",
   "nops_scan",
+  "nops_eval",
 
   ## Moodle driver
   "exams2moodle",

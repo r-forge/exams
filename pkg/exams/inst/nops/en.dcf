@@ -1,4 +1,5 @@
 PersonalData: Personal Data
+Name: Name
 FamilyName: Family Name
 GivenName: Given Name
 Signature: Signature
@@ -22,3 +23,10 @@ Answers: Answers
 FillAnswers: In the following please fill in your answers.
 Point: point
 Points: points
+ExamResults: Exam Results
+Evaluation: Evaluation
+Mark: Mark
+Question: Question
+GivenAnswer: Given Answer
+CorrectAnswer: Correct Answer
+ExamSheet: Exam Sheet

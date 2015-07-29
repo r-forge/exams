@@ -28,13 +28,12 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   ## header: internationalization
   if(!file.exists(language)) language <- system.file(file.path("nops", paste0(language, ".dcf")), package = "exams")
   if(language == "") language <- system.file(file.path("nops", "en.dcf"), package = "exams")
-  lang <- as.list(drop(read.dcf(language)))
-  langfields <- c("PersonalData", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
+  lang <- nops_language(language, markup = "latex")[c(
+    "PersonalData", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
     "Checked", "NoChanges", "DocumentType", "DocumentID", "Scrambling", 
     "Replacement", "MarkCarefully", "NotMarked", "Or",
     "MarkExampleA", "MarkExampleB", "MarkExampleC", "MarkExampleD", "MarkExampleE",
-    "Warning", "Answers", "FillAnswers", "Point", "Points")
-  if(!all(langfields %in% names(lang))) stop("invalid language specification")
+    "Warning", "Answers", "FillAnswers", "Point", "Points")]
   ## header: collect everything
   header <- c(list(Date = date, ID = d2id), usepackage, loc, lang)
 
@@ -565,4 +564,26 @@ sprintf("\\multiput(110,221)(8,0){%s}{\\framebox(4,4){}}", nchoice[3L])
 
 \\end{picture} 
 ")
+}
+
+nops_language <- function(file, markup = c("latex", "html"))
+{
+  ## read file
+  lang <- drop(read.dcf(file))
+  
+  ## necessary fields for a correct lanuage specification
+  langfields <- c("PersonalData", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
+    "Checked", "NoChanges", "DocumentType", "DocumentID", "Scrambling", 
+    "Replacement", "MarkCarefully", "NotMarked", "Or",
+    "MarkExampleA", "MarkExampleB", "MarkExampleC", "MarkExampleD", "MarkExampleE",
+    "Warning", "Answers", "FillAnswers", "Point", "Points",
+    "ExamResults", "Evaluation", "Mark", "Question", "GivenAnswer", "CorrectAnswer",
+    "ExamSheet")
+  if(!all(langfields %in% names(lang))) stop("invalid language specification")
+  
+  ## desired output markup
+  markup <- match.arg(tolower(markup), c("latex", "html"))
+  if(markup == "html") lang <- structure(tth::tth(lang), .Names = names(lang))
+  
+  return(as.list(lang))
 }

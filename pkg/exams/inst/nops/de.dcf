@@ -1,5 +1,6 @@
 PersonalData: Pers{\"o}nliche Daten
-FamilyName: Zuname
+Name: Name
+FamilyName: Nachname
 GivenName: Vorname
 Signature: Unterschrift
 RegistrationNumber: Matrikelnummer
@@ -22,3 +23,10 @@ Answers: Antworten
 FillAnswers: Bitte tragen Sie im folgenden Ihre Antworten ein.
 Point: Punkt
 Points: Punkte
+ExamResults: Klausurergebnisse
+Evaluation: Auswertung
+Mark: Note
+Question: Frage
+GivenAnswer: Gegebene Antwort
+CorrectAnswer: Richtige Antwort
+ExamSheet: Pr{\"u}fungsbeleg
