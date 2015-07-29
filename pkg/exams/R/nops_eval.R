@@ -135,6 +135,8 @@ nops_eval <- function(register = dir(pattern = "\\.csv$"), solutions = dir(patte
   res_fil <- c(res_csv, res_zip)
   file.copy(res_fil, file.path(owd, res_fil), overwrite = TRUE)
 
+  ## return results (with original column names, if different from standard)
+  names(results)[1L:3L] <- nam
   invisible(results)
 }
 
