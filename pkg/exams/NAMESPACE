@@ -1,4 +1,5 @@
 import("stats", "graphics", "tools", "utils")
+importFrom("grDevices", "hcl")
 
 export(
   ## outdated version 1 interface

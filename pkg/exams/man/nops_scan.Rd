@@ -65,6 +65,20 @@
   \url{http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe},
   \url{http://www.imagemagick.org/script/binary-releases.php#windows},
   \url{http://www.ghostscript.com/download/gsdnld.html}.
+  
+  Practical recommendations:
+  
+  The scanned images produced by scanners or copying
+  machines typically become smaller in size if the images are read in just black/white
+  (or grayscale). This may sometimes even improve the reliability of reading the
+  images afterwards.
+  
+  The printed exams are often stapled in the top left corner which has to be unhinged
+  somehow by the exam participants. Although this may damage the exam sheet, this is
+  usually no problem for scanning it. However, the copying machine's sheet feeder
+  may work better if the sheets are turned upside down (so that the damaged corner
+  is not fed first into the machine). This often improves the scanning results
+  considerably and can be accomodated by setting \code{rotate = TRUE} in \code{nops_scan}.
 }
 
 \value{
@@ -77,7 +91,7 @@
   45 multiple choice answers of length 5 (all 00000 if unused).
 }
 
-\seealso{\code{\link[exams]{exams2nops}}}
+\seealso{\code{\link[exams]{exams2nops}}, \code{\link[exams]{nops_eval}}}
 
 \keyword{utilities}
 

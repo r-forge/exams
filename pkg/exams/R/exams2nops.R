@@ -2,7 +2,7 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   language = "en", title = "Exam", course = "",
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-  usepackage = NULL, encoding = "", startid = 1L, showpoints = FALSE, ...)
+  usepackage = NULL, encoding = "", startid = 1L, points = NULL, showpoints = FALSE, ...)
 {
   ## pages could include formulary and distribution tables
   if(!is.null(pages)) pages <- sapply(pages, file_path_as_absolute)
@@ -91,11 +91,13 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
 
   if(is.null(dir)) {  
     rval <- exams2pdf(file, n = n, name = name, template = template,
-      header = header, transform = transform, encoding = encoding, ...)
+      header = header, transform = transform, encoding = encoding,
+      points = points, ...)
     names(rval) <- d2id(1:length(rval))
   } else {
     rval <- exams2pdf(file, n = n, dir = dir, name = name, template = template,
-      header = header, transform = transform, encoding = encoding, ...)
+      header = header, transform = transform, encoding = encoding,
+      points = points, ...)
     names(rval) <- d2id(1:length(rval))
     if(is.null(name)) name <- "metainfo"
     name <- paste(name, ".rds", sep = "")

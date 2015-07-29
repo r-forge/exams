@@ -495,8 +495,7 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
   
   ## directories
   odir <- getwd()
-  dir <- tempfile()
-  dir.create(dir)
+  dir.create(dir <- tempfile())
   setwd(dir)
   on.exit(setwd(odir))
 

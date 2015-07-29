@@ -418,18 +418,16 @@ read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract 
   d <- do.call("rbind", lapply(d, digit_regressors))
 
   ## get digits
-  y <- with(d,  
-    ifelse(width < 0.5, 1L,
-    ifelse(x8 < 0.15, 4L,
-    ifelse(x30 < 0.15, 5L,
-    ifelse(x1 > 0.55, 7L,
-    ifelse((x7 + x12) > 1.05, 2L,
-    ifelse((x17 + x18 + x19) < 0.18, 0L,
-    ifelse((x4 + x11) < 0.5, 3L,
-    ifelse((x4 + x32) < 1.05, 8L, 
-    ifelse(x31 > 0.4, 9L,
+  y <- ifelse(d$width < 0.5, 1L,
+    ifelse(d$x8 < 0.15, 4L,
+    ifelse(d$x30 < 0.15, 5L,
+    ifelse(d$x1 > 0.55, 7L,
+    ifelse((d$x7 + d$x12) > 1.05, 2L,
+    ifelse((d$x17 + d$x18 + d$x19) < 0.18, 0L,
+    ifelse((d$x4 + d$x11) < 0.5, 3L,
+    ifelse((d$x4 + d$x32) < 1.05, 8L, 
+    ifelse(d$x31 > 0.4, 9L,
     6L)))))))))
-  )
   y <- paste(y, collapse = "")
 
   if(tesseract) {

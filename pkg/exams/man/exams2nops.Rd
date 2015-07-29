@@ -14,7 +14,8 @@
     language = "en", title = "Exam", course = "",
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-    usepackage = NULL, encoding = "", startid = 1L, showpoints = FALSE, \dots)
+    usepackage = NULL, encoding = "", startid = 1L,
+    points = NULL, showpoints = FALSE, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
     duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "")
@@ -49,16 +50,53 @@
     included.}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{startid}{integer. Starting ID for the exam numbers (defaults to 1).}
-  \item{showpoints}{logical. Should the number of points associated with
-    each exercise (if specified) be shown in the PDF?}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within the \code{expoints} tags
+    of the exercise files (if any). The vector of points supplied should either have
+    length 1 or the number of exercises in the exam.}
+  \item{showpoints}{logical. Should the PDF show the number of points associated with
+    each exercise (if specified in the Rnw/Rmd exercise or in \code{points})?}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}}.}
   \item{nchoice}{character. The number of choice alternatives per exercise.}
 }
 
 \details{
   \code{exams2nops} is a convenience interface for \code{\link[exams]{exams2pdf}}
-  with a dynamically generated title page which can be scanned and evaluated
-  automatically.
+  with a dynamically generated title page which can be printed,
+  scanned with \code{\link[exams]{nops_scan}} and evaluated automatically
+  by \code{\link[exams]{nops_eval}}. It is originally intended for
+  single- and multiple choice (schoice/mchoice) questions only but has also
+  some limited support for open-ended (string) questions.
+  
+  The exam sheet consists of various sections where information is either
+  printed our filled in by the students. The section with personal data is
+  just for human readers, it is not read automatically. The registration number
+  has to be filled in in digits and also marked with corresponding crosses
+  where only the latter is read automatically. The exam ID/type/scrambling
+  are printed directly into the PDF and read automatically after scanning.
+  Note that the font in the PDF must not be modified for the reading step
+  to work reliably. The questions can have up to five alternatives which
+  have to answered by the students. The crosses are read automatically
+  where both empty and completely filled boxes are regarded as not crossed.
+  
+  The examples below show how PDF exams can be generated along with an RDS
+  file with (serialized) R data containing all meta-information about the exam.
+  The PDFs can be printed out for conducting the exam and the exam sheet
+  from the first page then needs to be scanned into PDF or PNG images. Then
+  the information from these scanned images can be read by \code{nops_scan},
+  extracting information about the exam, the participants, and the corresponding
+  answers (as described above). The ZIP file produced by \code{nops_scan}
+  along with the RDS of the exam meta-information and a CSV file with participant
+  information can then be used by \code{nops_eval} to automatically evaluate
+  the whole exam and producing HTML reports for each participant. See
+  \code{\link[exams]{nops_eval}} for a worked example.
+  
+  Currently, up to three open-ended string questions can also be included.
+  These do not generate boxes on the first exam sheet but instead a second
+  exam sheet is produced for these open-ended questions. It is assumed that
+  a human reader reads these open-ended questions and then assigns points
+  by marking boxes on this separate sheet. Subsequently, this sheet can
+  also be read by \code{nops_scan}.  
 }
 
 \value{
@@ -71,28 +109,40 @@
 library("exams")
 options(device.ask.default = FALSE)
 
-## define an exams (= list of exercises)
+## define an exam (= list of exercises)
 myexam <- list(
-  "boxplots",
-  "ttest",
-  "anova",
-  "scatterplot",
-  "relfreq",
-  "tstat2"
+  "tstat2.Rnw",
+  "ttest.Rnw",
+  "relfreq.Rnw",
+  "anova.Rnw",
+  c("boxplots.Rnw", "scatterplot.Rnw"),
+  "cholesky.Rnw"
 )
-
-## output directory
-mydir <- tempdir()
-
-## generate NOPS exam in temporary directory
-## using a few customization options
-exams2nops(myexam, n = 3, dir = mydir, replacement = TRUE)
-dir(mydir)
 
 if(interactive()) {
 ## compile a single random exam (displayed on screen)
 exams2nops(myexam, duplex = FALSE, language = "de")
 }
+
+## create multiple exams on the disk (in a
+## temporary directory)
+mydir <- tempdir()
+
+## generate NOPS exam in temporary directory
+set.seed(403)
+ex1 <- exams2nops(myexam, n = 2, dir = mydir)
+dir(mydir)
+
+## use a few customization options: different
+## university/logo and language/title
+## with a replacement sheet but for non-duplex printing
+set.seed(403)
+ex2 <- exams2nops(myexam, n = 2,
+  institution = "Universit\\\"at Innsbruck",
+  name = "uibk", logo = "uibk-logo-bw.png",
+  title = "Klausur", language = "de",
+  replacement = TRUE, duplex = FALSE)
+dir(mydir)
 }
 
 \keyword{utilities}

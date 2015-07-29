@@ -14,7 +14,7 @@ Description: Automatic generation of exams based on exercises in Sweave (R/LaTeX
 	In addition to fully customizable PDF exams, a standardized PDF format is provided that can be
 	printed, scanned, and automatically evaluated.
 Depends: R (>= 2.15.0)
-Imports: stats, graphics, tools, utils
+Imports: stats, graphics, grDevices, tools, utils
 Suggests: base64enc, knitr, parallel, png, RCurl, RJSONIO, rmarkdown, tth, XML
 License: GPL-2 | GPL-3
 URL: http://exams.R-Forge.R-project.org/

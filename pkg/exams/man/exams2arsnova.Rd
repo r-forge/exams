@@ -17,8 +17,8 @@ exams2arsnova(file, n = 1L, dir = ".",
   active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE,
   abstention = TRUE, variant = "lecture", ssl.verifypeer = TRUE, \dots)
 
-make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
-  name = "R/exams", sname = NULL, qname = NULL,
+make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL,
+  jsessionid = NULL, name = "R/exams", sname = NULL, qname = NULL,
   active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE,
   abstention = TRUE, variant = "lecture", ssl.verifypeer = TRUE)
 }
