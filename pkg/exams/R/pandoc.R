@@ -3,10 +3,10 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
 {
   ## base64 checks
   if(is.null(base64)) base64 <- TRUE
-  base64 <- if(is.logical(base64) && base64) {
+  base64 <- if(isTRUE(base64)) {
     c("bmp", "gif", "jpeg", "jpg", "png")
   } else {
-    if(is.logical(base64)) NA  else tolower(base64)
+    if(is.logical(base64)) NA_character_  else tolower(base64)
   }
   if(b64 <- !all(is.na(base64))) stopifnot(requireNamespace("base64enc"))
 
