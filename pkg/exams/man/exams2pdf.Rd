@@ -13,7 +13,7 @@
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "", quiet = TRUE, transform = NULL,
     edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-    points = NULL)
+    points = NULL, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, quiet = TRUE,
@@ -62,6 +62,7 @@
     argument overules any exercise points that are provided within the \code{expoints} tags
     of the exercise files (if any). The vector of points supplied should either have
     length 1 or the number of exercises in the exam.}
+  \item{\dots}{further arguments passed on to \code{\link[exams]{xweave}}.}
 }
 
 \details{

@@ -2,7 +2,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  points = NULL)
+  points = NULL, ...)
 {
   ## output directory or display on the fly
   display <- missing(dir)
@@ -26,7 +26,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## generate xexams
   rval <- xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet, encoding = encoding),
+    driver = list(sweave = list(quiet = quiet, encoding = encoding, ...),
                   read = NULL, transform = transform, write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
     points = points)
