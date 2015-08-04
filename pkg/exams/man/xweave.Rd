@@ -9,14 +9,19 @@
 }
 
 \usage{
-  xweave(file, quiet = TRUE, encoding = NULL, envir = new.env(), png = FALSE, \dots)
+  xweave(file, quiet = TRUE, encoding = NULL, envir = new.env(),
+    pdf = TRUE, png = FALSE, height = 6, width = 6, resolution = 100, \dots)
 }
 
 \arguments{
   \item{file, quiet, encoding}{arguments passed to \code{\link[utils]{Sweave}}
     or \code{\link[knitr]{knit}}, respectively.}
   \item{envir}{argument passed to \code{\link[knitr]{knit}}.}
-  \item{png, \dots}{arguments passed to \code{\link[utils]{Sweave}}.}
+  \item{pdf, png, height, width, resolution, \dots}{arguments passed to \code{\link[utils]{Sweave}}
+    or \code{\link[knitr]{opts_chunk}}, respectively. In the latter case:
+    \code{pdf}/\code{png} are mapped to \code{dev}; \code{height}/\code{width}
+    are mapped to \code{fig.height}/\code{fig.width}; and \code{resolution}
+    is mapped to \code{dpi}.}
 }
 
 \details{
