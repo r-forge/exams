@@ -105,7 +105,7 @@ myexam <- list(
 ## create multiple exams on the disk with different numbers of points
 ## per exercise (see ?exams2nops for more examples)
 set.seed(403)
-ex1 <- exams2nops(myexam, n = 2, dir = ".",
+ex1 <- exams2nops(myexam, n = 2, dir = ".", date = "2015-07-29",
   points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)
 dir()
 
