@@ -59,7 +59,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
       if(n < 1L) return(x)
       del <- c(
         if(x[1L] == "") 1L else NULL,
-        if(grepl(sep, x[n], fixed = TRUE) && x[n - 1L] == "") n - 1L else NULL,
+        if(n > 1L && grepl(sep, x[n], fixed = TRUE) && x[n - 1L] == "") n - 1L else NULL,
 	if(grepl(sep, x[n], fixed = TRUE)) n else NULL
       )
       if(length(del) > 0L) return(x[-del]) else return(x)
