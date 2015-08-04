@@ -17,7 +17,8 @@
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    points = NULL, rule = NULL, pluginfile = TRUE, \dots)
+    points = NULL, rule = NULL, pluginfile = TRUE,
+    converter = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -101,7 +102,9 @@
     extra button in Moodle which (when selected) always leads to zero points.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
-  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
+  \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
+    The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
+    exercises in \code{file} where \code{"pandoc"} is used.}
 }
 
 \details{

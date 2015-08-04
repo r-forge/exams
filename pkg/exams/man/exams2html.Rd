@@ -11,11 +11,11 @@
 }
 
 \usage{
-  exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = "plain",
+  exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = NULL,
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
     mathjax = FALSE, resolution = 100, width = 4, height = 4,
-    encoding = "", \dots)
+    encoding = "", converter = NULL, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
     base64 = TRUE, \dots)
@@ -37,8 +37,10 @@
     current working directory). If only a single HTML file is produced
     and no \code{dir} is explicitly specified, the file is displayed in the
     browser rather than saved in \code{dir}.}
-  \item{template}{character. A specification of a HTML template. The package
-    currently provides \code{"plain.html"}.}
+  \item{template}{character. A specification of a HTML template. The default
+    is to use the \code{"plain.html"} file provided in the package unless
+    there are Rmd exercises in \code{file}. Then, \code{"plain8.html"}
+    is used (which expects UTF-8 encoding as used by pandoc).}
   \item{name}{character. A name prefix for resulting exercises.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[exams]{xweave}}?}
@@ -60,12 +62,12 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
-  \item{converter}{character. Workhorse function for transforming LaTeX
-    code to HTML. For details see below.}
   \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
     also be a character vector of file endings that should be Base 64 encoded, e.g.
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.}
-  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
+  \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
+    The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
+    exercises in \code{file} where \code{"pandoc"} is used.}
 }
 
 \details{

@@ -11,10 +11,15 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
+  points = NULL, eval = list(partial = TRUE, negative = FALSE),
+  converter = NULL, ...)
 {
+  ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
+  if(is.null(converter)) {
+    converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
+  }
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(...)
+  htmltransform <- make_exercise_transform_html(converter = converter, ...)
 
   ## generate the exam
   is.xexam <- FALSE

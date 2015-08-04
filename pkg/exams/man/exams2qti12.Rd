@@ -26,7 +26,7 @@
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    \dots)
+    converter = NULL, \dots)
 
   exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
@@ -41,7 +41,7 @@
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    base64 = TRUE, mode = "hex", \dots)
+    converter = NULL, base64 = TRUE, mode = "hex", \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -134,7 +134,9 @@
   \item{fix_num}{logical. This is a special flag to enable/force the display of the
     correct solutions for numeric exercises/answers as well as to obtain results when archiving tests.
     Note that this is a workaround, which works e.g. within OLAT.}
-  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
+  \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
+    The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
+    exercises in \code{file} where \code{"pandoc"} is used.}
 }
 
 \details{

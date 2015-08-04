@@ -5,10 +5,15 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding = "", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, rule = NULL, pluginfile = TRUE, ...)
+  points = NULL, rule = NULL, pluginfile = TRUE,
+  converter = NULL, ...)
 {
+  ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
+  if(is.null(converter)) {
+    converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
+  }
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(..., base64 = !pluginfile)
+  htmltransform <- make_exercise_transform_html(converter = converter, ..., base64 = !pluginfile)
 
   ## generate the exam
   if(encoding == "") encoding <- "UTF-8"
