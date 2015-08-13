@@ -184,7 +184,7 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(),
   if(ext == "rnw") {
     if(is.null(encoding)) encoding <- ""
     utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
-      height = height, width = width, ...)
+      height = height, width = width, resolution = resolution, ...)
     if(png) {
       file <- paste0(tools::file_path_sans_ext(file), ".tex")
       tex <- readLines(file)
