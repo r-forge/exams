@@ -29,7 +29,7 @@ if (runif(1) < 0.5) {
 } else {
   questions[1] <- "The slope of the regression line is about $1$."
   solutions[1] <- abs(b - 1) < 0.1
-  explanations[1] <- paste("The slope of the regression line is given by $r \\\\cdot s_y/s_x$ and hence",
+  explanations[1] <- paste("The slope of the regression line is given by $r \\cdot s_y/s_x$ and hence",
                            ifelse(abs(b - 1) < 0.1, "", "not"), "about equal to $1$.")
 }
 
@@ -101,24 +101,19 @@ following statements are correct?
 plot(x, y)
 @
 
-\begin{answerlist}
-  \item \Sexpr{questions[1]}
-  \item \Sexpr{questions[2]}
-  \item \Sexpr{questions[3]}
-  \item \Sexpr{questions[4]}
-  \item \Sexpr{questions[5]}
-\end{answerlist}
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(questions)
+@
+
 \end{question}
 
-%% SOLUTIONS
 \begin{solution}
-\begin{answerlist}
-  \item \Sexpr{mchoice2text(solutions[1])}: \Sexpr{explanations[1]}
-  \item \Sexpr{mchoice2text(solutions[2])}: \Sexpr{explanations[2]}
-  \item \Sexpr{mchoice2text(solutions[3])}: \Sexpr{explanations[3]}
-  \item \Sexpr{mchoice2text(solutions[4])}: \Sexpr{explanations[4]}
-  \item \Sexpr{mchoice2text(solutions[5])}: \Sexpr{explanations[5]}
-\end{answerlist}
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(
+  paste("\\textbf{", ifelse(solutions, "True", "False"), "}", sep = ""),
+  explanations)
+@
+
 \end{solution}
 
 %% META-INFORMATION
