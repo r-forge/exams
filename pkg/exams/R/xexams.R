@@ -186,10 +186,18 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(),
     utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
       height = height, width = width, resolution = resolution, ...)
     if(png) {
+      ## add .png suffix in case of \includegraphics{} without suffix
       file <- paste0(tools::file_path_sans_ext(file), ".tex")
       tex <- readLines(file)
-      tex <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.png", tex)
-      tex <- gsub("}.png", ".png}", tex, fixed = TRUE)
+      ix <- grepl("includegraphics{", tex, fixed = TRUE)
+      if(any(ix)) {
+        tex[ix] <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.png", tex[ix])
+        tex[ix] <- sapply(strsplit(tex[ix], "}.png", fixed = TRUE), function(z) {
+          sfix <- ifelse(substr(z, nchar(z) - 3L, nchar(z) - 3L) == ".", "}", ".png}")
+	  if(!grepl("includegraphics{", z[length(z)], fixed = TRUE)) sfix[length(z)] <- ""
+	  paste(z, sfix, sep = "", collapse = "")
+        })
+      }
       writeLines(tex, file)
     }
   } else {
