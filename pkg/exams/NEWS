@@ -38,6 +38,9 @@ Changes in Version 2.1-0
     for rounding away from zero, char_with_braces() for adding braces to negative
     numbers, and a toLatex() method for "matrix" objects.
 
+  o tex2image() now also supports format="svg" via pdfcrop followed by pdf2svg
+    (instead of ImageMagick's convert).
+
   o Fixed bug in file paths created for "media" supplements in QTI XML formats.
     File names had an unnecessary trailing slash which lead to unrecognized
     suffixes in some browsers.
