@@ -7,12 +7,11 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = NULL,
   ## for Rnw exercises use "ttm" converter and "plain" template,
   ## otherwise "pandoc" converter and "plain8" template
   if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) {
-    if(is.null(template)) template <- "plain8"
     if(is.null(converter)) converter <- "pandoc"
   } else {
-    if(is.null(template)) template <- "plain"
     if(is.null(converter)) converter <- "ttm"
   }
+  if(is.null(template)) template <- if(converter %in% c("tth", "ttm", "tex2image")) "plain" else "plain8"
 
   ## output directory or display on the fly
   display <- missing(dir)
