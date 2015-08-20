@@ -30,7 +30,8 @@
     the current working directory.}
   \item{name}{character. A name prefix for resulting exams and RDS file.}
   \item{language}{character. Path to a DCF file with a language specification.
-    Currently, \code{"en"} and \code{"de"} are shipped with the package.}
+    Currently, the package ships: English (\code{"en"}), German (\code{"de"}),
+    Italian (\code{"it"}).}
   \item{title}{character. Title of the exam, e.g., \code{"Introduction to Statistics"}.}
   \item{course}{character. Optional course number, e.g., \code{"101"}.}
   \item{institution}{character. Name of the institution at which the exam is conducted.}
