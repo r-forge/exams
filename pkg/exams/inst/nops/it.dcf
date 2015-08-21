@@ -1,23 +1,23 @@
 PersonalData: Dati personali
-Name: Nome completo
+Name: Nome
 FamilyName: Cognome
 GivenName: Nome
 Signature: Firma
-RegistrationNumber: Numero di matricola
+RegistrationNumber: Matricola
 Checked: Controllato
 NoChanges: Questa sezione \textbf{non} pu\`o essere modificata!\\
 DocumentType: Tipo
-DocumentID: Exam ID
+DocumentID: Esame numero
 Scrambling: {\footnotesize Rimescolamento}
 Replacement: Rimpiazzamento
-MarkCarefully: Si prega di fare attenzione nel segnare le caselle
+MarkCarefully: Crocettare con cura
 NotMarked: Non segnare
 Or: o
-MarkExampleA:  99
-MarkExampleB: 107
-MarkExampleC: 130
-MarkExampleD: 136
-MarkExampleE: 140
+MarkExampleA: 54
+MarkExampleB: 62
+MarkExampleC: 85
+MarkExampleD: 91
+MarkExampleE: 95
 Warning: Questo documento verr\`a digitalizzato automaticamente: va tenuto ordinato e non va priegato. Compilare il documento con una penna \textbf{blu o nera}. \\ \textbf{Crocette non marcate chiaramente o fuori dal centro verranno ignorate!}
 Answers: Risposte
 FillAnswers: Compilare qui sotto le vostre risposte.
