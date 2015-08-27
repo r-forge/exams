@@ -49,8 +49,8 @@
   \item{encoding}{character. Encoding of \code{register}, e.g.,
     \code{"latin1"} or \code{"UTF-8"} (default).}
   \item{language}{character. Path to a DCF file with a language specification.
-    Currently, the package ships: English (\code{"en"}), German (\code{"de"}),
-    Italian (\code{"it"}), Romanian (\code{"ro"}).}
+    Currently, the package ships: English (\code{"en"}), Dutch (\code{"nl"}),
+    German (\code{"de"}), Italian (\code{"it"}), Romanian (\code{"ro"}).}
   \item{interactive}{logical. Should possible errors in the Daten.txt file
     by corrected interactively? Requires the \pkg{png} package for full
     interactivity.}
