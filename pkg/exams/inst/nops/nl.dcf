@@ -3,12 +3,12 @@ Name: Naam
 FamilyName: Achternaam
 GivenName: Voornaam
 Signature: Handtekening
-RegistrationNumber: Registratienummer
+RegistrationNumber: Studentnummer
 Checked: Gecontroleerd
 NoChanges: In dit veld mag \textbf{niets} worden aangepast!\\
 DocumentType: Type
 DocumentID: Examen-ID
-Scrambling: Hutselen
+Scrambling: Scrambling
 Replacement: Vervanging
 MarkCarefully: Graag zorgvuldig aankruisen
 NotMarked: Niet aangekruist
@@ -18,9 +18,9 @@ MarkExampleB: 76
 MarkExampleC: 105
 MarkExampleD: 112
 MarkExampleE: 118
-Warning: Dit document wordt automatisch gescand. Zorg er (alstublieft) voor dat het schoon blijft; niet kreuken of vouwen. Vul de vragen in met een \textbf{blauwe of zwarte} pen.\\ \textbf{Alleen duidelijk en correct geplaatste kruisjes worden verwerkt!}
+Warning: Dit document wordt automatisch gescand. Zorg ervoor dat het schoon blijft; niet kreuken of vouwen. Vul de vragen in met een \textbf{blauwe of zwarte} pen.\\ \textbf{Alleen duidelijk en correct geplaatste kruisjes worden verwerkt!}
 Answers: Antwoorden
-FillAnswers: Vul in het volgende (alstublieft) uw antwoorden in.
+FillAnswers: Vul in het volgende uw antwoorden in.
 Point: punt
 Points: punten
 ExamResults: Tentamenresultaten
