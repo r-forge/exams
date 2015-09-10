@@ -110,7 +110,7 @@ xexams("tstat.Rnw")[[1]][[1]]
 
 ## the corresponding Markdown version has:
 set.seed(1090)
-xexams("tstat_md.Rmd")[[1]][[1]]
+xexams("tstat.Rmd")[[1]][[1]]
 }
 
 \keyword{utilities}
