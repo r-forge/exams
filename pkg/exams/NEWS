@@ -15,9 +15,10 @@ Changes in Version 2.1-0
     printed, scanned, and automatically evaluated. Accompanying functions
     nops_scan() (using the png package) and nops_eval() are provided as well.
     The "nops" exams can be internationalized. So far there is language support
-    for English (en), Dutch (nl, contributed by Niels Smits), German (de),
-    Italian (it, contributed by Domenico Zambella), Romanian (ro, contributed
-    by Cristian Gatu), Spanish (es, contributed by Maria Kogelnik).
+    for English (en), Dutch (nl, contributed by Niels Smits), French (fr,
+    contributed by Arthur Allignol), German (de), Italian (it, contributed by
+    Domenico Zambella), Romanian (ro, contributed by Cristian Gatu),
+    Spanish (es, contributed by Maria Kogelnik).
 
   o Added new interface exams2arsnova() for exporting exams/quizzes to the
     interactive audience response system ARSnova (https://arsnova.eu/). This
