@@ -10,14 +10,14 @@ DocumentType: Type
 DocumentID: Num{\'e}ro d'examen
 Scrambling: Scrambling
 Replacement: Remplacement
-MarkCarefully: Merci de cocher soigneusement les cases 
+MarkCarefully: Merci de cocher soigneusement
 NotMarked: Non coch{\'e}
 Or: ou
-MarkExampleA: 88
-MarkExampleB: 95
-MarkExampleC: 114
-MarkExampleD: 120
-MarkExampleE: 125
+MarkExampleA: 73
+MarkExampleB: 84
+MarkExampleC: 104
+MarkExampleD: 110
+MarkExampleE: 116
 Warning: Cet examen sera corrig{\'e} par un syst{\`e}me automatis{\'e}. Ne pas plier, corner ni tacher. Merci d'utiliser un \textbf{stylo {\`a} bille bleu ou noir}. \\ \textbf{Seul les marques lisibles et bien position{\'e}es seront evalu{\'e}es!}
 Answers: R{\'e}ponses
 FillAnswers: Dans ce qui suit, merci de donner vos r{\'e}ponses
