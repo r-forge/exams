@@ -9,7 +9,7 @@ NoChanges: Questa sezione \textbf{non} pu\`o essere modificata!\\
 DocumentType: Tipo
 DocumentID: Esame numero
 Scrambling: {\footnotesize Rimescolamento}
-Replacement: Rimpiazzamento
+Replacement: {\footnotesize Rimpiazzamento}
 MarkCarefully: Crocettare con cura
 NotMarked: Non segnare
 Or: o

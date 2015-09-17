@@ -9,7 +9,7 @@ NoChanges: Ce champ \textbf{ne} doit \textbf{pas} {\^e}tre modifi{\'e}.\\
 DocumentType: Type
 DocumentID: Num{\'e}ro d'examen
 Scrambling: Scrambling
-Replacement: Remplacement
+Replacement: {\footnotesize Remplacement}
 MarkCarefully: Merci de cocher soigneusement
 NotMarked: Non coch{\'e}
 Or: ou
