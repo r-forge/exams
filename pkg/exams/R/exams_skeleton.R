@@ -1,13 +1,14 @@
 exams_skeleton <- exams.skeleton <- function(dir = ".",
   type = c("num", "schoice", "mchoice", "cloze", "string"),
   writer = c("exams2html", "exams2pdf", "exams2moodle", "exams2qti12"),
-  absolute = FALSE, encoding = "")
+  markup = "latex", absolute = FALSE, encoding = "")
 {
   ## match available types/writers
   type <- as.vector(sapply(type, match.arg,
     c("num", "schoice", "mchoice", "cloze", "string")))
   writer <- as.vector(sapply(writer, match.arg,
     c("exams2html", "exams2pdf", "exams2moodle", "exams2qti12")))
+  markup <- match.arg(markup, c("latex", "markdown"))
 
   ## create output directory (if necessary)
   create_dir <- function(path) {
@@ -23,32 +24,39 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   
   ## select exercises for demo script and all available exercises
   exrc <- c(
-    "num"     = "tstat.Rnw",
-    "schoice" = "tstat2.Rnw",
-    "mchoice" = "boxplots.Rnw",
-    "cloze"   = "boxhist.Rnw",
-    "string"  = "function.Rnw"
+    "num"     = "tstat",
+    "schoice" = "tstat2",
+    "mchoice" = "boxplots",
+    "cloze"   = "boxhist",
+    "string"  = "function"
   )
   exrc <- exrc[type]
-  axrc <- list.files(path = file.path(pdir, "exercises"), pattern = "Rnw$")
+  exrc <- paste0(exrc, if(markup == "latex") ".Rnw" else ".Rmd")
+  axrc <- list.files(path = file.path(pdir, "exercises"), pattern = if(markup == "latex") "Rnw$" else "Rmd$")
   axrc <- axrc[axrc != "confint.Rnw"]
-  file.copy(file.path(pdir, "exercises", axrc), edir)
+  file.copy(file.path(pdir, "exercises", axrc), file.path(edir, axrc))
 
   ## encoding
   enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
   if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
   if(enc == "iso885915") enc <- "latin9"
   charset <- encoding
+
+  if((markup == "markdown" || "exams2arsnova" %in% writer) && !(enc %in% c("", "utf8"))) {
+    warning("pandoc-based conversion needs UTF-8 encoding")
+    encoding <- "UTF-8"
+    enc <- "utf8"
+  }
   if(enc == "utf8") {
-    exrc <- c(exrc, "currency8.Rnw")
+    if(markup == "latex") exrc <- c(exrc, "currency8.Rnw")
     charset <- "UTF-8"
   }
   if(enc == "latin1") {
-    exrc <- c(exrc, "currency1.Rnw")
+    if(markup == "latex") exrc <- c(exrc, "currency1.Rnw")
     charset <- "ISO-8859-1"
   }
   if(enc == "latin9") {
-    exrc <- c(exrc, "currency9.Rnw")
+    if(markup == "latex") exrc <- c(exrc, "currency9.Rnw")
     charset <- "ISO-8859-15"
   }
   
@@ -151,7 +159,7 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   )
   
   if("exams2qti12" %in% writer) script <- c(script,
-    '## generate QTI 1.2 exam for OLAT/OpenOLAT with three replications per question',
+    '## generate QTI 1.2 exam (e.g., for OLAT/OpenOLAT) with three replications per question',
     '## (showing correct solutions after failed attempts and passing only if solving',
     '## all items)',
     'exams2qti12(myexam, n = 3, name = "qti12-demo",',
@@ -163,6 +171,8 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
     '',
     ''
   )
+  
+  ## FIXME: exams2qti21, exams2arsnova, exams2nops
   
   writeLines(script, file.path(dir, "demo.R"))
   invisible(script)
