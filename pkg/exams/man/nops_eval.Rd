@@ -51,7 +51,7 @@
   \item{language}{character. Path to a DCF file with a language specification.
     Currently, the package ships: English (\code{"en"}), Dutch (\code{"nl"}),
     French (\code{"fr"}), German (\code{"de"}), Italian (\code{"it"}),
-    Romanian (\code{"ro"}), Spanish (\code{"es"}).}
+    Romanian (\code{"ro"}), Portuguese (\code{"pt"}), Spanish (\code{"es"}).}
   \item{interactive}{logical. Should possible errors in the Daten.txt file
     by corrected interactively? Requires the \pkg{png} package for full
     interactivity.}

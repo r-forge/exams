@@ -7,13 +7,13 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   type <- as.vector(sapply(type, match.arg,
     c("num", "schoice", "mchoice", "cloze", "string")))
   writer <- as.vector(sapply(writer, match.arg,
-    c("exams2html", "exams2pdf", "exams2moodle", "exams2qti12")))
+    c("exams2html", "exams2pdf", "exams2moodle", "exams2qti12", "exams2qti21", "exams2arsnova", "exams2nops")))
   markup <- match.arg(markup, c("latex", "markdown"))
 
   ## create output directory (if necessary)
   create_dir <- function(path) {
     isdir <- file.info(path)$isdir
-    if(identical(isdir, FALSE)) stop(sprintf("File (rather than directory) %s exists.", path))
+    if(identical(isdir, FALSE)) stop(sprintf("file (rather than directory) %s exists", path))
     if(is.na(isdir)) dir.create(path)
   }
   create_dir(dir)

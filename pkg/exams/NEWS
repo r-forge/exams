@@ -17,8 +17,9 @@ Changes in Version 2.1-0
     The "nops" exams can be internationalized. So far there is language support
     for English (en), Dutch (nl, contributed by Niels Smits), French (fr,
     contributed by Arthur Allignol), German (de), Italian (it, contributed by
-    Domenico Zambella), Romanian (ro, contributed by Cristian Gatu),
-    Spanish (es, contributed by Maria Kogelnik).
+    Domenico Zambella), Portuguese (pt, contributed by Fabian Petutschnig),
+    Romanian (ro, contributed by Cristian Gatu), Spanish (es, contributed by
+    Maria Kogelnik).
 
   o Added new interface exams2arsnova() for exporting exams/quizzes to the
     interactive audience response system ARSnova (https://arsnova.eu/). This
