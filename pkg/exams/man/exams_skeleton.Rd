@@ -15,7 +15,7 @@
 exams_skeleton(dir = ".",
   type = c("num", "schoice", "mchoice", "cloze", "string"),
   writer = c("exams2html", "exams2pdf", "exams2moodle", "exams2qti12"),
-  absolute = FALSE, encoding = "")
+  markup = "latex", absolute = FALSE, encoding = "")
 }
 
 \arguments{
@@ -27,6 +27,9 @@ exams_skeleton(dir = ".",
   \item{writer}{character vector indicating the \code{exams2xyz} writer functions
     that should be included in the \file{demo.R} script. By default an example
     for each type of writer is included.}
+  \item{markup}{character vector indicating whether the example exercises
+    use \code{"latex"} markup (.Rnw files) or \code{"markdown"} markup
+    (.Rmd files).}
   \item{absolute}{logical. Should the paths in the \file{demo.R} script be
     absolute? The default is to use relative paths.}
   \item{encoding}{character specifying the encoding to be used in the

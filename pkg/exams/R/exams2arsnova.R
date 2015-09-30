@@ -3,7 +3,7 @@ exams2arsnova <- function(file, n = 1L, dir = ".",
   quiet = TRUE, resolution = 100, width = 4, height = 4, encoding = "",
   url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
   active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE, abstention = TRUE,
-  variant = "lecture", ssl.verifypeer = TRUE, ...)
+  variant = "lecture", ssl.verifypeer = TRUE, fix_choice = FALSE, ...)
 {
   ## names (session, questions)
   if(is.null(sname)) sname <- name
@@ -24,7 +24,7 @@ exams2arsnova <- function(file, n = 1L, dir = ".",
     name = name, sname = sname, qname = qname,
     active = active, votingdisabled = votingdisabled, showstatistic = showstatistic,
     showanswer = showanswer, abstention = abstention, variant = variant,
-    ssl.verifypeer = ssl.verifypeer)
+    ssl.verifypeer = ssl.verifypeer, fix_choice = fix_choice)
 
   ## generate xexams
   rval <- xexams(file, n = n, dir = dir,
@@ -42,7 +42,7 @@ exams2arsnova <- function(file, n = 1L, dir = ".",
 make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
   name = "R/exams", sname = NULL, qname = NULL, active = TRUE, votingdisabled = FALSE, showstatistic = FALSE,
   showanswer = FALSE, abstention = TRUE, variant = "lecture",
-  ssl.verifypeer = TRUE)
+  ssl.verifypeer = TRUE, fix_choice = FALSE)
 {
   ## check whether JSON data can actually be POSTed (by question)
   ## or should be exported to a file (full session)
@@ -87,6 +87,17 @@ make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey 
     )
   )
   
+  fix_choice <- if(fix_choice) {
+    function(x) {
+      x <- gsub("\\(", "", x, fixed = TRUE)
+      x <- gsub("\\)", "", x, fixed = TRUE)
+      x <- gsub("\\%", "%", x, fixed = TRUE)
+      x
+    }
+  } else {
+    function(x) x
+  }
+  
   ## set up actual write function
   function(exm, dir, info)
   {
@@ -117,7 +128,7 @@ make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey 
       ## questionType and possibleAnswers
       if(exm[[j]]$metainfo$type %in% c("schoice", "mchoice")) {
         json$possibleAnswers <- lapply(seq_along(exm[[j]]$questionlist),
-          function(i) list(text = as.vector(exm[[j]]$questionlist)[i], correct = exm[[j]]$metainfo$solution[i]))
+          function(i) list(text = fix_choice(as.vector(exm[[j]]$questionlist)[i]), correct = exm[[j]]$metainfo$solution[i]))
       }
       if(exm[[j]]$metainfo$type == "mchoice") {
         json$questionType <- "mc"
