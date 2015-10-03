@@ -20,7 +20,7 @@ MarkExampleD: 106
 MarkExampleE: 114
 Warning: Este documento {\'e} lido {\'a} m{\'a}quina. Por favor n\~{a}o dobrar ou sujar. Utilize uma \textbf{caneta negra ou azul}. \\ \textbf{Somente marca\c{c}\~{o}es claramente reconhe\c{c}{\'i}veis e em posi\c{c}\~{a}o exata ser\~{a}o avaliados!}
 Answers: Solu\c{c}\~{o}es
-FillAnswers: Por favor marcar suas solu\c{c}\~{o}es no campo seguinte.
+FillAnswers: Por favor anotar suas solu\c{c}\~{o}es no campo seguinte.
 Point: ponto
 Points: pontos
 ExamResults: Resultado do exame
