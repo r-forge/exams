@@ -39,10 +39,11 @@ toLatex.matrix <- function(object, skip = FALSE, fix = getOption("olat_fix"), ..
   ## workaround for OLAT's mis-layouting of matrices
   fix <- if(is.null(fix)) FALSE else !identical(fix, FALSE)
   collapse <- if(fix) " & \\\\phantom{aa} & " else " & "
-  nc <- if(fix) ncol(object) * 2 - 1 else ncol(object)
+  nc <- if(fix) ncol(object) * 2L - 1L else ncol(object)
 
   ## collapse matrix to LaTeX code lines
-  tmp <- apply(object, 1, paste, collapse = collapse)
+  tm <- fmt(object, 6L)
+  tmp <- apply(tmp, 1L, paste, collapse = collapse)
   tmp <- paste(tmp, collapse = if(skip) " \\\\smallskip \\\\smallskip \\\\\\\\  " else " \\\\\\\\ ")
   tmp <- paste("\\\\left( \\\\begin{array}{",
     paste(rep("r", nc), collapse = ""), "} ",
