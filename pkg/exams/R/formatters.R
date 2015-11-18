@@ -42,7 +42,7 @@ toLatex.matrix <- function(object, skip = FALSE, fix = getOption("olat_fix"), ..
   nc <- if(fix) ncol(object) * 2L - 1L else ncol(object)
 
   ## collapse matrix to LaTeX code lines
-  tm <- fmt(object, 6L)
+  tmp <- fmt(object, 6L)
   tmp <- apply(tmp, 1L, paste, collapse = collapse)
   tmp <- paste(tmp, collapse = if(skip) " \\\\smallskip \\\\smallskip \\\\\\\\  " else " \\\\\\\\ ")
   tmp <- paste("\\\\left( \\\\begin{array}{",
