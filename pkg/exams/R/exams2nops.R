@@ -2,7 +2,7 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   language = "en", title = "Exam", course = "",
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-  usepackage = NULL, encoding = "", startid = 1L, points = NULL, showpoints = FALSE, ...)
+  usepackage = NULL, header = NULL, encoding = "", startid = 1L, points = NULL, showpoints = FALSE, ...)
 {
   ## pages could include formulary and distribution tables
   if(!is.null(pages)) pages <- sapply(pages, file_path_as_absolute)
@@ -35,7 +35,7 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
     "MarkExampleA", "MarkExampleB", "MarkExampleC", "MarkExampleD", "MarkExampleE",
     "Warning", "Answers", "FillAnswers", "Point", "Points")]
   ## header: collect everything
-  header <- c(list(Date = date, ID = d2id), usepackage, loc, lang)
+  header <- c(list(Date = date, ID = d2id), usepackage, loc, lang, header)
 
   ## determine number of alternative choice fors each exercise
   ufile <- unique(unlist(file))
@@ -78,7 +78,9 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
 
   ## if points should be shown generate a custom transformer
   transform <- if(showpoints) {
+    to_latex <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE)
     function(x) {
+      x <- to_latex(x)
       x$question <- c(
         sprintf("\\emph{(%s %s)}", x$metainfo$points, ifelse(x$metainfo$points != 1, "\\myPoints", "\\myPoint")),
 	x$question

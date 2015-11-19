@@ -14,7 +14,7 @@
     language = "en", title = "Exam", course = "",
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-    usepackage = NULL, encoding = "", startid = 1L,
+    usepackage = NULL, header = NULL, encoding = "", startid = 1L,
     points = NULL, showpoints = FALSE, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
@@ -50,6 +50,8 @@
     at the end of the exam (e.g., formulary or distribution tables).}
   \item{usepackage}{character. Names of additional LaTeX packages to be
     included.}
+  \item{header}{list. A list of further options to be passed to
+    the LaTeX files.}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{startid}{integer. Starting ID for the exam numbers (defaults to 1).}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
