@@ -20,7 +20,7 @@ myanova <- anova(fm0, fm1)
 myanova_print <- matrix(nrow = 2, ncol = 6)
 dimnames(myanova_print) <- dimnames(myanova)
 myanova_print[, 1] <- round(myanova[, 1])
-myanova_print[, 3] <- format(round(myanova[, 3]))
+myanova_print[, 3] <- fmt(myanova[, 3], 0)
 rss <- round(myanova[,2], digits = max(0, min(3, 5-max(nchar(round(myanova[, 2], digits = 0))))))
 myanova_print[, 2] <- format(rss, nsmall = max(0, min(3, 5-max(nchar(round(myanova[, 2], digits = 0))))))
 myanova_print[2, 4] <- format(-diff(rss), nsmall = max(0, min(3, 5-max(nchar(round(myanova[, 2], digits = 0))))))
@@ -33,12 +33,12 @@ f2 <- sample(10:250, 1)/10
 if(runif(1) > 0.5) {
   questions[1] <- paste("The test statistic is smaller than $", f2, "$.", sep = "")
   solutions[1] <- myanova[2,5] < f2
-  explanations[1] <- paste("The test statistic is $F = ", format(round(myanova[2,5], digits = 3), nsmall = 3),
+  explanations[1] <- paste("The test statistic is $F = ", fmt(myanova[2,5], 3),
     "$ and hence ", ifelse(solutions[1], "", "\\textit{not}"), " smaller than $", f2, "$.", sep = "")
 } else {
   questions[1] <- paste("The test statistic is larger than $", f2, "$.", sep = "")
   solutions[1] <- myanova[2,5] > f2
-  explanations[1] <- paste("The test statistic is $F = ", format(round(myanova[2,5], digits = 3), nsmall = 3), 
+  explanations[1] <- paste("The test statistic is $F = ", fmt(myanova[2,5], 3), 
   "$ and hence ", ifelse(solutions[1], "", "\\textit{not}"), " larger than $", f2, "$.", sep = "")
 }
 
@@ -50,7 +50,7 @@ explanations[2] <- paste("An ANOVA always tests the null hypothesis,",
 r2a <- sample(10:60, 1)/100
 questions[3] <- paste("The fraction of explained variance is larger than $", 100 * r2a, "$\\%.", sep = "")
 solutions[3] <- r2 > r2a
-explanations[3] <- paste("The fraction of explained variance is $", format(round(r2, digits = 3), nsmall = 3), 
+explanations[3] <- paste("The fraction of explained variance is $", fmt(r2, 3), 
   "$ and hence ", ifelse(solutions[3], "", "\\textit{not}"), " larger than ", r2a, ".", sep = "")
 
 questions[4] <- paste("It can be shown that the evaluation of the respondents depends on their occupation.",
@@ -64,7 +64,7 @@ explanations[4] <- paste("The $p$~value is $", format.pval(myanova[2,6], digits 
 r2b <- sample(10:60, 1)/100
 questions[5] <- paste("The fraction of explained variance is smaller than $", 100 * r2b, "$\\%.", sep = "")
 solutions[5] <- r2 < r2b
-explanations[5] <- paste("The fraction of explained variance is $", format(round(r2, digits = 3), nsmall = 3), 
+explanations[5] <- paste("The fraction of explained variance is $", fmt(r2, 3), 
   "$ and hence ", ifelse(solutions[5], "", "\\textit{not}"), " smaller than ", r2b, ".", sep = "")
 
 ## permute order of solutions/questions
@@ -118,9 +118,7 @@ fraction of explained variance is given by $1 -
 The statements above can now be evaluated as right or wrong.
 
 <<echo=FALSE, results=hide, results=tex>>=
-answerlist(
-  paste("\\textbf{", ifelse(solutions, "True", "False"), "}", sep = ""),
-  explanations)
+answerlist(ifelse(solutions, "True", "False"), explanations)
 @
 
 \end{solution}
@@ -128,5 +126,5 @@ answerlist(
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exname{Multiple choice}
+%% \exname{Analysis of variance}
 

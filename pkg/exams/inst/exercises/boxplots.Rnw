@@ -140,7 +140,7 @@ answerlist(questions)
 \begin{solution}
 <<echo=FALSE, results=hide, results=tex>>=
 answerlist(
-  paste("\\textbf{", ifelse(solutions, "True", "False"), "}", sep = ""),
+  ifelse(solutions, "True", "False"),
   explanations)
 @
 
@@ -149,4 +149,4 @@ answerlist(
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exname{Multiple choice}
+%% \exname{Parallel boxplots}

@@ -1,4 +1,4 @@
-<<echo=FALSE, results=hide>>=
+```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
 r <- sample(c(-0.97, 0, 0.5, 0.97), 1)
 if(runif(1) < 1/3) {
@@ -53,25 +53,25 @@ explanations[2] <- if(abs(r) >= 0.9) {
 if (runif(1) < 0.5) {
   questions[3] <- "The standard deviation of $X$ is at least $6$."
   solutions[3] <- sx >= 6
-  explanations[3] <- paste("The standard deviation of $X$ is about equal to $", sx, "$ and is therefore",
-                           ifelse(sx < 6, "smaller", "larger"), "than $6$.")
+  explanations[3] <- paste0("The standard deviation of $X$ is about equal to $", sx, "$ and is therefore ",
+                           ifelse(sx < 6, "smaller", "larger"), " than $6$.")
 } else {
   questions[3] <- "The standard deviation of $Y$ is at least $6$."
   solutions[3] <- sy >= 6
-  explanations[3] <- paste("The standard deviation of $Y$ is about equal to $", sy, "$ and is therefore",
-                           ifelse(sy < 6, "smaller", "larger"), "than $6$.")
+  explanations[3] <- paste0("The standard deviation of $Y$ is about equal to $", sy, "$ and is therefore ",
+                           ifelse(sy < 6, "smaller", "larger"), " than $6$.")
 }
 
 if (runif(1) < 0.5) {
   questions[4] <- "The mean of $X$ is at most $5$."
   solutions[4] <- mx <= 5
-  explanations[4] <- paste("The mean of $X$ is about equal to $", mx, 
-                           "$ and hence is", ifelse(mx < 5, "smaller", "larger"), "than $5$.")
+  explanations[4] <- paste0("The mean of $X$ is about equal to $", mx, 
+                           "$ and hence is ", ifelse(mx < 5, "smaller", "larger"), " than $5$.")
 } else {
   questions[4] <- "The mean of $Y$ is at least $30$."
   solutions[4] <- my >= 30
-  explanations[4] <- paste("The mean of $Y$ is about equal to $", my, 
-                           "$ and hence is", ifelse(my < 30, "smaller", "larger"), "than $30$.")
+  explanations[4] <- paste0("The mean of $Y$ is about equal to $", my, 
+                           "$ and hence is ", ifelse(my < 30, "smaller", "larger"), " than $30$.")
 }
 
 xh <- round(runif(1, -1, 1)*sx + mx, 1)
@@ -79,10 +79,10 @@ yhr <- round(a + b*xh, 1)
 alpha <- if (abs(r) > 0 & abs(mx - xh) > 0) sign(mx - xh) * sign(r) else 1
 yhf <- round(yhr + 2 * sy * alpha, 1)
 yh <- sample(c(yhr, yhf), 1)
-questions[5] <- paste("For $X = ", as.character(xh), "$, $Y$ can be expected to be about ", 
-                      as.character(yh), ".", collapse="")
+questions[5] <- paste0("For $X = ", as.character(xh), "$, $Y$ can be expected to be about $", 
+                      as.character(yh), "$.", collapse="")
 solutions[5] <- abs(yh - yhr) < 0.01 * sy
-explanations[5] <- paste("The regression line at $X=", xh, 
+explanations[5] <- paste0("The regression line at $X=", xh, 
                          "$ implies a value of about $Y = ", yhr, "$.", sep="")         
            
 ## permute order of solutions/questions
@@ -90,32 +90,32 @@ o <- sample(1:5)
 questions <- questions[o]
 solutions <- solutions[o]
 explanations <- explanations[o]  
-@
+```
 
-\begin{question}
-The following figure shows a scatterplot. Which of the
-following statements are correct?
+Question
+========
 
-\setkeys{Gin}{width=0.7\textwidth}
-<<fig=TRUE, height = 5, width = 6, echo=FALSE, eps=FALSE, results=hide>>=
+The following figure shows a scatterplot. Which of the following statements are correct?
+\
+```{r scatterplot, echo = FALSE, results = "hide", fig.height = 5, fig.width = 6, fig.path = "", fig.cap = ""}
 plot(x, y)
-@
+```
 
-<<echo=FALSE, results=hide, results=tex>>=
-answerlist(questions)
-@
+```{r questionlist, echo = FALSE, results = "asis"}
+answerlist(questions, markup = "markdown")
+```
 
-\end{question}
 
-\begin{solution}
-<<echo=FALSE, results=hide, results=tex>>=
-answerlist(ifelse(solutions, "True", "False"), explanations)
-@
+Solution
+========
 
-\end{solution}
+```{r solutionlist, echo = FALSE, results = "asis"}
+answerlist(ifelse(solutions, "True", "False"), explanations, markup = "markdown")
+```
 
-%% META-INFORMATION
-%% \extype{mchoice}
-%% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exname{Scatterplot}
 
+Meta-information
+================
+extype: mchoice
+exsolution: `r mchoice2string(solutions)`
+exname: Scatterplot

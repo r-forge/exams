@@ -140,11 +140,11 @@ Solution
 ========
 
 ```{r solutionlist, echo = FALSE, results = "asis"}
-answerlist(mchoice2text(solutions, markup = "markdown"), explanations, markup = "markdown")
+answerlist(ifelse(solutions, "True", "False"), explanations, markup = "markdown")
 ```
 
 Meta-information
 ================
 extype: mchoice
 exsolution: `r mchoice2string(solutions)`
-exname: Multiple choice
+exname: Parallel boxplots

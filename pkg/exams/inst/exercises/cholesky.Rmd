@@ -1,4 +1,4 @@
-<<echo=FALSE, results=hide>>=
+```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
 ## number of rows/columns
 n <- sample(3:4, 1)
@@ -16,39 +16,46 @@ mc <- matrix_to_mchoice(
   y = sample(-10:10, 5, replace = TRUE), ## random values for comparison
   lower = TRUE,                          ## only lower triangle/diagonal
   name = "\\ell")                        ## name for matrix elements
-@
+```
 
 
-\begin{question}
+Question
+========
+
 For the matrix
-\begin{eqnarray*}
-  A &= \Sexpr{toLatex(A)}.
-\end{eqnarray*}
-compute the matrix $L = (\ell_{ij})_{1 \leq i,j \leq \Sexpr{n}}$ from the
-Cholesky decomposition $ A = L L^\top$.
+$$
+\begin{aligned}
+  A &= `r toLatex(A, escape = FALSE)`.
+\end{aligned}
+$$
+compute the matrix $L = (\ell_{ij})_{1 \leq i,j \leq `r n`}$ from the
+Cholesky decomposition $A = L L^\top$.
 
 Which of the following statements are true?
-<<echo=FALSE, results=hide, results=tex>>=
+
+```{r questionlist, echo = FALSE, results = "asis"}
 answerlist(mc$questions)
-@
+```
 
-\end{question}
+Solution
+========
 
-\begin{solution}
 The decomposition yields
-\begin{eqnarray*}
-  L &= \Sexpr{toLatex(L)}
-\end{eqnarray*}
+$$
+\begin{aligned}
+  L &= `r toLatex(L, escape = FALSE)`
+\end{aligned}
+$$
 and hence:
-<<echo=FALSE, results=hide, results=tex>>=
+
+```{r solutionlist, echo = FALSE, results = "asis"}
 answerlist(
   ifelse(mc$solutions, "True", "False"),
-  mc$explanations)
-@
+  mc$explanations, markup = "markdown")
+```
 
-\end{solution}
-
-%% META-INFORMATION
-%% \extype{mchoice}
-%% \exsolution{\Sexpr{mchoice2string(mc$solutions)}}
-%% \exname{Cholesky decomposition}
+Meta-information
+================
+extype: mchoice
+exsolution: `r mchoice2string(mc$solutions)`
+exname: Cholesky decomposition

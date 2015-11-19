@@ -1,4 +1,4 @@
-<<echo=FALSE, results=hide>>=
+```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
 create_table <- function() {
   city <- rmultinom(1, 100, prob=c(0.2, 0.4, 0.3, 0.1))
@@ -48,9 +48,9 @@ if (runif(1) > 0.5) {
 ## 3. Interpretation row percentage
 question <- sample(1:3, 1)
 if (question == 1) {
-  questions[3] <- if (runif(1) > 0.5) paste("The value in row~1 and column~1 in the percentage table indicates:", prop_public[1,1], 
+  questions[3] <- if (runif(1) > 0.5) paste("The value in row 1 and column 1 in the percentage table indicates:", prop_public[1,1], 
   "percent of those, who evaluated the public transportation as very good,",
-  "live in the city centre.") else paste("The value in row 4 and column~2 in the percentage table indicates:", prop_public[4,2], 
+  "live in the city centre.") else paste("The value in row 4 and column 2 in the percentage table indicates:", prop_public[4,2], 
   "percent of those, who evaluated the public transportation as very bad,",
   "live in the suburbs.")
   solutions[3] <- variant == 1
@@ -58,7 +58,7 @@ if (question == 1) {
   paste("This is an interpretation of row percentages, but the table gives ", 
         percentage[variant], "percentages.")
 } else if (question == 2) {
-  questions[3] <- paste("The value in row~1 and column~2 in the percentage table indicates:", prop_public[1,2], 
+  questions[3] <- paste("The value in row 1 and column 2 in the percentage table indicates:", prop_public[1,2], 
                         "percent of those living in the suburbs evaluated the public transportation ",
                         "as very good.")
   solutions[3] <- variant == 2
@@ -66,7 +66,7 @@ if (question == 1) {
   paste("This is an interpretation of column percentages, but the table gives ",  
         percentage[variant], "percentages.")
 } else {
-  questions[3] <- paste("The value in row 4 and column~1 in the percentage table indicates:", prop_public[4,1], 
+  questions[3] <- paste("The value in row 4 and column 1 in the percentage table indicates:", prop_public[4,1], 
                          "percent of the respondents live in the city center and evaluated the ",
                         "public tranportation as very bad.")
   solutions[3] <- variant == 3
@@ -79,10 +79,10 @@ if (question == 1) {
 question <- sample(1:3, 1)
 if (question == 1) {
   if (runif(1) > 0.5) {
-    questions[4] <- paste("The value in row~2 and column~1 in the percentage table indicates:", prop_public[2,1], 
+    questions[4] <- paste("The value in row 2 and column 1 in the percentage table indicates:", prop_public[2,1], 
                           "percent of the respondents in the city centre evaluated the public transportation as good.")
   } else {
-    questions[4] <- paste("The value in row~3 and column~2 in the percentage table indicates:", prop_public[3,2], 
+    questions[4] <- paste("The value in row 3 and column 2 in the percentage table indicates:", prop_public[3,2], 
                           "percent of the respondents in the suburbs evaluated the public transportation ",
                           "as bad.")
   } 
@@ -92,7 +92,7 @@ if (question == 1) {
              "percentages.")
 
 } else if (question == 2) {
-  questions[4] <- paste("The value in row~2 and column~2 in the percentage table indicates:", prop_public[2,2], 
+  questions[4] <- paste("The value in row 2 and column 2 in the percentage table indicates:", prop_public[2,2], 
                         "percentage of those, who evaluated the public transportation as good",
                         "live in the suburbs.")
   solutions[4] <- variant == 1
@@ -100,7 +100,7 @@ if (question == 1) {
   else paste("This is an interpretation of row percentaes, but the table gives ", 
              percentage[variant], "percentages.")
 } else {
-  questions[4] <- paste("The value in row~3 and column~1 in the percentage table indicates:", prop_public[3,1], 
+  questions[4] <- paste("The value in row 3 and column 1 in the percentage table indicates:", prop_public[3,1], 
                         "percent of the respondents lived in the city centre and evaluated",
                         "the public transportation as bad.")
   solutions[4] <- variant == 3
@@ -137,52 +137,58 @@ o <- sample(1:5)
 questions <- questions[o]
 solutions <- solutions[o]
 explanations <- explanations[o]
-@
+```
 
-\begin{question}
-  In a small city the satisfaction with the local public
-  transportation is evaluated. One question of interest is whether
-  inhabitants of the city centre are more satisfied with public
-  transportation compared to those living in the suburbs.
+Question
+========
 
-  A survey with 250 respondents gave the following contingency table:
-<<echo=FALSE>>= 
+In a small city the satisfaction with the local public
+transportation is evaluated. One question of interest is whether
+inhabitants of the city centre are more satisfied with public
+transportation compared to those living in the suburbs.
+
+A survey with 250 respondents gave the following contingency table:
+
+```{r, echo = FALSE, comment = NA}
 public
-@
+```
 
 The following table of percentages was constructed:
-<<echo=FALSE>>= 
+
+```{r, echo = FALSE, comment = NA}
 print(format(prop_public, nsmall = 1, justify = "right", 
              width = max(nchar(colnames(prop_public)))), quote = FALSE)
-@
+```
 
 Which of the following statements are correct?
 
-<<echo=FALSE, results=hide, results=tex>>=
-answerlist(questions)
-@
+```{r questionlist, echo = FALSE, results = "asis"}
+answerlist(questions, markup = "markdown")
+```
 
-\end{question}
 
-\begin{solution}
-<<echo=FALSE>>=
+Solution
+========
+
+```{r, echo = FALSE}
 interpretation <- c("conditional proportions for location given satisfaction level.",
                     "conditional proportions for satisfaction level given location type.",
                     "the proportions for each location type and satisfaction level.")
-@ 
+```
 
-In the percentage table, the \Sexpr{rowsums[variant]} are about 100
+In the percentage table, the `r rowsums[variant]` are about 100
 (except for possible rounding errors). Hence, the table provides
-\Sexpr{percentage[variant]} percentages, i.e.,
-\Sexpr{interpretation[variant]}
+`r percentage[variant]` percentages, i.e.,
+`r interpretation[variant]`
 
-<<echo=FALSE, results=hide, results=tex>>=
-answerlist(ifelse(solutions, "True", "False"), explanations)
-@
+```{r solutionlist, echo = FALSE, results = "asis"}
+answerlist(
+  ifelse(solutions, "True", "False"),
+  explanations, markup = "markdown")
+```
 
-\end{solution}
-
-%% META-INFORMATION
-%% \extype{mchoice}
-%% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exname{Relative frequencies}
+Meta-information
+================
+extype: mchoice
+exsolution: `r mchoice2string(solutions)`
+exname: Relative frequencies

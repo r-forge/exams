@@ -33,11 +33,11 @@ $$
 \end{aligned}
 $$
 The absolute value of the t-test statistic is thus equal to
-`r format(abs(tstat), nsmall = 3)`.
+`r fmt(abs(tstat), 3)`.
 
 Meta-information
 ================
 extype: num
-exsolution: `r format(abs(tstat), nsmall = 3)`
+exsolution: `r fmt(abs(tstat), 3)`
 exname: t statistic
 extol: 0.01

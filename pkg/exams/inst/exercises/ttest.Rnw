@@ -70,9 +70,7 @@ answerlist(questions)
 
 \begin{solution}
 <<echo=FALSE, results=hide, results=tex>>=
-answerlist(
-  paste("\\textbf{", ifelse(solutions, "True", "False"), "}", sep = ""),
-  explanations)
+answerlist(ifelse(solutions, "True", "False"), explanations)
 @
 
 \end{solution}
@@ -80,5 +78,5 @@ answerlist(
 %% META-INFORMATION
 %% \extype{mchoice}
 %% \exsolution{\Sexpr{mchoice2string(solutions)}}
-%% \exname{Multiple choice}
+%% \exname{2-sample t-test}
 

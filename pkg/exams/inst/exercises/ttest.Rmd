@@ -65,28 +65,19 @@ print(tt)
 
 Which of the following statements are correct? (Significance level 5%)
 
-Questionlist
-------------
-* `r questions[1]`
-* `r questions[2]`
-* `r questions[3]`
-* `r questions[4]`
-* `r questions[5]`
+```{r questionlist, echo = FALSE, results = "asis"}
+answerlist(questions, markup = "markdown")
+```
 
 Solution
 ========
 
-Solutionlist
-------------
-* `r mchoice2text(solutions[1], markup = "markdown")`: `r explanations[1]`
-* `r mchoice2text(solutions[2], markup = "markdown")`: `r explanations[2]`
-* `r mchoice2text(solutions[3], markup = "markdown")`: `r explanations[3]`
-* `r mchoice2text(solutions[4], markup = "markdown")`: `r explanations[4]`
-* `r mchoice2text(solutions[5], markup = "markdown")`: `r explanations[5]`
-
+```{r solutionlist, echo = FALSE, results = "asis"}
+answerlist(ifelse(solutions, "True", "False"), explanations, markup = "markdown")
+```
 
 Meta-information
 ================
 extype: mchoice
 exsolution: `r mchoice2string(solutions)`
-exname: Multiple choice
+exname: 2-sample t-test
