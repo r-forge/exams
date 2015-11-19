@@ -34,7 +34,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
     ## add seperator as last line to each chunk
     object <- lapply(object, c, c("", sep, ""))
 
-    ## call ttx() on collapsed chunks
+    ## call pandoc_convert() on collapsed chunks
     infile <- tempfile()
     outfile <- tempfile()
     writeLines(fixup_sweave(unlist(object), from = from, to = to), infile)
@@ -46,6 +46,20 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
     if(from == "latex" && substr(to, 1, 8) == "markdown") {
       rval <- gsub("<span>", "", rval, fixed = TRUE)
       rval <- gsub("</span>", "", rval, fixed = TRUE)
+    }
+    ## fixup logical comparisons with \not in html
+    if(substr(to, 1, 4) == "html") {
+      tab <- rbind(
+        c("\\\\not",	     "\\\\not "),
+        c("\\\\not +=",      "&#8800;"),
+        c("\\\\not +&lt;",   "&#8814;"),
+        c("\\\\not +&gt;",   "&#8815;"),
+        c("\\\\not +\\\\le", "&#8816;"),
+        c("\\\\nleq",	     "&#8816;"),
+        c("\\\\not +\\\\ge", "&#8817;"),
+        c("\\\\ngeq",	     "&#8817;")
+      )
+      for(i in 1:nrow(tab)) rval <- gsub(tab[i,1L], tab[i,2L], rval)
     }
 
     ## split chunks again on sep
