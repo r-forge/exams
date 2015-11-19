@@ -34,21 +34,23 @@ answerlist <- function(..., sep = ". ", markup = c("latex", "markdown"))
   }
 }
 
-toLatex.matrix <- function(object, skip = FALSE, fix = getOption("olat_fix"), ...)
+toLatex.matrix <- function(object, skip = FALSE, fix = getOption("olat_fix"),
+  escape = TRUE, ...)
 {
   ## workaround for OLAT's mis-layouting of matrices
   fix <- if(is.null(fix)) FALSE else !identical(fix, FALSE)
-  collapse <- if(fix) " & \\\\phantom{aa} & " else " & "
+  collapse <- if(fix) " & #BACKSLASH#phantom{aa} & " else " & "
   nc <- if(fix) ncol(object) * 2L - 1L else ncol(object)
 
   ## collapse matrix to LaTeX code lines
   tmp <- fmt(object, 6L)
   tmp <- apply(tmp, 1L, paste, collapse = collapse)
-  tmp <- paste(tmp, collapse = if(skip) " \\\\smallskip \\\\smallskip \\\\\\\\  " else " \\\\\\\\ ")
-  tmp <- paste("\\\\left( \\\\begin{array}{",
+  tmp <- paste(tmp, collapse = if(skip) " #BACKSLASH#smallskip #BACKSLASH#smallskip #BACKSLASH##BACKSLASH#  " else " #BACKSLASH##BACKSLASH# ")
+  tmp <- paste("#BACKSLASH#left( #BACKSLASH#begin{array}{",
     paste(rep("r", nc), collapse = ""), "} ",
     tmp,
-    " \\\\end{array} \\\\right)", sep = "")
+    " #BACKSLASH#end{array} #BACKSLASH#right)", sep = "")
+  tmp <- gsub("#BACKSLASH#", if(escape) "\\\\" else "\\", tmp, fixed = TRUE)
   return(tmp)
 }
 

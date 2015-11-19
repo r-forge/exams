@@ -20,7 +20,8 @@ char_with_braces(x)
 
 num_to_tol(x, reltol = 0.0002, min = 0.01, digits = 2)
 
-\method{toLatex}{matrix}(object, skip = FALSE, fix = getOption("olat_fix"), \dots)
+\method{toLatex}{matrix}(object, skip = FALSE, fix = getOption("olat_fix"),
+  escape = TRUE, \dots)
 }
 
 \arguments{
@@ -35,6 +36,9 @@ num_to_tol(x, reltol = 0.0002, min = 0.01, digits = 2)
   \item{fix}{logical. Should an additional empty column be added between
     all columns? This is a workaround for OLAT that collapses spaces
     between columns in MathML.}
+  \item{escape}{logical. Should LaTeX commands be escaped (as appropriate
+    for \code{\link[utils]{Sweave}}) or not (as appropriate for
+    \code{\link[knitr]{knit}})?}
   \item{\dots}{currently not used.}
 }
 
