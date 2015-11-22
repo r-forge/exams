@@ -23,7 +23,11 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
   }
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(converter = converter, ..., base64 = base64, mode = mode)
+  htmltransform <- if(converter %in% c("tth", "ttm")) {
+    make_exercise_transform_html(converter = converter, ..., base64 = base64, mode = mode)
+  } else {
+    make_exercise_transform_html(converter = converter, ..., base64 = base64)
+  }
 
   ## generate the exam
   is.xexam <- FALSE
