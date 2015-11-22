@@ -6,6 +6,10 @@ Changes in Version 2.1-0
     knitr::knit() for .Rmd. If .Rmd exercises are used, the weaved exercises
     require conversion by pandoc (see below).
 
+  o The vignettes have not yet been updated to incorporate the R/Markdown
+    information or the new interfaces described below. For examples and some
+    introductory comments, exams_skeleton() can generate demo scripts.
+
   o Added new make_exercise_transform_pandoc() transfomer generator, interfacing
     rmarkdown::pandoc_convert(). This provides an additional option for generating
     HTML output and additionally enables Markdown output (e.g., for ARSnova, see

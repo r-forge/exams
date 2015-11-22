@@ -1,5 +1,7 @@
 R/read_images.R
 R/xmltools.R
+R/exams2blackboard.R
+man/exams2blackboard.Rd
 paper
 vignettes/screenshots/exams2qti12-tstat.png
 vignettes/screenshots/exams2moodle-tstat.png

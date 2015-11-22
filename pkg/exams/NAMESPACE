@@ -56,9 +56,9 @@ export(
   "exams2qti21",
   "make_itembody_qti21",
 
-  ## Blackboard driver (only partially QTI-based)
-  "exams2blackboard",
-  "make_itembody_blackboard",
+  ## ## Blackboard driver (only partially QTI-based)
+  ## "exams2blackboard",
+  ## "make_itembody_blackboard",
 
   ## WU exam server driver (LOPS)
   "exams2lops",

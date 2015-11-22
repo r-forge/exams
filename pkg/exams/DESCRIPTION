@@ -1,13 +1,12 @@
 Package: exams
 Version: 2.1-0
-Date: 2015-11-19
+Date: 2015-11-22
 Title: Automatic Generation of Exams in R
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
              person(given = "Bettina", family = "Gruen", role = "aut", email = "Bettina.Gruen@jku.at"),
 	     person(given = "Friedrich", family = "Leisch", role = "aut", email = "Friedrich.Leisch@R-project.org"),
 	     person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"),
-	     person(given = "Dominik", family = "Ernst", role = "ctb", email = "Dominik.Ernst@boku.ac.at"),
-	     person(given = "Niels", family = "Smits", role = "ctb", email = "N.Smits@vu.nl"))
+	     person(given = "Dominik", family = "Ernst", role = "ctb", email = "Dominik.Ernst@boku.ac.at"))
 Description: Automatic generation of exams based on exercises in Sweave (R/LaTeX) or R/Markdown format,
 	including multiple-choice questions and arithmetic problems. Exams can be produced in various formats,
 	including PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1, ARSnova, and TCExam.
@@ -15,6 +14,6 @@ Description: Automatic generation of exams based on exercises in Sweave (R/LaTeX
 	printed, scanned, and automatically evaluated.
 Depends: R (>= 2.15.0)
 Imports: stats, graphics, grDevices, tools, utils
-Suggests: base64enc, knitr, parallel, png, RCurl, RJSONIO, rmarkdown, tth, XML
+Suggests: base64enc, knitr, parallel, png, RCurl, RJSONIO, rmarkdown, tth
 License: GPL-2 | GPL-3
 URL: http://exams.R-Forge.R-project.org/
