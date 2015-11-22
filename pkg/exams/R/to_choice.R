@@ -64,7 +64,7 @@ num_to_schoice <- function(
   o <- sample(1:5)
   list(
     solutions = c(TRUE, rep(FALSE, 4))[o],
-    questions = paste("$", format(solution, nsmall = digits)[o], "$", sep = "")
+    questions = paste("$", format(solution, nsmall = digits, trim = TRUE)[o], "$", sep = "")
   )
 }
 
@@ -223,6 +223,6 @@ det_to_schoice <- function(
   o <- sample(1:5)
   list(
     solutions = c(TRUE, rep(FALSE, 4))[o],
-    questions = paste("$", format(solution, nsmall = digits)[o], "$", sep = "")
+    questions = paste("$", format(solution, nsmall = digits, trim = TRUE)[o], "$", sep = "")
   )
 }
