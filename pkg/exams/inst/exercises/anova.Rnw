@@ -75,12 +75,12 @@ explanations <- explanations[o]
 @
 
 \begin{question}
-  A survey with \Sexpr{sum(n)} persons was conducted to analyze the
-  design of an advertising campaign. Each respondent was asked to
-  evaluate the overall impression of the advertisement on an
-  eleven-point scale from 0 (bad) to 10 (good). The evaluations are
-  summarized separately with respect to type of occupation of the
-  respondents in the following figure.
+A survey with \Sexpr{sum(n)} persons was conducted to analyze the
+design of an advertising campaign. Each respondent was asked to
+evaluate the overall impression of the advertisement on an
+eleven-point scale from 0 (bad) to 10 (good). The evaluations are
+summarized separately with respect to type of occupation of the
+respondents in the following figure.
 
 \setkeys{Gin}{width=0.8\textwidth}
 <<fig=TRUE, height = 4, width = 7, echo=FALSE, eps=FALSE, results=hide>>=
@@ -88,7 +88,7 @@ par(mar = c(4, 4, 1, 1))
 plot(Evaluation ~ Occupation, data = dat)
 @
 
-To analyse the influence of occupation on the evaluation of the
+To analyze the influence of occupation on the evaluation of the
 advertisement an analysis of variance was performed:
 
 <<echo=FALSE, results=verbatim>>=

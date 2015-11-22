@@ -88,7 +88,7 @@ par(mar = c(4, 4, 1, 1))
 plot(Evaluation ~ Occupation, data = dat)
 ```
 
-To analyse the influence of occupation on the evaluation of the
+To analyze the influence of occupation on the evaluation of the
 advertisement an analysis of variance was performed:
 
 ```{r anova output, echo = FALSE, comment = NA}
