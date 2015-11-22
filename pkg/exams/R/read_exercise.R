@@ -10,11 +10,11 @@ read_exercise <- function(file)
   ## add linebreaks within \end{answerlist}\end{...}
   ## to work around Sweave dropping spaces between these
   if(markup == "latex") {
-    x <- gsub("\\end{answerlist}\\end", "\\end{answerlist}\007\007\007\007\007\\end", x, fixed = TRUE)
+    x <- gsub("\\end{answerlist}\\end", "\\end{answerlist}\\007\\007\\007\\007\\007\\end", x, fixed = TRUE)
     x <- as.list(x)
     x <- lapply(x, function(y) {
-      if(grepl("\007\007\007\007\007", y, fixed = TRUE)) {
-        strsplit(y, "\007\007\007\007\007")[[1L]]
+      if(grepl("\\007\\007\\007\\007\\007", y, fixed = TRUE)) {
+        strsplit(y, "\\007\\007\\007\\007\\007")[[1L]]
       } else {
         y
       }
