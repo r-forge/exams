@@ -1,5 +1,6 @@
 R/read_images.R
 R/xmltools.R
+R/exams_shiny.R
 R/exams2blackboard.R
 man/exams2blackboard.Rd
 paper
