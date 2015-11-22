@@ -5,16 +5,17 @@
 \title{Generate Skeleton for Exams Directory/Script}
 
 \description{
-  Generate a directory structure which contains a \file{demo.R}
-  script along with directories containing all available
-  demonstation exercise \file{.Rnw} files and necessary
+  Generate a directory structure which contains \file{demo-*.R}
+  scripts along with directories containing all available
+  demonstation exercise \file{.Rnw} or \file{.Rmd} files and necessary
   template files (LaTeX, HTML, or XML).
 }
 
 \usage{
 exams_skeleton(dir = ".",
-  type = c("num", "schoice", "mchoice", "cloze", "string"),
-  writer = c("exams2html", "exams2pdf", "exams2moodle", "exams2qti12"),
+  type = c("num", "schoice", "mchoice", "string", "cloze"),
+  writer = c("exams2html", "exams2pdf", "exams2moodle",
+    "exams2qti12", "exams2qti21", "exams2arsnova", "exams2nops"),
   markup = "latex", absolute = FALSE, encoding = "")
 }
 
@@ -38,9 +39,9 @@ exams_skeleton(dir = ".",
 
 \details{
   \code{exams_skeleton} (or equivalently \code{exams.skeleton}) creates a
-  directory with a \file{demo.R} script illustrating the use of the various
+  directory with several \file{demo-*.R} scripts illustrating the use of the various
   \code{exams2xyz} interfaces. Subdirectories with copies of all demonstration
-  exercise \code{.Rnw} files and templates for different output formats
+  exercise \code{.Rnw} or \code{.Rmd} files and templates for different output formats
   (LaTeX, HTML, or XML) are also created.
   
   This should provide a starting point for users wishing to start their own
@@ -55,15 +56,18 @@ exams_skeleton(dir = ".",
 }
 
 \value{
-  \code{exams_skeleton} returns a character vector with the \file{demo.R}
-  code invisibly.
+  \code{exams_skeleton} returns a list of character vectors with the demo scripts
+  invisibly.
 }
 
 \seealso{
   \code{\link[exams]{exams2html}},
   \code{\link[exams]{exams2pdf}},
   \code{\link[exams]{exams2moodle}},
-  \code{\link[exams]{exams2qti12}}
+  \code{\link[exams]{exams2qti12}},
+  \code{\link[exams]{exams2qti21}},
+  \code{\link[exams]{exams2arsnova}},
+  \code{\link[exams]{exams2nops}}
 }
 
 \examples{
@@ -77,8 +81,8 @@ exams_skeleton(dir = mydir, absolute = TRUE)
 dir(mydir)
 dir(mydir, recursive = TRUE)
 
-## now open demo.R in your favorite R code editor
-## and run the examples...
+## now open demo-all.R or any of the other demo-*.R scripts in your
+## favorite R code editor and run the examples...
 }
 
 \keyword{utilities}
