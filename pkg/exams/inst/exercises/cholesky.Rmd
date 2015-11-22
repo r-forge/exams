@@ -34,7 +34,7 @@ Cholesky decomposition $A = L L^\top$.
 Which of the following statements are true?
 
 ```{r questionlist, echo = FALSE, results = "asis"}
-answerlist(mc$questions)
+answerlist(mc$questions, markup = "markdown")
 ```
 
 Solution
