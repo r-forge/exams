@@ -79,9 +79,11 @@
   where only the latter is read automatically. The exam ID/type/scrambling
   are printed directly into the PDF and read automatically after scanning.
   Note that the font in the PDF must not be modified for the reading step
-  to work reliably. The questions can have up to five alternatives which
-  have to answered by the students. The crosses are read automatically
-  where both empty and completely filled boxes are regarded as not crossed.
+  to work reliably. (A sans-serif font is used and hence the \code{sfmath}
+  LaTeX package is also used - if it is installed.) The questions can have
+  up to five alternatives which have to answered by the students. The crosses
+  are read automatically where both empty and completely filled boxes are
+  regarded as not crossed.
   
   The examples below show how PDF exams can be generated along with an RDS
   file with (serialized) R data containing all meta-information about the exam.
