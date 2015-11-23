@@ -149,7 +149,10 @@ rval <- c("
 \\usepackage{graphicx,color}
 \\usepackage{amsmath,amssymb,latexsym}
 \\usepackage{verbatim,url,fancyvrb,ae}
-\\usepackage{sfmath,multicol,a4wide,pdfpages}
+\\usepackage{multicol,a4wide,pdfpages}
+\\IfFileExists{sfmath.sty}{
+  \\RequirePackage{sfmath}
+}{}
 
 \\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
 \\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
