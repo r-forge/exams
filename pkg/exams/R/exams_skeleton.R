@@ -43,9 +43,11 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
   if(enc == "iso885915") enc <- "latin9"
   charset <- encoding
 
-  if((markup == "markdown" || "exams2arsnova" %in% writer) && !(enc %in% c("", "utf8"))) {
-    warning("pandoc-based conversion needs UTF-8 encoding")
-    encoding <- "UTF-8"
+  if((markup == "markdown" || "exams2arsnova" %in% writer)) {
+    if(!(enc %in% c("", "utf8"))) {
+      warning("pandoc-based conversion needs UTF-8 encoding")
+      encoding <- "UTF-8"
+    }
     enc <- "utf8"
   }
   if(enc == "utf8") {
@@ -222,7 +224,7 @@ exams_skeleton <- exams.skeleton <- function(dir = ".",
       if(markup == "latex") "R/LaTeX (.Rnw)" else "R/Markdown (.Rmd)"),
     '## -> alternatively try a list of vectors of more exercises',
     sprintf('myexam <- c("%s")', paste(exrc, collapse = '", "')),
-    if(enc %in% c("utf8", "latin1", "latin9")) sprintf(
+    if("currency" %in% substr(exrc, 1, 8)) sprintf(
     '## note that the currency exercise is in %s encoding',
       paste(unique(c(encoding, charset)), collapse = "/")) else NULL,
     '',
