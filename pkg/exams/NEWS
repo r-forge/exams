@@ -1,3 +1,10 @@
+Changes in Version 2.2-0
+
+  o Added first development version of exams2blackboard(). This is still
+    experimental and likely to change in future versions. It essentially
+    behaves as exams2qti12() but with some additional processing for Blackboard.
+
+
 Changes in Version 2.1-0
 
   o Exercises can now either be in .Rnw format (R/LaTeX, as in previous versions)
@@ -30,10 +37,6 @@ Changes in Version 2.1-0
     can either create JSON output files (via RJSONIO::toJSON) that need to be
     manually imported into ARSnova - or the JSON string can directly be imported
     into an active ARSnova session (via RCurl).
-
-  o Added first development version of exams2blackboard(). This is still
-    experimental and likely to change in future versions. It essentially
-    behaves as exams2qti12() but with some additional processing for Blackboard.
 
   o Added "abstention" option in schoice/mchoice questions in exams2moodle().
     This can also be set directly through an \exabstention{} tag in the
