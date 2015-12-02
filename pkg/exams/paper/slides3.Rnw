@@ -1,0 +1,622 @@
+\documentclass[11pt,compress,t]{beamer}
+\usetheme{Z}
+
+%% new environments for exams
+\newenvironment{question}{\item \textbf{Problem}\newline}{}
+\renewenvironment{solution}{\textbf{Solution}\newline}{}
+
+%% for \usepackage{Sweave}
+\SweaveOpts{engine=R, strip.white=true, keep.source=TRUE, eps=FALSE}
+<<preliminaries, echo=FALSE, results=hide>>=
+options(prompt = "R> ", continue = "+  ", width = 55,
+  digits = 4, show.signif.stars = FALSE, useFancyQuotes = FALSE)
+
+library("exams")
+set.seed(1090)
+@
+
+\begin{document}
+
+\title{Flexible Generation of E-Learning Exams and Beyond}
+\author{Achim Zeileis}
+\URL{http://eeecon.uibk.ac.at/~zeileis/}
+\lecture{Flexible Generation of E-Learning Exams and Beyond}
+
+\subsection{Overview}
+
+\begin{frame}
+\frametitle{Overview}
+\begin{itemize}
+  \item Motivation and challenges
+  \item \proglang{R} package \pkg{exams}
+  \item Exercises
+  \item Exams
+  \begin{itemize}
+    \item Combination of exercises
+    \item PDF output
+    \item HTML output
+    \item \pkg{Moodle}, \pkg{OLAT}, \pkg{ARSnova}, \dots
+  \end{itemize}
+  \item Discussion
+\end{itemize}
+\end{frame}
+
+\subsection{Motivation and challenges}
+
+\begin{frame}
+\frametitle{Motivation and challenges}
+
+\textbf{Motivation:}
+\begin{itemize}
+  \item Introductory statistics and mathematics courses
+    for business and economics students at WU Wien and Universit\"at Innsbruck.
+  \item Courses are attended by more than 1,000 students per semester.
+  \item Several lecturers teach lectures and tutorials in parallel.
+  \item Need for integrated teaching materials:
+    Presentation slides, collections of exercises, exams, etc.
+  \item Different types assessments from the same pool of exercises:
+    Written exams, online tests, live quizzes, etc.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Motivation and challenges}
+
+\textbf{Challenges:} Based on the same pool of exercises\dots
+\begin{itemize}
+  \item \textit{Scalable exams:} Automatic generation of a large number
+    of different exams.
+  \item \textit{Flexible rendering:} Output for written exams or
+    online learning management systems, etc.
+  \item \textit{Associated self-study materials:} Collections of exercises
+    along with solutions.
+  \item \textit{Joint development:} Development and maintenance in a
+    multi-author and cross-platform setting.
+\end{itemize}
+
+\end{frame}
+
+\subsection{R package exams}
+
+\begin{frame}
+\frametitle{\proglang{R} package \pkg{exams}}
+
+\textbf{Tools chosen:}
+\begin{itemize}
+  \item \proglang{R} for random data generation and computations.
+  \item {\LaTeX} for mathematical notation.
+  \item {\LaTeX} or Markdown for text formatting
+  \item \texttt{Sweave} or \pkg{knitr}/\pkg{rmarkdown} for tying everything together.
+\end{itemize}
+
+\medskip
+
+\textbf{Exercises:}
+\begin{itemize}
+  \item Dynamic templates if R code is used for randomization.
+  \item Each exercise is a single file (either \code{.Rnw} or \code{.Rmd}).
+  \item Contains question and (optionally) the corresponding solution.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{\proglang{R} package \pkg{exams}}
+
+\textbf{Answer types:}
+\begin{itemize}
+  \item Single choice and multiple choice.
+  \item Numeric values.
+  \item Text strings (typically short).
+  \item Combinations of the above (cloze).
+\end{itemize}
+
+\medskip
+
+\textbf{Output:}
+\begin{itemize}
+  \item PDF -- either fully customizable or standardized with automatic scanning/evaluation.
+  \item HTML -- either fully customizable or embedded into any of the standard formats below.
+  \item \pkg{Moodle} XML.
+  \item QTI XML standard (version 1.2 or 2.1), e.g., for \pkg{OLAT}/\pkg{OpenOLAT}.
+  \item \pkg{ARSnova}, \pkg{TCExam}, \pkg{LOPS}, \dots (\pkg{Blackboard} under development).
+\end{itemize}
+
+\end{frame}
+
+\subsection{Exercises}
+
+\begin{frame}[fragile]
+\frametitle{Exercises}
+
+\textbf{Exercise templates:} \code{.Rnw} or \code{.Rmd} files composed of
+\begin{itemize}
+  \item \proglang{R} code chunks for random data generation.
+  \begin{itemize}
+    \item \code{.Rnw}: Within \verb|<<>>=| and \code{@}.
+    \item \code{.Rmd}: Within \verb|```{r}| and \verb|```|.
+  \end{itemize}
+  \item Question and solution descriptions contained in 
+    sections with corresponding names.
+  \begin{itemize}
+    \item \code{.Rnw}: \verb|\begin|/\verb|\end| pairs for \verb|{question}|/\verb|{solution}|.
+    \item \code{.Rmd}: \code{Question}/\code{Solution} sections with \verb|#######| markup.
+  \end{itemize}
+  \item Metainformation about \code{extype} (numeric, multiple
+    choice, \dots), correct \code{exsolution}, a short \code{exname}, etc.
+  \begin{itemize}
+    \item \code{.Rnw}: \verb|\extype{mchoice}|, \verb|\exsolution{01001}|, \dots
+    \item \code{.Rmd}: \verb|extype: mchoice|, \verb|exsolution: 01001|, \dots.
+  \end{itemize}
+  \item Question and basic metainformation is mandatory -- everything else
+    optional. All parts can contain \proglang{R} code chunks or data.
+  \begin{itemize}
+    \item \code{.Rnw}: \verb|\|\verb|Sexpr{...}|.
+    \item \code{.Rmd}: \verb|`r ...`|.
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exercises}
+
+\textbf{Simple geometric example:}
+\begin{itemize}
+  \item Computation of the distance between two points $p$ and $q$
+    in a Cartesian coordinate system (via the Pythagorean formula).
+  \item Template \code{dist.Rnw} and \code{dist.Rmd} contained in \pkg{exams} package.
+\end{itemize}
+
+\bigskip
+
+\textbf{Illustration:}
+<<dist-example, eval=FALSE>>=
+library("exams")
+exams2pdf("dist.Rnw")
+@
+
+
+<<dist, echo=FALSE, results=hide>>=
+odir <- getwd()
+setwd(tempdir())
+file.copy(system.file("exercises", "dist.Rnw", package = "exams"), "dist.Rnw")
+set.seed(1090)
+Sweave("dist.Rnw", height = 3.5, width = 3.5)
+Rnw <- readLines("dist.Rnw")
+Rnw <- c(head(Rnw, 19), "[...]", tail(Rnw, 6))
+tex <- readLines("dist.tex")
+file.copy("dist-002.pdf", file.path(odir, "slides3-dist-plot.pdf"))
+tex2 <- gsub("dist-002", "slides3-dist-plot", tex, fixed = TRUE)
+setwd(odir)
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exercises: \code{dist.Rnw}}
+\vspace*{-0.7cm}
+{\scriptsize
+\color{black}\only<beamer|3->{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[1:5], "\\end{verbatim}"), sep = "\n")
+@
+\vspace*{-0.3cm}\color{black}\only<beamer|2,4->{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[7:11], "\\end{verbatim}"), sep = "\n")
+@
+\vspace*{-0.3cm}\color{black}\only<beamer|2-3,5->{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[13:21], "\\end{verbatim}"), sep = "\n")
+@
+\vspace*{-0.3cm}\color{black}\only<beamer|2-4>{\color{gray}}%
+<<dist.Rnw, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", Rnw[23:26], "\\end{verbatim}"), sep = "\n")
+@
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exercises: {\LaTeX} output of \code{Sweave("dist.Rnw")}}
+\vspace*{-0.7cm}
+{\scriptsize
+<<dist.tex, echo=FALSE, results=tex>>=
+cat(c("\\begin{verbatim}", tex, "\\end{verbatim}"), sep = "\n")
+@
+}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exercises: PDF output of \code{exams2pdf("dist.Rnw")}}
+{\footnotesize
+\setkeys{Gin}{width=0.45\textwidth}
+\begin{itemize}
+<<dist.pdf, echo=FALSE, results=tex>>=
+cat(tex2, sep = "\n")
+@
+
+\end{itemize}
+}
+\end{frame}
+
+\subsection{Exams}
+
+\begin{frame}[fragile]
+\frametitle{Exams: Combination of exercises}
+
+\textbf{Idea:} An exam is simply a list of exercise templates. For example,
+using statistics exercise templates contained in \pkg{exams}.
+
+<<myexam>>=
+myexam <- list(
+  "boxplots.Rnw",
+  c("confint.Rnw", "ttest.Rnw", "tstat.Rnw"),
+  c("anova.Rnw", "regression.Rnw"),
+  "scatterplot.Rnw",
+  "relfreq.Rnw"
+)
+@
+
+\bigskip
+
+\textbf{Draw random exams:}
+\begin{itemize}
+  \item First randomly select one exercise from each list element.
+  \item Generate random numbers/input for each selected exercise.
+  \item Combine all exercises in output file(s) (PDF, HTML, \dots).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: Combination of exercises}
+
+\textbf{Interfaces:} \code{exams2pdf()}, \code{exams2html()}, \code{exams2moodle()},
+  \code{exams2qti12()}, \code{exams2nops()}, \code{exams2arsnova()}, \dots
+
+\bigskip
+
+\textbf{Workhorse function:} Internally, all interfaces call \code{xexams()} that handles (temporary)
+files/directories and carries out four steps.
+\begin{enumerate}
+  \item \emph{Weave:} Each \code{.Rnw}/\code{.Rmd} exercise is weaved into a
+    \code{.tex}/\code{.md} file. Default: \code{xweave()} which calls \code{Sweave()} or \code{knit()}.
+  \item \emph{Read:} Each resulting \code{.tex}/\code{.md} file is read into an \proglang{R} list with question,
+    solution, metainformation. Default: \code{read_exercise()}.
+  \item \emph{Transform:} Each of these exercise-wise list objects can be transformed, e.g.,
+    by converting {\LaTeX} text to HTML or Markdown to {\LaTeX} etc. Default: No transformation.
+  \item \emph{Write:} The (possibly transformed) lists of exercises can be written out
+    to one ore more files per exam in an output directory. Default: No files are written.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: Transformers}
+
+\textbf{Transformer functions:}
+\begin{itemize}
+  \item For {\LaTeX} to HTML: Ian H. Hutchinson's \pkg{TtH} ({\TeX} to HTML) package
+    (\pkg{tth} in R). Mathematical notation is either represented using MathML (\code{ttm}),
+    requiring a suitable browser (e.g., Firefox or Safari), or plain HTML (\code{tth}).
+  \item Alternatively:  John MacFarlane's \pkg{pandoc} package (\pkg{rmarkdown} in R)
+    with various options for rendering mathematical notation (including MathML).
+  \item For Markdown to HTML or {\LaTeX}: \pkg{pandoc} only.
+  \item In either case: No {\LaTeX} installation needed, but also limited to {\LaTeX} commands
+    supported by \pkg{TtH} or \pkg{pandoc}, respectively.
+  \item Links to dynamically generated data can be easily included, e.g.,
+    \verb|\url{mydata.rda}| (\code{.Rnw}) or \verb|[mydata.rda](mydata.rda)| (\code{.Rmd}).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: PDF output}
+
+\code{exams2pdf()}:
+\begin{itemize}
+  \item The \emph{write} step embeds all questions/solutions into 
+    (one or more) master {\LaTeX} template(s).
+  \item {\LaTeX} templates control whether solutions are shown, what the
+    title page looks like, etc.
+  \item Compilation of each exam via pdf{\LaTeX} (called from within \proglang{R}).
+\end{itemize}
+
+\bigskip
+
+A single exam is popped up in a PDF viewer:
+<<exams2pdf, eval=FALSE>>=
+exams2pdf(myexam, template = "exam")
+@
+
+\medskip
+
+Multiple exams are written to an output directory:
+<<exams2pdf3>>=
+odir <- tempfile()
+set.seed(1090)
+exams2pdf(myexam, n = 3, dir = odir,
+  template = c("exam", "solution"))
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: PDF output}
+
+<<exams2pdf-output, echo=FALSE, results=hide>>=
+file.copy(file.path(odir, "exam1.pdf"), "slides3-exam1.pdf")
+@
+
+\framebox{\includegraphics[width=0.47\textwidth,keepaspectratio=true]{slides3-exam1.pdf}}%
+\hspace*{0.3cm}%
+\framebox{\includegraphics[width=0.47\textwidth,keepaspectratio=true,page=2]{slides3-exam1.pdf}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: PDF output (NOPS)}
+
+\code{exams2nops()}:
+\begin{itemize}
+  \item Calls \code{exams2pdf()} internally.
+  \item Standardized and internationalized {\LaTeX} template
+    is generated on the fly.
+  \item Intended for single-choice and multiple-choice questions.
+  \item Can be scanned and evaluated automatically within R.
+  \item Limited support for open-ended questions that have to
+    be marked by a person.
+\end{itemize}
+
+\bigskip
+
+A single exam is popped up in a PDF viewer, multiple exams are written to an output directory:
+<<exams2nops>>=
+set.seed(1090)
+exams2nops(myexam[-(2:3)], n = 3, dir = odir)
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: PDF output (NOPS)}
+
+<<exams2pdf-output, echo=FALSE, results=hide>>=
+file.copy(file.path(odir, "nops1.pdf"), "slides3-nops1.pdf")
+@
+
+\framebox{\includegraphics[width=0.47\textwidth,keepaspectratio=true]{slides3-nops1.pdf}}%
+\hspace*{0.3cm}%
+\framebox{\includegraphics[width=0.47\textwidth,keepaspectratio=true,page=3]{slides3-nops1.pdf}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: HTML output}
+
+\code{exams2html()}:
+\begin{itemize}
+  \item In the \emph{transform} step, {\LaTeX}/Markdown text is converted to HTML using 
+    either \pkg{TtH} or \pkg{pandoc}.
+  \item The \emph{write} step embeds everything into HTML templates and writes out
+    one HTML file per exam.
+  \item Also useful for quickly checking whether an exercises is processed correctly.
+\end{itemize}
+
+\bigskip
+
+A single exam is popped up in a browser, multiple exams are written to an output directory:
+<<exams2html, eval = FALSE>>=
+set.seed(1090)
+exams2html(myexam, n = 3, dir = odir)
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Exams: HTML output}
+
+\vspace*{-0.5cm}
+
+\begin{center}
+\includegraphics[width=0.85\textwidth,keepaspectratio=true]{exams2html-myexam.png}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Exams: \pkg{Moodle} XML}
+
+\code{exams2moodle():}
+\begin{itemize}
+  \item All {\LaTeX}/Markdown text is \emph{transformed} to HTML.
+  \item Rather than writing out one file per exam, a single \pkg{Moodle} XML file encompassing all
+    exams is produced.
+  \item All supplementary materials (graphics, data, etc.) are embedded into the
+    HTML code directly using Base64 encoding.
+  \item The resulting \code{.xml} file can be easily imported into a question bank in \pkg{Moodle}
+    and then be used within a \pkg{Moodle} quiz.
+\end{itemize}
+
+\bigskip
+
+Multiple replications are written to a single XML file in the output directory:
+<<exams2moodle, eval=FALSE>>=
+set.seed(1090)
+exams2moodle(myexam, n = 3, dir = odir)
+@
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Exams: \pkg{Moodle} XML}
+
+<<exams2moodle-output, echo=FALSE, results=hide>>=
+file.copy(file.path("..", "vignettes", "screenshots", "exams2moodle-boxplots.png"), "slides3-exams2moodle.png")
+@
+
+\vspace*{-0.5cm}
+
+\begin{center}
+\includegraphics[width=0.85\textwidth,keepaspectratio=true]{slides3-exams2moodle.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: QTI}
+
+\code{exams2qti12()}/\code{exams2qti21()}:
+\begin{itemize}
+  \item All {\LaTeX}/Markdown text is \emph{transformed} to HTML.
+  \item Rather than writing out one file per exam, a single \code{.zip} archive is produced,
+    containing the QTI XML specification (version 1.2 or 2.1) plus supplementary materials (graphics, data, etc.) if any.
+  \item Base64 encoding is used for graphics by default, but not for other supplements.
+  \item QTI (question and test interoperability) is an international standard for e-learning exams. 
+  \item The \code{.zip} files can be easily imported into various learning management systems,
+    e.g., \pkg{OLAT}/\pkg{OpenOLAT}.
+\end{itemize}
+
+\bigskip
+
+Multiple replications are written to a single zipped XML file in the output directory:
+<<exams2qti12, eval=FALSE>>=
+set.seed(1090)
+exams2qti12(myexam, n = 3, dir = odir)
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: QTI}
+
+<<exams2qti12-output, echo=FALSE, results=hide>>=
+file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"), "slides3-exams2qti12.png")
+@
+
+\vspace*{-0.5cm}
+
+\begin{center}
+\includegraphics[width=0.75\textwidth,keepaspectratio=true]{slides3-exams2qti12.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Exams: ARSnova}
+
+\code{exams2html()}:
+\begin{itemize}
+  \item In the \emph{transform} step, {\LaTeX} text is converted to Markdown using 
+    \pkg{pandoc}.
+  \item The \emph{write} step embeds everything into a JSON format and writes out
+    one JSON file per exam.
+  \item The JSON file can be imported in \pkg{ARSnova} to create a new session.
+  \item Alternatively, questions can be imported into an existing \pkg{ARSnova} session via \pkg{RCurl}.
+  \item No proper support for numeric exercises, yet (but under development by
+    \pkg{ARSnova} team).
+\end{itemize}
+
+\bigskip
+
+Multiple exams are written to an output directory:
+<<exams2html, eval = FALSE>>=
+set.seed(1090)
+exams2arsnova(myexam[-(2:3)], n = 3, dir = odir)
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Exams: ARSnova}
+
+<<exams2arsnova-output, echo=FALSE, results=hide>>=
+file.copy(file.path("..", "vignettes", "screenshots", "exams2arsnova-boxplots.png"), "slides3-exams2arsnova.png")
+@
+\vspace*{-0.5cm}
+
+\begin{center}
+\includegraphics[width=0.46\textwidth,keepaspectratio=true]{slides3-exams2arsnova.png}
+\end{center}
+
+\end{frame}
+
+
+\subsection{Discussion}
+
+\begin{frame} 
+\frametitle{Discussion}
+
+\textbf{Package \pkg{exams}:}
+\begin{itemize}
+  \item Framework for automatic generation of simple
+    (mathematical or statistical) exams and associated self-study materials.
+  \item Based on independent exercises in \code{.Rnw}/\code{.Rmd} format which
+    can be compiled into exams (or other collections of exercises).
+  \item Version~1 (Gr\"un and Zeileis 2009) only supported PDF output,
+    version~2 (Zeileis \emph{et al.} 2014) added a toolbox
+    for various output formats, recent versions add support for Markdown and \pkg{pandoc}.
+  \item Contributing to the pool of exercises only requires knowledge
+    of \code{Sweave}/\pkg{knitr} and minimal markup for metainformation.
+  \item For a first session employ \code{exams\_skeleton()} which copies
+    demo scripts, exercises, and templates into a working directory.
+  \item Hosted on \proglang{R}-Forge, providing a support forum:
+    \url{http://R-Forge.R-project.org/projects/exams/}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame} 
+\frametitle{Discussion}
+
+\pkg{At Universit\"at Innsbruck:}
+\begin{itemize}
+  \item Large-scale courses with \pkg{OpenOLAT} support.
+  \item Team of about 5--10 persons (professors, lecturers, student assistants) contribute to the
+    pool of exercises.
+  \item During the semester, several online tests (and self tests) are carried out in
+    \pkg{OpenOLAT} (via \code{exams2qti12}) using numerical and multiple-choice exercises.
+  \item Written exams (via \code{exams2nops}) are carried out using single-choice exercises.
+    Results are scanned (via \code{nops\_scan}) and automatically evaluated (via \code{nops\_eval}).
+    Individual HTML reports are uploaded for each student into \pkg{OpenOLAT}.
+\end{itemize}
+
+\end{frame}
+
+
+\subsection{References}
+
+\begin{frame}
+\frametitle{References}
+
+\small
+
+Zeileis A, Gr\"un B, Leisch F, Umlauf N (2015).
+  \textit{\pkg{exams}: Automatic Generation of Exams in \proglang{R}.}
+  \proglang{R}~package version~2.1-0.
+  URL~\url{http://CRAN.R-project.org/package=exams}
+
+\bigskip
+
+Zeileis A, Umlauf N, Leisch F (2014).
+  \dquote{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.}
+  \textit{Journal of Statistical Software}, \textbf{58}(1), 1--36.
+  \doi{10.18637/jss.v058.i01}
+
+\bigskip
+    
+Gr\"un B, Zeileis A (2009).
+  \dquote{Automatic Generation of Exams in R.}
+  \textit{Journal of Statistical Software}, \textbf{29}(10), 1--14.
+  \doi{10.18637/jss.v029.i10}
+  
+\end{frame}
+\end{document}
+
+
