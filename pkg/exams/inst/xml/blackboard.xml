@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <questestinterop>
 <assessment title="##TestTitle##">
 <assessmentmetadata>
@@ -38,9 +37,7 @@
 </material>
 </flow_mat>
 </presentation_material>
-
 <section>
-
 <sectionmetadata>
 <bbmd_asi_object_id>##SectionId##</bbmd_asi_object_id>
 <bbmd_asitype>Section</bbmd_asitype>
@@ -55,7 +52,6 @@
 <qmd_absolutescore_max>0.0</qmd_absolutescore_max>
 <qmd_weighting>0.0</qmd_weighting>
 </sectionmetadata>
-
 <item ##MaxAttempts##>
 <itemmetadata>
 <bbmd_asi_object_id>##ItemId##</bbmd_asi_object_id>
@@ -72,6 +68,19 @@
 <qmd_weighting>0.0</qmd_weighting>
 </itemmetadata>
 ##ItemBody##
+<itemfeedback ident="correct" view="All">
+<flow_mat class="Block">
+<flow_mat class="FORMATTED_TEXT_BLOCK">
+<material>
+<mat_extension>
+<mat_formattedtext type="HTML">
+<![CDATA[##ItemSolution##]]>
+</mat_formattedtext>
+</mat_extension>
+</material>
+</flow_mat>
+</flow_mat>
+</itemfeedback>
 <itemfeedback ident="incorrect" view="All">
 <flow_mat class="Block">
 <flow_mat class="FORMATTED_TEXT_BLOCK">
@@ -86,8 +95,6 @@
 </flow_mat>
 </itemfeedback>
 </item>
-
 </section>
-
 </assessment>
 </questestinterop>
