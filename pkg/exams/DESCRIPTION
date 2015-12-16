@@ -10,7 +10,7 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
 	     person(given = "Dominik", family = "Ernst", role = "ctb", email = "Dominik.Ernst@boku.ac.at"))
 Description: Automatic generation of exams based on exercises in Sweave (R/LaTeX) or R/Markdown format,
 	including multiple-choice questions and arithmetic problems. Exams can be produced in various formats,
-	including PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1, ARSnova, and TCExam.
+	including PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1, Blackboard, ARSnova, and TCExam.
 	In addition to fully customizable PDF exams, a standardized PDF format is provided that can be
 	printed, scanned, and automatically evaluated.
 Depends: R (>= 2.15.0)
