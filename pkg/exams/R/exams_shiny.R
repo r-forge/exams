@@ -69,7 +69,20 @@ exams_shiny_ui <- function(...) {
          )
        ),
        tabsetPanel(
-         tabPanel("Select Exercises",
+         tabPanel("Create/Edit Exercises",
+           br(),
+           radioButtons("exmarkup", label = ("Select the markup language."), choices = c("LaTeX", "Markdown"),
+             selected = "LaTeX", inline = TRUE),
+           radioButtons("extype", label = ("Select the exercise type."),
+             choices = c("num", "schoice", "mchoice", "string", "cloze"),
+             selected = "num", inline = TRUE),
+           radioButtons("exsolution", label = ("Solution?"), choices = c("yes", "no"),
+             selected = "yes", inline = TRUE),
+           radioButtons("exencoding", label = ("Encoding?"), choices = c("UTF-8", "ASCII"),
+             selected = "UTF-8", inline = TRUE)
+         ),
+         tabPanel("Import/Export Exercises"),
+         tabPanel("Define Exams",
            fluidRow(
              column(6,
                br(),
@@ -88,7 +101,7 @@ exams_shiny_ui <- function(...) {
              )
            )
          ),
-         tabPanel("Compile Exams",
+         tabPanel("Generate Exams",
            br(),
            p("Compile exams, please select input parameters."),
            textInput("name", "Choose an exam name.", value = "Exam1"),
