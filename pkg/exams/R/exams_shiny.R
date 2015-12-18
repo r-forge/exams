@@ -103,11 +103,11 @@ exams_shiny_ui <- function(...) {
            tags$hr(),
            fluidRow(
              column(4,
-               uiOutput("exnameshow")
+               uiOutput("exnameshow"),
+               actionButton("save_ex", label = "Save exercise")
              ),
              column(4,
-               p(""), br(),
-               actionButton("save_ex", label = "Save exercise")
+               uiOutput("saved_exercises")
              )
            ),
            tags$hr(),
@@ -233,6 +233,11 @@ exams_shiny_server <- function(input, output, session)
   })
   observeEvent(input$save_ex, {
     writeLines(input$excode, file.path("exercises", input$exname))
+    output$saved_exercises <- renderTable({
+      ex <- as.data.frame(matrix(dir("exercises"), ncol = 1))
+      colnames(ex) <- "Saved exercises."
+      ex
+    })
     session$sendCustomMessage(type = 'exHandler', input$exname)
   })
   output$html_exercise <- renderUI({
