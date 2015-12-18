@@ -1,6 +1,7 @@
 exams_shiny <- function(dir = NULL)
 {
   stopifnot(require("shiny"))
+  stopifnot(require("shinyAce"))
   stopifnot(require("tools"))
 
   owd <- getwd()
@@ -70,16 +71,47 @@ exams_shiny_ui <- function(...) {
        ),
        tabsetPanel(
          tabPanel("Create/Edit Exercises",
-           br(),
-           radioButtons("exmarkup", label = ("Select the markup language."), choices = c("LaTeX", "Markdown"),
-             selected = "LaTeX", inline = TRUE),
-           radioButtons("extype", label = ("Select the exercise type."),
-             choices = c("num", "schoice", "mchoice", "string", "cloze"),
-             selected = "num", inline = TRUE),
-           radioButtons("exsolution", label = ("Solution?"), choices = c("yes", "no"),
-             selected = "yes", inline = TRUE),
-           radioButtons("exencoding", label = ("Encoding?"), choices = c("UTF-8", "ASCII"),
-             selected = "UTF-8", inline = TRUE)
+           fluidRow(
+             column(4,
+               br(),
+               selectInput("exmarkup", label = ("Select the markup language."), choices = c("LaTeX", "Markdown"),
+                 selected = "LaTeX"),
+               selectInput("extype", label = ("Select the exercise type."),
+                 choices = c("num", "schoice", "mchoice", "string", "cloze"),
+                 selected = "num")
+             ),
+             column(4,
+               br(),
+               selectInput("exsolution", label = ("Solution?"), choices = c("yes", "no"),
+                 selected = "yes"),
+               selectInput("exencoding", label = ("Encoding?"), choices = c("UTF-8", "ASCII"),
+                 selected = "UTF-8")
+             )
+           ),
+           actionButton("load_editor_template", label = "Load template"),
+           tags$hr(),
+           fluidRow(
+             column(4,
+               fileInput("ex_upload", "Browse and load an exercise.", multiple = TRUE,
+                 accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd"))
+             ),
+             column(4,
+               br(),
+               actionButton("show_ex_upload", label = "Show exercise")
+             )
+           ),
+           tags$hr(),
+           fluidRow(
+             column(4,
+               uiOutput("exnameshow")
+             ),
+             column(4,
+               p(""), br(),
+               actionButton("save_ex", label = "Save exercise")
+             )
+           ),
+           tags$hr(),
+           uiOutput("editor")
          ),
          tabPanel("Import/Export Exercises"),
          tabPanel("Define Exams",
@@ -113,8 +145,7 @@ exams_shiny_ui <- function(...) {
            br(),
            p("Files for download."),
            verbatimTextOutput("exams")
-         ),
-         tabPanel("Player", tableOutput("table"))
+         )
        )
      )
    )
@@ -154,6 +185,55 @@ exams_shiny_server <- function(input, output, session)
   })
   output$preview <- renderUI({
     selectInput('preview2', 'Preview exercise.', selected_exercises())
+  })
+  output$editor <- renderUI({
+    aceEditor("excode", mode = "r", value = "Create/edit exercises here!")
+  })
+  output$exnameshow <- renderUI({
+    textInput("exname", label = "Exercise name.", value = input$exname)
+  })
+  observeEvent(input$load_editor_template, {
+    exname <- switch(input$extype,
+      "num" = "dist",
+      "schoice" = "swisscapital",
+      "mchoice" = "switzerland",
+      "string" = "function",
+      "cloze" = "dist2"
+    )
+    exname <- paste(exname, if(input$exmarkup == "LaTeX") "Rnw" else "Rmd", sep = ".")
+    expath <- file.path(find.package("exams"), "exercises", exname)
+    excode <- readLines(expath)
+    excode <- gsub('\\', '\\\\', excode, fixed = TRUE)
+    output$exnameshow <- renderUI({
+      textInput("exname", label = "Exercise name.", value = exname)
+    })
+    output$editor <- renderUI({
+      aceEditor("excode", mode = "r", value = paste(excode, collapse = '\n'))
+    })
+  })
+  observeEvent(input$show_ex_upload, {
+    if(!is.null(input$ex_upload$datapath)) {
+      output$exnameshow <- renderUI({
+        textInput("exname", label = "Exercise name.", value = input$ex_upload$name)
+      })
+    } else {
+      output$exnameshow <- renderUI({
+        textInput("exname", label = "Exercise name.", value = "NA")
+      })
+    }
+    ex <- if(is.null(input$ex_upload$datapath)) {
+      "No exercise found!"
+    } else {
+      readLines(input$ex_upload$datapath)
+    }
+    ex <- gsub('\\', '\\\\', ex, fixed = TRUE)
+    output$editor <- renderUI({
+      aceEditor("excode", mode = "r", value = paste(ex, collapse = '\n'))
+    })
+  })
+  observeEvent(input$save_ex, {
+    writeLines(input$excode, file.path("exercises", input$exname))
+    session$sendCustomMessage(type = 'exHandler', input$exname)
   })
   output$html_exercise <- renderUI({
     if(length(input$preview2)) {
