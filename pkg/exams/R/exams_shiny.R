@@ -71,47 +71,32 @@ exams_shiny_ui <- function(...) {
        ),
        tabsetPanel(
          tabPanel("Create/Edit Exercises",
+           br(),
+           fileInput("ex_upload", "Load exercise.", multiple = TRUE,
+             accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd")),
            fluidRow(
-             column(4,
-               br(),
-               selectInput("exmarkup", label = ("Select the markup language."), choices = c("LaTeX", "Markdown"),
-                 selected = "LaTeX"),
-               selectInput("extype", label = ("Select the exercise type."),
-                 choices = c("num", "schoice", "mchoice", "string", "cloze"),
-                 selected = "num")
+             column(10,
+               uiOutput("editor")
              ),
-             column(4,
-               br(),
+             column(2,
+               selectInput("exmarkup", label = ("Markup."), choices = c("LaTeX", "Markdown"),
+                 selected = "LaTeX"),
+               selectInput("extype", label = ("Exercise type."),
+                 choices = c("num", "schoice", "mchoice", "string", "cloze"),
+                 selected = "num"),
                selectInput("exsolution", label = ("Solution?"), choices = c("yes", "no"),
                  selected = "yes"),
                selectInput("exencoding", label = ("Encoding?"), choices = c("UTF-8", "ASCII"),
-                 selected = "UTF-8")
-             )
-           ),
-           actionButton("load_editor_template", label = "Load template"),
-           tags$hr(),
-           fluidRow(
-             column(4,
-               fileInput("ex_upload", "Browse and load an exercise.", multiple = TRUE,
-                 accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd"))
-             ),
-             column(4,
-               br(),
-               actionButton("show_ex_upload", label = "Show exercise")
+                 selected = "UTF-8"),
+               actionButton("load_editor_template", label = "Load template")
              )
            ),
            tags$hr(),
-           fluidRow(
-             column(4,
-               uiOutput("exnameshow"),
-               actionButton("save_ex", label = "Save exercise")
-             ),
-             column(4,
-               uiOutput("saved_exercises")
-             )
-           ),
-           tags$hr(),
-           uiOutput("editor")
+           uiOutput("exnameshow"),
+           actionButton("save_ex", label = "Save exercise"),
+           br(), br(),
+           uiOutput("saved_exercises"),
+           br(), br()
          ),
          tabPanel("Import/Export Exercises"),
          tabPanel("Define Exams",
@@ -211,7 +196,7 @@ exams_shiny_server <- function(input, output, session)
       aceEditor("excode", mode = "r", value = paste(excode, collapse = '\n'))
     })
   })
-  observeEvent(input$show_ex_upload, {
+  observeEvent(input$ex_upload, {
     if(!is.null(input$ex_upload$datapath)) {
       output$exnameshow <- renderUI({
         textInput("exname", label = "Exercise name.", value = input$ex_upload$name)
