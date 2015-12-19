@@ -95,7 +95,7 @@ exams_shiny_ui <- function(...) {
            tags$hr(),
            uiOutput("exnameshow"),
            actionButton("save_ex", label = "Save Exercise"),
-           br(), br(),
+           tags$hr(),
            uiOutput("saved_exercises"),
            br(), br()
          ),
@@ -176,7 +176,7 @@ exams_shiny_server <- function(input, output, session)
     aceEditor("excode", mode = "r", value = "Create/edit exercises here!")
   })
   output$exnameshow <- renderUI({
-    textInput("exname", label = "Exercise name.", value = input$exname)
+    textInput("exname", label = "Exercise Name", value = input$exname)
   })
   observeEvent(input$load_editor_template, {
     exname <- switch(input$extype,
