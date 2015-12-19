@@ -72,28 +72,29 @@ exams_shiny_ui <- function(...) {
        tabsetPanel(
          tabPanel("Create/Edit Exercises",
            br(),
-           fileInput("ex_upload", "Load exercise.", multiple = TRUE,
+           fileInput("ex_upload", "Load Exercise", multiple = TRUE,
              accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd")),
            fluidRow(
              column(10,
-               uiOutput("editor")
+               uiOutput("editor"),
+               actionButton("play_exercise", label = "Play")
              ),
              column(2,
-               selectInput("exmarkup", label = ("Markup."), choices = c("LaTeX", "Markdown"),
+               selectInput("exmarkup", label = ("Markup?"), choices = c("LaTeX", "Markdown"),
                  selected = "LaTeX"),
-               selectInput("extype", label = ("Exercise type."),
+               selectInput("extype", label = ("Type?"),
                  choices = c("num", "schoice", "mchoice", "string", "cloze"),
                  selected = "num"),
                selectInput("exsolution", label = ("Solution?"), choices = c("yes", "no"),
                  selected = "yes"),
                selectInput("exencoding", label = ("Encoding?"), choices = c("UTF-8", "ASCII"),
                  selected = "UTF-8"),
-               actionButton("load_editor_template", label = "Load template")
+               actionButton("load_editor_template", label = "Load Template")
              )
            ),
            tags$hr(),
            uiOutput("exnameshow"),
-           actionButton("save_ex", label = "Save exercise"),
+           actionButton("save_ex", label = "Save Exercise"),
            br(), br(),
            uiOutput("saved_exercises"),
            br(), br()
@@ -217,13 +218,15 @@ exams_shiny_server <- function(input, output, session)
     })
   })
   observeEvent(input$save_ex, {
-    writeLines(input$excode, file.path("exercises", input$exname))
-    output$saved_exercises <- renderTable({
-      ex <- as.data.frame(matrix(dir("exercises"), ncol = 1))
-      colnames(ex) <- "Saved exercises."
-      ex
-    })
-    session$sendCustomMessage(type = 'exHandler', input$exname)
+    if(input$exname != "") {
+      writeLines(input$excode, file.path("exercises", input$exname))
+      output$saved_exercises <- renderTable({
+        ex <- as.data.frame(matrix(dir("exercises"), ncol = 1))
+        colnames(ex) <- "Saved Exercises"
+        ex
+      })
+      session$sendCustomMessage(type = 'exHandler', input$exname)
+    }
   })
   output$html_exercise <- renderUI({
     if(length(input$preview2)) {
