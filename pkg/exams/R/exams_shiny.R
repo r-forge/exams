@@ -72,7 +72,7 @@ exams_shiny_ui <- function(...) {
        tabsetPanel(
          tabPanel("Create/Edit Exercises",
            br(),
-           fileInput("ex_upload", "Load Exercise", multiple = TRUE,
+           fileInput("ex_upload", "Load Exercise", multiple = FALSE,
              accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd")),
            fluidRow(
              column(10,
@@ -97,9 +97,15 @@ exams_shiny_ui <- function(...) {
            actionButton("save_ex", label = "Save Exercise"),
            tags$hr(),
            uiOutput("saved_exercises"),
-           br(), br()
+           br(), br(),
+           uiOutput("player")
          ),
-         tabPanel("Import/Export Exercises"),
+         tabPanel("Import/Export Exercises",
+           br(),
+           fileInput("ex_upload2", "Import Exercises", multiple = TRUE,
+             accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz")),
+           chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE)
+         ),
          tabPanel("Define Exams",
            fluidRow(
              column(6,
@@ -200,11 +206,11 @@ exams_shiny_server <- function(input, output, session)
   observeEvent(input$ex_upload, {
     if(!is.null(input$ex_upload$datapath)) {
       output$exnameshow <- renderUI({
-        textInput("exname", label = "Exercise name.", value = input$ex_upload$name)
+        textInput("exname", label = "Exercise Name", value = input$ex_upload$name)
       })
     } else {
       output$exnameshow <- renderUI({
-        textInput("exname", label = "Exercise name.", value = "NA")
+        textInput("exname", label = "Exercise Name", value = "NA")
       })
     }
     ex <- if(is.null(input$ex_upload$datapath)) {
@@ -225,7 +231,38 @@ exams_shiny_server <- function(input, output, session)
         colnames(ex) <- "Saved Exercises"
         ex
       })
-      session$sendCustomMessage(type = 'exHandler', input$exname)
+    }
+    session$sendCustomMessage(type = 'exHandler', list.files("exercises", recursive = TRUE))
+  })
+  observeEvent(input$play_exercise, {
+    output$player <- renderUI({
+      return(isolate(eval(parse(text = input$excode))))
+    })
+  })
+  observeEvent(input$ex_upload2, {
+    if(!is.null(input$ex_upload2$datapath)) {
+      for(i in seq_along(input$ex_upload2$name)) {
+        fext <- tolower(file_ext(input$ex_upload2$name[i]))
+        if(fext %in% c("rnw", "rmd")) {
+          file.copy(input$ex_upload2$datapath[i], file.path("exercises", input$ex_upload2$name[i]))
+        } else {
+          tdir <- tempfile()
+          dir.create(tdir)
+          owd <- getwd()
+          setwd(tdir)
+          file.copy(input$ex_upload2$datapath[i], input$ex_upload2$name[i])
+          if(fext == "zip") {
+            unzip(input$ex_upload2$name[i], exdir = ".")
+          } else {
+            untar(input$ex_upload2$name[i], exdir = ".")
+          }
+          file.remove(input$ex_upload2$name[i])
+          cf <- dir(tdir)
+          file.copy(cf, file.path(owd, "exercises"))
+          setwd(owd)
+        }
+      }
+      session$sendCustomMessage(type = 'exHandler', list.files("exercises", recursive = TRUE))
     }
   })
   output$html_exercise <- renderUI({
