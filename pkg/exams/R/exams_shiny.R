@@ -70,6 +70,12 @@ exams_shiny_ui <- function(...) {
 		     dest.append("<option>"+val+"</option>");
                   });
                }
+            });'),
+	    HTML('Shiny.addCustomMessageHandler("deleteHandler", function(data) {
+               var dleft = $("div.chooser-left-container").find("select.left");
+               dleft.empty();
+               var dright = $("div.chooser-left-container").find("select.right");
+               dright.empty();
             });'))
          )
        ),
@@ -125,7 +131,9 @@ exams_shiny_ui <- function(...) {
            br(),
            downloadButton('export_selected_exercises', 'Download selected exercises as .zip.'),
            tags$hr(),
-           downloadButton('export_all_exercises', 'Download all exercises as .zip.')
+           downloadButton('export_all_exercises', 'Download all exercises as .zip.'),
+           tags$hr(),
+           actionButton("delete", label = "Delete all exercises.")
          ),
          tabPanel("Define Exams",
            fluidRow(
@@ -190,10 +198,11 @@ exams_shiny_server <- function(input, output, session)
         if(input$play_exercise > 0) {
           output$player <- renderUI({
             unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
-            excode <- gsub("text(", "graphics::text(", excode, fixed = TRUE)
+            excode <- gsub("text(", "graphics::text(", input$excode, fixed = TRUE)
             excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
-            writeLines(excode, file.path("tmp", input$select_exercise))
-            ex <- try(exams2html(input$select_exercise, n = 1, dir = "tmp", edir = "tmp",
+            exname <- gsub("/", "_", input$select_exercise, fixed = TRUE)
+            writeLines(excode, file.path("tmp", exname))
+            ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
               base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
               encoding = input$exencoding), silent = TRUE)
             if(!inherits(ex, "try-error")) {
@@ -209,7 +218,7 @@ exams_shiny_server <- function(input, output, session)
         }
       }
       return(NULL)
-    }
+    } else return(NULL)
   })
   output$editor <- renderUI({
     aceEditor("excode", if(input$exmarkup == "LaTeX") "tex" else "markdown",
@@ -246,8 +255,9 @@ exams_shiny_server <- function(input, output, session)
     if(input$play_exercise > 0) {
       output$player <- renderUI({
         unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
-        excode <- gsub("text(", "graphics::text(", excode, fixed = TRUE)
+        excode <- gsub("text(", "graphics::text(", input$excode, fixed = TRUE)
         excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
+        exname <- gsub("/", "_", exname, fixed = TRUE)
         writeLines(excode, file.path("tmp", exname))
         ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
           base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
@@ -275,6 +285,7 @@ exams_shiny_server <- function(input, output, session)
     })
   })
   observeEvent(input$play_exercise, {
+    excode <- input$excode
     hide("editor")
     show("player")
     output$playbutton <- renderUI({
@@ -285,8 +296,9 @@ exams_shiny_server <- function(input, output, session)
       exname <- input$exname
       if(exname == "")
         exname <- "ex4play.Rnw"
-      excode <- gsub("text(", "graphics::text(", input$excode, fixed = TRUE)
+      excode <- gsub("text(", "graphics::text(", excode, fixed = TRUE)
       excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
+      exname <- gsub("/", "_", exname, fixed = TRUE)
       writeLines(excode, file.path("tmp", exname))
       ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
         base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
@@ -331,7 +343,7 @@ exams_shiny_server <- function(input, output, session)
           }
           file.remove(input$ex_upload$name[i])
           cf <- dir(tdir)
-          file.copy(cf, file.path(owd, "exercises"))
+          file.copy(cf, file.path(owd, "exercises"), recursive = TRUE)
           setwd(owd)
           unlink(tdir)
         }
@@ -386,6 +398,17 @@ exams_shiny_server <- function(input, output, session)
         return(includeHTML("tmp/plain1.html"))
       }
     }
+  })
+  observeEvent(input$delete, {
+    owd <- getwd()
+    setwd("exercises")
+    unlink(dir(), recursive = TRUE, force = TRUE)
+    setwd(owd)
+    session$sendCustomMessage(type = 'deleteHandler', "delete")
+    output$select_imported_exercise <- renderUI({
+      selectInput('select_exercise', 'Edit exercise', "")
+    })
+    return(NULL)
   })
   observeEvent(input$compile, {
     if(length(input$mychooser$right)) {
