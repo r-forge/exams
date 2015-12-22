@@ -77,7 +77,7 @@ exams_shiny_ui <- function(...) {
          tabPanel("Create/Edit Exercises",
            br(),
            uiOutput("select_imported_exercise"),
-           conditionalPanel('input.ex_imp_select != ""', uiOutput("show_selected_exercise")),
+           conditionalPanel('input.select_exercise != ""', uiOutput("show_selected_exercise")),
            fluidRow(
              column(10,
                uiOutput("editor"),
@@ -94,19 +94,19 @@ exams_shiny_ui <- function(...) {
                  selected = "yes"),
                selectInput("exencoding", label = ("Encoding?"), choices = c("UTF-8", "ASCII"),
                  selected = "UTF-8"),
-               actionButton("load_editor_template", label = "Load Template")
+               actionButton("load_editor_template", label = "Load template")
              )
            ),
            tags$hr(),
            uiOutput("exnameshow"),
-           actionButton("save_ex", label = "Save Exercise"),
+           actionButton("save_ex", label = "Save exercise"),
            tags$hr(),
            uiOutput("saved_exercises"),
            br(), br()
          ),
          tabPanel("Import/Export Exercises",
            br(),
-           fileInput("ex_upload", "Import Exercises", multiple = TRUE,
+           fileInput("ex_upload", "Import exercises", multiple = TRUE,
              accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz")),
            tags$hr(),
            p("Choose exercises to export."),
@@ -157,17 +157,17 @@ exams_shiny_server <- function(input, output, session)
     }
   })
   output$preview <- renderUI({
-    selectInput('preview2', 'Preview exercise.', selected_exercises())
+    selectInput('preview2', 'Preview exercise', selected_exercises())
   })
   output$select_imported_exercise <- renderUI({
-    selectInput('ex_imp_select', 'Load exercise.', c("", dir("exercises", full.names = TRUE, recursive = TRUE)))
+    selectInput('select_exercise', 'Edit exercise', c("", dir("exercises", full.names = TRUE, recursive = TRUE)))
   })
   output$show_selected_exercise <- renderUI({
-    if(input$ex_imp_select != "") {
-      excode <- readLines(file.path("exercises", input$ex_imp_select))
+    if(input$select_exercise != "") {
+      excode <- readLines(file.path("exercises", input$select_exercise))
       excode <- gsub('\\', '\\\\', excode, fixed = TRUE)
       output$exnameshow <- renderUI({
-        textInput("exname", label = "Exercise name.", value = input$ex_imp_select)
+        textInput("exname", label = "Exercise name", value = input$select_exercise)
       })
       output$editor <- renderUI({
         aceEditor("excode", mode = "r", value = paste(excode, collapse = '\n'))
@@ -186,7 +186,7 @@ exams_shiny_server <- function(input, output, session)
     actionButton("play_exercise", label = "Preview")
   })
   output$exnameshow <- renderUI({
-    textInput("exname", label = "Exercise Name", value = input$exname)
+    textInput("exname", label = "Exercise name", value = input$exname)
   })
   observeEvent(input$load_editor_template, {
     exname <- switch(input$extype,
@@ -201,7 +201,7 @@ exams_shiny_server <- function(input, output, session)
     excode <- readLines(expath)
     excode <- gsub('\\', '\\\\', excode, fixed = TRUE)
     output$exnameshow <- renderUI({
-      textInput("exname", label = "Exercise name.", value = exname)
+      textInput("exname", label = "Exercise name", value = exname)
     })
     output$editor <- renderUI({
       aceEditor("excode", mode = "r", value = paste(excode, collapse = '\n'))
@@ -217,7 +217,7 @@ exams_shiny_server <- function(input, output, session)
     exfiles <- list.files("exercises", recursive = TRUE)
     session$sendCustomMessage(type = 'exHandler', exfiles)
     output$select_imported_exercise <- renderUI({
-      selectInput('ex_imp_select', 'Load exercise.', c("", list.files("exercises", recursive = TRUE)))
+      selectInput('select_exercise', 'Edit exercise', c("", list.files("exercises", recursive = TRUE)))
     })
   })
   observeEvent(input$play_exercise, {
@@ -284,7 +284,7 @@ exams_shiny_server <- function(input, output, session)
       exfiles <- list.files("exercises", recursive = TRUE)
       session$sendCustomMessage(type = 'exHandler', exfiles)
       output$select_imported_exercise <- renderUI({
-        selectInput('ex_imp_select', 'Load exercise.', c("", exfiles))
+        selectInput('select_exercise', 'Edit exercise', c("", exfiles))
       })
     }
   })
