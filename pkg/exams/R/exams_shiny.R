@@ -122,11 +122,11 @@ exams_shiny_ui <- function(...) {
            p("Choose exercises to export."),
            chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE),
            br(),
-           downloadButton('export_selected_exercises', 'Download selected exercises as .zip.'),
+           downloadButton('export_selected_exercises', 'Download selected exercises as .zip'),
            tags$hr(),
-           downloadButton('export_all_exercises', 'Download all exercises as .zip.'),
+           downloadButton('export_all_exercises', 'Download all exercises as .zip'),
            tags$hr(),
-           actionButton("delete", label = "Delete all exercises.")
+           actionButton("delete", label = "Delete all exercises")
          ),
          tabPanel("Define Exams",
            fluidRow(
@@ -148,7 +148,7 @@ exams_shiny_ui <- function(...) {
            selectInput("format", "Format.", c("PDF", "HTML", "QTI12")),
            numericInput("n", "Number of copies.", value = 1),
            actionButton("compile", label = "Compile."),
-           downloadButton('downloadData', 'Download all files as .zip.'),
+           downloadButton('downloadData', 'Download all files as .zip'),
            br(),
            br(),
            p("Files for download."),
