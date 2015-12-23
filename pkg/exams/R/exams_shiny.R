@@ -2,7 +2,6 @@ exams_shiny <- function(dir = NULL)
 {
   stopifnot(require("shiny"))
   stopifnot(require("shinyAce"))
-  stopifnot(require("shinyjs"))
   stopifnot(require("tools"))
 
   owd <- getwd()
@@ -56,7 +55,6 @@ exams_shiny_ui <- function(...) {
 
      ## Show a plot of the generated distribution.
      mainPanel(
-       useShinyjs(),
        tags$head(tags$script(
 	 list(
             ## Getting data from server.
@@ -79,18 +77,13 @@ exams_shiny_ui <- function(...) {
             });'))
          )
        ),
-       tags$style(HTML('
-          #player {
-            min-height: 400px;
-          }')
-       ),
        tabsetPanel(
          tabPanel("Create/Edit Exercises",
            br(),
            fluidRow(
              column(4,
                uiOutput("select_imported_exercise"),
-               conditionalPanel('input.select_exercise != ""', uiOutput("show_selected_exercise"))
+               conditionalPanel('input.selected_exercise != ""', uiOutput("show_selected_exercise"))
              ),
              column(4,
                selectInput("exencoding", label = "Encoding?", choices = c("ASCII", "UTF-8", "Latin-1", "Latin-2", "Latin-3",
@@ -144,8 +137,7 @@ exams_shiny_ui <- function(...) {
              ),
              column(6,
                br(),
-               uiOutput("preview"),
-               conditionalPanel('input.preview2 != ""', uiOutput("html_exercise"))
+               p("Preview here?")
              )
            )
          ),
@@ -170,52 +162,36 @@ exams_shiny_ui <- function(...) {
 
 exams_shiny_server <- function(input, output, session)
 {
-  selected_exercises <- reactive({
-    ex <- if(is.null(input$mychooser)) {
-      ""
-    } else {
-      c("", input$mychooser$right)
+  available_exercises <- reactive({
+    e1 <- input$save_ex
+    e2 <- input$ex_upload
+    e3 <- input$delete
+    exfiles <- list.files("exercises", recursive = TRUE)
+    if(!is.null(input$selected_exercise)) {
+      if(input$selected_exercise != "") {
+        if(input$selected_exercise %in% exfiles) {
+          i <- which(exfiles == input$selected_exercise)
+          exfiles <- c(exfiles[i], exfiles[-i])
+        }
+      }
     }
-  })
-  output$preview <- renderUI({
-    selectInput('preview2', 'Preview exercise', selected_exercises())
+    return(exfiles)
   })
   output$select_imported_exercise <- renderUI({
-    selectInput('select_exercise', 'Select exercise to be modified.',
-      c("", dir("exercises", full.names = TRUE, recursive = TRUE)))
+    selectInput('selected_exercise', 'Select exercise to be modified.',
+      available_exercises())
   })
   output$show_selected_exercise <- renderUI({
-    if(!is.null(input$select_exercise)) {
-      if(input$select_exercise != "") {
-        excode <- readLines(file.path("exercises", input$select_exercise))
+    if(!is.null(input$selected_exercise)) {
+      if(input$selected_exercise != "") {
+        excode <- readLines(file.path("exercises", input$selected_exercise))
         output$exnameshow <- renderUI({
-          textInput("exname", label = "Exercise name.", value = input$select_exercise)
+          textInput("exname", label = "Exercise name.", value = input$selected_exercise)
         })
         output$editor <- renderUI({
           aceEditor("excode", if(input$exmarkup == "LaTeX") "tex" else "markdown",
             value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
         })
-        if(input$play_exercise > 0) {
-          output$player <- renderUI({
-            unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
-            excode <- gsub("text(", "graphics::text(", input$excode, fixed = TRUE)
-            excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
-            exname <- gsub("/", "_", input$select_exercise, fixed = TRUE)
-            writeLines(excode, file.path("tmp", exname))
-            ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
-              base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
-              encoding = input$exencoding), silent = TRUE)
-            if(!inherits(ex, "try-error")) {
-              hf <- grep(".html", dir("tmp"), value = TRUE)
-              html <- readLines(file.path("tmp", hf))
-              html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
-              writeLines(html, file.path("tmp", hf))
-              return(includeHTML(file.path("tmp", hf)))
-            } else {
-              return(HTML(paste('<div style="height:400px">', ex, '</div>')))
-            }
-          })
-        }
       }
       return(NULL)
     } else return(NULL)
@@ -224,10 +200,6 @@ exams_shiny_server <- function(input, output, session)
     aceEditor("excode", if(input$exmarkup == "LaTeX") "tex" else "markdown",
       value = "Create/edit exercises here!")
   })
-  output$player <- renderUI({
-    return(HTML('<div style="height:400px"> Player </div>'))
-  })
-  hide("player")
   output$playbutton <- renderUI({
     actionButton("play_exercise", label = "Preview")
   })
@@ -252,27 +224,6 @@ exams_shiny_server <- function(input, output, session)
       aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
         value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
     })
-    if(input$play_exercise > 0) {
-      output$player <- renderUI({
-        unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
-        excode <- gsub("text(", "graphics::text(", input$excode, fixed = TRUE)
-        excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
-        exname <- gsub("/", "_", exname, fixed = TRUE)
-        writeLines(excode, file.path("tmp", exname))
-        ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
-          base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
-          encoding = input$exencoding), silent = TRUE)
-        if(!inherits(ex, "try-error")) {
-          hf <- grep(".html", dir("tmp"), value = TRUE)
-          html <- readLines(file.path("tmp", hf))
-          html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
-          writeLines(html, file.path("tmp", hf))
-          return(includeHTML(file.path("tmp", hf)))
-        } else {
-          return(HTML(paste('<div style="height:400px">', ex, '</div>')))
-        }
-      })
-    }
   })
   observeEvent(input$save_ex, {
     if(input$exname != "") {
@@ -280,49 +231,48 @@ exams_shiny_server <- function(input, output, session)
     }
     exfiles <- list.files("exercises", recursive = TRUE)
     session$sendCustomMessage(type = 'exHandler', exfiles)
-    output$select_imported_exercise <- renderUI({
-      selectInput('select_exercise', 'Edit exercise.', c("", list.files("exercises", recursive = TRUE)))
-    })
   })
   observeEvent(input$play_exercise, {
     excode <- input$excode
-    hide("editor")
-    show("player")
     output$playbutton <- renderUI({
-      actionButton("show_editor", label = "Editor")
-    })
-    output$player <- renderUI({
-      unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
-      exname <- input$exname
-      if(exname == "")
-        exname <- "ex4play.Rnw"
-      excode <- gsub("text(", "graphics::text(", excode, fixed = TRUE)
-      excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
-      exname <- gsub("/", "_", exname, fixed = TRUE)
-      writeLines(excode, file.path("tmp", exname))
-      ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
-        base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
-        encoding = input$exencoding), silent = TRUE)
-      if(!inherits(ex, "try-error")) {
-        hf <- grep(".html", dir("tmp"), value = TRUE)
-        html <- readLines(file.path("tmp", hf))
-        html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
-        writeLines(html, file.path("tmp", hf))
-        return(includeHTML(file.path("tmp", hf)))
-      } else {
-        return(HTML(paste('<div style="height:400px">', ex, '</div>')))
-      }
+      actionButton("show_editor", label = "Preview stop")
     })
   })
   observeEvent(input$show_editor, {
-    hide("player")
-    show("editor")
     output$playbutton <- renderUI({
       actionButton("play_exercise", label = "Preview")
     })
-    output$player <- renderUI({
-      return(HTML('<div style="height:400px"> </div>'))
-    })
+  })
+  exercise_code <- reactive({
+    excode <- input$excode
+  })
+  output$player <- renderUI({
+    if(!is.null(input$play_exercise)) {
+      if(input$play_exercise > 0) {
+        unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
+        excode <- exercise_code()
+        if(excode[1] != "Create/edit exercises here!") {
+          excode <- gsub("text(", "graphics::text(", excode, fixed = TRUE)
+          excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
+          exname <- if(is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
+          exname <- gsub("/", "_", exname, fixed = TRUE)
+          writeLines(excode, file.path("tmp", exname))
+          ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
+            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
+            encoding = input$exencoding), silent = TRUE)
+          if(!inherits(ex, "try-error")) {
+            hf <- grep(".html", dir("tmp"), value = TRUE)
+            html <- readLines(file.path("tmp", hf))
+            html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
+            html <- c('<div style="border: 1px solid black;border-radius:5px;padding:8px;">', html, '</div>', '</br>')
+            writeLines(html, file.path("tmp", hf))
+            return(includeHTML(file.path("tmp", hf)))
+          } else {
+            return(HTML(paste('<div>', ex, '</div>')))
+          }
+        } else return(NULL)
+      } else return(NULL)
+    } else return(NULL)
   })
   observeEvent(input$ex_upload, {
     if(!is.null(input$ex_upload$datapath)) {
@@ -350,9 +300,6 @@ exams_shiny_server <- function(input, output, session)
       }
       exfiles <- list.files("exercises", recursive = TRUE)
       session$sendCustomMessage(type = 'exHandler', exfiles)
-      output$select_imported_exercise <- renderUI({
-        selectInput('select_exercise', 'Edit exercise', c("", exfiles))
-      })
     }
   })
   output$export_selected_exercises <- downloadHandler(
@@ -385,29 +332,12 @@ exams_shiny_server <- function(input, output, session)
       unlink(tdir)
     }
   )
-  output$html_exercise <- renderUI({
-    if(length(input$preview2)) {
-      if(input$preview2 != "") {
-        unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
-        exams2html(basename(input$preview2), n = 1, dir = "tmp",
-          edir = file.path("exercises", dirname(input$preview2)),
-          base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"))
-        html <- readLines("tmp/plain1.html")
-        html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
-        writeLines(html, "tmp/plain1.html")
-        return(includeHTML("tmp/plain1.html"))
-      }
-    }
-  })
   observeEvent(input$delete, {
     owd <- getwd()
     setwd("exercises")
     unlink(dir(), recursive = TRUE, force = TRUE)
     setwd(owd)
     session$sendCustomMessage(type = 'deleteHandler', "delete")
-    output$select_imported_exercise <- renderUI({
-      selectInput('select_exercise', 'Edit exercise', "")
-    })
     return(NULL)
   })
   observeEvent(input$compile, {
