@@ -252,8 +252,6 @@ exams_shiny_server <- function(input, output, session)
         unlink(dir("tmp", full.names = TRUE, recursive = TRUE))
         excode <- exercise_code()
         if(excode[1] != "Create/edit exercises here!") {
-          excode <- gsub("text(", "graphics::text(", excode, fixed = TRUE)
-          excode <- gsub("graphics::graphics::text(", "graphics::text(", excode, fixed = TRUE)
           exname <- if(is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
           exname <- gsub("/", "_", exname, fixed = TRUE)
           writeLines(excode, file.path("tmp", exname))
