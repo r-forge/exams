@@ -126,18 +126,21 @@ exams_shiny_ui <- function(...) {
            tags$hr(),
            downloadButton('export_all_exercises', 'Download all exercises as .zip'),
            tags$hr(),
-           actionButton("delete", label = "Delete all exercises")
+           actionButton("delete", label = "Delete all exercises"),
+           br(),
+           br()
          ),
          tabPanel("Define Exams",
            fluidRow(
              column(6,
                br(),
                p("Select exercises for your exam."),
-               chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE)
+               chooserInput("mychooser2", c(), c(), size = 10, multiple = TRUE)
              ),
              column(6,
                br(),
-               p("Preview here?")
+               p("yo!"),
+               uiOutput("exercises4exam")
              )
            )
          ),
@@ -330,6 +333,17 @@ exams_shiny_server <- function(input, output, session)
       unlink(tdir)
     }
   )
+  final_exam <- reactive({
+    input$mychooser2$right
+  })
+  output$exercises4exam <- renderUI({
+    if(!is.null(ex <- final_exam())) {
+      c1 <- paste('renderText("', ex, '")', sep = '', collapse = ', ')
+      c1 <- paste("column(6,", c1, ")")
+    } else c1 <- 'renderText("Empty")'
+    cmd <- paste('fluidRow(', c1, ',', 'column(6, p("yes!")))')
+    eval(parse(text = cmd))
+  })
   observeEvent(input$delete, {
     owd <- getwd()
     setwd("exercises")
