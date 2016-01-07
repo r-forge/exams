@@ -36,7 +36,7 @@ exams_shiny <- function(dir = NULL)
     if(is.null(data))
       NULL
     else
-      list(left=as.character(data$left), right=as.character(data$right))
+      list(questions=as.character(data$questions), left=as.character(data$left), right=as.character(data$right))
   }, force = TRUE)
 
   dump("exams_shiny_ui", file = file.path(dir, "ui.R"), envir = .GlobalEnv)
@@ -69,6 +69,19 @@ exams_shiny_ui <- function(...) {
                   });
                }
             });'),
+
+	    HTML('Shiny.addCustomMessageHandler("questionHandler", function(data) {
+               var dest = $("div.chooser-questions").find("select");
+               dest.empty();
+	       if ( typeof(data) == "string" ) {
+		  dest.append("<option>"+data+"</option>");
+               } else {
+                  $.each(data, function(key, val) {
+		     dest.append("<option>"+val+"</option>");
+                  });
+               }
+            });'),
+
 	    HTML('Shiny.addCustomMessageHandler("deleteHandler", function(data) {
                var dleft = $("div.chooser-left-container").find("select.left");
                dleft.empty();
@@ -134,12 +147,16 @@ exams_shiny_ui <- function(...) {
            fluidRow(
              column(6,
                br(),
+               textInput("exam_name", "Name of the exam.", "Exam1"),
                p("Select exercises for your exam."),
-               chooserInput("mychooser2", c(), c(), size = 10, multiple = TRUE)
+               chooserInput2("mychooser2", c(), c(), c(), size = 10, multiple = TRUE),
+               br(),
+               actionButton("add_question", label = "Add new question"),
+               actionButton("save_exam", label = "Save")
              ),
              column(6,
                br(),
-               p("yo!"),
+               p("Exam structure."),
                uiOutput("exercises4exam")
              )
            )
@@ -258,20 +275,14 @@ exams_shiny_server <- function(input, output, session)
           exname <- if(is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
           exname <- gsub("/", "_", exname, fixed = TRUE)
           writeLines(excode, file.path("tmp", exname))
-          ex <- try(exams2html(exname, n = 1, name = "preview", dir = "tmp", edir = "tmp",
-            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "pdf", "csv", "raw", "rda", "zip", "xls", "xlsx"),
+          ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
+            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
             encoding = input$exencoding), silent = TRUE)
           if(!inherits(ex, "try-error")) {
-            hf <- "preview1.html"	    
+            hf <- grep(".html", dir("tmp"), value = TRUE)
             html <- readLines(file.path("tmp", hf))
-	    n <- c(which(html == "<body>"), length(html))
-	    html <- c(
-	      html[1L:n[1L]],                  ## header
-	      '<div style="border: 1px solid black;border-radius:5px;padding:8px;">', ## border
-	      html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
-	      '</div>', '</br>',               ## border
-	      html[(n[2L] - 1L):(n[2L])]       ## footer
-	    )
+            html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
+            html <- c('<div style="border: 1px solid black;border-radius:5px;padding:8px;">', html, '</div>', '</br>')
             writeLines(html, file.path("tmp", hf))
             return(includeHTML(file.path("tmp", hf)))
           } else {
@@ -339,17 +350,6 @@ exams_shiny_server <- function(input, output, session)
       unlink(tdir)
     }
   )
-  final_exam <- reactive({
-    input$mychooser2$right
-  })
-  output$exercises4exam <- renderUI({
-    if(!is.null(ex <- final_exam())) {
-      c1 <- paste('renderText("', ex, '")', sep = '', collapse = ', ')
-      c1 <- paste("column(6,", c1, ")")
-    } else c1 <- 'renderText("Empty")'
-    cmd <- paste('fluidRow(', c1, ',', 'column(6, p("yes!")))')
-    eval(parse(text = cmd))
-  })
   observeEvent(input$delete, {
     owd <- getwd()
     setwd("exercises")
@@ -358,6 +358,31 @@ exams_shiny_server <- function(input, output, session)
     session$sendCustomMessage(type = 'deleteHandler', "delete")
     return(NULL)
   })
+  observeEvent(input$add_question, {
+    n <- length(input$mychooser2$questions) + 1
+    questions <- paste("Question", 1:n)
+    session$sendCustomMessage(type = 'questionHandler', questions)
+  })
+  final_exam <- reactive({
+    input$save_exam
+    if(length(list.files("exam"))) {
+      exname <- paste(input$exam_name, "rda", sep = ".")
+      load(exname)
+      return(eval(parse(text = exname)))
+    } else return(NULL)
+  })
+  output$exercises4exam <- renderUI({
+    if(!is.null(ex <- final_exam())) {
+      ex
+    } else {
+      input$exam_name
+    }
+  })
+  observeEvent(input$save_exam, {
+    
+  })
+
+
   observeEvent(input$compile, {
     if(length(input$mychooser$right)) {
       unlink(dir("exams", full.names = TRUE))
@@ -435,6 +460,47 @@ chooserInput <- function(inputId, leftChoices, rightChoices, size = 5, multiple 
 }
 
 
+chooserInput2 <- function(inputId, leftChoices, rightChoices, questions, size = 5, multiple = FALSE)
+{
+  leftChoices <- lapply(leftChoices, tags$option)
+  rightChoices <- lapply(rightChoices, tags$option)
+  questions <- lapply(questions, tags$option)
+  
+  if(multiple)
+    multiple <- "multiple"
+  else
+    multiple <- NULL
+  
+  tagList(
+    singleton(tags$head(
+      tags$script(src="chooser-binding.js"),
+      tags$style(type="text/css",
+        HTML(".chooser-container { display: inline-block; }")
+      )
+    )),
+    div(id=inputId, class="chooser",
+      div(class="chooser-container chooser-questions",
+        HTML("<b>Questions</b><br>"),
+        tags$select(class="questions",size=size, multiple=NULL, questions)
+      ),
+      div(class="chooser-container chooser-left-container",
+        HTML("<b>Available</b><br>"),
+        tags$select(class="left", size=size, multiple=multiple, leftChoices)
+      ),
+      div(class="chooser-container chooser-center-container",
+        icon("arrow-circle-o-right", "right-arrow fa-2x"),
+        tags$br(),
+        icon("arrow-circle-o-left", "left-arrow fa-2x")
+      ),
+      div(class="chooser-container chooser-right-container",
+        HTML("<b>Selected</b><br>"),
+        tags$select(class="right", size=size, multiple=multiple, rightChoices)
+      )
+    )
+  )
+}
+
+
 chooser.js <- '
 (function() {
 
@@ -493,9 +559,12 @@ binding.initialize = function(el) {
 };
 
 binding.getValue = function(el) {
+  console.log("binding.getValue triggered")
+  console.log($.makeArray($(el).find("select.questions option").map(function(i, e) { return e.value; })))
   return {
     left: $.makeArray($(el).find("select.left option").map(function(i, e) { return e.value; })),
-    right: $.makeArray($(el).find("select.right option").map(function(i, e) { return e.value; }))
+    right: $.makeArray($(el).find("select.right option").map(function(i, e) { return e.value; })),
+    questions: $.makeArray($(el).find("select.questions option").map(function(i, e) { return e.value; }))
   }
 };
 
