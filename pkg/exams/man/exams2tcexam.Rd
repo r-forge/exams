@@ -13,7 +13,7 @@
     resolution = 100, width = 4, height = 4, encoding = "", points = NULL,
     modulename = name, subjectname = name, subjectdescription = NULL, timer = 0,
     fullscreen = FALSE, inlineanswers = FALSE, autonext = FALSE, shuffle = TRUE,
-    lang = "en", date = Sys.time(), zip = FALSE, converter = "ttm", \dots)
+    lang = "en", date = Sys.time(), zip = FALSE, converter = NULL, \dots)
 }
 
 \arguments{
@@ -37,7 +37,9 @@
   \item{lang}{character. Two-letter indicator of the language.}
   \item{date}{character or \code{"Date"} object specifying the date of the exam.}
   \item{zip}{logical. Should the resulting XML file be zipped?}
-  \item{converter, \dots}{arguments passed to \code{\link[exams]{make_exercise_transform_html}}.}
+  \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
+    The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
+    exercises in \code{file} where \code{"pandoc"} is used.}
 }
 
 \details{

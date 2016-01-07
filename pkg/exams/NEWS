@@ -4,6 +4,11 @@ Changes in Version 2.2-0
     experimental and likely to change in future versions. It essentially
     behaves as exams2qti12() but with some additional processing for Blackboard.
 
+  o Improvements and bug fixes in exams2tcexam(). Various HTML tags are now
+    supported in the development version by adding a new [html] tag in TCExam.
+    This has been integrated into UIBK's version of TCExam but is not in the
+    official release yet.
+
 
 Changes in Version 2.1-0
 
