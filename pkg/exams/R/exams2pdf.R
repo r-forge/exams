@@ -1,9 +1,12 @@
 exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
-  template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
+  template = NULL, inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   points = NULL, ...)
 {
+  ## for Rnw exercises use "plain" template, for Rmd "plain8"
+  if(is.null(template)) template <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "plain8" else "plain"
+
   ## output directory or display on the fly
   display <- missing(dir)
   if(missing(dir) & n == 1L & length(template) == 1L) {

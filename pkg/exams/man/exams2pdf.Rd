@@ -9,7 +9,7 @@
 }
 
 \usage{
-  exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = "plain", 
+  exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = NULL, 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "", quiet = TRUE, transform = NULL,
     edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
@@ -33,8 +33,10 @@
     and no \code{dir} is explicitly specified, the file is displayed on the
     screen rather than saved in \code{dir}.}
   \item{template}{character. A specification of a LaTeX template. The package
-    currently provides \code{"exam"}, \code{"solution"}, \code{"plain"}.
-    For details see below.}
+    currently provides \code{"exam"}, \code{"solution"}, \code{"plain"},
+    among others. The default is to use the \code{"plain.tex"} file unless
+    there are Rmd exercises in \code{file} for which \code{"plain8.tex"}
+    is used. For further details see below.}
   \item{inputs}{character. Names of files that are needed as inputs during
     LaTeX compilation (e.g., style files, headers). Either the full path
     must be given or the file needs to be in \code{edir}.}
