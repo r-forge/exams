@@ -2,6 +2,7 @@ exams_shiny <- function(dir = NULL)
 {
   stopifnot(require("shiny"))
   stopifnot(require("shinyAce"))
+  stopifnot(require("shinyTree"))
   stopifnot(require("tools"))
 
   owd <- getwd()
@@ -128,9 +129,17 @@ exams_shiny_ui <- function(...) {
          tabPanel("Import/Export Exercises",
            br(),
            p("Import exercises in", strong('.Rnw'), ",", strong(".Rmd"),
-            "format, also provided as", strong(".zip"), "or", strong(".tar.gz"), "files!"),
+            "format, also provided as", strong(".zip"), "or", strong(".tar.gz"), "files!",
+            "Import images in", strong(".jpg"), "and", strong("png"), "format!",
+            "Import an existing project!"),
            fileInput("ex_upload", NULL, multiple = TRUE,
-             accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz")),
+             accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz",
+               "jpg", "JPG", "png", "PNG")),
+           tags$hr(),
+           uiOutput("browser"),
+           verbatimTextOutput("selTxt"),
+           br(),
+           actionButton("delete", label = "Delete selected exercises"),
            tags$hr(),
            p("Choose exercises to export."),
            chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE),
@@ -138,8 +147,6 @@ exams_shiny_ui <- function(...) {
            downloadButton('export_selected_exercises', 'Download selected exercises as .zip'),
            tags$hr(),
            downloadButton('export_all_exercises', 'Download all exercises as .zip'),
-           tags$hr(),
-           actionButton("delete", label = "Delete all exercises"),
            br(),
            br()
          ),
@@ -350,14 +357,6 @@ exams_shiny_server <- function(input, output, session)
       unlink(tdir)
     }
   )
-  observeEvent(input$delete, {
-    owd <- getwd()
-    setwd("exercises")
-    unlink(dir(), recursive = TRUE, force = TRUE)
-    setwd(owd)
-    session$sendCustomMessage(type = 'deleteHandler', "delete")
-    return(NULL)
-  })
   observeEvent(input$add_question, {
     n <- length(input$mychooser2$questions) + 1
     questions <- paste("Question", 1:n)
@@ -380,6 +379,55 @@ exams_shiny_server <- function(input, output, session)
   })
   observeEvent(input$save_exam, {
     
+  })
+
+  make_browser <- reactive({
+    e1 <- input$save_ex
+    e2 <- input$ex_upload
+    e3 <- input$delete
+    shinyTree("tree", checkbox = TRUE, search = TRUE, dragAndDrop = TRUE)
+  })
+
+  output$browser <- renderUI({
+    make_browser()
+  })
+
+  output$tree <- renderTree({
+    exercises <- available_exercises()
+    exams <- list.files("exams")
+    if(!length(exercises)) {
+      exercises <- ""
+    } else {
+      exercises <- as.list(exercises)
+      names(exercises) <- exercises
+    }
+    if(!length(exams)) {
+      exams <- ""
+    } else {
+      exams <- as.list(exams)
+    }
+    list(
+      "exercises" = exercises,
+      "exams" = exams
+    )
+  })
+
+  selected_in_tree <- reactive({
+    tree <- input$tree
+    unlist(get_selected(tree))
+  })
+
+  observeEvent(input$delete, {
+    sel <- selected_in_tree()
+print(sel)
+    if(!is.null(sel)) {
+      owd <- getwd()
+      setwd("exercises")
+      ##unlink(dir(), recursive = TRUE, force = TRUE)
+      setwd(owd)
+      ##session$sendCustomMessage(type = 'deleteHandler', "delete")
+    }
+    return(NULL)
   })
 
 
