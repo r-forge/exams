@@ -26,10 +26,10 @@
   make_itembody_blackboard(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, enumerate = TRUE, digits = NULL,
+    cutvalue = NULL, enumerate = FALSE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = TRUE, qti12 = FALSE)
+    fix_num = FALSE, qti12 = FALSE)
 }
 
 \arguments{

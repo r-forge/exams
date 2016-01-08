@@ -6,7 +6,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   adescription = "Please solve the following exercises.",
   atitle = "Please answer the following question.",
   maxattempts = 1, zip = TRUE,
-  points = NULL, eval = list(partial = FALSE, negative = FALSE), ...) #NS: partial is set off
+  points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -315,11 +315,13 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 
-## Blackboard item body constructor function NS: changed enumerate= and fix_num= and eval = list(partial=
+## Blackboard item body constructor function
+## NS: changed enumerate= and fix_num= and eval = list(partial=
+## Z: changed partial eval back again to be consistent with other QTI interfaces
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = FALSE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = FALSE, negative = FALSE), fix_num = FALSE,
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = FALSE,
   qti12 = FALSE)
 {
   function(x) {
