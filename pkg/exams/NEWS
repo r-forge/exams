@@ -9,6 +9,11 @@ Changes in Version 2.2-0
     This has been integrated into UIBK's version of TCExam but is not in the
     official release yet.
 
+  o Added a new convenience function include_supplement() which facilitates
+    including static supplement files (e.g., graphics or datasets). This
+    essentially just calls file.copy() but facilitates finding supplement
+    files that are available along with the .Rnw/.Rmd exercise files.
+
 
 Changes in Version 2.1-0
 

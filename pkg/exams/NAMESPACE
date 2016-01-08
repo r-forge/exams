@@ -36,6 +36,7 @@ export(
   "extract_extra",
   "extract_environment",
   "extract_items",
+  "include_supplement",
 
   ## LaTeX to image converter (via ImageMagick's convert)
   "tex2image",

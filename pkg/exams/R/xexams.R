@@ -26,17 +26,30 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   if(!is.null(dir)) dir <- file_path_as_absolute(dir)
   dir_orig <- getwd()
   on.exit(setwd(dir_orig))
-  dir_temp <- if(is.null(tdir)) tempfile() else tdir
+  dir_temp <- if(is.null(tdir)) tempfile() else file_path_as_absolute(tdir)
   if(!file.exists(dir_temp) && !dir.create(dir_temp))
     stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
   dir_pkg <- find.package("exams")
-  dir_supp <- if(is.null(sdir)) tempfile() else sdir
+  dir_supp <- if(is.null(sdir)) tempfile() else file_path_as_absolute(sdir)
   if(!file.exists(dir_supp) && !dir.create(dir_supp))
     stop(gettextf("Cannot create temporary work directory '%s'.", dir_supp))
+  dir_exrc <- if(is.null(edir)) getwd() else file_path_as_absolute(edir)
+  if(!file.exists(dir_exrc))
+    stop(gettextf("Exercise directory does not exist: '%s'.", dir_exrc))  
   if(verbose) {
+    cat(sprintf("Output directory: %s\n", dir))
+    cat(sprintf("Exercise directory: %s\n", dir_exrc))
     cat(sprintf("Supplement directory: %s\n", dir_supp))
     cat(sprintf("Temporary directory: %s\n", dir_temp))
   }
+
+  ## create global variable storing file paths (for access in helper functions)
+  utils::assignInNamespace(".xexams_dir", list(
+    output = dir,
+    exercises = dir_exrc,
+    supplements = dir_supp,
+    temporary = dir_temp
+  ), ns = "exams")
   
   ## number of available exercises in each element of 'file'
   ## and number of selected samples per element
@@ -66,7 +79,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_ext <- gsub("r", "", file_ext, fixed = TRUE)
   file_ext[file_ext == "nw"] <- "tex"
   file_tex <- paste(file_base, file_ext, sep = ".")
-  file_path <- search_files(file_Rnw, edir, recursive = !is.null(edir))
+  file_path <- search_files(file_Rnw, dir_exrc, recursive = !is.null(edir))
   file_path <- ifelse(is.na(file_path) & file.exists(file_raw), file_raw, file_path)
   file_path <- ifelse(!is.na(file_path), file_path, file.path(dir_pkg, "exercises", file_Rnw))
   if(!all(file.exists(file_path))) stop(paste("The following files cannot be found: ",
@@ -209,3 +222,10 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(),
     knitr::opts_chunk$set(oopts)
   }
 }
+
+.xexams_dir <- list(
+  output = NULL,
+  exercises = NULL,
+  supplements = NULL,
+  temporary = NULL
+)
