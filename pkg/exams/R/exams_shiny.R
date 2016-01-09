@@ -282,14 +282,20 @@ exams_shiny_server <- function(input, output, session)
           exname <- if(is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
           exname <- gsub("/", "_", exname, fixed = TRUE)
           writeLines(excode, file.path("tmp", exname))
-          ex <- try(exams2html(exname, n = 1, dir = "tmp", edir = "tmp",
-            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "rda", "zip"),
+          ex <- try(exams2html(exname, n = 1, name = "preview", dir = "tmp", edir = "tmp",
+            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "pdf", "csv", "raw", "rda", "zip", "xls", "xlsx"),
             encoding = input$exencoding), silent = TRUE)
           if(!inherits(ex, "try-error")) {
-            hf <- grep(".html", dir("tmp"), value = TRUE)
+            hf <- "preview1.html"	    
             html <- readLines(file.path("tmp", hf))
-            html <- gsub('<h2>Exam 1</h2>', '', html, fixed = TRUE)
-            html <- c('<div style="border: 1px solid black;border-radius:5px;padding:8px;">', html, '</div>', '</br>')
+	    n <- c(which(html == "<body>"), length(html))
+	    html <- c(
+	      html[1L:n[1L]],                  ## header
+	      '<div style="border: 1px solid black;border-radius:5px;padding:8px;">', ## border
+	      html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
+	      '</div>', '</br>',               ## border
+	      html[(n[2L] - 1L):(n[2L])]       ## footer
+	    )
             writeLines(html, file.path("tmp", hf))
             return(includeHTML(file.path("tmp", hf)))
           } else {
