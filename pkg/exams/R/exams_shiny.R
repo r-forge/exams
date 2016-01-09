@@ -229,7 +229,7 @@ exams_shiny_server <- function(input, output, session)
       value = "Create/edit exercises here!")
   })
   output$playbutton <- renderUI({
-    actionButton("play_exercise", label = "Preview")
+    actionButton("play_exercise", label = "Show preview")
   })
   output$exnameshow <- renderUI({
     textInput("exname", label = "Exercise name.", value = input$exname)
@@ -263,12 +263,12 @@ exams_shiny_server <- function(input, output, session)
   observeEvent(input$play_exercise, {
     excode <- input$excode
     output$playbutton <- renderUI({
-      actionButton("show_editor", label = "Preview stop")
+      actionButton("show_editor", label = "Hide preview")
     })
   })
   observeEvent(input$show_editor, {
     output$playbutton <- renderUI({
-      actionButton("play_exercise", label = "Preview")
+      actionButton("play_exercise", label = "Show preview")
     })
   })
   exercise_code <- reactive({
@@ -284,7 +284,7 @@ exams_shiny_server <- function(input, output, session)
           exname <- gsub("/", "_", exname, fixed = TRUE)
           writeLines(excode, file.path("tmp", exname))
           ex <- try(exams2html(exname, n = 1, name = "preview", dir = "tmp", edir = "tmp",
-            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "pdf", "csv", "raw", "rda", "zip", "xls", "xlsx"),
+            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "txt", "rda", "dta", "xls", "xlsx", "zip", "pdf", "doc", "docx"),
             encoding = input$exencoding), silent = TRUE)
           if(!inherits(ex, "try-error")) {
             hf <- "preview1.html"	    
