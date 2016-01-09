@@ -137,16 +137,17 @@ exams_shiny_ui <- function(...) {
                "jpg", "JPG", "png", "PNG")),
            tags$hr(),
            uiOutput("browser"),
-           verbatimTextOutput("selTxt"),
            br(),
-           actionButton("delete", label = "Delete selected exercises"),
+           fluidRow(
+             column(4,
+               downloadButton('download_exercises', 'Download as .zip')
+             ),
+             column(4,
+               actionButton("delete_exercises", label = "Delete")
+             )
+           ),
            tags$hr(),
-           p("Choose exercises to export."),
-           chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE),
-           br(),
-           downloadButton('export_selected_exercises', 'Download selected exercises as .zip'),
-           tags$hr(),
-           downloadButton('export_all_exercises', 'Download all exercises as .zip'),
+           downloadButton('download_project', 'Download project'),
            br(),
            br()
          ),
@@ -192,7 +193,7 @@ exams_shiny_server <- function(input, output, session)
   available_exercises <- reactive({
     e1 <- input$save_ex
     e2 <- input$ex_upload
-    e3 <- input$delete
+    e3 <- input$delete_exercises
     exfiles <- list.files("exercises", recursive = TRUE)
     if(!is.null(input$selected_exercise)) {
       if(input$selected_exercise != "") {
@@ -333,33 +334,21 @@ exams_shiny_server <- function(input, output, session)
       session$sendCustomMessage(type = 'exHandler', exfiles)
     }
   })
-  output$export_selected_exercises <- downloadHandler(
+  output$download_project <- downloadHandler(
     filename = function() {
-      paste("exercises", "zip", sep = ".")
+      paste("exams_project", "zip", sep = ".")
     },
     content = function(file) {
       owd <- getwd()
       dir.create(tdir <- tempfile())
-      file.copy(file.path("exercises", input$mychooser$right), file.path(tdir, input$mychooser$right))
+      dir.create(file.path(tdir, "exercises"))
+      dir.create(file.path(tdir, "exams"))
+      file.copy(file.path(owd, c("exercises", "exams")),
+        file.path(tdir, c("exercises", "exams")), recursive = TRUE)
       setwd(tdir)
-      zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
+      zip(zipfile = paste("exams_project", "zip", sep = "."), files = c("exercises", "exams"))
       setwd(owd)
-      file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
-      unlink(tdir)
-    }
-  )
-  output$export_all_exercises <- downloadHandler(
-    filename = function() {
-      paste("exercises", "zip", sep = ".")
-    },
-    content = function(file) {
-      owd <- getwd()
-      dir.create(tdir <- tempfile())
-      file.copy(file.path("exercises", list.files("exercises")), file.path(tdir, list.files("exercises")))
-      setwd(tdir)
-      zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
-      setwd(owd)
-      file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
+      file.copy(file.path(tdir, paste("exams_project", "zip", sep = ".")), file)
       unlink(tdir)
     }
   )
@@ -390,7 +379,7 @@ exams_shiny_server <- function(input, output, session)
   make_browser <- reactive({
     e1 <- input$save_ex
     e2 <- input$ex_upload
-    e3 <- input$delete
+    e3 <- input$delete_exercises
     shinyTree("tree", checkbox = TRUE, search = TRUE, dragAndDrop = TRUE)
   })
 
@@ -422,16 +411,34 @@ exams_shiny_server <- function(input, output, session)
     tree <- input$tree
     unlist(get_selected(tree))
   })
+  output$download_exercises <- downloadHandler(
+    filename = function() {
+      paste("exercises", "zip", sep = ".")
+    },
+    content = function(file) {
+      if(!is.null(sel <- selected_in_tree())) {
+        sel2 <- gsub("/", "_", sel)
+        owd <- getwd()
+        dir.create(tdir <- tempfile())
+        file.copy(file.path("exercises", sel), file.path(tdir, sel2), recursive = TRUE)
+        setwd(tdir)
+        zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
+        setwd(owd)
+        file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
+        unlink(tdir)
+      }
+    }
+  )
 
-  observeEvent(input$delete, {
+  observeEvent(input$delete_exercises, {
     sel <- selected_in_tree()
-print(sel)
     if(!is.null(sel)) {
       owd <- getwd()
       setwd("exercises")
-      ##unlink(dir(), recursive = TRUE, force = TRUE)
+      unlink(sel, recursive = TRUE, force = TRUE)
       setwd(owd)
-      ##session$sendCustomMessage(type = 'deleteHandler', "delete")
+      exfiles <- list.files("exercises", recursive = TRUE)
+      session$sendCustomMessage(type = 'exHandler', exfiles)
     }
     return(NULL)
   })
