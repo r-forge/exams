@@ -9,6 +9,11 @@ Changes in Version 2.2-0
     This has been integrated into UIBK's version of TCExam but is not in the
     official release yet.
 
+  o Fixed a bug in exams2html() with option solution = FALSE or
+    question = FALSE. Now these correctly suppress the corresponding element
+    of the exercise. In previous versions only the header had been set to NA
+    erroneously.
+
   o Added a new convenience function include_supplement() which facilitates
     including static supplement files (e.g., graphics or datasets). This
     essentially just calls file.copy() but facilitates finding supplement

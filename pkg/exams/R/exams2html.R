@@ -148,7 +148,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
         if(!is.null(exm[[j]]$metainfo$id)) {
           html_body <- c(html_body, paste("<b> ID: ", exm[[j]]$metainfo$id, "</b>", sep = ""), "<br/>")
         }
-        if(!is.null(question[i])) {
+        if(!is.na(question[i])) {
           html_body <- c(html_body, question[i], exm[[j]]$question, "<br/>")
           if(length(exm[[j]]$questionlist) & !is.null(exm[[j]]$questionlist)) {
             html_body <- c(html_body, '<ol type="a">')
@@ -159,7 +159,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
             html_body <- c(html_body, "</ol>", "<br/>")
           }
         }
-        if(!is.null(solution[i])) {
+        if(!is.na(solution[i])) {
           html_body <- c(html_body, solution[i], exm[[j]]$solution, "<br/>")
           if(length(exm[[j]]$solutionlist) & !is.null(exm[[j]]$solutionlist)) {
             html_body <- c(html_body, '<ol type="a">')
