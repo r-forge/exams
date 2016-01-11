@@ -3,6 +3,7 @@ exams_shiny <- function(dir = NULL)
   stopifnot(require("shiny"))
   stopifnot(require("shinyAce"))
   stopifnot(require("shinyTree"))
+  stopifnot(require("shinyFiles"))
   stopifnot(require("tools"))
 
   owd <- getwd()
@@ -149,6 +150,9 @@ exams_shiny_ui <- function(...) {
            tags$hr(),
            downloadButton('download_project', 'Download project'),
            br(),
+           shinyFilesButton("files", label = "File select", title = "Please select a file",
+             multiple = TRUE),
+           shinyDirButton("directory", "New directory", title = "Create a directory", buttonType = "default", class = NULL),
            br()
          ),
          tabPanel("Define Exams",
@@ -352,6 +356,13 @@ exams_shiny_server <- function(input, output, session)
       unlink(tdir)
     }
   )
+  
+  shinyFileChoose(input, "files", root = c(exercises = "exercises"),
+    filetypes = c("", "Rnw", "rnw", "Rmd", "rmd", "Rda", "rda"), session = session)
+
+  shinyDirChoose(input, 'directory', roots = c(exercises = "exercises"),
+    session = session, restrictions = "exercises")
+
   observeEvent(input$add_question, {
     n <- length(input$mychooser2$questions) + 1
     questions <- paste("Question", 1:n)
@@ -395,6 +406,7 @@ exams_shiny_server <- function(input, output, session)
     } else {
       exercises <- as.list(exercises)
       names(exercises) <- exercises
+      exercises <- structure(exercises, stdisabled=TRUE)
     }
     if(!length(exams)) {
       exams <- ""
