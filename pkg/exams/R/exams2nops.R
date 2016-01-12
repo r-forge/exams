@@ -130,9 +130,7 @@ if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
 if(enc == "iso885915") enc <- "latin9"
 
 empty <- if(!duplex) {
-"
-\\newpage
-"
+""
 } else {
 "
 \\newpage
@@ -297,9 +295,12 @@ if(length(page3)) {
   c("\n\\newpage\n", page3, empty)
 },
 "
-\\setcounter{page}{0}
 
 \\setlength{\\textheight}{24cm} 
+\\newpage
+
+\\setcounter{page}{0}
+
 \\setlength{\\oddsidemargin}{0cm} 
 \\setlength{\\evensidemargin}{0cm} 
 \\setlength{\\topmargin}{0cm} 
@@ -515,7 +516,7 @@ c("
 \\put(27.5,270){\\line(1,0){5}} \\put(30,267.5){\\line(0,1){5}} 
 
 % general instructions and logo
-\\IfFileExists{\\mylogo}{\\put(175,251){\\includegraphics{\\mylogo}} }{}
+\\IfFileExists{\\mylogo}{\\put(175,251){\\includegraphics[height=2.51cm,keepaspectratio]{\\mylogo}}}{}
 \\put(40,270){\\makebox(0,0)[bl]{\\textsf{\\textbf{\\LARGE{\\myinstitution}}}}}
 \\put(20,210){\\parbox{170mm}{\\textsf{\\myFillAnswers}}}",
 
