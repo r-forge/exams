@@ -3,7 +3,7 @@ exams2tcexam <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding = "", points = NULL,
   modulename = name, subjectname = name, subjectdescription = NULL, timer = 0,
-  fullscreen = FALSE, inlineanswers = FALSE, autonext = FALSE, shuffle = TRUE,
+  fullscreen = FALSE, inlineanswers = FALSE, autonext = FALSE, shuffle = FALSE,
   lang = "en", date = Sys.time(), zip = FALSE, converter = NULL, ...)
 {
   ## set up .html transformer
@@ -174,6 +174,8 @@ fix_html_tcexam <- function(x, collapse = " ")
     c("<div class=\"p\"><!----></div>", "\n"),
     c("<div style=\"text-align:center\">", "\n"),
     c("</div>", ""),
+    c("<span>", " "),
+    c("</span>", " "),
     c("&", "&amp;"),
     c("<", "&lt;"),
     c(">", "&gt;"),
@@ -186,7 +188,7 @@ fix_html_tcexam <- function(x, collapse = " ")
 
 ## tcexam question constructor function
 make_question_tcexam <- function(timer = 0, fullscreen = FALSE,
-  inlineanswers = FALSE, autonext = FALSE, shuffle = TRUE)
+  inlineanswers = FALSE, autonext = FALSE, shuffle = FALSE)
 {
   function(x, points = NULL, position = 1L) {
     ## how many points?
