@@ -43,7 +43,10 @@
   \item{intro}{character with LaTeX code for optional introduction text on the first page
     of the exam.}
   \item{blank}{integer. Number of blank pages to be added at the end.
-    (Default is chosen to be half of the number of exercises.)}
+    (Default is chosen to be half of the number of exercises.)
+    If \code{pages} is specified, \code{blank} can also be a vector of
+    length two with blank pages before and after the extra \code{pages},
+    respectively.}
   \item{duplex}{logical. Should blank pages be added after the title page
     (for duplex printing)?}
   \item{pages}{character. Path(s) to additional PDF pages to be included

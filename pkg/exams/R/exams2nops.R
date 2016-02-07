@@ -140,7 +140,11 @@ empty <- if(!duplex) {
 }
 
 if(is.null(blank)) blank <- ceiling(n/2)
-blank <- rep("\\newpage\n\\phantom{.}", blank)
+if(length(blank) < 2L) blank <- c(0L, blank)
+blank <- list(
+  rep("\\newpage\n\\phantom{.}", blank[1L]),
+  rep("\\newpage\n\\phantom{.}", blank[2L])
+)
 
 rval <- c("
 \\documentclass[10pt,a4paper]{article} 
@@ -320,9 +324,11 @@ intro,
 
 \\end{enumerate}
 ",
+blank[[1L]],
+"",
 if(!is.null(pages)) paste("\\newpage\n\\includepdf[pages=1-]{", pages, "}", sep = "", collapse = "\n"),
 "",
-blank,
+blank[[2L]],
 "
 \\end{document}
 ")
