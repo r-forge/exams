@@ -629,7 +629,7 @@ get_template_code <- function(type, markup)
                 '%% \\extol{0.01}')
     )
   } else {
-
+    excode <- "Markdown templates not available yet!"
   }
   
   excode
