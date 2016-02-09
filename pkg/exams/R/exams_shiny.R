@@ -57,6 +57,11 @@ exams_shiny_ui <- function(...) {
 
      ## Show a plot of the generated distribution.
      mainPanel(
+       tags$style(HTML("
+         .gray-node {
+           color: #E59400;
+         }
+       ")),
        tags$head(tags$script(
 	 list(
             ## Getting data from server.
@@ -107,19 +112,23 @@ exams_shiny_ui <- function(...) {
              )
            ),
            fluidRow(
-             column(10,
+             column(9,
                uiOutput("editor", inline = TRUE, container = div),
                uiOutput("player", inline = TRUE, container = div),
                uiOutput("playbutton")
              ),
-             column(2,
-               p("Load a template for fast production of new exercises."),
-               selectInput("exmarkup", label = ("Markup?"), choices = c("LaTeX", "Markdown"),
+             column(3,
+               selectInput("exmarkup", label = "Load a template, Markup?", choices = c("LaTeX", "Markdown"),
                  selected = "LaTeX"),
                selectInput("extype", label = ("Type?"),
                  choices = c("num", "schoice", "mchoice", "string", "cloze"),
                  selected = "num"),
-               actionButton("load_editor_template", label = "Load template")
+               actionButton("load_editor_template", label = "Load template"),
+               hr(),
+               selectInput("exams_exercises", label = "Load exams package exercises.",
+                 choices = list.files(file.path(find.package("exams"), "exercises")),
+                 selected = "boxplots.Rnw"),
+               actionButton("load_editor_exercise", label = "Load exercise")
              )
            ),
            tags$hr(),
@@ -137,23 +146,13 @@ exams_shiny_ui <- function(...) {
              accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz",
                "jpg", "JPG", "png", "PNG")),
            tags$hr(),
-           uiOutput("browser"),
+           p("List of loaded exercises:"),
+           verbatimTextOutput("show_exercises"),
            br(),
-           fluidRow(
-             column(4,
-               downloadButton('download_exercises', 'Download as .zip')
-             ),
-             column(4,
-               actionButton("delete_exercises", label = "Delete")
-             )
-           ),
+           downloadButton('download_exercises', 'Download as .zip'),
            tags$hr(),
            downloadButton('download_project', 'Download project'),
-           br(),
-           shinyFilesButton("files", label = "File select", title = "Please select a file",
-             multiple = TRUE),
-           shinyDirButton("directory", "New directory", title = "Create a directory", buttonType = "default", class = NULL),
-           br()
+           br(), br()
          ),
          tabPanel("Define Exams",
            fluidRow(
@@ -197,7 +196,6 @@ exams_shiny_server <- function(input, output, session)
   available_exercises <- reactive({
     e1 <- input$save_ex
     e2 <- input$ex_upload
-    e3 <- input$delete_exercises
     exfiles <- list.files("exercises", recursive = TRUE)
     if(!is.null(input$selected_exercise)) {
       if(input$selected_exercise != "") {
@@ -209,10 +207,12 @@ exams_shiny_server <- function(input, output, session)
     }
     return(exfiles)
   })
+
   output$select_imported_exercise <- renderUI({
     selectInput('selected_exercise', 'Select exercise to be modified.',
       available_exercises())
   })
+
   output$show_selected_exercise <- renderUI({
     if(!is.null(input$selected_exercise)) {
       if(input$selected_exercise != "") {
@@ -228,27 +228,23 @@ exams_shiny_server <- function(input, output, session)
       return(NULL)
     } else return(NULL)
   })
+
   output$editor <- renderUI({
     aceEditor("excode", if(input$exmarkup == "LaTeX") "tex" else "markdown",
       value = "Create/edit exercises here!")
   })
+
   output$playbutton <- renderUI({
     actionButton("play_exercise", label = "Show preview")
   })
+
   output$exnameshow <- renderUI({
     textInput("exname", label = "Exercise name.", value = input$exname)
   })
+
   observeEvent(input$load_editor_template, {
-    exname <- switch(input$extype,
-      "num" = "dist",
-      "schoice" = "swisscapital",
-      "mchoice" = "switzerland",
-      "string" = "function",
-      "cloze" = "dist2"
-    )
-    exname <- paste(exname, if(input$exmarkup == "LaTeX") "Rnw" else "Rmd", sep = ".")
-    expath <- file.path(find.package("exams"), "exercises", exname)
-    excode <- readLines(expath)
+    exname <- paste("template-", input$extype, ".", if(input$exmarkup == "LaTeX") "Rnw" else "Rmd", sep = "")
+    excode <- get_template_code(input$extype, input$exmarkup)
     output$exnameshow <- renderUI({
       textInput("exname", label = "Exercise name.", value = exname)
     })
@@ -257,6 +253,21 @@ exams_shiny_server <- function(input, output, session)
         value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
     })
   })
+
+  observeEvent(input$load_editor_exercise, {
+    exname <- input$exams_exercises
+    expath <- file.path(find.package("exams"), "exercises", exname)
+    excode <- readLines(expath)
+    output$exnameshow <- renderUI({
+      textInput("exname", label = "Exercise name.", value = exname)
+    })
+    markup <- tolower(file_ext(exname))
+    output$editor <- renderUI({
+      aceEditor("excode", mode = if(markup == "rnw") "tex" else "markdown",
+        value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
+    })
+  })
+
   observeEvent(input$save_ex, {
     if(input$exname != "") {
       writeLines(input$excode, file.path("exercises", input$exname))
@@ -264,20 +275,24 @@ exams_shiny_server <- function(input, output, session)
     exfiles <- list.files("exercises", recursive = TRUE)
     session$sendCustomMessage(type = 'exHandler', exfiles)
   })
+
   observeEvent(input$play_exercise, {
     excode <- input$excode
     output$playbutton <- renderUI({
       actionButton("show_editor", label = "Hide preview")
     })
   })
+
   observeEvent(input$show_editor, {
     output$playbutton <- renderUI({
       actionButton("play_exercise", label = "Show preview")
     })
   })
+
   exercise_code <- reactive({
     excode <- input$excode
   })
+
   output$player <- renderUI({
     if(!is.null(input$play_exercise)) {
       if(input$play_exercise > 0) {
@@ -310,6 +325,7 @@ exams_shiny_server <- function(input, output, session)
       } else return(NULL)
     } else return(NULL)
   })
+
   observeEvent(input$ex_upload, {
     if(!is.null(input$ex_upload$datapath)) {
       for(i in seq_along(input$ex_upload$name)) {
@@ -338,6 +354,33 @@ exams_shiny_server <- function(input, output, session)
       session$sendCustomMessage(type = 'exHandler', exfiles)
     }
   })
+
+  foo <- function(x) {
+    for(i in seq_along(x))
+      cat(x[i], "\n")
+    invisible(NULL)
+  }
+
+  output$show_exercises <- renderPrint({
+    foo(available_exercises())
+  })
+
+  output$download_exercises <- downloadHandler(
+    filename = function() {
+      paste("exercises", "zip", sep = ".")
+    },
+    content = function(file) {
+      owd <- getwd()
+      dir.create(tdir <- tempfile())
+      file.copy(file.path("exercises", list.files("exercises")), tdir, recursive = TRUE)
+      setwd(tdir)
+      zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
+      setwd(owd)
+      file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
+      unlink(tdir)
+    }
+  )
+
   output$download_project <- downloadHandler(
     filename = function() {
       paste("exams_project", "zip", sep = ".")
@@ -345,10 +388,7 @@ exams_shiny_server <- function(input, output, session)
     content = function(file) {
       owd <- getwd()
       dir.create(tdir <- tempfile())
-      dir.create(file.path(tdir, "exercises"))
-      dir.create(file.path(tdir, "exams"))
-      file.copy(file.path(owd, c("exercises", "exams")),
-        file.path(tdir, c("exercises", "exams")), recursive = TRUE)
+      file.copy(file.path(".", list.files(".")), tdir, recursive = TRUE)
       setwd(tdir)
       zip(zipfile = paste("exams_project", "zip", sep = "."), files = c("exercises", "exams"))
       setwd(owd)
@@ -356,12 +396,6 @@ exams_shiny_server <- function(input, output, session)
       unlink(tdir)
     }
   )
-  
-  shinyFileChoose(input, "files", root = c(exercises = "exercises"),
-    filetypes = c("", "Rnw", "rnw", "Rmd", "rmd", "Rda", "rda"), session = session)
-
-  shinyDirChoose(input, 'directory', roots = c(exercises = "exercises"),
-    session = session, restrictions = "exercises")
 
   observeEvent(input$add_question, {
     n <- length(input$mychooser2$questions) + 1
@@ -386,75 +420,6 @@ exams_shiny_server <- function(input, output, session)
   observeEvent(input$save_exam, {
     
   })
-
-  make_browser <- reactive({
-    e1 <- input$save_ex
-    e2 <- input$ex_upload
-    e3 <- input$delete_exercises
-    shinyTree("tree", checkbox = TRUE, search = TRUE, dragAndDrop = TRUE)
-  })
-
-  output$browser <- renderUI({
-    make_browser()
-  })
-
-  output$tree <- renderTree({
-    exercises <- available_exercises()
-    exams <- list.files("exams")
-    if(!length(exercises)) {
-      exercises <- ""
-    } else {
-      exercises <- as.list(exercises)
-      names(exercises) <- exercises
-      exercises <- structure(exercises, stdisabled=TRUE)
-    }
-    if(!length(exams)) {
-      exams <- ""
-    } else {
-      exams <- as.list(exams)
-    }
-    list(
-      "exercises" = exercises,
-      "exams" = exams
-    )
-  })
-
-  selected_in_tree <- reactive({
-    tree <- input$tree
-    unlist(get_selected(tree))
-  })
-  output$download_exercises <- downloadHandler(
-    filename = function() {
-      paste("exercises", "zip", sep = ".")
-    },
-    content = function(file) {
-      if(!is.null(sel <- selected_in_tree())) {
-        sel2 <- gsub("/", "_", sel)
-        owd <- getwd()
-        dir.create(tdir <- tempfile())
-        file.copy(file.path("exercises", sel), file.path(tdir, sel2), recursive = TRUE)
-        setwd(tdir)
-        zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
-        setwd(owd)
-        file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
-        unlink(tdir)
-      }
-    }
-  )
-
-  observeEvent(input$delete_exercises, {
-    sel <- selected_in_tree()
-    if(!is.null(sel)) {
-      owd <- getwd()
-      setwd("exercises")
-      unlink(sel, recursive = TRUE, force = TRUE)
-      setwd(owd)
-      exfiles <- list.files("exercises", recursive = TRUE)
-      session$sendCustomMessage(type = 'exHandler', exfiles)
-    }
-    return(NULL)
-  })
-
 
   observeEvent(input$compile, {
     if(length(input$mychooser$right)) {
@@ -494,6 +459,180 @@ exams_shiny_server <- function(input, output, session)
       file.copy(file.path("exams", paste(input$name, "zip", sep = ".")), file)
     }
   )
+}
+
+
+get_template_code <- function(type, markup)
+{
+#  exname <- switch(input$extype,
+#    "num" = "dist",
+#    "schoice" = "swisscapital",
+#    "mchoice" = "switzerland",
+#    "string" = "function",
+#    "cloze" = "dist2"
+#  )
+
+  if(markup == "LaTeX") {
+    excode <- switch(type,
+      "schoice" = c('<<echo=FALSE, results=hide>>=',
+                '## DATA GENERATION EXAMPLE',
+                '## cities <- c("Munich", "Innsbruck", "Zurich", "Amsterdam")',
+                '## countries <- c("Germany", "Austria", "Switzerland", "Netherlands")',
+                '## question <- sample(cities, size = 1)',
+                '@',
+                '',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{question} will return the name of the sampled city in the code above.',
+                'In which country is Munich?',
+                '\\begin{answerlist}',
+                '  \\item Austria',
+                '  \\item Germany',
+                '  \\item Switzerland',
+                '  \\item Netherlands',
+                '\\end{answerlist}',
+                '\\end{question}',
+                '',
+                '\\begin{solution}',
+                '%% Supply a solution here!',
+                'Munich is in Germany.',
+                '\\begin{answerlist}',
+                '  \\item False.',
+                '  \\item True.',
+                '  \\item False.',
+                '  \\item False.',
+                '\\end{answerlist}',
+                '\\end{solution}',
+                '',
+                '%% META-INFORMATION',
+                '%% \\extype{schoice}',
+                '%% \\exsolution{0100}',
+                '%% \\exname{Mean}',
+                '%% \\exshuffle{Cities}'),
+      "num" = c('<<echo=FALSE, results=hide>>=',
+                '## DATA GENERATION EXAMPLE',
+                '## x <- c(-0.17, 0.63, 0.96, 0.97, -0.77)',
+                '## Mean <- mean(x)',
+                '@',
+                '',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{Mean} will return the mean of variable x in the R code above.',
+                'Calculate the mean of the following numbers: \\\\',
+                '$',
+                '-0.17, 0.63, 0.96, 0.97, -0.77.',
+                '$',
+                '\\end{question}',
+                '',
+                '\\begin{solution}',
+                '%% Supply a solution here!',
+                'The mean is $0.324$.',
+                '\\end{solution}',
+                '',
+                '%% META-INFORMATION',
+                '%% \\extype{num}',
+                '%% \\exsolution{0.324}',
+                '%% \\exname{Mean}',
+                '%% \\extol{0.01}'),
+      "mchoice" = c('<<echo=FALSE, results=hide>>=',
+                '## DATA GENERATION EXAMPLE',
+                '## x <- c(33, 3, 33, 333)',
+                '## y <- c(3, 3, 1/6, 1/33.3)',
+                '## solutions <- x * y',
+                '@',
+                '',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{solutions[1]} will return the solution of the first statement.',
+                'Which of the following statements is correct?',
+                '\\begin{answerlist}',
+                '  \\item $33 \\cdot 3 = 109$',
+                '  \\item $3 \\cdot 3 = 9$',
+                '  \\item $33 / 6 = 5.5$',
+                '  \\item $333 / 33.3 = 9$',
+                '\\end{answerlist}',
+                '\\end{question}',
+                '',
+                '\\begin{solution}',
+                '%% Supply a solution here!', '',
+                '\\begin{answerlist}',
+                '  \\item False. Correct answer is $33 \\cdot 3 = 99$.',
+                '  \\item True.',
+                '  \\item True.',
+                '  \\item False. Correct answer is $333 / 33.3 = 10$.',
+                '\\end{answerlist}',
+                '\\end{solution}',
+                '',
+                '%% META-INFORMATION',
+                '%% \\extype{mchoice}',
+                '%% \\exsolution{0110}',
+                '%% \\exname{Simple math}',
+                '%% \\exshuffle{TRUE}'),
+      "string" = c('<<echo=FALSE, results=hide>>=',
+                '## DATA GENERATION EXAMPLE',
+                '## cities <- c("Munich", "Innsbruck", "Zurich", "Amsterdam")',
+                '## countries <- c("Germany", "Austria", "Switzerland", "Netherlands")',
+                '## question <- sample(cities, size = 1)',
+                '@',
+                '',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{question} will return the name of the sampled city in the code above.',
+                'In which country is Munich?',
+                '\\end{question}',
+                '',
+                '\\begin{solution}',
+                '%% Supply a solution here!',
+                'Munich is in Germany.',
+                '\\end{solution}',
+                '',
+                '%% META-INFORMATION',
+                '%% \\extype{string}',
+                '%% \\exsolution{Germany}',
+                '%% \\exname{Cities 2}'),
+      "cloze" = c('<<echo=FALSE, results=hide>>=',
+                '## DATA GENERATION EXAMPLE',
+                '## x <- c(-0.17, 0.63, 0.96, 0.97, -0.77)',
+                '## Mean <- mean(x)',
+                '## Sd <- sd(x)',
+                '## Var <- var(x)',
+                '@',
+                '',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{Mean} will return the mean of variable x in the R code above.',
+                'Given the following numbers: \\\\',
+                '$',
+                '-0.17, 0.63, 0.96, 0.97, -0.77.',
+                '$',
+                '\\begin{answerlist}',
+                '  \\item What is the mean?',
+                '  \\item What is the standard deviation?',
+                '  \\item What is the variance?',
+                '\\end{answerlist}',
+                '\\end{question}',
+                '',
+                '\\begin{solution}',
+                '%% Supply a solution here!', '',
+                '\\begin{answerlist}',
+                '  \\item The mean is $0.324$.',
+                '  \\item The standard deviation is $0.767515$.',
+                '  \\item The variance is $0.58908$.',
+                '\\end{answerlist}',
+                '\\end{solution}',
+                '',
+                '%% META-INFORMATION',
+                '%% \\extype{cloze}',
+                '%% \\exsolution{0.324|0.767515|0.58908}',
+                '%% \\exclozetype{num|num|num}',
+                '%% \\exname{Statistics}',
+                '%% \\extol{0.01}')
+    )
+  } else {
+
+  }
+  
+  excode
 }
 
 
