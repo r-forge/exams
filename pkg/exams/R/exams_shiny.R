@@ -75,25 +75,6 @@ exams_shiny_ui <- function(...) {
 		     dest.append("<option>"+val+"</option>");
                   });
                }
-            });'),
-
-	    HTML('Shiny.addCustomMessageHandler("questionHandler", function(data) {
-               var dest = $("div.chooser-questions").find("select");
-               dest.empty();
-	       if ( typeof(data) == "string" ) {
-		  dest.append("<option>"+data+"</option>");
-               } else {
-                  $.each(data, function(key, val) {
-		     dest.append("<option>"+val+"</option>");
-                  });
-               }
-            });'),
-
-	    HTML('Shiny.addCustomMessageHandler("deleteHandler", function(data) {
-               var dleft = $("div.chooser-left-container").find("select.left");
-               dleft.empty();
-               var dright = $("div.chooser-left-container").find("select.right");
-               dright.empty();
             });'))
          )
        ),
@@ -118,7 +99,7 @@ exams_shiny_ui <- function(...) {
                uiOutput("playbutton")
              ),
              column(3,
-               selectInput("exmarkup", label = "Load a template, Markup?", choices = c("LaTeX", "Markdown"),
+               selectInput("exmarkup", label = "Load a template. Markup?", choices = c("LaTeX", "Markdown"),
                  selected = "LaTeX"),
                selectInput("extype", label = ("Type?"),
                  choices = c("num", "schoice", "mchoice", "string", "cloze"),
@@ -160,9 +141,8 @@ exams_shiny_ui <- function(...) {
                br(),
                textInput("exam_name", "Name of the exam.", "Exam1"),
                p("Select exercises for your exam."),
-               chooserInput2("mychooser2", c(), c(), c(), size = 10, multiple = TRUE),
+               chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE),
                br(),
-               actionButton("add_question", label = "Add new question"),
                actionButton("save_exam", label = "Save")
              ),
              column(6,
@@ -397,11 +377,6 @@ exams_shiny_server <- function(input, output, session)
     }
   )
 
-  observeEvent(input$add_question, {
-    n <- length(input$mychooser2$questions) + 1
-    questions <- paste("Question", 1:n)
-    session$sendCustomMessage(type = 'questionHandler', questions)
-  })
   final_exam <- reactive({
     input$save_exam
     if(length(list.files("exam"))) {
@@ -464,14 +439,6 @@ exams_shiny_server <- function(input, output, session)
 
 get_template_code <- function(type, markup)
 {
-#  exname <- switch(input$extype,
-#    "num" = "dist",
-#    "schoice" = "swisscapital",
-#    "mchoice" = "switzerland",
-#    "string" = "function",
-#    "cloze" = "dist2"
-#  )
-
   if(markup == "LaTeX") {
     excode <- switch(type,
       "schoice" = c('<<echo=FALSE, results=hide>>=',
@@ -640,6 +607,7 @@ chooserInput <- function(inputId, leftChoices, rightChoices, size = 5, multiple 
 {
   leftChoices <- lapply(leftChoices, tags$option)
   rightChoices <- lapply(rightChoices, tags$option)
+  questionNr <- lapply(if(length(rightChoices)) 1:length(rightChoices) else rightChoices, tags$option)
   
   if(multiple)
     multiple <- "multiple"
@@ -666,47 +634,10 @@ chooserInput <- function(inputId, leftChoices, rightChoices, size = 5, multiple 
       div(class="chooser-container chooser-right-container",
         HTML("<b>Selected</b><br>"),
         tags$select(class="right", size=size, multiple=multiple, rightChoices)
-      )
-    )
-  )
-}
-
-
-chooserInput2 <- function(inputId, leftChoices, rightChoices, questions, size = 5, multiple = FALSE)
-{
-  leftChoices <- lapply(leftChoices, tags$option)
-  rightChoices <- lapply(rightChoices, tags$option)
-  questions <- lapply(questions, tags$option)
-  
-  if(multiple)
-    multiple <- "multiple"
-  else
-    multiple <- NULL
-  
-  tagList(
-    singleton(tags$head(
-      tags$script(src="chooser-binding.js"),
-      tags$style(type="text/css",
-        HTML(".chooser-container { display: inline-block; }")
-      )
-    )),
-    div(id=inputId, class="chooser",
-      div(class="chooser-container chooser-questions",
-        HTML("<b>Questions</b><br>"),
-        tags$select(class="questions",size=size, multiple=NULL, questions)
       ),
-      div(class="chooser-container chooser-left-container",
-        HTML("<b>Available</b><br>"),
-        tags$select(class="left", size=size, multiple=multiple, leftChoices)
-      ),
-      div(class="chooser-container chooser-center-container",
-        icon("arrow-circle-o-right", "right-arrow fa-2x"),
-        tags$br(),
-        icon("arrow-circle-o-left", "left-arrow fa-2x")
-      ),
-      div(class="chooser-container chooser-right-container",
-        HTML("<b>Selected</b><br>"),
-        tags$select(class="right", size=size, multiple=multiple, rightChoices)
+      div(class="chooser-container chooser-question-container",
+        HTML("<b>Question Nr.</b><br>"),
+        tags$select(class="question", size=size, multiple=multiple, questionNr)
       )
     )
   )
@@ -722,6 +653,19 @@ function updateChooser(chooser) {
     var right = chooser.find("select.right");
     var leftArrow = chooser.find(".left-arrow");
     var rightArrow = chooser.find(".right-arrow");
+
+    var qnr = chooser.find("select.question");
+    if((right.val() || []).length > 0) {
+      qnr.empty();
+      if(typeof(right.val()) == "string" ) {
+        qnr.append("<option>1</option>");
+      } else {
+        $.each(right.val(), function(key, val) {
+          var index = key + 1;
+          qnr.append("<option>"+index+"</option>");
+        });
+      }
+    }
     
     var canMoveTo = (left.val() || []).length > 0;
     var canMoveFrom = (right.val() || []).length > 0;
@@ -760,6 +704,10 @@ $(document).on("dblclick", ".chooser select.right", function() {
     move($(this).parents(".chooser"), ".right", ".left");
 });
 
+$(document).on("click", ".chooser select.question", function() {
+  alert("clicked!");
+});
+
 var binding = new Shiny.InputBinding();
 
 binding.find = function(scope) {
@@ -776,7 +724,7 @@ binding.getValue = function(el) {
   return {
     left: $.makeArray($(el).find("select.left option").map(function(i, e) { return e.value; })),
     right: $.makeArray($(el).find("select.right option").map(function(i, e) { return e.value; })),
-    questions: $.makeArray($(el).find("select.questions option").map(function(i, e) { return e.value; }))
+    question: $.makeArray($(el).find("select.question option").map(function(i, e) { return e.value; }))
   }
 };
 
