@@ -17,10 +17,10 @@ set.seed(1090)
 
 \begin{document}
 
-\title{Flexible Generation of E-Learning Exams and Beyond}
+\title{A One-for-All Exams Generator: Written Exams, Online Tests, and Live Quizzes with R}
 \author{Achim Zeileis}
 \URL{http://eeecon.uibk.ac.at/~zeileis/}
-\lecture{Flexible Generation of E-Learning Exams and Beyond}
+\lecture{A One-for-All Exams Generator: Written Exams, Online Tests, and Live Quizzes with R}
 
 \subsection{Overview}
 
@@ -67,8 +67,8 @@ set.seed(1090)
 \begin{itemize}
   \item \textit{Scalable exams:} Automatic generation of a large number
     of different exams.
-  \item \textit{Flexible rendering:} Output for written exams or
-    online learning management systems, etc.
+  \item \textit{Flexible rendering:} Output for written exams,
+    online learning management systems, live voting, etc.
   \item \textit{Associated self-study materials:} Collections of exercises
     along with solutions.
   \item \textit{Joint development:} Development and maintenance in a
@@ -130,31 +130,28 @@ set.seed(1090)
 \begin{frame}[fragile]
 \frametitle{Exercises}
 
-\textbf{Exercise templates:} \code{.Rnw} or \code{.Rmd} files composed of
+\textbf{Exercise templates:} Either \code{.Rnw} files composed of
 \begin{itemize}
-  \item \proglang{R} code chunks for random data generation.
-  \begin{itemize}
-    \item \code{.Rnw}: Within \verb|<<>>=| and \code{@}.
-    \item \code{.Rmd}: Within \verb|```{r}| and \verb|```|.
-  \end{itemize}
-  \item Question and solution descriptions contained in 
-    sections with corresponding names.
-  \begin{itemize}
-    \item \code{.Rnw}: \verb|\begin|/\verb|\end| pairs for \verb|{question}|/\verb|{solution}|.
-    \item \code{.Rmd}: \code{Question}/\code{Solution} sections with \verb|#######| markup.
-  \end{itemize}
+  \item \proglang{R} code chunks for random data generation
+    within \verb|<<>>=| and \code{@}.
+  \item Question and solution descriptions contained in\\ 
+    \verb|\begin|/\verb|\end| pairs for \verb|{question}|/\verb|{solution}|.
   \item Metainformation about \code{extype} (numeric, multiple
-    choice, \dots), correct \code{exsolution}, a short \code{exname}, etc.
-  \begin{itemize}
-    \item \code{.Rnw}: \verb|\extype{mchoice}|, \verb|\exsolution{01001}|, \dots
-    \item \code{.Rmd}: \verb|extype: mchoice|, \verb|exsolution: 01001|, \dots.
-  \end{itemize}
+    choice, \dots), correct \code{exsolution}, a short \code{exname}, etc.\\
+    \verb|\extype{mchoice}|, \verb|\exsolution{01001}|, \dots
   \item Question and basic metainformation is mandatory -- everything else
-    optional. All parts can contain \proglang{R} code chunks or data.
-  \begin{itemize}
-    \item \code{.Rnw}: \verb|\|\verb|Sexpr{...}|.
-    \item \code{.Rmd}: \verb|`r ...`|.
-  \end{itemize}
+    optional. Insertion of data elements with
+    \verb|\|\verb|Sexpr{...}|.
+\end{itemize}
+
+\medskip
+
+\textbf{Alternatively:} \code{.Rmd} files with
+\begin{itemize}
+  \item Code chunks: \verb|```{r}| \dots \verb|```|.
+  \item \code{Question}/\code{Solution} sections with \verb|#######| markup.
+  \item \verb|extype: mchoice|, \verb|exsolution: 01001|, \dots.
+  \item Insertions: \verb|`r| \dots \verb|`|.
 \end{itemize}
 
 \end{frame}
@@ -301,13 +298,13 @@ files/directories and carries out four steps.
   \item For {\LaTeX} to HTML: Ian H. Hutchinson's \pkg{TtH} ({\TeX} to HTML) package
     (\pkg{tth} in R). Mathematical notation is either represented using MathML (\code{ttm}),
     requiring a suitable browser (e.g., Firefox or Safari), or plain HTML (\code{tth}).
-  \item Alternatively:  John MacFarlane's \pkg{pandoc} package (\pkg{rmarkdown} in R)
+  \item Alternatively:  John MacFarlane's \pkg{pandoc} package (\pkg{rmarkdown} in~R)
     with various options for rendering mathematical notation (including MathML).
   \item For Markdown to HTML or {\LaTeX}: \pkg{pandoc} only.
   \item In either case: No {\LaTeX} installation needed, but also limited to {\LaTeX} commands
     supported by \pkg{TtH} or \pkg{pandoc}, respectively.
   \item Links to dynamically generated data can be easily included, e.g.,
-    \verb|\url{mydata.rda}| (\code{.Rnw}) or \verb|[mydata.rda](mydata.rda)| (\code{.Rmd}).
+    \verb|\url{mydata.rda}| or \verb|[mydata.rda](mydata.rda)|, respectively.
 \end{itemize}
 
 \end{frame}
@@ -406,7 +403,7 @@ file.copy(file.path(odir, "nops1.pdf"), "slides3-nops1.pdf")
 \bigskip
 
 A single exam is popped up in a browser, multiple exams are written to an output directory:
-<<exams2html, eval = FALSE>>=
+<<exams2html, eval=FALSE>>=
 set.seed(1090)
 exams2html(myexam, n = 3, dir = odir)
 @
@@ -509,7 +506,7 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 \begin{frame}[fragile]
 \frametitle{Exams: ARSnova}
 
-\code{exams2html()}:
+\code{exams2arsnova()}:
 \begin{itemize}
   \item In the \emph{transform} step, {\LaTeX} text is converted to Markdown using 
     \pkg{pandoc}.
@@ -524,7 +521,7 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2qti12-boxplots.png"
 \bigskip
 
 Multiple exams are written to an output directory:
-<<exams2html, eval = FALSE>>=
+<<exams2html, eval=FALSE>>=
 set.seed(1090)
 exams2arsnova(myexam[-(2:3)], n = 3, dir = odir)
 @
@@ -575,16 +572,34 @@ file.copy(file.path("..", "vignettes", "screenshots", "exams2arsnova-boxplots.pn
 \begin{frame} 
 \frametitle{Discussion}
 
-\pkg{At Universit\"at Innsbruck:}
+\textbf{At Universit\"at Innsbruck:}
 \begin{itemize}
-  \item Large-scale courses with \pkg{OpenOLAT} support.
-  \item Team of about 5--10 persons (professors, lecturers, student assistants) contribute to the
+  \item Large-scale introductory mathematics course.
+  \item Team of about 5--10 persons (professors, lecturers, student assistants) contributes to the
     pool of exercises.
-  \item During the semester, several online tests (and self tests) are carried out in
-    \pkg{OpenOLAT} (via \code{exams2qti12}) using numerical and multiple-choice exercises.
-  \item Written exams (via \code{exams2nops}) are carried out using single-choice exercises.
-    Results are scanned (via \code{nops\_scan}) and automatically evaluated (via \code{nops\_eval}).
-    Individual HTML reports are uploaded for each student into \pkg{OpenOLAT}.
+  \item During the semester: Online tests (and self tests) in
+    \pkg{OpenOLAT} (\code{exams2qti12}) using numerical and multiple-choice exercises.
+  \item Tutorial sessions: Live quizzes based on single-choice exam exercises in
+    \pkg{ARSnova}.
+  \item Written exams (\code{exams2nops}) with single-choice exercises.
+    Results are scanned (\code{nops\_scan}) and automatically evaluated (\code{nops\_eval}).
+    HTML report for each student in \pkg{OpenOLAT}.
+  \item E-exams in dedicated computer pool with \pkg{TCExam} might be used as an alternative to
+    written exams.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame} 
+\frametitle{Discussion}
+
+\textbf{Under development:}
+\begin{itemize}
+  \item \emph{Nikolaus Umlauf:} Graphical exams manager based on \pkg{shiny} that can be
+    used on a local machine or on a server.
+  \item \emph{Niels Smits:} \pkg{Blackboard} interface based on QTI~1.2.
+  \item \emph{Mirko Birbaumer, Achim Zeileis:} \pkg{Ilias} interface based on QTI~1.2.
+  \item \emph{Achim Zeileis:} Evaluation reports for lecturers/examiners based on IRT models.
 \end{itemize}
 
 \end{frame}
