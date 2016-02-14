@@ -149,7 +149,7 @@ set.seed(1090)
 \textbf{Alternatively:} \code{.Rmd} files with
 \begin{itemize}
   \item Code chunks: \verb|```{r}| \dots \verb|```|.
-  \item \code{Question}/\code{Solution} sections with \verb|#######| markup.
+  \item \code{Question}/\code{Solution} sections with \verb|=======| markup.
   \item \verb|extype: mchoice|, \verb|exsolution: 01001|, \dots.
   \item Insertions: \verb|`r| \dots \verb|`|.
 \end{itemize}
