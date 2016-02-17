@@ -41,8 +41,6 @@ set.seed(1090)
 \end{itemize}
 \end{frame}
 
-\subsection{Motivation and challenges}
-
 \begin{frame}
 \frametitle{Motivation and challenges}
 
@@ -51,11 +49,16 @@ set.seed(1090)
   \item Introductory statistics and mathematics courses
     for business and economics students at WU Wien and Universit\"at Innsbruck.
   \item Courses are attended by more than 1,000 students per semester.
-  \item Several lecturers teach lectures and tutorials in parallel.
-  \item Need for integrated teaching materials:
-    Presentation slides, collections of exercises, exams, etc.
-  \item Different types assessments from the same pool of exercises:
-    Written exams, online tests, live quizzes, etc.
+  \item Currently: Several lecturers teach lectures ($\sim$500 participants)
+    and tutorials ($\sim$150 participants) in parallel.
+\end{itemize}
+
+\medskip
+
+\textbf{Strategy:}
+\begin{itemize}
+  \item Individualized organization of learning, feedback, and assessment.
+  \item The same pool of exercises at the core of all parts of the course.
 \end{itemize}
 
 \end{frame}
@@ -63,16 +66,26 @@ set.seed(1090)
 \begin{frame}
 \frametitle{Motivation and challenges}
 
-\textbf{Challenges:} Based on the same pool of exercises\dots
+\begin{center}
+\begin{tabular}{rp{2.3cm}p{2.3cm}p{2.3cm}}
+\hline
+                   & {\bf Learning} & {\bf Feedback} & {\bf Assessment} \\ \hline
+{\bf  Synchronous} & Lecture        & Live quiz      & Written exam     \\
+                   & Live stream    & (+ tutorial)   &                  \\
+{\bf Asynchronous} & Textbook       & Self test      & Online test      \\
+                   & Screencast     & (+ forum)      &                  \\ \hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\pause
+
+\textbf{Challenges:}
 \begin{itemize}
-  \item \textit{Scalable exams:} Automatic generation of a large number
-    of different exams.
-  \item \textit{Flexible rendering:} Output for written exams,
-    online learning management systems, live voting, etc.
-  \item \textit{Associated self-study materials:} Collections of exercises
-    along with solutions.
-  \item \textit{Joint development:} Development and maintenance in a
-    multi-author and cross-platform setting.
+  \item \emph{Scalability:} Randomized dynamic exercises required for feedback/assessment.
+  \item \emph{Feedback:} Support for complete correct solutions.
+  \item \emph{Flexibility:} Automatic rendering into different assessment formats.
 \end{itemize}
 
 \end{frame}
