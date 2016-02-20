@@ -292,7 +292,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   xml <- gsub("##AssessmentDescription##", adescription, xml)
 
   ## write to dir
-  writeLines(xml, file.path(test_dir, "qti.xml"))
+  writeLines(xml, file.path(test_dir, if(zip) "qti.xml" else paste(name, "xml", sep = ".")))
 
   ## compress
   if(zip) {
@@ -728,7 +728,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', if(!eval$partial & !is.na(minvalue)) minvalue else 0, '</setvar>', sep = ''),
+      if(is.na(minvalue)) NULL else paste('<setvar varname="SCORE" action="Set">', if(!eval$partial) minvalue else 0, '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>'
     )
