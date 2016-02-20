@@ -497,7 +497,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<outcomes>',
       paste('<decvar varname="SCORE" vartype="Decimal" defaultval="',
         if(is.null(defaultval)) 0 else defaultval, '" minvalue="',
-        if(is.null(minvalue)) 0 else minvalue, '" maxvalue="',
+        if(is.null(minvalue) | is.na(minvalue)) 0 else minvalue, '" maxvalue="',
         if(is.null(maxvalue)) points else maxvalue, '" cutvalue="',
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
@@ -714,7 +714,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       },
       if(!is.null(wrong_answers)) NULL else '</not>',
       '</conditionvar>',
-      if(!eval$partial) {
+      if(!eval$partial & !is.na(minvalue)) {
         paste('<setvar varname="SCORE" action="Set">', minvalue, '</setvar>', sep = '')
       } else NULL,
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
@@ -728,7 +728,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', if(!eval$partial) minvalue else 0, '</setvar>', sep = ''),
+      paste('<setvar varname="SCORE" action="Set">', if(!eval$partial & !is.na(minvalue)) minvalue else 0, '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>'
     )
