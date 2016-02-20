@@ -77,8 +77,10 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL,
   
   When \code{url}, \code{sessionkey}, and \code{jsessionid} are all supplied,
   \code{\link[RCurl]{curlPerform}} is used to import tall questions directly into
-  the existing ARSnova session. Otherwise, a JSON file (with a whole session)
-  is written to the disk and then needs to be imported manually into an ARSnova server.
+  the existing ARSnova session. Otherwise, a file is written to the disk and
+  then needs to be imported manually into an ARSnova server. This file
+  is either a JSON file for a whole new session (if \code{sessionkey} is
+  \code{NULL}, the default) or a CSV file with the questions only.
 }
 
 \value{
