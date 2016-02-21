@@ -104,7 +104,12 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   nq <- if(!is.xexam) length(exm[[1L]]) else length(exm)
 
   ## create a name
-  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+  if(is.null(name)) {
+    name <- file_path_sans_ext(basename(template))
+    xmlname <- "qti"
+  } else {
+    xmlname <- name
+  }
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))
@@ -292,7 +297,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   xml <- gsub("##AssessmentDescription##", adescription, xml)
 
   ## write to dir
-  writeLines(xml, file.path(test_dir, if(zip) "qti.xml" else paste(name, "xml", sep = ".")))
+  writeLines(xml, file.path(test_dir, if(zip) "qti.xml" else paste(xmlname, "xml", sep = ".")))
 
   ## compress
   if(zip) {
