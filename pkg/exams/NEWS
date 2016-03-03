@@ -21,6 +21,9 @@ Changes in Version 2.2-0
 
   o In exams2nops() the argument 'blank' can now be a vector of length 2
     with the number of blank pages before and after the extra "pages".
+    
+  o Bug fix in extract_extra() which prevented that "exextra" metainformation
+    was readed correctly in the previous version.
 
 
 Changes in Version 2.1-0

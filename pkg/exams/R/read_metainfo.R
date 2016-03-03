@@ -84,7 +84,7 @@ extract_extra <- function(x, markup = c("latex", "markdown"))
   if(length(comm) < 1L) return(list())
   
   ## extract command and type
-  comm <- sapply(strsplit(comm, "comm0", fixed = TRUE), "[", 2L)
+  comm <- sapply(strsplit(comm, comm0, fixed = TRUE), "[", 2L)
   comm <- sapply(strsplit(comm, "]", fixed = TRUE), "[", 1L)
   nam <- strsplit(comm, ",", fixed = TRUE)
   typ <- sapply(nam, function(z) if(length(z) > 1L) z[2L] else "character")
