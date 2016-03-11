@@ -47,6 +47,7 @@ make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey 
   ## check whether JSON data can actually be POSTed (by question)
   ## or should be exported to a file (full session)
   post <- !is.null(url) & !is.null(jsessionid) & !is.null(sessionkey)
+  csv <- !post & !is.null(sessionkey)
 
   ## curl info
   if(post) {
@@ -59,7 +60,7 @@ make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey 
   ## question list template
   qtemp <- list(
     type = "skill_question",
-    questionType = "sc",
+    questionType = if(csv) "SC" else "abcd",
     questionVariant = match.arg(variant, c("lecture", "preparation")),
     subject = "name",
     text = NULL,
@@ -130,7 +131,7 @@ make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey 
           function(i) list(text = fix_choice(as.vector(exm[[j]]$questionlist)[i]), correct = exm[[j]]$metainfo$solution[i]))
       }
       if(exm[[j]]$metainfo$type == "mchoice") {
-        json$questionType <- "mc"
+        json$questionType <- if(csv) "MC" else "mc"
         json$noCorrect <- sum(exm[[j]]$metainfo$solution) > 0
       }
       if(exm[[j]]$metainfo$type %in% c("num", "string")) json$questionType <- "freetext"
