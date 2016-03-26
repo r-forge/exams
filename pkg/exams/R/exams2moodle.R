@@ -454,7 +454,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
 
         ## FIXME, there is a NULL when using boxhist2?
-        tmp <- gsub('NULL', '', tmp)
+        tmp <- gsub('NULL', '', tmp, fixed = TRUE)
 
         ## insert in ##ANSWERi## tag
         if(any(grepl(ai <- paste("##ANSWER", i, "##", sep = ""), x$question, fixed = TRUE))) {
@@ -464,14 +464,14 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       if(!is.null(qtext) & enumerate)
         qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
       qtext <- c(x$question, qtext)
-      xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml)
+      xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml, fixed = TRUE)
     }
 
     ## end the question
     xml <- c(xml, '</question>\n')
 
     ## path replacements
-    xml <- gsub(paste(attr(x$supplements, "dir"), .Platform$file.sep, sep = ""), "", xml)
+    xml <- gsub(paste(attr(x$supplements, "dir"), .Platform$file.sep, sep = ""), "", xml, fixed = TRUE)
 
     xml
   }

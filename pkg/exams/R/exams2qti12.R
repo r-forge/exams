@@ -214,7 +214,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ibody <- gsub("##ItemSolution##", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
       ## insert an item id
-      ibody <- gsub("##ItemId##", iname, ibody)
+      ibody <- gsub("##ItemId##", iname, ibody, fixed = TRUE)
 
       ## insert an item title
       ibody <- gsub("##ItemTitle##",
@@ -285,16 +285,16 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## finalize the test xml file, insert ids/titles, sections, and further control details
   feedbackswitch <- FALSE ## currently hard-coded
   hintswitch <- FALSE
-  xml <- gsub("##TestIdent##", test_id, xml)
-  xml <- gsub("##TestTitle##", name, xml)
-  xml <- gsub("##TestDuration##", duration, xml)
-  xml <- gsub("##TestSections##", paste(sec_xml, collapse = "\n"), xml)
-  xml <- gsub("##MaxAttempts##", maxattempts, xml)
-  xml <- gsub("##CutValue##", cutvalue, xml)
-  xml <- gsub("##FeedbackSwitch##", if(feedbackswitch) "Yes" else "No", xml)
-  xml <- gsub("##HintSwitch##",     if(hintswitch)     "Yes" else "No", xml)
-  xml <- gsub("##SolutionSwitch##", if(solutionswitch) "Yes" else "No", xml)
-  xml <- gsub("##AssessmentDescription##", adescription, xml)
+  xml <- gsub("##TestIdent##", test_id, xml, fixed = TRUE)
+  xml <- gsub("##TestTitle##", name, xml, fixed = TRUE)
+  xml <- gsub("##TestDuration##", duration, xml, fixed = TRUE)
+  xml <- gsub("##TestSections##", paste(sec_xml, collapse = "\n"), xml, fixed = TRUE)
+  xml <- gsub("##MaxAttempts##", maxattempts, xml, fixed = TRUE)
+  xml <- gsub("##CutValue##", cutvalue, xml, fixed = TRUE)
+  xml <- gsub("##FeedbackSwitch##", if(feedbackswitch) "Yes" else "No", xml, fixed = TRUE)
+  xml <- gsub("##HintSwitch##",     if(hintswitch)     "Yes" else "No", xml, fixed = TRUE)
+  xml <- gsub("##SolutionSwitch##", if(solutionswitch) "Yes" else "No", xml, fixed = TRUE)
+  xml <- gsub("##AssessmentDescription##", adescription, xml, fixed = TRUE)
 
   ## write to dir
   writeLines(xml, file.path(test_dir, if(zip) "qti.xml" else paste(xmlname, "xml", sep = ".")))
@@ -881,7 +881,7 @@ read_olat_results <- function(file, xexam = NULL)
   rval <- res[[1]]
   for(j in 2:length(res)) rval <- rbind(rval, res[[j]])
   res <- cbind(x[, 2:nc], rval)
-  names(res) <- gsub("Institutionsnummer", "MatrNr", names(res))
+  names(res) <- gsub("Institutionsnummer", "MatrNr", names(res), fixed = TRUE)
   names(res) <- gsub("..s.", "", names(res), fixed = TRUE)
 
   true_false <- apply(res, 2, function(x) {
