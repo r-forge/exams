@@ -677,8 +677,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           '<conditionvar>',
           j,
           '</conditionvar>',
-          paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
-          paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = ''),
+          if(fix_num) {
+            c(
+              paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
+              paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = '')
+            )
+          } else NULL,
           '</respcondition>'
         )
       }
@@ -693,8 +697,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '<conditionvar>',
             correct_answers[[j]],
             '</conditionvar>',
-            paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
-            paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = ''),
             '</respcondition>'
           )
         }
