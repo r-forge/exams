@@ -205,7 +205,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
       ## if required insert mathjax link
       if(mathjax[i]) {
         jd <- grep("</head>", html, fixed = TRUE)
-        html <- c(html[jd - 1], mj_link, html[jd:length(html)])
+        html <- c(html[1L:(jd - 1)], mj_link, html[jd:length(html)])
       }
 
       ## insert .html body
