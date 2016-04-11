@@ -153,22 +153,28 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         file.rename(supps[dups], nfn)
         supps[dups] <- nfn
 
-        dups_gsub <- function(pattern, replacement, x) {
+        dups_graphics_gsub <- function(pattern, replacement, x) {
           for(i in c("question", "questionlist", "solution", "solutionlist")) {
             if(length(x[[i]])) {
-              pn <- file_path_sans_ext(pattern)
-              rn <- file_path_sans_ext(replacement)
-              if(length(j <- grep(pn, x[[i]], fixed = TRUE)))
-                x[[i]][j] <- gsub(pn, rn, x[[i]][j], fixed = TRUE)
-              if(length(j <- grep(pattern, x[[i]], fixed = TRUE)))
-                x[[i]][j] <- gsub(pattern, replacement, x[[i]][j], fixed = TRUE)
+              if(any(ix <- grepl("includegraphics{", x[[i]], fixed = TRUE))) {
+                x[[i]][ix] <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.image", x[[i]][ix])
+                pn <- paste(file_path_sans_ext(pattern), "}.image", sep = "")
+                rn <- paste(file_path_sans_ext(replacement), "}", sep = "")
+                if(length(j <- grep(pn, x[[i]], fixed = TRUE)))
+                  x[[i]][j] <- gsub(pn, rn, x[[i]][j], fixed = TRUE)
+                pn <- paste(pattern, "}.image", sep = "")
+                rn <- paste(replacement, "}", sep = "")
+                if(length(j <- grep(pn, x[[i]], fixed = TRUE))) {
+                  x[[i]][j] <- gsub(pn, rn, x[[i]][j], fixed = TRUE)
+                }
+              }
             }
           }
           return(x)
         }
 
         for(j in seq_along(dups))
-          exm[[j]] <- dups_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
+          exm[[j]] <- dups_graphics_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
       }
 
       file.copy(supps, dir_temp)
