@@ -23,7 +23,15 @@ Changes in Version 2.2-0
     with the number of blank pages before and after the extra "pages".
     
   o Bug fix in extract_extra() which prevented that "exextra" metainformation
-    was readed correctly in the previous version.
+    was read correctly in the previous version.
+    
+  o Improvement in xexams() to better support using the same exercise template
+    several times within the same exam (e.g., for generating a single PDF
+    with multiple versions of the same exercise). The temporary file names
+    employed are now run through make.unique() first.
+    
+  o Improvement in exams2pdf() to assure that duplication in file names for
+    graphics (across exercises within the same exam) are handled correctly.
 
 
 Changes in Version 2.1-0

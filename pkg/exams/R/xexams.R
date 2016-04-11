@@ -75,10 +75,10 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     tolower(substr(file_raw, nchar(file_raw) - 3L, nchar(file_raw))) %in% c(".rnw", ".rmd"),
     file_raw, paste(file_raw, ".Rnw", sep = ""))
   file_base <- tools::file_path_sans_ext(file_Rnw)
-  file_ext <- tolower(tools::file_ext(file_Rnw))
+  file_ext0 <- tools::file_ext(file_Rnw)
+  file_ext <- tolower(file_ext0)
   file_ext <- gsub("r", "", file_ext, fixed = TRUE)
   file_ext[file_ext == "nw"] <- "tex"
-  file_tex <- paste(file_base, file_ext, sep = ".")
   file_path <- search_files(file_Rnw, dir_exrc, recursive = !is.null(edir))
   file_path <- ifelse(is.na(file_path) & file.exists(file_raw), file_raw, file_path)
   file_path <- ifelse(!is.na(file_path), file_path, file.path(dir_pkg, "exercises", file_Rnw))
@@ -88,6 +88,24 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     cat(sprintf("Exercises: %s\n", paste(file_base, collapse = ", ")))
   }
 
+  ## assure uniqueness of temporary file names
+  file_base <- make.unique(file_base, sep = "_")
+
+  ## substitute (back)slashes by underscores in temporary file names
+  ## to allow handling of relative file paths (in addition to edir argument)
+  file_base <- sub("^(\\./|\\.\\./)+", "", file_base)
+  file_base <- gsub("/", "_", file_base, fixed = TRUE)
+
+  ## put together temporary file names
+  file_Rnw <- paste(file_base, file_ext0, sep = ".")
+  file_tex <- paste(file_base, file_ext,  sep = ".")
+
+  ## take everything to temp dir
+  file.copy(file_path, file.path(dir_temp, file_Rnw))
+  setwd(dir_temp)
+  on.exit(unlink(dir_temp), add = TRUE)
+  
+  ## convenience function for sampling ids
   sample_id <- function() unlist(lapply(unique(file_id), function(i) {
     wi <- file_id == i
     if(sum(wi) > 1L)
@@ -96,18 +114,6 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       rep(which(wi), length.out = nsamp[i])
   }))
  
-  ## substitute (back)slashes by underscores in temporary file names
-  ## to allow handling of relative file paths (in addition to edir argument)
-  file_Rnw <- sub("^(\\./|\\.\\./)+", "", file_Rnw)
-  file_tex <- sub("^(\\./|\\.\\./)+", "", file_tex)
-  file_Rnw <- gsub("/", "_", file_Rnw, fixed = TRUE)
-  file_tex <- gsub("/", "_", file_tex, fixed = TRUE)
-
-  ## take everything to temp dir (avoiding appending duplicated files)
-  file.copy(file_path[!duplicated(file_path)], file.path(dir_temp, file_Rnw[!duplicated(file_path)]))
-  setwd(dir_temp)
-  on.exit(unlink(dir_temp), add = TRUE)
-  
   ## set up list of exams (length n) with list of exercises (length m = sum(nsamp))
   m <- sum(nsamp)
   exm <- rep(list(vector(mode = "list", length = m)), n)
