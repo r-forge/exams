@@ -143,7 +143,36 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     
     ## collect supplementary files
     supps <- unlist(lapply(exm, "[[", "supplements")) ## FIXME: restrict in some way? omit .csv and .rda?
-    if(!is.null(supps)) file.copy(supps, dir_temp)
+    if(!is.null(supps)) {
+      bn <- basename(supps)
+      dups <- which(duplicated(bn))
+      if(length(dups)) {
+        bnd <- paste(file_path_sans_ext(bn[dups]), "-", 1L:length(dups) + 1L, ".", file_ext(bn[dups]), sep = "")
+        dn <- dirname(supps[dups])
+        nfn <- file.path(dn, bnd)
+        file.rename(supps[dups], nfn)
+        supps[dups] <- nfn
+
+        dups_gsub <- function(pattern, replacement, x) {
+          for(i in c("question", "questionlist", "solution", "solutionlist")) {
+            if(length(x[[i]])) {
+              pn <- file_path_sans_ext(pattern)
+              rn <- file_path_sans_ext(replacement)
+              if(length(j <- grep(pn, x[[i]], fixed = TRUE)))
+                x[[i]][j] <- gsub(pn, rn, x[[i]][j], fixed = TRUE)
+              if(length(j <- grep(pattern, x[[i]], fixed = TRUE)))
+                x[[i]][j] <- gsub(pattern, replacement, x[[i]][j], fixed = TRUE)
+            }
+          }
+          return(x)
+        }
+
+        for(j in seq_along(dups))
+          exm[[j]] <- dups_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
+      }
+
+      file.copy(supps, dir_temp)
+    }
     
     ## extract required metainfo
     fil <- names(exm) #to assure different file names# sapply(exm, function(x) x$metainfo$file)
