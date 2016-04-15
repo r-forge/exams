@@ -33,6 +33,10 @@ Changes in Version 2.2-0
   o Improvement in exams2pdf() to assure that duplication in file names for
     graphics (across exercises within the same exam) are handled correctly.
 
+  o Within several exams2xyz() functions gsub(...) calls were changed to
+    gsub(..., fixed = TRUE) for replacing placeholders that potentially
+    have slashes.
+
 
 Changes in Version 2.1-0
 
