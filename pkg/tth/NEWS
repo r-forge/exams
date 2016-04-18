@@ -1,3 +1,8 @@
+Changes in Version 4.3-3
+
+  o Added a line to the Windows Makefile necessary by new R Windows
+    toolchain to include appropriate Makeconf
+
 Changes in Version 4.3-2
 
   o Added an optional character entity reference processing to tth()
