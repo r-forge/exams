@@ -174,7 +174,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         }
 
         for(j in seq_along(dups))
-          exm[[j]] <- dups_graphics_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
+          exm[[dups[j]]] <- dups_graphics_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
       }
 
       file.copy(supps, dir_temp)
