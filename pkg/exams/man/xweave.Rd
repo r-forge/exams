@@ -9,13 +9,15 @@
 }
 
 \usage{
-  xweave(file, quiet = TRUE, encoding = NULL, envir = new.env(),
+  xweave(file, quiet = TRUE, encoding = NULL, engine = NULL, envir = new.env(),
     pdf = TRUE, png = FALSE, height = 6, width = 6, resolution = 100, \dots)
 }
 
 \arguments{
   \item{file, quiet, encoding}{arguments passed to \code{\link[utils]{Sweave}}
     or \code{\link[knitr]{knit}}, respectively.}
+  \item{engine}{character indicating whether \code{"Sweave"} (default) or
+    \code{"knitr"} should be used for rendering Rnw exercises.}
   \item{envir}{argument passed to \code{\link[knitr]{knit}}.}
   \item{pdf, png, height, width, resolution, \dots}{arguments passed to \code{\link[utils]{Sweave}}
     or \code{\link[knitr]{opts_chunk}}, respectively. In the latter case:
@@ -27,9 +29,12 @@
 \details{
   Depending on whether \code{file} has an \code{.Rnw} or \code{.Rmd} suffix,
   either \code{\link[utils]{Sweave}} or \code{\link[knitr]{knit}} is called for
-  weaving the file. If \code{png = TRUE} when calling \code{Sweave}, then
-  the resulting includegraphics statements are supplemented with the \code{.png}
-  suffix of the corresponding graphics.
+  weaving the file by default. Rnw exercises can optionally also be weaved by
+  \code{\link[knitr]{knit}} by setting \code{engine = "knitr"}.
+  
+  If \code{png = TRUE} when calling \code{Sweave}, then the resulting
+  includegraphics statements are supplemented with the \code{.png} suffix of
+  the corresponding graphics.
 }
 
 \seealso{

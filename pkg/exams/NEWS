@@ -36,6 +36,10 @@ Changes in Version 2.2-0
   o Within several exams2xyz() functions gsub(...) calls were changed to
     gsub(..., fixed = TRUE) for replacing placeholders that potentially
     have slashes.
+    
+  o xweave() gained an argument engine=NULL that can optionally be set to
+    engine="knitr" to enable processing Rnw exercises by knitr::knit() instead
+    of the default utils::Sweave().
 
 
 Changes in Version 2.1-0

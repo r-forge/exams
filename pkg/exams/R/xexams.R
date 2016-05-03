@@ -196,28 +196,49 @@ exams_metainfo <- function(x, ...) {
     class = "exams_metainfo")
 }
 
-xweave <- function(file, quiet = TRUE, encoding = NULL, envir = new.env(),
-  pdf = TRUE, png = FALSE, height = 6, width = 6, resolution = 100, ...)
+xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
+  envir = new.env(), pdf = TRUE, png = FALSE, height = 6, width = 6,
+  resolution = 100, ...)
 {
+  ## process file extension and rendering engine
   ext <- tolower(tools::file_ext(file))
+  if(is.null(engine)) {
+    engine <- if(ext == "rnw") "sweave" else "knitr"
+  }
+  engine <- match.arg(tolower(engine), c("sweave", "knitr"))
+  if(engine == "sweave" & ext != "rnw") {
+    engine <- "knitr"
+    warning("Sweave() can only be applied to .Rnw exercises")
+  }
+  
   if(ext == "rnw") {
-    if(is.null(encoding)) encoding <- ""
-    utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
-      height = height, width = width, resolution = resolution, ...)
-    if(png) {
-      ## add .png suffix in case of \includegraphics{} without suffix
-      file <- paste0(tools::file_path_sans_ext(file), ".tex")
-      tex <- readLines(file)
-      ix <- grepl("includegraphics{", tex, fixed = TRUE)
-      if(any(ix)) {
-        tex[ix] <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.png", tex[ix])
-        tex[ix] <- sapply(strsplit(tex[ix], "}.png", fixed = TRUE), function(z) {
-          sfix <- ifelse(substr(z, nchar(z) - 3L, nchar(z) - 3L) == ".", "}", ".png}")
-	  if(!grepl("includegraphics{", z[length(z)], fixed = TRUE)) sfix[length(z)] <- ""
-	  paste(z, sfix, sep = "", collapse = "")
-        })
+    if(engine == "sweave") {
+      if(is.null(encoding)) encoding <- ""
+      utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
+        height = height, width = width, resolution = resolution, ...)
+      if(png) {
+        ## add .png suffix in case of \includegraphics{} without suffix
+        file <- paste0(tools::file_path_sans_ext(file), ".tex")
+        tex <- readLines(file)
+        ix <- grepl("includegraphics{", tex, fixed = TRUE)
+        if(any(ix)) {
+          tex[ix] <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.png", tex[ix])
+          tex[ix] <- sapply(strsplit(tex[ix], "}.png", fixed = TRUE), function(z) {
+            sfix <- ifelse(substr(z, nchar(z) - 3L, nchar(z) - 3L) == ".", "}", ".png}")
+	    if(!grepl("includegraphics{", z[length(z)], fixed = TRUE)) sfix[length(z)] <- ""
+  	    paste(z, sfix, sep = "", collapse = "")
+          })
+        }
+        writeLines(tex, file)
       }
-      writeLines(tex, file)
+    } else {
+      oopts <- knitr::opts_chunk$get()
+      knitr::opts_chunk$set(dev = if(pdf & !png) "pdf" else "png",
+        fig.height = height, fig.width = width, dpi = resolution, ...,
+	fig.path = "", knitr::render_sweave())
+      if(is.null(encoding)) encoding <- getOption("encoding")
+      knitr::knit(file, quiet = quiet, envir = envir, encoding = encoding)
+      knitr::opts_chunk$set(oopts)    
     }
   } else {
     oopts <- knitr::opts_chunk$get()
