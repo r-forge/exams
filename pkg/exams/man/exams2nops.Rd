@@ -15,10 +15,11 @@
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
     usepackage = NULL, header = NULL, encoding = "", startid = 1L,
-    points = NULL, showpoints = FALSE, \dots)
+    points = NULL, showpoints = FALSE, samepage = FALSE, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
-    duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "")
+    duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
+    samepage = FALSE)
 }
 
 \arguments{
@@ -63,6 +64,8 @@
     length 1 or the number of exercises in the exam.}
   \item{showpoints}{logical. Should the PDF show the number of points associated with
     each exercise (if specified in the Rnw/Rmd exercise or in \code{points})?}
+  \item{samepage}{logical. Should the itemized question lists be forced to be on
+    the same page?}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}}.}
   \item{nchoice}{character. The number of choice alternatives per exercise.}
 }
