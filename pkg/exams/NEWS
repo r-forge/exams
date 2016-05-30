@@ -25,7 +25,10 @@ Changes in Version 2.2-0
   o Added argument samepage=FALSE in exams2nops(). If set to TRUE, this adds
     a {samepage} environment around the question and solution lists in order
     to prevent page breaks within these lists.
-    
+
+  o Language support for Hungarian in exams2nops (hu, contributed by
+    Gergely Daroczi and Denes Toth).
+
   o Bug fix in extract_extra() which prevented that "exextra" metainformation
     was read correctly in the previous version.
     
