@@ -147,6 +147,17 @@
   command can be used in the \code{.Rnw} exercise. For example, it can be set to
   \code{\\exextra[numwidth,logical]{TRUE}}, \code{\\exextra[numwidth,numeric]{5}}, or
   \code{\\exextra[numwidth,character]{100.0}}.
+
+  In order to generate free text questions in moodle one may
+  specify extra parameters
+  via \code{\\exextra}. Currently the following options are supported:
+  \itemize{
+  \item \code{essay}: logical. Enables the essay function.
+  \item \code{format}: character. Type of text field (one of: \code{plain}, \code{editor}, editorfilepicker monospaced noinline)
+  \item \code{required}: logical. Whether an answer is required.
+  \item \code{attachments}: numeric. How many attachments can be uploaded.
+  \item \code{attachmentsrequired}: numeric. The number of required attachments.
+  }
 }
 
 \references{
