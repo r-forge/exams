@@ -309,7 +309,7 @@ if(length(page3)) {
 \\setlength{\\textheight}{24cm} 
 \\newpage
 
-\\setcounter{page}{0}
+\\setcounter{page}{1}
 
 \\setlength{\\oddsidemargin}{0cm} 
 \\setlength{\\evensidemargin}{0cm} 
@@ -412,7 +412,7 @@ c("
 \\multiput(139,233)(8,0){6}{\\line(0,1){1.5}} \\thicklines 
 \\multiput(133,163)(8,0){7}{\\begin{picture}(0,0) 
 \\multiput(0,0)(0,7){10}{\\framebox(4,4){}}\\end{picture}}",
-if(replacement) "\\setcounter{nr3}{0}" else "\\newcounter{nr3}",
+if(replacement) "\\setcounter{nr3}{1}" else "\\newcounter{nr3}",
 "
 \\multiput(129,228)(0,-7){10}{\\begin{picture}(0,0) 
 \\multiput(0,0)(60,0){2}{\\makebox(0,0){\\textsf{\\arabic{nr3}}}}
