@@ -48,6 +48,11 @@ Changes in Version 2.2-0
     engine="knitr" to enable processing Rnw exercises by knitr::knit() instead
     of the default utils::Sweave().
 
+  o exams2moodle() can now optionally turn "string" exercises in "essay" quiz
+    items rather than the default "shortanswer". Various customization options
+    can be set the "exextra" metainformation. The most important options are
+    illustrated in the new "essayreg" exercise.
+
 
 Changes in Version 2.1-0
 
