@@ -216,13 +216,15 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         "\\end{answerlist}"),
 	"\\end{question}",
 	"",
-	"\\begin{solution}",
-        exm[[j]]$solution,
-	if(is.null(exm[[j]]$solutionlist)) NULL else c(
-	  "\\begin{answerlist}",
-          paste("  \\item", exm[[j]]$solutionlist),
-	  "\\end{answerlist}"),
-	"\\end{solution}",
+        if(length(exm[[j]]$solution) | length(exm[[j]]$solutionlist)) {
+	  c("\\begin{solution}",
+            if(length(exm[[j]]$solution)) exm[[j]]$solution else NULL,
+	    if(is.null(exm[[j]]$solutionlist)) NULL else c(
+	      "\\begin{answerlist}",
+              paste("  \\item", exm[[j]]$solutionlist),
+	      "\\end{answerlist}"),
+	    "\\end{solution}")
+        } else NULL,
 	""), paste(fil[j], ".tex", sep = ""))
     }
 
