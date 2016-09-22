@@ -20,7 +20,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   ## base64 checks
   if(is.null(base64)) base64 <- TRUE
   base64 <- if(isTRUE(base64)) {
-    c("bmp", "gif", "jpeg", "jpg", "png")
+    c("bmp", "gif", "jpeg", "jpg", "png", "svg")
   } else {
     if(is.logical(base64)) NA_character_  else tolower(base64)
   }
