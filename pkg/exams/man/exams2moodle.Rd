@@ -13,7 +13,7 @@
   exams2moodle(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, verbose = FALSE,
-    resolution = 100, width = 4, height = 4,  encoding = "",
+    resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
@@ -24,7 +24,8 @@
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
     truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
-    eval = list(partial = TRUE, negative = FALSE, rule = "false2"))
+    eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
+    essay = NULL)
 }
 
 \arguments{
@@ -48,8 +49,9 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
-  \item{resolution, width, height}{numeric. Options for rendering PNG
+  \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
+  \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to
@@ -102,6 +104,9 @@
     extra button in Moodle which (when selected) always leads to zero points.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
+  \item{essay}{logical. Should \code{string} questions be rendered into Moodle \code{shortanswer}
+    or \code{essay} questions? The default is to use \code{shortanswer} unless either
+    \code{essay=TRUE} or the exercise's metainformation is set to \code{essay}.}
   \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
     exercises in \code{file} where \code{"pandoc"} is used.}

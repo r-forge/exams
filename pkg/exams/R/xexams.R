@@ -197,10 +197,10 @@ exams_metainfo <- function(x, ...) {
 }
 
 xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
-  envir = new.env(), pdf = TRUE, png = FALSE, height = 6, width = 6,
+  envir = new.env(), pdf = TRUE, png = FALSE, svg = FALSE, height = 6, width = 6,
   resolution = 100, ...)
 {
-  ## process file extension and rendering engine
+  ## process file extension, rendering engine, and graphics device
   ext <- tolower(tools::file_ext(file))
   if(is.null(engine)) {
     engine <- if(ext == "rnw") "sweave" else "knitr"
@@ -210,21 +210,37 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
     engine <- "knitr"
     warning("Sweave() can only be applied to .Rnw exercises")
   }
+  dev <- if(pdf & !png) {
+    "pdf"
+  } else if(svg & !png) {
+    "svg"
+  } else {
+    "png"
+  }
   
   if(ext == "rnw") {
     if(engine == "sweave") {
       if(is.null(encoding)) encoding <- ""
-      utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
-        height = height, width = width, resolution = resolution, ...)
-      if(png) {
-        ## add .png suffix in case of \includegraphics{} without suffix
+      if(dev != "svg") {
+        utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
+          height = height, width = width, resolution = resolution, ...)
+      } else {
+        assign(".xweave_svg_grdevice", function(name, width, height, ...) {
+          svg(filename = paste(name, "svg", sep = "."), width = width, height = height)
+        }, envir = .GlobalEnv)
+        utils::Sweave(file, encoding = encoding, quiet = quiet, grdevice = ".xweave_svg_grdevice",
+          height = height, width = width, ...)
+        remove(list = ".xweave_svg_grdevice", envir = .GlobalEnv)
+      }
+      if(png | svg) {
+        ## add .png or .svg suffix in case of \includegraphics{} without suffix
         file <- paste0(tools::file_path_sans_ext(file), ".tex")
         tex <- readLines(file)
         ix <- grepl("includegraphics{", tex, fixed = TRUE)
         if(any(ix)) {
-          tex[ix] <- gsub("(includegraphics\\{[[:graph:]]+\\})", "\\1.png", tex[ix])
-          tex[ix] <- sapply(strsplit(tex[ix], "}.png", fixed = TRUE), function(z) {
-            sfix <- ifelse(substr(z, nchar(z) - 3L, nchar(z) - 3L) == ".", "}", ".png}")
+          tex[ix] <- gsub("(includegraphics\\{[[:graph:]]+\\})", if(png) "\\1.png" else "\\1.svg", tex[ix])
+          tex[ix] <- sapply(strsplit(tex[ix], if(png) "}.png" else "}.svg", fixed = TRUE), function(z) {
+            sfix <- ifelse(substr(z, nchar(z) - 3L, nchar(z) - 3L) == ".", "}", if(png) ".png}" else ".svg}")
 	    if(!grepl("includegraphics{", z[length(z)], fixed = TRUE)) sfix[length(z)] <- ""
   	    paste(z, sfix, sep = "", collapse = "")
           })
@@ -233,7 +249,7 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
       }
     } else {
       oopts <- knitr::opts_chunk$get()
-      knitr::opts_chunk$set(dev = if(pdf & !png) "pdf" else "png",
+      knitr::opts_chunk$set(dev = dev,
         fig.height = height, fig.width = width, dpi = resolution, ...,
 	fig.path = "", knitr::render_sweave())
       if(is.null(encoding)) encoding <- getOption("encoding")
@@ -242,7 +258,7 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
     }
   } else {
     oopts <- knitr::opts_chunk$get()
-    knitr::opts_chunk$set(dev = if(pdf & !png) "pdf" else "png",
+    knitr::opts_chunk$set(dev = dev,
       fig.height = height, fig.width = width, dpi = resolution, ...)
     if(is.null(encoding)) encoding <- getOption("encoding")
     knitr::knit(file, quiet = quiet, envir = envir, encoding = encoding)

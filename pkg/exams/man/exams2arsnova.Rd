@@ -12,7 +12,7 @@
 \usage{
 exams2arsnova(file, n = 1L, dir = ".",
   name = "R/exams", sname = NULL, qname = NULL,
-  quiet = TRUE, resolution = 100, width = 4, height = 4, encoding = "",
+  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
   url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
   active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE,
   abstention = TRUE, variant = "lecture", ssl.verifypeer = TRUE,
@@ -38,6 +38,7 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL,
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[exams]{xweave}} and \code{\link[tools]{texi2dvi}}.}
   \item{resolution, width, height}{numeric, passed to \code{\link[exams]{xweave}}.}
+  \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{url,sessionkey,jsessionid}{character specifying (1) the base URL of the ARSnova API,
     (2) the 8-digit ARSnova session key, (3) the JSESSIONID cookie of an active ARSnova session.

@@ -29,6 +29,21 @@ Changes in Version 2.2-0
   o Language support for Hungarian in exams2nops (hu, contributed by
     Gergely Daroczi and Denes Toth).
 
+  o xweave() gained an extra argument svg=FALSE to optionally produce scalable
+    vector graphics (SVG) instead of PNG for later rendering into HTML. All
+    HTML-based exams2xyz() functions gained an svg=FALSE argument that can be
+    set to TRUE to produce SVG instead of PNG. Base64 encoding is also used
+    for SVG graphics by default.
+
+  o xweave() gained an argument engine=NULL that can optionally be set to
+    engine="knitr" to enable processing Rnw exercises by knitr::knit() instead
+    of the default utils::Sweave().
+
+  o exams2moodle() can now optionally turn "string" exercises in "essay" quiz
+    items rather than the default "shortanswer". Various customization options
+    can be set the "exextra" metainformation. The most important options are
+    illustrated in the new "essayreg" exercise.
+
   o Bug fix in extract_extra() which prevented that "exextra" metainformation
     was read correctly in the previous version.
     
@@ -42,18 +57,7 @@ Changes in Version 2.2-0
 
   o Within several exams2xyz() functions gsub(...) calls were changed to
     gsub(..., fixed = TRUE) for replacing placeholders that potentially
-    have slashes.
-    
-  o xweave() gained an argument engine=NULL that can optionally be set to
-    engine="knitr" to enable processing Rnw exercises by knitr::knit() instead
-    of the default utils::Sweave().
-
-  o exams2moodle() can now optionally turn "string" exercises in "essay" quiz
-    items rather than the default "shortanswer". Various customization options
-    can be set the "exextra" metainformation. The most important options are
-    illustrated in the new "essayreg" exercise.
-
-  o Enabled Base64 encoding for .svg graphics by default.
+    have slashes.    
 
 
 Changes in Version 2.1-0

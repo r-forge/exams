@@ -14,7 +14,7 @@
   exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = NULL,
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-    mathjax = FALSE, resolution = 100, width = 4, height = 4,
+    mathjax = FALSE, resolution = 100, width = 4, height = 4, svg = FALSE,
     encoding = "", converter = NULL, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
@@ -59,8 +59,9 @@
   \item{solution}{character or logical, see to argument \code{question}.}
   \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
     be included for rendering mathematical formulas?}
-  \item{resolution, width, height}{numeric. Options for rendering PNG
+  \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
+  \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
     also be a character vector of file endings that should be Base 64 encoded, e.g.

@@ -12,7 +12,7 @@
   exams2lops(file, n = 1L, nsamp = NULL, dir = ".", name = NULL, 
     quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     solution = TRUE, doctype = NULL, head = NULL, resolution = 100, width = 4, 
-    height = 4,  encoding = "", converter = "tex2image", base64 = FALSE,
+    height = 4, svg = FALSE,  encoding = "", converter = "tex2image", base64 = FALSE,
     auto_scramble = TRUE, \dots)
 
   make_exams_write_lops(name = NULL, auto_scramble = TRUE, \dots)
@@ -45,8 +45,9 @@
     By default HTML4 is employed.}
   \item{head}{character vector for the head tag. By default a simple
     header is employed, setting the font to Arial.}
-  \item{resolution, width, height}{numeric. Options for rendering PNG
+  \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
+  \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML.}

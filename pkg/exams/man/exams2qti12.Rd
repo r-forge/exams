@@ -16,7 +16,7 @@
   exams2qti12(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, verbose = FALSE,
-    resolution = 100, width = 4, height = 4, encoding = "",
+    resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti12", duration = NULL,
@@ -31,7 +31,7 @@
   exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, verbose = FALSE,
-    resolution = 100, width = 4, height = 4, encoding  = "",
+    resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti21", duration = NULL,
@@ -79,8 +79,9 @@
     default this is chosen via \code{\link[base]{tempdir}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
-  \item{resolution, width, height}{numeric. Options for rendering PNG
+  \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
+  \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used

@@ -2,7 +2,7 @@
 ## http://docs.moodle.org/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, encoding = "", 
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, pluginfile = TRUE,
@@ -19,7 +19,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(encoding == "") encoding <- "UTF-8"
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
-       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+       sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
          resolution = resolution, width = width, height = height,
          encoding = encoding),
        read = NULL, transform = htmltransform, write = NULL),

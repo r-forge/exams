@@ -1,5 +1,5 @@
 import("stats", "graphics", "tools", "utils")
-importFrom("grDevices", "hcl")
+importFrom("grDevices", "hcl", "svg")
 
 export(
   ## outdated version 1 interface

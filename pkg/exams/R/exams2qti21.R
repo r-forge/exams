@@ -8,7 +8,7 @@
 ## http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html
 exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, encoding  = "",
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti21",
   duration = NULL, stitle = "Exercise", ititle = "Question",
@@ -38,7 +38,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(!is.xexam) {
     exm <- xexams(file, n = n, nsamp = nsamp,
       driver = list(
-        sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+        sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
           resolution = resolution, width = width, height = height,
           encoding = encoding),
         read = NULL, transform = htmltransform, write = NULL),

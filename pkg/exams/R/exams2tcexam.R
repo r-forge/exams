@@ -1,7 +1,7 @@
 ## generate exams in TCEXAM XML format
 exams2tcexam <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, encoding = "", points = NULL,
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "", points = NULL,
   modulename = name, subjectname = name, subjectdescription = NULL, timer = 0,
   fullscreen = FALSE, inlineanswers = FALSE, autonext = FALSE, shuffle = FALSE,
   lang = "en", date = Sys.time(), zip = FALSE, converter = NULL, ...)
@@ -18,7 +18,7 @@ exams2tcexam <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(encoding == "") encoding <- "UTF-8"
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
-       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
+       sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
          resolution = resolution, width = width, height = height,
          encoding = encoding),
        read = NULL, transform = htmltransform, write = NULL),

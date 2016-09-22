@@ -10,7 +10,7 @@
 \usage{
   exams2tcexam(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-    resolution = 100, width = 4, height = 4, encoding = "", points = NULL,
+    resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "", points = NULL,
     modulename = name, subjectname = name, subjectdescription = NULL, timer = 0,
     fullscreen = FALSE, inlineanswers = FALSE, autonext = FALSE, shuffle = FALSE,
     lang = "en", date = Sys.time(), zip = FALSE, converter = NULL, \dots)
@@ -23,7 +23,7 @@
   \item{dir}{character specifying the output directory path. The default is
     the current working directory.}
   \item{name}{character. A name prefix for resulting XML file.}
-  \item{resolution, width, height, encoding}{arguments passed to \code{\link[exams]{xweave}}.}
+  \item{resolution, width, height, svg, encoding}{arguments passed to \code{\link[exams]{xweave}}.}
   \item{points}{numeric. Number of points for the questions.}
   \item{modulename}{character. Module name.}
   \item{subjectname}{character. Subject name.}
