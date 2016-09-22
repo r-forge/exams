@@ -53,6 +53,8 @@ Changes in Version 2.2-0
     can be set the "exextra" metainformation. The most important options are
     illustrated in the new "essayreg" exercise.
 
+  o Enabled Base64 encoding for .svg graphics by default.
+
 
 Changes in Version 2.1-0
 
