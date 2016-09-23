@@ -17,7 +17,7 @@ exams2arsnova <- function(file, n = 1L, dir = ".",
   if(length(qname) != length(file)) stop("length of 'file' and 'qname' do not match")
 
   ## Markdown transformer (Github flavor for \( rather than $ math mode)
-  mdtransform <- make_exercise_transform_pandoc(to = "markdown_github")
+  mdtransform <- make_exercise_transform_pandoc(to = "markdown_github+tex_math_single_backslash")
 
   ## create JSON/RCurl write with custom options
   arsnovawrite <- make_exams_write_arsnova(url = url, sessionkey = sessionkey, jsessionid = jsessionid,
@@ -80,7 +80,20 @@ make_exams_write_arsnova <- function(url = "https://arsnova.eu/api", sessionkey 
       session = list(
         name = if(is.null(sname)) name else sname[1L],
         shortName = if(is.null(sname)) name else sname[2L],
-        active = active
+        active = active,
+	publicPool = list(
+          ppAuthorName = NULL,
+          ppAuthorMail = NULL,
+          ppUniversity = NULL,
+          ppLogo = NULL,
+          ppSubject = NULL,
+          ppLicense = NULL,
+          ppLevel = NULL,
+          ppDescription = NULL,
+          ppFaculty = NULL,
+          name = if(is.null(sname)) name else sname[1L],
+          shortName = if(is.null(sname)) name else sname[2L]
+	)
       ),
       questions = list(),
       feedbackQuestions = list()
