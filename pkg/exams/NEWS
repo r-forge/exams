@@ -59,6 +59,11 @@ Changes in Version 2.2-0
     gsub(..., fixed = TRUE) for replacing placeholders that potentially
     have slashes.    
 
+  o Updated exams2arsnova() to assure that \( ... \) instead of $ ... $
+    is used for inline math. Also the JSON output was augmented with
+    (almost empty) "publicPool" information to keep current ARSnova versions
+    happy.
+
 
 Changes in Version 2.1-0
 
