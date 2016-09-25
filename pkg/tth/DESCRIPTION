@@ -1,6 +1,6 @@
 Package: tth
 Version: 4.3-3
-Date: 2016-04-19
+Date: 2016-09-25
 Authors@R: c(person(c("Ian", "H."), "Hutchinson", role = "aut", comment = "author of tth/ttm C sources"),
 	     person("Friedrich", "Leisch", role = c("aut", "cre"), email = "Friedrich.Leisch@R-project.org", comment = "author of R wrappers to tth/ttm"),
 	     person("Achim", "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org", comment = "author of R wrappers to tth/ttm"))
