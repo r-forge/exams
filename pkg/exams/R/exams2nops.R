@@ -3,7 +3,7 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
   usepackage = NULL, header = NULL, encoding = "", startid = 1L, points = NULL,
-  showpoints = FALSE, samepage = FALSE, ...)
+  showpoints = FALSE, samepage = FALSE, twocolumn = FALSE, ...)
 {
   ## pages could include formulary and distribution tables
   if(!is.null(pages)) pages <- sapply(pages, file_path_as_absolute)
@@ -75,7 +75,8 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   template <- file.path(tempdir(), "nops.tex")
   make_nops_template(length(file), replacement = replacement, intro = intro,
     blank = blank, duplex = duplex, pages = pages,
-    file = template, nchoice = nchoice, encoding = encoding, samepage = samepage)
+    file = template, nchoice = nchoice, encoding = encoding,
+    samepage = samepage, twocolumn = twocolumn)
 
   ## if points should be shown generate a custom transformer
   transform <- if(showpoints) {
@@ -111,7 +112,8 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
 }
 
 make_nops_template <- function(n, replacement = FALSE, intro = NULL, blank = NULL,
-  duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "", samepage = FALSE)
+  duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
+  samepage = FALSE, twocolumn = FALSE)
 {
 page1 <- make_nops_page(n, nchoice = nchoice)
 page2 <- if(replacement) {
@@ -147,8 +149,9 @@ blank <- list(
   rep("\\newpage\n\\phantom{.}", blank[2L])
 )
 
-rval <- c("
-\\documentclass[10pt,a4paper]{article} 
+rval <- c(
+sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" else ""),
+"
 \\usepackage{graphicx,color}
 \\usepackage{amsmath,amssymb,latexsym}
 \\usepackage{verbatim,url,fancyvrb,ae}

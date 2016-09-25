@@ -22,9 +22,12 @@ Changes in Version 2.2-0
   o In exams2nops() the argument 'blank' can now be a vector of length 2
     with the number of blank pages before and after the extra "pages".
 
-  o Added argument samepage=FALSE in exams2nops(). If set to TRUE, this adds
-    a {samepage} environment around the question and solution lists in order
-    to prevent page breaks within these lists.
+  o Added arguments samepage=FALSE and twocolumn=FALSE in exams2nops().
+    If set to TRUE, samepage adds a {samepage} environment around the
+    question and solution lists in order to prevent page breaks within
+    these lists. And the twocolumn option, if set to TRUE, is added in
+    the \documentclass so that the exam is displayed in two-column
+    format.
 
   o Language support for Hungarian in exams2nops (hu, contributed by
     Gergely Daroczi and Denes Toth).
