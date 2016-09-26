@@ -3,10 +3,11 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding  = "",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "blackboard",
-  adescription = "Please solve the following exercises.",
-  atitle = "Please answer the following question.",
+  pdescription = "This is an item from a pool.", tdescription = "This is today's test.",
+  pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE), ...)
+  points = NULL, eval = list(partial = FALSE, negative = FALSE), base64 = TRUE,
+  mode = "hex", ...) #NS: partial is set off
 {
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(...)
@@ -62,22 +63,35 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
   xml <- readLines(template[1L])
 
-  ## check template for section and item inclusion
+  ## check template for all necessary tags
   ## extract the template for the assessement, sections and items
-  if(length(section_start <- grep("<section>", xml, fixed = TRUE)) != 1L ||
-    length(section_end <- grep("</section>", xml, fixed = TRUE)) != 1L) {
+  if(length(start <- grep("<questestinterop", xml, fixed = TRUE)) != 1L ||
+    length(end <- grep("</questestinterop>", xml, fixed = TRUE)) != 1L) {
+    stop(paste("The XML template", template,
+      "must contain exactly one opening and closing <questestinterop> tag!"))
+  }
+  assessment_xml <- xml[start:end]
+
+  if(length(start <- grep("<section>", xml, fixed = TRUE)) != 1L ||
+    length(end <- grep("</section>", xml, fixed = TRUE)) != 1L) {
     stop(paste("The XML template", template,
       "must contain exactly one opening and closing <section> tag!"))
   }
-  section <- xml[section_start:section_end]
-  if(length(item_start <- grep("<item ##MaxAttempts##>", section, fixed = TRUE)) != 1 ||
-    length(item_end <- grep("</item>", section, fixed = TRUE)) != 1) {
+  section_xml <- xml[start:end]
+
+  if(length(start <- grep("<item ", xml, fixed = TRUE)) != 1L ||
+    length(end <- grep("</item>", xml, fixed = TRUE)) != 1L) {
     stop(paste("The XML template", template,
       "must contain exactly one opening and closing <item> tag!"))
   }
-  xml <- c(xml[1:(section_start - 1)], "##TestSections##", xml[(section_end + 1):length(xml)])
-  item <- section[item_start:item_end]
-  section <- section[1:(item_start - 1)]
+  item_xml <- xml[start:end]
+
+  if(length(start <- grep("<selection_ordering>", xml, fixed = TRUE)) != 1L ||
+    length(end <- grep("</selection_ordering>", xml, fixed = TRUE)) != 1L) {
+    stop(paste("The XML template", template,
+      "must contain exactly one opening and closing <selection_ordering> tag!"))
+  }
+  ordering_xml <- xml[start:end]
 
   ## obtain the number of exams and questions
   nx <- length(exm)
@@ -99,10 +113,13 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   test_id <- make_test_ids(type = "test")
 
   ## create section ids
-  sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
+  sec_ids <- paste(test_id, make_test_ids(2*nq + 1, type = "section"), sep = "_")
 
   ## create section/item titles and section description
-  if(is.null(adescription)) adescription <- ""
+  if(is.null(pdescription)) pdescription <- ""
+  if(is.null(tdescription)) tdescription <- ""
+  if(is.null(pinstruction)) pinstruction <- ""
+  if(is.null(tinstruction)) tinstruction <- ""
 
   ## points setting
   if(!is.null(points))
@@ -112,7 +129,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   dir.create(test_dir <- file.path(tdir, name))
 
   ## get correct question type spec for blackboard
-  ## FIXME: not all questiontypes of BB listed here!
+  ## FIXME: cloze items are not yet available for blackboard
   bb_questiontype <- function(x, item = FALSE) {
     type <- switch(x,
       "mchoice" = "Multiple Answer",
@@ -124,19 +141,81 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     type
   }
 
+  ## process maximal number of attempts
+  make_integer_tag <- function(x, type, default = 1) {
+    if(is.null(x)) x <- Inf
+    x <- round(as.numeric(x))
+    if(x < default) {
+      warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
+      x <- default
+    }
+    if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
+  }
+  maxattempts <- make_integer_tag(maxattempts, type = "maxattempts", default = 1)
+
+  ## write fixed part of test description file
+  test_xml <- assessment_xml
+  test_xml <- gsub('##TestTitle##', paste0(name, "-test"), test_xml, fixed = TRUE)
+  test_xml <- gsub('##TestIdent##', test_id, test_xml, fixed = TRUE)
+  test_xml <- gsub('##MaxTestScore##', sprintf("%d.0", nq), test_xml, fixed = TRUE)
+  test_xml <- gsub('##AssessmentDescription##', tinstruction, test_xml, fixed = TRUE)
+  test_xml <- gsub('##AssessmentTitle##', tdescription, test_xml, fixed = TRUE)
+  test_xml <- gsub('##SectionContent##', paste(section_xml, collapse = "\n"), test_xml, fixed = TRUE)
+  test_xml <- gsub('##SectionId##', sec_ids[2*nq + 1], test_xml, fixed = TRUE)
+  test_xml <- gsub('##AssessmentType##', "Test", test_xml, fixed = TRUE)
+  test_xml <- gsub('##SectionType##', "Subsection", test_xml, fixed = TRUE)
+  test_xml <- gsub('##QuestionType##', "Multiple Choice", test_xml, fixed = TRUE)
+  test_xml <- gsub('##AbsoluteScoreMax##', sprintf("%d.0", nq), test_xml, fixed = TRUE)
+  test_xml <- gsub('##Weighting##', "0.0", test_xml, fixed = TRUE)
+
+  ## write heading of manifest_xml
+  manifest_xml  <- c(
+      '<manifest identifier="man00001" xmlns:bb="http://www.blackboard.com/content-packaging/">',
+      '<organizations/>',
+      '<resources>')
+
+  bank_xml <- NULL
+
   ## cycle through all exams and questions
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
   items <- sec_xml <- NULL; all_points <- rep(0, length = nq)
   for(j in 1:nq) {
-    ## first, create the section header
-    sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section, fixed = TRUE))
-
-    ## insert question type: FIXME multiple types in one section?
-    sec_xml <- gsub("##QuestionType##", bb_questiontype(exm[[1]][[j]]$metainfo$type), sec_xml, fixed = TRUE)
 
     ## create item ids
     item_ids <- paste(sec_ids[j], make_test_ids(nx, type = "item"), sep = "_")
+
+    ## create variable part of test description file
+    bank_xml <- c(bank_xml, section_xml)
+    bank_xml <- gsub('##SectionId##', sec_ids[nq + j], bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##AssessmentType##', "Test", bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##SectionType##', "Random Block", bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##QuestionType##', "Multiple Choice", bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##AbsoluteScoreMax##', "1.0", bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##Weighting##', "1.0", bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##SectionItems##', paste(ordering_xml, collapse = "\n"), bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type), bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##SourceBankRef##', sprintf("res%05d", j), bank_xml, fixed = TRUE)
+
+    ## create structure of pool j
+    pool_xml <- assessment_xml
+    pool_xml <- gsub('##TestTitle##', exm[[1]][[j]]$metainfo$name, pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##TestIdent##', paste(test_id, j, sep="_"), pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##MaxTestScore##', "0.0", pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##AssessmentDescription##', pdescription, pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##AssessmentTitle##', pinstruction, pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##SectionContent##', paste(section_xml, collapse = "\n"), pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##SectionId##', sec_ids[j], pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##AssessmentType##', "Pool", pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##SectionType##', "Subsection", pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type), pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##AbsoluteScoreMax##', "0.0", pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##Weighting##', "0.0", pool_xml, fixed = TRUE)
+
+    ## include info of each pool j into manifest_xml
+    manifest_xml <- c(manifest_xml,sprintf('<resource bb:file="res%05d.dat" bb:title="%s" identifier="res%05d" type="assessment/x-bb-qti-pool" xml:base="res%05d"/>', j, exm[[1]][[j]]$metainfo$name, j, j))
+
+    ibody <- NULL
 
     ## now, insert the questions
     for(i in 1:nx) {
@@ -153,9 +232,9 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
-      ibody <- gsub("##ItemBody##",
+      ibody <- c(ibody, gsub("##ItemBody##",
         paste(thebody <- itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
-        item, fixed = TRUE)
+        item_xml, fixed = TRUE))
 
       ## insert possible solution
       enumerate <- attr(thebody, "enumerate")
@@ -188,114 +267,76 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
-        if(!file.exists(media_dir <- file.path(test_dir, "media")))
-          dir.create(media_dir)
-        sj <- 1
-        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
-          sj <- sj + 1
+        if(!base64) {
+          if(!file.exists(media_dir <- file.path(test_dir, "csfiles", "home_dir")))
+            dir.create(media_dir, recursive = TRUE)
+          sj <- 1
+          while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
+            sj <- sj + 1
+          }
+          dir.create(ms_dir <- file.path(media_dir, sup_dir))
         }
-        dir.create(ms_dir <- file.path(media_dir, sup_dir))
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
-          file.copy(exm[[i]][[j]]$supplements[si],
-            file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
-          if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
-            ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
-              file.path('media', sup_dir), ibody, fixed = TRUE)
+          f <- basename(exm[[i]][[j]]$supplements[si])
+          if(base64) {
+            require("base64enc")
+            replacement <- fileURI(exm[[i]][[j]]$supplements[si])
+
+            if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+              ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+                replacement, ibody, fixed = TRUE)
+            } else {
+              if(any(grepl(f, ibody))) {
+                ibody <- gsub(paste(f, '"', sep = ''),
+                  paste(replacement, '"', sep = ''), ibody, fixed = TRUE)
+              }
+            }
           } else {
-            if(any(grepl(f, ibody))) {
-              ibody <- gsub(paste(f, '"', sep = ''),
-                paste('media', sup_dir, f, '"', sep = '/'), ibody, fixed = TRUE)
+            xid <- sprintf("xid-1%03d%03d_1", si, sj)
+            file.copy(exm[[i]][[j]]$supplements[si],
+              file.path(ms_dir, gsub(".", paste0("__", xid, "."), f, fixed = TRUE)))
+            if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
+              ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
+                file.path(sup_dir), ibody, fixed = TRUE)
+            } else {
+              if(any(grepl(f, ibody))) {
+                ibody <- gsub(paste(f, '"', sep = ''),
+                  paste("@X@EmbeddedFile.requestUrlStub@X@bbcswebdav", sup_dir, paste0(xid, "\""), sep = "/"), ibody, fixed = TRUE)
+              }
             }
           }
         }
       }
 
-      ## insert question type NS item=TRUE changed
+
+      ## insert question type
       ibody <- gsub("##QuestionType##", bb_questiontype(type, item = FALSE), ibody, fixed = TRUE)
-
-      ## include body in section
-      sec_xml <- c(sec_xml, ibody, "")
+      ibody <- gsub('##MaxAttempts##', 'maxattempts="1"', ibody, fixed = TRUE)
     }
 
-    ## close the section
-    sec_xml <- c(sec_xml, "", "</section>")
-  }
+    ## fill pool j with item content and write to file
+    pool_xml <- gsub('##SectionItems##', paste(ibody, collapse = "\n"), pool_xml, fixed = TRUE)
+    writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', pool_xml), file.path(test_dir, sprintf("res%05d.dat", j)))
+    #formatXML(file.path(test_dir, sprintf("res%05d.dat", j)), overwrite = TRUE)
+   }
 
-  ## process maximal number of attempts
-  make_integer_tag <- function(x, type, default = 1) {
-    if(is.null(x)) x <- Inf
-    x <- round(as.numeric(x))
-    if(x < default) {
-      warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
-      x <- default
-    }
-    if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
-  }
-  maxattempts <- make_integer_tag(maxattempts, type = "maxattempts", default = 1)
+  #join fixed and variable parts of test description file and write to this file
+  test_xml <- gsub('##SectionItems##', paste(bank_xml, collapse = "\n"), test_xml, fixed = TRUE)
+  writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', test_xml), file.path(test_dir, sprintf("res%05d.dat", nq + 1)))
+  #formatXML(file.path(test_dir, sprintf("res%05d.dat", nq + 1)), overwrite = TRUE)
 
-  ## finalize the test xml file, insert ids/titles, sections, and further control details
-  xml <- gsub("##TestIdent##", test_id, xml)
-  xml <- gsub("##TestTitle##", name, xml)
-  xml <- gsub("##TestSections##", paste(sec_xml, collapse = "\n"), xml)
-  xml <- gsub("##MaxAttempts##", maxattempts, xml)
-  xml <- gsub("##AssessmentDescription##", adescription, xml)
-  xml <- gsub("##AssessmentTitle##", atitle, xml)
 
-  ## write to dir
-  writeLines(xml, file.path(test_dir, "res00002.dat"))
-  formatXML(file.path(test_dir, "res00002.dat"), overwrite = TRUE)
+  ## finish manifest_xml and write to file
+  manifest_xml <- c(manifest_xml,
+                  sprintf('<resource bb:file="res%05d.dat" bb:title="%s-test" identifier="res%05d" type="assessment/x-bb-qti-test" xml:base="res%05d"/>', nq + 1, name, nq + 1, nq + 1),
+  	            '</resources>',
+                  '</manifest>')
+  writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml), file.path(test_dir, "imsmanifest.xml"))
+  #formatXML(file.path(test_dir, "imsmanifest.xml"), overwrite = TRUE)
 
-  ## write  .bb-package-info file, needs just single line
+  ## write .bb-package-info file, needs just single line
   bb.inf <- 'cx.package.info.version=6.0'
   writeLines(bb.inf, file.path(test_dir, ".bb-package-info"))
-
-  ## write manifest file
-  xml <- c(
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<manifest identifier="man00001" xmlns:bb="http://www.blackboard.com/content-packaging/">',
-    '<organizations default="toc00001">',
-    '<organization identifier="toc00001"/>',
-    '</organizations>',
-    '<resources>',
-    '<resource bb:file="res00001.dat" bb:title="Categories" identifier="res00001" type="course/x-bb-category" xml:base="res00001"/>',
-    '<resource bb:file="res00002.dat" bb:title="%s" identifier="res00002" type="assessment/x-bb-qti-pool" xml:base="res00002">',
-    '</resource>',
-    '<resource bb:file="res00003.dat" bb:title="Assessment Creation Settings" identifier="res00003" type="course/x-bb-courseassessmentcreationsettings" xml:base="res00003"/>',
-    '</resources>',
-    '</manifest>'
-  )
-  xml <- sprintf(xml, name)
-  writeLines(xml, file.path(test_dir, "imsmanifest.xml"))
-  formatXML(file.path(test_dir, "imsmanifest.xml"), overwrite = TRUE)
-
-  ## some more setting files
-  xml <- c(
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    paste('<CATEGORIES><CATEGORY id="_', make_id(4, 1),'_1"><TITLE>"OMII-A"</TITLE><TYPE>category</TYPE><COURSEID value="_38547_1"/></CATEGORY></CATEGORIES>', sep = '')
-  )
-  writeLines(xml, file.path(test_dir, "res00001.dat"))
-  formatXML(file.path(test_dir, "res00001.dat"), overwrite = TRUE)
-
-  xml <- c(
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<ASSESSMENTCREATIONSETTINGS>',
-    paste('<ASSESSMENTCREATIONSETTING id="', make_id(5, 1),
-      '_1"><QTIASSESSMENTID value="_', make_id(6, 1), '_1"/>', sep = ''),
-    '<ANSWERFEEDBACKENABLED>false</ANSWERFEEDBACKENABLED>',
-    '<QUESTIONATTACHMENTSENABLED>true</QUESTIONATTACHMENTSENABLED>',
-    '<ANSWERATTACHMENTSENABLED>false</ANSWERATTACHMENTSENABLED>',
-    '<QUESTIONMETADATAENABLED>false</QUESTIONMETADATAENABLED>',
-    '<DEFAULTPOINTVALUEENABLED>false</DEFAULTPOINTVALUEENABLED>',
-    paste('<DEFAULTPOINTVALUE>', sum(all_points), '</DEFAULTPOINTVALUE>', sep = ''),
-    '<ANSWERPARTIALCREDITENABLED>false</ANSWERPARTIALCREDITENABLED>',
-    '<ANSWERRANDOMORDERENABLED>true</ANSWERRANDOMORDERENABLED>',
-    '<ANSWERORIENTATIONENABLED>true</ANSWERORIENTATIONENABLED>',
-    '<ANSWERNUMBEROPTIONSENABLED>true</ANSWERNUMBEROPTIONSENABLED>',
-    '</ASSESSMENTCREATIONSETTING>',
-    '</ASSESSMENTCREATIONSETTINGS>'
-  )
-  writeLines(xml, file.path(test_dir, "res00003.dat"))
-  formatXML(file.path(test_dir, "res00003.dat"), overwrite = TRUE)
 
   ## compress; added all.files=T for including bb info file
   if(zip) {
@@ -315,13 +356,11 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 
-## Blackboard item body constructor function
-## NS: changed enumerate= and fix_num= and eval = list(partial=
-## Z: changed partial eval back again to be consistent with other QTI interfaces
+## Blackboard item body constructor function NS: changed enumerate= and fix_num= and eval = list(partial=
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = FALSE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = FALSE,
+  maxchars = 12, eval = list(partial = FALSE, negative = FALSE), fix_num = FALSE,
   qti12 = FALSE)
 {
   function(x) {
@@ -832,6 +871,8 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 ## Function to nicely format XML files
 formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
 {
+  stopifnot(require("XML"))
+  stopifnot(require("tools"))
   xml.string <- add <- FALSE
   if(!is.null(files) & is.null(dir)) {
     if(!all(file.exists(files))) {
@@ -859,7 +900,7 @@ formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
   for(f in files) {
     setwd(dirname(f))
     fbn <- basename(f)
-    xml <- try(XML::xmlTreeParse(fbn)$doc$children[[1]], silent = TRUE)
+    xml <- try(xmlTreeParse(fbn)$doc$children[[1]], silent = TRUE)
     if(inherits(xml, "try-error")) warning(paste("could not format file:", f))
     sink(file.path(tdir, fbn))
     print(xml)
@@ -871,4 +912,19 @@ formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
     return(file.copy(file.path(tdir, fbn), file.path(dir, fn), overwrite = overwrite))
   else
     return(readLines(file.path(tdir, fbn)))
+}
+
+## function to create identfier ids
+make_id <- function(size, n = 1L) {
+  if(is.null(n)) n <- 1L
+  rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
+  rval[1L, ] <- pmax(1L, rval[1L, ])
+  colSums(rval * 10^((size - 1L):0L))
+}
+
+## delete NULL list elements
+delete.NULLs <- function(x.list) {
+  rval <- x.list[unlist(lapply(x.list, length) != 0)]
+  rval <- if(length(rval)) rval else NULL
+  rval
 }
