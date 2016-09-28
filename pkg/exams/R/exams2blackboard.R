@@ -1,3 +1,4 @@
+
 exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, encoding  = "",
@@ -6,11 +7,14 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   pdescription = "This is an item from a pool.", tdescription = "This is today's test.",
   pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
-  points = NULL, eval = list(partial = FALSE, negative = FALSE), base64 = TRUE,
-  mode = "hex", ...) #NS: partial is set off
+  points = NULL, eval = list(partial = FALSE, negative = FALSE), base64 = FALSE, converter = NULL, ...) #NS: partial is set off
 {
+  ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
+  if(is.null(converter)) {
+    converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
+  }
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(...)
+  htmltransform <- make_exercise_transform_html(converter = converter, ...)
 
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,
@@ -233,13 +237,13 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
       ibody <- c(ibody, gsub("##ItemBody##",
-        paste(thebody <- itembody[[type]](exm[[i]][[j]]), collapse = "\n"),
+        paste(thebody <- fix_bb_pre(itembody[[type]](exm[[i]][[j]])), collapse = "\n"),
         item_xml, fixed = TRUE))
 
       ## insert possible solution
       enumerate <- attr(thebody, "enumerate")
       if(is.null(enumerate)) enumerate <- FALSE
-      xsolution <- exm[[i]][[j]]$solution
+      xsolution <- fix_bb_pre(exm[[i]][[j]]$solution)
       if(!is.null(exm[[i]][[j]]$solutionlist)) {
         if(!all(is.na(exm[[i]][[j]]$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
@@ -279,9 +283,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           f <- basename(exm[[i]][[j]]$supplements[si])
           if(base64) {
-            require("base64enc")
             replacement <- fileURI(exm[[i]][[j]]$supplements[si])
-
             if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
               ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
                 replacement, ibody, fixed = TRUE)
@@ -312,19 +314,18 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## insert question type
       ibody <- gsub("##QuestionType##", bb_questiontype(type, item = FALSE), ibody, fixed = TRUE)
       ibody <- gsub('##MaxAttempts##', 'maxattempts="1"', ibody, fixed = TRUE)
+      ibody <- gsub('##NegativePoints##', ifelse(type == "mchoice" & eval$negative, "Q", "N"), ibody, fixed = TRUE)
+      ibody <- gsub('##PartialCredit##', ifelse(type == "mchoice" & eval$partial, "true", "false"), ibody, fixed = TRUE)
     }
 
     ## fill pool j with item content and write to file
     pool_xml <- gsub('##SectionItems##', paste(ibody, collapse = "\n"), pool_xml, fixed = TRUE)
     writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', pool_xml), file.path(test_dir, sprintf("res%05d.dat", j)))
-    #formatXML(file.path(test_dir, sprintf("res%05d.dat", j)), overwrite = TRUE)
    }
 
-  #join fixed and variable parts of test description file and write to this file
+  ## join fixed and variable parts of test description file and write to this file
   test_xml <- gsub('##SectionItems##', paste(bank_xml, collapse = "\n"), test_xml, fixed = TRUE)
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', test_xml), file.path(test_dir, sprintf("res%05d.dat", nq + 1)))
-  #formatXML(file.path(test_dir, sprintf("res%05d.dat", nq + 1)), overwrite = TRUE)
-
 
   ## finish manifest_xml and write to file
   manifest_xml <- c(manifest_xml,
@@ -332,7 +333,6 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   	            '</resources>',
                   '</manifest>')
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml), file.path(test_dir, "imsmanifest.xml"))
-  #formatXML(file.path(test_dir, "imsmanifest.xml"), overwrite = TRUE)
 
   ## write .bb-package-info file, needs just single line
   bb.inf <- 'cx.package.info.version=6.0'
@@ -359,7 +359,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 ## Blackboard item body constructor function NS: changed enumerate= and fix_num= and eval = list(partial=
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
-  maxvalue = NULL, cutvalue = NULL, enumerate = FALSE, digits = NULL, tolerance = is.null(digits),
+  maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
   maxchars = 12, eval = list(partial = FALSE, negative = FALSE), fix_num = FALSE,
   qti12 = FALSE)
 {
@@ -425,11 +425,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         if(!is.null(x$question)) {
           c(
             '<material>',
-            #'<matbreak/>', NS
             '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
             x$question,
             ']]></mat_formattedtext></mat_extension>',
-            #'<matbreak/>', NS
             '</material>'
           )
         } else NULL
@@ -446,11 +444,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
             '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
             x$question,
             ']]></mat_formattedtext></mat_extension>',
-            #'<matbreak/>', NS
             '</material>'
           )
         } else NULL,
-        ## NS changed rep 3 into 2
         rep('</flow>', 2)
       )
     }
@@ -511,7 +507,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               '<mat_formattedtext type="HTML">',
               '<![CDATA[',
                paste(if(enumerate) {
-                 paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                 paste(letters[if(x$metainfo$type == "cloze") i else NULL], ".",## NULL io j Change needed because Blackboard automatically enumerates
                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
                } else NULL, questionlist[[i]][j]),
@@ -533,8 +529,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         )
       }
       if(type[i] == "string" || type[i] == "num") {
-        #if(!qti12)
-        # stop('"string" and "num" type questions not supported in exams2blackboard() yet!')
         for(j in seq_along(solution[[i]])) {
           soltext <- if(type[i] == "num") {
              if(!is.null(digits)) format(round(solution[[i]][j], digits), nsmall = digits) else solution[[i]][j]
@@ -547,13 +541,8 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
                 paste('<mat_extension><mat_formattedtext type="HTML"><![CDATA[', paste(if(enumerate) {
                   paste(letters[i], ".", sep = '')
                 } else NULL, questionlist[[i]][j]), ']]></mat_formattedtext></mat_extension>', sep = ""),
-                '</material>'#,
-                #'<material>', '<matbreak/>', '</material>' NS
-              )
+                '</material>')
             } else NULL,
-            #paste(if(type[i] == "string") '<response_str ident="' else { NS: changed
-            #  if(!tolerance | fix_num) '<response_str ident="' else '<response_num ident="'
-            #  }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste(if(type[i] == "string") '<response_str ident="' else '<response_num ident="',
                ids[[i]]$response, '" rcardinality="Single">', sep = ''),
             paste('<render_fib',
@@ -566,15 +555,8 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               if(!is.na(maxchars[[i]][3])) {
                 paste(' columns="', maxchars[[i]][3], '"', sep = '')
               } else NULL, '>', sep = ''),
-            #'<flow_label class="Block">', NS: changed
-            #paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
-            #'</flow_label>',
-            '</render_fib>',
-            #if(type[i] == "string") '</response_str>' else { NS:changed
-            #  if(!tolerance | fix_num) '</response_str>' else '</response_num>'
-            #},
-            if(type[i] == "string") '</response_str>' else '</response_num>'
-          )
+              '</render_fib>',
+            if(type[i] == "string") '</response_str>' else '</response_num>')
         }
       }
       if(!qti12)
@@ -582,7 +564,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
     }
 
     ## finish presentation
-    ##xml <- c(xml, if(qti12) '</flow>' else NULL, '</presentation>') NS: I think a `<\flow>` should always be added
     xml <- c(xml, '</flow>', '</presentation>')
 
     if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
@@ -602,7 +583,10 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         if(is.null(cutvalue)) points else cutvalue, '"/>', sep = ''),
       '</outcomes>')
 
-    correct_answers <- wrong_answers <- correct_num <- just_answers <- vector(mode = "list", length = n) #NS: added just answers
+    ## most is left as with qti12, but some stuff, such as wrong_answers is never used.
+    ## in many cases Blackboard does not check respident, but simply uses the order in <respconditions>
+    ## to deal with it just_answers is introduced
+    correct_answers <- wrong_answers <- correct_num <- just_answers <- vector(mode = "list", length = n)
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
         for(j in seq_along(solution[[i]])) {
@@ -614,6 +598,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
             just_answers[[i]] <- c(just_answers[[i]],
               paste('<varequal respident="', ids[[i]]$response,
                 '" case="Yes">', ids[[i]]$questions[j], '</varequal>', sep = '')
+
             )
           } else {
             wrong_answers[[i]] <- c(wrong_answers[[i]],
@@ -634,7 +619,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               format(round(solution[[i]][j], digits), nsmall = digits)
             } else solution[[i]][j]
             correct_answers[[i]] <- c(correct_answers[[i]], paste('<varequal respident="', ids[[i]]$response,
-              #'" case="No"><![CDATA[', soltext, ']]></varequal>', sep = "") NS: removed CDATA
               '" case="No">', soltext, '</varequal>', sep = "")
             )
           } else {
@@ -656,17 +640,15 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
                   )
                 }
                 paste(
-                  #'<and>\n', NS: changed, numeric does somehow not want <and>
-                  paste('<vargte respident="', ids[[i]]$response, '">',#NS: removed CDATA
+                  paste('<vargte respident="', ids[[i]]$response, '">',
                     solution[[i]][j] - max(tol[[i]]),
                     '</vargte>\n', sep = ""),
                   paste('<varlte respident="', ids[[i]]$response, '">',
                     solution[[i]][j] + max(tol[[i]]),
                     '</varlte>\n', sep = ""),
-                  paste('<varequal respident="', ids[[i]]$response, '">', #NS: added
+                  paste('<varequal respident="', ids[[i]]$response, '">',
                     solution[[i]][j],
                     '</varequal>\n', sep = ""),
-                  #'</and>', collapse = '\n', sep = '' NS: changed numeric does not want </and>
                    collapse = '\n', sep = ''
                 )
               }
@@ -680,47 +662,15 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
       }
       if(!is.null(wrong_answers[[i]]))
         attr(wrong_answers[[i]], "points") <- pv[[i]]
+      if(!is.null(just_answers[[i]]))
+        attr(just_answers[[i]], "points") <- pv[[i]]
     }
 
     ## delete NULL list elements
     correct_answers <- delete.NULLs(correct_answers)
     wrong_answers <- delete.NULLs(wrong_answers)
+    just_answers <- delete.NULLs(just_answers)
     correct_num <- unlist(delete.NULLs(correct_num))
-
-    ## partial points
-    if(eval$partial) {
-      if(length(correct_answers)) {
-        for(i in seq_along(correct_answers)) {
-          for(j in correct_answers[[i]]) {
-            xml <- c(xml,
-              '<respcondition title="correct">',
-              '<conditionvar>',
-              j,
-              '</conditionvar>',
-              paste('<setvar varname="SCORE" action="Add">',
-                attr(correct_answers[[i]], "points")["pos"], '</setvar>', sep = ''),
-              '</respcondition>'
-            )
-          }
-        }
-      }
-      if(length(wrong_answers)) {
-        for(i in seq_along(wrong_answers)) {
-          for(j in wrong_answers[[i]]) {
-            xml <- c(xml,
-              '<respcondition title="incorrect">',
-              '<conditionvar>',
-              j,
-              '</conditionvar>',
-              paste('<setvar varname="SCORE" action="Add">',
-                attr(wrong_answers[[i]], "points")["neg"], '</setvar>', sep = ''),
-              '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-              '</respcondition>'
-            )
-          }
-        }
-      }
-    }
 
     ## partial cloze incorrect num string answers
     if(eval$partial & x$metainfo$type == "cloze") {
@@ -747,94 +697,28 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## scoring/solution display for the correct answers
     xml <- c(xml,
-      if(x$metainfo$type != "string")'<respcondition title="correct">' else '<respcondition title="right">',# NS: string fails with "correct"
+      if(x$metainfo$type != "string")'<respcondition title="correct">' else '<respcondition title="right">',## string fails with "correct"
       '<conditionvar>',
-      #if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '<and>' else NULL     NS: changed
       if(!is.null(correct_answers) & (length(correct_answers) > 1 | x$metainfo$type == "mchoice")) '<and>' else NULL
     )
 
     xml <- c(xml,
-      if(x$metainfo$type == "mchoice") unlist(just_answers) else unlist(correct_answers), #NS: added
-      #if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '</and>' else NULL, NS: change
-      #if(!is.null(correct_answers) & (length(correct_answers) > 1 | x$metainfo$type == "mchoice")) '</and>' else NULL,
-      #if(!is.null(wrong_answers)) {
-      #  #c('<not>', '<or>', unlist(wrong_answers), '</or>', '</not>') NS: change
-      #  c('<not>', unlist(wrong_answers), '</not>')
-      #} else {
-      #  NULL
-      #},
-      if(!is.null(just_answers) & (length(just_answers) > 1 | x$metainfo$type == "mchoice")) '</and>' else NULL, #NS: added
+      if(x$metainfo$type == "mchoice") unlist(just_answers) else unlist(correct_answers),
+      if(!is.null(just_answers) & (length(just_answers) > 1 | x$metainfo$type == "mchoice")) '</and>' else NULL,
       '</conditionvar>',
-      #if(!eval$partial) { NS: change, num and string do not want setvar in <conditionvar>
       if(!eval$partial & grepl("choice", x$metainfo$type)) {
-        paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '')
+        paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '') ## note that Blackboard never uses "Add" (as in qti12) but "Set"
       } else NULL,
-      if(!eval$partial & x$metainfo$type == "string") {# NS: added for allowing for setting EvaluationType
+      if(!eval$partial & x$metainfo$type == "string") {
         paste('<setvar varname="EvaluationType" action="Set">', "CONTAINS", '</setvar>', sep = '')
       } else NULL,
       '<displayfeedback feedbacktype="Response" linkrefid="correct"/>',
       '</respcondition>'
     )
 
-    ## force display of correct answers of num exercises
-    #if(length(correct_num)) { NS: change       >0
-    if(length(correct_num)>0) {
-      for(j in correct_num) {
-        xml <- c(xml,
-          '<respcondition title="correct">',
-          '<conditionvar>',
-          j,
-          '</conditionvar>',
-          paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
-          paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = ''),
-          '</respcondition>'
-        )
-      }
-    }
+    ## earlier stuff concerning forcing display of correct answers deleted
 
-    ## force display of all other correct answers
-    #if(length(correct_num)) { NS: change       >0
-    if(length(correct_num)>0) {
-      for(j in seq_along(correct_answers)) {
-        if(attr(correct_answers[[j]], "type") != "num") {
-          xml <- c(xml,
-            '<respcondition title="correct">',
-            '<conditionvar>',
-            correct_answers[[j]],
-            '</conditionvar>',
-            paste('<setvar varname="SCORE" action="Add">', 0.001, '</setvar>', sep = ''),
-            paste('<setvar varname="SCORE" action="Add">', -0.001, '</setvar>', sep = ''),
-            '</respcondition>'
-          )
-        }
-      }
-    }
-
-
-    ## handling incorrect answers
-    correct_answers <- unlist(correct_answers)
-    wrong_answers <- unlist(wrong_answers)
-
-   # xml <- c(xml,       NS: changed
-   #   '<respcondition title="incorrect">',
-   #   '<conditionvar>',
-   #   if(!is.null(wrong_answers)) NULL else '<not>',
-   #   if(is.null(wrong_answers)) {
-   #     c(if(length(correct_answers) > 1) '<and>' else NULL,
-   #       correct_answers,
-   #       if(length(correct_answers) > 1) '</and>' else NULL)
-   #   } else {
-   #     c('<or>', wrong_answers, '</or>')
-   #   },
-   #   if(!is.null(wrong_answers)) NULL else '</not>',
-   #   '</conditionvar>',
-   #   if(!eval$partial) {
-   #     paste('<setvar varname="SCORE" action="Set">', minvalue, '</setvar>', sep = '')
-   #   } else NULL,
-   #   '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-   #   '</respcondition>'
-   # )
-
+    ## handling incorrect answers deleted
 
     ## handle all other cases
     xml <- c(xml,
@@ -848,15 +732,40 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
       '</respcondition>'
     )
 
-    ## handle unanswered cases
-#    xml <- c(xml,
-#      '<respcondition title="Fail" continue="Yes">',
-#      '<conditionvar>',
-#      '<unanswered/>',
-#      '</conditionvar>',
-#      '<setvar varname="SCORE" action="Set">0</setvar>',
-#      '</respcondition>'
-#    )
+    ## handle unanswered cases deleted (Blackboard does not know <unanswered>)
+
+    ## partial points (Blackboard presents credit bookkeeping  at the end of <resprocessing>)
+    if(eval$partial) {
+      if(length(unlist(just_answers))) {
+        for(i in 1:n) {
+          for(j in seq_along(solution[[i]])) {
+            if(solution[[i]][j]) {
+              xml <- c(xml,
+                '<respcondition>',
+                '<conditionvar>',
+                paste('<varequal respident="', ids[[i]]$response,
+                '" case="No">', ids[[i]]$questions[j], '</varequal>', sep = ''),
+                '</conditionvar>',
+                paste('<setvar varname="SCORE" action="Set">',
+                  eval$pointvec(solution[[i]])["pos"]*100, '</setvar>', sep = ''),
+                '</respcondition>'
+              )
+            } else {
+              xml <- c(xml,
+                '<respcondition>',
+                '<conditionvar>',
+                paste('<varequal respident="', ids[[i]]$response,
+                '" case="No">', ids[[i]]$questions[j], '</varequal>', sep = ''),
+                '</conditionvar>',
+                paste('<setvar varname="SCORE" action="Set">',
+                  eval$pointvec(solution[[i]])["neg"]*100, '</setvar>', sep = ''),
+                '</respcondition>'
+              )
+            }
+          }
+        }
+      }
+    }
 
     ## end of response processing
     xml <- c(xml, '</resprocessing>')
@@ -868,51 +777,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 }
 
 
-## Function to nicely format XML files
-formatXML <- function(files = NULL, dir = NULL, tdir = NULL, overwrite = FALSE)
-{
-  stopifnot(require("XML"))
-  stopifnot(require("tools"))
-  xml.string <- add <- FALSE
-  if(!is.null(files) & is.null(dir)) {
-    if(!all(file.exists(files))) {
-      xml.string <- TRUE
-      tf <- tempfile()
-      writeLines(files, tf)
-      files <- tf
-      on.exit(unlink(files))
-      add <- TRUE
-    } else dir <- dirname(files)
-  } else {
-    if(is.null(files))
-      files <- dir(dir, full.names = TRUE)
-  }
-  if(is.null(tdir)) {
-    dir.create(tdir <- tempfile())
-    on.exit(unlink(tdir))
-    add <- TRUE
-  }
-  if(!file.exists(tdir)) stop("temporary directory missing!")
-  owd <- getwd()
-  on.exit(setwd(owd), add = add)
-  files <- files[!file.info(files)$isdir]
-  if(!length(files)) stop("cannot find any files for XML formatting!")
-  for(f in files) {
-    setwd(dirname(f))
-    fbn <- basename(f)
-    xml <- try(xmlTreeParse(fbn)$doc$children[[1]], silent = TRUE)
-    if(inherits(xml, "try-error")) warning(paste("could not format file:", f))
-    sink(file.path(tdir, fbn))
-    print(xml)
-    sink()
-  }
-  fbn <- basename(files)
-  fn <- if(overwrite) fbn else paste(file_path_sans_ext(fbn), "-formatted.", file_ext(files), sep = "")
-  if(!xml.string)
-    return(file.copy(file.path(tdir, fbn), file.path(dir, fn), overwrite = overwrite))
-  else
-    return(readLines(file.path(tdir, fbn)))
-}
 
 ## function to create identfier ids
 make_id <- function(size, n = 1L) {
@@ -927,4 +791,18 @@ delete.NULLs <- function(x.list) {
   rval <- x.list[unlist(lapply(x.list, length) != 0)]
   rval <- if(length(rval)) rval else NULL
   rval
+}
+
+## fix Blackboard's failure to render html-<pre> environment properly
+fix_bb_pre <- function(x) {
+  pre_start <- grep("<pre>", x, fixed = TRUE)
+  pre_end <- grep("</pre>", x, fixed = TRUE)
+  if(length(pre_start) > 0L) {
+    x[pre_start] <- gsub("<pre>", "<p><span style=\"font-family: courier new,courier;\">", x[pre_start], fixed = TRUE)
+    x[pre_end] <- gsub("</pre>", "</span></p>", x[pre_end], fixed = TRUE)
+    for(i in seq_along(pre_start)) {
+      x[(pre_start[i] + 1L):(pre_end[i] - 1L)] <- paste(x[(pre_start[i] + 1L):(pre_end[i] - 1L)], "<br/>", sep = "")
+    }
+  }
+  return(x)
 }
