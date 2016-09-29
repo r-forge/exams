@@ -507,7 +507,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               '<mat_formattedtext type="HTML">',
               '<![CDATA[',
                paste(if(enumerate) {
-                 paste(letters[if(x$metainfo$type == "cloze") i else NULL], ".",## NULL io j Change needed because Blackboard automatically enumerates
+                 paste(letters[if(x$metainfo$type == "cloze") i else j], ".", ## Blackboard's enumeration turned of by using <bbmd_numbertype>none
                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
                } else NULL, questionlist[[i]][j]),

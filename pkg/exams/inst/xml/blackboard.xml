@@ -81,7 +81,7 @@
 <bbmd_negative_points_ind>##NegativePoints##</bbmd_negative_points_ind>
 <bbmd_canvas_fullcrdt_ind>false</bbmd_canvas_fullcrdt_ind>
 <bbmd_all_fullcredit_ind>false</bbmd_all_fullcredit_ind>
-<bbmd_numbertype>letter_lower</bbmd_numbertype>
+<bbmd_numbertype>none</bbmd_numbertype>
 <bbmd_partialcredit>##PartialCredit##</bbmd_partialcredit>
 <bbmd_orientationtype>vertical</bbmd_orientationtype>
 <bbmd_is_extracredit>false</bbmd_is_extracredit>
