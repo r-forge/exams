@@ -225,12 +225,15 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
         utils::Sweave(file, encoding = encoding, quiet = quiet, pdf = pdf, png = png,
           height = height, width = width, resolution = resolution, ...)
       } else {
-        assign(".xweave_svg_grdevice", function(name, width, height, ...) {
-          svg(filename = paste(name, "svg", sep = "."), width = width, height = height)
-        }, envir = .GlobalEnv)
-        utils::Sweave(file, encoding = encoding, quiet = quiet, grdevice = ".xweave_svg_grdevice",
+        if(r340 <- compareVersion(with(R.Version(), paste(major, minor, sep = ".")), "3.4.0") >= 0L) {
+	  svg_grdevice <- "exams:::.xweave_svg_grdevice"
+	} else {
+          assign(".xweave_svg_grdevice", .xweave_svg_grdevice, envir = .GlobalEnv)
+	  svg_grdevice <- ".xweave_svg_grdevice"
+	}
+        utils::Sweave(file, encoding = encoding, quiet = quiet, grdevice = svg_grdevice,
           height = height, width = width, ...)
-        remove(list = ".xweave_svg_grdevice", envir = .GlobalEnv)
+        if(!r340) remove(list = ".xweave_svg_grdevice", envir = .GlobalEnv)
       }
       if(png | svg) {
         ## add .png or .svg suffix in case of \includegraphics{} without suffix
@@ -272,3 +275,7 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
   supplements = NULL,
   temporary = NULL
 )
+
+.xweave_svg_grdevice <- function(name, width, height, ...) {
+  svg(filename = paste(name, "svg", sep = "."), width = width, height = height)
+}
