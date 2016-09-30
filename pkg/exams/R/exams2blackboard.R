@@ -145,6 +145,21 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     type
   }
 
+  ## function to give right option for <bbmd_negative_points_ind>
+
+  set_negative_points <- function(eval = eval, type = type) {
+      if(!eval$negative){
+          x <- "N"
+      } else if(type == "mchoice"){
+          x <- "Q"
+      } else if(type == "schoice"){
+          x <- "Y"
+      } else {
+          x <- "N"
+      }
+      x
+  }
+
   ## process maximal number of attempts
   make_integer_tag <- function(x, type, default = 1) {
     if(is.null(x)) x <- Inf
@@ -314,8 +329,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## insert question type
       ibody <- gsub("##QuestionType##", bb_questiontype(type, item = FALSE), ibody, fixed = TRUE)
       ibody <- gsub('##MaxAttempts##', 'maxattempts="1"', ibody, fixed = TRUE)
-      ibody <- gsub('##NegativePoints##', ifelse(type == "mchoice" & eval$negative, "Q", "N"), ibody, fixed = TRUE)
-      ibody <- gsub('##PartialCredit##', ifelse(type == "mchoice" & eval$partial, "true", "false"), ibody, fixed = TRUE)
+      ibody <- gsub('##NegativePoints##', set_negative_points(eval = eval, type = type) , ibody, fixed = TRUE)
+      ibody <- gsub('##PartialCredit##', ifelse(grepl("choice", type) & eval$partial, "true", "false"), ibody, fixed = TRUE)
     }
 
     ## fill pool j with item content and write to file
