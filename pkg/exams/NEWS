@@ -67,6 +67,11 @@ Changes in Version 2.2-0
     (almost empty) "publicPool" information to keep current ARSnova versions
     happy.
 
+  o New exercises "deriv"/"deriv2" (both in .Rnw and .Rmd) that illustrate
+    a simple question about derivatives to be solved by the product rule.
+    The "deriv" exercise is in "num" format and "deriv2" is the same in
+    "schoice" (suggested by Martin Obradovits).
+
 
 Changes in Version 2.1-0
 
