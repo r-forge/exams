@@ -150,9 +150,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   set_negative_points <- function(eval = eval, type = type) {
       if(!eval$negative){
           x <- "N"
-      } else if(type == "mchoice"){
-          x <- "Q"
-      } else if(type == "schoice"){
+      } else if(grepl("choice", type)){
           x <- "Y"
       } else {
           x <- "N"
