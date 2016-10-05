@@ -7,7 +7,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   pdescription = "This is an item from a pool.", tdescription = "This is today's test.",
   pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
-  points = NULL, eval = list(partial = FALSE, negative = FALSE), base64 = FALSE, converter = NULL, ...) #NS: partial is set off
+  points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = FALSE, converter = NULL, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -373,7 +373,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = FALSE, negative = FALSE), fix_num = FALSE,
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE),
   qti12 = FALSE)
 {
   function(x) {
@@ -643,15 +643,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
                   } else solution[[i]][j],
                   ']]></varequal>', sep = "")
               } else {
-                if(fix_num) {
-                  correct_num[[i]] <- c(correct_num[[i]],
-                    paste('<varequal respident="', ids[[i]]$response,
-                      '" case="No"><![CDATA[', if(!is.null(digits)) {
-                      format(round(solution[[i]][j], digits), nsmall = digits)
-                      } else solution[[i]][j],
-                      ']]></varequal>', sep = "")
-                  )
-                }
                 paste(
                   paste('<vargte respident="', ids[[i]]$response, '">',
                     solution[[i]][j] - max(tol[[i]]),
