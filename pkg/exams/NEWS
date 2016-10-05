@@ -72,6 +72,10 @@ Changes in Version 2.2-0
     The "deriv" exercise is in "num" format and "deriv2" is the same in
     "schoice" (suggested by Martin Obradovits).
 
+  o The tth/ttm-based HTML conversion now makes sure that empty
+    question/solution/list elements remain empty and do not introduce line
+    breaks.
+
 
 Changes in Version 2.1-0
 

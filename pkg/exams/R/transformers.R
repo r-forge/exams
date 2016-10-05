@@ -96,6 +96,9 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
     apply_ttx_on_list <- function(object, converter = "ttm",
       sep = "\\007\\007\\007\\007\\007", ...)
     {
+      ## empty strings in list?
+      empty <- sapply(object, identical, "")
+      
       ## add seperator as last line to each chunk
       object <- lapply(object, c, sep)
 
@@ -121,6 +124,9 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
         return(c(x[-n], gsub(sep, "", x[n], fixed = TRUE)))
       }
       rval <- lapply(rval, cleansep)
+
+      ## make sure empty elements remain empty
+      if(any(empty)) rval[empty] <- rep.int(list(""), sum(empty))
 
       ## store ttx images
       attr(rval, "images") <- img
