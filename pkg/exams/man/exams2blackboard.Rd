@@ -16,20 +16,23 @@
     resolution = 100, width = 4, height = 4, encoding = "",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    template = "blackboard",
-    adescription = "Please solve the following exercises.",
-    atitle = "Please answer the following question.",
+    template = "blackboard", 
+    pdescription = "This is an item from an item pool.", 
+    tdescription = "This is today's test.",
+    pinstruction = "Please answer the following question.", 
+    tinstruction = "Give an answer to each question.",
     maxattempts = 1, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
+    base64 = FALSE, converter = NULL,
     \dots)
 
   make_itembody_blackboard(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, enumerate = FALSE, digits = NULL,
+    cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = FALSE, qti12 = FALSE)
+    qti12 = FALSE)
 }
 
 \arguments{
@@ -61,13 +64,15 @@
     for generating the item body of the question, see function \code{make_itembody_blackboard()}.
     If \code{num} is a named list, these arguments will be passed to function
     \code{make_itembody_blackboard()}.}
-  \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice, 
+  \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice,
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
   \item{template}{character. The IMS QTI 1.2 or 2.1 template that should be used. Currently,
     the package provides \code{"blackboard.xml"}.}
-  \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
-  \item{atitle}{character. Tescriptions of the overall assessment.}
+  \item{pdescription}{character. Description (of length 1) of the item pool (i.e., the set of copies).}
+  \item{tdescription}{character. Description (of length 1) of the overall assessment (i.e., exam).}
+  \item{pinstruction}{character. Instruction (of length 1) for the item pool (i.e., set of copies).}
+  \item{tinstruction}{character. Instruction (of length 1) for the overall assessment (i.e., exam).}
   \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
     \code{Inf}.}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
@@ -77,8 +82,14 @@
     the exam.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
+  \item{base64}{logical. Should images be embedded using Base 64 coding? Argument \code{base64} may
+    also be a character vector of file endings that should be Base 64 encoded, e.g.
+    \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.}
+  \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
+    The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
+    exercises in \code{file} where \code{"pandoc"} is used.}        
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
-    maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
+    maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
   \item{enumerate}{logical. Insert potential solutions in enumerated list?}
@@ -88,15 +99,11 @@
   \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
     fields. The actual number of characters is selected as the maximum number of
     characters of this value and the actual solution.}
-  \item{fix_num}{logical. This is a special flag to enable/force the display of the
-    correct solutions for numeric exercises/answers as well as to obtain results when archiving tests.
-    Note that this is only a workaround.}
   \item{qti12}{logical. For reverse compability to plain QTI 1.2 XML format.}
-  \item{\dots}{arguments passed on to \code{make_exercise_transform_html}.}
 }
 
 \details{
-  Blackboard employs an XML format that essentially uses the Question & Test Interoperability (QTI) 
+  Blackboard employs an XML format that essentially uses the Question & Test Interoperability (QTI)
   standard, version 1.2, see IMS Global Learning Consortium, Inc. (2012). However, as this deviates
   from the plain QTI 1.2 standard in several places, the \code{\link{exams2qti12}} cannot be used
   directly. Instead, \code{exams2blackboard} is an experimential new interfaces which has not been
@@ -116,7 +123,7 @@ Zeileis A, Umlauf N, Leisch F (2014).
 
 \value{
   \code{exams2blackboard} returns a list of exams as generated by \code{\link[exams]{xexams}}.
-  
+
   \code{make_itembody_blackboard} returns a function that generates the XML code
   for the itembody tag in Blackboard's version of the IMS QTI 1.2 format.
 }

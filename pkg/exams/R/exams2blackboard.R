@@ -4,7 +4,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, encoding  = "",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "blackboard",
-  pdescription = "This is an item from a pool.", tdescription = "This is today's test.",
+  pdescription = "This is an item from an item pool.", tdescription = "This is today's test.",
   pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = FALSE, converter = NULL, ...)
@@ -369,7 +369,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 
-## Blackboard item body constructor function NS: changed enumerate= and fix_num= and eval = list(partial=
+## Blackboard item body constructor function
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
@@ -405,6 +405,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## set question type(s)
     type <- x$metainfo$type
+    if(type == "cloze") stop('"cloze" type questions not supported in exams2blackboard() yet!')
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
 
     ## evaluation policy
@@ -520,7 +521,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               '<mat_formattedtext type="HTML">',
               '<![CDATA[',
                paste(if(enumerate) {
-                 paste(letters[if(x$metainfo$type == "cloze") i else j], ".", ## Blackboard's enumeration turned of by using <bbmd_numbertype>none
+                 paste(letters[if(x$metainfo$type == "cloze") i else j], ".", ## Blackboard's enumeration turned off by using <bbmd_numbertype>none
                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
                } else NULL, questionlist[[i]][j]),
