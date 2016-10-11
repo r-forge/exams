@@ -76,6 +76,9 @@ Changes in Version 2.2-0
     question/solution/list elements remain empty and do not introduce line
     breaks.
 
+  o Improvements in exams2nops(..., language = "pt") (contributed by
+    Mauricio Calvao).
+
 
 Changes in Version 2.1-0
 
