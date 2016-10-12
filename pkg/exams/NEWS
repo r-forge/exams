@@ -30,7 +30,8 @@ Changes in Version 2.2-0
     format.
 
   o Language support for Hungarian in exams2nops (hu, contributed by
-    Gergely Daroczi and Denes Toth).
+    Gergely Daroczi and Denes Toth). Improvements in Portuguese (pt,
+    contributed by Mauricio Calvao).
 
   o xweave() gained an extra argument svg=FALSE to optionally produce scalable
     vector graphics (SVG) instead of PNG for later rendering into HTML. All
@@ -46,6 +47,14 @@ Changes in Version 2.2-0
     items rather than the default "shortanswer". Various customization options
     can be set the "exextra" metainformation. The most important options are
     illustrated in the new "essayreg" exercise.
+
+  o \exshuffle{} can now also be used read_exercise() for subsampling
+    rather than permutations only, e.g., via \exshuffle{3}. This first permutes
+    the alternatives, always uses the first permuted TRUE (if any), the first
+    permuted FALSE (if any), and then the first remaining alternatives.
+    This facilitates static schoice/mchoice exercises which have many
+    alternatives but should only use a limited number (say 5 for exams2nops)
+    in each random replication.
 
   o Bug fix in extract_extra() which prevented that "exextra" metainformation
     was read correctly in the previous version.
@@ -75,9 +84,6 @@ Changes in Version 2.2-0
   o The tth/ttm-based HTML conversion now makes sure that empty
     question/solution/list elements remain empty and do not introduce line
     breaks.
-
-  o Improvements in exams2nops(..., language = "pt") (contributed by
-    Mauricio Calvao).
 
 
 Changes in Version 2.1-0
