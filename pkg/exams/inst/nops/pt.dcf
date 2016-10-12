@@ -20,11 +20,11 @@ MarkExampleD: 106
 MarkExampleE: 114
 Warning: Este documento {\'e} lido {\`a} m{\'a}quina. Por favor n\~{a}o dobrar ou sujar. Utilize uma \textbf{caneta preta ou azul}. \\ \textbf{Somente cruzes claramente reconhec{\'\i}veis e em posi\c{c}\~{a}o exata ser\~{a}o avaliadas!}
 Answers: Respostas
-FillAnswers: Por favor anotar suas solu\c{c}\~{o}es no campo seguinte.
+FillAnswers: Por favor anotar suas respostas no campo seguinte.
 Point: ponto
 Points: pontos
-ExamResults: Resultado do exame
-Evaluation: Respostas
+ExamResults: Resultados do exame
+Evaluation: Avalia\c{c}\~{a}o
 Mark: Nota
 Question: Quest\~{a}o
 GivenAnswer: Resposta dada
