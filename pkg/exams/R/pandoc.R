@@ -20,7 +20,8 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
     	c("\\\\begin\\{Soutput}", "\\\\begin{verbatim}"),
     	c("\\\\end\\{Soutput}",   "\\\\end{verbatim}"),
     	c("\\\\begin\\{Schunk}",  ""),
-    	c("\\\\end\\{Schunk}",    "")
+    	c("\\\\end\\{Schunk}",    ""),
+    	c("\\\\textnormal\\{",    "\\\\text{")
     )
     for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
     return(x)  
