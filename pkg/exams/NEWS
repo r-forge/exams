@@ -29,9 +29,10 @@ Changes in Version 2.2-0
     the \documentclass so that the exam is displayed in two-column
     format.
 
-  o Language support for Hungarian in exams2nops (hu, contributed by
-    Gergely Daroczi and Denes Toth). Improvements in Portuguese (pt,
-    contributed by Mauricio Calvao).
+  o New language support in exams2nops: Hungarian (hu, contributed by
+    Gergely Daroczi and Denes Toth), Finnish (fi, contributed by Klaus
+    Nordhausen). Improvements in: Portugese (pt, contributed by Mauricio
+    Calvao).
 
   o xweave() gained an extra argument svg=FALSE to optionally produce scalable
     vector graphics (SVG) instead of PNG for later rendering into HTML. All
@@ -48,7 +49,7 @@ Changes in Version 2.2-0
     can be set the "exextra" metainformation. The most important options are
     illustrated in the new "essayreg" exercise.
 
-  o \exshuffle{} can now also be used read_exercise() for subsampling
+  o \exshuffle{} can now also be used in read_exercise() for subsampling
     rather than permutations only, e.g., via \exshuffle{3}. This first permutes
     the alternatives, always uses the first permuted TRUE (if any), the first
     permuted FALSE (if any), and then the first remaining alternatives.
