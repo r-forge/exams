@@ -3,7 +3,7 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
   usepackage = NULL, header = NULL, encoding = "", startid = 1L, points = NULL,
-  showpoints = FALSE, samepage = FALSE, twocolumn = FALSE, ...)
+  showpoints = FALSE, samepage = FALSE, twocolumn = FALSE, reglength = 7L, ...)
 {
   ## pages could include formulary and distribution tables
   if(!is.null(pages)) pages <- sapply(pages, file_path_as_absolute)
@@ -76,7 +76,7 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   make_nops_template(length(file), replacement = replacement, intro = intro,
     blank = blank, duplex = duplex, pages = pages,
     file = template, nchoice = nchoice, encoding = encoding,
-    samepage = samepage, twocolumn = twocolumn)
+    samepage = samepage, twocolumn = twocolumn, reglength = reglength)
 
   ## if points should be shown generate a custom transformer
   transform <- if(showpoints) {
@@ -113,11 +113,12 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
 
 make_nops_template <- function(n, replacement = FALSE, intro = NULL, blank = NULL,
   duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
-  samepage = FALSE, twocolumn = FALSE)
+  samepage = FALSE, twocolumn = FALSE, reglength = 7L)
 {
-page1 <- make_nops_page(n, nchoice = nchoice)
+
+page1 <- make_nops_page(n, nchoice = nchoice, reglength = reglength)
 page2 <- if(replacement) {
-  make_nops_page(n, nchoice = nchoice, replacement = TRUE)
+  make_nops_page(n, nchoice = nchoice, replacement = TRUE, reglength = reglength)
 } else {
   NULL
 }
@@ -126,6 +127,9 @@ page3 <- if(any(nchoice < 1L)) {
 } else {
   NULL
 }
+
+## number of additional units in registration ID
+addreg <- pmin(3L, pmax(0L, reglength - 7L))
 
 ## encoding
 enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
@@ -182,6 +186,74 @@ if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 \\setlength{\\footskip}{0cm} 
 \\setlength{\\unitlength}{1mm} 
 \\usepackage{chngpage}
+
+%% to support different lengths of registration numbers
+\\newif\\ifregseven
+\\newif\\ifregeight
+\\newif\\ifregnine
+\\newif\\ifregten
+",
+sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg)),
+"
+\\ifregseven
+  \\def\\namecenter{72.5}
+  \\def\\namewidth{105}
+  \\def\\nameline{90}
+  \\def\\regcenter{159}
+  \\def\\regleft{131}
+  \\def\\regleftt{139}
+  \\def\\regleftb{133}
+  \\def\\regleftn{129}
+  \\def\\regwidth{56}
+  \\def\\regwidthn{60}
+  \\def\\regnum{7}
+  \\def\\regnumt{6}
+\\fi
+
+\\ifregeight
+  \\def\\namecenter{65.0}
+  \\def\\namewidth{90}
+  \\def\\nameline{90}
+  \\def\\regcenter{155}
+  \\def\\regleft{123}
+  \\def\\regleftt{131}
+  \\def\\regleftb{125}
+  \\def\\regleftn{121}
+  \\def\\regwidth{64}
+  \\def\\regwidthn{68}
+  \\def\\regnum{8}
+  \\def\\regnumt{7}
+\\fi
+
+\\ifregnine
+  \\def\\namecenter{62.5}
+  \\def\\namewidth{85}
+  \\def\\nameline{85}
+  \\def\\regcenter{151}
+  \\def\\regleft{115}
+  \\def\\regleftt{123}
+  \\def\\regleftb{117}
+  \\def\\regleftn{113}
+  \\def\\regwidth{72}
+  \\def\\regwidthn{76}
+  \\def\\regnum{9}
+  \\def\\regnumt{8}
+\\fi
+
+\\ifregten
+  \\def\\namecenter{60.0}
+  \\def\\namewidth{80}
+  \\def\\nameline{80}
+  \\def\\regcenter{147}
+  \\def\\regleft{107}
+  \\def\\regleftt{115}
+  \\def\\regleftb{109}
+  \\def\\regleftn{105}
+  \\def\\regwidth{80}
+  \\def\\regwidthn{84}
+  \\def\\regnum{10}
+  \\def\\regnumt{9}
+\\fi
 
 %% for exams2pdf
 \\newenvironment{question}{\\item}{}
@@ -346,7 +418,17 @@ if(!is.null(file)) writeLines(rval, file)
 invisible(rval)
 }
 
-make_nops_page <- function(n, replacement = FALSE, nchoice = 5) {
+make_nops_page <- function(n, replacement = FALSE, nchoice = 5, reglength = 7L) {
+
+addreg <- pmin(3L, pmax(0L, reglength - 7L))
+mytype <- if(addreg < 1L) {
+  ## the number of questions rounded up in steps of 5 
+  ## (needed for uibk scanning services)
+  formatC(5 * ((n - 1) %/% 5 + 1), width = 3, flag = "0")
+} else {
+  ## add prefix coding number of additional registration ID units plus replacement
+  paste0(addreg + (replacement * 3L), formatC(5 * ((n - 1) %/% 5 + 1), width = 2, flag = "0"))
+}
 
 ## number of alternative choices
 nchoice <- rep(nchoice, length.out = n)
@@ -401,24 +483,26 @@ c("
 \\put(27.5,270){\\line(1,0){5}} \\put(30,267.5){\\line(0,1){5}} 
 
 % personal data box
-\\put(72.5,244){\\makebox(0,0){\\textsf{\\myPersonalData}}} 
-\\put(20,198){\\framebox(105,43){}} \\thinlines 
-\\multiput(20,217)(0,12){2}{\\line(1,0){90}} \\thicklines 
+\\put(\\namecenter,244){\\makebox(0,0){\\textsf{\\myPersonalData}}} 
+\\put(20,198){\\framebox(\\namewidth,43){}} \\thinlines 
+\\multiput(20,217)(0,12){2}{\\line(1,0){\\nameline}} \\thicklines 
 \\put(21,236){\\makebox(0,5)[l]{\\textsf{\\myFamilyName:}}} 
 \\put(21,224){\\makebox(0,5)[l]{\\textsf{\\myGivenName:}}} 
 \\put(21,212){\\makebox(0,5)[l]{\\textsf{\\mySignature:}}} 
+\\ifregseven
 \\put(123,200){\\makebox(0,0)[rb]{\\footnotesize{\\textsf{\\myChecked}}}} 
+\\fi
 
 % registration number box
-\\put(159,244){\\makebox(0,0){\\textsf{\\myRegistrationNumber}}} 
-\\put(131,233){\\framebox(56,8){}} \\thinlines 
-\\multiput(139,233)(8,0){6}{\\line(0,1){1.5}} \\thicklines 
-\\multiput(133,163)(8,0){7}{\\begin{picture}(0,0) 
+\\put(\\regcenter,244){\\makebox(0,0){\\textsf{\\myRegistrationNumber}}} 
+\\put(\\regleft,233){\\framebox(\\regwidth,8){}} \\thinlines 
+\\multiput(\\regleftt,233)(8,0){\\regnumt}{\\line(0,1){1.5}} \\thicklines 
+\\multiput(\\regleftb,163)(8,0){\\regnum}{\\begin{picture}(0,0) 
 \\multiput(0,0)(0,7){10}{\\framebox(4,4){}}\\end{picture}}",
 if(replacement) "\\setcounter{nr3}{0}" else "\\newcounter{nr3}",
 "
-\\multiput(129,228)(0,-7){10}{\\begin{picture}(0,0) 
-\\multiput(0,0)(60,0){2}{\\makebox(0,0){\\textsf{\\arabic{nr3}}}}
+\\multiput(\\regleftn,228)(0,-7){10}{\\begin{picture}(0,0) 
+\\multiput(0,0)(\\regwidthn,0){2}{\\makebox(0,0){\\textsf{\\arabic{nr3}}}}
 \\end{picture} \\stepcounter{nr3}} 
 % general instructions and logo
 \\IfFileExists{\\mylogo}{\\put(175,251){\\includegraphics[height=2.51cm,keepaspectratio]{\\mylogo}}}{}
@@ -475,27 +559,25 @@ if(n > 30) {
 sapply(1:n, function(i) qbox(i, nchoice = nchoice[i])),
 "
 % block with id, scrambling, type, replacement box
-\\linethickness{0.5mm} \\put(20,164){\\framebox(105,28){}} \\thicklines  
+\\linethickness{0.5mm} \\put(20,164){\\framebox(\\namewidth,28){}} \\thicklines  
 \\put(32,177){\\makebox(0,0)[t]{\\textsf{\\myDocumentType}}} 
 \\put(25,166){\\framebox(14,7){}} 
 \\put(67,177){\\makebox(0,0)[t]{\\textsf{\\myDocumentID \\mycourse}}}
 \\put(46,166){\\framebox(42,7){}} \\put(25,183.5){\\parbox{70mm}{%
 \\textsf{\\myNoChanges}}}
+\\ifregseven
 \\thinlines \\put(113,180){\\line(0,1){1.5}} \\thicklines 
 \\put(113,191){\\makebox(0,0)[t]{\\textsf{\\textbf{\\myScrambling}}}} 
 \\put(106,180){\\framebox(14,7){}}
-\\put(67,169.5){\\makebox(0,0){\\Large{\\textsf{\\myID}}}}
 % scrambling is currently always zero
 \\put(109.5,183.5){\\makebox(0,0){\\Large{\\textsf{0}}}}
-\\put(116.5,183.5){\\makebox(0,0){\\Large{\\textsf{0}}}}",
-
-## type: the number of questions rounded up in steps of 5 
-## (needed for uibk scanning services)
-sprintf("\\put(32,169.5){\\makebox(0,0){\\Large{\\textsf{%s}}}}",
-  formatC(5 * ((n - 1) %/% 5 + 1), width = 3, flag = "0")),
+\\put(116.5,183.5){\\makebox(0,0){\\Large{\\textsf{0}}}}
+\\fi
+\\put(67,169.5){\\makebox(0,0){\\Large{\\textsf{\\myID}}}}",
+sprintf("\\put(32,169.5){\\makebox(0,0){\\Large{\\textsf{%s}}}}", mytype),
 
 ## replacement?
-if(replacement) {
+if(replacement & addreg == 0L) {
 "
 % replacement sheet
 \\put(116,170){\\framebox(4,4){}}

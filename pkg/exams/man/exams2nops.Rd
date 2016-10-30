@@ -16,11 +16,11 @@
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
     usepackage = NULL, header = NULL, encoding = "", startid = 1L,
     points = NULL, showpoints = FALSE, samepage = FALSE,
-    twocolumn = FALSE, \dots)
+    twocolumn = FALSE, reglength = 7L, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
     duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
-    samepage = FALSE, twocolumn = FALSE)
+    samepage = FALSE, twocolumn = FALSE, reglength = 7L)
 }
 
 \arguments{
@@ -68,6 +68,9 @@
   \item{samepage}{logical. Should the itemized question lists be forced to be on
     the same page?}
   \item{twocolumn}{logical. Should a two-column layout be used?}
+  \item{reglength}{integer. Number of digits in the registration ID. The
+    default is 7 and it can be increased up to 10. (FIXME: Not yet
+    supported by \code{nops_scan}.)}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}}.}
   \item{nchoice}{character. The number of choice alternatives per exercise.}
 }
