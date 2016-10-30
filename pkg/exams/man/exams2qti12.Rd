@@ -200,8 +200,9 @@
   Generating exams/assessment in IMS QTI 2.1 format using \code{exams2qti21()} and \code{make_itembody_qti21()}
   is performed in a similar way as described above. Note that the IMS QTI 2.1 generators are
   still work in progress. The generated XML files have been validated using the IMS validator provided
-  at \url{http://validator.imsglobal.org/qti/index.jsp}. Furthermore, a selection of generated
-  exams/assessments has been tested using the ONYX Editor and Player, see \url{https://www.onyx-editor.de/}.
+  at \url{http://membervalidator.imsglobal.org/qti/} (when it was still freely available).
+  Furthermore, a selection of generated exams/assessments has been tested using the ONYX Editor and
+  Player, see \url{https://www.onyx-editor.de/}.
 }
 
 \references{

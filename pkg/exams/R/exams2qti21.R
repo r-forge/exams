@@ -3,7 +3,7 @@
 ## http://www.imsglobal.org/question/#version2.1
 ## https://www.ibm.com/developerworks/library/x-qti/
 ## https://www.onyx-editor.de/
-## http://validator.imsglobal.org/qti/index.jsp
+## http://membervalidator.imsglobal.org/qti/
 ## https://webapps.ph.ed.ac.uk/qtiworks/anonymous/validator
 ## http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html
 exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
