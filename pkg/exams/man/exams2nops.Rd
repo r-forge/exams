@@ -69,8 +69,7 @@
     the same page?}
   \item{twocolumn}{logical. Should a two-column layout be used?}
   \item{reglength}{integer. Number of digits in the registration ID. The
-    default is 7 and it can be increased up to 10. (FIXME: Not yet
-    supported by \code{nops_scan}.)}
+    default is 7 and it can be increased up to 10.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}}.}
   \item{nchoice}{character. The number of choice alternatives per exercise.}
 }
