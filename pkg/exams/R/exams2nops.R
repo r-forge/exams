@@ -198,6 +198,7 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\ifregseven
   \\def\\namecenter{72.5}
   \\def\\namewidth{105}
+  \\def\\namechecked{123}
   \\def\\nameline{90}
   \\def\\regcenter{159}
   \\def\\regleft{131}
@@ -213,6 +214,7 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\ifregeight
   \\def\\namecenter{65.0}
   \\def\\namewidth{90}
+  \\def\\namechecked{108}
   \\def\\nameline{90}
   \\def\\regcenter{155}
   \\def\\regleft{123}
@@ -228,6 +230,7 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\ifregnine
   \\def\\namecenter{62.5}
   \\def\\namewidth{85}
+  \\def\\namechecked{103}
   \\def\\nameline{85}
   \\def\\regcenter{151}
   \\def\\regleft{115}
@@ -243,6 +246,7 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\ifregten
   \\def\\namecenter{60.0}
   \\def\\namewidth{80}
+  \\def\\namechecked{98}
   \\def\\nameline{80}
   \\def\\regcenter{147}
   \\def\\regleft{107}
@@ -489,9 +493,7 @@ c("
 \\put(21,236){\\makebox(0,5)[l]{\\textsf{\\myFamilyName:}}} 
 \\put(21,224){\\makebox(0,5)[l]{\\textsf{\\myGivenName:}}} 
 \\put(21,212){\\makebox(0,5)[l]{\\textsf{\\mySignature:}}} 
-\\ifregseven
-\\put(123,200){\\makebox(0,0)[rb]{\\footnotesize{\\textsf{\\myChecked}}}} 
-\\fi
+\\put(\\namechecked,200){\\makebox(0,0)[rb]{\\scriptsize{\\textsf{\\myChecked}}}} 
 
 % registration number box
 \\put(\\regcenter,244){\\makebox(0,0){\\textsf{\\myRegistrationNumber}}} 
