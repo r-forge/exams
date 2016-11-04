@@ -75,7 +75,7 @@ nops_scan <- function(
       } else {
         as.character(as.numeric(regextra > 3L))
       }
-      if(regextra > 3L) regextra <- regextra - 4L
+      if(regextra > 3L) regextra <- regextra - 3L
       try(paste(
         file,
         read_nops_digits(ss, "id", tesseract = tesseract),
