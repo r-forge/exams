@@ -22,7 +22,7 @@
     template = "qti12", duration = NULL,
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.",
-    sdescription = "Please answer the following question.", 
+    sdescription = "Please answer the following question.",
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
@@ -37,7 +37,7 @@
     template = "qti21", duration = NULL,
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.",
-    sdescription = "Please answer the following question.", 
+    sdescription = "Please answer the following question.",
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
@@ -89,7 +89,7 @@
     (or \code{make_itembody_qti21()}).
     If \code{num} is a named list, these arguments will be passed to function
     \code{make_itembody_qti12()} (or \code{make_itembody_qti21()} using \code{exams2qti21()}).}
-  \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice, 
+  \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice,
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
   \item{template}{character. The IMS QTI 1.2 or 2.1 template that should be used. Currently,
@@ -98,7 +98,7 @@
   \item{stitle}{character. A title that should be used for the sections. May be a vector of
     length 1 to use the same title for each section, or a vector containing different section
     titles.}
-  \item{ititle}{character. A title that should be used for the assessement items. May be a vector 
+  \item{ititle}{character. A title that should be used for the assessment items. May be a vector
     of length 1 to use the same title for each item, or a vector containing different item
     titles. Note that the maximum of different item titles is the number of sections/questions
     that are used for the exam.}
@@ -122,7 +122,7 @@
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.}
   \item{mode}{character. See function \code{\link[tth]{tth}}.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
-    maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML 
+    maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.
     Genereting IMS QTI 2.1 items using \code{exams2qti21()} the arguments have similar meaning.}
   \item{enumerate}{logical. Insert potential solutions in enumerated list?}
@@ -148,12 +148,12 @@
   differ in many details. Hence, separate functions \code{exams2qti12} and \code{exams2qti21} are
   provided. The former has already been thoroughly tested and the latter is still in beta testing
   stage and might change in future releases.
-  
+
   \code{exams2qti12} produces a \code{.zip} file that may be uploaded (e.g. in OLAT). This includes
-  the final XML file of the exam/assessement as well as possible supplement folders that include
+  the final XML file of the exam/assessment as well as possible supplement folders that include
   images, data sets etc. used for the exam. It proceeds by (1) calling \code{\link[exams]{xweave}}
   on each exercise, (2) reading the resulting LaTeX code, (3) transforming the LaTeX code to HTML,
-  and (4) embedding the HTML code in a XML file using the IMS QTI 1.2 standards for assessements and
+  and (4) embedding the HTML code in a XML file using the IMS QTI 1.2 standards for assessments and
   question items.
 
   For steps (1) and (2) the standard drivers in \code{xexams} are used. In step (3), a suitable
@@ -164,14 +164,14 @@
   file in IMS QTI 1.2 standard. Therefore, each question will be included in the XML as one section.
   The replicates of each question will be written as question items of the section.
 
-  The function uses the XML template for IMS QTI 1.2 assessements and items to generate
+  The function uses the XML template for IMS QTI 1.2 assessments and items to generate
   the exam (per default, this is the XML file \code{qti12.xml} provided in the \code{xml} folder of
-  this package). The assessement template must provide one section including one item.
+  this package). The assessment template must provide one section including one item.
   \code{exams2qti12} will then use the single item template to generate all items, as well as the
-  assessement and section specifications set within the template.
+  assessment and section specifications set within the template.
 
-  The default template will generate exams/assessements that sample one replicate of a question/item
-  for each section. The ususal procedure in exam/assessement generation would be to simply copy \&
+  The default template will generate exams/assessments that sample one replicate of a question/item
+  for each section. The usual procedure in exam/assessment generation would be to simply copy \&
   paste the XML template of the package and adapt it to the needs of the user. Note that all
   specifiers that have a leading \code{##} in the XML template will be replaced by suitable code in
   \code{exams2qti12} and should always be provided in the template. I.e., the user may add
@@ -187,7 +187,7 @@
   be provided to \code{num}, \code{mchoice}, \code{schoice}, \code{string} and \code{cloze}. E.g.,
   \code{mchoice = list(shuffle = TRUE)} will force only multiple choice questions to have a shuffled
   answerlist.
-  
+
   Note that in OLAT/OpenOLAT \code{num} exercises are not officially supported but in fact work
   correctly. The only drawback is that in certain settings the correct solution is not shown at the
   end of the assessment (although it is used for all internal computations). Therefore, two workarounds
@@ -226,7 +226,7 @@ Zeileis A, Umlauf N, Leisch F (2014).
 
 \value{
   \code{exams2qti12} and \code{exams2qti21} return a list of exams as generated by \code{\link[exams]{xexams}}.
-  
+
   \code{make_itembody_qti12} and \code{make_itembody_qti21} return a function that generates the XML code
   for the itembody tag in IMS QTI 1.2 and IMS QTI 2.1 format.
 }
