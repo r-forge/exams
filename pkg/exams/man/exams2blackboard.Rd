@@ -103,56 +103,67 @@
 }
 
 \details{
-  Blackboard employs an XML format that essentially uses the Question & Test Interoperability (QTI)
-  standard, version 1.2, see IMS Global Learning Consortium, Inc. (2012). However, as this deviates
-  from the plain QTI 1.2 standard in several places, the \code{\link{exams2qti12}} cannot be used
-  directly. Instead, \code{exams2blackboard} is an experimental new interface which has not been
-  fully implmented/tested, yet, though. After uploading the test into Blackboard, the material
-  will appear under `Course Tools': the test will be available in `Tests', and each pool within the test 
-  will also appear in `Pools'.
+  Blackboard employs an XML format that essentially uses the Question & Test
+  Interoperability (QTI) standard, version 1.2, see IMS Global Learning
+  Consortium, Inc. (2012). However, as this deviates from the plain QTI 1.2
+  standard in several places, the \code{\link{exams2qti12}} cannot be used
+  directly. Instead, \code{exams2blackboard} is a new interface that is likely
+  to be improved in future versions.
 
-  \code{exams2blackboard} produces a \code{.zip} file that may be uploaded into Blackboard. This includes
-  the final XML file of the exam/assessment as well as possible supplement folders that include
-  images, data sets etc. used for the exam. It proceeds by (1) calling \code{\link[exams]{xweave}}
-  on each exercise, (2) reading the resulting LaTeX code, (3) transforming the LaTeX code to HTML,
-  and (4) embedding the HTML code in a XML file using Blackboard's QTI standards for assessments and
-  question items.
+  \code{exams2blackboard} produces a \code{.zip} file that may be uploaded into
+  Blackboard. This includes the final XML file of the exam/assessment as well as
+  possible supplement folders that include images, data sets etc. used for the
+  exam.  After uploading the test into Blackboard, the material will appear
+  under \sQuote{Course Tools}: the test will be available in \sQuote{Tests},
+  and each pool within the test  will also appear in \sQuote{Pools}.
+  
+  
+  \code{exams2blackboard} proceeds by (1) calling \code{\link[exams]{xweave}} on
+  each exercise, (2) reading the resulting LaTeX code, (3) transforming the
+  LaTeX code to HTML, and (4) embedding the HTML code in a XML file using
+  Blackboard's QTI standards for assessments and question items. For steps (1)
+  and (2) the standard drivers in \code{xexams} are used. In step (3), a
+  suitable transformation function is set up on the fly using
+  \code{make_exercise_transform_html}, see also the details section in
+  \code{\link{exams2html}}. For step (4), the function will cycle through all
+  questions and exams to generate the final XML file in the Blackboard QTI
+  standard. Therefore, each question will be included in the XML as one section.
+  The replicates of each question will be written as question items of the
+  section.
 
-  For steps (1) and (2) the standard drivers in \code{xexams} are used. In step (3), a suitable
-  transformation function is set up on the fly using \code{make_exercise_transform_html}, see also
-  the details section in \code{\link{exams2html}}.
+  The function uses the XML template for Blackboard's QTI standards for
+  assessments and items to generate the exam (per default, this is the XML file
+  \code{blackboard.xml} provided in the \code{xml} folder of this package). The
+  assessment template must provide one section including one item.
+  \code{exams2blackboard} will then use the single item template to generate all
+  items, as well as the assessment and section specifications set within the
+  template.
 
-  For step (4), the function will cycle through all questions and exams to generate the final XML
-  file in the Blackboard QTI standard. Therefore, each question will be included in the XML as one section.
-  The replicates of each question will be written as question items of the section.
-
-  The function uses the XML template for Blackboard's QTI standards for assessments and items to generate
-  the exam (per default, this is the XML file \code{blackboard.xml} provided in the \code{xml} folder of
-  this package). The assessment template must provide one section including one item.
-  \code{exams2blackboard} will then use the single item template to generate all items, as well as the
-  assessment and section specifications set within the template.
-
-  The default template will generate exams/assessments that sample one replicate of a question/item
-  for each section. The usual procedure in exam/assessment generation would be to simply copy \&
-  paste the XML template of the package and adapt it to the needs of the user. Note that all
-  specifiers that have a leading \code{##} in the XML template will be replaced by suitable code in
-  \code{exams2blackboard} and should always be provided in the template. I.e., the user may add
-  additional tags to the XML template or modify certain specifications, like the number of
-  replicates/items that should be sampled for each section etc.
+  The default template will generate exams/assessments that sample one replicate
+  of a question/item for each section. The usual procedure in exam/assessment
+  generation would be to simply copy \& paste the XML template of the package
+  and adapt it to the needs of the user. Note that all specifiers that have a
+  leading \code{##} in the XML template will be replaced by suitable code in
+  \code{exams2blackboard} and should always be provided in the template. I.e.,
+  the user may add additional tags to the XML template or modify certain
+  specifications, like the number of replicates/items that should be sampled for
+  each section etc.
 
   Per default, the individual question/item bodies are generated by function
-  \code{make_itembody_blackboard}, i.e. \code{make_itembody_blackboard} checks the type of the question and
-  will produce suitable XML code. Note that for each question type, either the arguments of
-  \code{make_itembody_blackboard} may be set within \code{num}, \code{mchoice}, \code{schoice} and
-  \code{string} in \code{exams2blackboard}, by providing a named list of specifications
-  that should be used, or for each questiontype, a function that produces the item body XML code may
-  be provided to \code{num}, \code{mchoice}, \code{schoice} and \code{string}. E.g.,
-  \code{mchoice = list(shuffle = TRUE)} will force only multiple choice questions to have a shuffled
-  answerlist.
+  \code{make_itembody_blackboard}, i.e., \code{make_itembody_blackboard} checks
+  the type of the question and will produce suitable XML code. Note that for
+  each question type, either the arguments of \code{make_itembody_blackboard}
+  may be set within \code{num}, \code{mchoice}, \code{schoice} and \code{string}
+  in \code{exams2blackboard}, by providing a named list of specifications that
+  should be used, or for each questiontype, a function that produces the item
+  body XML code may be provided to \code{num}, \code{mchoice}, \code{schoice}
+  and \code{string}. E.g., \code{mchoice = list(shuffle = TRUE)} will force only
+  multiple choice questions to have a shuffled answerlist.
 
-  Note that in Blackboard \code{cloze} items are not officially supported, and that this type of item is 
-  not supported in the current version of \code{exams2blackboard} either. It is currently investigated if a 
-  workaround may be implemented to allow for \code{cloze} items.  
+  Note that in Blackboard \code{cloze} items are not officially supported, and
+  hence this type of item is  not supported in the current version of
+  \code{exams2blackboard} either. It is currently investigated if a  workaround
+  may be implemented to allow for \code{cloze} items.  
 }
 
 \references{
