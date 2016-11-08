@@ -1,28 +1,31 @@
 Changes in Version 2.2-0
 
-  o Added first development version of exams2blackboard(). This is still
-    experimental and likely to change in future versions. It essentially
-    behaves as exams2qti12() but with some additional processing for Blackboard.
-
-  o exams2nops() now supports registration IDs with more than 7 digits.
-    Up to now 7 digits were hard-coded but now values of 8, 9, or 10 are
-    also possible by setting the argument "reglength" in exams2nops()
-    accordingly.
-
-  o Improvements and bug fixes in exams2tcexam(). Various HTML tags are now
-    supported in the development version by adding a new [html] tag in TCExam.
-    This has been integrated into UIBK's version of TCExam but is not in the
-    official release yet.
-
-  o Fixed a bug in exams2html() with option solution = FALSE or
-    question = FALSE. Now these correctly suppress the corresponding element
-    of the exercise. In previous versions only the header had been set to NA
-    erroneously.
+  o Added first release version of exams2blackboard(). This is essentially
+    based on exams2qti12() but incorporates Blackboard's own flavor of
+    QTI 1.2. It is still likely to change due to improvements in future
+    versions. After uploading a test into Blackboard the material will
+    appear under "Course Tools": The test will be available in "Tests"
+    and each pool within the test will also appear in "Pools".
 
   o Added a new convenience function include_supplement() which facilitates
     including static supplement files (e.g., graphics or datasets). This
     essentially just calls file.copy() but facilitates finding supplement
     files that are available along with the .Rnw/.Rmd exercise files.
+
+  o xweave() gained an extra argument svg=FALSE to optionally produce scalable
+    vector graphics (SVG) instead of PNG for later rendering into HTML. All
+    HTML-based exams2xyz() functions gained an svg=FALSE argument that can be
+    set to TRUE to produce SVG instead of PNG. Base64 encoding is also used
+    for SVG graphics by default.
+
+  o xweave() gained an argument engine=NULL that can optionally be set to
+    engine="knitr" to enable processing Rnw exercises by knitr::knit() instead
+    of the default utils::Sweave().
+
+  o exams2nops() now supports registration IDs with more than 7 digits.
+    Up to now, 7 digits were hard-coded but now values of 8, 9, or 10 are
+    also possible by setting the argument "reglength" in exams2nops()
+    accordingly.
 
   o In exams2nops() the argument 'blank' can now be a vector of length 2
     with the number of blank pages before and after the extra "pages".
@@ -39,15 +42,15 @@ Changes in Version 2.2-0
     Nordhausen). Improvements in: Portugese (pt, contributed by Mauricio
     Calvao).
 
-  o xweave() gained an extra argument svg=FALSE to optionally produce scalable
-    vector graphics (SVG) instead of PNG for later rendering into HTML. All
-    HTML-based exams2xyz() functions gained an svg=FALSE argument that can be
-    set to TRUE to produce SVG instead of PNG. Base64 encoding is also used
-    for SVG graphics by default.
+  o Improvements and bug fixes in exams2tcexam(). Various HTML tags are now
+    supported in the development version by adding a new [html] tag in TCExam.
+    This has been integrated into UIBK's version of TCExam but is not in the
+    official release yet.
 
-  o xweave() gained an argument engine=NULL that can optionally be set to
-    engine="knitr" to enable processing Rnw exercises by knitr::knit() instead
-    of the default utils::Sweave().
+  o Fixed a bug in exams2html() with option solution = FALSE or
+    question = FALSE. Now these correctly suppress the corresponding element
+    of the exercise. In previous versions only the header had been set to NA
+    erroneously.
 
   o exams2moodle() can now optionally turn "string" exercises in "essay" quiz
     items rather than the default "shortanswer". Various customization options
@@ -62,8 +65,8 @@ Changes in Version 2.2-0
     alternatives but should only use a limited number (say 5 for exams2nops)
     in each random replication.
 
-  o Bug fix in extract_extra() which prevented that "exextra" metainformation
-    was read correctly in the previous version.
+  o Bug fix in extract_extra() which prevented "exextra" metainformation from
+    being read correctly in the previous version.
     
   o Improvement in xexams() to better support using the same exercise template
     several times within the same exam (e.g., for generating a single PDF
