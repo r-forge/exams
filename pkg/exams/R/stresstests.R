@@ -20,10 +20,10 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
     for(i in 1:n) {
       set.seed(seeds[i])
       if(verbose) cat(seeds[i])
-      .global_obj_before <- ls(env = .GlobalEnv)
+      .global_obj_before <- ls(envir = .GlobalEnv)
       times[i] <- system.time(xtmp <- try(xexams(file, driver = list("sweave" = list("envir" = .GlobalEnv)), ...),
         silent = TRUE))["elapsed"]
-      .global_obj_after <- ls(env = .GlobalEnv)
+      .global_obj_after <- ls(envir = .GlobalEnv)
       ex_objects <- .global_obj_after[!(.global_obj_after %in% .global_obj_before)]
       objects[[i]] <- list()
       for(j in ex_objects)
@@ -69,7 +69,7 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
     })
     objects <- do.call("rbind", objects)
 
-    if(any(names(objects) %in% (no <- ls(env = .GlobalEnv))))
+    if(any(names(objects) %in% (no <- ls(envir = .GlobalEnv))))
       rm(list = names(objects)[names(objects) %in% no])
 
     rval <- list("seeds" = seeds, "runtime" = times)
