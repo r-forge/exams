@@ -607,7 +607,7 @@ chooserInput <- function(inputId, leftChoices, rightChoices, size = 5, multiple 
 {
   leftChoices <- lapply(leftChoices, tags$option)
   rightChoices <- lapply(rightChoices, tags$option)
-  questionNr <- lapply(if(length(rightChoices)) 1:length(rightChoices) else rightChoices, tags$option)
+  questionNr <- lapply(if(length(rightChoices)) 1:length(rightChoices) else rightChoices, tags$li)
   
   if(multiple)
     multiple <- "multiple"
@@ -637,7 +637,7 @@ chooserInput <- function(inputId, leftChoices, rightChoices, size = 5, multiple 
       ),
       div(class="chooser-container chooser-question-container",
         HTML("<b>Question Nr.</b><br>"),
-        tags$select(class="question", size=size, multiple=multiple, questionNr)
+        tags$ul(class="question", size=size, multiple=multiple, questionNr)
       )
     )
   )
@@ -654,18 +654,18 @@ function updateChooser(chooser) {
     var leftArrow = chooser.find(".left-arrow");
     var rightArrow = chooser.find(".right-arrow");
 
-    var qnr = chooser.find("select.question");
-    if((right.val() || []).length > 0) {
-      qnr.empty();
-      if(typeof(right.val()) == "string" ) {
-        qnr.append("<option>1</option>");
-      } else {
-        $.each(right.val(), function(key, val) {
-          var index = key + 1;
-          qnr.append("<option>"+index+"</option>");
-        });
-      }
-    }
+    var qnr = chooser.find("ul.question");
+    qnr.empty();
+    $.each( $("select.right").find("option"), function(key, val) {
+        qnr.append("<li><id>"+(key+1)+"</id>"
+                  +"<minus>-</minus>"
+                  +"<plus>+</plus>"
+                  +"</li>");
+    })
+
+    $("li.question").on("click","plus",function() {
+	alert("plus clicked")
+    });
     
     var canMoveTo = (left.val() || []).length > 0;
     var canMoveFrom = (right.val() || []).length > 0;

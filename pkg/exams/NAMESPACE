@@ -81,8 +81,12 @@ export(
   "make_exams_write_arsnova",
   
   ## TCExam driver
-  "exams2tcexam"
+  "exams2tcexam",
+
+  ## Stress testing,
+  "stresstest_exercise"
 )
 
 S3method("print", "exams_metainfo")
 S3method("toLatex", "matrix")
+S3method("plot", "stresstest_exercise")
