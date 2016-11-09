@@ -25,7 +25,7 @@ stresstest_exercise(file, n = 100, plot = TRUE,
     be prompted on the console.}
   \item{seeds}{The seeds that should be used when compiling the exercise. The
     default is \code{seeds = 1:n}.}
-  \item{\dots}{Currently not used.}
+  \item{\dots}{Arguments passed to \code{\link{xexams}}.}
 }
 
 \details{
