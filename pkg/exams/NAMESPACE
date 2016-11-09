@@ -13,12 +13,17 @@ export(
   "round2",
   "fmt",
   "char_with_braces",
+  "num2tol",
   "num_to_tol",
 
   ## mchoice/schoice generators
+  "num2schoice",
   "num_to_schoice",
+  "det2schoice",
   "det_to_schoice",
+  "matrix2schoice",
   "matrix_to_schoice",
+  "matrix2mchoice",
   "matrix_to_mchoice",
   
   ## version 2 extensible interface

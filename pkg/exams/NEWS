@@ -94,6 +94,9 @@ Changes in Version 2.2-0
     question/solution/list elements remain empty and do not introduce line
     breaks.
 
+  o Added copies of num_to_schoice(), num_to_tol(), ... called num2schoice(),
+    and num2tol(), ...
+
 
 Changes in Version 2.1-0
 

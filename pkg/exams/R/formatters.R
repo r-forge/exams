@@ -72,5 +72,5 @@ char_with_braces <- function(x) {
   return(rval)
 }
 
-num_to_tol <- function(x, reltol = 0.0002, min = 0.01, digits = 2)
+num_to_tol <- num2tol <- function(x, reltol = 0.0002, min = 0.01, digits = 2)
   pmax(min, round(reltol * abs(x), digits = digits))
