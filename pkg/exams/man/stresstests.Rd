@@ -49,14 +49,14 @@ stresstest_exercise(file, n = 100, plot = TRUE,
 
   For single and multiple choice type question the position(s) of the correct solution(s) is
   returned. For single choice questions that are created from a numeric version, e.g., using
-  function \code{\link{num2schoice}} the answers are again converted to numeric and the ordering
+  function \code{\link{num_to_schoice}} the answers are again converted to numeric and the ordering
   of the correct solution is reported. The ordering is sometimes heavily driven by some input
   parameters, e.g., the correct solution is always the largest or the smallest.
 
   The plotting function creates a summary about compiling run times, input parameters vs.
   runtimes, for single and multiple choice exercises summaries about the position of the correct
   solution(s), solution ordering vs. input parameters for single choice questions that are
-  created, e.g., using function \code{\link{num2schoice}}.
+  created, e.g., using function \code{\link{num_to_schoice}}.
 }
 
 \value{
@@ -67,12 +67,12 @@ stresstest_exercise(file, n = 100, plot = TRUE,
   \item{solution}{The numeric solution, availability is depending on the type of exercise.}
   \item{position}{A matrix indicating the position of correct solutions.}
   \item{ordering}{The ordering of the correct solution, only available for single choice exercises
-    that are created, e.g., with function \code{\link{num2schoice}}.}
+    that are created, e.g., with function \code{\link{num_to_schoice}}.}
   \item{ntrue}{The number of correct answers in multiple choice type questions.}
 }
 
 \seealso{
-  \code{\link{xexams}}, \code{\link{num2schoice}}
+  \code{\link{xexams}}, \code{\link{num_to_schoice}}
 }
 
 \examples{
