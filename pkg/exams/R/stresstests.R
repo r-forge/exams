@@ -41,9 +41,8 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE, verbose = TRUE, seed
   nobj <- unique(unlist(lapply(objects, names)))
   objects <- lapply(objects, function(x) {
     x <- as.data.frame(x[names(x) %in% nobj])
-    if(!all(names(x) %in% nobj)) {
-      not <- nobj[!(nobj %in% names(x))]
-      for(j in not)
+    if(!all(ok <- nobj %in% names(x))) {
+      for(j in nobj[!ok])
         x[[j]] <- NA
     }
     x <- x[, nobj]
