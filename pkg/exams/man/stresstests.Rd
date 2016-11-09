@@ -14,17 +14,22 @@
 
 \usage{
 stresstest_exercise(file, n = 100, plot = TRUE,
-  verbose = TRUE, seeds = NULL, ...)
+  verbose = TRUE, seeds = NULL, stop_on_error = TRUE, ...)
 }
 
 \arguments{
-  \item{file}{character. A specification of an exercise file.}
+  \item{file}{character. A specification of an exercise file. If multiple files
+    should be tested, argument \code{file} can also be a vector, matrix or list of
+    files. The latter case sets argument \code{plot = FALSE}.}
   \item{n}{integer. The number of replications.}
   \item{plot}{logical. Should the results be plotted.}
   \item{verbose}{logical. Should the seeds used for compiling the exercise
     be prompted on the console.}
   \item{seeds}{The seeds that should be used when compiling the exercise. The
     default is \code{seeds = 1:n}.}
+  \item{stop_on_error}{logical. Should the function stop on error or return
+    the the seed, the file name and the error message. Useful when testing
+    a number of exercises.}
   \item{\dots}{Arguments passed to \code{\link{xexams}}.}
 }
 
@@ -76,6 +81,16 @@ t2 <- stresstest_exercise("tstat2.Rnw", n = 100, plot = FALSE)
 ## Plotting.
 plot(t1)
 plot(t2)
+
+## Multiple testing.
+files <- list(
+  "boxplots",
+  c("tstat", "ttest", "confint"),
+  c("regression", "anova"),
+  "scatterplot",
+  "relfreq"
+)
+t3 <- stresstest_exercise(files, n = 100)
 }
 }
 
