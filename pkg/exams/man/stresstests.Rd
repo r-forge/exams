@@ -14,7 +14,9 @@
 
 \usage{
 stresstest_exercise(file, n = 100, plot = TRUE,
-  verbose = TRUE, seeds = NULL, stop_on_error = TRUE, ...)
+  verbose = TRUE, seeds = NULL,
+  stop_on_error = length(as.character(unlist(file))) < 2,
+  ...)
 }
 
 \arguments{
