@@ -124,7 +124,9 @@ plot.stresstest_exercise <- function(x, ...)
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
 
-  ask <- TRUE; spar <- TRUE ## FIXME: should this function be exported?
+  ask <- list(...)$ask; spar <- TRUE ## FIXME: should this function be exported?
+  if(is.null(ask))
+    ask <- TRUE
 
   if(ask) par("ask" = TRUE)
   if(spar) par(mfrow = c(2, 2))
@@ -187,14 +189,18 @@ plot.stresstest_exercise <- function(x, ...)
     if(!is.null(x$ordering) & !is.null(x$objects)) {
       for(j in names(x$objects)) {
         if(is.numeric(x$objects[[j]]) | is.factor(x$objects[[j]])) {
-          if(length(unique(rval$objects[[j]])) > 1) {
+          if(length(unique(x$objects[[j]])) > 1) {
             breaks <- if(is.numeric(x$objects[[j]])) {
-              unique(quantile(x$objects[[j]], seq(0, 1, length = floor(0.5 * length(unique(x$objects[[j]]))))))
+              unique(quantile(x$objects[[j]],
+                seq(0, 1, length = min(c(floor(0.5 * length(unique(x$objects[[j]]))), 10))),
+                na.rm = TRUE))
             } else NULL
-            spineplot(x$objects[[j]], x$ordering$ordering, xlab = j,
+            if(length(breaks) < 2)
+              breaks <- NULL
+            spineplot(x$objects[[j]], x$ordering, xlab = j,
               ylab = "Solution order", main = paste("Conditional density:", j),
               breaks = breaks)
-            plot(x$objects[[j]], x$ordering$solution, xlab = j, ylab = "Numeric solution")
+            plot(x$objects[[j]], x$solution, xlab = j, ylab = "Numeric solution")
           }
         }
       }
