@@ -16,7 +16,7 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
     seeds <- if(!is.null(seeds)) rep(seeds, length.out = n) else 1:n
     times <- rep(0, n)
     if(verbose)
-      cat("testing file:", file, "\n")
+      cat("testing file:", file, "\n---\n")
     for(i in 1:n) {
       set.seed(seeds[i])
       if(verbose) cat(seeds[i])
