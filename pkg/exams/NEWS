@@ -1,3 +1,10 @@
+Changes in Version 2.2-1
+
+  o New function stresstest_exercise() for "stress testing" of exercises,
+    i.e., rerunning the exercise many times and capturing how the outcome
+    depends on the simulated input parameters.
+
+
 Changes in Version 2.2-0
 
   o Added first release version of exams2blackboard(). This is essentially

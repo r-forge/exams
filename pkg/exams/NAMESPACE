@@ -43,6 +43,9 @@ export(
   "extract_items",
   "include_supplement",
 
+  ## Stress testing,
+  "stresstest_exercise",
+
   ## LaTeX to image converter (via ImageMagick's convert)
   "tex2image",
 
@@ -87,9 +90,6 @@ export(
   
   ## TCExam driver
   "exams2tcexam"
-
-  ## Stress testing,
-  # "stresstest_exercise"
 )
 
 S3method("print", "exams_metainfo")
