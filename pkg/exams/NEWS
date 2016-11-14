@@ -4,6 +4,10 @@ Changes in Version 2.2-1
     i.e., rerunning the exercise many times and capturing how the outcome
     depends on the simulated input parameters.
 
+  o New (and still somewhat experimental) function match_exams_call()
+    that can be employed to query which exams2xyz() function was called
+    to create a certain exercise/exam.
+
 
 Changes in Version 2.2-0
 
