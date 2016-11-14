@@ -33,10 +33,7 @@ include_supplement <- function(file, dir = NULL, recursive = FALSE) {
 }
 
 match_exams_call <- function(which = 1L, deparse = TRUE) {
-  cl <- .xexams_call
-  if(!is.null(which)) {
-    cl <- cl[[which]]
-    if(deparse) cl <- deparse(cl[[1L]])
-  }
-  return(cl)
+  rval <- if(!deparse) .xexams_call else sapply(.xexams_call, function(x) deparse(x[[1L]]))
+  if(!is.null(which)) rval <- rval[[which]]
+  return(rval)
 }

@@ -26,21 +26,21 @@ to behave slightly differently, e.g., for PDF vs. HTML output.
 }
 
 \examples{
-if(interactive()) {
 ## call exams2nops
-exams2nops("tstat2.Rnw")
+tdir <- tempdir()
+exams2nops("tstat2.Rnw", dir = tdir)
+match_exams_call()
 
 ## exams2nops called exams2pdf called xexams:
-match_exams_call(which = 1)
-match_exams_call(which = 2)
-match_exams_call(which = 3)
+match_exams_call(which = NULL)
 
 ## get full exams2nops call
 match_exams_call(deparse = FALSE)
 
-## get full sequence of calls
+## but note that convenience wrappers etc. are included
+e2n <- function(...) exams2nops(...)
+e2n("tstat2.Rnw", dir = tdir)
 match_exams_call(which = NULL)
-}
 }
 
 \keyword{utilities}
