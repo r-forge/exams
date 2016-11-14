@@ -54,7 +54,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   ## create global variable storing (x)exams(2xyz) calls
   cl <- 0L:sys.parent()
   for(i in seq_along(cl)) cl[[i]] <- sys.parent(cl[[i]])
-  cl <- cl[cl > 0L]
+  cl <- rev(cl[cl > 0L])
   utils::assignInNamespace(".xexams_call", lapply(cl, function(i) {
     match.call(definition = sys.function(i), call = sys.call(i))
   }), ns = "exams")
