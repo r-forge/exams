@@ -10,7 +10,7 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
       rval[[file[i]]] <- stresstest_exercise(file[i], n = n, plot = FALSE,
         verbose = verbose, seeds = seeds, stop_on_error = stop_on_error, ...)
     }
-    class(rval) <- c("stresstest_exercise_list", "stresstest_exercise", "list")
+    class(rval) <- c("stress.list", "stress", "list")
   } else {
     sq <- objects <- vector("list", length = n)
     seeds <- if(!is.null(seeds)) rep(seeds, length.out = n) else 1:n
@@ -86,30 +86,42 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
         pmat <- do.call("rbind", solutions)
         pmat <- t(t(pmat) * 1:ncol(pmat))
         rval$position <- pmat
-        if(!any(is.na(as.numeric(gsub("$", "", questions[[1]], fixed = TRUE))))) {
-          ordering <- do.call("rbind", lapply(questions, order, decreasing = TRUE))
-          questions <- do.call("rbind", lapply(questions, function(x) {
-            as.numeric(gsub("$", "", x, fixed = TRUE)) }))
-          ordering <- (pmat > 0) * ordering
+        ordering <- do.call("rbind", lapply(questions, function(x) {
+          x <- gsub("$", "", gsub(" ", "", x, fixed = TRUE), fixed = TRUE)
+          if(!all(is.na(suppressWarnings(as.numeric(x)))))
+            x <- as.numeric(x)
+          order(x, decreasing = TRUE)
+        }))
+        if(all(!is.na(suppressWarnings(as.numeric(gsub("$", "", questions[[1]], fixed = TRUE)))))) {
+          questions <- lapply(questions, function(x) {
+            as.numeric(gsub("$", "", x, fixed = TRUE)) })
+          questions <- do.call("rbind", questions)
           i <- as.integer(rowSums(pmat))
           sol_num <- rep(NA, nrow(pmat))
           for(j in 1:nrow(pmat))
             sol_num[j] <- questions[j, i[j]]
-          rval$ordering <- as.factor(rowSums(ordering))
           rval$solution <- sol_num
         }
+        ordering <- (pmat > 0) * ordering
+        rval$ordering <- as.factor(rowSums(ordering))
       }
       if(extype == "mchoice") {
         ex_mat <- do.call("rbind", solutions)
         pmat <- t(t(ex_mat) * 1:ncol(ex_mat))
         rval$position <- pmat
         rval$ntrue <- apply(ex_mat, 1, sum)
+
+        ordering <- lapply(questions, function(x) {
+          order(gsub("$", "", gsub(" ", "", x, fixed = TRUE), fixed = TRUE), decreasing = TRUE)
+        })
+        ordering <- do.call("rbind", ordering)
+        rval$ordering <- ordering * do.call("rbind", solutions)
       }
     } else {
       rval$solutions <- solutions
     }
 
-    class(rval) <- c("stresstest_exercise", "list")
+    class(rval) <- c("stress", "list")
     attr(rval, "exinfo") <- c("file" = file, "type" = extype)
 
     if(plot) plot(rval, ...)
@@ -119,65 +131,76 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
 }
 
 
-plot.stresstest_exercise <- function(x, ...)
+as.data.frame.stress <- function(x, ...)
+{
+  names(x) <- paste(".", names(x), sep = "")
+  do.call("cbind", x)
+}
+
+
+plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime"),
+  threshold = NULL, variables = NULL, spar = TRUE, ask = TRUE, ...)
 {
   op <- par(no.readonly = TRUE)
   on.exit(par(op))
 
-  ask <- list(...)$ask; spar <- TRUE ## FIXME: should this function be exported?
-  if(is.null(ask))
-    ask <- TRUE
+  type <- match.arg(type)
 
-  if(ask) par("ask" = TRUE)
-  if(spar) par(mfrow = c(2, 2))
+  if(type == "overview")
+    ask <- FALSE
+
+  par("ask" = ask)
 
   rainbow <- function(n) hcl(h = seq(0, 360 * (n - 1)/n, length = n), c = 50, l = 70)
 
-  if(inherits(x, "stresstest_exercise_list")) {
+  if(inherits(x, "stress.list")) {
     for(i in names(x)) {
       cat("stresstest plots for file:", i, "\n")
-      plot.stresstest_exercise(x[[i]], ...)
+      plot.stress(x[[i]], type = type, threshol = threshold,
+        variables = variables, spar = FALSE, ask = ask, ...)
     }
   } else {
-    tr <- range(x$runtime)
-    hist(x$runtime, freq = FALSE,
-      main = paste("Runtimes ", fmt(min(tr), 4), "-", fmt(max(tr), 4), sep = ""),
-      xlab = "Time", col = "lightgray")
-
-    if(!is.null(x$solution)) {
-      hist(x$solution, freq = FALSE,
-        main = "Histogram of numeric solutions", xlab = "Solutions",
-        col = "lightgray")
-    }
-
-    if(!is.null(x$objects)) {
-      for(j in names(x$objects)) {
-        if(is.numeric(x$objects[[j]]) | is.factor(x$objects[[j]]))
-          plot(x$objects[[j]], x$runtime, xlab = j, ylab = "Runtime", main = paste("Runtimes vs.", j))
+    if(type == "overview") {
+      k <- 0
+      for(j in c("runtime", "solution", "position", "ordering", "ntrue")) {
+        if(!is.null(x[[j]]) & !is.list(x[[j]]))
+          k <- k + 1
       }
-      if(!is.null(x$solution)) {
-        for(j in names(x$objects)) {
-          if(is.numeric(x$objects[[j]]) | is.factor(x$objects[[j]])) {
-            plot(x$objects[[j]], x$solution, xlab = j, ylab = "Solution", main = paste("Solutions vs.", j))
-          }
-        }
+
+      if(spar) {
+        if(k < 3)
+          par(mfrow = c(1, k))
+        else
+          par(mfrow = c(2, 2))
       }
-    }
 
-    if(!is.null(x$position)) {
-      ptab <- table(x$position)
-      ptab <- ptab[names(ptab) != "0"]
-      barplot(ptab, ylab = "n", main = "Position of correct solution",
-        xlab = "Position", col = rainbow(ncol(x$position)))
-      image(t(x$position), col = c("white", rainbow(ncol(x$position))), axes = FALSE,
-        main = "Position of correct solution", xlab = "Position")
-      box()
-      axis(1, at = seq(0, 1, length = ncol(x$position)), labels = 1:ncol(x$position))
+      tr <- range(x$runtime)
+      hist(x$runtime, freq = FALSE,
+        main = paste("Runtimes ", fmt(min(tr), 4), "-", fmt(max(tr), 4), sep = ""),
+        xlab = "Time", col = "lightgray")
 
-      pfac <- as.factor(apply(x$position, 1, paste, collapse = "|"))
-      if(nlevels(pfac) > length(names(ptab))) {
-        barplot(table(pfac), main = "Combinations of correct solutions positions", ylab = "n",
-          col = rainbow(nlevels(pfac)))
+      if(!is.null(x$solution) & !is.list(x$solution)) {
+        hist(x$solution, freq = FALSE,
+          main = "Histogram of numeric solutions", xlab = "Solutions",
+          col = "lightgray")
+      }
+
+      if(!is.null(x$position)) {
+        ptab <- table(x$position)
+        ptab <- ptab[names(ptab) != "0"]
+        barplot(ptab, ylab = "n", main = "Position of correct solution",
+          xlab = "Position", col = rainbow(ncol(x$position)))
+#        image(t(x$position), col = c("white", rainbow(ncol(x$position))), axes = FALSE,
+#          main = "Position of correct solution", xlab = "Position")
+#        box()
+#        axis(1, at = seq(0, 1, length = ncol(x$position)), labels = 1:ncol(x$position))
+      }
+
+      if(!is.null(x$ordering)) {
+        ptab <- table(x$ordering)
+        ptab <- ptab[names(ptab) != "0"]
+        barplot(ptab, ylab = "n", main = "Solution Order frequencies",
+          xlab = "Solution order", col = rainbow(ncol(x$position)))
       }
 
       if(!is.null(x$ntrue)) {
@@ -186,22 +209,77 @@ plot.stresstest_exercise <- function(x, ...)
       }
     }
 
-    if(!is.null(x$ordering) & !is.null(x$objects)) {
-      for(j in names(x$objects)) {
-        if(is.numeric(x$objects[[j]]) | is.factor(x$objects[[j]])) {
-          if(length(unique(x$objects[[j]])) > 1) {
-            breaks <- if(is.numeric(x$objects[[j]])) {
-              unique(quantile(x$objects[[j]],
-                seq(0, 1, length = min(c(floor(0.5 * length(unique(x$objects[[j]]))), 10))),
-                na.rm = TRUE))
-            } else NULL
-            if(length(breaks) < 2)
-              breaks <- NULL
-            spineplot(x$objects[[j]], x$ordering, xlab = j,
-              ylab = "Solution order", main = paste("Conditional density:", j),
-              breaks = breaks)
-            plot(x$objects[[j]], x$solution, xlab = j, ylab = "Numeric solution")
-          }
+    if(spar) par(mfrow = c(2, 2))
+
+    spineplot2 <- function(x, y, threshold = NULL, ...) {
+      if(is.numeric(x) | is.factor(x)) {
+        if(is.factor(x)) {
+          if(nlevels(x) > 10)
+            return(invisible(NULL))
+        }
+        if(length(unique(x)) > 1) {
+          breaks <- if(is.numeric(x)) {
+            unique(quantile(x,
+              seq(0, 1, length = min(c(floor(0.5 * length(unique(x))), 10))),
+              na.rm = TRUE))
+          } else NULL
+          if(length(breaks) < 2)
+            breaks <- NULL
+          spineplot(x, y, breaks = breaks, ...)
+        }
+      }
+    }
+
+    plot2 <- function(x, y, threshold = NULL, ylab = NULL, ...) {
+      if((is.numeric(x) | is.factor(x)) & (length(unique(x)) > 1)) {
+        if(is.factor(x)) {
+          if(nlevels(x) > 10)
+            return(invisible(NULL))
+        }
+        if(is.null(threshold)) {
+          plot(x, y, ylab = ylab, ...)
+        } else {
+          breaks <- if(is.numeric(x)) {
+            unique(quantile(x,
+              seq(0, 1, length = min(c(floor(0.5 * length(unique(x))), 10))),
+              na.rm = TRUE))
+          } else NULL
+          if(length(breaks) < 2)
+            breaks <- NULL
+          ylab <- paste(ylab, "<=", threshold)
+          spineplot(x, factor(y <= threshold), breaks = breaks, ylab = ylab, ...)
+        }
+      }
+    }
+
+    if(!is.null(x$objects)) {
+      if(is.null(variables)) {
+        variables <- names(x$objects)
+      } else {
+        v2 <- NULL
+        for(j in variables)
+          v2 <- c(v2, grep(j, variables, values = TRUE, fixed = TRUE))
+        variables <- unique(v2)
+      }
+
+      if(type == "runtime") {
+        for(j in variables) {
+          plot2(x$objects[[j]], x$runtime, threshold = threshold,
+            xlab = j, ylab = "Runtime", main = paste("Runtimes vs.", j))
+        }
+      }
+
+      if((type == "solution") & !is.list(x$solution) & !is.null(x$solution)) {
+        for(j in variables) {
+          plot2(x$objects[[j]], x$solution, threshold = threshold,
+            xlab = j, ylab = "Solution", main = paste("Solutions vs.", j))
+        }
+      }
+
+      if((type == "ordering") & !is.null(x$ordering)) {
+        for(j in variables) {
+          spineplot2(x$objects[[j]], x$ordering, xlab = j,
+            ylab = "Solution order", main = paste("Solution order proportions:", j))
         }
       }
     }
