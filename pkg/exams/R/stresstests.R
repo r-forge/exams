@@ -16,7 +16,7 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
     seeds <- if(!is.null(seeds)) rep(seeds, length.out = n) else 1:n
     times <- rep(0, n)
     if(verbose)
-      cat("testing file:", file, "\n---\n")
+      cat("---\ntesting file:", file, "\n---\n")
     for(i in 1:n) {
       set.seed(seeds[i])
       if(verbose) cat(seeds[i])
@@ -146,9 +146,6 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
 
   type <- match.arg(type)
 
-  if(type == "overview")
-    ask <- FALSE
-
   par("ask" = ask)
 
   rainbow <- function(n) hcl(h = seq(0, 360 * (n - 1)/n, length = n), c = 50, l = 70)
@@ -156,8 +153,8 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
   if(inherits(x, "stress.list")) {
     for(i in names(x)) {
       cat("stresstest plots for file:", i, "\n")
-      plot.stress(x[[i]], type = type, threshol = threshold,
-        variables = variables, spar = FALSE, ask = ask, ...)
+      plot.stress(x[[i]], type = type, threshold = threshold,
+        variables = variables, spar = spar, ask = ask, ...)
     }
   } else {
     if(type == "overview") {
@@ -199,7 +196,7 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       if(!is.null(x$ordering)) {
         ptab <- table(x$ordering)
         ptab <- ptab[names(ptab) != "0"]
-        barplot(ptab, ylab = "n", main = "Solution Order frequencies",
+        barplot(ptab, ylab = "n", main = "Solution order frequencies",
           xlab = "Solution order", col = rainbow(ncol(x$position)))
       }
 
@@ -258,7 +255,7 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       } else {
         v2 <- NULL
         for(j in variables)
-          v2 <- c(v2, grep(j, variables, values = TRUE, fixed = TRUE))
+          v2 <- c(v2, grep(j, variables, value = TRUE, fixed = TRUE))
         variables <- unique(v2)
       }
 
@@ -279,7 +276,7 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       if((type == "ordering") & !is.null(x$ordering)) {
         for(j in variables) {
           spineplot2(x$objects[[j]], x$ordering, xlab = j,
-            ylab = "Solution order", main = paste("Solution order proportions:", j))
+            ylab = "Solution order", main = paste("Solution order frequencies:", j))
         }
       }
     }

@@ -95,4 +95,5 @@ export(
 
 S3method("print", "exams_metainfo")
 S3method("toLatex", "matrix")
-S3method("plot", "stresstest_exercise")
+S3method("plot", "stress")
+S3method("as.data.frame", "stress")
