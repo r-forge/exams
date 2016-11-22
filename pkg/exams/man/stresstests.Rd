@@ -15,8 +15,7 @@
 
 \usage{
 ## Stresstest function.
-stresstest_exercise(file, n = 100, plot = TRUE,
-  verbose = TRUE, seeds = NULL,
+stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   stop_on_error = length(as.character(unlist(file))) < 2,
   ...)
 
@@ -31,7 +30,6 @@ stresstest_exercise(file, n = 100, plot = TRUE,
     should be tested, argument \code{file} can also be a vector, matrix or list of
     files. The latter case sets argument \code{plot = FALSE}.}
   \item{n}{integer. The number of replications.}
-  \item{plot}{logical. Should the results be plotted.}
   \item{verbose}{logical. Should the seeds used for compiling the exercise
     be prompted on the console.}
   \item{seeds}{The seeds that should be used when compiling the exercise. The
@@ -97,14 +95,15 @@ stresstest_exercise(file, n = 100, plot = TRUE,
 
 \examples{
 \dontrun{## Stress testing.
-t1 <- stresstest_exercise("tstat.Rnw", n = 100, plot = FALSE)
-t2 <- stresstest_exercise("tstat2.Rnw", n = 100, plot = FALSE)
+t1 <- stresstest_exercise("tstat.Rnw", n = 100)
+t2 <- stresstest_exercise("tstat2.Rnw", n = 100)
 
 ## Plotting.
 plot(t1, type = "overview")
 plot(t1, type = "solution")
 plot(t1, type = "solution", threshold = 30)
 plot(t2, type = "ordering")
+plot(t2, type = "runtime")
 
 ## For custom inspection, object can be
 ## transformed to a data.frame.
@@ -119,6 +118,7 @@ files <- list(
   "relfreq"
 )
 t3 <- stresstest_exercise(files, n = 100)
+plot(t3)
 }
 }
 

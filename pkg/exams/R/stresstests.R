@@ -1,5 +1,5 @@
 ## Test exercises.
-stresstest_exercise <- function(file, n = 100, plot = TRUE,
+stresstest_exercise <- function(file, n = 100,
   verbose = TRUE, seeds = NULL,
   stop_on_error = length(as.character(unlist(file))) < 2, ...)
 {
@@ -7,7 +7,8 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
   if(length(file) > 1) {
     rval <- list()
     for(i in seq_along(file)) {
-      rval[[file[i]]] <- stresstest_exercise(file[i], n = n, plot = FALSE,
+      attr(n, "stress.list") <- TRUE
+      rval[[file[i]]] <- stresstest_exercise(file[i], n = n,
         verbose = verbose, seeds = seeds, stop_on_error = stop_on_error, ...)
     }
     class(rval) <- c("stress.list", "stress", "list")
@@ -15,7 +16,7 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
     sq <- objects <- vector("list", length = n)
     seeds <- if(!is.null(seeds)) rep(seeds, length.out = n) else 1:n
     times <- rep(0, n)
-    if(verbose)
+    if(verbose & !is.null(attr(n, "stress.list")))
       cat("---\ntesting file:", file, "\n---\n")
     for(i in 1:n) {
       set.seed(seeds[i])
@@ -123,8 +124,6 @@ stresstest_exercise <- function(file, n = 100, plot = TRUE,
 
     class(rval) <- c("stress", "list")
     attr(rval, "exinfo") <- c("file" = file, "type" = extype)
-
-    if(plot) plot(rval, ...)
   }
 
   return(rval)
@@ -146,11 +145,10 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
 
   type <- match.arg(type)
 
-  par("ask" = ask)
-
   rainbow <- function(n) hcl(h = seq(0, 360 * (n - 1)/n, length = n), c = 50, l = 70)
 
   if(inherits(x, "stress.list")) {
+    par("ask" = ask)
     for(i in names(x)) {
       cat("stresstest plots for file:", i, "\n")
       plot.stress(x[[i]], type = type, threshold = threshold,
@@ -206,8 +204,6 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       }
     }
 
-    if(spar) par(mfrow = c(2, 2))
-
     spineplot2 <- function(x, y, threshold = NULL, ...) {
       if(is.numeric(x) | is.factor(x)) {
         if(is.factor(x)) {
@@ -222,7 +218,10 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
           } else NULL
           if(length(breaks) < 2)
             breaks <- NULL
-          spineplot(x, y, breaks = breaks, ...)
+          if((length(unique(x)) < 10) & !is.factor(x))
+            spineplot(as.factor(x), y, ...)
+          else
+            spineplot(x, y, breaks = breaks, ...)
         }
       }
     }
@@ -244,12 +243,18 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
           if(length(breaks) < 2)
             breaks <- NULL
           ylab <- paste(ylab, "<=", threshold)
-          spineplot(x, factor(y <= threshold), breaks = breaks, ylab = ylab, ...)
+          if((length(unique(x)) < 10) & !is.factor(x))
+            spineplot(as.factor(x), factor(y <= threshold), breaks = breaks, ylab = ylab, ...)
+          else
+            spineplot(x, factor(y <= threshold), breaks = breaks, ylab = ylab, ...)
         }
       }
     }
 
     if(!is.null(x$objects)) {
+      par("ask" = ask)
+      if(spar) par(mfrow = c(2, 2))
+
       if(is.null(variables)) {
         variables <- names(x$objects)
       } else {
