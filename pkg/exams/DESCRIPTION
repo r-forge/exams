@@ -7,12 +7,13 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
 	     person(given = "Friedrich", family = "Leisch", role = "aut", email = "Friedrich.Leisch@R-project.org"),
 	     person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"),
 	     person(given = "Niels", family = "Smits", role = "ctb", email = "N.Smits@uva.nl"),
+	     person(given = "Mirko", family = "Birbaumer", role = "ctb", email = "Mirko.Birbaumer@hslu.ch"),
 	     person(given = "Dominik", family = "Ernst", role = "ctb", email = "Dominik.Ernst@boku.ac.at"))
 Description: Automatic generation of exams based on exercises in Markdown or LaTeX format,
 	possibly including R code for dynamic generation of exercise elements.
 	Exercise types include single- and multiple-choice questions, arithmetic problems,
 	string questions, and combinations thereof (cloze). Output formats include
-	PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1, Blackboard, ARSnova, and TCExam.
+	PDF, HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1, Blackboard, Ilias, ARSnova, and TCExam.
 	In addition to fully customizable PDF exams, a standardized PDF format is provided that can be
 	printed, scanned, and automatically evaluated.
 Depends: R (>= 3.0.0)

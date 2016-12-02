@@ -1,5 +1,10 @@
 Changes in Version 2.2-1
 
+  o Added new interface exams2ilias() for the open-source ILIAS learning
+    management system (http://www.ilias.de/). This is essentially a
+    convenience wrapper to exams2qti12(), tweaking a few defaults and
+    employing a somewhat modified XML template.
+
   o New function stresstest_exercise() for "stress testing" of exercises,
     i.e., rerunning the exercise many times and capturing how the outcome
     depends on the simulated input parameters.
@@ -7,9 +12,6 @@ Changes in Version 2.2-1
   o New (and still somewhat experimental) function match_exams_call()
     that can be employed to query which exams2xyz() function was called
     to create a certain exercise/exam.
-
-  o Started exams2ilias() function which is essentially a convenience
-    wrapper to exams2qti12() plus a custom template.
 
 
 Changes in Version 2.2-0
