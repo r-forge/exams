@@ -31,6 +31,11 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     schoice$maxchars <- c(3, NA, 3)
     schoice$minvalue <- NA
   }
+  
+  ## FIXME: default name ilias?
+  ## FIXME: default maxchars?
+  ## FIXME: allow xmlcollapse = FALSE for testing?
+  
 
   ## simply call exams2qti12 with custom template (and XML processing)
   exams2qti12(file = file, n = n, nsamp = nsamp, dir = dir,
