@@ -31,6 +31,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     schoice$maxchars <- c(3, NA, 3)
     schoice$minvalue <- NA
   }
+
   ## FIXME: default maxchars?
 
   ## default name
