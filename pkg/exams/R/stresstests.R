@@ -267,21 +267,21 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       if(type == "runtime") {
         for(j in variables) {
           plot2(x$objects[[j]], x$runtime, threshold = threshold,
-            xlab = j, ylab = "Runtime", main = paste("Runtimes vs.", j))
+            xlab = j, ylab = "Runtime", main = paste("Runtimes vs.", j), ...)
         }
       }
 
       if((type == "solution") & !is.list(x$solution) & !is.null(x$solution)) {
         for(j in variables) {
           plot2(x$objects[[j]], x$solution, threshold = threshold,
-            xlab = j, ylab = "Solution", main = paste("Solutions vs.", j))
+            xlab = j, ylab = "Solution", main = paste("Solutions vs.", j), ...)
         }
       }
 
       if((type == "ordering") & !is.null(x$ordering)) {
         for(j in variables) {
           spineplot2(x$objects[[j]], x$ordering, xlab = j,
-            ylab = "Solution order", main = paste("Solution order frequencies:", j))
+            ylab = "Solution order", main = paste("Solution order frequencies:", j), ...)
         }
       }
     }
