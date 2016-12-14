@@ -13,6 +13,24 @@ stresstest_exercise <- function(file, n = 100,
     }
     class(rval) <- c("stress.list", "stress", "list")
   } else {
+    stress_env <- .GlobalEnv
+
+    ## stress_env <- new.env()
+    ## on.exit(rm(stress_env))
+
+#    loadNamespace("tools")
+
+#    stress_EvalWithOpt <- function(expr, options) {
+#      if(options$eval) {
+#        res <- try(withVisible(eval(expr, stress_env)), silent = TRUE)
+#        if(inherits(res, "try-error")) return(res)
+#        if(options$print | (options$term & res$visible))
+#          print(res$value)
+#      }
+#      return(res)
+#    }
+#    runcode <- makeRweaveLatexCodeRunner(evalFunc = stress_EvalWithOpt)
+
     sq <- objects <- vector("list", length = n)
     seeds <- if(!is.null(seeds)) rep(seeds, length.out = n) else 1:n
     times <- rep(0, n)
@@ -21,15 +39,15 @@ stresstest_exercise <- function(file, n = 100,
     for(i in 1:n) {
       set.seed(seeds[i])
       if(verbose) cat(seeds[i])
-      .global_obj_before <- ls(envir = .GlobalEnv)
-      times[i] <- system.time(xtmp <- try(xexams(file, driver = list("sweave" = list("envir" = .GlobalEnv)), ...),
+      .global_obj_before <- ls(envir = stress_env)
+      times[i] <- system.time(xtmp <- try(xexams(file, driver = list("sweave" = list("envir" = stress_env)), ...),
         silent = TRUE))["elapsed"]
-      .global_obj_after <- ls(envir = .GlobalEnv)
+      .global_obj_after <- ls(envir = stress_env)
       ex_objects <- .global_obj_after[!(.global_obj_after %in% .global_obj_before)]
       objects[[i]] <- list()
       for(j in ex_objects)
-        objects[[i]][[j]] <- get(j, pos = 1)
-      remove(list = ex_objects, pos = 1)
+        objects[[i]][[j]] <- get(j, envir = stress_env)
+      remove(list = ex_objects, envir = stress_env)
       if(inherits(xtmp, "try-error")) {
         cat(xtmp)
         msg <- paste('an error occured when running file: "', file, '" using seed ', seeds[i], '!', sep = '')
@@ -58,6 +76,7 @@ stresstest_exercise <- function(file, n = 100,
         isf <- rep(FALSE, length(x))
       x[which((n == 1) & !isf)]
     })
+
     nobj <- unique(unlist(lapply(objects, names)))
     objects <- lapply(objects, function(x) {
       x <- as.data.frame(x[names(x) %in% nobj])
@@ -70,7 +89,7 @@ stresstest_exercise <- function(file, n = 100,
     })
     objects <- do.call("rbind", objects)
 
-    if(any(names(objects) %in% (no <- ls(envir = .GlobalEnv))))
+    if(any(names(objects) %in% (no <- ls(envir = stress_env))))
       rm(list = names(objects)[names(objects) %in% no])
 
     rval <- list("seeds" = seeds, "runtime" = times)
@@ -279,6 +298,8 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       }
 
       if((type == "ordering") & !is.null(x$ordering)) {
+        if(is.matrix(x$ordering))
+          x$ordering <- as.factor(apply(x$ordering, 1, paste, collapse = "|"))
         for(j in variables) {
           spineplot2(x$objects[[j]], x$ordering, xlab = j,
             ylab = "Solution order", main = paste("Solution order frequencies:", j), ...)
