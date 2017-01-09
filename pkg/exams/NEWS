@@ -13,6 +13,9 @@ Changes in Version 2.2-1
     that can be employed to query which exams2xyz() function was called
     to create a certain exercise/exam.
 
+  o Bug fix in read_exercise() for the case when exshuffle = integer.
+    This was not correctly reflected in metainfo$length.
+
 
 Changes in Version 2.2-0
 
