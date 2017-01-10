@@ -52,12 +52,14 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     temporary = dir_temp
   ), ns = "exams")
   ## create global variable storing (x)exams(2xyz) calls
-  cl <- 0L:sys.parent()
-  for(i in seq_along(cl)) cl[[i]] <- sys.parent(cl[[i]])
-  cl <- rev(cl[cl > 0L])
-  utils::assignInNamespace(".xexams_call", lapply(cl, function(i) {
-    match.call(definition = sys.function(i), call = sys.call(i))
-  }), ns = "exams")
+  if(getRversion() >= "3.2.0") {
+    cl <- 0L:sys.parent()
+    for(i in seq_along(cl)) cl[[i]] <- sys.parent(cl[[i]])
+    cl <- rev(cl[cl > 0L])
+    utils::assignInNamespace(".xexams_call", lapply(cl, function(i) {
+      match.call(definition = sys.function(i), call = sys.call(i))
+    }), ns = "exams")
+  }
   
   ## number of available exercises in each element of 'file'
   ## and number of selected samples per element

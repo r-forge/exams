@@ -11,7 +11,7 @@ Changes in Version 2.2-1
 
   o New (and still somewhat experimental) function match_exams_call()
     that can be employed to query which exams2xyz() function was called
-    to create a certain exercise/exam.
+    to create a certain exercise/exam. Only works from R 3.2.0 onwards.
 
   o Bug fix in read_exercise() for the case when exshuffle = integer.
     This was not correctly reflected in metainfo$length.

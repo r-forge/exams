@@ -23,6 +23,8 @@ match_exams_call(which = 1L, deparse = TRUE)
 The function \code{match_exams_call} is useful for determining
 within an exercise which \code{exams2xyz} interface is used in order
 to behave slightly differently, e.g., for PDF vs. HTML output.
+
+This feature only works from R 3.2.0 onwards.
 }
 
 \examples{
