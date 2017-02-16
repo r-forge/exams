@@ -16,6 +16,9 @@ Changes in Version 2.2-1
   o Bug fix in read_exercise() for the case when exshuffle = integer.
     This was not correctly reflected in metainfo$length.
 
+  o Avoid <p> formatting in questionlist/solutionlist when using
+    converter = "pandoc" in the conversion to HTML.
+
 
 Changes in Version 2.2-0
 
