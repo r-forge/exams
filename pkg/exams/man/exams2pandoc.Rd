@@ -119,11 +119,13 @@ myexam <- list(
 ## output directory
 mydir <- tempdir()
 
+\donttest{
 ## compile two docx and odt versions each
 set.seed(1090)
 exams2pandoc(myexam, n = 2, dir = mydir, type = "docx")
 set.seed(1090)
 exams2pandoc(myexam, n = 2, dir = mydir, type = "odt")
+}
 }
 
 \keyword{utilities}
