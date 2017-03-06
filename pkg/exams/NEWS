@@ -1,5 +1,10 @@
 Changes in Version 2.2-1
 
+  o Added new interface exams2pandoc() which can generate a wide variety
+    of output formats via pandoc. The main purpose is to generate .docx
+    output files (or .odt). The output format can be controlled through
+    a template in either LaTeX, HTML, or Markdown format.
+
   o Added new interface exams2ilias() for the open-source ILIAS learning
     management system (http://www.ilias.de/). This is essentially a
     convenience wrapper to exams2qti12(), tweaking a few defaults and
