@@ -762,7 +762,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       '<conditionvar>',
       '<other/>',
       '</conditionvar>',
-      if(is.na(minvalue)) NULL else paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''),
+      paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''),
       '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
       '</respcondition>'
     )
