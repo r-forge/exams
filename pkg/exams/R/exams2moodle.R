@@ -305,7 +305,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           xml,
           paste('<answer fraction="', frac[i], '" format="html">', sep = ''),
           '<text><![CDATA[<p>', x$questionlist[i], '</p>]]></text>',
-          if(!is.null(x$solutionlist)) {
+          if(length(x$solutionlist)) {
             c('<feedback format="html">',
             '<text><![CDATA[<p>', x$solutionlist[i], '</p>]]></text>',
             '</feedback>')
