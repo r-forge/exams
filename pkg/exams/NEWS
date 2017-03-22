@@ -5,6 +5,10 @@ Changes in Version 2.2-2
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o More fixups in LaTeX code prior to processing with pandoc_convert(),
+    especially \url{...} is replaced by \href{...}{\texttt{...}} now to
+    ensure typesetting in typewriter font.
+
 
 Changes in Version 2.2-1
 
