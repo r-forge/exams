@@ -123,8 +123,8 @@ fixup_sweave_pandoc <- function(x, from = "latex", to = "html") {
       c("\\\\end\\{Schunk}",	""),
       c("\\\\textit\\{",        "\\\\emph{"),
       c("\\\\textnormal\\{",	"\\\\text{"),
-      c("\\\\texttt\\{\\\\url\\{(.*)\\}\\}", "\\\\url{\\1}"),
-      c("\\\\url\\{(.*)\\}",    "\\\\href{\\1}{\\\\texttt{\\1}}")
+      c("\\\\texttt\\{\\\\url\\{([^}]*)\\}\\}", "\\\\url{\\1}"),
+      c("\\\\url\\{([^}]*)\\}", "\\\\href{\\1}{\\\\texttt{\\1}}")
   )
   for(i in 1:nrow(tab)) x <- gsub(tab[i,1L], tab[i,2L], x)
   return(x)  
