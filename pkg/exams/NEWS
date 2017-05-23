@@ -9,6 +9,15 @@ Changes in Version 2.2-2
     especially \url{...} is replaced by \href{...}{\texttt{...}} now to
     ensure typesetting in typewriter font.
 
+  o When including R input code chunks in .Rmd exercises, code decoration
+    is switched off by default now (knitr option highlight=FALSE) so that
+    the output can be combined with standard LaTeX templates. The default
+    can be changed either in the individual .Rmd code chunks, e.g.,
+    ```{r, highlight=TRUE}, or by setting highlight=TRUE in the call to
+    xweave(). For the latter case a new LaTeX template plain-highlight.tex
+    is also provided, e.g., to be used via:
+    exams2pdf("lm.Rmd", highlight = TRUE, template = "plain-highlight")
+
 
 Changes in Version 2.2-1
 
