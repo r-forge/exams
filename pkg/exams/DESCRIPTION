@@ -15,7 +15,7 @@ Description: Automatic generation of exams based on exercises in Markdown or LaT
 	string questions, and combinations thereof (cloze). Output formats include standalone
 	files (PDF, HTML, Docx, ODT, ...), Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1,
 	Blackboard, Ilias, ARSnova, and TCExam. In addition to fully customizable PDF exams, a
-	standardized PDF format is provided that can be printed, scanned, and automatically evaluated.
+	standardized PDF format (NOPS) is provided that can be printed, scanned, and automatically evaluated.
 Depends: R (>= 3.0.0)
 Imports: stats, graphics, grDevices, tools, utils
 Suggests: base64enc, knitr, parallel, png, RCurl, RJSONIO, rmarkdown, tth
