@@ -83,6 +83,7 @@ tex2image <- function(tex, format = "png", width = 6, pt = 12,
     "]",
     paste("\\tikzstyle{fixedblock}=[text width=", width, "in]", sep = "")
   )
+  texlines <- c(texlines, paste0("\\tikzset{font={\\fontsize{", pt, "pt}{12}\\selectfont}}"))
   texlines <- c(texlines, header)
   texlines <- c(texlines, paste("\\setlength{\\textwidth}{", width, "in}", sep = ""))
   texlines <- c(texlines, "\\begin{document}")
