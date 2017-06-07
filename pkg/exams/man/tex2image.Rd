@@ -10,12 +10,12 @@
 }
 
 \usage{
-tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
+tex2image(tex, format = "png", width = 6, density = 350,
   dir = NULL, tdir = NULL, idir = NULL,
-  width.border = 0L, col.border = "white", resize = 650, shave = 2,
+  width.border = 0L, col.border = "white", resize = 650,
   packages = c("amsmath", "amssymb", "amsfonts"),
   header, header2 = NULL, Sweave = TRUE, show = TRUE,
-  name = "tex2image")
+  name = "tex2image", node = "varblock")
 }
 
 \arguments{
@@ -24,7 +24,6 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
     code directly.}
   \item{format}{character. Suffix for the type of graphic to convert to.}
   \item{width}{numeric. Width of the text in inch.}
-  \item{pt}{numeric. Pointsize of the text.}
   \item{density}{numeric. Resolution density of the image.}
   \item{dir}{character specifying the output directory.}
   \item{tdir}{character specifying a temporary directory, by default
@@ -34,7 +33,6 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
   \item{width.border}{numeric. Width of the framebox border.}
   \item{col.border}{character. Color of framebox border.}
   \item{resize}{numeric. Number of pixels for resizing the image.}
-  \item{shave}{numeric. Number of pixels to shave the framebox from the edges.}
   \item{packages}{character. Names of LaTeX packages to be included.}
   \item{header}{character. LaTeX code to be included in the header of the
     LaTeX file before the beginning of the document. By default the parindent
@@ -45,6 +43,7 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
     in the header?}
   \item{show}{logical. Show the resulting image(s) using \code{\link[utils]{browseURL}}.}
   \item{name}{character. Base name of the image file.}
+  \item{node}{character, }
 }
 
 \details{
@@ -52,12 +51,11 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
   in web pages. It proceeds in the following steps: (1) LaTeX code is
   embedded into a suitable .tex file. (2) This is compiled to PDF using
   \code{\link[tools]{texi2dvi}}. (3) The PDF is converted to an image
-  file. By default, conversion is to PNG using ImageMagick's \code{convert}
-  function or alternatively to SVG via \code{pdfcrop} followed by \code{pdf2svg}.
-  
-  To enable suitable clipping and cropping, each vector of LaTeX code
-  has to fit onto a single page (A4). It is automatically embedded into a
-  framebox that is removed in the conversion to image.
+  file. By default, conversion is to PNG using \R package \pkg{magick} functionalities
+  or alternatively to SVG via \code{pdfcrop} followed by \code{pdf2svg}.
+
+  The LaTeX code is fit into the \code{standalone} document class using the
+  \code{tikzpicture} environment as a default.
   
   If \code{tex} is a list of LaTeX chunks, then these are compiled to
   separate pages of a single PDF in a single LaTeX run. Each page is
@@ -80,7 +78,7 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
 \examples{
 \dontrun{
 ## some simple LaTeX
-tex <- c("This is \\\\textbf{bold} and this \\\\textit{italic}.",
+tex <- c("This is \\textbf{bold} and this \\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
 
 ## default settings: PNG with sans serif fonts and width=6
