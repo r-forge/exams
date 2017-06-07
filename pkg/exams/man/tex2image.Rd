@@ -10,7 +10,7 @@
 }
 
 \usage{
-tex2image(tex, format = "png", width = 6, density = 350,
+tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
   dir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650,
   packages = c("amsmath", "amssymb", "amsfonts"),
@@ -24,6 +24,7 @@ tex2image(tex, format = "png", width = 6, density = 350,
     code directly.}
   \item{format}{character. Suffix for the type of graphic to convert to.}
   \item{width}{numeric. Width of the text in inch.}
+  \item{pt}{numeric. Pointsize of the text.}
   \item{density}{numeric. Resolution density of the image.}
   \item{dir}{character specifying the output directory.}
   \item{tdir}{character specifying a temporary directory, by default
