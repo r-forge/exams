@@ -78,7 +78,7 @@ tex2image(tex, format = "png", width = 6, density = 350,
 \examples{
 \dontrun{
 ## some simple LaTeX
-tex <- c("This is \\textbf{bold} and this \\textit{italic}.",
+tex <- c("This is \\\\textbf{bold} and this \\\\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
 
 ## default settings: PNG with sans serif fonts and width=6
