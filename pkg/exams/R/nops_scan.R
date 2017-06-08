@@ -314,14 +314,14 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
   }
 
   ## find bottom markings
-  xbl <- x[seq(round(0.93 * d[1L]), d[1L]), seq(1, round(0.15 * d[2L]))]
-  xbr <- x[seq(round(0.93 * d[1L]), d[1L]), seq(round(0.85 * d[2L]), d[2L])]
+  xbl <- x[seq(round(0.93 * d[1L]), d[1L]), seq(1, round(0.17 * d[2L]))]
+  xbr <- x[seq(round(0.93 * d[1L]), d[1L]), seq(round(0.83 * d[2L]), d[2L])]
 
   rb <- 0.93
-  while(mean(xbl) < 0.0015 | mean(xbr) < 0.0015) {
+  while(mean(xbl) < 0.0014 | mean(xbr) < 0.0014) {
     rb <- rb - 0.01
-    xbl <- x[seq(round(rb * d[1L]), d[1L]), seq(1, round(0.15 * d[2L]))]
-    xbr <- x[seq(round(rb * d[1L]), d[1L]), seq(round(0.85 * d[2L]), d[2L])]  
+    xbl <- x[seq(round(rb * d[1L]), d[1L]), seq(1, round(0.17 * d[2L]))]
+    xbr <- x[seq(round(rb * d[1L]), d[1L]), seq(round(0.83 * d[2L]), d[2L])]  
   }
 
   get_mark <- function(x, type = c("row", "col"), zap = 0.35)
