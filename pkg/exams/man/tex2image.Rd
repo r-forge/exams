@@ -14,7 +14,7 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
   dir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650,
   packages = c("amsmath", "amssymb", "amsfonts"),
-  header, header2 = NULL, Sweave = TRUE, show = TRUE,
+  header, header2 = NULL, tikz = NULL, Sweave = TRUE, show = TRUE,
   name = "tex2image", node = "varblock")
 }
 
@@ -40,6 +40,8 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
     is set to 0 and sans serif fonts (phv) are used for both text and math.}
   \item{header2}{character. LaTeX code to be included in the header of the
     LaTeX file after the beginning of the document. }
+  \item{tikz}{character. Options to be passed to \code{\\usetikzlibrary{}}. If set, the tikz package
+    is loaded per default.}
   \item{Sweave}{logical. Should the LaTeX package Sweave.sty be included
     in the header?}
   \item{show}{logical. Show the resulting image(s) using \code{\link[utils]{browseURL}}.}

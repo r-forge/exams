@@ -1,12 +1,12 @@
 ## NOTE: needs commands "convert" from ImageMagick (http://www.imagemagick.org/)
-tex2image <- function(tex, format = "png", width = 6, pt = 12,
+tex2image <- function(tex, format = "png", width = NULL, pt = 12,
   density = 350, dir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650,
   packages = c("amsmath", "amssymb", "amsfonts"),
-  header = c("\\setlength{\\parindent}{0pt}",
-    "\\renewcommand{\\sfdefault}{phv}",
+  header = c("\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
-  header2 = NULL, Sweave = TRUE, show = TRUE, name = "tex2image", node = "varblock")
+  header2 = NULL, tikz = NULL,
+  Sweave = TRUE, show = TRUE, name = "tex2image")
 {
   ## directory handling
   if(is.null(tdir)) {
@@ -50,6 +50,8 @@ tex2image <- function(tex, format = "png", width = 6, pt = 12,
 
   ## LaTeX packages  
   packages <- unique(c(packages, c("graphicx", "url", "color", "varwidth")))
+  if(!is.null(tikz) & !any(grepl("tikz", packages)))
+    packages <- c(packages, "tikz")
 
   if(length(graphics <- grep("includegraphics", unlist(tex), fixed = TRUE, value = TRUE))) {
     if(is.null(idir))
@@ -73,19 +75,12 @@ tex2image <- function(tex, format = "png", width = 6, pt = 12,
     brackets <- if(grepl("{", i, fixed = TRUE)) NULL else c("{", "}")
     texlines <- c(texlines, paste("\\usepackage", brackets[1], i, brackets[2], sep = ""))
   }
+  if(any(grepl("tikz", packages)) & !is.null(tikz))
+    texlines <- c(texlines, paste0("\\usetikzlibrary{", paste(tikz, collapse = ",", sep = ""), "}"))
   if(Sweave) texlines <- c(texlines, paste("\\usepackage{",
     file.path(R.home("share"), "texmf", "tex", "latex", "Sweave"), "}", sep = ""))
-  texlines <- c(
-    texlines,
-    "\\tikzstyle{varblock}=[",
-    paste("  execute at begin node={\\begin{varwidth}{", width, "in}},", sep = ""),
-    "  execute at end node={\\end{varwidth}}",
-    "]",
-    paste("\\tikzstyle{fixedblock}=[text width=", width, "in]", sep = "")
-  )
   texlines <- c(texlines, paste0("\\tikzset{font={\\fontsize{", pt, "pt}{12}\\selectfont}}"))
   texlines <- c(texlines, header)
-  texlines <- c(texlines, paste("\\setlength{\\textwidth}{", width, "in}", sep = ""))
   texlines <- c(texlines, "\\begin{document}")
   texlines <- c(texlines, header2)
   tex <- if(!is.list(tex)) list(tex) else tex
@@ -96,20 +91,38 @@ tex2image <- function(tex, format = "png", width = 6, pt = 12,
     paste(name, names(tex), sep = "_")
   }
   pic_names <- paste(pic_names, format, sep = ".")
+
+  ## handling width etc.
+  if(is.null(width)) width <- 0
+  if(is.logical(width)) c(0, 6)[1 + wdith]
+  if(any(is.na(width))) width[is.na(width)] <- 0
+  width <- rep_len(width, nt)
+  node <- rep_len("varblock", nt)
+  node[width > 0] <- "fixblock"
   nodes <- rep(node, length.out = nt)
+  width[width < 1] <- 6
+
   for(i in 1:nt) {
     tikz <- any(grepl("begin{tikzpicture}", tex[[i]], fixed = TRUE))
-    node <- switch(nodes[i],
-      "varblock" = "\\node[varblock]",
-      "fixblock" = "\\node[fixedblock]",
-      "none" = NULL
-    )
-    texlines <- c(texlines, if(!tikz) paste("\\begin{tikzpicture}[auto,->=stealth]", node, "{", sep = "") else NULL)
+    if(!tikz) {
+      texlines <- c(texlines, "\\begin{tikzpicture}[auto,->=stealth]")
+      if(nodes[i] == "varblock") {
+        texlines <- c(texlines, "\\node{", paste("\\begin{varwidth}{", width[i], "in}", sep = ""))
+      } else {
+        texlines <- c(texlines, paste("\\node[text width=", width[i], "in]{", sep = ""))
+      }
+    }
     texlines <- c(texlines, tex[[i]])
-    texlines <- c(texlines, if(!tikz) "};\\end{tikzpicture}" else NULL)
+    if(!tikz) {
+      if(nodes[i] == "varblock") {
+        texlines <- c(texlines, "\\end{varwidth}")
+      }
+      texlines <- c(texlines, "};", "\\end{tikzpicture}")
+    }
   }
   texlines <- c(texlines, "\\end{document}")
   file.create(paste(tdir, "/", name, ".log", sep = ""))
+
   writeLines(text = texlines, con = paste(tdir, "/", name, ".tex", sep = ""))
 
   ## compile LaTeX into PDF
