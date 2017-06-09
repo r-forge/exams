@@ -12,12 +12,12 @@
   exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = NULL, 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "", quiet = TRUE, transform = NULL,
-    edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-    points = NULL, \dots)
+    edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
+    verbose = FALSE, points = NULL, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, quiet = TRUE,
-    control = NULL)
+    control = NULL, texdir = NULL)
 }
 
 \arguments{
@@ -58,6 +58,10 @@
     is cleaned up and potentially temporary files are deleted.}
   \item{sdir}{character specifying a directory for storing supplements, by
     default this is chosen via \code{\link[base]{tempdir}}.}
+  \item{texdir}{character specifying a directory for running \code{\link[tools]{texi2dvi}}
+    in. By default this is chosen via \code{\link[base]{tempdir}} (and deleted
+    again) but if specified the temporary LaTeX files are preserved and not
+    deleted. This is intended especially for debugging purposes.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this

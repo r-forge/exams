@@ -1,8 +1,8 @@
 exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = NULL, inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "", quiet = TRUE,
-  transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  points = NULL, ...)
+  transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
+  verbose = FALSE, points = NULL, ...)
 {
   ## for Rnw exercises use "plain" template, for Rmd "plain8"
   if(is.null(template)) template <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "plain8" else "plain"
@@ -24,8 +24,13 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(transform)) transform <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE)
 
   ## create PDF write with custom options
+  if(!is.null(texdir)) {
+    if(!file.exists(texdir) && !dir.create(texdir))
+      stop(gettextf("Cannot create temporary work directory '%s'.", texdir))
+    texdir <- tools::file_path_as_absolute(texdir)
+  }
   pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs, header = header,
-    name = name, quiet = quiet, control = control)
+    name = name, quiet = quiet, control = control, texdir = texdir)
 
   ## generate xexams
   rval <- xexams(file, n = n, nsamp = nsamp,
@@ -46,7 +51,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 make_exams_write_pdf <- function(template = "plain", inputs = NULL,
-  header = list(Date = Sys.Date()), name = NULL, quiet = TRUE, control = NULL)
+  header = list(Date = Sys.Date()), name = NULL, quiet = TRUE, control = NULL, texdir = NULL)
 {
   ## template pre-processing
   template_raw <- template
@@ -132,11 +137,11 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     on.exit(setwd(dir_orig))
 
     ## temporary in which LaTeX is compiled
-    dir_temp <- tempfile()
+    dir_temp <- if(is.null(texdir)) tempfile() else texdir
     if(!file.exists(dir_temp) && !dir.create(dir_temp))
       stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
     setwd(dir_temp) 
-    on.exit(unlink(dir_temp), add = TRUE)
+    if(is.null(texdir)) on.exit(unlink(dir_temp), add = TRUE)
 
     ## collect extra inputs
     if(!is.null(inputs)) file.copy(inputs, dir_temp)

@@ -18,6 +18,11 @@ Changes in Version 2.2-2
     is also provided, e.g., to be used via:
     exams2pdf("lm.Rmd", highlight = TRUE, template = "plain-highlight")
 
+  o exams2pdf() gained an argument texdir=NULL. By default a temporary
+    directory is created for running LaTeX (and cleaned up subsequently).
+    But using texdir="/path/to/dir" an output directory can be specified
+    so that the LaTeX files can be inspected, e.g., for debugging.
+
 
 Changes in Version 2.2-1
 
