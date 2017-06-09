@@ -10,12 +10,12 @@
 }
 
 \usage{
-tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
+tex2image(tex, format = "png", width = NULL, pt = 12, density = 350,
   dir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650,
   packages = c("amsmath", "amssymb", "amsfonts"),
-  header, header2 = NULL, tikz = NULL, Sweave = TRUE, show = TRUE,
-  name = "tex2image", node = "varblock")
+  header, header2 = NULL, tikz = NULL, Sweave = TRUE, show = FALSE,
+  name = "tex2image")
 }
 
 \arguments{
@@ -23,7 +23,8 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
     vector is either the name of a LaTeX file or a vector containing LaTeX
     code directly.}
   \item{format}{character. Suffix for the type of graphic to convert to.}
-  \item{width}{numeric. Width of the text in inch.}
+  \item{width}{numeric. Width of the text in inch. If \code{NULL} (or \code{0}),
+    the width is chosen to fit the image in \code{tex}.}
   \item{pt}{numeric. Pointsize of the text.}
   \item{density}{numeric. Resolution density of the image.}
   \item{dir}{character specifying the output directory.}
@@ -46,7 +47,6 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
     in the header?}
   \item{show}{logical. Show the resulting image(s) using \code{\link[utils]{browseURL}}.}
   \item{name}{character. Base name of the image file.}
-  \item{node}{character, }
 }
 
 \details{
@@ -64,14 +64,13 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
   separate pages of a single PDF in a single LaTeX run. Each page is
   subsequently converted to a separate image.
   
-  The respective image manipulation tools, i.e., either ImageMagick's \code{convert}
-  or \code{pdfcrop}/\code{pdf2svg}, are assumed to be installed and available
+  In case of SVG output, the respective image manipulation tools, i.e., 
+  \code{pdfcrop}/\code{pdf2svg}, are assumed to be installed and available
   in the search path.
 }
 
 \value{
-  Character vector with path(s) to image(s) generated from the LaTeX
-  code.
+  Character vector with path(s) to image(s) generated from the LaTeX code.
 }
 
 \seealso{
@@ -79,22 +78,25 @@ tex2image(tex, format = "png", width = 6, pt = 12, density = 350,
 }
 
 \examples{
-\dontrun{
+if(require("magick")) {
 ## some simple LaTeX
 tex <- c("This is \\\\textbf{bold} and this \\\\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
 
-## default settings: PNG with sans serif fonts and width=6
-tex2image(tex)
+## default settings: PNG with sans serif fonts
+tex2image(tex, show = interactive())
 
-## SVG output
-tex2image(tex, format = "svg")
-
-## reduce width
-tex2image(tex, width = 2)
+## with fixed widths
+tex2image(tex, width = 6, show = interactive())
+tex2image(tex, width = 2, show = interactive())
 
 ## switch off header (-> LaTeX uses its standard serif fonts)
-tex2image(tex, header = NULL)
+tex2image(tex, header = NULL, show = interactive())
+}
+
+\dontrun{
+## SVG output (system requirements: pdfcrop & pdf2svg)
+tex2image(tex, format = "svg", show = TRUE)
 }
 }
 

@@ -6,7 +6,7 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
   header = c("\\renewcommand{\\sfdefault}{phv}",
     "\\IfFileExists{sfmath.sty}{\n\\RequirePackage{sfmath}\n\\renewcommand{\\rmdefault}{phv}}{}"),
   header2 = NULL, tikz = NULL,
-  Sweave = TRUE, show = TRUE, name = "tex2image")
+  Sweave = TRUE, show = FALSE, name = "tex2image")
 {
   ## directory handling
   if(is.null(tdir)) {
@@ -94,12 +94,12 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
 
   ## handling width etc.
   if(is.null(width)) width <- 0
-  if(is.logical(width)) c(0, 6)[1 + wdith]
+  if(is.logical(width)) c(0, 6)[1 + width]
   if(any(is.na(width))) width[is.na(width)] <- 0
   width <- rep_len(width, nt)
   node <- rep_len("varblock", nt)
   node[width > 0] <- "fixblock"
-  nodes <- rep(node, length.out = nt)
+  nodes <- rep_len(node, nt)
   width[width < 1] <- 6
 
   for(i in 1:nt) {
