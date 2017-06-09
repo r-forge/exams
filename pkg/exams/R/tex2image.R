@@ -1,4 +1,3 @@
-## NOTE: needs commands "convert" from ImageMagick (http://www.imagemagick.org/)
 tex2image <- function(tex, format = "png", width = NULL, pt = 12,
   density = 350, dir = NULL, tdir = NULL, idir = NULL,
   width.border = 0L, col.border = "white", resize = 650,
