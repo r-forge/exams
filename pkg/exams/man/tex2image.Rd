@@ -78,8 +78,7 @@ tex2image(tex, format = "png", width = NULL, pt = 12, density = 350,
 }
 
 \examples{
-# if(require("magick"))
-\dontcheck{
+\dontrun{
 ## some simple LaTeX
 tex <- c("This is \\\\textbf{bold} and this \\\\textit{italic}.",
   "Points on the unit circle: $x^2 + y^2 = 1$.")
@@ -93,9 +92,7 @@ tex2image(tex, width = 2, show = interactive())
 
 ## switch off header (-> LaTeX uses its standard serif fonts)
 tex2image(tex, header = NULL, show = interactive())
-}
 
-\dontrun{
 ## SVG output (system requirements: pdfcrop & pdf2svg)
 tex2image(tex, format = "svg", show = TRUE)
 }
