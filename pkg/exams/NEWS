@@ -10,7 +10,7 @@ Changes in Version 2.2-2
     For converting to raster graphics like PNG (the default), R package
     "magick" is now used rather than system("convert ...") calls to
     ImageMagick on the system. For conversion to SVG it is still necessary
-    to call pdfcrop and pdf2svg on the system.
+    to call pdfcrop and pdf2svg on via system().
 
   o More fixups in LaTeX code prior to processing with pandoc_convert(),
     especially \url{...} is replaced by \href{...}{\texttt{...}} now to
