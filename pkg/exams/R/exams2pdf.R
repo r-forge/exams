@@ -136,7 +136,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     dir_orig <- getwd()
     on.exit(setwd(dir_orig))
 
-    ## temporary in which LaTeX is compiled
+    ## (temporary) directory in which LaTeX is compiled
     dir_temp <- if(is.null(texdir)) tempfile() else texdir
     if(!file.exists(dir_temp) && !dir.create(dir_temp))
       stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
@@ -144,7 +144,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     if(is.null(texdir)) on.exit(unlink(dir_temp), add = TRUE)
 
     ## collect extra inputs
-    if(!is.null(inputs)) file.copy(inputs, dir_temp)
+    if(!is.null(inputs)) file.copy(inputs, dir_temp, overwrite = TRUE)
     
     ## collect supplementary files
     supps <- unlist(lapply(exm, "[[", "supplements")) ## FIXME: restrict in some way? omit .csv and .rda?
@@ -182,7 +182,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
           exm[[dups[j]]] <- dups_graphics_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
       }
 
-      file.copy(supps, dir_temp)
+      file.copy(supps, dir_temp, overwrite = TRUE)
     }
     
     ## extract required metainfo
