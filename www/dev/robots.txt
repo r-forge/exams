@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: http://exams.tr1k.de/sitemap.xml

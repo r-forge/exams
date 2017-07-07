@@ -1,0 +1,643 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>R/exams Installation Tutorial for Ubuntu users</title>
+	<link rel="stylesheet" type="text/css" href="http://exams.tr1k.de/assets/css/styles_feeling_responsive.css" />
+	<script src="http://exams.tr1k.de/assets/js/modernizr.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Before you can start using our delightful software package, you will need to install some other software. This tutorial will show step-by-step how to get started. " />
+
+	
+
+	
+
+
+
+	
+	<link rel="icon" sizes="32x32" href="http://exams.tr1k.de/assets/img/favicon-32x32.png" />
+
+
+
+
+	
+	<link rel="icon" sizes="192x192" href="http://exams.tr1k.de/assets/img/touch-icon-192x192.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="http://exams.tr1k.de/assets/img/apple-touch-icon-180x180-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="http://exams.tr1k.de/assets/img/apple-touch-icon-152x152-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://exams.tr1k.de/assets/img/apple-touch-icon-144x144-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="http://exams.tr1k.de/assets/img/apple-touch-icon-120x120-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://exams.tr1k.de/assets/img/apple-touch-icon-114x114-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="http://exams.tr1k.de/assets/img/apple-touch-icon-76x76-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://exams.tr1k.de/assets/img/apple-touch-icon-72x72-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" href="http://exams.tr1k.de/assets/img/apple-touch-icon-precomposed.png" />	
+
+
+
+
+	
+	<meta name="msapplication-TileImage" content="http://exams.tr1k.de/assets/img/msapplication_tileimage.png" />
+
+
+
+
+	
+	<meta name="msapplication-TileColor" content="#fabb00" />
+
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="R/exams Installation Tutorial for Ubuntu users" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://exams.tr1k.de//tutorials/installation/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://exams.tr1k.de/images/unsplash_markus-spiske-109588.150.jpg" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://exams.tr1k.de/humans.txt" />
+
+	
+
+	
+</head>
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+      <h1><a href="http://exams.tr1k.de">R/exams</a></h1>
+    </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/contribute/">Contribute</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/search/">Search</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/about/">About</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/contact/">Contact</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.tr1k.de/">Start</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.tr1k.de/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.tr1k.de/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://exams.tr1k.de/blog/">Blog</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://exams.tr1k.de/blog/archive/">Archive</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<div id="masthead-no-image-header">
+	<div class="row">
+		<div class="small-12 columns">
+			<a id="logo" href="http://exams.tr1k.de" title="R/exams – Automated Generation of Exams">
+				<img src="http://exams.tr1k.de/assets/img/logo.svg" alt="R/exams – Automated Generation of Exams">
+			</a>
+		</div><!-- /.small-12.columns -->
+	</div><!-- /.row -->
+</div><!-- /#masthead -->
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="medium-8 columns medium-offset-2 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://exams.tr1k.de/images/unsplash_markus-spiske-109588.970.jpg" width="970" alt="R/exams Installation Tutorial for Ubuntu users" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						<a href="https://unsplash.com/">Photo from unsplash.</a>
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					<p class="subheadline">Installation</p>
+					<h1>R/exams Installation Tutorial for Ubuntu users</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Before you can start using our delightful software package, you will need to install some other software. This tutorial will show step-by-step how to get started. 
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<p>This is the first tutorial. It is part of the <a href="/blog/by-tag/first-steps">first step</a>
+series, which tries to make beginner’s live easier.</p>
+
+<p>To use R/exams you need to install:</p>
+
+<ul>
+  <li><a href="https://wiki.ubuntuusers.de/LaTeX/#Installation">LaTeX</a></li>
+  <li><a href="https://cran.r-project.org">R</a></li>
+</ul>
+
+<p>Click on the upper links to gather information about the installation.</p>
+
+<p>Afterwards you can download the whole package <a href="https://cran.r-project.org/src/contrib/exams_2.2-1.tar.gz">exams_2.2-1.tar.gz</a> with the software and given templates.</p>
+
+<p>After saving the folder you have to start R in your Terminal. Just write R and press Enter. Now type in the following code:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>R&gt; library("exams")
+R&gt; tstat_sol &lt;- exams ("tstat.Rnw")
+R&gt; tstat_sol
+</code></pre>
+</div>
+
+<p>If your installation was succesfull a PDF file will open.</p>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+venenatis feugiat nulla ac venenatis. Donec commodo lectus massa, et
+cursus risus convallis posuere. Aliquam luctus massa ut volutpat rutrum.
+Ut tincidunt fermentum dui. Nulla finibus, neque ac euismod cursus,
+felis dolor maximus lectus, nec dignissim est ante vitae orci. Nulla
+vulputate ipsum id consequat hendrerit. Maecenas felis erat, cursus
+pretium sem pretium, consectetur aliquet turpis. Nulla tristique dictum
+accumsan. Phasellus neque est, tristique sit amet mauris et, aliquet
+bibendum lacus. Nulla eu aliquet tellus, in tincidunt mauris.
+Pellentesque nec leo non enim suscipit ultrices at quis diam.</p>
+
+<p><img src="/images/unsplash_helloquence-61189.970.jpg" alt="People at work." /></p>
+
+<p>Morbi in eleifend dui. Proin quis velit laoreet, congue dolor nec,
+suscipit nibh. Donec accumsan egestas erat sit amet sagittis.
+Pellentesque posuere mauris felis, eget posuere est bibendum a. Praesent
+posuere malesuada sagittis. In gravida at massa eu tristique. Praesent
+congue velit vitae diam gravida, id varius tortor semper.</p>
+
+<p>Duis porta libero nec magna dictum euismod. In placerat egestas ipsum
+sed tempus. Aenean sodales varius sodales. Vestibulum ante ipsum primis
+in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nisl
+lorem, laoreet a pretium et, suscipit vitae sem. In auctor eros urna, in
+pretium lectus varius eget. Ut sit amet tincidunt est. Integer commodo
+lectus purus, lobortis euismod dui malesuada quis. Pellentesque vitae
+risus non orci vestibulum efficitur. Aliquam ornare aliquet massa, eget
+aliquet purus scelerisque a.</p>
+
+<p>Pellentesque aliquet rhoncus nibh, in interdum dolor bibendum quis.
+Vestibulum tempor condimentum libero, vel sodales enim egestas vel.
+Suspendisse aliquam justo eget ante ornare, a molestie neque gravida.
+Suspendisse ornare, dui non mollis semper, enim augue luctus felis, et
+facilisis mauris massa et ligula. Aenean ullamcorper nunc ut ligula
+molestie, id sagittis diam fermentum. Maecenas laoreet scelerisque eros
+eu elementum. Phasellus ullamcorper, turpis vel maximus euismod, arcu
+tortor aliquet elit, id dapibus dui massa nec magna. Ut eget volutpat
+ligula, vel pharetra lorem. Ut ultricies dolor et justo porta
+consectetur.</p>
+
+<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus
+fermentum nisi quis risus pulvinar feugiat non at justo. Nam nec libero
+libero. Quisque vel ornare ante. Vestibulum vehicula, dolor vel sagittis
+tempus, risus diam accumsan urna, in fringilla risus nulla sit amet
+turpis. Nunc dictum enim odio, non luctus ante commodo nec. Duis sit
+amet sodales enim, non finibus leo. Maecenas vitae risus ut risus
+ullamcorper finibus. Nulla a lectus eu lectus eleifend pulvinar ac
+convallis sapien.</p>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+
+				
+				<time class="icon-calendar pr20" datetime="2017-05-11" itemprop="datePublished"> 2017-05-11</time>
+				
+
+				<span class="icon-archive pr20"> TUTORIALS</span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"> first steps</span> <span class="icon-price-tag pr10"> installation</span> <span class="icon-price-tag pr10"> R</span> <span class="icon-price-tag pr10"> delete</span> <span class="icon-price-tag pr10"> dummy</span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-5 columns"><a class="button small radius prev" href="http://exams.tr1k.de/templates/multiple-choice/">&laquo; Multiple Choice Exercise Template</a></div><!-- /.small-4.columns -->
+				
+				<div class="small-2 columns text-center"><a class="radius button small" href="http://exams.tr1k.de/blog/archive/" title="Blog Archive">Archive</a></div><!-- /.small-4.columns -->
+				
+			</div>
+			</div><!--  /.page-meta -->
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="iconfont" href="#top-of-page">&#xf108;</a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <a href="http://exams.tr1k.de/about/">More ›</a>
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://cran.r-project.org/web/packages/exams/index.html" target="_blank"  title="Get software package">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://r-forge.r-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jeckyll">
+              Jeckyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://exams.tr1k.de/assets/js/javascript.min.js"></script>
+<script src="http://exams.tr1k.de/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

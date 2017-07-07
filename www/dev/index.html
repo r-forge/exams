@@ -1,0 +1,733 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>R/exams</title>
+	<link rel="stylesheet" type="text/css" href="http://exams.tr1k.de/assets/css/styles_feeling_responsive.css" />
+	<script src="http://exams.tr1k.de/assets/js/modernizr.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+
+	
+
+	
+
+
+
+	
+	<link rel="icon" sizes="32x32" href="http://exams.tr1k.de/assets/img/favicon-32x32.png" />
+
+
+
+
+	
+	<link rel="icon" sizes="192x192" href="http://exams.tr1k.de/assets/img/touch-icon-192x192.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="http://exams.tr1k.de/assets/img/apple-touch-icon-180x180-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="http://exams.tr1k.de/assets/img/apple-touch-icon-152x152-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://exams.tr1k.de/assets/img/apple-touch-icon-144x144-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="http://exams.tr1k.de/assets/img/apple-touch-icon-120x120-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://exams.tr1k.de/assets/img/apple-touch-icon-114x114-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="http://exams.tr1k.de/assets/img/apple-touch-icon-76x76-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://exams.tr1k.de/assets/img/apple-touch-icon-72x72-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" href="http://exams.tr1k.de/assets/img/apple-touch-icon-precomposed.png" />	
+
+
+
+
+	
+	<meta name="msapplication-TileImage" content="http://exams.tr1k.de/assets/img/msapplication_tileimage.png" />
+
+
+
+
+	
+	<meta name="msapplication-TileColor" content="#fabb00" />
+
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="R/exams" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://exams.tr1k.de//" />
+	<meta property="og:site_name" content="R/exams" />
+	
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://exams.tr1k.de/humans.txt" />
+
+	
+
+	
+</head>
+
+</head>
+<body id="top-of-page" class="blog-index">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+      <h1><a href="http://exams.tr1k.de">R/exams</a></h1>
+    </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/contribute/">Contribute</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/search/">Search</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/about/">About</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.tr1k.de/contact/">Contact</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+              <li class="active"><a href="http://exams.tr1k.de/">Start</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.tr1k.de/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.tr1k.de/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://exams.tr1k.de/blog/">Blog</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://exams.tr1k.de/blog/archive/">Archive</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+
+
+
+
+	
+
+
+<div id="masthead-slider">
+  
+  <div class="slider-item" style="background-image: url('http://exams.tr1k.de/images/wikipedia_e-learning_cc0.big.jpg')">
+    
+    <a href="http://exams.tr1k.de/nowhere">
+      <div class="overlay">
+        <div class="row">
+          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
+            
+            
+            <div class="left icon valign_o" data-equalizer-watch>
+              <div class="valign_i">
+                <img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/elearning.svg" alt="" />
+              </div>
+            </div>
+            
+            <div class="valign_o description" data-equalizer-watch>
+              <div class="valign_i">
+                <h2 class="font-size-h4">E-Learning</h2>
+                <p>Exercises for Moodle, Blackboard, OLAT, ...
+</p>
+              </div>
+            </div>
+          </div><!-- /column -->
+        </div><!-- /.row -->
+      </div><!-- /.overlay -->
+    </a>
+  </div><!-- /.slider-item -->
+  
+  <div class="slider-item" style="background-image: url('http://exams.tr1k.de/images/unsplash_helloquence-61189.big.jpg')">
+    
+    <a href="http://exams.tr1k.de/nowhere">
+      <div class="overlay">
+        <div class="row">
+          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
+            
+            
+            <div class="left icon valign_o" data-equalizer-watch>
+              <div class="valign_i">
+                <img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/oneforall.svg" alt="" />
+              </div>
+            </div>
+            
+            <div class="valign_o description" data-equalizer-watch>
+              <div class="valign_i">
+                <h2 class="font-size-h4">One-For-All</h2>
+                <p>The same exercises in exams, online tests and live voting.
+</p>
+              </div>
+            </div>
+          </div><!-- /column -->
+        </div><!-- /.row -->
+      </div><!-- /.overlay -->
+    </a>
+  </div><!-- /.slider-item -->
+  
+  <div class="slider-item" style="background-image: url('http://exams.tr1k.de/images/unsplash_syd-wachs-120737.big.jpg')">
+    
+    <a href="http://exams.tr1k.de/nowhere">
+      <div class="overlay">
+        <div class="row">
+          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
+            
+            
+            <div class="left icon valign_o" data-equalizer-watch>
+              <div class="valign_i">
+                <img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/written.svg" alt="" />
+              </div>
+            </div>
+            
+            <div class="valign_o description" data-equalizer-watch>
+              <div class="valign_i">
+                <h2 class="font-size-h4">Written Exams</h2>
+                <p>Automatic generation, scanning and evaluation.
+</p>
+              </div>
+            </div>
+          </div><!-- /column -->
+        </div><!-- /.row -->
+      </div><!-- /.overlay -->
+    </a>
+  </div><!-- /.slider-item -->
+  
+  <div class="slider-item" style="background-image: url('http://exams.tr1k.de/images/unsplash_john-mark-kuznietsov-38862.big.jpg')">
+    
+    <a href="http://exams.tr1k.de/nowhere">
+      <div class="overlay">
+        <div class="row">
+          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
+            
+            
+            <div class="left icon valign_o" data-equalizer-watch>
+              <div class="valign_i">
+                <img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/dynamic.svg" alt="" />
+              </div>
+            </div>
+            
+            <div class="valign_o description" data-equalizer-watch>
+              <div class="valign_i">
+                <h2 class="font-size-h4">Dynamic Exercises</h2>
+                <p>Multiple choice, numeric, and text answers.
+</p>
+              </div>
+            </div>
+          </div><!-- /column -->
+        </div><!-- /.row -->
+      </div><!-- /.overlay -->
+    </a>
+  </div><!-- /.slider-item -->
+  
+</div><!-- /#masthead-slider -->
+
+<div class="row">
+  
+  <div class="small-6 large-3 columns t60 text-center">
+	
+	<a href="http://exams.tr1k.de/nowhere">
+		
+			
+			<img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/elearning.svg" alt="" />
+		
+    <h2 class="font-size-h4 t10">E-Learning</h2>
+	</a>
+</div>
+
+
+  
+  <div class="small-6 large-3 columns t60 text-center">
+	
+	<a href="http://exams.tr1k.de/nowhere">
+		
+			
+			<img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/oneforall.svg" alt="" />
+		
+    <h2 class="font-size-h4 t10">One-For-All</h2>
+	</a>
+</div>
+
+
+  
+  <div class="small-6 large-3 columns t60 text-center">
+	
+	<a href="http://exams.tr1k.de/nowhere">
+		
+			
+			<img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/written.svg" alt="" />
+		
+    <h2 class="font-size-h4 t10">Written Exams</h2>
+	</a>
+</div>
+
+
+  
+  <div class="small-6 large-3 columns t60 text-center">
+	
+	<a href="http://exams.tr1k.de/nowhere">
+		
+			
+			<img class="frontpage-topic-icon" src="http://exams.tr1k.de/images/dynamic.svg" alt="" />
+		
+    <h2 class="font-size-h4 t10">Dynamic Exercises</h2>
+	</a>
+</div>
+
+
+  
+</div><!-- /.row -->
+
+
+
+
+
+<div class="row t60">
+  <div id='mission' class="medium-centered medium-10 large-uncentered large-6 columns">
+    
+    
+    <h2 class='b20'>R/exams</h2>
+    
+    <p>The package exams for the R system for statistical computing provides a
+one-for-all approach to automatic exams generation. Based on dynamic
+exercise templates large numbers of personalized exams/quizzes/tests can be
+created for various systems: PDFs for classical written exams (with
+automatic evaluation), import formats for learning management systems (like
+Moodle, Blackboard, OLAT, or Ilias), live voting (via ARSnova), and the
+possibility to create custom output (in PDF, HTML, Docx, …).</p>
+
+<p>Exercises types include multiple-choice or single-choice questions, numeric
+or text answers, or combinations of these. Formatting can be done either in
+Markdown or LaTeX with the possibility to generate dynamic content using R,
+e.g., random numbers, graphics, data sets, or shuffled text blocks.</p>
+
+<p>R/exams is open-source software that can be freely used and extended. This
+web site provides an overview, short tutorials, a gallery of exercise
+templates, and links to further materials.</p>
+
+    
+  </div><!-- left col, mission -->
+  <div id='news' class="medium-centered medium-10 large-uncentered large-6 columns">
+    <h2 class='b20'>New Blog Articles</h2>
+    
+    <p class="subheadline">Installation</p>
+    <h3><a href="http://exams.tr1k.de/tutorials/installation/">R/exams Installation Tutorial for Ubuntu users</a></h3>
+    <p>
+      Before you can start using our delightful software package, you will need to install some other software. This tutorial will show step-by-step how to get started. 
+      <a href="http://exams.tr1k.de/tutorials/installation/" title="Read R/exams Installation Tutorial for Ubuntu users"><strong>Read More&nbsp;›</strong></a>
+    </p>
+    
+    <p><strong>More Articles</strong></p>
+    
+
+
+
+
+
+<ul class="side-nav">
+
+  
+
+    
+      <li><a href="http://exams.tr1k.de/templates/multiple-choice/">Multiple Choice &middot; <strong>Multiple Choice Exercise Template</strong></a></li>
+    
+      <li><a href="http://exams.tr1k.de/general/welcome/">Welcome &middot; <strong>New Page under Development</strong></a></li>
+    
+      <li class="text-right"><a href="http://exams.tr1k.de/blog/archive/"><strong>More ›</strong></a></li>
+
+
+  
+</ul>
+
+
+  </div><!-- right col, news -->
+</div><!-- row: mission | news -->
+
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="iconfont" href="#top-of-page">&#xf108;</a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <a href="http://exams.tr1k.de/about/">More ›</a>
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://cran.r-project.org/web/packages/exams/index.html" target="_blank"  title="Get software package">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://r-forge.r-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jeckyll">
+              Jeckyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://exams.tr1k.de/assets/js/javascript.min.js"></script>
+<script src="http://exams.tr1k.de/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+  $("#masthead-slider").slick({
+    lazyLoad: 'progressive',
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
