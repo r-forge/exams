@@ -1,0 +1,80 @@
+---
+layout: default
+format: blog-index
+---
+
+{% comment %}
+*
+* Slider
+*
+{% endcomment %}
+
+{% if page.topics %}
+<div id="masthead-slider">
+  {% for topic in page.topics %}
+  <div class="slider-item" style="background-image: url('{{ site.urlimg }}{{ topic.image }}')">
+    {% capture url %}{% if topic.url contains 'http' %}{{ topic.url }}{% else %}{{ site.url }}{{ site.baseurl }}{{ topic.url }}{% endif %}{% endcapture %}
+    <a href="{{ url }}">
+      <div class="overlay">
+        <div class="row">
+          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
+            {% if topic.icon %}
+            {% capture icon %}{% if topic.icon contains 'http' %}{{ topic.icon }}{% else %}{{ site.urlimg }}{{ topic.icon }}{% endif %}{% endcapture %}
+            <div class="left icon valign_o" data-equalizer-watch>
+              <div class="valign_i">
+                <img class="frontpage-topic-icon" src="{{ icon }}" alt="" />
+              </div>
+            </div>
+            {% endif %}
+            <div class="valign_o description" data-equalizer-watch>
+              <div class="valign_i">
+                <h2 class="font-size-h4">{{ topic.title }}</h2>
+                <p>{{ topic.description }}</p>
+              </div>
+            </div>
+          </div><!-- /column -->
+        </div><!-- /.row -->
+      </div><!-- /.overlay -->
+    </a>
+  </div><!-- /.slider-item -->
+  {% endfor %}
+</div><!-- /#masthead-slider -->
+
+<div class="row">
+  {% for topic in  page.topics %}
+  {% include _frontpage-topic-widget.html topic=topic%}
+  {% endfor %}
+</div><!-- /.row -->
+{% endif %}
+
+
+{% comment %}
+*
+* Mission Statement | News
+*
+{% endcomment %}
+
+<div class="row t60">
+  <div id='mission' class="medium-centered medium-10 large-uncentered large-6 columns">
+    {% if page.mission %}
+    {% if page.mission.title %}
+    <h2 class='b20'>{{ page.mission.title }}</h2>
+    {% endif %}
+    {{ page.mission.statement | markdownify }}
+    {% endif %}
+  </div><!-- left col, mission -->
+  <div id='news' class="medium-centered medium-10 large-uncentered large-6 columns">
+    <h2 class='b20'>{{ site.data.language.new_blog_entries }}</h2>
+    {% for post in site.posts limit:1 %}
+    {% if post.subheadline %}<p class="subheadline">{{ post.subheadline }}</p>{% endif %}
+    <h3><a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+    <p>
+      {% if post.meta_description %}{{ post.meta_description | strip_html | escape }}{% else post.teaser %}{{ post.teaser | strip_html | escape }}{% endif %}
+      <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}" title="Read {{ post.title | escape_once }}"><strong>{{ site.data.language.read_more }}</strong></a>
+    </p>
+    {% endfor %}
+    <p><strong>{{ site.data.language.more_articles }}</strong></p>
+    {% include list-posts entries='3' offset='1' %}
+  </div><!-- right col, news -->
+</div><!-- row: mission | news -->
+

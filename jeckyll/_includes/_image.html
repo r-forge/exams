@@ -1,0 +1,3 @@
+{% capture image_url %}{% if include.image.url contains 'http' %}{{ include.image.url }}{% else %}{{ site.urlimg }}{{ include.image.url }}{% endif %}{% endcapture %}
+<img src="{{ image_url }}" alt="{{ include.image.alt }}" />
+

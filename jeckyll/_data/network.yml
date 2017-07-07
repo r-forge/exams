@@ -1,0 +1,9 @@
+- menu_name: "Network"
+
+- name: "CRAN"
+  url: "https://cran.r-project.org/web/packages/exams/index.html"
+  title: "Get software package"
+
+- name: "R-Forge"
+  url: "https://r-forge.r-project.org/R/?group_id=1337"
+  title: "Package development"

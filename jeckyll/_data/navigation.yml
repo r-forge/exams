@@ -1,0 +1,41 @@
+#
+#   Navigation to the left › side: left
+#
+- title: Start
+  url: "/"
+  side: left
+
+- title: "Tutorials"
+  url: "/tutorials/"
+  side: left
+
+- title: "Exercise Templates"
+  url: "/templates/"
+  side: left
+
+- title: Blog
+  url: "/blog/"
+  side: left
+  dropdown:
+  - title: "Archive"
+    url: "/blog/archive/"
+
+#
+#   Navigation to the right › side: right
+#
+
+- title: "Contribute"
+  url: "/contribute/"
+  side: right
+
+- title: "Search"
+  url: "/search/"
+  side: right
+
+- title: "About"
+  url: "/about/"
+  side: right
+
+- title: "Contact"
+  url: "/contact/"
+  side: right

@@ -1,0 +1,50 @@
+div.valign_o {
+  display: table;
+}
+
+div.valign_i {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+img.frontpage-topic-icon {
+  height: 5em;
+}
+
+#masthead-slider .slider-item {
+  background-size:cover;
+  background-position:center;
+  height: 450px;
+}
+
+#masthead-slider .slider-item .overlay {
+  background-color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  top: 300px;
+}
+
+#masthead-slider .slider-item .icon {
+  padding-top: 1em;
+  padding-right: 1em;
+  padding-bottom: 1em;
+}
+
+#masthead-slider .slider-item .description {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+#masthead-slider .slider-item p {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+// we dont want colored links here
+#masthead-slider .slider-item a {
+  color:inherit;
+}
+
+// this was already defined for h2 by phlow
+.blog-index h3 {
+  margin-top: 0;
+}
