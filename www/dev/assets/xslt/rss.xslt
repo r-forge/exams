@@ -499,8 +499,8 @@
           <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
             <p>
             Built with
-            <a href="https://jekyllrb.com/" alt="Page built with Jeckyll">
-              Jeckyll
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
             </a>
              based on
              <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">

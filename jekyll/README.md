@@ -1,6 +1,6 @@
 ## Feeling Responsive Template
 
-This website is based on [jeckyll][jk] and the *Feeling Responsive* template by
+This website is based on [jekyll][jk] and the *Feeling Responsive* template by
 [PHLOW][phlow]. There is a [showcase][demo] demonstrating the template's
 abilities. The corresponding code is available at [github][gh].
 
@@ -15,7 +15,7 @@ As far as Patrik remembers:
 
   * ruby
   * bundler
-  * jeckyll
+  * jekyll
 
 ## Usage
 
