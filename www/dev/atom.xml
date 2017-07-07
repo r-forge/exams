@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="/assets/xslt/atom.xslt" ?>
 <?xml-stylesheet type="text/css" href="/assets/css/atom.css" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<id>http://exams.tr1k.de/</id>
+	<id>http://exams.r-forge.r-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-07-07T17:36:02+02:00</updated>
+	<updated>2017-07-07T17:48:31+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -21,16 +21,16 @@
 		</author>
 	
 
-	<link href="http://exams.tr1k.de/atom.xml" rel="self" type="application/rss+xml" />
-	<link href="http://exams.tr1k.de/" rel="alternate" type="text/html" />
+	<link href="http://exams.r-forge.r-project.org/dev/atom.xml" rel="self" type="application/rss+xml" />
+	<link href="http://exams.r-forge.r-project.org/dev/" rel="alternate" type="text/html" />
 
 	<generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator>
 
 	
 		<entry>
-			<id>http://exams.tr1k.de/tutorials/installation/</id>
+			<id>http://exams.r-forge.r-project.org/dev/tutorials/installation/</id>
 			<title>R/exams Installation Tutorial for Ubuntu users</title>
-			<link href="http://exams.tr1k.de/tutorials/installation/" rel="alternate" type="text/html" title="R/exams Installation Tutorial for Ubuntu users" />
+			<link href="http://exams.r-forge.r-project.org/dev/tutorials/installation/" rel="alternate" type="text/html" title="R/exams Installation Tutorial for Ubuntu users" />
 			<updated>2017-05-11T00:00:00+02:00</updated>
 
 			
@@ -44,7 +44,7 @@
 				</author>
 			
 			<summary>Before you can start using our delightful software package, you will need to install some other software. This tutorial will show step-by-step how to get started. </summary>
-			<content type="html" xml:base="http://exams.tr1k.de/tutorials/installation/">&lt;p&gt;This is the first tutorial. It is part of the &lt;a href=&quot;/blog/by-tag/first-steps&quot;&gt;first step&lt;/a&gt;
+			<content type="html" xml:base="http://exams.r-forge.r-project.org/dev/tutorials/installation/">&lt;p&gt;This is the first tutorial. It is part of the &lt;a href=&quot;/blog/by-tag/first-steps&quot;&gt;first step&lt;/a&gt;
 series, which tries to make beginner’s live easier.&lt;/p&gt;
 
 &lt;p&gt;To use R/exams you need to install:&lt;/p&gt;
@@ -136,9 +136,9 @@ convallis sapien.&lt;/p&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.tr1k.de/templates/multiple-choice/</id>
+			<id>http://exams.r-forge.r-project.org/dev/templates/multiple-choice/</id>
 			<title>Multiple Choice Exercise Template</title>
-			<link href="http://exams.tr1k.de/templates/multiple-choice/" rel="alternate" type="text/html" title="Multiple Choice Exercise Template" />
+			<link href="http://exams.r-forge.r-project.org/dev/templates/multiple-choice/" rel="alternate" type="text/html" title="Multiple Choice Exercise Template" />
 			<updated>2017-05-11T00:00:00+02:00</updated>
 
 			
@@ -154,7 +154,7 @@ convallis sapien.&lt;/p&gt;
 				</author>
 			
 			<summary>This post gives an introduction to a very common type of exercise: The multiple choice exercise template.</summary>
-			<content type="html" xml:base="http://exams.tr1k.de/templates/multiple-choice/">&lt;p&gt;This is the first example page. More will follow. The intention is to
+			<content type="html" xml:base="http://exams.r-forge.r-project.org/dev/templates/multiple-choice/">&lt;p&gt;This is the first example page. More will follow. The intention is to
 provide easy entry for beginners. Ideally the posts on the template
 category should be ready for copy&amp;amp;paste and easy adoption.&lt;/p&gt;
 
@@ -226,9 +226,9 @@ convallis sapien.&lt;/p&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.tr1k.de/general/welcome/</id>
+			<id>http://exams.r-forge.r-project.org/dev/general/welcome/</id>
 			<title>New Page under Development</title>
-			<link href="http://exams.tr1k.de/general/welcome/" rel="alternate" type="text/html" title="New Page under Development" />
+			<link href="http://exams.r-forge.r-project.org/dev/general/welcome/" rel="alternate" type="text/html" title="New Page under Development" />
 			<updated>2017-05-11T00:00:00+02:00</updated>
 
 			
@@ -244,7 +244,7 @@ convallis sapien.&lt;/p&gt;
 				</author>
 			
 			<summary>You stumbled upon our new website for the R exams package. The site is under heavy development. Come back and see!</summary>
-			<content type="html" xml:base="http://exams.tr1k.de/general/welcome/">&lt;p&gt;This is a welcoming first blog post. Empty words included.&lt;/p&gt;
+			<content type="html" xml:base="http://exams.r-forge.r-project.org/dev/general/welcome/">&lt;p&gt;This is a welcoming first blog post. Empty words included.&lt;/p&gt;
 
 &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
 venenatis feugiat nulla ac venenatis. Donec commodo lectus massa, et

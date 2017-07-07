@@ -5,24 +5,9 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/404.html</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/404.html</loc>
 	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/about/</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -35,9 +20,9 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/blog/archive/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/about/</loc>
 	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -49,12 +34,10 @@
 	
 
 	
-
-	
 	<url>
-	<loc>http://exams.tr1k.de/atom.xml</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/blog/archive/</loc>
 	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -69,133 +52,9 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/contact/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/atom.xml</loc>
 	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/contribute/</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/feed.xml</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/humans.txt</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/blog/</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/robots.txt</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/search/</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/sitemap.xml</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -210,24 +69,9 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/dummy/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/contact/</loc>
 	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://exams.tr1k.de/templates/</loc>
-	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -240,9 +84,165 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/tutorials/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/contribute/</loc>
 	
-		<lastmod>2017-07-07T17:36:02+02:00</lastmod>
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/feed.xml</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/humans.txt</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/blog/</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/robots.txt</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/search/</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/sitemap.xml</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/dummy/</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/templates/</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.r-forge.r-project.org/dev/tutorials/</loc>
+	
+		<lastmod>2017-07-07T17:48:31+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -258,7 +258,7 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/tutorials/installation/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/tutorials/installation/</loc>
 	
 		<lastmod>2017-05-11T00:00:00+02:00</lastmod>
 	
@@ -273,7 +273,7 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/templates/multiple-choice/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/templates/multiple-choice/</loc>
 	
 		<lastmod>2017-05-11T00:00:00+02:00</lastmod>
 	
@@ -288,7 +288,7 @@
 
 	
 	<url>
-	<loc>http://exams.tr1k.de/general/welcome/</loc>
+	<loc>http://exams.r-forge.r-project.org/dev/general/welcome/</loc>
 	
 		<lastmod>2017-05-11T00:00:00+02:00</lastmod>
 	
