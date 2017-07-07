@@ -9,7 +9,7 @@ clean:
 
 .PHONY: install
 install: clean
-	bundle exec jekyll build --config _config.yml,_config_savoia.yml
+	bundle exec jekyll build --config _config.yml
 	rsync -rt --delete _site/ ../www/dev/
 	chmod -R  o+r ../www/dev
 
