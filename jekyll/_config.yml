@@ -13,7 +13,7 @@ title: "R/exams"
 
 # The slogan describes your website and is used on homepage in <title> and other important places
 # TODO: This is not the same as in the logo
-slogan: "Automated Generation of Exams"
+slogan: "The One-for-All Exams Generator"
 
 
 # The description is used on homepage and in the footer to quickly describe your website. Use a maximum of 150 characters for SEO-purposes.
@@ -41,7 +41,7 @@ improve_content: https://github.com/pkel/exams-web/edit/master
 urlimg: 'http://exams.r-forge.r-project.org/dev/images/'
 
 
-# Logo size is 600x80 pixels
+# Logo size (was 600x80 pixels)
 logo: "logo.svg"
 
 
