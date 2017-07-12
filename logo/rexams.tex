@@ -1,0 +1,33 @@
+\documentclass[tikz,convert]{standalone}
+\usepackage{fontawesome,graphicx,berasans}
+\usepackage[T1]{fontenc}
+\definecolor{darkgray}{rgb}{0.23,0.23,0.23}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \color{darkgray}
+  \node at (0,0) {
+    \fontsize{68}{68}\selectfont
+    \faicon{laptop}
+  };
+  \node at (0.25,0.2){
+    \includegraphics[width=9mm]{rlogo.png}
+  };
+  \node at (-0.74,0.48) [right] {
+    \faicon{check-square-o}
+  };
+  \node at (-0.74,0.18) [right] {
+    \faicon{square-o}
+  };
+  \node at (-0.74,-0.12) [right] {
+    \faicon{check-square-o}
+  };
+  \node at (0,-1.2) {
+    \fontsize{17}{17}\selectfont
+    \textsf{R/exams}
+  };
+\end{tikzpicture}
+
+
+\end{document} 
