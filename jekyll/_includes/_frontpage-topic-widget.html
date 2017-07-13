@@ -5,7 +5,7 @@
 			{% capture icon %}{% if include.topic.icon contains 'http' %}{{ include.topic.icon }}{% else %}{{ site.urlimg }}{{ include.topic.icon }}{% endif %}{% endcapture %}
 			<img class="frontpage-topic-icon" src="{{ icon }}" alt="" />
 		{% endif %}
-    <h2 class="font-size-h4 t10">{{ include.topic.title }}</h2>
+    <h2 class="font-size-h4 t10" style="color:{{ topic.color }}">{{ include.topic.title }}</h2>
 	</a>
 </div>
 
