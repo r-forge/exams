@@ -1,27 +1,17 @@
-.PHONY: install all
+assets.img = logo.svg
 
-all: all_pdf all_svg
+images.vector = oneforall.svg elearning.svg written.svg dynamic.svg
+
+.PHONY: all install
+
+all : ${assets.img} ${images.vector} latexclean
 
 install: all
-	cp *.svg images/vector/
-	rm images/vector/logo.svg
-	cp logo.svg assets/img/
-
-all_% :
-	rm -f _include.tex
-	dst=$@; dst="$${dst##all_}" ; \
-			for tikz in *.tex ; do if [ "$$tikz" != "template.tex" ] ; \
-				then make $${tikz%.tex}.$$dst ; \
-				fi ; done
+	cp ${images.vector} ../images/vector/
+	cp ${assets.img} ../assets/img/
 
 %.pdf : %.tex
-	rm -f _include.tex
-	ln -s $^ _include.tex
-	pdflatex template.tex
-	rm -f _include.tex
-	rm -f $@
-	mv template.pdf $@
-	make latexclean
+	pdflatex $^
 
 %.png : %.pdf
 	convert -density 900 $^ $@
@@ -35,4 +25,7 @@ latexclean:
 
 .PHONY: clean
 clean: latexclean
-	rm -f *.svg *.png *.pdf
+	rm -f ${assets.img} ${images.vector} *.pdf
+
+.PHONY: force
+force: clean all
