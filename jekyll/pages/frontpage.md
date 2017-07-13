@@ -11,7 +11,6 @@ topics:
     image: "wikipedia_e-learning_cc0.big.jpg"
     title: E-Learning
     url: '/nowhere'
-    color: "#1f7a7a"
     description: |
       Exercises for Moodle, Blackboard, OLAT, ...
 
@@ -19,7 +18,6 @@ topics:
     image: "unsplash_helloquence-61189.big.jpg"
     title: One-For-All
     url: '/nowhere'
-    color: "#1f7a7a"
     description: |
       The same exercises in exams, online tests, and live voting.
 
@@ -27,7 +25,6 @@ topics:
     image: "unsplash_syd-wachs-120737.big.jpg"
     title: Written Exams
     url: '/nowhere'
-    color: "#1f7a7a"
     description: |
       Automatic generation, scanning, and evaluation.
 
@@ -35,7 +32,6 @@ topics:
     image: "unsplash_john-mark-kuznietsov-38862.big.jpg"
     title: Dynamic Exercises
     url: '/nowhere'
-    color: "#1f7a7a"
     description: |
       Multiple choice, numeric, and text answers.
 

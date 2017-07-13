@@ -11,6 +11,18 @@ img.frontpage-topic-icon {
   height: 5em;
 }
 
+.frontpage-widget h1,
+.frontpage-widget h2,
+.frontpage-widget h3 {
+  color: $frontpage-topic-color;
+}
+
+#masthead-slider .overlay h1,
+#masthead-slider .overlay h2,
+#masthead-slider .overlay h3 {
+  color: $frontpage-topic-color;
+}
+
 #masthead-slider .slider-item {
   background-size:cover;
   background-position:center;

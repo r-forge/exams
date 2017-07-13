@@ -1,11 +1,11 @@
-<div class="small-6 large-3 columns t60 text-center">
+<div class="small-6 large-3 columns t60 text-center frontpage-widget">
 	{% capture url %}{% if include.topic.url contains 'http' %}{{ include.topic.url }}{% else %}{{ site.url }}{{ site.baseurl }}{{ include.topic.url }}{% endif %}{% endcapture %}
 	<a href="{{ url }}">
 		{% if include.topic.icon %}
 			{% capture icon %}{% if include.topic.icon contains 'http' %}{{ include.topic.icon }}{% else %}{{ site.urlimg }}{{ include.topic.icon }}{% endif %}{% endcapture %}
 			<img class="frontpage-topic-icon" src="{{ icon }}" alt="" />
 		{% endif %}
-    <h2 class="font-size-h4 t10" style="color:{{ topic.color }}">{{ include.topic.title }}</h2>
+    <h2 class="font-size-h4 t10"">{{ include.topic.title }}</h2>
 	</a>
 </div>
 
