@@ -37,9 +37,10 @@ topics:
 
 # Mission Statement
 mission:
-  title: "R/exams"
+  title: "<img width='50%' src='/assets/img/logo_wide.svg'>"
   statement: |
-    The package exams for the R system for statistical computing provides a
+    The package exams for
+    the R system for statistical computing provides a
     one-for-all approach to automatic exams generation. Based on dynamic
     exercise templates large numbers of personalized exams/quizzes/tests can be
     created for various systems: PDFs for classical written exams (with
