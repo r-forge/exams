@@ -29,7 +29,7 @@ topics:
       Automatic generation, scanning, and evaluation.
 
   - icon: vector/dynamic.svg
-    image: "monitor_boxplot_color.big.jpg"
+    image: "screenshot-deriv-nvim.big.jpg"
     title: Dynamic Exercises
     url: '/nowhere'
     description: |
@@ -37,7 +37,7 @@ topics:
 
 # Mission Statement
 mission:
-  title: "<img width='50%' src='/assets/img/logo_wide.svg'>"
+  title: <img width='50%' src='assets/img/logo_wide.svg'>
   statement: |
     The package exams for
     the R system for statistical computing provides a
