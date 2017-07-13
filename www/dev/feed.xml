@@ -5,12 +5,12 @@
 	<channel>
 		<title>R/exams</title>
 		<description>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</description>
-		<link>http://exams.r-forge.r-project.org/dev/</link>
-		<atom:link href="http://exams.r-forge.r-project.org/dev/feed.xml" rel="self" type="application/rss+xml" />
+		<link>http://exams.R-Forge.R-project.org/dev/</link>
+		<atom:link href="http://exams.R-Forge.R-project.org/dev/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>R/exams Installation Tutorial for Ubuntu users</title>
-				<link>http://exams.r-forge.r-project.org/dev/tutorials/installation/</link>
+				<link>http://exams.R-Forge.R-project.org/dev/tutorials/installation/</link>
 				<pubDate>Thu, 11 May 2017 00:00:00 +0200</pubDate>
 				<description>&lt;p&gt;This is the first tutorial. It is part of the &lt;a href=&quot;/blog/by-tag/first-steps&quot;&gt;first step&lt;/a&gt;
 series, which tries to make beginner’s live easier.&lt;/p&gt;
@@ -83,12 +83,12 @@ amet sodales enim, non finibus leo. Maecenas vitae risus ut risus
 ullamcorper finibus. Nulla a lectus eu lectus eleifend pulvinar ac
 convallis sapien.&lt;/p&gt;
 </description>
-				<guid isPermaLink="true">http://exams.r-forge.r-project.org/dev/tutorials/installation/</guid>
+				<guid isPermaLink="true">http://exams.R-Forge.R-project.org/dev/tutorials/installation/</guid>
 			</item>
 		
 			<item>
 				<title>Multiple Choice Exercise Template</title>
-				<link>http://exams.r-forge.r-project.org/dev/templates/multiple-choice/</link>
+				<link>http://exams.R-Forge.R-project.org/dev/templates/multiple-choice/</link>
 				<pubDate>Thu, 11 May 2017 00:00:00 +0200</pubDate>
 				<description>&lt;p&gt;This is the first example page. More will follow. The intention is to
 provide easy entry for beginners. Ideally the posts on the template
@@ -142,12 +142,12 @@ amet sodales enim, non finibus leo. Maecenas vitae risus ut risus
 ullamcorper finibus. Nulla a lectus eu lectus eleifend pulvinar ac
 convallis sapien.&lt;/p&gt;
 </description>
-				<guid isPermaLink="true">http://exams.r-forge.r-project.org/dev/templates/multiple-choice/</guid>
+				<guid isPermaLink="true">http://exams.R-Forge.R-project.org/dev/templates/multiple-choice/</guid>
 			</item>
 		
 			<item>
 				<title>New Page under Development</title>
-				<link>http://exams.r-forge.r-project.org/dev/general/welcome/</link>
+				<link>http://exams.R-Forge.R-project.org/dev/general/welcome/</link>
 				<pubDate>Thu, 11 May 2017 00:00:00 +0200</pubDate>
 				<description>&lt;p&gt;This is a welcoming first blog post. Empty words included.&lt;/p&gt;
 
@@ -199,7 +199,7 @@ amet sodales enim, non finibus leo. Maecenas vitae risus ut risus
 ullamcorper finibus. Nulla a lectus eu lectus eleifend pulvinar ac
 convallis sapien.&lt;/p&gt;
 </description>
-				<guid isPermaLink="true">http://exams.r-forge.r-project.org/dev/general/welcome/</guid>
+				<guid isPermaLink="true">http://exams.R-Forge.R-project.org/dev/general/welcome/</guid>
 			</item>
 		
 	</channel>
