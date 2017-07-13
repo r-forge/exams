@@ -7,7 +7,7 @@ header: no
 
 # 4 Topics. Image in Carousel + Icon
 topics:
-  - icon: elearning.svg
+  - icon: vector/elearning.svg
     image: "wikipedia_e-learning_cc0.big.jpg"
     title: E-Learning
     url: '/nowhere'
@@ -15,7 +15,7 @@ topics:
     description: |
       Exercises for Moodle, Blackboard, OLAT, ...
 
-  - icon: oneforall.svg
+  - icon: vector/oneforall.svg
     image: "unsplash_helloquence-61189.big.jpg"
     title: One-For-All
     url: '/nowhere'
@@ -23,7 +23,7 @@ topics:
     description: |
       The same exercises in exams, online tests, and live voting.
 
-  - icon: written.svg
+  - icon: vector/written.svg
     image: "unsplash_syd-wachs-120737.big.jpg"
     title: Written Exams
     url: '/nowhere'
@@ -31,7 +31,7 @@ topics:
     description: |
       Automatic generation, scanning, and evaluation.
 
-  - icon: dynamic.svg
+  - icon: vector/dynamic.svg
     image: "unsplash_john-mark-kuznietsov-38862.big.jpg"
     title: Dynamic Exercises
     url: '/nowhere'

@@ -69,6 +69,7 @@ exclude:
     - README.md
     - INSTALL.md
     - vendor
+    - tikz
     - .bundle
 
 
