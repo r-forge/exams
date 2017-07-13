@@ -13,7 +13,7 @@ install: clean
 	bundle exec jekyll build --config _config.yml
 	rsync -rt --delete _site/ ${target}
 	chmod -R  o+r ${target}
-	svn status ${target} | grep '^!' | awk '{print $2}' | xargs svn delete
-	svn status ${target} | grep '^?' | awk '{print $2}' | xargs svn add
+	svn status ${target} | grep '^!' | awk '{print $$2}' | xargs -r svn delete
+	svn status ${target} | grep '^?' | awk '{print $$2}' | xargs -r svn add
 	svn commit ${target} -m 'jekyll make install'
 
