@@ -1,3 +1,4 @@
+target = ../www/dev
 
 .PHONY: dev
 dev: clean
@@ -10,6 +11,9 @@ clean:
 .PHONY: install
 install: clean
 	bundle exec jekyll build --config _config.yml
-	rsync -rt --delete _site/ ../www/dev/
-	chmod -R  o+r ../www/dev
+	rsync -rt --delete _site/ ${target}
+	chmod -R  o+r ${target}
+	svn status ${target} | grep '^!' | awk '{print $2}' | xargs svn delete
+	svn status ${target} | grep '^?' | awk '{print $2}' | xargs svn add
+	svn commit ${target} -m 'jekyll make install'
 
