@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-07-13T21:53:10+02:00</updated>
+	<updated>2017-07-13T22:55:13+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -24,7 +24,7 @@
 	<link href="http://exams.R-Forge.R-project.org/dev/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://exams.R-Forge.R-project.org/dev/" rel="alternate" type="text/html" />
 
-	<generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator>
+	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
 	
 		<entry>
@@ -60,11 +60,10 @@ series, which tries to make beginner’s live easier.&lt;/p&gt;
 
 &lt;p&gt;After saving the folder you have to start R in your Terminal. Just write R and press Enter. Now type in the following code:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
 R&amp;gt; tstat_sol &amp;lt;- exams (&quot;tstat.Rnw&quot;)
 R&amp;gt; tstat_sol
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If your installation was succesfull a PDF file will open.&lt;/p&gt;
 
