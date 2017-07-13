@@ -8,7 +8,7 @@ header: no
 # 4 Topics. Image in Carousel + Icon
 topics:
   - icon: vector/elearning.svg
-    image: "wikipedia_e-learning_cc0.big.jpg"
+    image: "monitor_boxplot.big.jpg"
     title: E-Learning
     url: '/nowhere'
     description: |
@@ -22,14 +22,14 @@ topics:
       The same exercises in exams, online tests, and live voting.
 
   - icon: vector/written.svg
-    image: "unsplash_syd-wachs-120737.big.jpg"
+    image: "olympia_side_zoom.big.jpg"
     title: Written Exams
     url: '/nowhere'
     description: |
       Automatic generation, scanning, and evaluation.
 
   - icon: vector/dynamic.svg
-    image: "unsplash_john-mark-kuznietsov-38862.big.jpg"
+    image: "monitor_boxplot_color.big.jpg"
     title: Dynamic Exercises
     url: '/nowhere'
     description: |
