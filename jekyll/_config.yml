@@ -42,7 +42,7 @@ urlimg: 'http://exams.R-Forge.R-project.org/dev/images/'
 
 
 # Logo size (used to be 600x80 pixels)
-logo: "logo.svg"
+logo: "logo_wide.svg"
 
 
 # Paginates all X entries

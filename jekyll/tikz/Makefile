@@ -1,10 +1,12 @@
-assets.img = logo.svg
+assets.img = logo.svg logo_wide.svg logo_text.svg
 
 images.vector = oneforall.svg elearning.svg written.svg dynamic.svg
 
+custom = mini.svg
+
 .PHONY: all install
 
-all : ${assets.img} ${images.vector} latexclean
+all : ${custom} ${assets.img} ${images.vector} latexclean
 
 install: all
 	cp ${images.vector} ../images/vector/
@@ -25,7 +27,7 @@ latexclean:
 
 .PHONY: clean
 clean: latexclean
-	rm -f ${assets.img} ${images.vector} *.pdf
+	rm -f ${custom} ${assets.img} ${images.vector} *.pdf
 
 .PHONY: force
 force: clean all
