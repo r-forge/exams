@@ -25,12 +25,12 @@ author: zeileis
 
 # This URL is the main address for absolute links. Don't include a slash at the end.
 #
-url: 'http://exams.r-forge.r-project.org/dev'
+url: 'http://exams.R-Forge.R-project.org/dev'
 baseurl: ''
 
 # This is for the editing function in _/includes/improve_content
 # Leave it empty if your site is not on GitHub/GitHub Pages
-improve_content: https://github.com/pkel/exams-web/edit/master
+improve_content: 
 
 # This URL points directly to the images directory making
 # things easier to link to images in posts and templates. It needs a slash at the end.
@@ -38,10 +38,10 @@ improve_content: https://github.com/pkel/exams-web/edit/master
 # Example: <img src="{{ site.urlimg }}{{ post.image.title }}" />
 # Markdown-Example for posts ![Image Text]({{ site.urlimg }}image.jpg)
 #
-urlimg: 'http://exams.r-forge.r-project.org/dev/images/'
+urlimg: 'http://exams.R-Forge.R-project.org/dev/images/'
 
 
-# Logo size (was 600x80 pixels)
+# Logo size (used to be 600x80 pixels)
 logo: "logo.svg"
 
 
