@@ -8,7 +8,7 @@ header: no
 # 4 Topics. Image in Carousel + Icon
 topics:
   - icon: vector/elearning.svg
-    image: "monitor_boxplot.big.jpg"
+    image: "wikipedia_e-learning_cc0.big.jpg"
     title: E-Learning
     url: '/nowhere'
     description: |
@@ -29,7 +29,7 @@ topics:
       Automatic generation, scanning, and evaluation.
 
   - icon: vector/dynamic.svg
-    image: "screenshot-deriv-nvim.big.jpg"
+    image: "screenshot-deriv-nvim-montage.big.jpg"
     title: Dynamic Exercises
     url: '/nowhere'
     description: |
