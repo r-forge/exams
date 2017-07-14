@@ -29,7 +29,7 @@ topics:
       Automatic generation, scanning, and evaluation.
 
   - icon: vector/dynamic.svg
-    image: "screenshot-deriv-nvim-montage.big.jpg"
+    image: "screenshot-deriv-nvim-montage2.big.jpg"
     title: Dynamic Exercises
     url: '/nowhere'
     description: |
