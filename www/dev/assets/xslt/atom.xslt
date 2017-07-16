@@ -180,21 +180,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/dev/contribute/">Contribute</a></li>
-
-            
-            
-          
-        
-
-              
-
-          
-          
-            
-            
-              <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/dev/search/">Search</a></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/resources/">Resources</a></li>
 
             
             
@@ -222,7 +208,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/dev/contact/">Contact</a></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/search/">Search</a></li>
 
             
             
@@ -241,10 +227,36 @@
 
             
             
-              <li><a href="http://exams.R-Forge.R-project.org/dev/">Start</a></li>
-              <li class="divider"></li>
 
-            
+              <li class="has-dropdown">
+                <a href="http://exams.R-Forge.R-project.org/dev/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
             
           
         
@@ -302,12 +314,6 @@
               </li>
               <li class="divider"></li>
             
-          
-        
-
-              
-
-          
           
         
 

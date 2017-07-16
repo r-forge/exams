@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Contact Us</title>
+	<title>R/exams: Written Exams</title>
 	<link rel="stylesheet" type="text/css" href="http://exams.R-Forge.R-project.org/dev/assets/css/styles_feeling_responsive.css" />
 	<script src="http://exams.R-Forge.R-project.org/dev/assets/js/modernizr.min.js"></script>
 
@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="" />
+	<meta name="description" content="Managing large-scale exams from generating to evaluation with R/exams." />
 
 	
 
@@ -104,11 +104,11 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="Contact" />
+	<meta property="og:title" content="<img height='100%' src='/images/vector/written.svg'> Written Exams" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//contact/" />
+	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//intro/written/" />
 	<meta property="og:site_name" content="R/exams" />
-	
+	<meta property="og:image" content="http://exams.R-Forge.R-project.org/dev/images/olympia_side_zoom.150.jpg" />
 
 	
 
@@ -174,21 +174,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/dev/contribute/">Contribute</a></li>
-
-            
-            
-          
-        
-
-              
-
-          
-          
-            
-            
-              <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/dev/search/">Search</a></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/resources/">Resources</a></li>
 
             
             
@@ -216,7 +202,7 @@
             
             
               <li class="divider"></li>
-              <li class="active"><a href="http://exams.R-Forge.R-project.org/dev/contact/">Contact</a></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/search/">Search</a></li>
 
             
             
@@ -235,10 +221,36 @@
 
             
             
-              <li><a href="http://exams.R-Forge.R-project.org/dev/">Start</a></li>
-              <li class="divider"></li>
 
-            
+              <li class="has-dropdown">
+                <a href="http://exams.R-Forge.R-project.org/dev/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
             
           
         
@@ -316,12 +328,6 @@
           
           
         
-
-              
-
-          
-          
-        
         
       </ul>
     </section>
@@ -356,29 +362,41 @@
 		<article itemscope itemtype="http://schema.org/Article">
 			<header>
 				
+				<figure>
+					<img src="http://exams.R-Forge.R-project.org/dev/images/olympia_side_zoom.big.jpg" width="970" alt="&lt;img height=&#39;100%&#39; src=&#39;/images/vector/written.svg&#39;&gt; Written Exams" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photo (CC0).
+					</figcaption>
+					
+				</figure>
+				
 
 				<span itemprop="name">
-					<p class="subheadline"></p>
-					<h1>Contact</h1>
+					<p class="subheadline">Large-Scale Pen-and-Paper Exams</p>
+					<h1><img height='100%' src='/images/vector/written.svg'> Written Exams</h1>
 				</span>
 			</header>
 
 
 			
 			<p class="teaser" itemprop="description">
-				
+				Managing large-scale exams from generating to evaluation with R/exams.
 			</p>
 			
 
 			<span itemprop="articleSection">
-			<h4 id="rexams-package-maintainer">R/exams package maintainer</h4>
+			<h4 id="workflow">Workflow</h4>
 
-<p>Achim Zeileis, <a href="mailto:achim.zeileis@uibk.ac.at">achim.zeileis@uibk.ac.at</a></p>
-
-<h4 id="website-administration">Website administration</h4>
-
-<p>Patrik Keller, <a href="mailto:patrik.keller@uibk.ac.at">patrik.keller@uibk.ac.at</a></p>
-
+<ul>
+  <li>Create participant list (CSV).</li>
+  <li>Generate exam files (PDF, via <code class="highlighter-rouge">exams2nops()</code>).</li>
+  <li>Conduct the exam and collect the exams sheets.</li>
+  <li>Scan the exam sheets (e.g., on a photopier) to either PDF or PNG format.</li>
+  <li>Process the scanned exam sheets to obtain machine-readable content (via <code class="highlighter-rouge">nops_scan()</code>).</li>
+  <li>Evaluate the exam to obtain marks, points, etc. and individual HTML reports for the students (vai <code class="highlighter-rouge">nops_eval()</code>).</li>
+</ul>
 
 			</span>
 

@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Blog Archive</title>
+	<title>R/exams: Dynamic Exercises</title>
 	<link rel="stylesheet" type="text/css" href="http://exams.R-Forge.R-project.org/dev/assets/css/styles_feeling_responsive.css" />
 	<script src="http://exams.R-Forge.R-project.org/dev/assets/js/modernizr.min.js"></script>
 
@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="R/Exam blog archive" />
+	<meta name="description" content="Randomizing exercises dynamically (e.g., using different numbers, text blocks, ...) for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof)." />
 
 	
 
@@ -104,11 +104,11 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="Blog Archive" />
+	<meta property="og:title" content="<img height='100%' src='/images/vector/dynamic.svg'> Dynamic Exercises" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//blog/archive/" />
+	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//intro/dynamic/" />
 	<meta property="og:site_name" content="R/exams" />
-	
+	<meta property="og:image" content="http://exams.R-Forge.R-project.org/dev/images/screenshot-deriv-nvim-montage2.150.jpg" />
 
 	
 
@@ -123,7 +123,7 @@
 </head>
 
 </head>
-<body id="top-of-page" class="">
+<body id="top-of-page" class="post">
 	
 	
 <div id="navigation" class="sticky">
@@ -338,81 +338,82 @@
 
 	
 
-<div id="masthead">
-	<div class="row">
-		<div class="small-12 columns">
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
 			<!-- <a id="logo" href="http://exams.R-Forge.R-project.org/dev" title="R/exams – The One-for-All Exams Generator"> -->
 				<!-- <img src="http://exams.R-Forge.R-project.org/dev/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
 			<!-- </a> -->
-		</div><!-- /.small-12.columns -->
-	</div><!-- /.row -->
-</div><!-- /#masthead -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
 
 
 
 
-<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
- <a href="http://exams.R-Forge.R-project.org/dev">Start</a>
- 
-   
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="medium-8 columns medium-offset-2 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://exams.R-Forge.R-project.org/dev/images/screenshot-deriv-nvim-montage2.big.jpg" width="970" alt="&lt;img height=&#39;100%&#39; src=&#39;/images/vector/dynamic.svg&#39;&gt; Dynamic Exercises" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photo (CC0).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					<p class="subheadline">Moodle Quizzes, OLAT Assessments, and Beyond</p>
+					<h1><img height='100%' src='/images/vector/dynamic.svg'> Dynamic Exercises</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Randomizing exercises dynamically (e.g., using different numbers, text blocks, ...) for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof).
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h4 id="workflow">Workflow</h4>
+
+<ul>
+  <li><code class="highlighter-rouge">schoice</code></li>
+  <li><code class="highlighter-rouge">mchoice</code></li>
+  <li><code class="highlighter-rouge">num</code></li>
+  <li><code class="highlighter-rouge">string</code></li>
+  <li><code class="highlighter-rouge">cloze</code> (combinations of the above)</li>
+</ul>
+
+			</span>
+
+			
+
+			
+
+		</article>
+
     
-        <a href="http://exams.R-Forge.R-project.org/dev/blog/">blog</a>
-    
-  
-    
-        <a class="current">Blog Archive</a>
-    
-  
-</nav>
+
+	</div><!-- /.medium-8.columns -->
 
 
+	
 
 
-
-
-
-
-
-
-
-
-	<div id="blog-index" class="row">
-	<div class="small-12 columns t30">
-		<h1>Blog Archive</h1>
-		<p class="teaser">R/Exam blog archive</p>
-
-		<dl class="accordion" data-accordion>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel1"><span class="iconfont"></span> Installation › <strong>R/exams Installation Tutorial for Ubuntu users</strong></a>
-				<div id="panel1" class="content">
-					Before you can start using our delightful software package, you will need to install some other software. This tutorial will show step-by-step how to get started. 
-					<a href="http://exams.R-Forge.R-project.org/dev/tutorials/installation/" title="Read R/exams Installation Tutorial for Ubuntu users"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel2"><span class="iconfont"></span> Multiple Choice › <strong>Multiple Choice Exercise Template</strong></a>
-				<div id="panel2" class="content">
-					This post gives an introduction to a very common type of exercise: The multiple choice exercise template.
-					<a href="http://exams.R-Forge.R-project.org/dev/templates/multiple-choice/" title="Read Multiple Choice Exercise Template"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel3"><span class="iconfont"></span> Welcome › <strong>New Page under Development</strong></a>
-				<div id="panel3" class="content">
-					You stumbled upon our new website for the R exams package. The site is under heavy development. Come back and see!
-					<a href="http://exams.R-Forge.R-project.org/dev/general/welcome/" title="Read New Page under Development"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-		</dl>
-	</div><!-- /.small-12.columns -->
+	
 </div><!-- /.row -->
 
 
@@ -546,11 +547,6 @@
 <script src="http://exams.R-Forge.R-project.org/dev/assets/js/slick.min.js"></script>
 
 
-
-<script>
-    $("#masthead").backstretch("http://exams.R-Forge.R-project.org/dev/images/unsplash_dawid-malecki-42536.big.jpg", {fade: 700});
-    $("#masthead-with-text").backstretch("http://exams.R-Forge.R-project.org/dev/images/unsplash_dawid-malecki-42536.big.jpg", {fade: 700});
-</script>
 
 
 
