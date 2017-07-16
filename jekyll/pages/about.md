@@ -15,3 +15,12 @@ HTML, Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1, Blackboard, ARSnova,
 and TCExam. In addition to fully customizable PDF exams, a standardized PDF
 format is provided that can be printed, scanned, and automatically
 evaluated.
+
+#### R/exams package maintainer
+
+Achim Zeileis, <achim.zeileis@uibk.ac.at>
+
+#### Website administration
+
+Patrik Keller, <patrik.keller@uibk.ac.at>
+

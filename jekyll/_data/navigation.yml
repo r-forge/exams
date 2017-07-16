@@ -1,9 +1,18 @@
 #
 #   Navigation to the left › side: left
 #
-- title: Start
+- title: "R/exams"
   url: "/"
   side: left
+  dropdown:
+  - title: "E-Learning"
+    url: "/intro/elearning/"
+  - title: "One-for-All"
+    url: "/intro/oneforall/"
+  - title: "Written Exams"
+    url: "/intro/written/"
+  - title: "Dynamic Exercises"
+    url: "/intro/dynamic/"
 
 - title: "Tutorials"
   url: "/tutorials/"
@@ -24,18 +33,14 @@
 #   Navigation to the right › side: right
 #
 
-- title: "Contribute"
-  url: "/contribute/"
-  side: right
-
-- title: "Search"
-  url: "/search/"
+- title: "Resources"
+  url: "/resources/"
   side: right
 
 - title: "About"
   url: "/about/"
   side: right
 
-- title: "Contact"
-  url: "/contact/"
+- title: "Search"
+  url: "/search/"
   side: right

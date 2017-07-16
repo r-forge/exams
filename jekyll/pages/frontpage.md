@@ -10,28 +10,28 @@ topics:
   - icon: vector/elearning.svg
     image: "wikipedia_e-learning_cc0.big.jpg"
     title: E-Learning
-    url: '/nowhere'
+    url: '/intro/elearning/'
     description: |
       Exercises for Moodle, Blackboard, OLAT, ...
 
   - icon: vector/oneforall.svg
     image: "unsplash_helloquence-61189.big.jpg"
-    title: One-For-All
-    url: '/nowhere'
+    title: One-for-All
+    url: '/intro/oneforall/'
     description: |
       The same exercises in exams, online tests, and live voting.
 
   - icon: vector/written.svg
     image: "olympia_side_zoom.big.jpg"
     title: Written Exams
-    url: '/nowhere'
+    url: '/intro/written/'
     description: |
       Automatic generation, scanning, and evaluation.
 
   - icon: vector/dynamic.svg
     image: "screenshot-deriv-nvim-montage2.big.jpg"
     title: Dynamic Exercises
-    url: '/nowhere'
+    url: '/intro/dynamic/'
     description: |
       Multiple choice, numeric, and text answers.
 
