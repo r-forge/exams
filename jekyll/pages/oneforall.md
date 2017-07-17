@@ -3,7 +3,7 @@ layout: page
 #
 # Content
 #
-title: "<img height='100%' src='images/vector/oneforall.svg'> One-for-All Exams Generator"
+title: "<img height='100%' src='../../images/vector/oneforall.svg'> One-for-All Exams Generator"
 meta_title: "R/exams: One-for-All Exams Generator"
 
 subheadline: "A Simple Exercise Format - Export to Many Output Formats"
