@@ -5,8 +5,8 @@ layout: page
 #
 title: "<img height='100%' src='../../images/vector/dynamic.svg'> Dynamic Exercises"
 meta_title: "R/exams: Dynamic Exercises"
-subheadline: "Moodle Quizzes, OLAT Assessments, and Beyond"
-teaser: "Randomizing exercises dynamically (e.g., using different numbers, text blocks, ...)
+subheadline: "Templates with Random Elements"
+teaser: "Randomize exercises dynamically (e.g., using different numbers, text blocks, ...)
   for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof)."
 permalink: "/intro/dynamic/"
 #

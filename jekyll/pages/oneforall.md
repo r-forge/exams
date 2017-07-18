@@ -5,9 +5,8 @@ layout: page
 #
 title: "<img height='100%' src='../../images/vector/oneforall.svg'> One-for-All Exams Generator"
 meta_title: "R/exams: One-for-All Exams Generator"
-
-subheadline: "A Simple Exercise Format - Export to Many Output Formats"
-teaser: "Exporting the same exercises to written exams, online quizzes, self tests, and live voting software."
+subheadline: "Based on a Simple Exercise Format"
+teaser: "Export the same exercises to written exams, online quizzes, self tests, and live voting software."
 permalink: "/intro/oneforall/"
 #
 # Style

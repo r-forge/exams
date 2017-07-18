@@ -6,7 +6,7 @@ layout: page
 title: "<img height='100%' src='../../images/vector/written.svg'> Written Exams"
 meta_title: "R/exams: Written Exams"
 subheadline: "Large-Scale Pen-and-Paper Exams"
-teaser: "Managing large-scale exams from generating to evaluation with R/exams."
+teaser: "Manage large-scale exams from generation to evaluation using R/exams."
 permalink: "/intro/written/"
 #
 # Style
