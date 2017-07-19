@@ -9,13 +9,13 @@ permalink: /resources/
 
 - R/exams package released at: <https://CRAN.R-project.org/package=exams>.
 - Development hosted at: <http://R-Forge.R-project.org/R/?group_id=1337>.
-- License: GPL-2 \\| GPL-3.
+- License: GPL-2 \| GPL-3.
 
 
 #### Getting help
 
 - Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
-- R/exams-related questions with `exams` tag on StackOverflow: <https://stackoverflow.com/questions/tagged/exams>.
+- R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
 - For bug reports please send an e-mail to: _&#x41;&#x63;&#x68;&#x69;&#x6d;&#x2e;&#x5a;&#x65;&#x69;&#x6c;&#x65;&#x69;&#x73;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x70;&#x72;&#x6f;&#x6a;&#x65;&#x63;&#x74;&#x2e;&#x6f;&#x72;&#x67;_
 
 
@@ -38,5 +38,6 @@ permalink: /resources/
 
 #### Other resources
   
-[Source distribution](http://exams.R-Forge.R-project.org/tth-src/) of the C code for the TeX-to-HTML converter TtH.
+[Source distribution](http://exams.R-Forge.R-project.org/tth-src/) of the C code for the TeX-to-HTML converter TtH
+(as packaged for R in <https://CRAN.R-project.org/package=tth>).
 
