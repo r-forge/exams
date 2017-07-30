@@ -25,11 +25,7 @@ image:
 
 #### Overview
 
-R/exams is based on exercises with either LaTeX or Markdown text and optional
-R code to make the content [dynamic](/dynamic/). The format is agnostic to a
-specific output format and can render the content into a wider variety of
-files (PDF, HTML, Docx, XML, ...), either for direct usage or for import
-into some [e-learning](/elearning/) system (like Moodle, Blackboard, OLAT,
-or Ilias). Thus, the _same_ exercise can be exported into these different
-formats - with multiple-choice and single-choice being the exercise format
-supported by almost all learning management systems.
+- R/exams is based on exercises with either LaTeX or Markdown text and optional R code to make the content [dynamic](/dynamic/).
+- The format is agnostic to a specific output format and can render the content into a wider variety of files (PDF, HTML, Docx, XML, ...),
+  either for direct usage or for import into some [e-learning](/elearning/) system (like Moodle, Blackboard, OLAT, or Ilias).
+- Thus, the _same_ exercise can be exported into these different formats - with multiple-choice and single-choice being the exercise format supported by almost all learning management systems.

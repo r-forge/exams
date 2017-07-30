@@ -6,8 +6,7 @@ layout: page
 title: "<img height='100%' src='../../images/vector/elearning.svg'> E-Learning"
 meta_title: "R/exams: E-Learning"
 subheadline: "Tests for Moodle, Blackboard, ..."
-teaser: "Easily generate large online tests (or question banks or item pools) for
-  various learning management systems (like Moodle, Blackboard, OLAT, Ilias, ...)."
+teaser: "Easily generate large online tests for various learning management systems (like Moodle, Blackboard, OLAT, Ilias, ...)."
 permalink: "/intro/elearning/"
 #
 # Style
@@ -24,12 +23,17 @@ image:
   caption_url: "https://de.wikipedia.org/wiki/E-Learning"
 ---
 
-#### Workflow
+### You want
 
-Assuming that the institutions are providing a learning management system and
-only a large number of replications is needed in some specific format...
+- Online tests as part of your course.
+- Your university provides a learning management system (like Moodle, Blackboard, OLAT, Ilias) but...
+- ...entering exams "by hand" is tedious and ...
+- ...you need (a large number of) random variations of similar exercises to reduce the risk of cheating.
 
-- Exercise templates.
-- Random replications.
-- Embed in exchange file format (typically XML-based).
-- Import into learning management system.
+### With R/exams you can
+
+- Set up exercise templates.
+- Easily draw (very many) random replications from these templates.
+- Embed these into an exchange file format (typically in XML).
+- Import this file into a learning management system. Either directly into an online test or into some question bank or item pool.
+
