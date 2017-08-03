@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Blog Archive</title>
+	<title>Conducting Written Multiple-Choice Exams in R</title>
 	<link rel="stylesheet" type="text/css" href="http://exams.R-Forge.R-project.org/dev/assets/css/styles_feeling_responsive.css" />
 	<script src="http://exams.R-Forge.R-project.org/dev/assets/js/modernizr.min.js"></script>
 
@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="R/Exam blog archive" />
+	<meta name="description" content="Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams." />
 
 	
 
@@ -104,11 +104,11 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="Blog Archive" />
+	<meta property="og:title" content="Conducting Written Multiple-Choice Exams in R" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//blog/archive/" />
+	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//rmd/tutorials/2017-08-04-exams2nops.Rmd" />
 	<meta property="og:site_name" content="R/exams" />
-	
+	<meta property="og:image" content="http://exams.R-Forge.R-project.org/dev/images/olympia_front.150.jpg" />
 
 	
 
@@ -123,7 +123,7 @@
 </head>
 
 </head>
-<body id="top-of-page" class="">
+<body id="top-of-page" class="post">
 	
 	
 <div id="navigation" class="sticky">
@@ -338,90 +338,147 @@
 
 	
 
-<div id="masthead">
-	<div class="row">
-		<div class="small-12 columns">
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
 			<!-- <a id="logo" href="http://exams.R-Forge.R-project.org/dev" title="R/exams – The One-for-All Exams Generator"> -->
 				<!-- <img src="http://exams.R-Forge.R-project.org/dev/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
 			<!-- </a> -->
-		</div><!-- /.small-12.columns -->
-	</div><!-- /.row -->
-</div><!-- /#masthead -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
 
 
 
 
-<nav class="breadcrumbs" role="menubar" aria-label="breadcrumbs">
- <a href="http://exams.R-Forge.R-project.org/dev">Start</a>
- 
-   
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="medium-8 columns medium-offset-2 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://exams.R-Forge.R-project.org/dev/images/olympia_front.970.jpg" width="970" alt="Conducting Written Multiple-Choice Exams in R" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photo (CC0).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					<p class="subheadline">Introduction to exams2nops</p>
+					<h1>Conducting Written Multiple-Choice Exams in R</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			## Preliminaries
+
+This tutorial demonstrates how to manage [written exams](/written/) with multiple-choice
+and/or single-choice questions in R/exams. On the R side this involves three steps:
+1. Exam generation (PDF files, 1 per exam).
+2. Scan resulting sheets (PDF or PNG format).
+3. Evaluate results and generate reports.
+
+To begin, start your R session in a dedicated directory for your exam and load the `exams` package.
+
+```{r load package}
+library("exams")
+```
+
+## Exam generation
+
+First, define an exam `myexam` which is simply a list of exercises.
+
+```{r exam definition}
+myexam <- list(
+  "tstat2.Rnw",
+  "ttest.Rnw",
+  "relfreq.Rnw",
+  "anova.Rnw",
+  c("boxplots.Rnw", "scatterplot.Rnw"),
+  "cholesky.Rnw"
+)
+```
+
+Here, we use a number of `schoice` and `mchoice` questions that are directly shipped
+within the package. In practice, you would use files that you have authored and stored
+somewhere locally. Above, the exercises in .Rnw format are used but all of the examples
+are also available in .Rmd format, leading to virtually identical output.
+
+
+Then, we create `n = 2` randomly drawn versions from this exam on the disk in a new
+output directory `nops_pdf/`. To customize the exam we assign a different number of
+points to the different exercises and also show the respective number of points at
+the beginning of each question.
+
+```{r exams2nops}
+set.seed(403)
+ex1 <- exams2nops(myexam, n = 2,
+  dir = "nops_pdf", name = "demo", date = "2015-07-29",
+  points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)
+```
+
+A random seed is set to make the generated exams exactly reproducible for you
+(or ourselves at some point in the future). All metainformation is stored in a list of
+lists `ex1` which we do not use here.
+
+The output directory now contains three files that were generated: the two PDF files
+are the two exams we requested above. Furthermore, the metainfromation about the exam
+(exam IDs, questions, correct and wrong answer alternatives) is stored in a .rds
+file (serialized R data). The latter is crucial for being able to evaluate the exam
+later on.
+
+```{r exams2nops-files}
+dir("nops_pdf")
+```
+
+Now the PDFs need to be printed out for the exam. (_Recommendation:_ The exams should
+be stapled in the top left corner.)
+
+
+## Scan results
+
+
+## Evaluate results
+
+
+```{r cleanup, echo = FALSE, results = "hide"}
+unlink("nops_pdf/", recursive = TRUE, force = TRUE)
+```
+
+			</span>
+
+			
+
+			
+
+		</article>
+
     
-        <a href="http://exams.R-Forge.R-project.org/dev/blog/">blog</a>
-    
-  
-    
-        <a class="current">Blog Archive</a>
-    
-  
-</nav>
+
+	</div><!-- /.medium-8.columns -->
 
 
+	
 
 
-
-
-
-
-
-
-
-
-	<div id="blog-index" class="row">
-	<div class="small-12 columns t30">
-		<h1>Blog Archive</h1>
-		<p class="teaser">R/Exam blog archive</p>
-
-		<dl class="accordion" data-accordion>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel1"><span class="iconfont"></span> Introduction to exams2nops › <strong>Conducting Written Multiple-Choice Exams in R</strong></a>
-				<div id="panel1" class="content">
-					Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with `exams2nops()` in R/exams.
-					<a href="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/" title="Read Conducting Written Multiple-Choice Exams in R"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel2"><span class="iconfont"></span> Installation › <strong>R/exams Installation Tutorial for Ubuntu users</strong></a>
-				<div id="panel2" class="content">
-					Before you can start using our delightful software package, you will need to install some other software. This tutorial will show step-by-step how to get started. 
-					<a href="http://exams.R-Forge.R-project.org/dev/tutorials/installation/" title="Read R/exams Installation Tutorial for Ubuntu users"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel3"><span class="iconfont"></span> Multiple Choice › <strong>Multiple Choice Exercise Template</strong></a>
-				<div id="panel3" class="content">
-					This post gives an introduction to a very common type of exercise: The multiple choice exercise template.
-					<a href="http://exams.R-Forge.R-project.org/dev/templates/multiple-choice/" title="Read Multiple Choice Exercise Template"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-			<dd class="accordion-navigation">
-			<a href="#panel4"><span class="iconfont"></span> Welcome › <strong>New Page under Development</strong></a>
-				<div id="panel4" class="content">
-					You stumbled upon our new website for the R exams package. The site is under heavy development. Come back and see!
-					<a href="http://exams.R-Forge.R-project.org/dev/general/welcome/" title="Read New Page under Development"><strong>Read More&nbsp;›</strong></a><br><br>
-				</div>
-			</dd>
-			
-			
-		</dl>
-	</div><!-- /.small-12.columns -->
+	
 </div><!-- /.row -->
 
 
@@ -555,11 +612,6 @@
 <script src="http://exams.R-Forge.R-project.org/dev/assets/js/slick.min.js"></script>
 
 
-
-<script>
-    $("#masthead").backstretch("http://exams.R-Forge.R-project.org/dev/images/unsplash_dawid-malecki-42536.big.jpg", {fade: 700});
-    $("#masthead-with-text").backstretch("http://exams.R-Forge.R-project.org/dev/images/unsplash_dawid-malecki-42536.big.jpg", {fade: 700});
-</script>
 
 
 
