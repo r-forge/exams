@@ -1,0 +1,15 @@
+{% capture duck_search_site %}{{ site.url }}{{ site.baseurl }}/{% endcapture %}
+<script language="Javascript" type="text/javascript">
+	function duck_search() {
+		var query = document.getElementById("duck-search").value;
+		window.open("https://www.duckduckgo.com/?q=" + query + "+site:" + "{{ duck_search_site | cgi_escape }}");
+	}
+</script>
+
+<form id="search" onsubmit="duck_search(); return false;">
+	<input type="text" id="duck-search" placeholder="{{ site.data.language.enter_search_term }}">
+</form>
+<noscript>
+	Search <a href="https://www.duckduckgo.com/search?q=site:{{ duck_search_site | cgi_escape }}" target="_blank">Google</a> for:
+	<pre><code>search-term site:{{ duck_search_site }}</code></pre>
+</noscript>
