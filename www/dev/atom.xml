@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-04T01:36:18+02:00</updated>
+	<updated>2017-08-04T13:34:44+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -45,7 +45,7 @@
 					
 				</author>
 			
-			<summary>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with `exams2nops()` in R/exams.</summary>
+			<summary>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.</summary>
 			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/">&lt;h2 id=&quot;preliminaries&quot;&gt;Preliminaries&lt;/h2&gt;
 
 &lt;p&gt;This tutorial demonstrates how to manage &lt;a href=&quot;/written/&quot;&gt;written exams&lt;/a&gt; with multiple-choice
@@ -58,20 +58,28 @@ and/or single-choice questions in R/exams. On the R side this involves three ste
 
 &lt;p&gt;To begin, start your R session in a dedicated directory for your exam and load the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;exams&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;TODO&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Introduce a general mechanism for including supplementary files.&lt;/li&gt;
+  &lt;li&gt;Show snapshots and make files accessible.&lt;/li&gt;
+  &lt;li&gt;Different header image?&lt;/li&gt;
+  &lt;li&gt;Move &lt;em&gt;Options&lt;/em&gt; section to a separate blog post.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;exam-generation&quot;&gt;Exam generation&lt;/h2&gt;
 
 &lt;p&gt;First, define an exam &lt;code class=&quot;highlighter-rouge&quot;&gt;myexam&lt;/code&gt; which is simply a list of exercises.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;n&quot;&gt;myexam&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tstat2.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ttest.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;relfreq.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;anova.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;boxplots.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;scatterplot.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cholesky.Rnw&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;myexam &amp;lt;- list(
+  &amp;quot;tstat2.Rnw&amp;quot;,
+  &amp;quot;ttest.Rnw&amp;quot;,
+  &amp;quot;relfreq.Rnw&amp;quot;,
+  &amp;quot;anova.Rnw&amp;quot;,
+  c(&amp;quot;boxplots.Rnw&amp;quot;, &amp;quot;scatterplot.Rnw&amp;quot;),
+  &amp;quot;cholesky.Rnw&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Here, we use a number of &lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt; questions that are directly shipped
 within the package. In practice, you would use files that you have authored and stored
@@ -79,14 +87,14 @@ somewhere locally. Above, the exercises in .Rnw format are used but all of the e
 are also available in .Rmd format, leading to virtually identical output.&lt;/p&gt;
 
 &lt;p&gt;Then, we create &lt;code class=&quot;highlighter-rouge&quot;&gt;n = 2&lt;/code&gt; randomly drawn versions from this exam on the disk in a new
-output directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_pdf/&lt;/code&gt;. To customize the exam we assign a different number of
+output directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_pdf&lt;/code&gt;. To customize the exam we assign a different number of
 points to the different exercises and also show the respective number of points at
 the beginning of each question.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;n&quot;&gt;set.seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;403&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ex1&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exams2nops&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myexam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;nops_pdf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;demo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2015-07-29&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;points&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;showpoints&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;TRUE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;set.seed(403)
+ex1 &amp;lt;- exams2nops(myexam, n = 2,
+  dir = &amp;quot;nops_pdf&amp;quot;, name = &amp;quot;demo&amp;quot;, date = &amp;quot;2015-07-29&amp;quot;,
+  points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;A random seed is set to make the generated exams exactly reproducible for you
 (or ourselves at some point in the future). All metainformation is stored in a list of
@@ -98,17 +106,174 @@ are the two exams we requested above. Furthermore, the metainfromation about the
 file (serialized R data). The latter is crucial for being able to evaluate the exam
 later on.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;n&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;nops_pdf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_pdf&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;## [1] &quot;demo.rds&quot;     &quot;demo1.pdf&quot;    &quot;demo2.pdf&quot;    &quot;metainfo.rds&quot;
-## [5] &quot;nops1.pdf&quot;    &quot;nops2.pdf&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;demo.rds&amp;quot;  &amp;quot;demo1.pdf&amp;quot; &amp;quot;demo2.pdf&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now the PDFs need to be printed out for the exam. (&lt;em&gt;Recommendation:&lt;/em&gt; The exams should
 be stapled in the top left corner.)&lt;/p&gt;
 
 &lt;h2 id=&quot;scan-results&quot;&gt;Scan results&lt;/h2&gt;
 
+&lt;p&gt;For each exam completed by a student, collect the main exam sheet containing
+the exam ID, student ID, and the checked answers. Use some scanning facilities
+(typically, the photocopiers provided by your university) and scan all sheets
+into PDF or PNG files. In case of PDFs, each file may contain an arbitrary number
+of sheets (just a single sheet or all sheets or everything in between).&lt;/p&gt;
+
+&lt;p&gt;For demonstration, we use two completed exam sheets that are provided along with
+the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and copy them to a dedicated directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;img &amp;lt;- dir(system.file(&amp;quot;nops&amp;quot;, package = &amp;quot;exams&amp;quot;), pattern = &amp;quot;nops_scan&amp;quot;,
+  full.names = TRUE)
+dir.create(&amp;quot;nops_scan&amp;quot;)
+file.copy(img, to = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using the function &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; we can now read all scanned images (i.e.,
+all locally available PNG and/or PDF files), make the scanned information
+available in a plain text data file (called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; for historical reasons)
+and collect everything in a ZIP file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;nops_scan(dir = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan_20170804133407.zip&amp;quot; &amp;quot;nops_scan1.png&amp;quot;              
+## [3] &amp;quot;nops_scan2.png&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See &lt;code class=&quot;highlighter-rouge&quot;&gt;?nops_scan&lt;/code&gt; for more details, e.g., multicore support or options for
+rotating PDF files prior to scanning. Also feel free to explore the format
+of the files in the ZIP file which should be self-explanatory.&lt;/p&gt;
+
+&lt;p&gt;Now that scanning is complete we switch back to the original working directory.&lt;/p&gt;
+
 &lt;h2 id=&quot;evaluate-results&quot;&gt;Evaluate results&lt;/h2&gt;
+
+&lt;p&gt;In the previous scanning step the exam sheets have just been &lt;em&gt;read&lt;/em&gt; but not
+yet &lt;em&gt;evaluated&lt;/em&gt;, i.e., it has not yet been assessed which questions were answered
+(partially) correctly and which were wrong, and no points have been assigned.
+Therefore, we use &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; to carry out these computations and to make
+the results available - both in a format easy to read for machines (a CSV file)
+and a format for humans (one HTML page for each student).&lt;/p&gt;
+
+&lt;p&gt;To do so, three files are required: (a) an RDS file with the exam meta-information
+(generated in Step 1), (b) a ZIP file with the scanned sheets (generated in Step 2),
+(c) and a CSV file with the student infomation (registration number, name, and some
+ID or username). In practice, this CSV file will typically be processed from some
+registration service or learning management system etc. However, here we simply
+create a suitable CSV file on the fly.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;write.table(data.frame(
+  registration = c(&amp;quot;1501090&amp;quot;, &amp;quot;9901071&amp;quot;),
+  name = c(&amp;quot;Jane Doe&amp;quot;, &amp;quot;Ambi Dexter&amp;quot;),
+  id = c(&amp;quot;jane_doe&amp;quot;, &amp;quot;ambi_dexter&amp;quot;)
+), file = &amp;quot;Exam-2015-07-29.csv&amp;quot;, sep = &amp;quot;;&amp;quot;, quote = FALSE, row.names = FALSE)
+dir()&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2017-08-04-exams2nops.Rmd&amp;quot; &amp;quot;Exam-2015-07-29.csv&amp;quot;      
+## [3] &amp;quot;nops_pdf&amp;quot;                  &amp;quot;nops_scan&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now the exam can be evaluated creating an output data frame (also stored
+as CSV file) and individual HTML reports (stored in a ZIP file). Here, we
+employ an evaluation scheme without partial points in the multiple-choice questions
+and differing points across questions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1 &amp;lt;- nops_eval(
+  register = &amp;quot;Exam-2015-07-29.csv&amp;quot;,
+  solutions = &amp;quot;nops_pdf/demo.rds&amp;quot;,
+  scans = Sys.glob(&amp;quot;nops_scan/nops_scan_*.zip&amp;quot;),
+  eval = exams_eval(partial = FALSE, negative = FALSE),
+  interactive = FALSE
+)
+dir()&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2017-08-04-exams2nops.Rmd&amp;quot; &amp;quot;Exam-2015-07-29.csv&amp;quot;      
+## [3] &amp;quot;nops_eval.csv&amp;quot;             &amp;quot;nops_eval.zip&amp;quot;            
+## [5] &amp;quot;nops_pdf&amp;quot;                  &amp;quot;nops_scan&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The evaluated data can be inspected by optining &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval.csv&lt;/code&gt; in some spreadsheet
+software or we can directly look at the data in R.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;##         registration        name          id        exam scrambling
+## 1501090      1501090    Jane Doe    jane_doe 15072900001         00
+## 9901071      9901071 Ambi Dexter ambi_dexter 15072900002         00
+##                   scan points mark answer.1 solution.1 check.1 points.1
+## 1501090 nops_scan1.png      4    5    00100      00100       1        1
+## 9901071 nops_scan2.png      0    5    10100      10000       0        0
+##         answer.2 solution.2 check.2 points.2 answer.3 solution.3 check.3
+## 1501090    11101      11100       0        0    00000      00000       1
+## 9901071    10111      11001       0        0    01000      01010       0
+##         points.3 answer.4 solution.4 check.4 points.4 answer.5 solution.5
+## 1501090        1    00100      00110       0        0    00010      00010
+## 9901071        0    00000      01011       0        0    00000      11010
+##         check.5 points.5 answer.6 solution.6 check.6 points.6
+## 1501090       1        2    01101      01111       0        0
+## 9901071       0        0    11100      00011       0        0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To inspect the corresponding HTML reports from within R:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;unzip(&amp;quot;nops_eval.zip&amp;quot;)
+browseURL(file.path(&amp;quot;jane_doe&amp;quot;,    &amp;quot;Exam-2015-07-29.html&amp;quot;))
+browseURL(file.path(&amp;quot;ambi_dexter&amp;quot;, &amp;quot;Exam-2015-07-29.html&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;options&quot;&gt;Options&lt;/h2&gt;
+
+&lt;p&gt;Below three typically-needed options are discussed:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;using a different evaluation strategy (here with partial credits),&lt;/li&gt;
+  &lt;li&gt;using a different language (here de/German),&lt;/li&gt;
+  &lt;li&gt;an error of the participant when filling in the registration number.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As for the evaluation: Partial credits should only be used for multiple-choice questions
+where at least one alternative is correct and at least one is false.
+&lt;em&gt;Note that in this example this is not the case for the first question
+(single-choice) and the third question for Jane Doe (no alternative correct).&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As for the registration number errors: For Ambi Dexter such an error was included in the PNG example
+image, the actual number is “9911071” but the crosses indicate “9901071”.&lt;/p&gt;
+
+&lt;p&gt;Clean up previous evaluation&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;file.remove(c(&quot;nops_eval.csv&quot;, &quot;nops_eval.zip&quot;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Write correct registration information&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;write.table(data.frame(
+  registration = c(&quot;1501090&quot;, &quot;9911071&quot;),
+  name = c(&quot;Jane Doe&quot;, &quot;Ambi Dexter&quot;),
+  id = c(&quot;jane_doe&quot;, &quot;ambi_dexter&quot;)
+), file = &quot;Exam-2015-07-29.csv&quot;, sep = &quot;;&quot;, quote = FALSE, row.names = FALSE)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Call &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; with modified options, where the error in the registration
+number of Ambi Dexter will trigger an interactive prompt.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;ev2 &amp;lt;- nops_eval(
+  register = &quot;Exam-2015-07-29.csv&quot;,
+  solutions = &quot;nops_pdf/metainfo.rds&quot;,
+  scans = Sys.glob(&quot;nops_scan/nops_scan_*.zip&quot;),
+  eval = exams_eval(partial = TRUE, rule = &quot;false2&quot;),
+  language = &quot;de&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Inspect evaluated data.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;ev2
+cbind(ev1$points, ev2$points)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Inspect corresponding HTML reports.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;unzip(&quot;nops_eval.zip&quot;)
+browseURL(file.path(&quot;jane_doe&quot;,    &quot;Exam-2015-07-29.html&quot;))
+browseURL(file.path(&quot;ambi_dexter&quot;, &quot;Exam-2015-07-29.html&quot;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 </content>
 

@@ -375,17 +375,17 @@
 			<span itemprop="articleSection">
 			
 <script language="Javascript" type="text/javascript">
-	function google_search() {
-		var query = document.getElementById("google-search").value;
-		window.open("https://www.google.com/search?q=" + query + "+site:" + "http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F");
+	function duck_search() {
+		var query = document.getElementById("duck-search").value;
+		window.open("https://www.duckduckgo.com/?q=" + query + "+site:" + "http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F");
 	}
 </script>
 
-<form id="search" onsubmit="google_search(); return false;">
-	<input type="text" id="google-search" placeholder="Enter search term and hit enter" />
+<form id="search" onsubmit="duck_search(); return false;">
+	<input type="text" id="duck-search" placeholder="Enter search term and hit enter" />
 </form>
 <noscript>
-	Search <a href="https://www.google.com/search?q=site:http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F" target="_blank">Google</a> for:
+	Search <a href="https://www.duckduckgo.com/search?q=site:http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F" target="_blank">Google</a> for:
 	<pre><code>search-term site:http://exams.R-Forge.R-project.org/dev/</code></pre>
 </noscript>
 

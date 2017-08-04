@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with `exams2nops()` in R/exams." />
+	<meta name="description" content="Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams." />
 
 	
 
@@ -374,7 +374,7 @@
 				
 
 				<span itemprop="name">
-					<p class="subheadline">Introduction to exams2nops</p>
+					
 					<h1>Conducting Written Multiple-Choice Exams in R</h1>
 				</span>
 			</header>
@@ -382,7 +382,7 @@
 
 			
 			<p class="teaser" itemprop="description">
-				Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with `exams2nops()` in R/exams.
+				Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.
 			</p>
 			
 
@@ -399,20 +399,28 @@ and/or single-choice questions in R/exams. On the R side this involves three ste
 
 <p>To begin, start your R session in a dedicated directory for your exam and load the <code class="highlighter-rouge">exams</code> package.</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="s2">"exams"</span><span class="p">)</span></code></pre></figure>
+<pre><code class="prettyprint ">library(&quot;exams&quot;)</code></pre>
+
+<p><strong>TODO</strong></p>
+<ul>
+  <li>Introduce a general mechanism for including supplementary files.</li>
+  <li>Show snapshots and make files accessible.</li>
+  <li>Different header image?</li>
+  <li>Move <em>Options</em> section to a separate blog post.</li>
+</ul>
 
 <h2 id="exam-generation">Exam generation</h2>
 
 <p>First, define an exam <code class="highlighter-rouge">myexam</code> which is simply a list of exercises.</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">myexam</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="w">
-  </span><span class="s2">"tstat2.Rnw"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"ttest.Rnw"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"relfreq.Rnw"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"anova.Rnw"</span><span class="p">,</span><span class="w">
-  </span><span class="nf">c</span><span class="p">(</span><span class="s2">"boxplots.Rnw"</span><span class="p">,</span><span class="w"> </span><span class="s2">"scatterplot.Rnw"</span><span class="p">),</span><span class="w">
-  </span><span class="s2">"cholesky.Rnw"</span><span class="w">
-</span><span class="p">)</span></code></pre></figure>
+<pre><code class="prettyprint ">myexam &lt;- list(
+  &quot;tstat2.Rnw&quot;,
+  &quot;ttest.Rnw&quot;,
+  &quot;relfreq.Rnw&quot;,
+  &quot;anova.Rnw&quot;,
+  c(&quot;boxplots.Rnw&quot;, &quot;scatterplot.Rnw&quot;),
+  &quot;cholesky.Rnw&quot;
+)</code></pre>
 
 <p>Here, we use a number of <code class="highlighter-rouge">schoice</code> and <code class="highlighter-rouge">mchoice</code> questions that are directly shipped
 within the package. In practice, you would use files that you have authored and stored
@@ -420,14 +428,14 @@ somewhere locally. Above, the exercises in .Rnw format are used but all of the e
 are also available in .Rmd format, leading to virtually identical output.</p>
 
 <p>Then, we create <code class="highlighter-rouge">n = 2</code> randomly drawn versions from this exam on the disk in a new
-output directory <code class="highlighter-rouge">nops_pdf/</code>. To customize the exam we assign a different number of
+output directory <code class="highlighter-rouge">nops_pdf</code>. To customize the exam we assign a different number of
 points to the different exercises and also show the respective number of points at
 the beginning of each question.</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">set.seed</span><span class="p">(</span><span class="m">403</span><span class="p">)</span><span class="w">
-</span><span class="n">ex1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">exams2nops</span><span class="p">(</span><span class="n">myexam</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
-  </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"nops_pdf"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"demo"</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2015-07-29"</span><span class="p">,</span><span class="w">
-  </span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="n">showpoints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span></code></pre></figure>
+<pre><code class="prettyprint ">set.seed(403)
+ex1 &lt;- exams2nops(myexam, n = 2,
+  dir = &quot;nops_pdf&quot;, name = &quot;demo&quot;, date = &quot;2015-07-29&quot;,
+  points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)</code></pre>
 
 <p>A random seed is set to make the generated exams exactly reproducible for you
 (or ourselves at some point in the future). All metainformation is stored in a list of
@@ -439,17 +447,174 @@ are the two exams we requested above. Furthermore, the metainfromation about the
 file (serialized R data). The latter is crucial for being able to evaluate the exam
 later on.</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">dir</span><span class="p">(</span><span class="s2">"nops_pdf"</span><span class="p">)</span></code></pre></figure>
+<pre><code class="prettyprint ">dir(&quot;nops_pdf&quot;)</code></pre>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text">## [1] "demo.rds"     "demo1.pdf"    "demo2.pdf"    "metainfo.rds"
-## [5] "nops1.pdf"    "nops2.pdf"</code></pre></figure>
+<pre><code>## [1] &quot;demo.rds&quot;  &quot;demo1.pdf&quot; &quot;demo2.pdf&quot;
+</code></pre>
 
 <p>Now the PDFs need to be printed out for the exam. (<em>Recommendation:</em> The exams should
 be stapled in the top left corner.)</p>
 
 <h2 id="scan-results">Scan results</h2>
 
+<p>For each exam completed by a student, collect the main exam sheet containing
+the exam ID, student ID, and the checked answers. Use some scanning facilities
+(typically, the photocopiers provided by your university) and scan all sheets
+into PDF or PNG files. In case of PDFs, each file may contain an arbitrary number
+of sheets (just a single sheet or all sheets or everything in between).</p>
+
+<p>For demonstration, we use two completed exam sheets that are provided along with
+the <code class="highlighter-rouge">exams</code> package and copy them to a dedicated directory <code class="highlighter-rouge">nops_scan</code>:</p>
+
+<pre><code class="prettyprint ">img &lt;- dir(system.file(&quot;nops&quot;, package = &quot;exams&quot;), pattern = &quot;nops_scan&quot;,
+  full.names = TRUE)
+dir.create(&quot;nops_scan&quot;)
+file.copy(img, to = &quot;nops_scan&quot;)</code></pre>
+
+<p>Using the function <code class="highlighter-rouge">nops_scan()</code> we can now read all scanned images (i.e.,
+all locally available PNG and/or PDF files), make the scanned information
+available in a plain text data file (called <code class="highlighter-rouge">Daten.txt</code> for historical reasons)
+and collect everything in a ZIP file:</p>
+
+<pre><code class="prettyprint ">nops_scan(dir = &quot;nops_scan&quot;)</code></pre>
+
+<pre><code class="prettyprint ">dir(&quot;nops_scan&quot;)</code></pre>
+
+<pre><code>## [1] &quot;nops_scan_20170804133407.zip&quot; &quot;nops_scan1.png&quot;              
+## [3] &quot;nops_scan2.png&quot;
+</code></pre>
+
+<p>See <code class="highlighter-rouge">?nops_scan</code> for more details, e.g., multicore support or options for
+rotating PDF files prior to scanning. Also feel free to explore the format
+of the files in the ZIP file which should be self-explanatory.</p>
+
+<p>Now that scanning is complete we switch back to the original working directory.</p>
+
 <h2 id="evaluate-results">Evaluate results</h2>
+
+<p>In the previous scanning step the exam sheets have just been <em>read</em> but not
+yet <em>evaluated</em>, i.e., it has not yet been assessed which questions were answered
+(partially) correctly and which were wrong, and no points have been assigned.
+Therefore, we use <code class="highlighter-rouge">nops_eval()</code> to carry out these computations and to make
+the results available - both in a format easy to read for machines (a CSV file)
+and a format for humans (one HTML page for each student).</p>
+
+<p>To do so, three files are required: (a) an RDS file with the exam meta-information
+(generated in Step 1), (b) a ZIP file with the scanned sheets (generated in Step 2),
+(c) and a CSV file with the student infomation (registration number, name, and some
+ID or username). In practice, this CSV file will typically be processed from some
+registration service or learning management system etc. However, here we simply
+create a suitable CSV file on the fly.</p>
+
+<pre><code class="prettyprint ">write.table(data.frame(
+  registration = c(&quot;1501090&quot;, &quot;9901071&quot;),
+  name = c(&quot;Jane Doe&quot;, &quot;Ambi Dexter&quot;),
+  id = c(&quot;jane_doe&quot;, &quot;ambi_dexter&quot;)
+), file = &quot;Exam-2015-07-29.csv&quot;, sep = &quot;;&quot;, quote = FALSE, row.names = FALSE)
+dir()</code></pre>
+
+<pre><code>## [1] &quot;2017-08-04-exams2nops.Rmd&quot; &quot;Exam-2015-07-29.csv&quot;      
+## [3] &quot;nops_pdf&quot;                  &quot;nops_scan&quot;
+</code></pre>
+<p>Now the exam can be evaluated creating an output data frame (also stored
+as CSV file) and individual HTML reports (stored in a ZIP file). Here, we
+employ an evaluation scheme without partial points in the multiple-choice questions
+and differing points across questions.</p>
+
+<pre><code class="prettyprint ">ev1 &lt;- nops_eval(
+  register = &quot;Exam-2015-07-29.csv&quot;,
+  solutions = &quot;nops_pdf/demo.rds&quot;,
+  scans = Sys.glob(&quot;nops_scan/nops_scan_*.zip&quot;),
+  eval = exams_eval(partial = FALSE, negative = FALSE),
+  interactive = FALSE
+)
+dir()</code></pre>
+
+<pre><code>## [1] &quot;2017-08-04-exams2nops.Rmd&quot; &quot;Exam-2015-07-29.csv&quot;      
+## [3] &quot;nops_eval.csv&quot;             &quot;nops_eval.zip&quot;            
+## [5] &quot;nops_pdf&quot;                  &quot;nops_scan&quot;
+</code></pre>
+
+<p>The evaluated data can be inspected by optining <code class="highlighter-rouge">nops_eval.csv</code> in some spreadsheet
+software or we can directly look at the data in R.</p>
+
+<pre><code class="prettyprint ">ev1</code></pre>
+
+<pre><code>##         registration        name          id        exam scrambling
+## 1501090      1501090    Jane Doe    jane_doe 15072900001         00
+## 9901071      9901071 Ambi Dexter ambi_dexter 15072900002         00
+##                   scan points mark answer.1 solution.1 check.1 points.1
+## 1501090 nops_scan1.png      4    5    00100      00100       1        1
+## 9901071 nops_scan2.png      0    5    10100      10000       0        0
+##         answer.2 solution.2 check.2 points.2 answer.3 solution.3 check.3
+## 1501090    11101      11100       0        0    00000      00000       1
+## 9901071    10111      11001       0        0    01000      01010       0
+##         points.3 answer.4 solution.4 check.4 points.4 answer.5 solution.5
+## 1501090        1    00100      00110       0        0    00010      00010
+## 9901071        0    00000      01011       0        0    00000      11010
+##         check.5 points.5 answer.6 solution.6 check.6 points.6
+## 1501090       1        2    01101      01111       0        0
+## 9901071       0        0    11100      00011       0        0
+</code></pre>
+
+<p>To inspect the corresponding HTML reports from within R:</p>
+
+<pre><code class="prettyprint ">unzip(&quot;nops_eval.zip&quot;)
+browseURL(file.path(&quot;jane_doe&quot;,    &quot;Exam-2015-07-29.html&quot;))
+browseURL(file.path(&quot;ambi_dexter&quot;, &quot;Exam-2015-07-29.html&quot;))</code></pre>
+
+<h2 id="options">Options</h2>
+
+<p>Below three typically-needed options are discussed:</p>
+<ul>
+  <li>using a different evaluation strategy (here with partial credits),</li>
+  <li>using a different language (here de/German),</li>
+  <li>an error of the participant when filling in the registration number.</li>
+</ul>
+
+<p>As for the evaluation: Partial credits should only be used for multiple-choice questions
+where at least one alternative is correct and at least one is false.
+<em>Note that in this example this is not the case for the first question
+(single-choice) and the third question for Jane Doe (no alternative correct).</em></p>
+
+<p>As for the registration number errors: For Ambi Dexter such an error was included in the PNG example
+image, the actual number is “9911071” but the crosses indicate “9901071”.</p>
+
+<p>Clean up previous evaluation</p>
+
+<div class="highlighter-rouge"><pre class="codehilite"><code>file.remove(c("nops_eval.csv", "nops_eval.zip"))
+</code></pre></div>
+
+<p>Write correct registration information</p>
+
+<div class="highlighter-rouge"><pre class="codehilite"><code>write.table(data.frame(
+  registration = c("1501090", "9911071"),
+  name = c("Jane Doe", "Ambi Dexter"),
+  id = c("jane_doe", "ambi_dexter")
+), file = "Exam-2015-07-29.csv", sep = ";", quote = FALSE, row.names = FALSE)
+</code></pre></div>
+
+<p>Call <code class="highlighter-rouge">nops_eval()</code> with modified options, where the error in the registration
+number of Ambi Dexter will trigger an interactive prompt.</p>
+
+<div class="highlighter-rouge"><pre class="codehilite"><code>ev2 &lt;- nops_eval(
+  register = "Exam-2015-07-29.csv",
+  solutions = "nops_pdf/metainfo.rds",
+  scans = Sys.glob("nops_scan/nops_scan_*.zip"),
+  eval = exams_eval(partial = TRUE, rule = "false2"),
+  language = "de")
+</code></pre></div>
+
+<p>Inspect evaluated data.</p>
+<div class="highlighter-rouge"><pre class="codehilite"><code>ev2
+cbind(ev1$points, ev2$points)
+</code></pre></div>
+
+<p>Inspect corresponding HTML reports.</p>
+<div class="highlighter-rouge"><pre class="codehilite"><code>unzip("nops_eval.zip")
+browseURL(file.path("jane_doe",    "Exam-2015-07-29.html"))
+browseURL(file.path("ambi_dexter", "Exam-2015-07-29.html"))
+</code></pre></div>
 
 
 			</span>
