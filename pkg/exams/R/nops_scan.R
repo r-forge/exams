@@ -1,6 +1,6 @@
 ## main function
 nops_scan <- function(
-  images = dir(pattern = "\\.PNG$|\\.png$|\\.PDF|\\.pdf$"),
+  images = dir(pattern = "\\.PNG$|\\.png$|\\.PDF|\\.pdf$", path = dir),
   file = NULL, dir = ".",
   verbose = TRUE, rotate = FALSE, cores = NULL, n = NULL,
   density = 300,
@@ -12,6 +12,13 @@ nops_scan <- function(
   if(!is.null(cores)) {
     if(!requireNamespace("parallel")) cores <- NULL
   }
+
+  ## directory handling
+  dir <- file_path_as_absolute(dir)
+  owd <- getwd()
+  dir.create(tdir <- tempfile())
+  on.exit(unlink(tdir))
+  images <- file.path(dir, images)
 
   ## check whether images exist
   if(!all(im <- file.exists(images))) {
@@ -27,12 +34,6 @@ nops_scan <- function(
   ## turned out to be less reliable for this special case and is
   ## hence never used here:
   tesseract <- FALSE
-
-  ## directory handling
-  dir <- file_path_as_absolute(dir)
-  owd <- getwd()
-  dir.create(tdir <- tempfile())
-  on.exit(unlink(tdir))
 
   ## convert PDF to PNG (if necessary)
   pdfs <- grepl("\\.pdf$", tolower(images))

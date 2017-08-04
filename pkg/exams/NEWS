@@ -30,6 +30,9 @@ Changes in Version 2.2-2
     But using texdir="/path/to/dir" an output directory can be specified
     so that the LaTeX files can be inspected, e.g., for debugging.
 
+  o nops_scan() now uses the 'dir' argument not only for the output ZIP
+    file but also for the input PDF/PNG image files.
+
 
 Changes in Version 2.2-1
 
