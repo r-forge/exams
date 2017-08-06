@@ -29,6 +29,7 @@ image:
   <td width="70%">
   <b>Step 1</b>
   <ul>
+    <li>Prepare a separate text file for each single- or multiple-choice exercise.</li>
     <li>Using <code class="highlighter-rouge">exams2nops()</code> from R/exams, create (individual) PDF files for each examinee.</li>
   </ul>
   </td>
