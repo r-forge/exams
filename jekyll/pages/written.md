@@ -13,13 +13,14 @@ permalink: "/intro/written/"
 #
 image:
   # shown on top of blog post
-  title: olympia_side_zoom.big.jpg
+  title: multiple-choice.big.jpg
   # preview in list of posts
-  thumb: olympia_side_zoom.150.jpg
+  thumb: multiple-choice.150.jpg
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "R/exams photo (CC0)."
+  caption: "Photo from Alberto G. (CC-BY)."
+  caption_url: "https://www.flickr.com/photos/albertogp123/5843577306/"
 ---
 
 <table>
