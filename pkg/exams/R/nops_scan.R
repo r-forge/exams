@@ -1,6 +1,6 @@
 ## main function
 nops_scan <- function(
-  images = dir(pattern = "\\.PNG$|\\.png$|\\.PDF|\\.pdf$", path = dir),
+  images = dir(pattern = "\\.PNG$|\\.png$|\\.PDF|\\.pdf$", path = dir, full.names = TRUE),
   file = NULL, dir = ".",
   verbose = TRUE, rotate = FALSE, cores = NULL, n = NULL,
   density = 300,
@@ -18,7 +18,6 @@ nops_scan <- function(
   owd <- getwd()
   dir.create(tdir <- tempfile())
   on.exit(unlink(tdir))
-  images <- file.path(dir, images)
 
   ## check whether images exist
   if(!all(im <- file.exists(images))) {
