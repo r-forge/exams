@@ -227,21 +227,10 @@
 
             
             
-
-              <li class="has-dropdown">
-                <a href="http://exams.R-Forge.R-project.org/dev/blog/">Blog</a>
-
-                  <ul class="dropdown">
-                    
-
-                      
-
-                      <li><a href="http://exams.R-Forge.R-project.org/dev/blog/archive/">Archive</a></li>
-                    
-                  </ul>
-
-              </li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/blog/">Blog</a></li>
               <li class="divider"></li>
+
+            
             
           
         

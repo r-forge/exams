@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-06T15:23:50+02:00</updated>
+	<updated>2017-08-09T00:13:14+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -24,7 +24,7 @@
 	<link href="http://exams.R-Forge.R-project.org/dev/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://exams.R-Forge.R-project.org/dev/" rel="alternate" type="text/html" />
 
-	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
+	<generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator>
 
 	
 		<entry>
@@ -241,39 +241,44 @@ image, the actual number is “9911071” but the crosses indicate “9901071”
 
 &lt;p&gt;Clean up previous evaluation&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;file.remove(c(&quot;nops_eval.csv&quot;, &quot;nops_eval.zip&quot;))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;file.remove(c(&quot;nops_eval.csv&quot;, &quot;nops_eval.zip&quot;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Write correct registration information&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;write.table(data.frame(
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;write.table(data.frame(
   registration = c(&quot;1501090&quot;, &quot;9911071&quot;),
   name = c(&quot;Jane Doe&quot;, &quot;Ambi Dexter&quot;),
   id = c(&quot;jane_doe&quot;, &quot;ambi_dexter&quot;)
 ), file = &quot;Exam-2015-07-29.csv&quot;, sep = &quot;;&quot;, quote = FALSE, row.names = FALSE)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Call &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; with modified options, where the error in the registration
 number of Ambi Dexter will trigger an interactive prompt.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;ev2 &amp;lt;- nops_eval(
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ev2 &amp;lt;- nops_eval(
   register = &quot;Exam-2015-07-29.csv&quot;,
   solutions = &quot;nops_pdf/metainfo.rds&quot;,
   scans = Sys.glob(&quot;nops_scan/nops_scan_*.zip&quot;),
   eval = exams_eval(partial = TRUE, rule = &quot;false2&quot;),
   language = &quot;de&quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Inspect evaluated data.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;ev2
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ev2
 cbind(ev1$points, ev2$points)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Inspect corresponding HTML reports.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;unzip(&quot;nops_eval.zip&quot;)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unzip(&quot;nops_eval.zip&quot;)
 browseURL(file.path(&quot;jane_doe&quot;,    &quot;Exam-2015-07-29.html&quot;))
 browseURL(file.path(&quot;ambi_dexter&quot;, &quot;Exam-2015-07-29.html&quot;))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 </content>
 
@@ -330,10 +335,11 @@ series, which tries to make beginner’s live easier.&lt;/p&gt;
 
 &lt;p&gt;After saving the folder you have to start R in your Terminal. Just write R and press Enter. Now type in the following code:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
 R&amp;gt; tstat_sol &amp;lt;- exams (&quot;tstat.Rnw&quot;)
 R&amp;gt; tstat_sol
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;If your installation was succesfull a PDF file will open.&lt;/p&gt;
 

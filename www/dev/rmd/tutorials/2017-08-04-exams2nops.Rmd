@@ -221,21 +221,10 @@
 
             
             
-
-              <li class="has-dropdown">
-                <a href="http://exams.R-Forge.R-project.org/dev/blog/">Blog</a>
-
-                  <ul class="dropdown">
-                    
-
-                      
-
-                      <li><a href="http://exams.R-Forge.R-project.org/dev/blog/archive/">Archive</a></li>
-                    
-                  </ul>
-
-              </li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/blog/">Blog</a></li>
               <li class="divider"></li>
+
+            
             
           
         
@@ -358,7 +347,7 @@
 
 
 	<div class="row t30">
-	<div class="medium-8 columns medium-offset-2 end">
+	<div class="columns medium-10 medium-offset-1 end">
 		<article itemscope itemtype="http://schema.org/Article">
 			<header>
 				
@@ -454,6 +443,15 @@ later on.
 ```{r exams2nops-files}
 dir("nops_pdf")
 ```
+
+```{r include-pdf, echo=FALSE, results="hide"}
+pdfs <- list.files("nops_pdf", pattern = "\\.pdf$", full.names = TRUE)
+pngs <- include_pdf_screenshot(pdfs)
+pdfs <- include_file(pdfs)
+```
+
+[![`r basename(pngs[1])`](`r pngs[1]`)](`r pdfs[1]`)
+[![`r basename(pngs[2])`](`r pngs[2]`)](`r pdfs[2]`)
 
 Now the PDFs need to be printed out for the exam. (_Recommendation:_ The exams should
 be stapled in the top left corner.)
