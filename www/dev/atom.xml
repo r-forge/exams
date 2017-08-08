@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-09T01:34:08+02:00</updated>
+	<updated>2017-08-09T01:48:31+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -24,13 +24,13 @@
 	<link href="http://exams.R-Forge.R-project.org/dev/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://exams.R-Forge.R-project.org/dev/" rel="alternate" type="text/html" />
 
-	<generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator>
+	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
 	
 		<entry>
 			<id>http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/</id>
-			<title>Conducting Written Multiple-Choice Exams in R</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/" rel="alternate" type="text/html" title="Conducting Written Multiple-Choice Exams in R" />
+			<title>Written Multiple-Choice Exams in R/exams</title>
+			<link href="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/" rel="alternate" type="text/html" title="Written Multiple-Choice Exams in R/exams" />
 			<updated>2017-08-04T00:00:00+02:00</updated>
 
 			
@@ -46,33 +46,16 @@
 				</author>
 			
 			<summary>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/">&lt;h2 id=&quot;preliminaries&quot;&gt;Preliminaries&lt;/h2&gt;
+			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/">&lt;h2 id=&quot;create-exam&quot;&gt;Create exam&lt;/h2&gt;
 
-&lt;p&gt;This tutorial demonstrates how to manage &lt;a href=&quot;/written/&quot;&gt;written exams&lt;/a&gt; with multiple-choice
-and/or single-choice questions in R/exams. On the R side this involves three steps:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Exam generation (PDF files, 1 per exam).&lt;/li&gt;
-  &lt;li&gt;Scan resulting sheets (PDF or PNG format).&lt;/li&gt;
-  &lt;li&gt;Evaluate results and generate reports.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-create.svg&quot; alt=&quot;create&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;To begin, start your R session in a dedicated directory for your exam and load the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;The first step in conducting a &lt;a href=&quot;/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
+(and/or single-choice) exercises in R/exams’ NOPS format is to create the exam in PDF format.
+First, we load the R &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and then simply create a list of exercise file names.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;TODO&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Introduce a general mechanism for including supplementary files.&lt;/li&gt;
-  &lt;li&gt;Show snapshots and make files accessible.&lt;/li&gt;
-  &lt;li&gt;Different header image?&lt;/li&gt;
-  &lt;li&gt;Move &lt;em&gt;Options&lt;/em&gt; section to a separate blog post.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;exam-generation&quot;&gt;Exam generation&lt;/h2&gt;
-
-&lt;p&gt;First, define an exam &lt;code class=&quot;highlighter-rouge&quot;&gt;myexam&lt;/code&gt; which is simply a list of exercises.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;myexam &amp;lt;- list(
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+myexam &amp;lt;- list(
   &amp;quot;tstat2.Rnw&amp;quot;,
   &amp;quot;ttest.Rnw&amp;quot;,
   &amp;quot;relfreq.Rnw&amp;quot;,
@@ -83,13 +66,13 @@ and/or single-choice questions in R/exams. On the R side this involves three ste
 
 &lt;p&gt;Here, we use a number of &lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt; questions that are directly shipped
 within the package. In practice, you would use files that you have authored and stored
-somewhere locally. Above, the exercises in .Rnw format are used but all of the examples
+somewhere locally. Above, exercises in .Rnw format are used but all of the examples
 are also available in .Rmd format, leading to virtually identical output.&lt;/p&gt;
 
-&lt;p&gt;Then, we create &lt;code class=&quot;highlighter-rouge&quot;&gt;n = 2&lt;/code&gt; randomly drawn versions from this exam on the disk in a new
-output directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_pdf&lt;/code&gt;. To customize the exam we assign a different number of
-points to the different exercises and also show the respective number of points at
-the beginning of each question.&lt;/p&gt;
+&lt;p&gt;Then, we create a small exam with only &lt;code class=&quot;highlighter-rouge&quot;&gt;n = 2&lt;/code&gt; randomly-drawn versions, storing the
+resulting PDF files (plus metainformation) on the disk in a new output directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_pdf&lt;/code&gt;.
+To customize the exam we assign a different number of points to the different exercises
+and also show the respective number of points at the beginning of each question.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;set.seed(403)
 ex1 &amp;lt;- exams2nops(myexam, n = 2,
@@ -97,59 +80,116 @@ ex1 &amp;lt;- exams2nops(myexam, n = 2,
   points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;A random seed is set to make the generated exams exactly reproducible for you
-(or ourselves at some point in the future). All metainformation is stored in a list of
-lists &lt;code class=&quot;highlighter-rouge&quot;&gt;ex1&lt;/code&gt; which we do not use here.&lt;/p&gt;
-
-&lt;p&gt;The output directory now contains three files that were generated: the two PDF files
-are the two exams we requested above. Furthermore, the metainfromation about the exam
-(exam IDs, questions, correct and wrong answer alternatives) is stored in a .rds
-file (serialized R data). The latter is crucial for being able to evaluate the exam
-later on.&lt;/p&gt;
+(or ourselves at some point in the future). The output directory now contains three files
+that were generated.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_pdf&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;demo.rds&amp;quot;  &amp;quot;demo1.pdf&amp;quot; &amp;quot;demo2.pdf&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Now the PDFs need to be printed out for the exam. (&lt;em&gt;Recommendation:&lt;/em&gt; The exams should
-be stapled in the top left corner.)&lt;/p&gt;
+&lt;p&gt;The two PDF files are the two exams we requested above.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//demo1.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops/demo1.png&quot; alt=&quot;demo1.pdf&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//demo2.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops/demo2.png&quot; alt=&quot;demo2.pdf&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
+answer alternatives) is stored in a &lt;code class=&quot;highlighter-rouge&quot;&gt;demo.rds&lt;/code&gt; file (serialized R data). This crucial
+for being able to evaluate the exam later on.&lt;/p&gt;
+
+&lt;h2 id=&quot;print-pdf-files&quot;&gt;Print PDF files&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-print.svg&quot; alt=&quot;print&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you can print the PDFs for your exam.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A small number of exams can easily be printed on a standard printer.
+Otherwise simply use a print shop.&lt;/li&gt;
+  &lt;li&gt;It is recommended &lt;em&gt;not&lt;/em&gt; to scale the printout (i.e., without “Fit to printable area”)
+and to staple the exams in the top-left corner.&lt;/li&gt;
+  &lt;li&gt;By default the PDFs from &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; have a blank second page for
+duplex printing. Then there is no content on the back of the exam sheet.
+If you want to print without duplex option, simply set &lt;code class=&quot;highlighter-rouge&quot;&gt;duplex = FALSE&lt;/code&gt; when
+creating the PDFs with &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;conduct-exam&quot;&gt;Conduct exam&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-exam.svg&quot; alt=&quot;exam&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The exam is conducted as usual. But if you used the possibilities of &lt;a href=&quot;/intro/dynamic/&quot;&gt;dynamic exercises&lt;/a&gt;
+in R/exams, the risk of cheating is greatly reduced.&lt;/p&gt;
+
+&lt;p&gt;At the end of the exam you just need to collect the completed exam sheet (first page).
+Of course, you can also collect the rest of the exam papers (e.g., to keep future students from
+seeing the exercises). However, an advantage of letting the students keep their exercises
+reduces the need of having post-exam reviews etc.&lt;/p&gt;
 
 &lt;h2 id=&quot;scan-results&quot;&gt;Scan results&lt;/h2&gt;
 
-&lt;p&gt;For each exam completed by a student, collect the main exam sheet containing
-the exam ID, student ID, and the checked answers. Use some scanning facilities
-(typically, the photocopiers provided by your university) and scan all sheets
-into PDF or PNG files. In case of PDFs, each file may contain an arbitrary number
-of sheets (just a single sheet or all sheets or everything in between).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-print.svg&quot; alt=&quot;print&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;For demonstration, we use two completed exam sheets that are provided along with
-the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and copy them to a dedicated directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Each completed exam sheet has information on the exam ID, student ID, and the
+checked answers. This needs to be scanned into images (PDF or PNG) and can then
+be processed by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Typically, it’s easy to use the photocopiers provided by your university to scan
+all sheets into PDF or PNG files. For example, our university provides us with
+Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
+render them into a single PDF file. Practical recommendations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The scanned images become smaller in size if the images are read in just black/white
+(or grayscale). This may sometimes even facilitate extracting the information (see below).&lt;/li&gt;
+  &lt;li&gt;If the exams were stapled in the top-left corner (see above) the sheet feeder often
+works better if the sheets are rotated by 180 degrees (so that the damaged corner
+is not fed first into the machine). This often improves the scanning results
+considerably and can be accomodated by setting \code{rotate = TRUE} in \code{nops_scan()}
+below.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For demonstration, we use two completed demo sheets that are provided along with
+the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and copy them to a dedicated directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan&lt;/code&gt;.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;img &amp;lt;- dir(system.file(&amp;quot;nops&amp;quot;, package = &amp;quot;exams&amp;quot;), pattern = &amp;quot;nops_scan&amp;quot;,
   full.names = TRUE)
 dir.create(&amp;quot;nops_scan&amp;quot;)
 file.copy(img, to = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan1.png&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops/nops_scan1-thumb.png&quot; alt=&quot;nops_scan1.png&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan2.png&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops/nops_scan2-thumb.png&quot; alt=&quot;nops_scan2.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;(Note that the first scanned image corresponds to one of the PDFs above while
+the other one was generated with custom title/logo/language/etc.)&lt;/p&gt;
+
 &lt;p&gt;Using the function &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; we can now read all scanned images (i.e.,
-all locally available PNG and/or PDF files), make the scanned information
-available in a plain text data file (called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; for historical reasons)
-and collect everything in a ZIP file:&lt;/p&gt;
+all locally available PNG and/or PDF files) and collect everything in a ZIP file.
+(Note that if there were PDF files that need to be scanned, then the
+PDF toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and the function &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt; from ImageMagick need to be
+available outside of R on the command line.)&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;nops_scan(dir = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan_20170804133407.zip&amp;quot; &amp;quot;nops_scan1.png&amp;quot;              
-## [3] &amp;quot;nops_scan2.png&amp;quot;
+&lt;pre&gt;&lt;code&gt;## Loading required namespace: png
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;See &lt;code class=&quot;highlighter-rouge&quot;&gt;?nops_scan&lt;/code&gt; for more details, e.g., multicore support or options for
-rotating PDF files prior to scanning. Also feel free to explore the format
-of the files in the ZIP file which should be self-explanatory.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Now that scanning is complete we switch back to the original working directory.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan1.png&amp;quot;               &amp;quot;nops_scan2.png&amp;quot;              
+## [3] &amp;quot;nops_scan_20170809014256.zip&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting file &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170809014256.zip&quot;&gt;nops_scan_20170809014256.zip&lt;/a&gt; contains copies of the
+PNG files along with a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; (for historical reasons) that
+contains the scanned information in machine-readable from.&lt;/p&gt;
+
+&lt;p&gt;See &lt;code class=&quot;highlighter-rouge&quot;&gt;?nops_scan&lt;/code&gt; for more details, e.g., multicore support or options for
+rotating PDF files prior to scanning.&lt;/p&gt;
 
 &lt;h2 id=&quot;evaluate-results&quot;&gt;Evaluate results&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-evaluate.svg&quot; alt=&quot;evaluate&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In the previous scanning step the exam sheets have just been &lt;em&gt;read&lt;/em&gt; but not
 yet &lt;em&gt;evaluated&lt;/em&gt;, i.e., it has not yet been assessed which questions were answered
@@ -158,25 +198,27 @@ Therefore, we use &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt
 the results available - both in a format easy to read for machines (a CSV file)
 and a format for humans (one HTML page for each student).&lt;/p&gt;
 
-&lt;p&gt;To do so, three files are required: (a) an RDS file with the exam meta-information
-(generated in Step 1), (b) a ZIP file with the scanned sheets (generated in Step 2),
-(c) and a CSV file with the student infomation (registration number, name, and some
+&lt;p&gt;To do so, three files are required:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;An RDS file with the exam meta-information, generated by &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; above.&lt;/li&gt;
+  &lt;li&gt;A ZIP file with the scanned sheets, generated by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; above.&lt;/li&gt;
+  &lt;li&gt;A CSV file (semicolon-separated values) with the student infomation (registration number, name, and some
 ID or username). In practice, this CSV file will typically be processed from some
 registration service or learning management system etc. However, here we simply
-create a suitable CSV file on the fly.&lt;/p&gt;
+create a suitable CSV file on the fly.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;write.table(data.frame(
   registration = c(&amp;quot;1501090&amp;quot;, &amp;quot;9901071&amp;quot;),
   name = c(&amp;quot;Jane Doe&amp;quot;, &amp;quot;Ambi Dexter&amp;quot;),
   id = c(&amp;quot;jane_doe&amp;quot;, &amp;quot;ambi_dexter&amp;quot;)
-), file = &amp;quot;Exam-2015-07-29.csv&amp;quot;, sep = &amp;quot;;&amp;quot;, quote = FALSE, row.names = FALSE)
-dir()&lt;/code&gt;&lt;/pre&gt;
+), file = &amp;quot;Exam-2015-07-29.csv&amp;quot;, sep = &amp;quot;;&amp;quot;, quote = FALSE, row.names = FALSE)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2017-08-04-exams2nops.Rmd&amp;quot; &amp;quot;Exam-2015-07-29.csv&amp;quot;      
-## [3] &amp;quot;nops_pdf&amp;quot;                  &amp;quot;nops_scan&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The resulting file is &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//Exam-2015-07-29.csv&quot;&gt;Exam-2015-07-29.csv&lt;/a&gt;.&lt;/p&gt;
+
 &lt;p&gt;Now the exam can be evaluated creating an output data frame (also stored
-as CSV file) and individual HTML reports (stored in a ZIP file). Here, we
+as a CSV file) and individual HTML reports (stored in a ZIP file). Here, we
 employ an evaluation scheme without partial points in the multiple-choice questions
 and differing points across questions.&lt;/p&gt;
 
@@ -186,16 +228,20 @@ and differing points across questions.&lt;/p&gt;
   scans = Sys.glob(&amp;quot;nops_scan/nops_scan_*.zip&amp;quot;),
   eval = exams_eval(partial = FALSE, negative = FALSE),
   interactive = FALSE
-)
-dir()&lt;/code&gt;&lt;/pre&gt;
+)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;2017-08-04-exams2nops.Rmd&amp;quot; &amp;quot;Exam-2015-07-29.csv&amp;quot;      
-## [3] &amp;quot;nops_eval.csv&amp;quot;             &amp;quot;nops_eval.zip&amp;quot;            
-## [5] &amp;quot;nops_pdf&amp;quot;                  &amp;quot;nops_scan&amp;quot;
+&lt;pre&gt;&lt;code&gt;## Loading required namespace: base64enc
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The evaluated data can be inspected by optining &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval.csv&lt;/code&gt; in some spreadsheet
-software or we can directly look at the data in R.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir()&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Exam-2015-07-29.csv&amp;quot; &amp;quot;nops_eval.csv&amp;quot;       &amp;quot;nops_eval.zip&amp;quot;      
+## [4] &amp;quot;nops_pdf&amp;quot;            &amp;quot;nops_scan&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The evaluated data can be inspected by opening &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_eval.csv&quot;&gt;nops_eval.csv&lt;/a&gt; in some spreadsheet
+software or we can directly look at the data in R. Based on this information, the marks could be
+entered into the university’s information system.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1&lt;/code&gt;&lt;/pre&gt;
 
@@ -216,69 +262,13 @@ software or we can directly look at the data in R.&lt;/p&gt;
 ## 9901071       0        0    11100      00011       0        0
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;To inspect the corresponding HTML reports from within R:&lt;/p&gt;
+&lt;p&gt;And &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval.zip&lt;/code&gt; contains subdirectories with HTML reports for each of the two participants.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;unzip(&amp;quot;nops_eval.zip&amp;quot;)
-browseURL(file.path(&amp;quot;jane_doe&amp;quot;,    &amp;quot;Exam-2015-07-29.html&amp;quot;))
-browseURL(file.path(&amp;quot;ambi_dexter&amp;quot;, &amp;quot;Exam-2015-07-29.html&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//Exam-2015-07-29-jane_doe.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops/Exam-2015-07-29-jane_doe.png&quot; alt=&quot;Exam-2015-07-29-jane_doe.html&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//Exam-2015-07-29-ambi_dexter.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops/Exam-2015-07-29-ambi_dexter.png&quot; alt=&quot;Exam-2015-07-29-ambi_dexter.html&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;options&quot;&gt;Options&lt;/h2&gt;
-
-&lt;p&gt;Below three typically-needed options are discussed:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;using a different evaluation strategy (here with partial credits),&lt;/li&gt;
-  &lt;li&gt;using a different language (here de/German),&lt;/li&gt;
-  &lt;li&gt;an error of the participant when filling in the registration number.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As for the evaluation: Partial credits should only be used for multiple-choice questions
-where at least one alternative is correct and at least one is false.
-&lt;em&gt;Note that in this example this is not the case for the first question
-(single-choice) and the third question for Jane Doe (no alternative correct).&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As for the registration number errors: For Ambi Dexter such an error was included in the PNG example
-image, the actual number is “9911071” but the crosses indicate “9901071”.&lt;/p&gt;
-
-&lt;p&gt;Clean up previous evaluation&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;file.remove(c(&quot;nops_eval.csv&quot;, &quot;nops_eval.zip&quot;))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Write correct registration information&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;write.table(data.frame(
-  registration = c(&quot;1501090&quot;, &quot;9911071&quot;),
-  name = c(&quot;Jane Doe&quot;, &quot;Ambi Dexter&quot;),
-  id = c(&quot;jane_doe&quot;, &quot;ambi_dexter&quot;)
-), file = &quot;Exam-2015-07-29.csv&quot;, sep = &quot;;&quot;, quote = FALSE, row.names = FALSE)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Call &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; with modified options, where the error in the registration
-number of Ambi Dexter will trigger an interactive prompt.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ev2 &amp;lt;- nops_eval(
-  register = &quot;Exam-2015-07-29.csv&quot;,
-  solutions = &quot;nops_pdf/metainfo.rds&quot;,
-  scans = Sys.glob(&quot;nops_scan/nops_scan_*.zip&quot;),
-  eval = exams_eval(partial = TRUE, rule = &quot;false2&quot;),
-  language = &quot;de&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Inspect evaluated data.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ev2
-cbind(ev1$points, ev2$points)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Inspect corresponding HTML reports.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unzip(&quot;nops_eval.zip&quot;)
-browseURL(file.path(&quot;jane_doe&quot;,    &quot;Exam-2015-07-29.html&quot;))
-browseURL(file.path(&quot;ambi_dexter&quot;, &quot;Exam-2015-07-29.html&quot;))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;These HTML reports could then be uploaded into a learning management system, put on some other
+web server, or even sent out via e-mail.&lt;/p&gt;
 
 </content>
 
@@ -288,7 +278,11 @@ browseURL(file.path(&quot;ambi_dexter&quot;, &quot;Exam-2015-07-29.html&quot;))
 			
 				<category term="exams2nops" />
 			
-				<category term="written exams" />
+				<category term="written" />
+			
+				<category term="mchoice" />
+			
+				<category term="schoice" />
 			
 				<category term="PDF" />
 			
@@ -335,11 +329,10 @@ series, which tries to make beginner’s live easier.&lt;/p&gt;
 
 &lt;p&gt;After saving the folder you have to start R in your Terminal. Just write R and press Enter. Now type in the following code:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
 R&amp;gt; tstat_sol &amp;lt;- exams (&quot;tstat.Rnw&quot;)
 R&amp;gt; tstat_sol
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If your installation was succesfull a PDF file will open.&lt;/p&gt;
 
