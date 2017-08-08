@@ -25,9 +25,6 @@
 - title: Blog
   url: "/blog/"
   side: left
-  dropdown:
-  - title: "Archive"
-    url: "/blog/archive/"
 
 #
 #   Navigation to the right › side: right

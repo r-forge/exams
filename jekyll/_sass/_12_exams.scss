@@ -61,6 +61,21 @@ img.nav-logo {
   padding:5px;
 }
 
+.blog-index span.category {
+  text-transform: uppercase;
+}
+
+.blog-index span.category::before {
+  content: 'Category:';
+  display: inline-block;
+  padding-right: 0.5em;
+  text-transform: none;
+}
+
+.blog-index p {
+  margin-bottom: 0.3em;
+}
+
 // this was already defined for h2 by phlow
 .blog-index h3 {
   margin-top: 0;
