@@ -98,6 +98,15 @@ later on.
 dir("nops_pdf")
 ```
 
+```{r include-pdf, echo=FALSE, results="hide"}
+pdfs <- list.files("nops_pdf", pattern = "\\.pdf$", full.names = TRUE)
+pngs <- include_pdf_screenshot(pdfs)
+pdfs <- include_file(pdfs)
+```
+
+[![`r basename(pngs[1])`](`r pngs[1]`)](`r pdfs[1]`)
+[![`r basename(pngs[2])`](`r pngs[2]`)](`r pdfs[2]`)
+
 Now the PDFs need to be printed out for the exam. (_Recommendation:_ The exams should
 be stapled in the top left corner.)
 
