@@ -70,6 +70,8 @@ exclude:
     - INSTALL.md
     - vendor
     - tikz
+    - rmd
+    - misc
     - .bundle
 
 
