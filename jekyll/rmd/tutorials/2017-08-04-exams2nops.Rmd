@@ -3,13 +3,15 @@ layout: page
 #
 # Content
 #
-title: "Conducting Written Multiple-Choice Exams in R"
+title: "Written Multiple-Choice Exams in R/exams"
 teaser: "Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams."
 categories:
   - tutorials
 tags:
   - exams2nops
-  - written exams
+  - written
+  - mchoice
+  - schoice
   - PDF
   - scan
   - evaluation
@@ -30,32 +32,16 @@ image:
   caption: "R/exams photo (CC0)."
 ---
 
-## Preliminaries
+## Create exam
 
-This tutorial demonstrates how to manage [written exams](/written/) with multiple-choice
-and/or single-choice questions in R/exams. On the R side this involves three steps:
-1. Exam generation (PDF files, 1 per exam).
-2. Scan resulting sheets (PDF or PNG format).
-3. Evaluate results and generate reports.
+![create]({{ site.url }}/images/written-create.svg){:width="30%"}
 
-To begin, start your R session in a dedicated directory for your exam and load the `exams` package.
+The first step in conducting a [written exam](/intro/written/) with multiple-choice
+(and/or single-choice) exercises in R/exams' NOPS format is to create the exam in PDF format.
+First, we load the R `exams` package and then simply create a list of exercise file names.
 
-```{r load package}
+```{r exam-definition}
 library("exams")
-```
-
-**TODO**
-* Introduce a general mechanism for including supplementary files.
-* Show snapshots and make files accessible.
-* Different header image?
-* Move _Options_ section to a separate blog post.
-
-
-## Exam generation
-
-First, define an exam `myexam` which is simply a list of exercises.
-
-```{r exam definition}
 myexam <- list(
   "tstat2.Rnw",
   "ttest.Rnw",
@@ -68,14 +54,13 @@ myexam <- list(
 
 Here, we use a number of `schoice` and `mchoice` questions that are directly shipped
 within the package. In practice, you would use files that you have authored and stored
-somewhere locally. Above, the exercises in .Rnw format are used but all of the examples
+somewhere locally. Above, exercises in .Rnw format are used but all of the examples
 are also available in .Rmd format, leading to virtually identical output.
 
-
-Then, we create `n = 2` randomly drawn versions from this exam on the disk in a new
-output directory `nops_pdf`. To customize the exam we assign a different number of
-points to the different exercises and also show the respective number of points at
-the beginning of each question.
+Then, we create a small exam with only `n = 2` randomly-drawn versions, storing the
+resulting PDF files (plus metainformation) on the disk in a new output directory `nops_pdf`.
+To customize the exam we assign a different number of points to the different exercises
+and also show the respective number of points at the beginning of each question.
 
 ```{r exams2nops}
 set.seed(403)
@@ -85,42 +70,75 @@ ex1 <- exams2nops(myexam, n = 2,
 ```
 
 A random seed is set to make the generated exams exactly reproducible for you
-(or ourselves at some point in the future). All metainformation is stored in a list of
-lists `ex1` which we do not use here.
-
-The output directory now contains three files that were generated: the two PDF files
-are the two exams we requested above. Furthermore, the metainfromation about the exam
-(exam IDs, questions, correct and wrong answer alternatives) is stored in a .rds
-file (serialized R data). The latter is crucial for being able to evaluate the exam
-later on.
+(or ourselves at some point in the future). The output directory now contains three files
+that were generated.
 
 ```{r exams2nops-files}
 dir("nops_pdf")
 ```
 
-```{r include-pdf, echo=FALSE, results="hide"}
-pdfs <- list.files("nops_pdf", pattern = "\\.pdf$", full.names = TRUE)
-pngs <- include_pdf_screenshot(pdfs)
-pdfs <- include_file(pdfs)
-```
+The two PDF files are the two exams we requested above.
 
-[![`r basename(pngs[1])`](`r pngs[1]`)](`r pdfs[1]`)
-[![`r basename(pngs[2])`](`r pngs[2]`)](`r pdfs[2]`)
+`r include_asset("nops_pdf/demo1.pdf")`
+`r include_asset("nops_pdf/demo2.pdf")`
 
-Now the PDFs need to be printed out for the exam. (_Recommendation:_ The exams should
-be stapled in the top left corner.)
+Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
+answer alternatives) is stored in a `demo.rds` file (serialized R data). This crucial
+for being able to evaluate the exam later on.
+
+
+## Print PDF files
+
+![print]({{ site.url }}/images/written-print.svg){:width="30%"}
+
+Now you can print the PDFs for your exam.
+
+* A small number of exams can easily be printed on a standard printer.
+  Otherwise simply use a print shop.
+* It is recommended _not_ to scale the printout (i.e., without "Fit to printable area")
+  and to staple the exams in the top-left corner.
+* By default the PDFs from `exams2nops()` have a blank second page for
+  duplex printing. Then there is no content on the back of the exam sheet.
+  If you want to print without duplex option, simply set `duplex = FALSE` when
+  creating the PDFs with `exams2nops()`.
+
+
+## Conduct exam
+
+![exam]({{ site.url }}/images/written-exam.svg){:width="30%"}
+
+The exam is conducted as usual. But if you used the possibilities of [dynamic exercises](/intro/dynamic/)
+in R/exams, the risk of cheating is greatly reduced.
+
+At the end of the exam you just need to collect the completed exam sheet (first page).
+Of course, you can also collect the rest of the exam papers (e.g., to keep future students from
+seeing the exercises). However, an advantage of letting the students keep their exercises
+reduces the need of having post-exam reviews etc.
 
 
 ## Scan results
 
-For each exam completed by a student, collect the main exam sheet containing
-the exam ID, student ID, and the checked answers. Use some scanning facilities
-(typically, the photocopiers provided by your university) and scan all sheets
-into PDF or PNG files. In case of PDFs, each file may contain an arbitrary number
-of sheets (just a single sheet or all sheets or everything in between).
+![print]({{ site.url }}/images/written-print.svg){:width="30%"}
 
-For demonstration, we use two completed exam sheets that are provided along with
-the `exams` package and copy them to a dedicated directory `nops_scan`:
+Each completed exam sheet has information on the exam ID, student ID, and the
+checked answers. This needs to be scanned into images (PDF or PNG) and can then
+be processed by `nops_scan()`.
+
+Typically, it's easy to use the photocopiers provided by your university to scan
+all sheets into PDF or PNG files. For example, our university provides us with
+Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
+render them into a single PDF file. Practical recommendations:
+  
+* The scanned images become smaller in size if the images are read in just black/white
+  (or grayscale). This may sometimes even facilitate extracting the information (see below).
+* If the exams were stapled in the top-left corner (see above) the sheet feeder often
+  works better if the sheets are rotated by 180 degrees (so that the damaged corner
+  is not fed first into the machine). This often improves the scanning results
+  considerably and can be accomodated by setting \code{rotate = TRUE} in \code{nops_scan()}
+  below.
+
+For demonstration, we use two completed demo sheets that are provided along with
+the `exams` package and copy them to a dedicated directory `nops_scan`.
 
 ```{r exams2nops-scans, results="hide"}
 img <- dir(system.file("nops", package = "exams"), pattern = "nops_scan",
@@ -129,10 +147,17 @@ dir.create("nops_scan")
 file.copy(img, to = "nops_scan")
 ```
 
+`r include_asset("nops_scan/*1.png")`
+`r include_asset("nops_scan/*2.png")`
+
+(Note that the first scanned image corresponds to one of the PDFs above while
+the other one was generated with custom title/logo/language/etc.)
+
 Using the function `nops_scan()` we can now read all scanned images (i.e.,
-all locally available PNG and/or PDF files), make the scanned information
-available in a plain text data file (called `Daten.txt` for historical reasons)
-and collect everything in a ZIP file:
+all locally available PNG and/or PDF files) and collect everything in a ZIP file.
+(Note that if there were PDF files that need to be scanned, then the
+PDF toolkit `pdftk` and the function `convert` from ImageMagick need to be
+available outside of R on the command line.)
 
 ```{r nops_scan, results="hide", warning=FALSE}
 nops_scan(dir = "nops_scan")
@@ -142,14 +167,18 @@ nops_scan(dir = "nops_scan")
 dir("nops_scan")
 ```
 
-See `?nops_scan` for more details, e.g., multicore support or options for
-rotating PDF files prior to scanning. Also feel free to explore the format
-of the files in the ZIP file which should be self-explanatory.
+The resulting file `r include_asset("nops_scan/*.zip")` contains copies of the
+PNG files along with a file called `Daten.txt` (for historical reasons) that
+contains the scanned information in machine-readable from.
 
-Now that scanning is complete we switch back to the original working directory.
+See `?nops_scan` for more details, e.g., multicore support or options for
+rotating PDF files prior to scanning.
+
 
 
 ## Evaluate results
+
+![evaluate]({{ site.url }}/images/written-evaluate.svg){:width="30%"}
 
 In the previous scanning step the exam sheets have just been _read_ but not
 yet _evaluated_, i.e., it has not yet been assessed which questions were answered
@@ -158,12 +187,14 @@ Therefore, we use `nops_eval()` to carry out these computations and to make
 the results available - both in a format easy to read for machines (a CSV file)
 and a format for humans (one HTML page for each student).
 
-To do so, three files are required: (a) an RDS file with the exam meta-information
-(generated in Step 1), (b) a ZIP file with the scanned sheets (generated in Step 2),
-(c) and a CSV file with the student infomation (registration number, name, and some
-ID or username). In practice, this CSV file will typically be processed from some
-registration service or learning management system etc. However, here we simply
-create a suitable CSV file on the fly.
+To do so, three files are required:
+
+* An RDS file with the exam meta-information, generated by `exams2nops()` above.
+* A ZIP file with the scanned sheets, generated by `nops_scan()` above.
+* A CSV file (semicolon-separated values) with the student infomation (registration number, name, and some
+  ID or username). In practice, this CSV file will typically be processed from some
+  registration service or learning management system etc. However, here we simply
+  create a suitable CSV file on the fly.
 
 ```{r registration-csv}
 write.table(data.frame(
@@ -171,14 +202,16 @@ write.table(data.frame(
   name = c("Jane Doe", "Ambi Dexter"),
   id = c("jane_doe", "ambi_dexter")
 ), file = "Exam-2015-07-29.csv", sep = ";", quote = FALSE, row.names = FALSE)
-dir()
 ```
+
+The resulting file is `r include_asset("Exam-*.csv")`.
+
 Now the exam can be evaluated creating an output data frame (also stored
-as CSV file) and individual HTML reports (stored in a ZIP file). Here, we
+as a CSV file) and individual HTML reports (stored in a ZIP file). Here, we
 employ an evaluation scheme without partial points in the multiple-choice questions
 and differing points across questions.
 
-```{r nops_eval}
+```{r nops_eval, results="hide"}
 ev1 <- nops_eval(
   register = "Exam-2015-07-29.csv",
   solutions = "nops_pdf/demo.rds",
@@ -189,81 +222,35 @@ ev1 <- nops_eval(
 dir()
 ```
 
-The evaluated data can be inspected by optining `nops_eval.csv` in some spreadsheet
-software or we can directly look at the data in R.
+```{r nops_eval-dir, echo=FALSE}
+d <- dir()
+d[!grepl("\\.Rmd$", d)]
+```
+
+The evaluated data can be inspected by opening `r include_asset("nops_eval.csv")` in some spreadsheet
+software or we can directly look at the data in R. Based on this information, the marks could be
+entered into the university's information system.
 
 ```{r nops_eval-data}
 ev1
 ```
 
-To inspect the corresponding HTML reports from within R:
-
-```{r eval=FALSE}
+```{r, echo=FALSE, results="hide"}
 unzip("nops_eval.zip")
-browseURL(file.path("jane_doe",    "Exam-2015-07-29.html"))
-browseURL(file.path("ambi_dexter", "Exam-2015-07-29.html"))
+file.rename(Sys.glob("jane_doe/*.*"), gsub(".html", "-jane_doe.html", Sys.glob("jane_doe/*.*"), fixed = TRUE))
+file.rename(Sys.glob("ambi_dexter/*.*"), gsub(".html", "-ambi_dexter.html", Sys.glob("ambi_dexter/*.*"), fixed = TRUE))
 ```
 
-## Options
+And `nops_eval.zip` contains subdirectories with HTML reports for each of the two participants.
 
-Below three typically-needed options are discussed:
-* using a different evaluation strategy (here with partial credits),
-* using a different language (here de/German),
-* an error of the participant when filling in the registration number.
+`r include_asset("jane_doe/*.html")`
+`r include_asset("ambi_dexter/*.html")`
 
-As for the evaluation: Partial credits should only be used for multiple-choice questions
-where at least one alternative is correct and at least one is false.
-_Note that in this example this is not the case for the first question
-(single-choice) and the third question for Jane Doe (no alternative correct)._
-
-As for the registration number errors: For Ambi Dexter such an error was included in the PNG example
-image, the actual number is "9911071" but the crosses indicate "9901071".
-
-Clean up previous evaluation
-
-```
-file.remove(c("nops_eval.csv", "nops_eval.zip"))
-```
-
-Write correct registration information
-
-```
-write.table(data.frame(
-  registration = c("1501090", "9911071"),
-  name = c("Jane Doe", "Ambi Dexter"),
-  id = c("jane_doe", "ambi_dexter")
-), file = "Exam-2015-07-29.csv", sep = ";", quote = FALSE, row.names = FALSE)
-```
-
-Call `nops_eval()` with modified options, where the error in the registration
-number of Ambi Dexter will trigger an interactive prompt.
-
-```
-ev2 <- nops_eval(
-  register = "Exam-2015-07-29.csv",
-  solutions = "nops_pdf/metainfo.rds",
-  scans = Sys.glob("nops_scan/nops_scan_*.zip"),
-  eval = exams_eval(partial = TRUE, rule = "false2"),
-  language = "de")
-```
-
-Inspect evaluated data.
-```
-ev2
-cbind(ev1$points, ev2$points)
-```
-
-Inspect corresponding HTML reports.
-```
-unzip("nops_eval.zip")
-browseURL(file.path("jane_doe",    "Exam-2015-07-29.html"))
-browseURL(file.path("ambi_dexter", "Exam-2015-07-29.html"))
-```
+These HTML reports could then be uploaded into a learning management system, put on some other
+web server, or even sent out via e-mail.
 
 
-```{r cleanup, echo = FALSE, results = "hide"}
-unlink("nops_pdf/", recursive = TRUE, force = TRUE)
-unlink("nops_scan/", recursive = TRUE, force = TRUE)
-file.remove(Sys.glob("nops_eval.*"))
-file.remove(Sys.glob("Exam-*.csv"))
+```{r, echo=FALSE, results="hide"}
+file.remove(Sys.glob(c("Exam-*.csv", "nops_eval.*")))
+unlink(c("nops_pdf", "nops_scan", "jane_doe", "ambi_dexter"), recursive = TRUE, force = TRUE)
 ```
