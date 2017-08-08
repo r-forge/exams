@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: workflow
 #
 # Content
 #
@@ -21,72 +21,48 @@ image:
   # shown under image on top of blog post
   caption: "Photo from Alberto G. (CC-BY)."
   caption_url: "https://www.flickr.com/photos/albertogp123/5843577306/"
+
+workflow:
+  - step:
+      img: ../../images/written-create.svg
+      alt: create
+      dsc: |
+        ###### Step 1
+        * Prepare a separate text file for each multiple-choice exercise.
+        * Using `exams2nops()` from
+          R/exams, create (individual) PDF files for each examinee.
+  - step:
+      img: ../../images/written-print.svg
+      alt: print
+      dsc: |
+        ###### Step 2
+        * Print the PDF exams, e.g., on a standard printer.
+        * ...or for large exams at a print shop.
+  - step:
+      img: ../../images/written-exam.svg
+      alt: exam
+      dsc: |
+        ###### Step 3
+        * Conduct the exam as usual.
+        * Collect the completed exams sheets.
+  - step:
+      img: ../../images/written-scan.svg
+      alt: scan
+      dsc: |
+        ###### Step 4
+        * Scan all exam sheets, e.g., on a photopier.
+        * Using `nops_scan()` from R/exams, process the scanned exam sheets to
+          obtain machine-readable content.
+  - step:
+      img: ../../images/written-evaluate.svg
+      alt: evaluate
+      dsc: |
+        ###### Step 5
+        * And with `nops_eval()` evaluate the exam to obtain marks, points, etc.
+          and individual HTML reports for each participant.
+        * Required files: Correct answers from Step 1, scans from Step 4, and a
+          participant list in CSV format.
+
 ---
 
-<table>
-<tr>
-  <td width="30%"><img src="../../images/written-create.svg" alt="create"/></td>
-  <td width="70%">
-  <b>Step 1</b>
-  <ul>
-    <li>Prepare a separate text file for each multiple-choice exercise.</li>
-    <li>Using <code class="highlighter-rouge">exams2nops()</code> from R/exams, create (individual) PDF files for each examinee.</li>
-  </ul>
-  </td>
-</tr>
-</table>
-
-<table>
-<tr>
-  <td width="30%"><img src="../../images/written-print.svg" alt="create"/></td>
-  <td width="70%">
-  <b>Step 2</b>
-  <ul>
-    <li>Print the PDF exams, e.g., on a standard printer.</li>
-    <li>...or for large exams at a print shop.</li>
-  </ul>
-  </td>
-</tr>
-</table>
-
-<table>
-<tr>
-  <td width="30%"><img src="../../images/written-exam.svg" alt="create"/></td>
-  <td width="70%">
-  <b>Step 3</b>
-  <ul>
-    <li>Conduct the exam as usual.</li>
-    <li>Collect the completed exams sheets.</li>
-  </ul>
-  </td>
-</tr>
-</table>
-
-<table>
-<tr>
-  <td width="30%"><img src="../../images/written-scan.svg" alt="create"/></td>
-  <td width="70%">
-  <b>Step 4</b>
-  <ul>
-    <li>Scan all exam sheets, e.g., on a photopier.</li>
-    <li>Output can be either PDF (multiple sheets per file) or PNG (1 sheet per file).</li>
-    <li>Using <code class="highlighter-rouge">nops_scan()</code> from R/exams, process the scanned exam sheets to obtain machine-readable content.</li>
-  </ul>
-  </td>
-</tr>
-</table>
-
-<table>
-<tr>
-  <td width="30%"><img src="../../images/written-evaluate.svg" alt="create"/></td>
-  <td width="70%">
-  <b>Step 5</b>
-  <ul>
-    <li>And with <code class="highlighter-rouge">nops_eval()</code> evaluate the exam to obtain marks, points, etc. and individual HTML reports for each participant.</li>
-    <li>Required files: Correct answers from Step 1, scans from Step 4, and a participant list in CSV format.</li>
-  </ul>
-  </td>
-</tr>
-</table>
-
-
+Manuell gelinkte Artikel hier
