@@ -1,9 +1,9 @@
 - menu_name: "Network"
 
 - name: "CRAN"
-  url: "https://cran.r-project.org/web/packages/exams/index.html"
-  title: "Get software package"
+  url: "https://CRAN.R-project.org/package=exams"
+  title: "Software download"
 
 - name: "R-Forge"
-  url: "https://r-forge.r-project.org/R/?group_id=1337"
+  url: "https://R-Forge.R-project.org/R/?group_id=1337"
   title: "Package development"
