@@ -50,7 +50,7 @@ workflow:
       alt: scan
       dsc: |
         ###### 4. Scan
-        * Scan all exam sheets, e.g., on a photopier.
+        * Scan all exam sheets, e.g., on a photocopier.
         * Using `nops_scan()` from R/exams, process the scanned exam sheets to
           obtain machine-readable content.
   - step:
