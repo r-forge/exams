@@ -249,7 +249,7 @@ as a CSV file) and individual HTML reports (stored in a ZIP file). Here, we
 employ an evaluation scheme without partial points in the multiple-choice questions
 and differing points across questions.
 
-```{r nops_eval, results="hide"}
+```{r nops_eval}
 ev1 <- nops_eval(
   register = "Exam-2015-07-29.csv",
   solutions = "nops_pdf/demo.rds",
@@ -258,11 +258,6 @@ ev1 <- nops_eval(
   interactive = FALSE
 )
 dir()
-```
-
-```{r nops_eval-dir, echo=FALSE}
-d <- dir()
-d[!grepl("\\.Rmd$", d)]
 ```
 
 The evaluated data can be inspected by opening `r include_asset("nops_eval.csv")` in some spreadsheet
@@ -286,9 +281,3 @@ And `nops_eval.zip` contains subdirectories with HTML reports for each of the tw
 
 These HTML reports could then be uploaded into a learning management system, put on some other
 web server, or even sent out via e-mail.
-
-
-```{r, echo=FALSE, results="hide"}
-file.remove(Sys.glob(c("Exam-*.csv", "nops_eval.*")))
-unlink(c("nops_pdf", "nops_scan", "jane_doe", "ambi_dexter"), recursive = TRUE, force = TRUE)
-```

@@ -1,20 +1,27 @@
 include_rmd <- function(file, ...)
 {
+  ## create temporary directory
+  if(!file.exists("_tempdir")) dir.create("_tempdir")
+  root <- tools::file_path_as_absolute("_tempdir")
+  file <- file.path("..", file)
+  setwd("_tempdir")
+
   ## store all 'assets' (figures and other supplementary files)
   ## in post-specific sub-directory
-  assets <- file.path("..", "..", "assets", "posts", tools::file_path_sans_ext(file))  
+  assets <- file.path("..", "..", "..", "assets", "posts", tools::file_path_sans_ext(basename(file)))
   if(!file.exists(assets)) dir.create(assets)
 
   ## the output .md file should be in _posts/<category>/*.md
   output <- tools::file_path_sans_ext(tools::file_path_as_absolute(file))
-  output <- paste(c("..", "..", "_posts", utils::tail(strsplit(output, "/")[[1L]], 2L)), collapse = "/")
+  output <- paste(c("..", "..", "..", "_posts", utils::tail(strsplit(output, "/")[[1L]], 2L)), collapse = "/")
   output <- paste0(output, ".md")
 
   ## default knitr settings (can be queried within .Rmd processing)
   knitr::opts_chunk$set(dev = "svg",
     fig.height = 5, fig.width = 6, dpi = 100, ...,
     fig.path = paste0(assets, "/"), knitr::render_jekyll("prettify"))
-
+  knitr::opts_knit$set(root.dir = root)
+    
   ## process .Rmd
   rval <- knitr::knit(input = file, output = output, quiet = TRUE, encoding = "UTF-8")
 
@@ -23,8 +30,12 @@ include_rmd <- function(file, ...)
 
   ## fix-up relative links using {{ site.url }} syntax
   md <- readLines(output, encoding = "UTF-8")
-  md <- gsub("../../assets", "{{ site.url }}/assets", md, fixed = TRUE)
+  md <- gsub("../../../assets", "{{ site.url }}/assets", md, fixed = TRUE)
   writeLines(md, output)
+  
+  ## clean up
+  setwd("..")
+  unlink("_tempdir", recursive = TRUE)
   
   invisible(rval)
 }
