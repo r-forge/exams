@@ -4,10 +4,10 @@ layout: page
 {% if page.workflow %}
   {% for i in page.workflow %}
   <div class='row t30'>
-    <div class='small-4 medium-3 columns'>
+    <div class='medium-3 columns'>
       <img src="{{ i.step.img }}" alt="{{ i.step.alt }}"/>
     </div>
-    <div class='small-8 medium-9 columns'>
+    <div class='medium-9 columns'>
       {{ i.step.dsc | markdownify }}
     </div>
   </div>
