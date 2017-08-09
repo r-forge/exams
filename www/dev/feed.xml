@@ -9,7 +9,7 @@
 		<atom:link href="http://exams.R-Forge.R-project.org/dev/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Written Multiple-Choice Exams in R/exams</title>
+				<title>Written Multiple-Choice Exams with R/exams</title>
 				<link>http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/</link>
 				<pubDate>Fri, 04 Aug 2017 00:00:00 +0200</pubDate>
 				<description>&lt;h2 id=&quot;create-exam&quot;&gt;Create exam&lt;/h2&gt;

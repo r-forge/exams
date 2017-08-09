@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-09T18:13:06+02:00</updated>
+	<updated>2017-08-09T18:28:00+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -29,8 +29,8 @@
 	
 		<entry>
 			<id>http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/</id>
-			<title>Written Multiple-Choice Exams in R/exams</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/" rel="alternate" type="text/html" title="Written Multiple-Choice Exams in R/exams" />
+			<title>Written Multiple-Choice Exams with R/exams</title>
+			<link href="http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/" rel="alternate" type="text/html" title="Written Multiple-Choice Exams with R/exams" />
 			<updated>2017-08-04T00:00:00+02:00</updated>
 
 			
