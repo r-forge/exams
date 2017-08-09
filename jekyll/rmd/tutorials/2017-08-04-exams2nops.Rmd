@@ -34,11 +34,18 @@ image:
 
 ## Create exam
 
-![create]({{ site.url }}/images/written-create.svg){:width="30%"}
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
 
-The first step in conducting a [written exam](/intro/written/) with multiple-choice
+<p>The first step in conducting a <a href="{{ site.url }}/intro/written/">written exam</a> with multiple-choice
 (and/or single-choice) exercises in R/exams' NOPS format is to create the exam in PDF format.
-First, we load the R `exams` package and then simply create a list of exercise file names.
+First, we load the R `exams` package and then simply create a list of exercise file names.</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-create.svg" alt="create"/>
+  </div>
+</div>
 
 ```{r exam-definition}
 library("exams")
@@ -89,52 +96,76 @@ for being able to evaluate the exam later on.
 
 ## Print PDF files
 
-![print]({{ site.url }}/images/written-print.svg){:width="30%"}
+<div class='row t20'>
+  <div class='small-8 medium-9 columns'>
 
-Now you can print the PDFs for your exam.
+<ul>
+  <li>A small number of exams can easily be printed on a standard printer.
+    Otherwise simply use a print shop.</li>
+  <li>It is recommended <em>not</em> to scale the printout (i.e., without "Fit to printable area")
+    and to staple the exams in the top-left corner.</li>
+  <li>By default the PDFs from <code class="highlighter-rouge">exams2nops()</code> have a blank second page for
+    duplex printing (without content on the back of the exam sheet). For non-duplex printing
+    simply set <code class="highlighter-rouge">duplex = FALSE</code> when creating the PDFs
+    with <code class="highlighter-rouge">exams2nops()</code>.</li>
+</ul>
 
-* A small number of exams can easily be printed on a standard printer.
-  Otherwise simply use a print shop.
-* It is recommended _not_ to scale the printout (i.e., without "Fit to printable area")
-  and to staple the exams in the top-left corner.
-* By default the PDFs from `exams2nops()` have a blank second page for
-  duplex printing. Then there is no content on the back of the exam sheet.
-  If you want to print without duplex option, simply set `duplex = FALSE` when
-  creating the PDFs with `exams2nops()`.
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-print.svg" alt="print"/>
+  </div>
+</div>
 
 
 ## Conduct exam
 
-![exam]({{ site.url }}/images/written-exam.svg){:width="30%"}
+<div class='row t20'>
+  <div class='small-8 medium-9 columns'>
 
-The exam is conducted as usual. But if you used the possibilities of [dynamic exercises](/intro/dynamic/)
+<p>The exam is conducted as usual. But if you used the possibilities of
+<a href="{{ site.url }}/intro/dynamic/">dynamic exercises</a>
 in R/exams, the risk of cheating is greatly reduced.
 
 At the end of the exam you just need to collect the completed exam sheet (first page).
 Of course, you can also collect the rest of the exam papers (e.g., to keep future students from
 seeing the exercises). However, an advantage of letting the students keep their exercises
-reduces the need of having post-exam reviews etc.
+reduces the need of having post-exam reviews etc.</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-exam.svg" alt="exam"/>
+  </div>
+</div>
 
 
 ## Scan results
 
-![print]({{ site.url }}/images/written-print.svg){:width="30%"}
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
 
-Each completed exam sheet has information on the exam ID, student ID, and the
+<p>Each completed exam sheet has information on the exam ID, student ID, and the
 checked answers. This needs to be scanned into images (PDF or PNG) and can then
-be processed by `nops_scan()`.
+be processed by <code class="highlighter-rouge">nops_scan()</code>.
 
 Typically, it's easy to use the photocopiers provided by your university to scan
 all sheets into PDF or PNG files. For example, our university provides us with
 Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
-render them into a single PDF file. Practical recommendations:
+render them into a single PDF file.</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-scan.svg" alt="scan"/>
+  </div>
+</div>
+
+Practical recommendations:
   
 * The scanned images become smaller in size if the images are read in just black/white
   (or grayscale). This may sometimes even facilitate extracting the information (see below).
 * If the exams were stapled in the top-left corner (see above) the sheet feeder often
   works better if the sheets are rotated by 180 degrees (so that the damaged corner
   is not fed first into the machine). This often improves the scanning results
-  considerably and can be accomodated by setting \code{rotate = TRUE} in \code{nops_scan()}
+  considerably and can be accomodated by setting `rotate = TRUE` in `nops_scan()`
   below.
 
 For demonstration, we use two completed demo sheets that are provided along with
@@ -178,14 +209,21 @@ rotating PDF files prior to scanning.
 
 ## Evaluate results
 
-![evaluate]({{ site.url }}/images/written-evaluate.svg){:width="30%"}
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
 
-In the previous scanning step the exam sheets have just been _read_ but not
-yet _evaluated_, i.e., it has not yet been assessed which questions were answered
+<p>In the previous scanning step the exam sheets have just been <em>read</em> but not
+yet <em>evaluated</em>, i.e., it has not yet been assessed which questions were answered
 (partially) correctly and which were wrong, and no points have been assigned.
-Therefore, we use `nops_eval()` to carry out these computations and to make
+Therefore, we use <code class="highlighter-rouge">nops_eval()</code> to carry out these computations and to make
 the results available - both in a format easy to read for machines (a CSV file)
-and a format for humans (one HTML page for each student).
+and a format for humans (one HTML page for each student).</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-evaluate.svg" alt="evaluate"/>
+  </div>
+</div>
 
 To do so, three files are required:
 

@@ -27,7 +27,7 @@ workflow:
       img: ../../images/written-create.svg
       alt: create
       dsc: |
-        ###### Step 1
+        ###### 1. Create
         * Prepare a separate text file for each multiple-choice exercise.
         * Using `exams2nops()` from
           R/exams, create (individual) PDF files for each examinee.
@@ -35,21 +35,21 @@ workflow:
       img: ../../images/written-print.svg
       alt: print
       dsc: |
-        ###### Step 2
+        ###### 2. Print
         * Print the PDF exams, e.g., on a standard printer.
         * ...or for large exams at a print shop.
   - step:
       img: ../../images/written-exam.svg
       alt: exam
       dsc: |
-        ###### Step 3
+        ###### 3. Exam
         * Conduct the exam as usual.
         * Collect the completed exams sheets.
   - step:
       img: ../../images/written-scan.svg
       alt: scan
       dsc: |
-        ###### Step 4
+        ###### 4. Scan
         * Scan all exam sheets, e.g., on a photopier.
         * Using `nops_scan()` from R/exams, process the scanned exam sheets to
           obtain machine-readable content.
@@ -57,7 +57,7 @@ workflow:
       img: ../../images/written-evaluate.svg
       alt: evaluate
       dsc: |
-        ###### Step 5
+        ###### 5. Evaluate
         * And with `nops_eval()` evaluate the exam to obtain marks, points, etc.
           and individual HTML reports for each participant.
         * Required files: Correct answers from Step 1, scans from Step 4, and a
@@ -65,4 +65,8 @@ workflow:
 
 ---
 
-Manuell gelinkte Artikel hier
+## Blog ##
+
+* Hands-on tutorial: [Written Multiple-Choice Exams with R/exams]({{ site.url }}/tutorials/exams2nops/).
+* Further [related blog posts]({{ site.url }}/blog/).
+
