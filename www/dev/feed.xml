@@ -14,11 +14,18 @@
 				<pubDate>Fri, 04 Aug 2017 00:00:00 +0200</pubDate>
 				<description>&lt;h2 id=&quot;create-exam&quot;&gt;Create exam&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-create.svg&quot; alt=&quot;create&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
 
-&lt;p&gt;The first step in conducting a &lt;a href=&quot;/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
-(and/or single-choice) exercises in R/exams’ NOPS format is to create the exam in PDF format.
-First, we load the R &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and then simply create a list of exercise file names.&lt;/p&gt;
+&lt;p&gt;The first step in conducting a &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
+(and/or single-choice) exercises in R/exams&#39; NOPS format is to create the exam in PDF format.
+First, we load the R `exams` package and then simply create a list of exercise file names.&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-create.svg&quot; alt=&quot;create&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
 myexam &amp;lt;- list(
@@ -65,45 +72,67 @@ for being able to evaluate the exam later on.&lt;/p&gt;
 
 &lt;h2 id=&quot;print-pdf-files&quot;&gt;Print PDF files&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-print.svg&quot; alt=&quot;print&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now you can print the PDFs for your exam.&lt;/p&gt;
+&lt;div class=&quot;row t20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
 
 &lt;ul&gt;
   &lt;li&gt;A small number of exams can easily be printed on a standard printer.
-Otherwise simply use a print shop.&lt;/li&gt;
-  &lt;li&gt;It is recommended &lt;em&gt;not&lt;/em&gt; to scale the printout (i.e., without “Fit to printable area”)
-and to staple the exams in the top-left corner.&lt;/li&gt;
+    Otherwise simply use a print shop.&lt;/li&gt;
+  &lt;li&gt;It is recommended &lt;em&gt;not&lt;/em&gt; to scale the printout (i.e., without &quot;Fit to printable area&quot;)
+    and to staple the exams in the top-left corner.&lt;/li&gt;
   &lt;li&gt;By default the PDFs from &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; have a blank second page for
-duplex printing. Then there is no content on the back of the exam sheet.
-If you want to print without duplex option, simply set &lt;code class=&quot;highlighter-rouge&quot;&gt;duplex = FALSE&lt;/code&gt; when
-creating the PDFs with &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;.&lt;/li&gt;
+    duplex printing (without content on the back of the exam sheet). For non-duplex printing
+    simply set &lt;code class=&quot;highlighter-rouge&quot;&gt;duplex = FALSE&lt;/code&gt; when creating the PDFs
+    with &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-print.svg&quot; alt=&quot;print&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;conduct-exam&quot;&gt;Conduct exam&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-exam.svg&quot; alt=&quot;exam&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+&lt;div class=&quot;row t20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
 
-&lt;p&gt;The exam is conducted as usual. But if you used the possibilities of &lt;a href=&quot;/intro/dynamic/&quot;&gt;dynamic exercises&lt;/a&gt;
-in R/exams, the risk of cheating is greatly reduced.&lt;/p&gt;
+&lt;p&gt;The exam is conducted as usual. But if you used the possibilities of
+&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/intro/dynamic/&quot;&gt;dynamic exercises&lt;/a&gt;
+in R/exams, the risk of cheating is greatly reduced.
 
-&lt;p&gt;At the end of the exam you just need to collect the completed exam sheet (first page).
+At the end of the exam you just need to collect the completed exam sheet (first page).
 Of course, you can also collect the rest of the exam papers (e.g., to keep future students from
 seeing the exercises). However, an advantage of letting the students keep their exercises
 reduces the need of having post-exam reviews etc.&lt;/p&gt;
 
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-exam.svg&quot; alt=&quot;exam&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
 &lt;h2 id=&quot;scan-results&quot;&gt;Scan results&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-print.svg&quot; alt=&quot;print&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
 
 &lt;p&gt;Each completed exam sheet has information on the exam ID, student ID, and the
 checked answers. This needs to be scanned into images (PDF or PNG) and can then
-be processed by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;.&lt;/p&gt;
+be processed by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;.
 
-&lt;p&gt;Typically, it’s easy to use the photocopiers provided by your university to scan
+Typically, it&#39;s easy to use the photocopiers provided by your university to scan
 all sheets into PDF or PNG files. For example, our university provides us with
 Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
-render them into a single PDF file. Practical recommendations:&lt;/p&gt;
+render them into a single PDF file.&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-scan.svg&quot; alt=&quot;scan&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Practical recommendations:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;The scanned images become smaller in size if the images are read in just black/white
@@ -111,7 +140,7 @@ render them into a single PDF file. Practical recommendations:&lt;/p&gt;
   &lt;li&gt;If the exams were stapled in the top-left corner (see above) the sheet feeder often
 works better if the sheets are rotated by 180 degrees (so that the damaged corner
 is not fed first into the machine). This often improves the scanning results
-considerably and can be accomodated by setting \code{rotate = TRUE} in \code{nops_scan()}
+considerably and can be accomodated by setting &lt;code class=&quot;highlighter-rouge&quot;&gt;rotate = TRUE&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;
 below.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -143,10 +172,10 @@ available outside of R on the command line.)&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan1.png&amp;quot;               &amp;quot;nops_scan2.png&amp;quot;              
-## [3] &amp;quot;nops_scan_20170809014256.zip&amp;quot;
+## [3] &amp;quot;nops_scan_20170809180917.zip&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The resulting file &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170809014256.zip&quot;&gt;nops_scan_20170809014256.zip&lt;/a&gt; contains copies of the
+&lt;p&gt;The resulting file &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170809180917.zip&quot;&gt;nops_scan_20170809180917.zip&lt;/a&gt; contains copies of the
 PNG files along with a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; (for historical reasons) that
 contains the scanned information in machine-readable from.&lt;/p&gt;
 
@@ -155,7 +184,8 @@ rotating PDF files prior to scanning.&lt;/p&gt;
 
 &lt;h2 id=&quot;evaluate-results&quot;&gt;Evaluate results&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-evaluate.svg&quot; alt=&quot;evaluate&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
 
 &lt;p&gt;In the previous scanning step the exam sheets have just been &lt;em&gt;read&lt;/em&gt; but not
 yet &lt;em&gt;evaluated&lt;/em&gt;, i.e., it has not yet been assessed which questions were answered
@@ -163,6 +193,12 @@ yet &lt;em&gt;evaluated&lt;/em&gt;, i.e., it has not yet been assessed which que
 Therefore, we use &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; to carry out these computations and to make
 the results available - both in a format easy to read for machines (a CSV file)
 and a format for humans (one HTML page for each student).&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/images/written-evaluate.svg&quot; alt=&quot;evaluate&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
 &lt;p&gt;To do so, three files are required:&lt;/p&gt;
 
@@ -260,11 +296,10 @@ series, which tries to make beginner’s live easier.&lt;/p&gt;
 
 &lt;p&gt;After saving the folder you have to start R in your Terminal. Just write R and press Enter. Now type in the following code:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
 R&amp;gt; tstat_sol &amp;lt;- exams (&quot;tstat.Rnw&quot;)
 R&amp;gt; tstat_sol
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If your installation was succesfull a PDF file will open.&lt;/p&gt;
 
