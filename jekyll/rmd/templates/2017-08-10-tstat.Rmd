@@ -1,0 +1,69 @@
+---
+layout: page
+#
+# Content
+#
+title: "tstat"
+teaser: "tstat exercise."
+categories:
+  - templates
+tags:
+  - num
+  - arithmetic
+  - t statistic
+  - statistics
+author: zeileis
+
+---
+
+```{r tstat-files, echo=FALSE, results="hide", warning=FALSE}
+library("exams")
+ex <- system.file("exercises", c("tstat.Rnw", "tstat.Rmd"), package = "exams")
+file.copy(ex, to = getwd())
+set.seed(1090)
+exams2html("tstat.Rnw", name = "tstat-Rnw-html-", dir = ".")
+set.seed(1090)
+exams2html("tstat.Rmd", name = "tstat-Rmd-html-", dir = ".")
+set.seed(1090)
+exams2pdf("tstat.Rnw", name = "tstat-Rnw-pdf-", dir = ".")
+set.seed(1090)
+exams2pdf("tstat.Rmd", name = "tstat-Rmd-pdf-", dir = ".")
+set.seed(1090)
+Sweave("tstat.Rnw")
+set.seed(1090)
+knitr::knit("tstat.Rmd", quiet = TRUE, encoding = "UTF-8")
+```
+
+**Exercise templates:** `r include_asset("tstat.Rnw")` \| `r include_asset("tstat.Rmd")`
+
+**Exercise weaved:** `r include_asset("tstat.tex")` \| `r include_asset("tstat.md")`
+
+**PDF output:**
+
+`r include_asset("tstat-Rnw-pdf-1.pdf")`
+`r include_asset("tstat-Rmd-pdf-1.pdf")`
+
+**HTML output:**
+
+`r include_asset("tstat-Rnw-html-1.html")`
+`r include_asset("tstat-Rmd-html-1.html")`
+
+_(Note that the HTML output contains mathematical equations in MathML.
+It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)_
+
+**Demo code:**
+
+```{r tstat-demo, eval=FALSE}
+library("exams")
+
+set.seed(1090)
+exams2html("tstat.Rnw")
+set.seed(1090)
+exams2pdf("tstat.Rnw")
+
+set.seed(1090)
+exams2html("tstat.Rmd")
+set.seed(1090)
+exams2pdf("tstat.Rmd")
+```
+
