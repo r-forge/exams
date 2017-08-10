@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-09T23:39:28+02:00</updated>
+	<updated>2017-08-10T03:35:13+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -200,16 +200,13 @@ available outside of R on the command line.)&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;nops_scan(dir = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code&gt;## Loading required namespace: png
-&lt;/code&gt;&lt;/pre&gt;
-
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan1.png&amp;quot;               &amp;quot;nops_scan2.png&amp;quot;              
-## [3] &amp;quot;nops_scan_20170809180917.zip&amp;quot;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan_20170810004404.zip&amp;quot; &amp;quot;nops_scan1.png&amp;quot;              
+## [3] &amp;quot;nops_scan2.png&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The resulting file &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170809180917.zip&quot;&gt;nops_scan_20170809180917.zip&lt;/a&gt; contains copies of the
+&lt;p&gt;The resulting file &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170810004404.zip&quot;&gt;nops_scan_20170810004404.zip&lt;/a&gt; contains copies of the
 PNG files along with a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; (for historical reasons) that
 contains the scanned information in machine-readable from.&lt;/p&gt;
 
@@ -264,12 +261,8 @@ and differing points across questions.&lt;/p&gt;
   scans = Sys.glob(&amp;quot;nops_scan/nops_scan_*.zip&amp;quot;),
   eval = exams_eval(partial = FALSE, negative = FALSE),
   interactive = FALSE
-)&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## Loading required namespace: base64enc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir()&lt;/code&gt;&lt;/pre&gt;
+)
+dir()&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Exam-2015-07-29.csv&amp;quot; &amp;quot;nops_eval.csv&amp;quot;       &amp;quot;nops_eval.zip&amp;quot;      
 ## [4] &amp;quot;nops_pdf&amp;quot;            &amp;quot;nops_scan&amp;quot;
@@ -305,7 +298,6 @@ entered into the university’s information system.&lt;/p&gt;
 
 &lt;p&gt;These HTML reports could then be uploaded into a learning management system, put on some other
 web server, or even sent out via e-mail.&lt;/p&gt;
-
 </content>
 
 			

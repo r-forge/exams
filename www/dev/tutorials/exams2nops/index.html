@@ -530,16 +530,13 @@ available outside of R on the command line.)</p>
 
 <pre><code class="prettyprint ">nops_scan(dir = &quot;nops_scan&quot;)</code></pre>
 
-<pre><code>## Loading required namespace: png
-</code></pre>
-
 <pre><code class="prettyprint ">dir(&quot;nops_scan&quot;)</code></pre>
 
-<pre><code>## [1] &quot;nops_scan1.png&quot;               &quot;nops_scan2.png&quot;              
-## [3] &quot;nops_scan_20170809180917.zip&quot;
+<pre><code>## [1] &quot;nops_scan_20170810004404.zip&quot; &quot;nops_scan1.png&quot;              
+## [3] &quot;nops_scan2.png&quot;
 </code></pre>
 
-<p>The resulting file <a href="http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170809180917.zip">nops_scan_20170809180917.zip</a> contains copies of the
+<p>The resulting file <a href="http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-04-exams2nops//nops_scan_20170810004404.zip">nops_scan_20170810004404.zip</a> contains copies of the
 PNG files along with a file called <code class="highlighter-rouge">Daten.txt</code> (for historical reasons) that
 contains the scanned information in machine-readable from.</p>
 
@@ -594,12 +591,8 @@ and differing points across questions.</p>
   scans = Sys.glob(&quot;nops_scan/nops_scan_*.zip&quot;),
   eval = exams_eval(partial = FALSE, negative = FALSE),
   interactive = FALSE
-)</code></pre>
-
-<pre><code>## Loading required namespace: base64enc
-</code></pre>
-
-<pre><code class="prettyprint ">dir()</code></pre>
+)
+dir()</code></pre>
 
 <pre><code>## [1] &quot;Exam-2015-07-29.csv&quot; &quot;nops_eval.csv&quot;       &quot;nops_eval.zip&quot;      
 ## [4] &quot;nops_pdf&quot;            &quot;nops_scan&quot;
@@ -635,7 +628,6 @@ entered into the university’s information system.</p>
 
 <p>These HTML reports could then be uploaded into a learning management system, put on some other
 web server, or even sent out via e-mail.</p>
-
 
 			</span>
 
