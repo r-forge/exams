@@ -11,6 +11,7 @@ clean:
 .PHONY: install
 install: clean
 	bundle exec jekyll build --config _config.yml
+	svn up ${target}
 	rsync -rt --delete _site/ ${target}
 	chmod -R  o+r ${target}
 	svn status ${target} | grep '^!' | awk '{print $$2}' | xargs -r svn delete
