@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-10T03:35:13+02:00</updated>
+	<updated>2017-08-11T02:04:47+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -24,7 +24,7 @@
 	<link href="http://exams.R-Forge.R-project.org/dev/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://exams.R-Forge.R-project.org/dev/" rel="alternate" type="text/html" />
 
-	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
+	<generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator>
 
 	
 		<entry>
@@ -52,7 +52,7 @@
   &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
 
 &lt;p&gt;The first step in conducting a &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
-(and/or single-choice) exercises in R/exams&#39; NOPS format is to create the exam in PDF format.
+(and/or single-choice) exercises in R/exams' NOPS format is to create the exam in PDF format.
 First, we load the R `exams` package and then simply create a list of exercise file names.&lt;/p&gt;
 
   &lt;/div&gt;
@@ -155,7 +155,7 @@ reduces the need of having post-exam reviews etc.&lt;/p&gt;
 checked answers. This needs to be scanned into images (PDF or PNG) and can then
 be processed by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;.
 
-Typically, it&#39;s easy to use the photocopiers provided by your university to scan
+Typically, it's easy to use the photocopiers provided by your university to scan
 all sheets into PDF or PNG files. For example, our university provides us with
 Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
 render them into a single PDF file.&lt;/p&gt;
@@ -357,10 +357,11 @@ series, which tries to make beginner’s live easier.&lt;/p&gt;
 
 &lt;p&gt;After saving the folder you have to start R in your Terminal. Just write R and press Enter. Now type in the following code:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;R&amp;gt; library(&quot;exams&quot;)
 R&amp;gt; tstat_sol &amp;lt;- exams (&quot;tstat.Rnw&quot;)
 R&amp;gt; tstat_sol
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;If your installation was succesfull a PDF file will open.&lt;/p&gt;
 
