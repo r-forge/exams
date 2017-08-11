@@ -45,8 +45,8 @@ knitr::knit("tstat.Rmd", quiet = TRUE, encoding = "UTF-8")
 
 **HTML output:**
 
-`r include_asset("tstat-Rnw-html-1.html")`
-`r include_asset("tstat-Rmd-html-1.html")`
+`r include_asset("tstat-Rnw-html-1.html", engine = "firefox")`
+`r include_asset("tstat-Rmd-html-1.html", engine = "firefox")`
 
 _(Note that the HTML output contains mathematical equations in MathML.
 It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)_

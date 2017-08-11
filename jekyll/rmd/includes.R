@@ -40,7 +40,7 @@ include_rmd <- function(file, ...)
   invisible(rval)
 }
 
-include_asset <- function(file, asset = TRUE, screenshot = TRUE, link = TRUE, density = 25, aspect43 = TRUE, border = TRUE)
+include_asset <- function(file, asset = TRUE, screenshot = TRUE, link = TRUE, density = 25, aspect43 = TRUE, border = TRUE, ...)
 {
   ## expand file path if necessary
   if(any(grepl("*", file, fixed = TRUE))) file <- Sys.glob(file)
@@ -54,8 +54,9 @@ include_asset <- function(file, asset = TRUE, screenshot = TRUE, link = TRUE, de
   
   ## make a screenshot/thumb?
   if(screenshot) {
-    file_s <- do.call(paste("include", ext, "screenshot", sep = "_"),
-      list(file = file, density = density, aspect43 = aspect43, border = border))
+    file_s <- do.call(paste("include", ext, "screenshot", sep = "_"), c(
+      list(file = file, density = density, aspect43 = aspect43, border = border),
+      list(...)))
   }
   
   ## copy file to assets?
@@ -114,22 +115,39 @@ include_pdf_screenshot <- function(file, out = NULL, page = 1, density = 25, asp
   invisible(out)
 }
 
-include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = TRUE, border = TRUE)
+include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = TRUE, border = TRUE, engine = c("cutycapt", "firefox"))
 {
+  ## engine
+  ## - 'cutycapt' is available via but does not support MathML
+  ## - or open 'firefox' and handle window via 'xdotool' and 'wmctrl'
+  engine <- match.arg(engine, c("cutycapt", "firefox"))
+  ## all tools available via apt-get install
+
   ## screenshot .png path
   if(is.null(out)) out <- paste0(tools::file_path_sans_ext(basename(file)), ".png")
   if(knitr::opts_chunk$get("fig.path") != "figure/") out <- paste0(knitr::opts_chunk$get("fig.path"), out)
 
-  ## make all screenshots with 'cutycapt' (available via 'apt-get install cutycapt')
+  ## make screenshots with 'cutycapt' or 'firefox' (+xdotool +wmctrl)
   ## and resize/crop with ImageMagick's 'mogrify'
   for(i in seq_along(file)) {
-    cmd <- sprintf("cutycapt --url=file://%s --out=%s",
-      tools::file_path_as_absolute(file[i]),
-      out[i])
-    system(cmd)
-    cmd <- sprintf("mogrify -resize %s %s %s %s",
+    if(engine == "cutycapt") {
+      cmd <- sprintf("cutycapt --url=file://%s --out=%s",
+        tools::file_path_as_absolute(file[i]),
+        out[i])
+      system(cmd)
+    } else {
+      system(sprintf("firefox -new-window %s", tools::file_path_as_absolute(file[i])))
+      Sys.sleep(1)
+      id <- tail(sort(as.numeric(system("xdotool search --onlyvisible --name --all 'Mozilla Firefox'", intern = TRUE))), 1)
+      system(sprintf("wmctrl -ir %s -b remove,maximized_vert,maximized_horz", id))
+      system(sprintf("xdotool windowsize %s 600 800", id))
+      Sys.sleep(1)
+      system(sprintf("import -window %s %s", id, out[i]))
+    }
+    cmd <- sprintf("mogrify -resize %s %s %s %s %s",
       density * 8.268,
-      if(aspect43) sprintf("-extent %sx%s", ceiling(density * 8.268), ceiling(density * 8.268 * 0.75)) else "",
+      if(aspect43) sprintf("-extent %sx%s", ceiling(density * 8.268), ceiling(density * (8.268 * 0.75 + 2 * (engine == "firefox")))) else "",
+      if(engine == "firefox") sprintf("-gravity north -chop x%s", 2 * density) else "",
       if(border) sprintf("-border %sx%s -bordercolor '#666666'", ceiling(density/15), ceiling(density/15)) else "",
       tools::file_path_as_absolute(out[i]))
     system(cmd)    
