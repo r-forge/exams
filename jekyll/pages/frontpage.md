@@ -9,6 +9,9 @@ header: no
 topics:
   - icon: vector/elearning.svg
     image: "seminar.cut.jpg"
+    # align is placed as background-position style
+    # https://www.w3schools.com/CSSref/pr_background-position.asp
+    align: left center
     title: E-Learning
     url: '/intro/elearning/'
     description: |

@@ -12,7 +12,12 @@ format: blog-index
 {% if page.topics %}
 <div id="masthead-slider">
   {% for topic in page.topics %}
-  <div class="slider-item" style="background-image: url('{{ site.urlimg }}{{ topic.image }}')">
+  {% if topic.align %}
+  {% assign align = topic.align %}
+  {% else %}
+  {% assign align = 'center' %}
+  {% endif %}
+  <div class="slider-item" style="background-image: url('{{ site.urlimg }}{{ topic.image }}'); background-position:{{ align }}">
     {% capture url %}{% if topic.url contains 'http' %}{{ topic.url }}{% else %}{{ site.url }}{{ site.baseurl }}{{ topic.url }}{% endif %}{% endcapture %}
     <a href="{{ url }}">
       <div class="overlay">
