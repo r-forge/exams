@@ -3,12 +3,13 @@ layout: page
 #
 # Content
 #
-title: "tstat"
-teaser: "tstat exercise."
+title: "tstat: 1-Sample t Statistic"
+teaser: "Exercise template for computing the t statistic from given hypothesized mean and empirical mean and variance."
 categories:
   - templates
 tags:
   - num
+  - numeric
   - arithmetic
   - t statistic
   - statistics
@@ -20,33 +21,90 @@ author: zeileis
 library("exams")
 ex <- system.file("exercises", c("tstat.Rnw", "tstat.Rmd"), package = "exams")
 file.copy(ex, to = getwd())
-set.seed(1090)
-exams2html("tstat.Rnw", name = "tstat-Rnw-html-", dir = ".")
-set.seed(1090)
-exams2html("tstat.Rmd", name = "tstat-Rmd-html-", dir = ".")
-set.seed(1090)
-exams2pdf("tstat.Rnw", name = "tstat-Rnw-pdf-", dir = ".")
-set.seed(1090)
-exams2pdf("tstat.Rmd", name = "tstat-Rmd-pdf-", dir = ".")
+include_asset("tstat.Rnw", link = FALSE)
+include_asset("tstat.Rmd", link = FALSE)
+
 set.seed(1090)
 Sweave("tstat.Rnw")
+include_asset("tstat.tex", link = FALSE)
 set.seed(1090)
 knitr::knit("tstat.Rmd", quiet = TRUE, encoding = "UTF-8")
+include_asset("tstat.md", link = FALSE)
+
+set.seed(1090)
+exams2html("tstat.Rnw", name = "blog", dir = ".")
+file.rename("blog1.html", "tstat-Rnw.html")
+include_asset("tstat-Rnw.html", engine = "firefox", link = FALSE)
+
+set.seed(1090)
+exams2html("tstat.Rmd", name = "blog", dir = ".")
+file.rename("blog1.html", "tstat-Rmd.html")
+include_asset("tstat-Rmd.html", engine = "firefox", link = FALSE)
+
+set.seed(1090)
+exams2pdf("tstat.Rnw", name = "blog", dir = ".")
+file.rename("blog1.pdf", "tstat-Rnw.pdf")
+include_asset("tstat-Rnw.pdf", link = FALSE)
+
+set.seed(1090)
+exams2pdf("tstat.Rmd", name = "tstat-Rmd-pdf-", dir = ".")
+file.rename("blog1.pdf", "tstat-Rmd.pdf")
+include_asset("tstat-Rmd.pdf", link = FALSE)
 ```
 
-**Exercise templates:** `r include_asset("tstat.Rnw")` \| `r include_asset("tstat.Rmd")`
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Name:</b></div>
+  <div class='medium-8 columns'><code class="highlighter-rouge">tstat</code></div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Description:</b></div>
+  <div class='medium-8 columns'>Computing the 1-sample t statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance.</div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Type:</b></div>
+  <div class='medium-8 columns'>num</div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Randomization:</b></div>
+  <div class='medium-8 columns'>Random numbers</div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Mathematical notation:</b></div>
+  <div class='medium-8 columns'>Yes</div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>R verbatim code:</b></div>
+  <div class='medium-8 columns'>No</div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Images:</b></div>
+  <div class='medium-8 columns'>No</div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Other supplements:</b></div>
+  <div class='medium-8 columns'>No</div>
+</div>
 
-**Exercise weaved:** `r include_asset("tstat.tex")` \| `r include_asset("tstat.md")`
-
-**PDF output:**
-
-`r include_asset("tstat-Rnw-pdf-1.pdf")`
-`r include_asset("tstat-Rmd-pdf-1.pdf")`
-
-**HTML output:**
-
-`r include_asset("tstat-Rnw-html-1.html", engine = "firefox")`
-`r include_asset("tstat-Rmd-html-1.html", engine = "firefox")`
+<div class='row t20'>
+  <div class='medium-4 columns'><b>Templates:</b></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.Rnw">tstat.Rnw</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.Rmd">tstat.Rmd</a></div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>Raw:</b></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.tex">tstat.tex</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.md" >tstat.md</a></div>
+</div>
+<div class='row t1 b1'>
+  <div class='medium-4 columns'><b>PDF:</b></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rnw.pdf">tstat-Rnw.pdf</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rmd.pdf">tstat-Rmd.pdf</a></div>
+</div>
+<div class='row t1 b20'>
+  <div class='medium-4 columns'><b>HTML:</b></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rnw.html">tstat-Rnw.html</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rmd.html">tstat-Rmd.html</a></div>
+</div>
 
 _(Note that the HTML output contains mathematical equations in MathML.
 It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)_
