@@ -28,8 +28,14 @@ include_rmd <- function(file, ...)
   ## if no assets were produced, delete folder
   if(length(list.files(assets)) < 1L) unlink(assets)
 
-  ## fix-up relative links using {{ site.url }} syntax
+  ## fix-ups in Markdown output
   md <- readLines(output, encoding = "UTF-8")
+  ## - yaml header
+  if(md[1] != "---") {
+    ix <- min(which(md == "---")) - 1
+    md <- md[-(1:ix)]
+  }
+  ## - relative links using {{ site.url }} syntax
   md <- gsub("../../../assets", "{{ site.url }}/assets", md, fixed = TRUE)
   writeLines(md, output)
   
@@ -160,4 +166,226 @@ include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = T
 include_file <- function(file) {
   file.copy(file, knitr::opts_chunk$get("fig.path"), overwrite = TRUE)
   invisible(file.path(knitr::opts_chunk$get("fig.path"), basename(file)))
+}
+
+include_template <- function(name, title, teaser, description,
+  tags = NULL, related = NULL, randomization = "Yes", supplements = "",
+  author = "zeileis", seed = 1090)
+{
+  ## path to assets of post
+  assets <- if(knitr::opts_chunk$get("fig.path") == "figure/") "FIXME" else knitr::opts_chunk$get("fig.path")
+
+  ## related exercises: either posts or asset files
+  if(length(related) < 1L) {
+    related <- ""
+  } else {
+    exr <- related[tools::file_ext(related) != ""]
+    if(length(exr) > 0L) {
+      file.copy(system.file("exercises", exr, package = "exams"), to = getwd(), overwrite = TRUE)
+      include_asset(exr, link = FALSE)    
+    }
+    related <- sapply(related, function(r) if(tools::file_ext(r) == "") {
+      sprintf('<a href="{{ site.url }}/templates/%s/"><code class="highlighter-rouge">%s</code></a>', r, r)
+    } else {
+      sprintf('<a href="%s/%s">%s</a>', assets, r, r)
+    })
+    related <- paste(related, collapse = ", ")
+    related <- paste(
+      "<div class='row t1 b1'>",
+      "  <div class='medium-4 columns'><b>Related:</b></div>",
+      sprintf("  <div class='medium-8 columns'>%s</div>", related),
+      "</div>",
+      collapse = "\n")
+  }
+  
+  ## generate and process asset files
+  stopifnot(require("exams"))
+  f <- paste0(name, c(
+    ".Rnw", ".Rmd",
+    ".tex", ".md",
+    "-Rnw.html", "-Rmd.html",
+    "-Rnw.pdf", "-Rmd.pdf",
+    "-Rnw-html.png", "-Rmd-html.png",
+    "-Rnw-pdf.png", "-Rmd-pdf.png",
+    ".small.png"))
+  ##
+  ## - exercise templates
+  ex <- system.file("exercises", f[1:2], package = "exams")
+  file.copy(ex, to = getwd())
+  include_asset(f[1:2], link = FALSE)
+  ##
+  ## - raw
+  set.seed(seed)
+  Sweave(f[1])
+  include_asset(f[3], link = FALSE)
+  set.seed(seed)
+  knitr::knit(f[2], quiet = TRUE, encoding = "UTF-8")
+  include_asset(f[4], link = FALSE)
+  ##
+  ## - HTML
+  set.seed(seed)
+  ex_html <- exams2html(f[1], name = "blog", dir = ".")[[1]][[1]]
+  file.rename("blog1.html", f[5])
+  include_asset(f[5], engine = "firefox", link = FALSE, out = f[9])
+  ##
+  set.seed(seed)
+  exams2html(f[2], name = "blog", dir = ".")
+  file.rename("blog1.html", f[6])
+  include_asset(f[6], engine = "firefox", link = FALSE, out = f[10])
+  ##
+  ## - PDF
+  set.seed(seed)
+  ex_pdf <- exams2pdf(f[1], name = "blog", dir = ".")[[1]][[1]]
+  file.rename("blog1.pdf", f[7])
+  include_asset(f[7], link = FALSE, out = f[11])
+  ##
+  set.seed(seed)
+  exams2pdf(f[2], name = "blog", dir = ".")
+  file.rename("blog1.pdf", f[8])
+  include_asset(f[8], link = FALSE, out = f[12])
+  ##
+  ## - thumbnail
+  system(sprintf(
+    "convert -density 100 %s[0] -gravity northwest -chop 277x216 -gravity southeast -chop 250x753 -border 2x2 -bordercolor '#666666' %s",
+    f[7], f[13]))
+  file.copy(f[13], "../../../images/", overwrite = TRUE)
+
+  ## markdown templat
+  md <- '---
+layout: page
+#
+# Content
+#
+title: "@name@: @title@"
+teaser: "@teaser@"
+categories:
+  - templates
+tags:
+@tags@
+author: @author@
+
+#
+# Style
+#
+image:
+  # preview in list of posts
+  thumb: @name@.small.png
+---
+
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Name:</b></div>
+  <div class=\'medium-8 columns\'><code class="highlighter-rouge">@name@</code></div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Type:</b></div>
+  <div class=\'medium-8 columns\'><code class="highlighter-rouge">@type@</code></div> <!-- FIXME: href -->
+</div>
+@related@
+
+<div class=\'row t20 b1\'>
+  <div class=\'medium-4 columns\'><b>Description:</b></div>
+  <div class=\'medium-8 columns\'>@description@</div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Randomization:</b></div>
+  <div class=\'medium-8 columns\'>@randomization@</div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Mathematical notation:</b></div>
+  <div class=\'medium-8 columns\'>@math@</div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>R verbatim code:</b></div>
+  <div class=\'medium-8 columns\'>@verbatim@</div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Images:</b></div>
+  <div class=\'medium-8 columns\'>@images@</div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Other supplements:</b></div>
+  <div class=\'medium-8 columns\'>@supplements@</div>
+</div>
+
+<div class=\'row t20 b1\'>
+  <div class=\'medium-4 columns\'><b>Template:</b></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@.Rnw">@name@.Rnw</a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@.Rmd">@name@.Rmd</a></div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Raw:</b> (1 random version)</div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@.tex">@name@.tex</a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@.md" >@name@.md</a></div>
+</div>
+<div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>PDF:</b></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rnw.pdf"><img src="@assets@/@name@-Rnw-pdf.png" alt="@name@-Rnw-pdf"/></a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rmd.pdf"><img src="@assets@/@name@-Rmd-pdf.png" alt="@name@-Rmd-pdf"/></a></div>
+</div>
+<div class=\'row t1 b20\'>
+  <div class=\'medium-4 columns\'><b>HTML:</b></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rnw.html"><img src="@assets@/@name@-Rnw-html.png" alt="@name@-Rnw-html"/></a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rmd.html"><img src="@assets@/@name@-Rmd-html.png" alt="@name@-Rmd-html"/></a></div>
+</div>
+
+@browsernote@
+
+**Demo code:**
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+
+set.seed(@seed@)
+exams2html(&quot;@name@.Rnw&quot;)
+set.seed(@seed@)
+exams2pdf(&quot;@name@.Rnw&quot;)
+
+set.seed(@seed@)
+exams2html(&quot;@name@.Rmd&quot;)
+set.seed(@seed@)
+exams2pdf(&quot;@name@.Rmd&quot;)</code></pre>
+'
+
+  ## look up properties of processes exercises
+  math <- any(grepl("<math", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
+  verbatim <- any(grepl("<pre>", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
+  images = any(grepl("includegraphics{", unlist(ex_pdf[c("question", "solution")]), fixed = TRUE))
+  if(length(ex_html$supplements) < 1) {
+    FALSE
+  } else {
+    if(supplements == "") {  
+      paste(tools::file_ext(ex_html$supplements), collapse = ", ")
+    } else {
+      sprintf("%s (%s)", supplements, paste(tools::file_ext(ex_html$supplements), collapse = ", "))
+    }
+  }
+
+  ## note about MathML support in browsers
+  browsernote <- if(!math) "" else "_(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)_"
+
+  ## tags
+  tags <- unique(c(ex_pdf$metainfo$type, tags))
+  tags <- paste("  -", tags, collapse = "\n")
+
+  ## find&replace placeholders
+  at <- list(
+    name = name,
+    assets = assets,
+    title = title,
+    teaser = teaser,
+    tags = tags,
+    type = ex_pdf$metainfo$type,
+    author = author,
+    related = related,
+    description = description,
+    randomization = randomization,
+    supplements = if(is.logical(supplements)) c("No", "Yes")[1 + supplements] else supplements,
+    math = if(is.logical(math)) c("No", "Yes")[1 + math] else math,
+    verbatim = if(is.logical(verbatim)) c("No", "Yes")[1 + verbatim] else verbatim,
+    images = if(is.logical(images)) c("No", "Yes")[1 + images] else images,
+    browsernote = browsernote,
+    seed = as.character(seed)
+  )
+  for(a in names(at)) md <- gsub(paste0("@", a, "@"), at[[a]], md, fixed = TRUE)
+
+  return(md)
 }
