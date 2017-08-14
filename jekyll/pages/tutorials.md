@@ -12,6 +12,6 @@ post_index:
   category: tutorials
 ---
 
-This is a category page for tutorials. It should give some hints about
-the correct place to start for different users.
+Hands-on introductions to various functions and features of the R/exams package.
+R code can be followed step by step and the corresponding output downloaded and inspected.
 

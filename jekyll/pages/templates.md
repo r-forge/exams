@@ -1,17 +1,15 @@
 ---
 layout: page
-title: "Templates"
-meta_title: "Templates"
+title: "Exercise Templates"
+meta_title: "Exercise Templates"
 subheadline: ""
 teaser: ""
 permalink: "/templates/"
 post_index:
-  # tags:
-  #   - delete
-  #   - dummy
   category: templates
 ---
 
-This is a category page for templates. It should give some hints about
-the correct place to start for different users.
+Brief descriptions of all exercise templates shipped within the R/exams package.
+Exercise templates along their PDF and HTML output can be downloaded and inspected as inspiration for new exercises.
+Demo code for replication is also included.
 
