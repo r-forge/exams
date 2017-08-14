@@ -1,4 +1,4 @@
-```{r tstat, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+```{r anova, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
 writeLines(include_template(
   name = "anova",
   title = "1-Way Analysis of Variance",
