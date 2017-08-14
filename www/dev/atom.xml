@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-12T01:36:11+02:00</updated>
+	<updated>2017-08-14T16:05:46+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -26,6 +26,116 @@
 
 	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
+	
+		<entry>
+			<id>http://exams.R-Forge.R-project.org/dev/templates/tstat/</id>
+			<title>tstat: 1-Sample t-Test Statistic</title>
+			<link href="http://exams.R-Forge.R-project.org/dev/templates/tstat/" rel="alternate" type="text/html" title="tstat: 1-Sample t-Test Statistic" />
+			<updated>2017-08-14T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>achim.zeileis@uibk.ac.at&quot;</email>
+					
+					
+				</author>
+			
+			<summary>Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.</summary>
+			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/tstat/">&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/tstat2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the 1-sample t-test statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance.&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;R verbatim code:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.Rnw&quot;&gt;tstat.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.Rmd&quot;&gt;tstat.Rmd&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.tex&quot;&gt;tstat.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.md&quot;&gt;tstat.md&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw-pdf.png&quot; alt=&quot;tstat-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd-pdf.png&quot; alt=&quot;tstat-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b20&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw-html.png&quot; alt=&quot;tstat-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd-html.png&quot; alt=&quot;tstat-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;tstat.Rnw&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;tstat.Rnw&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;tstat.Rmd&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;tstat.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+</content>
+
+			
+				<category term="templates" />
+			
+			
+				<category term="num" />
+			
+				<category term="numeric" />
+			
+				<category term="arithmetic" />
+			
+				<category term="t statistic" />
+			
+				<category term="statistics" />
+			
+
+			<published>2017-08-14T00:00:00+02:00</published>
+		</entry>
 	
 		<entry>
 			<id>http://exams.R-Forge.R-project.org/dev/tutorials/exams2nops/</id>
