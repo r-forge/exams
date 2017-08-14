@@ -170,7 +170,7 @@ include_file <- function(file) {
 
 include_template <- function(name, title, teaser, description,
   tags = NULL, related = NULL, randomization = "Yes", supplements = "",
-  author = "zeileis", seed = 1090)
+  author = "zeileis", thumb = c(277, 216), seed = 1090)
 {
   ## path to assets of post
   assets <- if(knitr::opts_chunk$get("fig.path") == "figure/") "FIXME" else knitr::opts_chunk$get("fig.path")
@@ -246,8 +246,8 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - thumbnail
   system(sprintf(
-    "convert -density 100 %s[0] -gravity northwest -chop 277x216 -gravity southeast -chop 250x753 -border 2x2 -bordercolor '#666666' %s",
-    f[7], f[13]))
+    "convert -density 100 %s[0] -gravity northwest -chop %sx%s -gravity southeast -chop %sx%s -border 2x2 -bordercolor '#666666' %s",
+    f[7], thumb[1], thumb[2], 827 - 300 - thumb[1], 1169 - 200 - thumb[2], f[13]))
   file.copy(f[13], "../../../images/", overwrite = TRUE)
 
   ## markdown templat
@@ -287,6 +287,10 @@ image:
   <div class=\'medium-8 columns\'>@description@</div>
 </div>
 <div class=\'row t1 b1\'>
+  <div class=\'medium-4 columns\'><b>Solution feedback:</b></div>
+  <div class=\'medium-8 columns\'>@solution@</div>
+</div>
+<div class=\'row t1 b1\'>
   <div class=\'medium-4 columns\'><b>Randomization:</b></div>
   <div class=\'medium-8 columns\'>@randomization@</div>
 </div>
@@ -295,7 +299,7 @@ image:
   <div class=\'medium-8 columns\'>@math@</div>
 </div>
 <div class=\'row t1 b1\'>
-  <div class=\'medium-4 columns\'><b>R verbatim code:</b></div>
+  <div class=\'medium-4 columns\'><b>Verbatim R input/output:</b></div>
   <div class=\'medium-8 columns\'>@verbatim@</div>
 </div>
 <div class=\'row t1 b1\'>
@@ -349,7 +353,7 @@ exams2pdf(&quot;@name@.Rmd&quot;)</code></pre>
   math <- any(grepl("<math", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   verbatim <- any(grepl("<pre>", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   images = any(grepl("includegraphics{", unlist(ex_pdf[c("question", "solution")]), fixed = TRUE))
-  if(length(ex_html$supplements) < 1) {
+  supplements <- if(length(ex_html$supplements) < 1) {
     FALSE
   } else {
     if(supplements == "") {  
@@ -382,6 +386,7 @@ exams2pdf(&quot;@name@.Rmd&quot;)</code></pre>
     math = if(is.logical(math)) c("No", "Yes")[1 + math] else math,
     verbatim = if(is.logical(verbatim)) c("No", "Yes")[1 + verbatim] else verbatim,
     images = if(is.logical(images)) c("No", "Yes")[1 + images] else images,
+    solution = if(is.null(ex_pdf$solution)) "No" else "Yes",
     browsernote = browsernote,
     seed = as.character(seed)
   )
