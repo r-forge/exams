@@ -3,8 +3,8 @@ layout: page
 #
 # Content
 #
-title: "tstat: 1-Sample t Statistic"
-teaser: "Exercise template for computing the t statistic from given hypothesized mean and empirical mean and variance."
+title: "tstat: 1-Sample t-Test Statistic"
+teaser: "Exercise template for computing the t-test statistic from given hypothesized mean and empirical mean and variance."
 categories:
   - templates
 tags:
@@ -15,6 +15,12 @@ tags:
   - statistics
 author: zeileis
 
+#
+# Style
+#
+image:
+  # preview in list of posts
+  thumb: tstat.small.png
 ---
 
 ```{r tstat-files, echo=FALSE, results="hide", warning=FALSE}
@@ -34,22 +40,25 @@ include_asset("tstat.md", link = FALSE)
 set.seed(1090)
 exams2html("tstat.Rnw", name = "blog", dir = ".")
 file.rename("blog1.html", "tstat-Rnw.html")
-include_asset("tstat-Rnw.html", engine = "firefox", link = FALSE)
+include_asset("tstat-Rnw.html", engine = "firefox", link = FALSE, out = "tstat-Rnw-html.png")
 
 set.seed(1090)
 exams2html("tstat.Rmd", name = "blog", dir = ".")
 file.rename("blog1.html", "tstat-Rmd.html")
-include_asset("tstat-Rmd.html", engine = "firefox", link = FALSE)
+include_asset("tstat-Rmd.html", engine = "firefox", link = FALSE, out = "tstat-Rmd-html.png")
 
 set.seed(1090)
 exams2pdf("tstat.Rnw", name = "blog", dir = ".")
 file.rename("blog1.pdf", "tstat-Rnw.pdf")
-include_asset("tstat-Rnw.pdf", link = FALSE)
+include_asset("tstat-Rnw.pdf", link = FALSE, out = "tstat-Rnw-pdf.png")
 
 set.seed(1090)
-exams2pdf("tstat.Rmd", name = "tstat-Rmd-pdf-", dir = ".")
+exams2pdf("tstat.Rmd", name = "blog", dir = ".")
 file.rename("blog1.pdf", "tstat-Rmd.pdf")
-include_asset("tstat-Rmd.pdf", link = FALSE)
+include_asset("tstat-Rmd.pdf", link = FALSE, out = "tstat-Rmd-pdf.png")
+
+system("convert -density 100 tstat-Rnw.pdf[0] -gravity northwest -chop 277x216 -gravity southeast -chop 250x753 -border 2x2 -bordercolor '#666666' tstat.small.png")
+file.copy("tstat.small.png", "../../../images/", overwrite = TRUE)
 ```
 
 <div class='row t1 b1'>
@@ -57,12 +66,17 @@ include_asset("tstat-Rmd.pdf", link = FALSE)
   <div class='medium-8 columns'><code class="highlighter-rouge">tstat</code></div>
 </div>
 <div class='row t1 b1'>
-  <div class='medium-4 columns'><b>Description:</b></div>
-  <div class='medium-8 columns'>Computing the 1-sample t statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance.</div>
+  <div class='medium-4 columns'><b>Type:</b></div>
+  <div class='medium-8 columns'><code class="highlighter-rouge">num</code></div> <!-- FIXME: href -->
 </div>
 <div class='row t1 b1'>
-  <div class='medium-4 columns'><b>Type:</b></div>
-  <div class='medium-8 columns'>num</div>
+  <div class='medium-4 columns'><b>Related:</b></div>
+  <div class='medium-8 columns'><a href="{{ site.url }}/templates/tstat2/"><code class="highlighter-rouge">tstat2</code></a></div>
+</div>
+
+<div class='row t20 b1'>
+  <div class='medium-4 columns'><b>Description:</b></div>
+  <div class='medium-8 columns'>Computing the 1-sample t-test statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance.</div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Randomization:</b></div>
@@ -85,25 +99,25 @@ include_asset("tstat-Rmd.pdf", link = FALSE)
   <div class='medium-8 columns'>No</div>
 </div>
 
-<div class='row t20'>
-  <div class='medium-4 columns'><b>Templates:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.Rnw">tstat.Rnw</a></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.Rmd">tstat.Rmd</a></div>
+<div class='row t20 b1'>
+  <div class='medium-4 columns'><b>Template:</b></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat.Rnw">tstat.Rnw</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat.Rmd">tstat.Rmd</a></div>
 </div>
 <div class='row t1 b1'>
-  <div class='medium-4 columns'><b>Raw:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.tex">tstat.tex</a></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat.md" >tstat.md</a></div>
+  <div class='medium-4 columns'><b>Raw:</b> (1 random version)</div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat.tex">tstat.tex</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat.md" >tstat.md</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>PDF:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rnw.pdf">tstat-Rnw.pdf</a></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rmd.pdf">tstat-Rmd.pdf</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rnw-pdf.png" alt="tstat-Rnw-pdf"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rmd.pdf"><img src="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rmd-pdf.png" alt="tstat-Rmd-pdf"/></a></div>
 </div>
 <div class='row t1 b20'>
   <div class='medium-4 columns'><b>HTML:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rnw.html">tstat-Rnw.html</a></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10/tstat-Rmd.html">tstat-Rmd.html</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rnw-html.png" alt="tstat-Rnw-html"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rmd.html"><img src="{{ site.url }}/assets/posts/2017-08-10-tstat/tstat-Rmd-html.png" alt="tstat-Rmd-html"/></a></div>
 </div>
 
 _(Note that the HTML output contains mathematical equations in MathML.
