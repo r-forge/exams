@@ -3,9 +3,9 @@ writeLines(include_template(
   name = "anova",
   title = "1-Way Analysis of Variance",
   teaser = "Exercise template for assessing the interpretation of an analysis-of-variance (ANOVA) table in multiple-choice form.",
-  description = "Compute different pieces of information (F-statistic, R-squared, significance, etc.) from an ANOVA table (and accompanying parallel boxplots). In each choice list element, some quantity should be computed 'by hand' and compared against some given value (which may be true or false).",
+  description = "Compute different pieces of information (F-statistic, R-squared, significance, etc.) from an ANOVA table (and accompanying parallel boxplots). In each choice item, some quantity should be computed 'by hand' and compared against some given value (which may be true or false).",
   tags = c("multiple-choice", "anova", "R-squared", "statistics"),
-  randomization = "Random numbers and text blocks",
+  randomization = "Random numbers, text blocks, and graphics",
   thumb = c(215, 254))
 )
 ```
