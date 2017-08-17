@@ -1,0 +1,12 @@
+```{r tstat2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "tstat2",
+  title = "1-Sample t-Test Statistic (Single-Choice)",
+  teaser = "Exercise template for computing the t-test statistic (single-choice) from given hypothesized mean and empirical mean and variance.",
+  description = "Computing the 1-sample t-test statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance. The correct answer has to be selected from five choice items which have been added to the numeric version of the exercise linked above.",
+  tags = c("single-choice", "arithmetic", "t statistic", "statistics"),
+  related = "tstat",
+  randomization = "Random numbers",
+  thumb = c(150, 200))
+)
+```

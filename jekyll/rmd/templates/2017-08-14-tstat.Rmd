@@ -6,6 +6,7 @@ writeLines(include_template(
   description = "Computing the 1-sample t-test statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance.",
   tags = c("numeric", "arithmetic", "t statistic", "statistics"),
   related = "tstat2",
-  randomization = "Random numbers")
+  randomization = "Random numbers",
+  thumb = c(277, 216))
 )
 ```

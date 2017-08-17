@@ -1,0 +1,11 @@
+```{r ttest, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "ttest",
+  title = "Interpretation of 2-Sample t Test",
+  teaser = "Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).",
+  description = "Results of a 2-sample <code class=\"highlighter-rouge\">t.test()</code> in R need to be interpreted regarding significance, type of alternative, and comparison of the underlying empirical means.",
+  tags = c("multiple-choice", "2-sample", "t test", "statistics"),
+  randomization = "Random numbers, text blocks, and R output",
+  thumb = c(147, 213))
+)
+```
