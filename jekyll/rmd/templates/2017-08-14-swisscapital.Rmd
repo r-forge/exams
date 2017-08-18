@@ -1,0 +1,12 @@
+```{r swisscapital, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "swisscapital",
+  title = "Knowledge Quiz Question about the Swiss Capital",
+  teaser = "Exercise template for a single-choice knowledge quiz question with basic shuffling of correct and false alternatives.",
+  description = "Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative. 4 out of the 6 false alternatives are sampled randomly and shuffled.",
+  tags = c("single-choice", "knowledge", "quiz", "switzerland"),
+  randomization = "Shuffling (4 out of 6 false alternatives)",
+  related = "switzerland",
+  thumb = c(157, 167))
+)
+```
