@@ -1,7 +1,7 @@
 ```{r Rlogo, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
 writeLines(include_template(
   name = "Rlogo",
-  title = "Knowledge Quiz Question about R and Its Logo",
+  title = "Knowledge Quiz Question about the R Logo",
   teaser = "Exercise template for a simple knowledge quiz question including a static graphics file (the R logo).",
   description = "Knowledge quiz question (about R and its logo) with 1 correct and 5 false alternative. 4 out of the 5 false alternatives are sampled randomly and shuffled. A static graphics file (not generated within R) is included in every question (the R logo).",
   tags = c("single-choice", "knowledge", "quiz", "graphic"),
