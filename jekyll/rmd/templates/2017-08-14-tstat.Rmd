@@ -3,7 +3,7 @@ writeLines(include_template(
   name = "tstat",
   title = "1-Sample t-Test Statistic",
   teaser = "Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.",
-  description = "Computing the 1-sample t-test statistic from randomly drawn hypothesized mean, sample size, and empirical mean and variance.",
+  description = "Computing the 1-sample t-test statistic from randomly-drawn hypothesized mean, sample size, and empirical mean and variance.",
   tags = c("numeric", "arithmetic", "t statistic", "statistics"),
   related = "tstat2",
   randomization = "Random numbers",
