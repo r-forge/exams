@@ -1,0 +1,35 @@
+
+\begin{question}
+What is the derivative of $f(x) = x^{8} e^{3.4x}$, evaluated at $x = 0.8$?
+
+\begin{answerlist}
+  \item $25.47$
+  \item $34.13$
+  \item $38.76$
+  \item $28.02$
+  \item $28.97$
+\end{answerlist}\end{question}
+
+\begin{solution}
+Using the product rule for $f(x) = g(x) \cdot h(x)$, where $g(x) := x^{8}$ and $h(x) := e^{3.4x}$, we obtain
+\begin{eqnarray*}
+f'(x) & = & [g(x) \cdot h(x)]' = g'(x) \cdot h(x) + g(x) \cdot h'(x) \\
+      & = & 8 x^{8 - 1} \cdot e^{3.4x} + x^{8} \cdot e^{3.4x} \cdot 3.4 \\
+      & = & e^{3.4x} \cdot(8 x^7 + 3.4 x^{8}) \\
+      & = & e^{3.4x} \cdot x^7 \cdot (8 + 3.4x).
+\end{eqnarray*}
+Evaluated at $x = 0.8$, the answer is
+\[ e^{3.4\cdot 0.8} \cdot 0.8^7 \cdot (8 + 3.4\cdot 0.8) = 34.127595. \]
+Thus, rounded to two digits we have $f'(0.8) = 34.13$.
+
+\begin{answerlist}
+  \item False
+  \item True
+  \item False
+  \item False
+  \item False
+\end{answerlist}\end{solution}
+
+%% \extype{schoice}
+%% \exsolution{01000}
+%% \exname{derivative exp}

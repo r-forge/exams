@@ -1,0 +1,12 @@
+```{r deriv2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "deriv2",
+  title = "Product Rule for Derivatives (Single-Choice)",
+  teaser = "Exercise template for computing the derivative (single-choice) of a production function with factors of type x<sup>a</sup> and exp(b * x) at a given point c, with randomly drawn a, b, and c.",
+  description = "Computing the first derivative of a product function with two factors and randomly drawn parameters, using the product rule.",
+  tags = c("single-choice", "arithmetic", "derivative", "mathematics"),
+  related = "deriv",
+  randomization = "Random numbers",
+  thumb = c(150, 150))
+)
+```
