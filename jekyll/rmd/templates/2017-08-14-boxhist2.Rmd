@@ -1,0 +1,12 @@
+```{r boxhist2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "boxhist2",
+  title = "Univariate Exploration of a CSV File (Moodle Version)",
+  teaser = "Exercise template with Moodle-specific markup for assessing the interpretation of exploratory statistics (quantiles) and graphics (boxplot and histogram) based on a randomly-generated CSV file.",
+  description = "Univariate numeric data for download in a CSV file (comma-separated values) need to be assessed using quantiles (three numeric items) and exploratory graphics (three single-choice items). Data are drawn randomly from a suitable data-generating process so that the single-choice items are either about correct or clearly wrong. The six items are embedded into the exercise using Moodle-specific markup for somewhat improved layout.",
+  tags = c("boxplot", "histogram", "1-sample", "visualization", "statistics"),
+  randomization = "Random numbers, text blocks, and data file",
+  related = "boxhist",
+  thumb = c(157, 145))
+)
+```
