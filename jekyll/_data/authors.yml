@@ -5,15 +5,16 @@
 # 3. Change default post/page authors in config.yml
 #
 # Resource › http://blog.sorryapp.com/blogging-with-jekyll/2014/02/06/adding-authors-to-your-jekyll-site.html
+zeileis:
+  name: "Achim Zeileis"
+  siterole: "mastermind, package maintainer"
+  email: "Achim.Zeileis@R-project.org"
+  uri: "https://eeecon.uibk.ac.at/~zeileis/"
+
 keller: # replace this with your info
   name: "Patrik Keller"
   siterole: "website, tutorials"
   email: "patrik.keller@uibk.ac.at"
-
-zeileis:
-  name: "Achim Zeileis"
-  siterole: "mastermind, package maintainer"
-  email: achim.zeileis@uibk.ac.at"
 
 krimm:
   name: "Hanna Krimm"
