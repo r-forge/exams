@@ -14,9 +14,9 @@ permalink: "/intro/dynamic/"
 #
 image:
   # shown on top of blog post
-  title: screenshot-deriv-nvim-montage2.big.jpg
+  title: laptop_on_table_deriv2.orig.big.jpg
   # preview in list of posts
-  thumb: screenshot-deriv-nvim-montage2.150.jpg
+  thumb: laptop_on_table_deriv2.orig.150.jpg
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
