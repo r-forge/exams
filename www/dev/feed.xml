@@ -18,7 +18,7 @@
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -100,7 +100,7 @@ exams2pdf(&amp;quot;ttest.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/tstat/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
@@ -183,7 +183,7 @@ exams2pdf(&amp;quot;tstat2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/tstat2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
@@ -266,7 +266,7 @@ exams2pdf(&amp;quot;tstat.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/swisscapital/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
@@ -347,7 +347,7 @@ exams2pdf(&amp;quot;switzerland.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/switzerland/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;switzerland&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
@@ -428,7 +428,7 @@ exams2pdf(&amp;quot;swisscapital.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -508,7 +508,7 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -588,7 +588,7 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt;&lt;/a&gt;, &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
@@ -671,7 +671,7 @@ exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/cloze/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt;&lt;/a&gt;, &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist3/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist3&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
@@ -754,7 +754,7 @@ exams2pdf(&amp;quot;dist2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/div&gt; &lt;!-- FIXME: href --&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist2&lt;/code&gt;&lt;/a&gt;, &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist3/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist3&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 

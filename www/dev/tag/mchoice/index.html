@@ -1,0 +1,653 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>R/exams</title>
+	<link rel="stylesheet" type="text/css" href="http://exams.R-Forge.R-project.org/dev/assets/css/styles_feeling_responsive.css" />
+	<script src="http://exams.R-Forge.R-project.org/dev/assets/js/modernizr.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+
+	
+
+	
+
+
+
+	
+	<link rel="icon" sizes="32x32" href="http://exams.R-Forge.R-project.org/dev/assets/img/favicon-32x32.png" />
+
+
+
+
+	
+	<link rel="icon" sizes="192x192" href="http://exams.R-Forge.R-project.org/dev/assets/img/touch-icon-192x192.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-180x180-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-152x152-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-144x144-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-120x120-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-114x114-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-76x76-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-72x72-precomposed.png" />
+
+
+
+
+	
+	<link rel="apple-touch-icon-precomposed" href="http://exams.R-Forge.R-project.org/dev/assets/img/apple-touch-icon-precomposed.png" />	
+
+
+
+
+	
+	<meta name="msapplication-TileImage" content="http://exams.R-Forge.R-project.org/dev/assets/img/msapplication_tileimage.png" />
+
+
+
+
+	
+	<meta name="msapplication-TileColor" content="#fabb00" />
+
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="R/exams" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://exams.R-Forge.R-project.org/dev//tag/mchoice/" />
+	<meta property="og:site_name" content="R/exams" />
+	
+
+	
+
+	<!-- Search Engine Optimization -->
+	<meta name="robots" content="noindex" />
+
+	<link type="text/plain" rel="author" href="http://exams.R-Forge.R-project.org/dev/humans.txt" />
+
+	
+
+	
+</head>
+
+</head>
+<body id="top-of-page" class="">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://exams.R-Forge.R-project.org/dev">
+            <img class='nav-logo' src="http://exams.R-Forge.R-project.org/dev/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://exams.R-Forge.R-project.org/dev" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://exams.R-Forge.R-project.org/dev/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://exams.R-Forge.R-project.org/dev/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.R-Forge.R-project.org/dev/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.R-Forge.R-project.org/dev/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://exams.R-Forge.R-project.org/dev/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/about/">About</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://exams.R-Forge.R-project.org/dev/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://exams.R-Forge.R-project.org/dev" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://exams.R-Forge.R-project.org/dev/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row blog-index">
+	<div class="medium-10 medium-offset-1 columns t30">
+		
+
+
+
+
+
+
+
+
+
+<div class='row'>
+  <div class='small-12 columns b30'>
+    <h1>Tag: mchoice</h1>
+  </div>
+</div>
+
+
+
+
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://exams.R-Forge.R-project.org/dev/templates/ttest/">ttest: Interpretation of 2-Sample t Test</a></h2>
+        <a href="http://exams.R-Forge.R-project.org/dev/templates/ttest/" title="ttest: Interpretation of 2-Sample t Test"><img src="http://exams.R-Forge.R-project.org/dev/images/ttest.small.png" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">templates</span>
+      </p>
+      
+      <p>
+      
+        Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).
+      
+
+      <a href="http://exams.R-Forge.R-project.org/dev/templates/ttest/" title="Read ttest: Interpretation of 2-Sample t Test"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
+
+
+
+
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://exams.R-Forge.R-project.org/dev/templates/switzerland/">switzerland: Knowledge Quiz Question about Switzerland</a></h2>
+        <a href="http://exams.R-Forge.R-project.org/dev/templates/switzerland/" title="switzerland: Knowledge Quiz Question about Switzerland"><img src="http://exams.R-Forge.R-project.org/dev/images/switzerland.small.png" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">templates</span>
+      </p>
+      
+      <p>
+      
+        Exercise template for a multiple-choice knowledge quiz question with basic shuffling of the alternatives.
+      
+
+      <a href="http://exams.R-Forge.R-project.org/dev/templates/switzerland/" title="Read switzerland: Knowledge Quiz Question about Switzerland"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
+
+
+
+
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://exams.R-Forge.R-project.org/dev/templates/scatterplot/">scatterplot: Interpretation of a Scatterplot</a></h2>
+        <a href="http://exams.R-Forge.R-project.org/dev/templates/scatterplot/" title="scatterplot: Interpretation of a Scatterplot"><img src="http://exams.R-Forge.R-project.org/dev/images/scatterplot.small.png" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">templates</span>
+      </p>
+      
+      <p>
+      
+        Exercise template for assessing the interpretation of a randomly-generated scatterplot regarding the joint and marginal distributions.
+      
+
+      <a href="http://exams.R-Forge.R-project.org/dev/templates/scatterplot/" title="Read scatterplot: Interpretation of a Scatterplot"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
+
+
+
+
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/">gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions</a></h2>
+        <a href="http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/" title="gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions"><img src="http://exams.R-Forge.R-project.org/dev/images/gaussmarkov.small.png" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">templates</span>
+      </p>
+      
+      <p>
+      
+        Exercise template for a multiple-choice knowledge quiz question about the assumptions in the Gauss-Markov theorem.
+      
+
+      <a href="http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/" title="Read gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
+
+
+
+
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://exams.R-Forge.R-project.org/dev/templates/boxplots/">boxplots: Interpretation of 2-Sample Boxplots</a></h2>
+        <a href="http://exams.R-Forge.R-project.org/dev/templates/boxplots/" title="boxplots: Interpretation of 2-Sample Boxplots"><img src="http://exams.R-Forge.R-project.org/dev/images/boxplots.small.png" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">templates</span>
+      </p>
+      
+      <p>
+      
+        Exercise template for assessing the interpretation of two randomly-generated parallel boxplots regarding location, scale, etc.
+      
+
+      <a href="http://exams.R-Forge.R-project.org/dev/templates/boxplots/" title="Read boxplots: Interpretation of 2-Sample Boxplots"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
+
+
+
+
+<nav id="pagination">
+    
+
+    
+
+    
+    <a class="radius button small" href="http://exams.R-Forge.R-project.org/dev/tag/mchoice/page2/" title="Next Posts">Next &raquo;</a>
+    
+</nav>
+
+
+	</div><!-- /.medium-8.columns -->
+
+  
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="iconfont" href="#top-of-page">&#xf108;</a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <a href="http://exams.R-Forge.R-project.org/dev/about/">More ›</a>
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://exams.R-Forge.R-project.org/dev/assets/js/javascript.min.js"></script>
+<script src="http://exams.R-Forge.R-project.org/dev/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

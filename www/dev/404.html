@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="Maybe the webpage was moved or deleted; or did you maybe mistype the link?" />
+	<meta name="description" content="Maybe the web page was moved or deleted; or maybe you mistyped the link?" />
 
 	
 
@@ -361,32 +361,36 @@
 
 			
 			<p class="teaser" itemprop="description">
-				Maybe the webpage was moved or deleted; or did you maybe mistype the link?
+				Maybe the web page was moved or deleted; or maybe you mistyped the link?
 			</p>
 			
 
 			<span itemprop="articleSection">
 			<h2 id="no-problem">No problem!</h2>
 
-<p>Try…<br />
-…to start over on the <a href="/">home page</a>;<br />
-…to <strong>search</strong> below;<br />
-if you can’t find it, <a href="/contact/">ask about it</a>.</p>
+<p>You can try to:</p>
+
+<ul>
+  <li>Start over on the <a href="/">home page</a>.</li>
+  <li><strong>Search</strong> below.</li>
+</ul>
+
+<p>If you can’t find it, <a href="/about/#contacts">ask about it</a>.</p>
 
 <h3 id="search">Search</h3>
 
 <script language="Javascript" type="text/javascript">
-	function google_search() {
-		var query = document.getElementById("google-search").value;
-		window.open("https://www.google.com/search?q=" + query + "+site:" + "http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F");
+	function duck_search() {
+		var query = document.getElementById("duck-search").value;
+		window.open("https://www.duckduckgo.com/?q=" + query + "+site:" + "http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F");
 	}
 </script>
 
-<form id="search" onsubmit="google_search(); return false;">
-	<input type="text" id="google-search" placeholder="Enter search term and hit enter" />
+<form id="search" onsubmit="duck_search(); return false;">
+	<input type="text" id="duck-search" placeholder="Enter search term and hit enter" />
 </form>
 <noscript>
-	Search <a href="https://www.google.com/search?q=site:http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F" target="_blank">Google</a> for:
+	Search <a href="https://www.duckduckgo.com/search?q=site:http%3A%2F%2Fexams.R-Forge.R-project.org%2Fdev%2F" target="_blank">Google</a> for:
 	<pre><code>search-term site:http://exams.R-Forge.R-project.org/dev/</code></pre>
 </noscript>
 
