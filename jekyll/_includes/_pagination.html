@@ -7,26 +7,47 @@
 {% endcomment %}
 
 
+{% capture base %}{{ site.url }}/blog/{% endcapture %}
+
+{% if page.grouptype == 'category' %}
+{% capture header  %}Category: {{ page.group }}{% endcapture %}
+{% capture base %}{{ site.url }}/{{ page.grouptype }}/{{ page.group }}/{% endcapture %}
+{% elsif page.grouptype == 'tag' %}
+{% capture header %}Tag: {{ page.group }}{% endcapture %}
+{% capture base %}{{ site.url }}/{{ page.grouptype }}/{{ page.group }}/{% endcapture %}
+{% endif %}
+
+{% if paginator.page > 1 %}
+{% capture header %}{{ header }}{% if header %}. {% endif %}Page {{ paginator.page }} {% endcapture %}
+{% endif %}
+
+{% if header %}
+<div class='row'>
+  <div class='small-12 columns b30'>
+    <h1>{{ header }}</h1>
+  </div>
+</div>
+{% endif %}
+
 {% for post in paginator.posts %}
 {% include _post_index_entry.html post=post %}
 {% endfor %}
 
-
 <nav id="pagination">
     {% if paginator.previous_page %}
       {% if paginator.previous_page == 1 %}
-      <a class="radius button small" href="{{ site.url }}/blog/" title="{{ site.data.language.previous_posts }}">&laquo; {{ site.data.language.previous_posts }}</a>
+      <a class="radius button small" href="{{ base }}" title="{{ site.data.language.previous_posts }}">&laquo; {{ site.data.language.previous }}</a>
       {% else %}
-      <a class="radius button small" href="{{ site.url }}/blog/page{{ paginator.previous_page }}/" title="{{ site.data.language.previous_posts }}">&laquo; {{ site.data.language.previous }}</a>
+      <a class="radius button small" href="{{ base }}page{{ paginator.previous_page }}/" title="{{ site.data.language.previous_posts }}">&laquo; {{ site.data.language.previous }}</a>
       {% endif %}
     {% endif %}
 
     {% comment %}
-    <a class="radius button small" href="{{ site.url }}/blog/archive/" title="{{ site.data.language.blog_archive }}">{{ site.data.language.blog_archive }}</a>
+    <a class="radius button small" href="{{ base }}archive/" title="{{ site.data.language.blog_archive }}">{{ site.data.language.blog_archive }}</a>
     {% endcomment %}
 
     {% if paginator.next_page %}
-    <a class="radius button small" href="{{ site.url }}/blog/page{{ paginator.next_page }}/" title="{{ site.data.language.next_posts }}">{{ site.data.language.next }} &raquo;</a>
+    <a class="radius button small" href="{{ base }}page{{ paginator.next_page }}/" title="{{ site.data.language.next_posts }}">{{ site.data.language.next }} &raquo;</a>
     {% endif %}
-  </nav>
+</nav>
 
