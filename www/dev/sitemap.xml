@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<!-- Pages: 24 links with priority=0.3, changefreq=monthly -->
+<!-- Pages: 26 links with priority=0.3, changefreq=monthly -->
 
 	
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/404.html</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -22,7 +22,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/about/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -39,7 +39,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/atom.xml</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -56,7 +56,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/intro/dynamic/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -71,7 +71,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/intro/elearning/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -86,7 +86,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/feed.xml</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -101,7 +101,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -116,7 +116,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/humans.txt</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -131,7 +131,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/blog/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -146,7 +146,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/intro/oneforall/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -161,7 +161,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/resources/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -176,7 +176,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/robots.txt</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -195,7 +195,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/search/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -210,7 +210,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/sitemap.xml</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -227,7 +227,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/dummy/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -242,7 +242,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/templates/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -257,7 +257,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/tutorials/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -272,7 +272,7 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/intro/written/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -287,7 +287,37 @@
 	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/blog/page2/</loc>
 	
-		<lastmod>2017-08-17T02:21:01+02:00</lastmod>
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/blog/page3/</loc>
+	
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/blog/page4/</loc>
+	
+		<lastmod>2017-08-19T02:26:37+02:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -299,7 +329,7 @@
 	
 
 
-<!-- Posts: 10 links with priority=0.5, changefreq=monthly -->
+<!-- Posts: 18 links with priority=0.5, changefreq=monthly -->
 
 	
 	<url>
@@ -348,7 +378,127 @@
 
 	
 	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/switzerland/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/swisscapital/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
 	<loc>http://exams.R-Forge.R-project.org/dev/templates/scatterplot/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/dist3/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/dist2/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/dist/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/deriv2/</loc>
+	
+		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.5</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>http://exams.R-Forge.R-project.org/dev/templates/deriv/</loc>
 	
 		<lastmod>2017-08-14T00:00:00+02:00</lastmod>
 	
