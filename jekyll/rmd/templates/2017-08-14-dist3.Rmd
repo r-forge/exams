@@ -1,0 +1,12 @@
+```{r dist3, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "dist3",
+  title = "Distances and the Pythagorean Theorem (Single-Choice)",
+  teaser = "Exercise template for computing the distance (single-choice) between two randomly-drawn points in a Cartesian coordinate system.",
+  description = "Computing the (Euclidean) distance between two randomly-drawn points by using the Pythagorean Theorem. In addition to the correct solution, four false alternatives are generated through <code class=\"highlighter-rouge\">num_to_schoice()</code> by providing two common errors along with a range and minimal delta for two further random solutions.",
+  tags = c("single-choice", "arithmetic", "distance", "Euclidean", "Pythagoras", "mathematics"),
+  related = c("dist", "dist2"),
+  randomization = "Random numbers and graphics",
+  thumb = c(157, 200))
+)
+```

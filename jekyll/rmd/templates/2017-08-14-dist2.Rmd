@@ -1,0 +1,12 @@
+```{r dist2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "dist2",
+  title = "Three Distances in a Cartesian Coordinate System",
+  teaser = "Exercise template for computing the Manhattan, Euclidean, and maximum distance (cloze with three numeric answers) between two randomly-drawn points in a Cartesian coordinate system.",
+  description = "Computing three different distance measures between the same two randomly-drawn points by using Manhatten, Euclidean, and maximum distance.",
+  tags = c("numeric", "arithmetic", "distance", "Euclidean", "Manhattan", "maximum", "mathematics"),
+  related = c("dist", "dist3"),
+  randomization = "Random numbers and graphics",
+  thumb = c(157, 150))
+)
+```

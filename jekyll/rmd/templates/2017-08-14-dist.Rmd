@@ -1,0 +1,12 @@
+```{r dist, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "dist",
+  title = "Distances and the Pythagorean Theorem",
+  teaser = "Exercise template for computing the distance (numeric answer) between two randomly-drawn points in a Cartesian coordinate system.",
+  description = "Computing the (Euclidean) distance between two randomly-drawn points by using the Pythagorean Theorem.",
+  tags = c("numeric", "arithmetic", "distance", "Euclidean", "Pythagoras", "mathematics"),
+  related = c("dist2", "dist3"),
+  randomization = "Random numbers and graphics",
+  thumb = c(310, 380))
+)
+```
