@@ -1,0 +1,11 @@
+```{r gaussmarkov, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "gaussmarkov",
+  title = "Knowledge Quiz Question about Gauss-Markov Assumptions",
+  teaser = "Exercise template for a multiple-choice knowledge quiz question about the assumptions in the Gauss-Markov theorem.",
+  description = "Knowledge quiz question (about the assumptions in the Gauss-Markov theorem) with 2 correct and 4 false alternatives. The alternatives are drawn randomly, preserving at least one of the correct and at least one of the false alternatives.",
+  tags = c("multiple-choice", "knowledge", "quiz", "Gauss-Markov", "statistics"),
+  randomization = "Shuffling (5 out of 6 alternatives)",
+  thumb = c(157, 167))
+)
+```

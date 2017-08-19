@@ -35,7 +35,7 @@ image:
 
 <div class='row t20 b1'>
   <div class='medium-4 columns'><b>Description:</b></div>
-  <div class='medium-8 columns'>Knowledge quiz question (about Switzerland) with 2 correct and 3 false alternative which are shuffled randomly in each version of the exercise.</div>
+  <div class='medium-8 columns'>Knowledge quiz question (about Switzerland) with 2 correct and 3 false alternatives which are shuffled randomly in each version of the exercise.</div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Solution feedback:</b></div>
