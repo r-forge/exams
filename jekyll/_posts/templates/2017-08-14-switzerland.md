@@ -29,7 +29,7 @@ image:
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Type:</b></div>
-  <div class='medium-8 columns'><code class="highlighter-rouge">mchoice</code></div> <!-- FIXME: href -->
+  <div class='medium-8 columns'><a href="{{ site.url }}/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
 </div>
 <div class='row t1 b1'>   <div class='medium-4 columns'><b>Related:</b></div>   <div class='medium-8 columns'><a href="{{ site.url }}/templates/swisscapital/"><code class="highlighter-rouge">swisscapital</code></a></div> </div>
 

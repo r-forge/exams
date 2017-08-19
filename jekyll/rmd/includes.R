@@ -278,7 +278,7 @@ image:
 </div>
 <div class=\'row t1 b1\'>
   <div class=\'medium-4 columns\'><b>Type:</b></div>
-  <div class=\'medium-8 columns\'><code class="highlighter-rouge">@type@</code></div> <!-- FIXME: href -->
+  <div class=\'medium-8 columns\'><a href="{{ site.url }}/tag/@type@/"><code class="highlighter-rouge">@type@</code></a></div>
 </div>
 @related@
 
