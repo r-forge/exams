@@ -17,13 +17,17 @@ include_rmd <- function(file, ...)
   output <- paste0(output, ".md")
 
   ## default knitr settings (can be queried within .Rmd processing)
+  if(!exists(".knitr_opts_vanilla")) .knitr_opts_vanilla <<- list(chunk = knitr::opts_chunk$get(), knit = knitr::opts_knit$get())
   knitr::opts_chunk$set(dev = "svg",
     fig.height = 5, fig.width = 6, dpi = 100, ...,
     fig.path = paste0(assets, "/"), knitr::render_jekyll("prettify"))
   knitr::opts_knit$set(root.dir = root)
+  .knitr_opts_custom <<- list(chunk = knitr::opts_chunk$get(), knit = knitr::opts_knit$get())
     
   ## process .Rmd
   rval <- knitr::knit(input = file, output = output, quiet = TRUE, encoding = "UTF-8")
+
+  if(file.exists("media")) file.copy("media", assets, recursive = TRUE)
 
   ## if no assets were produced, delete folder
   if(length(list.files(assets)) < 1L) unlink(assets)
@@ -229,7 +233,11 @@ include_template <- function(name, title, teaser, description,
   include_asset(f[5], engine = "firefox", link = FALSE, out = f[9])
   ##
   set.seed(seed)
+  knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
+  knitr::opts_knit$set(.knitr_opts_vanilla$knit)
   exams2html(f[2], name = "blog", dir = ".")
+  knitr::opts_chunk$set(.knitr_opts_custom$chunk)
+  knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.html", f[6])
   include_asset(f[6], engine = "firefox", link = FALSE, out = f[10])
   ##
@@ -353,14 +361,10 @@ exams2pdf(&quot;@name@.Rmd&quot;)</code></pre>
   math <- any(grepl("<math", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   verbatim <- any(grepl("<pre>", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   images = any(grepl("includegraphics{", unlist(ex_pdf[c("question", "solution")]), fixed = TRUE))
-  supplements <- if(length(ex_html$supplements) < 1) {
-    FALSE
+  supplements <- if(supplements == "") {
+    if(length(ex_html$supplements) < 1) FALSE else paste(names(ex_html$supplements), collapse = ", ")
   } else {
-    if(supplements == "") {  
-      paste(tools::file_ext(ex_html$supplements), collapse = ", ")
-    } else {
-      sprintf("%s (%s)", supplements, paste(tools::file_ext(ex_html$supplements), collapse = ", "))
-    }
+    paste(supplements, collapse = ", ")
   }
 
   ## note about MathML support in browsers
