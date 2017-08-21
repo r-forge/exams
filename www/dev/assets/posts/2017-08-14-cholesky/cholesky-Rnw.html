@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+For the matrix
+<br />
+<table width="100%"><tr><td align="center">
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mstyle displaystyle="true"><mrow>
+<mtable align="right" width="80%">
+<mtr><mtd columnalign="right" columnspan="1"><mrow><mi>A</mi></mrow>
+</mtd><mtd columnalign="left">
+<mrow><mo>=</mo><mrow><mo>(</mo>
+<mtable>
+<mtr><mtd columnalign="right"><mrow><mn>16</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>12</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>12</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>16</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>12</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>25</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>1</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>4</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>12</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>1</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>17</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>14</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>16</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>4</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>14</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>57</mn></mrow></mtd></mtr></mtable>
+<mo>)</mo></mrow><mo>.</mo></mrow>
+</mtd></mtr>
+</mtable>
+</mrow>
+    </mstyle></math>
+</td></tr></table>
+<br />
+compute the matrix 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>L</mi><mo>=</mo><mo stretchy="false">(</mo>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mi>ij</mi></mrow>
+</msub>
+<msub><mrow><mo stretchy="false">)</mo></mrow><mrow><mn>1</mn><mo>&le;</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo>&le;</mo><mn>4</mn></mrow>
+</msub>
+</mrow></math> from the
+Cholesky decomposition 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>A</mi><mo>=</mo><mi>L</mi>
+<msup><mrow><mi>L</mi></mrow><mrow><mo>&top;</mo></mrow>
+</msup>
+</mrow></math>.
+<div class="p"><!----></div>
+Which of the following statements are true?
+<br/>
+<ol type="a">
+<li>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>41</mn></mrow>
+</msub>
+<mo>&ge;</mo><mo>-</mo><mn>4</mn></mrow></math>
+</li>
+<li>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>33</mn></mrow>
+</msub>
+<mo>&ge;</mo><mn>2</mn></mrow></math>
+</li>
+<li>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>11</mn></mrow>
+</msub>
+<mo>&le;</mo><mn>4</mn></mrow></math>
+</li>
+<li>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>31</mn></mrow>
+</msub>
+<mo>&ge;</mo><mo>-</mo><mn>3</mn></mrow></math>
+</li>
+<li>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>32</mn></mrow>
+</msub>
+<mo>&ge;</mo><mo>-</mo><mn>2</mn></mrow></math>
+</li>
+</ol>
+<br/>
+<h4>Solution</h4>
+The decomposition yields
+<br />
+<table width="100%"><tr><td align="center">
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mstyle displaystyle="true"><mrow>
+<mtable align="right" width="80%">
+<mtr><mtd columnalign="right" columnspan="1"><mrow><mi>L</mi></mrow>
+</mtd><mtd columnalign="left">
+<mrow><mo>=</mo><mrow><mo>(</mo>
+<mtable>
+<mtr><mtd columnalign="right"><mrow><mn>4</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>0</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>0</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>0</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>3</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>4</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>0</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>0</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>3</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>2</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>2</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>0</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>4</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>4</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>3</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>4</mn></mrow></mtd></mtr></mtable>
+<mo>)</mo></mrow></mrow>
+</mtd></mtr>
+</mtable>
+</mrow>
+    </mstyle></math>
+</td></tr></table>
+<br />
+and hence:
+<br/>
+<ol type="a">
+<li>
+True. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>41</mn></mrow>
+</msub>
+<mo>=</mo><mo>-</mo><mn>4</mn></mrow></math>
+</li>
+<li>
+True. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>33</mn></mrow>
+</msub>
+<mo>=</mo><mn>2</mn></mrow></math>
+</li>
+<li>
+True. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>11</mn></mrow>
+</msub>
+<mo>=</mo><mn>4</mn></mrow></math>
+</li>
+<li>
+True. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>31</mn></mrow>
+</msub>
+<mo>=</mo><mo>-</mo><mn>3</mn></mrow></math>
+</li>
+<li>
+True. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>&ell;</mi></mrow><mrow><mn>32</mn></mrow>
+</msub>
+<mo>=</mo><mo>-</mo><mn>2</mn></mrow></math>
+</li>
+</ol>
+<br/>
+</li>
+</ol>
+
+</body>
+</html>

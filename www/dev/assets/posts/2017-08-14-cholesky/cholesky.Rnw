@@ -1,0 +1,54 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+## number of rows/columns
+n <- sample(3:4, 1)
+## elements on lower triangle (and diagonal)
+m <- n * (n + 1)/2
+L <- matrix(data = 0, nrow = n, ncol = n)
+diag(L) <- sample(1:5, n, replace = TRUE)
+L[lower.tri(L)] <- sample(-5:5, m-n, replace = TRUE)
+## matrix A for which the Cholesky decomposition should be computed
+A <- L %*% t(L)
+
+## rnadomly generate questions/solutions/explanations
+mc <- matrix_to_mchoice(
+  L,                                     ## correct matrix
+  y = sample(-10:10, 5, replace = TRUE), ## random values for comparison
+  lower = TRUE,                          ## only lower triangle/diagonal
+  name = "\\ell")                        ## name for matrix elements
+@
+
+
+\begin{question}
+For the matrix
+\begin{eqnarray*}
+  A &= \Sexpr{toLatex(A)}.
+\end{eqnarray*}
+compute the matrix $L = (\ell_{ij})_{1 \leq i,j \leq \Sexpr{n}}$ from the
+Cholesky decomposition $ A = L L^\top$.
+
+Which of the following statements are true?
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(mc$questions)
+@
+
+\end{question}
+
+\begin{solution}
+The decomposition yields
+\begin{eqnarray*}
+  L &= \Sexpr{toLatex(L)}
+\end{eqnarray*}
+and hence:
+<<echo=FALSE, results=hide, results=tex>>=
+answerlist(
+  ifelse(mc$solutions, "True", "False"),
+  mc$explanations)
+@
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{mchoice}
+%% \exsolution{\Sexpr{mchoice2string(mc$solutions)}}
+%% \exname{Cholesky decomposition}
