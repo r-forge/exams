@@ -1,0 +1,11 @@
+```{r cholesky, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "cholesky",
+  title = "Cholesky Decomposition",
+  teaser = "Exercise template for computing the Cholesky decomposition of a simple randomly-generated 3x3 or 4x4 matrix (by hand).",
+  description = "Computing the Cholesky decomposition of a randomly-generated symmetric positive-definite matrix (3x3 or 4x4) whose Cholesky factor has only integer elements between -5 and 5. The exercise can be solved by computing the Cholesky decomposition and then checking five corresponding multiple-choice items, generated randomly with <code class=\"highlighter-rouge\">matrix_to_mchoice()</code>.",
+  tags = c("multiple-choice", "matrix", "mathematics"),
+  randomization = "Random numbers and text blocks",
+  thumb = c(279, 157))
+)
+```

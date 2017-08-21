@@ -1,0 +1,11 @@
+```{r confint2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "confint2",
+  title = "2-Sided Confidence Interval",
+  teaser = "Exercise template for computing the 2-sided confidence interval for the mean based on a random sample.",
+  description = "Computing the 2-sided confidence interval at 95% level for the mean based on a random sample. The exercise is a cloze with two numeric answers for the lower and upper bound of the confidence interval, respectively.",
+  tags = c("numeric", "confidence", "interval", "statistics"),
+  randomization = "Random numbers",
+  thumb = c(295, 341))
+)
+```
