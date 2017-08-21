@@ -46,7 +46,7 @@ logo: "logo.svg"
 
 
 # Paginates all X entries
-paginate: 5
+paginate: 10
 
 
 # Pagination path › Important for blog page in /blog/ to work
