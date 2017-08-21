@@ -1,0 +1,12 @@
+```{r currency8, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "currency8",
+  title = "Convert Currencies (UTF-8 Encoding)",
+  teaser = "Exercise template for converting currencies (EUR, USD, GBP) with various symbols in UTF-8 encoding.",
+  description = "Computing the worth of a randomly drawn number of shares in a certain currency. The main purpose of the exercise is to illustrate and test how UTF-8 encoding can be used in R/exams. Analogous exercises for Latin-1 and Latin-9 are also available in .Rnw format (because .Rmd requires UTF-8 only).",
+  tags = c("numeric", "arithmetic", "finance"),
+  related = c("currency1.Rnw", "currency9.Rnw"),
+  randomization = "Random numbers and text blocks",
+  thumb = c(157, 127), utf8 = TRUE)
+)
+```
