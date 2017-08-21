@@ -174,8 +174,11 @@ include_file <- function(file) {
 
 include_template <- function(name, title, teaser, description,
   tags = NULL, related = NULL, randomization = "Yes", supplements = "",
-  author = "zeileis", thumb = c(277, 216), seed = 1090)
+  author = "zeileis", thumb = c(277, 216), seed = 1090, utf8 = FALSE)
 {
+  ## assure UTF-8 locale
+  if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
+
   ## path to assets of post
   assets <- if(knitr::opts_chunk$get("fig.path") == "figure/") "FIXME" else knitr::opts_chunk$get("fig.path")
 
@@ -220,7 +223,7 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - raw
   set.seed(seed)
-  Sweave(f[1])
+  Sweave(f[1], encoding = "UTF-8")
   include_asset(f[3], link = FALSE)
   set.seed(seed)
   knitr::knit(f[2], quiet = TRUE, encoding = "UTF-8")
@@ -228,14 +231,22 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - HTML
   set.seed(seed)
-  ex_html <- exams2html(f[1], name = "blog", dir = ".")[[1]][[1]]
+  ex_html <- if(!utf8) {
+    exams2html(f[1], name = "blog", dir = ".")[[1]][[1]]
+  } else {
+    exams2html(f[1], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")[[1]][[1]]
+  }
   file.rename("blog1.html", f[5])
   include_asset(f[5], engine = "firefox", link = FALSE, out = f[9])
   ##
   set.seed(seed)
   knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
   knitr::opts_knit$set(.knitr_opts_vanilla$knit)
-  exams2html(f[2], name = "blog", dir = ".")
+  if(!utf8) {
+    exams2html(f[2], name = "blog", dir = ".")
+  } else {
+    exams2html(f[2], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")
+  }
   knitr::opts_chunk$set(.knitr_opts_custom$chunk)
   knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.html", f[6])
@@ -243,12 +254,20 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - PDF
   set.seed(seed)
-  ex_pdf <- exams2pdf(f[1], name = "blog", dir = ".")[[1]][[1]]
+  ex_pdf <- if(!utf8) {
+    exams2pdf(f[1], name = "blog", dir = ".")[[1]][[1]]
+  } else {
+    exams2pdf(f[1], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")[[1]][[1]]
+  }
   file.rename("blog1.pdf", f[7])
   include_asset(f[7], link = FALSE, out = f[11])
   ##
   set.seed(seed)
-  exams2pdf(f[2], name = "blog", dir = ".")
+  if(!utf8) {
+    exams2pdf(f[2], name = "blog", dir = ".")
+  } else {
+    exams2pdf(f[2], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")
+  }
   file.rename("blog1.pdf", f[8])
   include_asset(f[8], link = FALSE, out = f[12])
   ##
@@ -258,7 +277,7 @@ include_template <- function(name, title, teaser, description,
     f[7], thumb[1], thumb[2], 827 - 300 - thumb[1], 1169 - 200 - thumb[2], f[13]))
   file.copy(f[13], "../../../images/", overwrite = TRUE)
 
-  ## markdown templat
+  ## markdown template
   md <- '---
 layout: page
 #
@@ -347,14 +366,14 @@ image:
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(@seed@)
-exams2html(&quot;@name@.Rnw&quot;)
+exams2html(&quot;@name@.Rnw&quot;@encoding@)
 set.seed(@seed@)
-exams2pdf(&quot;@name@.Rnw&quot;)
+exams2pdf(&quot;@name@.Rnw&quot;@encoding@)
 
 set.seed(@seed@)
-exams2html(&quot;@name@.Rmd&quot;)
+exams2html(&quot;@name@.Rmd&quot;@encoding@)
 set.seed(@seed@)
-exams2pdf(&quot;@name@.Rmd&quot;)</code></pre>
+exams2pdf(&quot;@name@.Rmd&quot;@encoding@)</code></pre>
 '
 
   ## look up properties of processes exercises
@@ -392,7 +411,8 @@ exams2pdf(&quot;@name@.Rmd&quot;)</code></pre>
     images = if(is.logical(images)) c("No", "Yes")[1 + images] else images,
     solution = if(is.null(ex_pdf$solution)) "No" else "Yes",
     browsernote = browsernote,
-    seed = as.character(seed)
+    seed = as.character(seed),
+    encoding = if(!utf8) "" else ", template = \"plain8\", encoding = \"UTF-8\""
   )
   for(a in names(at)) md <- gsub(paste0("@", a, "@"), at[[a]], md, fixed = TRUE)
 
