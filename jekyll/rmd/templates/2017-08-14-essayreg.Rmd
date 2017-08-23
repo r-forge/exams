@@ -1,0 +1,11 @@
+```{r essayreg, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "essayreg",
+  title = "Linear Regression (Moodle Essay Question)",
+  teaser = "Exercise template for interpreting a simple regression based on randomly-generated data (with either a linear, semi-logarithmic, or log-log relationship) in form of an essay (for Moodle).",
+  description = "The results of a linear regression model (linear, semi-logarithmic, or log-log) need to be interpreted in an essay. Using extra metainformation tags for this \"string\" question, it is rendered in Moodle into an \"essay\" (rather than a \"shortanswer\") question.",
+  tags = c("regression", "significance", "slope", "statistics"),
+  randomization = "Random numbers and text blocks",
+  thumb = c(150, 192))
+)
+```

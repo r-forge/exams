@@ -1,0 +1,48 @@
+
+\begin{question}
+Consider the following regression results:
+
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = log(y) ~ log(x), data = d)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.6119 -1.4477  0.1735  1.5365  4.8160 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   0.1264     0.2520   0.501    0.618
+log(x)        0.2870     0.2279   1.259    0.212
+
+Residual standard error: 2.251 on 79 degrees of freedom
+Multiple R-squared:  0.01967,	Adjusted R-squared:  0.007263 
+F-statistic: 1.585 on 1 and 79 DF,  p-value: 0.2117
+\end{Soutput}
+\end{Schunk}
+
+Describe how the response \texttt{y} depends on the regressor \texttt{x}.
+\end{question}
+
+\begin{solution}
+The presented results describe a log-log regression.
+
+The mean of the response \texttt{y} increases with increasing \texttt{x}.
+
+If \texttt{x} increases by $1$ percent then a change of \texttt{y} by about $0.29$ percent can be expected.
+
+However, the effect of \texttt{x} is \emph{not} significant at the $5$ percent level.
+\end{solution}
+
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{regression essay}
+%% \exextra[essay,logical]{TRUE}
+%% \exextra[essay_format,character]{editor}
+%% \exextra[essay_required,logical]{FALSE}
+%% \exextra[essay_fieldlines,numeric]{5}
+%% \exextra[essay_attachments,numeric]{1}
+%% \exextra[essay_attachmentsrequired,logical]{FALSE}
+
+

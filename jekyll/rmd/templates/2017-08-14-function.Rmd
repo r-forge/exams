@@ -1,0 +1,11 @@
+```{r function, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "function",
+  title = "String Question about R Functions",
+  teaser = "Exercise template for a knowledge quiz question (about glm-related R functions) where the correct answer has to match exactly a given string.",
+  description = "Knowledge quiz question about R functions related to lm/glm. A function is drawn randomly from a list of 8 question/answer pairs and the correct string answer is the corresponding R function.",
+  tags = c("knowledge", "quiz"),
+  randomization = "Shuffling (1 out of 8 question/answer pairs)",
+  thumb = c(157, 127))
+)
+```

@@ -1,0 +1,38 @@
+
+\begin{question}
+Using the data provided in \url{regression.csv} estimate a linear regression of
+\texttt{y} on \texttt{x} and answer the following questions.
+
+\begin{answerlist}
+  \item \texttt{x} and \texttt{y} are not significantly correlated
+  \item \texttt{y} increases significantly with \texttt{x}
+  \item \texttt{y} decreases significantly with \texttt{x}
+  \item Estimated slope with respect to \texttt{x}:
+\end{answerlist}
+ 
+\end{question}
+
+\begin{solution}
+\includegraphics{lm-002}
+
+To replicate the analysis in R:
+\begin{Schunk}
+\begin{Sinput}
+R> ## data
+R> d <- read.csv("regression.csv")
+R> ## regression
+R> m <- lm(y ~ x, data = d)
+R> summary(m)
+R> ## visualization
+R> plot(y ~ x, data = d)
+R> abline(m)
+\end{Sinput}
+\end{Schunk}
+
+\end{solution}
+
+%% \exname{Linear regression}
+%% \extype{cloze}
+%% \exsolution{001|-0.674}
+%% \exclozetype{schoice|num}
+%% \extol{0.01}

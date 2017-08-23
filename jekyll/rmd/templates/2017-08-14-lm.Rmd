@@ -1,0 +1,11 @@
+```{r lm-rmd, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "lm",
+  title = "Simple Linear Regression (with CSV Data)",
+  teaser = "Exercise template for conducting a simple linear regression based on a randomly-generated CSV file.",
+  description = "Bivariate numeric data for download in a CSV file (comma-separated values) need to be assessed using a simple linear regression (one single-choice and one numeric item).",
+  tags = c("regression", "significance", "slope", "statistics"),
+  randomization = "Random numbers, data file, and graphics",
+  thumb = c(294, 369))
+)
+```
