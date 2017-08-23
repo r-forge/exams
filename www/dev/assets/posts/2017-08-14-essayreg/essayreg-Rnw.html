@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+Consider the following regression results:
+<div class="p"><!----></div>
+<pre>
+Call:
+lm(formula&nbsp;=&nbsp;log(y)&nbsp;~&nbsp;log(x),&nbsp;data&nbsp;=&nbsp;d)
+Residuals:
+&nbsp;&nbsp;&nbsp;&nbsp;Min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1Q&nbsp;&nbsp;Median&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3Q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max&nbsp;
+-6.6119&nbsp;-1.4477&nbsp;&nbsp;0.1735&nbsp;&nbsp;1.5365&nbsp;&nbsp;4.8160&nbsp;
+Coefficients:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estimate&nbsp;Std.&nbsp;Error&nbsp;t&nbsp;value&nbsp;Pr(&#62;|t|)
+(Intercept)&nbsp;&nbsp;&nbsp;0.1264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.2520&nbsp;&nbsp;&nbsp;0.501&nbsp;&nbsp;&nbsp;&nbsp;0.618
+log(x)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.2870&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.2279&nbsp;&nbsp;&nbsp;1.259&nbsp;&nbsp;&nbsp;&nbsp;0.212
+Residual&nbsp;standard&nbsp;error:&nbsp;2.251&nbsp;on&nbsp;79&nbsp;degrees&nbsp;of&nbsp;freedom
+Multiple&nbsp;R-squared:&nbsp;&nbsp;0.01967,	Adjusted&nbsp;R-squared:&nbsp;&nbsp;0.007263&nbsp;
+F-statistic:&nbsp;1.585&nbsp;on&nbsp;1&nbsp;and&nbsp;79&nbsp;DF,&nbsp;&nbsp;p-value:&nbsp;0.2117
+</pre>
+<div class="p"><!----></div>
+Describe how the response <tt>y</tt> depends on the regressor <tt>x</tt>.
+<br/>
+<h4>Solution</h4>
+The presented results describe a log-log regression.
+<div class="p"><!----></div>
+The mean of the response <tt>y</tt> increases with increasing <tt>x</tt>.
+<div class="p"><!----></div>
+If <tt>x</tt> increases by 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>1</mn></mrow></math> percent then a change of <tt>y</tt> by about 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>0</mn><mo>.</mo><mn>29</mn></mrow></math> percent can be expected.
+<div class="p"><!----></div>
+However, the effect of <tt>x</tt> is <em>not</em> significant at the 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>5</mn></mrow></math> percent level.
+<br/>
+</li>
+</ol>
+
+</body>
+</html>

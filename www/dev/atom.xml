@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/dev/</id>
 	<title>R/exams</title>
-	<updated>2017-08-22T01:42:52+02:00</updated>
+	<updated>2017-08-23T03:56:47+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -720,6 +720,119 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
+			<id>http://exams.R-Forge.R-project.org/dev/templates/lm/</id>
+			<title>lm: Simple Linear Regression (with CSV Data)</title>
+			<link href="http://exams.R-Forge.R-project.org/dev/templates/lm/" rel="alternate" type="text/html" title="lm: Simple Linear Regression (with CSV Data)" />
+			<updated>2017-08-14T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Exercise template for conducting a simple linear regression based on a randomly-generated CSV file.</summary>
+			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/lm/">&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lm&lt;/code&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/cloze/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Bivariate numeric data for download in a CSV file (comma-separated values) need to be assessed using a simple linear regression (one single-choice and one numeric item).&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, data file, and graphics&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;regression.csv&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.Rnw&quot;&gt;lm.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.Rmd&quot;&gt;lm.Rmd&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.tex&quot;&gt;lm.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.md&quot;&gt;lm.md&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw-pdf.png&quot; alt=&quot;lm-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd-pdf.png&quot; alt=&quot;lm-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b20&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw-html.png&quot; alt=&quot;lm-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd-html.png&quot; alt=&quot;lm-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;lm.Rnw&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;lm.Rnw&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;lm.Rmd&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+</content>
+
+			
+				<category term="templates" />
+			
+			
+				<category term="cloze" />
+			
+				<category term="regression" />
+			
+				<category term="significance" />
+			
+				<category term="slope" />
+			
+				<category term="statistics" />
+			
+
+			<published>2017-08-14T00:00:00+02:00</published>
+		</entry>
+	
+		<entry>
 			<id>http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/</id>
 			<title>gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions</title>
 			<link href="http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/" rel="alternate" type="text/html" title="gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions" />
@@ -835,9 +948,9 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/dist3/</id>
-			<title>dist3: Distances and the Pythagorean Theorem (Single-Choice)</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/dist3/" rel="alternate" type="text/html" title="dist3: Distances and the Pythagorean Theorem (Single-Choice)" />
+			<id>http://exams.R-Forge.R-project.org/dev/templates/function/</id>
+			<title>function: String Question about R Functions</title>
+			<link href="http://exams.R-Forge.R-project.org/dev/templates/function/" rel="alternate" type="text/html" title="function: String Question about R Functions" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -854,20 +967,19 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 					
 				</author>
 			
-			<summary>Exercise template for computing the distance (single-choice) between two randomly-drawn points in a Cartesian coordinate system.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/dist3/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<summary>Exercise template for a knowledge quiz question (about glm-related R functions) where the correct answer has to match exactly a given string.</summary>
+			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/function/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist3&lt;/code&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;function&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt;&lt;/a&gt;, &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the (Euclidean) distance between two randomly-drawn points by using the Pythagorean Theorem. In addition to the correct solution, four false alternatives are generated through &lt;code class=&quot;highlighter-rouge&quot;&gt;num_to_schoice()&lt;/code&gt; by providing two common errors along with a range and minimal delta for two further random solutions.&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Knowledge quiz question about R functions related to lm/glm. A function is drawn randomly from a list of 8 question/answer pairs and the correct string answer is the corresponding R function.&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
@@ -875,11 +987,11 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and graphics&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Shuffling (1 out of 8 question/answer pairs)&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
@@ -887,7 +999,7 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
@@ -896,68 +1008,58 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3.Rnw&quot;&gt;dist3.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3.Rmd&quot;&gt;dist3.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.Rnw&quot;&gt;function.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.Rmd&quot;&gt;function.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3.tex&quot;&gt;dist3.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3.md&quot;&gt;dist3.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.tex&quot;&gt;function.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.md&quot;&gt;function.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rnw-pdf.png&quot; alt=&quot;dist3-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rmd-pdf.png&quot; alt=&quot;dist3-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw-pdf.png&quot; alt=&quot;function-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd-pdf.png&quot; alt=&quot;function-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rnw-html.png&quot; alt=&quot;dist3-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist3//dist3-Rmd-html.png&quot; alt=&quot;dist3-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw-html.png&quot; alt=&quot;function-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd-html.png&quot; alt=&quot;function-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;dist3.Rnw&amp;quot;)
+exams2html(&amp;quot;function.Rnw&amp;quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;dist3.Rnw&amp;quot;)
+exams2pdf(&amp;quot;function.Rnw&amp;quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;dist3.Rmd&amp;quot;)
+exams2html(&amp;quot;function.Rmd&amp;quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+exams2pdf(&amp;quot;function.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 </content>
 
 			
 				<category term="templates" />
 			
 			
-				<category term="schoice" />
+				<category term="string" />
 			
-				<category term="single-choice" />
+				<category term="knowledge" />
 			
-				<category term="arithmetic" />
-			
-				<category term="distance" />
-			
-				<category term="Euclidean" />
-			
-				<category term="Pythagoras" />
-			
-				<category term="mathematics" />
+				<category term="quiz" />
 			
 
 			<published>2017-08-14T00:00:00+02:00</published>
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/dist2/</id>
-			<title>dist2: Three Distances in a Cartesian Coordinate System</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/dist2/" rel="alternate" type="text/html" title="dist2: Three Distances in a Cartesian Coordinate System" />
+			<id>http://exams.R-Forge.R-project.org/dev/templates/essayreg/</id>
+			<title>essayreg: Linear Regression (Moodle Essay Question)</title>
+			<link href="http://exams.R-Forge.R-project.org/dev/templates/essayreg/" rel="alternate" type="text/html" title="essayreg: Linear Regression (Moodle Essay Question)" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -974,20 +1076,19 @@ exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 					
 				</author>
 			
-			<summary>Exercise template for computing the Manhattan, Euclidean, and maximum distance (cloze with three numeric answers) between two randomly-drawn points in a Cartesian coordinate system.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/dist2/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<summary>Exercise template for interpreting a simple regression based on randomly-generated data (with either a linear, semi-logarithmic, or log-log relationship) in form of an essay (for Moodle).</summary>
+			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/essayreg/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist2&lt;/code&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;essayreg&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/cloze/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt;&lt;/a&gt;, &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist3/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist3&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing three different distance measures between the same two randomly-drawn points by using Manhatten, Euclidean, and maximum distance.&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;The results of a linear regression model (linear, semi-logarithmic, or log-log) need to be interpreted in an essay. Using extra metainformation tags for this &quot;string&quot; question, it is rendered in Moodle into an &quot;essay&quot; (rather than a &quot;shortanswer&quot;) question.&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
@@ -995,7 +1096,7 @@ exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and graphics&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and text blocks&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
@@ -1003,11 +1104,11 @@ exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
@@ -1016,23 +1117,23 @@ exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2.Rnw&quot;&gt;dist2.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2.Rmd&quot;&gt;dist2.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.Rnw&quot;&gt;essayreg.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.Rmd&quot;&gt;essayreg.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2.tex&quot;&gt;dist2.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2.md&quot;&gt;dist2.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.tex&quot;&gt;essayreg.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.md&quot;&gt;essayreg.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rnw-pdf.png&quot; alt=&quot;dist2-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rmd-pdf.png&quot; alt=&quot;dist2-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw-pdf.png&quot; alt=&quot;essayreg-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd-pdf.png&quot; alt=&quot;essayreg-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rnw-html.png&quot; alt=&quot;dist2-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist2//dist2-Rmd-html.png&quot; alt=&quot;dist2-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw-html.png&quot; alt=&quot;essayreg-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd-html.png&quot; alt=&quot;essayreg-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
@@ -1042,155 +1143,29 @@ exams2pdf(&amp;quot;dist3.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;dist2.Rnw&amp;quot;)
+exams2html(&amp;quot;essayreg.Rnw&amp;quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;dist2.Rnw&amp;quot;)
+exams2pdf(&amp;quot;essayreg.Rnw&amp;quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;dist2.Rmd&amp;quot;)
+exams2html(&amp;quot;essayreg.Rmd&amp;quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;dist2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+exams2pdf(&amp;quot;essayreg.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 </content>
 
 			
 				<category term="templates" />
 			
 			
-				<category term="cloze" />
+				<category term="string" />
 			
-				<category term="numeric" />
+				<category term="regression" />
 			
-				<category term="arithmetic" />
+				<category term="significance" />
 			
-				<category term="distance" />
+				<category term="slope" />
 			
-				<category term="Euclidean" />
-			
-				<category term="Manhattan" />
-			
-				<category term="maximum" />
-			
-				<category term="mathematics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/dist/</id>
-			<title>dist: Distances and the Pythagorean Theorem</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/dist/" rel="alternate" type="text/html" title="dist: Distances and the Pythagorean Theorem" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for computing the distance (numeric answer) between two randomly-drawn points in a Cartesian coordinate system.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/dist/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist2&lt;/code&gt;&lt;/a&gt;, &lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/dist3/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dist3&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the (Euclidean) distance between two randomly-drawn points by using the Pythagorean Theorem.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and graphics&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist.Rnw&quot;&gt;dist.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist.Rmd&quot;&gt;dist.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist.tex&quot;&gt;dist.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist.md&quot;&gt;dist.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rnw-pdf.png&quot; alt=&quot;dist-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rmd-pdf.png&quot; alt=&quot;dist-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rnw-html.png&quot; alt=&quot;dist-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-dist//dist-Rmd-html.png&quot; alt=&quot;dist-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;dist.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;dist.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;dist.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;dist.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="num" />
-			
-				<category term="numeric" />
-			
-				<category term="arithmetic" />
-			
-				<category term="distance" />
-			
-				<category term="Euclidean" />
-			
-				<category term="Pythagoras" />
-			
-				<category term="mathematics" />
+				<category term="statistics" />
 			
 
 			<published>2017-08-14T00:00:00+02:00</published>

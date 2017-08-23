@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+<meta charset="utf-8">
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+<p>Consider the following regression results:</p>
+<pre><code>
+Call:
+lm(formula = log(y) ~ log(x), data = d)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.6119 -1.4477  0.1735  1.5365  4.8160 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.1264     0.2520   0.501    0.618
+log(x)        0.2870     0.2279   1.259    0.212
+
+Residual standard error: 2.251 on 79 degrees of freedom
+Multiple R-squared:  0.01967,   Adjusted R-squared:  0.007263 
+F-statistic: 1.585 on 1 and 79 DF,  p-value: 0.2117
+</code></pre>
+<p>Describe how the response <code>y</code> depends on the regressor <code>x</code>.</p>
+<br/>
+<h4>Solution</h4>
+<p>The presented results describe a log-log regression.</p>
+<p>The mean of the response <code>y</code> increases with increasing <code>x</code>.</p>
+<p>If <code>x</code> increases by 1 percent then a change of <code>y</code> by about 0.29 percent can be expected.</p>
+<p>However, the effect of <code>x</code> is <em>not</em> significant at the 5 percent level.</p>
+<br/>
+</li>
+</ol>
+
+</body>
+</html>
