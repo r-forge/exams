@@ -38,6 +38,6 @@ permalink: /resources/
 
 #### Other resources
   
-[Source distribution](http://exams.R-Forge.R-project.org/tth-src/) of the C code for the TeX-to-HTML converter TtH
-(as packaged for R in <https://CRAN.R-project.org/package=tth>).
+- [Source distribution](http://exams.R-Forge.R-project.org/tth-src/) of the C code for the TeX-to-HTML converter TtH
+  (as packaged for R in <https://CRAN.R-project.org/package=tth>).
 
