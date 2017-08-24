@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="/assets/xslt/atom.xslt" ?>
 <?xml-stylesheet type="text/css" href="/assets/css/atom.css" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<id>http://exams.R-Forge.R-project.org/dev/</id>
+	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-08-23T03:56:47+02:00</updated>
+	<updated>2017-08-24T02:32:30+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -23,16 +23,16 @@
 		</author>
 	
 
-	<link href="http://exams.R-Forge.R-project.org/dev/atom.xml" rel="self" type="application/rss+xml" />
-	<link href="http://exams.R-Forge.R-project.org/dev/" rel="alternate" type="text/html" />
+	<link href="http://www.R-exams.org/atom.xml" rel="self" type="application/rss+xml" />
+	<link href="http://www.R-exams.org/" rel="alternate" type="text/html" />
 
 	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/ttest/</id>
+			<id>http://www.R-exams.org/templates/ttest/</id>
 			<title>ttest: Interpretation of 2-Sample t Test</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/ttest/" rel="alternate" type="text/html" title="ttest: Interpretation of 2-Sample t Test" />
+			<link href="http://www.R-exams.org/templates/ttest/" rel="alternate" type="text/html" title="ttest: Interpretation of 2-Sample t Test" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -50,13 +50,13 @@
 				</author>
 			
 			<summary>Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/ttest/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/ttest/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ttest&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -90,23 +90,23 @@
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest.Rnw&quot;&gt;ttest.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest.Rmd&quot;&gt;ttest.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rnw&quot;&gt;ttest.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rmd&quot;&gt;ttest.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest.tex&quot;&gt;ttest.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest.md&quot;&gt;ttest.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.tex&quot;&gt;ttest.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.md&quot;&gt;ttest.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rnw-pdf.png&quot; alt=&quot;ttest-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rmd-pdf.png&quot; alt=&quot;ttest-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-pdf.png&quot; alt=&quot;ttest-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-pdf.png&quot; alt=&quot;ttest-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rnw-html.png&quot; alt=&quot;ttest-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-ttest//ttest-Rmd-html.png&quot; alt=&quot;ttest-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-html.png&quot; alt=&quot;ttest-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-html.png&quot; alt=&quot;ttest-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
@@ -145,9 +145,9 @@ exams2pdf(&amp;quot;ttest.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/tstat2/</id>
+			<id>http://www.R-exams.org/templates/tstat2/</id>
 			<title>tstat2: 1-Sample t-Test Statistic (Single-Choice)</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/tstat2/" rel="alternate" type="text/html" title="tstat2: 1-Sample t-Test Statistic (Single-Choice)" />
+			<link href="http://www.R-exams.org/templates/tstat2/" rel="alternate" type="text/html" title="tstat2: 1-Sample t-Test Statistic (Single-Choice)" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -165,15 +165,15 @@ exams2pdf(&amp;quot;ttest.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for computing the t-test statistic (single-choice) from given hypothesized mean and empirical mean and variance.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/tstat2/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/tstat2/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/tstat/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/tstat/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
@@ -206,23 +206,23 @@ exams2pdf(&amp;quot;ttest.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2.Rnw&quot;&gt;tstat2.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2.Rmd&quot;&gt;tstat2.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.Rnw&quot;&gt;tstat2.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.Rmd&quot;&gt;tstat2.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2.tex&quot;&gt;tstat2.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2.md&quot;&gt;tstat2.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.tex&quot;&gt;tstat2.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.md&quot;&gt;tstat2.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rnw-pdf.png&quot; alt=&quot;tstat2-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rmd-pdf.png&quot; alt=&quot;tstat2-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw-pdf.png&quot; alt=&quot;tstat2-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd-pdf.png&quot; alt=&quot;tstat2-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rnw-html.png&quot; alt=&quot;tstat2-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat2//tstat2-Rmd-html.png&quot; alt=&quot;tstat2-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw-html.png&quot; alt=&quot;tstat2-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd-html.png&quot; alt=&quot;tstat2-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
@@ -261,9 +261,9 @@ exams2pdf(&amp;quot;tstat2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/tstat/</id>
+			<id>http://www.R-exams.org/templates/tstat/</id>
 			<title>tstat: 1-Sample t-Test Statistic</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/tstat/" rel="alternate" type="text/html" title="tstat: 1-Sample t-Test Statistic" />
+			<link href="http://www.R-exams.org/templates/tstat/" rel="alternate" type="text/html" title="tstat: 1-Sample t-Test Statistic" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -281,15 +281,15 @@ exams2pdf(&amp;quot;tstat2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/tstat/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/tstat/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/tstat2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/tstat2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
@@ -322,23 +322,23 @@ exams2pdf(&amp;quot;tstat2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.Rnw&quot;&gt;tstat.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.Rmd&quot;&gt;tstat.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.Rnw&quot;&gt;tstat.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.Rmd&quot;&gt;tstat.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.tex&quot;&gt;tstat.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat.md&quot;&gt;tstat.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.tex&quot;&gt;tstat.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.md&quot;&gt;tstat.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw-pdf.png&quot; alt=&quot;tstat-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd-pdf.png&quot; alt=&quot;tstat-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw-pdf.png&quot; alt=&quot;tstat-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd-pdf.png&quot; alt=&quot;tstat-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rnw-html.png&quot; alt=&quot;tstat-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-tstat//tstat-Rmd-html.png&quot; alt=&quot;tstat-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw-html.png&quot; alt=&quot;tstat-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd-html.png&quot; alt=&quot;tstat-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
@@ -377,9 +377,9 @@ exams2pdf(&amp;quot;tstat.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/switzerland/</id>
+			<id>http://www.R-exams.org/templates/switzerland/</id>
 			<title>switzerland: Knowledge Quiz Question about Switzerland</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/switzerland/" rel="alternate" type="text/html" title="switzerland: Knowledge Quiz Question about Switzerland" />
+			<link href="http://www.R-exams.org/templates/switzerland/" rel="alternate" type="text/html" title="switzerland: Knowledge Quiz Question about Switzerland" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -397,15 +397,15 @@ exams2pdf(&amp;quot;tstat.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for a multiple-choice knowledge quiz question with basic shuffling of the alternatives.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/switzerland/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/switzerland/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;switzerland&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/swisscapital/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
@@ -438,23 +438,23 @@ exams2pdf(&amp;quot;tstat.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland.Rnw&quot;&gt;switzerland.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland.Rmd&quot;&gt;switzerland.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rnw&quot;&gt;switzerland.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rmd&quot;&gt;switzerland.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland.tex&quot;&gt;switzerland.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland.md&quot;&gt;switzerland.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.tex&quot;&gt;switzerland.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.md&quot;&gt;switzerland.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png&quot; alt=&quot;switzerland-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rmd-pdf.png&quot; alt=&quot;switzerland-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png&quot; alt=&quot;switzerland-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-pdf.png&quot; alt=&quot;switzerland-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png&quot; alt=&quot;switzerland-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-switzerland//switzerland-Rmd-html.png&quot; alt=&quot;switzerland-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png&quot; alt=&quot;switzerland-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-html.png&quot; alt=&quot;switzerland-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
@@ -491,9 +491,9 @@ exams2pdf(&amp;quot;switzerland.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/swisscapital/</id>
+			<id>http://www.R-exams.org/templates/swisscapital/</id>
 			<title>swisscapital: Knowledge Quiz Question about the Swiss Capital</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/swisscapital/" rel="alternate" type="text/html" title="swisscapital: Knowledge Quiz Question about the Swiss Capital" />
+			<link href="http://www.R-exams.org/templates/swisscapital/" rel="alternate" type="text/html" title="swisscapital: Knowledge Quiz Question about the Swiss Capital" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -511,15 +511,15 @@ exams2pdf(&amp;quot;switzerland.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for a single-choice knowledge quiz question with basic shuffling of correct and false alternatives.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/swisscapital/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/swisscapital/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/templates/switzerland/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;switzerland&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/switzerland/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;switzerland&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
@@ -552,23 +552,23 @@ exams2pdf(&amp;quot;switzerland.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw&quot;&gt;swisscapital.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital.Rmd&quot;&gt;swisscapital.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw&quot;&gt;swisscapital.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rmd&quot;&gt;swisscapital.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital.tex&quot;&gt;swisscapital.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital.md&quot;&gt;swisscapital.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.tex&quot;&gt;swisscapital.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.md&quot;&gt;swisscapital.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png&quot; alt=&quot;swisscapital-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-pdf.png&quot; alt=&quot;swisscapital-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png&quot; alt=&quot;swisscapital-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-pdf.png&quot; alt=&quot;swisscapital-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png&quot; alt=&quot;swisscapital-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-html.png&quot; alt=&quot;swisscapital-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png&quot; alt=&quot;swisscapital-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-html.png&quot; alt=&quot;swisscapital-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
@@ -605,9 +605,9 @@ exams2pdf(&amp;quot;swisscapital.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/scatterplot/</id>
+			<id>http://www.R-exams.org/templates/scatterplot/</id>
 			<title>scatterplot: Interpretation of a Scatterplot</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/scatterplot/" rel="alternate" type="text/html" title="scatterplot: Interpretation of a Scatterplot" />
+			<link href="http://www.R-exams.org/templates/scatterplot/" rel="alternate" type="text/html" title="scatterplot: Interpretation of a Scatterplot" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -625,13 +625,13 @@ exams2pdf(&amp;quot;swisscapital.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for assessing the interpretation of a randomly-generated scatterplot regarding the joint and marginal distributions.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/scatterplot/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/scatterplot/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scatterplot&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -665,23 +665,23 @@ exams2pdf(&amp;quot;swisscapital.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot.Rnw&quot;&gt;scatterplot.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot.Rmd&quot;&gt;scatterplot.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rnw&quot;&gt;scatterplot.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rmd&quot;&gt;scatterplot.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot.tex&quot;&gt;scatterplot.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot.md&quot;&gt;scatterplot.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.tex&quot;&gt;scatterplot.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.md&quot;&gt;scatterplot.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-pdf.png&quot; alt=&quot;scatterplot-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-pdf.png&quot; alt=&quot;scatterplot-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-pdf.png&quot; alt=&quot;scatterplot-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-pdf.png&quot; alt=&quot;scatterplot-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-html.png&quot; alt=&quot;scatterplot-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-html.png&quot; alt=&quot;scatterplot-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-html.png&quot; alt=&quot;scatterplot-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-html.png&quot; alt=&quot;scatterplot-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
@@ -720,9 +720,9 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/lm/</id>
+			<id>http://www.R-exams.org/templates/lm/</id>
 			<title>lm: Simple Linear Regression (with CSV Data)</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/lm/" rel="alternate" type="text/html" title="lm: Simple Linear Regression (with CSV Data)" />
+			<link href="http://www.R-exams.org/templates/lm/" rel="alternate" type="text/html" title="lm: Simple Linear Regression (with CSV Data)" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -740,13 +740,13 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for conducting a simple linear regression based on a randomly-generated CSV file.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/lm/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/lm/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lm&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/cloze/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/cloze/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -780,23 +780,23 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.Rnw&quot;&gt;lm.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.Rmd&quot;&gt;lm.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.Rnw&quot;&gt;lm.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.Rmd&quot;&gt;lm.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.tex&quot;&gt;lm.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm.md&quot;&gt;lm.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.tex&quot;&gt;lm.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.md&quot;&gt;lm.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw-pdf.png&quot; alt=&quot;lm-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd-pdf.png&quot; alt=&quot;lm-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw-pdf.png&quot; alt=&quot;lm-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd-pdf.png&quot; alt=&quot;lm-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rnw-html.png&quot; alt=&quot;lm-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-lm//lm-Rmd-html.png&quot; alt=&quot;lm-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw-html.png&quot; alt=&quot;lm-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd-html.png&quot; alt=&quot;lm-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
@@ -833,9 +833,9 @@ exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/</id>
+			<id>http://www.R-exams.org/templates/gaussmarkov/</id>
 			<title>gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/" rel="alternate" type="text/html" title="gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions" />
+			<link href="http://www.R-exams.org/templates/gaussmarkov/" rel="alternate" type="text/html" title="gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -853,13 +853,13 @@ exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for a multiple-choice knowledge quiz question about the assumptions in the Gauss-Markov theorem.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/gaussmarkov/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/gaussmarkov/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;gaussmarkov&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -893,23 +893,23 @@ exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rnw&quot;&gt;gaussmarkov.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rmd&quot;&gt;gaussmarkov.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rnw&quot;&gt;gaussmarkov.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rmd&quot;&gt;gaussmarkov.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.tex&quot;&gt;gaussmarkov.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.md&quot;&gt;gaussmarkov.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.tex&quot;&gt;gaussmarkov.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.md&quot;&gt;gaussmarkov.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-pdf.png&quot; alt=&quot;gaussmarkov-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-pdf.png&quot; alt=&quot;gaussmarkov-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-pdf.png&quot; alt=&quot;gaussmarkov-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-pdf.png&quot; alt=&quot;gaussmarkov-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-html.png&quot; alt=&quot;gaussmarkov-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-html.png&quot; alt=&quot;gaussmarkov-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-html.png&quot; alt=&quot;gaussmarkov-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-html.png&quot; alt=&quot;gaussmarkov-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
@@ -948,9 +948,9 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/function/</id>
+			<id>http://www.R-exams.org/templates/function/</id>
 			<title>function: String Question about R Functions</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/function/" rel="alternate" type="text/html" title="function: String Question about R Functions" />
+			<link href="http://www.R-exams.org/templates/function/" rel="alternate" type="text/html" title="function: String Question about R Functions" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -968,13 +968,13 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for a knowledge quiz question (about glm-related R functions) where the correct answer has to match exactly a given string.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/function/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/function/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;function&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -1008,23 +1008,23 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.Rnw&quot;&gt;function.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.Rmd&quot;&gt;function.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.Rnw&quot;&gt;function.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.Rmd&quot;&gt;function.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.tex&quot;&gt;function.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function.md&quot;&gt;function.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.tex&quot;&gt;function.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.md&quot;&gt;function.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw-pdf.png&quot; alt=&quot;function-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd-pdf.png&quot; alt=&quot;function-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw-pdf.png&quot; alt=&quot;function-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd-pdf.png&quot; alt=&quot;function-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rnw-html.png&quot; alt=&quot;function-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-function//function-Rmd-html.png&quot; alt=&quot;function-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw-html.png&quot; alt=&quot;function-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd-html.png&quot; alt=&quot;function-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
@@ -1057,9 +1057,9 @@ exams2pdf(&amp;quot;function.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
-			<id>http://exams.R-Forge.R-project.org/dev/templates/essayreg/</id>
+			<id>http://www.R-exams.org/templates/essayreg/</id>
 			<title>essayreg: Linear Regression (Moodle Essay Question)</title>
-			<link href="http://exams.R-Forge.R-project.org/dev/templates/essayreg/" rel="alternate" type="text/html" title="essayreg: Linear Regression (Moodle Essay Question)" />
+			<link href="http://www.R-exams.org/templates/essayreg/" rel="alternate" type="text/html" title="essayreg: Linear Regression (Moodle Essay Question)" />
 			<updated>2017-08-14T00:00:00+02:00</updated>
 
 			
@@ -1077,13 +1077,13 @@ exams2pdf(&amp;quot;function.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				</author>
 			
 			<summary>Exercise template for interpreting a simple regression based on randomly-generated data (with either a linear, semi-logarithmic, or log-log relationship) in form of an essay (for Moodle).</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/dev/templates/essayreg/">&lt;div class=&quot;row t1 b1&quot;&gt;
+			<content type="html" xml:base="http://www.R-exams.org/templates/essayreg/">&lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;essayreg&lt;/code&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
@@ -1117,23 +1117,23 @@ exams2pdf(&amp;quot;function.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;row t20 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.Rnw&quot;&gt;essayreg.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.Rmd&quot;&gt;essayreg.Rmd&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.Rnw&quot;&gt;essayreg.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.Rmd&quot;&gt;essayreg.Rmd&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.tex&quot;&gt;essayreg.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg.md&quot;&gt;essayreg.md&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.tex&quot;&gt;essayreg.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.md&quot;&gt;essayreg.md&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b1&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw-pdf.png&quot; alt=&quot;essayreg-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd-pdf.png&quot; alt=&quot;essayreg-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw-pdf.png&quot; alt=&quot;essayreg-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd-pdf.png&quot; alt=&quot;essayreg-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;row t1 b20&quot;&gt;
   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rnw-html.png&quot; alt=&quot;essayreg-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd.html&quot;&gt;&lt;img src=&quot;http://exams.R-Forge.R-project.org/dev/assets/posts/2017-08-14-essayreg//essayreg-Rmd-html.png&quot; alt=&quot;essayreg-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw-html.png&quot; alt=&quot;essayreg-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd-html.png&quot; alt=&quot;essayreg-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;

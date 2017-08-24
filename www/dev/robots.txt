@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: http://exams.R-Forge.R-project.org/dev/sitemap.xml
+Sitemap: http://www.R-exams.org/sitemap.xml
