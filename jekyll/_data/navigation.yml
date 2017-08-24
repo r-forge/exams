@@ -34,8 +34,8 @@
   url: "/resources/"
   side: right
 
-- title: "About"
-  url: "/about/"
+- title: "Contact"
+  url: "/contact/"
   side: right
 
 - title: "Search"

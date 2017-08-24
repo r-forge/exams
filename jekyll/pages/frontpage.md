@@ -42,22 +42,20 @@ topics:
 mission:
   title: <img width='50%' src='assets/img/logo_wide.svg'>
   statement: |
-    The package exams for
+    The [open-source package exams](/resources) for
     the R system for statistical computing provides a
-    one-for-all approach to automatic exams generation. Based on dynamic
-    exercise templates large numbers of personalized exams/quizzes/tests can be
-    created for various systems: PDFs for classical written exams (with
-    automatic evaluation), import formats for learning management systems (like
+    [one-for-all approach](/intro/oneforall) to automatic exams generation. Based on (potentially)
+    [dynamic exercise templates](/intro/dynamic) large numbers of personalized exams/quizzes/tests can be
+    created for various systems: PDFs for classical [written exams](/intro/written) (with
+    automatic evaluation), import formats for [learning management systems](/intro/elearning) (like
     Moodle, Blackboard, OLAT, or Ilias), live voting (via ARSnova), and the
     possibility to create custom output (in PDF, HTML, Docx, ...).
-
     
     Exercises types include multiple-choice or single-choice questions, numeric
     or text answers, or combinations of these. Formatting can be done either in
     Markdown or LaTeX with the possibility to generate dynamic content using R,
     e.g., random numbers, graphics, data sets, or shuffled text blocks.
 
-    
     R/exams is open-source software that can be freely used and extended. This
     web site provides an overview, short tutorials, a gallery of exercise
     templates, and links to further materials.
