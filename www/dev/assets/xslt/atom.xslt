@@ -303,7 +303,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://www.R-exams.org/about/">About</a></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
 
             
             
@@ -414,7 +414,7 @@
 
             <p class="shadow-black">
               Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
-              <a href="http://www.R-exams.org/about/">More ›</a>
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
             </p>
           </div><!-- /.large-6.columns -->
 
