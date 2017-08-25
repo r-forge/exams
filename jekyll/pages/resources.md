@@ -8,7 +8,7 @@ permalink: /resources/
 #### Software
 
 - R/exams package released at: <https://CRAN.R-project.org/package=exams>.
-- Development hosted at: <http://R-Forge.R-project.org/R/?group_id=1337>.
+- Development version hosted at: <http://R-Forge.R-project.org/R/?group_id=1337>.
 - License: GPL-2 \| GPL-3.
 
 
@@ -16,7 +16,7 @@ permalink: /resources/
 
 - Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
 - R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
-- For bug reports please send an e-mail to: _&#x41;&#x63;&#x68;&#x69;&#x6d;&#x2e;&#x5a;&#x65;&#x69;&#x6c;&#x65;&#x69;&#x73;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x70;&#x72;&#x6f;&#x6a;&#x65;&#x63;&#x74;&#x2e;&#x6f;&#x72;&#x67;_
+- For bug reports please send an e-mail to: _&#x62;&#x75;&#x67;&#x73;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;_
 
 
 #### References and publications
