@@ -16,7 +16,6 @@ permalink: /resources/
 
 - Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
 - R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
-- For bug reports please send an e-mail to: _&#x62;&#x75;&#x67;&#x73;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;_
 
 
 #### References and publications
