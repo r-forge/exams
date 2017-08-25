@@ -174,7 +174,7 @@ include_file <- function(file) {
 
 include_template <- function(name, title, teaser, description,
   tags = NULL, related = NULL, randomization = "Yes", supplements = "",
-  author = "zeileis", thumb = c(277, 216), seed = 1090, utf8 = FALSE)
+  author = "zeileis", thumb = c(277, 216), page = 1, seed = 1090, utf8 = FALSE)
 {
   ## assure UTF-8 locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -273,8 +273,8 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - thumbnail
   system(sprintf(
-    "convert -density 100 %s[0] -gravity northwest -chop %sx%s -gravity southeast -chop %sx%s -border 2x2 -bordercolor '#666666' %s",
-    f[7], thumb[1], thumb[2], 827 - 300 - thumb[1], 1169 - 200 - thumb[2], f[13]))
+    "convert -density 100 %s[%s] -gravity northwest -chop %sx%s -gravity southeast -chop %sx%s -border 2x2 -bordercolor '#666666' %s",
+    f[7], page - 1, thumb[1], thumb[2], 827 - 300 - thumb[1], 1169 - 200 - thumb[2], f[13]))
   file.copy(f[13], "../../../images/", overwrite = TRUE)
 
   ## markdown template
