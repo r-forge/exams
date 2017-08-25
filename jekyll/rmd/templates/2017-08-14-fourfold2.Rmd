@@ -1,0 +1,12 @@
+```{r fourfold2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "fourfold2",
+  title = "Fourfold Table (Moodle Version)",
+  teaser = "Exercise template for computing a fourfold table (as presented in Moodle) of joint and marginal probabilities based on three randomly-drawn conditional or marginal probabilities.",
+  description = "Computing all joint and marginal probabilities (in percent) in a fourfold table based on two randomly-generated conditional probabilities and one marginal probability. The exercise is a cloze with nine numeric answers presented in a table layout using Moodle-specific markup.",
+  tags = c("numeric", "table", "probability", "mathematics", "statistics"),
+  randomization = "Random numbers",
+  related = "fourfold",
+  thumb = c(157, 205))
+)
+```

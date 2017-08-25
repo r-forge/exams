@@ -1,0 +1,12 @@
+```{r fourfold, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "fourfold",
+  title = "Fourfold Table",
+  teaser = "Exercise template for computing joint probabilities from a 2x2 table based on three randomly-drawn conditional or marginal probabilities.",
+  description = "Computing all four joint probabilities (in percent) in a fourfold table based on two randomly-generated conditional probabilities and one marginal probability. The exercise is a cloze with four numeric answers presented in a list.",
+  tags = c("numeric", "table", "probability", "mathematics", "statistics"),
+  randomization = "Random numbers",
+  related = "fourfold2",
+  thumb = c(157, 550))
+)
+```
