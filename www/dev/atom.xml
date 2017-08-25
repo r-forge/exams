@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-08-25T02:57:52+02:00</updated>
+	<updated>2017-08-25T11:15:48+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -720,6 +720,232 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
+			<id>http://www.R-exams.org/templates/relfreq/</id>
+			<title>relfreq: Interpretation of Relative Frequency Tables</title>
+			<link href="http://www.R-exams.org/templates/relfreq/" rel="alternate" type="text/html" title="relfreq: Interpretation of Relative Frequency Tables" />
+			<updated>2017-08-14T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Exercise template for assessing the interpretation of a table with relative frequencies where either total, row, or column frequencies are selected randomly.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/templates/relfreq/">&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;relfreq&lt;/code&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;A 4x2 table of relative frequencies needs to be interpreted by checking five multiple-choice items which all may either be true or false. Two tables are provided: the original absolute frequencies and one table of relative frequencies which randomly represents either total, or row, or column frequencies Each of the five items is also randomly selected from one of several possible variations.&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and R output&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.Rnw&quot;&gt;relfreq.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.Rmd&quot;&gt;relfreq.Rmd&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.tex&quot;&gt;relfreq.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.md&quot;&gt;relfreq.md&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw-pdf.png&quot; alt=&quot;relfreq-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd-pdf.png&quot; alt=&quot;relfreq-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b20&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw-html.png&quot; alt=&quot;relfreq-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd-html.png&quot; alt=&quot;relfreq-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;relfreq.Rnw&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;relfreq.Rnw&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;relfreq.Rmd&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;relfreq.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+</content>
+
+			
+				<category term="templates" />
+			
+			
+				<category term="mchoice" />
+			
+				<category term="multiple-choice" />
+			
+				<category term="table" />
+			
+				<category term="statistics" />
+			
+
+			<published>2017-08-14T00:00:00+02:00</published>
+		</entry>
+	
+		<entry>
+			<id>http://www.R-exams.org/templates/regression/</id>
+			<title>regression: Simple Linear Regression (by Hand)</title>
+			<link href="http://www.R-exams.org/templates/regression/" rel="alternate" type="text/html" title="regression: Simple Linear Regression (by Hand)" />
+			<updated>2017-08-14T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Exercise template for computing the prediction from a simple linear prediction by hand, based on randomly-generated marginal means/variances and correlation.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/templates/regression/">&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;regression&lt;/code&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing coefficients and a point prediction from a simple linear prediction (by hand). Internally, a full bivariate data set is simulated but only the marginal means and variances and the correlation coefficient are presented in the exercise.&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.Rnw&quot;&gt;regression.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.Rmd&quot;&gt;regression.Rmd&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.tex&quot;&gt;regression.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.md&quot;&gt;regression.md&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw-pdf.png&quot; alt=&quot;regression-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd-pdf.png&quot; alt=&quot;regression-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b20&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw-html.png&quot; alt=&quot;regression-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd-html.png&quot; alt=&quot;regression-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;regression.Rnw&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;regression.Rnw&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;regression.Rmd&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;regression.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+</content>
+
+			
+				<category term="templates" />
+			
+			
+				<category term="num" />
+			
+				<category term="numeric" />
+			
+				<category term="prediction" />
+			
+				<category term="regression" />
+			
+				<category term="statistics" />
+			
+
+			<published>2017-08-14T00:00:00+02:00</published>
+		</entry>
+	
+		<entry>
 			<id>http://www.R-exams.org/templates/lm/</id>
 			<title>lm: Simple Linear Regression (with CSV Data)</title>
 			<link href="http://www.R-exams.org/templates/lm/" rel="alternate" type="text/html" title="lm: Simple Linear Regression (with CSV Data)" />
@@ -942,238 +1168,6 @@ exams2pdf(&amp;quot;lagrange.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				<category term="derivative" />
 			
 				<category term="mathematics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/hessian/</id>
-			<title>hessian: 2x2 Hessian Matrix (Single-Choice)</title>
-			<link href="http://www.R-exams.org/templates/hessian/" rel="alternate" type="text/html" title="hessian: 2x2 Hessian Matrix (Single-Choice)" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for computing the Hessian for a given function with randomly-drawn parameters.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/hessian/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hessian&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing one randomly-selected element from the Hessian for a given quadratic function with two arguments. The coefficients of the function are drawn randomly and the correct answer has to be selected from five choice items. The latter are generated through &lt;code class=&quot;highlighter-rouge&quot;&gt;num_to_schoice()&lt;/code&gt; by providing the other three elements of the Hessian as typical errors. Further random answers are taken from a prespecified range, assuring only integer solutions. Although the Hessian of a quadratic function has only constant elements, an argument vector is given in the exercise because other types of functions might have non-constant Hessians.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and text blocks&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.Rnw&quot;&gt;hessian.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.Rmd&quot;&gt;hessian.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.tex&quot;&gt;hessian.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.md&quot;&gt;hessian.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw-pdf.png&quot; alt=&quot;hessian-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd-pdf.png&quot; alt=&quot;hessian-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw-html.png&quot; alt=&quot;hessian-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd-html.png&quot; alt=&quot;hessian-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;hessian.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;hessian.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;hessian.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;hessian.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="schoice" />
-			
-				<category term="single-choice" />
-			
-				<category term="arithmetic" />
-			
-				<category term="derivative" />
-			
-				<category term="matrix" />
-			
-				<category term="mathematics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/gaussmarkov/</id>
-			<title>gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions</title>
-			<link href="http://www.R-exams.org/templates/gaussmarkov/" rel="alternate" type="text/html" title="gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for a multiple-choice knowledge quiz question about the assumptions in the Gauss-Markov theorem.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/gaussmarkov/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;gaussmarkov&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Knowledge quiz question (about the assumptions in the Gauss-Markov theorem) with 2 correct and 4 false alternatives. The alternatives are drawn randomly, preserving at least one of the correct and at least one of the false alternatives.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Shuffling (5 out of 6 alternatives)&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rnw&quot;&gt;gaussmarkov.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rmd&quot;&gt;gaussmarkov.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.tex&quot;&gt;gaussmarkov.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.md&quot;&gt;gaussmarkov.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-pdf.png&quot; alt=&quot;gaussmarkov-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-pdf.png&quot; alt=&quot;gaussmarkov-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-html.png&quot; alt=&quot;gaussmarkov-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-html.png&quot; alt=&quot;gaussmarkov-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;gaussmarkov.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;gaussmarkov.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;gaussmarkov.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="mchoice" />
-			
-				<category term="multiple-choice" />
-			
-				<category term="knowledge" />
-			
-				<category term="quiz" />
-			
-				<category term="Gauss-Markov" />
-			
-				<category term="statistics" />
 			
 
 			<published>2017-08-14T00:00:00+02:00</published>
