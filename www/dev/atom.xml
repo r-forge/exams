@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-08-24T16:51:29+02:00</updated>
+	<updated>2017-08-25T02:57:52+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -833,6 +833,238 @@ exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 		</entry>
 	
 		<entry>
+			<id>http://www.R-exams.org/templates/lagrange/</id>
+			<title>lagrange: Method of Lagrange Multipliers</title>
+			<link href="http://www.R-exams.org/templates/lagrange/" rel="alternate" type="text/html" title="lagrange: Method of Lagrange Multipliers" />
+			<updated>2017-08-14T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Exercise template for minimizing a linear objective function with two arguments subject to a Cobb-Douglas-type constraint. Both the parameters of the functions and the exact question (argument 1 vs. argument 2 vs. function value in optimum) are drawn randomly.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/templates/lagrange/">&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lagrange&lt;/code&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the solution to a cost minimization problem subject to an output constraint where the production fuction with arguments capital and labor is of Cobb-Douglas type. As  &lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt; exercises have only a single numeric solution (and to make test takers read the exercise carefully), one of three natural quantities in the optimum is selected randomly as the question: the first argument (capital), the second argument (labor), or the minimal function value (costs). The optimal solution is also displayed graphically using a contour plot.&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and graphics&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.Rnw&quot;&gt;lagrange.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.Rmd&quot;&gt;lagrange.Rmd&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.tex&quot;&gt;lagrange.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.md&quot;&gt;lagrange.md&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw-pdf.png&quot; alt=&quot;lagrange-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd-pdf.png&quot; alt=&quot;lagrange-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b20&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw-html.png&quot; alt=&quot;lagrange-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd-html.png&quot; alt=&quot;lagrange-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;lagrange.Rnw&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;lagrange.Rnw&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;lagrange.Rmd&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;lagrange.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+</content>
+
+			
+				<category term="templates" />
+			
+			
+				<category term="num" />
+			
+				<category term="numeric" />
+			
+				<category term="arithmetic" />
+			
+				<category term="derivative" />
+			
+				<category term="mathematics" />
+			
+
+			<published>2017-08-14T00:00:00+02:00</published>
+		</entry>
+	
+		<entry>
+			<id>http://www.R-exams.org/templates/hessian/</id>
+			<title>hessian: 2x2 Hessian Matrix (Single-Choice)</title>
+			<link href="http://www.R-exams.org/templates/hessian/" rel="alternate" type="text/html" title="hessian: 2x2 Hessian Matrix (Single-Choice)" />
+			<updated>2017-08-14T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Exercise template for computing the Hessian for a given function with randomly-drawn parameters.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/templates/hessian/">&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hessian&lt;/code&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing one randomly-selected element from the Hessian for a given quadratic function with two arguments. The coefficients of the function are drawn randomly and the correct answer has to be selected from five choice items. The latter are generated through &lt;code class=&quot;highlighter-rouge&quot;&gt;num_to_schoice()&lt;/code&gt; by providing the other three elements of the Hessian as typical errors. Further random answers are taken from a prespecified range, assuring only integer solutions. Although the Hessian of a quadratic function has only constant elements, an argument vector is given in the exercise because other types of functions might have non-constant Hessians.&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and text blocks&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.Rnw&quot;&gt;hessian.Rnw&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.Rmd&quot;&gt;hessian.Rmd&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.tex&quot;&gt;hessian.tex&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian.md&quot;&gt;hessian.md&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b1&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw-pdf.png&quot; alt=&quot;hessian-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd-pdf.png&quot; alt=&quot;hessian-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row t1 b20&quot;&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rnw-html.png&quot; alt=&quot;hessian-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-hessian//hessian-Rmd-html.png&quot; alt=&quot;hessian-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;hessian.Rnw&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;hessian.Rnw&amp;quot;)
+
+set.seed(1090)
+exams2html(&amp;quot;hessian.Rmd&amp;quot;)
+set.seed(1090)
+exams2pdf(&amp;quot;hessian.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+</content>
+
+			
+				<category term="templates" />
+			
+			
+				<category term="schoice" />
+			
+				<category term="single-choice" />
+			
+				<category term="arithmetic" />
+			
+				<category term="derivative" />
+			
+				<category term="matrix" />
+			
+				<category term="mathematics" />
+			
+
+			<published>2017-08-14T00:00:00+02:00</published>
+		</entry>
+	
+		<entry>
 			<id>http://www.R-exams.org/templates/gaussmarkov/</id>
 			<title>gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions</title>
 			<link href="http://www.R-exams.org/templates/gaussmarkov/" rel="alternate" type="text/html" title="gaussmarkov: Knowledge Quiz Question about Gauss-Markov Assumptions" />
@@ -940,230 +1172,6 @@ exams2pdf(&amp;quot;gaussmarkov.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				<category term="quiz" />
 			
 				<category term="Gauss-Markov" />
-			
-				<category term="statistics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/function/</id>
-			<title>function: String Question about R Functions</title>
-			<link href="http://www.R-exams.org/templates/function/" rel="alternate" type="text/html" title="function: String Question about R Functions" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for a knowledge quiz question (about glm-related R functions) where the correct answer has to match exactly a given string.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/function/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;function&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Knowledge quiz question about R functions related to lm/glm. A function is drawn randomly from a list of 8 question/answer pairs and the correct string answer is the corresponding R function.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Shuffling (1 out of 8 question/answer pairs)&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.Rnw&quot;&gt;function.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.Rmd&quot;&gt;function.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.tex&quot;&gt;function.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function.md&quot;&gt;function.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw-pdf.png&quot; alt=&quot;function-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd-pdf.png&quot; alt=&quot;function-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rnw-html.png&quot; alt=&quot;function-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-function//function-Rmd-html.png&quot; alt=&quot;function-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;function.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;function.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;function.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;function.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="string" />
-			
-				<category term="knowledge" />
-			
-				<category term="quiz" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/essayreg/</id>
-			<title>essayreg: Linear Regression (Moodle Essay Question)</title>
-			<link href="http://www.R-exams.org/templates/essayreg/" rel="alternate" type="text/html" title="essayreg: Linear Regression (Moodle Essay Question)" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for interpreting a simple regression based on randomly-generated data (with either a linear, semi-logarithmic, or log-log relationship) in form of an essay (for Moodle).</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/essayreg/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;essayreg&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/string/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;The results of a linear regression model (linear, semi-logarithmic, or log-log) need to be interpreted in an essay. Using extra metainformation tags for this &quot;string&quot; question, it is rendered in Moodle into an &quot;essay&quot; (rather than a &quot;shortanswer&quot;) question.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers and text blocks&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.Rnw&quot;&gt;essayreg.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.Rmd&quot;&gt;essayreg.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.tex&quot;&gt;essayreg.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg.md&quot;&gt;essayreg.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw-pdf.png&quot; alt=&quot;essayreg-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd-pdf.png&quot; alt=&quot;essayreg-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rnw-html.png&quot; alt=&quot;essayreg-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-essayreg//essayreg-Rmd-html.png&quot; alt=&quot;essayreg-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;essayreg.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;essayreg.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;essayreg.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;essayreg.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="string" />
-			
-				<category term="regression" />
-			
-				<category term="significance" />
-			
-				<category term="slope" />
 			
 				<category term="statistics" />
 			

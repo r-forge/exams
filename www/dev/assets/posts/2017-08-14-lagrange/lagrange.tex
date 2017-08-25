@@ -1,0 +1,69 @@
+
+
+\begin{question}
+A firm has the following production function: \[F(K,L)= K L^{3}.\]
+The price for one unit of \emph{capital} is $p_K = 20$ 
+and the price for one unit of \emph{labor} is $p_L = 11$.
+Minimize the costs of the firm considering its production function and given a target production output of 730 units.
+
+How high are in this case the minimal costs?
+\end{question}
+
+\begin{solution}
+\emph{Step~1}: Formulating the minimization problem.
+\begin{eqnarray*}
+\min_{K,L} C(K,L) &=& p_K K + p_L L\\
+ &=& 20 K + 11 L\\
+\mbox{subject to:} &&  F(K,L) = Q \\
+&& K L^{3} = 730 
+\end{eqnarray*}
+
+\emph{Step~2}: Lagrange function.
+\begin{eqnarray*}
+\mathcal{L}(K, L, \lambda) &=& C(K, L)-\lambda (F(K, L) - Q) \\
+&=& 20 K + 11 L - \lambda (K L^{3} -730)
+\end{eqnarray*}
+
+\emph{Step~3}: First order conditions.
+\begin{eqnarray}
+\frac{\partial {\mathcal {L}}}{\partial K} & = & 20 - \lambda L^{3} = 0\\
+\frac{\partial {\mathcal {L}}}{\partial L} & = & 11 - {3} \lambda K L^{3-1} = 0 \\
+\frac{\partial {\mathcal {L}}}{\partial \lambda} & = & -(K L^{3}-730) = 0
+\end{eqnarray}
+
+\emph{Step~4}: Solve the system of equations for $K$, $L$, and $\lambda$.
+
+Equating Equations~(1) and (2) after solving for $\lambda$ gives:
+\begin{eqnarray*}
+\frac{20}{L^{3}} & = & \frac{11}{{3} K L^{3-1}}\\
+K & = & \frac{11}{3 \cdot 20} \cdot L^{3 - (3 -1)}\\
+K & = & \frac{11}{60} \cdot L
+\end{eqnarray*}
+
+Substituting this in the optimization constraint gives:
+\begin{eqnarray*}
+K L^{3} & = & 730\\
+\left(\frac{11}{60}\cdot L \right) L^{3} & = & 730\\
+\frac{11}{60} L^{4} & = & 730\\
+L & = & \left(\frac{60}{11} \cdot 
+730\right)^{\frac{1}{4}} = 7.94365468~\approx~7.94\\
+K & = & \frac{11}{60} \cdot L = 1.45633669~\approx~1.46
+\end{eqnarray*}
+
+ The minimal costs can be obtained by substituting the optimal factor combination in the objective function:
+ \begin{eqnarray*}
+ C(K, L) & = & 20 K + 11 L\\
+         & = & 29.126734 + 87.380201 \\
+         & = & 116.506935 \approx 116.51
+ \end{eqnarray*}
+Given the target output, the minimal costs are $116.51$.
+
+\includegraphics{lagrange-003}
+\end{solution}
+
+
+%% META INFORMATION
+%% \extype{num}
+%% \exsolution{116.51}
+%% \exname{Lagrange cost minimization}
+%% \extol{0.01}

@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+<meta charset="utf-8">
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+<p>Compute the Hessian of the function <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right"><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo>−</mo><mn>7</mn><msubsup><mi>x</mi><mn>1</mn><mn>2</mn></msubsup><mo>−</mo><mn>5</mn><msub><mi>x</mi><mn>1</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>−</mo><mn>4</mn><msubsup><mi>x</mi><mn>2</mn><mn>2</mn></msubsup></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+  f(x_1, x_2) = -7 x_1^{2}  -5  x_1  x_2  -4  x_2^{2}
+\end{aligned}
+</annotation></semantics></math> at <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mo>−</mo><mn>2</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(x_1, x_2) = (-2, 2)</annotation></semantics></math>. What is the value of the upper left element?</p>
+<br/>
+<ol type="a">
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">-8</annotation></semantics></math>
+</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">-5</annotation></semantics></math>
+</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">-16</annotation></semantics></math>
+</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">-14</annotation></semantics></math>
+</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">-4</annotation></semantics></math>
+</li>
+</ol>
+<br/>
+<h4>Solution</h4>
+<p>The first-order partial derivatives are <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right"><mi>f</mi><msub><mi>′</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left"><mo>=</mo><mo>−</mo><mn>14</mn><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><mn>5</mn><msub><mi>x</mi><mn>2</mn></msub></mtd></mtr><mtr><mtd columnalign="right"><mi>f</mi><msub><mi>′</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left"><mo>=</mo><mo>−</mo><mn>5</mn><msub><mi>x</mi><mn>1</mn></msub><mo>−</mo><mn>8</mn><msub><mi>x</mi><mn>2</mn></msub></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+  f&#39;_1(x_1, x_2) &amp;= -14 x_1  -5 x_2  \\
+  f&#39;_2(x_1, x_2) &amp;= -5 x_1  -8 x_2
+\end{aligned}
+</annotation></semantics></math> and the second-order partial derivatives are <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right"><mi>f</mi><msub><mi>″</mi><mn>11</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left"><mo>=</mo><mo>−</mo><mn>14</mn></mtd></mtr><mtr><mtd columnalign="right"><mi>f</mi><msub><mi>″</mi><mn>12</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left"><mo>=</mo><mo>−</mo><mn>5</mn></mtd></mtr><mtr><mtd columnalign="right"><mi>f</mi><msub><mi>″</mi><mn>21</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left"><mo>=</mo><mo>−</mo><mn>5</mn></mtd></mtr><mtr><mtd columnalign="right"><mi>f</mi><msub><mi>″</mi><mn>22</mn></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left"><mo>=</mo><mo>−</mo><mn>8</mn></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+  f&#39;&#39;_{11}(x_1, x_2) &amp;= -14\\
+  f&#39;&#39;_{12}(x_1, x_2) &amp;= -5\\
+  f&#39;&#39;_{21}(x_1, x_2) &amp;= -5\\
+  f&#39;&#39;_{22}(x_1, x_2) &amp;= -8
+\end{aligned}
+</annotation></semantics></math></p>
+<p>Therefore the Hessian is <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right"><mi>f</mi><mi>″</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="right"><mo>−</mo><mn>14</mn></mtd><mtd columnalign="right"><mo>−</mo><mn>5</mn></mtd></mtr><mtr><mtd columnalign="right"><mo>−</mo><mn>5</mn></mtd><mtd columnalign="right"><mo>−</mo><mn>8</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+  f&#39;&#39;(x_1, x_2) = \left( \begin{array}{rr} -14 &amp;  -5 \\  -5 &amp;  -8 \end{array} \right)
+\end{aligned}
+</annotation></semantics></math> independent of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>2</mn></msub><annotation encoding="application/x-tex">x_2</annotation></semantics></math>. Thus, the upper left element is: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><msub><mi>″</mi><mn>11</mn></msub><mo stretchy="false" form="prefix">(</mo><mo>−</mo><mn>2</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo>−</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">f&#39;&#39;_{11}(-2, 2) = -14</annotation></semantics></math>.</p>
+<br/>
+<ol type="a">
+<li>
+False
+</li>
+<li>
+False
+</li>
+<li>
+False
+</li>
+<li>
+True
+</li>
+<li>
+False
+</li>
+</ol>
+<br/>
+</li>
+</ol>
+
+</body>
+</html>
