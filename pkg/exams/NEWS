@@ -1,4 +1,14 @@
-Changes in Version 2.2-2
+Changes in Version 2.3-0
+
+  o A new web page accompanying the package is now available at
+    http://www.R-exams.org/. This already contains a first overview of the
+    package, some tutorials, and a gallery of all exercise templates
+    provided in the package. More tutorials will follow in the form of
+    blog articles.
+    
+  o A few exercise templates were slightly changed or improved for the new
+    web page. Hence slightly different formulations or formatting may be
+    used in some places.
 
   o Added new interface exams2ilias() for the open-source ILIAS learning
     management system (http://www.ilias.de/). This is essentially a
