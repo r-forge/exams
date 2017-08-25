@@ -1,0 +1,11 @@
+```{r hessian, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "hessian",
+  title = "2x2 Hessian Matrix (Single-Choice)",
+  teaser = "Exercise template for computing the Hessian for a given function with randomly-drawn parameters.",
+  description = "Computing one randomly-selected element from the Hessian for a given quadratic function with two arguments. The coefficients of the function are drawn randomly and the correct answer has to be selected from five choice items. The latter are generated through <code class=\"highlighter-rouge\">num_to_schoice()</code> by providing the other three elements of the Hessian as typical errors. Further random answers are taken from a prespecified range, assuring only integer solutions. Although the Hessian of a quadratic function has only constant elements, an argument vector is given in the exercise because other types of functions might have non-constant Hessians.",
+  tags = c("single-choice", "arithmetic", "derivative", "matrix", "mathematics"),
+  randomization = "Random numbers and text blocks",
+  thumb = c(157, 168))
+)
+```

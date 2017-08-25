@@ -1,0 +1,11 @@
+```{r lagrange, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "lagrange",
+  title = "Method of Lagrange Multipliers",
+  teaser = "Exercise template for minimizing a linear objective function with two arguments subject to a Cobb-Douglas-type constraint. Both the parameters of the functions and the exact question (argument 1 vs. argument 2 vs. function value in optimum) are drawn randomly.",
+  description = "Computing the solution to a cost minimization problem subject to an output constraint where the production fuction with arguments capital and labor is of Cobb-Douglas type. As  <code class=\"highlighter-rouge\">num</code> exercises have only a single numeric solution (and to make test takers read the exercise carefully), one of three natural quantities in the optimum is selected randomly as the question: the first argument (capital), the second argument (labor), or the minimal function value (costs). The optimal solution is also displayed graphically using a contour plot.",
+  tags = c("numeric", "arithmetic", "derivative", "mathematics"),
+  randomization = "Random numbers, text blocks, and graphics",
+  thumb = c(216, 495), page = 2)
+)
+```
