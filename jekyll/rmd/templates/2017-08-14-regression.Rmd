@@ -1,0 +1,11 @@
+```{r regression, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "regression",
+  title = "Simple Linear Regression (by Hand)",
+  teaser = "Exercise template for computing the prediction from a simple linear prediction by hand, based on randomly-generated marginal means/variances and correlation.",
+  description = "Computing coefficients and a point prediction from a simple linear prediction (by hand). Internally, a full bivariate data set is simulated but only the marginal means and variances and the correlation coefficient are presented in the exercise.",
+  tags = c("numeric", "prediction", "regression", "statistics"),
+  randomization = "Random numbers",
+  thumb = c(295, 355))
+)
+```

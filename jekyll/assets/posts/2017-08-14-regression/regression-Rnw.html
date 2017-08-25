@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+For 60 firms the number of employees 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>X</mi></mrow></math> and the amount of
+expenses for continuing education 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> (in EUR) were recorded. The
+statistical summary of the data set is given by:
+<div class="p"><!----></div>
+<div style="text-align:center">
+<table border="1">
+<tr><td align="left"></td><td align="center">Variable 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>X</mi></mrow></math> </td><td align="center">Variable 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> </td></tr>
+<tr><td align="left">Mean </td><td align="center">56  </td><td align="center">259  </td></tr>
+<tr><td align="left">Variance </td><td align="center">113  </td><td align="center">1792 </td></tr></table>
+</div>
+<div class="p"><!----></div>
+The correlation between 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>X</mi></mrow></math> and 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> is equal to 0.52.
+<div class="p"><!----></div>
+Estimate the expected amount of money spent for continuing education
+by a firm with 62 employees using least squares regression.
+<br/>
+<h4>Solution</h4>
+First, the regression line 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>y</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>&beta;</mi></mrow><mrow><mn>0</mn></mrow>
+</msub>
+<mo>+</mo>
+<msub><mrow><mi>&beta;</mi></mrow><mrow><mn>1</mn></mrow>
+</msub>
+<msub><mrow><mi>x</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>+</mo>
+<msub><mrow><mi>&epsiv;</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+</mrow></math> is determined.  The regression coefficients are given by:
+<br />
+<table width="100%"><tr><td align="center">
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mstyle displaystyle="true"><mrow>
+<mtable align="right" width="80%">
+<mtr><mtd columnalign="right" columnspan="1"><mrow></mrow>
+</mtd><mtd columnalign="left">
+<mrow></mrow>
+</mtd><mtd columnalign="left">
+<mrow>
+<msub><mrow>
+<mover><mrow><mi>&beta;</mi></mrow>
+<mo>&Hat;</mo></mover>
+</mrow><mrow><mn>1</mn></mrow>
+</msub>
+<mo>=</mo><mi>r</mi><mo>&middot;</mo>
+<mfrac><mrow>
+<msub><mrow><mi>s</mi></mrow><mrow><mi>y</mi></mrow>
+</msub>
+</mrow>
+<mrow>
+<msub><mrow><mi>s</mi></mrow><mrow><mi>x</mi></mrow>
+</msub>
+</mrow>
+</mfrac>
+<mo>=</mo><mn>0</mn><mo>.</mo><mn>52</mn><mo>&middot;</mo><msqrt><mrow>
+<mfrac><mrow><mn>1792</mn></mrow>
+<mrow><mn>113</mn></mrow>
+</mfrac>
+</mrow></msqrt><mo>=</mo><mn>2</mn><mo>.</mo><mn>07078</mn><mo>,</mo></mrow>
+</mtd></mtr>
+<mtr><mtd columnalign="right" columnspan="1"><mrow></mrow>
+</mtd><mtd columnalign="left">
+<mrow></mrow>
+</mtd><mtd columnalign="left">
+<mrow>
+<msub><mrow>
+<mover><mrow><mi>&beta;</mi></mrow>
+<mo>&Hat;</mo></mover>
+</mrow><mrow><mn>0</mn></mrow>
+</msub>
+<mo>=</mo>
+<mover><mrow><mi>y</mi></mrow>
+<mo>&OverBar;</mo></mover>
+<mo>-</mo>
+<msub><mrow>
+<mover><mrow><mi>&beta;</mi></mrow>
+<mo>&Hat;</mo></mover>
+</mrow><mrow><mn>1</mn></mrow>
+</msub>
+<mo>&middot;</mo>
+<mover><mrow><mi>x</mi></mrow>
+<mo>&OverBar;</mo></mover>
+<mo>=</mo><mn>259</mn><mo>-</mo><mn>2</mn><mo>.</mo><mn>07078</mn><mo>&middot;</mo><mn>56</mn><mo>=</mo><mn>143</mn><mo>.</mo><mn>03654</mn><mo>.</mo></mrow>
+</mtd></mtr>
+</mtable>
+</mrow>
+    </mstyle></math>
+</td></tr></table>
+<br />
+<div class="p"><!----></div>
+The estimated amount of money spent by a firm with
+62 employees is then given by:
+<br />
+<table width="100%"><tr><td align="center">
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mstyle displaystyle="true"><mrow>
+<mtable align="right" width="80%">
+<mtr><mtd columnalign="right" columnspan="1"><mrow>
+<mover><mrow><mi>y</mi></mrow>
+<mo>&Hat;</mo></mover>
+<mo>=</mo><mn>143</mn><mo>.</mo><mn>03654</mn><mo>+</mo><mn>2</mn><mo>.</mo><mn>07078</mn><mo>&middot;</mo><mn>62</mn><mo>=</mo><mn>271</mn><mo>.</mo><mn>425</mn><mo>.</mo></mrow>
+</mtd></mtr>
+</mtable>
+</mrow>
+    </mstyle></math>
+</td></tr></table>
+<br />
+<br/>
+</li>
+</ol>
+
+</body>
+</html>
