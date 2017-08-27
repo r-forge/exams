@@ -27,7 +27,9 @@ latexclean:
 
 .PHONY: clean
 clean: latexclean
+	mv rlogo.pdf rlogo.pdf.bak
 	rm -f ${custom} ${assets.img} ${images.vector} *.pdf
+	mv rlogo.pdf.bak rlogo.pdf
 
 .PHONY: force
 force: clean all
