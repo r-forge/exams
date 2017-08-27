@@ -8,7 +8,7 @@ header: no
 # 4 Topics. Image in Carousel + Icon
 topics:
   - icon: vector/elearning.svg
-    image: "seminar.cut.jpg"
+    image: "seminar.cut.big.jpg"
     # align is placed as background-position style
     # https://www.w3schools.com/CSSref/pr_background-position.asp
     align: left center
@@ -32,7 +32,7 @@ topics:
       Automatic generation, scanning, and evaluation.
 
   - icon: vector/dynamic.svg
-    image: "laptop_on_table_deriv2.cut.jpg"
+    image: "laptop_on_table_deriv2.cut.big.jpg"
     title: Dynamic Exercises
     url: '/intro/dynamic/'
     description: |

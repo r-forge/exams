@@ -63,6 +63,7 @@ include: ['.htaccess']
 # Exclude these files from your production _site
 exclude:
     - Makefile
+    - images/scale.jpg.bash
     - .sass-cache
     - Gemfile
     - Gemfile.lock
