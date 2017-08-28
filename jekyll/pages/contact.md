@@ -19,6 +19,11 @@ permalink: /contact/
 - R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
 
 
+### Twitter
+
+- [@AchimZeileis](https://twitter.com/AchimZeileis)
+
+
 #### Authors and contributors
 
 - Achim Zeileis [author, maintainer] (Package design, version 1 and 2, core infrastructure)
