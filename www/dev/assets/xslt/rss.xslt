@@ -32,14 +32,16 @@
 	
 
 	
-<link rel="apple-touch-icon" sizes="180x180" href="http://www.R-exams.org/assets/icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://www.R-exams.org/assets/icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="http://www.R-exams.org/assets/icons/favicon-16x16.png">
-<link rel="manifest" href="http://www.R-exams.org/assets/icons/manifest.json">
-<link rel="mask-icon" href="http://www.R-exams.org/assets/icons/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="shortcut icon" href="http://www.R-exams.org/assets/icons/favicon.ico">
-<meta name="msapplication-config" content="http://www.R-exams.org/assets/icons/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
 
 
 	<!-- Facebook Optimization -->
