@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: workflow
 #
 # Content
 #
@@ -21,19 +21,38 @@ image:
   # shown under image on top of blog post
   caption: "Photo from Wikipedia."
   caption_url: "https://de.wikipedia.org/wiki/E-Learning"
+
+workflow:
+  - step:
+      img: ../../images/elearning-goal.svg
+      alt: goal
+      dsc: |
+        ###### 1. Goal
+        * Online tests as part of your course, typically using your
+          university's learning management system (like Moodle,
+          Blackboard, OLAT, Ilias).
+        * But entering exams "by hand" is tedious and...
+        * ...you need (a large number of) random variations of
+          similar exercises to reduce the risk of cheating.
+  - step:
+      img: ../../images/elearning-create.svg
+      alt: create
+      dsc: |
+        ###### 2. Create
+        * Set up [exercise templates](../../dynamic/).
+        * Easily draw (very many) random replications from these templates.
+        * Automatically embed these into an exchange file format (typically in HTML/XML).
+  - step:
+      img: ../../images/elearning-import.svg
+      alt: import
+      dsc: |
+        ###### 3. Import
+        * Import this file into a learning management system.
+        * Either directly into an online test or into some question bank or item pool.
+        * From there handle the online test "as usual" in the respective learning management system.
+
 ---
 
-### You want
+## Blog ##
 
-- Online tests as part of your course.
-- Your university provides a learning management system (like Moodle, Blackboard, OLAT, Ilias) but...
-- ...entering exams "by hand" is tedious and ...
-- ...you need (a large number of) random variations of similar exercises to reduce the risk of cheating.
-
-### With R/exams you can
-
-- Set up exercise templates.
-- Easily draw (very many) random replications from these templates.
-- Embed these into an exchange file format (typically in XML).
-- Import this file into a learning management system. Either directly into an online test or into some question bank or item pool.
-
+* Further [related blog posts]({{ site.url }}/blog/).
