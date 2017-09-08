@@ -27,7 +27,31 @@ image:
 
 - R/exams is based on exercises with either LaTeX or Markdown text and
   optional R code to make the content [dynamic]({{ site.url }}/dynamic/).
-- The format is agnostic to a specific output format and can render the content into a wider variety of files (PDF, HTML, Docx, XML, ...),
-  either for direct usage or for import into some [e-learning]({{
-  site.url }}/elearning/) system (like Moodle, Blackboard, OLAT, or Ilias).
-- Thus, the _same_ exercise can be exported into these different formats - with multiple-choice and single-choice being the exercise format supported by almost all learning management systems.
+- The format is agnostic to a specific output format and can be rendered
+  into a wide variety of files.
+- Thus, the _same_ exercise can be exported into these different
+  formats (with multiple-choice and single-choice being supported by
+  almost all learning management systems).
+
+#### Output formats
+
+<div class='row t20 b20'>
+  <div class='large-8 columns'>
+    <img src="{{ site.url }}/images/oneforall.svg" alt="oneforall" />
+  </div>
+  <div class='large-4 columns'>
+    <p>
+      <ul>
+       <li>PDFs for <a href="{{ site.url }}/intro/written">written exams</a> (with automatic evaluation).</li>
+       <li>Custom files (PDF, HTML, Docx, ...), using simple document templates.</li>
+       <li>Imports for <a href="{{ site.url }}/intro/elearning">learning management systems</a> (Moodle, Blackboard, OLAT, Ilias, ...).</li>
+       <li>ARSnova (live voting software).</li>
+      </ul>
+    </p>
+  </div>
+</div>
+
+
+## Blog ##
+
+* [Blog archive]({{ site.url }}/blog/).
