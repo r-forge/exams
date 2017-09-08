@@ -13,14 +13,13 @@ permalink: "/intro/elearning/"
 #
 image:
   # shown on top of blog post
-  title: wikipedia_e-learning_cc0.big.jpg
+  title: seminar.title.jpg
   # preview in list of posts
-  thumb: wikipedia_e-learning_cc0.150.jpg
+  thumb: seminar.cut.150.jpg
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "Photo from Wikipedia."
-  caption_url: "https://de.wikipedia.org/wiki/E-Learning"
+  caption: "R/exams photo (CC0)."
 
 workflow:
   - step:
@@ -32,14 +31,14 @@ workflow:
           university's learning management system (like Moodle,
           Blackboard, OLAT, Ilias).
         * But entering exams "by hand" is tedious and...
-        * ...you need (a large number of) random variations of
-          similar exercises to reduce the risk of cheating.
+        * ...(a large number of) random variations of
+          similar exercises is required to reduce the risk of cheating.
   - step:
       img: ../../images/elearning-create.svg
       alt: create
       dsc: |
         ###### 2. Create
-        * Set up [exercise templates](../../dynamic/).
+        * Set up [(dynamic) exercise templates](../../dynamic/).
         * Easily draw (very many) random replications from these templates.
         * Automatically embed these into an exchange file format (typically in HTML/XML).
   - step:
@@ -55,4 +54,4 @@ workflow:
 
 ## Blog ##
 
-* Further [related blog posts]({{ site.url }}/blog/).
+* [Blog archive]({{ site.url }}/blog/).

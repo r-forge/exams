@@ -6,17 +6,18 @@ layout: workflow
 title: "<img height='100%' src='../../images/vector/dynamic.svg'> Dynamic Exercises"
 meta_title: "R/exams: Dynamic Exercises"
 subheadline: "Templates with Random Elements"
-teaser: "Randomize exercises dynamically (e.g., using different numbers, text blocks, ...)
+teaser: "Randomize exercises dynamically (e.g., using shuffled items, different numbers, text blocks, ...)
   for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof).
-  The R/exams templates provide an independent description of the exercises, the actual rendering
-  can then is done, e.g., by different learning management systems or file formats."
+  The R/exams templates provide a description of the exercises - independent of
+  a particular output format or learning management system - with
+  the text in either Markdown or LaTeX and the randomization in R."
 permalink: "/intro/dynamic/"
 #
 # Style
 #
 image:
   # shown on top of blog post
-  title: laptop_on_table_deriv2.orig.big.jpg
+  title: laptop_on_table_deriv2.title.jpg
   # preview in list of posts
   thumb: laptop_on_table_deriv2.orig.150.jpg
   # shown on landing page
@@ -84,5 +85,5 @@ workflow:
 ## Blog ##
 
 * Gallery: [Exercise Templates]({{ site.url }}/templates/).
-* Further [related blog posts]({{ site.url }}/blog/).
+* [Blog archive]({{ site.url }}/blog/).
 

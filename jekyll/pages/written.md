@@ -6,21 +6,20 @@ layout: workflow
 title: "<img height='100%' src='../../images/vector/written.svg'> Written Exams"
 meta_title: "R/exams: Written Exams"
 subheadline: "Large-Scale Pen-and-Paper Exams"
-teaser: "Manage large-scale exams from generation to evaluation using R/exams."
+teaser: "Manage large-scale written exams from generation to evaluation using R/exams."
 permalink: "/intro/written/"
 #
 # Style
 #
 image:
   # shown on top of blog post
-  title: multiple-choice.big.jpg
+  title: olympia_side_zoom.title.jpg
   # preview in list of posts
-  thumb: multiple-choice.150.jpg
+  thumb: olympia_side_zoom.150.jpg
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "Photo from Alberto G. (CC-BY)."
-  caption_url: "https://www.flickr.com/photos/albertogp123/5843577306/"
+  caption: "R/exams photo (CC0)."
 
 workflow:
   - step:
