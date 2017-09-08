@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="Randomize exercises dynamically (e.g., using different numbers, text blocks, ...) for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof)." />
+	<meta name="description" content="Randomize exercises dynamically (e.g., using different numbers, text blocks, ...) for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof). The R/exams templates provide an independent description of the exercises, the actual rendering can then is done, e.g., by different learning management systems or file formats." />
 
 	
 
@@ -309,20 +309,114 @@
 
 			
 			<p class="teaser" itemprop="description">
-				Randomize exercises dynamically (e.g., using different numbers, text blocks, ...) for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof).
+				Randomize exercises dynamically (e.g., using different numbers, text blocks, ...) for a range of question formats (multiple-choice, single-choice, numeric, text, and combinations thereof). The R/exams templates provide an independent description of the exercises, the actual rendering can then is done, e.g., by different learning management systems or file formats.
 			</p>
 			
 
 			<span itemprop="articleSection">
-			<h4 id="workflow">Workflow</h4>
+			
+  
+  <div class='row t30'>
+    <div class='medium-3 columns'>
+      <img src="../../images/dynamic-schoice.svg" alt="schoice"/>
+    </div>
+    <div class='medium-9 columns'>
+      <h6 id="schoice-single-choice"><code class="highlighter-rouge">schoice</code>: Single-Choice</h6>
+<ul>
+  <li>Task: Select the only correct item out of a list of alternatives.</li>
+  <li>Knowledge quiz: Arbitrary number of shuffled distractors
+(e.g., <a href="../../templates/swisscapital/">swisscapital</a>).</li>
+  <li>Numeric exercises: Distractors are random numbers (from a set/interval)
+and/or typical arithmetic mistakes (e.g., <a href="../../templates/deriv2/">deriv2</a>,
+<a href="../../templates/tstat2/">tstat2</a>).</li>
+  <li>Shuffling (or subsampling) can be turned on or off.</li>
+</ul>
+
+    </div>
+  </div>
+  
+  <div class='row t30'>
+    <div class='medium-3 columns'>
+      <img src="../../images/dynamic-mchoice.svg" alt="mchoice"/>
+    </div>
+    <div class='medium-9 columns'>
+      <h6 id="mchoice-multiple-choice"><code class="highlighter-rouge">mchoice</code>: Multiple-Choice</h6>
+<ul>
+  <li>Task: Select all correct items out of a list of alternatives.</li>
+  <li>Knowledge quiz: Arbitrary number of true or false statements
+(e.g., <a href="../../templates/switzerland/">switzerland</a>).</li>
+  <li>Interpretations: Numeric statements that are approximately
+correct or clearly wrong (e.g., <a href="../../templates/boxplots/">boxplots</a>,
+<a href="../../templates/scatterplot/">scatterplot</a>, <a href="../../templates/ttest/">ttest</a>).</li>
+</ul>
+
+    </div>
+  </div>
+  
+  <div class='row t30'>
+    <div class='medium-3 columns'>
+      <img src="../../images/dynamic-num.svg" alt="num"/>
+    </div>
+    <div class='medium-9 columns'>
+      <h6 id="num-numeric"><code class="highlighter-rouge">num</code>: Numeric</h6>
+<ul>
+  <li>Task: Compute a single numeric value (within a tolerance interval).</li>
+  <li>Numeric exercise: Solving typical arithmetic problems possibly based on
+some random numbers (e.g., <a href="../../templates/deriv/">deriv</a>,
+<a href="../../templates/tstat/">tstat</a>).</li>
+</ul>
+
+    </div>
+  </div>
+  
+  <div class='row t30'>
+    <div class='medium-3 columns'>
+      <img src="../../images/dynamic-string.svg" alt="string"/>
+    </div>
+    <div class='medium-9 columns'>
+      <h6 id="string-character-string"><code class="highlighter-rouge">string</code>: Character String</h6>
+<ul>
+  <li>Task: Enter the answer (exactly) as a character string.</li>
+  <li>Knowledge quiz: Sample a word/phrase from a given vocabulary
+or list of question/answer pairs (e.g., <a href="../../templates/function/">function</a>,
+<a href="../../templates/countrycodes/">countrycodes</a>).</li>
+</ul>
+
+    </div>
+  </div>
+  
+  <div class='row t30'>
+    <div class='medium-3 columns'>
+      <img src="../../images/dynamic-cloze.svg" alt="cloze"/>
+    </div>
+    <div class='medium-9 columns'>
+      <h6 id="cloze-cloze-combinations-of-the-above"><code class="highlighter-rouge">cloze</code>: Cloze (Combinations of the Above)</h6>
+<ul>
+  <li>Task: Solve a set of sub-exercises combining any of the above types.</li>
+  <li>Numeric exercises: Several numeric quantities based on the same
+problem setting (e.g., <a href="../../templates/confint2/">confint2</a>,
+<a href="../../templates/dist2/">dist2</a>, <a href="../../templates/fourfold/">fourfold</a>).</li>
+  <li>Statistics: Qualitative single-choice questions plus numeric
+exercises based on randomly-generated data (e.g.,
+<a href="../../templates/boxhist/">boxhist</a>, <a href="../../templates/lm/">lm</a>).</li>
+</ul>
+
+    </div>
+  </div>
+  
+
+
+<div class='row t30'>
+</div>
+
+<h2 id="blog">Blog</h2>
 
 <ul>
-  <li><code class="highlighter-rouge">schoice</code></li>
-  <li><code class="highlighter-rouge">mchoice</code></li>
-  <li><code class="highlighter-rouge">num</code></li>
-  <li><code class="highlighter-rouge">string</code></li>
-  <li><code class="highlighter-rouge">cloze</code> (combinations of the above)</li>
+  <li>Gallery: <a href="http://www.R-exams.org/templates/">Exercise Templates</a>.</li>
+  <li>Further <a href="http://www.R-exams.org/blog/">related blog posts</a>.</li>
 </ul>
+
+
 
 			</span>
 
