@@ -19,7 +19,7 @@ image:
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "R/exams photo (CC0)."
+  caption: "R/exams photo (CC-BY)."
 
 workflow:
   - step:
