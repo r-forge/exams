@@ -36,20 +36,15 @@ image:
 #### Output formats
 
 <div class='row t20 b20'>
-  <div class='large-8 columns'>
+  <div class='small-12 medium-10 large-8 columns'>
     <img src="{{ site.url }}/images/oneforall.svg" alt="oneforall" />
   </div>
-  <div class='large-4 columns'>
-    <p>
-      <ul>
-       <li>PDFs for <a href="{{ site.url }}/intro/written">written exams</a> (with automatic evaluation).</li>
-       <li>Custom files (PDF, HTML, Docx, ODF, ...), using simple document templates.</li>
-       <li>Imports for <a href="{{ site.url }}/intro/elearning">learning management systems</a> (Moodle, Blackboard, OLAT, Ilias, ...).</li>
-       <li>ARSnova (live voting software).</li>
-      </ul>
-    </p>
-  </div>
 </div>
+
+- PDFs for [written exams]({{ site.url }}/intro/written) (with automatic scanning and evaluation).
+- Custom files of various types (PDF, HTML, Docx, ODF, ...), using flexible document templates.
+- Imports for [learning management systems]({{ site.url }}/intro/elearning) (like Moodle, Blackboard, OLAT, Ilias, ...).
+- ARSnova (live voting software).
 
 
 ## Blog ##
