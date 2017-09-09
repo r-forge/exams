@@ -44,7 +44,7 @@ workflow:
       dsc: |
         ###### `mchoice`: Multiple-Choice
         * Task: Select all correct items out of a list of alternatives.
-        * Knowledge quiz: Arbitrary number of true or false statements
+        * Knowledge quiz: Arbitrary number of shuffled true or false statements
           (e.g., [switzerland](../../templates/switzerland/)).
         * Interpretations: Numeric statements that are approximately
           correct or clearly wrong (e.g., [boxplots](../../templates/boxplots/),
@@ -55,7 +55,7 @@ workflow:
       dsc: |
         ###### `num`: Numeric
         * Task: Compute a single numeric value (within a tolerance interval).
-        * Numeric exercise: Solving typical arithmetic problems possibly based on
+        * Numeric exercise: Solving typical arithmetic problems often based on
           some random numbers (e.g., [deriv](../../templates/deriv/),
           [tstat](../../templates/tstat/)).
   - step:

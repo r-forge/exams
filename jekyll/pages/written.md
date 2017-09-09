@@ -28,8 +28,8 @@ workflow:
       dsc: |
         ###### 1. Create
         * Prepare a separate text file for each multiple-choice exercise.
-        * Using `exams2nops()` from
-          R/exams, create (individual) PDF files for each examinee.
+        * Using `exams2nops()` from R/exams,
+          create (individual) PDF files for each examinee.
   - step:
       img: ../../images/written-print.svg
       alt: print
@@ -50,14 +50,15 @@ workflow:
       dsc: |
         ###### 4. Scan
         * Scan all exam sheets, e.g., on a photocopier.
-        * Using `nops_scan()` from R/exams, process the scanned exam sheets to
-          obtain machine-readable content.
+        * Using `nops_scan()` from R/exams,
+          process the scanned exam sheets to obtain machine-readable content.
   - step:
       img: ../../images/written-evaluate.svg
       alt: evaluate
       dsc: |
         ###### 5. Evaluate
-        * And with `nops_eval()` evaluate the exam to obtain marks, points, etc.
+        * Using `nops_eval()` from R/exams,
+          evaluate the exam to obtain marks, points, etc.
           and individual HTML reports for each participant.
         * Required files: Correct answers from Step 1, scans from Step 4, and a
           participant list in CSV format.

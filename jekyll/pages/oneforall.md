@@ -29,9 +29,9 @@ image:
   optional R code to make the content [dynamic]({{ site.url }}/dynamic/).
 - The format is agnostic to a specific output format and can be rendered
   into a wide variety of files.
-- Thus, the _same_ exercise can be exported into these different
-  formats (with multiple-choice and single-choice being supported by
-  almost all learning management systems).
+- Thus, the _same_ exercise can be exported into different
+  formats - with multiple-choice and single-choice being supported by
+  almost all learning management systems.
 
 #### Output formats
 
@@ -43,7 +43,7 @@ image:
     <p>
       <ul>
        <li>PDFs for <a href="{{ site.url }}/intro/written">written exams</a> (with automatic evaluation).</li>
-       <li>Custom files (PDF, HTML, Docx, ...), using simple document templates.</li>
+       <li>Custom files (PDF, HTML, Docx, ODF, ...), using simple document templates.</li>
        <li>Imports for <a href="{{ site.url }}/intro/elearning">learning management systems</a> (Moodle, Blackboard, OLAT, Ilias, ...).</li>
        <li>ARSnova (live voting software).</li>
       </ul>
