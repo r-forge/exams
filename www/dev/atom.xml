@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-09-09T11:54:14+02:00</updated>
+	<updated>2017-09-10T03:52:57+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -28,6 +28,170 @@
 
 	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
+	
+		<entry>
+			<id>http://www.R-exams.org/tutorials/installation/</id>
+			<title>Installing R/exams</title>
+			<link href="http://www.R-exams.org/tutorials/installation/" rel="alternate" type="text/html" title="Installing R/exams" />
+			<updated>2017-09-09T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Installation guide for R itself and the R package &quot;exams&quot; as well as further open-source tools that are required for certain tasks.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/tutorials/installation/">&lt;h2 id=&quot;r&quot;&gt;1. R&lt;/h2&gt;
+
+&lt;p&gt;The R/exams system is an extension for the
+&lt;a href=&quot;https://www.R-project.org&quot;&gt;R system for statistical computing&lt;/a&gt; and hence the
+first installation step is the base R system.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Windows and (Mac) OS X:&lt;/strong&gt; Go to &lt;a href=&quot;https://CRAN.R-project.org/&quot;&gt;https://CRAN.R-project.org/&lt;/a&gt;, the 
+ Comprehensive R Archive Network (CRAN). Simply
+ click on the link for your operating system and at least install the “base”
+ system. It is recommended to also install the accompanying “Rtools” which are
+ not needed immediately but might useful at some stage.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Linux:&lt;/strong&gt; While it is possible to download from CRAN by hand, it is
+easier for most distributions to install the packaged binary. For example,
+on Debian/Ubuntu:&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install r-base-core r-base-dev
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is a wide variety of interfaces for using R including simply the shell,
+Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively.
+Moreover, RStudio is an open-source cross-platform integrated development
+environment that is facilitates many tasks for R beginners.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;For R beginners:&lt;/strong&gt; Go to
+&lt;a href=&quot;https://www.RStudio.com/products/RStudio/&quot;&gt;https://www.RStudio.com/products/RStudio/&lt;/a&gt; and obtain the “Desktop” version
+of RStudio.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;r-package-exams&quot;&gt;2. R package “exams”&lt;/h2&gt;
+
+&lt;p&gt;The core of R/exams is the open-source R package
+&lt;a href=&quot;https://CRAN.R-project.org/package=exams&quot;&gt;“exams”&lt;/a&gt;, also available from CRAN.
+It can be easily installed interactively from within R with a single command.
+If necessary, the development version of the package is also available, which
+may provide some new features or small improvements.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Stable version:&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, dependencies = TRUE)
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Development version:&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Details:&lt;/em&gt; The additional R packages, automatically installed by the command above,
+are needed for certain tasks: &lt;code class=&quot;highlighter-rouge&quot;&gt;base64enc&lt;/code&gt; (HTML-based output: Base64 encoding of
+supplements), &lt;code class=&quot;highlighter-rouge&quot;&gt;knitr&lt;/code&gt; (R/Markdown-based exercises), &lt;code class=&quot;highlighter-rouge&quot;&gt;png&lt;/code&gt; (NOPS exams: reading
+scanned PNG images), &lt;code class=&quot;highlighter-rouge&quot;&gt;RCurl&lt;/code&gt; (ARSnova: posting exercises), &lt;code class=&quot;highlighter-rouge&quot;&gt;RJSONIO&lt;/code&gt; (ARSnova:
+JSON format), &lt;code class=&quot;highlighter-rouge&quot;&gt;rmarkdown&lt;/code&gt; (pandoc-based conversion), &lt;code class=&quot;highlighter-rouge&quot;&gt;tth&lt;/code&gt; (HTML output from
+R/LaTeX exercises).&lt;/p&gt;
+
+&lt;h2 id=&quot;latex&quot;&gt;3. LaTeX&lt;/h2&gt;
+
+&lt;p&gt;For producing PDF output, the typesetting system LaTeX is used internally by R/exams.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Windows:&lt;/strong&gt; Go to &lt;a href=&quot;http://www.MikTeX.org/&quot;&gt;http://www.MikTeX.org/&lt;/a&gt; and click on “Download” to obtain
+the MikTeX distribution for Windows.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;(Mac) OS X and Linux:&lt;/strong&gt; LaTeX distributions are available in the standard
+repositories and can be installed in the “usual” way, typically using the
+&lt;a href=&quot;https://www.tug.org/texlive/&quot;&gt;TeX Live&lt;/a&gt; distribution.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;pandoc&quot;&gt;4. Pandoc&lt;/h2&gt;
+
+&lt;p&gt;For certain conversion performed internally in R/exams, specifically when
+Markdown is involved, the universal document converter
+&lt;a href=&quot;https://www.pandoc.org/&quot;&gt;pandoc&lt;/a&gt;. If you have installed RStudio, then
+pandoc is provided along with it and nothing else needs to be done.&lt;/p&gt;
+
+&lt;p&gt;Otherwise pandoc can be obtained from its web page or standard repositories,
+e.g., for Debian/Ubuntu:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install pandoc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;optional-further-scanning-tools&quot;&gt;Optional: Further scanning tools&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; Unless you want to process &lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written NOPS exams&lt;/a&gt;
+from scanned PDF files, this section can be skipped.&lt;/p&gt;
+
+&lt;p&gt;If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
+they need to be converted to PNG first using the the PDF Toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and
+ImageMagick’s &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Windows:&lt;/strong&gt; Install PDFTk Free, ImageMagick, and Ghostscript.
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe&quot;&gt;http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;http://www.imagemagick.org/script/binary-releases.php#windows&quot;&gt;http://www.imagemagick.org/script/binary-releases.php#windows&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;http://www.ghostscript.com/download/gsdnld.html&quot;&gt;http://www.ghostscript.com/download/gsdnld.html&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;Note:&lt;/em&gt; During the installation of PDFTk and ImageMagick check the boxes for 
+“Add application directory to your environmental path” or
+“Add application directory to your System Path”, respectively.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Linux:&lt;/strong&gt; Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install pdftk imagemagick
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;(Mac) OS X:&lt;/strong&gt; Not tested yet but presumably similar to Linux.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;make-sure-everything-works&quot;&gt;Make sure everything works&lt;/h2&gt;
+
+&lt;p&gt;To check that the software from Steps 1-4 works, try to run the examples from the
+template gallery, e.g., &lt;a href=&quot;http://www.R-exams.org/templates/dist&quot;&gt;dist&lt;/a&gt; or
+&lt;a href=&quot;http://www.R-exams.org/templates/ttest&quot;&gt;ttest&lt;/a&gt;.&lt;/p&gt;
+
+</content>
+
+			
+				<category term="tutorials" />
+			
+			
+				<category term="R" />
+			
+				<category term="RStudio" />
+			
+				<category term="LaTeX" />
+			
+				<category term="Markdown" />
+			
+				<category term="pandoc" />
+			
+
+			<published>2017-09-09T00:00:00+02:00</published>
+		</entry>
 	
 		<entry>
 			<id>http://www.R-exams.org/templates/ttest/</id>
@@ -1053,121 +1217,6 @@ exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				<category term="slope" />
 			
 				<category term="statistics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/lagrange/</id>
-			<title>lagrange: Method of Lagrange Multipliers</title>
-			<link href="http://www.R-exams.org/templates/lagrange/" rel="alternate" type="text/html" title="lagrange: Method of Lagrange Multipliers" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for minimizing a linear objective function with two arguments subject to a Cobb-Douglas-type constraint. Both the parameters of the functions and the exact question (argument 1 vs. argument 2 vs. function value in optimum) are drawn randomly.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/lagrange/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lagrange&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the solution to a cost minimization problem subject to an output constraint where the production fuction with arguments capital and labor is of Cobb-Douglas type. As  &lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt; exercises have only a single numeric solution (and to make test takers read the exercise carefully), one of three natural quantities in the optimum is selected randomly as the question: the first argument (capital), the second argument (labor), or the minimal function value (costs). The optimal solution is also displayed graphically using a contour plot.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and graphics&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.Rnw&quot;&gt;lagrange.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.Rmd&quot;&gt;lagrange.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.tex&quot;&gt;lagrange.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange.md&quot;&gt;lagrange.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw-pdf.png&quot; alt=&quot;lagrange-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd-pdf.png&quot; alt=&quot;lagrange-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rnw-html.png&quot; alt=&quot;lagrange-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lagrange//lagrange-Rmd-html.png&quot; alt=&quot;lagrange-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;lagrange.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;lagrange.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;lagrange.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;lagrange.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="num" />
-			
-				<category term="numeric" />
-			
-				<category term="arithmetic" />
-			
-				<category term="derivative" />
-			
-				<category term="mathematics" />
 			
 
 			<published>2017-08-14T00:00:00+02:00</published>
