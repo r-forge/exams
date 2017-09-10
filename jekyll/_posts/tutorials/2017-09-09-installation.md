@@ -51,7 +51,7 @@ first installation step is the base R system.
 There is a wide variety of interfaces for using R including simply the shell,
 Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively.
 Moreover, RStudio is an open-source cross-platform integrated development
-environment that is facilitates many tasks for R beginners.
+environment that facilitates many common tasks for R beginners.
 
 - **For R beginners:** Go to
   <https://www.RStudio.com/products/RStudio/> and obtain the "Desktop" version
@@ -78,7 +78,7 @@ may provide some new features or small improvements.
   install.packages("exams", repos = "http://R-Forge.R-project.org")
   ```
 
-_Details:_ The additional R packages, automatically installed by the command above,
+_Details:_ Several additional R packages, automatically installed by the command above,
 are needed for certain tasks: `base64enc` (HTML-based output: Base64 encoding of
 supplements), `knitr` (R/Markdown-based exercises), `png` (NOPS exams: reading
 scanned PNG images), `RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova:
@@ -100,12 +100,12 @@ For producing PDF output, the typesetting system LaTeX is used internally by R/e
 
 ## 4. Pandoc
 
-For certain conversion performed internally in R/exams, specifically when
+For certain conversions performed internally in R/exams, specifically when
 Markdown is involved, the universal document converter
-[pandoc](https://www.pandoc.org/). If you have installed RStudio, then
+[pandoc](https://www.pandoc.org/) is employed. If you have installed RStudio, then
 pandoc is provided along with it and nothing else needs to be done.
 
-Otherwise pandoc can be obtained from its web page or standard repositories,
+Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:
 
 ```
@@ -118,7 +118,7 @@ _Note:_ Unless you want to process [written NOPS exams]({{ site.url }}/intro/wri
 from scanned PDF files, this section can be skipped.
 
 If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
-they need to be converted to PNG first using the the PDF Toolkit `pdftk` and
+they need to be converted to PNG first using the PDF Toolkit `pdftk` and
 ImageMagick's `convert`.
 
 - **Windows:** Install PDFTk Free, ImageMagick, and Ghostscript.
@@ -139,7 +139,7 @@ ImageMagick's `convert`.
 
 ## Make sure everything works
 
-To check that the software from Steps 1-4 works, try to run the examples from the
-template gallery, e.g., [dist]({{ site.url }}/templates/dist) or
+To check that the software from Steps 1-4 works, try to run some examples from the
+exercise template gallery, e.g., [dist]({{ site.url }}/templates/dist) or
 [ttest]({{ site.url }}/templates/ttest).
 
