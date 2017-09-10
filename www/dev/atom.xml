@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-09-10T03:52:57+02:00</updated>
+	<updated>2017-09-10T23:02:12+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -75,7 +75,7 @@ on Debian/Ubuntu:&lt;/p&gt;
 &lt;p&gt;There is a wide variety of interfaces for using R including simply the shell,
 Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively.
 Moreover, RStudio is an open-source cross-platform integrated development
-environment that is facilitates many tasks for R beginners.&lt;/p&gt;
+environment that facilitates many common tasks for R beginners.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;For R beginners:&lt;/strong&gt; Go to
@@ -106,7 +106,7 @@ may provide some new features or small improvements.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;em&gt;Details:&lt;/em&gt; The additional R packages, automatically installed by the command above,
+&lt;p&gt;&lt;em&gt;Details:&lt;/em&gt; Several additional R packages, automatically installed by the command above,
 are needed for certain tasks: &lt;code class=&quot;highlighter-rouge&quot;&gt;base64enc&lt;/code&gt; (HTML-based output: Base64 encoding of
 supplements), &lt;code class=&quot;highlighter-rouge&quot;&gt;knitr&lt;/code&gt; (R/Markdown-based exercises), &lt;code class=&quot;highlighter-rouge&quot;&gt;png&lt;/code&gt; (NOPS exams: reading
 scanned PNG images), &lt;code class=&quot;highlighter-rouge&quot;&gt;RCurl&lt;/code&gt; (ARSnova: posting exercises), &lt;code class=&quot;highlighter-rouge&quot;&gt;RJSONIO&lt;/code&gt; (ARSnova:
@@ -127,12 +127,12 @@ repositories and can be installed in the “usual” way, typically using the
 
 &lt;h2 id=&quot;pandoc&quot;&gt;4. Pandoc&lt;/h2&gt;
 
-&lt;p&gt;For certain conversion performed internally in R/exams, specifically when
+&lt;p&gt;For certain conversions performed internally in R/exams, specifically when
 Markdown is involved, the universal document converter
-&lt;a href=&quot;https://www.pandoc.org/&quot;&gt;pandoc&lt;/a&gt;. If you have installed RStudio, then
+&lt;a href=&quot;https://www.pandoc.org/&quot;&gt;pandoc&lt;/a&gt; is employed. If you have installed RStudio, then
 pandoc is provided along with it and nothing else needs to be done.&lt;/p&gt;
 
-&lt;p&gt;Otherwise pandoc can be obtained from its web page or standard repositories,
+&lt;p&gt;Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install pandoc
@@ -144,7 +144,7 @@ e.g., for Debian/Ubuntu:&lt;/p&gt;
 from scanned PDF files, this section can be skipped.&lt;/p&gt;
 
 &lt;p&gt;If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
-they need to be converted to PNG first using the the PDF Toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and
+they need to be converted to PNG first using the PDF Toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and
 ImageMagick’s &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -169,8 +169,8 @@ ImageMagick’s &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code
 
 &lt;h2 id=&quot;make-sure-everything-works&quot;&gt;Make sure everything works&lt;/h2&gt;
 
-&lt;p&gt;To check that the software from Steps 1-4 works, try to run the examples from the
-template gallery, e.g., &lt;a href=&quot;http://www.R-exams.org/templates/dist&quot;&gt;dist&lt;/a&gt; or
+&lt;p&gt;To check that the software from Steps 1-4 works, try to run some examples from the
+exercise template gallery, e.g., &lt;a href=&quot;http://www.R-exams.org/templates/dist&quot;&gt;dist&lt;/a&gt; or
 &lt;a href=&quot;http://www.R-exams.org/templates/ttest&quot;&gt;ttest&lt;/a&gt;.&lt;/p&gt;
 
 </content>
