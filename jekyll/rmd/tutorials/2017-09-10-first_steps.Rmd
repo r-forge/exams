@@ -1,0 +1,445 @@
+---
+layout: page
+#
+# Content
+#
+title: "First Steps"
+teaser: "First overview of the structure of R/exams, its exercise templates, and a first hands-on session."
+categories:
+  - tutorials
+tags:
+  - Rmd
+  - Rnw
+  - Markdown
+  - LaTeX
+  - exams_skeleton
+author: zeileis
+
+#
+# Style
+#
+image:
+  # shown on top of blog post
+  title: laptop_on_table_deriv2.title.jpg
+  # preview in list of posts
+  thumb: template.150.svg
+  # shown on landing page
+  # homepage:
+  # shown under image on top of blog post
+  caption: "R/exams photo (CC-BY)."
+---
+
+## Overview
+
+The basic idea of R/exams is to have a [one-for-all exams generator]({{ site.url }}/intro/oneforall/)
+where each [exercise]({{ site.url }}/intro/dynamic/) is a standalone file, so that the _same_ exercise can be
+rendered easily into a variety output formats such as 
+[e-learning systems]({{ site.url }}/intro/elearning/) or
+[written exams]({{ site.url }}/intro/written/). To reduce the risk of cheating,
+R/exams offers different mechanisms for drawing random variations of exercises:
+
+- Randomly selecting one (or more) out of a set of exercises for each participant.
+- Randomly shuffling answer alternatives in single-choice and multiple-choice questions.
+- Randomly selecting numbers, text blocks, graphics, etc. using the [R programming language](https://en.wikipedia.org/wiki/R_(programming_language)).
+
+Each exercise (or rather "exercise template") is a standalone file with up to four elements:
+
+1. Data-generating process in R.
+2. Question text.
+3. Solution text.
+4. Meta-information: Type of question (single-choice, multiple-choice, numeric, string, or combinations thereof),
+   correct solution, a name/label, etc.
+
+Only the question (2) and the meta-information (4) are mandatory while data
+generation (1) and solution (3) are optional. Solutions can be used to either
+inform teachers about the correct solution for some randomly drawn exercise - 
+or for giving students feedback about how to solve a given exercise. Programming
+a good data-generating process is often the hardest part of authoring a new
+dynamic exercise but is, of course, crucial for drawing a very large number of
+random variations.
+
+For formatting the text within question/solution (e.g., italics, bold face, lists, etc.)
+two options are available: [Markdown](https://en.wikipedia.org/wiki/Markdown) or
+[LaTeX](https://en.wikipedia.org/wiki/LaTeX). The former is very easy to learn
+and recommended for authors who do not know LaTeX yet. If mathematic notation and
+formulas are needed, then LaTeX can be used - either within a LaTeX or also within
+a Markdown question. The file suffix for [R/Markdown](http://rmarkdown.rstudio.com/)
+is `.Rmd` while `.Rnw` is conventionally used for R/LaTeX, known as
+[Sweave](http://leisch.userweb.mwn.de/Sweave/).
+
+In the following, a first session should help new R/exams users to explore the materials
+available and get a feeling for the workflow. Furthremore, two
+[exercise templates]({{ site.url }}/templates/) are shown in more detail:
+
+- [swisscapital]({{ site.url }}/templates/swisscapital/): A static single-choice 
+  knowledge quiz question where the only randomization is a subsampling of the presented
+  alternatives.
+- [deriv]({{ site.url }}/templates/deriv/): A dynamic airthmetic question about the
+  product rule for derivatives where various numbers are drawn randomly in R.
+
+
+
+## A first session
+
+To explore what is available in R/exams two things are necessary: a couple of exercise
+templates to draw inspiration from, and some demo R scripts that illustrate how the
+different `exams2xyz()` functions can produce output in a variety of formats. (Here,
+`xyz` is a _placeholder_ for the output format like `html`, `pdf`, `moodle`, etc.)
+The function `exams_skeleton()` is a helper function that generates exactly these
+materials in a specified folder. For example, when `exams` has already been
+[installed]({{ site.url }}/tutorials/installation/), the following can be carried out
+in R:
+
+```{r skeleton, results="hide"}
+library("exams")
+exams_skeleton(markup = "markdown", encoding = "UTF-8",
+  writer = c("exams2html", "exams2pdf", "exams2moodle"))
+```
+
+This copies all R/Markdown files to the current working directory along with demo scripts,
+illustrating the usage of `exams2html()` and `exams2pdf()` for customizable HTML and
+PDF output, respectively, along with Moodle output via `exams2moodle()`. Specifically,
+the working directory then contains: 
+
+```{r output}
+dir()
+```
+
+Simply open the demo script 
+`r include_asset("demo-all.R")` for the first steps and then continue with
+more details in `r include_asset("demo-html.R")`, `r include_asset("demo-pdf.R")`, or
+`r include_asset("demo-moodle.R")`, respectively.
+More information about all the `exercises` can be found in the
+[exercise template gallery]({{ site.url }}/templates/) online.
+
+
+## Single-choice: Swiss capital
+
+Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative.
+4 out of the 6 false alternatives are sampled randomly and shuffled. Otherwise the
+exercise is static and contains no R code. Below the structure of the exercise is
+highlighted side-by-side in both `.Rmd` and `.Rnw`, illustrating that the additional
+exercise markup is similar in spirit to the respective typesetting system.
+
+To see what the output looks like, run the following code within R or take a look at
+[swisscapital]({{ site.url }}/templates/swisscapital/) in the exercise gallery.
+
+
+<div class='row t20 b20'>
+  <div class='small-5 medium-3 large-2 columns'>
+    <b>Markdown</b><br/>
+    <img src="{{ site.url }}/images/template-rmd.svg" alt="Rmd" />
+  </div>
+  <div class='small-1 medium-3 large-4 columns'>
+  <p></p>
+  </div>
+  <div class='small-5 medium-3 large-2 columns'>
+    <b>LaTeX</b><br/>
+    <img src="{{ site.url }}/images/template-rnw.svg" alt="Rnw" />
+  </div>
+  <div class='small-1 medium-3 large-4 columns'>
+  <p></p>
+  </div>
+</div>
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <pre>
+library("exams")
+exams2html("swisscapital.Rmd")
+exams2pdf("swisscapital.Rmd")
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <pre>
+library("exams")
+exams2html("swisscapital.Rnw")
+exams2pdf("swisscapital.Rnw")
+    </pre>
+  </div>
+</div>
+
+#### Question
+
+The question is straightforward and lists 7 answer alternatives.
+The correct solution (Bern) is declared in the meta-information below.
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <b>Markdown</b>
+    <pre>
+Question
+========
+What is the seat of the federal
+authorities in Switzerland
+(i.e., the de facto capital)?
+
+Answerlist
+----------
+* Basel
+* Bern
+* Geneva
+* Lausanne
+* Zurich
+* St. Gallen
+* Vaduz
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <b>LaTeX</b>
+    <pre>
+
+\begin{question}
+What is the seat of the federal
+authorities in Switzerland
+(i.e., the de facto capital)?
+
+\begin{answerlist}
+  \item Basel
+  \item Bern
+  \item Geneva
+  \item Lausanne
+  \item Zurich
+  \item St.~Gallen
+  \item Vaduz
+\end{answerlist}
+\end{question}
+    </pre>
+  </div>
+</div>
+
+
+#### Solution
+
+The optional solution can provide some general feedback (that explains
+why Bern is correct in this question) as well as more details for each
+answer alternative (only listing true/false here). It is also possible 
+to have _no solution_, or _just a general text_, or _just the answer list_.
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <b>Markdown</b>
+    <pre>
+Solution
+========
+There is no de jure capital but
+the de facto capital and seat of
+the federal authorities is Bern.
+
+Answerlist
+----------
+* False
+* True
+* False
+* False
+* False
+* False
+* False
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <b>LaTeX</b>
+    <pre>
+
+\begin{solution}
+There is no de jure capital but
+the de facto capital and seat of
+the federal authorities is Bern.
+
+\begin{answerlist}
+  \item False.
+  \item True.
+  \item False.
+  \item False.
+  \item False.
+  \item False.
+  \item False.
+\end{answerlist}
+\end{solution}
+    </pre>
+  </div>
+</div>
+
+
+#### Meta-information
+
+In the meta-information, each exercise must specify at least an `extype`,
+and an `exsolution`, and should typically also have a short descriptive
+`exname`. The type for single-choice questions is `schoice` and the
+`exsolution` is simply a binary coding of the 7 answer alternatives.
+For randomization, additionally `exshuffle` is set to 5 so that 1 correct
+and 4 random wrong alternatives are subsampled and shuffled.
+
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <b>Markdown</b>
+    <pre>
+Meta-information
+================
+exname: Swiss Capital
+extype: schoice
+exsolution: 0100000
+exshuffle: 5
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <b>LaTeX</b>
+    <pre>
+
+
+\exname{Swiss Capital}
+\extype{schoice}
+\exsolution{0100000}
+\exshuffle{5}
+    </pre>
+  </div>
+</div>
+
+
+## Numeric: Product rule for derivatives
+
+Arithmetic question for computing the first derivative of a product function with
+two factors, using the product rule. The parameters of the function are drawn
+randomly in R and subsequently inserted into the question and the solution (which
+is not shown below for brevity). LaTeX is used for typesetting the mathematical
+formulas - both in the Markdown and the LaTeX version.
+
+To see what the output looks like, run the following code within R or take a look at
+[deriv]({{ site.url }}/templates/deriv/) in the exercise gallery.
+
+
+<div class='row t20 b20'>
+  <div class='small-5 medium-3 large-2 columns'>
+    <b>R/Markdown</b><br/>
+    <img src="{{ site.url }}/images/template-rmd.svg" alt="Rmd" />
+  </div>
+  <div class='small-1 medium-3 large-4 columns'>
+  <p></p>
+  </div>
+  <div class='small-5 medium-3 large-2 columns'>
+    <b>R/LaTeX</b><br/>
+    <img src="{{ site.url }}/images/template-rnw.svg" alt="Rnw" />
+  </div>
+  <div class='small-1 medium-3 large-4 columns'>
+  <p></p>
+  </div>
+</div>
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <pre>
+library("exams")
+exams2html("deriv.Rmd")
+exams2pdf("deriv.Rmd")
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <pre>
+library("exams")
+exams2html("deriv.Rnw")
+exams2pdf("deriv.Rnw")
+    </pre>
+  </div>
+</div>
+
+#### Data generation
+
+The R code simply draws the two parameters `a` and `b` as well as the argument `c`
+from a discrete uniform distribution. (See the question below for the actual function used.)
+Subsequently, the random numbers are inserted into the correct solution and storing
+it as `res`.
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <b>R/Markdown</b>
+    <pre>
+```{r, echo=FALSE, results="hide"}
+## parameters
+a <- sample(2:9, 1)
+b <- sample(seq(2, 4, 0.1), 1)
+c <- sample(seq(0.5, 0.8, 0.01), 1)
+## solution
+res <- exp(b * c) * (a * c^(a-1) +
+       b * c^a)
+```
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <b>R/LaTeX</b>
+    <pre>
+<<echo=FALSE, results=hide>>=
+## parameters
+a <- sample(2:9, 1)
+b <- sample(seq(2, 4, 0.1), 1)
+c <- sample(seq(0.5, 0.8, 0.01), 1)
+## solution
+res <- exp(b * c) * (a * c^(a-1) +
+       b * c^a)
+@
+    </pre>
+  </div>
+</div>
+
+
+#### Question
+
+The question asks for the derivative of a particular function and simply inserts
+the parameters drawn above into the question template. (The solution is set up
+analogously in the exercise template but not shown here for brevity.)
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <b>R/Markdown</b>
+    <pre>
+Question
+========
+What is the derivative of
+$f(x) = x^{`r a`} e^{`r b` x}$,
+evaluated at $x = `r c`$?
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <b>R/LaTeX</b>
+    <pre>
+\begin{question}
+What is the derivative of
+$f(x) = x^{\Sexpr{a}} e^{\Sexpr{b}x}$,
+evaluated at $x = \Sexpr{c}$?
+\end{question}
+    </pre>
+  </div>
+</div>
+
+
+#### Meta-information
+
+Again, the meta-information lists `extype` (which is `num` for numeric exercises),
+`exsolution` (which is inserted dynamically from the variable `res` computed above),
+and a short `exname`. Additionally, the tolerance `extol` which is used for automatically
+evaluating answers, e.g., in an online test/exam.
+
+<div class='row t20 b20'>
+  <div class='medium-6 columns'>
+    <b>R/Markdown</b>
+    <pre>
+Meta-information
+================
+extype: num
+exsolution: `r fmt(res)`
+exname: derivative exp
+extol: 0.01
+    </pre>
+  </div>
+  <div class='medium-6 columns'>
+    <b>R/LaTeX</b>
+    <pre>
+
+
+\extype{num}
+\exsolution{\Sexpr{fmt(res)}}
+\exname{derivative exp}
+\extol{0.01}
+    </pre>
+  </div>
+</div>
