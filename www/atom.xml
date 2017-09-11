@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/</id>
 	<title>R/exams</title>
-	<updated>2017-09-12T00:36:57+02:00</updated>
+	<updated>2017-09-12T01:40:32+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -26,7 +26,7 @@
 	<link href="http://exams.R-Forge.R-project.org/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://exams.R-Forge.R-project.org/" rel="alternate" type="text/html" />
 
-	<generator uri="http://jekyllrb.com" version="3.4.2">Jekyll</generator>
+	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
 	
 		<entry>
@@ -500,7 +500,7 @@ extol: 0.01
 				</author>
 			
 			<summary>Installation guide for R itself and the R package &quot;exams&quot; as well as further open-source tools that are required for certain tasks.</summary>
-			<content type="html" xml:base="http://exams.R-Forge.R-project.org/tutorials/installation/">&lt;h2 id=&quot;1-r&quot;&gt;1. R&lt;/h2&gt;
+			<content type="html" xml:base="http://exams.R-Forge.R-project.org/tutorials/installation/">&lt;h2 id=&quot;r&quot;&gt;1. R&lt;/h2&gt;
 
 &lt;p&gt;The R/exams system is an extension for the
 &lt;a href=&quot;https://www.R-project.org&quot;&gt;R system for statistical computing&lt;/a&gt; and hence the
@@ -517,9 +517,8 @@ first installation step is the base R system.&lt;/p&gt;
 easier for most distributions to install the packaged binary. For example,
 on Debian/Ubuntu:&lt;/p&gt;
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install r-base-core r-base-dev
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install r-base-core r-base-dev
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -534,7 +533,7 @@ environment that facilitates many common tasks for R beginners.&lt;/p&gt;
 of RStudio.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;2-r-package-exams&quot;&gt;2. R package “exams”&lt;/h2&gt;
+&lt;h2 id=&quot;r-package-exams&quot;&gt;2. R package “exams”&lt;/h2&gt;
 
 &lt;p&gt;The core of R/exams is the open-source R package
 &lt;a href=&quot;https://CRAN.R-project.org/package=exams&quot;&gt;“exams”&lt;/a&gt;, also available from CRAN.
@@ -546,16 +545,14 @@ may provide some new features or small improvements.&lt;/p&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Stable version:&lt;/strong&gt;&lt;/p&gt;
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, dependencies = TRUE)
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, dependencies = TRUE)
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Development version:&lt;/strong&gt;&lt;/p&gt;
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -566,7 +563,7 @@ scanned PNG images), &lt;code class=&quot;highlighter-rouge&quot;&gt;RCurl&lt;/c
 JSON format), &lt;code class=&quot;highlighter-rouge&quot;&gt;rmarkdown&lt;/code&gt; (pandoc-based conversion), &lt;code class=&quot;highlighter-rouge&quot;&gt;tth&lt;/code&gt; (HTML output from
 R/LaTeX exercises).&lt;/p&gt;
 
-&lt;h2 id=&quot;3-latex&quot;&gt;3. LaTeX&lt;/h2&gt;
+&lt;h2 id=&quot;latex&quot;&gt;3. LaTeX&lt;/h2&gt;
 
 &lt;p&gt;For producing PDF output, the typesetting system LaTeX is used internally by R/exams.&lt;/p&gt;
 
@@ -578,7 +575,7 @@ repositories and can be installed in the “usual” way, typically using the
 &lt;a href=&quot;https://www.tug.org/texlive/&quot;&gt;TeX Live&lt;/a&gt; distribution.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;4-pandoc&quot;&gt;4. Pandoc&lt;/h2&gt;
+&lt;h2 id=&quot;pandoc&quot;&gt;4. Pandoc&lt;/h2&gt;
 
 &lt;p&gt;For certain conversions performed internally in R/exams, specifically when
 Markdown is involved, the universal document converter
@@ -588,9 +585,8 @@ pandoc is provided along with it and nothing else needs to be done.&lt;/p&gt;
 &lt;p&gt;Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install pandoc
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install pandoc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;optional-further-scanning-tools&quot;&gt;Optional: Further scanning tools&lt;/h2&gt;
 
@@ -615,9 +611,8 @@ ImageMagick’s &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Linux:&lt;/strong&gt; Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:&lt;/p&gt;
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install pdftk imagemagick
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;apt-get install pdftk imagemagick
+&lt;/code&gt;&lt;/pre&gt;    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;(Mac) OS X:&lt;/strong&gt; Not tested yet but presumably similar to Linux.&lt;/li&gt;
 &lt;/ul&gt;
