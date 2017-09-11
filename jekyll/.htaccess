@@ -1,1 +1,2 @@
 Redirect "/dev/" "/"
+Redirect "/dev" "/"
