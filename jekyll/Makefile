@@ -1,4 +1,4 @@
-target = ../www/dev
+target = ../www/
 
 .PHONY: dev
 dev: clean
