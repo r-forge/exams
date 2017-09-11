@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>R/exams: Written Exams</title>
+	<title>R/exams</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
 
@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="Manage large-scale written exams from generation to evaluation using R/exams." />
+	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
 
 	
 
@@ -42,16 +42,16 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="<img height='100%' src='../../images/vector/written.svg'> Written Exams" />
+	<meta property="og:title" content="R/exams" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//intro/written/" />
+	<meta property="og:url" content="http://www.R-exams.org//tag/Rmd/" />
 	<meta property="og:site_name" content="R/exams" />
-	<meta property="og:image" content="http://www.R-exams.org/images/olympia_side_zoom.150.jpg" />
+	
 
 	
 
 	<!-- Search Engine Optimization -->
-	
+	<meta name="robots" content="noindex" />
 
 	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
 
@@ -61,7 +61,7 @@
 </head>
 
 </head>
-<body id="top-of-page" class="post">
+<body id="top-of-page" class="">
 	
 	
 <div id="navigation" class="sticky">
@@ -284,146 +284,63 @@
 
 
 
-	<div class="row t30">
-	<div class="columns medium-10 medium-offset-1 end">
-		<article itemscope itemtype="http://schema.org/Article">
-			<header>
-				
-				<figure>
-					<img src="http://www.R-exams.org/images/olympia_side_zoom.title.jpg" width="970" alt="&lt;img height=&#39;100%&#39; src=&#39;../../images/vector/written.svg&#39;&gt; Written Exams" itemprop="image">
-
-					
-					<figcaption class="text-right">
-						R/exams photo (CC-BY).
-					</figcaption>
-					
-				</figure>
-				
-
-				<span itemprop="name">
-					<p class="subheadline">Large-Scale Pen-and-Paper Exams</p>
-					<h1><img height='100%' src='../../images/vector/written.svg'> Written Exams</h1>
-				</span>
-			</header>
+	<div class="row blog-index">
+	<div class="medium-10 medium-offset-1 columns t30">
+		
 
 
-			
-			<p class="teaser" itemprop="description">
-				Manage large-scale written exams from generation to evaluation using R/exams.
-			</p>
-			
 
-			<span itemprop="articleSection">
-			
-  
-  <div class='row t30'>
-    <div class='medium-3 columns'>
-      <img src="../../images/written-create.svg" alt="create"/>
-    </div>
-    <div class='medium-9 columns'>
-      <h6 id="create">1. Create</h6>
-<ul>
-  <li>Prepare a separate text file for each multiple-choice exercise.</li>
-  <li>Using <code class="highlighter-rouge">exams2nops()</code> from R/exams,
-create (individual) PDF files for each examinee.</li>
-</ul>
 
-    </div>
+
+
+
+
+
+<div class='row'>
+  <div class='small-12 columns b30'>
+    <h1>Tag: Rmd</h1>
   </div>
-  
-  <div class='row t30'>
-    <div class='medium-3 columns'>
-      <img src="../../images/written-print.svg" alt="print"/>
-    </div>
-    <div class='medium-9 columns'>
-      <h6 id="print">2. Print</h6>
-<ul>
-  <li>Print the PDF exams, e.g., on a standard printer.</li>
-  <li>…or for large exams at a print shop.</li>
-</ul>
-
-    </div>
-  </div>
-  
-  <div class='row t30'>
-    <div class='medium-3 columns'>
-      <img src="../../images/written-exam.svg" alt="exam"/>
-    </div>
-    <div class='medium-9 columns'>
-      <h6 id="exam">3. Exam</h6>
-<ul>
-  <li>Conduct the exam as usual.</li>
-  <li>Collect the completed exams sheets.</li>
-</ul>
-
-    </div>
-  </div>
-  
-  <div class='row t30'>
-    <div class='medium-3 columns'>
-      <img src="../../images/written-scan.svg" alt="scan"/>
-    </div>
-    <div class='medium-9 columns'>
-      <h6 id="scan">4. Scan</h6>
-<ul>
-  <li>Scan all exam sheets, e.g., on a photocopier.</li>
-  <li>Using <code class="highlighter-rouge">nops_scan()</code> from R/exams,
-process the scanned exam sheets to obtain machine-readable content.</li>
-</ul>
-
-    </div>
-  </div>
-  
-  <div class='row t30'>
-    <div class='medium-3 columns'>
-      <img src="../../images/written-evaluate.svg" alt="evaluate"/>
-    </div>
-    <div class='medium-9 columns'>
-      <h6 id="evaluate">5. Evaluate</h6>
-<ul>
-  <li>Using <code class="highlighter-rouge">nops_eval()</code> from R/exams,
-evaluate the exam to obtain marks, points, etc.
-and individual HTML reports for each participant.</li>
-  <li>Required files: Correct answers from Step 1, scans from Step 4, and a
-participant list in CSV format.</li>
-</ul>
-
-    </div>
-  </div>
-  
-
-
-<div class='row t30'>
 </div>
 
-<h2 id="blog">Blog</h2>
-
-<ul>
-  <li>Tutorial: <a href="http://www.R-exams.org/tutorials/installation/">Installing R/exams</a>.</li>
-  <li>Tutorial: <a href="http://www.R-exams.org/tutorials/first_steps/">First steps</a>.</li>
-  <li>Tutorial: <a href="http://www.R-exams.org/tutorials/exams2nops/">Written Multiple-Choice Exams with R/exams</a>.</li>
-  <li>Further <a href="http://www.R-exams.org/blog/">related blog posts</a>.</li>
-</ul>
 
 
 
-			</span>
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a></h2>
+        <a href="http://www.R-exams.org/tutorials/first_steps/" title="First Steps"><img src="http://www.R-exams.org/images/template.150.svg" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">tutorials</span>
+      </p>
+      
+      <p>
+      
+        First overview of the structure of R/exams, its exercise templates, and a first hands-on session.
+      
 
-			
+      <a href="http://www.R-exams.org/tutorials/first_steps/" title="Read First Steps"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
 
-			
 
-		</article>
+
+
+<nav id="pagination">
+    
 
     
 
+    
+</nav>
+
+
 	</div><!-- /.medium-8.columns -->
 
-
-	
-
-
-	
+  
 </div><!-- /.row -->
 
 

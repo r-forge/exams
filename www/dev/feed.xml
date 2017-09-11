@@ -9,6 +9,423 @@
 		<atom:link href="http://www.R-exams.org/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>First Steps</title>
+				<link>http://www.R-exams.org/tutorials/first_steps/</link>
+				<pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
+				<description>&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The basic idea of R/exams is to have a &lt;a href=&quot;http://www.R-exams.org/intro/oneforall/&quot;&gt;one-for-all exams generator&lt;/a&gt;
+where each &lt;a href=&quot;http://www.R-exams.org/intro/dynamic/&quot;&gt;exercise&lt;/a&gt; is a standalone file, so that the &lt;em&gt;same&lt;/em&gt; exercise can be
+rendered easily into a variety output formats such as 
+&lt;a href=&quot;http://www.R-exams.org/intro/elearning/&quot;&gt;e-learning systems&lt;/a&gt; or
+&lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written exams&lt;/a&gt;. To reduce the risk of cheating,
+R/exams offers different mechanisms for drawing random variations of exercises:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Randomly selecting one (or more) out of a set of exercises for each participant.&lt;/li&gt;
+  &lt;li&gt;Randomly shuffling answer alternatives in single-choice and multiple-choice questions.&lt;/li&gt;
+  &lt;li&gt;Randomly selecting numbers, text blocks, graphics, etc. using the &lt;a href=&quot;https://en.wikipedia.org/wiki/R_(programming_language)&quot;&gt;R programming language&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Each exercise (or rather “exercise template”) is a standalone file with up to four elements:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Data-generating process in R.&lt;/li&gt;
+  &lt;li&gt;Question text.&lt;/li&gt;
+  &lt;li&gt;Solution text.&lt;/li&gt;
+  &lt;li&gt;Meta-information: Type of question (single-choice, multiple-choice, numeric, string, or combinations thereof),
+correct solution, a name/label, etc.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Only the question (2) and the meta-information (4) are mandatory while data
+generation (1) and solution (3) are optional. Solutions can be used to either
+inform teachers about the correct solution for some randomly drawn exercise - 
+or for giving students feedback about how to solve a given exercise. Programming
+a good data-generating process is often the hardest part of authoring a new
+dynamic exercise but is, of course, crucial for drawing a very large number of
+random variations.&lt;/p&gt;
+
+&lt;p&gt;For formatting the text within question/solution (e.g., italics, bold face, lists, etc.)
+two options are available: &lt;a href=&quot;https://en.wikipedia.org/wiki/Markdown&quot;&gt;Markdown&lt;/a&gt; or
+&lt;a href=&quot;https://en.wikipedia.org/wiki/LaTeX&quot;&gt;LaTeX&lt;/a&gt;. The former is very easy to learn
+and recommended for authors who do not know LaTeX yet. If mathematic notation and
+formulas are needed, then LaTeX can be used - either within a LaTeX or also within
+a Markdown question. The file suffix for &lt;a href=&quot;http://rmarkdown.rstudio.com/&quot;&gt;R/Markdown&lt;/a&gt;
+is &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rmd&lt;/code&gt; while &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rnw&lt;/code&gt; is conventionally used for R/LaTeX, known as
+&lt;a href=&quot;http://leisch.userweb.mwn.de/Sweave/&quot;&gt;Sweave&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the following, a first session should help new R/exams users to explore the materials
+available and get a feeling for the workflow. Furthremore, two
+&lt;a href=&quot;http://www.R-exams.org/templates/&quot;&gt;exercise templates&lt;/a&gt; are shown in more detail:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;swisscapital&lt;/a&gt;: A static single-choice 
+knowledge quiz question where the only randomization is a subsampling of the presented
+alternatives.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.R-exams.org/templates/deriv/&quot;&gt;deriv&lt;/a&gt;: A dynamic airthmetic question about the
+product rule for derivatives where various numbers are drawn randomly in R.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;a-first-session&quot;&gt;A first session&lt;/h2&gt;
+
+&lt;p&gt;To explore what is available in R/exams two things are necessary: a couple of exercise
+templates to draw inspiration from, and some demo R scripts that illustrate how the
+different &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2xyz()&lt;/code&gt; functions can produce output in a variety of formats. (Here,
+&lt;code class=&quot;highlighter-rouge&quot;&gt;xyz&lt;/code&gt; is a &lt;em&gt;placeholder&lt;/em&gt; for the output format like &lt;code class=&quot;highlighter-rouge&quot;&gt;html&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;pdf&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;moodle&lt;/code&gt;, etc.)
+The function &lt;code class=&quot;highlighter-rouge&quot;&gt;exams_skeleton()&lt;/code&gt; is a helper function that generates exactly these
+materials in a specified folder. For example, when &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; has already been
+&lt;a href=&quot;http://www.R-exams.org/tutorials/installation/&quot;&gt;installed&lt;/a&gt;, the following can be carried out
+in R:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+exams_skeleton(markup = &amp;quot;markdown&amp;quot;, encoding = &amp;quot;UTF-8&amp;quot;,
+  writer = c(&amp;quot;exams2html&amp;quot;, &amp;quot;exams2pdf&amp;quot;, &amp;quot;exams2moodle&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This copies all R/Markdown files to the current working directory along with demo scripts,
+illustrating the usage of &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2html()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2pdf()&lt;/code&gt; for customizable HTML and
+PDF output, respectively, along with Moodle output via &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2moodle()&lt;/code&gt;. Specifically,
+the working directory then contains:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir()&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;demo-all.R&amp;quot;    &amp;quot;demo-html.R&amp;quot;   &amp;quot;demo-moodle.R&amp;quot; &amp;quot;demo-pdf.R&amp;quot;   
+## [5] &amp;quot;exercises&amp;quot;     &amp;quot;templates&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Simply open the demo script 
+&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-all.R&quot;&gt;demo-all.R&lt;/a&gt; for the first steps and then continue with
+more details in &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-html.R&quot;&gt;demo-html.R&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-pdf.R&quot;&gt;demo-pdf.R&lt;/a&gt;, or
+&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-moodle.R&quot;&gt;demo-moodle.R&lt;/a&gt;, respectively.
+More information about all the &lt;code class=&quot;highlighter-rouge&quot;&gt;exercises&lt;/code&gt; can be found in the
+&lt;a href=&quot;http://www.R-exams.org/templates/&quot;&gt;exercise template gallery&lt;/a&gt; online.&lt;/p&gt;
+
+&lt;h2 id=&quot;single-choice-swiss-capital&quot;&gt;Single-choice: Swiss capital&lt;/h2&gt;
+
+&lt;p&gt;Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative.
+4 out of the 6 false alternatives are sampled randomly and shuffled. Otherwise the
+exercise is static and contains no R code. Below the structure of the exercise is
+highlighted side-by-side in both &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rmd&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rnw&lt;/code&gt;, illustrating that the additional
+exercise markup is similar in spirit to the respective typesetting system.&lt;/p&gt;
+
+&lt;p&gt;To see what the output looks like, run the following code within R or take a look at
+&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;swisscapital&lt;/a&gt; in the exercise gallery.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
+    &lt;b&gt;Markdown&lt;/b&gt;&lt;br /&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/template-rmd.svg&quot; alt=&quot;Rmd&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
+    &lt;b&gt;LaTeX&lt;/b&gt;&lt;br /&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/template-rnw.svg&quot; alt=&quot;Rnw&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;pre&gt;
+library(&quot;exams&quot;)
+exams2html(&quot;swisscapital.Rmd&quot;)
+exams2pdf(&quot;swisscapital.Rmd&quot;)
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;pre&gt;
+library(&quot;exams&quot;)
+exams2html(&quot;swisscapital.Rnw&quot;)
+exams2pdf(&quot;swisscapital.Rnw&quot;)
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;question&quot;&gt;Question&lt;/h4&gt;
+
+&lt;p&gt;The question is straightforward and lists 7 answer alternatives.
+The correct solution (Bern) is declared in the meta-information below.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;Markdown&lt;/b&gt;
+    &lt;pre&gt;
+Question
+========
+What is the seat of the federal
+authorities in Switzerland
+(i.e., the de facto capital)?
+
+Answerlist
+----------
+* Basel
+* Bern
+* Geneva
+* Lausanne
+* Zurich
+* St. Gallen
+* Vaduz
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;LaTeX&lt;/b&gt;
+    &lt;pre&gt;
+
+\begin{question}
+What is the seat of the federal
+authorities in Switzerland
+(i.e., the de facto capital)?
+
+\begin{answerlist}
+  \item Basel
+  \item Bern
+  \item Geneva
+  \item Lausanne
+  \item Zurich
+  \item St.~Gallen
+  \item Vaduz
+\end{answerlist}
+\end{question}
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;solution&quot;&gt;Solution&lt;/h4&gt;
+
+&lt;p&gt;The optional solution can provide some general feedback (that explains
+why Bern is correct in this question) as well as more details for each
+answer alternative (only listing true/false here). It is also possible 
+to have &lt;em&gt;no solution&lt;/em&gt;, or &lt;em&gt;just a general text&lt;/em&gt;, or &lt;em&gt;just the answer list&lt;/em&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;Markdown&lt;/b&gt;
+    &lt;pre&gt;
+Solution
+========
+There is no de jure capital but
+the de facto capital and seat of
+the federal authorities is Bern.
+
+Answerlist
+----------
+* False
+* True
+* False
+* False
+* False
+* False
+* False
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;LaTeX&lt;/b&gt;
+    &lt;pre&gt;
+
+\begin{solution}
+There is no de jure capital but
+the de facto capital and seat of
+the federal authorities is Bern.
+
+\begin{answerlist}
+  \item False.
+  \item True.
+  \item False.
+  \item False.
+  \item False.
+  \item False.
+  \item False.
+\end{answerlist}
+\end{solution}
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;meta-information&quot;&gt;Meta-information&lt;/h4&gt;
+
+&lt;p&gt;In the meta-information, each exercise must specify at least an &lt;code class=&quot;highlighter-rouge&quot;&gt;extype&lt;/code&gt;,
+and an &lt;code class=&quot;highlighter-rouge&quot;&gt;exsolution&lt;/code&gt;, and should typically also have a short descriptive
+&lt;code class=&quot;highlighter-rouge&quot;&gt;exname&lt;/code&gt;. The type for single-choice questions is &lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt; and the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;exsolution&lt;/code&gt; is simply a binary coding of the 7 answer alternatives.
+For randomization, additionally &lt;code class=&quot;highlighter-rouge&quot;&gt;exshuffle&lt;/code&gt; is set to 5 so that 1 correct
+and 4 random wrong alternatives are subsampled and shuffled.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;Markdown&lt;/b&gt;
+    &lt;pre&gt;
+Meta-information
+================
+exname: Swiss Capital
+extype: schoice
+exsolution: 0100000
+exshuffle: 5
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;LaTeX&lt;/b&gt;
+    &lt;pre&gt;
+
+
+\exname{Swiss Capital}
+\extype{schoice}
+\exsolution{0100000}
+\exshuffle{5}
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;numeric-product-rule-for-derivatives&quot;&gt;Numeric: Product rule for derivatives&lt;/h2&gt;
+
+&lt;p&gt;Arithmetic question for computing the first derivative of a product function with
+two factors, using the product rule. The parameters of the function are drawn
+randomly in R and subsequently inserted into the question and the solution (which
+is not shown below for brevity). LaTeX is used for typesetting the mathematical
+formulas - both in the Markdown and the LaTeX version.&lt;/p&gt;
+
+&lt;p&gt;To see what the output looks like, run the following code within R or take a look at
+&lt;a href=&quot;http://www.R-exams.org/templates/deriv/&quot;&gt;deriv&lt;/a&gt; in the exercise gallery.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
+    &lt;b&gt;R/Markdown&lt;/b&gt;&lt;br /&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/template-rmd.svg&quot; alt=&quot;Rmd&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
+    &lt;b&gt;R/LaTeX&lt;/b&gt;&lt;br /&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/template-rnw.svg&quot; alt=&quot;Rnw&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;pre&gt;
+library(&quot;exams&quot;)
+exams2html(&quot;deriv.Rmd&quot;)
+exams2pdf(&quot;deriv.Rmd&quot;)
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;pre&gt;
+library(&quot;exams&quot;)
+exams2html(&quot;deriv.Rnw&quot;)
+exams2pdf(&quot;deriv.Rnw&quot;)
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;data-generation&quot;&gt;Data generation&lt;/h4&gt;
+
+&lt;p&gt;The R code simply draws the two parameters &lt;code class=&quot;highlighter-rouge&quot;&gt;a&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt; as well as the argument &lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;
+from a discrete uniform distribution. (See the question below for the actual function used.)
+Subsequently, the random numbers are inserted into the correct solution and storing
+it as &lt;code class=&quot;highlighter-rouge&quot;&gt;res&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;R/Markdown&lt;/b&gt;
+    &lt;pre&gt;
+```{r, echo=FALSE, results=&quot;hide&quot;}
+## parameters
+a &amp;lt;- sample(2:9, 1)
+b &amp;lt;- sample(seq(2, 4, 0.1), 1)
+c &amp;lt;- sample(seq(0.5, 0.8, 0.01), 1)
+## solution
+res &amp;lt;- exp(b * c) * (a * c^(a-1) +
+       b * c^a)
+```
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;R/LaTeX&lt;/b&gt;
+    &lt;pre&gt;
+&amp;lt;&amp;lt;echo=FALSE, results=hide&amp;gt;&amp;gt;=
+## parameters
+a &amp;lt;- sample(2:9, 1)
+b &amp;lt;- sample(seq(2, 4, 0.1), 1)
+c &amp;lt;- sample(seq(0.5, 0.8, 0.01), 1)
+## solution
+res &amp;lt;- exp(b * c) * (a * c^(a-1) +
+       b * c^a)
+@
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;question-1&quot;&gt;Question&lt;/h4&gt;
+
+&lt;p&gt;The question asks for the derivative of a particular function and simply inserts
+the parameters drawn above into the question template. (The solution is set up
+analogously in the exercise template but not shown here for brevity.)&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;R/Markdown&lt;/b&gt;
+    &lt;pre&gt;
+Question
+========
+What is the derivative of
+$f(x) = x^{6} e^{3.3 x}$,
+evaluated at $x = 0.79$?
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;R/LaTeX&lt;/b&gt;
+    &lt;pre&gt;
+\begin{question}
+What is the derivative of
+$f(x) = x^{\Sexpr{a}} e^{\Sexpr{b}x}$,
+evaluated at $x = \Sexpr{c}$?
+\end{question}
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;meta-information-1&quot;&gt;Meta-information&lt;/h4&gt;
+
+&lt;p&gt;Again, the meta-information lists &lt;code class=&quot;highlighter-rouge&quot;&gt;extype&lt;/code&gt; (which is &lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt; for numeric exercises),
+&lt;code class=&quot;highlighter-rouge&quot;&gt;exsolution&lt;/code&gt; (which is inserted dynamically from the variable &lt;code class=&quot;highlighter-rouge&quot;&gt;res&lt;/code&gt; computed above),
+and a short &lt;code class=&quot;highlighter-rouge&quot;&gt;exname&lt;/code&gt;. Additionally, the tolerance &lt;code class=&quot;highlighter-rouge&quot;&gt;extol&lt;/code&gt; which is used for automatically
+evaluating answers, e.g., in an online test/exam.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;R/Markdown&lt;/b&gt;
+    &lt;pre&gt;
+Meta-information
+================
+extype: num
+exsolution: 35.91
+exname: derivative exp
+extol: 0.01
+    &lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;medium-6 columns&quot;&gt;
+    &lt;b&gt;R/LaTeX&lt;/b&gt;
+    &lt;pre&gt;
+
+
+\extype{num}
+\exsolution{\Sexpr{fmt(res)}}
+\exname{derivative exp}
+\extol{0.01}
+    &lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+				<guid isPermaLink="true">http://www.R-exams.org/tutorials/first_steps/</guid>
+			</item>
+		
+			<item>
 				<title>Installing R/exams</title>
 				<link>http://www.R-exams.org/tutorials/installation/</link>
 				<pubDate>Sat, 09 Sep 2017 00:00:00 +0200</pubDate>
@@ -789,86 +1206,6 @@ set.seed(1090)
 exams2pdf(&amp;quot;regression.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 </description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/regression/</guid>
-			</item>
-		
-			<item>
-				<title>lm: Simple Linear Regression (with CSV Data)</title>
-				<link>http://www.R-exams.org/templates/lm/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lm&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/cloze/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cloze&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Bivariate numeric data for download in a CSV file (comma-separated values) need to be assessed using a simple linear regression (one single-choice and one numeric item).&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, data file, and graphics&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;regression.csv&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.Rnw&quot;&gt;lm.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.Rmd&quot;&gt;lm.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.tex&quot;&gt;lm.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm.md&quot;&gt;lm.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw-pdf.png&quot; alt=&quot;lm-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd-pdf.png&quot; alt=&quot;lm-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rnw-html.png&quot; alt=&quot;lm-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-lm//lm-Rmd-html.png&quot; alt=&quot;lm-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;lm.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;lm.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;lm.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;lm.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
-				<guid isPermaLink="true">http://www.R-exams.org/templates/lm/</guid>
 			</item>
 		
 	</channel>
