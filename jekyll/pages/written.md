@@ -67,6 +67,8 @@ workflow:
 
 ## Blog ##
 
-* Hands-on tutorial: [Written Multiple-Choice Exams with R/exams]({{ site.url }}/tutorials/exams2nops/).
+* Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
+* Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Tutorial: [Written Multiple-Choice Exams with R/exams]({{ site.url }}/tutorials/exams2nops/).
 * Further [related blog posts]({{ site.url }}/blog/).
 

@@ -54,4 +54,6 @@ workflow:
 
 ## Blog ##
 
+* Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
+* Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
 * [Blog archive]({{ site.url }}/blog/).
