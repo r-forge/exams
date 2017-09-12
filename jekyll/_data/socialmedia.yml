@@ -1,3 +1,40 @@
+- name: E-mail
+  url: mailto:info@R-exams.org
+  class: icon-mail
+  title: "General inquiries"
+
+# - name: CRAN
+#   url: https://CRAN.R-project.org/package=exams
+#   class: icon-cran
+#   title: "R package on CRAN"
+
+- name: Code
+  url: http://R-Forge.R-project.org/R/?group_id=1337
+  class: icon-code
+  title: "Source code management on R-Forge"
+
+- name: Forum
+  url: http://R-Forge.R-project.org/forum/?group_id=1337
+  class: icon-chat
+  title: "Discussion forum on R-Forge"
+
+# - name: StackOverflow
+#   url: https://StackOverflow.com/questions/tagged/exams
+#   class: icon-stackoverflow
+#   title: "Ask questions on StackOverflow (tag: exams)"
+
+- name: Twitter
+  url: http://twitter.com/AchimZeileis
+  class: icon-twitter
+  title: "@AchimZeileis on Twitter"
+
+# - name: Bug reports
+#   url: mailto:bugs@R-exams.org
+#   class: icon-bug
+#   title: "Bug reports"
+
+###
+
 # - name: GitHub
 #   url: http://github.com/
 #   class: icon-github
@@ -6,11 +43,6 @@
 # - name: YouTube
 #   url: http://www.youtube.com/
 #   class: icon-youtube
-#   title: ""
-
-# - name: Twitter
-#   url: http://twitter.com/
-#   class: icon-twitter
 #   title: ""
 
 # - name: Mixcloud
