@@ -430,7 +430,7 @@ evaluating answers, e.g., in an online test/exam.
 Meta-information
 ================
 extype: num
-exsolution: 35.91
+exsolution: `r fmt(res)`
 exname: derivative exp
 extol: 0.01
     </pre>
