@@ -12,7 +12,6 @@ title: "R/exams"
 
 
 # The slogan describes your website and is used on homepage in <title> and other important places
-# TODO: This is not the same as in the logo
 slogan: "The One-for-All Exams Generator"
 
 
@@ -38,7 +37,7 @@ improve_content:
 # Example: <img src="{{ site.urlimg }}{{ post.image.title }}" />
 # Markdown-Example for posts ![Image Text]({{ site.urlimg }}image.jpg)
 #
-urlimg: 'http://www.R-exams.org/images'
+urlimg: 'http://exams.R-Forge.R-project.org/images'
 
 
 # Logo size (used to be 600x80 pixels)
