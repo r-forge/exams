@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://exams.R-Forge.R-project.org/</id>
 	<title>R/exams</title>
-	<updated>2017-09-12T16:54:14+02:00</updated>
+	<updated>2017-09-12T17:01:53+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -442,7 +442,7 @@ evaluating answers, e.g., in an online test/exam.&lt;/p&gt;
 Meta-information
 ================
 extype: num
-exsolution: 35.91
+exsolution: `r fmt(res)`
 exname: derivative exp
 extol: 0.01
     &lt;/pre&gt;
