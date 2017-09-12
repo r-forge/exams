@@ -9,8 +9,8 @@
 			<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>RSS Feed (Styled)</title>
-	<link rel="stylesheet" type="text/css" href="http://exams.R-Forge.R-project.org/assets/css/styles_feeling_responsive.css" />
-	<script src="http://exams.R-Forge.R-project.org/assets/js/modernizr.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
   <script>
@@ -49,7 +49,7 @@
 	
 	<meta property="og:title" content="RSS Feed (Styled)" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://exams.R-Forge.R-project.org//assets/xslt/rss.xslt" />
+	<meta property="og:url" content="http://www.R-exams.org//assets/xslt/rss.xslt" />
 	<meta property="og:site_name" content="R/exams" />
 	
 
@@ -58,7 +58,7 @@
 	<!-- Search Engine Optimization -->
 	
 
-	<link type="text/plain" rel="author" href="http://exams.R-Forge.R-project.org/humans.txt" />
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
 
 	
 
@@ -74,10 +74,10 @@
   <nav class="top-bar" role="navigation" data-topbar>
     <ul class="title-area">
       <li class="name">
-          <a href="http://exams.R-Forge.R-project.org">
-            <img class='nav-logo' src="http://exams.R-Forge.R-project.org/assets/img/logo.svg" alt="R/exams">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
           </a>
-          <!-- <h1 class="show-for-small-only"><a href="http://exams.R-Forge.R-project.org" class="icon-tree"> R/exams</a></h1> -->
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
       </li>
        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
       <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
@@ -96,29 +96,29 @@
             
 
               <li class="has-dropdown">
-                <a href="http://exams.R-Forge.R-project.org/">R/exams</a>
+                <a href="http://www.R-exams.org/">R/exams</a>
 
                   <ul class="dropdown">
                     
 
                       
 
-                      <li><a href="http://exams.R-Forge.R-project.org/intro/elearning/">E-Learning</a></li>
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
                     
 
                       
 
-                      <li><a href="http://exams.R-Forge.R-project.org/intro/oneforall/">One-for-All</a></li>
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
                     
 
                       
 
-                      <li><a href="http://exams.R-Forge.R-project.org/intro/written/">Written Exams</a></li>
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
                     
 
                       
 
-                      <li><a href="http://exams.R-Forge.R-project.org/intro/dynamic/">Dynamic Exercises</a></li>
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
                     
                   </ul>
 
@@ -135,7 +135,7 @@
 
             
             
-              <li><a href="http://exams.R-Forge.R-project.org/tutorials/">Tutorials</a></li>
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
               <li class="divider"></li>
 
             
@@ -150,7 +150,7 @@
 
             
             
-              <li><a href="http://exams.R-Forge.R-project.org/templates/">Exercise Templates</a></li>
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
               <li class="divider"></li>
 
             
@@ -165,7 +165,7 @@
 
             
             
-              <li><a href="http://exams.R-Forge.R-project.org/blog/">Blog</a></li>
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
               <li class="divider"></li>
 
             
@@ -227,7 +227,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/resources/">Resources</a></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
 
             
             
@@ -241,7 +241,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/contact/">Contact</a></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
 
             
             
@@ -255,7 +255,7 @@
             
             
               <li class="divider"></li>
-              <li><a href="http://exams.R-Forge.R-project.org/search/">Search</a></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
 
             
             
@@ -272,8 +272,8 @@
 <!-- <div id="masthead-no-image-header"> -->
 	<!-- <div class="row"> -->
 		<!-- <div class="small-12 columns"> -->
-			<!-- <a id="logo" href="http://exams.R-Forge.R-project.org" title="R/exams – The One-for-All Exams Generator"> -->
-				<!-- <img src="http://exams.R-Forge.R-project.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
 			<!-- </a> -->
 		<!-- </div>[> /.small-12.columns <] -->
 	<!-- </div>[> /.row <] -->
@@ -352,7 +352,7 @@
 
             <p class="shadow-black">
               Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
-              <!-- <a href="http://exams.R-Forge.R-project.org/about/">More ›</a> -->
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
             </p>
           </div><!-- /.large-6.columns -->
 
@@ -468,8 +468,8 @@
 		
 
 
-<script src="http://exams.R-Forge.R-project.org/assets/js/javascript.min.js"></script>
-<script src="http://exams.R-Forge.R-project.org/assets/js/slick.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
 
 
 
