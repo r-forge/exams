@@ -25,7 +25,7 @@ author: zeileis
 
 # This URL is the main address for absolute links. Don't include a slash at the end.
 #
-url: 'http://exams.R-Forge.R-project.org'
+url: 'http://www.R-exams.org'
 baseurl: ''
 
 # This is for the editing function in _/includes/improve_content
@@ -38,7 +38,7 @@ improve_content:
 # Example: <img src="{{ site.urlimg }}{{ post.image.title }}" />
 # Markdown-Example for posts ![Image Text]({{ site.urlimg }}image.jpg)
 #
-urlimg: 'http://exams.R-Forge.R-project.org/images/'
+urlimg: 'http://www.R-exams.org/images'
 
 
 # Logo size (used to be 600x80 pixels)
@@ -110,7 +110,7 @@ defaults:
       show_meta: false 	# Hide metadata for all pages
       # sidebar:    		# Possible values › left, right › by default there will be no sidebar
       comments: false
-      author: keller     # Default author for pages
+      author: zeileis     # Default author for pages
   -
     scope:
       path: ""
@@ -119,7 +119,7 @@ defaults:
       show_meta: true   # Show metadata for all posts
       # sidebar:        # Possible values › left, right › by default there will be no sidebar
       comments: false
-      author: keller     # Default author for posts
+      author: zeileis     # Default author for posts
 
 
 
