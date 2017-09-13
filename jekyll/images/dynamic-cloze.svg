@@ -136,7 +136,7 @@
              id="rect12080-7-4-9" />
           <g
              id="g12126-3-4-7"
-             transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,851.68353,-617.51148)"
+             transform="rotate(45,1195.8216,709.13687)"
              style="fill:#1f7a7a;fill-opacity:1">
             <rect
                y="724.01398"
@@ -146,7 +146,7 @@
                id="rect12109-6-4-5"
                style="opacity:1;fill:#1f7a7a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
             <rect
-               transform="matrix(0,1,-1,0,0,0)"
+               transform="rotate(90)"
                y="-1153.2589"
                x="719.86218"
                height="4.4642859"
