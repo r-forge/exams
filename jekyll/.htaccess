@@ -1,2 +1,6 @@
 Redirect "/dev/" "/"
 Redirect "/dev" "/"
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} !^www\.r-exams\.org
+RewriteRule ^(.*)$ http://www.r-exams.org/$1 [R=301,L]
