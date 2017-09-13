@@ -6,6 +6,7 @@
   font-family: "iconfont";
   src: url("./iconfont.eot");
   src: url("./iconfont.eot?#iefix") format("embedded-opentype"),
+       url("./iconfont.woff2") format("woff2"),
        url("./iconfont.woff") format("woff"),
        url("./iconfont.ttf") format("truetype"),
        url("./iconfont.svg#iconfont") format("svg");
@@ -25,6 +26,7 @@
 [data-icon]:before,
 .icon-archive:before,
 .icon-browser:before,
+.icon-bug:before,
 .icon-calendar:before,
 .icon-camera:before,
 .icon-chat:before,
@@ -39,6 +41,7 @@
 .icon-cloud:before,
 .icon-code:before,
 .icon-cog:before,
+.icon-cran:before,
 .icon-dropbox:before,
 .icon-edit:before,
 .icon-export:before,
@@ -64,6 +67,7 @@
 .icon-rocket:before,
 .icon-rss:before,
 .icon-soundcloud:before,
+.icon-stackoverflow:before,
 .icon-star:before,
 .icon-star-outlined:before,
 .icon-thumbs-down:before,
@@ -93,6 +97,7 @@
 
 .icon-archive:before { content: "\f100"; }
 .icon-browser:before { content: "\f101"; }
+.icon-bug:before { content: "\f136"; }
 .icon-calendar:before { content: "\f133"; }
 .icon-camera:before { content: "\f102"; }
 .icon-chat:before { content: "\f103"; }
@@ -107,6 +112,7 @@
 .icon-cloud:before { content: "\f10c"; }
 .icon-code:before { content: "\f10d"; }
 .icon-cog:before { content: "\f10e"; }
+.icon-cran:before { content: "\f137"; }
 .icon-dropbox:before { content: "\f10f"; }
 .icon-edit:before { content: "\f110"; }
 .icon-export:before { content: "\f111"; }
@@ -132,6 +138,7 @@
 .icon-rocket:before { content: "\f125"; }
 .icon-rss:before { content: "\f126"; }
 .icon-soundcloud:before { content: "\f127"; }
+.icon-stackoverflow:before { content: "\f138"; }
 .icon-star:before { content: "\f128"; }
 .icon-star-outlined:before { content: "\f129"; }
 .icon-thumbs-down:before { content: "\f12a"; }

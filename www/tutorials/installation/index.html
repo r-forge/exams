@@ -314,7 +314,7 @@
 			
 
 			<span itemprop="articleSection">
-			<h2 id="r">1. R</h2>
+			<h2 id="1-r">1. R</h2>
 
 <p>The R/exams system is an extension for the
 <a href="https://www.R-project.org">R system for statistical computing</a> and hence the
@@ -331,8 +331,9 @@ first installation step is the base R system.</p>
 easier for most distributions to install the packaged binary. For example,
 on Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>apt-get install r-base-core r-base-dev
-</code></pre>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
+</code></pre>
+    </div>
   </li>
 </ul>
 
@@ -347,7 +348,7 @@ environment that facilitates many common tasks for R beginners.</p>
 of RStudio.</li>
 </ul>
 
-<h2 id="r-package-exams">2. R package “exams”</h2>
+<h2 id="2-r-package-exams">2. R package “exams”</h2>
 
 <p>The core of R/exams is the open-source R package
 <a href="https://CRAN.R-project.org/package=exams">“exams”</a>, also available from CRAN.
@@ -359,14 +360,16 @@ may provide some new features or small improvements.</p>
   <li>
     <p><strong>Stable version:</strong></p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>install.packages("exams", dependencies = TRUE)
-</code></pre>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
+</code></pre>
+    </div>
   </li>
   <li>
     <p><strong>Development version:</strong></p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
-</code></pre>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
+</code></pre>
+    </div>
   </li>
 </ul>
 
@@ -377,7 +380,7 @@ scanned PNG images), <code class="highlighter-rouge">RCurl</code> (ARSnova: post
 JSON format), <code class="highlighter-rouge">rmarkdown</code> (pandoc-based conversion), <code class="highlighter-rouge">tth</code> (HTML output from
 R/LaTeX exercises).</p>
 
-<h2 id="latex">3. LaTeX</h2>
+<h2 id="3-latex">3. LaTeX</h2>
 
 <p>For producing PDF output, the typesetting system LaTeX is used internally by R/exams.</p>
 
@@ -389,7 +392,7 @@ repositories and can be installed in the “usual” way, typically using the
 <a href="https://www.tug.org/texlive/">TeX Live</a> distribution.</li>
 </ul>
 
-<h2 id="pandoc">4. Pandoc</h2>
+<h2 id="4-pandoc">4. Pandoc</h2>
 
 <p>For certain conversions performed internally in R/exams, specifically when
 Markdown is involved, the universal document converter
@@ -399,8 +402,9 @@ pandoc is provided along with it and nothing else needs to be done.</p>
 <p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>apt-get install pandoc
-</code></pre></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pandoc
+</code></pre>
+</div>
 
 <h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
 
@@ -425,8 +429,9 @@ ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
   <li>
     <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>apt-get install pdftk imagemagick
-</code></pre>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pdftk imagemagick
+</code></pre>
+    </div>
   </li>
   <li><strong>(Mac) OS X:</strong> Not tested yet but presumably similar to Linux.</li>
 </ul>
@@ -606,11 +611,17 @@ exercise template gallery, e.g., <a href="http://www.R-exams.org/templates/dist"
             
               <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
             
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
               <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
             
               <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
             
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
               <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+              <li><a href="mailto:bugs@R-exams.org" target="_blank" class="icon-bug" title="Bug reports"></a></li>
             
             </ul>
           </section>
