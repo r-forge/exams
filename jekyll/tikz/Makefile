@@ -6,7 +6,7 @@ custom = mini.svg
 
 .PHONY: all install
 
-all : ${custom} ${assets.img} ${images.vector} latexclean
+all : ${custom} ${images.vector} latexclean
 
 install: all
 	cp ${images.vector} ../images/vector/
