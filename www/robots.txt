@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: http://www.R-exams.org/sitemap.xml
+Sitemap: http://r-exams.org/sitemap.xml
