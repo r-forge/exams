@@ -3,10 +3,10 @@
   class: icon-mail
   title: "General inquiries"
 
-# - name: CRAN
-#   url: https://CRAN.R-project.org/package=exams
-#   class: icon-cran
-#   title: "R package on CRAN"
+- name: CRAN
+  url: https://CRAN.R-project.org/package=exams
+  class: icon-cran
+  title: "R package on CRAN"
 
 - name: Code
   url: http://R-Forge.R-project.org/R/?group_id=1337
@@ -18,20 +18,20 @@
   class: icon-chat
   title: "Discussion forum on R-Forge"
 
-# - name: StackOverflow
-#   url: https://StackOverflow.com/questions/tagged/exams
-#   class: icon-stackoverflow
-#   title: "Ask questions on StackOverflow (tag: exams)"
+- name: StackOverflow
+  url: https://StackOverflow.com/questions/tagged/exams
+  class: icon-stackoverflow
+  title: "Ask questions on StackOverflow (tag: exams)"
 
 - name: Twitter
   url: http://twitter.com/AchimZeileis
   class: icon-twitter
   title: "@AchimZeileis on Twitter"
 
-# - name: Bug reports
-#   url: mailto:bugs@R-exams.org
-#   class: icon-bug
-#   title: "Bug reports"
+- name: Bug reports
+  url: mailto:bugs@R-exams.org
+  class: icon-bug
+  title: "Bug reports"
 
 ###
 

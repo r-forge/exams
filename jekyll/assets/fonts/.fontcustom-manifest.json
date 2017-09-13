@@ -1,13 +1,14 @@
 {
   "checksum": {
-    "previous": "c5cdc0a58b7277d1f320a4ad50aa8ae2ad47fa6ed879c164db1cfb75439bd1d9",
-    "current": "c5cdc0a58b7277d1f320a4ad50aa8ae2ad47fa6ed879c164db1cfb75439bd1d9"
+    "previous": "f5bf1e3731f034819278e29496d7655b33f79f59532c5d3155dbc41c40180b98",
+    "current": "f5bf1e3731f034819278e29496d7655b33f79f59532c5d3155dbc41c40180b98"
   },
   "fonts": [
     "./iconfont.ttf",
     "./iconfont.svg",
     "./iconfont.woff",
-    "./iconfont.eot"
+    "./iconfont.eot",
+    "./iconfont.woff2"
   ],
   "glyphs": {
     "archive": {
@@ -17,6 +18,10 @@
     "browser": {
       "codepoint": 61697,
       "source": "svg-files-for-custom-font/browser.svg"
+    },
+    "bug": {
+      "codepoint": 61750,
+      "source": "svg-files-for-custom-font/bug.svg"
     },
     "calendar": {
       "codepoint": 61747,
@@ -73,6 +78,10 @@
     "cog": {
       "codepoint": 61710,
       "source": "svg-files-for-custom-font/cog.svg"
+    },
+    "cran": {
+      "codepoint": 61751,
+      "source": "svg-files-for-custom-font/cran.svg"
     },
     "dropbox": {
       "codepoint": 61711,
@@ -174,6 +183,10 @@
       "codepoint": 61735,
       "source": "svg-files-for-custom-font/soundcloud.svg"
     },
+    "stackoverflow": {
+      "codepoint": 61752,
+      "source": "svg-files-for-custom-font/stackoverflow.svg"
+    },
     "star": {
       "codepoint": 61736,
       "source": "svg-files-for-custom-font/star.svg"
@@ -230,6 +243,8 @@
   "options": {
     "autowidth": false,
     "config": "fontcustom.yml",
+    "copyright": "",
+    "css3": false,
     "css_selector": ".icon-{{glyph}}",
     "debug": false,
     "font_ascent": 448,
