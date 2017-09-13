@@ -28,10 +28,10 @@
   class: icon-twitter
   title: "@AchimZeileis on Twitter"
 
-- name: Bug reports
-  url: mailto:bugs@R-exams.org
-  class: icon-bug
-  title: "Bug reports"
+# - name: Bug reports
+#   url: mailto:bugs@R-exams.org
+#   class: icon-bug
+#   title: "Bug reports"
 
 ###
 
