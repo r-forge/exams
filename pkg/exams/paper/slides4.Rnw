@@ -1,0 +1,64 @@
+\documentclass[11pt,t,usepdftitle=false,aspectratio=169]{beamer}
+\usetheme[nototalframenumber,logo,license]{rexams}
+
+\title[R/exams]{R/exams: A One-for-All Exams Generator}
+\subtitle{Written Exams, Online Tests, and Live Quizzes with R}
+\author[Achim Zeileis]{Achim Zeileis}
+
+%% no \usepackage{Sweave}
+
+\begin{document}
+
+\headerimage{1}
+\section{E-Learning}
+
+\headerimage{3}
+\section{Written Exams}
+
+\headerimage{4}
+\section{Dynamic Exercises}
+
+\subsection{Overview}
+
+\begin{frame}
+\frametitle{E-Learning}
+
+\includegraphics[width=0.32\textwidth]{elearning-goal}\hfill
+\includegraphics[width=0.32\textwidth]{elearning-create}\hfill
+\includegraphics[width=0.32\textwidth]{elearning-import}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{One-for-all}
+
+\includegraphics[width=0.5\textwidth]{oneforall}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Written exams}
+
+\includegraphics[width=0.32\textwidth]{written-create}\hfill
+\includegraphics[width=0.32\textwidth]{written-print}\hfill
+\includegraphics[width=0.32\textwidth]{written-exam}
+
+\includegraphics[width=0.32\textwidth]{written-scan}\hfill
+\includegraphics[width=0.32\textwidth]{written-evaluate}\hfill\hspace{0.32\textwidth}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Dynamic exercises}
+
+\includegraphics[width=0.32\textwidth]{dynamic-schoice}\hfill
+\includegraphics[width=0.32\textwidth]{dynamic-num}\hfill
+\includegraphics[width=0.32\textwidth]{dynamic-cloze}
+
+\includegraphics[width=0.32\textwidth]{dynamic-mchoice}\hfill
+\includegraphics[width=0.32\textwidth]{dynamic-string}\hfill\hspace{0.32\textwidth}
+
+\end{frame}
+
+\end{document}
+
