@@ -72,6 +72,7 @@ exclude:
     - vendor
     - tikz
     - rmd
+    - inkscape
     - misc
     - .bundle
 
@@ -89,7 +90,7 @@ compress_html:
   profile: false
   ignore:
     envs: [development]
-    originals: [originals]
+    inkscape: [SVG originals]
 
 
 #
