@@ -13,14 +13,13 @@ permalink: "/intro/oneforall/"
 #
 image:
   # shown on top of blog post
-  title: unsplash_helloquence-61189.big.jpg
+  title: oneforall.title.jpg
   # preview in list of posts
-  thumb: unsplash_helloquence-61189.150.jpg
+  thumb: oneforall.150.jpg
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "Photo from unsplash."
-  caption_url: "https://unsplash.com/"
+  caption: "R/exams photo (CC-BY)."
 ---
 
 #### Overview
