@@ -13,9 +13,9 @@ permalink: "/intro/oneforall/"
 #
 image:
   # shown on top of blog post
-  title: oneforall.title.jpg
+  title: moodle-arsnova-nops.title.jpg
   # preview in list of posts
-  thumb: oneforall.150.jpg
+  thumb: moodle-arsnova-nops.150.jpg
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
