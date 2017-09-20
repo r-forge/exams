@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-09-20T20:58:56+02:00</updated>
+	<updated>2017-09-20T23:27:10+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -28,6 +28,305 @@
 
 	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
+	
+		<entry>
+			<id>http://www.R-exams.org/tutorials/exams2nops/</id>
+			<title>Written Multiple-Choice Exams with R/exams</title>
+			<link href="http://www.R-exams.org/tutorials/exams2nops/" rel="alternate" type="text/html" title="Written Multiple-Choice Exams with R/exams" />
+			<updated>2017-09-18T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/tutorials/exams2nops/">&lt;h2 id=&quot;create-exam&quot;&gt;Create exam&lt;/h2&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+
+&lt;p&gt;The first step in conducting a &lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
+(and/or single-choice) exercises in R/exams&#39; NOPS format is to create the exam in PDF format.
+First, we load the R `exams` package and then simply create a list of exercise file names.&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/written-create.svg&quot; alt=&quot;create&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+myexam &amp;lt;- list(
+  &amp;quot;tstat2.Rnw&amp;quot;,
+  &amp;quot;ttest.Rnw&amp;quot;,
+  &amp;quot;relfreq.Rnw&amp;quot;,
+  &amp;quot;anova.Rnw&amp;quot;,
+  c(&amp;quot;boxplots.Rnw&amp;quot;, &amp;quot;scatterplot.Rnw&amp;quot;),
+  &amp;quot;cholesky.Rnw&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here, we use a number of &lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt; questions that are directly shipped
+within the package. In practice, you would use files that you have authored and stored
+somewhere locally. Above, exercises in .Rnw format are used but all of the examples
+are also available in .Rmd format, leading to virtually identical output.&lt;/p&gt;
+
+&lt;p&gt;Then, we create a small exam with only &lt;code class=&quot;highlighter-rouge&quot;&gt;n = 2&lt;/code&gt; randomly-drawn versions, storing the
+resulting PDF files (plus metainformation) on the disk in a new output directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_pdf&lt;/code&gt;.
+To customize the exam we assign a different number of points to the different exercises
+and also show the respective number of points at the beginning of each question.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;set.seed(403)
+ex1 &amp;lt;- exams2nops(myexam, n = 2,
+  dir = &amp;quot;nops_pdf&amp;quot;, name = &amp;quot;demo&amp;quot;, date = &amp;quot;2015-07-29&amp;quot;,
+  points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A random seed is set to make the generated exams exactly reproducible for you
+(or ourselves at some point in the future). The output directory now contains three files
+that were generated.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_pdf&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;demo.rds&amp;quot;  &amp;quot;demo1.pdf&amp;quot; &amp;quot;demo2.pdf&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The two PDF files are the two exams we requested above.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo1.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo1.png&quot; alt=&quot;demo1.pdf&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo2.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo2.png&quot; alt=&quot;demo2.pdf&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
+answer alternatives) is stored in a &lt;code class=&quot;highlighter-rouge&quot;&gt;demo.rds&lt;/code&gt; file (serialized R data). This crucial
+for being able to evaluate the exam later on.&lt;/p&gt;
+
+&lt;h2 id=&quot;print-pdf-files&quot;&gt;Print PDF files&lt;/h2&gt;
+
+&lt;div class=&quot;row t20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A small number of exams can easily be printed on a standard printer.
+    Otherwise simply use a print shop.&lt;/li&gt;
+  &lt;li&gt;It is recommended &lt;em&gt;not&lt;/em&gt; to scale the printout (i.e., without &quot;Fit to printable area&quot;)
+    and to staple the exams in the top-left corner.&lt;/li&gt;
+  &lt;li&gt;By default the PDFs from &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; have a blank second page for
+    duplex printing (without content on the back of the exam sheet). For non-duplex printing
+    simply set &lt;code class=&quot;highlighter-rouge&quot;&gt;duplex = FALSE&lt;/code&gt; when creating the PDFs
+    with &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/written-print.svg&quot; alt=&quot;print&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;conduct-exam&quot;&gt;Conduct exam&lt;/h2&gt;
+
+&lt;div class=&quot;row t20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+
+&lt;p&gt;The exam is conducted as usual. But if you used the possibilities of
+&lt;a href=&quot;http://www.R-exams.org/intro/dynamic/&quot;&gt;dynamic exercises&lt;/a&gt;
+in R/exams, the risk of cheating is greatly reduced.
+
+At the end of the exam you just need to collect the completed exam sheet (first page).
+Of course, you can also collect the rest of the exam papers (e.g., to keep future students from
+seeing the exercises). However, an advantage of letting the students keep their exercises
+reduces the need of having post-exam reviews etc.&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/written-exam.svg&quot; alt=&quot;exam&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;scan-results&quot;&gt;Scan results&lt;/h2&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+
+&lt;p&gt;Each completed exam sheet has information on the exam ID, student ID, and the
+checked answers. This needs to be scanned into images (PDF or PNG) and can then
+be processed by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;.
+
+Typically, it&#39;s easy to use the photocopiers provided by your university to scan
+all sheets into PDF or PNG files. For example, our university provides us with
+Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
+render them into a single PDF file.&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/written-scan.svg&quot; alt=&quot;scan&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Practical recommendations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The scanned images become smaller in size if the images are read in just black/white
+(or grayscale). This may sometimes even facilitate extracting the information (see below).&lt;/li&gt;
+  &lt;li&gt;If the exams were stapled in the top-left corner (see above) the sheet feeder often
+works better if the sheets are rotated by 180 degrees (so that the damaged corner
+is not fed first into the machine). This often improves the scanning results
+considerably and can be accomodated by setting &lt;code class=&quot;highlighter-rouge&quot;&gt;rotate = TRUE&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;
+below.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For demonstration, we use two completed demo sheets that are provided along with
+the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and copy them to a dedicated directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;img &amp;lt;- dir(system.file(&amp;quot;nops&amp;quot;, package = &amp;quot;exams&amp;quot;), pattern = &amp;quot;nops_scan&amp;quot;,
+  full.names = TRUE)
+dir.create(&amp;quot;nops_scan&amp;quot;)
+file.copy(img, to = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan1.png&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan1-thumb.png&quot; alt=&quot;nops_scan1.png&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan2.png&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan2-thumb.png&quot; alt=&quot;nops_scan2.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;(Note that the first scanned image corresponds to one of the PDFs above while
+the other one was generated with custom title/logo/language/etc.)&lt;/p&gt;
+
+&lt;p&gt;Using the function &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; we can now read all scanned images (i.e.,
+all locally available PNG and/or PDF files) and collect everything in a ZIP file.
+(Note that if there were PDF files that need to be scanned, then the
+PDF toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and the function &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt; from ImageMagick need to be
+available outside of R on the command line.)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;nops_scan(dir = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan_20170810004404.zip&amp;quot; &amp;quot;nops_scan1.png&amp;quot;              
+## [3] &amp;quot;nops_scan2.png&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting file &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan_20170810004404.zip&quot;&gt;nops_scan_20170810004404.zip&lt;/a&gt; contains copies of the
+PNG files along with a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; (for historical reasons) that
+contains the scanned information in machine-readable from.&lt;/p&gt;
+
+&lt;p&gt;See &lt;code class=&quot;highlighter-rouge&quot;&gt;?nops_scan&lt;/code&gt; for more details, e.g., multicore support or options for
+rotating PDF files prior to scanning.&lt;/p&gt;
+
+&lt;h2 id=&quot;evaluate-results&quot;&gt;Evaluate results&lt;/h2&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+
+&lt;p&gt;In the previous scanning step the exam sheets have just been &lt;em&gt;read&lt;/em&gt; but not
+yet &lt;em&gt;evaluated&lt;/em&gt;, i.e., it has not yet been assessed which questions were answered
+(partially) correctly and which were wrong, and no points have been assigned.
+Therefore, we use &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; to carry out these computations and to make
+the results available - both in a format easy to read for machines (a CSV file)
+and a format for humans (one HTML page for each student).&lt;/p&gt;
+
+  &lt;/div&gt;
+  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/written-evaluate.svg&quot; alt=&quot;evaluate&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To do so, three files are required:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;An RDS file with the exam meta-information, generated by &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; above.&lt;/li&gt;
+  &lt;li&gt;A ZIP file with the scanned sheets, generated by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; above.&lt;/li&gt;
+  &lt;li&gt;A CSV file (semicolon-separated values) with the student infomation (registration number, name, and some
+ID or username). In practice, this CSV file will typically be processed from some
+registration service or learning management system etc. However, here we simply
+create a suitable CSV file on the fly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;write.table(data.frame(
+  registration = c(&amp;quot;1501090&amp;quot;, &amp;quot;9901071&amp;quot;),
+  name = c(&amp;quot;Jane Doe&amp;quot;, &amp;quot;Ambi Dexter&amp;quot;),
+  id = c(&amp;quot;jane_doe&amp;quot;, &amp;quot;ambi_dexter&amp;quot;)
+), file = &amp;quot;Exam-2015-07-29.csv&amp;quot;, sep = &amp;quot;;&amp;quot;, quote = FALSE, row.names = FALSE)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting file is &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29.csv&quot;&gt;Exam-2015-07-29.csv&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now the exam can be evaluated creating an output data frame (also stored
+as a CSV file) and individual HTML reports (stored in a ZIP file). Here, we
+employ an evaluation scheme without partial points in the multiple-choice questions
+and differing points across questions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1 &amp;lt;- nops_eval(
+  register = &amp;quot;Exam-2015-07-29.csv&amp;quot;,
+  solutions = &amp;quot;nops_pdf/demo.rds&amp;quot;,
+  scans = Sys.glob(&amp;quot;nops_scan/nops_scan_*.zip&amp;quot;),
+  eval = exams_eval(partial = FALSE, negative = FALSE),
+  interactive = FALSE
+)
+dir()&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Exam-2015-07-29.csv&amp;quot; &amp;quot;nops_eval.csv&amp;quot;       &amp;quot;nops_eval.zip&amp;quot;      
+## [4] &amp;quot;nops_pdf&amp;quot;            &amp;quot;nops_scan&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The evaluated data can be inspected by opening &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_eval.csv&quot;&gt;nops_eval.csv&lt;/a&gt; in some spreadsheet
+software or we can directly look at the data in R. Based on this information, the marks could be
+entered into the university’s information system.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;##         registration        name          id        exam scrambling
+## 1501090      1501090    Jane Doe    jane_doe 15072900001         00
+## 9901071      9901071 Ambi Dexter ambi_dexter 15072900002         00
+##                   scan points mark answer.1 solution.1 check.1 points.1
+## 1501090 nops_scan1.png      4    5    00100      00100       1        1
+## 9901071 nops_scan2.png      0    5    10100      10000       0        0
+##         answer.2 solution.2 check.2 points.2 answer.3 solution.3 check.3
+## 1501090    11101      11100       0        0    00000      00000       1
+## 9901071    10111      11001       0        0    01000      01010       0
+##         points.3 answer.4 solution.4 check.4 points.4 answer.5 solution.5
+## 1501090        1    00100      00110       0        0    00010      00010
+## 9901071        0    00000      01011       0        0    00000      11010
+##         check.5 points.5 answer.6 solution.6 check.6 points.6
+## 1501090       1        2    01101      01111       0        0
+## 9901071       0        0    11100      00011       0        0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval.zip&lt;/code&gt; contains subdirectories with HTML reports for each of the two participants.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-jane_doe.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-jane_doe.png&quot; alt=&quot;Exam-2015-07-29-jane_doe.html&quot; /&gt;&lt;/a&gt;
+&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-ambi_dexter.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-ambi_dexter.png&quot; alt=&quot;Exam-2015-07-29-ambi_dexter.html&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;These HTML reports could then be uploaded into a learning management system, put on some other
+web server, or even sent out via e-mail.&lt;/p&gt;
+</content>
+
+			
+				<category term="tutorials" />
+			
+			
+				<category term="exams2nops" />
+			
+				<category term="written" />
+			
+				<category term="mchoice" />
+			
+				<category term="schoice" />
+			
+				<category term="PDF" />
+			
+				<category term="scan" />
+			
+				<category term="evaluation" />
+			
+				<category term="R" />
+			
+
+			<published>2017-09-18T00:00:00+02:00</published>
+		</entry>
 	
 		<entry>
 			<id>http://www.R-exams.org/tutorials/first_steps/</id>
@@ -1437,121 +1736,6 @@ exams2pdf(&amp;quot;relfreq.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				<category term="multiple-choice" />
 			
 				<category term="table" />
-			
-				<category term="statistics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/regression/</id>
-			<title>regression: Simple Linear Regression (by Hand)</title>
-			<link href="http://www.R-exams.org/templates/regression/" rel="alternate" type="text/html" title="regression: Simple Linear Regression (by Hand)" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for computing the prediction from a simple linear prediction by hand, based on randomly-generated marginal means/variances and correlation.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/regression/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;regression&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing coefficients and a point prediction from a simple linear prediction (by hand). Internally, a full bivariate data set is simulated but only the marginal means and variances and the correlation coefficient are presented in the exercise.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.Rnw&quot;&gt;regression.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.Rmd&quot;&gt;regression.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.tex&quot;&gt;regression.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression.md&quot;&gt;regression.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw-pdf.png&quot; alt=&quot;regression-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd-pdf.png&quot; alt=&quot;regression-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rnw-html.png&quot; alt=&quot;regression-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-regression//regression-Rmd-html.png&quot; alt=&quot;regression-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;regression.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;regression.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;regression.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;regression.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="num" />
-			
-				<category term="numeric" />
-			
-				<category term="prediction" />
-			
-				<category term="regression" />
 			
 				<category term="statistics" />
 			

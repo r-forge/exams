@@ -365,8 +365,8 @@ that were generated.</p>
 
 <p>The two PDF files are the two exams we requested above.</p>
 
-<p><a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//demo1.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops/demo1.png" alt="demo1.pdf" /></a>
-<a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//demo2.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops/demo2.png" alt="demo2.pdf" /></a></p>
+<p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo1.pdf"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo1.png" alt="demo1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo2.pdf"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo2.png" alt="demo2.pdf" /></a></p>
 
 <p>Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
 answer alternatives) is stored in a <code class="highlighter-rouge">demo.rds</code> file (serialized R data). This crucial
@@ -454,8 +454,8 @@ the <code class="highlighter-rouge">exams</code> package and copy them to a dedi
 dir.create(&quot;nops_scan&quot;)
 file.copy(img, to = &quot;nops_scan&quot;)</code></pre>
 
-<p><a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//nops_scan1.png"><img src="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops/nops_scan1-thumb.png" alt="nops_scan1.png" /></a>
-<a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//nops_scan2.png"><img src="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops/nops_scan2-thumb.png" alt="nops_scan2.png" /></a></p>
+<p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan1.png"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan1-thumb.png" alt="nops_scan1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan2.png"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan2-thumb.png" alt="nops_scan2.png" /></a></p>
 
 <p>(Note that the first scanned image corresponds to one of the PDFs above while
 the other one was generated with custom title/logo/language/etc.)</p>
@@ -474,7 +474,7 @@ available outside of R on the command line.)</p>
 ## [3] &quot;nops_scan2.png&quot;
 </code></pre>
 
-<p>The resulting file <a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//nops_scan_20170810004404.zip">nops_scan_20170810004404.zip</a> contains copies of the
+<p>The resulting file <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan_20170810004404.zip">nops_scan_20170810004404.zip</a> contains copies of the
 PNG files along with a file called <code class="highlighter-rouge">Daten.txt</code> (for historical reasons) that
 contains the scanned information in machine-readable from.</p>
 
@@ -516,7 +516,7 @@ create a suitable CSV file on the fly.</li>
   id = c(&quot;jane_doe&quot;, &quot;ambi_dexter&quot;)
 ), file = &quot;Exam-2015-07-29.csv&quot;, sep = &quot;;&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 
-<p>The resulting file is <a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//Exam-2015-07-29.csv">Exam-2015-07-29.csv</a>.</p>
+<p>The resulting file is <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29.csv">Exam-2015-07-29.csv</a>.</p>
 
 <p>Now the exam can be evaluated creating an output data frame (also stored
 as a CSV file) and individual HTML reports (stored in a ZIP file). Here, we
@@ -536,7 +536,7 @@ dir()</code></pre>
 ## [4] &quot;nops_pdf&quot;            &quot;nops_scan&quot;
 </code></pre>
 
-<p>The evaluated data can be inspected by opening <a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//nops_eval.csv">nops_eval.csv</a> in some spreadsheet
+<p>The evaluated data can be inspected by opening <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_eval.csv">nops_eval.csv</a> in some spreadsheet
 software or we can directly look at the data in R. Based on this information, the marks could be
 entered into the university’s information system.</p>
 
@@ -561,8 +561,8 @@ entered into the university’s information system.</p>
 
 <p>And <code class="highlighter-rouge">nops_eval.zip</code> contains subdirectories with HTML reports for each of the two participants.</p>
 
-<p><a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//Exam-2015-07-29-jane_doe.html"><img src="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops/Exam-2015-07-29-jane_doe.png" alt="Exam-2015-07-29-jane_doe.html" /></a>
-<a href="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops//Exam-2015-07-29-ambi_dexter.html"><img src="http://www.R-exams.org/assets/posts/2017-08-04-exams2nops/Exam-2015-07-29-ambi_dexter.png" alt="Exam-2015-07-29-ambi_dexter.html" /></a></p>
+<p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-jane_doe.html"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-jane_doe.png" alt="Exam-2015-07-29-jane_doe.html" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-ambi_dexter.html"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-ambi_dexter.png" alt="Exam-2015-07-29-ambi_dexter.html" /></a></p>
 
 <p>These HTML reports could then be uploaded into a learning management system, put on some other
 web server, or even sent out via e-mail.</p>
@@ -581,7 +581,7 @@ web server, or even sent out via e-mail.</p>
 				
 
 				
-				<time class="icon-calendar pr20" datetime="2017-08-04" itemprop="datePublished"> 2017-08-04</time>
+				<time class="icon-calendar pr20" datetime="2017-09-18" itemprop="datePublished"> 2017-09-18</time>
 				
 
 				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
@@ -591,9 +591,9 @@ web server, or even sent out via e-mail.</p>
 
 			<div id="post-nav" class="row">
 				
-        
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/first_steps/">&laquo; First Steps</a></div><!-- /.small-4.columns -->
 				
-				<div class="small-6 columns text-right"><a class="button small radius next" href="http://www.R-exams.org/templates/Rlogo/">Rlogo: Knowledge Quiz Question about the R Logo &raquo;</a></div><!-- /.small-4.columns -->
+        
 				
 			</div>
 			</div><!--  /.page-meta -->
