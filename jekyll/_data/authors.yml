@@ -7,18 +7,24 @@
 # Resource › http://blog.sorryapp.com/blogging-with-jekyll/2014/02/06/adding-authors-to-your-jekyll-site.html
 zeileis:
   name: "Achim Zeileis"
-  siterole: "mastermind, package maintainer"
+  siterole: "project lead, maintainer"
   email: "Achim.Zeileis@R-project.org"
   uri: "https://eeecon.uibk.ac.at/~zeileis/"
 
-keller: # replace this with your info
+keller:
   name: "Patrik Keller"
-  siterole: "website, tutorials"
+  siterole: "website"
   email: "patrik.keller@uibk.ac.at"
 
 krimm:
   name: "Hanna Krimm"
-  siterole: "website, tutorials"
+  siterole: "website"
   email: "hanna.krimm@gmail.com"
+
+stauffer:
+  name: "Reto Stauffer"
+  siterole: "website, icons"
+  email: "Reto.Stauffer@uibk.ac.at"
+  uri: "http://www.retostauffer.org/"
 
 # you can add more authors here

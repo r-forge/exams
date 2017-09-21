@@ -10,6 +10,6 @@ post_index:
 ---
 
 Brief descriptions of all exercise templates shipped within the R/exams package.
-Exercise templates along their PDF and HTML output can be downloaded and inspected as inspiration for new exercises.
+Exercise templates along with their PDF and HTML output can be downloaded and inspected as inspiration for new exercises.
 Demo code for replication is also included.
 
