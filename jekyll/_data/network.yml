@@ -7,3 +7,7 @@
 - name: "R-Forge"
   url: "https://R-Forge.R-project.org/R/?group_id=1337"
   title: "Package development"
+
+- name: "R-bloggers"
+  url: "https://www.R-bloggers.com/"
+  title: "R blog aggregator"
