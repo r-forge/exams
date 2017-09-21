@@ -1,4 +1,4 @@
-/* TEAM */
+/* WEB TEAM */
 
 Name: Achim Zeileis
 Site: https://eeecon.uibk.ac.at/~zeileis/
@@ -6,6 +6,9 @@ Site: https://eeecon.uibk.ac.at/~zeileis/
 Name: Patrik Keller
 
 Name: Hanna Krimm
+
+Name: Reto Stauffer
+Site: http://www.retostauffer.org/
 
 
 /* THANKS */
