@@ -75,7 +75,7 @@
     <ul class="title-area">
       <li class="name">
           <a href="http://www.R-exams.org">
-            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo_wide.svg" alt="R/exams">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
           </a>
           <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
       </li>
@@ -273,7 +273,7 @@
 	<!-- <div class="row"> -->
 		<!-- <div class="small-12 columns"> -->
 			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
-				<!-- <img src="http://www.R-exams.org/assets/img/logo_wide.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
 			<!-- </a> -->
 		<!-- </div>[> /.small-12.columns <] -->
 	<!-- </div>[> /.row <] -->
