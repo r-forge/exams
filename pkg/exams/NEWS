@@ -40,6 +40,14 @@ Changes in Version 2.3-0
     But using texdir="/path/to/dir" an output directory can be specified
     so that the LaTeX files can be inspected, e.g., for debugging.
 
+  o In exams2pdf() the "control" argument was extended to encompass a new
+    "cloze.collapse" option to fine tune the display of mchoice/schoice
+    alternatives within a cloze subexercise. By default the separator is
+    " / " for collapsing the choice alternatives. Alternatively, for example,
+    it could be set to "\\\\" to add line breaks between the alternatives.
+    Finally, control = list(cloze.collapse = "enumerate") uses a nested
+    enumerate environment.
+
   o nops_scan() now uses the 'dir' argument not only for the output ZIP
     file but also for the input PDF/PNG image files.
 
