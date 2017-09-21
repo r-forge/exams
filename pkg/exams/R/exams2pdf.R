@@ -93,12 +93,17 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
   } else {
     c(True = "X", False = " ")
   }
-  mchoice2quest <- function(x) {
+  cloze.collapse <- if(!is.null(control) && !is.null(control$cloze.collapse)) {
+    control$cloze.collapse
+  } else {
+    " / "
+  }
+  mchoice2quest <- function(x, cmd = "exmchoice") {
     rval <- ifelse(x, mchoice.symbol[["True"]], mchoice.symbol[["False"]])
     rval <- if(length(rval) == 1L) paste("{", rval, "}", sep = "") else {
       paste("{", rval[1L], "}[", paste(rval[-1L], collapse = "]["), "]", sep = "")
     }
-    paste("  \\item \\exmchoice", rval, sep = "")
+    paste("  \\item \\", cmd, rval, sep = "")
   }
   num2quest <- function(x) {
     rval <-  paste("  \\item \\exnum{", 
@@ -114,8 +119,8 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       "  \\item \n",
       "  \\begin{enumerate}\n   ",
       paste(sapply(seq_along(x), function(i) switch(type[i],
-        "schoice" = mchoice2quest(x[[i]]),
-        "mchoice" = mchoice2quest(x[[i]]),
+        "schoice" = mchoice2quest(x[[i]], cmd = if(cloze.collapse == "enumerate") "exclozechoice" else "exmchoice"),
+        "mchoice" = mchoice2quest(x[[i]], cmd = if(cloze.collapse == "enumerate") "exclozechoice" else "exmchoice"),
         "num" = num2quest(x[[i]]),
         "string" = string2quest(x[[i]]),
         "verbatim" = stop("Question type 'verbatim' is not supported by exams2pdf")
@@ -191,6 +196,14 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     sol <- lapply(exm, function(x) x$metainfo$solution)
     clz <- lapply(exm, function(x) x$metainfo$clozetype)
 
+    collapse <- function(x) {
+      if(length(x) == 1L) return(x)
+      if(cloze.collapse != "enumerate") return(paste(x, collapse = cloze.collapse))
+      paste("\\begin{enumerate}\n",
+        paste("  \\item ", x, collapse = "\n"),
+	"\\end{enumerate}", sep = "")
+    }
+
     ## write out LaTeX code
     for(j in 1L:m) {
     
@@ -198,8 +211,8 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       if(exm[[j]]$metainfo$type == "cloze") {
         g <- rep(seq_along(exm[[j]]$metainfo$solution), sapply(exm[[j]]$metainfo$solution, length))
         if(!is.list(exm[[j]]$questionlist)) exm[[j]]$questionlist <- as.list(exm[[j]]$questionlist)
-        exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), paste, collapse = " / ")
-        if(!is.null(exm[[j]]$solutionlist)) exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), paste, collapse = " / ")
+        exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), collapse)
+        if(!is.null(exm[[j]]$solutionlist)) exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), collapse)
         for(qj in seq_along(exm[[j]]$questionlist)) {
           if(any(grepl(paste("##ANSWER", qj, "##", sep = ""), exm[[j]]$question, fixed = TRUE))) {
             ans <- exm[[j]]$questionlist[qj]
