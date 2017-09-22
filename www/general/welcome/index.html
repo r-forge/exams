@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Tutorials</title>
+	<title>Welcome to R/exams</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
 
@@ -22,7 +22,7 @@
 
   
 	
-	<meta name="description" content="" />
+	<meta name="description" content="Brief introduction to the new web page and blog of the R/exams project." />
 
 	
 
@@ -42,11 +42,11 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="Tutorials" />
+	<meta property="og:title" content="Welcome to R/exams" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//tutorials/" />
+	<meta property="og:url" content="http://www.R-exams.org//general/welcome/" />
 	<meta property="og:site_name" content="R/exams" />
-	
+	<meta property="og:image" content="http://www.R-exams.org/images/rexams_carousel.300.jpg" />
 
 	
 
@@ -129,7 +129,7 @@
 
             
             
-              <li class="active"><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
               <li class="divider"></li>
 
             
@@ -289,484 +289,145 @@
 		<article itemscope itemtype="http://schema.org/Article">
 			<header>
 				
+				<figure>
+					<img src="http://www.R-exams.org/images/rexams_carousel.title.jpg" width="970" alt="Welcome to R/exams" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photos (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
 
 				<span itemprop="name">
-					<p class="subheadline"></p>
-					<h1>Tutorials</h1>
+					
+					<h1>Welcome to R/exams</h1>
 				</span>
 			</header>
 
 
 			
 			<p class="teaser" itemprop="description">
-				
+				Brief introduction to the new web page and blog of the R/exams project.
 			</p>
 			
 
 			<span itemprop="articleSection">
-			<p>Hands-on introductions to various functions and features of the R/exams package.
-R code can be followed step by step and the corresponding output downloaded and inspected.</p>
+			<p>Welcome everybody, we are proud to introduce the brand new web page and
+blog <a href="http://www.R-exams.org/">http://www.R-exams.org/</a>. This provides a central access point for
+the <a href="/resources/">open-source software “exams”</a> implemented in the
+<a href="https://www.R-project.org/">R</a> system for statistical computing.
+R/exams is a one-for-all exams generator using (potentially) dynamic
+exercises written in R/Markdown or R/LaTeX and it can export a variety of
+formats from learning management systems to classical written exams.
+This post gives a brief overview of what has happened so far and what
+you can expect to find here in the next months.</p>
 
+<div class="row t20 b20">
+  <div class="small-12 medium-10 large-8 columns">
+    <img src="http://www.R-exams.org/images/oneforall_logo.svg" alt="oneforall" />
+  </div>
+</div>
+
+<h4 id="past">Past</h4>
+
+<p>The package was originally started more than a decade ago to facilitate
+classical written exams with randomized exercises for large-lecture courses.
+Like many other teachers of introductory statistics and mathematics courses,
+we were in need of infrastructure for conducting written exams with about 1,000-1,500
+students. A team effort of colleagues at WU Wirtschaftsuniversität Wien
+lead to a large collection of dynamic exercises and the software was eventually
+released at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>.</p>
+
+<p>Over the years learning management systems (like
+<a href="https://www.moodle.org/">Moodle</a>,
+<a href="http://www.blackboard.com/">Blackboard</a>,
+<a href="https://www.openolat.com/">OLAT</a>, etc.)
+became easily available at virtually every university, creating a desire to
+employ the same dynamic exercises also for online tests and quizzes. Hence,
+the R/exams infrastructure was completely reimplemented allowing to export
+the same exercises not only to written exams (with automatic scanning
+and evaluation) but also to learning management systems, the live voting
+system <a href="https://www.arsnova.eu/">ARSnova</a>, as well as customizable standalone
+files in PDF, HTML, Docx, and beyond.</p>
+
+<p>Despite (or rather because of) the flexibility of the software, novice R/exams
+users often struggled with adopting it because the documentation provided in
+the package is either somewhat technical and/or targeted towards more experienced
+R users.</p>
+
+<h4 id="present">Present</h4>
+
+<p>Hence, this web page and blog make it easy for new users to explore the possibilities
+of R/exams before reading about a lot of technical details. It also provides accessible
+guides to common tasks and examples for dynamic exercises with different complexity.
+For a first tour you can check out the <a href="/intro/oneforall">one-for-all approach</a> of
+the package based on (potentially) <a href="/intro/dynamic">dynamic exercise templates</a>
+for generating large numbers of personalized exams/quizzes/tests, either for
+<a href="/intro/elearning">e-learning</a> or classical <a href="/intro/written">written exams</a> (with
+automatic evaluation).</p>
+
+<p>Some <a href="/tutorials/">tutorials</a> already explain the installation of R/exams (with
+dependencies like LaTeX or pandoc) and the first steps in writing dynamic exercises
+using either Markdown or LaTeX markup along with randomization in R. There is
+also a <a href="/templates/">gallery of exercise templates</a>, ranging from basic multiple-choice
+questions with simple shuffling to more advanced exercises with random data, graphics,
+etc.</p>
+
+<h4 id="future">Future</h4>
+
+<p>For the next months we plan to write more tutorial blog posts that help to accomplish
+common tasks, e.g., hands-on guidance for exporting exercises from R to Moodle or
+tips how to write good randomized exercises. If you want to give us feedback or ask
+us to cover certain topics please feel free to <a href="/contact/">contact us</a> - be it via e-mail,
+discussion forum, or twitter. Also if you want to link R/exams-based materials or share
+share experiences of using R/exams in a guest post, please let us know.</p>
+
+<h4 id="thanks">Thanks</h4>
+
+<p>Big shout to all <a href="/contact/#authors-and-contributors">contributors</a> that helped R/exams to grow so much
+over the last years. A special thank you goes to Patrik Keller, Hanna Krimm, and Reto
+Stauffer who established the infrastructure for this web page (using R/Markdown and Jekyll)
+and designed graphics/icons/photos/etc. Thanks also to everyone sharing this post,
+especially on <a href="http://www.R-bloggers.com/">http://www.R-bloggers.com/</a> and <a href="https://RWeekly.org/">https://RWeekly.org/</a>.</p>
 
 			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2017-09-23" itemprop="datePublished"> 2017-09-23</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/LaTeX/">LaTeX</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Markdown/">Markdown</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Moodle/">Moodle</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/exams2nops/">&laquo; Written Multiple-Choice Exams with R/exams</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
 
 			
 
 			
 
 		</article>
-
-    
-    <div class="blog-index">
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-      
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/exams2nops/">Written Multiple-Choice Exams with R/exams</a></h2>
-        <a href="http://www.R-exams.org/tutorials/exams2nops/" title="Written Multiple-Choice Exams with R/exams"><img src="http://www.R-exams.org/images/olympia_front.150.jpg" class="alignleft" width="150" height="150" alt="Tutorials"></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.
-      
-
-      <a href="http://www.R-exams.org/tutorials/exams2nops/" title="Read Written Multiple-Choice Exams with R/exams"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-      
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a></h2>
-        <a href="http://www.R-exams.org/tutorials/first_steps/" title="First Steps"><img src="http://www.R-exams.org/images/template.150.svg" class="alignleft" width="150" height="150" alt="Tutorials"></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        First overview of the structure of R/exams, its exercise templates, and a first hands-on session.
-      
-
-      <a href="http://www.R-exams.org/tutorials/first_steps/" title="Read First Steps"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-      
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/installation/">Installing R/exams</a></h2>
-        <a href="http://www.R-exams.org/tutorials/installation/" title="Installing R/exams"><img src="http://www.R-exams.org/images/logo.150.svg" class="alignleft" width="150" height="150" alt="Tutorials"></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Installation guide for R itself and the R package &quot;exams&quot; as well as further open-source tools that are required for certain tasks.
-      
-
-      <a href="http://www.R-exams.org/tutorials/installation/" title="Read Installing R/exams"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-  
-</div> <!-- /.blog-index -->
-
 
     
 

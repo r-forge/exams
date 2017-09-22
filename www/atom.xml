@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2017-09-22T15:24:20+02:00</updated>
+	<updated>2017-09-23T00:50:48+02:00</updated>
 
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 
@@ -28,6 +28,126 @@
 
 	<generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator>
 
+	
+		<entry>
+			<id>http://www.R-exams.org/general/welcome/</id>
+			<title>Welcome to R/exams</title>
+			<link href="http://www.R-exams.org/general/welcome/" rel="alternate" type="text/html" title="Welcome to R/exams" />
+			<updated>2017-09-23T00:00:00+02:00</updated>
+
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Brief introduction to the new web page and blog of the R/exams project.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/general/welcome/">&lt;p&gt;Welcome everybody, we are proud to introduce the brand new web page and
+blog &lt;a href=&quot;http://www.R-exams.org/&quot;&gt;http://www.R-exams.org/&lt;/a&gt;. This provides a central access point for
+the &lt;a href=&quot;/resources/&quot;&gt;open-source software “exams”&lt;/a&gt; implemented in the
+&lt;a href=&quot;https://www.R-project.org/&quot;&gt;R&lt;/a&gt; system for statistical computing.
+R/exams is a one-for-all exams generator using (potentially) dynamic
+exercises written in R/Markdown or R/LaTeX and it can export a variety of
+formats from learning management systems to classical written exams.
+This post gives a brief overview of what has happened so far and what
+you can expect to find here in the next months.&lt;/p&gt;
+
+&lt;div class=&quot;row t20 b20&quot;&gt;
+  &lt;div class=&quot;small-12 medium-10 large-8 columns&quot;&gt;
+    &lt;img src=&quot;http://www.R-exams.org/images/oneforall_logo.svg&quot; alt=&quot;oneforall&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;past&quot;&gt;Past&lt;/h4&gt;
+
+&lt;p&gt;The package was originally started more than a decade ago to facilitate
+classical written exams with randomized exercises for large-lecture courses.
+Like many other teachers of introductory statistics and mathematics courses,
+we were in need of infrastructure for conducting written exams with about 1,000-1,500
+students. A team effort of colleagues at WU Wirtschaftsuniversität Wien
+lead to a large collection of dynamic exercises and the software was eventually
+released at &lt;a href=&quot;https://CRAN.R-project.org/package=exams&quot;&gt;https://CRAN.R-project.org/package=exams&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Over the years learning management systems (like
+&lt;a href=&quot;https://www.moodle.org/&quot;&gt;Moodle&lt;/a&gt;,
+&lt;a href=&quot;http://www.blackboard.com/&quot;&gt;Blackboard&lt;/a&gt;,
+&lt;a href=&quot;https://www.openolat.com/&quot;&gt;OLAT&lt;/a&gt;, etc.)
+became easily available at virtually every university, creating a desire to
+employ the same dynamic exercises also for online tests and quizzes. Hence,
+the R/exams infrastructure was completely reimplemented allowing to export
+the same exercises not only to written exams (with automatic scanning
+and evaluation) but also to learning management systems, the live voting
+system &lt;a href=&quot;https://www.arsnova.eu/&quot;&gt;ARSnova&lt;/a&gt;, as well as customizable standalone
+files in PDF, HTML, Docx, and beyond.&lt;/p&gt;
+
+&lt;p&gt;Despite (or rather because of) the flexibility of the software, novice R/exams
+users often struggled with adopting it because the documentation provided in
+the package is either somewhat technical and/or targeted towards more experienced
+R users.&lt;/p&gt;
+
+&lt;h4 id=&quot;present&quot;&gt;Present&lt;/h4&gt;
+
+&lt;p&gt;Hence, this web page and blog make it easy for new users to explore the possibilities
+of R/exams before reading about a lot of technical details. It also provides accessible
+guides to common tasks and examples for dynamic exercises with different complexity.
+For a first tour you can check out the &lt;a href=&quot;/intro/oneforall&quot;&gt;one-for-all approach&lt;/a&gt; of
+the package based on (potentially) &lt;a href=&quot;/intro/dynamic&quot;&gt;dynamic exercise templates&lt;/a&gt;
+for generating large numbers of personalized exams/quizzes/tests, either for
+&lt;a href=&quot;/intro/elearning&quot;&gt;e-learning&lt;/a&gt; or classical &lt;a href=&quot;/intro/written&quot;&gt;written exams&lt;/a&gt; (with
+automatic evaluation).&lt;/p&gt;
+
+&lt;p&gt;Some &lt;a href=&quot;/tutorials/&quot;&gt;tutorials&lt;/a&gt; already explain the installation of R/exams (with
+dependencies like LaTeX or pandoc) and the first steps in writing dynamic exercises
+using either Markdown or LaTeX markup along with randomization in R. There is
+also a &lt;a href=&quot;/templates/&quot;&gt;gallery of exercise templates&lt;/a&gt;, ranging from basic multiple-choice
+questions with simple shuffling to more advanced exercises with random data, graphics,
+etc.&lt;/p&gt;
+
+&lt;h4 id=&quot;future&quot;&gt;Future&lt;/h4&gt;
+
+&lt;p&gt;For the next months we plan to write more tutorial blog posts that help to accomplish
+common tasks, e.g., hands-on guidance for exporting exercises from R to Moodle or
+tips how to write good randomized exercises. If you want to give us feedback or ask
+us to cover certain topics please feel free to &lt;a href=&quot;/contact/&quot;&gt;contact us&lt;/a&gt; - be it via e-mail,
+discussion forum, or twitter. Also if you want to link R/exams-based materials or share
+share experiences of using R/exams in a guest post, please let us know.&lt;/p&gt;
+
+&lt;h4 id=&quot;thanks&quot;&gt;Thanks&lt;/h4&gt;
+
+&lt;p&gt;Big shout to all &lt;a href=&quot;/contact/#authors-and-contributors&quot;&gt;contributors&lt;/a&gt; that helped R/exams to grow so much
+over the last years. A special thank you goes to Patrik Keller, Hanna Krimm, and Reto
+Stauffer who established the infrastructure for this web page (using R/Markdown and Jekyll)
+and designed graphics/icons/photos/etc. Thanks also to everyone sharing this post,
+especially on &lt;a href=&quot;http://www.R-bloggers.com/&quot;&gt;http://www.R-bloggers.com/&lt;/a&gt; and &lt;a href=&quot;https://RWeekly.org/&quot;&gt;https://RWeekly.org/&lt;/a&gt;.&lt;/p&gt;
+</content>
+
+			
+				<category term="general" />
+			
+			
+				<category term="R" />
+			
+				<category term="exams" />
+			
+				<category term="LaTeX" />
+			
+				<category term="Markdown" />
+			
+				<category term="Moodle" />
+			
+				<category term="e-learning" />
+			
+
+			<published>2017-09-23T00:00:00+02:00</published>
+		</entry>
 	
 		<entry>
 			<id>http://www.R-exams.org/tutorials/exams2nops/</id>
@@ -1625,117 +1745,6 @@ exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 				<category term="regression" />
 			
 				<category term="visualization" />
-			
-				<category term="statistics" />
-			
-
-			<published>2017-08-14T00:00:00+02:00</published>
-		</entry>
-	
-		<entry>
-			<id>http://www.R-exams.org/templates/relfreq/</id>
-			<title>relfreq: Interpretation of Relative Frequency Tables</title>
-			<link href="http://www.R-exams.org/templates/relfreq/" rel="alternate" type="text/html" title="relfreq: Interpretation of Relative Frequency Tables" />
-			<updated>2017-08-14T00:00:00+02:00</updated>
-
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for assessing the interpretation of a table with relative frequencies where either total, row, or column frequencies are selected randomly.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/relfreq/">&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;relfreq&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;A 4x2 table of relative frequencies needs to be interpreted by checking five multiple-choice items which all may either be true or false. Two tables are provided: the original absolute frequencies and one table of relative frequencies which randomly represents either total, or row, or column frequencies Each of the five items is also randomly selected from one of several possible variations.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and R output&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.Rnw&quot;&gt;relfreq.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.Rmd&quot;&gt;relfreq.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.tex&quot;&gt;relfreq.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq.md&quot;&gt;relfreq.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw-pdf.png&quot; alt=&quot;relfreq-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd-pdf.png&quot; alt=&quot;relfreq-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rnw-html.png&quot; alt=&quot;relfreq-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-relfreq//relfreq-Rmd-html.png&quot; alt=&quot;relfreq-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;relfreq.Rnw&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;relfreq.Rnw&amp;quot;)
-
-set.seed(1090)
-exams2html(&amp;quot;relfreq.Rmd&amp;quot;)
-set.seed(1090)
-exams2pdf(&amp;quot;relfreq.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</content>
-
-			
-				<category term="templates" />
-			
-			
-				<category term="mchoice" />
-			
-				<category term="multiple-choice" />
-			
-				<category term="table" />
 			
 				<category term="statistics" />
 			
