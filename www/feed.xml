@@ -19,7 +19,7 @@
 
 &lt;p&gt;The first step in conducting a &lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
 (and/or single-choice) exercises in R/exams&#39; NOPS format is to create the exam in PDF format.
-First, we load the R `exams` package and then simply create a list of exercise file names.&lt;/p&gt;
+First, we load the R &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and then simply create a list of exercise file names.&lt;/p&gt;
 
   &lt;/div&gt;
   &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
