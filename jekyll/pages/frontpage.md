@@ -42,12 +42,12 @@ topics:
 mission:
   title: <img width='50%' src='assets/img/logo_wide.svg'>
   statement: |
-    The [open-source package exams](resources) for
+    The [open-source package exams](/resources/) for
     the R system for statistical computing provides a
-    [one-for-all approach](intro/oneforall) to automatic exams generation. Based on (potentially)
-    [dynamic exercise templates](intro/dynamic) large numbers of personalized exams/quizzes/tests can be
-    created for various systems: PDFs for classical [written exams](intro/written) (with
-    automatic evaluation), import formats for [learning management systems](intro/elearning) (like
+    [one-for-all approach](/intro/oneforall/) to automatic exams generation. Based on (potentially)
+    [dynamic exercise templates](/intro/dynamic/) large numbers of personalized exams/quizzes/tests can be
+    created for various systems: PDFs for classical [written exams](/intro/written/) (with
+    automatic evaluation), import formats for [learning management systems](/intro/elearning/) (like
     Moodle, Blackboard, OLAT, or Ilias), live voting (via ARSnova), and the
     possibility to create custom output (in PDF, HTML, Docx, ...).
     
