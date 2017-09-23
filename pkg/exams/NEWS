@@ -10,11 +10,6 @@ Changes in Version 2.3-0
     web page. Hence slightly different formulations or formatting may be
     used in some places.
 
-  o Added new interface exams2ilias() for the open-source ILIAS learning
-    management system (http://www.ilias.de/). This is essentially a
-    convenience wrapper to exams2qti12(), tweaking a few defaults and
-    employing a somewhat modified XML template.
-
   o tex2image() has been rewritten to use the LaTeX class {standalone}
     instead of manually handling boxes and cropping of the PDF output.
     For converting to raster graphics like PNG (the default), R package
