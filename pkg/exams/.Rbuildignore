@@ -2,8 +2,6 @@ R/read_images.R
 R/xmltools.R
 R/exams_shiny.R
 R/include_tikz.R
-R/exams2ilias.R
-man/exams2ilias.Rd
 paper
 vignettes/screenshots/exams2qti12-tstat.png
 vignettes/screenshots/exams2moodle-tstat.png

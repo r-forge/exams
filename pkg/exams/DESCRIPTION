@@ -1,5 +1,5 @@
 Package: exams
-Version: 2.3-0
+Version: 2.3-1
 Date: 2017-09-23
 Title: Automatic Generation of Exams in R
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
@@ -14,7 +14,7 @@ Description: Automatic generation of exams based on exercises in Markdown or LaT
 	Exercise types include single-choice and multiple-choice questions, arithmetic problems,
 	string questions, and combinations thereof (cloze). Output formats include standalone
 	files (PDF, HTML, Docx, ODT, ...), Moodle XML, QTI 1.2 (for OLAT/OpenOLAT), QTI 2.1,
-	Blackboard, ARSnova, and TCExam. In addition to fully customizable PDF exams, a
+	Blackboard, Ilias, ARSnova, and TCExam. In addition to fully customizable PDF exams, a
 	standardized PDF format (NOPS) is provided that can be printed, scanned, and automatically evaluated.
 Depends: R (>= 3.0.0)
 Imports: stats, graphics, grDevices, tools, utils
