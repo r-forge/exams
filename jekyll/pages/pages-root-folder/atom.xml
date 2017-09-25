@@ -31,6 +31,16 @@ permalink: /atom.xml
 	<link href="{{ site.url }}{{ site.baseurl }}/" rel="alternate" type="text/html" />
 	<generator uri="http://jekyllrb.com" version="{{ jekyll.version }}">Jekyll</generator>
 	{% for post in site.posts limit: 10 %}
+    {% capture title %}{{ post.title | strip_newlines | xml_escape }}{% endcapture %}
+    {% capture descr %}
+    {% if post.teaser %}
+    <p>{{ post.teaser }}</p>
+    {% endif %}
+    {% if post.image.title %}
+    <p><img alt="{{ title }}" src="{{ site.urlimg }}{{ post.image.title }}" /></p>
+    {% endif %}
+    {{ post.content | markdownify }}
+    {% endcapture %}
 		<entry>
 			<id>{{ site.url }}{{ site.baseurl }}{{ post.url }}</id>
 			<title>{{ post.title | strip_html | strip_newlines | xml_escape }}</title>
@@ -53,7 +63,7 @@ permalink: /atom.xml
 				</author>
 			{% endif %}
 			<summary>{{ post.teaser | strip_newlines | xml_escape }}</summary>
-			<content type="html" xml:base="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ post.content | strip_newlines | xml_escape }}</content>
+			<content type="html" xml:base="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ descr | normalize_whitespace | strip_newlines | xml_escape }}</content>
 			{% for category in post.categories %}
 				<category term="{{ category | xml_escape }}" />
 			{% endfor %}
