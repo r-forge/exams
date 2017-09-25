@@ -19,7 +19,7 @@ permalink: /feed.xml
     <p>{{ post.teaser }}</p>
     {% endif %}
     {% if post.image.title %}
-    <p><img alt="{{ title }}" src="{{ site.urlimg }}{{ post.image.title }}" /></p>
+    <p><img alt="{{ title }}" src="{{ site.urlimg }}{{ post.image.title }}" width="970px" /></p>
     {% endif %}
     {{ post.content | markdownify }}
     {% endcapture %}
@@ -27,7 +27,15 @@ permalink: /feed.xml
 				<title>{{ title }}</title>
 				<link>{{ site.url }}{{ site.baseurl }}{{ post.url }}</link>
         <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-        <description>{{ descr | normalize_whitespace | strip_newlines | xml_escape }}</description>
+        {% comment %}
+          <!-- kills newline in <code> snippets -->
+          <description>{{ descr | normalize_whitespace | strip_newlines | xml_escape }}</description>
+          <!-- kills chromium -->
+          <description><![CDATA[{{ descr }}]]></description>
+          <!-- r-blogger replaces \n with <br /> -->
+          <description>{{ descr | xml_escape }}</description>
+        {% endcomment %}
+        <description>{{ descr | xml_escape }}</description>
 				<guid isPermaLink="true">{{ site.url }}{{ site.baseurl }}{{ post.url }}</guid>
 			</item>
 		{% endfor %}
