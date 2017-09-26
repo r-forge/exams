@@ -23,7 +23,7 @@ author: zeileis
 #
 image:
   # shown on top of blog post
-  title: olympia_front.970.jpg
+  title: olympia_front.title.jpg
   # preview in list of posts
   thumb: olympia_front.150.jpg
   # shown on landing page
