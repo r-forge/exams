@@ -19,7 +19,7 @@ permalink: /feed.xml
     <p>{{ post.teaser }}</p>
     {% endif %}
     {% if post.image.title %}
-    <p><img alt="{{ title }}" src="{{ site.urlimg }}{{ post.image.title }}" width="970px" /></p>
+    <p><img alt="{{ title }}" src="{{ site.urlimg }}{{ post.image.title }}" /></p>
     {% endif %}
     {{ post.content | markdownify }}
     {% endcapture %}
