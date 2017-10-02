@@ -8,324 +8,345 @@
 		<link>http://www.R-exams.org/</link>
 		<atom:link href="http://www.R-exams.org/feed.xml" rel="self" type="application/rss+xml" />
 		
+    
+    
 			<item>
-				<title>Welcome to R/exams</title>
+        <title><![CDATA[Welcome to R/exams]]></title>
 				<link>http://www.R-exams.org/general/welcome/</link>
-				<pubDate>Sat, 23 Sep 2017 00:00:00 +0200</pubDate>
-				<description>&lt;p&gt;Welcome everybody, we are proud to introduce the brand new web page and
-blog &lt;a href=&quot;http://www.R-exams.org/&quot;&gt;http://www.R-exams.org/&lt;/a&gt;. This provides a central access point for
-the &lt;a href=&quot;/resources/&quot;&gt;open-source software “exams”&lt;/a&gt; implemented in the
-&lt;a href=&quot;https://www.R-project.org/&quot;&gt;R&lt;/a&gt; system for statistical computing.
+        <pubDate>Sat, 23 Sep 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Brief introduction to the new web page and blog of the R/exams project.</p>
+    
+    
+    <p><img alt="Welcome to R/exams" src="http://www.R-exams.org/images/rexams_carousel.title.jpg" /></p>
+    
+    <p>Welcome everybody, we are proud to introduce the brand new web page and
+blog <a href="http://www.R-exams.org/">http://www.R-exams.org/</a>. This provides a central access point for
+the <a href="/resources/">open-source software “exams”</a> implemented in the
+<a href="https://www.R-project.org/">R</a> system for statistical computing.
 R/exams is a one-for-all exams generator using (potentially) dynamic
 exercises written in R/Markdown or R/LaTeX and it can export a variety of
 formats from learning management systems to classical written exams.
 This post gives a brief overview of what has happened so far and what
-you can expect to find here in the next months.&lt;/p&gt;
+you can expect to find here in the next months.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;small-12 medium-10 large-8 columns&quot;&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/oneforall_logo.svg&quot; alt=&quot;oneforall&quot; /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b20">
+  <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
+    <img src="http://www.R-exams.org/images/oneforall_logo.svg" alt="oneforall" width="970px" />
+  </div>
+</div>
 
-&lt;h4 id=&quot;past&quot;&gt;Past&lt;/h4&gt;
+<h4 id="past">Past</h4>
 
-&lt;p&gt;The package was originally started more than a decade ago to facilitate
+<p>The package was originally started more than a decade ago to facilitate
 classical written exams with randomized exercises for large-lecture courses.
 Like many other teachers of introductory statistics and mathematics courses,
 we were in need of infrastructure for conducting written exams with about 1,000-1,500
 students. A team effort of colleagues at WU Wirtschaftsuniversität Wien
 lead to a large collection of dynamic exercises and the software was eventually
-released at &lt;a href=&quot;https://CRAN.R-project.org/package=exams&quot;&gt;https://CRAN.R-project.org/package=exams&lt;/a&gt;.&lt;/p&gt;
+released at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>.</p>
 
-&lt;p&gt;Over the years learning management systems (like
-&lt;a href=&quot;https://www.moodle.org/&quot;&gt;Moodle&lt;/a&gt;,
-&lt;a href=&quot;http://www.blackboard.com/&quot;&gt;Blackboard&lt;/a&gt;,
-&lt;a href=&quot;https://www.openolat.com/&quot;&gt;OLAT&lt;/a&gt;, etc.)
+<p>Over the years learning management systems (like
+<a href="https://www.moodle.org/">Moodle</a>,
+<a href="http://www.blackboard.com/">Blackboard</a>,
+<a href="https://www.openolat.com/">OLAT</a>, etc.)
 became easily available at virtually every university, creating a desire to
 employ the same dynamic exercises also for online tests and quizzes. Hence,
 the R/exams infrastructure was completely reimplemented allowing to export
 the same exercises not only to written exams (with automatic scanning
 and evaluation) but also to learning management systems, the live voting
-system &lt;a href=&quot;https://www.arsnova.eu/&quot;&gt;ARSnova&lt;/a&gt;, as well as customizable standalone
-files in PDF, HTML, Docx, and beyond.&lt;/p&gt;
+system <a href="https://www.arsnova.eu/">ARSnova</a>, as well as customizable standalone
+files in PDF, HTML, Docx, and beyond.</p>
 
-&lt;p&gt;Despite (or rather because of) the flexibility of the software, novice R/exams
+<p>Despite (or rather because of) the flexibility of the software, novice R/exams
 users often struggled with adopting it because the documentation provided in
 the package is either somewhat technical and/or targeted towards more experienced
-R users.&lt;/p&gt;
+R users.</p>
 
-&lt;h4 id=&quot;present&quot;&gt;Present&lt;/h4&gt;
+<h4 id="present">Present</h4>
 
-&lt;p&gt;Hence, this web page and blog make it easy for new users to explore the possibilities
+<p>Hence, this web page and blog make it easy for new users to explore the possibilities
 of R/exams before reading about a lot of technical details. It also provides accessible
 guides to common tasks and examples for dynamic exercises with different complexity.
-For a first tour you can check out the &lt;a href=&quot;/intro/oneforall&quot;&gt;one-for-all approach&lt;/a&gt; of
-the package based on (potentially) &lt;a href=&quot;/intro/dynamic&quot;&gt;dynamic exercise templates&lt;/a&gt;
+For a first tour you can check out the <a href="/intro/oneforall">one-for-all approach</a> of
+the package based on (potentially) <a href="/intro/dynamic">dynamic exercise templates</a>
 for generating large numbers of personalized exams/quizzes/tests, either for
-&lt;a href=&quot;/intro/elearning&quot;&gt;e-learning&lt;/a&gt; or classical &lt;a href=&quot;/intro/written&quot;&gt;written exams&lt;/a&gt; (with
-automatic evaluation).&lt;/p&gt;
+<a href="/intro/elearning">e-learning</a> or classical <a href="/intro/written">written exams</a> (with
+automatic evaluation).</p>
 
-&lt;p&gt;Some &lt;a href=&quot;/tutorials/&quot;&gt;tutorials&lt;/a&gt; already explain the installation of R/exams (with
+<p>Some <a href="/tutorials/">tutorials</a> already explain the installation of R/exams (with
 dependencies like LaTeX or pandoc) and the first steps in writing dynamic exercises
 using either Markdown or LaTeX markup along with randomization in R. There is
-also a &lt;a href=&quot;/templates/&quot;&gt;gallery of exercise templates&lt;/a&gt;, ranging from basic multiple-choice
+also a <a href="/templates/">gallery of exercise templates</a>, ranging from basic multiple-choice
 questions with simple shuffling to more advanced exercises with random data, graphics,
-etc.&lt;/p&gt;
+etc.</p>
 
-&lt;h4 id=&quot;future&quot;&gt;Future&lt;/h4&gt;
+<h4 id="future">Future</h4>
 
-&lt;p&gt;For the next months we plan to write more tutorial blog posts that help to accomplish
+<p>For the next months we plan to write more tutorial blog posts that help to accomplish
 common tasks, e.g., hands-on guidance for exporting exercises from R to Moodle or
 tips how to write good randomized exercises. If you want to give us feedback or ask
-us to cover certain topics please feel free to &lt;a href=&quot;/contact/&quot;&gt;contact us&lt;/a&gt; - be it via e-mail,
+us to cover certain topics please feel free to <a href="/contact/">contact us</a> - be it via e-mail,
 discussion forum, or twitter. Also if you want to link R/exams-based materials or share
-share experiences of using R/exams in a guest post, please let us know.&lt;/p&gt;
+share experiences of using R/exams in a guest post, please let us know.</p>
 
-&lt;h4 id=&quot;thanks&quot;&gt;Thanks&lt;/h4&gt;
+<h4 id="thanks">Thanks</h4>
 
-&lt;p&gt;Big shout to all &lt;a href=&quot;/contact/#authors-and-contributors&quot;&gt;contributors&lt;/a&gt; that helped R/exams to grow so much
+<p>Big shout to all <a href="/contact/#authors-and-contributors">contributors</a> that helped R/exams to grow so much
 over the last years. A special thank you goes to Patrik Keller, Hanna Krimm, and Reto
 Stauffer who established the infrastructure for this web page (using R/Markdown and Jekyll)
 and designed graphics/icons/photos/etc. Thanks also to everyone sharing this post,
-especially on &lt;a href=&quot;http://www.R-bloggers.com/&quot;&gt;http://www.R-bloggers.com/&lt;/a&gt; and &lt;a href=&quot;https://RWeekly.org/&quot;&gt;https://RWeekly.org/&lt;/a&gt;.&lt;/p&gt;
-</description>
+especially on <a href="http://www.R-bloggers.com/">http://www.R-bloggers.com/</a> and <a href="https://RWeekly.org/">https://RWeekly.org/</a>.</p>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/general/welcome/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>Written Multiple-Choice Exams with R/exams</title>
+        <title><![CDATA[Written Multiple-Choice Exams with R/exams]]></title>
 				<link>http://www.R-exams.org/tutorials/exams2nops/</link>
-				<pubDate>Mon, 18 Sep 2017 00:00:00 +0200</pubDate>
-				<description>&lt;h2 id=&quot;create-exam&quot;&gt;Create exam&lt;/h2&gt;
+        <pubDate>Mon, 18 Sep 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.</p>
+    
+    
+    <p><img alt="Written Multiple-Choice Exams with R/exams" src="http://www.R-exams.org/images/olympia_front.title.jpg" /></p>
+    
+    <h2 id="create-exam">Create exam</h2>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+<div class="row t20 b20">
+  <div class="small-8 medium-9 columns">
 
-&lt;p&gt;The first step in conducting a &lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written exam&lt;/a&gt; with multiple-choice
-(and/or single-choice) exercises in R/exams&#39; NOPS format is to create the exam in PDF format.
-First, we load the R &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and then simply create a list of exercise file names.&lt;/p&gt;
+<p>The first step in conducting a <a href="http://www.R-exams.org/intro/written/">written exam</a> with multiple-choice
+(and/or single-choice) exercises in R/exams' NOPS format is to create the exam in PDF format.
+First, we load the R <code class="highlighter-rouge">exams</code> package and then simply create a list of exercise file names.</p>
 
-  &lt;/div&gt;
-  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/written-create.svg&quot; alt=&quot;create&quot; /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/written-create.svg" alt="create" />
+  </div>
+</div>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-myexam &amp;lt;- list(
-  &amp;quot;tstat2.Rnw&amp;quot;,
-  &amp;quot;ttest.Rnw&amp;quot;,
-  &amp;quot;relfreq.Rnw&amp;quot;,
-  &amp;quot;anova.Rnw&amp;quot;,
-  c(&amp;quot;boxplots.Rnw&amp;quot;, &amp;quot;scatterplot.Rnw&amp;quot;),
-  &amp;quot;cholesky.Rnw&amp;quot;
-)&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+myexam &lt;- list(
+  &quot;tstat2.Rnw&quot;,
+  &quot;ttest.Rnw&quot;,
+  &quot;relfreq.Rnw&quot;,
+  &quot;anova.Rnw&quot;,
+  c(&quot;boxplots.Rnw&quot;, &quot;scatterplot.Rnw&quot;),
+  &quot;cholesky.Rnw&quot;
+)</code></pre>
 
-&lt;p&gt;Here, we use a number of &lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt; questions that are directly shipped
+<p>Here, we use a number of <code class="highlighter-rouge">schoice</code> and <code class="highlighter-rouge">mchoice</code> questions that are directly shipped
 within the package. In practice, you would use files that you have authored and stored
 somewhere locally. Above, exercises in .Rnw format are used but all of the examples
-are also available in .Rmd format, leading to virtually identical output.&lt;/p&gt;
+are also available in .Rmd format, leading to virtually identical output.</p>
 
-&lt;p&gt;Then, we create a small exam with only &lt;code class=&quot;highlighter-rouge&quot;&gt;n = 2&lt;/code&gt; randomly-drawn versions, storing the
-resulting PDF files (plus metainformation) on the disk in a new output directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_pdf&lt;/code&gt;.
+<p>Then, we create a small exam with only <code class="highlighter-rouge">n = 2</code> randomly-drawn versions, storing the
+resulting PDF files (plus metainformation) on the disk in a new output directory <code class="highlighter-rouge">nops_pdf</code>.
 To customize the exam we assign a different number of points to the different exercises
-and also show the respective number of points at the beginning of each question.&lt;/p&gt;
+and also show the respective number of points at the beginning of each question.</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;set.seed(403)
-ex1 &amp;lt;- exams2nops(myexam, n = 2,
-  dir = &amp;quot;nops_pdf&amp;quot;, name = &amp;quot;demo&amp;quot;, date = &amp;quot;2015-07-29&amp;quot;,
-  points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">set.seed(403)
+ex1 &lt;- exams2nops(myexam, n = 2,
+  dir = &quot;nops_pdf&quot;, name = &quot;demo&quot;, date = &quot;2015-07-29&quot;,
+  points = c(1, 1, 1, 2, 2, 3), showpoints = TRUE)</code></pre>
 
-&lt;p&gt;A random seed is set to make the generated exams exactly reproducible for you
+<p>A random seed is set to make the generated exams exactly reproducible for you
 (or ourselves at some point in the future). The output directory now contains three files
-that were generated.&lt;/p&gt;
+that were generated.</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_pdf&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">dir(&quot;nops_pdf&quot;)</code></pre>
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;demo.rds&amp;quot;  &amp;quot;demo1.pdf&amp;quot; &amp;quot;demo2.pdf&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
+<pre><code>## [1] &quot;demo.rds&quot;  &quot;demo1.pdf&quot; &quot;demo2.pdf&quot;
+</code></pre>
 
-&lt;p&gt;The two PDF files are the two exams we requested above.&lt;/p&gt;
+<p>The two PDF files are the two exams we requested above.</p>
 
-&lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo1.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo1.png&quot; alt=&quot;demo1.pdf&quot; /&gt;&lt;/a&gt;
-&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo2.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo2.png&quot; alt=&quot;demo2.pdf&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo1.pdf"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo1.png" alt="demo1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo2.pdf"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo2.png" alt="demo2.pdf" /></a></p>
 
-&lt;p&gt;Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
-answer alternatives) is stored in a &lt;code class=&quot;highlighter-rouge&quot;&gt;demo.rds&lt;/code&gt; file (serialized R data). This crucial
-for being able to evaluate the exam later on.&lt;/p&gt;
+<p>Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
+answer alternatives) is stored in a <code class="highlighter-rouge">demo.rds</code> file (serialized R data). This crucial
+for being able to evaluate the exam later on.</p>
 
-&lt;h2 id=&quot;print-pdf-files&quot;&gt;Print PDF files&lt;/h2&gt;
+<h2 id="print-pdf-files">Print PDF files</h2>
 
-&lt;div class=&quot;row t20&quot;&gt;
-  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+<div class="row t20">
+  <div class="small-8 medium-9 columns">
 
-&lt;ul&gt;
-  &lt;li&gt;A small number of exams can easily be printed on a standard printer.
-    Otherwise simply use a print shop.&lt;/li&gt;
-  &lt;li&gt;It is recommended &lt;em&gt;not&lt;/em&gt; to scale the printout (i.e., without &quot;Fit to printable area&quot;)
-    and to staple the exams in the top-left corner.&lt;/li&gt;
-  &lt;li&gt;By default the PDFs from &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; have a blank second page for
+<ul>
+  <li>A small number of exams can easily be printed on a standard printer.
+    Otherwise simply use a print shop.</li>
+  <li>It is recommended <em>not</em> to scale the printout (i.e., without "Fit to printable area")
+    and to staple the exams in the top-left corner.</li>
+  <li>By default the PDFs from <code class="highlighter-rouge">exams2nops()</code> have a blank second page for
     duplex printing (without content on the back of the exam sheet). For non-duplex printing
-    simply set &lt;code class=&quot;highlighter-rouge&quot;&gt;duplex = FALSE&lt;/code&gt; when creating the PDFs
-    with &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
+    simply set <code class="highlighter-rouge">duplex = FALSE</code> when creating the PDFs
+    with <code class="highlighter-rouge">exams2nops()</code>.</li>
+</ul>
 
-  &lt;/div&gt;
-  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/written-print.svg&quot; alt=&quot;print&quot; /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/written-print.svg" alt="print" />
+  </div>
+</div>
 
-&lt;h2 id=&quot;conduct-exam&quot;&gt;Conduct exam&lt;/h2&gt;
+<h2 id="conduct-exam">Conduct exam</h2>
 
-&lt;div class=&quot;row t20&quot;&gt;
-  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+<div class="row t20">
+  <div class="small-8 medium-9 columns">
 
-&lt;p&gt;The exam is conducted as usual. But if you used the possibilities of
-&lt;a href=&quot;http://www.R-exams.org/intro/dynamic/&quot;&gt;dynamic exercises&lt;/a&gt;
+<p>The exam is conducted as usual. But if you used the possibilities of
+<a href="http://www.R-exams.org/intro/dynamic/">dynamic exercises</a>
 in R/exams, the risk of cheating is greatly reduced.
 
 At the end of the exam you just need to collect the completed exam sheet (first page).
 Of course, you can also collect the rest of the exam papers (e.g., to keep future students from
 seeing the exercises). However, an advantage of letting the students keep their exercises
-reduces the need of having post-exam reviews etc.&lt;/p&gt;
+reduces the need of having post-exam reviews etc.</p>
 
-  &lt;/div&gt;
-  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/written-exam.svg&quot; alt=&quot;exam&quot; /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/written-exam.svg" alt="exam" />
+  </div>
+</div>
 
-&lt;h2 id=&quot;scan-results&quot;&gt;Scan results&lt;/h2&gt;
+<h2 id="scan-results">Scan results</h2>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+<div class="row t20 b20">
+  <div class="small-8 medium-9 columns">
 
-&lt;p&gt;Each completed exam sheet has information on the exam ID, student ID, and the
+<p>Each completed exam sheet has information on the exam ID, student ID, and the
 checked answers. This needs to be scanned into images (PDF or PNG) and can then
-be processed by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;.
+be processed by <code class="highlighter-rouge">nops_scan()</code>.
 
-Typically, it&#39;s easy to use the photocopiers provided by your university to scan
+Typically, it's easy to use the photocopiers provided by your university to scan
 all sheets into PDF or PNG files. For example, our university provides us with
 Canon ImageRunners and the sheet feeder can easily take about 40-50 sheets and
-render them into a single PDF file.&lt;/p&gt;
+render them into a single PDF file.</p>
 
-  &lt;/div&gt;
-  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/written-scan.svg&quot; alt=&quot;scan&quot; /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/written-scan.svg" alt="scan" />
+  </div>
+</div>
 
-&lt;p&gt;Practical recommendations:&lt;/p&gt;
+<p>Practical recommendations:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;The scanned images become smaller in size if the images are read in just black/white
-(or grayscale). This may sometimes even facilitate extracting the information (see below).&lt;/li&gt;
-  &lt;li&gt;If the exams were stapled in the top-left corner (see above) the sheet feeder often
+<ul>
+  <li>The scanned images become smaller in size if the images are read in just black/white
+(or grayscale). This may sometimes even facilitate extracting the information (see below).</li>
+  <li>If the exams were stapled in the top-left corner (see above) the sheet feeder often
 works better if the sheets are rotated by 180 degrees (so that the damaged corner
 is not fed first into the machine). This often improves the scanning results
-considerably and can be accomodated by setting &lt;code class=&quot;highlighter-rouge&quot;&gt;rotate = TRUE&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;
-below.&lt;/li&gt;
-&lt;/ul&gt;
+considerably and can be accomodated by setting <code class="highlighter-rouge">rotate = TRUE</code> in <code class="highlighter-rouge">nops_scan()</code>
+below.</li>
+</ul>
 
-&lt;p&gt;For demonstration, we use two completed demo sheets that are provided along with
-the &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; package and copy them to a dedicated directory &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan&lt;/code&gt;.&lt;/p&gt;
+<p>For demonstration, we use two completed demo sheets that are provided along with
+the <code class="highlighter-rouge">exams</code> package and copy them to a dedicated directory <code class="highlighter-rouge">nops_scan</code>.</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;img &amp;lt;- dir(system.file(&amp;quot;nops&amp;quot;, package = &amp;quot;exams&amp;quot;), pattern = &amp;quot;nops_scan&amp;quot;,
+<pre><code class="prettyprint ">img &lt;- dir(system.file(&quot;nops&quot;, package = &quot;exams&quot;), pattern = &quot;nops_scan&quot;,
   full.names = TRUE)
-dir.create(&amp;quot;nops_scan&amp;quot;)
-file.copy(img, to = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+dir.create(&quot;nops_scan&quot;)
+file.copy(img, to = &quot;nops_scan&quot;)</code></pre>
 
-&lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan1.png&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan1-thumb.png&quot; alt=&quot;nops_scan1.png&quot; /&gt;&lt;/a&gt;
-&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan2.png&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan2-thumb.png&quot; alt=&quot;nops_scan2.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan1.png"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan1-thumb.png" alt="nops_scan1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan2.png"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/nops_scan2-thumb.png" alt="nops_scan2.png" /></a></p>
 
-&lt;p&gt;(Note that the first scanned image corresponds to one of the PDFs above while
-the other one was generated with custom title/logo/language/etc.)&lt;/p&gt;
+<p>(Note that the first scanned image corresponds to one of the PDFs above while
+the other one was generated with custom title/logo/language/etc.)</p>
 
-&lt;p&gt;Using the function &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; we can now read all scanned images (i.e.,
+<p>Using the function <code class="highlighter-rouge">nops_scan()</code> we can now read all scanned images (i.e.,
 all locally available PNG and/or PDF files) and collect everything in a ZIP file.
 (Note that if there were PDF files that need to be scanned, then the
-PDF toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and the function &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt; from ImageMagick need to be
-available outside of R on the command line.)&lt;/p&gt;
+PDF toolkit <code class="highlighter-rouge">pdftk</code> and the function <code class="highlighter-rouge">convert</code> from ImageMagick need to be
+available outside of R on the command line.)</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;nops_scan(dir = &amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">nops_scan(dir = &quot;nops_scan&quot;)</code></pre>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir(&amp;quot;nops_scan&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">dir(&quot;nops_scan&quot;)</code></pre>
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;nops_scan_20170810004404.zip&amp;quot; &amp;quot;nops_scan1.png&amp;quot;              
-## [3] &amp;quot;nops_scan2.png&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
+<pre><code>## [1] &quot;nops_scan_20170810004404.zip&quot; &quot;nops_scan1.png&quot;              
+## [3] &quot;nops_scan2.png&quot;
+</code></pre>
 
-&lt;p&gt;The resulting file &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan_20170810004404.zip&quot;&gt;nops_scan_20170810004404.zip&lt;/a&gt; contains copies of the
-PNG files along with a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;Daten.txt&lt;/code&gt; (for historical reasons) that
-contains the scanned information in machine-readable from.&lt;/p&gt;
+<p>The resulting file <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan_20170810004404.zip">nops_scan_20170810004404.zip</a> contains copies of the
+PNG files along with a file called <code class="highlighter-rouge">Daten.txt</code> (for historical reasons) that
+contains the scanned information in machine-readable from.</p>
 
-&lt;p&gt;See &lt;code class=&quot;highlighter-rouge&quot;&gt;?nops_scan&lt;/code&gt; for more details, e.g., multicore support or options for
-rotating PDF files prior to scanning.&lt;/p&gt;
+<p>See <code class="highlighter-rouge">?nops_scan</code> for more details, e.g., multicore support or options for
+rotating PDF files prior to scanning.</p>
 
-&lt;h2 id=&quot;evaluate-results&quot;&gt;Evaluate results&lt;/h2&gt;
+<h2 id="evaluate-results">Evaluate results</h2>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;small-8 medium-9 columns&quot;&gt;
+<div class="row t20 b20">
+  <div class="small-8 medium-9 columns">
 
-&lt;p&gt;In the previous scanning step the exam sheets have just been &lt;em&gt;read&lt;/em&gt; but not
-yet &lt;em&gt;evaluated&lt;/em&gt;, i.e., it has not yet been assessed which questions were answered
+<p>In the previous scanning step the exam sheets have just been <em>read</em> but not
+yet <em>evaluated</em>, i.e., it has not yet been assessed which questions were answered
 (partially) correctly and which were wrong, and no points have been assigned.
-Therefore, we use &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; to carry out these computations and to make
+Therefore, we use <code class="highlighter-rouge">nops_eval()</code> to carry out these computations and to make
 the results available - both in a format easy to read for machines (a CSV file)
-and a format for humans (one HTML page for each student).&lt;/p&gt;
+and a format for humans (one HTML page for each student).</p>
 
-  &lt;/div&gt;
-  &lt;div class=&quot;small-4 medium-3 columns&quot;&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/written-evaluate.svg&quot; alt=&quot;evaluate&quot; /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/written-evaluate.svg" alt="evaluate" />
+  </div>
+</div>
 
-&lt;p&gt;To do so, three files are required:&lt;/p&gt;
+<p>To do so, three files are required:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;An RDS file with the exam meta-information, generated by &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt; above.&lt;/li&gt;
-  &lt;li&gt;A ZIP file with the scanned sheets, generated by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; above.&lt;/li&gt;
-  &lt;li&gt;A CSV file (semicolon-separated values) with the student infomation (registration number, name, and some
+<ul>
+  <li>An RDS file with the exam meta-information, generated by <code class="highlighter-rouge">exams2nops()</code> above.</li>
+  <li>A ZIP file with the scanned sheets, generated by <code class="highlighter-rouge">nops_scan()</code> above.</li>
+  <li>A CSV file (semicolon-separated values) with the student infomation (registration number, name, and some
 ID or username). In practice, this CSV file will typically be processed from some
 registration service or learning management system etc. However, here we simply
-create a suitable CSV file on the fly.&lt;/li&gt;
-&lt;/ul&gt;
+create a suitable CSV file on the fly.</li>
+</ul>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;write.table(data.frame(
-  registration = c(&amp;quot;1501090&amp;quot;, &amp;quot;9901071&amp;quot;),
-  name = c(&amp;quot;Jane Doe&amp;quot;, &amp;quot;Ambi Dexter&amp;quot;),
-  id = c(&amp;quot;jane_doe&amp;quot;, &amp;quot;ambi_dexter&amp;quot;)
-), file = &amp;quot;Exam-2015-07-29.csv&amp;quot;, sep = &amp;quot;;&amp;quot;, quote = FALSE, row.names = FALSE)&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">write.table(data.frame(
+  registration = c(&quot;1501090&quot;, &quot;9901071&quot;),
+  name = c(&quot;Jane Doe&quot;, &quot;Ambi Dexter&quot;),
+  id = c(&quot;jane_doe&quot;, &quot;ambi_dexter&quot;)
+), file = &quot;Exam-2015-07-29.csv&quot;, sep = &quot;;&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 
-&lt;p&gt;The resulting file is &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29.csv&quot;&gt;Exam-2015-07-29.csv&lt;/a&gt;.&lt;/p&gt;
+<p>The resulting file is <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29.csv">Exam-2015-07-29.csv</a>.</p>
 
-&lt;p&gt;Now the exam can be evaluated creating an output data frame (also stored
+<p>Now the exam can be evaluated creating an output data frame (also stored
 as a CSV file) and individual HTML reports (stored in a ZIP file). Here, we
 employ an evaluation scheme without partial points in the multiple-choice questions
-and differing points across questions.&lt;/p&gt;
+and differing points across questions.</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1 &amp;lt;- nops_eval(
-  register = &amp;quot;Exam-2015-07-29.csv&amp;quot;,
-  solutions = &amp;quot;nops_pdf/demo.rds&amp;quot;,
-  scans = Sys.glob(&amp;quot;nops_scan/nops_scan_*.zip&amp;quot;),
+<pre><code class="prettyprint ">ev1 &lt;- nops_eval(
+  register = &quot;Exam-2015-07-29.csv&quot;,
+  solutions = &quot;nops_pdf/demo.rds&quot;,
+  scans = Sys.glob(&quot;nops_scan/nops_scan_*.zip&quot;),
   eval = exams_eval(partial = FALSE, negative = FALSE),
   interactive = FALSE
 )
-dir()&lt;/code&gt;&lt;/pre&gt;
+dir()</code></pre>
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Exam-2015-07-29.csv&amp;quot; &amp;quot;nops_eval.csv&amp;quot;       &amp;quot;nops_eval.zip&amp;quot;      
-## [4] &amp;quot;nops_pdf&amp;quot;            &amp;quot;nops_scan&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
+<pre><code>## [1] &quot;Exam-2015-07-29.csv&quot; &quot;nops_eval.csv&quot;       &quot;nops_eval.zip&quot;      
+## [4] &quot;nops_pdf&quot;            &quot;nops_scan&quot;
+</code></pre>
 
-&lt;p&gt;The evaluated data can be inspected by opening &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_eval.csv&quot;&gt;nops_eval.csv&lt;/a&gt; in some spreadsheet
+<p>The evaluated data can be inspected by opening <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_eval.csv">nops_eval.csv</a> in some spreadsheet
 software or we can directly look at the data in R. Based on this information, the marks could be
-entered into the university’s information system.&lt;/p&gt;
+entered into the university’s information system.</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;ev1&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">ev1</code></pre>
 
-&lt;pre&gt;&lt;code&gt;##         registration        name          id        exam scrambling
+<pre><code>##         registration        name          id        exam scrambling
 ## 1501090      1501090    Jane Doe    jane_doe 15072900001         00
 ## 9901071      9901071 Ambi Dexter ambi_dexter 15072900002         00
 ##                   scan points mark answer.1 solution.1 check.1 points.1
@@ -340,164 +361,175 @@ entered into the university’s information system.&lt;/p&gt;
 ##         check.5 points.5 answer.6 solution.6 check.6 points.6
 ## 1501090       1        2    01101      01111       0        0
 ## 9901071       0        0    11100      00011       0        0
-&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
 
-&lt;p&gt;And &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval.zip&lt;/code&gt; contains subdirectories with HTML reports for each of the two participants.&lt;/p&gt;
+<p>And <code class="highlighter-rouge">nops_eval.zip</code> contains subdirectories with HTML reports for each of the two participants.</p>
 
-&lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-jane_doe.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-jane_doe.png&quot; alt=&quot;Exam-2015-07-29-jane_doe.html&quot; /&gt;&lt;/a&gt;
-&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-ambi_dexter.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-ambi_dexter.png&quot; alt=&quot;Exam-2015-07-29-ambi_dexter.html&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-jane_doe.html"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-jane_doe.png" alt="Exam-2015-07-29-jane_doe.html" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-ambi_dexter.html"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-ambi_dexter.png" alt="Exam-2015-07-29-ambi_dexter.html" /></a></p>
 
-&lt;p&gt;These HTML reports could then be uploaded into a learning management system, put on some other
-web server, or even sent out via e-mail.&lt;/p&gt;
-</description>
+<p>These HTML reports could then be uploaded into a learning management system, put on some other
+web server, or even sent out via e-mail.</p>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/tutorials/exams2nops/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>First Steps</title>
+        <title><![CDATA[First Steps]]></title>
 				<link>http://www.R-exams.org/tutorials/first_steps/</link>
-				<pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
-				<description>&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+        <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>First overview of the structure of R/exams, its exercise templates, and a first hands-on session.</p>
+    
+    
+    <p><img alt="First Steps" src="http://www.R-exams.org/images/laptop_on_table_deriv2.title.jpg" /></p>
+    
+    <h2 id="overview">Overview</h2>
 
-&lt;p&gt;The basic idea of R/exams is to have a &lt;a href=&quot;http://www.R-exams.org/intro/oneforall/&quot;&gt;one-for-all exams generator&lt;/a&gt;
-where each &lt;a href=&quot;http://www.R-exams.org/intro/dynamic/&quot;&gt;exercise&lt;/a&gt; is a standalone file, so that the &lt;em&gt;same&lt;/em&gt; exercise can be
+<p>The basic idea of R/exams is to have a <a href="http://www.R-exams.org/intro/oneforall/">one-for-all exams generator</a>
+where each <a href="http://www.R-exams.org/intro/dynamic/">exercise</a> is a standalone file, so that the <em>same</em> exercise can be
 rendered easily into a variety output formats such as 
-&lt;a href=&quot;http://www.R-exams.org/intro/elearning/&quot;&gt;e-learning systems&lt;/a&gt; or
-&lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written exams&lt;/a&gt;. To reduce the risk of cheating,
-R/exams offers different mechanisms for drawing random variations of exercises:&lt;/p&gt;
+<a href="http://www.R-exams.org/intro/elearning/">e-learning systems</a> or
+<a href="http://www.R-exams.org/intro/written/">written exams</a>. To reduce the risk of cheating,
+R/exams offers different mechanisms for drawing random variations of exercises:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;Randomly selecting one (or more) out of a set of exercises for each participant.&lt;/li&gt;
-  &lt;li&gt;Randomly shuffling answer alternatives in single-choice and multiple-choice questions.&lt;/li&gt;
-  &lt;li&gt;Randomly selecting numbers, text blocks, graphics, etc. using the &lt;a href=&quot;https://en.wikipedia.org/wiki/R_(programming_language)&quot;&gt;R programming language&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
+<ul>
+  <li>Randomly selecting one (or more) out of a set of exercises for each participant.</li>
+  <li>Randomly shuffling answer alternatives in single-choice and multiple-choice questions.</li>
+  <li>Randomly selecting numbers, text blocks, graphics, etc. using the <a href="https://en.wikipedia.org/wiki/R_(programming_language)">R programming language</a>.</li>
+</ul>
 
-&lt;p&gt;Each exercise (or rather “exercise template”) is a standalone file with up to four elements:&lt;/p&gt;
+<p>Each exercise (or rather “exercise template”) is a standalone file with up to four elements:</p>
 
-&lt;ol&gt;
-  &lt;li&gt;Data-generating process in R.&lt;/li&gt;
-  &lt;li&gt;Question text.&lt;/li&gt;
-  &lt;li&gt;Solution text.&lt;/li&gt;
-  &lt;li&gt;Meta-information: Type of question (single-choice, multiple-choice, numeric, string, or combinations thereof),
-correct solution, a name/label, etc.&lt;/li&gt;
-&lt;/ol&gt;
+<ol>
+  <li>Data-generating process in R.</li>
+  <li>Question text.</li>
+  <li>Solution text.</li>
+  <li>Meta-information: Type of question (single-choice, multiple-choice, numeric, string, or combinations thereof),
+correct solution, a name/label, etc.</li>
+</ol>
 
-&lt;p&gt;Only the question (2) and the meta-information (4) are mandatory while data
+<p>Only the question (2) and the meta-information (4) are mandatory while data
 generation (1) and solution (3) are optional. Solutions can be used to either
 inform teachers about the correct solution for some randomly drawn exercise - 
 or for giving students feedback about how to solve a given exercise. Programming
 a good data-generating process is often the hardest part of authoring a new
 dynamic exercise but is, of course, crucial for drawing a very large number of
-random variations.&lt;/p&gt;
+random variations.</p>
 
-&lt;p&gt;For formatting the text within question/solution (e.g., italics, bold face, lists, etc.)
-two options are available: &lt;a href=&quot;https://en.wikipedia.org/wiki/Markdown&quot;&gt;Markdown&lt;/a&gt; or
-&lt;a href=&quot;https://en.wikipedia.org/wiki/LaTeX&quot;&gt;LaTeX&lt;/a&gt;. The former is very easy to learn
+<p>For formatting the text within question/solution (e.g., italics, bold face, lists, etc.)
+two options are available: <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> or
+<a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>. The former is very easy to learn
 and recommended for authors who do not know LaTeX yet. If mathematic notation and
 formulas are needed, then LaTeX can be used - either within a LaTeX or also within
-a Markdown question. The file suffix for &lt;a href=&quot;http://rmarkdown.rstudio.com/&quot;&gt;R/Markdown&lt;/a&gt;
-is &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rmd&lt;/code&gt; while &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rnw&lt;/code&gt; is conventionally used for R/LaTeX, known as
-&lt;a href=&quot;http://leisch.userweb.mwn.de/Sweave/&quot;&gt;Sweave&lt;/a&gt;.&lt;/p&gt;
+a Markdown question. The file suffix for <a href="http://rmarkdown.rstudio.com/">R/Markdown</a>
+is <code class="highlighter-rouge">.Rmd</code> while <code class="highlighter-rouge">.Rnw</code> is conventionally used for R/LaTeX, known as
+<a href="http://leisch.userweb.mwn.de/Sweave/">Sweave</a>.</p>
 
-&lt;p&gt;In the following, a first session should help new R/exams users to explore the materials
+<p>In the following, a first session should help new R/exams users to explore the materials
 available and get a feeling for the workflow. Furthremore, two
-&lt;a href=&quot;http://www.R-exams.org/templates/&quot;&gt;exercise templates&lt;/a&gt; are shown in more detail:&lt;/p&gt;
+<a href="http://www.R-exams.org/templates/">exercise templates</a> are shown in more detail:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;swisscapital&lt;/a&gt;: A static single-choice 
+<ul>
+  <li><a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>: A static single-choice 
 knowledge quiz question where the only randomization is a subsampling of the presented
-alternatives.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.R-exams.org/templates/deriv/&quot;&gt;deriv&lt;/a&gt;: A dynamic airthmetic question about the
-product rule for derivatives where various numbers are drawn randomly in R.&lt;/li&gt;
-&lt;/ul&gt;
+alternatives.</li>
+  <li><a href="http://www.R-exams.org/templates/deriv/">deriv</a>: A dynamic airthmetic question about the
+product rule for derivatives where various numbers are drawn randomly in R.</li>
+</ul>
 
-&lt;h2 id=&quot;a-first-session&quot;&gt;A first session&lt;/h2&gt;
+<h2 id="a-first-session">A first session</h2>
 
-&lt;p&gt;To explore what is available in R/exams two things are necessary: a couple of exercise
+<p>To explore what is available in R/exams two things are necessary: a couple of exercise
 templates to draw inspiration from, and some demo R scripts that illustrate how the
-different &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2xyz()&lt;/code&gt; functions can produce output in a variety of formats. (Here,
-&lt;code class=&quot;highlighter-rouge&quot;&gt;xyz&lt;/code&gt; is a &lt;em&gt;placeholder&lt;/em&gt; for the output format like &lt;code class=&quot;highlighter-rouge&quot;&gt;html&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;pdf&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;moodle&lt;/code&gt;, etc.)
-The function &lt;code class=&quot;highlighter-rouge&quot;&gt;exams_skeleton()&lt;/code&gt; is a helper function that generates exactly these
-materials in a specified folder. For example, when &lt;code class=&quot;highlighter-rouge&quot;&gt;exams&lt;/code&gt; has already been
-&lt;a href=&quot;http://www.R-exams.org/tutorials/installation/&quot;&gt;installed&lt;/a&gt;, the following can be carried out
-in R:&lt;/p&gt;
+different <code class="highlighter-rouge">exams2xyz()</code> functions can produce output in a variety of formats. (Here,
+<code class="highlighter-rouge">xyz</code> is a <em>placeholder</em> for the output format like <code class="highlighter-rouge">html</code>, <code class="highlighter-rouge">pdf</code>, <code class="highlighter-rouge">moodle</code>, etc.)
+The function <code class="highlighter-rouge">exams_skeleton()</code> is a helper function that generates exactly these
+materials in a specified folder. For example, when <code class="highlighter-rouge">exams</code> has already been
+<a href="http://www.R-exams.org/tutorials/installation/">installed</a>, the following can be carried out
+in R:</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
-exams_skeleton(markup = &amp;quot;markdown&amp;quot;, encoding = &amp;quot;UTF-8&amp;quot;,
-  writer = c(&amp;quot;exams2html&amp;quot;, &amp;quot;exams2pdf&amp;quot;, &amp;quot;exams2moodle&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+exams_skeleton(markup = &quot;markdown&quot;, encoding = &quot;UTF-8&quot;,
+  writer = c(&quot;exams2html&quot;, &quot;exams2pdf&quot;, &quot;exams2moodle&quot;))</code></pre>
 
-&lt;p&gt;This copies all R/Markdown files to the current working directory along with demo scripts,
-illustrating the usage of &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2html()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2pdf()&lt;/code&gt; for customizable HTML and
-PDF output, respectively, along with Moodle output via &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2moodle()&lt;/code&gt;. Specifically,
-the working directory then contains:&lt;/p&gt;
+<p>This copies all R/Markdown files to the current working directory along with demo scripts,
+illustrating the usage of <code class="highlighter-rouge">exams2html()</code> and <code class="highlighter-rouge">exams2pdf()</code> for customizable HTML and
+PDF output, respectively, along with Moodle output via <code class="highlighter-rouge">exams2moodle()</code>. Specifically,
+the working directory then contains:</p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;dir()&lt;/code&gt;&lt;/pre&gt;
+<pre><code class="prettyprint ">dir()</code></pre>
 
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;demo-all.R&amp;quot;    &amp;quot;demo-html.R&amp;quot;   &amp;quot;demo-moodle.R&amp;quot; &amp;quot;demo-pdf.R&amp;quot;   
-## [5] &amp;quot;exercises&amp;quot;     &amp;quot;templates&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
+<pre><code>## [1] &quot;demo-all.R&quot;    &quot;demo-html.R&quot;   &quot;demo-moodle.R&quot; &quot;demo-pdf.R&quot;   
+## [5] &quot;exercises&quot;     &quot;templates&quot;
+</code></pre>
 
-&lt;p&gt;Simply open the demo script 
-&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-all.R&quot;&gt;demo-all.R&lt;/a&gt; for the first steps and then continue with
-more details in &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-html.R&quot;&gt;demo-html.R&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-pdf.R&quot;&gt;demo-pdf.R&lt;/a&gt;, or
-&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-moodle.R&quot;&gt;demo-moodle.R&lt;/a&gt;, respectively.
-More information about all the &lt;code class=&quot;highlighter-rouge&quot;&gt;exercises&lt;/code&gt; can be found in the
-&lt;a href=&quot;http://www.R-exams.org/templates/&quot;&gt;exercise template gallery&lt;/a&gt; online.&lt;/p&gt;
+<p>Simply open the demo script 
+<a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-all.R">demo-all.R</a> for the first steps and then continue with
+more details in <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-html.R">demo-html.R</a>, <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-pdf.R">demo-pdf.R</a>, or
+<a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-moodle.R">demo-moodle.R</a>, respectively.
+More information about all the <code class="highlighter-rouge">exercises</code> can be found in the
+<a href="http://www.R-exams.org/templates/">exercise template gallery</a> online.</p>
 
-&lt;h2 id=&quot;single-choice-swiss-capital&quot;&gt;Single-choice: Swiss capital&lt;/h2&gt;
+<h2 id="single-choice-swiss-capital">Single-choice: Swiss capital</h2>
 
-&lt;p&gt;Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative.
+<p>Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative.
 4 out of the 6 false alternatives are sampled randomly and shuffled. Otherwise the
 exercise is static and contains no R code. Below the structure of the exercise is
-highlighted side-by-side in both &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rmd&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.Rnw&lt;/code&gt;, illustrating that the additional
-exercise markup is similar in spirit to the respective typesetting system.&lt;/p&gt;
+highlighted side-by-side in both <code class="highlighter-rouge">.Rmd</code> and <code class="highlighter-rouge">.Rnw</code>, illustrating that the additional
+exercise markup is similar in spirit to the respective typesetting system.</p>
 
-&lt;p&gt;To see what the output looks like, run the following code within R or take a look at
-&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;swisscapital&lt;/a&gt; in the exercise gallery.&lt;/p&gt;
+<p>To see what the output looks like, run the following code within R or take a look at
+<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a> in the exercise gallery.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
-    &lt;b&gt;Markdown&lt;/b&gt;&lt;br /&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/template-rmd.svg&quot; alt=&quot;Rmd&quot; /&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
-  &lt;p&gt;&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
-    &lt;b&gt;LaTeX&lt;/b&gt;&lt;br /&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/template-rnw.svg&quot; alt=&quot;Rnw&quot; /&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
-  &lt;p&gt;&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b20">
+  <div class="small-5 medium-3 large-2 columns">
+    <b>Markdown</b><br />
+    <img src="http://www.R-exams.org/images/template-rmd.svg" alt="Rmd" />
+  </div>
+  <div class="small-1 medium-3 large-4 columns">
+  <p></p>
+  </div>
+  <div class="small-5 medium-3 large-2 columns">
+    <b>LaTeX</b><br />
+    <img src="http://www.R-exams.org/images/template-rnw.svg" alt="Rnw" />
+  </div>
+  <div class="small-1 medium-3 large-4 columns">
+  <p></p>
+  </div>
+</div>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;pre&gt;
-library(&quot;exams&quot;)
-exams2html(&quot;swisscapital.Rmd&quot;)
-exams2pdf(&quot;swisscapital.Rmd&quot;)
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;pre&gt;
-library(&quot;exams&quot;)
-exams2html(&quot;swisscapital.Rnw&quot;)
-exams2pdf(&quot;swisscapital.Rnw&quot;)
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <pre>
+library("exams")
+exams2html("swisscapital.Rmd")
+exams2pdf("swisscapital.Rmd")
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <pre>
+library("exams")
+exams2html("swisscapital.Rnw")
+exams2pdf("swisscapital.Rnw")
+    </pre>
+  </div>
+</div>
 
-&lt;h4 id=&quot;question&quot;&gt;Question&lt;/h4&gt;
+<h4 id="question">Question</h4>
 
-&lt;p&gt;The question is straightforward and lists 7 answer alternatives.
-The correct solution (Bern) is declared in the meta-information below.&lt;/p&gt;
+<p>The question is straightforward and lists 7 answer alternatives.
+The correct solution (Bern) is declared in the meta-information below.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;Markdown&lt;/b&gt;
-    &lt;pre&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <b>Markdown</b>
+    <pre>
 Question
 ========
 What is the seat of the federal
@@ -513,11 +545,11 @@ Answerlist
 * Zurich
 * St. Gallen
 * Vaduz
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;LaTeX&lt;/b&gt;
-    &lt;pre&gt;
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <b>LaTeX</b>
+    <pre>
 
 \begin{question}
 What is the seat of the federal
@@ -534,21 +566,21 @@ authorities in Switzerland
   \item Vaduz
 \end{answerlist}
 \end{question}
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+    </pre>
+  </div>
+</div>
 
-&lt;h4 id=&quot;solution&quot;&gt;Solution&lt;/h4&gt;
+<h4 id="solution">Solution</h4>
 
-&lt;p&gt;The optional solution can provide some general feedback (that explains
+<p>The optional solution can provide some general feedback (that explains
 why Bern is correct in this question) as well as more details for each
 answer alternative (only listing true/false here). It is also possible 
-to have &lt;em&gt;no solution&lt;/em&gt;, or &lt;em&gt;just a general text&lt;/em&gt;, or &lt;em&gt;just the answer list&lt;/em&gt;.&lt;/p&gt;
+to have <em>no solution</em>, or <em>just a general text</em>, or <em>just the answer list</em>.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;Markdown&lt;/b&gt;
-    &lt;pre&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <b>Markdown</b>
+    <pre>
 Solution
 ========
 There is no de jure capital but
@@ -564,11 +596,11 @@ Answerlist
 * False
 * False
 * False
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;LaTeX&lt;/b&gt;
-    &lt;pre&gt;
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <b>LaTeX</b>
+    <pre>
 
 \begin{solution}
 There is no de jure capital but
@@ -585,809 +617,875 @@ the federal authorities is Bern.
   \item False.
 \end{answerlist}
 \end{solution}
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+    </pre>
+  </div>
+</div>
 
-&lt;h4 id=&quot;meta-information&quot;&gt;Meta-information&lt;/h4&gt;
+<h4 id="meta-information">Meta-information</h4>
 
-&lt;p&gt;In the meta-information, each exercise must specify at least an &lt;code class=&quot;highlighter-rouge&quot;&gt;extype&lt;/code&gt;,
-and an &lt;code class=&quot;highlighter-rouge&quot;&gt;exsolution&lt;/code&gt;, and should typically also have a short descriptive
-&lt;code class=&quot;highlighter-rouge&quot;&gt;exname&lt;/code&gt;. The type for single-choice questions is &lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt; and the
-&lt;code class=&quot;highlighter-rouge&quot;&gt;exsolution&lt;/code&gt; is simply a binary coding of the 7 answer alternatives.
-For randomization, additionally &lt;code class=&quot;highlighter-rouge&quot;&gt;exshuffle&lt;/code&gt; is set to 5 so that 1 correct
-and 4 random wrong alternatives are subsampled and shuffled.&lt;/p&gt;
+<p>In the meta-information, each exercise must specify at least an <code class="highlighter-rouge">extype</code>,
+and an <code class="highlighter-rouge">exsolution</code>, and should typically also have a short descriptive
+<code class="highlighter-rouge">exname</code>. The type for single-choice questions is <code class="highlighter-rouge">schoice</code> and the
+<code class="highlighter-rouge">exsolution</code> is simply a binary coding of the 7 answer alternatives.
+For randomization, additionally <code class="highlighter-rouge">exshuffle</code> is set to 5 so that 1 correct
+and 4 random wrong alternatives are subsampled and shuffled.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;Markdown&lt;/b&gt;
-    &lt;pre&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <b>Markdown</b>
+    <pre>
 Meta-information
 ================
 exname: Swiss Capital
 extype: schoice
 exsolution: 0100000
 exshuffle: 5
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;LaTeX&lt;/b&gt;
-    &lt;pre&gt;
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <b>LaTeX</b>
+    <pre>
 
 
 \exname{Swiss Capital}
 \extype{schoice}
 \exsolution{0100000}
 \exshuffle{5}
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+    </pre>
+  </div>
+</div>
 
-&lt;h2 id=&quot;numeric-product-rule-for-derivatives&quot;&gt;Numeric: Product rule for derivatives&lt;/h2&gt;
+<h2 id="numeric-product-rule-for-derivatives">Numeric: Product rule for derivatives</h2>
 
-&lt;p&gt;Arithmetic question for computing the first derivative of a product function with
+<p>Arithmetic question for computing the first derivative of a product function with
 two factors, using the product rule. The parameters of the function are drawn
 randomly in R and subsequently inserted into the question and the solution (which
 is not shown below for brevity). LaTeX is used for typesetting the mathematical
-formulas - both in the Markdown and the LaTeX version.&lt;/p&gt;
+formulas - both in the Markdown and the LaTeX version.</p>
 
-&lt;p&gt;To see what the output looks like, run the following code within R or take a look at
-&lt;a href=&quot;http://www.R-exams.org/templates/deriv/&quot;&gt;deriv&lt;/a&gt; in the exercise gallery.&lt;/p&gt;
+<p>To see what the output looks like, run the following code within R or take a look at
+<a href="http://www.R-exams.org/templates/deriv/">deriv</a> in the exercise gallery.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
-    &lt;b&gt;R/Markdown&lt;/b&gt;&lt;br /&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/template-rmd.svg&quot; alt=&quot;Rmd&quot; /&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
-  &lt;p&gt;&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;small-5 medium-3 large-2 columns&quot;&gt;
-    &lt;b&gt;R/LaTeX&lt;/b&gt;&lt;br /&gt;
-    &lt;img src=&quot;http://www.R-exams.org/images/template-rnw.svg&quot; alt=&quot;Rnw&quot; /&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;small-1 medium-3 large-4 columns&quot;&gt;
-  &lt;p&gt;&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b20">
+  <div class="small-5 medium-3 large-2 columns">
+    <b>R/Markdown</b><br />
+    <img src="http://www.R-exams.org/images/template-rmd.svg" alt="Rmd" />
+  </div>
+  <div class="small-1 medium-3 large-4 columns">
+  <p></p>
+  </div>
+  <div class="small-5 medium-3 large-2 columns">
+    <b>R/LaTeX</b><br />
+    <img src="http://www.R-exams.org/images/template-rnw.svg" alt="Rnw" />
+  </div>
+  <div class="small-1 medium-3 large-4 columns">
+  <p></p>
+  </div>
+</div>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;pre&gt;
-library(&quot;exams&quot;)
-exams2html(&quot;deriv.Rmd&quot;)
-exams2pdf(&quot;deriv.Rmd&quot;)
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;pre&gt;
-library(&quot;exams&quot;)
-exams2html(&quot;deriv.Rnw&quot;)
-exams2pdf(&quot;deriv.Rnw&quot;)
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <pre>
+library("exams")
+exams2html("deriv.Rmd")
+exams2pdf("deriv.Rmd")
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <pre>
+library("exams")
+exams2html("deriv.Rnw")
+exams2pdf("deriv.Rnw")
+    </pre>
+  </div>
+</div>
 
-&lt;h4 id=&quot;data-generation&quot;&gt;Data generation&lt;/h4&gt;
+<h4 id="data-generation">Data generation</h4>
 
-&lt;p&gt;The R code simply draws the two parameters &lt;code class=&quot;highlighter-rouge&quot;&gt;a&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt; as well as the argument &lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;
+<p>The R code simply draws the two parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> as well as the argument <code class="highlighter-rouge">c</code>
 from a discrete uniform distribution. (See the question below for the actual function used.)
 Subsequently, the random numbers are inserted into the correct solution and storing
-it as &lt;code class=&quot;highlighter-rouge&quot;&gt;res&lt;/code&gt;.&lt;/p&gt;
+it as <code class="highlighter-rouge">res</code>.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;R/Markdown&lt;/b&gt;
-    &lt;pre&gt;
-```{r, echo=FALSE, results=&quot;hide&quot;}
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <b>R/Markdown</b>
+    <pre>
+```{r, echo=FALSE, results="hide"}
 ## parameters
-a &amp;lt;- sample(2:9, 1)
-b &amp;lt;- sample(seq(2, 4, 0.1), 1)
-c &amp;lt;- sample(seq(0.5, 0.8, 0.01), 1)
+a &lt;- sample(2:9, 1)
+b &lt;- sample(seq(2, 4, 0.1), 1)
+c &lt;- sample(seq(0.5, 0.8, 0.01), 1)
 ## solution
-res &amp;lt;- exp(b * c) * (a * c^(a-1) +
+res &lt;- exp(b * c) * (a * c^(a-1) +
        b * c^a)
 ```
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;R/LaTeX&lt;/b&gt;
-    &lt;pre&gt;
-&amp;lt;&amp;lt;echo=FALSE, results=hide&amp;gt;&amp;gt;=
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <b>R/LaTeX</b>
+    <pre>
+&lt;&lt;echo=FALSE, results=hide&gt;&gt;=
 ## parameters
-a &amp;lt;- sample(2:9, 1)
-b &amp;lt;- sample(seq(2, 4, 0.1), 1)
-c &amp;lt;- sample(seq(0.5, 0.8, 0.01), 1)
+a &lt;- sample(2:9, 1)
+b &lt;- sample(seq(2, 4, 0.1), 1)
+c &lt;- sample(seq(0.5, 0.8, 0.01), 1)
 ## solution
-res &amp;lt;- exp(b * c) * (a * c^(a-1) +
+res &lt;- exp(b * c) * (a * c^(a-1) +
        b * c^a)
 @
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+    </pre>
+  </div>
+</div>
 
-&lt;h4 id=&quot;question-1&quot;&gt;Question&lt;/h4&gt;
+<h4 id="question-1">Question</h4>
 
-&lt;p&gt;The question asks for the derivative of a particular function and simply inserts
+<p>The question asks for the derivative of a particular function and simply inserts
 the parameters drawn above into the question template. (The solution is set up
-analogously in the exercise template but not shown here for brevity.)&lt;/p&gt;
+analogously in the exercise template but not shown here for brevity.)</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;R/Markdown&lt;/b&gt;
-    &lt;pre&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <b>R/Markdown</b>
+    <pre>
 Question
 ========
 What is the derivative of
 $f(x) = x^{6} e^{3.3 x}$,
 evaluated at $x = 0.79$?
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;R/LaTeX&lt;/b&gt;
-    &lt;pre&gt;
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <b>R/LaTeX</b>
+    <pre>
 \begin{question}
 What is the derivative of
 $f(x) = x^{\Sexpr{a}} e^{\Sexpr{b}x}$,
 evaluated at $x = \Sexpr{c}$?
 \end{question}
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+    </pre>
+  </div>
+</div>
 
-&lt;h4 id=&quot;meta-information-1&quot;&gt;Meta-information&lt;/h4&gt;
+<h4 id="meta-information-1">Meta-information</h4>
 
-&lt;p&gt;Again, the meta-information lists &lt;code class=&quot;highlighter-rouge&quot;&gt;extype&lt;/code&gt; (which is &lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt; for numeric exercises),
-&lt;code class=&quot;highlighter-rouge&quot;&gt;exsolution&lt;/code&gt; (which is inserted dynamically from the variable &lt;code class=&quot;highlighter-rouge&quot;&gt;res&lt;/code&gt; computed above),
-and a short &lt;code class=&quot;highlighter-rouge&quot;&gt;exname&lt;/code&gt;. Additionally, the tolerance &lt;code class=&quot;highlighter-rouge&quot;&gt;extol&lt;/code&gt; which is used for automatically
-evaluating answers, e.g., in an online test/exam.&lt;/p&gt;
+<p>Again, the meta-information lists <code class="highlighter-rouge">extype</code> (which is <code class="highlighter-rouge">num</code> for numeric exercises),
+<code class="highlighter-rouge">exsolution</code> (which is inserted dynamically from the variable <code class="highlighter-rouge">res</code> computed above),
+and a short <code class="highlighter-rouge">exname</code>. Additionally, the tolerance <code class="highlighter-rouge">extol</code> which is used for automatically
+evaluating answers, e.g., in an online test/exam.</p>
 
-&lt;div class=&quot;row t20 b20&quot;&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;R/Markdown&lt;/b&gt;
-    &lt;pre&gt;
+<div class="row t20 b20">
+  <div class="medium-6 columns">
+    <b>R/Markdown</b>
+    <pre>
 Meta-information
 ================
 extype: num
 exsolution: `r fmt(res)`
 exname: derivative exp
 extol: 0.01
-    &lt;/pre&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;medium-6 columns&quot;&gt;
-    &lt;b&gt;R/LaTeX&lt;/b&gt;
-    &lt;pre&gt;
+    </pre>
+  </div>
+  <div class="medium-6 columns">
+    <b>R/LaTeX</b>
+    <pre>
 
 
 \extype{num}
 \exsolution{\Sexpr{fmt(res)}}
 \exname{derivative exp}
 \extol{0.01}
-    &lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</description>
+    </pre>
+  </div>
+</div>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/tutorials/first_steps/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>Installing R/exams</title>
+        <title><![CDATA[Installing R/exams]]></title>
 				<link>http://www.R-exams.org/tutorials/installation/</link>
-				<pubDate>Sat, 09 Sep 2017 00:00:00 +0200</pubDate>
-				<description>&lt;h2 id=&quot;1-r&quot;&gt;1. R&lt;/h2&gt;
+        <pubDate>Sat, 09 Sep 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Installation guide for R itself and the R package "exams" as well as further open-source tools that are required for certain tasks.</p>
+    
+    
+    <p><img alt="Installing R/exams" src="http://www.R-exams.org/images/logo.title.svg" /></p>
+    
+    <h2 id="1-r">1. R</h2>
 
-&lt;p&gt;The R/exams system is an extension for the
-&lt;a href=&quot;https://www.R-project.org&quot;&gt;R system for statistical computing&lt;/a&gt; and hence the
-first installation step is the base R system.&lt;/p&gt;
+<p>The R/exams system is an extension for the
+<a href="https://www.R-project.org">R system for statistical computing</a> and hence the
+first installation step is the base R system.</p>
 
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Windows and (Mac) OS X:&lt;/strong&gt; Go to &lt;a href=&quot;https://CRAN.R-project.org/&quot;&gt;https://CRAN.R-project.org/&lt;/a&gt;, the 
+<ul>
+  <li><strong>Windows and (Mac) OS X:</strong> Go to <a href="https://CRAN.R-project.org/">https://CRAN.R-project.org/</a>, the 
  Comprehensive R Archive Network (CRAN). Simply
  click on the link for your operating system and at least install the “base”
  system. It is recommended to also install the accompanying “Rtools” which are
- not needed immediately but might useful at some stage.&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Linux:&lt;/strong&gt; While it is possible to download from CRAN by hand, it is
+ not needed immediately but might useful at some stage.</li>
+  <li>
+    <p><strong>Linux:</strong> While it is possible to download from CRAN by hand, it is
 easier for most distributions to install the packaged binary. For example,
-on Debian/Ubuntu:&lt;/p&gt;
+on Debian/Ubuntu:</p>
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install r-base-core r-base-dev
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
+</code></pre></div>    </div>
+  </li>
+</ul>
 
-&lt;p&gt;There is a wide variety of interfaces for using R including simply the shell,
+<p>There is a wide variety of interfaces for using R including simply the shell,
 Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively.
 Moreover, RStudio is an open-source cross-platform integrated development
-environment that facilitates many common tasks for R beginners.&lt;/p&gt;
+environment that facilitates many common tasks for R beginners.</p>
 
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;For R beginners:&lt;/strong&gt; Go to
-&lt;a href=&quot;https://www.RStudio.com/products/RStudio/&quot;&gt;https://www.RStudio.com/products/RStudio/&lt;/a&gt; and obtain the “Desktop” version
-of RStudio.&lt;/li&gt;
-&lt;/ul&gt;
+<ul>
+  <li><strong>For R beginners:</strong> Go to
+<a href="https://www.RStudio.com/products/RStudio/">https://www.RStudio.com/products/RStudio/</a> and obtain the “Desktop” version
+of RStudio.</li>
+</ul>
 
-&lt;h2 id=&quot;2-r-package-exams&quot;&gt;2. R package “exams”&lt;/h2&gt;
+<h2 id="2-r-package-exams">2. R package “exams”</h2>
 
-&lt;p&gt;The core of R/exams is the open-source R package
-&lt;a href=&quot;https://CRAN.R-project.org/package=exams&quot;&gt;“exams”&lt;/a&gt;, also available from CRAN.
+<p>The core of R/exams is the open-source R package
+<a href="https://CRAN.R-project.org/package=exams">“exams”</a>, also available from CRAN.
 It can be easily installed interactively from within R with a single command.
 If necessary, the development version of the package is also available, which
-may provide some new features or small improvements.&lt;/p&gt;
+may provide some new features or small improvements.</p>
 
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Stable version:&lt;/strong&gt;&lt;/p&gt;
+<ul>
+  <li>
+    <p><strong>Stable version:</strong></p>
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, dependencies = TRUE)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Development version:&lt;/strong&gt;&lt;/p&gt;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Development version:</strong></p>
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
+</code></pre></div>    </div>
+  </li>
+</ul>
 
-&lt;p&gt;&lt;em&gt;Details:&lt;/em&gt; Several additional R packages, automatically installed by the command above,
-are needed for certain tasks: &lt;code class=&quot;highlighter-rouge&quot;&gt;base64enc&lt;/code&gt; (HTML-based output: Base64 encoding of
-supplements), &lt;code class=&quot;highlighter-rouge&quot;&gt;knitr&lt;/code&gt; (R/Markdown-based exercises), &lt;code class=&quot;highlighter-rouge&quot;&gt;png&lt;/code&gt; (NOPS exams: reading
-scanned PNG images), &lt;code class=&quot;highlighter-rouge&quot;&gt;RCurl&lt;/code&gt; (ARSnova: posting exercises), &lt;code class=&quot;highlighter-rouge&quot;&gt;RJSONIO&lt;/code&gt; (ARSnova:
-JSON format), &lt;code class=&quot;highlighter-rouge&quot;&gt;rmarkdown&lt;/code&gt; (pandoc-based conversion), &lt;code class=&quot;highlighter-rouge&quot;&gt;tth&lt;/code&gt; (HTML output from
-R/LaTeX exercises).&lt;/p&gt;
+<p><em>Details:</em> Several additional R packages, automatically installed by the command above,
+are needed for certain tasks: <code class="highlighter-rouge">base64enc</code> (HTML-based output: Base64 encoding of
+supplements), <code class="highlighter-rouge">knitr</code> (R/Markdown-based exercises), <code class="highlighter-rouge">png</code> (NOPS exams: reading
+scanned PNG images), <code class="highlighter-rouge">RCurl</code> (ARSnova: posting exercises), <code class="highlighter-rouge">RJSONIO</code> (ARSnova:
+JSON format), <code class="highlighter-rouge">rmarkdown</code> (pandoc-based conversion), <code class="highlighter-rouge">tth</code> (HTML output from
+R/LaTeX exercises).</p>
 
-&lt;h2 id=&quot;3-latex&quot;&gt;3. LaTeX&lt;/h2&gt;
+<h2 id="3-latex">3. LaTeX</h2>
 
-&lt;p&gt;For producing PDF output, the typesetting system LaTeX is used internally by R/exams.&lt;/p&gt;
+<p>For producing PDF output, the typesetting system LaTeX is used internally by R/exams.</p>
 
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Windows:&lt;/strong&gt; Go to &lt;a href=&quot;http://www.MikTeX.org/&quot;&gt;http://www.MikTeX.org/&lt;/a&gt; and click on “Download” to obtain
-the MikTeX distribution for Windows.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;(Mac) OS X and Linux:&lt;/strong&gt; LaTeX distributions are available in the standard
+<ul>
+  <li><strong>Windows:</strong> Go to <a href="http://www.MikTeX.org/">http://www.MikTeX.org/</a> and click on “Download” to obtain
+the MikTeX distribution for Windows.</li>
+  <li><strong>(Mac) OS X and Linux:</strong> LaTeX distributions are available in the standard
 repositories and can be installed in the “usual” way, typically using the
-&lt;a href=&quot;https://www.tug.org/texlive/&quot;&gt;TeX Live&lt;/a&gt; distribution.&lt;/li&gt;
-&lt;/ul&gt;
+<a href="https://www.tug.org/texlive/">TeX Live</a> distribution.</li>
+</ul>
 
-&lt;h2 id=&quot;4-pandoc&quot;&gt;4. Pandoc&lt;/h2&gt;
+<h2 id="4-pandoc">4. Pandoc</h2>
 
-&lt;p&gt;For certain conversions performed internally in R/exams, specifically when
+<p>For certain conversions performed internally in R/exams, specifically when
 Markdown is involved, the universal document converter
-&lt;a href=&quot;https://www.pandoc.org/&quot;&gt;pandoc&lt;/a&gt; is employed. If you have installed RStudio, then
-pandoc is provided along with it and nothing else needs to be done.&lt;/p&gt;
+<a href="https://www.pandoc.org/">pandoc</a> is employed. If you have installed RStudio, then
+pandoc is provided along with it and nothing else needs to be done.</p>
 
-&lt;p&gt;Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
-e.g., for Debian/Ubuntu:&lt;/p&gt;
+<p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
+e.g., for Debian/Ubuntu:</p>
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install pandoc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pandoc
+</code></pre></div></div>
 
-&lt;h2 id=&quot;optional-further-scanning-tools&quot;&gt;Optional: Further scanning tools&lt;/h2&gt;
+<h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
 
-&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; Unless you want to process &lt;a href=&quot;http://www.R-exams.org/intro/written/&quot;&gt;written NOPS exams&lt;/a&gt;
-from scanned PDF files, this section can be skipped.&lt;/p&gt;
+<p><em>Note:</em> Unless you want to process <a href="http://www.R-exams.org/intro/written/">written NOPS exams</a>
+from scanned PDF files, this section can be skipped.</p>
 
-&lt;p&gt;If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
-they need to be converted to PNG first using the PDF Toolkit &lt;code class=&quot;highlighter-rouge&quot;&gt;pdftk&lt;/code&gt; and
-ImageMagick’s &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt;.&lt;/p&gt;
+<p>If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
+they need to be converted to PNG first using the PDF Toolkit <code class="highlighter-rouge">pdftk</code> and
+ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
 
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Windows:&lt;/strong&gt; Install PDFTk Free, ImageMagick, and Ghostscript.
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe&quot;&gt;http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;http://www.imagemagick.org/script/binary-releases.php#windows&quot;&gt;http://www.imagemagick.org/script/binary-releases.php#windows&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;http://www.ghostscript.com/download/gsdnld.html&quot;&gt;http://www.ghostscript.com/download/gsdnld.html&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;em&gt;Note:&lt;/em&gt; During the installation of PDFTk and ImageMagick check the boxes for 
+<ul>
+  <li><strong>Windows:</strong> Install PDFTk Free, ImageMagick, and Ghostscript.
+    <ul>
+      <li><a href="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe">http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe</a></li>
+      <li><a href="http://www.imagemagick.org/script/binary-releases.php#windows">http://www.imagemagick.org/script/binary-releases.php#windows</a></li>
+      <li><a href="http://www.ghostscript.com/download/gsdnld.html">http://www.ghostscript.com/download/gsdnld.html</a></li>
+      <li><em>Note:</em> During the installation of PDFTk and ImageMagick check the boxes for 
 “Add application directory to your environmental path” or
-“Add application directory to your System Path”, respectively.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Linux:&lt;/strong&gt; Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:&lt;/p&gt;
+“Add application directory to your System Path”, respectively.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apt-get install pdftk imagemagick
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;(Mac) OS X:&lt;/strong&gt; Not tested yet but presumably similar to Linux.&lt;/li&gt;
-&lt;/ul&gt;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pdftk imagemagick
+</code></pre></div>    </div>
+  </li>
+  <li><strong>(Mac) OS X:</strong> Not tested yet but presumably similar to Linux.</li>
+</ul>
 
-&lt;h2 id=&quot;make-sure-everything-works&quot;&gt;Make sure everything works&lt;/h2&gt;
+<h2 id="make-sure-everything-works">Make sure everything works</h2>
 
-&lt;p&gt;To check that the software from Steps 1-4 works, try to run some examples from the
-exercise template gallery, e.g., &lt;a href=&quot;http://www.R-exams.org/templates/dist&quot;&gt;dist&lt;/a&gt; or
-&lt;a href=&quot;http://www.R-exams.org/templates/ttest&quot;&gt;ttest&lt;/a&gt;.&lt;/p&gt;
+<p>To check that the software from Steps 1-4 works, try to run some examples from the
+exercise template gallery, e.g., <a href="http://www.R-exams.org/templates/dist">dist</a> or
+<a href="http://www.R-exams.org/templates/ttest">ttest</a>.</p>
 
-</description>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/tutorials/installation/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>ttest: Interpretation of 2-Sample t Test</title>
+        <title><![CDATA[ttest: Interpretation of 2-Sample t Test]]></title>
 				<link>http://www.R-exams.org/templates/ttest/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ttest&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">ttest</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Results of a 2-sample &lt;code class=&quot;highlighter-rouge&quot;&gt;t.test()&lt;/code&gt; in R need to be interpreted regarding significance, type of alternative, and comparison of the underlying empirical means.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and R output&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Results of a 2-sample <code class="highlighter-rouge">t.test()</code> in R need to be interpreted regarding significance, type of alternative, and comparison of the underlying empirical means.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Random numbers, text blocks, and R output</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rnw&quot;&gt;ttest.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rmd&quot;&gt;ttest.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.tex&quot;&gt;ttest.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.md&quot;&gt;ttest.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-pdf.png&quot; alt=&quot;ttest-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-pdf.png&quot; alt=&quot;ttest-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-html.png&quot; alt=&quot;ttest-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-html.png&quot; alt=&quot;ttest-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rnw">ttest.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rmd">ttest.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.tex">ttest.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.md">ttest.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-pdf.png" alt="ttest-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-pdf.png" alt="ttest-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-html.png" alt="ttest-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-html.png" alt="ttest-Rmd-html" /></a></div>
+</div>
 
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
 
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Demo code:</strong></p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;ttest.Rnw&amp;quot;)
+exams2html(&quot;ttest.Rnw&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;ttest.Rnw&amp;quot;)
+exams2pdf(&quot;ttest.Rnw&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;ttest.Rmd&amp;quot;)
+exams2html(&quot;ttest.Rmd&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;ttest.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
+exams2pdf(&quot;ttest.Rmd&quot;)</code></pre>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/ttest/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>tstat2: 1-Sample t-Test Statistic (Single-Choice)</title>
+        <title><![CDATA[tstat2: 1-Sample t-Test Statistic (Single-Choice)]]></title>
 				<link>http://www.R-exams.org/templates/tstat2/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/tstat/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for computing the t-test statistic (single-choice) from given hypothesized mean and empirical mean and variance.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">tstat2</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/schoice/"><code class="highlighter-rouge">schoice</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/tstat/"><code class="highlighter-rouge">tstat</code></a></div> </div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the 1-sample t-test statistic from randomly-drawn hypothesized mean, sample size, and empirical mean and variance. The correct answer has to be selected from five choice items which have been added to the numeric version of the exercise linked above.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Computing the 1-sample t-test statistic from randomly-drawn hypothesized mean, sample size, and empirical mean and variance. The correct answer has to be selected from five choice items which have been added to the numeric version of the exercise linked above.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Random numbers</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.Rnw&quot;&gt;tstat2.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.Rmd&quot;&gt;tstat2.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.tex&quot;&gt;tstat2.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.md&quot;&gt;tstat2.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw-pdf.png&quot; alt=&quot;tstat2-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd-pdf.png&quot; alt=&quot;tstat2-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw-html.png&quot; alt=&quot;tstat2-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd-html.png&quot; alt=&quot;tstat2-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.Rnw">tstat2.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.Rmd">tstat2.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.tex">tstat2.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2.md">tstat2.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw-pdf.png" alt="tstat2-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd-pdf.png" alt="tstat2-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rnw-html.png" alt="tstat2-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat2//tstat2-Rmd-html.png" alt="tstat2-Rmd-html" /></a></div>
+</div>
 
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
 
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Demo code:</strong></p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;tstat2.Rnw&amp;quot;)
+exams2html(&quot;tstat2.Rnw&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;tstat2.Rnw&amp;quot;)
+exams2pdf(&quot;tstat2.Rnw&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;tstat2.Rmd&amp;quot;)
+exams2html(&quot;tstat2.Rmd&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;tstat2.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
+exams2pdf(&quot;tstat2.Rmd&quot;)</code></pre>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/tstat2/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>tstat: 1-Sample t-Test Statistic</title>
+        <title><![CDATA[tstat: 1-Sample t-Test Statistic]]></title>
 				<link>http://www.R-exams.org/templates/tstat/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/num/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;num&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/tstat2/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstat2&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">tstat</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/num/"><code class="highlighter-rouge">num</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/tstat2/"><code class="highlighter-rouge">tstat2</code></a></div> </div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Computing the 1-sample t-test statistic from randomly-drawn hypothesized mean, sample size, and empirical mean and variance.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Computing the 1-sample t-test statistic from randomly-drawn hypothesized mean, sample size, and empirical mean and variance.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Random numbers</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.Rnw&quot;&gt;tstat.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.Rmd&quot;&gt;tstat.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.tex&quot;&gt;tstat.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.md&quot;&gt;tstat.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw-pdf.png&quot; alt=&quot;tstat-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd-pdf.png&quot; alt=&quot;tstat-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw-html.png&quot; alt=&quot;tstat-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd-html.png&quot; alt=&quot;tstat-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.Rnw">tstat.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.Rmd">tstat.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.tex">tstat.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat.md">tstat.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw-pdf.png" alt="tstat-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd-pdf.png" alt="tstat-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rnw-html.png" alt="tstat-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-tstat//tstat-Rmd-html.png" alt="tstat-Rmd-html" /></a></div>
+</div>
 
-&lt;p&gt;&lt;em&gt;(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)&lt;/em&gt;&lt;/p&gt;
+<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
 
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Demo code:</strong></p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;tstat.Rnw&amp;quot;)
+exams2html(&quot;tstat.Rnw&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;tstat.Rnw&amp;quot;)
+exams2pdf(&quot;tstat.Rnw&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;tstat.Rmd&amp;quot;)
+exams2html(&quot;tstat.Rmd&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;tstat.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
+exams2pdf(&quot;tstat.Rmd&quot;)</code></pre>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/tstat/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>switzerland: Knowledge Quiz Question about Switzerland</title>
+        <title><![CDATA[switzerland: Knowledge Quiz Question about Switzerland]]></title>
 				<link>http://www.R-exams.org/templates/switzerland/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;switzerland&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for a multiple-choice knowledge quiz question with basic shuffling of the alternatives.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">switzerland</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/swisscapital/"><code class="highlighter-rouge">swisscapital</code></a></div> </div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Knowledge quiz question (about Switzerland) with 2 correct and 3 false alternatives which are shuffled randomly in each version of the exercise.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Shuffling&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Knowledge quiz question (about Switzerland) with 2 correct and 3 false alternatives which are shuffled randomly in each version of the exercise.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Shuffling</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rnw&quot;&gt;switzerland.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rmd&quot;&gt;switzerland.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.tex&quot;&gt;switzerland.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.md&quot;&gt;switzerland.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png&quot; alt=&quot;switzerland-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-pdf.png&quot; alt=&quot;switzerland-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png&quot; alt=&quot;switzerland-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-html.png&quot; alt=&quot;switzerland-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rnw">switzerland.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rmd">switzerland.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.tex">switzerland.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.md">switzerland.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png" alt="switzerland-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-pdf.png" alt="switzerland-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png" alt="switzerland-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-html.png" alt="switzerland-Rmd-html" /></a></div>
+</div>
 
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Demo code:</strong></p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;switzerland.Rnw&amp;quot;)
+exams2html(&quot;switzerland.Rnw&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;switzerland.Rnw&amp;quot;)
+exams2pdf(&quot;switzerland.Rnw&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;switzerland.Rmd&amp;quot;)
+exams2html(&quot;switzerland.Rmd&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;switzerland.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
+exams2pdf(&quot;switzerland.Rmd&quot;)</code></pre>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/switzerland/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>swisscapital: Knowledge Quiz Question about the Swiss Capital</title>
+        <title><![CDATA[swisscapital: Knowledge Quiz Question about the Swiss Capital]]></title>
 				<link>http://www.R-exams.org/templates/swisscapital/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/schoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;schoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;   &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt;   &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/switzerland/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;switzerland&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt;
+        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for a single-choice knowledge quiz question with basic shuffling of correct and false alternatives.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">swisscapital</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/schoice/"><code class="highlighter-rouge">schoice</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/switzerland/"><code class="highlighter-rouge">switzerland</code></a></div> </div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative. 4 out of the 6 false alternatives are sampled randomly and shuffled.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Shuffling (4 out of 6 false alternatives)&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative. 4 out of the 6 false alternatives are sampled randomly and shuffled.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Shuffling (4 out of 6 false alternatives)</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw&quot;&gt;swisscapital.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rmd&quot;&gt;swisscapital.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.tex&quot;&gt;swisscapital.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.md&quot;&gt;swisscapital.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png&quot; alt=&quot;swisscapital-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-pdf.png&quot; alt=&quot;swisscapital-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png&quot; alt=&quot;swisscapital-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-html.png&quot; alt=&quot;swisscapital-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw">swisscapital.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rmd">swisscapital.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.tex">swisscapital.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.md">swisscapital.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png" alt="swisscapital-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-pdf.png" alt="swisscapital-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png" alt="swisscapital-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-html.png" alt="swisscapital-Rmd-html" /></a></div>
+</div>
 
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Demo code:</strong></p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;swisscapital.Rnw&amp;quot;)
+exams2html(&quot;swisscapital.Rnw&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;swisscapital.Rnw&amp;quot;)
+exams2pdf(&quot;swisscapital.Rnw&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;swisscapital.Rmd&amp;quot;)
+exams2html(&quot;swisscapital.Rmd&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;swisscapital.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
+exams2pdf(&quot;swisscapital.Rmd&quot;)</code></pre>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/swisscapital/</guid>
 			</item>
 		
+    
+    
 			<item>
-				<title>scatterplot: Interpretation of a Scatterplot</title>
+        <title><![CDATA[scatterplot: Interpretation of a Scatterplot]]></title>
 				<link>http://www.R-exams.org/templates/scatterplot/</link>
-				<pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-				<description>&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;scatterplot&lt;/code&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for assessing the interpretation of a randomly-generated scatterplot regarding the joint and marginal distributions.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">scatterplot</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Scatterplot in an (x, y) regression setup needs to be interpreted regarding location/spread of the marginal distributions, the correlation in the joint distribution, and the corresponding regression slope. Data are drawn randomly from a suitable data-generating process so that each multiple-choice item is either about correct or clearly wrong.&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and graphics&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Scatterplot in an (x, y) regression setup needs to be interpreted regarding location/spread of the marginal distributions, the correlation in the joint distribution, and the corresponding regression slope. Data are drawn randomly from a suitable data-generating process so that each multiple-choice item is either about correct or clearly wrong.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Random numbers, text blocks, and graphics</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
 
-&lt;div class=&quot;row t20 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rnw&quot;&gt;scatterplot.Rnw&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rmd&quot;&gt;scatterplot.Rmd&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.tex&quot;&gt;scatterplot.tex&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.md&quot;&gt;scatterplot.md&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b1&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-pdf.png&quot; alt=&quot;scatterplot-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-pdf.png&quot; alt=&quot;scatterplot-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;row t1 b20&quot;&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-html.png&quot; alt=&quot;scatterplot-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-html.png&quot; alt=&quot;scatterplot-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rnw">scatterplot.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rmd">scatterplot.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.tex">scatterplot.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.md">scatterplot.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-pdf.png" alt="scatterplot-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-pdf.png" alt="scatterplot-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-html.png" alt="scatterplot-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-html.png" alt="scatterplot-Rmd-html" /></a></div>
+</div>
 
-&lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Demo code:</strong></p>
 
-&lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;)
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;scatterplot.Rnw&amp;quot;)
+exams2html(&quot;scatterplot.Rnw&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;scatterplot.Rnw&amp;quot;)
+exams2pdf(&quot;scatterplot.Rnw&quot;)
 
 set.seed(1090)
-exams2html(&amp;quot;scatterplot.Rmd&amp;quot;)
+exams2html(&quot;scatterplot.Rmd&quot;)
 set.seed(1090)
-exams2pdf(&amp;quot;scatterplot.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-</description>
+exams2pdf(&quot;scatterplot.Rmd&quot;)</code></pre>
+
+    ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/scatterplot/</guid>
 			</item>
 		
