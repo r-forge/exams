@@ -12,6 +12,9 @@
 \headerimage{1}
 \section{E-Learning}
 
+\headerimage{2}
+\section{One-for-All}
+
 \headerimage{3}
 \section{Written Exams}
 
