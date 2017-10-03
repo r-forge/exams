@@ -43,6 +43,10 @@ urlimg: 'http://www.R-exams.org/images/'
 # Logo size (used to be 600x80 pixels)
 logo: "logo.svg"
 
+# Piwik integration, cross-domain (retostauffer.org)
+piwik:
+  base_url: retostauffer.org/piwik
+  site_id: 3
 
 # Paginates all X entries
 paginate: 10
