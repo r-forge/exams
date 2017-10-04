@@ -5,6 +5,10 @@ Changes in Version 2.3-1
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o When using exams2html(..., mathjax = TRUE) for testing purposes,
+    mathjax.rstudio.com is used now rather than cdn.mathjax.org which
+    is currently redirecting and will eventually be shut down completely.
+
 
 Changes in Version 2.3-0
 

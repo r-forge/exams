@@ -97,7 +97,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
 
   ## the link to mathjax
   mj_link <- paste('<script type="text/javascript"',
-    '  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
+    '  src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
     '</script>', collapse = "\n")
   mathjax <- rep(mathjax, length.out = nt)
 
