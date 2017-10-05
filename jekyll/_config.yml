@@ -39,6 +39,9 @@ improve_content:
 #
 urlimg: 'http://www.R-exams.org/images/'
 
+# Location of mathjax script
+mathjax_uri: 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+
 
 # Logo size (used to be 600x80 pixels)
 logo: "logo.svg"

@@ -15,12 +15,14 @@ permalink: /feed.xml
 		{% for post in site.posts limit:10 %}
     {% capture title %}{{ post.title | strip_newlines }}{% endcapture %}
     {% capture descr %}
+    {% comment %}
     {% if post.teaser %}
     <p>{{ post.teaser }}</p>
     {% endif %}
     {% if post.image.title %}
     <p><img alt="{{ title }}" src="{{ site.urlimg }}{{ post.image.title }}" /></p>
     {% endif %}
+    {% endcomment %}
     {{ post.content | markdownify }}
     {% endcapture %}
 			<item>

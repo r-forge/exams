@@ -2,7 +2,7 @@ target = ../www/
 
 .PHONY: dev
 dev: clean
-	bundle exec jekyll serve --incremental --config _config.yml,_config_dev.yml
+	bundle exec jekyll serve --incremental --drafts --config _config.yml,_config_dev.yml
 
 .PHONY: clean
 clean:
