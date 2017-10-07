@@ -11,16 +11,273 @@
     
     
 			<item>
+        <title><![CDATA[From Static to Numeric to Single-Choice Exercises in R/exams]]></title>
+				<link>http://www.R-exams.org/tutorials/static_num_schoice/</link>
+        <pubDate>Sat, 07 Oct 2017 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <h2 id="idea">Idea</h2>
+
+<p>Our colleagues over at the economics department became interested in using <a href="http://www.R-exams.org">R/exams</a> for
+generating large-scale exams in their introductory economics courses. However, they face the challenge that
+so far they had been writing static exercises and modified them <em>by hand</em> if they wanted to reuse them in a
+different exam in another semester. To let R/exams do this job it is illustrated how a static arithmetic
+exercise can be turned into a <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercise template</a> either in <code class="highlighter-rouge">num</code>
+format with a numeric solution or into <code class="highlighter-rouge">schoice</code> format with a single-choice solution.
+The idea for the exercise is a very basic <em>price elasticity of demand</em> task:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Consider the following inverse demand function: <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>a</mi><mo>-</mo><mi>b</mi><mo>&middot;</mo><mi>x</mi></mrow></math> for the price <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math> given the demanded quantity <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>x</mi></mrow></math>. What is the price elastiticy of demand at a price of <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math>?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The natural candidates for “parameterizing” this exercise are the
+price <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math>
+and the parameters <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>a</mi></mrow></math>
+and <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>b</mi></mrow></math> of the inverse demand function.
+Based on these the solution is simply:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>First, we obtain the demand function by inverting the inverse demand function: <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>x</mi><mo>=</mo><mi>D</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mi>a</mi><mo>-</mo><mi>p</mi><mo stretchy="false">)</mo><mo stretchy="false">/</mo><mi>b</mi></mrow></math>. <br /> Then, at <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math> the price elasticity of demand is <math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mrow><mfrac><mrow><mi>D</mi><mo>'</mo><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mrow><mrow><mi>D</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mrow></mfrac><mi>p</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mn>1</mn><mo stretchy="false">/</mo><mi>b</mi></mrow><mrow><mi>x</mi></mrow></mfrac><mi>p</mi><mo>.</mo></mrow></mstyle></math></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="overview">Overview</h2>
+
+<p>Below various incarnations of this exercise are provided in both R/Markdown <code class="highlighter-rouge">Rmd</code> and R/LaTeX <code class="highlighter-rouge">Rnw</code> format.
+The following table gives a brief overview of all available versions along with a short description of the idea behind it.
+More detailed explanations are provided in the subsequent sections.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">#</th>
+      <th style="text-align: left">Exercise templates</th>
+      <th style="text-align: left">Dynamic?</th>
+      <th style="text-align: left">Type</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rmd">elasticity1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rnw">elasticity1.Rnw</a></td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Fixed parameters and numeric solution.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rmd">elasticity2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rnw">elasticity2.Rnw</a></td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">As in #1 but with single-choice solution (five answer alternatives).</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rmd">elasticity3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rnw">elasticity3.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Randomly drawn parameters with dynamic computation of correct solution, based on #1.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rmd">elasticity4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rnw">elasticity4.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="highlighter-rouge">num_to_schoice()</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rmd">elasticity5.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rnw">elasticity5.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">As in #4 but with the last alternative: <em>None of the above.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="static-numeric">Static numeric</h2>
+
+<p>The starting point is a completely static exercise as it had been used in a previous
+introductory economics exam. The parameters had been set
+to <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi><mo>=</mo><mn>5</mn></mrow></math>, <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>a</mi><mo>=</mo><mn>50</mn></mrow></math>, 
+and <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>b</mi><mo>=</mo><mn>0</mn><mo>.</mo><mn>5</mn></mrow></math>.
+This implies that <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>x</mi><mo>=</mo><mn>90</mn></mrow></math>,
+leading to an elasticity of <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mo>-</mo><mn>0</mn><mo>.</mo><mn>111111</mn></mrow></math>.</p>
+
+<p>The corresponding R/exams templates simply hard-code these numbers into the question/solution
+and wrap everything into R/Markdown (<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rmd">elasticity1.Rmd</a>)
+or R/LaTeX (<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rnw">elasticity1.Rnw</a>).
+Note that LaTeX is used in either case for the mathematical notation. In case you are unfamiliar
+with the R/exams format, please check out the <a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a> tutorial.</p>
+
+<p>The meta-information simply sets <code class="highlighter-rouge">extype</code> to <code class="highlighter-rouge">num</code>, supplies the <code class="highlighter-rouge">exsolution</code> with a precision of three digits,
+and allows an <code class="highlighter-rouge">extol</code> tolerance of 0.01. To see what the result looks like download the files linked above
+and run <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code>. (The examples below always use the R/Markdown version but the
+R/LaTeX version can be used in exactly the same way.)</p>
+
+<pre>
+library("exams")
+exams2html("elasticity1.Rmd")
+exams2pdf("elasticity1.Rmd")
+</pre>
+
+<h2 id="static-single-choice">Static single-choice</h2>
+
+<p>Single-choice versions of exercises are often desired for use in <a href="http://www.R-exams.org/intro/written/">written exams</a>
+because they can be conveniently scanned and automatically evaluated. Thus, we need to come up
+with a number of incorrect alternative solutions (or “distractors”). If desired, these could include
+typical wrong solutions or a <em>None of the others</em> alternative.</p>
+
+<p>The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rmd">elasticity2.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rnw">elasticity2.Rnw</a> are
+essentially copies of the static numeric exercise above but:</p>
+
+<ol>
+  <li>Question/solution now contain an answerlist (with five alternatives).</li>
+  <li>The <code class="highlighter-rouge">extype</code> has been changed to <code class="highlighter-rouge">schoice</code>.</li>
+  <li>The <code class="highlighter-rouge">exsolution</code> now contains a binary coding of the correct solution.</li>
+  <li>Furthermore, to obtain some basic randomization we have turned on shuffling by setting <code class="highlighter-rouge">exshuffle</code>
+to <code class="highlighter-rouge">TRUE</code>. (Subsampling more than five alternatives would also be possible and would add some further randomization.)</li>
+</ol>
+
+<p>As above <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the exercise interactively in R/exams.</p>
+
+<h2 id="dynamic-numeric">Dynamic numeric</h2>
+
+<p>Next, the static exercise from above is made dynamic by drawing the parameters from a suitable
+data-generating process. In this case, the following works well:</p>
+
+<pre>
+## p = a - b * x
+p &lt;- sample(5:15, 1)
+fctr &lt;- sample(c(2, 4, 5, 10), 1)
+x &lt;- sample(5:15, 1) * fctr
+b &lt;- sample(1:5, 1) / fctr
+a &lt;- p + b * x
+
+## elasticity
+sol &lt;- -1/b * p/x
+</pre>
+
+<p>Note that in order to obtain “nice” numbers a common scaling factor <code class="highlighter-rouge">fctr</code> is used for both <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">b</code>.
+Also, while the examinees are presented with parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> and have to compute <code class="highlighter-rouge">x</code>,
+the data-generating process actually draws <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">b</code> and computes <code class="highlighter-rouge">a</code> from that. Again, this makes it
+easier to obtain “nice” numbers.</p>
+
+<p>The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rmd">elasticity3.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rnw">elasticity3.Rnw</a> include
+the data-generating process above as a code chunk either in R/Markdown or R/LaTeX format.
+The parameters are then inserted into question/solution/metainformation using <code class="prettyprint ">`r a`</code> (R/Markdown)
+or <code class="highlighter-rouge">\Sexpr{a}</code> (R/LaTeX). Sometimes the <code class="highlighter-rouge">fmt()</code> function is used for formatting the parameters
+with a desired number of digits. (See <code class="highlighter-rouge">?fmt</code> for more details.)</p>
+
+<p>As before <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
+the exercise templates. For checking that the meta-information is included correctly, it is often
+helpful to run</p>
+
+<pre>
+exams_metainfo(exams2html("elasticity3.Rmd"))
+</pre>
+
+<p>Furthermore, some tweaking is usually required when calibrating the parameter ranges in the
+data-generating process. The <code class="highlighter-rouge">stresstest_exercise()</code> function draws a large number of random replications
+and thus can help to spot errors that occur or to find solutions that are “extreme” (e.g., much larger or smaller than usual). To clean up your
+global environment and run the function use something like this:</p>
+
+<pre>
+rm(list = ls())
+s &lt;- stresstest_exercise("elasticity3.Rmd", n = 200)
+plot(s)
+plot(s, type = "solution")
+</pre>
+
+<p>The latter command plots the correct solution against the (scalar) parameters that were
+generated in the exercise. This might show patterns for which parameters the solution becomes
+too large or too small etc. See <code class="highlighter-rouge">?stresstest_exercise</code> for further features/details.</p>
+
+<h2 id="dynamic-single-choice">Dynamic single-choice</h2>
+
+<p>To go from the dynamic numeric exercise to a dynamic single-choice exercise we need to
+extend the data-generating process to also produce a number of wrong alternatives.
+The function <code class="highlighter-rouge">num_to_schoice()</code> helps with this by providing different sampling
+mechanisms. It allows to set a range in which the alternatives have to be, a minimum
+distance between all alternatives, possibly include typical wrong solutions, etc.
+It also shuffles the resulting alternatives and tries to make sure that the correct
+solution is <em>not</em> a certain order statistic (e.g., almost always the largest or
+smallest alternative).</p>
+
+<p>The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rmd">elasticity4.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rnw">elasticity4.Rnw</a> first
+wrap the data-generating process into a while loop with <code class="highlighter-rouge">while(sol &gt; -0.11)</code>. This makes sure
+that there is enough “space” for four wrong alternatives between -0.11 and 0, using a minimum
+distance of 0.017. Subsequently, the four wrong alternatives are generated by:</p>
+
+<pre>
+## single-choice incl. typical errors
+err &lt;- c(1/sol, sol/p, p/sol)
+err &lt;- err[(err &gt; -5) &amp; (err &lt; -0.2) &amp; abs(err - sol) &gt; 0.01]
+rng &lt;- c(min(1.5 * sol, -1), -0.01)
+sc &lt;- num_to_schoice(sol, wrong = err, range = rng,
+  delta = 0.017, method = "delta", digits = 3)
+</pre>
+
+<p>This suggests a number of typical wrong solutions <code class="highlighter-rouge">err</code> (provided that they are not too small
+or too large) and makes sure that the range <code class="highlighter-rouge">rng</code> is large enough. With these arguments
+<code class="highlighter-rouge">num_to_schoice()</code> is run, see <code class="highlighter-rouge">?num_to_schoice</code> for the details. The resulting <code class="highlighter-rouge">sc</code> list
+contains suitable <code class="highlighter-rouge">$questions</code> and <code class="highlighter-rouge">$solutions</code> that can be easily embedded in an <code class="highlighter-rouge">answerlist()</code>
+and in the meta-information. Sometimes it is useful to wrap <code class="highlighter-rouge">num_to_schoice()</code> into another
+<code class="highlighter-rouge">while()</code> loop to make sure a valid result is found. See the <a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>
+template for illustraion.</p>
+
+<p>As before <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
+this exercise template. And some stress-testing could be carried out by:</p>
+
+<pre>
+rm(list = ls())
+s &lt;- stresstest_exercise("elasticity4.Rmd", n = 200)
+plot(s)
+plot(s, type = "ordering")
+</pre>
+
+<p>As a final variation we could include <em>None of the above</em> as the last alternative. This is
+very easy because we can simply replace the fifth element of the question list with the corresponding
+string:</p>
+
+<pre>
+sc$questions[5] &lt;- "None of the above."
+</pre>
+
+<p>No matter whether this was actually the correct alternative or one of the incorrect alternatives, the
+corresponding solution will stay the same. The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rmd">elasticity5.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rnw">elasticity5.Rnw</a> incorporate
+this additional line of code in the data-generating process.</p>
+
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/tutorials/static_num_schoice/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[Welcome to R/exams]]></title>
 				<link>http://www.R-exams.org/general/welcome/</link>
         <pubDate>Sat, 23 Sep 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
-    
-    <p>Brief introduction to the new web page and blog of the R/exams project.</p>
-    
-    
-    <p><img alt="Welcome to R/exams" src="http://www.R-exams.org/images/rexams_carousel.title.jpg" /></p>
     
     <p>Welcome everybody, we are proud to introduce the brand new web page and
 blog <a href="http://www.R-exams.org/">http://www.R-exams.org/</a>. This provides a central access point for
@@ -112,11 +369,6 @@ especially on <a href="http://www.R-bloggers.com/">http://www.R-bloggers.com/</a
         <pubDate>Mon, 18 Sep 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
-    
-    <p>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.</p>
-    
-    
-    <p><img alt="Written Multiple-Choice Exams with R/exams" src="http://www.R-exams.org/images/olympia_front.title.jpg" /></p>
     
     <h2 id="create-exam">Create exam</h2>
 
@@ -383,11 +635,6 @@ web server, or even sent out via e-mail.</p>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
-    
-    <p>First overview of the structure of R/exams, its exercise templates, and a first hands-on session.</p>
-    
-    
-    <p><img alt="First Steps" src="http://www.R-exams.org/images/laptop_on_table_deriv2.title.jpg" /></p>
     
     <h2 id="overview">Overview</h2>
 
@@ -812,11 +1059,6 @@ extol: 0.01
         
         <description><![CDATA[
     
-    <p>Installation guide for R itself and the R package "exams" as well as further open-source tools that are required for certain tasks.</p>
-    
-    
-    <p><img alt="Installing R/exams" src="http://www.R-exams.org/images/logo.title.svg" /></p>
-    
     <h2 id="1-r">1. R</h2>
 
 <p>The R/exams system is an extension for the
@@ -954,9 +1196,6 @@ exercise template gallery, e.g., <a href="http://www.R-exams.org/templates/dist"
         
         <description><![CDATA[
     
-    <p>Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).</p>
-    
-    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">ttest</code></div>
@@ -1044,9 +1283,6 @@ exams2pdf(&quot;ttest.Rmd&quot;)</code></pre>
         <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
-    
-    <p>Exercise template for computing the t-test statistic (single-choice) from given hypothesized mean and empirical mean and variance.</p>
-    
     
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
@@ -1137,9 +1373,6 @@ exams2pdf(&quot;tstat2.Rmd&quot;)</code></pre>
         
         <description><![CDATA[
     
-    <p>Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.</p>
-    
-    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">tstat</code></div>
@@ -1229,9 +1462,6 @@ exams2pdf(&quot;tstat.Rmd&quot;)</code></pre>
         
         <description><![CDATA[
     
-    <p>Exercise template for a multiple-choice knowledge quiz question with basic shuffling of the alternatives.</p>
-    
-    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">switzerland</code></div>
@@ -1319,9 +1549,6 @@ exams2pdf(&quot;switzerland.Rmd&quot;)</code></pre>
         
         <description><![CDATA[
     
-    <p>Exercise template for a single-choice knowledge quiz question with basic shuffling of correct and false alternatives.</p>
-    
-    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">swisscapital</code></div>
@@ -1398,95 +1625,6 @@ exams2pdf(&quot;swisscapital.Rmd&quot;)</code></pre>
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/swisscapital/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[scatterplot: Interpretation of a Scatterplot]]></title>
-				<link>http://www.R-exams.org/templates/scatterplot/</link>
-        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Exercise template for assessing the interpretation of a randomly-generated scatterplot regarding the joint and marginal distributions.</p>
-    
-    
-    <div class="row t1 b1">
-  <div class="medium-4 columns"><b>Name:</b></div>
-  <div class="medium-8 columns"><code class="highlighter-rouge">scatterplot</code></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Type:</b></div>
-  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Description:</b></div>
-  <div class="medium-8 columns">Scatterplot in an (x, y) regression setup needs to be interpreted regarding location/spread of the marginal distributions, the correlation in the joint distribution, and the corresponding regression slope. Data are drawn randomly from a suitable data-generating process so that each multiple-choice item is either about correct or clearly wrong.</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Solution feedback:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Randomization:</b></div>
-  <div class="medium-8 columns">Random numbers, text blocks, and graphics</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Images:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Other supplements:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Template:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rnw">scatterplot.Rnw</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.Rmd">scatterplot.Rmd</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.tex">scatterplot.tex</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot.md">scatterplot.md</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>PDF:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-pdf.png" alt="scatterplot-Rnw-pdf" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-pdf.png" alt="scatterplot-Rmd-pdf" /></a></div>
-</div>
-<div class="row t1 b20">
-  <div class="medium-4 columns"><b>HTML:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rnw-html.png" alt="scatterplot-Rnw-html" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-scatterplot//scatterplot-Rmd-html.png" alt="scatterplot-Rmd-html" /></a></div>
-</div>
-
-<p><strong>Demo code:</strong></p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-
-set.seed(1090)
-exams2html(&quot;scatterplot.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;scatterplot.Rnw&quot;)
-
-set.seed(1090)
-exams2html(&quot;scatterplot.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;scatterplot.Rmd&quot;)</code></pre>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/templates/scatterplot/</guid>
 			</item>
 		
 	</channel>

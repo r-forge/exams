@@ -11,6 +11,7 @@
 	<title>RSS Feed (Styled)</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
 
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
   <script>
@@ -28,6 +29,9 @@
   
 	
 	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+  
+	
+  <meta name="author" content="Achim Zeileis" />
 
 	
 

@@ -1,0 +1,802 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>From Static to Numeric to Single-Choice Exercises in R/exams</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+  <script type="text/javascript" async src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Tutorial for turning a static arithmetic exercise into a dynamic numeric exercise template and furthermore into a dynamic single-choice exercise template." />
+  <meta name="keywords" content="Rmd, Rnw, static, num, schoice, arithmetic, economics" />
+	
+  <meta name="author" content="Achim Zeileis" />
+
+	
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="From Static to Numeric to Single-Choice Exercises in R/exams" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//tutorials/static_num_schoice/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/elasticity.small.jpg" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+</head>
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/elasticity.title.jpg" width="970" alt="From Static to Numeric to Single-Choice Exercises in R/exams" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams image (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>From Static to Numeric to Single-Choice Exercises in R/exams</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Tutorial for turning a static arithmetic exercise into a dynamic numeric exercise template and furthermore into a dynamic single-choice exercise template.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h2 id="idea">Idea</h2>
+
+<p>Our colleagues over at the economics department became interested in using <a href="http://www.R-exams.org">R/exams</a> for
+generating large-scale exams in their introductory economics courses. However, they face the challenge that
+so far they had been writing static exercises and modified them <em>by hand</em> if they wanted to reuse them in a
+different exam in another semester. To let R/exams do this job it is illustrated how a static arithmetic
+exercise can be turned into a <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercise template</a> either in <code class="highlighter-rouge">num</code>
+format with a numeric solution or into <code class="highlighter-rouge">schoice</code> format with a single-choice solution.
+The idea for the exercise is a very basic <em>price elasticity of demand</em> task:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Consider the following inverse demand function: <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>a</mi><mo>-</mo><mi>b</mi><mo>&middot;</mo><mi>x</mi></mrow></math> for the price <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math> given the demanded quantity <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>x</mi></mrow></math>. What is the price elastiticy of demand at a price of <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math>?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The natural candidates for “parameterizing” this exercise are the
+price <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math>
+and the parameters <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>a</mi></mrow></math>
+and <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>b</mi></mrow></math> of the inverse demand function.
+Based on these the solution is simply:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>First, we obtain the demand function by inverting the inverse demand function: <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>x</mi><mo>=</mo><mi>D</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mi>a</mi><mo>-</mo><mi>p</mi><mo stretchy="false">)</mo><mo stretchy="false">/</mo><mi>b</mi></mrow></math>. <br /> Then, at <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi></mrow></math> the price elasticity of demand is <math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mrow><mfrac><mrow><mi>D</mi><mo>'</mo><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mrow><mrow><mi>D</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mrow></mfrac><mi>p</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mn>1</mn><mo stretchy="false">/</mo><mi>b</mi></mrow><mrow><mi>x</mi></mrow></mfrac><mi>p</mi><mo>.</mo></mrow></mstyle></math></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="overview">Overview</h2>
+
+<p>Below various incarnations of this exercise are provided in both R/Markdown <code class="highlighter-rouge">Rmd</code> and R/LaTeX <code class="highlighter-rouge">Rnw</code> format.
+The following table gives a brief overview of all available versions along with a short description of the idea behind it.
+More detailed explanations are provided in the subsequent sections.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">#</th>
+      <th style="text-align: left">Exercise templates</th>
+      <th style="text-align: left">Dynamic?</th>
+      <th style="text-align: left">Type</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rmd">elasticity1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rnw">elasticity1.Rnw</a></td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Fixed parameters and numeric solution.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rmd">elasticity2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rnw">elasticity2.Rnw</a></td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">As in #1 but with single-choice solution (five answer alternatives).</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rmd">elasticity3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rnw">elasticity3.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Randomly drawn parameters with dynamic computation of correct solution, based on #1.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rmd">elasticity4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rnw">elasticity4.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="highlighter-rouge">num_to_schoice()</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rmd">elasticity5.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rnw">elasticity5.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">As in #4 but with the last alternative: <em>None of the above.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="static-numeric">Static numeric</h2>
+
+<p>The starting point is a completely static exercise as it had been used in a previous
+introductory economics exam. The parameters had been set
+to <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>p</mi><mo>=</mo><mn>5</mn></mrow></math>, <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>a</mi><mo>=</mo><mn>50</mn></mrow></math>, 
+and <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>b</mi><mo>=</mo><mn>0</mn><mo>.</mo><mn>5</mn></mrow></math>.
+This implies that <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>x</mi><mo>=</mo><mn>90</mn></mrow></math>,
+leading to an elasticity of <math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mo>-</mo><mn>0</mn><mo>.</mo><mn>111111</mn></mrow></math>.</p>
+
+<p>The corresponding R/exams templates simply hard-code these numbers into the question/solution
+and wrap everything into R/Markdown (<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rmd">elasticity1.Rmd</a>)
+or R/LaTeX (<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rnw">elasticity1.Rnw</a>).
+Note that LaTeX is used in either case for the mathematical notation. In case you are unfamiliar
+with the R/exams format, please check out the <a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a> tutorial.</p>
+
+<p>The meta-information simply sets <code class="highlighter-rouge">extype</code> to <code class="highlighter-rouge">num</code>, supplies the <code class="highlighter-rouge">exsolution</code> with a precision of three digits,
+and allows an <code class="highlighter-rouge">extol</code> tolerance of 0.01. To see what the result looks like download the files linked above
+and run <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code>. (The examples below always use the R/Markdown version but the
+R/LaTeX version can be used in exactly the same way.)</p>
+
+<pre>
+library("exams")
+exams2html("elasticity1.Rmd")
+exams2pdf("elasticity1.Rmd")
+</pre>
+
+<h2 id="static-single-choice">Static single-choice</h2>
+
+<p>Single-choice versions of exercises are often desired for use in <a href="http://www.R-exams.org/intro/written/">written exams</a>
+because they can be conveniently scanned and automatically evaluated. Thus, we need to come up
+with a number of incorrect alternative solutions (or “distractors”). If desired, these could include
+typical wrong solutions or a <em>None of the others</em> alternative.</p>
+
+<p>The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rmd">elasticity2.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rnw">elasticity2.Rnw</a> are
+essentially copies of the static numeric exercise above but:</p>
+
+<ol>
+  <li>Question/solution now contain an answerlist (with five alternatives).</li>
+  <li>The <code class="highlighter-rouge">extype</code> has been changed to <code class="highlighter-rouge">schoice</code>.</li>
+  <li>The <code class="highlighter-rouge">exsolution</code> now contains a binary coding of the correct solution.</li>
+  <li>Furthermore, to obtain some basic randomization we have turned on shuffling by setting <code class="highlighter-rouge">exshuffle</code>
+to <code class="highlighter-rouge">TRUE</code>. (Subsampling more than five alternatives would also be possible and would add some further randomization.)</li>
+</ol>
+
+<p>As above <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the exercise interactively in R/exams.</p>
+
+<h2 id="dynamic-numeric">Dynamic numeric</h2>
+
+<p>Next, the static exercise from above is made dynamic by drawing the parameters from a suitable
+data-generating process. In this case, the following works well:</p>
+
+<pre>
+## p = a - b * x
+p &lt;- sample(5:15, 1)
+fctr &lt;- sample(c(2, 4, 5, 10), 1)
+x &lt;- sample(5:15, 1) * fctr
+b &lt;- sample(1:5, 1) / fctr
+a &lt;- p + b * x
+
+## elasticity
+sol &lt;- -1/b * p/x
+</pre>
+
+<p>Note that in order to obtain “nice” numbers a common scaling factor <code class="highlighter-rouge">fctr</code> is used for both <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">b</code>.
+Also, while the examinees are presented with parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> and have to compute <code class="highlighter-rouge">x</code>,
+the data-generating process actually draws <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">b</code> and computes <code class="highlighter-rouge">a</code> from that. Again, this makes it
+easier to obtain “nice” numbers.</p>
+
+<p>The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rmd">elasticity3.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rnw">elasticity3.Rnw</a> include
+the data-generating process above as a code chunk either in R/Markdown or R/LaTeX format.
+The parameters are then inserted into question/solution/metainformation using <code class="prettyprint ">`r a`</code> (R/Markdown)
+or <code class="highlighter-rouge">\Sexpr{a}</code> (R/LaTeX). Sometimes the <code class="highlighter-rouge">fmt()</code> function is used for formatting the parameters
+with a desired number of digits. (See <code class="highlighter-rouge">?fmt</code> for more details.)</p>
+
+<p>As before <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
+the exercise templates. For checking that the meta-information is included correctly, it is often
+helpful to run</p>
+
+<pre>
+exams_metainfo(exams2html("elasticity3.Rmd"))
+</pre>
+
+<p>Furthermore, some tweaking is usually required when calibrating the parameter ranges in the
+data-generating process. The <code class="highlighter-rouge">stresstest_exercise()</code> function draws a large number of random replications
+and thus can help to spot errors that occur or to find solutions that are “extreme” (e.g., much larger or smaller than usual). To clean up your
+global environment and run the function use something like this:</p>
+
+<pre>
+rm(list = ls())
+s &lt;- stresstest_exercise("elasticity3.Rmd", n = 200)
+plot(s)
+plot(s, type = "solution")
+</pre>
+
+<p>The latter command plots the correct solution against the (scalar) parameters that were
+generated in the exercise. This might show patterns for which parameters the solution becomes
+too large or too small etc. See <code class="highlighter-rouge">?stresstest_exercise</code> for further features/details.</p>
+
+<h2 id="dynamic-single-choice">Dynamic single-choice</h2>
+
+<p>To go from the dynamic numeric exercise to a dynamic single-choice exercise we need to
+extend the data-generating process to also produce a number of wrong alternatives.
+The function <code class="highlighter-rouge">num_to_schoice()</code> helps with this by providing different sampling
+mechanisms. It allows to set a range in which the alternatives have to be, a minimum
+distance between all alternatives, possibly include typical wrong solutions, etc.
+It also shuffles the resulting alternatives and tries to make sure that the correct
+solution is <em>not</em> a certain order statistic (e.g., almost always the largest or
+smallest alternative).</p>
+
+<p>The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rmd">elasticity4.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rnw">elasticity4.Rnw</a> first
+wrap the data-generating process into a while loop with <code class="highlighter-rouge">while(sol &gt; -0.11)</code>. This makes sure
+that there is enough “space” for four wrong alternatives between -0.11 and 0, using a minimum
+distance of 0.017. Subsequently, the four wrong alternatives are generated by:</p>
+
+<pre>
+## single-choice incl. typical errors
+err &lt;- c(1/sol, sol/p, p/sol)
+err &lt;- err[(err &gt; -5) &amp; (err &lt; -0.2) &amp; abs(err - sol) &gt; 0.01]
+rng &lt;- c(min(1.5 * sol, -1), -0.01)
+sc &lt;- num_to_schoice(sol, wrong = err, range = rng,
+  delta = 0.017, method = "delta", digits = 3)
+</pre>
+
+<p>This suggests a number of typical wrong solutions <code class="highlighter-rouge">err</code> (provided that they are not too small
+or too large) and makes sure that the range <code class="highlighter-rouge">rng</code> is large enough. With these arguments
+<code class="highlighter-rouge">num_to_schoice()</code> is run, see <code class="highlighter-rouge">?num_to_schoice</code> for the details. The resulting <code class="highlighter-rouge">sc</code> list
+contains suitable <code class="highlighter-rouge">$questions</code> and <code class="highlighter-rouge">$solutions</code> that can be easily embedded in an <code class="highlighter-rouge">answerlist()</code>
+and in the meta-information. Sometimes it is useful to wrap <code class="highlighter-rouge">num_to_schoice()</code> into another
+<code class="highlighter-rouge">while()</code> loop to make sure a valid result is found. See the <a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>
+template for illustraion.</p>
+
+<p>As before <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
+this exercise template. And some stress-testing could be carried out by:</p>
+
+<pre>
+rm(list = ls())
+s &lt;- stresstest_exercise("elasticity4.Rmd", n = 200)
+plot(s)
+plot(s, type = "ordering")
+</pre>
+
+<p>As a final variation we could include <em>None of the above</em> as the last alternative. This is
+very easy because we can simply replace the fifth element of the question list with the corresponding
+string:</p>
+
+<pre>
+sc$questions[5] &lt;- "None of the above."
+</pre>
+
+<p>No matter whether this was actually the correct alternative or one of the incorrect alternatives, the
+corresponding solution will stay the same. The R/exams templates
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rmd">elasticity5.Rmd</a> and
+<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rnw">elasticity5.Rnw</a> incorporate
+this additional line of code in the data-generating process.</p>
+
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2017-10-07" itemprop="datePublished"> 2017-10-07</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Rmd/">Rmd</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Rnw/">Rnw</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/static/">static</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/num/">num</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/schoice/">schoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/arithmetic/">arithmetic</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/economics/">economics</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/welcome/">&laquo; Welcome to R/exams</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,55 @@
+<<echo=FALSE, results=hide>>=
+sol <- 0
+while(sol > -0.11) {
+## p = a - b * x
+p <- sample(5:15, 1)
+fctr <- sample(c(2, 4, 5, 10), 1)
+x <- sample(5:15, 1) * fctr
+b <- sample(1:5, 1) / fctr
+a <- p + b * x
+
+## elasticity
+sol <- -1/b * p/x
+}
+
+## single-choice incl. typical errors
+err <- c(1/sol, sol/p, p/sol)
+err <- err[(err > -5) & (err < -0.2) & abs(err - sol) > 0.01]
+rng <- c(min(1.5 * sol, -1), -0.01)
+sc <- num_to_schoice(sol, wrong = err, range = rng,
+  delta = 0.017, method = "delta", digits = 3)
+@
+
+
+\begin{question}
+Consider the following inverse demand function:
+$p(x) = \Sexpr{a} - \Sexpr{b} \cdot x$
+for the price $p$ given the demanded quantity $x$.
+What is the price elastiticy of demand at a price of
+$p = \Sexpr{p}$?
+
+<<echo=FALSE, results=tex>>=
+answerlist(sc$questions)
+@
+\end{question}
+
+
+\begin{solution}
+First, we obtain the demand function by inverting the
+inverse demand function:
+$x = D(p) = (\Sexpr{a} - p)/\Sexpr{b} = \Sexpr{fmt(a/b, 6)} - \Sexpr{fmt(1/b, 6)} \cdot p$.
+
+Then, at $p = 5$ the price elasticity of demand is
+$$
+\frac{D'(p)}{D(p)} p = \frac{-\Sexpr{fmt(1/b, 6)}}{\Sexpr{x}} \Sexpr{p} = \Sexpr{fmt(sol, 6)}.
+$$
+
+<<echo=FALSE, results=tex>>=
+answerlist(ifelse(sc$solutions, "True", "False"))
+@
+\end{solution}
+
+
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(sc$solutions)}}
+%% \exname{price elasticity of demand}
