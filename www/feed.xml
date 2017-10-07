@@ -17,6 +17,11 @@
         
         <description><![CDATA[
     
+    <p>Tutorial for turning a static arithmetic exercise into a dynamic numeric exercise template and furthermore into a dynamic single-choice exercise template.</p>
+    
+    
+    <p><img alt="From Static to Numeric to Single-Choice Exercises in R/exams" src="http://www.R-exams.org/images/elasticity.title.jpg" /></p>
+    
     <h2 id="idea">Idea</h2>
 
 <p>Our colleagues over at the economics department became interested in using <a href="http://www.R-exams.org">R/exams</a> for
@@ -279,6 +284,11 @@ this additional line of code in the data-generating process.</p>
         
         <description><![CDATA[
     
+    <p>Brief introduction to the new web page and blog of the R/exams project.</p>
+    
+    
+    <p><img alt="Welcome to R/exams" src="http://www.R-exams.org/images/rexams_carousel.title.jpg" /></p>
+    
     <p>Welcome everybody, we are proud to introduce the brand new web page and
 blog <a href="http://www.R-exams.org/">http://www.R-exams.org/</a>. This provides a central access point for
 the <a href="/resources/">open-source software “exams”</a> implemented in the
@@ -369,6 +379,11 @@ especially on <a href="http://www.R-bloggers.com/">http://www.R-bloggers.com/</a
         <pubDate>Mon, 18 Sep 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
+    
+    <p>Step-by-step guide to generating, conducting, scanning, and automatically evaluating large-scale written exams with exams2nops() in R/exams.</p>
+    
+    
+    <p><img alt="Written Multiple-Choice Exams with R/exams" src="http://www.R-exams.org/images/olympia_front.title.jpg" /></p>
     
     <h2 id="create-exam">Create exam</h2>
 
@@ -635,6 +650,11 @@ web server, or even sent out via e-mail.</p>
         <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
+    
+    <p>First overview of the structure of R/exams, its exercise templates, and a first hands-on session.</p>
+    
+    
+    <p><img alt="First Steps" src="http://www.R-exams.org/images/laptop_on_table_deriv2.title.jpg" /></p>
     
     <h2 id="overview">Overview</h2>
 
@@ -1059,6 +1079,11 @@ extol: 0.01
         
         <description><![CDATA[
     
+    <p>Installation guide for R itself and the R package "exams" as well as further open-source tools that are required for certain tasks.</p>
+    
+    
+    <p><img alt="Installing R/exams" src="http://www.R-exams.org/images/logo.title.svg" /></p>
+    
     <h2 id="1-r">1. R</h2>
 
 <p>The R/exams system is an extension for the
@@ -1196,6 +1221,9 @@ exercise template gallery, e.g., <a href="http://www.R-exams.org/templates/dist"
         
         <description><![CDATA[
     
+    <p>Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).</p>
+    
+    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">ttest</code></div>
@@ -1283,6 +1311,9 @@ exams2pdf(&quot;ttest.Rmd&quot;)</code></pre>
         <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
+    
+    <p>Exercise template for computing the t-test statistic (single-choice) from given hypothesized mean and empirical mean and variance.</p>
+    
     
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
@@ -1373,6 +1404,9 @@ exams2pdf(&quot;tstat2.Rmd&quot;)</code></pre>
         
         <description><![CDATA[
     
+    <p>Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.</p>
+    
+    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">tstat</code></div>
@@ -1462,6 +1496,9 @@ exams2pdf(&quot;tstat.Rmd&quot;)</code></pre>
         
         <description><![CDATA[
     
+    <p>Exercise template for a multiple-choice knowledge quiz question with basic shuffling of the alternatives.</p>
+    
+    
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
   <div class="medium-8 columns"><code class="highlighter-rouge">switzerland</code></div>
@@ -1548,6 +1585,9 @@ exams2pdf(&quot;switzerland.Rmd&quot;)</code></pre>
         <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
         
         <description><![CDATA[
+    
+    <p>Exercise template for a single-choice knowledge quiz question with basic shuffling of correct and false alternatives.</p>
+    
     
     <div class="row t1 b1">
   <div class="medium-4 columns"><b>Name:</b></div>
