@@ -86,6 +86,7 @@ workflow:
 
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
 * Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Tutorial: [From Static to Numeric to Single-Choice Exercises in R/exams]({{ site.url }}/tutorials/static_num_schoice/).
 * Gallery: [Exercise Templates]({{ site.url }}/templates/).
 * [Blog archive]({{ site.url }}/blog/).
 

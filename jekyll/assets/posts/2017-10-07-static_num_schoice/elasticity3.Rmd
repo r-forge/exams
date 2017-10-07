@@ -1,0 +1,40 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## p = a - b * x
+p <- sample(5:15, 1)
+fctr <- sample(c(2, 4, 5, 10), 1)
+x <- sample(5:15, 1) * fctr
+b <- sample(1:5, 1) / fctr
+a <- p + b * x
+
+## elasticity
+sol <- -1/b * p/x
+```
+
+
+Question
+========
+Consider the following inverse demand function:
+$p(x) = `r a` - `r b` \cdot x$
+for the price $p$ given the demanded quantity $x$.
+What is the price elastiticy of demand at a price of
+$p = `r p`$?
+
+
+Solution
+========
+First, we obtain the demand function by inverting the
+inverse demand function:
+$x = D(p) = (`r a` - p)/`r b` = `r fmt(a/b, 6)` - `r fmt(1/b, 6)` \cdot p$.
+
+Then, at $p = 5$ the price elasticity of demand is
+$$
+\frac{D'(p)}{D(p)} p = \frac{-`r fmt(1/b, 6)`}{`r x`} `r p` = `r fmt(sol, 6)`.
+$$
+
+
+Meta-information
+================
+extype: num
+exsolution: `r fmt(sol, 3)`
+extol: 0.01
+exname: price elasticity of demand
