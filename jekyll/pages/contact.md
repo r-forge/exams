@@ -26,13 +26,13 @@ permalink: /contact/
 
 #### Authors and contributors
 
-- Achim Zeileis [author, maintainer] (Package design, version 1 and 2, core infrastructure)
-- Bettina Grün [author] (Version 1 design)
-- Friedrich Leisch [author] (Version 2 design, Moodle infrastructure)
-- Nikolaus Umlauf [author] (Version 2 design, QTI/Moodle infrastructure)
-- Niels Smits [contributor] (Blackboard adaptation)
-- Mirko Birbaumer [contributor] (Ilias adaptation)
+- [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/) [author, maintainer] (Package design, version 1 and 2, core infrastructure)
+- [Bettina Grün](http://ifas.jku.at/gruen/) [author] (Version 1 design)
+- [Friedrich Leisch](http://short.boku.ac.at/leisch.html) [author] (Version 2 design, Moodle infrastructure)
+- [Nikolaus Umlauf](https://eeecon.uibk.ac.at/~umlauf/) [author] (Version 2 design, QTI/Moodle infrastructure)
+- [Niels Smits](http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard adaptation)
+- [Mirko Birbaumer](https://www.hslu.ch/de-ch/hochschule-luzern/ueber-uns/personensuche/profile/?pid=1537) [contributor] (Ilias adaptation)
 - Dominik Ernst [contributor] (Moodle adaptation)
 - Patrik Keller [contributor] (Web page)
 - Hanna Krimm [contributor] (Web page)
-- Reto Stauffer [contributor] (Web page)
+- [Reto Stauffer](http://retostauffer.org/) [contributor] (Web page)
