@@ -3,7 +3,7 @@ layout: workflow
 #
 # Content
 #
-title: "<img height='100%' src='../../images/vector/written.svg'> Written Exams"
+title: "<img height='100%' src='../../images/vector/written.svg' alt='Written Exams'> Written Exams"
 meta_title: "R/exams: Written Exams"
 subheadline: "Large-Scale Pen-and-Paper Exams"
 teaser: "Manage large-scale written exams from generation to evaluation using R/exams."

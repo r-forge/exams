@@ -3,7 +3,7 @@ layout: workflow
 #
 # Content
 #
-title: "<img height='100%' src='../../images/vector/elearning.svg'> E-Learning"
+title: "<img height='100%' src='../../images/vector/elearning.svg' alt='E-Learning'> E-Learning"
 meta_title: "R/exams: E-Learning"
 subheadline: "Tests for Moodle, Blackboard, ..."
 teaser: "Easily generate large online tests for various learning management systems (like Moodle, Blackboard, OLAT, Ilias, ...)."

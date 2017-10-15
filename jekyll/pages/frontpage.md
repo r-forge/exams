@@ -40,7 +40,7 @@ topics:
 
 # Mission Statement
 mission:
-  title: <img width='50%' src='assets/img/logo_wide.svg'>
+  title: <img width='50%' src='assets/img/logo_wide.svg' alt='R/exams logo'>
   statement: |
     The [open-source package exams](/resources/) for
     the R system for statistical computing provides a

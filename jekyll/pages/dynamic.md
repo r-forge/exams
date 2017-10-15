@@ -3,7 +3,7 @@ layout: workflow
 #
 # Content
 #
-title: "<img height='100%' src='../../images/vector/dynamic.svg'> Dynamic Exercises"
+title: "<img height='100%' src='../../images/vector/dynamic.svg' alt='Dynamic Exercises'> Dynamic Exercises"
 meta_title: "R/exams: Dynamic Exercises"
 subheadline: "Templates with Random Elements"
 teaser: "Randomize exercises dynamically (e.g., using shuffled items, different numbers, text blocks, ...)
