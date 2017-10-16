@@ -1101,8 +1101,9 @@ first installation step is the base R system.</p>
 easier for most distributions to install the packaged binary. For example,
 on Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
+</code></pre>
+    </div>
   </li>
 </ul>
 
@@ -1129,14 +1130,16 @@ may provide some new features or small improvements.</p>
   <li>
     <p><strong>Stable version:</strong></p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
+</code></pre>
+    </div>
   </li>
   <li>
     <p><strong>Development version:</strong></p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
+</code></pre>
+    </div>
   </li>
 </ul>
 
@@ -1169,8 +1172,9 @@ pandoc is provided along with it and nothing else needs to be done.</p>
 <p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pandoc
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pandoc
+</code></pre>
+</div>
 
 <h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
 
@@ -1195,8 +1199,9 @@ ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
   <li>
     <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pdftk imagemagick
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pdftk imagemagick
+</code></pre>
+    </div>
   </li>
   <li><strong>(Mac) OS X:</strong> Not tested yet but presumably similar to Linux.</li>
 </ul>
