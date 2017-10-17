@@ -9,6 +9,11 @@ Changes in Version 2.3-1
     mathjax.rstudio.com is used now rather than cdn.mathjax.org which
     is currently redirecting and will eventually be shut down completely.
 
+  o Bug fixes in tth/ttm HTML transformers: alt="filename.ext" is now
+    omitted prior to replacing filename.ext with Base 64 encoding.
+    Quotes are added before and not only after "filename.ext" before
+    the replacement.
+
 
 Changes in Version 2.3-0
 
