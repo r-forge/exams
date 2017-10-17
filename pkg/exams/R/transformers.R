@@ -52,8 +52,8 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
       inames <- file_path_sans_ext(basename(dir))
       if(b64) {
         for(i in seq_along(dir))
-          dir[i] <- sprintf('<img src="%s" alt="%s" />', base64enc::dataURI(file = dir[i],
-            mime = paste('image', format = file_ext(dir[i]), sep = '/')), dir[i])
+          dir[i] <- sprintf('<img src="%s" />', base64enc::dataURI(file = dir[i],
+            mime = paste('image', format = file_ext(dir[i]), sep = '/')))
         for(sf in dir(sdir)) {
           if(length(grep(file_ext(sf), base64, ignore.case = TRUE))) {
             file.remove(file.path(sdir, sf))
