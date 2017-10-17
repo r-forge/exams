@@ -159,6 +159,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
           for(i in seq_along(trex)) {
             if(length(j <- grep(sf, trex[[i]], fixed = TRUE)) && file_ext(sf) %in% base64) {
               base64i <- fileURI(file = sf)
+	      trex[[i]][j] <- gsub(sprintf("alt=\"%s\"", sf), "", trex[[i]][j], fixed = TRUE)
               trex[[i]][j] <- gsub(paste(sf, '"', sep = ''),
                 paste(base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
               file.remove(file.path(sdir, sf))
