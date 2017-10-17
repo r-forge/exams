@@ -3,7 +3,7 @@
 	<a href="{{ url }}">
 		{% if include.topic.icon %}
 			{% capture icon %}{% if include.topic.icon contains 'http' %}{{ include.topic.icon }}{% else %}{{ site.urlimg }}{{ include.topic.icon }}{% endif %}{% endcapture %}
-			<img class="frontpage-topic-icon" src="{{ icon }}" alt="" />
+			<img class="frontpage-topic-icon" src="{{ icon }}" alt="{{ include.topic.title }}" />
 		{% endif %}
     <h2 class="font-size-h4 t10"">{{ include.topic.title }}</h2>
 	</a>

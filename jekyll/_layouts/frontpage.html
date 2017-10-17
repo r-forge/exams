@@ -27,7 +27,7 @@ format: blog-index
             {% capture icon %}{% if topic.icon contains 'http' %}{{ topic.icon }}{% else %}{{ site.urlimg }}{{ topic.icon }}{% endif %}{% endcapture %}
             <div class="left icon valign_o" data-equalizer-watch>
               <div class="valign_i">
-                <img class="frontpage-topic-icon" src="{{ icon }}" alt="" />
+                <img class="frontpage-topic-icon" src="{{ icon }}" alt="{{ topic.title }}" />
               </div>
             </div>
             {% endif %}
