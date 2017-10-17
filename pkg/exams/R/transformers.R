@@ -73,7 +73,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
           x[[i]] <- if(b64) {
             dir[j]
           } else {
-            paste("<img src=\"", file.path(sdir, basename(dir[j])), "\" alt=\"", inames[j], "\" />", sep = "")
+            paste("<img src=\"", file.path(sdir, basename(dir[j])), "\" />", sep = "")
           }
           names(x[[i]]) <- inames[j]
         }
