@@ -18,7 +18,7 @@ topics:
       Exercises for Moodle, Blackboard, OLAT, ...
 
   - icon: vector/oneforall.svg
-    image: "moodle-arsnova-nops.orig.jpg"
+    image: "moodle-arsnova-nops.big.jpg"
     title: One-for-All
     url: '/intro/oneforall/'
     description: |
