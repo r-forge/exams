@@ -63,7 +63,7 @@
   convert to be available on the system. On Linux(-esque) systems this is typically
   easy to install by pdftk and imagemagick. The download links for Windows are:
   \url{http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe},
-  \url{http://www.imagemagick.org/script/binary-releases.php#windows},
+  \url{http://www.imagemagick.org/script/download.php#windows},
   \url{http://www.ghostscript.com/download/gsdnld.html}.
   
   Practical recommendations:
