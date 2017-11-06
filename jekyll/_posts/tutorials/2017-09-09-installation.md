@@ -123,7 +123,7 @@ ImageMagick's `convert`.
 
 - **Windows:** Install PDFTk Free, ImageMagick, and Ghostscript.
   - <http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe>
-  - <http://www.imagemagick.org/script/binary-releases.php#windows>
+  - <http://www.imagemagick.org/script/download.php#windows>
   - <http://www.ghostscript.com/download/gsdnld.html>
   - _Note:_ During the installation of PDFTk and ImageMagick check the boxes for 
     "Add application directory to your environmental path" or
