@@ -50,4 +50,5 @@ image:
 
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
 * Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Overview: [R/exams for Blended Learning in a Mathematics 101 Course]({{ site.url }}/general/uibk_math/).
 * [Blog archive]({{ site.url }}/blog/).
