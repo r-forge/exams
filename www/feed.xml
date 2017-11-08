@@ -11,6 +11,344 @@
     
     
 			<item>
+        <title><![CDATA[ R/exams for Blended Learning in a Mathematics 101 Course]]></title>
+				<link>http://www.R-exams.org/general/uibk_math/</link>
+        <pubDate>Tue, 07 Nov 2017 00:00:00 +0100</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Overview of how R/exams is used to assist learning, feedback, and assessment in a large introductory mathematics course at Universität Innsbruck.</p>
+    
+    
+    <p><img alt=" R/exams for Blended Learning in a Mathematics 101 Course" src="http://www.R-exams.org/images/uibkmath.title.png" /></p>
+    
+    <h3 id="motivation">Motivation</h3>
+
+<p>Many statisticians regularly teach large lecture courses on statistics,
+probability, or mathematics for students from other fields such as business and
+economics, social sciences and psychology, etc. A common challenge in such
+courses is that many variations of similar exercises are needed for written
+exams, online tests conducted in learning management systems (LMS, such as Moodle,
+Blackboard, etc.), or live quizzes with voting via smartphones or tablets.</p>
+
+<p>Here, it is shown how the <a href="https://www.uibk.ac.at/statistics/">Department of Statistics</a>
+at <a href="https://www.uibk.ac.at/">Universität Innsbruck</a> manages the first-year
+mathematics 101 course for economics and business students, attended by
+about 500 to 1,000 students per semester. The course is accessible through the
+university’s LMS (an <a href="https://www.openolat.com/">OpenOLAT</a>
+system), including anonymous <em>“Guest access”</em> for most materials. So you can either
+look at the screen shots presented below in this blog post or try out the course yourself:
+<a href="https://lms.uibk.ac.at/url/RepositoryEntry/3051978752">https://lms.uibk.ac.at/url/RepositoryEntry/3051978752</a>.
+(The course materials are in German but also non-German-speakers should get a
+good impression of how things are tied together.)</p>
+
+<h3 id="course-overview">Course overview</h3>
+
+<p>As highschool knowledge about mathematics is rather heterogeneous among the students, the
+course has been designed so that they can learn either synchronously (in a classical
+lecture that is also streamed live) or asynchronously (with a textbook and/or screencasts).
+This way students can decide which parts of the content just need reviewing and which
+need deepening. Similarly, they can get feedback (not directly relevant for their grade) during
+lecture and tutorial sessions synchronously or asynchronously “in their own time”. Finally,
+the assessment is also done in two parts: online tests that they can do over the course of the semester
+(at any time within a 3.5-day window each) and a classical written exam at the end of the semester.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left">Learning</th>
+      <th style="text-align: left">Feedback</th>
+      <th style="text-align: left">Assessment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Synchronous</strong></td>
+      <td style="text-align: left">Lecture <br /> Live stream</td>
+      <td style="text-align: left"><a href="#live-quiz">Live quiz</a> <br /> (+ Tutorial)</td>
+      <td style="text-align: left"><a href="#written-exam">Written exam</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Asynchronous</strong></td>
+      <td style="text-align: left">Textbook <br /> Screencast</td>
+      <td style="text-align: left"><a href="#online-test">Self test</a> <br /> (+ Forum)</td>
+      <td style="text-align: left"><a href="#online-test">Online test</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Subsequently, it will be discussed how the different feedback and assessment formats are generated
+with R/exams from the same pool of exercise templates.</p>
+
+<!--
+
+Thus, the _learning_ phase is not so unusual:
+* _Standard:_ Textbook along with presentation slides.
+* _Streaming:_ Videos streamed simultaneously or (pre-)recorded.
+
+But for _feedback_ and _assessment_ the following is required:
+* _Scalability:_ Randomized dynamic exercises.
+* _Feedback:_ Support for either just the correct answer or the complete approach to the correct solution.
+* _Flexibility:_ Automatic rendering into different assessment formats.
+
+[WU Wirtschaftsuniversität Wien](https://www.wu.ac.at/)
+Böhm & Strasser, [Mathematik für Wirtschaft und Management](http://mb000041.host.inode.at/f-erstsemfor.php?listNR=1)
+
+-->
+
+<h3 id="exercises">Exercises</h3>
+
+<p>The core of the course are about 400 <a href="/intro/dynamic">dynamic exercise templates</a> where students have to compute some number based on
+a problem description or a short story. Some examples from this pool have also been translated into English and included in R/exams, e.g.,
+<a href="/templates/deriv/">deriv</a>, <a href="/templates/lagrange/">lagrange</a>, <a href="/templates/hessian/">hessian</a>.
+Almost all of these exercises have been established as num exercises first (with numeric result,
+employed in online tests) and then <a href="/tutorials/static_num_schoice/">converted to single-choice format</a>
+(schoice, see e.g. <a href="/templates/deriv2/">deriv2</a>) as this format can be easily scanned automatically in
+<a href="/intro/written/">written exams</a>. Additionally, there are about 70 dynamic multiple-choice questions
+(mchoice) that are used either in online tests or live quizzes.</p>
+
+<p>As illustrated in the following, these exercises are the thread running through the enitre course, starting with
+the lecture slides where typically one static snapshot from an exercise is used (potentially with
+some additional explanations, incremental slides, graphics, etc.) Below
+we show screenshots from such a curve sketching exercise in the screencasts (based on the slides).
+It depicts a simple cubic polynomial of type <em>a x<sup>3</sup> + b x<sup>2</sup> + c x + d</em>
+for which the two local optima and the inflection point have to be found.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast1-thumb.png" alt="screencast1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast2-thumb.png" alt="screencast2.png" /></a></p>
+
+<h3 id="online-test">Online test</h3>
+
+<p>The corresponding dynamic exercise templates can then be used in an online test.
+In fact, here there are three dynamic templates that draw different coefficients <em>a</em>, <em>b</em>, <em>c</em>,
+and <em>d</em> and either ask for the function value <em>f(x)</em> in one of the local optima (A or C), or the
+second derivative <em>f’‘(x)</em> in one of the local optima (A or C), or the slope <em>f’(x)</em> in the
+inflection point B.</p>
+
+<p>In the screenshots below the second derivative <em>f’‘(x)</em> in C is demanded, but the argument <em>x</em>
+is C incorrectly entered/saved by the student, prompting OpenOLAT to display the full correct approach to the solution.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest1-thumb.png" alt="onlinetest1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest2-thumb.png" alt="onlinetest2.png" /></a></p>
+
+<p>To import an online test into OpenOLAT, an XML-based exchange format by the IMS Global Learning Consortium is used:
+<a href="http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html">IMS Question &amp; Test Interoperability, Version 1.2</a> (QTI 1.2).
+The R/exams function <code class="highlighter-rouge">exams2qti12()</code> generates a zipped XML file
+that can be imported into OpenOLAT as a complete online test. To do so
+we first set up a list of exercises à la:</p>
+
+<pre><code class="language-{r}">otest &lt;- list(
+  c("deriv-poly.Rnw", "deriv-sqrt.Rnw", "deriv-exp.Rnw", ...),
+  c("graph-deriv-A.Rnw", "graph-deriv-B.Rnw", "graph-deriv-C.Rnw"),
+  ...
+)
+</code></pre>
+
+<p>And then <code class="highlighter-rouge">exams2qti12()</code> can proceed to draw many replications from this combining two forms of
+randomization: (a) Sampling one item from a given vector of exercise templates (e.g., here
+the <code class="highlighter-rouge">deriv-*.Rnw</code> templates for the first item). (b) In each <code class="highlighter-rouge">.Rnw</code> template random
+numbers are drawn and inserted into the exercise (e.g., the coefficients <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em>
+in the cubic polynomial). For example:</p>
+
+<pre><code class="language-{r}">exams2qti12(otest, n = 500, name = "Mathematik-Onlinetest-01", 
+  solutionswitch = FALSE, maxattempts = 2, cutvalue = 1000)
+</code></pre>
+
+<p>draws 500 random versions for each of the items in the test. We don’t
+show the correct solution approach at the end (only the correct numeric result, <code class="highlighter-rouge">solutionswitch = FALSE</code>)
+but allow our students to attempt each item within the test twice (i.e., one wrong attempt is
+tolerated). Because individual tests cannot be passed or failed (they just collect points for
+the overall course), we set <code class="highlighter-rouge">cutvalue = 1000</code> which can never be attained. Due to the large
+exercise pools and the large number of random variations, the students cannot simply copy
+a single number or a certain solution formula. Of course, during a 3.5-day test it is possible
+to help each other and in fact we encourage the students to form small learning groups.</p>
+
+<p>Further control arguments of <code class="highlighter-rouge">exams2qti12()</code> include the number of <code class="highlighter-rouge">points</code> and the <code class="highlighter-rouge">eval</code> strategy (e.g., 
+for negative points upon incorrect results etc.). See <code class="highlighter-rouge">?exams2qti</code> for more technical
+details and also for an example you can run yourself based on exercises from the 
+<a href="/templates/">template gallery</a>.</p>
+
+<p>In addition to the online tests (= assessment) we employ self tests (= feedback), either in the
+form of selected demo exercises (“Musteraufgaben”) for which the full solution approach is shown
+(<code class="highlighter-rouge">solutionswitch = TRUE</code>), short tests that sample exercises from almost the entire exercise
+pool (“Selbsttests”), or “mock exams” based on past written exams (“Probeklausuren”).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Course element <br />  </th>
+      <th style="text-align: left">Item <br /> type</th>
+      <th style="text-align: center">Templates <br /> per item</th>
+      <th style="text-align: center">Full <br /> solution</th>
+      <th style="text-align: center">Show points <br /> during test?</th>
+      <th style="text-align: center">Time <br /> (min.)</th>
+      <th style="text-align: center">Attempts <br /> per item</th>
+      <th style="text-align: center">Attempts <br /> per test</th>
+      <th style="text-align: left">Purpose <br />  </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Online test</strong></td>
+      <td style="text-align: left">num or <br /> mchoice</td>
+      <td style="text-align: center">3-20</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: left">Assessment <br /> during semester</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Demo exercises</strong> <br /> (Musteraufgaben)</td>
+      <td style="text-align: left">num or <br /> mchoice</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: left">Feedback <br /> after lecture</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Self test</strong>      <br /> (Selbsttest)</td>
+      <td style="text-align: left">schoice</td>
+      <td style="text-align: center">3-20</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: left">Feedback <br /> during semester</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Mock exam</strong>      <br /> (Probeklausur)</td>
+      <td style="text-align: left">schoice</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">90</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: left">Feedback <br /> before exam</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As the written exams use single-choice versions of the exercises, the latter two test types 
+also practice using this item type (see the screenshot below).</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest3.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest3-thumb.png" alt="onlinetest3.png" /></a></p>
+
+<h3 id="written-exam">Written exam</h3>
+
+<p>The course ends in a “strict” written exam (“Gesamtprüfung”) in the sense that now each student really
+has to solve his/her own exam without further help in a time window of 90 minutes.
+The function employed for generating the PDF files is <code class="highlighter-rouge">exams2nops()</code> and its usage
+is illustrated in detail in the tutorial on <a href="/tutorials/exams2nops/">written exams</a>.</p>
+
+<p>First, a <em>vector</em> (as opposed to a <em>list</em>) of exercises is set up à la:</p>
+
+<pre><code class="language-{r}">gp &lt;- c(
+  "deriv-sqrt.Rnw",
+  "graph-deriv-B.Rnw",
+  ...
+)
+</code></pre>
+
+<p>Thus, for written exams we assure that every student gets the same exercise template,
+only with some random variations of the numbers/graphics/etc. Thus, we try to make the
+exam as fair as possible while assuring that cheating is very hard. If there are, say,
+400 participants in the exam, there are 400 different exams with single-choice
+exercises. These can be generated (typically after setting a random seed for reproducibility)
+via:</p>
+
+<pre><code class="language-{r}">set.seed(2017-04-05)
+exams2nops(gp, n = 400, name = "GP", title = "GP Mathematik",
+  institution = "Universit\\\"at Innsbruck", logo = "uibk-logo-bw.png",
+  language = "de", course = "403100--200", date = "2017-04-05", reglength = 7,
+  pages = c("/path/to/formulary.pdf", "/path/to/normal-table.pdf"))
+</code></pre>
+
+<p>Thus, in addition to some information about course/exam, we specify the language (German), length of the registration
+ID (7 digits), and add PDF pages with the formulary and normal tables.
+The first few pages of one of the resulting PDFs are displayed below. More details on the
+evaluation process can be found in the <a href="/tutorials/exams2nops/">exams2nops</a> tutorial.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops1-thumb.png" alt="nops1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops2-thumb.png" alt="nops2.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops3.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops3-thumb.png" alt="nops3.png" /></a></p>
+
+<p>A very nice benefit of using R/exams here is that we can share an interactive online
+“mock exam” (“Probeklausur”) in addition to the PDF version in the exam archive. This
+can again be generated by <code class="highlighter-rouge">exams2qti12()</code> with time limit and evaluation settings
+corresponding to the actual written exam:</p>
+
+<pre><code class="language-{r}">exams2qti12(gp, n = 10, name = "Mathematik-GP-2017-04-05",
+  maxattempts = Inf, cutvalue = 18, solutionswitch = FALSE,
+  points = 2, eval = list(partial = FALSE, negative = -0.25),
+  duration = 90)
+</code></pre>
+
+<p>The screen shots below show first the interactive version of the mock exam and then
+one of the PDFs in the resources archive.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam1-thumb.png" alt="mockexam1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam2-thumb.png" alt="mockexam2.png" /></a></p>
+
+<h3 id="live-quiz">Live quiz</h3>
+
+<p>Finally, the same exercise templates can also be imported into live quizzes when the
+audience response system ARSnova is used (see <a href="https://arsnova.eu/">https://arsnova.eu/</a>). As we do not use
+the system for assessment but only for feedback it is not as important to have a lot
+of random variation in the exercises, but it certainly helps to avoid duplication
+across courses taught in parallel or in subsequent semesters.
+Moreover, the R/exams function <code class="highlighter-rouge">exams2arsnova()</code> can directly import the drawn exercises
+into ARSnova using its REST interface (via Rcurl and suitable JSON data). Alternatively,
+JSON files can be generated on the hard disk and subsequently imported manually.</p>
+
+<p>As an illustration we use again a vector of exercise templates and export random
+draws from these directly into a previously-generated ARSnova session (using one
+session for the enitre semester). Authentication can be done through the JSESSIONID.</p>
+
+<pre><code class="language-{r}">quiz &lt;- c("deriv-sqrt.Rnw", "graph-deriv-B.Rnw", ...)
+exams2arsnova(quiz, name = "Quiz", url = "https://arsnova.uibk.ac.at",
+  sessionkey = "79732490", jsessionid = "34A6B8C1D83CB7D0EC66F14DA7044DB1",
+  fix_choice = FALSE, abstention = FALSE)
+</code></pre>
+
+<p>The students can then view the exercises on the mobile phones or tablets, practicing for
+the exam, followed by a phase of peer instruction to resolve remaining problems.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova1-thumb.png" alt="arsnova1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova2-thumb.png" alt="arsnova2.png" /></a></p>
+
+<p>Exercises like shown in the two screenshots above are used for exam practice during lecture
+or tutorial sessions. Additionally, knowledge quiz questions
+are frequently used for checking whether the students can follow the lecture or not.
+These are typically in the form of multiple-choice questions where each subitem can either be
+true or false. See <a href="/templates/gaussmarkov/">gaussmarkov</a> for a worked example.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>This blog post has shown how the same pool of exercises can be used flexibly for
+different elements of a large-lecture course. Over the last years we experimented
+quite a bit with these and kept those elements we (or the students) found useful
+but discontinued using others. Of course, the hard part is establishing the large
+exercise pool but then R/exams enables us to try out different formats fairly easily.</p>
+
+<p>If you have further questions about these tools or want to let us know how you
+use R/exams in your course, please get in touch! Either via
+<a href="/contact/">our forum, StackOverflow, Twitter, or simply by e-mail</a>.</p>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/general/uibk_math/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[From Static to Numeric to Single-Choice Exercises in R/exams]]></title>
 				<link>http://www.R-exams.org/tutorials/static_num_schoice/</link>
         <pubDate>Sat, 07 Oct 2017 00:00:00 +0200</pubDate>
@@ -1101,9 +1439,8 @@ first installation step is the base R system.</p>
 easier for most distributions to install the packaged binary. For example,
 on Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -1130,16 +1467,14 @@ may provide some new features or small improvements.</p>
   <li>
     <p><strong>Stable version:</strong></p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Development version:</strong></p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -1172,9 +1507,8 @@ pandoc is provided along with it and nothing else needs to be done.</p>
 <p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pandoc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pandoc
+</code></pre></div></div>
 
 <h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
 
@@ -1189,7 +1523,7 @@ ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
   <li><strong>Windows:</strong> Install PDFTk Free, ImageMagick, and Ghostscript.
     <ul>
       <li><a href="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe">http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe</a></li>
-      <li><a href="http://www.imagemagick.org/script/binary-releases.php#windows">http://www.imagemagick.org/script/binary-releases.php#windows</a></li>
+      <li><a href="http://www.imagemagick.org/script/download.php#windows">http://www.imagemagick.org/script/download.php#windows</a></li>
       <li><a href="http://www.ghostscript.com/download/gsdnld.html">http://www.ghostscript.com/download/gsdnld.html</a></li>
       <li><em>Note:</em> During the installation of PDFTk and ImageMagick check the boxes for 
 “Add application directory to your environmental path” or
@@ -1199,9 +1533,8 @@ ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
   <li>
     <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pdftk imagemagick
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pdftk imagemagick
+</code></pre></div>    </div>
   </li>
   <li><strong>(Mac) OS X:</strong> Not tested yet but presumably similar to Linux.</li>
 </ul>
@@ -1580,96 +1913,6 @@ exams2pdf(&quot;switzerland.Rmd&quot;)</code></pre>
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/switzerland/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[swisscapital: Knowledge Quiz Question about the Swiss Capital]]></title>
-				<link>http://www.R-exams.org/templates/swisscapital/</link>
-        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Exercise template for a single-choice knowledge quiz question with basic shuffling of correct and false alternatives.</p>
-    
-    
-    <div class="row t1 b1">
-  <div class="medium-4 columns"><b>Name:</b></div>
-  <div class="medium-8 columns"><code class="highlighter-rouge">swisscapital</code></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Type:</b></div>
-  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/schoice/"><code class="highlighter-rouge">schoice</code></a></div>
-</div>
-<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/switzerland/"><code class="highlighter-rouge">switzerland</code></a></div> </div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Description:</b></div>
-  <div class="medium-8 columns">Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative. 4 out of the 6 false alternatives are sampled randomly and shuffled.</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Solution feedback:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Randomization:</b></div>
-  <div class="medium-8 columns">Shuffling (4 out of 6 false alternatives)</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Images:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Other supplements:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Template:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw">swisscapital.Rnw</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.Rmd">swisscapital.Rmd</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.tex">swisscapital.tex</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital.md">swisscapital.md</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>PDF:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png" alt="swisscapital-Rnw-pdf" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-pdf.png" alt="swisscapital-Rmd-pdf" /></a></div>
-</div>
-<div class="row t1 b20">
-  <div class="medium-4 columns"><b>HTML:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png" alt="swisscapital-Rnw-html" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-html.png" alt="swisscapital-Rmd-html" /></a></div>
-</div>
-
-<p><strong>Demo code:</strong></p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-
-set.seed(1090)
-exams2html(&quot;swisscapital.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;swisscapital.Rnw&quot;)
-
-set.seed(1090)
-exams2html(&quot;swisscapital.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;swisscapital.Rmd&quot;)</code></pre>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/templates/swisscapital/</guid>
 			</item>
 		
 	</channel>

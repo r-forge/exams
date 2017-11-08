@@ -1,0 +1,871 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title> R/exams for Blended Learning in a Mathematics 101 Course</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Overview of how R/exams is used to assist learning, feedback, and assessment in a large introductory mathematics course at Universität Innsbruck." />
+  <meta name="keywords" content="R, exams, exams2qti12, exams2arsnova, exams2nops, e-learning" />
+	
+  <meta name="author" content="Achim Zeileis" />
+
+	
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content=" R/exams for Blended Learning in a Mathematics 101 Course" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//general/uibk_math/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/uibkmath.300.png" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+</head>
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/uibkmath.title.png" width="970" alt=" R/exams for Blended Learning in a Mathematics 101 Course" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						OpenOLAT screenshot (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1> R/exams for Blended Learning in a Mathematics 101 Course</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Overview of how R/exams is used to assist learning, feedback, and assessment in a large introductory mathematics course at Universität Innsbruck.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h3 id="motivation">Motivation</h3>
+
+<p>Many statisticians regularly teach large lecture courses on statistics,
+probability, or mathematics for students from other fields such as business and
+economics, social sciences and psychology, etc. A common challenge in such
+courses is that many variations of similar exercises are needed for written
+exams, online tests conducted in learning management systems (LMS, such as Moodle,
+Blackboard, etc.), or live quizzes with voting via smartphones or tablets.</p>
+
+<p>Here, it is shown how the <a href="https://www.uibk.ac.at/statistics/">Department of Statistics</a>
+at <a href="https://www.uibk.ac.at/">Universität Innsbruck</a> manages the first-year
+mathematics 101 course for economics and business students, attended by
+about 500 to 1,000 students per semester. The course is accessible through the
+university’s LMS (an <a href="https://www.openolat.com/">OpenOLAT</a>
+system), including anonymous <em>“Guest access”</em> for most materials. So you can either
+look at the screen shots presented below in this blog post or try out the course yourself:
+<a href="https://lms.uibk.ac.at/url/RepositoryEntry/3051978752">https://lms.uibk.ac.at/url/RepositoryEntry/3051978752</a>.
+(The course materials are in German but also non-German-speakers should get a
+good impression of how things are tied together.)</p>
+
+<h3 id="course-overview">Course overview</h3>
+
+<p>As highschool knowledge about mathematics is rather heterogeneous among the students, the
+course has been designed so that they can learn either synchronously (in a classical
+lecture that is also streamed live) or asynchronously (with a textbook and/or screencasts).
+This way students can decide which parts of the content just need reviewing and which
+need deepening. Similarly, they can get feedback (not directly relevant for their grade) during
+lecture and tutorial sessions synchronously or asynchronously “in their own time”. Finally,
+the assessment is also done in two parts: online tests that they can do over the course of the semester
+(at any time within a 3.5-day window each) and a classical written exam at the end of the semester.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left">Learning</th>
+      <th style="text-align: left">Feedback</th>
+      <th style="text-align: left">Assessment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Synchronous</strong></td>
+      <td style="text-align: left">Lecture <br /> Live stream</td>
+      <td style="text-align: left"><a href="#live-quiz">Live quiz</a> <br /> (+ Tutorial)</td>
+      <td style="text-align: left"><a href="#written-exam">Written exam</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Asynchronous</strong></td>
+      <td style="text-align: left">Textbook <br /> Screencast</td>
+      <td style="text-align: left"><a href="#online-test">Self test</a> <br /> (+ Forum)</td>
+      <td style="text-align: left"><a href="#online-test">Online test</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Subsequently, it will be discussed how the different feedback and assessment formats are generated
+with R/exams from the same pool of exercise templates.</p>
+
+<!--
+
+Thus, the _learning_ phase is not so unusual:
+* _Standard:_ Textbook along with presentation slides.
+* _Streaming:_ Videos streamed simultaneously or (pre-)recorded.
+
+But for _feedback_ and _assessment_ the following is required:
+* _Scalability:_ Randomized dynamic exercises.
+* _Feedback:_ Support for either just the correct answer or the complete approach to the correct solution.
+* _Flexibility:_ Automatic rendering into different assessment formats.
+
+[WU Wirtschaftsuniversität Wien](https://www.wu.ac.at/)
+Böhm & Strasser, [Mathematik für Wirtschaft und Management](http://mb000041.host.inode.at/f-erstsemfor.php?listNR=1)
+
+-->
+
+<h3 id="exercises">Exercises</h3>
+
+<p>The core of the course are about 400 <a href="/intro/dynamic">dynamic exercise templates</a> where students have to compute some number based on
+a problem description or a short story. Some examples from this pool have also been translated into English and included in R/exams, e.g.,
+<a href="/templates/deriv/">deriv</a>, <a href="/templates/lagrange/">lagrange</a>, <a href="/templates/hessian/">hessian</a>.
+Almost all of these exercises have been established as num exercises first (with numeric result,
+employed in online tests) and then <a href="/tutorials/static_num_schoice/">converted to single-choice format</a>
+(schoice, see e.g. <a href="/templates/deriv2/">deriv2</a>) as this format can be easily scanned automatically in
+<a href="/intro/written/">written exams</a>. Additionally, there are about 70 dynamic multiple-choice questions
+(mchoice) that are used either in online tests or live quizzes.</p>
+
+<p>As illustrated in the following, these exercises are the thread running through the enitre course, starting with
+the lecture slides where typically one static snapshot from an exercise is used (potentially with
+some additional explanations, incremental slides, graphics, etc.) Below
+we show screenshots from such a curve sketching exercise in the screencasts (based on the slides).
+It depicts a simple cubic polynomial of type <em>a x<sup>3</sup> + b x<sup>2</sup> + c x + d</em>
+for which the two local optima and the inflection point have to be found.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast1-thumb.png" alt="screencast1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/screencast2-thumb.png" alt="screencast2.png" /></a></p>
+
+<h3 id="online-test">Online test</h3>
+
+<p>The corresponding dynamic exercise templates can then be used in an online test.
+In fact, here there are three dynamic templates that draw different coefficients <em>a</em>, <em>b</em>, <em>c</em>,
+and <em>d</em> and either ask for the function value <em>f(x)</em> in one of the local optima (A or C), or the
+second derivative <em>f’‘(x)</em> in one of the local optima (A or C), or the slope <em>f’(x)</em> in the
+inflection point B.</p>
+
+<p>In the screenshots below the second derivative <em>f’‘(x)</em> in C is demanded, but the argument <em>x</em>
+is C incorrectly entered/saved by the student, prompting OpenOLAT to display the full correct approach to the solution.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest1-thumb.png" alt="onlinetest1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest2-thumb.png" alt="onlinetest2.png" /></a></p>
+
+<p>To import an online test into OpenOLAT, an XML-based exchange format by the IMS Global Learning Consortium is used:
+<a href="http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html">IMS Question &amp; Test Interoperability, Version 1.2</a> (QTI 1.2).
+The R/exams function <code class="highlighter-rouge">exams2qti12()</code> generates a zipped XML file
+that can be imported into OpenOLAT as a complete online test. To do so
+we first set up a list of exercises à la:</p>
+
+<pre><code class="language-{r}">otest &lt;- list(
+  c("deriv-poly.Rnw", "deriv-sqrt.Rnw", "deriv-exp.Rnw", ...),
+  c("graph-deriv-A.Rnw", "graph-deriv-B.Rnw", "graph-deriv-C.Rnw"),
+  ...
+)
+</code></pre>
+
+<p>And then <code class="highlighter-rouge">exams2qti12()</code> can proceed to draw many replications from this combining two forms of
+randomization: (a) Sampling one item from a given vector of exercise templates (e.g., here
+the <code class="highlighter-rouge">deriv-*.Rnw</code> templates for the first item). (b) In each <code class="highlighter-rouge">.Rnw</code> template random
+numbers are drawn and inserted into the exercise (e.g., the coefficients <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em>
+in the cubic polynomial). For example:</p>
+
+<pre><code class="language-{r}">exams2qti12(otest, n = 500, name = "Mathematik-Onlinetest-01", 
+  solutionswitch = FALSE, maxattempts = 2, cutvalue = 1000)
+</code></pre>
+
+<p>draws 500 random versions for each of the items in the test. We don’t
+show the correct solution approach at the end (only the correct numeric result, <code class="highlighter-rouge">solutionswitch = FALSE</code>)
+but allow our students to attempt each item within the test twice (i.e., one wrong attempt is
+tolerated). Because individual tests cannot be passed or failed (they just collect points for
+the overall course), we set <code class="highlighter-rouge">cutvalue = 1000</code> which can never be attained. Due to the large
+exercise pools and the large number of random variations, the students cannot simply copy
+a single number or a certain solution formula. Of course, during a 3.5-day test it is possible
+to help each other and in fact we encourage the students to form small learning groups.</p>
+
+<p>Further control arguments of <code class="highlighter-rouge">exams2qti12()</code> include the number of <code class="highlighter-rouge">points</code> and the <code class="highlighter-rouge">eval</code> strategy (e.g., 
+for negative points upon incorrect results etc.). See <code class="highlighter-rouge">?exams2qti</code> for more technical
+details and also for an example you can run yourself based on exercises from the 
+<a href="/templates/">template gallery</a>.</p>
+
+<p>In addition to the online tests (= assessment) we employ self tests (= feedback), either in the
+form of selected demo exercises (“Musteraufgaben”) for which the full solution approach is shown
+(<code class="highlighter-rouge">solutionswitch = TRUE</code>), short tests that sample exercises from almost the entire exercise
+pool (“Selbsttests”), or “mock exams” based on past written exams (“Probeklausuren”).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Course element <br />  </th>
+      <th style="text-align: left">Item <br /> type</th>
+      <th style="text-align: center">Templates <br /> per item</th>
+      <th style="text-align: center">Full <br /> solution</th>
+      <th style="text-align: center">Show points <br /> during test?</th>
+      <th style="text-align: center">Time <br /> (min.)</th>
+      <th style="text-align: center">Attempts <br /> per item</th>
+      <th style="text-align: center">Attempts <br /> per test</th>
+      <th style="text-align: left">Purpose <br />  </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Online test</strong></td>
+      <td style="text-align: left">num or <br /> mchoice</td>
+      <td style="text-align: center">3-20</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: left">Assessment <br /> during semester</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Demo exercises</strong> <br /> (Musteraufgaben)</td>
+      <td style="text-align: left">num or <br /> mchoice</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: left">Feedback <br /> after lecture</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Self test</strong>      <br /> (Selbsttest)</td>
+      <td style="text-align: left">schoice</td>
+      <td style="text-align: center">3-20</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">x</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: left">Feedback <br /> during semester</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Mock exam</strong>      <br /> (Probeklausur)</td>
+      <td style="text-align: left">schoice</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">90</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: center">∞</td>
+      <td style="text-align: left">Feedback <br /> before exam</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As the written exams use single-choice versions of the exercises, the latter two test types 
+also practice using this item type (see the screenshot below).</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest3.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/onlinetest3-thumb.png" alt="onlinetest3.png" /></a></p>
+
+<h3 id="written-exam">Written exam</h3>
+
+<p>The course ends in a “strict” written exam (“Gesamtprüfung”) in the sense that now each student really
+has to solve his/her own exam without further help in a time window of 90 minutes.
+The function employed for generating the PDF files is <code class="highlighter-rouge">exams2nops()</code> and its usage
+is illustrated in detail in the tutorial on <a href="/tutorials/exams2nops/">written exams</a>.</p>
+
+<p>First, a <em>vector</em> (as opposed to a <em>list</em>) of exercises is set up à la:</p>
+
+<pre><code class="language-{r}">gp &lt;- c(
+  "deriv-sqrt.Rnw",
+  "graph-deriv-B.Rnw",
+  ...
+)
+</code></pre>
+
+<p>Thus, for written exams we assure that every student gets the same exercise template,
+only with some random variations of the numbers/graphics/etc. Thus, we try to make the
+exam as fair as possible while assuring that cheating is very hard. If there are, say,
+400 participants in the exam, there are 400 different exams with single-choice
+exercises. These can be generated (typically after setting a random seed for reproducibility)
+via:</p>
+
+<pre><code class="language-{r}">set.seed(2017-04-05)
+exams2nops(gp, n = 400, name = "GP", title = "GP Mathematik",
+  institution = "Universit\\\"at Innsbruck", logo = "uibk-logo-bw.png",
+  language = "de", course = "403100--200", date = "2017-04-05", reglength = 7,
+  pages = c("/path/to/formulary.pdf", "/path/to/normal-table.pdf"))
+</code></pre>
+
+<p>Thus, in addition to some information about course/exam, we specify the language (German), length of the registration
+ID (7 digits), and add PDF pages with the formulary and normal tables.
+The first few pages of one of the resulting PDFs are displayed below. More details on the
+evaluation process can be found in the <a href="/tutorials/exams2nops/">exams2nops</a> tutorial.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops1-thumb.png" alt="nops1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops2-thumb.png" alt="nops2.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops3.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/nops3-thumb.png" alt="nops3.png" /></a></p>
+
+<p>A very nice benefit of using R/exams here is that we can share an interactive online
+“mock exam” (“Probeklausur”) in addition to the PDF version in the exam archive. This
+can again be generated by <code class="highlighter-rouge">exams2qti12()</code> with time limit and evaluation settings
+corresponding to the actual written exam:</p>
+
+<pre><code class="language-{r}">exams2qti12(gp, n = 10, name = "Mathematik-GP-2017-04-05",
+  maxattempts = Inf, cutvalue = 18, solutionswitch = FALSE,
+  points = 2, eval = list(partial = FALSE, negative = -0.25),
+  duration = 90)
+</code></pre>
+
+<p>The screen shots below show first the interactive version of the mock exam and then
+one of the PDFs in the resources archive.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam1-thumb.png" alt="mockexam1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/mockexam2-thumb.png" alt="mockexam2.png" /></a></p>
+
+<h3 id="live-quiz">Live quiz</h3>
+
+<p>Finally, the same exercise templates can also be imported into live quizzes when the
+audience response system ARSnova is used (see <a href="https://arsnova.eu/">https://arsnova.eu/</a>). As we do not use
+the system for assessment but only for feedback it is not as important to have a lot
+of random variation in the exercises, but it certainly helps to avoid duplication
+across courses taught in parallel or in subsequent semesters.
+Moreover, the R/exams function <code class="highlighter-rouge">exams2arsnova()</code> can directly import the drawn exercises
+into ARSnova using its REST interface (via Rcurl and suitable JSON data). Alternatively,
+JSON files can be generated on the hard disk and subsequently imported manually.</p>
+
+<p>As an illustration we use again a vector of exercise templates and export random
+draws from these directly into a previously-generated ARSnova session (using one
+session for the enitre semester). Authentication can be done through the JSESSIONID.</p>
+
+<pre><code class="language-{r}">quiz &lt;- c("deriv-sqrt.Rnw", "graph-deriv-B.Rnw", ...)
+exams2arsnova(quiz, name = "Quiz", url = "https://arsnova.uibk.ac.at",
+  sessionkey = "79732490", jsessionid = "34A6B8C1D83CB7D0EC66F14DA7044DB1",
+  fix_choice = FALSE, abstention = FALSE)
+</code></pre>
+
+<p>The students can then view the exercises on the mobile phones or tablets, practicing for
+the exam, followed by a phase of peer instruction to resolve remaining problems.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova1.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova1-thumb.png" alt="arsnova1.png" /></a>
+<a href="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova2.png"><img src="http://www.R-exams.org/assets/posts/2017-11-07-uibk_math/arsnova2-thumb.png" alt="arsnova2.png" /></a></p>
+
+<p>Exercises like shown in the two screenshots above are used for exam practice during lecture
+or tutorial sessions. Additionally, knowledge quiz questions
+are frequently used for checking whether the students can follow the lecture or not.
+These are typically in the form of multiple-choice questions where each subitem can either be
+true or false. See <a href="/templates/gaussmarkov/">gaussmarkov</a> for a worked example.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>This blog post has shown how the same pool of exercises can be used flexibly for
+different elements of a large-lecture course. Over the last years we experimented
+quite a bit with these and kept those elements we (or the students) found useful
+but discontinued using others. Of course, the hard part is establishing the large
+exercise pool but then R/exams enables us to try out different formats fairly easily.</p>
+
+<p>If you have further questions about these tools or want to let us know how you
+use R/exams in your course, please get in touch! Either via
+<a href="/contact/">our forum, StackOverflow, Twitter, or simply by e-mail</a>.</p>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2017-11-07" itemprop="datePublished"> 2017-11-07</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2qti12/">exams2qti12</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2arsnova/">exams2arsnova</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2nops/">exams2nops</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/static_num_schoice/">&laquo; From Static to Numeric to Single-Choice Exercises in R/exams</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
