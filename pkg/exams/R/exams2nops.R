@@ -456,6 +456,8 @@ abcde <- function(i, above = FALSE, nchoice = 5) {
   } else if(nchoice == 2) {
     sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", letters[1:2],"}}}", sep = "", collapse = "\n"),
       ix + 1 * 8, iy, ix + 2 * 8, iy)
+  } else if(nchoice == 0) {
+    ""
   } else {
     stop("'nchoice' must be one of 5, 4, 3, 2")
   }
