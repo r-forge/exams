@@ -38,7 +38,7 @@ about 500 to 1,000 students per semester. The course is accessible through the
 university’s LMS (an <a href="https://www.openolat.com/">OpenOLAT</a>
 system), including anonymous <em>“Guest access”</em> for most materials. So you can either
 look at the screen shots presented below in this blog post or try out the course yourself:
-<a href="https://lms.uibk.ac.at/url/RepositoryEntry/3051978752">https://lms.uibk.ac.at/url/RepositoryEntry/3051978752</a>.
+<a href="https://lms.uibk.ac.at/url/RepositoryEntry/3051978752?guest=true">https://lms.uibk.ac.at/url/RepositoryEntry/3051978752?guest=true</a>.
 (Notes: The course materials are in German but also non-German-speakers should get a
 good impression of how things are tied together. The online tests contain mathematical
 equations in MathML which is displayed by browsers with MathML support like Firefox or
