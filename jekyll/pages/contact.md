@@ -33,6 +33,6 @@ permalink: /contact/
 - [Niels Smits](http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard adaptation)
 - [Mirko Birbaumer](https://www.hslu.ch/de-ch/hochschule-luzern/ueber-uns/personensuche/profile/?pid=1537) [contributor] (Ilias adaptation)
 - Dominik Ernst [contributor] (Moodle adaptation)
-- Patrik Keller [contributor] (Web page)
+- [Patrik Keller](http://informationsecurity.uibk.ac.at/people/patrik-keller/) [contributor] (Web page)
 - Hanna Krimm [contributor] (Web page)
 - [Reto Stauffer](http://retostauffer.org/) [contributor] (Web page)
