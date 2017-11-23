@@ -14,6 +14,7 @@ zeileis:
 keller:
   name: "Patrik Keller"
   siterole: "website"
+  uri: "http://informationsecurity.uibk.ac.at/people/patrik-keller/"
   email: "patrik.keller@uibk.ac.at"
 
 krimm:
