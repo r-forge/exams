@@ -1,0 +1,138 @@
+Installation
+------------
+
+The c403 package can be installed "as usual". It always requires R (>= 3.1.0)
+and exams (>= 2.1-0) from CRAN: http://www.R-exams.org/tutorials/installation/.
+
+Specifically, the following software is required for certain tasks:
+
+- Generating PDF exams (exams2pdf, exams2nops):
+A LaTeX installation is needed, typically MikTeX on Windows while TeXlive is
+usually available on Linux and Mac.
+
+- Generating HTML or OLAT exams (exams2html, exams2qti12, exams2olat):
+The packages tth and base64enc from CRAN are needed.
+
+- Scanning NOPS exams:
+The package png from CRAN is needed. Additionally, if the scanned NOPS exams are
+not in PNG but in PDF format, the PDF Toolkit pdftk and ImageMagick's convert
+function are assumed to be in the search path.
+
+On Debian/Ubuntu: apt-get install pdftk imagemagick
+On OS X: Not tested yet (but presumably similar to Linux).
+On Windows: Install PDFTk Free, ImageMagick, and Ghostscript from the follow URLs
+  http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe
+  http://www.imagemagick.org/script/binary-releases.php#windows
+  http://www.ghostscript.com/download/gsdnld.html
+During the installation of PDFTk and ImageMagick check the boxes for 
+  "Add application directory to your environmental path" or
+  "Add application directory to your System Path" respectively.
+
+- Evaluating NOPS exams:
+No additional tools are required for most tasks. However, interactive prompting
+of potential scanning errors requires the png package again. Also, exporting
+final marks to Excel is better done via .xlsx files (rather than .csv) and for
+this either the openxlsx or the xlsx package can be used (if available) which in
+turn need a zip program (openxlsx) or a Java engine (xlsx), respectively.
+
+- Summary
+To get all R packages run
+install.packages(c("exams", "tth", "base64enc", "png", "openxlsx", "xlsx"))
+And make sure PDFTk and ImageMagick/Ghostscript are available.
+
+
+Participant lists
+-----------------
+
+Download the .xls participant list from the VIS system and place it in the
+folder for the exam. It is recommended to use some suitable prefix, e.g.,
+GP-2015-02-13.xls or something along those lines. Then run nops_register() which
+generates several output files with the same prefix and suffixes .xlsx, .csv,
+.tab.
+
+- The .xlsx is just a cleaned-up version of the .xls plus randomly assigned
+seats - it is intended for Verena who then prints out an overall registration
+list (alphabetically ordered), split-up registration lists (ordered by seat),
+and posters with registration numbers and seats.
+
+- The .csv contains essentially the same information as the .xlsx but is
+intended for later usage with nops_eval().
+
+- The .tab contains a tab-separated file with c-accounts and HTML text with the
+individual time slots and seats. It can be copied and pasted into OLAT.
+
+
+Generating NOPS exams
+---------------------
+
+Put c403/inst/pix/uibk-logo-bw.png into your texmf path and then simply follow
+the examples on ?exams2nops. For more background see:
+http://www.R-exams.org/tutorials/exams2nops/
+
+To print the resulting PDF exams one can either use the local printer at the
+Department of Statistics (blitz-stap) or order printing from Studia (via
+Verena). Local printing is probably easiest if the number of exams is low
+(50-100 exams, or 150 at most). Starting from 100 exams printing via Studia is
+cheaper and easier.
+
+If you want to print a collection of PDF files to blitz-stap from Linux you can
+simply use R code with a loop like this:
+myexam <- dir(pattern = "pdf")
+for(i in myexam) system(paste("lpr -P blitz-stap", i))
+
+(Note: The commands for printing from the Linux command line just uses lpr, i.e.
+lpr -P blitz-stap myexam.pdf)
+
+
+Scanning NOPS exams (at UIBK)
+-----------------------------
+
+- Use the normal copying machines.
+- Split the exam sheets into piles of roundabout 40-50 sheets. (The exact
+  number does not matter but it shouldn't be much more than 50 in case the
+  copier chokes on something.)
+- Turn the sheets upside down and put them into the document feed.
+- Select "Scannen & Senden" and enter your e-mail account.
+- Select b/w scanning (no color). This will inform you that the resolution
+  has been decreased to 300dpi. Remember to repeat this for every pile!
+- Collect the resulting PDF files on your machine in one directory and call
+  nops_scan(rotate = TRUE)
+  If you have a multicore machine, you can also set cores = 2 or cores = 4 etc.
+- The result will be a single ZIP file containing machine readable results
+  (Daten.txt) plus a PNG file for each sheet.
+
+Alternatively: The pile of sheets can be brought to the Fakultaetenservicestelle
+(FSS) at Innrain. They produce the same type of file. To check whether their
+result match ours one can run nops_scan() on the PNG files from their ZIP.
+
+
+Evaluating NOPS exams
+---------------------
+
+- Input file 1: The .rds with all exam information as produced by exams2nops().
+- Input file 2: The .zip produced by nops_scan() (or the FSS).
+- Input file 3: A .csv file with information about all students that registered
+  for the exam. This is recommended to be something like "GP-2014-02-12.csv".
+  It needs to provide the following columns: Matrikelnr, Name, Account.
+  The latter is the c-account for upload into OLAT. Additionally, if marks for
+  the exam should be exported to VIS, a column "SKZ" with the study index is
+  needed. Finally, if module marks (in addition to exam marks) should be produced
+  a column "LV" with the marks from the seminar/practical part is needed.
+- If only these three files are in the current working directly, you essentially
+  just need to run nops_eval(). A few typical use cases are below:
+  
+  ## VU Mathematik
+  nops_eval(points = 2, mark = FALSE)
+
+  ## GP Grundlagen der Mathematik
+  nops_eval(points = 2)
+
+  ## GP Mathematik
+  nops_eval(points = 2, module = c(4, 3.5))
+
+  Note that the points argument can be vector as well. And it can be omitted if
+  the points are stored within the .rds already.
+- The resulting nops_eval.zip file can be readily imported into OLAT. You need
+  a course element "Aufgabe" where only the "Rueckgabeordner" is active. Then
+  select "Massenbewertung" and upload the .zip.
+
