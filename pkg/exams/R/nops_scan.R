@@ -269,7 +269,7 @@ has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE)
   if(length(rm) < 2L || length(cm) < 2L || diff(range(rm)) < 5L || diff(range(cm)) < 5L) return(0L)
   rm <- range(rm)
   cm <- range(cm)
-  x <- subimage(x[rm[1L]:rm[2L], cm[1L]:cm[2L]], c(0.5, 0.5), 0.75)
+  x <- subimage(x[rm[1L]:rm[2L], cm[1L]:cm[2L]], c(0.5, 0.5), 0.75) ## FIXME: some more trimming here? 0.72? Or computing rm/cm based on means rather than extremes?
   if(mean(x) < threshold[1L]) return(0L)
   if(mean(x) < threshold[2L]) {
     if(fuzzy) return(mean(x)) else return(1L)
