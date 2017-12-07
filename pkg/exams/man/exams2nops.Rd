@@ -10,7 +10,7 @@
 }
 
 \usage{
-  exams2nops(file, n = 1L, dir = NULL, name = NULL,
+  exams2nops(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
     language = "en", title = "Exam", course = "",
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
@@ -28,6 +28,11 @@
   \item{n}{integer. The number of copies to be compiled from \code{file}
     (in \code{exams2nops}) and the number of exercises per exam
     (in \code{make_nops_template}), respectively.}
+  \item{nsamp}{integer. The number(s) of exercise files sampled from each
+    list element of \code{file}. Sampling without replacement is used
+    if possible. (Only if some element of \code{nsamp} is larger than
+    the length of the corresponding element in \code{file}, sampling
+    with replacement is used.)}
   \item{dir}{character. The default is either display on the screen or
     the current working directory.}
   \item{name}{character. A name prefix for resulting exams and RDS file.}

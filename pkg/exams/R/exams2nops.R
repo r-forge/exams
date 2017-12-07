@@ -1,4 +1,4 @@
-exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
+exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   language = "en", title = "Exam", course = "",
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
@@ -71,12 +71,16 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
     nchoice <- as.vector(x[file])
   }
 
+  ## expand nsamp to length of file
+  if(!is.null(nsamp)) nsamp <- rep_len(nsamp, length(file))
+
   ## generate appropriate template on the fly
   template <- file.path(tempdir(), "nops.tex")
-  make_nops_template(length(file), replacement = replacement, intro = intro,
-    blank = blank, duplex = duplex, pages = pages,
-    file = template, nchoice = nchoice, encoding = encoding,
-    samepage = samepage, twocolumn = twocolumn, reglength = reglength)
+  make_nops_template(if(is.null(nsamp)) length(file) else sum(nsamp),
+    replacement = replacement, intro = intro, blank = blank,
+    duplex = duplex, pages = pages, file = template,
+    nchoice = if(is.null(nsamp)) nchoice else rep.int(nchoice, nsamp),
+    encoding = encoding, samepage = samepage, twocolumn = twocolumn, reglength = reglength)
 
   ## if points should be shown generate a custom transformer
   transform <- if(showpoints) {
@@ -94,12 +98,12 @@ exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
   }
 
   if(is.null(dir)) {  
-    rval <- exams2pdf(file, n = n, name = name, template = template,
+    rval <- exams2pdf(file, n = n, nsamp = nsamp, name = name, template = template,
       header = header, transform = transform, encoding = encoding,
       points = points, ...)
     names(rval) <- d2id(1:length(rval))
   } else {
-    rval <- exams2pdf(file, n = n, dir = dir, name = name, template = template,
+    rval <- exams2pdf(file, n = n, nsamp = nsamp, dir = dir, name = name, template = template,
       header = header, transform = transform, encoding = encoding,
       points = points, ...)
     names(rval) <- d2id(1:length(rval))
