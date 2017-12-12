@@ -142,6 +142,9 @@ enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
 if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
 if(enc == "iso885915") enc <- "latin9"
 
+## intro text (if any)
+if(!is.null(intro) && length(intro) == 1L && all(tools::file_ext(intro) == "tex")) intro <- readLines(intro)
+
 empty <- if(!duplex) {
 ""
 } else {
