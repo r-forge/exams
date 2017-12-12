@@ -14,7 +14,9 @@ Changes in Version 2.3-1
     Quotes are added before and not only after "filename.ext" before
     the replacement.
 
-  o Support for 'nsamp' argument in exams2nops().
+  o Fixed the support for 'nsamp' argument in exams2nops(). Furthermore,
+    current limitations of exams2nops() are pointed out more clearly and
+    error messages and edge cases caught.
 
 
 Changes in Version 2.3-0

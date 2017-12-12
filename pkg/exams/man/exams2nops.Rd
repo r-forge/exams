@@ -47,8 +47,8 @@
     simply omitted.}
   \item{date}{character or \code{"Date"} object specifying the date of the exam.}
   \item{replacement}{logical. Should a replacement exam sheet be included?}
-  \item{intro}{character with LaTeX code for optional introduction text on the first page
-    of the exam.}
+  \item{intro}{character. Either a single string with the path to a .tex file or a vector
+    with with LaTeX code for optional introduction text on the first page of the exam.}
   \item{blank}{integer. Number of blank pages to be added at the end.
     (Default is chosen to be half of the number of exercises.)
     If \code{pages} is specified, \code{blank} can also be a vector of
