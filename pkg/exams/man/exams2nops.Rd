@@ -100,6 +100,16 @@
   are read automatically where both empty and completely filled boxes are
   regarded as not crossed.
   
+  Limitations: (a) Only up to five answer alternatives per question are supported.
+  (b) Currently, only up to 45 questions are supported. If you have
+  more questions, consider splitting the entire exam up into two NOPS exams.
+  (c) Only up to 3 open-ended questions can be included. (d) Each question
+  must have the same number of answer alternatives and the same number of
+  points across random replications. For example, the \code{n} replications
+  drawn for the first exercise all need, say, five alternatives and two points.
+  Then, the second exercise may have, say, four alternatives and five points
+  and so on. But this may not be mixed within the same exercise number.
+  
   The examples below show how PDF exams can be generated along with an RDS
   file with (serialized) R data containing all meta-information about the exam.
   The PDFs can be printed out for conducting the exam and the exam sheet

@@ -76,7 +76,9 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
 
   ## generate appropriate template on the fly
   template <- file.path(tempdir(), "nops.tex")
-  make_nops_template(if(is.null(nsamp)) length(file) else sum(nsamp),
+  nexrc <- if(is.null(nsamp)) length(file) else sum(nsamp)
+  if(nexrc > 45L) stop("currently only up to 45 exercises in an exam are supported")
+  make_nops_template(nexrc,
     replacement = replacement, intro = intro, blank = blank,
     duplex = duplex, pages = pages, file = template,
     nchoice = if(is.null(nsamp)) nchoice else rep.int(nchoice, nsamp),
