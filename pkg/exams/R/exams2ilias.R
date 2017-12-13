@@ -39,7 +39,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   
   ## enforce base64 encoding for "everything"
   base64 <- c("bmp", "gif", "jpeg", "jpg", "png", "svg",
-    "csv", "raw", "txt", "rda", "dta", "xls", "xlsx", "zip", "pdf", "doc", "docx")
+    "csv", "raw", "txt", "rda", "dta", "sav", "xls", "xlsx", "zip", "pdf", "doc", "docx")
   
   ## simply call exams2qti12 with custom template (and XML processing)
   rval <- exams2qti12(file = file, n = n, nsamp = nsamp, dir = dir,

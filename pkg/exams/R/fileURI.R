@@ -4,7 +4,7 @@ fileURI <- function(file) {
   f_ext <- tolower(file_ext(file))
   if(f_ext %in% c("bmp", "png", "jpg", "jpeg", "gif", "svg",
     "csv", "raw", "txt", "xls", "xlsx", "zip", "pdf", "doc", "docx",
-    "rda", "dta")) {
+    "rda", "dta", "sav")) {
     mime <- switch(file_ext(file),
       "bmp" = "image/bmp",
       "png" = "image/png",
@@ -23,6 +23,7 @@ fileURI <- function(file) {
       "docx" = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "rda" = "application/octet-stream",
       "dta" = "application/octet-stream",
+      "sav" = "application/octet-stream",
     )
     rval <- base64enc::dataURI(file = file, mime = mime)
   } else {

@@ -283,7 +283,7 @@ exams_shiny_server <- function(input, output, session)
           exname <- gsub("/", "_", exname, fixed = TRUE)
           writeLines(excode, file.path("tmp", exname))
           ex <- try(exams2html(exname, n = 1, name = "preview", dir = "tmp", edir = "tmp",
-            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "txt", "rda", "dta", "xls", "xlsx", "zip", "pdf", "doc", "docx"),
+            base64 = c("bmp", "gif", "jpeg", "jpg", "png", "csv", "raw", "txt", "rda", "dta", "sav", "xls", "xlsx", "zip", "pdf", "doc", "docx"),
             encoding = input$exencoding), silent = TRUE)
           if(!inherits(ex, "try-error")) {
             hf <- "preview1.html"	    

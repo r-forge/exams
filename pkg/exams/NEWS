@@ -18,6 +18,8 @@ Changes in Version 2.3-1
     current limitations of exams2nops() are pointed out more clearly and
     error messages and edge cases caught.
 
+  o Include file URI for SPSS .sav files as Base 64 attachments.
+
 
 Changes in Version 2.3-0
 
