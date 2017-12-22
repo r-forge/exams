@@ -128,13 +128,18 @@ ImageMagick's `convert`.
   - _Note:_ During the installation of PDFTk and ImageMagick check the boxes for 
     "Add application directory to your environmental path" or
     "Add application directory to your System Path", respectively.
+- **(Mac) OS X:** Install MacPorts, PDFTk Free, and ImageMagick.
+  - <https://www.macports.org/>
+  - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg>
+  - <http://www.imagemagick.org/script/download.php#macosx>
+  - _Note:_ ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
+    The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).
 - **Linux:** Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:
 
   ```
   apt-get install pdftk imagemagick
   ```
 
-- **(Mac) OS X:** Not tested yet but presumably similar to Linux.
 
 
 ## Make sure everything works
