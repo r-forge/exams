@@ -399,8 +399,8 @@ analogously in the exercise template but not shown here for brevity.)
 Question
 ========
 What is the derivative of
-$f(x) = x^{6} e^{3.3 x}$,
-evaluated at $x = 0.79$?
+$f(x) = x^{`r a`} e^{`r b` x}$,
+evaluated at $x = `r c`$?
     </pre>
   </div>
   <div class='medium-6 columns'>
