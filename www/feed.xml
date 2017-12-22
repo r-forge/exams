@@ -1358,8 +1358,8 @@ analogously in the exercise template but not shown here for brevity.)</p>
 Question
 ========
 What is the derivative of
-$f(x) = x^{6} e^{3.3 x}$,
-evaluated at $x = 0.79$?
+$f(x) = x^{`r a`} e^{`r b` x}$,
+evaluated at $x = `r c`$?
     </pre>
   </div>
   <div class="medium-6 columns">
@@ -1441,9 +1441,8 @@ first installation step is the base R system.</p>
 easier for most distributions to install the packaged binary. For example,
 on Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -1470,16 +1469,14 @@ may provide some new features or small improvements.</p>
   <li>
     <p><strong>Stable version:</strong></p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Development version:</strong></p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -1512,9 +1509,8 @@ pandoc is provided along with it and nothing else needs to be done.</p>
 <p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pandoc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pandoc
+</code></pre></div></div>
 
 <h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
 
@@ -1536,14 +1532,21 @@ ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
 “Add application directory to your System Path”, respectively.</li>
     </ul>
   </li>
+  <li><strong>(Mac) OS X:</strong> Install MacPorts, PDFTk Free, and ImageMagick.
+    <ul>
+      <li><a href="https://www.macports.org/">https://www.macports.org/</a></li>
+      <li><a href="https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg">https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg</a></li>
+      <li><a href="http://www.imagemagick.org/script/download.php#macosx">http://www.imagemagick.org/script/download.php#macosx</a></li>
+      <li><em>Note:</em> ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
+The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).</li>
+    </ul>
+  </li>
   <li>
     <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>apt-get install pdftk imagemagick
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pdftk imagemagick
+</code></pre></div>    </div>
   </li>
-  <li><strong>(Mac) OS X:</strong> Not tested yet but presumably similar to Linux.</li>
 </ul>
 
 <h2 id="make-sure-everything-works">Make sure everything works</h2>
