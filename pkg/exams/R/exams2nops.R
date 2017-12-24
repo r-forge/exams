@@ -29,7 +29,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   ## header: internationalization
   if(!file.exists(language)) language <- system.file(file.path("nops", paste0(language, ".dcf")), package = "exams")
   if(language == "") language <- system.file(file.path("nops", "en.dcf"), package = "exams")
-  lang <- nops_language(language, markup = "latex")[c(
+  lang <- nops_language(language)[c(
     "PersonalData", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
     "Checked", "NoChanges", "DocumentType", "DocumentID", "Scrambling", 
     "Replacement", "MarkCarefully", "NotMarked", "Or",
@@ -684,7 +684,7 @@ sprintf("\\multiput(110,221)(8,0){%s}{\\framebox(4,4){}}", nchoice[3L])
 ")
 }
 
-nops_language <- function(file, markup = c("latex", "html"))
+nops_language <- function(file, converter = c("none", "tth", "pandoc"))
 {
   ## read file
   lang <- drop(read.dcf(file))
@@ -699,9 +699,20 @@ nops_language <- function(file, markup = c("latex", "html"))
     "ExamSheet")
   if(!all(langfields %in% names(lang))) stop("invalid language specification")
   
-  ## desired output markup
-  markup <- match.arg(tolower(markup), c("latex", "html"))
-  if(markup == "html") lang <- structure(tth::tth(lang), .Names = names(lang))
-  
+  ## convert to desired output markup
+  converter <- match.arg(tolower(converter), c("none", "tth", "pandoc"))
+  if(converter == "tth") {
+    lang <- structure(tth::tth(lang), .Names = names(lang))
+  }
+  if(converter == "pandoc") {
+    mypandoc <- function(x) {
+      x <- pandoc(x)
+      x <- paste(x, collapse = "\n")
+      x <- gsub("<p>", "", x, fixed = TRUE)
+      x <- gsub("</p>", "", x, fixed = TRUE)
+      return(x)
+    }
+    lang <- structure(sapply(lang, mypandoc), .Names = names(lang))
+  }
   return(as.list(lang))
 }

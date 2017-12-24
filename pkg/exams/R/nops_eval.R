@@ -2,7 +2,7 @@ nops_eval <- function(register = dir(pattern = "\\.csv$"), solutions = dir(patte
   scans = dir(pattern = "^nops_scan_[[:digit:]]*\\.zip$"),
   points = NULL, eval = exams_eval(partial = TRUE, negative = FALSE, rule = "false2"), mark = c(0.5, 0.6, 0.75, 0.85),
   dir = ".", results = "nops_eval", html = NULL, col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90), encoding = "UTF-8",
-  language = "en", interactive = TRUE,
+  language = "en", converter = NULL, interactive = TRUE,
   string_scans = dir(pattern = "^nops_string_scan_[[:digit:]]*\\.zip$"), string_points = seq(0, 1, 0.25))
 {
   ## ensure a non-C locale
@@ -116,7 +116,7 @@ nops_eval <- function(register = dir(pattern = "\\.csv$"), solutions = dir(patte
 
   ## write scan results
   nops_eval_write(results = res_csv, file = res_zip, html = html, col = col,
-    encoding = encoding, language = language)
+    encoding = encoding, language = language, converter = converter)
 
   ## update zip (in case of corrections to Daten.txt), clean up, and copy back 
   if(isTRUE(attr(scans, "update"))) {
@@ -415,7 +415,7 @@ nops_eval_results_table <- function(results = "nops_eval.csv", solutions = dir(p
 
 nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
   html = "exam_eval.html", col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90),
-  encoding = "latin1", language = "en")
+  encoding = "latin1", language = "en", converter = NULL)
 {
   ## user lists
   results <- if(is.character(results)) read.csv2(results, colClasses = "character") else results
@@ -440,9 +440,10 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
   nscans <- 1L + as.integer("scan2" %in% names(results))
 
   ## read language specification
+  if(is.null(converter)) converter <- if(language == "tr") "pandoc" else "tth"
   if(!file.exists(language)) language <- system.file(file.path("nops", paste0(language, ".dcf")), package = "exams")
   if(language == "") language <- system.file(file.path("nops", "en.dcf"), package = "exams")
-  lang <- nops_language(language, markup = "html")
+  lang <- nops_language(language, converter = converter)
   substr(lang$Points, 1L, 1L) <- toupper(substr(lang$Points, 1L, 1L))
 
   ## HTML template
