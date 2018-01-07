@@ -1,5 +1,8 @@
 include_rmd <- function(file, ...)
 {
+  ## assure UTF-8 locale
+  Sys.setlocale("LC_ALL", "en_US.UTF-8")
+
   ## create temporary directory
   if(!file.exists("_tempdir")) dir.create("_tempdir")
   root <- tools::file_path_as_absolute("_tempdir")
@@ -177,7 +180,7 @@ include_template <- function(name, title, teaser, description,
   author = "zeileis", thumb = c(277, 216), page = 1, seed = 1090, utf8 = FALSE)
 {
   ## assure UTF-8 locale
-  if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
+  Sys.setlocale("LC_ALL", "en_US.UTF-8")
 
   ## path to assets of post
   assets <- if(knitr::opts_chunk$get("fig.path") == "figure/") "FIXME" else knitr::opts_chunk$get("fig.path")
