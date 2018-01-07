@@ -1,0 +1,731 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Written R/exams around the World</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="How to internationalize exams2nops() by adding support for new natural languages in written R/exams (that can be automatically scanned and evaluated)." />
+  <meta name="keywords" content="internationalization, exams2nops, written, PDF, scan, evaluation, R" />
+	
+  <meta name="author" content="Achim Zeileis" />
+
+	
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="Written R/exams around the World" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//tutorials/nops_language/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/nops.150.jpg" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+</head>
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/nops.title.jpg" width="970" alt="Written R/exams around the World" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photo (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>Written R/exams around the World</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				How to internationalize exams2nops() by adding support for new natural languages in written R/exams (that can be automatically scanned and evaluated).
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h2 id="idea">Idea</h2>
+
+<p>In addition to completely customizable PDF output, R/exams provides a standardized format called
+“NOPS” for <a href="http://www.R-exams.org/intro/written/">written exams</a> with multiple-choice
+(and/or single-choice) exercises that can be
+<a href="http://www.R-exams.org/tutorials/exams2nops/">automatically generated, scanned, and evaluated</a>.
+In order to assure that the automatic scanning works the title page has a fixed layout
+that cannot be modified by R/exams users. However, to internationalize the format there
+is a possibility for customizing the natural language support. A number of languages
+is already available but it is not difficult to add further languages or to tweak
+existing languages if desired.</p>
+
+<h2 id="example">Example</h2>
+
+<p>To illustrate how the language support works, once it has been fully incorporated into the
+<code class="highlighter-rouge">exams</code> package, we set up a short exam with three exercises:
+<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>,
+<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>. All of these are readily available
+in the package (and are actually in English).</p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+myexam &lt;- c(&quot;deriv2.Rnw&quot;, &quot;tstat2.Rnw&quot;, &quot;swisscapital.Rnw&quot;)</code></pre>
+
+<p>Then we set up PDF output in English (en), German (de), and Spanish (es).
+By setting <code class="highlighter-rouge">language</code> most text on the title page is modified, only the name of the
+<code class="highlighter-rouge">institution</code> and the <code class="highlighter-rouge">title</code> of the exam have to be set separately. For the English
+example we produce <code class="highlighter-rouge">n = 1</code> PDF output file in the output directory <code class="highlighter-rouge">nops_pdf</code> (created
+automatically).</p>
+
+<pre><code class="prettyprint ">set.seed(403)
+exams2nops(myexam, n = 1, language = &quot;en&quot;,
+  institution = &quot;R University&quot;, title = &quot;Exam&quot;,
+  dir = &quot;nops_pdf&quot;, name = &quot;en&quot;, date = &quot;2018-01-08&quot;)</code></pre>
+
+<p>Then we do the same for the other two languages.</p>
+
+<pre><code class="prettyprint ">set.seed(403)
+exams2nops(myexam, n = 1, language = &quot;de&quot;,
+  institution = &quot;R Universit\\\&quot;at&quot;, title = &quot;Klausur&quot;,
+  dir = &quot;nops_pdf&quot;, name = &quot;de&quot;, date = &quot;2018-01-08&quot;)
+set.seed(403)
+exams2nops(myexam, n = 1, language = &quot;es&quot;,
+  institution = &quot;R Universidad&quot;, title = &quot;Examen&quot;,
+  dir = &quot;nops_pdf&quot;, name = &quot;es&quot;, date = &quot;2018-01-08&quot;)</code></pre>
+
+<p>The title pages of the resulting PDF files then have the desired languages.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//en1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/en1.png" alt="en1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//de1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/de1.png" alt="de1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//es1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/es1.png" alt="es1.pdf" /></a></p>
+
+<h2 id="language-specification">Language specification</h2>
+
+<p>To add a new language, essentially just a single text file (say <code class="highlighter-rouge">lang.dcf</code>) is needed containing
+suitable translations of all the phrases on the title page as well as a few additional phrases,
+e.g., occuring in the HTML evaluation reports etc.
+As an example, the first few phrases in English (<code class="highlighter-rouge">en.dcf</code>) are:</p>
+
+<pre>
+PersonalData: Personal Data
+Name: Name
+FamilyName: Family Name
+GivenName: Given Name
+Signature: Signature
+RegistrationNumber: Registration Number
+Checked: checked
+NoChanges: In this section \textbf{no} changes or modifications must be made!
+...
+</pre>
+
+<p>And the corresponding translations to German (<code class="highlighter-rouge">de.dcf</code>) are:</p>
+
+<pre>
+PersonalData: Pers{\"o}nliche Daten
+Name: Name
+FamilyName: Nachname
+GivenName: Vorname
+Signature: Unterschrift
+RegistrationNumber: Matrikelnummer
+Checked: gepr{\"u}ft
+NoChanges: In diesem Feld d{\"u}rfen \textbf{keine} Ver{\"a}nderungen der Daten vorgenommen werden!
+...
+</pre>
+
+<p>Note that here LaTeX markup is used for the German umlaute and for bold highlighting. Alternatively,
+special characters can be added in a suitable encoding (typically UTF-8) but then the encoding has
+to be declared when calling <code class="highlighter-rouge">exams2nops()</code> (e.g., <code class="highlighter-rouge">encoding = "UTF-8"</code>).</p>
+
+<p>Most of the phrases required in the <code class="highlighter-rouge">.dcf</code> are very straightforward and only some are a bit technical.
+There are also a couple of coordinates (<code class="highlighter-rouge">MarkExample*</code>) necessary for aligning some text lines.
+If you have set up your own <code class="highlighter-rouge">lang.dcf</code> you can easily pass it to <code class="highlighter-rouge">exams2nops()</code> by setting
+<code class="highlighter-rouge">language = "/path/to/lang.dcf"</code>. The same has to be done for <code class="highlighter-rouge">nops_eval()</code> when evaluating the exam.</p>
+
+<h2 id="currently-available-languages">Currently available languages</h2>
+
+<p>Due to the kind support from friends and various dedicated R/exams users, there is already support
+for many important Western languages as well as a few other languages/countries. All of these
+are directly available in the R package (note that <code class="highlighter-rouge">"tr"</code> requires the current
+<a href="http://R-Forge.R-project.org/R/?group_id=1337">development version from R-Forge</a>, though). But for convenience
+and manual inspection the <code class="highlighter-rouge">.dcf</code> files are also linked here.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">File</th>
+      <th style="text-align: left">Language</th>
+      <th style="text-align: left">Contributor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//de.dcf">de.dcf</a></td>
+      <td style="text-align: left">German</td>
+      <td style="text-align: left"><a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//en.dcf">en.dcf</a></td>
+      <td style="text-align: left">English</td>
+      <td style="text-align: left"><a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//es.dcf">es.dcf</a></td>
+      <td style="text-align: left">Spanish</td>
+      <td style="text-align: left"><a href="http://www.broomcenter.ucsb.edu/people/maria-kogelnik">Maria Kogelnik</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//fi.dcf">fi.dcf</a></td>
+      <td style="text-align: left">Finnish</td>
+      <td style="text-align: left"><a href="http://klausnordhausen.com/">Klaus Nordhausen</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//fr.dcf">fr.dcf</a></td>
+      <td style="text-align: left">French</td>
+      <td style="text-align: left"><a href="https://github.com/aallignol">Arthur Allignol</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//hu.dcf">hu.dcf</a></td>
+      <td style="text-align: left">Hungarian</td>
+      <td style="text-align: left"><a href="https://twitter.com/daroczig">Gergely Daróczi</a> &amp; Dénes Tóth</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//it.dcf">it.dcf</a></td>
+      <td style="text-align: left">Italian</td>
+      <td style="text-align: left"><a href="https://domenicozambella.altervista.org/">Domenico Zambella</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//nl.dcf">nl.dcf</a></td>
+      <td style="text-align: left">Dutch</td>
+      <td style="text-align: left"><a href="https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html">Niels Smits</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//pt.dcf">pt.dcf</a></td>
+      <td style="text-align: left">Portugese</td>
+      <td style="text-align: left"><a href="http://www.if.ufrj.br/~orca/">Mauricio Calvão</a> &amp; Fabian Petutschnig</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//ro.dcf">ro.dcf</a></td>
+      <td style="text-align: left">Romanian</td>
+      <td style="text-align: left"><a href="https://profs.info.uaic.ro/~cgatu/">Cristian Gatu</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//tr.dcf">tr.dcf</a></td>
+      <td style="text-align: left">Turkish</td>
+      <td style="text-align: left"><a href="http://eremrah.com/">Emrah Er</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="contributing-new-languages">Contributing new languages</h2>
+
+<p>If you want to contribute a new language, simply set up a <code class="highlighter-rouge">.dcf</code> file starting out from one of the examples
+above and send the file or a link to
+<em>&lt;info at R-exams.org&gt;</em>.
+Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
+For Western languages (e.g., <code class="highlighter-rouge">dk</code>, <code class="highlighter-rouge">se</code>, <code class="highlighter-rouge">no</code> are still missing) it is probably the most robust solution to
+code special characters in LaTeX. For languages requiring other alphabets (e.g., <code class="highlighter-rouge">ru</code> would be nice or Asian languages…)
+it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
+<a href="http://R-Forge.R-project.org/forum/?group_id=1337">support forum</a>
+or on Twitter (<a href="https://twitter.com/AchimZeileis">@AchimZeileis</a>) if you want to know more or need further details.</p>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2018-01-08" itemprop="datePublished"> 2018-01-08</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/internationalization/">internationalization</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2nops/">exams2nops</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/written/">written</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/PDF/">PDF</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/scan/">scan</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/evaluation/">evaluation</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/uibk_math/">&laquo;  R/exams for Blended Learning in a Mathematics 101 Course</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

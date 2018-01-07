@@ -11,6 +11,204 @@
     
     
 			<item>
+        <title><![CDATA[Written R/exams around the World]]></title>
+				<link>http://www.R-exams.org/tutorials/nops_language/</link>
+        <pubDate>Mon, 08 Jan 2018 00:00:00 +0100</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>How to internationalize exams2nops() by adding support for new natural languages in written R/exams (that can be automatically scanned and evaluated).</p>
+    
+    
+    <p><img alt="Written R/exams around the World" src="http://www.R-exams.org/images/nops.title.jpg" /></p>
+    
+    <h2 id="idea">Idea</h2>
+
+<p>In addition to completely customizable PDF output, R/exams provides a standardized format called
+“NOPS” for <a href="http://www.R-exams.org/intro/written/">written exams</a> with multiple-choice
+(and/or single-choice) exercises that can be
+<a href="http://www.R-exams.org/tutorials/exams2nops/">automatically generated, scanned, and evaluated</a>.
+In order to assure that the automatic scanning works the title page has a fixed layout
+that cannot be modified by R/exams users. However, to internationalize the format there
+is a possibility for customizing the natural language support. A number of languages
+is already available but it is not difficult to add further languages or to tweak
+existing languages if desired.</p>
+
+<h2 id="example">Example</h2>
+
+<p>To illustrate how the language support works, once it has been fully incorporated into the
+<code class="highlighter-rouge">exams</code> package, we set up a short exam with three exercises:
+<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>,
+<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>. All of these are readily available
+in the package (and are actually in English).</p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+myexam &lt;- c(&quot;deriv2.Rnw&quot;, &quot;tstat2.Rnw&quot;, &quot;swisscapital.Rnw&quot;)</code></pre>
+
+<p>Then we set up PDF output in English (en), German (de), and Spanish (es).
+By setting <code class="highlighter-rouge">language</code> most text on the title page is modified, only the name of the
+<code class="highlighter-rouge">institution</code> and the <code class="highlighter-rouge">title</code> of the exam have to be set separately. For the English
+example we produce <code class="highlighter-rouge">n = 1</code> PDF output file in the output directory <code class="highlighter-rouge">nops_pdf</code> (created
+automatically).</p>
+
+<pre><code class="prettyprint ">set.seed(403)
+exams2nops(myexam, n = 1, language = &quot;en&quot;,
+  institution = &quot;R University&quot;, title = &quot;Exam&quot;,
+  dir = &quot;nops_pdf&quot;, name = &quot;en&quot;, date = &quot;2018-01-08&quot;)</code></pre>
+
+<p>Then we do the same for the other two languages.</p>
+
+<pre><code class="prettyprint ">set.seed(403)
+exams2nops(myexam, n = 1, language = &quot;de&quot;,
+  institution = &quot;R Universit\\\&quot;at&quot;, title = &quot;Klausur&quot;,
+  dir = &quot;nops_pdf&quot;, name = &quot;de&quot;, date = &quot;2018-01-08&quot;)
+set.seed(403)
+exams2nops(myexam, n = 1, language = &quot;es&quot;,
+  institution = &quot;R Universidad&quot;, title = &quot;Examen&quot;,
+  dir = &quot;nops_pdf&quot;, name = &quot;es&quot;, date = &quot;2018-01-08&quot;)</code></pre>
+
+<p>The title pages of the resulting PDF files then have the desired languages.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//en1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/en1.png" alt="en1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//de1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/de1.png" alt="de1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//es1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/es1.png" alt="es1.pdf" /></a></p>
+
+<h2 id="language-specification">Language specification</h2>
+
+<p>To add a new language, essentially just a single text file (say <code class="highlighter-rouge">lang.dcf</code>) is needed containing
+suitable translations of all the phrases on the title page as well as a few additional phrases,
+e.g., occuring in the HTML evaluation reports etc.
+As an example, the first few phrases in English (<code class="highlighter-rouge">en.dcf</code>) are:</p>
+
+<pre>
+PersonalData: Personal Data
+Name: Name
+FamilyName: Family Name
+GivenName: Given Name
+Signature: Signature
+RegistrationNumber: Registration Number
+Checked: checked
+NoChanges: In this section \textbf{no} changes or modifications must be made!
+...
+</pre>
+
+<p>And the corresponding translations to German (<code class="highlighter-rouge">de.dcf</code>) are:</p>
+
+<pre>
+PersonalData: Pers{\"o}nliche Daten
+Name: Name
+FamilyName: Nachname
+GivenName: Vorname
+Signature: Unterschrift
+RegistrationNumber: Matrikelnummer
+Checked: gepr{\"u}ft
+NoChanges: In diesem Feld d{\"u}rfen \textbf{keine} Ver{\"a}nderungen der Daten vorgenommen werden!
+...
+</pre>
+
+<p>Note that here LaTeX markup is used for the German umlaute and for bold highlighting. Alternatively,
+special characters can be added in a suitable encoding (typically UTF-8) but then the encoding has
+to be declared when calling <code class="highlighter-rouge">exams2nops()</code> (e.g., <code class="highlighter-rouge">encoding = "UTF-8"</code>).</p>
+
+<p>Most of the phrases required in the <code class="highlighter-rouge">.dcf</code> are very straightforward and only some are a bit technical.
+There are also a couple of coordinates (<code class="highlighter-rouge">MarkExample*</code>) necessary for aligning some text lines.
+If you have set up your own <code class="highlighter-rouge">lang.dcf</code> you can easily pass it to <code class="highlighter-rouge">exams2nops()</code> by setting
+<code class="highlighter-rouge">language = "/path/to/lang.dcf"</code>. The same has to be done for <code class="highlighter-rouge">nops_eval()</code> when evaluating the exam.</p>
+
+<h2 id="currently-available-languages">Currently available languages</h2>
+
+<p>Due to the kind support from friends and various dedicated R/exams users, there is already support
+for many important Western languages as well as a few other languages/countries. All of these
+are directly available in the R package (note that <code class="highlighter-rouge">"tr"</code> requires the current
+<a href="http://R-Forge.R-project.org/R/?group_id=1337">development version from R-Forge</a>, though). But for convenience
+and manual inspection the <code class="highlighter-rouge">.dcf</code> files are also linked here.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">File</th>
+      <th style="text-align: left">Language</th>
+      <th style="text-align: left">Contributor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//de.dcf">de.dcf</a></td>
+      <td style="text-align: left">German</td>
+      <td style="text-align: left"><a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//en.dcf">en.dcf</a></td>
+      <td style="text-align: left">English</td>
+      <td style="text-align: left"><a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//es.dcf">es.dcf</a></td>
+      <td style="text-align: left">Spanish</td>
+      <td style="text-align: left"><a href="http://www.broomcenter.ucsb.edu/people/maria-kogelnik">Maria Kogelnik</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//fi.dcf">fi.dcf</a></td>
+      <td style="text-align: left">Finnish</td>
+      <td style="text-align: left"><a href="http://klausnordhausen.com/">Klaus Nordhausen</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//fr.dcf">fr.dcf</a></td>
+      <td style="text-align: left">French</td>
+      <td style="text-align: left"><a href="https://github.com/aallignol">Arthur Allignol</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//hu.dcf">hu.dcf</a></td>
+      <td style="text-align: left">Hungarian</td>
+      <td style="text-align: left"><a href="https://twitter.com/daroczig">Gergely Daróczi</a> &amp; Dénes Tóth</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//it.dcf">it.dcf</a></td>
+      <td style="text-align: left">Italian</td>
+      <td style="text-align: left"><a href="https://domenicozambella.altervista.org/">Domenico Zambella</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//nl.dcf">nl.dcf</a></td>
+      <td style="text-align: left">Dutch</td>
+      <td style="text-align: left"><a href="https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html">Niels Smits</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//pt.dcf">pt.dcf</a></td>
+      <td style="text-align: left">Portugese</td>
+      <td style="text-align: left"><a href="http://www.if.ufrj.br/~orca/">Mauricio Calvão</a> &amp; Fabian Petutschnig</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//ro.dcf">ro.dcf</a></td>
+      <td style="text-align: left">Romanian</td>
+      <td style="text-align: left"><a href="https://profs.info.uaic.ro/~cgatu/">Cristian Gatu</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//tr.dcf">tr.dcf</a></td>
+      <td style="text-align: left">Turkish</td>
+      <td style="text-align: left"><a href="http://eremrah.com/">Emrah Er</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="contributing-new-languages">Contributing new languages</h2>
+
+<p>If you want to contribute a new language, simply set up a <code class="highlighter-rouge">.dcf</code> file starting out from one of the examples
+above and send the file or a link to
+<em>&lt;info at R-exams.org&gt;</em>.
+Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
+For Western languages (e.g., <code class="highlighter-rouge">dk</code>, <code class="highlighter-rouge">se</code>, <code class="highlighter-rouge">no</code> are still missing) it is probably the most robust solution to
+code special characters in LaTeX. For languages requiring other alphabets (e.g., <code class="highlighter-rouge">ru</code> would be nice or Asian languages…)
+it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
+<a href="http://R-Forge.R-project.org/forum/?group_id=1337">support forum</a>
+or on Twitter (<a href="https://twitter.com/AchimZeileis">@AchimZeileis</a>) if you want to know more or need further details.</p>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/tutorials/nops_language/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[ R/exams for Blended Learning in a Mathematics 101 Course]]></title>
 				<link>http://www.R-exams.org/general/uibk_math/</link>
         <pubDate>Tue, 07 Nov 2017 00:00:00 +0100</pubDate>
@@ -1833,96 +2031,6 @@ exams2pdf(&quot;tstat.Rmd&quot;)</code></pre>
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/templates/tstat/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[switzerland: Knowledge Quiz Question about Switzerland]]></title>
-				<link>http://www.R-exams.org/templates/switzerland/</link>
-        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Exercise template for a multiple-choice knowledge quiz question with basic shuffling of the alternatives.</p>
-    
-    
-    <div class="row t1 b1">
-  <div class="medium-4 columns"><b>Name:</b></div>
-  <div class="medium-8 columns"><code class="highlighter-rouge">switzerland</code></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Type:</b></div>
-  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
-</div>
-<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/swisscapital/"><code class="highlighter-rouge">swisscapital</code></a></div> </div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Description:</b></div>
-  <div class="medium-8 columns">Knowledge quiz question (about Switzerland) with 2 correct and 3 false alternatives which are shuffled randomly in each version of the exercise.</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Solution feedback:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Randomization:</b></div>
-  <div class="medium-8 columns">Shuffling</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Images:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Other supplements:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Template:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rnw">switzerland.Rnw</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.Rmd">switzerland.Rmd</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.tex">switzerland.tex</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland.md">switzerland.md</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>PDF:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png" alt="switzerland-Rnw-pdf" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-pdf.png" alt="switzerland-Rmd-pdf" /></a></div>
-</div>
-<div class="row t1 b20">
-  <div class="medium-4 columns"><b>HTML:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png" alt="switzerland-Rnw-html" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-switzerland//switzerland-Rmd-html.png" alt="switzerland-Rmd-html" /></a></div>
-</div>
-
-<p><strong>Demo code:</strong></p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-
-set.seed(1090)
-exams2html(&quot;switzerland.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;switzerland.Rnw&quot;)
-
-set.seed(1090)
-exams2html(&quot;switzerland.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;switzerland.Rmd&quot;)</code></pre>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/templates/switzerland/</guid>
 			</item>
 		
 	</channel>
