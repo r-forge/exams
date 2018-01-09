@@ -35,14 +35,19 @@ olat_eval <- function(file, plot = TRUE, export = FALSE)
     ## plots
     par(mar = c(4, 6, 4, 1), mfrow = c(1, 2))
 
-    ## exercise names
-    nam <- sapply(exm[[1L]], function(obj) obj$metainfo$file)
-    nam <- sapply(strsplit(nam, "-", fixed = TRUE), "[[", 3L)
-    nam <- sapply(strsplit(nam, "_", fixed = TRUE), "[[", 1L)
+    ## exercise names (FIXME: somewhat uibkmath-specific!)
+    nam0 <- sapply(exm[[1L]], function(obj) obj$metainfo$file)
+    nam <- try(sapply(strsplit(nam0, "-", fixed = TRUE), "[[", 3L), silent = TRUE)
+    nam <- if(inherits(nam, "try-error")) {
+      nam0
+    } else {
+      sapply(strsplit(nam, "_", fixed = TRUE), "[[", 1L)
+    }
 
     ## error proportion
     pts <- as.matrix(res[, paste("points", 1L:k, sep = ".")])
-    pts <- 1 - pts/apply(pts, 2, max, na.rm = TRUE)
+    pts[is.na(pts)] <- 0
+    pts <- 1 - pts/sapply(exm[[1L]], function(obj) obj$metainfo$points)
     pts <- colMeans(pts, na.rm = TRUE)
     barplot(pts[k:1L], names = nam[k:1L], horiz = TRUE, las = 1, main = "Error proportion")
 
