@@ -51,7 +51,7 @@ mission:
     Moodle, Blackboard, OLAT, or Ilias), live voting (via ARSnova), and the
     possibility to create custom output (in PDF, HTML, Docx, ...).
     
-    Exercises types include multiple-choice or single-choice questions, numeric
+    Exercise types include multiple-choice or single-choice questions, numeric
     or text answers, or combinations of these. Formatting can be done either in
     Markdown or LaTeX with the possibility to generate dynamic content using R,
     e.g., random numbers, graphics, data sets, or shuffled text blocks.
