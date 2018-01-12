@@ -1,0 +1,32 @@
+PersonalData: Pers{\"o}nlichi Dat{\"a}
+Name: Nam{\"a}
+FamilyName: Nochnam{\"a}
+GivenName: Vornam{\"a}
+Signature: Unterschrift
+RegistrationNumber: Matrikelnumm{\"a}r{\"a}
+Checked: pr{\"u\"a}ft
+NoChanges: I dem F{\"a}ld t{\"o}rfed \textbf{kai} Apassige vo d{\"a} Dat{\"a} vorgno w{\"a}re!
+DocumentType: Belegart
+DocumentID: Pr{\"u}efig's-ID
+Scrambling: Scrambling
+Replacement: Ersatzbeleg
+MarkCarefully: Bitte ufpass{\"a} bim achr{\"u}zle
+NotMarked: N{\"u}t akr{\"u}zlet
+Or: oder
+MarkExampleA: 64
+MarkExampleB: 72
+MarkExampleC: 94
+MarkExampleD: 101
+MarkExampleE: 111
+Warning: D{\"a} Beleg wird maschinell igl{\"a}se. Bitte n{\"o}d falt{\"a}, n{\"o}d knick{\"a} und n{\"o}d v{\"a}dr{\"a}cke. Nimm zum aachr{\"u}zle bitte {\"a}n \textbf{blau{\"a} oder {\"a}n schwarz{\"a} Chugelschriber}. \\ \textbf{Nu t{\"u}tlich erkennbari und posizionsgnaui Markierig{\"a} w{\"a}red usgw{\"a}rtet!}
+Answers: Antwort{\"a}
+FillAnswers: Bitte im Aschluss dini Antwort itr{\"a}ge.
+Point: Punkt
+Points: P{\"u}nkt
+ExamResults: Pr{\"u}efigsergebnis
+Evaluation: Usw{\"a}rtig
+Mark: Not{\"a}
+Question: Froge
+GivenAnswer: Dini Antwort
+CorrectAnswer: Di richtig Antwort
+ExamSheet: Pr{\"u}efigsbeleg

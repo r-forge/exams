@@ -20,8 +20,8 @@ Changes in Version 2.3-1
 
   o Include file URI for SPSS .sav files as Base 64 attachments.
 
-  o New language support in exams2nops: Turkish (tr, contributed by
-    Emrah Er).
+  o New language support in exams2nops: Swiss German (gsw, contributed by
+    Reto Stauffer), Turkish (tr, contributed by Emrah Er).
 
 
 Changes in Version 2.3-0

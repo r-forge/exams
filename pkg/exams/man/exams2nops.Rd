@@ -40,7 +40,7 @@
     Currently, the package ships: English (\code{"en"}), Dutch (\code{"nl"}),
     French (\code{"fr"}), German (\code{"de"}), Hungarian (\code{"hu"}), Italian (\code{"it"}),
     Romanian (\code{"ro"}), Portuguese (\code{"pt"}), Spanish (\code{"es"}),
-    Turkish (\code{"tr"}).}
+    Swiss German (\code{"gsw"}), Turkish (\code{"tr"}).}
   \item{title}{character. Title of the exam, e.g., \code{"Introduction to Statistics"}.}
   \item{course}{character. Optional course number, e.g., \code{"101"}.}
   \item{institution}{character. Name of the institution at which the exam is conducted.}
