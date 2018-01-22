@@ -13,6 +13,8 @@ fileURI <- function(file) {
       "gif" = "image/gif",
       "svg" = "image/svg+xml",
       "csv" = "text/csv",
+      "htm" = "text/html",
+      "html" = "text/html",
       "raw" = "text/plain",
       "txt" = "text/plain",
       "xls" = "application/vnd.ms-excel",
