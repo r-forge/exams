@@ -34,7 +34,7 @@ legend(if(bhat > 0) "topleft" else "topright", bty = "n",
 ```
 
 To replicate the analysis in R:
-```{r lm, results="hide", eval=FALSE}
+```
 ## data
 d <- read.csv("regression.csv")
 ## regression
