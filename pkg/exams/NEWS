@@ -9,16 +9,24 @@ Changes in Version 2.3-1
     mathjax.rstudio.com is used now rather than cdn.mathjax.org which
     is currently redirecting and will eventually be shut down completely.
 
-  o Bug fixes in tth/ttm HTML transformers: alt="filename.ext" is now
-    omitted prior to replacing filename.ext with Base 64 encoding.
-    Quotes are added before and not only after "filename.ext" before
-    the replacement.
+  o Bug fixes and improvements in HTML transformers:
+    - Only ="file.ext" (with =") is replaced now by Base 64 version.
+    - href="file.ext" is replaced by href="file.ext" download="file.ext"
+      prior to Base 64 replacement.
+    - alt="file.ext" and download="file.ext" are preserved without
+      Base 64 encoding.
+
+  o In exams2html() and other interfaces based on make_exercise_transform_html()
+    base64 = TRUE now uses Base 64 encoding for all file extensions (known
+    to the package) whereas base64 = NULL only encodes image files (previous
+    default behavior).
 
   o Fixed the support for 'nsamp' argument in exams2nops(). Furthermore,
     current limitations of exams2nops() are pointed out more clearly and
     error messages and edge cases caught.
 
-  o Include file URI for SPSS .sav files as Base 64 attachments.
+  o Include further file URI for Base 64 supplements, in particular .sav
+    for SPSS data files.
 
   o New language support in exams2nops: Swiss German (gsw, contributed by
     Reto Stauffer), Turkish (tr, contributed by Emrah Er).

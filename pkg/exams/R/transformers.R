@@ -18,9 +18,9 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   }
 
   ## base64 checks
-  if(is.null(base64)) base64 <- TRUE
+  if(is.null(base64)) base64 <- c("bmp", "gif", "jpeg", "jpg", "png", "svg")
   base64 <- if(isTRUE(base64)) {
-    c("bmp", "gif", "jpeg", "jpg", "png", "svg")
+    base64 <- .fileURI_mime_types[, "ext"]
   } else {
     if(is.logical(base64)) NA_character_  else tolower(base64)
   }
@@ -156,15 +156,25 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
       ## base64 image/supplements handling
       if(b64 && length(sfiles <- dir(sdir))) {
         for(sf in sfiles) {
-          for(i in seq_along(trex)) {
-            if(length(j <- grep(sf, trex[[i]], fixed = TRUE)) && file_ext(sf) %in% base64) {
-              base64i <- fileURI(file = sf)
-	      trex[[i]][j] <- gsub(sprintf("alt=\"%s\"", sf), "", trex[[i]][j], fixed = TRUE)
-              trex[[i]][j] <- gsub(paste('"', sf, '"', sep = ''),
-                paste('"', base64i, '"', sep = ""), trex[[i]][j], fixed = TRUE)
-              file.remove(file.path(sdir, sf))
-              x$supplements <- x$supplements[!grepl(sf, x$supplements)]
+          if(any(grepl(sf, unlist(trex), fixed = TRUE)) && file_ext(sf) %in% base64) {
+	    ## replacement pattern pairs
+            sfx <- rbind(
+	      c(sprintf('alt="%s"', sf),  'alt="\\007\\007_exams_supplement_\\007\\007"'),
+	      c(sprintf('href="%s"', sf), sprintf('href="%s" download="\\007\\007_exams_supplement_\\007\\007"', sf)),
+	      c(sprintf('="%s"', sf),     sprintf('="%s"', fileURI(file = sf))),
+	      c('\\007\\007_exams_supplement_\\007\\007', sf)
+	    )
+
+            ## replace (if necessary)
+	    for(i in seq_along(trex)) {
+	      if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
+	        for(k in 1L:nrow(sfx)) trex[[i]][j] <- gsub(sfx[k, 1L], sfx[k, 2L], trex[[i]][j], fixed = TRUE)
+              }
             }
+	    
+	    ## cleanup
+            file.remove(file.path(sdir, sf))
+            x$supplements <- x$supplements[!grepl(sf, x$supplements)]
           }
         }
         attr(x$supplements, "dir") <- sdir
