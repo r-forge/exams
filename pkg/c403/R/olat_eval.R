@@ -47,7 +47,11 @@ olat_eval <- function(file, plot = TRUE, export = FALSE)
     ## error proportion
     pts <- as.matrix(res[, paste("points", 1L:k, sep = ".")])
     pts[is.na(pts)] <- 0
-    pts <- 1 - pts/sapply(exm[[1L]], function(obj) obj$metainfo$points)
+    pmx <- sapply(exm[[1L]], function(obj) {
+      p <- obj$metainfo$points
+      if(is.null(p)) 1 else p
+    })
+    pts <- 1 - pts/pmx
     pts <- colMeans(pts, na.rm = TRUE)
     barplot(pts[k:1L], names = nam[k:1L], horiz = TRUE, las = 1, main = "Error proportion")
 
