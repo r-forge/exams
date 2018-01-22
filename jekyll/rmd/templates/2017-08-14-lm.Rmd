@@ -6,6 +6,7 @@ writeLines(include_template(
   description = "Bivariate numeric data for download in a CSV file (comma-separated values) need to be assessed using a simple linear regression (one single-choice and one numeric item).",
   tags = c("regression", "significance", "slope", "statistics"),
   randomization = "Random numbers, data file, and graphics",
+  supplements = "regression.csv",
   thumb = c(294, 369))
 )
 ```

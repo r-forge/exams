@@ -18,15 +18,16 @@ Solution
 ![](scatterplot-1.svg)
 
 To replicate the analysis in R:
-
-<pre><code class="prettyprint ">## data
-d &lt;- read.csv(&quot;regression.csv&quot;)
+```
+## data
+d <- read.csv("regression.csv")
 ## regression
-m &lt;- lm(y ~ x, data = d)
+m <- lm(y ~ x, data = d)
 summary(m)
 ## visualization
 plot(y ~ x, data = d)
-abline(m)</code></pre>
+abline(m)
+```
 
 Meta-information
 ================
