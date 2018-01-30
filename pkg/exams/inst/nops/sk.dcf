@@ -6,18 +6,18 @@ Signature: Podpis
 RegistrationNumber: Imatrikula{\v{c}}n{\'e} {\v{c}}{\'i}slo
 Checked: skontrolovan{\'e}
 NoChanges: V tejto sekcii sa nesm{\'u} robi{\v{t}} \textbf{{\v{z}}iadne} zmeny a {\'u}pravy!
-DocumentType: Typ dokumentu
-DocumentID:  Identifika{\v{c}}n{\'e} {\v{c}}{\'i}slo sk{\'u}{\v{s}}ky
-Scrambling: Scrambling
-Replacement: Replacement
+DocumentType: Typ
+DocumentID:  K{\'o}d sk{\'u}{\v{s}}ky
+Scrambling: Variant
+Replacement: N{\'a}hradn{\'y} h{\'a}rok
 MarkCarefully: Pros{\'i}m za{\v{s}}krtnite d{\^{o}}sledne
 NotMarked: Neza{\v{s}}krtnut{\'e}
 Or: alebo
-MarkExampleA: 63
-MarkExampleB: 70
-MarkExampleC: 101
-MarkExampleD: 107
-MarkExampleE: 117
+MarkExampleA: 66
+MarkExampleB: 73
+MarkExampleC: 97
+MarkExampleD: 103
+MarkExampleE: 113
 Warning: Tento dokument bude spracovan{\'y} strojovo. Pros{\'i}m nepreh{\'y}na{\v{t}}, nekr{\v{c}}i{\v{t}} a neza{\v{s}}pini{\v{t}}. Na vyplnenie pros{\'i}m pou{\v{z}}ite \textbf{modr{\'e} alebo {\v{c}}ierne guli{\v{c}}kov{\'e} pero}. \\ \textbf{Iba jasne zazna{\v{c}}en{\'e} a spr{\'a}vne umiestnen{\'e} kr{\'i}{\v{z}}iky bud{\'u} spracovan{\'e}!}
 Answers: Odpovede
 FillAnswers: Ni{\v{z}}{\v{s}}ie pros{\'i}m zadajte svoje odpovede.
