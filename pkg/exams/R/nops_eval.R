@@ -440,7 +440,7 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
   nscans <- 1L + as.integer("scan2" %in% names(results))
 
   ## read language specification
-  if(is.null(converter)) converter <- if(language == "tr") "pandoc" else "tth"
+  if(is.null(converter)) converter <- if(language %in% c("hr", "ro", "sk", "tr")) "pandoc" else "tth"
   if(!file.exists(language)) language <- system.file(file.path("nops", paste0(language, ".dcf")), package = "exams")
   if(language == "") language <- system.file(file.path("nops", "en.dcf"), package = "exams")
   lang <- nops_language(language, converter = converter)

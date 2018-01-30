@@ -37,7 +37,7 @@
     the current working directory.}
   \item{name}{character. A name prefix for resulting exams and RDS file.}
   \item{language}{character. Path to a DCF file with a language specification.
-    Currently, the package ships: English (\code{"en"}), Dutch (\code{"nl"}),
+    Currently, the package ships: English (\code{"en"}), Croatian (\code{"hr"}), Dutch (\code{"nl"}),
     French (\code{"fr"}), German (\code{"de"}), Hungarian (\code{"hu"}), Italian (\code{"it"}),
     Romanian (\code{"ro"}), Portuguese (\code{"pt"}), Spanish (\code{"es"}),
     Swiss German (\code{"gsw"}), Turkish (\code{"tr"}).}

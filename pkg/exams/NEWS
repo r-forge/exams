@@ -25,11 +25,13 @@ Changes in Version 2.3-1
     current limitations of exams2nops() are pointed out more clearly and
     error messages and edge cases caught.
 
-  o Include further file URI for Base 64 supplements, in particular .sav
+  o Include further file URIs for Base 64 supplements, in particular .sav
     for SPSS data files.
 
-  o New language support in exams2nops: Swiss German (gsw, contributed by
-    Reto Stauffer), Turkish (tr, contributed by Emrah Er).
+  o New language support in exams2nops: Croatian (hr, contributed by
+    Krunoslav Juraic), Slovak (sk, contributed by Peter Fabsic), Swiss
+    German (gsw, contributed by Reto Stauffer), Turkish (tr, contributed by
+    Emrah Er).
 
 
 Changes in Version 2.3-0
