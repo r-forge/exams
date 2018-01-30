@@ -33,6 +33,9 @@ Changes in Version 2.3-1
     German (gsw, contributed by Reto Stauffer), Turkish (tr, contributed by
     Emrah Er).
 
+  o include_supplement(..., dir = "foo") now also works if "foo" is
+    sub-directory to the exercise directory (edir).
+  
 
 Changes in Version 2.3-0
 

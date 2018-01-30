@@ -18,7 +18,14 @@ search_files <- function(file, dir = ".", recursive = TRUE)
 include_supplement <- function(file, dir = NULL, recursive = FALSE) {
   if(is.null(dir)) {
     dir <- try(.xexams_dir$exercises, silent = TRUE)
-    if(inherits(dir, "try-error") | is.null(dir)) {
+    if(inherits(dir, "try-error") | is.null(dir)) dir <- getwd()
+  } else {
+    if(!file.exists(dir)) {
+      odir <- dir
+      dir <- try(file.path(.xexams_dir$exercises, dir), silent = TRUE)
+    }
+    if(inherits(dir, "try-error") | !file.exists(dir)) {
+      warning(sprintf("The 'dir' could not be found: %s", odir))
       dir <- getwd()
     }
   }
