@@ -1,6 +1,6 @@
 Package: c403
 Version: 0.8-0
-Date: 2017-11-28
+Date: 2018-01-31
 Title: Exam Tools for Department of Statistics (c403), Uni Innsbruck
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@uibk.ac.at"),
 	     person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"))

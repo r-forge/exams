@@ -148,12 +148,15 @@ read_vis_html <- function(file, subset = FALSE) {
   x <- XML::xmlRoot(XML::htmlTreeParse(file))
 
   ## extract module nr/type
-  nr <- x[["body"]][[2L]][[2L]]
+  nr <- x[["body"]][[2L]]
+  tbody <- "tbody" %in% names(nr) 
+  nr <- if(tbody) nr[[2L]][[1L]] else nr[[2L]]  
   if(grepl("Lehrveranstaltung", XML::xmlValue(nr[[1L]]))) {
     info <- strsplit(XML::xmlValue(nr[[2L]]), " ")[[1L]]
     info <- c("LV", info[5L], info[1L], paste(info[-(1L:8L)], collapse = " "))
   } else if(grepl("Gesamtpr.*fungstermin", XML::xmlValue(nr[[1L]]))) {
-    info <- XML::xmlValue(x[["body"]][[2L]][[3L]][[2L]][[1L]])
+    info <- if(tbody) x[["body"]][[2L]][[2L]][[2L]] else x[["body"]][[2L]][[3L]]
+    info <- XML::xmlValue(info[[2L]][[1L]])
     start <- strptime(substr(info, 1L, 16L), "%d.%m.%Y %H:%M")
     start <- format(start, "%Y-%m-%d %H:%M")
     location <- strsplit(info, ", Ort: ", fixed = TRUE)[[1L]][2L]
