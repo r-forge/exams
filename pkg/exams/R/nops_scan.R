@@ -299,7 +299,7 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
     file <- NULL
   }
   if(length(dim(x)) > 2L) {
-    x <- pmin(x[, , 1L], x[, , 2L], x[, , 3L])
+    x <- if(dim(x)[3L] > 2L) pmin(x[, , 1L], x[, , 2L], x[, , 3L]) else x[, , 1L]
   }
   x <- matrix(as.integer(x < 0.7), nrow = nrow(x), ncol = ncol(x))
   d <- dim(x)
