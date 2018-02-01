@@ -144,11 +144,14 @@ File                                                                | Language  
 [es.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//es.dcf) | Spanish   | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik) |
 [fi.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//fi.dcf) | Finnish   | [Klaus Nordhausen](http://klausnordhausen.com/)                         |
 [fr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//fr.dcf) | French    | [Arthur Allignol](https://github.com/aallignol)                         |
+[gsw.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//gsw.dcf) | Swiss German | [Reto Stauffer](http://retostauffer.org)                           |
+[hr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//hr.dcf) | Croatian  | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic)      |
 [hu.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//hu.dcf) | Hungarian | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth         |
 [it.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//it.dcf) | Italian   | [Domenico Zambella](https://domenicozambella.altervista.org/)           |
 [nl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//nl.dcf) | Dutch     | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)   |
 [pt.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//pt.dcf) | Portugese | [Mauricio Calvão](http://www.if.ufrj.br/~orca/) & Fabian Petutschnig   |
 [ro.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//ro.dcf) | Romanian  | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                     |
+[sk.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//sk.dcf) | Slovak    | Peter Fabsic                                                            |
 [tr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language//tr.dcf) | Turkish   | [Emrah Er](http://eremrah.com/)                                         |
 
 
@@ -158,7 +161,7 @@ If you want to contribute a new language, simply set up a `.dcf` file starting o
 above and send the file or a link to
 _<&#x69;&#x6e;&#x66;&#x6f;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;>_.
 Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
-For Western languages (e.g., `dk`, `se`, `no` are still missing) it is probably the most robust solution to
+For Western languages (e.g., `da`, `sv`, `no` are still missing) it is probably the most robust solution to
 code special characters in LaTeX. For languages requiring other alphabets (e.g., `ru` would be nice or Asian languages...)
 it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
 [support forum](http://R-Forge.R-project.org/forum/?group_id=1337)

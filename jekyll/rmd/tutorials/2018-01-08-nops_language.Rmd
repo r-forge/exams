@@ -147,11 +147,14 @@ File                                                                | Language  
 `r include_asset(system.file("nops", "es.dcf", package = "exams"))` | Spanish   | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik) |
 `r include_asset(system.file("nops", "fi.dcf", package = "exams"))` | Finnish   | [Klaus Nordhausen](http://klausnordhausen.com/)                         |
 `r include_asset(system.file("nops", "fr.dcf", package = "exams"))` | French    | [Arthur Allignol](https://github.com/aallignol)                         |
+`r include_asset(system.file("nops", "gsw.dcf",package = "exams"))` | Swiss German | [Reto Stauffer](http://retostauffer.org)                             |
+`r include_asset(system.file("nops", "hr.dcf", package = "exams"))` | Croatian  | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic)      |
 `r include_asset(system.file("nops", "hu.dcf", package = "exams"))` | Hungarian | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth         |
 `r include_asset(system.file("nops", "it.dcf", package = "exams"))` | Italian   | [Domenico Zambella](https://domenicozambella.altervista.org/)           |
 `r include_asset(system.file("nops", "nl.dcf", package = "exams"))` | Dutch     | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)   |
 `r include_asset(system.file("nops", "pt.dcf", package = "exams"))` | Portugese | [Mauricio Calvão](http://www.if.ufrj.br/~orca/) & Fabian Petutschnig   |
 `r include_asset(system.file("nops", "ro.dcf", package = "exams"))` | Romanian  | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                     |
+`r include_asset(system.file("nops", "sk.dcf", package = "exams"))` | Slovak    | Peter Fabsic                                                            |
 `r include_asset(system.file("nops", "tr.dcf", package = "exams"))` | Turkish   | [Emrah Er](http://eremrah.com/)                                         |
 
 
@@ -161,7 +164,7 @@ If you want to contribute a new language, simply set up a `.dcf` file starting o
 above and send the file or a link to
 _<&#x69;&#x6e;&#x66;&#x6f;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;>_.
 Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
-For Western languages (e.g., `dk`, `se`, `no` are still missing) it is probably the most robust solution to
+For Western languages (e.g., `da`, `sv`, `no` are still missing) it is probably the most robust solution to
 code special characters in LaTeX. For languages requiring other alphabets (e.g., `ru` would be nice or Asian languages...)
 it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
 [support forum](http://R-Forge.R-project.org/forum/?group_id=1337)
