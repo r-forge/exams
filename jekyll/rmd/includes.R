@@ -115,11 +115,18 @@ include_pdf_screenshot <- function(file, out = NULL, page = 1, density = 25, asp
   if(is.null(out)) out <- paste0(tools::file_path_sans_ext(basename(file)), ".png")
   if(knitr::opts_chunk$get("fig.path") != "figure/") out <- paste0(knitr::opts_chunk$get("fig.path"), out)
 
+  if(is.numeric(border)) {
+    bordersize <- border
+    border <- TRUE
+  } else {
+    if(border) bordersize <- ceiling(density/15)
+  }
+
   ## make all screenshots with ImageMagick's 'convert'
   for(i in seq_along(file)) {
     cmd <- sprintf("convert -density %s -extent %sx%s %s %s[%s] %s",
       density, round(density * 8.268), ceiling(density * if(aspect43) 8.268 * 0.75 else 11.693),
-      if(border) sprintf("-border %sx%s -bordercolor '#666666'", ceiling(density/15), ceiling(density/15)) else "",
+      if(border) sprintf("-border %sx%s -bordercolor '#666666'", bordersize, bordersize) else "",
       file[i], page - 1, out[i])
     system(cmd)
   }
