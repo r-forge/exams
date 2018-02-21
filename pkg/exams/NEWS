@@ -35,6 +35,8 @@ Changes in Version 2.3-1
 
   o include_supplement(..., dir = "foo") now also works if "foo" is
     sub-directory to the exercise directory (edir).
+
+  o Allow varying points within a certain exercise in nops_eval().
   
 
 Changes in Version 2.3-0

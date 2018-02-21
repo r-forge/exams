@@ -328,24 +328,26 @@ nops_eval_results <- function(scans = "Daten.txt", solutions = dir(pattern = "\\
     }
     points <- sapply(1L:n, get_points, i = 1)
     points_check <- sapply(1L:m, function(i) sapply(1L:n, function(j) get_points(i, j)))
-    if(max(abs(points_check - points)) > 0) stop("'points' is not the same across exams")
+    if(max(abs(points_check - points)) > 0) points <- points_check
   } else {
     if(length(points) == 1L) points <- rep(points, n)
-    if(length(points) != n) stop("length of 'points' does not match number of exercises")  
+    if(NROW(points) != n) stop("length of 'points' does not match number of exercises")  
   }
+  ## varying point patterns across exams?
+  p1dim <- NCOL(points) == 1L
  
   for(i in 1L:n) {
     if(i %in% string_ids) {
       d[[paste("solution", i, sep = ".")]] <- "00000"
       d[[paste("check", i, sep = ".")]] <- d2[[which(string_ids == i) + 2L]]
-      d[[paste("points", i, sep = ".")]] <- points[i] * d[[paste("check", i, sep = ".")]]      
+      d[[paste("points", i, sep = ".")]] <- d[[paste("check", i, sep = ".")]] * if(p1dim) points[i] else points[i, ]
     } else {
       cor <- sapply(x, function(ex) paste(as.integer(ex[[i]]$metainfo$solution), collapse = ""))
       ans <- d[[paste("answer", i, sep = ".")]]
       d[[paste("solution", i, sep = ".")]] <- cor
       d[[paste("check", i, sep = ".")]] <- sapply(seq_along(ans),
         function(j) eval$pointsum(cor[j], substr(ans[j], 1, nchar(cor[j])))) #FIXME# ans[j]
-      d[[paste("points", i, sep = ".")]] <- points[i] * d[[paste("check", i, sep = ".")]]
+      d[[paste("points", i, sep = ".")]] <- d[[paste("check", i, sep = ".")]] * if(p1dim) points[i] else points[i, ]
     }
   }
 
@@ -353,7 +355,13 @@ nops_eval_results <- function(scans = "Daten.txt", solutions = dir(pattern = "\\
   d$points <- p
 
   if(!identical(mark, FALSE)) {
-    ref <- if(all(mark >= 1)) 1 else sum(points)
+    ref <- if(all(mark >= 1)) {
+      1
+    } else if(p1dim) {
+      sum(points)
+    } else {
+      colSums(points)
+    }
     d$mark <- as.character(cut(p/ref, breaks = c(-Inf, mark, Inf), right = FALSE, labels = (length(mark) + 1L):1L))
   }
   
