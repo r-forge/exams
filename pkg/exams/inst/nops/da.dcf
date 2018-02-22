@@ -3,7 +3,7 @@ Name: Navn
 FamilyName: Fornavn
 GivenName: Efternavn
 Signature: Underskrift
-RegistrationNumber: Registreringsnr
+RegistrationNumber: Studienr.
 Checked: bekr{\ae}ftet
 NoChanges: \textbf{Ingen} {\ae}ndringer er tilladt i denne sektion!
 DocumentType: Type
