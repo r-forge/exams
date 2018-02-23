@@ -37,7 +37,11 @@ Changes in Version 2.3-1
     sub-directory to the exercise directory (edir).
 
   o Allow varying points within a certain exercise in nops_eval().
-  
+
+  o exams2blackboard(..., base64 = FALSE, ...) was erroneously ignored.
+    No matter how base64 was specified essentially base64 = TRUE was used,
+    it is honored again now.
+
 
 Changes in Version 2.3-0
 
