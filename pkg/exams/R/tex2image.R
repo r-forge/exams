@@ -74,7 +74,7 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
     brackets <- if(grepl("{", i, fixed = TRUE)) NULL else c("{", "}")
     texlines <- c(texlines, paste("\\usepackage", brackets[1], i, brackets[2], sep = ""))
   }
-  if(any(grepl("tikz", packages)) & !is.null(tikz))
+  if(any(grepl("tikz", packages)) && is.character(tikz))
     texlines <- c(texlines, paste0("\\usetikzlibrary{", paste(tikz, collapse = ",", sep = ""), "}"))
   if(Sweave) texlines <- c(texlines, paste("\\usepackage{",
     file.path(R.home("share"), "texmf", "tex", "latex", "Sweave"), "}", sep = ""))
