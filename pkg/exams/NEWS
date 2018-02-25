@@ -29,7 +29,8 @@ Changes in Version 2.3-1
     for SPSS data files.
 
   o New language support in exams2nops: Croatian (hr, contributed by
-    Krunoslav Juraic), Slovak (sk, contributed by Peter Fabsic), Swiss
+    Krunoslav Juraic), Danish (da, contributed by Tue Vissing Jensen & Jakob
+    Messner), Slovak (sk, contributed by Peter Fabsic), Swiss
     German (gsw, contributed by Reto Stauffer), Turkish (tr, contributed by
     Emrah Er).
 
