@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>R/exams</title>
+	<title>Using R/exams for Short Exams during a Statistics Course</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,8 +23,8 @@
 
   
 	
-	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-  
+	<meta name="description" content="Experiences with using R/exams for multiple automated and randomized exams in an applied statistics course for environmental scientists at Universität Koblenz-Landau." />
+  <meta name="keywords" content="R, exams, exams2nops" />
 	
   <meta name="author" content="Achim Zeileis" />
 
@@ -46,16 +46,16 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="R/exams" />
+	<meta property="og:title" content="Using R/exams for Short Exams during a Statistics Course" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//tag/exams2qti12/" />
+	<meta property="og:url" content="http://www.R-exams.org//general/uni_koblenz_landau/" />
 	<meta property="og:site_name" content="R/exams" />
-	
+	<meta property="og:image" content="http://www.R-exams.org/images/unikoblenzlandau.300.png" />
 
 	
 
 	<!-- Search Engine Optimization -->
-	<meta name="robots" content="noindex" />
+	
 
 	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
 
@@ -81,7 +81,7 @@
 <!-- End Piwik Code -->
 
 </head>
-<body id="top-of-page" class="">
+<body id="top-of-page" class="post">
 	
 	
 <div id="navigation" class="sticky">
@@ -304,63 +304,150 @@
 
 
 
-	<div class="row blog-index">
-	<div class="medium-10 medium-offset-1 columns t30">
-		
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/unikoblenzlandau.title.png" width="970" alt="Using R/exams for Short Exams during a Statistics Course" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						Applied Multivariate Statistics slides screenshot (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>Using R/exams for Short Exams during a Statistics Course</h1>
+				</span>
+			</header>
 
 
+			
+			<p class="teaser" itemprop="description">
+				Experiences with using R/exams for multiple automated and randomized exams in an applied statistics course for environmental scientists at Universität Koblenz-Landau.
+			</p>
+			
 
+			<span itemprop="articleSection">
+			<p>Guest post by <a href="https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology/staff/ralf-schaefer/ralf-schaefer">Ralf B. Schäfer</a> (Universität Koblenz-Landau, Institute for Environmental Sciences).</p>
 
+<h3 id="background">Background</h3>
 
+<p>In many study courses in Germany, exams are written directly after the course period, resulting in a high workload for students within a short period. While we have recommended to students to continuously learn and practice for the exams during the course period, such recommendations were not widely taken up. Therefore, we decided, after discussion with the student representatives, to replace the exam at the end of our course in <a href="https://www.uni-koblenz-landau.de/en/campus-landau/faculty7/environmental-sciences/landscape-ecology/teaching/r-statistics">Applied Statistics for Environmental Scientists</a> by six short exams. The exams were held approximately every third week and were designed to be completed within 15 minutes. Given the resulting increase in exam numbers and workload in a course with almost 100 students, we decided to transition to automated exams.</p>
 
+<h3 id="exam-implementation">Exam implementation</h3>
 
+<p>After a brief review of available tools, we identified <a href="http://www.R-exams.org">R/exams</a> as matching our requirements for automation, which were the following:</p>
 
+<ul>
+  <li>easy to set up,</li>
+  <li>availability of supporting resources such as tutorials and examples,</li>
+  <li>usable for paper exams,</li>
+  <li>mixed exercises possible (e.g., free text, multiple choice),</li>
+  <li>automated creation of randomized exams and exercises,</li>
+  <li>automated evaluation of filled exams.</li>
+</ul>
 
-<div class='row'>
-  <div class='small-12 columns b30'>
-    <h1>Tag: exams2qti12</h1>
-  </div>
-</div>
+<p>Our implementation was guided by the available supporting resources at <a href="http://www.R-exams.org/tutorials/">http://www.R-exams.org/tutorials/</a> and <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a> (vignettes). Indeed, the resources made the transition to automated exams very smooth and we strongly recommend to dig into the resources if you plan to use the package. Noteworthy, the help by the package developer Achim Zeileis on a few minor glitches was incredibly fast and supportive.  The main transition work was to recast our questions and exercises into the <a href="http://www.R-exams.org/tutorials/first_steps/">R/Markdown format</a> employed by R/exams (alternatively you could use R/LaTeX).</p>
 
+<p>The short <a href="http://www.R-exams.org/intro/written/">written exams</a> were generated by <a href="http://www.R-exams.org/tutorials/exams2nops/"><code class="highlighter-rouge">exams2nops</code></a> using a mix of multiple-choice and numeric exercises (treated as open-ended questions by <code class="highlighter-rouge">exams2nops</code>). As an example, the code below creates a PDF (<a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1.pdf">nops1.pdf</a>) from three such exercise templates (<a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/1_mch_GLM_LM.Rmd">1_mch_GLM_LM.Rmd</a>, <a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/1_num_multi.Rmd">1_num_multi.Rmd</a>, <a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/2_mch_PCA.Rmd">2_mch_PCA.Rmd</a>) along with the institute logo (<a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/logo.png">logo.png</a>). The multiple-choice exercises can be scanned fully automatically while the open-ended question has to be marked manually before being scanned as well.</p>
 
+<pre><code class="language-{r}">## load package
+library("exams")
 
+## exams2nops
+## PDF output in NOPS format (1 file per exam)
+## -&gt; for exams that can be printed, scanned, and automatically evaluated in R
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/uibk_math/">R/exams for Blended Learning in a Mathematics 101 Course</a></h2>
-        <a href="http://www.R-exams.org/general/uibk_math/" title="R/exams for Blended Learning in a Mathematics 101 Course"><img src="http://www.R-exams.org/images/uibkmath.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Overview of how R/exams is used to assist learning, feedback, and assessment in a large introductory mathematics course at Universität Innsbruck.
-      
+## define an exam (= list of exercises)
+myexam &lt;- list("1_mch_GLM_LM.Rmd", "1_num_multi.Rmd", "2_mch_PCA.Rmd")
 
-      <a href="http://www.R-exams.org/general/uibk_math/" title="Read R/exams for Blended Learning in a Mathematics 101 Course"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+## create PDFs in working directory
+set.seed(2018-02-05)
+ex1 &lt;- exams2nops(myexam, n = 1, dir = ".", title = "Exam 3 by RBS",
+  institution = "Applied Multivariate Statistics", date = "2018-02-05",
+  course = "Statistics", reglength = 9, points = c(4, 2, 2),
+  showpoints = TRUE, duplex = FALSE, blank = 0,
+  logo = file.path(getwd(), "logo.png"))
+</code></pre>
 
+<p><a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1a.png" alt="nops1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1b.png" alt="nops1.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops1c.png" alt="nops1.pdf" /></a></p>
 
+<p>The transition came with several advantages, particularly to have completely randomized exams:</p>
 
+<ol>
+  <li>The answers to multiple choice questions can be shuffled (by setting <code class="highlighter-rouge">exshuffle: TRUE</code> in the metadata of the R/Markdown files, see <a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/1_mch_GLM_LM.Rmd">1_mch_GLM_LM.Rmd</a>, <a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/2_mch_PCA.Rmd">2_mch_PCA.Rmd</a>).</li>
+  <li>The questions included in a single exam can be randomly sampled from a pool of questions by using vectors as list elements when defining the list of exercises/questions.</li>
+  <li>Questions relying on data sets can be randomized through resampling (see <a href="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/1_num_multi.Rmd">1_num_multi.Rmd</a> for an example). The following lines represent the crucial part of the code to generate a random data set:</li>
+</ol>
 
-<nav id="pagination">
+<pre><code class="language-{r}">data("USairpollution", package = "HSAUR2")  
+nsize &lt;- sample(50:150, 1)  
+sampled_dat &lt;- sample(1:nrow(USairpollution), nsize, replace = TRUE)  
+final_data &lt;- USairpollution[sampled_dat, ]
+</code></pre>
+
+<h3 id="challenges-and-outlook">Challenges and outlook</h3>
+
+<p>Randomization is particularly interesting because the exams can be re-used and students cannot copy from other exams (at least not as easily). The main challenges in using R/exams were actually due to human fallibility. Despite stated on the exam and explained before the exam, several students completed their exam incorrectly, requiring manual revisiting and correction, e.g., not marking the boxes on the exam sheet correctly:</p>
+
+<p><img src="http://www.R-exams.org/assets/posts/2018-02-28-uni_koblenz_landau/nops-registration-error.png" alt="One of the challenges with automated exams is incorrect marking." /></p>
+
+<p>These were about 5-10% in the first round and less than 5% of exams in subsequent exams. Overall, R/exams saved us many hours of time for correcting exams and we will certainly continue using it and it has attracted attention by other faculty members. In the future, we plan to complement our course by practical exercises in R using the learning management platform <a href="https://www.openolat.com/">OpenOLAT</a>. For this, we will benefit from the exams package options to <a href="http://www.R-exams.org/intro/elearning/">create and export exercises to learning management platforms</a> such as OLAT or Moodle.</p>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2018-02-28" itemprop="datePublished"> 2018-02-28</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2nops/">exams2nops</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/nops_language/">&laquo; Written R/exams around the World</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
     
-
-    
-
-    
-</nav>
-
 
 	</div><!-- /.medium-8.columns -->
 
-  
+
+	
+
+
+	
 </div><!-- /.row -->
 
 

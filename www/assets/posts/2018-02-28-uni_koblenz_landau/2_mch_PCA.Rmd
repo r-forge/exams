@@ -1,0 +1,19 @@
+Question
+========
+Which statements are correct with respect to PCA?
+
+Answerlist
+----------
+* the eigenvalue problem is solved by converting the covariance matrix into a matrix with linear independent variables
+* the eigenvalue problem is solved by converting the covariance matrix into a matrix with variables that maximise variation
+* the eigenvectors resulting from the analysis are only stretched or shrunk with the eigenvalues when multiplied with the raw data entering the analysis
+* eigenvalues give the variance that each principal component represents
+* eigenvalues give the variance that each variable explains of the principal component
+
+
+Meta-information
+================
+exname: PCA statements
+extype: mchoice
+exsolution: 10010
+exshuffle: TRUE
