@@ -1,0 +1,19 @@
+Question
+========
+What distinguishes the GLM from the linear regression model?
+
+Answerlist
+----------
+* statistical power
+* can model variance as function of the mean
+* can model non-normal error distribution
+* can model mean as a function of the variance
+* can model normal error distribution
+
+
+Meta-information
+================
+exname: glm lm diff
+extype: mchoice
+exsolution: 01100
+exshuffle: TRUE

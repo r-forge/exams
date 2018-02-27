@@ -1,0 +1,60 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+data("USairpollution", package = "HSAUR2")
+nsize <- sample(50:150, 1)
+sampled_dat <- sample(1:nrow(USairpollution), nsize, replace = TRUE)
+final_data <- USairpollution[sampled_dat, ]
+
+full_model <- lm(SO2 ~ ., data = final_data)
+sum_fullmod <- summary(full_model)
+# % of explained variance
+sol_adjr2 <- round(sum_fullmod$adj.r.squared * 100, digits = 1)
+# no of statistically sign. variables
+pvals <- summary(full_model)$coefficients[-1, 4] 
+no_sig <- sum(pvals < 0.05)
+# Increase in CO2 with more factories
+SO2_fact <- round(full_model$coefficients["manu"] * 100, digits = 1)
+attributes(SO2_fact) <- NULL
+
+
+## QUESTION/ANSWER GENERATION
+quest <- c(
+  "What is the % of explained variance (adjusted for number of variables)? (Round to 1 digit, e.g. 1.5% or 22.4%)", 
+  "How many explanatory variables  in the model are statistically significant?",
+  "What is the approximate increase in the SO2 content if 100 new factories would open in a city? (Round to 1 digit)"
+)
+sol <- c(sol_adjr2, no_sig, SO2_fact)
+
+sel_q <- sample(1:length(quest), 1)
+finquest <- quest[sel_q]
+finsol <- sol[sel_q]
+```
+
+Question
+========
+The annual mean concentration of sulphur dioxide, in micrograms per cubic metre, 
+is a measure of the air pollution of a city. Related measurements have been taken 
+in `r nsize` US cities along with the following variables that may determine the SO2 levels:
+
+* `temp`: average annual temperature in Fahrenheit.
+* `manu`: number of manufacturing enterprises employing 20 or more workers.
+* `popul`: population size (1970 census); in thousands.
+* `wind`: average annual wind speed in miles per hour.
+* `precip`: average annual precipitation in inches.
+* `predays`: average number of days with precipitation per year.
+
+A multiple linear regression model has been fitted that returned the following summary information:  
+
+```{r lm output, echo = FALSE}
+print(sum_fullmod)
+```
+
+`r finquest` 
+
+
+Meta-information
+================
+exname: Multiple_regression
+extype: num
+exsolution: `r finsol`
+extol: 0.01
