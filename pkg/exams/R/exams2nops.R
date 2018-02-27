@@ -196,6 +196,9 @@ if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 \\setlength{\\unitlength}{1mm} 
 \\usepackage{chngpage}
 
+%% compatibility with pandoc
+\\providecommand{\\tightlist}{\\setlength{\\itemsep}{0pt}\\setlength{\\parskip}{0pt}}
+
 %% to support different lengths of registration numbers
 \\newif\\ifregseven
 \\newif\\ifregeight

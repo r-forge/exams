@@ -46,6 +46,9 @@ Changes in Version 2.3-1
   o Fixed a bug for tex2image(..., tikz = TRUE) where erroneously
     \usetikzlibrary{TRUE} was included.
 
+  o Added support for \tightlist (as produced by pandoc) in all current
+    LaTeX templates as well as exams2nops().
+
 
 Changes in Version 2.3-0
 
