@@ -120,9 +120,8 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
     }
   }
   texlines <- c(texlines, "\\end{document}")
-  file.create(paste(tdir, "/", name, ".log", sep = ""))
 
-  writeLines(text = texlines, con = paste(tdir, "/", name, ".tex", sep = ""))
+  writeLines(text = texlines, con = file.path(tdir, paste0(name, ".tex")))
 
   ## compile LaTeX into PDF
   tools::texi2dvi(file = paste(name, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
