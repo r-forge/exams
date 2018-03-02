@@ -44,7 +44,8 @@ Changes in Version 2.3-1
     it is honored again now.
 
   o Fixed a bug for tex2image(..., tikz = TRUE) where erroneously
-    \usetikzlibrary{TRUE} was included.
+    \usetikzlibrary{TRUE} was included. Also tex2image(..., Sweave = TRUE)
+    (the default) did not run properly on Windows, fixed now.
 
   o Added support for \tightlist (as produced by pandoc) in all current
     LaTeX templates as well as exams2nops().

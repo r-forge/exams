@@ -76,8 +76,7 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
   }
   if(any(grepl("tikz", packages)) && is.character(tikz))
     texlines <- c(texlines, paste0("\\usetikzlibrary{", paste(tikz, collapse = ",", sep = ""), "}"))
-  if(Sweave) texlines <- c(texlines, paste("\\usepackage{",
-    file.path(R.home("share"), "texmf", "tex", "latex", "Sweave"), "}", sep = ""))
+  if(Sweave) texlines <- c(texlines, "\\usepackage{Sweave}")
   texlines <- c(texlines, paste0("\\tikzset{font={\\fontsize{", pt, "pt}{12}\\selectfont}}"))
   texlines <- c(texlines, header)
   texlines <- c(texlines, "\\begin{document}")
