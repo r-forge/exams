@@ -50,6 +50,13 @@ Changes in Version 2.3-1
   o Added support for \tightlist (as produced by pandoc) in all current
     LaTeX templates as well as exams2nops().
 
+  o \exshuffle{num} can now also be used for schoice exersises with more
+    than one TRUE answer. In a first step only one of the TRUE answers is
+    selected and then num-1 items from the FALSE answers.
+    
+  o Better warnings if \exshuffle{num} could not be honored due to a lack of
+    sufficiently many (suitable) answer alternatives.
+
 
 Changes in Version 2.3-0
 
