@@ -139,7 +139,7 @@ and manual inspection the `.dcf` files are also linked here.
 
 File                                                                    | Language     | Contributor                                                                                                        |
 :-----------------------------------------------------------------------|:-------------|:-------------------------------------------------------------------------------------------------------------------|
-[da.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/da.dcf)   | German       | [Tue Vissing Jensen](http://orcid.org/0000-0002-6594-5094) & [Jakob Messner](http://orcid.org/0000-0002-1027-3673) |
+[da.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/da.dcf)   | Danish       | [Tue Vissing Jensen](http://orcid.org/0000-0002-6594-5094) & [Jakob Messner](http://orcid.org/0000-0002-1027-3673) |
 [de.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/de.dcf)   | German       | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                               |
 [en.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/en.dcf)   | English      | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                               |
 [es.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/es.dcf)   | Spanish      | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik)                                            |
