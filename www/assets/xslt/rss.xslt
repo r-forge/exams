@@ -67,7 +67,6 @@
 	
 
 	
-</head>
 
 		]]></xsl:text>
 	</head>
