@@ -227,6 +227,7 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
   } else {
     "png"
   }
+  if(is.null(envir)) envir <- new.env()
   
   if(ext == "rnw") {
     if(engine == "sweave") {
@@ -261,7 +262,6 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
         writeLines(tex, file)
       }
     } else {
-      if(is.null(envir)) envir <- new.env()
       oopts <- knitr::opts_chunk$get()
       knitr::opts_chunk$set(dev = dev,
         fig.height = height, fig.width = width, dpi = resolution, ...,
