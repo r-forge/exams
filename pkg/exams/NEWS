@@ -57,6 +57,9 @@ Changes in Version 2.3-1
   o Better warnings if \exshuffle{num} could not be honored due to a lack of
     sufficiently many (suitable) answer alternatives.
 
+  o Enable passing of 'envir' argument from exams2html() to xweave() in
+    case of .Rmd exercises.
+
 
 Changes in Version 2.3-0
 
