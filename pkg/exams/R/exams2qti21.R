@@ -821,7 +821,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 ## Function to check for block-level elements and <p> tags.
 process_html_pbl <- function(x)
 {
-  return(c("<p>", x, "</p>"))
   ## 2018-03-28, List obtained from:
   ## http://www.cs.sfu.ca/CourseCentral/165/sbrown1/wdgxhtml10/block.html
   ble <- c(
@@ -861,34 +860,23 @@ process_html_pbl <- function(x)
     "tr"
   )
 
-  ble <- paste0(ble, ">")
-  check <- rep(FALSE, length(ble))
-
-  if(length(i <- grep("<p>", x, fixed = TRUE))) {
-    for(j in seq_along(ble))
-      check[j] <- any(grepl(ble[j], x))
-    if(any(check)) {
-      x <- insert_p_tags(x)
-    }
-  } else {
-    for(j in seq_along(ble))
-      check[j] <- any(grepl(ble[j], x))
-    if(!any(check)) {
-      x <- c("<p>", x, "</p>")
-    } else {
-      x <- insert_p_tags(x)
-    }
+  for(i in 1:2) {
+    if((x[1] == "") | (x[1] == "<br />"))
+      x <- x[-1]
   }
-  return(x)
-}
 
-insert_p_tags <- function(x)
-{
-  infile <- tempfile()
-  outfile <- tempfile()
-  on.exit(unlink(c(infile, outfile)))
-  writeLines(x, infile)
-  rmarkdown::pandoc_convert(input = infile, output = outfile, from = "html", to = "html")
-  return(readLines(outfile))
+  ble <- paste0('<', ble)
+  check <- rep(FALSE, length(ble))
+  for(j in seq_along(ble))
+    check[j] <- grepl(ble[j], x[1], fixed = TRUE)
+
+  if(!any(check)) {
+    if(!grepl("<p>", x[1], fixed = TRUE))
+      x <- c("<p>", x, "</p>")
+  }
+
+  x <- gsub('<div class="p"><!----></div>', '<br />', x, fixed = TRUE)
+
+  return(x)
 }
 
