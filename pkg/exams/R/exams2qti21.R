@@ -536,7 +536,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
     if(!is.null(x$question))
-      xml <- c(xml, '<p>', x$question, '</p>')
+      xml <- c(xml, process_html_pbl(x$question))
 
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
@@ -806,9 +806,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-        '<p>',
-        xsolution,
-        '</p>',
+        process_html_pbl(xsolution),
         '</modalFeedback>'
       )
     }
@@ -817,5 +815,80 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     xml
   }
+}
+
+
+## Function to check for block-level elements and <p> tags.
+process_html_pbl <- function(x)
+{
+  return(c("<p>", x, "</p>"))
+  ## 2018-03-28, List obtained from:
+  ## http://www.cs.sfu.ca/CourseCentral/165/sbrown1/wdgxhtml10/block.html
+  ble <- c(
+    "address",
+    "blockquote",
+    "center",
+    "dir",
+    "div",
+    "dl",
+    "fieldset",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "hr",
+    "isindex",
+    "menu",
+    "noframes",
+    "noscript",
+    "ol",
+    "p",
+    "pre",
+    "table",
+    "ul",
+    "dd",
+    "dt",
+    "frameset",
+    "li",
+    "tbody",
+    "td",
+    "tfoot",
+    "th",
+    "thead",
+    "tr"
+  )
+
+  ble <- paste0(ble, ">")
+  check <- rep(FALSE, length(ble))
+
+  if(length(i <- grep("<p>", x, fixed = TRUE))) {
+    for(j in seq_along(ble))
+      check[j] <- any(grepl(ble[j], x))
+    if(any(check)) {
+      x <- insert_p_tags(x)
+    }
+  } else {
+    for(j in seq_along(ble))
+      check[j] <- any(grepl(ble[j], x))
+    if(!any(check)) {
+      x <- c("<p>", x, "</p>")
+    } else {
+      x <- insert_p_tags(x)
+    }
+  }
+  return(x)
+}
+
+insert_p_tags <- function(x)
+{
+  infile <- tempfile()
+  outfile <- tempfile()
+  on.exit(unlink(c(infile, outfile)))
+  writeLines(x, infile)
+  rmarkdown::pandoc_convert(input = infile, output = outfile, from = "html", to = "html")
+  return(readLines(outfile))
 }
 
