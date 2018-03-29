@@ -214,7 +214,11 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         exm[[i]][[j]]$solutionlist <- NA
       }
 
+      exm[[i]][[j]]$converter <- converter
+
       ibody <- itembody[[type]](exm[[i]][[j]])
+
+      exm[[i]][[j]]$converter <- NULL
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
@@ -354,6 +358,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
+
+    dopbl <- x$converter %in% c("ttm", "tth")
 
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
@@ -538,7 +544,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
     if(!is.null(x$question))
-      xml <- c(xml, process_html_pbl(x$question))
+      xml <- c(xml, if(dopbl) process_html_pbl(x$question) else x$question)
 
     for(i in 1:n) {
       ans <- any(grepl(paste0("##ANSWER", i, "##"), xml))
@@ -813,7 +819,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-        process_html_pbl(xsolution),
+        if(dopbl) process_html_pbl(xsolution) else xsolution,
         '</modalFeedback>'
       )
     }
