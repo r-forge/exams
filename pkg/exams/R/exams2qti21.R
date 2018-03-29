@@ -828,6 +828,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 ## Function to check for block-level elements and <p> tags.
 process_html_pbl <- function(x)
 {
+  requireNamespace("htmltidy")
+
   x <- gsub('<div class="p"><!----></div>', '<br />', x, fixed = TRUE)
   x <- c("<p>", x, "</p>")
   x <- gsub("<table", "</p><table", x, fixed = TRUE)
