@@ -842,15 +842,6 @@ process_html_pbl <- function(x)
   x <- gsub("<thead>", "<tbody>", x, fixed = TRUE)
   x <- gsub("</thead>", "</tbody>", x, fixed = TRUE)
 
-  pattern <- "(<img[^(src)*]*src=[\"'][^\"^'*]*[\"'][^>*]*>)"
-
-  matches <- regmatches(x, gregexpr(pattern, x))[[1]]
-  if(length(matches) > 0L) {
-    for(m in matches) {
-       x <- sub(m, sprintf("%s />", substr(m, 0L, nchar(m) - 1L)), x)
-    }
-  }
-
   x <- htmltidy::tidy_html(x)
 
   tf <- tempfile()
