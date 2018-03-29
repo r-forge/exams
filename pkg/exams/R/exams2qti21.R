@@ -404,6 +404,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         maxchars[[j]] <- c(maxchars[[j]], NA, NA)
     }
 
+    enumerate <- rep(enumerate, length.out = 2)
+
     ## start item presentation
     ## and insert question
     xml <- paste('<assessmentItem xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
@@ -546,13 +548,13 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             if(type[i] == "schoice") "1" else "0", '">', sep = '')
         for(j in seq_along(solution[[i]])) {
           txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
-              c('<p>',
-                paste(if(enumerate) {
-                  paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
-                   if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
-                   sep = "")
-               } else NULL, questionlist[[i]][j]),
-              '</p>'),
+            '<p>',
+            paste(if(enumerate[1]) {
+              paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                  sep = "")
+            } else NULL, questionlist[[i]][j]),
+            '</p>',
             '</simpleChoice>'
           )
         }
@@ -562,14 +564,13 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         for(j in seq_along(solution[[i]])) {
           txml <- c(
             '<p>',
-              c(
-                if(!is.null(questionlist[[i]][j])) {
-                  paste(if(enumerate & n > 1) {
-                    paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
-                      if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+              if(!is.null(questionlist[[i]][j])) {
+                paste(if(enumerate[1] & n > 1) {
+                  paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                       sep = "")
-                   } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
-                }),
+                } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+              },
             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
             '</p>'
           )
@@ -579,14 +580,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         for(j in seq_along(solution[[i]])) {
           txml <- c(
             '<p>',
-              c(if(!is.null(questionlist[[i]][j])) {
-                  paste(if(enumerate & n > 1) {
-                    paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
-                      if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+             if(!is.null(questionlist[[i]][j])) {
+                paste(if(enumerate[1] & n > 1) {
+                  paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                       sep = "")
-                   } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
-                }),
-            paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
+                } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+             },
+             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
               '" expectedLength="', if(!is.na(maxchars[[i]][2])) {
                 maxchars[[i]][2]
               } else maxchars[[i]][1], '" ', if(!is.na(maxchars[[i]][3])) {
@@ -788,7 +789,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       if(!is.null(x$solutionlist)) {
         if(!all(is.na(x$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
-          if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+          if(enumerate[2]) xsolution <- c(xsolution, '<ol type = "a">')
           if(x$metainfo$type == "cloze") {
             g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
             ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
@@ -798,10 +799,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             sl <- x$solutionlist
           }
           nsol <- length(ql)
-          xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+          xsolution <- c(xsolution, paste(if(enumerate[2]) rep('<li>', nsol) else NULL,
             ql, if(length(x$solutionlist)) "<br />" else NULL,
-            sl, if(enumerate) rep('</li>', nsol) else NULL))
-          if(enumerate) xsolution <- c(xsolution, '</ol>')
+            sl, if(enumerate[2]) rep('</li>', nsol) else NULL))
+          if(enumerate[2]) xsolution <- c(xsolution, '</ol>')
         }
       }
     }
@@ -833,6 +834,11 @@ process_html_pbl <- function(x)
   x <- gsub("</table>", "</table><p>", x, fixed = TRUE)
   x <- gsub("<tr>", "<tbody><tr>", x, fixed = TRUE)
   x <- gsub("</tr>", "</tr></tbody>", x, fixed = TRUE)
+  x <- gsub("</pre>", "</pre><p>", x, fixed = TRUE)
+  x <- gsub("</table>", "</table><p>", x, fixed = TRUE)
+  x <- gsub("</div>", "</div><p>", x, fixed = TRUE)
+  x <- gsub("<thead>", "<tbody>", x, fixed = TRUE)
+  x <- gsub("</thead>", "</tbody>", x, fixed = TRUE)
 
   pattern <- "(<img[^(src)*]*src=[\"'][^\"^'*]*[\"'][^>*]*>)"
 
@@ -857,6 +863,8 @@ process_html_pbl <- function(x)
 
   x <- gsub('&nbsp;', '&#160;', x, fixed = TRUE)
   x[1] <- gsub('<p><br /></p>', '', x[1], fixed = TRUE)
+  x <- gsub('<p><br />', '<p>', x, fixed = TRUE)
+  x <- gsub('<br /></p>', '</p>', x, fixed = TRUE)
 
   return(x)
 }
