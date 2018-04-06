@@ -70,6 +70,10 @@ nops_scan <- function(
     ss <- if(!string) {
       ssty <- read_nops_digits(ss, "type", tesseract = tesseract)
       regextra <- as.numeric(substr(ssty, 1L, 1L)) # 0=regular; 1/2/3=regextra; 4/5/6=regextra+backup
+      if(is.na(regextra)) {
+        warning("The sheet type could not be extracted correctly.")
+	regextra <- 0L
+      }
       sbackup <- if(regextra == 0L) {
         read_nops_backup(ss, threshold = threshold, size = size)
       } else {
