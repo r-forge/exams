@@ -68,7 +68,7 @@ dir()
 ## produce PDF figure and produce includegraphics statement
 include_tikz(tz, name = "logicgate", format = "pdf",
   library = c("arrows", "shapes.gates.logic.US", "calc"),
-  width = "0.2 \\textwidth")
+  width = "2.5cm")
 dir()
 
 ## alternatively produce just the complete TikZ code
