@@ -38,15 +38,3 @@ include_tikz <- function(tikz, name = "tikzpicture", format = NULL,
     }
   }
 }
-
-if(FALSE) {
-
-tz <- '
-  \\node[left,draw, logic gate inputs=nn, xor gate US,fill=white,,scale=2.5] (G1) at (0,0) {};
-  \\draw (G1.output) --++ (0.5,0) node[right] (y) {$y$};
-  \\draw (G1.input 1) --++ (-0.5,0) node[left] {$x_1$};
-  \\draw (G1.input 2) --++ (-0.5,0) node[left] {$x_2$};
-'
-include_tikz(tz, library = c("arrows", "shapes.gates.logic.US", "calc"))
-
-}

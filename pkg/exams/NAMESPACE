@@ -42,9 +42,10 @@ export(
   "extract_environment",
   "extract_items",
   "include_supplement",
+  "include_tikz",
   "match_exams_call",
 
-  ## Stress testing,
+  ## stress testing,
   "stresstest_exercise",
 
   ## LaTeX to image converter (via ImageMagick's convert)
