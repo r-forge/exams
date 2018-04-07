@@ -5,7 +5,6 @@ include_tikz <- function(tikz, name = "tikzpicture", format = NULL,
   if(is.null(format)) format <- "png"
   if(is.null(library)) library <- TRUE
   if(is.null(width)) width <- ""
-  if(nchar(width) > 1L && substr(width, 1L, 1L) != "[") width <- sprintf("[width=%s]", width)
 
   ## output markup
   markup <- match.arg(markup, c("tex", "markdown", "none"))
@@ -13,6 +12,8 @@ include_tikz <- function(tikz, name = "tikzpicture", format = NULL,
     warning("'tex' format only supported within 'tex' markup, changed to 'png'")
     format <- "png"
   }
+  wi <- if(markup == "tex") "[width=%s]" else "{width=%s}"
+  if(nchar(width) > 1L && substr(width, 1L, 1L) != substr(wi, 1L, 1L)) width <- sprintf(wi, width)
   
   ## add {tikzpicture} if necessary
   if(!(any(grepl("begin{tikzpicture}", tikz, fixed = TRUE)) &
@@ -31,7 +32,7 @@ include_tikz <- function(tikz, name = "tikzpicture", format = NULL,
       writeLines(sprintf("\\includegraphics%s{%s}", width, fig))
       invisible(fig)
     } else if(markup == "markdown") {
-      writeLines(sprintf("![](%s)", fig))
+      writeLines(sprintf("![](%s)%s", fig, width))
       invisible(fig)
     } else {
       return(fig)
