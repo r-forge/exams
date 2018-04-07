@@ -63,15 +63,15 @@ Question
 ========
 Consider the following gates coding logical operators:
 
-|        A        |        B        |        C        |        D        |
-|:---------------:|:---------------:|:---------------:|:---------------:|
-| ![](`r img[1]`) | ![](`r img[2]`) | ![](`r img[3]`) | ![](`r img[4]`) |
+|              A             |              B             |              C             |              D             |
+|:--------------------------:|:--------------------------:|:--------------------------:|:--------------------------:|
+| ![](`r img[1]`){width=3cm} | ![](`r img[2]`){width=3cm} | ![](`r img[3]`){width=3cm} | ![](`r img[4]`){width=3cm} |
 
 Which of these gates belongs to the following logical truth table?
 \
 ```{r, echo = FALSE, results = "asis"}
 include_tikz(tikz_truth_table(ops1), name = "table", markup = "markdown",
-  format = typ, packages = "booktabs")
+  format = typ, packages = "booktabs", width = "2cm")
 ```
 
 ```{r, echo = FALSE, results = "asis"}
