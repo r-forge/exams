@@ -857,13 +857,13 @@ process_html_pbl <- function(x)
     "h6",
     "header",
     "hr",
-    "li",
+    ## "li",
     "main",
     "nav",
     "noscript",
     "ol",
     "output",
-    "p",
+    ## "p",
     "pre",
     "section",
     "table",
@@ -873,10 +873,8 @@ process_html_pbl <- function(x)
   )
   ble <- paste0("<", ble)
 
+  x <- x[x != '<div class="p"><!----></div>']
   x <- gsub('<div class="p"><!----></div>', '', x, fixed = TRUE)
-  x <- x[x != ""]
-#  x <- x[x[1] != "<br />"]
-#  x <- x[x[length(x)] != "<br />"]
 
   if(any(grepl("table>", x))) {
     if(!any(grepl("tbody>", x))) {
@@ -896,34 +894,17 @@ process_html_pbl <- function(x)
   if(is.null(tags)) {
     x <- c("<p>", x, "</p>")
   } else {
-    starts <- ends <- NULL
-    for(to in tags) {
-      tc <- paste0("</", gsub("<", "", to, fixed = TRUE))
-      tstart <- grep(to, x, fixed = TRUE)
-      tends <- grep(tc, x, fixed = TRUE)
-      names(tstart) <- rep(to, length.out = length(tstart))
-      names(tends) <- rep(tc, length.out = length(tends))
-      starts <- c(starts, tstart)
-      ends <- c(ends, tends)
+    x <- paste(x, collapse = "\n")
+    for(p in tags) {
+      p <- gsub("<", "", p, fixed = TRUE)
+      pat <- paste0('(<\\s*', p, '[^>]*>)')
+      x <- gsub(pat, '</p>\\1', x, perl = TRUE)
+      pat <- paste0('(<\\s*/\\s*', p, '>)')
+      x <- gsub(pat, '\\1<p>', x, perl = TRUE)
     }
-
-    if(min(starts) > 1) {
-      i <- min(starts)
-      if(!any(grepl("<p>", x[1:(i - 1)], fixed = TRUE)) & !any(grepl("</p>", x[1:(i - 1)], fixed = TRUE)) & (i != 1L))
-        x <- c("<p>", x[1:(i - 1)], "</p>", x[i:length(x)])
-    }
-    if(max(ends) < length(x)) {
-      i <- which.max(ends)
-      i <- max(grep(names(ends)[i], x, fixed = TRUE))
-      n <- length(x)
-      if(!any(grepl("<p>", x[(i + 1):n], fixed = TRUE)) & !any(grepl("</p>", x[(i + 1):n], fixed = TRUE)) & (i != n))
-        x <- c(x[1:i], "<p>", x[(i + 1):n], "</p>")
-    }
+    x <- paste0('<p>', x, '</p>')
+    x <- gsub('<p></p>', '', x, fixed = TRUE)
   }
-
-  n <- length(x)
-  if(all(x[(n - 1):n] == c("<p>", "</p>")))
-    x <- x[-c(n - 1, n)]
 
   return(x)
 }
