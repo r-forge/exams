@@ -110,7 +110,7 @@ stresstest_exercise <- function(file, n = 100,
           x <- gsub("$", "", gsub(" ", "", x, fixed = TRUE), fixed = TRUE)
           if(!all(is.na(suppressWarnings(as.numeric(x)))))
             x <- as.numeric(x)
-          order(x, decreasing = TRUE)
+          order(order(x, decreasing = TRUE))
         }))
         if(all(!is.na(suppressWarnings(as.numeric(gsub("$", "", questions[[1]], fixed = TRUE)))))) {
           questions <- lapply(questions, function(x) {
@@ -123,7 +123,7 @@ stresstest_exercise <- function(file, n = 100,
           rval$solution <- sol_num
         }
         ordering <- (pmat > 0) * ordering
-        rval$ordering <- as.factor(rowSums(ordering))
+        rval$ordering <- as.factor(as.integer(rowSums(ordering)))
       }
       if(extype == "mchoice") {
         ex_mat <- do.call("rbind", solutions)
@@ -271,9 +271,6 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
     }
 
     if(!is.null(x$objects)) {
-      par("ask" = ask)
-      if(spar) par(mfrow = c(2, 2))
-
       if(is.null(variables)) {
         variables <- names(x$objects)
       } else {
@@ -281,6 +278,18 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
         for(j in variables)
           v2 <- c(v2, grep(j, variables, value = TRUE, fixed = TRUE))
         variables <- unique(v2)
+      }
+
+      par("ask" = ask)
+      if(spar) {
+        if(length(variables) > 2) {
+          if(length(variables) > 3)
+            par(mfrow = c(2, 2))
+          else
+            par(mfrow = c(1, 3))
+        } else {
+          par(mfrow = c(1, length(variables)))
+        }
       }
 
       if(type == "runtime") {
