@@ -1,0 +1,29 @@
+<<echo=FALSE, results=hide>>=
+## sample the probability of success
+prob <- sample(seq(0, 0.05, by = 0.01), size = 1)
+
+## sample the number of fishing days
+size <- sample(6:20, size = 1)
+
+## sample the number of successful fishing days
+k <- sample(2:3, size = 1)
+
+## compute the correct solution in percent
+sol <- pbinom(k, size = size, prob = prob) * 100
+@
+
+\begin{question}
+John likes to go fishing. The probability of a successful fishing day at his home lake is
+$\Sexpr{100 * prob}$ percent. 
+
+\medskip
+
+What is the probability of being successful at most at $\Sexpr{k}$ times when going $\Sexpr{size}$
+days fishing?
+\end{question}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{\Sexpr{fmt(sol, 2)}}
+%% \exname{Binomial}
+%% \exdescription{Binomial distribution, fishing}
