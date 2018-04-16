@@ -56,4 +56,5 @@ workflow:
 
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
 * Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Tutorial: [Dynamic Online Tests with Blackboard and R/exams]({{ site.url }}/tutorials/exams2blackboard/).
 * [Blog archive]({{ site.url }}/blog/).

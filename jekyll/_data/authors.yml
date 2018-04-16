@@ -28,4 +28,10 @@ stauffer:
   email: "Reto.Stauffer@uibk.ac.at"
   uri: "http://www.retostauffer.org/"
 
+smits:
+  name: "Niels Smits"
+  siterole: "Blackboard adaptation"
+  email: "n.smits@uva.nl"
+  uri: "http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html"
+
 # you can add more authors here
