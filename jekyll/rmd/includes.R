@@ -273,11 +273,15 @@ include_template <- function(name, title, teaser, description,
   include_asset(f[7], link = FALSE, out = f[11])
   ##
   set.seed(seed)
+  knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
+  knitr::opts_knit$set(.knitr_opts_vanilla$knit)
   if(!utf8) {
     exams2pdf(f[2], name = "blog", dir = ".")
   } else {
     exams2pdf(f[2], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")
   }
+  knitr::opts_chunk$set(.knitr_opts_custom$chunk)
+  knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.pdf", f[8])
   include_asset(f[8], link = FALSE, out = f[12])
   ##
@@ -428,3 +432,15 @@ exams2pdf(&quot;@name@.Rmd&quot;@encoding@)</code></pre>
 
   return(md)
 }
+
+## custom match_exams_call() that ignores the include_* functions
+.match_exams_call <- function(which = 1L, deparse = TRUE) {
+  if(getRversion() < "3.2.0") return("")
+  rval <- if(!deparse) exams:::.xexams_call else sapply(exams:::.xexams_call, function(x) deparse(x[[1L]]))
+  rval <- rval[!(substr(rval, 1, 8) == "include_")]
+  if(!is.null(which)) rval <- rval[[which]]
+  rval[rval == "NULL"] <- ""
+  return(rval)
+}
+assignInNamespace("match_exams_call", .match_exams_call, ns = "exams")
+
