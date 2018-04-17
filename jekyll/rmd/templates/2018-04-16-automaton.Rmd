@@ -1,0 +1,12 @@
+```{r automaton-rmd, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "automaton",
+  title = "Interpretation of Automaton Diagrams (Using TikZ)",
+  teaser = "Exercise template for assessing the interpretation of an automaton diagram (drawn with TikZ) based on randomly generated input sequences.",
+  description = "Automaton diagram with four states A-D is drawn with TikZ and needs to be interpreted, where A is always the initial state and one state is randomly picked as the accepting state. Five binary 0/1 input sequences acceptance has to be assessed with approximately a quarter of all sequences being accepted.",
+  tags = c("multiple-choice", "visualization", "computer-science"),
+  randomization = "Random numbers, text blocks, and graphics",
+  related = "logic",
+  thumb = c(150, 182))
+)
+```
