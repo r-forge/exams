@@ -45,42 +45,36 @@ tikz_truth_table <- function(op) {
 
 ## sample operators
 ops4 <- sample(names(ops), 4)
-ops1 <- sample(names(ops), 1)
-sol <- ops4 == ops1
+ops3 <- sample(ops4, 3)
+ops1 <- sample(ops4, 1)
+sol <- ops3 == ops1
 sol <- c(sol, !any(sol))
-ans <- c("A", "B", "C", "D", "None of these")
+ans <- c("A", "B", "C", "None of these")
 @
 
 \begin{question}
 
 Consider the following gates coding logical operators:
 
-\begin{tabular}{cccc}
-A & B & C & D\\
+\begin{tabular}{ccc}
+A & B & C\\
 
 <<echo=FALSE, results=tex>>=
-include_tikz(tikz_gate(ops4[1]), name = "A",
+include_tikz(tikz_gate(ops3[1]), name = "A",
   format = typ, width = "0.17 \\textwidth", library = tikz_gate_libraries)
 @
 
 &
 
 <<echo=FALSE, results=tex>>=
-include_tikz(tikz_gate(ops4[2]), name = "B",
+include_tikz(tikz_gate(ops3[2]), name = "B",
   format = typ, width = "0.17 \\textwidth", library = tikz_gate_libraries)
 @
 
 &
 
 <<echo=FALSE, results=tex>>=
-include_tikz(tikz_gate(ops4[3]), name = "C",
-  format = typ, width = "0.17 \\textwidth", library = tikz_gate_libraries)
-@
-
-&
-
-<<echo=FALSE, results=tex>>=
-include_tikz(tikz_gate(ops4[4]), name = "D",
+include_tikz(tikz_gate(ops3[3]), name = "C",
   format = typ, width = "0.17 \\textwidth", library = tikz_gate_libraries)
 @
 
@@ -106,10 +100,9 @@ answerlist(ans)
 The truth table codes the logical \textbf{\Sexpr{ops1}} operator.
 
 The gates displayed code the following logical operators:
-A = \textbf{\Sexpr{ops4[1]}},
-B = \textbf{\Sexpr{ops4[2]}},
-C = \textbf{\Sexpr{ops4[3]}},
-D = \textbf{\Sexpr{ops4[4]}}.
+A = \textbf{\Sexpr{ops3[1]}},
+B = \textbf{\Sexpr{ops3[2]}},
+C = \textbf{\Sexpr{ops3[3]}}.
 
 Hence, the truth table corresponds to:
 \Sexpr{ans[sol]}.
