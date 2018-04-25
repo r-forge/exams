@@ -471,12 +471,12 @@ read_nops_answers <- function(x, threshold = c(0.04, 0.42), size = 0.029, n = 45
   if(!(is.numeric(n) && isTRUE(n %in% 1L:45L))) n <- 45L
 
   ## 1-15
-  coord1 <- cbind(0.5532 + rep(0L:2L, each = 25L) * 0.147 + rep(0L:4L, each = 5L) * 0.027,
+  coord1 <- cbind(0.5532 + rep(0L:2L, each = 25L) * 0.148 + rep(0L:4L, each = 5L) * 0.027,
     0.04125 + rep(0L:4L, 15L) * 0.047)
   ## 16-30
-  coord2 <- coord1 + cbind(rep(0, 5 * 15), 0.374)
+  coord2 <- coord1 + cbind(rep(0, 5 * 15), 0.376)
   ## 31-45
-  coord3 <- coord2 + cbind(rep(0, 5 * 15), 0.374 * 60/64)
+  coord3 <- coord2 + cbind(rep(0, 5 * 15), 0.376 * 60/64)
   coord <- rbind(coord1, coord2, coord3)
 
   ## ## zap numbers next to the boxes
