@@ -1,0 +1,12 @@
+```{r tstat, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "fruit",
+  title = "Image-Based Systems of Linear Equations (Numeric)",
+  teaser = "Exercise template for solving a system of three linear equations (numeric answer) with a problem description based on shuffled images.",
+  description = "A system of three linear equations has to be solved and the solution has to be entered into a fourth equation. However, the system is not defined through a verbal description or mathermatical notation but through images (clip art of tropical fruits). The problem can be interpreted as prices of three fruits (banana, orange, pineapple) and corresponding fruit baskets with different combinations of fruits. Images are stored in Base64 encoding within the exercise files and embedded dynamically into the output. PDFs are best generated from the Rnw version, HTML is best generated with pandoc from either the Rmd version (where pandoc is used by default) or the Rnw version (where ttm is used by default, but pandoc can be easily used as well.)",
+  tags = c("numeric", "arithmetic", "mathematics", "graphic"),
+  related = "fruit2",
+  randomization = "Random numbers, shuffled graphics",
+  thumb = c(285, 202))
+)
+```
