@@ -7,6 +7,6 @@ writeLines(include_template(
   tags = c("numeric", "arithmetic", "mathematics", "graphic"),
   related = "fruit2",
   randomization = "Random numbers, shuffled graphics",
-  thumb = c(285, 202))
+  thumb = c(280, 155))
 )
 ```

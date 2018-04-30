@@ -287,7 +287,7 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - thumbnail
   system(sprintf(
-    "convert -density 100 %s[%s] -gravity northwest -chop %sx%s -gravity southeast -chop %sx%s -border 2x2 -bordercolor '#666666' %s",
+    "convert -density 100 %s[%s] -strip -background white -flatten -gravity northwest -chop %sx%s -gravity southeast -chop %sx%s -border 2x2 -bordercolor '#666666' -transparent white %s",
     f[7], page - 1, thumb[1], thumb[2], 827 - 300 - thumb[1], 1169 - 200 - thumb[2], f[13]))
   file.copy(f[13], "../../../images/", overwrite = TRUE)
 
@@ -393,7 +393,7 @@ exams2pdf(&quot;@name@.Rmd&quot;@encoding@)</code></pre>
   ## look up properties of processes exercises
   math <- any(grepl("<math", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   verbatim <- any(grepl("<pre>", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
-  images = any(grepl("includegraphics{", unlist(ex_pdf[c("question", "solution")]), fixed = TRUE))
+  images = any(grepl("includegraphics", unlist(ex_pdf[c("question", "solution")]), fixed = TRUE))
   supplements <- if(supplements == "") {
     if(length(ex_html$supplements) < 1) FALSE else paste(names(ex_html$supplements), collapse = ", ")
   } else {
