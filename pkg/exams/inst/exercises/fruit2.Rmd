@@ -19,20 +19,20 @@ p <- sample(199:499, size = 1)
 x <- c(b, o, p)
 
 ## three simple fruit baskets
-G <- sample(c("bpo", "bbo", "bbp", "boo", "bpp", "oop", "opp"), 3)
+G <- sample(c("bbo", "bbp", "boo", "bpp", "oop", "opp"), 3)
 G <- t(sapply(G, function(x) sample(strsplit(x, "")[[1]])))
 A <- t(apply(G, 1, function(x) table(factor(x, levels = c("b", "o", "p")))))
 
 ## corresponding prices
 d <- A %*% x
 
-## new fruit basket and corresponding price
-n <- sample(1:9, size = 3, replace = TRUE)
-sol <- sum(n * x)
+## new fruit basket with all fruits and corresponding price
+sol <- sum(x)
 
 ## single-choice list
-err <- sample(c(d, sum(n * d)), 1)
-sc <- num_to_schoice(sol, wrong = err, delta = 2, digits = 0)
+err1 <- sample(d, 1)
+err2 <- x[3]
+sc <- num_to_schoice(sol, wrong = c(err1, err2), delta = 2, digits = 0)
 }
 ```
 
@@ -50,9 +50,9 @@ Given the following information:
 
 Compute:
 
-|            |          |              |     |            |          |              |     |            |          |              |     |   |
-|-----------:|:--------:|:------------:|:---:|-----------:|:--------:|:------------:|:---:|-----------:|:--------:|:------------:|:---:|:--|
-| $`r n[1]`$ | $\times$ | `r img("b")` | $+$ | $`r n[2]`$ | $\times$ | `r img("o")` | $+$ | $`r n[3]`$ | $\times$ | `r img("p")` | $=$ | ? |
+|              |     |              |     |              |   |            |
+|:------------:|:---:|:------------:|:---:|:------------:|:-:|-----------:|
+| `r img("b")` | $+$ | `r img("o")` | $+$ | `r img("p")` | = | $\text{?}$ |
 
 ```{r questionlist, echo = FALSE, results = "asis"}
 answerlist(sc$questions, markup = "markdown")
@@ -82,11 +82,11 @@ $$
 Based on the three prices for the different fruits it is straightforward to
 compute the total price of the fourth fruit basket via:
 
-|            |          |              |     |            |          |              |     |            |          |              |     |           |
-|-----------:|:--------:|:------------:|:---:|-----------:|:--------:|:------------:|:---:|-----------:|:--------:|:------------:|:---:|:----------|
-| $`r n[1]`$ | $\times$ | `r img("b")` | $+$ | $`r n[2]`$ | $\times$ | `r img("o")` | $+$ | $`r n[3]`$ | $\times$ | `r img("p")` | $=$ |           |
-| $`r n[1]`$ | $\times$ | $x_1$        | $+$ | $`r n[2]`$ | $\times$ | $x_2$        | $+$ | $`r n[3]`$ | $\times$ | $x_3$        | $=$ |           |
-| $`r n[1]`$ | $\times$ | $`r b`$      | $+$ | $`r n[2]`$ | $\times$ | $`r o`$      | $+$ | $`r n[3]`$ | $\times$ | $`r p`$      | $=$ | $`r sol`$ |
+|              |     |              |     |              |   |            |
+|:------------:|:---:|:------------:|:---:|:------------:|:-:|-----------:|
+| `r img("b")` | $+$ | `r img("o")` | $+$ | `r img("p")` | = |            |
+| $x_1$        | $+$ | $x_2$        | $+$ | $x_3$        | = |            |
+| $`r x[1]`$   | $+$ | $`r x[2]`$   | $+$ | $`r x[3]`$   | = | $`r sol`$  |
 
 ```{r solutionlist, echo = FALSE, results = "asis"}
 answerlist(ifelse(sc$solutions, "True", "False"), markup = "markdown")
