@@ -71,16 +71,17 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
         if(any(grepl(sf, unlist(trex), fixed = TRUE)) && file_ext(sf) %in% base64) {
 	  ## replacement pattern pairs
           sf64 <- fileURI(file = sf)
-          if(substr(to, 1L, 4L) == "html") {
-            sfx <- rbind(
-	      c(sprintf('alt="%s"', sf),  'alt="\\007\\007_exams_supplement_\\007\\007"'),
-	      c(sprintf('href="%s"', sf), sprintf('href="%s" download="\\007\\007_exams_supplement_\\007\\007"', sf)),
-	      c(sprintf('="%s"', sf),     sprintf('="%s"', sf64)),
-	      c('\\007\\007_exams_supplement_\\007\\007', sf)
-	    )
-          } else {
+	  ## always include HTML replacements (could also be in Markdown)
+          sfx <- rbind(
+	    c(sprintf('alt="%s"', sf),  'alt="\\007\\007_exams_supplement_\\007\\007"'),
+	    c(sprintf('href="%s"', sf), sprintf('href="%s" download="\\007\\007_exams_supplement_\\007\\007"', sf)),
+	    c(sprintf('="%s"', sf),	sprintf('="%s"', sf64)),
+	    c('\\007\\007_exams_supplement_\\007\\007', sf)
+	  )
+	  ## Markdown replacements only for non-HTML
+          if(substr(to, 1L, 4L) != "html") {
 	    sfx <- rbind(
-	      c(sprintf("(%s)", sf), sprintf("(%s)", sf64))
+	      c(sprintf("](%s)", sf), sprintf("](%s)", sf64))
 	    )
 	  }	
 	  ## replace (if necessary)
