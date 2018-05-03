@@ -455,7 +455,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               if(rshuffle) 'Yes' else 'No', '">', sep = ''),
             '<material>',
             '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
-             paste(if(enumerate) {
+             paste(if(enumerate & n > 1) {
                paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
@@ -480,10 +480,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           } else {
             if(!is.character(solution[[i]][j])) format(solution[[i]][j]) else solution[[i]][j]
           }
+          qlc <- is.null(questionlist[[i]][j]) | !(length(questionlist[[i]][j]) < 1)
           txml <- c(
-            if(!is.null(questionlist[[i]][j])) {
+            if(!qlc) {
               c('<material>',
-                paste('<mattext><![CDATA[', paste(if(enumerate) {
+                paste('<mattext><![CDATA[', paste(if(enumerate & n > 1) {
                   paste(letters[i], ".", sep = '')
                 } else NULL, questionlist[[i]][j]), ']]></mattext>', sep = ""),
                 '</material>',
