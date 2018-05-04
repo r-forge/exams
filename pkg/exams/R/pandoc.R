@@ -177,6 +177,16 @@ pandoc <- function(x, ..., from = "latex", to = "html", fixup = TRUE, Sweave = T
       )
       for(i in 1:nrow(tab)) rval <- gsub(tab[i, 1L], tab[i, 2L], rval)
     }
+
+    if(isTRUE(.xexams_fixup$pandoc_mathjax)) {
+      tab <- rbind(
+        c('<span class="math display">\\[', '</p><div class="math">'),
+	c('\\]</span>',                     '</div><p>'),
+	c('<span class="math inline">\\(',  '<span class="math">'),
+	c('\\)</span>',                     '</span>')
+      )
+      for(i in 1:nrow(tab)) rval <- gsub(tab[i, 1L], tab[i, 2L], rval, fixed = TRUE)
+    }
   }
   
   return(rval)

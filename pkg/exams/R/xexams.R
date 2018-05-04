@@ -295,3 +295,8 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
 .xweave_svg_grdevice <- function(name, width, height, ...) {
   svg(filename = paste(name, "svg", sep = "."), width = width, height = height)
 }
+
+.xexams_fixup <- list(
+  pandoc_mathjax = FALSE
+)
+
