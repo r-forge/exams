@@ -37,7 +37,9 @@ Changes in Version 2.3-1
     Krunoslav Juraic), Danish (da, contributed by Tue Vissing Jensen & Jakob
     Messner), Slovak (sk, contributed by Peter Fabsic), Swiss
     German (gsw, contributed by Reto Stauffer), Turkish (tr, contributed by
-    Emrah Er).
+    Emrah Er). Furthermore, Portuguese has been distinguished into
+    pt-PT (Portuguese Portuguese) vs. pt-BR (Brazilian Portuguese) with
+    pt defaulting to the former (contributed by Thomas Dellinger).
 
   o include_supplement(..., dir = "foo") now also works if "foo" is
     sub-directory to the exercise directory (edir).

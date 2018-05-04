@@ -40,7 +40,8 @@
     Currently, the package ships: English (\code{"en"}), Croatian (\code{"hr"}),
     Danish (\code{"da"}), Dutch (\code{"nl"}), French (\code{"fr"}),
     German (\code{"de"}), Hungarian (\code{"hu"}), Italian (\code{"it"}),
-    Romanian (\code{"ro"}), Portuguese (\code{"pt"}), Spanish (\code{"es"}),
+    Romanian (\code{"ro"}), Portuguese (\code{"pt-PT"} or \code{"pt-BR"} or \code{"pt"}
+    which is synonymous with \code{"pt-PT"}), Spanish (\code{"es"}),
     Swiss German (\code{"gsw"}), Turkish (\code{"tr"}).}
   \item{title}{character. Title of the exam, e.g., \code{"Introduction to Statistics"}.}
   \item{course}{character. Optional course number, e.g., \code{"101"}.}
@@ -129,7 +130,14 @@
   exam sheet is produced for these open-ended questions. It is assumed that
   a human reader reads these open-ended questions and then assigns points
   by marking boxes on this separate sheet. Subsequently, this sheet can
-  also be read by \code{nops_scan}.  
+  also be read by \code{nops_scan}.
+  
+  The \code{language} elements can be specified through a relatively simple
+  text file in DCF format, see \url{http://www.R-exams.org/tutorials/nops_language/}
+  for more details. The package ships with a variety of languages, the names
+  of which correspond to the ISO 639 codes (\url{https://www.loc.gov/standards/iso639-2/php/code_list.php})
+  or IETF language tags (\url{https://en.wikipedia.org/wiki/IETF_language_tag}) if
+  no ISO 639 codes exists (as for Brazilian Portuguese).
 }
 
 \value{
