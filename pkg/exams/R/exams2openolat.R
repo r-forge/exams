@@ -2,8 +2,8 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   qti = "2.1", converter = "pandoc-mathjax", ...)
 {
   ## post-process mathjax output for display in OpenOLAT
-  utils::assignInNamespace(".xexams_fixup", list(pandoc_mathjax = TRUE), ns = "exams")
-  on.exit(utils::assignInNamespace(".xexams_fixup", list(pandoc_mathjax = FALSE), ns = "exams"))
+  .exams_set_internal(pandoc_mathjax_fixup = TRUE)
+  on.exit(.exams_set_internal(pandoc_mathjax_fixup = FALSE))
 
   ## call exams2qti12 or exams2qti21
   qti <- match.arg(qti, c("1.2", "2.1"))
