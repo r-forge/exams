@@ -1,10 +1,9 @@
 <<echo=FALSE, results=hide>>=
-# convert to pdf, tex or svg depending on output format
-typ <- switch(match_exams_call(),
-  "exams2pdf" = "pdf",
-  "exams2nops" = "tex",
-  "svg"
-)
+# use the same graphics type (pdf, svg, png) as the current xweave() call
+# except for exams2nops() where tex is used
+typ <- match_exams_device()
+if(match_exams_call() == "exams2nops") typ <- "tex"
+
 
 ## tikz automaton code with two placeholders
 automaton <- '

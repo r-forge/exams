@@ -1,10 +1,6 @@
 ```{r, echo = FALSE, results = "hide"}
-# convert to pdf, tex or svg depending on output format
-typ <- switch(match_exams_call(),
-  "exams2pdf" = "pdf",
-  "exams2nops" = "pdf",
-  "svg"
-)
+# use the same graphics type (pdf, svg, png) as the current xweave() call
+typ <- match_exams_device()
 
 # logical operators
 ops <- list(

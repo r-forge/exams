@@ -47,3 +47,5 @@ match_exams_call <- function(which = 1L, deparse = TRUE) {
   rval[rval == "NULL"] <- ""
   return(rval)
 }
+
+match_exams_device <- function() .exams_get_internal("xweave_device")

@@ -44,6 +44,7 @@ export(
   "include_supplement",
   "include_tikz",
   "match_exams_call",
+  "match_exams_device",
 
   ## stress testing,
   "stresstest_exercise",

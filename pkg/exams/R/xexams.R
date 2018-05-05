@@ -229,6 +229,7 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
   } else {
     "png"
   }
+  .exams_set_internal(xweave_device = dev)
   if(is.null(envir)) envir <- new.env()
   
   if(ext == "rnw") {
@@ -320,6 +321,8 @@ xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
   xexams_dir_temporary   = NULL,
 
   xexams_call            = list(call = NULL, traceback = NULL),
+
+  xweave_device          = "png",
 
   pandoc_mathjax_fixup   = FALSE
 )
