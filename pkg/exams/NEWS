@@ -1,12 +1,12 @@
 Changes in Version 2.3-1
 
   o Added new interface exams2ilias() for the open-source ILIAS learning
-    management system (http://www.ilias.de/). This is essentially a
+    management system (https://www.ilias.de/). This is essentially a
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
   o Added new interface exams2openolat() for the open-source OpenOLAT learning
-    management system (http://www.openolat.com/). This is only a convenience
+    management system (https://www.openolat.com/). This is only a convenience
     wrapper to exams2qti12() or exams2qti21() with some dedicated tweaks
     for optimizing MathJax output for OpenOLAT.
 
@@ -25,6 +25,12 @@ Changes in Version 2.3-1
     base64 = TRUE now uses Base 64 encoding for all file extensions (known
     to the package) whereas base64 = NULL only encodes image files (previous
     default behavior).
+
+  o After setting a random seed exams2nops() and exams2pdf() now yield the
+    same random versions of the exercises. Previously, this was not the case
+    because exams2nops() internally generates a single random trial exam first for
+    a couple of sanity checks. Now, the .GlobalEnv$.Random.seed is restored
+    after generating the trial exam.
 
   o Fixed the support for 'nsamp' argument in exams2nops(). Furthermore,
     current limitations of exams2nops() are pointed out more clearly and

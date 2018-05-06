@@ -5,6 +5,12 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   usepackage = NULL, header = NULL, encoding = "", startid = 1L, points = NULL,
   showpoints = FALSE, samepage = FALSE, twocolumn = FALSE, reglength = 7L, ...)
 {
+  ## try to restore random seed after single trial exam (introduced in version 2.3-1)
+  ## initialize the RNG if necessary
+  if(!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) runif(1L)
+  .rseed <- get(".Random.seed", envir = .GlobalEnv)
+  restore_seed <- isTRUE(.exams_get_internal("nops_restore_seed") && !is.null(.rseed))
+
   ## pages could include formulary and distribution tables
   if(!is.null(pages)) pages <- sapply(pages, file_path_as_absolute)
 
@@ -38,10 +44,11 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   ## header: collect everything
   header <- c(list(Date = date, ID = d2id), usepackage, loc, lang, header)
 
-  ## determine number of alternative choice fors each exercise
+  ## determine number of alternative choices (and non-supported cloze exercises)
+  ## for all (unique) exercises in the exam
   ufile <- unique(unlist(file))
   x <- exams_metainfo(xexams(ufile, driver = list(sweave = list(quiet = TRUE, encoding = encoding),
-    read = NULL, transform = NULL, write = NULL), ...))[[1L]]
+    read = NULL, transform = NULL, write = NULL), ...))[[1L]]    
   names(x) <- ufile
   utype <- sapply(ufile, function(n) x[[n]]$type)
   wrong_type <- ufile[utype == "cloze"]
@@ -98,6 +105,9 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   } else {
     NULL
   }
+
+  ## restore seed prior to calling exams2pdf()
+  if(restore_seed) assign(".Random.seed", .rseed, envir = .GlobalEnv)
 
   if(is.null(dir)) {  
     rval <- exams2pdf(file, n = n, nsamp = nsamp, name = name, template = template,
