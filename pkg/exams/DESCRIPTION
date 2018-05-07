@@ -8,10 +8,12 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
                     comment = c(ORCID = "0000-0001-7265-4773")),
 	     person(given = "Friedrich", family = "Leisch", role = "aut", email = "Friedrich.Leisch@R-project.org",
                     comment = c(ORCID = "0000-0001-7278-1983")),
-	     person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"),
-	     person(given = "Niels", family = "Smits", role = "ctb", email = "N.Smits@uva.nl"),
+	     person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"),	     
 	     person(given = "Mirko", family = "Birbaumer", role = "ctb", email = "Mirko.Birbaumer@hslu.ch"),
-	     person(given = "Dominik", family = "Ernst", role = "ctb", email = "Dominik.Ernst@boku.ac.at"))
+	     person(given = "Dominik", family = "Ernst", role = "ctb", email = "Dominik.Ernst@boku.ac.at"),
+	     person(given = "Patrik", family = "Keller", role = "ctb", email = "Patrik.Keller@uibk.ac.at"),
+	     person(given = "Niels", family = "Smits", role = "ctb", email = "N.Smits@uva.nl"),
+	     person(given = "Reto", family = "Stauffer", role = "ctb", email = "Reto.Stauffer@uibk.ac.at"))
 Description: Automatic generation of exams based on exercises in Markdown or LaTeX format,
 	possibly including R code for dynamic generation of exercise elements.
 	Exercise types include single-choice and multiple-choice questions, arithmetic problems,
