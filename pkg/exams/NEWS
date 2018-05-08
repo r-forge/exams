@@ -61,12 +61,13 @@ Changes in Version 2.3-1
     (the default) did not run properly on Windows, fixed now.
 
   o New function include_tikz() that facilitates compiling standalone
-    tikz figures and including it in an exercise.
+    tikz figures and including it in an exercise (especially for
+    non-LaTeX-based output).
 
   o Added support for \tightlist (as produced by pandoc) in all current
     LaTeX templates as well as exams2nops().
 
-  o \exshuffle{num} can now also be used for schoice exersises with more
+  o \exshuffle{<num>} can now also be used for schoice exercises with more
     than one TRUE answer. In a first step only one of the TRUE answers is
     selected and then num-1 items from the FALSE answers.
     
@@ -75,6 +76,10 @@ Changes in Version 2.3-1
 
   o Enable passing of 'envir' argument from exams2html() to xweave() in
     case of .Rmd exercises.
+
+  o Bug fix in CSV export of exams2arsnova(). Recent ARSnova versions use
+    "mc" (rather than "MC") and "abcd" (rather than "SC") for multiple-choice
+    and single-choice questions, respectively.
 
 
 Changes in Version 2.3-0
