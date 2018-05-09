@@ -179,7 +179,7 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 \\usepackage{amsmath,amssymb,latexsym}
 \\usepackage{verbatim,url,fancyvrb,ae}
 \\usepackage{multicol,a4wide,pdfpages}
-\\usepackage{booktabs,longtable,eurosym}
+\\usepackage{booktabs,longtable,eurosym,textcomp}
 \\IfFileExists{sfmath.sty}{
   \\RequirePackage{sfmath}
 }{}

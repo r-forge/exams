@@ -130,6 +130,11 @@ Changes in Version 2.3-0
   o nops_scan() now uses the 'dir' argument not only for the output ZIP
     file but also for the input PDF/PNG image files.
 
+  o exams2pdf() and hence also exams2nops() now try to iconv() the header
+    information to the specified 'encoding' (if any) rather than relying
+    on header information (such as institution name etc.) are specified
+    in LaTeX.
+
 
 Changes in Version 2.2-1
 
