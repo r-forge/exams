@@ -101,6 +101,7 @@ stresstest_exercise <- function(file, n = 100,
         if(length(solutions[[1]]) > 1)
           solutions <- lapply(solutions, mean)
         rval$solution <- unlist(solutions)
+	nchoice <- 0
       }
       if(extype == "schoice") {
         pmat <- do.call("rbind", solutions)
@@ -124,6 +125,7 @@ stresstest_exercise <- function(file, n = 100,
         }
         ordering <- (pmat > 0) * ordering
         rval$ordering <- as.factor(as.integer(rowSums(ordering)))
+	nchoice <- NCOL(pmat)
       }
       if(extype == "mchoice") {
         ex_mat <- do.call("rbind", solutions)
@@ -136,13 +138,15 @@ stresstest_exercise <- function(file, n = 100,
         })
         ordering <- do.call("rbind", ordering)
         rval$ordering <- ordering * do.call("rbind", solutions)
+	nchoice <- NCOL(pmat)
       }
     } else {
       rval$solutions <- solutions
+      nchoice <- 0
     }
 
     class(rval) <- c("stress", "list")
-    attr(rval, "exinfo") <- c("file" = file, "type" = extype)
+    attr(rval, "exinfo") <- c("file" = file, "type" = extype, "nchoice" = nchoice)
   }
 
   return(rval)
@@ -199,8 +203,9 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
           col = "lightgray")
       }
 
+      nchoice <- as.numeric(attr(x, "exinfo")["nchoice"])
       if(!is.null(x$position)) {
-        ptab <- table(x$position)
+        ptab <- table(factor(x$position, levels = 0:nchoice))
         ptab <- ptab[names(ptab) != "0"]
         barplot(ptab, ylab = "n", main = "Position of correct solution",
           xlab = "Position", col = rainbow(ncol(x$position)))
@@ -211,7 +216,7 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
       }
 
       if(!is.null(x$ordering)) {
-        ptab <- table(x$ordering)
+        ptab <- table(factor(x$ordering, levels = 0:nchoice))
         ptab <- ptab[names(ptab) != "0"]
         barplot(ptab, ylab = "n", main = "Solution order frequencies",
           xlab = "Solution order", col = rainbow(ncol(x$position)))
