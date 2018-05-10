@@ -59,7 +59,7 @@ workflow:
         ###### 5. Evaluate
         * Using `nops_eval()` from R/exams,
           evaluate the exam to obtain marks, points, etc.
-          and individual HTML reports for each participant.
+          and individual HTML reports for each examinee.
         * Required files: Correct answers from Step 1, scans from Step 4, and a
           participant list in CSV format.
 
