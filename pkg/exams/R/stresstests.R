@@ -111,7 +111,7 @@ stresstest_exercise <- function(file, n = 100,
           x <- gsub("$", "", gsub(" ", "", x, fixed = TRUE), fixed = TRUE)
           if(!all(is.na(suppressWarnings(as.numeric(x)))))
             x <- as.numeric(x)
-          order(order(x, decreasing = TRUE))
+          rank(x, ties.method = "min")
         }))
         if(all(!is.na(suppressWarnings(as.numeric(gsub("$", "", questions[[1]], fixed = TRUE)))))) {
           questions <- lapply(questions, function(x) {
