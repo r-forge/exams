@@ -112,7 +112,7 @@
 \setbeamercolor*{item}{fg=rexamsmgray}
 \setbeamercolor*{structure}{fg=rexamsdgray,bg=white}
 \setbeamercolor*{alerted text}{parent=structure}
-\setbeamercolor*{verbcolor}{fg=black}
+\setbeamercolor*{verbcolor}{fg=rexamsdgreen}
 \setbeamercolor*{author}{fg=rexamsmgray} % on title slide
 \setbeamercolor*{url}{fg=rexamsmgray} % on title slide
 \setbeamercolor*{footer}{fg=rexamsmgray}
@@ -332,15 +332,13 @@
 %% Required for text positioning on the title page
 \usepackage{scrextend}
 
+%% Render title page. Old option, \maketitle should
+%% be used directly (this is just a wrapper around \maketitle)
+\newcommand{\rendertitlepage}[0]{\maketitle}
 
-\ifnosectiontitlepage
-    % do nothing here, create the titlepage via \titlepage in the presentation
-\else
-    \AtBeginSection[]{
-    % use background image
-    {\setbeamertemplate{footline}{}
-
-    \begin{frame}
+%% Allows to use beamer default \maketitle
+\defbeamertemplate*{title page}{customized}[1][]
+{
       \begin{tikzpicture}[remember picture,overlay,anchor=north west,inner sep=0pt]
 
          \node[xshift=7.5mm,yshift=-6mm] at (current page.north west) {
@@ -372,7 +370,7 @@
       \end{tikzpicture}
 
       %% Title/subtitle, author, URL
-      \vspace*{4.6cm}
+      \vspace*{5.1cm}
       {%
          \usebeamercolor[fg]{title}%
 	      \usebeamerfont{title}%
@@ -397,16 +395,25 @@
       \medskip
 
       {%
-         \usebeamercolor[fg]{url}%
-	         \url{\myURL}%
-	   }%
+	 \href{\myURL}{\tt \usebeamercolor[fg]{url} \myURL}%
+      }%
 
-
-    \end{frame}}
     \addtocounter{framenumber}{-1}
     % reset background image
     \usebackgroundtemplate{}
-    }
+}
+
+\ifnosectiontitlepage
+    % do nothing here, create the titlepage via \titlepage in the presentation
+\else
+   \AtBeginSection[]{
+      {\setbeamertemplate{footline}{}
+         \ifnosectiontitlepage
+         \else
+            \rendertitlepage{}
+         \fi
+      }
+   }
 \fi
 
 
@@ -455,7 +462,8 @@
 \makeatletter
 \AtEndPreamble{
   \hypersetup{
-    colorlinks = false,
+    colorlinks = true,
+    urlcolor = rexamsdgreen,
     pdfauthor = {\beamer@shortauthor},
     pdfsubject = {{\inserttitle} - {\insertsubtitle}},
     pdftitle = {\beamer@shorttitle},
