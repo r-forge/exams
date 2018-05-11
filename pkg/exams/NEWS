@@ -73,9 +73,9 @@ Changes in Version 2.3-1
 
   o \exshuffle{<num>} can now also be used for schoice exercises with more
     than one TRUE answer. In a first step only one of the TRUE answers is
-    selected and then num-1 items from the FALSE answers.
+    selected and then <num>-1 items from the FALSE answers.
     
-  o Better warnings if \exshuffle{num} could not be honored due to a lack of
+  o Better warnings if \exshuffle{<num>} could not be honored due to a lack of
     sufficiently many (suitable) answer alternatives.
 
   o Enable passing of 'envir' argument from exams2html() to xweave() in
