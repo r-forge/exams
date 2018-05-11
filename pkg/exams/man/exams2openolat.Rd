@@ -43,7 +43,7 @@
   \code{\link[exams]{exams2qti12}}
 }
 
-\examples{z
+\examples{
 ## load package and enforce par(ask = FALSE)
 library("exams")
 options(device.ask.default = FALSE)
