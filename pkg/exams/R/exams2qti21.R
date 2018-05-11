@@ -721,10 +721,20 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     xml <- c(xml,
       '<responseCondition>',
       '<responseIf>',
-      '<equal toleranceMode="exact">',
-      '<variable identifier="SCORE"/>',
-      '<variable identifier="MAXSCORE"/>',
-      '</equal>',
+      if(type[i] != "num") {
+        c('<equal toleranceMode="exact">',
+          '<variable identifier="SCORE"/>',
+          '<variable identifier="MAXSCORE"/>',
+          '</equal>')
+      } else {
+        c(
+          paste('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
+            max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">', sep = ''),
+          paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+          paste('<correct identifier="', ids[[i]]$response, '"/>', sep = ''),
+          '</equal>'
+        )
+      },
       '<setOutcomeValue identifier="FEEDBACKBASIC">',
       '<baseValue baseType="identifier">correct</baseValue>',
       '</setOutcomeValue>',
