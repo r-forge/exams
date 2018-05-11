@@ -192,10 +192,12 @@ plot.stress <- function(x, type = c("overview", "solution", "ordering", "runtime
           par(mfrow = c(2, 2))
       }
 
-      tr <- range(x$runtime)
-      hist(x$runtime, freq = FALSE,
-        main = paste("Runtimes ", fmt(min(tr), 4), "-", fmt(max(tr), 4), sep = ""),
-        xlab = "Time", col = "lightgray")
+      if(!is.null(x$runtime)) {
+        tr <- range(x$runtime)
+        hist(x$runtime, freq = FALSE,
+          main = paste("Runtimes ", fmt(min(tr), 4), "-", fmt(max(tr), 4), sep = ""),
+          xlab = "Time", col = "lightgray")
+      }
 
       if(!is.null(x$solution) & !is.list(x$solution)) {
         hist(x$solution, freq = FALSE,
