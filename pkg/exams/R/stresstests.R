@@ -220,8 +220,8 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime"),
       if(!is.null(x$rank)) {
         ptab <- table(factor(x$rank, levels = 0:nchoice))
         ptab <- ptab[names(ptab) != "0"]
-        barplot(ptab, ylab = "n", main = "Solution rank frequencies",
-          xlab = "Solution rank", col = rainbow(ncol(x$position)))
+        barplot(ptab, ylab = "n", main = "Rank of correct solution",
+          xlab = "Rank", col = rainbow(ncol(x$position)))
       }
 
       if(!is.null(x$ntrue)) {

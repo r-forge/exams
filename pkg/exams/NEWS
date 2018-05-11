@@ -56,6 +56,10 @@ Changes in Version 2.3-1
     No matter how base64 was specified essentially base64 = TRUE was used,
     it is honored again now.
 
+  o Fixed a bug in stresstest_exercise() where the "rank" (previously called
+    "order") of the correct solution was computed incorrectly. Enhancement
+    in plots and labels.
+
   o Fixed a bug for tex2image(..., tikz = TRUE) where erroneously
     \usetikzlibrary{TRUE} was included. Also tex2image(..., Sweave = TRUE)
     (the default) did not run properly on Windows, fixed now.

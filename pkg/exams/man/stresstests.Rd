@@ -39,10 +39,10 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
     a number of exercises.}
   \item{x}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
-    numeric solutions, position of correct solution(s), number of correct solutions,
-    solution rank frequencies, if available. If \code{type == "solution"}, the numeric solutions
+    numeric solutions, position/number/rank of correct solution(s), if available.
+    If \code{type == "solution"}, the numeric solutions
     are plotted against all input parameters stored in the \code{objects} element of \code{x}.
-    \code{type == "rank"} draws \code{\link[graphics]{spineplot}}s of rank positions
+    \code{type == "rank"} draws \code{\link[graphics]{spineplot}}s of ranks
     vs. input parameters stored in \code{objects}. \code{type == "runtime"} plots the compiling
     runtimes vs. \code{objects}.}
   \item{threshold}{numeric. Can be used to set a threshold, e.g., for numeric solutions a factor
@@ -73,7 +73,7 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   function \code{\link{num_to_schoice}} the answers are again converted to numeric and the rank
   of the correct solution is reported. The rank is sometimes heavily driven by some input
   parameters, e.g., the correct solution is always the largest or the smallest.
-  For none "numeric" choice questions, the rank is based on the lexicographical order of
+  For non-numeric choice questions, the rank is based on the lexicographical order of
   the answerlist.
 }
 
