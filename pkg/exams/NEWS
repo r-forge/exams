@@ -1,10 +1,5 @@
 Changes in Version 2.3-1
 
-  o Added new interface exams2ilias() for the open-source ILIAS learning
-    management system (https://www.ilias.de/). This is essentially a
-    convenience wrapper to exams2qti12(), tweaking a few defaults and
-    employing a somewhat modified XML template.
-
   o Added new interface exams2openolat() for the open-source OpenOLAT learning
     management system (https://www.openolat.com/). This is only a convenience
     wrapper to exams2qti12() or exams2qti21() with some dedicated tweaks
