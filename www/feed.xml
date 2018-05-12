@@ -11,6 +11,186 @@
     
     
 			<item>
+        <title><![CDATA[logic: Interpretation of Logic Gates (Using TikZ)]]></title>
+				<link>http://www.R-exams.org/templates/logic/</link>
+        <pubDate>Sun, 13 May 2018 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for matching logic gate diagrams (drawn with TikZ) to the corresponding truth table.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">logic</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/schoice/"><code class="highlighter-rouge">schoice</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/automaton/"><code class="highlighter-rouge">automaton</code></a></div> </div>
+
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Gate diagrams for three logical operators (sampled from: and, or, xor, nand, nor) are drawn with TikZ and have to be matched to a truth table for another randomly drawn logical operator. Depending on the exams2xyz() interface the TikZ graphic can be rendered in PNG, SVG, or directly by LaTeX.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Shuffling, text blocks, and graphics</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic.Rnw">logic.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic.Rmd">logic.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic.tex">logic.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic.md">logic.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rnw-pdf.png" alt="logic-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rmd-pdf.png" alt="logic-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rnw-html.png" alt="logic-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2018-05-13-logic//logic-Rmd-html.png" alt="logic-Rmd-html" /></a></div>
+</div>
+
+<p><strong>Demo code:</strong></p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+
+set.seed(1090)
+exams2html(&quot;logic.Rnw&quot;)
+set.seed(1090)
+exams2pdf(&quot;logic.Rnw&quot;)
+
+set.seed(1090)
+exams2html(&quot;logic.Rmd&quot;)
+set.seed(1090)
+exams2pdf(&quot;logic.Rmd&quot;)</code></pre>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/templates/logic/</guid>
+			</item>
+		
+    
+    
+			<item>
+        <title><![CDATA[automaton: Interpretation of Automaton Diagrams (Using TikZ)]]></title>
+				<link>http://www.R-exams.org/templates/automaton/</link>
+        <pubDate>Sun, 13 May 2018 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Exercise template for assessing the interpretation of an automaton diagram (drawn with TikZ) based on randomly generated input sequences.</p>
+    
+    
+    <div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">automaton</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/logic/"><code class="highlighter-rouge">logic</code></a></div> </div>
+
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">An automaton diagram with four states A-D is drawn with TikZ and is to be interpreted, where A is always the initial state and one state is randomly picked as the accepting state. Five binary 0/1 input sequences acceptance have to be assessed with approximately a quarter of all sequences being accepted. Depending on the exams2xyz() interface the TikZ graphic can be rendered in PNG, SVG, or directly by LaTeX.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Random numbers, text blocks, and graphics</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.Rnw">automaton.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.Rmd">automaton.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.tex">automaton.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.md">automaton.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw-pdf.png" alt="automaton-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd-pdf.png" alt="automaton-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw-html.png" alt="automaton-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd-html.png" alt="automaton-Rmd-html" /></a></div>
+</div>
+
+<p><strong>Demo code:</strong></p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+
+set.seed(1090)
+exams2html(&quot;automaton.Rnw&quot;)
+set.seed(1090)
+exams2pdf(&quot;automaton.Rnw&quot;)
+
+set.seed(1090)
+exams2html(&quot;automaton.Rmd&quot;)
+set.seed(1090)
+exams2pdf(&quot;automaton.Rmd&quot;)</code></pre>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/templates/automaton/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[Dynamic Online Tests with Blackboard and R/exams]]></title>
 				<link>http://www.R-exams.org/tutorials/exams2blackboard/</link>
         <pubDate>Mon, 16 Apr 2018 00:00:00 +0200</pubDate>
@@ -425,9 +605,9 @@ and manual inspection the <code class="highlighter-rouge">.dcf</code> files are 
       <td style="text-align: left"><a href="https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html">Niels Smits</a></td>
     </tr>
     <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt.dcf">pt.dcf</a></td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt.dcf">pt.dcf</a> <br /> (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt-BR.dcf">pt-BR.dcf</a>, <a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt-PT.dcf">pt-PT.dcf</a>)</td>
       <td style="text-align: left">Portugese</td>
-      <td style="text-align: left"><a href="http://www.if.ufrj.br/~orca/">Mauricio Calvão</a> &amp; Fabian Petutschnig</td>
+      <td style="text-align: left"><a href="http://www.if.ufrj.br/~orca/">Mauricio Calvão</a> &amp; Fabian Petutschnig &amp; <br /> <a href="http://www3.uma.pt/thd/">Thomas Dellinger</a></td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/ro.dcf">ro.dcf</a></td>
@@ -1863,247 +2043,6 @@ extol: 0.01
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/tutorials/first_steps/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[Installing R/exams]]></title>
-				<link>http://www.R-exams.org/tutorials/installation/</link>
-        <pubDate>Sat, 09 Sep 2017 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Installation guide for R itself and the R package "exams" as well as further open-source tools that are required for certain tasks.</p>
-    
-    
-    <p><img alt="Installing R/exams" src="http://www.R-exams.org/images/logo.title.svg" /></p>
-    
-    <h2 id="1-r">1. R</h2>
-
-<p>The R/exams system is an extension for the
-<a href="https://www.R-project.org">R system for statistical computing</a> and hence the
-first installation step is the base R system.</p>
-
-<ul>
-  <li><strong>Windows and (Mac) OS X:</strong> Go to <a href="https://CRAN.R-project.org/">https://CRAN.R-project.org/</a>, the 
- Comprehensive R Archive Network (CRAN). Simply
- click on the link for your operating system and at least install the “base”
- system. It is recommended to also install the accompanying “Rtools” which are
- not needed immediately but might useful at some stage.</li>
-  <li>
-    <p><strong>Linux:</strong> While it is possible to download from CRAN by hand, it is
-easier for most distributions to install the packaged binary. For example,
-on Debian/Ubuntu:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install r-base-core r-base-dev
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<p>There is a wide variety of interfaces for using R including simply the shell,
-Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively.
-Moreover, RStudio is an open-source cross-platform integrated development
-environment that facilitates many common tasks for R beginners.</p>
-
-<ul>
-  <li><strong>For R beginners:</strong> Go to
-<a href="https://www.RStudio.com/products/RStudio/">https://www.RStudio.com/products/RStudio/</a> and obtain the “Desktop” version
-of RStudio.</li>
-</ul>
-
-<h2 id="2-r-package-exams">2. R package “exams”</h2>
-
-<p>The core of R/exams is the open-source R package
-<a href="https://CRAN.R-project.org/package=exams">“exams”</a>, also available from CRAN.
-It can be easily installed interactively from within R with a single command.
-If necessary, the development version of the package is also available, which
-may provide some new features or small improvements.</p>
-
-<ul>
-  <li>
-    <p><strong>Stable version:</strong></p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", dependencies = TRUE)
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><strong>Development version:</strong></p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("exams", repos = "http://R-Forge.R-project.org")
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<p><em>Details:</em> Several additional R packages, automatically installed by the command above,
-are needed for certain tasks: <code class="highlighter-rouge">base64enc</code> (HTML-based output: Base64 encoding of
-supplements), <code class="highlighter-rouge">knitr</code> (R/Markdown-based exercises), <code class="highlighter-rouge">png</code> (NOPS exams: reading
-scanned PNG images), <code class="highlighter-rouge">RCurl</code> (ARSnova: posting exercises), <code class="highlighter-rouge">RJSONIO</code> (ARSnova:
-JSON format), <code class="highlighter-rouge">rmarkdown</code> (pandoc-based conversion), <code class="highlighter-rouge">tth</code> (HTML output from
-R/LaTeX exercises).</p>
-
-<h2 id="3-latex">3. LaTeX</h2>
-
-<p>For producing PDF output, the typesetting system LaTeX is used internally by R/exams.</p>
-
-<ul>
-  <li><strong>Windows:</strong> Go to <a href="http://www.MikTeX.org/">http://www.MikTeX.org/</a> and click on “Download” to obtain
-the MikTeX distribution for Windows.</li>
-  <li><strong>(Mac) OS X and Linux:</strong> LaTeX distributions are available in the standard
-repositories and can be installed in the “usual” way, typically using the
-<a href="https://www.tug.org/texlive/">TeX Live</a> distribution.</li>
-</ul>
-
-<h2 id="4-pandoc">4. Pandoc</h2>
-
-<p>For certain conversions performed internally in R/exams, specifically when
-Markdown is involved, the universal document converter
-<a href="https://www.pandoc.org/">pandoc</a> is employed. If you have installed RStudio, then
-pandoc is provided along with it and nothing else needs to be done.</p>
-
-<p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
-e.g., for Debian/Ubuntu:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pandoc
-</code></pre></div></div>
-
-<h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
-
-<p><em>Note:</em> Unless you want to process <a href="http://www.R-exams.org/intro/written/">written NOPS exams</a>
-from scanned PDF files, this section can be skipped.</p>
-
-<p>If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
-they need to be converted to PNG first using the PDF Toolkit <code class="highlighter-rouge">pdftk</code> and
-ImageMagick’s <code class="highlighter-rouge">convert</code>.</p>
-
-<ul>
-  <li><strong>Windows:</strong> Install PDFTk Free, ImageMagick, and Ghostscript.
-    <ul>
-      <li><a href="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe">http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe</a></li>
-      <li><a href="http://www.imagemagick.org/script/download.php#windows">http://www.imagemagick.org/script/download.php#windows</a></li>
-      <li><a href="http://www.ghostscript.com/download/gsdnld.html">http://www.ghostscript.com/download/gsdnld.html</a></li>
-      <li><em>Note:</em> During the installation of PDFTk and ImageMagick check the boxes for 
-“Add application directory to your environmental path” or
-“Add application directory to your System Path”, respectively.</li>
-    </ul>
-  </li>
-  <li><strong>(Mac) OS X:</strong> Install MacPorts, PDFTk Free, and ImageMagick.
-    <ul>
-      <li><a href="https://www.macports.org/">https://www.macports.org/</a></li>
-      <li><a href="https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg">https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg</a></li>
-      <li><a href="http://www.imagemagick.org/script/download.php#macosx">http://www.imagemagick.org/script/download.php#macosx</a></li>
-      <li><em>Note:</em> ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
-The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install pdftk imagemagick
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<h2 id="make-sure-everything-works">Make sure everything works</h2>
-
-<p>To check that the software from Steps 1-4 works, try to run some examples from the
-exercise template gallery, e.g., <a href="http://www.R-exams.org/templates/dist">dist</a> or
-<a href="http://www.R-exams.org/templates/ttest">ttest</a>.</p>
-
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/tutorials/installation/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[ttest: Interpretation of 2-Sample t Test]]></title>
-				<link>http://www.R-exams.org/templates/ttest/</link>
-        <pubDate>Mon, 14 Aug 2017 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Exercise template for assessing the interpretation of a randomly-generated 2-sample t test (including significance and type of alternative).</p>
-    
-    
-    <div class="row t1 b1">
-  <div class="medium-4 columns"><b>Name:</b></div>
-  <div class="medium-8 columns"><code class="highlighter-rouge">ttest</code></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Type:</b></div>
-  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/mchoice/"><code class="highlighter-rouge">mchoice</code></a></div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Description:</b></div>
-  <div class="medium-8 columns">Results of a 2-sample <code class="highlighter-rouge">t.test()</code> in R need to be interpreted regarding significance, type of alternative, and comparison of the underlying empirical means.</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Solution feedback:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Randomization:</b></div>
-  <div class="medium-8 columns">Random numbers, text blocks, and R output</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Images:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Other supplements:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Template:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rnw">ttest.Rnw</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.Rmd">ttest.Rmd</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.tex">ttest.tex</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest.md">ttest.md</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>PDF:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-pdf.png" alt="ttest-Rnw-pdf" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-pdf.png" alt="ttest-Rmd-pdf" /></a></div>
-</div>
-<div class="row t1 b20">
-  <div class="medium-4 columns"><b>HTML:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rnw-html.png" alt="ttest-Rnw-html" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2017-08-14-ttest//ttest-Rmd-html.png" alt="ttest-Rmd-html" /></a></div>
-</div>
-
-<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
-
-<p><strong>Demo code:</strong></p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-
-set.seed(1090)
-exams2html(&quot;ttest.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;ttest.Rnw&quot;)
-
-set.seed(1090)
-exams2html(&quot;ttest.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;ttest.Rmd&quot;)</code></pre>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/templates/ttest/</guid>
 			</item>
 		
 	</channel>
