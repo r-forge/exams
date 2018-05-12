@@ -496,7 +496,7 @@ exams2pdf("lm.Rnw", dir = ".", name = "slides4-lm-", template = "standalone.tex"
 
 \begin{verbatim}
 extype: cloze
-exclozetype: schoice|num
+exclozetype: mchoice|num
 exsolution: 10|123.45
 \end{verbatim}
 \end{minipage}
@@ -1184,10 +1184,8 @@ plot(ma$final_tests, main = "", xlab = "Family-wise 95% confidence intervals")
 
 \small
 
-\textbf{Software:} Zeileis A, Gr\"un B, Leisch F, Umlauf N, Birbaumer M, Ernst D, Keller P, Smits N, Stauffer R (2018).
-  \textit{\pkg{R/exams}: Automatic Generation of Exams in \proglang{R}.}
-  \proglang{R}~package version~2.3-1.
-
+\textbf{Contributors:} Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Stauffer.
+    
 \bigskip
 
 \textbf{Links:}
@@ -1198,7 +1196,8 @@ plot(ma$final_tests, main = "", xlab = "Family-wise 95% confidence intervals")
   Web           & \url{http://www.R-exams.org/} \\
   CRAN          & \url{https://CRAN.R-project.org/package=exams} \\
   Forum         & \url{http://R-Forge.R-project.org/forum/?group_id=1337} \\
-  StackOverflow & \url{https://stackoverflow.com/questions/tagged/exams}
+  StackOverflow & \url{https://stackoverflow.com/questions/tagged/exams} \\
+  Twitter       & \href{https://twitter.com/AchimZeileis}{@AchimZeileis}
 \end{tabular}
 
 \bigskip
