@@ -1,0 +1,12 @@
+```{r automaton-rmd, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "logic",
+  title = "Interpretation of Logic Gates (Using TikZ)",
+  teaser = "Exercise template for matching logic gate diagrams (drawn with TikZ) to the corresponding truth table.",
+  description = "Gate diagrams for three logical operators (sampled from: and, or, xor, nand, nor) are drawn with TikZ and have to be matched to a truth table for another randomly drawn logical operator. Depending on the exams2xyz() interface the TikZ graphic can be rendered in PNG, SVG, or directly by LaTeX.",
+  tags = c("single-choice", "visualization", "computer-science"),
+  randomization = "Shuffling, text blocks, and graphics",
+  related = "automaton",
+  thumb = c(150, 182))
+)
+```
