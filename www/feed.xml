@@ -11,6 +11,77 @@
     
     
 			<item>
+        <title><![CDATA[CRAN Release of R/exams 2.3-1]]></title>
+				<link>http://www.R-exams.org/general/cran_release_231/</link>
+        <pubDate>Mon, 14 May 2018 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>New minor release of the R/exams package to CRAN, containing a wide range of smaller improvements and bug fixes. Notable new features include a dedicated OpenOLAT interface, and a convenience function facilitating the use of TikZ-based graphics.</p>
+    
+    
+    <p><img alt="CRAN Release of R/exams 2.3-1" src="http://www.R-exams.org/images/cran231.title.png" /></p>
+    
+    <p>Version 2.3-1 of the one-for-all exams generator <a href="http://www.R-exams.org/">R/exams</a> has been published on the Comprehensive R Archive Network at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>. In the next days this will propagate to other CRAN mirrors along with Windows binary packages. The development version of the package is now version 2.3-2 on <a href="http://R-Forge.R-project.org/forum/?group_id=1337">http://R-Forge.R-project.org/forum/?group_id=1337</a>.</p>
+
+<h2 id="new-features">New features</h2>
+
+<ul>
+  <li>Added new interface <code class="highlighter-rouge">exams2openolat()</code> for the open-source <a href="https://www.openolat.com/">OpenOLAT</a> learning management system. This is only a convenience wrapper to <code class="highlighter-rouge">exams2qti12()</code> or <code class="highlighter-rouge">exams2qti21()</code> with some dedicated tweaks for optimizing MathJax output for OpenOLAT.</li>
+  <li>New function <code class="highlighter-rouge">include_tikz()</code> that facilitates compiling standalone TikZ figures into a range of output formats, especially PNG and SVG (for HTML-based output). This is useful when including TikZ in R/Markdown exercises or when converting R/LaTeX exercises to HTML. Two examples have been added to the package that illustrate the capabilities of <code class="highlighter-rouge">include_tikz()</code>: <a href="http://www.R-exams.org/templates/automaton/">automaton</a>, <a href="http://www.R-exams.org/templates/logic/">logic</a>. A dedicated blog post is also planned.</li>
+</ul>
+
+<h2 id="written-exams-nops">Written exams (NOPS)</h2>
+
+<ul>
+  <li>Following the blog post on <a href="http://www.R-exams.org/tutorials/nops_language/">Written R/exams around the World</a> several users have been kind enough to add language support for: Croatian (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/hr.dcf">hr.dcf</a>, contributed by <a href="http://www.irb.hr/eng/People/Krunoslav-Juraic">Krunoslav Juraić</a>), Danish (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/da.dcf">da.dcf</a>, contributed by <a href="http://orcid.org/0000-0002-6594-5094">Tue Vissing Jensen</a> and <a href="http://orcid.org/0000-0002-1027-3673">Jakob Messner</a>),Slovak (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/sk.dcf">sk.dcf</a>, contributed by Peter Fabsic), Swiss German (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/gsw.dcf">gsw.dcf</a>, contributed by <a href="http://retostauffer.org">Reto Stauffer</a>), Turkish (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/tr.dcf">tr.dcf</a>, contributed by <a href="http://eremrah.com/">Emrah Er</a>). Furthermore, Portuguese has been distinguished into <a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt-PT.dcf">pt-PT.dcf</a> (Portuguese Portuguese) vs. <a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt-BR.dcf">pt-BR.dcf</a> (Brazilian Portuguese) with <a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt.dcf">pt.dcf</a> defaulting to the former (contributed by <a href="http://www3.uma.pt/thd/">Thomas Dellinger</a>).</li>
+  <li>After setting a random seed <code class="highlighter-rouge">exams2nops()</code> and <code class="highlighter-rouge">exams2pdf()</code> now yield the same random versions of the exercises. Previously, this was not the case because <code class="highlighter-rouge">exams2nops()</code> internally generates a single random trial exam first for a couple of sanity checks. Now, the <code class="highlighter-rouge">.GlobalEnv$.Random.seed</code> is restored after generating the trial exam.</li>
+  <li>Fixed the support for <code class="highlighter-rouge">nsamp</code> argument in <code class="highlighter-rouge">exams2nops()</code>. Furthermore, current limitations of <code class="highlighter-rouge">exams2nops()</code> are pointed out more clearly in error messages and edge cases caught.</li>
+  <li>Allow varying points within a certain exercise in <code class="highlighter-rouge">nops_eval()</code>.</li>
+</ul>
+
+<h2 id="html-output-and-base64-encoded-supplements">HTML output and Base64-encoded supplements</h2>
+
+<ul>
+  <li>In <code class="highlighter-rouge">exams2html()</code> and other interfaces based on <code class="highlighter-rouge">make_exercise_transform_html()</code> the option <code class="highlighter-rouge">base64 = TRUE</code> now uses Base64 encoding for all file extensions (known to the package) whereas <code class="highlighter-rouge">base64 = NULL</code> only encodes image files (previous default behavior).</li>
+  <li>Bug fixes and improvements in HTML transformers:
+    <ul>
+      <li>Only <code class="highlighter-rouge">="file.ext"</code> (with <code class="highlighter-rouge">="</code>) for supplementary files embedded into HTML is replaced now by the corresponding Base64-encoded version.</li>
+      <li><code class="highlighter-rouge">href="file.ext"</code> is replaced by <code class="highlighter-rouge">href="file.ext" download="file.ext"</code> prior to Base 64 replacement to assure that the file name is preserved for the browser/downloader.</li>
+      <li><code class="highlighter-rouge">alt="file.ext"</code> and <code class="highlighter-rouge">download="file.ext"</code> are preserved without the Base64-encoded version of <code class="highlighter-rouge">file.ext</code>.</li>
+    </ul>
+  </li>
+  <li>Include further file URIs for Base64 supplements, in particular .sav for SPSS data files.</li>
+  <li>In <code class="highlighter-rouge">exams2blackboard(..., base64 = FALSE, ...)</code> the <code class="highlighter-rouge">base64 = FALSE</code> was erroneously ignored. No matter how base64 was specified essentially <code class="highlighter-rouge">base64 = TRUE</code> was used, it is honored again now.</li>
+</ul>
+
+<h2 id="extensions">Extensions</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">\exshuffle{&lt;num&gt;}</code> can now also be used for schoice exercises with more than one <code class="highlighter-rouge">TRUE</code> answer. In a first step only one of the <code class="highlighter-rouge">TRUE</code> answers is selected and then <code class="highlighter-rouge">&lt;num&gt;-1</code> items from the <code class="highlighter-rouge">FALSE</code> answers.</li>
+  <li>Function <code class="highlighter-rouge">include_supplement(..., dir = "foo")</code> - without full path to <code class="highlighter-rouge">"foo"</code> - now also works if <code class="highlighter-rouge">"foo"</code> is not a local sub-directory but a sub-directory to the exercise directory <code class="highlighter-rouge">edir</code> (if specified).</li>
+  <li>Enable passing of <code class="highlighter-rouge">envir</code> argument from <code class="highlighter-rouge">exams2html()</code> to <code class="highlighter-rouge">xweave()</code> in case of R/Markdown (.Rmd) exercises.</li>
+  <li>When using <code class="highlighter-rouge">exams2html(..., mathjax = TRUE)</code> for testing purposes, mathjax.rstudio.com is used now rather than cdn.mathjax.org which is currently redirecting and will eventually be shut down completely.</li>
+  <li>Added support for <code class="highlighter-rouge">\tightlist</code> (as produced by pandoc) in all current LaTeX templates as well as <code class="highlighter-rouge">exams2nops()</code>.</li>
+</ul>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<ul>
+  <li>Fixed a bug in <code class="highlighter-rouge">stresstest_exercise()</code> where the “rank” (previously called “order”) of the correct solution was computed incorrectly. Additional enhancements in plots and labels.</li>
+  <li>Fixed a bug for <code class="highlighter-rouge">tex2image(..., tikz = TRUE)</code> where erroneously <code class="highlighter-rouge">\usetikzlibrary{TRUE}</code> was included. Also <code class="highlighter-rouge">tex2image(..., Sweave = TRUE)</code> (the default) did not run properly on Windows, fixed now.</li>
+  <li>Better warnings if <code class="highlighter-rouge">\exshuffle{&lt;num&gt;}</code> could not be honored due to a lack of sufficiently many (suitable) answer alternatives.</li>
+  <li>Bug fix in CSV export of <code class="highlighter-rouge">exams2arsnova()</code>. Recent ARSnova versions use “mc” (rather than “MC”) and “abcd” (rather than “SC”) to code multiple-choice and single-choice questions, respectively.</li>
+</ul>
+
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/general/cran_release_231/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[logic: Interpretation of Logic Gates (Using TikZ)]]></title>
 				<link>http://www.R-exams.org/templates/logic/</link>
         <pubDate>Sun, 13 May 2018 00:00:00 +0200</pubDate>
@@ -1615,434 +1686,6 @@ web server, or even sent out via e-mail.</p>
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/tutorials/exams2nops/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[First Steps]]></title>
-				<link>http://www.R-exams.org/tutorials/first_steps/</link>
-        <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>First overview of the structure of R/exams, its exercise templates, and a first hands-on session.</p>
-    
-    
-    <p><img alt="First Steps" src="http://www.R-exams.org/images/laptop_on_table_deriv2.title.jpg" /></p>
-    
-    <h2 id="overview">Overview</h2>
-
-<p>The basic idea of R/exams is to have a <a href="http://www.R-exams.org/intro/oneforall/">one-for-all exams generator</a>
-where each <a href="http://www.R-exams.org/intro/dynamic/">exercise</a> is a standalone file, so that the <em>same</em> exercise can be
-rendered easily into a variety output formats such as 
-<a href="http://www.R-exams.org/intro/elearning/">e-learning systems</a> or
-<a href="http://www.R-exams.org/intro/written/">written exams</a>. To reduce the risk of cheating,
-R/exams offers different mechanisms for drawing random variations of exercises:</p>
-
-<ul>
-  <li>Randomly selecting one (or more) out of a set of exercises for each participant.</li>
-  <li>Randomly shuffling answer alternatives in single-choice and multiple-choice questions.</li>
-  <li>Randomly selecting numbers, text blocks, graphics, etc. using the <a href="https://en.wikipedia.org/wiki/R_(programming_language)">R programming language</a>.</li>
-</ul>
-
-<p>Each exercise (or rather “exercise template”) is a standalone file with up to four elements:</p>
-
-<ol>
-  <li>Data-generating process in R.</li>
-  <li>Question text.</li>
-  <li>Solution text.</li>
-  <li>Meta-information: Type of question (single-choice, multiple-choice, numeric, string, or combinations thereof),
-correct solution, a name/label, etc.</li>
-</ol>
-
-<p>Only the question (2) and the meta-information (4) are mandatory while data
-generation (1) and solution (3) are optional. Solutions can be used to either
-inform teachers about the correct solution for some randomly drawn exercise - 
-or for giving students feedback about how to solve a given exercise. Programming
-a good data-generating process is often the hardest part of authoring a new
-dynamic exercise but is, of course, crucial for drawing a very large number of
-random variations.</p>
-
-<p>For formatting the text within question/solution (e.g., italics, bold face, lists, etc.)
-two options are available: <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> or
-<a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>. The former is very easy to learn
-and recommended for authors who do not know LaTeX yet. If mathematic notation and
-formulas are needed, then LaTeX can be used - either within a LaTeX or also within
-a Markdown question. The file suffix for <a href="http://rmarkdown.rstudio.com/">R/Markdown</a>
-is <code class="highlighter-rouge">.Rmd</code> while <code class="highlighter-rouge">.Rnw</code> is conventionally used for R/LaTeX, known as
-<a href="http://leisch.userweb.mwn.de/Sweave/">Sweave</a>.</p>
-
-<p>In the following, a first session should help new R/exams users to explore the materials
-available and get a feeling for the workflow. Furthremore, two
-<a href="http://www.R-exams.org/templates/">exercise templates</a> are shown in more detail:</p>
-
-<ul>
-  <li><a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>: A static single-choice 
-knowledge quiz question where the only randomization is a subsampling of the presented
-alternatives.</li>
-  <li><a href="http://www.R-exams.org/templates/deriv/">deriv</a>: A dynamic airthmetic question about the
-product rule for derivatives where various numbers are drawn randomly in R.</li>
-</ul>
-
-<h2 id="a-first-session">A first session</h2>
-
-<p>To explore what is available in R/exams two things are necessary: a couple of exercise
-templates to draw inspiration from, and some demo R scripts that illustrate how the
-different <code class="highlighter-rouge">exams2xyz()</code> functions can produce output in a variety of formats. (Here,
-<code class="highlighter-rouge">xyz</code> is a <em>placeholder</em> for the output format like <code class="highlighter-rouge">html</code>, <code class="highlighter-rouge">pdf</code>, <code class="highlighter-rouge">moodle</code>, etc.)
-The function <code class="highlighter-rouge">exams_skeleton()</code> is a helper function that generates exactly these
-materials in a specified folder. For example, when <code class="highlighter-rouge">exams</code> has already been
-<a href="http://www.R-exams.org/tutorials/installation/">installed</a>, the following can be carried out
-in R:</p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-exams_skeleton(markup = &quot;markdown&quot;, encoding = &quot;UTF-8&quot;,
-  writer = c(&quot;exams2html&quot;, &quot;exams2pdf&quot;, &quot;exams2moodle&quot;))</code></pre>
-
-<p>This copies all R/Markdown files to the current working directory along with demo scripts,
-illustrating the usage of <code class="highlighter-rouge">exams2html()</code> and <code class="highlighter-rouge">exams2pdf()</code> for customizable HTML and
-PDF output, respectively, along with Moodle output via <code class="highlighter-rouge">exams2moodle()</code>. Specifically,
-the working directory then contains:</p>
-
-<pre><code class="prettyprint ">dir()</code></pre>
-
-<pre><code>## [1] &quot;demo-all.R&quot;    &quot;demo-html.R&quot;   &quot;demo-moodle.R&quot; &quot;demo-pdf.R&quot;   
-## [5] &quot;exercises&quot;     &quot;templates&quot;
-</code></pre>
-
-<p>Simply open the demo script 
-<a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-all.R">demo-all.R</a> for the first steps and then continue with
-more details in <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-html.R">demo-html.R</a>, <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-pdf.R">demo-pdf.R</a>, or
-<a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-moodle.R">demo-moodle.R</a>, respectively.
-More information about all the <code class="highlighter-rouge">exercises</code> can be found in the
-<a href="http://www.R-exams.org/templates/">exercise template gallery</a> online.</p>
-
-<h2 id="single-choice-swiss-capital">Single-choice: Swiss capital</h2>
-
-<p>Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative.
-4 out of the 6 false alternatives are sampled randomly and shuffled. Otherwise the
-exercise is static and contains no R code. Below the structure of the exercise is
-highlighted side-by-side in both <code class="highlighter-rouge">.Rmd</code> and <code class="highlighter-rouge">.Rnw</code>, illustrating that the additional
-exercise markup is similar in spirit to the respective typesetting system.</p>
-
-<p>To see what the output looks like, run the following code within R or take a look at
-<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a> in the exercise gallery.</p>
-
-<div class="row t20 b20">
-  <div class="small-5 medium-3 large-2 columns">
-    <b>Markdown</b><br />
-    <img src="http://www.R-exams.org/images/template-rmd.svg" alt="Rmd" />
-  </div>
-  <div class="small-1 medium-3 large-4 columns">
-  <p></p>
-  </div>
-  <div class="small-5 medium-3 large-2 columns">
-    <b>LaTeX</b><br />
-    <img src="http://www.R-exams.org/images/template-rnw.svg" alt="Rnw" />
-  </div>
-  <div class="small-1 medium-3 large-4 columns">
-  <p></p>
-  </div>
-</div>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <pre>
-library("exams")
-exams2html("swisscapital.Rmd")
-exams2pdf("swisscapital.Rmd")
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <pre>
-library("exams")
-exams2html("swisscapital.Rnw")
-exams2pdf("swisscapital.Rnw")
-    </pre>
-  </div>
-</div>
-
-<h4 id="question">Question</h4>
-
-<p>The question is straightforward and lists 7 answer alternatives.
-The correct solution (Bern) is declared in the meta-information below.</p>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <b>Markdown</b>
-    <pre>
-Question
-========
-What is the seat of the federal
-authorities in Switzerland
-(i.e., the de facto capital)?
-
-Answerlist
-----------
-* Basel
-* Bern
-* Geneva
-* Lausanne
-* Zurich
-* St. Gallen
-* Vaduz
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <b>LaTeX</b>
-    <pre>
-
-\begin{question}
-What is the seat of the federal
-authorities in Switzerland
-(i.e., the de facto capital)?
-
-\begin{answerlist}
-  \item Basel
-  \item Bern
-  \item Geneva
-  \item Lausanne
-  \item Zurich
-  \item St.~Gallen
-  \item Vaduz
-\end{answerlist}
-\end{question}
-    </pre>
-  </div>
-</div>
-
-<h4 id="solution">Solution</h4>
-
-<p>The optional solution can provide some general feedback (that explains
-why Bern is correct in this question) as well as more details for each
-answer alternative (only listing true/false here). It is also possible 
-to have <em>no solution</em>, or <em>just a general text</em>, or <em>just the answer list</em>.</p>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <b>Markdown</b>
-    <pre>
-Solution
-========
-There is no de jure capital but
-the de facto capital and seat of
-the federal authorities is Bern.
-
-Answerlist
-----------
-* False
-* True
-* False
-* False
-* False
-* False
-* False
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <b>LaTeX</b>
-    <pre>
-
-\begin{solution}
-There is no de jure capital but
-the de facto capital and seat of
-the federal authorities is Bern.
-
-\begin{answerlist}
-  \item False.
-  \item True.
-  \item False.
-  \item False.
-  \item False.
-  \item False.
-  \item False.
-\end{answerlist}
-\end{solution}
-    </pre>
-  </div>
-</div>
-
-<h4 id="meta-information">Meta-information</h4>
-
-<p>In the meta-information, each exercise must specify at least an <code class="highlighter-rouge">extype</code>,
-and an <code class="highlighter-rouge">exsolution</code>, and should typically also have a short descriptive
-<code class="highlighter-rouge">exname</code>. The type for single-choice questions is <code class="highlighter-rouge">schoice</code> and the
-<code class="highlighter-rouge">exsolution</code> is simply a binary coding of the 7 answer alternatives.
-For randomization, additionally <code class="highlighter-rouge">exshuffle</code> is set to 5 so that 1 correct
-and 4 random wrong alternatives are subsampled and shuffled.</p>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <b>Markdown</b>
-    <pre>
-Meta-information
-================
-exname: Swiss Capital
-extype: schoice
-exsolution: 0100000
-exshuffle: 5
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <b>LaTeX</b>
-    <pre>
-
-
-\exname{Swiss Capital}
-\extype{schoice}
-\exsolution{0100000}
-\exshuffle{5}
-    </pre>
-  </div>
-</div>
-
-<h2 id="numeric-product-rule-for-derivatives">Numeric: Product rule for derivatives</h2>
-
-<p>Arithmetic question for computing the first derivative of a product function with
-two factors, using the product rule. The parameters of the function are drawn
-randomly in R and subsequently inserted into the question and the solution (which
-is not shown below for brevity). LaTeX is used for typesetting the mathematical
-formulas - both in the Markdown and the LaTeX version.</p>
-
-<p>To see what the output looks like, run the following code within R or take a look at
-<a href="http://www.R-exams.org/templates/deriv/">deriv</a> in the exercise gallery.</p>
-
-<div class="row t20 b20">
-  <div class="small-5 medium-3 large-2 columns">
-    <b>R/Markdown</b><br />
-    <img src="http://www.R-exams.org/images/template-rmd.svg" alt="Rmd" />
-  </div>
-  <div class="small-1 medium-3 large-4 columns">
-  <p></p>
-  </div>
-  <div class="small-5 medium-3 large-2 columns">
-    <b>R/LaTeX</b><br />
-    <img src="http://www.R-exams.org/images/template-rnw.svg" alt="Rnw" />
-  </div>
-  <div class="small-1 medium-3 large-4 columns">
-  <p></p>
-  </div>
-</div>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <pre>
-library("exams")
-exams2html("deriv.Rmd")
-exams2pdf("deriv.Rmd")
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <pre>
-library("exams")
-exams2html("deriv.Rnw")
-exams2pdf("deriv.Rnw")
-    </pre>
-  </div>
-</div>
-
-<h4 id="data-generation">Data generation</h4>
-
-<p>The R code simply draws the two parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> as well as the argument <code class="highlighter-rouge">c</code>
-from a discrete uniform distribution. (See the question below for the actual function used.)
-Subsequently, the random numbers are inserted into the correct solution and storing
-it as <code class="highlighter-rouge">res</code>.</p>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <b>R/Markdown</b>
-    <pre>
-```{r, echo=FALSE, results="hide"}
-## parameters
-a &lt;- sample(2:9, 1)
-b &lt;- sample(seq(2, 4, 0.1), 1)
-c &lt;- sample(seq(0.5, 0.8, 0.01), 1)
-## solution
-res &lt;- exp(b * c) * (a * c^(a-1) +
-       b * c^a)
-```
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <b>R/LaTeX</b>
-    <pre>
-&lt;&lt;echo=FALSE, results=hide&gt;&gt;=
-## parameters
-a &lt;- sample(2:9, 1)
-b &lt;- sample(seq(2, 4, 0.1), 1)
-c &lt;- sample(seq(0.5, 0.8, 0.01), 1)
-## solution
-res &lt;- exp(b * c) * (a * c^(a-1) +
-       b * c^a)
-@
-    </pre>
-  </div>
-</div>
-
-<h4 id="question-1">Question</h4>
-
-<p>The question asks for the derivative of a particular function and simply inserts
-the parameters drawn above into the question template. (The solution is set up
-analogously in the exercise template but not shown here for brevity.)</p>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <b>R/Markdown</b>
-    <pre>
-Question
-========
-What is the derivative of
-$f(x) = x^{`r a`} e^{`r b` x}$,
-evaluated at $x = `r c`$?
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <b>R/LaTeX</b>
-    <pre>
-\begin{question}
-What is the derivative of
-$f(x) = x^{\Sexpr{a}} e^{\Sexpr{b}x}$,
-evaluated at $x = \Sexpr{c}$?
-\end{question}
-    </pre>
-  </div>
-</div>
-
-<h4 id="meta-information-1">Meta-information</h4>
-
-<p>Again, the meta-information lists <code class="highlighter-rouge">extype</code> (which is <code class="highlighter-rouge">num</code> for numeric exercises),
-<code class="highlighter-rouge">exsolution</code> (which is inserted dynamically from the variable <code class="highlighter-rouge">res</code> computed above),
-and a short <code class="highlighter-rouge">exname</code>. Additionally, the tolerance <code class="highlighter-rouge">extol</code> which is used for automatically
-evaluating answers, e.g., in an online test/exam.</p>
-
-<div class="row t20 b20">
-  <div class="medium-6 columns">
-    <b>R/Markdown</b>
-    <pre>
-Meta-information
-================
-extype: num
-exsolution: `r fmt(res)`
-exname: derivative exp
-extol: 0.01
-    </pre>
-  </div>
-  <div class="medium-6 columns">
-    <b>R/LaTeX</b>
-    <pre>
-
-
-\extype{num}
-\exsolution{\Sexpr{fmt(res)}}
-\exname{derivative exp}
-\extol{0.01}
-    </pre>
-  </div>
-</div>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/tutorials/first_steps/</guid>
 			</item>
 		
 	</channel>
