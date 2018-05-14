@@ -5,6 +5,7 @@
 \alias{make_itembody_qti21}
 \alias{exams2qti}
 \alias{make_itembody_qti}
+\alias{exams2ilias}
 
 \title{Generation of Exams in IMS QTI 1.2 and 2.1 Format}
 
