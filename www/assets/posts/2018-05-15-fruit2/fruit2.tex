@@ -1,0 +1,61 @@
+
+
+\begin{question}
+Given the following information:
+\begin{center}
+\begin{tabular}{ccccccr}
+\includegraphics[width=0.85cm]{banana.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & $+$ & \includegraphics[width=0.85cm]{banana.png} & = & $564$ \\
+\includegraphics[width=0.85cm]{banana.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & = & $873$ \\
+\includegraphics[width=0.85cm]{orange.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & = & $864$
+\end{tabular}
+\end{center}
+
+Compute:
+\begin{center}
+\begin{tabular}{ccccccr}
+\includegraphics[width=0.85cm]{banana.png} & $+$ & \includegraphics[width=0.85cm]{orange.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & = & $\text{?}$
+\end{tabular}
+\end{center}
+
+\begin{answerlist}
+  \item $394$
+  \item $555$
+  \item $507$
+  \item $873$
+  \item $594$
+\end{answerlist}\end{question}
+
+\begin{solution}
+The information provided can be interpreted as the price for three fruit baskets
+with different combinations of the three fruits. This corresponds to a system of
+linear equations where the price of the three fruits is the vector of unknowns $x$:
+\begin{center}
+\begin{tabular}{clclcl}
+$x_1 =$ & \includegraphics[width=0.85cm]{banana.png} & $x_2 =$ & \includegraphics[width=0.85cm]{orange.png} & $x_3 =$ & \includegraphics[width=0.85cm]{pineapple.png}
+\end{tabular}
+\end{center}
+The system of linear equations is then:
+\begin{eqnarray*}
+\left( \begin{array}{rrr} 2 & 0 & 1 \\ 1 & 0 & 2 \\ 0 & 1 & 2 \end{array} \right) \cdot \left( \begin{array}{r} x_1 \\ x_2 \\ x_3 \end{array} \right) & = & \left( \begin{array}{r} 564 \\ 873 \\ 864 \end{array} \right)
+\end{eqnarray*}
+This can be solved using any solution algorithm, e.g., elimination:
+$$
+x_1 = 85, \, x_2 = 76, \, x_3 = 394.
+$$
+Based on the three prices for the different fruits it is straightforward to
+compute the total price of the fourth fruit basket via:
+\begin{center}
+\begin{tabular}{ccccccr}
+\includegraphics[width=0.85cm]{banana.png} & $+$ & \includegraphics[width=0.85cm]{orange.png} & $+$ & \includegraphics[width=0.85cm]{pineapple.png} & $=$ & \\
+$x_1$ & $+$ & $x_2$ & $+$ & $x_3$ & $=$ & \\
+$85$ & $+$ & $76$ & $+$ & $394$ & $=$ & $555$.
+\end{tabular}
+\end{center}
+\end{solution}
+
+
+%% \exname{Fruit baskets (single-choice)}
+%% \extype{schoice}
+%% \exsolution{01000}
+%% \extol{0}
+
