@@ -381,9 +381,9 @@ extype: schoice
 exsolution: 010
 \end{verbatim}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics{slides4-swisscapital-1}}}}%
-\only<3>{\raisebox{-\height}{\fbox{\includegraphics{slides4-deriv2-1}}}}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-swisscapital-1}}}}%
+\only<3>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-deriv2-1}}}}
 
 \medskip
 
@@ -413,9 +413,9 @@ extype: mchoice
 exsolution: 011
 \end{verbatim}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics{slides4-conferences-1}}}}%
-\only<3>{\raisebox{-\height}{\fbox{\includegraphics[trim=0 50 0 0,clip]{slides4-boxplots-1}}}}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-conferences-1}}}}%
+\only<3>{\raisebox{-\height}{\fbox{\includegraphics[width=0.75\textwidth,trim=0 69 0 0,clip]{slides4-boxplots-1}}}}
 
 \medskip
 
@@ -443,8 +443,8 @@ extype: num
 exsolution: 123.45
 \end{verbatim}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics{slides4-fruit-1}}}}%
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=0.65\textwidth]{slides4-fruit-1}}}}%
 
 \medskip
 
@@ -471,8 +471,8 @@ extype: string
 exsolution: ANSWER
 \end{verbatim}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics{slides4-function-1}}}}%
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-function-1}}}}%
 
 \medskip
 
@@ -500,12 +500,12 @@ exclozetype: mchoice|num
 exsolution: 10|123.45
 \end{verbatim}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics{slides4-lm-1}}}}%
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-lm-1}}}}%
 
 \medskip
 
-\only<2>{\emph{Exercises with sub tasks:} Several questions based on same problem setting.}
+\only<2>{\emph{Exercises with sub-tasks:} Several questions based on same problem setting.}
 \end{minipage}
 
 \end{frame}
