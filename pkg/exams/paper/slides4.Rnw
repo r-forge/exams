@@ -884,7 +884,7 @@ pr <- prcomp(mex$solved, scale = TRUE)
 names(pr$sdev) <- 1:10
 mr <- raschmodel(mex$solved)
 
-png("whatelse.png", height = 9, width = 12, units = "in", res = 150)
+png("slides4-whatelse.png", height = 9, width = 12, units = "in", res = 150)
 par(mfrow = c(2, 2))
 plot(mex$solved, col = c("#1f7a7a", "#cccccc"), main = "Raw proportions")
 par(lwd = 1.5)
