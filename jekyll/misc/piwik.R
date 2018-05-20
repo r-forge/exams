@@ -3,7 +3,7 @@
 ##Sys.setenv("piwik_idSite"=3) # 3 is r-exams, 2 is hclwizard, 1 is retostauffer
 
 piwik <- function(token, method = "VisitsSummary.get",
-  idSite = 3, baseurl = "http://retostauffer.org/piwik/",
+  idSite = 3, baseurl = "https://retostauffer.org/piwik/",
   format = "csv", ndays = 30, ...)
 {
   ## if not set: use environment variable
