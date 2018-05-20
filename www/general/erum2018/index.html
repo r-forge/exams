@@ -1,0 +1,663 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>R/exams @ eRum 2018</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Keynote lecture about R/exams at eRum 2018 (European R Users Meeting) in Budapest: Slides, video, e-learning, replication materials." />
+  <meta name="keywords" content="R, exams, exams2qti12, exams2arsnova, exams2nops, e-learning" />
+	
+  <meta name="author" content="Achim Zeileis" />
+
+	
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="R/exams @ eRum 2018" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//general/erum2018/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/erum2018.300.png" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    /// var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/"; ///
+    var u="https" + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/erum2018.title.png" width="970" alt="R/exams @ eRum 2018" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams @ eRum 2018 (CC-BY-SA).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>R/exams @ eRum 2018</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Keynote lecture about R/exams at eRum 2018 (European R Users Meeting) in Budapest: Slides, video, e-learning, replication materials.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h3 id="keynote-lecture-at-erum-2018">Keynote lecture at eRum 2018</h3>
+
+<p><a href="http://www.R-exams.org/">R/exams</a> was presented in a keynote lecture by <a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a> at <a href="https://2018.eRum.io/">eRum 2018</a>, the European R Users Meeting, this time organized by a team around <a href="https://twitter.com/daroczig">Gergely Daróczi</a> in Budapest. It was a great event with many exciting presentations, reflecting the vibrant R community in Europe (and beyond).</p>
+
+<p>This blog post provides various resources accompanying the presentation which may be of interest to those who did not attend the meeting as well as those who did and who want to explore the materials in more detail.</p>
+
+<p>Most importantly the presentation slides are available in PDF format (under CC-BY):</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/slides.pdf"><img src="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/slides.png" alt="slides.pdf" /></a></p>
+
+<h3 id="video">Video</h3>
+
+<p>The eRum organizers did a great job in making the meeting accessible to those useRs who could not make it to Budapest. All presentations were available in a livestream on YouTube where also videos of all lectures were made available after the meeting (Standard YouTube License):</p>
+
+<p><a href="https://www.youtube.com/watch?v=NMIzbrklBEE"><img src="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/youtube.png" alt="YouTube" /></a></p>
+
+<h3 id="e-learning">E-Learning</h3>
+
+<p>To illustrate the e-learning capabilities supported by R/exams, the presentation started with a live quiz using the audience response system <a href="https://ARSnova.eu/">ARSnova</a>. The original version of the quiz was hosted on the ARSnova installation at Universität Innsbruck. To encourage readers to try out ARSnova for their own purposes, a copy of the quiz was also posted on the official ARSnova server at Technische Hochschule Mittelhessen (where ARSnova is developed under the General Public License, GPL):</p>
+
+<p><a href="https://arsnova.eu/mobile/#id/39755874"><img src="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/arsnova.png" alt="ARSnova" /></a></p>
+
+<p>The presentation briefly also showed an online test generated by R/exams and imported into <a href="https://www.OpenOLAT.com/">OpenOLAT</a>, an open-source learning management system (available under the Apache License). The online test is made available again here for anonymous guest access. <em>(Note however, that the system only has one guest user so that when you start the test there may already be some test results from a previous guest session. In that case you can finish the test and also start it again.)</em></p>
+
+<p><a href="https://lms.uibk.ac.at/url/RepositoryEntry/2823520256/CourseNode/97603810083315?guest=true"><img src="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/openolat.png" alt="OpenOLAT" /></a></p>
+
+<h3 id="replication-code">Replication code</h3>
+
+<p>The presentation slides show how to set up an exam using the R package and then rendering it into different output formats. In order to allow the same exam to be rendered into a wide range of different output formats, only single-choice and multiple-choice exercises were employed (see the <code class="highlighter-rouge">choice</code> list below). However, in the e-learning test shown in OpenOLAT all exercises types are supported (see the <code class="highlighter-rouge">elearn</code> list below). All these exercises are readily provided in the package and also introduced online: <a href="http://www.R-exams.org/templates/deriv/">deriv</a>/<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/fruit/">fruit</a>/<a href="http://www.R-exams.org/templates/fruit2/">fruit2</a>, <a href="http://www.R-exams.org/templates/ttest/">ttest</a>, <a href="http://www.R-exams.org/templates/boxplots/">boxplots</a>, <a href="http://www.R-exams.org/templates/cholesky/">cholesky</a>, <a href="http://www.R-exams.org/templates/lm/">lm</a>, <a href="http://www.R-exams.org/templates/function/">function</a>. The code below uses the R/LaTeX (.Rnw) version but the R/Markdown version (.Rmd) could also be used instead.</p>
+
+<pre><code class="language-{r}">## package
+library("exams")
+
+## single-choice and multiple-choice only
+choice &lt;- list("deriv2.Rnw", "fruit2.Rnw", c("ttest.Rnw", "boxplots.Rnw"))
+
+## e-learning test (all exercise types)
+elearn &lt;- c("deriv.Rnw", "fruit.Rnw", "ttest.Rnw", "boxplots.Rnw",
+  "cholesky.Rnw", "lm.Rnw", "function.Rnw")
+</code></pre>
+
+<p>First, the exam with the choice-based questions can be easily turned into a PDF exam in <a href="http://www.R-exams.org/tutorials/exams2nops/">NOPS format</a> using <code class="highlighter-rouge">exams2nops</code>, here using Hungarian language for illustration. Exams in this format can be easily scanned and evaluated within R.</p>
+
+<pre><code class="language-{r}">set.seed(2018-05-16)
+exams2nops(choice, institution = "eRum 2018", language = "hu")
+</code></pre>
+
+<p>Second, the choice-based exam version can be exported into the JSON format for ARSnova: <a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/Rexams-1.json">Rexams-1.json</a>. This contains an entire ARSnova session that can be directly imported into the ARSnova system as shown above. It employs a custom exercise set up just for eRum (<a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/conferences.Rmd">conferences.Rmd</a>) as well as a slightly tweaked exercise (<a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/fruit3.Rmd">fruit3.Rmd</a>) that displays better in ARSnova.</p>
+
+<pre><code class="language-{r}">set.seed(2018-05-16)
+exams2arsnova(list("conferences.Rmd", choice[[1]], "fruit3.Rmd", choice[[3]]),
+  name = "R/exams", abstention = FALSE, fix_choice = TRUE)
+</code></pre>
+
+<p>Third, the e-learning exam can be generated in QTI 1.2 format for OpenOLAT, as shown above: <a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/eRum-2018.zip">eRum-2018.zip</a>. The <code class="highlighter-rouge">exams2openolat</code> command below is provided starting from the current <a href="http://www.R-exams.org/general/cran_release_231/">R/exams version 2.3-1</a>. It essentially just calls <code class="highlighter-rouge">exams2qti12</code> but slightly tweaks the MathJax output from pandoc so that it is displayed properly by OpenOLAT.</p>
+
+<pre><code class="language-{r}">set.seed(2018-05-16)
+exams2openolat(elearn, name = "eRum-2018", n = 10, qti = "1.2")
+</code></pre>
+
+<h3 id="what-else">What else?</h3>
+
+<p>In the last part of the presentation a couple of new and ongoing efforts within the R/exams project are highlighted. First, the <a href="http://www.R-exams.org/tutorials/nops_language/">natural language support in NOPS exams</a> is mentioned which was recently described in more detail in this blog. Second, the relatively new “stress tester” was illustrated with the following example. (A more detailed blog post will follow soon.)</p>
+
+<pre><code class="language-{r}">s &lt;- stresstest_exercise("deriv2.Rnw")
+plot(s)
+</code></pre>
+
+<p>Finally, a psychometric analysis illustrated how to examine exams regarding: Exercise difficulty, student performance, unidimensionality, fairness. The replication code for the results from the slides is included below (omitting some graphical details for simplicity, e.g., labeling or color).</p>
+
+<pre><code class="language-{r}">## load data and exclude extreme scorers
+library("psychotools")
+data("MathExam14W", package = "psychotools")
+mex &lt;- subset(MathExam14W, nsolved &gt; 0 &amp; nsolved &lt; 13)
+
+## raw data
+plot(mex$solved)
+
+## Rasch model parameters
+mr &lt;- raschmodel(mex$solved)
+plot(mr, type = "profile")
+
+## points per student
+MathExam14W &lt;- transform(MathExam14W,
+  points = 2 * nsolved - 0.5 * rowSums(credits == 1)
+)
+hist(MathExam14W$points, breaks = -4:13 * 2 + 0.5, col = "lightgray")
+abline(v = 12.5, lwd = 2, col = 2)
+
+## person-item map
+plot(mr, type = "piplot")
+
+## principal component analysis
+pr &lt;- prcomp(mex$solved, scale = TRUE)
+plot(pr)
+biplot(pr, col = c("transparent", "black"),
+  xlim = c(-0.065, 0.005), ylim = c(-0.04, 0.065))
+
+## differential item functioning
+mr1 &lt;- raschmodel(subset(mex, group == 1)$solved)
+mr2 &lt;- raschmodel(subset(mex, group == 2)$solved)
+ma &lt;- anchortest(mr1, mr2, adjust = "single-step")
+
+## anchored item difficulties
+plot(mr1, parg = list(ref = ma$anchor_items), ref = FALSE, ylim = c(-2, 3), pch = 19)
+plot(mr2, parg = list(ref = ma$anchor_items), ref = FALSE, add = TRUE, pch = 19, border = 4)
+legend("topleft", paste("Group", 1:2), pch = 19, col = c(1, 4), bty = "n")
+
+## simultaneous Wald test for pairwise differences
+plot(ma$final_tests)
+</code></pre>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2018-05-20" itemprop="datePublished"> 2018-05-20</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2qti12/">exams2qti12</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2arsnova/">exams2arsnova</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2nops/">exams2nops</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/templates/fruit2/">&laquo; fruit2: Image-Based Systems of Linear Equations (Single-Choice)</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
