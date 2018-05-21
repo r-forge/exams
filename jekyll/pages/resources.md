@@ -18,8 +18,11 @@ permalink: /resources/
 - R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
 
 
-#### References and publications
+#### Presentations and publications
 
+- Zeileis A (2018). [R/exams: A One-for-All Exams Generator - Written Exams, Online Tests, and Live Quizzes with R.]({{ site.url }}/assets/posts/2018-05-20-erum2018/slides.pdf)
+  Presented at _eRum 2018 - European R Users Meeting_, Budapest, Hungary.<br />
+  _Video:_ [YouTube](https://www.youtube.com/watch?v=NMIzbrklBEE)
 - Zeileis A, Umlauf N, Leisch F (2014). "Flexible Generation of E-Learning Exams in R:
   Moodle Quizzes, OLAT Assessments, and Beyond." _Journal of Statistical Software_, **58**(1), 1-36.
   [doi:10.18637/jss.v058.i01](http://dx.doi.org/10.18637/jss.v058.i01) <br/>
@@ -29,10 +32,6 @@ permalink: /resources/
   _Journal of Statistical Software_, **29**(10), 1-14. [doi:10.18637/jss.v029.i10](http://dx.doi.org/10.18637/jss.v029.i10) <br/>
   _Updated vignette version:_ [exams.pdf](https://CRAN.R-project.org/web/packages/exams/vignettes/exams.pdf)
   or `vignette("exams", package = "exams")`
-- Zeileis A (2016a). [Blended Learning Tools for Large Statistics and Mathematics Courses.](https://eeecon.uibk.ac.at/~zeileis/papers/DAGStat-2016.pdf)
-  Presented at _DAGStat 2016_, Universität Göttingen, Germany.
-- Zeileis A (2016b). [A One-for-All Exams Generator: Written Exams, Online Tests, and Live Quizzes with R.](https://eeecon.uibk.ac.at/~zeileis/papers/Psychoco-2016.pdf)
-  Presented at _Psychoco 2016 - International Workshop on Psychometric Computing_, Université de Liège, Belgium.
 
 
 #### Other resources
