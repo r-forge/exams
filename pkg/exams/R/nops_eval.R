@@ -20,7 +20,7 @@ nops_eval <- function(register = dir(pattern = "\\.csv$"), solutions = dir(patte
   ## output HTML files
   if(is.null(html)) {
     if(is.character(register)) {
-      html <- paste0(gsub("\\.csv$", "", register), ".html")
+      html <- paste0(tools::file_path_sans_ext(basename(register)), ".html")
     } else {
       html <- "exam_eval.html"
     }
