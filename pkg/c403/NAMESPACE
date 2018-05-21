@@ -7,6 +7,7 @@ export(
   ## exams interfaces
   "exams2nops",
   "exams2olat",
+  "exams2openolat",
   "exams2quiz",
 
   ## reading VIS registration lists

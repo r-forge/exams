@@ -1,6 +1,7 @@
 \name{exams2nops}
 \alias{exams2nops}
 \alias{exams2olat}
+\alias{exams2openolat}
 \alias{exams2quiz}
 
 \title{Exams Interfaces}
@@ -19,6 +20,14 @@
 
   exams2olat(file, n = 1L, dir = ".", name = "olattest", maxattempts = 1,
     cutvalue = 1000, solutionswitch = FALSE, 
+    stitle = "Aufgabe", ititle = "Frage",
+    adescription = "Bitte bearbeiten Sie folgende Aufgaben.",
+    sdescription = "Bitte beantworten Sie folgende Frage.",
+    eval = list(partial = FALSE, negative = FALSE),    
+    \dots)
+
+  exams2openolat(file, n = 1L, dir = ".", name = "olattest", maxattempts = 1,
+    cutvalue = 1000, solutionswitch = FALSE, qti = "1.2",
     stitle = "Aufgabe", ititle = "Frage",
     adescription = "Bitte bearbeiten Sie folgende Aufgaben.",
     sdescription = "Bitte beantworten Sie folgende Frage.",
@@ -67,6 +76,8 @@
     \code{Inf}.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?}
+  \item{qti}{character indicating whether QTI \code{"1.2"} (default) or \code{"2.1"}
+    should be generated.}
   \item{stitle, ititle, adescription, sdescription, eval}{character. Descriptions
     for various titles/descriptions. Defaults to generic German titles.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}} and
@@ -83,7 +94,10 @@
   \code{exams2olat} is a convenience interface for \code{\link[exams]{exams2qti12}}
   with some tweaks for OLAT and German titles/descriptions.
   
-  Both produce an RDS file as a by-product containing the \code{\link[exams]{xexams}}
+  \code{exams2openolat} is a convenience interface for \code{\link[exams]{exams2openolat}}
+  with German titles/descriptions.
+  
+  All three produce an RDS file as a by-product containing the \code{\link[exams]{xexams}}
   list.
   
   \code{exams2quiz} provides fallback support for quizzes in lecture sessions.
