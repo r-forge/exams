@@ -14,7 +14,7 @@
     file = NULL, dir = ".",
     verbose = TRUE, rotate = FALSE, cores = NULL, n = NULL,
     density = 300,
-    size = 0.029, threshold = c(0.04, 0.42), minrot = 0.002,
+    size = 0.029, threshold = c(0.04, 0.42), trim = 0.25, minrot = 0.002,
     string = FALSE)
 }
 
@@ -45,6 +45,8 @@
     mark boxes. If the average gray level is between the gray levels, the box is
     checked. If it is above the second threshold, some heuristic is employed for
     judging whether the box contains a cross or not.}
+  \item{trim}{numeric. Amount of trimming to shave the borders of the boxes
+    before determining the gray level within the check boxes.}
   \item{minrot}{numeric. Minimum angle for rotating images, i.e., images with
     a lower angle are considered to be ok.}
   \item{string}{logical. Are the files to be scanned manually marked string

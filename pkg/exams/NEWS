@@ -5,6 +5,12 @@ Changes in Version 2.3-2
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o nops_scan() gained a new argument trim=0.25 that controls how much of
+    check boxes is trimmed in order to shave the borders prior to determining
+    the average gray level. This could be increased to, say, trim=0.3 if there
+    are problems such that nops_scan() thinks boxes are checked when in fact
+    they are not. Possibly, the default will change as well.
+
 
 Changes in Version 2.3-1
 
