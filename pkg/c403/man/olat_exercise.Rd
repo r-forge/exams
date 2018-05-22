@@ -10,7 +10,7 @@
 }
 
 \usage{
-  olat_exercise(x, \dots, fixed = TRUE, show = TRUE)
+  olat_exercise(x, \dots, fixed = TRUE, show = TRUE, mathjax = TRUE)
 }
 
 \arguments{
@@ -23,6 +23,8 @@
     as is?}
   \item{show}{logical. Should the exercise(s) found be shown
     in the browser?}
+  \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
+    be included for rendering mathematical formulas?}
 }
 
 \details{

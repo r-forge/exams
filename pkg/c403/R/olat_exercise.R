@@ -1,4 +1,4 @@
-olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE)
+olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
 {
   ## obtain exam list
   if(is.character(x)) x <- readRDS(x)
@@ -47,7 +47,14 @@ olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE)
     html_body <- c(html_body, "</ol>")  
 
     ## combine with template
-    html <- readLines(file.path(find.package("exams"), "xml", "plain.html"))
+    html <- readLines(file.path(find.package("exams"), "xml", "plain8.html"))
+    mj_link <- paste('<script type="text/javascript"',
+      '  src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
+      '</script>', collapse = "\n")
+    if(mathjax) {
+      jd <- grep("</head>", html, fixed = TRUE)
+      html <- c(html[1L:(jd - 1)], mj_link, html[jd:length(html)])
+    }
     html <- gsub("##ID##", "", html, fixed = TRUE)
     html <- gsub("##\\exinput{exercises}##", paste(html_body, collapse = "\n"), html, fixed = TRUE)
 
