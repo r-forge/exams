@@ -4,7 +4,7 @@ nops_scan <- function(
   file = NULL, dir = ".",
   verbose = TRUE, rotate = FALSE, cores = NULL, n = NULL,
   density = 300,
-  size = 0.029, threshold = c(0.04, 0.42), trim = 0.25, minrot = 0.002,
+  size = 0.029, threshold = c(0.04, 0.42), trim = 0.3, minrot = 0.002,
   string = FALSE)
 {
   ## required packages
@@ -267,7 +267,7 @@ shave_box <- function(x, border = 0.1, clip = TRUE)
 }
 
 ## determine whether a pixel matrix has a check mark
-has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.25)
+has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.3)
 {
   rm <- which(rowMeans(x) > 0.38)
   cm <- which(colMeans(x) > 0.38)
@@ -461,7 +461,7 @@ read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract 
   return(y)
 }
 
-read_nops_answers <- function(x, threshold = c(0.04, 0.42), size = 0.029, trim = 0.25, n = 45L, adjust = FALSE)
+read_nops_answers <- function(x, threshold = c(0.04, 0.42), size = 0.029, trim = 0.3, n = 45L, adjust = FALSE)
 {
   ## adjustment for coordinates (e.g. for reading 2nd string page)
   if(identical(adjust, TRUE)) adjust <- c(0.4243, -0.50025)
@@ -491,7 +491,7 @@ read_nops_answers <- function(x, threshold = c(0.04, 0.42), size = 0.029, trim =
   return(rval)
 }
 
-read_nops_registration <- function(x, threshold = c(0.04, 0.42), size = 0.029, trim = 0.25, regextra = 0L)
+read_nops_registration <- function(x, threshold = c(0.04, 0.42), size = 0.029, trim = 0.3, regextra = 0L)
 {
   coord <- cbind(0.166 + rep(0L:9L, each = 7L + regextra) * 0.027,
     0.681 + rep(-regextra:6L, 10L) * 0.047)
@@ -501,8 +501,24 @@ read_nops_registration <- function(x, threshold = c(0.04, 0.42), size = 0.029, t
     has_mark(subimage(x, coord[i,], size), threshold = threshold, fuzzy = TRUE, trim = trim)), ncol = 7L + regextra, byrow = TRUE),
     silent = TRUE)
   if(inherits(y, "try-error")) return(err)
-  if(!all(apply(y, 2, function(z) any(z > 0)))) return(err)
-  paste(apply(y, 2, which.max) - 1, collapse = "")
+
+  ## checked boxes per column
+  cs <- colSums(y > 0)
+
+  ## any column without checked box? -> return error
+  ## NOTE: could optionally return 0 in those columns instead
+  if(any(cs < 1L)) return(err)
+
+  ## in columns with more than one checked box:
+  ## use maximum within thresholds (if any) or minimum above threshold[2]
+  for(i in which(cs > 1L)) {
+    if(any(y[,i] >= threshold[1L] & y[,i] <= threshold[2L])) {
+      y[y[,i] > threshold[2L], i] <- 0
+    } else {
+      y[y[,i] > min(y[y[,i] > 0, i]) + 0.0001, i] <- 0
+    }
+  }
+  paste(apply(y, 2L, which.max) - 1, collapse = "")
 }
 
 read_nops_backup <- function(x, threshold = 0.15, size = 0.01)
