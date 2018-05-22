@@ -11,6 +11,10 @@ Changes in Version 2.3-2
     are problems such that nops_scan() thinks boxes are checked when in fact
     they are not. Possibly, the default will change as well.
 
+  o nops_eval() gained a new argument labels=NULL that can be used to
+    give labels for the marks that differ from the default
+    (length(mark) + 1):1.
+
 
 Changes in Version 2.3-1
 
