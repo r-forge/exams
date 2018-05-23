@@ -102,7 +102,7 @@ nops_eval <- function(
 
   ## evaluate exam results
   results <- nops_eval_results(scans = scans, solutions = solutions,
-    points = points, eval = eval, mark = mark,
+    points = points, eval = eval, mark = mark, labels = labels,
     string_scans = string_scans, string_points = string_points)
   if(interactive) tab <- nops_eval_results_table(results, solutions)
 
