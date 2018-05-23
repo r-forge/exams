@@ -288,7 +288,7 @@ has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.3)
     if(sort(edges)[2] <= 0.1) {
       if(fuzzy) return(mean(x)) else return(1L)
     } else {
-      return(0L)
+      if(fuzzy) return(1) else return(0L)
     }
   }
 }
