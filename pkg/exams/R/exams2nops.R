@@ -155,11 +155,14 @@ if(enc == "iso885915") enc <- "latin9"
 ## intro text (if any)
 if(!is.null(intro) && length(intro) == 1L && all(tools::file_ext(intro) == "tex")) intro <- readLines(intro)
 
-empty <- "\n\\newpage\n\\thispagestyle{empty}\n\\phantom{.}\n"
 empty <- if(!duplex) {
-  if(twocolumn) empty else ""
+""
 } else {
-  rep.int(empty, 1L + 2L * twocolumn)
+"
+\\newpage
+\\thispagestyle{empty}
+\\phantom{.}
+"
 }
 
 if(is.null(blank)) blank <- ceiling(n/2)
@@ -437,6 +440,8 @@ blank[[2L]],
 "
 \\end{document}
 ")
+
+if(twocolumn) rval <- gsub("\\newpage", "\\clearpage", rval, fixed = TRUE)
 
 if(!is.null(file)) writeLines(rval, file)
 invisible(rval)
