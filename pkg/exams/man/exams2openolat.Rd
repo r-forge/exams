@@ -10,7 +10,7 @@
 
 \usage{
   exams2openolat(file, n = 1L, dir = ".", name = "olattest",
-  qti = "2.1", converter = "pandoc-mathjax", \dots)
+  qti = "2.1", converter = "pandoc-mathjax", table = TRUE, \dots)
 }
 
 \arguments{
@@ -23,6 +23,8 @@
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
     indicating the type of converter from LaTeX/Markdown to HTML. Defaults
     to HTML with MathJax (and OpenOLAT-specific fixups).}
+  \item{table}{logical or character. Should a dedicated table class be
+    used in the HTML for OpenOLAT?}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
     \code{\link[exams]{exams2qti21}}, respectively.}
 }

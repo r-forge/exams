@@ -187,6 +187,10 @@ pandoc <- function(x, ..., from = "latex", to = "html", fixup = TRUE, Sweave = T
       )
       for(i in 1:nrow(tab)) rval <- gsub(tab[i, 1L], tab[i, 2L], rval, fixed = TRUE)
     }
+    if(!identical(cls <- .exams_get_internal("pandoc_table_class_fixup"), FALSE)) {
+      if(isTRUE(cls)) cls <- "b_gray"
+      rval <- gsub('<table>', sprintf('<table class="%s">', cls), rval, fixed = TRUE)
+    }
   }
   
   return(rval)
