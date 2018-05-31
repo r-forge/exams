@@ -48,12 +48,57 @@ olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
 
     ## combine with template
     html <- readLines(file.path(find.package("exams"), "xml", "plain8.html"))
-    mj_link <- paste('<script type="text/javascript"',
-      '  src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">',
-      '</script>', collapse = "\n")
     if(mathjax) {
+      script <- '    
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+jQuery.noConflict();
+
+function o_mathjax(fct_success) {
+	window.MathJax = {
+		extensions: ["jsMath2jax.js"],
+		messageStyle: \'none\',
+		showProcessingMessages: false,
+		showMathMenu: false,
+		menuSettings: { },
+		jsMath2jax: {
+			preview: "none"
+		},
+		tex2jax: {
+			ignoreClass: "math"
+		},
+		"HTML-CSS": {
+		    EqnChunk: 5, EqnChunkFactor: 1, EqnChunkDelay: 100
+		},
+		"fast-preview": {
+			disabled: true
+		}
+	}
+	jQuery.ajax("https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", {
+		cache: true,
+		dataType: "script",
+		crossDomain: true,
+		success: function() {
+	    	if(!(typeof fct_success === "undefined")) {
+	    		fct_success();
+	    	}
+		}
+	});
+}
+jQuery(function() {
+	if ((window.unsafeWindow == null ? window : unsafeWindow).MathJax == null) {
+		var count = jQuery(\'div.math,span.math,math,div.mathEntryInteraction\').length;
+		if (count > 0) {
+		    o_mathjax();
+		}
+	}
+});
+/* ]]> */
+</script>
+'
       jd <- grep("</head>", html, fixed = TRUE)
-      html <- c(html[1L:(jd - 1)], mj_link, html[jd:length(html)])
+      html <- c(html[1L:(jd - 1)], script, html[jd:length(html)])
     }
     html <- gsub("##ID##", "", html, fixed = TRUE)
     html <- gsub("##\\exinput{exercises}##", paste(html_body, collapse = "\n"), html, fixed = TRUE)
