@@ -1,7 +1,6 @@
 \name{exams2pdf}
 \alias{exams2pdf}
 \alias{make_exams_write_pdf}
-\alias{exams2ifat}
 
 \title{Generation of Exams in PDF Format}
 
