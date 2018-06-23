@@ -36,8 +36,8 @@ foo <- function(x) {
 }
 
 output$show_exercises <- DT::renderDataTable({
-  data.frame("Available Exercises" = available_exercises())
-}, selection = "single")
+  data.frame("Exercises" = available_exercises())
+}, selection = "single", escape = FALSE, options = list(dom = 't', paging = FALSE, ordering = FALSE))
 
 output$download_exercises <- downloadHandler(
   filename = function() {
