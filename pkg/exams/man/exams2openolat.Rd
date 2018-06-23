@@ -24,7 +24,7 @@
     indicating the type of converter from LaTeX/Markdown to HTML. Defaults
     to HTML with MathJax (and OpenOLAT-specific fixups).}
   \item{table}{logical or character. Should a dedicated table class be
-    used in the HTML for OpenOLAT?}
+    used in the HTML for OpenOLAT? For details see below.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
     \code{\link[exams]{exams2qti21}}, respectively.}
 }
@@ -34,6 +34,12 @@
   and \code{\link[exams]{exams2qti21}} for generating either QTI 1.2 or 2.1
   (default) output with some small tweaks for OpenOLAT. Specifically, the MathJax
   output from pandoc is post-processed as expected by OpenOLAT.
+  
+  Dedicated \code{table} classes currently include: Full-width tables with borders
+  (\code{"b_grid"}, \code{"b_border"}) or without (\code{"b_full"}, \code{"b_borderless"}).
+  Or regular tables without background color (\code{"b_middle"}) or with white grid
+  and color background (\code{"b_gray"}, \code{"b_red"}, \code{"b_green"}, \code{"b_blue"},
+  \code{"b_yellow"}). Setting \code{table = TRUE} corresponds to \code{table = "b_gray"}.
 }
 
 \value{
