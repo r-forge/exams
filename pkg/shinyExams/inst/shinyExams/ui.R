@@ -26,20 +26,21 @@ shinyUI(
     useShinyjs(),
     # loading.screens,
     div(id = "app-content",
-      navbarPage(title = div(img(src = "logo.svg", height = 35)),
+      navbarPage(title = "shinyExams",
         theme = "custom.css", id = "top-nav",
+        tabPanel(title = div(class = "navbarlink-container",
+          tags$img(height = "17px", alt = "exams Logo",
+            src = "logo.svg")
+        ), value = "http://www.r-exams.org/"),
         tabPanel("Create/Edit Exercises", tabpanel.create,
           icon = icon("folder-open")),
-        tabPanel("Import/Export Exercises", tabpanel.import, icon = icon("flag")),
+        # tabPanel("Import/Export Exercises", tabpanel.import, icon = icon("flag")),
         tabPanel("Define Exams", tabpanel.def,
           icon = icon("cog")),
         tabPanel("Generate Exams", tabpanel.generate,
           icon = icon("wrench")),
         tabPanel(title = "hide_me"),
-        tabPanel(title = div(class = "navbarlink-container",
-          tags$img(height = "20px", alt = "exams Logo",
-            src = "logo.svg")
-        ), value = "http://www.r-exams.org/"),
+        
         
         footer = tagList(
           includeScript("scripts/top-nav-links.js"),
@@ -62,7 +63,9 @@ shinyUI(
                 type = "toggle", icon = icon("question-circle"))
             )
           )
-        ), windowTitle = "shinyExams"
+        ),
+        windowTitle = "shinyExams",
+        selected = "Create/Edit Exercises"
       )
     )
   )

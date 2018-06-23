@@ -35,9 +35,9 @@ foo <- function(x) {
   invisible(NULL)
 }
 
-output$show_exercises <- renderPrint({
-  foo(available_exercises())
-})
+output$show_exercises <- DT::renderDataTable({
+  data.frame("Available Exercises" = available_exercises())
+}, selection = "single")
 
 output$download_exercises <- downloadHandler(
   filename = function() {

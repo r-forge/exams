@@ -8,11 +8,16 @@
 #'   \code{runApp()} function.
 #' @examples
 #' \dontrun{
-#'   runShinyRexams()
+#'   runShinyExams()
 #' }
 #' @import shiny
 #' @import shinythemes
 #' @export
 runShinyExams = function(...) {
-  runApp(appDir = system.file("application", package = "shinyExams"), ...)
+  appDir = system.file("shinyExams", package = "shinyExams")
+  if (appDir == "") {
+    stop("Could not find example directory. Try re-installing `shinyExams`.", call. = FALSE)
+  }
+  
+  shiny::runApp(appDir, display.mode = "normal")
 }

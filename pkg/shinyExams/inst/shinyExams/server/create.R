@@ -51,22 +51,33 @@ output$editor = renderUI({
     value = "Create/edit exercises here!")
 })
 
-output$playbutton = renderUI({
-  actionButton("play_exercise", label = "Show preview")
+observeEvent(input$show_preview, {
+  excode = input$excode
+  shinyjs::hide("show_preview")
+  shinyjs::hide("editor")
+  shinyjs::show("hide_preview")
+  shinyjs::show("player")
 })
 
-output$exnameshow <- renderUI({
+observeEvent(input$hide_preview, {
+  shinyjs::show("show_preview")
+  shinyjs::show("editor")
+  shinyjs::hide("hide_preview")
+  shinyjs::hide("player")
+})
+
+output$exnameshow = renderUI({
   textInput("exname", label = "Exercise name.", value = input$exname)
 })
 
 observeEvent(input$load_editor_template, {
-  exname <- paste("template-", input$extype, ".", if (input$exmarkup == "LaTeX") "Rnw" else "Rmd", sep = "")
-  excode <- get_template_code(input$extype, input$exmarkup)
+  exname = paste("template-", input$extype, ".", if (input$exmarkup == "LaTeX") "Rnw" else "Rmd", sep = "")
+  excode = get_template_code(input$extype, input$exmarkup)
   writeLines(excode, file.path(directories$tmp, exname))
-  output$exnameshow <- renderUI({
+  output$exnameshow = renderUI({
     textInput("exname", label = "Exercise name.", value = exname)
   })
-  output$editor <- renderUI({
+  output$editor = renderUI({
     aceEditor("excode", mode = if (input$exmarkup == "LaTeX") "tex" else "markdown",
       value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
   })
@@ -78,15 +89,15 @@ observeEvent(input$load_editor_template, {
 # })
 
 observeEvent(input$load_editor_exercise, {
-  exname <- input$exams_exercises
-  expath <- file.path(directories$pkg_ex,  exname)
-  excode <- readLines(expath)
+  exname = input$exams_exercises
+  expath = file.path(directories$pkg_ex,  exname)
+  excode = readLines(expath)
   file.copy(expath, directories$tmp)
-  output$exnameshow <- renderUI({
+  output$exnameshow = renderUI({
     textInput("exname", label = "Exercise name.", value = exname)
   })
-  markup <- tolower(file_ext(exname))
-  output$editor <- renderUI({
+  markup = tolower(file_ext(exname))
+  output$editor = renderUI({
     aceEditor("excode", mode = if (markup == "rnw") "tex" else "markdown",
       value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
   })
@@ -101,40 +112,27 @@ observeEvent(input$save_ex, {
   session$sendCustomMessage(type = 'exHandler', exfiles)
 })
 
-observeEvent(input$play_exercise, {
-  excode <- input$excode
-  # output$playbutton <- renderUI({
-  #   actionButton("show_editor", label = "Hide preview")
-  # })
-  updateTabsetPanel(session, "create.tab", selected = "preview")
+
+exercise_code = reactive({
+  excode = input$excode
 })
 
-observeEvent(input$show_editor, {
-  output$playbutton <- renderUI({
-    actionButton("play_exercise", label = "Show preview")
-  })
-})
-
-exercise_code <- reactive({
-  excode <- input$excode
-})
-
-output$player <- renderUI({
-  if (!is.null(input$play_exercise)) {
-    if (input$play_exercise > 0) {
+output$player = renderUI({
+  if (!is.null(input$show_preview)) {
+    if (input$show_preview > 0) {
       unlink(dir(directories$tmp, full.names = TRUE, recursive = TRUE))
-      excode <- exercise_code()
+      excode = exercise_code()
       if (excode[1] != "Create/edit exercises here!") {
-        exname <- if (is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
-        exname <- gsub("/", "_", exname, fixed = TRUE)
+        exname = if (is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
+        exname = gsub("/", "_", exname, fixed = TRUE)
         writeLines(excode, file.path(directories$tmp, exname))
-        ex <- try(exams2html(exname, n = 1, name = "preview", dir = directories$tmp, edir = directories$tmp,
+        ex = try(exams2html(exname, n = 1, name = "preview", dir = directories$tmp, edir = directories$tmp,
           base64 = TRUE, encoding = input$exencoding), silent = TRUE)
         if (!inherits(ex, "try-error")) {
-          hf <- "preview1.html"
-          html <- readLines(file.path(directories$tmp, hf))
-          n <- c(which(html == "<body>"), length(html))
-          html <- c(
+          hf = "preview1.html"
+          html = readLines(file.path(directories$tmp, hf))
+          n = c(which(html == "<body>"), length(html))
+          html = c(
             html[1L:n[1L]],                  ## header
             '<div style="border: 1px solid black;border-radius:5px;padding:8px;">', ## border
             html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)

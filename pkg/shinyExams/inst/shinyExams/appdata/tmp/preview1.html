@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+<meta charset="utf-8">
+</head>
+
+<body>
+<div style="border: 1px solid black;border-radius:5px;padding:8px;">
+<h4>Question</h4>
+<p>Given two points <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p = (2, 3)</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">q = (5, 2)</annotation></semantics></math> in a Cartesian coordinate system:</p>
+<br/>
+<ol type="a">
+<li>
+What is the Manhattan distance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d_1(p, q)</annotation></semantics></math>?
+</li>
+<li>
+What is the Euclidean distance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d_2(p, q)</annotation></semantics></math>?
+</li>
+<li>
+What is the maximum distance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>∞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d_\infty(p, q)</annotation></semantics></math>?
+</li>
+</ol>
+<br/>
+<h4>Solution</h4>
+<p>The distances are visualized below in green (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mn>1</mn></msub><annotation encoding="application/x-tex">d_1</annotation></semantics></math>), red (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mn>2</mn></msub><annotation encoding="application/x-tex">d_2</annotation></semantics></math>), and blue (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>∞</mi></msub><annotation encoding="application/x-tex">d_\infty</annotation></semantics></math>).</p>
+<div class="figure">
+<img src="data:image/png;base64,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" />
+
+</div>
+<br/>
+<ol type="a">
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>p</mi><mi>i</mi></msub><mo>−</mo><msub><mi>q</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>2</mn><mo>−</mo><mn>5</mn><mo stretchy="false" form="prefix">|</mo><mo>+</mo><mo stretchy="false" form="prefix">|</mo><mn>3</mn><mo>−</mo><mn>2</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">d_1(p, q) = \sum_i |p_i - q_i| = |2 - 5| + |3 - 2| = 4</annotation></semantics></math>.
+</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msqrt><mrow><msub><mo>∑</mo><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>p</mi><mi>i</mi></msub><mo>−</mo><msub><mi>q</mi><mi>i</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></msqrt><mo>=</mo><msqrt><mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>5</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></msqrt><mo>=</mo><mn>3.162</mn></mrow><annotation encoding="application/x-tex">d_2(p, q) = \sqrt{\sum_i (p_i - q_i)^2} = \sqrt{(2 - 5)^2 + (3 - 2)^2} = 3.162</annotation></semantics></math>.
+</li>
+<li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>∞</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mo>max</mo><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>p</mi><mi>i</mi></msub><mo>−</mo><msub><mi>q</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo>max</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">|</mo><mn>2</mn><mo>−</mo><mn>5</mn><mo stretchy="false" form="prefix">|</mo><mo>,</mo><mo stretchy="false" form="prefix">|</mo><mn>3</mn><mo>−</mo><mn>2</mn><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">d_\infty(p, q) = \max_i |p_i - q_i| = \max(|2 - 5|, |3 - 2|) = 3</annotation></semantics></math>.
+</li>
+</ol>
+</div>
+</br>
+</body>
+</html>

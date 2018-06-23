@@ -16,6 +16,6 @@ Run a local instance of shinyExams.
 }
 \examples{
 \dontrun{
-  runShinyRexams()
+  runShinyExams()
 }
 }
