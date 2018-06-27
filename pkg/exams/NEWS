@@ -19,6 +19,11 @@ Changes in Version 2.3-2
     give labels for the marks that differ from the default
     (length(mark) + 1):1.
 
+  o In all LaTeX templates that use Helvetica (phv) as the font for the main
+    text, this is also used now in math mode by \usepackage[helvet]{sfmath}
+    (rather than \usepackage{sfmath}, as employed previously). In particular,
+    this also affects exams2nops() and tex2image() output.
+
 
 Changes in Version 2.3-1
 

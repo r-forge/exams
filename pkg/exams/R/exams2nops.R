@@ -181,7 +181,7 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 \\usepackage{multicol,a4wide,pdfpages}
 \\usepackage{booktabs,longtable,eurosym,textcomp}
 \\IfFileExists{sfmath.sty}{
-  \\RequirePackage{sfmath}
+  \\RequirePackage[helvet]{sfmath}
 }{}
 
 \\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
