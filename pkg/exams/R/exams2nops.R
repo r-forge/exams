@@ -42,7 +42,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
     "MarkExampleA", "MarkExampleB", "MarkExampleC", "MarkExampleD", "MarkExampleE",
     "Warning", "Answers", "FillAnswers", "Point", "Points")]
   ## header: collect everything
-  header <- c(list(Date = date, ID = d2id), usepackage, loc, lang, header)
+  header <- c(list(Date = date, ID = d2id), usepackage, loc, lang, as.list(header))
 
   ## determine number of alternative choices (and non-supported cloze exercises)
   ## for all (unique) exercises in the exam

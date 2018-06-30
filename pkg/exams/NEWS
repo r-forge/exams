@@ -24,6 +24,12 @@ Changes in Version 2.3-2
     (rather than \usepackage{sfmath}, as employed previously). In particular,
     this also affects exams2nops() and tex2image() output.
 
+  o In exams2nops() the "header" argument can also be specified simply as
+    header = "\\mycommand{value}" rather than header = list(mycommand = "value").
+    The former is more flexible, e.g., for passing additional options or more
+    complex commands. Internally, the former is turned into an unnamed list
+    which is then processed correspondingly by exams2pdf().
+
 
 Changes in Version 2.3-1
 
