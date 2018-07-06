@@ -599,11 +599,11 @@ sapply(1:n, function(i) qbox(i, nchoice = nchoice[i])),
 \\put(113,191){\\makebox(0,0)[t]{\\textsf{\\textbf{\\myScrambling}}}} 
 \\put(106,180){\\framebox(14,7){}}
 % scrambling is currently always zero
-\\put(109.5,183.5){\\makebox(0,0){\\Large{\\textsf{0}}}}
-\\put(116.5,183.5){\\makebox(0,0){\\Large{\\textsf{0}}}}
+\\put(109.5,183.5){\\makebox(0,0){\\Large{\\fontencoding{T1}\\fontfamily{phv}\\selectfont 0}}}
+\\put(116.5,183.5){\\makebox(0,0){\\Large{\\fontencoding{T1}\\fontfamily{phv}\\selectfont 0}}}
 \\fi
-\\put(67,169.5){\\makebox(0,0){\\Large{\\textsf{\\myID}}}}",
-sprintf("\\put(32,169.5){\\makebox(0,0){\\Large{\\textsf{%s}}}}", mytype),
+\\put(67,169.5){\\makebox(0,0){\\Large{\\fontencoding{T1}\\fontfamily{phv}\\selectfont \\myID}}}",
+sprintf("\\put(32,169.5){\\makebox(0,0){\\Large{\\fontencoding{T1}\\fontfamily{phv}\\selectfont %s}}}", mytype),
 
 ## replacement?
 if(replacement & addreg == 0L) {
