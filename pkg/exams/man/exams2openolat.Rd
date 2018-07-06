@@ -52,7 +52,6 @@
 }
 
 \examples{
-\donttest{
 ## load package and enforce par(ask = FALSE)
 library("exams")
 options(device.ask.default = FALSE)
@@ -72,7 +71,6 @@ mydir <- tempdir()
 ## generate .zip with OpenOLAT test in temporary directory
 exams2openolat(myexam, n = 3, dir = mydir)
 dir(mydir)
-}
 }
 
 \keyword{utilities}
