@@ -38,7 +38,7 @@ workflow:
       alt: create
       dsc: |
         ###### 2. Create
-        * Set up [(dynamic) exercise templates]({{ site.url }}/intro/dynamic/).
+        * Set up [(dynamic) exercise templates](../../intro/dynamic/).
         * Easily draw (very many) random replications from these templates.
         * Automatically embed these into an exchange file format (typically in HTML/XML).
   - step:
