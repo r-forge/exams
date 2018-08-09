@@ -15,6 +15,12 @@ Changes in Version 2.3-2
     In case on of the registration columns contains more than one potential
     mark, the heuristics of determining the intended mark have been improved.
 
+  o New exercise confint3.Rmd/Rnw that illustrates how to use the "verbatim"
+    clozetype for Moodle. The exercises yields 100% of the points for the
+    correct solution based on t quantiles but still 50% for a partially
+    correct solution based on normal quantiles (contributed by Ulrike
+    Groemping).
+
   o nops_eval() gained a new argument labels=NULL that can be used to
     give labels for the marks that differ from the default
     (length(mark) + 1):1.
