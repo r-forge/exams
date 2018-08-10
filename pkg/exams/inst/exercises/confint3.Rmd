@@ -18,13 +18,13 @@ UBn <- round(Mean + facn * sd, digits = 3)
 ##
 ## this can be handled as a "verbatim" solution, directly including Moodles
 ## cloze type:
-##   ":NUMERIC:=2.228:0.01~%50%1.960:0.01#Approximately normal instead of exact t solution."
+##   ":NUMERIC:=2.228:0.01~%50%1.960:0.01#Normal-based instead of t-based interval."
 ## where 2.228 is the correct and 1.960 the partially correct solution,
 ## the tolerance is 0.01 in both cases, and a comment is supplied at the end.
 ## More details: https://docs.moodle.org/35/en/Embedded_Answers_(Cloze)_question_type
 
 ## solution template (note: % have to be escaped as %% for sprintf)
-sol <- ":NUMERICAL:=%s:0.01~%%50%%%s:0.1#Approximately normal instead of exact t solution."
+sol <- ":NUMERICAL:=%s:0.1~%%50%%%s:0.1#Normal-based instead of t-based interval; for small samples, intervals based on the normal approximation are too narrow."
 
 ## insert correct and partially correct solutions
 sol <- sprintf(sol, c(LBt, UBt), c(LBn, UBn))
@@ -32,12 +32,12 @@ sol <- sprintf(sol, c(LBt, UBt), c(LBn, UBn))
 
 Question
 ========
-It is suspected that a supplier systematically underfills 5 l canisters of detergent. 
+It is suspected that a supplier systematically underfills 5 l canisters of detergent.
 The filled volumes are assumed to be normally distributed. A small sample of $`r n`$
 canisters is measured exactly. This shows that the canisters contain on average
 $`r Mean`$ ml. The sample variance $s^2_{n-1}$ is equal to $`r Var`$.
 
-Determine a $`r 100 * (1 - alpha)`\%$ confidence interval for the average content of 
+Determine a $`r 100 * (1 - alpha)`\%$ confidence interval for the average content of
 a canister (in ml).
 
 Answerlist
@@ -51,7 +51,7 @@ The $`r 100 * (1 - alpha)`\%$ confidence interval for the average content $\mu$ 
 given by:
 $$
 \begin{aligned}
-& \left[\bar{y} \, - \, t_{n-1;`r 1-alpha/2`}\sqrt{\frac{s_{n-1}^2}{n}}, \; 
+& \left[\bar{y} \, - \, t_{n-1;`r 1-alpha/2`}\sqrt{\frac{s_{n-1}^2}{n}}, \;
   \bar{y} \, + \, t_{n-1;`r 1-alpha/2`}\sqrt{\frac{s_{n-1}^2}{n}}\right] \\
 &= \left[ `r Mean` \, - \, `r fact`\sqrt{\frac{`r Var`}{`r n`}}, \;
           `r Mean` \, + \, `r fact`\sqrt{\frac{`r Var`}{`r n`}}\right] \\
