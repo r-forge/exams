@@ -23,7 +23,7 @@ available_exercises = reactive({
 # })
 
 output$select_imported_exercise = renderUI({
-  selectInput('selected_exercise', 'Select exercise to be modified.', 
+  selectInput('selected_exercise', 'Select exercise to be modified.',
     choices = available_exercises(), selected = exname())
 })
 
@@ -109,7 +109,7 @@ observeEvent(input$save_ex, {
     writeLines(input$excode, file.path(directories$exercises, input$exname))
   }
   exfiles = list.files(directories$exercises, recursive = TRUE)
-  session$sendCustomMessage(type = 'exHandler', exfiles)
+  #session$sendCustomMessage(type = 'exHandler', exfiles)
 })
 
 

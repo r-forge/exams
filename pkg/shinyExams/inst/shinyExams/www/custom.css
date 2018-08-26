@@ -560,3 +560,9 @@ padding-right: 5px;
 div.nav-tabs-custom {
   min-height: 200px;
 }
+
+.jstree-leaf > .jstree-anchor > .jstree-themeicon {
+  background: url(file.png) center right no-repeat;
+  background-size: contain;
+}
+
