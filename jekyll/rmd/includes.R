@@ -20,12 +20,12 @@ include_rmd <- function(file, ...)
   output <- paste0(output, ".md")
 
   ## default knitr settings (can be queried within .Rmd processing)
-  if(!exists(".knitr_opts_vanilla")) .knitr_opts_vanilla <<- list(chunk = knitr::opts_chunk$get(), knit = knitr::opts_knit$get())
+  if(!exists(".knitr_opts_vanilla")) .knitr_opts_vanilla <<- list(chunk = knitr::opts_chunk$get(), knit = knitr::opts_knit$get(), hooks = knitr::knit_hooks$get())
   knitr::opts_chunk$set(dev = "svg",
     fig.height = 5, fig.width = 6, dpi = 100, ...,
     fig.path = paste0(assets, "/"), knitr::render_jekyll("prettify"))
   knitr::opts_knit$set(root.dir = root)
-  .knitr_opts_custom <<- list(chunk = knitr::opts_chunk$get(), knit = knitr::opts_knit$get())
+  .knitr_opts_custom <<- list(chunk = knitr::opts_chunk$get(), knit = knitr::opts_knit$get(), hooks = knitr::knit_hooks$get())
     
   ## process .Rmd
   rval <- knitr::knit(input = file, output = output, quiet = TRUE, encoding = "UTF-8")
@@ -191,6 +191,10 @@ include_template <- function(name, title, teaser, description,
 
   ## path to assets of post
   assets <- if(knitr::opts_chunk$get("fig.path") == "figure/") "FIXME" else knitr::opts_chunk$get("fig.path")
+
+  ## switch off jekyll rendering hook for template processing
+  knitr::knit_hooks$set(.knitr_opts_vanilla$hooks)
+  on.exit(knitr::knit_hooks$set(.knitr_opts_custom$hooks))
 
   ## related exercises: either posts or asset files
   if(length(related) < 1L) {
