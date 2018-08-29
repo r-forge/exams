@@ -15,10 +15,11 @@ To analyze the influence of occupation on the evaluation of the
 advertisement an analysis of variance was performed:
 
 
-<pre><code>  Res.Df    RSS Df Sum of Sq     F  Pr(&gt;F)
+```
+  Res.Df    RSS Df Sum of Sq     F  Pr(>F)
 1     48 24.789                           
 2     45 24.642  3     0.147 0.089 0.96565
-</code></pre>
+```
 
 Which of the following statements are correct?
 

@@ -5,7 +5,8 @@ Question
 Consider the following regression results:
 
 
-<pre><code>
+```
+
 Call:
 lm(formula = log(y) ~ log(x), data = d)
 
@@ -14,14 +15,14 @@ Residuals:
 -6.6119 -1.4477  0.1735  1.5365  4.8160 
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)
+            Estimate Std. Error t value Pr(>|t|)
 (Intercept)   0.1264     0.2520   0.501    0.618
 log(x)        0.2870     0.2279   1.259    0.212
 
 Residual standard error: 2.251 on 79 degrees of freedom
 Multiple R-squared:  0.01967,	Adjusted R-squared:  0.007263 
 F-statistic: 1.585 on 1 and 79 DF,  p-value: 0.2117
-</code></pre>
+```
 
 Describe how the response `y` depends on the regressor `x`.
 

@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2018-07-10T10:40:17+02:00</updated>
+	<updated>2018-08-30T01:11:38+02:00</updated>
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 	
 		
