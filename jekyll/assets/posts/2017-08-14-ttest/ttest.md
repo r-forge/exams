@@ -8,7 +8,8 @@ chains with different cashier systems is compared. The following
 statistical test was performed:
 
 
-<pre><code>
+```
+
 	Two Sample t-test
 
 data:  Waiting by Supermarket
@@ -19,7 +20,7 @@ alternative hypothesis: true difference in means is less than 0
 sample estimates:
  mean in group Sparag mean in group Consumo 
              5.859404              3.373846 
-</code></pre>
+```
 
 Which of the following statements are correct? (Significance level 5%)
 

@@ -11,24 +11,26 @@ transportation compared to those living in the suburbs.
 A survey with 250 respondents gave the following contingency table:
 
 
-<pre><code>           Location
+```
+           Location
 Evaluation  city centre suburbs
   very good          24      13
   good               38      31
   bad                30      61
   very bad            8      45
-</code></pre>
+```
 
 The following table of percentages was constructed:
 
 
-<pre><code>           Location
+```
+           Location
 Evaluation  city centre suburbs    
   very good        64.9        35.1
   good             55.1        44.9
   bad              33.0        67.0
   very bad         15.1        84.9
-</code></pre>
+```
 
 Which of the following statements are correct?
 
