@@ -2,8 +2,7 @@ exams_shiny <- function(dir = NULL)
 {
   stopifnot(require("shiny"))
   stopifnot(require("shinyAce"))
-  stopifnot(require("shinyTree"))
-  stopifnot(require("shinyFiles"))
+  stopifnot(require("DT"))
   stopifnot(require("tools"))
 
   owd <- getwd()
@@ -32,14 +31,17 @@ exams_shiny <- function(dir = NULL)
     tf <- dir(file.path(dir, "exams"), full.names = TRUE)
     unlink(tf)
   }
+  if(!file.exists(file.path(dir, "extemplates"))) {
+    dir.create(file.path(dir, "templates"))
+  } else {
+    tf <- dir(file.path(dir, "templates"), full.names = TRUE)
+    unlink(tf)
+  }
 
-  writeLines(chooser.js, file.path(dir, "www", "chooser-binding.js"))
-  registerInputHandler("shinyjsexamples.chooser", function(data, ...) {
-    if(is.null(data))
-      NULL
-    else
-      list(questions=as.character(data$questions), left=as.character(data$left), right=as.character(data$right))
-  }, force = TRUE)
+  for(j in c("nops", "pandoc", "tex", "xml"))
+    file.copy(file.path(find.package("exams"), j), file.path(dir, "templates"), recursive = TRUE)
+  if(!file.exists(ut <- file.path(dir, "templates", "user")))
+    dir.create(ut)
 
   dump("exams_shiny_ui", file = file.path(dir, "ui.R"), envir = .GlobalEnv)
   dump("exams_shiny_server", file = file.path(dir, "server.R"), envir = .GlobalEnv)
@@ -62,22 +64,6 @@ exams_shiny_ui <- function(...) {
            color: #E59400;
          }
        ")),
-       tags$head(tags$script(
-	 list(
-            ## Getting data from server.
-	    HTML('Shiny.addCustomMessageHandler("exHandler", function(data) {
-               var dest = $("div.chooser-left-container").find("select.left");
-               dest.empty();
-	       if ( typeof(data) == "string" ) {
-		  dest.append("<option>"+data+"</option>");
-               } else {
-                  $.each(data, function(key, val) {
-		     dest.append("<option>"+val+"</option>");
-                  });
-               }
-            });'))
-         )
-       ),
        tabsetPanel(
          tabPanel("Create/Edit Exercises",
            br(),
@@ -127,36 +113,43 @@ exams_shiny_ui <- function(...) {
              accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz",
                "jpg", "JPG", "png", "PNG")),
            tags$hr(),
-           p("List of loaded exercises:"),
-           verbatimTextOutput("show_exercises"),
-           br(),
+           ## verbatimTextOutput("show_exercises"),
+           DT::dataTableOutput("ex_table"),
+           uiOutput("deletebutton"),
+           uiOutput("ex_table_hr"),
            downloadButton('download_exercises', 'Download as .zip'),
-           tags$hr(),
-           downloadButton('download_project', 'Download project'),
-           br(), br()
+           br()
          ),
          tabPanel("Define Exams",
            fluidRow(
              column(6,
                br(),
-               textInput("exam_name", "Name of the exam.", "Exam1"),
-               p("Select exercises for your exam."),
-               chooserInput("mychooser", c(), c(), size = 10, multiple = TRUE),
+               p(tags$b("Select exercises for your exam.")),
+               DT::dataTableOutput("ex_table_define"),
                br(),
-               actionButton("save_exam", label = "Save")
+               uiOutput("selectbutton"),
+               br()
              ),
              column(6,
                br(),
-               p("Exam structure."),
-               uiOutput("exercises4exam")
+               p(tags$b("Set points and exercise number.")),
+               DT::dataTableOutput("ex_table_set"),
+               br(),
+               uiOutput("rmexexambutton"),
+               br(),
+               textInput("exam_name", "Name of the exam.", "Exam1"),
+               uiOutput("saveexambutton"),
+               br()
              )
            )
          ),
          tabPanel("Generate Exams",
            br(),
            p("Compile exams, please select input parameters."),
-           textInput("name", "Choose an exam name.", value = "Exam1"),
+           uiOutput("choose_exam"),
+           textInput("name", "Choose a name.", value = "Exam1"),
            selectInput("format", "Format.", c("PDF", "HTML", "QTI12")),
+           uiOutput("template"),
            numericInput("n", "Number of copies.", value = 1),
            actionButton("compile", label = "Compile."),
            downloadButton('downloadData', 'Download all files as .zip'),
@@ -176,6 +169,7 @@ exams_shiny_server <- function(input, output, session)
   available_exercises <- reactive({
     e1 <- input$save_ex
     e2 <- input$ex_upload
+    e3 <- input$delete_exercises
     exfiles <- list.files("exercises", recursive = TRUE)
     if(!is.null(input$selected_exercise)) {
       if(input$selected_exercise != "") {
@@ -334,14 +328,140 @@ exams_shiny_server <- function(input, output, session)
     }
   })
 
-  foo <- function(x) {
-    for(i in seq_along(x))
-      cat(x[i], "\n")
-    invisible(NULL)
-  }
+  observeEvent(available_exercises(), {
+    ex <- available_exercises()
+    if(length(ex)) {
+      extab <- data.frame(ex)
+      names(extab) <- "Exercises"
+      output$ex_table <- DT::renderDataTable({extab}, editable = TRUE)
+      output$deletebutton <- renderUI({
+        actionButton("delete_exercises", label = "Delete selected exercises")
+      })
+      output$ex_table_hr <- renderUI({
+        tags$hr()
+      })
+    } else {
+      NULL
+    }
+  })
 
-  output$show_exercises <- renderPrint({
-    foo(available_exercises())
+  observeEvent(input$delete_exercises, {
+    id <- input$ex_table_rows_selected
+    if(length(id)) {
+      ex <- available_exercises()
+      rmfile <- ex[id]
+      file.remove(file.path("exercises", rmfile))
+      extabs <- data.frame("Exercises" = ex[-id])
+      output$ex_table_define <- DT::renderDataTable({extabs}, editable = FALSE)
+      if(file.exists("exlist.rds")) {
+        extab <- readRDS("exlist.rds")
+        extab <- extab[extab$Exercises != rmfile, , drop = FALSE]
+        if(nrow(extab) < 1)
+          extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
+        else
+          saveRDS(extab, file = "exlist.rds")
+        output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+      }
+    } else {
+      NULL
+    }
+  })
+
+  output$ex_table_define <- DT::renderDataTable({data.frame("Exercises" = NA)},
+    editable = FALSE, rownames = FALSE)
+  output$ex_table_set <- DT::renderDataTable({data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)},
+    editable = FALSE, rownames = FALSE)
+
+  observeEvent(available_exercises(), {
+    ex <- available_exercises()
+    if(length(ex)) {
+      extab <- data.frame(ex)
+      names(extab) <- "Exercises"
+      output$ex_table_define <- DT::renderDataTable({extab}, editable = FALSE)
+      output$selectbutton <- renderUI({
+        actionButton("select_exercises", label = "Select")
+      })
+    } else {
+      NULL
+    }
+  })
+
+  exam_exercises <- reactive({
+    e1 <- input$select_exercises
+    id <- input$ex_table_define_rows_selected
+    if(length(id) & length(e1)) {
+      if(!file.exists("exlist.rds")) {
+        ex <- available_exercises()
+        extab <- data.frame("Exercises" = ex[id], stringsAsFactors = FALSE)
+        extab$Points <- rep(1, nrow(extab))
+        extab$Number <- 1:nrow(extab)
+      } else {
+        extab <- readRDS("exlist.rds")
+        ex <- available_exercises()
+        ex <- ex[id]
+        if(!all(ex %in% extab$Exercises)) {
+          extab2 <- data.frame("Exercises" = ex[!(ex %in% extab$Exercises)], stringsAsFactors = FALSE)
+          extab2$Points <- rep(1, nrow(extab2))
+          extab2$Number <- 1:nrow(extab2) + max(extab$Number)
+          extab <- rbind(extab, extab2)
+        }
+      }
+      saveRDS(extab, file = "exlist.rds")
+    }
+    return(extab)
+  })
+
+  observeEvent(input$select_exercises, {
+    extab <- exam_exercises()
+    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    output$rmexexambutton <- renderUI({
+      actionButton("rm_ex_exam", label = "Deselect")
+    })
+    output$saveexambutton <- renderUI({
+      actionButton("save_exam", label = "Save exam")
+    })
+  })
+
+  observeEvent(input$rm_ex_exam, {
+    ids <- input$ex_table_set_rows_selected
+    extab <- readRDS("exlist.rds")
+    extab <- extab[-ids, , drop = FALSE]
+    if(nrow(extab) < 1) {
+      extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
+      unlink("exlist.rds")
+    } else {
+      saveRDS(extab, file = "exlist.rds")
+    }
+    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+  })
+
+  observeEvent(input$ex_table_set_cell_edit, {
+    info = input$ex_table_set_cell_edit
+    i = info$row
+    j = info$col
+    v = info$value
+    extab <- readRDS("exlist.rds")
+    extab[i, j] <- v
+    saveRDS(extab, file = "exlist.rds")
+    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+  })
+
+  output$choose_exam <- renderUI({
+    selectInput('selected_exam', 'Select an exam.', "")
+  })
+
+  observeEvent(input$save_exam, {
+    extab <- readRDS("exlist.rds")
+    exname <- paste(input$exam_name, "rds", sep = ".")
+    saveRDS(extab, file = file.path("tmp", exname))
+    showNotification(paste("Saved", input$exam_name), duration = 1, closeButton = FALSE)
+    output$choose_exam <- renderUI({
+      exams <- dir("tmp")
+      exams <- file_path_sans_ext(exams)
+      if(length(exams)) {
+        selectInput('selected_exam', 'Select an exam.', exams)
+      }
+    })
   })
 
   output$download_exercises <- downloadHandler(
@@ -360,61 +480,46 @@ exams_shiny_server <- function(input, output, session)
     }
   )
 
-  output$download_project <- downloadHandler(
-    filename = function() {
-      paste("exams_project", "zip", sep = ".")
-    },
-    content = function(file) {
-      owd <- getwd()
-      dir.create(tdir <- tempfile())
-      file.copy(file.path(".", list.files(".")), tdir, recursive = TRUE)
-      setwd(tdir)
-      zip(zipfile = paste("exams_project", "zip", sep = "."), files = c("exercises", "exams"))
-      setwd(owd)
-      file.copy(file.path(tdir, paste("exams_project", "zip", sep = ".")), file)
-      unlink(tdir)
-    }
-  )
-
-  final_exam <- reactive({
-    input$save_exam
-    if(length(list.files("exam"))) {
-      exname <- paste(input$exam_name, "rda", sep = ".")
-      load(exname)
-      return(eval(parse(text = exname)))
-    } else return(NULL)
-  })
-  output$exercises4exam <- renderUI({
-    if(!is.null(ex <- final_exam())) {
-      ex
-    } else {
-      input$exam_name
-    }
-  })
-  observeEvent(input$save_exam, {
-    
+  output$template <- renderUI({
+    user <- dir(file.path("templates", "user"))
+    if(!length(user))
+      user <- NULL
+    templates <- switch(input$format,
+      "PDF" = grep(".tex", c(dir(file.path("templates", "tex"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
+      "HTML" = grep(".html", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
+      "QTI12" = grep(".qti12", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
+      "QTI21" = grep(".qti21", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
+    )
+    selectInput('selected_template', 'Select a template.', templates)
   })
 
   observeEvent(input$compile, {
-    if(length(input$mychooser$right)) {
-      unlink(dir("exams", full.names = TRUE))
+    exam <- readRDS(file.path("tmp", paste0(input$selected_exam, ".rds")))
+    exlist <- split(exam$Exercises, as.factor(exam$Number))
+    points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
+    if(input$format == "PDF") {
+      ex <- try(exams2pdf(exlist, n = input$n,
+        dir = "exams", edir = "exercises", name = input$name, points = points,
+        template = input$selected_template), silent = TRUE)
+    }
+    if(input$format == "HTML") {
+      ex <- try(exams2html(exlist, n = input$n,
+        dir = "exams", edir = "exercises", name = input$name, points = points,
+        template = input$selected_template), silent = TRUE)
+    }
+    if(input$format == "QTI12") {
+      ex <- try(exams2qti12(exlist, n = input$n,
+        dir = "exams", edir = "exercises", name = input$name, points = points,
+        template = input$selected_template), silent = TRUE)
+    }
+    if(inherits(ex, "try-error")) {
+      showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
       ex <- NULL
-      if(input$format == "PDF") {
-        ex <- exams2pdf(input$mychooser$right, n = input$n,
-          dir = "exams", edir = "exercises", name = input$name)
-      }
-      if(input$format == "HTML") {
-        ex <- exams2html(input$mychooser$right, n = input$n,
-          dir = "exams", edir = "exercises", name = input$name)
-      }
-      if(input$format == "QTI12") {
-        ex <- exams2qti12(input$mychooser$right, n = input$n,
-          dir = "exams", edir = "exercises", name = input$name)
-      }
-      if(!is.null(ex))
-        save(ex, file = file.path("exams", paste(input$name, "rda", sep = ".")))
-    } else return(NULL)
+    }
+    if(!is.null(ex))
+      save(ex, file = file.path("exams", paste(input$name, "rda", sep = ".")))
   })
+
   dlinks <- eventReactive(input$compile, {
     dir("exams", full.names = TRUE)
   })
@@ -423,7 +528,11 @@ exams_shiny_server <- function(input, output, session)
   })
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste(input$name, "zip", sep = ".")
+      time <- Sys.time()
+      time <- gsub(" ", ".", time, fixed = TRUE)
+      time <- gsub("-", "_", time, fixed = TRUE)
+      time <- gsub(":", "_", time, fixed = TRUE)
+      paste0("Exam_", time, ".zip")
     },
     content = function(file) {
       owd <- getwd()
@@ -601,151 +710,3 @@ get_template_code <- function(type, markup)
   excode
 }
 
-
-chooserInput <- function(inputId, leftChoices, rightChoices, size = 5, multiple = FALSE)
-{
-  leftChoices <- lapply(leftChoices, tags$option)
-  rightChoices <- lapply(rightChoices, tags$option)
-  questionNr <- lapply(if(length(rightChoices)) 1:length(rightChoices) else rightChoices, tags$li)
-  
-  if(multiple)
-    multiple <- "multiple"
-  else
-    multiple <- NULL
-  
-  tagList(
-    singleton(tags$head(
-      tags$script(src="chooser-binding.js"),
-      tags$style(type="text/css",
-        HTML(".chooser-container { display: inline-block; }")
-      )
-    )),
-    div(id=inputId, class="chooser",
-      div(class="chooser-container chooser-left-container",
-        HTML("<b>Available</b><br>"),
-        tags$select(class="left", size=size, multiple=multiple, leftChoices)
-      ),
-      div(class="chooser-container chooser-center-container",
-        icon("arrow-circle-o-right", "right-arrow fa-2x"),
-        tags$br(),
-        icon("arrow-circle-o-left", "left-arrow fa-2x")
-      ),
-      div(class="chooser-container chooser-right-container",
-        HTML("<b>Selected</b><br>"),
-        tags$select(class="right", size=size, multiple=multiple, rightChoices)
-      ),
-      div(class="chooser-container chooser-question-container",
-        HTML("<b>Question Nr.</b><br>"),
-        tags$ul(class="question", size=size, multiple=multiple, questionNr)
-      )
-    )
-  )
-}
-
-
-chooser.js <- '
-(function() {
-
-function updateChooser(chooser) {
-    chooser = $(chooser);
-    var left = chooser.find("select.left");
-    var right = chooser.find("select.right");
-    var leftArrow = chooser.find(".left-arrow");
-    var rightArrow = chooser.find(".right-arrow");
-
-    var qnr = chooser.find("ul.question");
-    qnr.empty();
-    $.each( $("select.right").find("option"), function(key, val) {
-        qnr.append("<li><id>"+(key+1)+"</id>"
-                  +"<minus>-</minus>"
-                  +"<plus>+</plus>"
-                  +"</li>");
-    })
-
-    $("li.question").on("click","plus",function() {
-	alert("plus clicked")
-    });
-    
-    var canMoveTo = (left.val() || []).length > 0;
-    var canMoveFrom = (right.val() || []).length > 0;
-    
-    leftArrow.toggleClass("muted", !canMoveFrom);
-    rightArrow.toggleClass("muted", !canMoveTo);
-}
-
-function move(chooser, source, dest) {
-    chooser = $(chooser);
-    var selected = chooser.find(source).children("option:selected");
-    var dest = chooser.find(dest);
-    dest.children("option:selected").each(function(i, e) {e.selected = false;});
-    dest.append(selected);
-    updateChooser(chooser);
-    chooser.trigger("change");
-}
-
-$(document).on("change", ".chooser select", function() {
-    updateChooser($(this).parents(".chooser"));
-});
-
-$(document).on("click", ".chooser .right-arrow", function() {
-    move($(this).parents(".chooser"), ".left", ".right");
-});
-
-$(document).on("click", ".chooser .left-arrow", function() {
-    move($(this).parents(".chooser"), ".right", ".left");
-});
-
-$(document).on("dblclick", ".chooser select.left", function() {
-    move($(this).parents(".chooser"), ".left", ".right");
-});
-
-$(document).on("dblclick", ".chooser select.right", function() {
-    move($(this).parents(".chooser"), ".right", ".left");
-});
-
-$(document).on("click", ".chooser select.question", function() {
-  alert("clicked!");
-});
-
-var binding = new Shiny.InputBinding();
-
-binding.find = function(scope) {
-  return $(scope).find(".chooser");
-};
-
-binding.initialize = function(el) {
-  updateChooser(el);
-};
-
-binding.getValue = function(el) {
-  console.log("binding.getValue triggered")
-  console.log($.makeArray($(el).find("select.questions option").map(function(i, e) { return e.value; })))
-  return {
-    left: $.makeArray($(el).find("select.left option").map(function(i, e) { return e.value; })),
-    right: $.makeArray($(el).find("select.right option").map(function(i, e) { return e.value; })),
-    question: $.makeArray($(el).find("select.question option").map(function(i, e) { return e.value; }))
-  }
-};
-
-binding.setValue = function(el, value) {
-  // TODO: implement
-};
-
-binding.subscribe = function(el, callback) {
-  $(el).on("change.chooserBinding", function(e) {
-    callback();
-  });
-};
-
-binding.unsubscribe = function(el) {
-  $(el).off(".chooserBinding");
-};
-
-binding.getType = function() {
-  return "shinyjsexamples.chooser";
-};
-
-Shiny.inputBindings.register(binding, "shinyjsexamples.chooser");
-
-})();
-'
