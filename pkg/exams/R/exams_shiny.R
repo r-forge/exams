@@ -127,7 +127,11 @@ exams_shiny_ui <- function(...) {
                p(tags$b("Select exercises for your exam.")),
                DT::dataTableOutput("ex_table_define"),
                br(),
-               uiOutput("selectbutton"),
+               fluidRow(
+                 column(2, checkboxInput("dt_sel", "All")),
+                 column(2, uiOutput("selectbutton")),
+                 column(2, uiOutput("blockselectbutton"))
+               ),
                br()
              ),
              column(6,
@@ -135,8 +139,17 @@ exams_shiny_ui <- function(...) {
                p(tags$b("Set points and exercise number.")),
                DT::dataTableOutput("ex_table_set"),
                br(),
-               uiOutput("rmexexambutton"),
-               br(),
+               fluidRow(
+                 column(2, checkboxInput("dt_sel2", "All")),
+                 column(2, uiOutput("rmexexambutton")),
+                 column(2, uiOutput("blockbutton"))
+               ),
+               fluidRow(
+                 column(3, uiOutput("pointsbutton")),
+                 column(3, uiOutput("pointsbuttonpoints"))
+               ),
+               actionButton("set_preview", label = "Preview"),
+               tags$hr(),
                textInput("exam_name", "Name of the exam.", "Exam1"),
                uiOutput("saveexambutton"),
                br()
@@ -147,11 +160,13 @@ exams_shiny_ui <- function(...) {
            br(),
            p("Compile exams, please select input parameters."),
            uiOutput("choose_exam"),
-           textInput("name", "Choose a name.", value = "Exam1"),
            selectInput("format", "Format.", c("PDF", "HTML", "QTI12")),
            uiOutput("template"),
-           numericInput("n", "Number of copies.", value = 1),
-           actionButton("compile", label = "Compile."),
+           numericInput("n", "Number of copies", value = 1),
+           numericInput("seed", "Seed", value = NA),
+           actionButton("compile", label = "Compile"),
+           tags$hr(),
+           checkboxInput("include_exercises", "Exercises", value = TRUE),
            downloadButton('downloadData', 'Download all files as .zip'),
            br(),
            br(),
@@ -246,8 +261,6 @@ exams_shiny_server <- function(input, output, session)
     if(input$exname != "") {
       writeLines(input$excode, file.path("exercises", input$exname))
     }
-    exfiles <- list.files("exercises", recursive = TRUE)
-    session$sendCustomMessage(type = 'exHandler', exfiles)
   })
 
   observeEvent(input$play_exercise, {
@@ -323,8 +336,6 @@ exams_shiny_server <- function(input, output, session)
           unlink(tdir)
         }
       }
-      exfiles <- list.files("exercises", recursive = TRUE)
-      session$sendCustomMessage(type = 'exHandler', exfiles)
     }
   })
 
@@ -353,13 +364,13 @@ exams_shiny_server <- function(input, output, session)
       file.remove(file.path("exercises", rmfile))
       extabs <- data.frame("Exercises" = ex[-id])
       output$ex_table_define <- DT::renderDataTable({extabs}, editable = FALSE)
-      if(file.exists("exlist.rds")) {
-        extab <- readRDS("exlist.rds")
+      if(file.exists("extab.rds")) {
+        extab <- readRDS("extab.rds")
         extab <- extab[extab$Exercises != rmfile, , drop = FALSE]
         if(nrow(extab) < 1)
           extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
         else
-          saveRDS(extab, file = "exlist.rds")
+          saveRDS(extab, file = "extab.rds")
         output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
       }
     } else {
@@ -372,32 +383,72 @@ exams_shiny_server <- function(input, output, session)
   output$ex_table_set <- DT::renderDataTable({data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)},
     editable = FALSE, rownames = FALSE)
 
+
+
+  output$selectbutton <- renderUI({
+    actionButton("select_exercises", label = "Include")
+  })
+  output$blockselectbutton <- renderUI({
+    actionButton("block_select_exercises", label = "Blockinclude")
+  })
+  output$rmexexambutton <- renderUI({
+    actionButton("rm_ex_exam", label = "Exclude")
+  })
+  output$blockbutton <- renderUI({
+    actionButton("block_exercises", label = "Block")
+  })
+  output$pointsbutton <- renderUI({
+    actionButton("block_points", label = "Block points")
+  })
+  output$pointsbuttonpoints <- renderUI({
+    numericInput("block_points_p", label = NA, 1)
+  })
+  output$saveexambutton <- renderUI({
+    actionButton("save_exam", label = "Save exam")
+  })
+
   observeEvent(available_exercises(), {
     ex <- available_exercises()
     if(length(ex)) {
       extab <- data.frame(ex)
       names(extab) <- "Exercises"
       output$ex_table_define <- DT::renderDataTable({extab}, editable = FALSE)
-      output$selectbutton <- renderUI({
-        actionButton("select_exercises", label = "Select")
-      })
     } else {
       NULL
+    }
+  })
+
+  ex_table_define_proxy <- DT::dataTableProxy("ex_table_define")
+  ex_table_set_proxy <- DT::dataTableProxy("ex_table_set")
+
+  observeEvent(input$dt_sel, {
+    if (isTRUE(input$dt_sel)) {
+      DT::selectRows(ex_table_define_proxy, input$ex_table_define_rows_all)
+    } else {
+      DT::selectRows(ex_table_define_proxy, NULL)
+    }
+  })
+  observeEvent(input$dt_sel2, {
+    if (isTRUE(input$dt_sel2)) {
+      DT::selectRows(ex_table_set_proxy, input$ex_table_set_rows_all)
+    } else {
+      DT::selectRows(ex_table_set_proxy, NULL)
     }
   })
 
   exam_exercises <- reactive({
     e1 <- input$select_exercises
     id <- input$ex_table_define_rows_selected
-    if(length(id) & length(e1)) {
-      if(!file.exists("exlist.rds")) {
-        ex <- available_exercises()
+    ex <- available_exercises()
+    if(!length(ex))
+      return(data.frame("Exercises" = NA, "Points" = NA, "Number" = NA))
+    if(length(id)) {
+      if(!file.exists("extab.rds")) {
         extab <- data.frame("Exercises" = ex[id], stringsAsFactors = FALSE)
         extab$Points <- rep(1, nrow(extab))
         extab$Number <- 1:nrow(extab)
       } else {
-        extab <- readRDS("exlist.rds")
-        ex <- available_exercises()
+        extab <- readRDS("extab.rds")
         ex <- ex[id]
         if(!all(ex %in% extab$Exercises)) {
           extab2 <- data.frame("Exercises" = ex[!(ex %in% extab$Exercises)], stringsAsFactors = FALSE)
@@ -406,7 +457,35 @@ exams_shiny_server <- function(input, output, session)
           extab <- rbind(extab, extab2)
         }
       }
-      saveRDS(extab, file = "exlist.rds")
+      saveRDS(extab, file = "extab.rds")
+    }
+    return(extab)
+  })
+
+  exam_exercises_block <- reactive({
+    e1 <- input$block_select_exercises
+    id <- input$ex_table_define_rows_selected
+    ex <- available_exercises()
+    if(!length(ex))
+      return(data.frame("Exercises" = NA, "Points" = NA, "Number" = NA))
+    if(length(id)) {
+      if(!file.exists("extab.rds")) {
+        extab <- data.frame("Exercises" = ex[id], stringsAsFactors = FALSE)
+        extab$Points <- rep(1, nrow(extab))
+        extab$Number <- rep(1, nrow(extab))
+      } else {
+        extab <- readRDS("extab.rds")
+        ex <- ex[id]
+        if(!all(ex %in% extab$Exercises)) {
+          extab2 <- data.frame("Exercises" = ex[!(ex %in% extab$Exercises)], stringsAsFactors = FALSE)
+          extab2$Points <- rep(1, nrow(extab2))
+          extab2$Number <- rep(1 + max(extab$Number), nrow(extab2))
+          extab <- rbind(extab, extab2)
+          extab$Number <- as.integer(as.factor(extab$Number))
+          extab <- extab[order(extab$Number), , drop = FALSE]
+        }
+      }
+      saveRDS(extab, file = "extab.rds")
     }
     return(extab)
   })
@@ -414,36 +493,70 @@ exams_shiny_server <- function(input, output, session)
   observeEvent(input$select_exercises, {
     extab <- exam_exercises()
     output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
-    output$rmexexambutton <- renderUI({
-      actionButton("rm_ex_exam", label = "Deselect")
-    })
-    output$saveexambutton <- renderUI({
-      actionButton("save_exam", label = "Save exam")
-    })
+  })
+
+  observeEvent(input$block_select_exercises, {
+    extab <- exam_exercises_block()
+    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
   })
 
   observeEvent(input$rm_ex_exam, {
     ids <- input$ex_table_set_rows_selected
-    extab <- readRDS("exlist.rds")
-    extab <- extab[-ids, , drop = FALSE]
-    if(nrow(extab) < 1) {
-      extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
-      unlink("exlist.rds")
-    } else {
-      saveRDS(extab, file = "exlist.rds")
+    if(length(ids) & file.exists("extab.rds")) {
+      extab <- readRDS("extab.rds")
+      extab <- extab[-ids, , drop = FALSE]
+      if(nrow(extab) < 1) {
+        extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
+        unlink("extab.rds")
+      } else {
+        extab$Number <- as.integer(as.factor(extab$Number))
+        extab <- extab[order(extab$Number), , drop = FALSE]
+        saveRDS(extab, file = "extab.rds")
+      }
+      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
     }
-    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
   })
 
   observeEvent(input$ex_table_set_cell_edit, {
-    info = input$ex_table_set_cell_edit
-    i = info$row
-    j = info$col
-    v = info$value
-    extab <- readRDS("exlist.rds")
-    extab[i, j] <- v
-    saveRDS(extab, file = "exlist.rds")
-    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    if(file.exists("extab.rds")) {
+      info = input$ex_table_set_cell_edit
+      i = info$row
+      j = info$col
+      v = info$value
+      extab <- readRDS("extab.rds")
+      if(length(ids <- input$ex_table_set_rows_selected))
+        i <- ids
+      extab[i, j] <- v
+      if(names(extab)[j] == "Number") {
+        extab$Number <- as.integer(as.factor(extab$Number))
+        extab <- extab[order(extab$Number), , drop = FALSE]
+      }
+      saveRDS(extab, file = "extab.rds")
+      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    }
+  })
+
+  observeEvent(input$block_exercises, {
+    ids <- input$ex_table_set_rows_selected
+    if(length(ids) & file.exists("extab.rds")) {
+      extab <- readRDS("extab.rds")
+      extab$Number[ids] <- extab$Number[ids][1]
+      extab$Number <- as.integer(as.factor(extab$Number))
+      extab <- extab[order(extab$Number), , drop = FALSE]
+      saveRDS(extab, file = "extab.rds")
+      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    }
+  })
+
+  observeEvent(input$block_points, {
+    ids <- input$ex_table_set_rows_selected
+    if(length(ids) & file.exists("extab.rds")) {
+      points <- input$block_points_p
+      extab <- readRDS("extab.rds")
+      extab$Points[ids] <- points
+      saveRDS(extab, file = "extab.rds")
+      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    }
   })
 
   output$choose_exam <- renderUI({
@@ -451,13 +564,14 @@ exams_shiny_server <- function(input, output, session)
   })
 
   observeEvent(input$save_exam, {
-    extab <- readRDS("exlist.rds")
-    exname <- paste(input$exam_name, "rds", sep = ".")
-    saveRDS(extab, file = file.path("tmp", exname))
+    extab <- readRDS("extab.rds")
+    exname <- paste0(input$exam_name, "_metainfo.rds")
+    saveRDS(extab, file = file.path("exams", exname))
     showNotification(paste("Saved", input$exam_name), duration = 1, closeButton = FALSE)
     output$choose_exam <- renderUI({
-      exams <- dir("tmp")
+      exams <- dir("exams")
       exams <- file_path_sans_ext(exams)
+      exams <- gsub("_metainfo", "", exams, fixed = TRUE)
       if(length(exams)) {
         selectInput('selected_exam', 'Select an exam.', exams)
       }
@@ -494,34 +608,43 @@ exams_shiny_server <- function(input, output, session)
   })
 
   observeEvent(input$compile, {
-    exam <- readRDS(file.path("tmp", paste0(input$selected_exam, ".rds")))
-    exlist <- split(exam$Exercises, as.factor(exam$Number))
-    points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
-    if(input$format == "PDF") {
-      ex <- try(exams2pdf(exlist, n = input$n,
-        dir = "exams", edir = "exercises", name = input$name, points = points,
-        template = input$selected_template), silent = TRUE)
+    if(file.exists(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))) {
+      exam <- readRDS(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+      seed <- input$seed
+      if(is.na(seed))
+        seed <- as.integer(runif(1, 1, 1e+08))
+      attr(exam, "seed") <- seed
+      saveRDS(exam, file = file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+      name <- input$selected_exam
+      exlist <- split(exam$Exercises, as.factor(exam$Number))
+      points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
+      set.seed(seed)
+      if(input$format == "PDF") {
+        ex <- try(exams2pdf(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points,
+          template = input$selected_template), silent = TRUE)
+      }
+      if(input$format == "HTML") {
+        ex <- try(exams2html(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points,
+          template = input$selected_template), silent = TRUE)
+      }
+      if(input$format == "QTI12") {
+        ex <- try(exams2qti12(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points,
+          template = input$selected_template), silent = TRUE)
+      }
+      if(inherits(ex, "try-error")) {
+        showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
+        ex <- NULL
+      }
+      if(!is.null(ex))
+        save(ex, file = file.path("exams", paste(name, "rda", sep = ".")))
     }
-    if(input$format == "HTML") {
-      ex <- try(exams2html(exlist, n = input$n,
-        dir = "exams", edir = "exercises", name = input$name, points = points,
-        template = input$selected_template), silent = TRUE)
-    }
-    if(input$format == "QTI12") {
-      ex <- try(exams2qti12(exlist, n = input$n,
-        dir = "exams", edir = "exercises", name = input$name, points = points,
-        template = input$selected_template), silent = TRUE)
-    }
-    if(inherits(ex, "try-error")) {
-      showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
-      ex <- NULL
-    }
-    if(!is.null(ex))
-      save(ex, file = file.path("exams", paste(input$name, "rda", sep = ".")))
   })
 
   dlinks <- eventReactive(input$compile, {
-    dir("exams", full.names = TRUE)
+    grep(input$selected_exam, dir("exams", full.names = TRUE), fixed = TRUE, value = TRUE)
   })
   output$exams <- renderText({
     basename(dlinks())
@@ -532,14 +655,25 @@ exams_shiny_server <- function(input, output, session)
       time <- gsub(" ", ".", time, fixed = TRUE)
       time <- gsub("-", "_", time, fixed = TRUE)
       time <- gsub(":", "_", time, fixed = TRUE)
-      paste0("Exam_", time, ".zip")
+      paste0(input$selected_exam, "_", time, ".zip")
     },
     content = function(file) {
+      dir.create(tdir <- tempdir())
       owd <- getwd()
+      file.copy(file.path(owd, "exams"), tdir, recursive = TRUE)
+      if(input$include_exercises) {
+        exam <- readRDS(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+        file.copy(file.path(owd, "exams"))
+      }
       setwd(file.path(owd, "exams"))
-      zip(zipfile = paste(input$name, "zip", sep = "."), files = list.files(file.path(owd, "exams")))
+      files <- grep(input$selected_exam, list.files(file.path(owd, "exams")), fixed = TRUE, value = TRUE)
+      if(length(files))
+        zip(zipfile = paste(input$selected_exam, "zip", sep = "."), files = files)
       setwd(owd)
-      file.copy(file.path("exams", paste(input$name, "zip", sep = ".")), file)
+      if(length(files))
+        file.copy(file.path("exams", paste(input$selected_exam, "zip", sep = ".")), file)
+      else
+        NULL
     }
   )
 }
