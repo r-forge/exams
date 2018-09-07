@@ -166,7 +166,11 @@ exams_shiny_ui <- function(...) {
            numericInput("seed", "Seed", value = NA),
            actionButton("compile", label = "Compile"),
            tags$hr(),
-           checkboxInput("include_exercises", "Exercises", value = TRUE),
+           fluidRow(
+             column(2, checkboxInput("include_exercises", "Exercises", value = TRUE)),
+             column(2, checkboxInput("include_template", "Template", value = TRUE)),
+             column(2, checkboxInput("include_Rcode", "R code", value = TRUE))
+           ),
            downloadButton('downloadData', 'Download all files as .zip'),
            br(),
            br(),
@@ -383,8 +387,6 @@ exams_shiny_server <- function(input, output, session)
   output$ex_table_set <- DT::renderDataTable({data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)},
     editable = FALSE, rownames = FALSE)
 
-
-
   output$selectbutton <- renderUI({
     actionButton("select_exercises", label = "Include")
   })
@@ -564,18 +566,20 @@ exams_shiny_server <- function(input, output, session)
   })
 
   observeEvent(input$save_exam, {
-    extab <- readRDS("extab.rds")
-    exname <- paste0(input$exam_name, "_metainfo.rds")
-    saveRDS(extab, file = file.path("exams", exname))
-    showNotification(paste("Saved", input$exam_name), duration = 1, closeButton = FALSE)
-    output$choose_exam <- renderUI({
-      exams <- dir("exams")
-      exams <- file_path_sans_ext(exams)
-      exams <- gsub("_metainfo", "", exams, fixed = TRUE)
-      if(length(exams)) {
-        selectInput('selected_exam', 'Select an exam.', exams)
-      }
-    })
+    if(file.exists("extab.rds")) {
+      extab <- readRDS("extab.rds")
+      exname <- paste0(input$exam_name, "_metainfo.rds")
+      saveRDS(extab, file = file.path("exams", exname))
+      showNotification(paste("Saved", input$exam_name), duration = 1, closeButton = FALSE)
+      output$choose_exam <- renderUI({
+        exams <- dir("exams")
+        exams <- file_path_sans_ext(exams)
+        exams <- gsub("_metainfo", "", exams, fixed = TRUE)
+        if(length(exams)) {
+          selectInput('selected_exam', 'Select an exam.', exams)
+        }
+      })
+    }
   })
 
   output$download_exercises <- downloadHandler(
@@ -613,7 +617,13 @@ exams_shiny_server <- function(input, output, session)
       seed <- input$seed
       if(is.na(seed))
         seed <- as.integer(runif(1, 1, 1e+08))
-      attr(exam, "seed") <- seed
+      attr(exam, "specs") <- list(
+        "name" = input$selected_exam,
+        "format" = input$format,
+        "template" = input$selected_template,
+        "n" = input$n,
+        "seed" = seed
+      )
       saveRDS(exam, file = file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
       name <- input$selected_exam
       exlist <- split(exam$Exercises, as.factor(exam$Number))
@@ -658,22 +668,49 @@ exams_shiny_server <- function(input, output, session)
       paste0(input$selected_exam, "_", time, ".zip")
     },
     content = function(file) {
-      dir.create(tdir <- tempdir())
+      dir.create(tdir <- tempfile())
       owd <- getwd()
-      file.copy(file.path(owd, "exams"), tdir, recursive = TRUE)
+      exam <- readRDS(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+      specs <- attr(exam, "specs")
       if(input$include_exercises) {
-        exam <- readRDS(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
-        file.copy(file.path(owd, "exams"))
+        dir.create(file.path(tdir, "exercises"))
+        file.copy(file.path(owd, "exercises", exam$Exercises),
+          file.path(tdir, "exercises", basename(exam$Exercises)))
+        exam$Exercises <- basename(exam$Exercises)
       }
-      setwd(file.path(owd, "exams"))
+      if(input$include_template) {
+        dir.create(file.path(tdir, "templates"))
+        file.copy(specs$template,
+          file.path(tdir, "templates", basename(specs$template)))
+      }
+      if(input$include_Rcode) {
+        exlist <- split(exam$Exercises, as.factor(exam$Number))
+        points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
+        dump("exlist", file.path("tmp", "exlist.R"))
+        dump("points", file.path("tmp", "points.R"))
+        code <- c('library("exams")', '')
+        code <- c(code, readLines(file.path("tmp", "points.R")), '')
+        code <- c(code, readLines(file.path("tmp", "exlist.R")), '')
+        if(specs$format == "PDF") {
+          code <- c(code, paste0('set.seed(', specs$seed, ')'), '',
+            paste0('ex <- exams2pdf(exlist, n = ', input$n, ','),
+            paste0('  dir = ".", edir = "exercises", name = "', specs$name, '", points = points,'),
+            paste0('  template = "', file.path("templates", basename(specs$template)), '")')
+          )
+          writeLines(code, file.path(tdir, paste0(input$selected_exam, ".R")))
+        }
+      }
       files <- grep(input$selected_exam, list.files(file.path(owd, "exams")), fixed = TRUE, value = TRUE)
-      if(length(files))
+      files <- files[!grepl("_metainfo.rds", files, fixed = TRUE)]
+      file.copy(file.path(owd, "exams", files), file.path(tdir, files))
+      saveRDS(exam, file = file.path(tdir, paste0(input$selected_exam, "_metainfo.rds")))
+      setwd(tdir)
+      if(length(files <- dir(include.dirs = TRUE)))
         zip(zipfile = paste(input$selected_exam, "zip", sep = "."), files = files)
       setwd(owd)
       if(length(files))
-        file.copy(file.path("exams", paste(input$selected_exam, "zip", sep = ".")), file)
-      else
-        NULL
+        file.copy(file.path(tdir, paste(input$selected_exam, "zip", sep = ".")), file)
+      unlink(tdir)
     }
   )
 }
