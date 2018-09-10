@@ -160,7 +160,7 @@ exams_shiny_ui <- function(...) {
            br(),
            p("Compile exams, please select input parameters."),
            uiOutput("choose_exam"),
-           selectInput("format", "Format.", c("PDF", "HTML", "QTI12")),
+           selectInput("format", "Format", c("ARSnova", "Blackboard", "HTML", "NOPS", "OpenOLAT", "DOCX", "PDF", "QTI12", "Moodle", "TCExam")),
            uiOutput("template"),
            numericInput("n", "Number of copies", value = 1),
            numericInput("seed", "Seed", value = NA),
@@ -171,7 +171,7 @@ exams_shiny_ui <- function(...) {
              column(2, checkboxInput("include_template", "Template", value = TRUE)),
              column(2, checkboxInput("include_Rcode", "R code", value = TRUE))
            ),
-           downloadButton('downloadData', 'Download all files as .zip'),
+           downloadButton('downloadData', 'Download exam as .zip'),
            br(),
            br(),
            p("Files for download."),
@@ -606,7 +606,7 @@ exams_shiny_server <- function(input, output, session)
       "PDF" = grep(".tex", c(dir(file.path("templates", "tex"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
       "HTML" = grep(".html", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
       "QTI12" = grep(".qti12", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
-      "QTI21" = grep(".qti21", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE),
+      "QTI21" = grep(".qti21", c(dir(file.path("templates", "xml"), full.names = TRUE), user), fixed = TRUE, value = TRUE)
     )
     selectInput('selected_template', 'Select a template.', templates)
   })
@@ -629,24 +629,59 @@ exams_shiny_server <- function(input, output, session)
       exlist <- split(exam$Exercises, as.factor(exam$Number))
       points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
       set.seed(seed)
+      has_template <- TRUE
+      if(input$format == "ARSnova") {
+        ex <- try(exams2arsnova(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name), silent = TRUE)
+      }
+      if(input$format == "Blackboard") {
+        ex <- try(exams2blackboard(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
+      if(input$format == "HTML") {
+        ex <- try(exams2html(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name,
+          template = input$selected_template), silent = TRUE)
+      }
+      if(input$format == "NOPS") {
+        ex <- try(exams2nops(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
+      if(input$format == "OpenOLAT") {
+        ex <- try(exams2openolat(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
+      if(input$format == "DOCX") {
+        ex <- try(exams2pandoc(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
       if(input$format == "PDF") {
         ex <- try(exams2pdf(exlist, n = input$n,
           dir = "exams", edir = "exercises", name = name, points = points,
           template = input$selected_template), silent = TRUE)
       }
-      if(input$format == "HTML") {
-        ex <- try(exams2html(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points,
-          template = input$selected_template), silent = TRUE)
-      }
       if(input$format == "QTI12") {
         ex <- try(exams2qti12(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points,
-          template = input$selected_template), silent = TRUE)
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
+      if(input$format == "QTI21") {
+        ex <- try(exams2qti12(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
+      if(input$format == "Moodle") {
+        ex <- try(exams2moodle(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+      }
+      if(input$format == "TCExam") {
+        ex <- try(exams2tcexam(exlist, n = input$n,
+          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(inherits(ex, "try-error")) {
+        writeLines(ex)
         showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
         ex <- NULL
+      } else {
+        showNotification(paste("Compiled", input$selected_exam, "using", input$format), duration = 1, closeButton = FALSE)
       }
       if(!is.null(ex))
         save(ex, file = file.path("exams", paste(name, "rda", sep = ".")))
@@ -679,11 +714,56 @@ exams_shiny_server <- function(input, output, session)
         exam$Exercises <- basename(exam$Exercises)
       }
       if(input$include_template) {
-        dir.create(file.path(tdir, "templates"))
-        file.copy(specs$template,
-          file.path(tdir, "templates", basename(specs$template)))
+        if(specs$template != "") {
+          dir.create(file.path(tdir, "templates"))
+          file.copy(specs$template,
+            file.path(tdir, "templates", basename(specs$template)))
+        }
       }
       if(input$include_Rcode) {
+        has_template <- TRUE
+        if(input$format == "ARSnova") {
+          Rcall <- "exams2arsnova"
+          has_template <- FALSE
+        }
+        if(input$format == "Blackboard") {
+          Rcall <- "exams2blackboard"
+          has_template <- FALSE
+        }
+        if(input$format == "HTML") {
+          Rcall <- "exams2html"
+        }
+        if(input$format == "NOPS") {
+          Rcall <- "exams2nops"
+          has_template <- FALSE
+        }
+        if(input$format == "OpenOLAT") {
+          Rcall <- "exams2openolat"
+          has_template <- FALSE
+        }
+        if(input$format == "DOCX") {
+          Rcall <- "exams2pandoc"
+          has_template <- FALSE
+        }
+        if(input$format == "PDF") {
+          Rcall <- "exams2arsnova"
+        }
+        if(input$format == "QTI12") {
+          Rcall <- "exams2qti12"
+          has_template <- FALSE
+        }
+        if(input$format == "QTI21") {
+          Rcall <- "exams2qti21"
+          has_template <- FALSE
+        }
+        if(input$format == "Moodle") {
+          Rcall <- "exams2moodle"
+          has_template <- FALSE
+        }
+        if(input$format == "TCExam") {
+          Rcall <- "exams2tcexam"
+          has_template <- FALSE
+        }
         exlist <- split(exam$Exercises, as.factor(exam$Number))
         points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
         dump("exlist", file.path("tmp", "exlist.R"))
@@ -691,14 +771,14 @@ exams_shiny_server <- function(input, output, session)
         code <- c('library("exams")', '')
         code <- c(code, readLines(file.path("tmp", "points.R")), '')
         code <- c(code, readLines(file.path("tmp", "exlist.R")), '')
-        if(specs$format == "PDF") {
-          code <- c(code, paste0('set.seed(', specs$seed, ')'), '',
-            paste0('ex <- exams2pdf(exlist, n = ', input$n, ','),
-            paste0('  dir = ".", edir = "exercises", name = "', specs$name, '", points = points,'),
-            paste0('  template = "', file.path("templates", basename(specs$template)), '")')
-          )
-          writeLines(code, file.path(tdir, paste0(input$selected_exam, ".R")))
-        }
+        code <- c(code, paste0('set.seed(', specs$seed, ')'), '',
+          paste0(paste0('ex <- ', Rcall, '(exlist, n = ', input$n, ','),
+          paste0('  dir = ".", edir = "exercises", name = "', specs$name, '", points = points'),
+          if(has_template) {
+            paste0(',  template = "', file.path("templates", basename(specs$template)), '")')
+          } else ')', collapse = '')
+        )
+        writeLines(code, file.path(tdir, paste0(input$selected_exam, ".R")))
       }
       files <- grep(input$selected_exam, list.files(file.path(owd, "exams")), fixed = TRUE, value = TRUE)
       files <- files[!grepl("_metainfo.rds", files, fixed = TRUE)]
