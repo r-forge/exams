@@ -27,7 +27,7 @@
     \dots)
 
   exams2openolat(file, n = 1L, dir = ".", name = "olattest", maxattempts = 1,
-    cutvalue = 1000, solutionswitch = FALSE, qti = "1.2",
+    cutvalue = 1000, solutionswitch = FALSE, qti = "2.1",
     stitle = "Aufgabe", ititle = "Frage",
     adescription = "Bitte bearbeiten Sie folgende Aufgaben.",
     sdescription = "Bitte beantworten Sie folgende Frage.",
@@ -76,7 +76,7 @@
     \code{Inf}.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?}
-  \item{qti}{character indicating whether QTI \code{"1.2"} (default) or \code{"2.1"}
+  \item{qti}{character indicating whether QTI \code{"1.2"} or \code{"2.1"} (default)
     should be generated.}
   \item{stitle, ititle, adescription, sdescription, eval}{character. Descriptions
     for various titles/descriptions. Defaults to generic German titles.}
@@ -95,7 +95,7 @@
   with some tweaks for OLAT and German titles/descriptions.
   
   \code{exams2openolat} is a convenience interface for \code{\link[exams]{exams2openolat}}
-  with German titles/descriptions.
+  with German titles/descriptions and QTI 2.1 as the default.
   
   All three produce an RDS file as a by-product containing the \code{\link[exams]{xexams}}
   list.

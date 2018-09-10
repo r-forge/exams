@@ -1,5 +1,5 @@
 exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest", maxattempts = 1,
-  cutvalue = 1000, solutionswitch = FALSE, qti = "1.2",
+  cutvalue = 1000, solutionswitch = FALSE, qti = "2.1",
   stitle = "Aufgabe", ititle = "Frage",
   adescription = "Bitte bearbeiten Sie folgende Aufgaben.",
   sdescription = "Bitte beantworten Sie folgende Frage.",
