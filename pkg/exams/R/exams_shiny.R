@@ -129,6 +129,7 @@ exams_shiny_ui <- function(...) {
                br(),
                fluidRow(
                  column(2, checkboxInput("dt_sel", "All")),
+                 column(2, checkboxInput("dt_sel_p", "Page")),
                  column(2, uiOutput("selectbutton")),
                  column(2, uiOutput("blockselectbutton"))
                ),
@@ -141,6 +142,7 @@ exams_shiny_ui <- function(...) {
                br(),
                fluidRow(
                  column(2, checkboxInput("dt_sel2", "All")),
+                 column(2, checkboxInput("dt_sel2_p", "Page")),
                  column(2, uiOutput("rmexexambutton")),
                  column(2, uiOutput("blockbutton")),
                  column(2, uiOutput("unblockbutton"))
@@ -161,7 +163,7 @@ exams_shiny_ui <- function(...) {
            br(),
            p("Compile exams, please select input parameters."),
            uiOutput("choose_exam"),
-           selectInput("format", "Format", c("PDF", "NOPS", "OpenOLAT", "ARSnova", "Moodle", "Blackboard", "QTI12", "TCExam", "DOCX", "HTML")),
+           selectInput("format", "Format", c("PDF", "NOPS", "OpenOLAT", "ARSnova", "Moodle", "Blackboard", "QTI12", "QTI21", "TCExam", "DOCX", "HTML")),
            uiOutput("template"),
            numericInput("n", "Number of copies", value = 1),
            numericInput("seed", "Seed", value = NA),
@@ -484,9 +486,23 @@ exams_shiny_server <- function(input, output, session)
       DT::selectRows(ex_table_define_proxy, NULL)
     }
   })
+  observeEvent(input$dt_sel_p, {
+    if (isTRUE(input$dt_sel_p)) {
+      DT::selectRows(ex_table_define_proxy, input$ex_table_define_rows_current)
+    } else {
+      DT::selectRows(ex_table_define_proxy, NULL)
+    }
+  })
   observeEvent(input$dt_sel2, {
     if (isTRUE(input$dt_sel2)) {
       DT::selectRows(ex_table_set_proxy, input$ex_table_set_rows_all)
+    } else {
+      DT::selectRows(ex_table_set_proxy, NULL)
+    }
+  })
+  observeEvent(input$dt_sel2_p, {
+    if (isTRUE(input$dt_sel2_p)) {
+      DT::selectRows(ex_table_set_proxy, input$ex_table_set_rows_current)
     } else {
       DT::selectRows(ex_table_set_proxy, NULL)
     }
@@ -808,7 +824,7 @@ exams_shiny_server <- function(input, output, session)
           has_template <- FALSE
         }
         if(input$format == "PDF") {
-          Rcall <- "exams2arsnova"
+          Rcall <- "exams2pdf"
         }
         if(input$format == "QTI12") {
           Rcall <- "exams2qti12"
