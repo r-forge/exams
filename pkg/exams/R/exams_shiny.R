@@ -142,7 +142,8 @@ exams_shiny_ui <- function(...) {
                fluidRow(
                  column(2, checkboxInput("dt_sel2", "All")),
                  column(2, uiOutput("rmexexambutton")),
-                 column(2, uiOutput("blockbutton"))
+                 column(2, uiOutput("blockbutton")),
+                 column(2, uiOutput("unblockbutton"))
                ),
                fluidRow(
                  column(3, uiOutput("pointsbutton")),
@@ -160,7 +161,7 @@ exams_shiny_ui <- function(...) {
            br(),
            p("Compile exams, please select input parameters."),
            uiOutput("choose_exam"),
-           selectInput("format", "Format", c("ARSnova", "Blackboard", "HTML", "NOPS", "OpenOLAT", "DOCX", "PDF", "QTI12", "Moodle", "TCExam")),
+           selectInput("format", "Format", c("PDF", "NOPS", "OpenOLAT", "ARSnova", "Moodle", "Blackboard", "QTI12", "TCExam", "DOCX", "HTML")),
            uiOutput("template"),
            numericInput("n", "Number of copies", value = 1),
            numericInput("seed", "Seed", value = NA),
@@ -360,6 +361,56 @@ exams_shiny_server <- function(input, output, session)
     }
   })
 
+  rcut <- function(x) {
+    if(is.null(x$Number))
+      return(rep(c(0, 1), length.out = nrow(x)))
+    if(nrow(x) < 2) {
+      return(0)
+    } else {
+      j <- rep(NA, nrow(x))
+      j[1] <- 0
+      for(i in 2:nrow(x)) {
+        if(x$Number[i] != x$Number[i - 1]) {
+          if(j[i - 1] == 0)
+            j[i] <- 1
+          else
+            j[i] <- 0
+        }
+      }
+      return(j)
+    }
+  }
+
+  styleEqual2 <- function(levels, values) {
+    n = length(levels)
+    if(n != length(values)) 
+      stop("length(levels) must be equal to length(values)")
+    if(n == 0) 
+      return("''")
+    levels2 = levels
+    if(is.character(levels)) 
+      levels2 = gsub("'", "\\'", levels)
+    levels2 = sprintf("'%s'", levels2)
+    levels2[is.na(levels)] = "null"
+    js = ""
+    for(i in seq_len(n)) {
+      js = paste0(js, sprintf("value == %s ? '%s' : ", levels2[i], values[i]))
+    }
+    JS(paste0(js, "''"))
+  }
+
+
+  datatable_set <- function(x) {
+    if(is.null(x$Number) | nrow(x) < 2) {
+      return(DT::renderDataTable({x}, editable = TRUE, rownames = !all(is.na(unlist(x)))))
+    } else {
+      lN <- unique(x$Number)
+      vN <- rep(c("#F9F9F9", "NA"), length.out = length(lN))
+      return(DT::renderDataTable(formatStyle(datatable(x, editable = TRUE, rownames = TRUE), "Number",
+        backgroundColor = styleEqual2(lN, vN), target = "row")))
+    }
+  }
+
   observeEvent(input$delete_exercises, {
     id <- input$ex_table_rows_selected
     if(length(id)) {
@@ -375,7 +426,7 @@ exams_shiny_server <- function(input, output, session)
           extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
         else
           saveRDS(extab, file = "extab.rds")
-        output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+        output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
       }
     } else {
       NULL
@@ -398,6 +449,9 @@ exams_shiny_server <- function(input, output, session)
   })
   output$blockbutton <- renderUI({
     actionButton("block_exercises", label = "Block")
+  })
+  output$unblockbutton <- renderUI({
+    actionButton("unblock_exercises", label = "Unblock")
   })
   output$pointsbutton <- renderUI({
     actionButton("block_points", label = "Block points")
@@ -494,12 +548,12 @@ exams_shiny_server <- function(input, output, session)
 
   observeEvent(input$select_exercises, {
     extab <- exam_exercises()
-    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
   })
 
   observeEvent(input$block_select_exercises, {
     extab <- exam_exercises_block()
-    output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
   })
 
   observeEvent(input$rm_ex_exam, {
@@ -515,7 +569,7 @@ exams_shiny_server <- function(input, output, session)
         extab <- extab[order(extab$Number), , drop = FALSE]
         saveRDS(extab, file = "extab.rds")
       }
-      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+      output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
     }
   })
 
@@ -534,7 +588,7 @@ exams_shiny_server <- function(input, output, session)
         extab <- extab[order(extab$Number), , drop = FALSE]
       }
       saveRDS(extab, file = "extab.rds")
-      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+      output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
     }
   })
 
@@ -546,7 +600,19 @@ exams_shiny_server <- function(input, output, session)
       extab$Number <- as.integer(as.factor(extab$Number))
       extab <- extab[order(extab$Number), , drop = FALSE]
       saveRDS(extab, file = "extab.rds")
-      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+      output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+    }
+  })
+
+  observeEvent(input$unblock_exercises, {
+    ids <- input$ex_table_set_rows_selected
+    if(length(ids) & file.exists("extab.rds")) {
+      extab <- readRDS("extab.rds")
+      extab$Number[ids] <- seq(max(extab$Number) + 1, max(extab$Number) + length(ids), by = 1)
+      extab$Number <- as.integer(as.factor(extab$Number))
+      extab <- extab[order(extab$Number), , drop = FALSE]
+      saveRDS(extab, file = "extab.rds")
+      output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
     }
   })
 
@@ -556,8 +622,8 @@ exams_shiny_server <- function(input, output, session)
       points <- input$block_points_p
       extab <- readRDS("extab.rds")
       extab$Points[ids] <- points
-      saveRDS(extab, file = "extab.rds")
-      output$ex_table_set <- DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
+      saveRDS(extab, file = "extab.rds")     
+      output$ex_table_set <- datatable_set(extab) ##DT::renderDataTable({extab}, editable = TRUE, rownames = !all(is.na(unlist(extab))))
     }
   })
 
@@ -681,18 +747,14 @@ exams_shiny_server <- function(input, output, session)
         showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
         ex <- NULL
       } else {
+        output$exams <- renderText({
+          basename(grep(input$selected_exam, dir("exams", full.names = TRUE), fixed = TRUE, value = TRUE))
+        })
         showNotification(paste("Compiled", input$selected_exam, "using", input$format), duration = 1, closeButton = FALSE)
       }
       if(!is.null(ex))
         save(ex, file = file.path("exams", paste(name, "rda", sep = ".")))
     }
-  })
-
-  dlinks <- eventReactive(input$compile, {
-    grep(input$selected_exam, dir("exams", full.names = TRUE), fixed = TRUE, value = TRUE)
-  })
-  output$exams <- renderText({
-    basename(dlinks())
   })
   output$downloadData <- downloadHandler(
     filename = function() {
