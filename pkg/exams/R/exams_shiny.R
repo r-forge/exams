@@ -364,7 +364,11 @@ exams_shiny_server <- function(input, output, session)
         actionButton("delete_exercises", label = "Delete selected exercises")
       })
     } else {
-      NULL
+      output$ex_table <- DT::renderDataTable({data.frame("Exercises" = NA)}, editable = FALSE, rownames = FALSE)
+      output$ex_table_define <- DT::renderDataTable({data.frame("Exercises" = NA)}, editable = FALSE, rownames = FALSE)
+      output$ex_table_set <- DT::renderDataTable({data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)}, editable = FALSE, rownames = FALSE)
+      unlink("extab.rds")
+      unlink(dir("exams", full.names = TRUE))
     }
   })
 
@@ -420,9 +424,12 @@ exams_shiny_server <- function(input, output, session)
       rmfile <- ex[id]
       if(all(file.exists(file.path("exercises", rmfile))))
         file.remove(file.path("exercises", rmfile))
-      extab <- data.frame("Exercises" = ex[-id])
-      output$ex_table <- DT::renderDataTable({extab}, editable = TRUE)
-      output$ex_table_define <- DT::renderDataTable({extab}, editable = FALSE)
+      ex <- ex[-id]
+      extab <- if(length(ex)) {
+        data.frame("Exercises" = ex)
+      } else data.frame("Exercises" = NA)
+      output$ex_table <- DT::renderDataTable({extab}, editable = TRUE, rownames = length(ex) > 0)
+      output$ex_table_define <- DT::renderDataTable({extab}, editable = FALSE, rownames = length(ex) > 0)
       if(file.exists("extab.rds")) {
         extab <- readRDS("extab.rds")
         extab <- extab[!(extab$Exercises %in% rmfile), , drop = FALSE]
@@ -802,45 +809,45 @@ exams_shiny_server <- function(input, output, session)
       }
       if(input$include_Rcode) {
         has_template <- TRUE
-        if(input$format == "ARSnova") {
+        if(specs$format == "ARSnova") {
           Rcall <- "exams2arsnova"
           has_template <- FALSE
         }
-        if(input$format == "Blackboard") {
+        if(specs$format == "Blackboard") {
           Rcall <- "exams2blackboard"
           has_template <- FALSE
         }
-        if(input$format == "HTML") {
+        if(specs$format == "HTML") {
           Rcall <- "exams2html"
         }
-        if(input$format == "NOPS") {
+        if(specs$format == "NOPS") {
           Rcall <- "exams2nops"
           has_template <- FALSE
         }
-        if(input$format == "OpenOLAT") {
+        if(specs$format == "OpenOLAT") {
           Rcall <- "exams2openolat"
           has_template <- FALSE
         }
-        if(input$format == "DOCX") {
+        if(specs$format == "DOCX") {
           Rcall <- "exams2pandoc"
           has_template <- FALSE
         }
-        if(input$format == "PDF") {
+        if(specs$format == "PDF") {
           Rcall <- "exams2pdf"
         }
-        if(input$format == "QTI12") {
+        if(specs$format == "QTI12") {
           Rcall <- "exams2qti12"
           has_template <- FALSE
         }
-        if(input$format == "QTI21") {
+        if(specs$format == "QTI21") {
           Rcall <- "exams2qti21"
           has_template <- FALSE
         }
-        if(input$format == "Moodle") {
+        if(specs$format == "Moodle") {
           Rcall <- "exams2moodle"
           has_template <- FALSE
         }
-        if(input$format == "TCExam") {
+        if(specs$format == "TCExam") {
           Rcall <- "exams2tcexam"
           has_template <- FALSE
         }
@@ -852,24 +859,24 @@ exams_shiny_server <- function(input, output, session)
         code <- c(code, readLines(file.path("tmp", "points.R")), '')
         code <- c(code, readLines(file.path("tmp", "exlist.R")), '')
         code <- c(code, paste0('set.seed(', specs$seed, ')'), '',
-          paste0(paste0('ex <- ', Rcall, '(exlist, n = ', input$n, ','),
+          paste0(paste0('ex <- ', Rcall, '(exlist, n = ', specs$n, ','),
           paste0('  dir = ".", edir = "exercises", name = "', specs$name, '", points = points'),
           if(has_template) {
             paste0(',  template = "', file.path("templates", basename(specs$template)), '")')
           } else ')', collapse = '')
         )
-        writeLines(code, file.path(tdir, paste0(input$selected_exam, ".R")))
+        writeLines(code, file.path(tdir, paste0(specs$name, ".R")))
       }
-      files <- grep(input$selected_exam, list.files(file.path(owd, "exams")), fixed = TRUE, value = TRUE)
+      files <- grep(specs$name, list.files(file.path(owd, "exams")), fixed = TRUE, value = TRUE)
       files <- files[!grepl("_metainfo.rds", files, fixed = TRUE)]
       file.copy(file.path(owd, "exams", files), file.path(tdir, files))
-      saveRDS(exam, file = file.path(tdir, paste0(input$selected_exam, "_metainfo.rds")))
+      saveRDS(exam, file = file.path(tdir, paste0(specs$name, "_metainfo.rds")))
       setwd(tdir)
       if(length(files <- dir(include.dirs = TRUE)))
-        zip(zipfile = paste(input$selected_exam, "zip", sep = "."), files = files)
+        zip(zipfile = paste(specs$name, "zip", sep = "."), files = files)
       setwd(owd)
       if(length(files))
-        file.copy(file.path(tdir, paste(input$selected_exam, "zip", sep = ".")), file)
+        file.copy(file.path(tdir, paste(specs$name, "zip", sep = ".")), file)
       unlink(tdir)
     }
   )
