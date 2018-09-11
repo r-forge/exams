@@ -115,8 +115,11 @@ exams_shiny_ui <- function(...) {
            tags$hr(),
            ## verbatimTextOutput("show_exercises"),
            DT::dataTableOutput("ex_table"),
-           uiOutput("deletebutton"),
-           uiOutput("ex_table_hr"),
+           fluidRow(
+             column(2, checkboxInput("dt_sel0", "All")),
+             column(2, checkboxInput("dt_sel0_p", "Page")),
+             uiOutput("deletebutton")
+           ),
            downloadButton('download_exercises', 'Download as .zip'),
            br()
          ),
@@ -346,6 +349,10 @@ exams_shiny_server <- function(input, output, session)
     }
   })
 
+  output$ex_table <- DT::renderDataTable({data.frame("Exercises" = NA)},
+    editable = TRUE, rownames = FALSE)
+  ex_table_proxy <- DT::dataTableProxy("ex_table")
+
   observeEvent(available_exercises(), {
     ex <- available_exercises()
     if(length(ex)) {
@@ -355,33 +362,25 @@ exams_shiny_server <- function(input, output, session)
       output$deletebutton <- renderUI({
         actionButton("delete_exercises", label = "Delete selected exercises")
       })
-      output$ex_table_hr <- renderUI({
-        tags$hr()
-      })
     } else {
       NULL
     }
   })
 
-  rcut <- function(x) {
-    if(is.null(x$Number))
-      return(rep(c(0, 1), length.out = nrow(x)))
-    if(nrow(x) < 2) {
-      return(0)
+  observeEvent(input$dt_sel0, {
+    if (isTRUE(input$dt_sel0)) {
+      DT::selectRows(ex_table_proxy, input$ex_table_rows_all)
     } else {
-      j <- rep(NA, nrow(x))
-      j[1] <- 0
-      for(i in 2:nrow(x)) {
-        if(x$Number[i] != x$Number[i - 1]) {
-          if(j[i - 1] == 0)
-            j[i] <- 1
-          else
-            j[i] <- 0
-        }
-      }
-      return(j)
+      DT::selectRows(ex_table_proxy, NULL)
     }
-  }
+  })
+  observeEvent(input$dt_sel0_p, {
+    if (isTRUE(input$dt_sel0_p)) {
+      DT::selectRows(ex_table_proxy, input$ex_table_rows_current)
+    } else {
+      DT::selectRows(ex_table_proxy, NULL)
+    }
+  })
 
   styleEqual2 <- function(levels, values) {
     n = length(levels)
@@ -407,7 +406,7 @@ exams_shiny_server <- function(input, output, session)
       return(DT::renderDataTable({x}, editable = TRUE, rownames = !all(is.na(unlist(x)))))
     } else {
       lN <- unique(x$Number)
-      vN <- rep(c("#F9F9F9", "NA"), length.out = length(lN))
+      vN <- rep(c("#F9F9F9", "white"), length.out = length(lN))
       return(DT::renderDataTable(formatStyle(datatable(x, editable = TRUE, rownames = TRUE), "Number",
         backgroundColor = styleEqual2(lN, vN), target = "row")))
     }
