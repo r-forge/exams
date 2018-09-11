@@ -120,6 +120,7 @@ exams_shiny_ui <- function(...) {
              column(2, checkboxInput("dt_sel0_p", "Page")),
              uiOutput("deletebutton")
            ),
+           tags$hr(),
            downloadButton('download_exercises', 'Download as .zip'),
            br()
          ),
@@ -417,12 +418,14 @@ exams_shiny_server <- function(input, output, session)
     if(length(id)) {
       ex <- available_exercises()
       rmfile <- ex[id]
-      file.remove(file.path("exercises", rmfile))
-      extabs <- data.frame("Exercises" = ex[-id])
-      output$ex_table_define <- DT::renderDataTable({extabs}, editable = FALSE)
+      if(all(file.exists(file.path("exercises", rmfile))))
+        file.remove(file.path("exercises", rmfile))
+      extab <- data.frame("Exercises" = ex[-id])
+      output$ex_table <- DT::renderDataTable({extab}, editable = TRUE)
+      output$ex_table_define <- DT::renderDataTable({extab}, editable = FALSE)
       if(file.exists("extab.rds")) {
         extab <- readRDS("extab.rds")
-        extab <- extab[extab$Exercises != rmfile, , drop = FALSE]
+        extab <- extab[!(extab$Exercises %in% rmfile), , drop = FALSE]
         if(nrow(extab) < 1)
           extab <- data.frame("Exercises" = NA, "Points" = NA, "Number" = NA)
         else
