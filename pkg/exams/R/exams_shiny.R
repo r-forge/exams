@@ -73,16 +73,23 @@ exams_shiny_ui <- function(...) {
                conditionalPanel('input.selected_exercise != ""', uiOutput("show_selected_exercise"))
              ),
              column(4,
-               selectInput("exencoding", label = "Encoding?", choices = c("ASCII", "UTF-8", "Latin-1", "Latin-2", "Latin-3",
-                 "Latin-4", "Latin-5", "Latin-6", "Latin-7", "Latin-8", "Latin-9", "Latin-10"),
-                 selected = "UTF-8")
+               selectInput("exencoding", label = "Encoding?", choices = c("ascii", "utf8", "latin1", "latin2", "latin3",
+                 "latin4", "latin5", "latin6", "latin7", "latin8", "latin9", "latin10"),
+                 selected = "utf8")
              )
            ),
            fluidRow(
              column(9,
                uiOutput("editor", inline = TRUE, container = div),
                uiOutput("player", inline = TRUE, container = div),
-               uiOutput("playbutton")
+               fluidRow(
+                 column(3, style = "margin-top: 25px;", uiOutput("playbutton")),
+                 column(3, style = "margin-top: 0px;",
+                   selectInput("exconverter", label = "Converter?",
+                     choices = c("ttm", "tth", "pandoc", "tex2image"))),
+                 column(3, style = "margin-top: 20px;",
+                   checkboxInput("exmathjax", "MathJax?"))
+               )
              ),
              column(3,
                selectInput("exmarkup", label = "Load a template. Markup?", choices = c("LaTeX", "Markdown"),
@@ -116,8 +123,8 @@ exams_shiny_ui <- function(...) {
            ## verbatimTextOutput("show_exercises"),
            DT::dataTableOutput("ex_table"),
            fluidRow(
-             column(2, checkboxInput("dt_sel0", "All")),
-             column(2, checkboxInput("dt_sel0_p", "Page")),
+             column(2, style = "margin-top: 0px;", checkboxInput("dt_sel0", "All")),
+             column(2, style = "margin-top: 0px;", checkboxInput("dt_sel0_p", "Page")),
              uiOutput("deletebutton")
            ),
            tags$hr(),
@@ -132,8 +139,8 @@ exams_shiny_ui <- function(...) {
                DT::dataTableOutput("ex_table_define"),
                br(),
                fluidRow(
-                 column(2, checkboxInput("dt_sel", "All")),
-                 column(2, checkboxInput("dt_sel_p", "Page")),
+                 column(2, style = "margin-top: -5px;", checkboxInput("dt_sel", "All")),
+                 column(2, style = "margin-top: -5px;", checkboxInput("dt_sel_p", "Page")),
                  column(2, uiOutput("selectbutton")),
                  column(2, uiOutput("blockselectbutton"))
                ),
@@ -145,8 +152,8 @@ exams_shiny_ui <- function(...) {
                DT::dataTableOutput("ex_table_set"),
                br(),
                fluidRow(
-                 column(2, checkboxInput("dt_sel2", "All")),
-                 column(2, checkboxInput("dt_sel2_p", "Page")),
+                 column(2, style = "margin-top: -5px;", checkboxInput("dt_sel2", "All")),
+                 column(2, style = "margin-top: -5px;", checkboxInput("dt_sel2_p", "Page")),
                  column(2, uiOutput("rmexexambutton")),
                  column(2, uiOutput("blockbutton")),
                  column(2, uiOutput("unblockbutton"))
@@ -301,7 +308,8 @@ exams_shiny_server <- function(input, output, session)
           exname <- gsub("/", "_", exname, fixed = TRUE)
           writeLines(excode, file.path("tmp", exname))
           ex <- try(exams2html(exname, n = 1, name = "preview", dir = "tmp", edir = "tmp",
-            base64 = TRUE, encoding = input$exencoding), silent = TRUE)
+            base64 = TRUE, encoding = input$exencoding, converter = input$exconverter,
+            mathjax = input$exmathjax), silent = TRUE)
           if(!inherits(ex, "try-error")) {
             hf <- "preview1.html"	    
             html <- readLines(file.path("tmp", hf))
@@ -704,7 +712,18 @@ exams_shiny_server <- function(input, output, session)
 
   observeEvent(input$compile, {
     if(file.exists(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))) {
-      exam <- readRDS(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+      if(!file.exists(file.path("exams", "current"))) {
+        dir.create(file.path("exams", "current"))
+      } else {
+        cfiles <- dir(file.path("exams", "current"), full.names = TRUE)
+        if(length(cfiles))
+          unlink(cfiles)
+      }
+      cdir <- file.path("exams", "current")
+      rds <- file.path("exams", paste0(input$selected_exam, "_metainfo.rds"))
+      file.copy(rds, file.path("exams", "current", paste0(input$selected_exam, "_metainfo.rds")))
+      rds <- file.path("exams", "current", paste0(input$selected_exam, "_metainfo.rds"))
+      exam <- readRDS(rds)
       seed <- input$seed
       if(is.na(seed))
         seed <- as.integer(runif(1, 1, 1e+08))
@@ -715,7 +734,7 @@ exams_shiny_server <- function(input, output, session)
         "n" = input$n,
         "seed" = seed
       )
-      saveRDS(exam, file = file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+      saveRDS(exam, file = rds)
       name <- input$selected_exam
       exlist <- split(exam$Exercises, as.factor(exam$Number))
       points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
@@ -723,49 +742,49 @@ exams_shiny_server <- function(input, output, session)
       has_template <- TRUE
       if(input$format == "ARSnova") {
         ex <- try(exams2arsnova(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name), silent = TRUE)
       }
       if(input$format == "Blackboard") {
         ex <- try(exams2blackboard(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "HTML") {
         ex <- try(exams2html(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name,
+          dir = cdir, edir = "exercises", name = name,
           template = input$selected_template), silent = TRUE)
       }
       if(input$format == "NOPS") {
         ex <- try(exams2nops(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "OpenOLAT") {
         ex <- try(exams2openolat(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "DOCX") {
         ex <- try(exams2pandoc(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "PDF") {
         ex <- try(exams2pdf(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points,
+          dir = cdir, edir = "exercises", name = name, points = points,
           template = input$selected_template), silent = TRUE)
       }
       if(input$format == "QTI12") {
         ex <- try(exams2qti12(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "QTI21") {
         ex <- try(exams2qti12(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "Moodle") {
         ex <- try(exams2moodle(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(input$format == "TCExam") {
         ex <- try(exams2tcexam(exlist, n = input$n,
-          dir = "exams", edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
       if(inherits(ex, "try-error")) {
         writeLines(ex)
@@ -773,12 +792,12 @@ exams_shiny_server <- function(input, output, session)
         ex <- NULL
       } else {
         output$exams <- renderText({
-          basename(grep(input$selected_exam, dir("exams", full.names = TRUE), fixed = TRUE, value = TRUE))
+          basename(grep(input$selected_exam, dir(cdir, full.names = TRUE), fixed = TRUE, value = TRUE))
         })
         showNotification(paste("Compiled", input$selected_exam, "using", input$format), duration = 1, closeButton = FALSE)
       }
       if(!is.null(ex))
-        save(ex, file = file.path("exams", paste(name, "rda", sep = ".")))
+        save(ex, file = file.path(cdir, paste(name, "rda", sep = ".")))
     }
   })
   output$downloadData <- downloadHandler(
@@ -792,7 +811,7 @@ exams_shiny_server <- function(input, output, session)
     content = function(file) {
       dir.create(tdir <- tempfile())
       owd <- getwd()
-      exam <- readRDS(file.path("exams", paste0(input$selected_exam, "_metainfo.rds")))
+      exam <- readRDS(file.path("exams", "current", paste0(input$selected_exam, "_metainfo.rds")))
       specs <- attr(exam, "specs")
       if(input$include_exercises) {
         dir.create(file.path(tdir, "exercises"))
@@ -867,9 +886,9 @@ exams_shiny_server <- function(input, output, session)
         )
         writeLines(code, file.path(tdir, paste0(specs$name, ".R")))
       }
-      files <- grep(specs$name, list.files(file.path(owd, "exams")), fixed = TRUE, value = TRUE)
+      files <- grep(specs$name, list.files(file.path(owd, "exams", "current")), fixed = TRUE, value = TRUE)
       files <- files[!grepl("_metainfo.rds", files, fixed = TRUE)]
-      file.copy(file.path(owd, "exams", files), file.path(tdir, files))
+      file.copy(file.path(owd, "exams", "current", files), file.path(tdir, files))
       saveRDS(exam, file = file.path(tdir, paste0(specs$name, "_metainfo.rds")))
       setwd(tdir)
       if(length(files <- dir(include.dirs = TRUE)))
