@@ -38,6 +38,10 @@ Changes in Version 2.3-2
 
   o New language support in exams2nops: Russian (ru, contributed by
     Boris Demeshev).
+    
+  o In include_supplement() an argument target=NULL was added to optionally
+    include the supplement with a different file name than the original
+    file name.
 
 
 Changes in Version 2.3-1
