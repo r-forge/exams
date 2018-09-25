@@ -829,9 +829,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     xml <- c(xml, '</assessmentItem>')
 
-writeLines(xml)
-stop()
-
     xml
   }
 }
