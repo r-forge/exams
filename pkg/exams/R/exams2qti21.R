@@ -419,11 +419,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     for(i in 1:n) {
       ## evaluate points for each question
       pv[[i]] <- eval$pointvec(solution[[i]])
-      if(eval$partial) {
-        pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
-        if(length(grep("choice", type[i])))
-          pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
-      }
+      pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
+      pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
     }
     if(is.null(minvalue))
         minvalue <- 0
@@ -457,8 +454,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                 if(eval$partial) pv[[i]]["neg"] else "0.0"
               } else {
                 if(eval$partial) {
-                  pv[[i]]["neg"] * sum(!solution[[i]])
-                } else "0.0"
+                  if(type[i] == "mchoice") pv[[i]]["neg"] * sum(!solution[[i]]) else pv[[i]]["neg"]
+                } else pv[[i]]["neg"]
               }
             }, '">', sep = '')
         )
@@ -467,16 +464,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             paste('<mapEntry mapKey="', ids[[i]]$questions[j], '" mappedValue="',
               if(eval$partial) {
                 if(solution[[i]][j]) {
-                  if(x$metainfo$type == "cloze") {
-                    pv[[i]]["pos"] / sum(solution[[i]])
-                  } else pv[[i]]["pos"]
+                  pv[[i]]["pos"]
                 } else {
-                  if(x$metainfo$type == "cloze") {
-                    pv[[i]]["neg"] / sum(!solution[[i]])
-                  } else pv[[i]]["neg"]
+                  if(type[i] == "schoice") pv[[i]]["neg"] * length(solution[[i]]) else pv[[i]]["neg"] 
                 }
               } else {
-                if(solution[[i]][j]) q_points[i] / sum(solution[[i]] * 1) else {
+                if(solution[[i]][j]) {
+                  if(type[i] == "mchoice") pv[[i]]["pos"] / sum(solution[[i]]) else pv[[i]]["pos"]
+                } else {
                   pv[[i]]["neg"] * length(solution[[i]])
                 }
               }, '"/>', sep = '')
@@ -833,6 +828,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     }
 
     xml <- c(xml, '</assessmentItem>')
+
+writeLines(xml)
+stop()
 
     xml
   }
