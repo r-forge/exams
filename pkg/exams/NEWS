@@ -36,6 +36,9 @@ Changes in Version 2.3-2
     complex commands. Internally, the former is turned into an unnamed list
     which is then processed correspondingly by exams2pdf().
 
+  o Bug fix in exams2qti21() if negative points without partial credits are
+    used.
+
   o New language support in exams2nops: Russian (ru, contributed by
     Boris Demeshev).
     
