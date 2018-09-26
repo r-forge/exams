@@ -472,7 +472,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                 if(solution[[i]][j]) {
                   if(type[i] == "mchoice") pv[[i]]["pos"] / sum(solution[[i]]) else pv[[i]]["pos"]
                 } else {
-                  pv[[i]]["neg"] * length(solution[[i]])
+                  if(type[i] == "mchoice") pv[[i]]["neg"] * length(solution[[i]]) else pv[[i]]["neg"]
                 }
               }, '"/>', sep = '')
           )
