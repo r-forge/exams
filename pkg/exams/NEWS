@@ -46,6 +46,9 @@ Changes in Version 2.3-2
     include the supplement with a different file name than the original
     file name.
 
+  o The pandoc interface erroneously produced unbalanced <p> tags in
+    certain situations.
+
 
 Changes in Version 2.3-1
 

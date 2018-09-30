@@ -34,7 +34,11 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
       del <- c(
         if(x[1L] == "") 1L else NULL,
         if(n > 1L && grepl(sep, x[n], fixed = TRUE) && x[n - 1L] == "") n - 1L else NULL,
-	if(x[n] == sep) n else NULL
+	if(x[n] %in% c(sep, paste0("<p>", sep, "</p>"))) n else NULL
+	## FIXME: Depending on the output format the relevant line
+	## may just contain the 'sep' or '<p>sep</p>'. But it may
+	## a '</p>' may also be in the linear _after_ the 'sep'.
+	## ...maybe lapply() rather than seperator-based?
       )
       x[n] <- gsub(sep, "", x[n], fixed = TRUE)
       if(length(del) > 0L) return(x[-del]) else return(x)
