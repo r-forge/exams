@@ -415,15 +415,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     xml <- paste('<assessmentItem xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
     
     ## cycle trough all questions
-    ids <- el <- pv <- list()
+    ids <- el <- pv <- mv <- list()
     for(i in 1:n) {
       ## evaluate points for each question
       pv[[i]] <- eval$pointvec(solution[[i]])
       pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
       pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
+      mv[[i]] <- pv[[i]]["neg"]
     }
-    if(is.null(minvalue))
-        minvalue <- 0
 
     for(i in 1:n) {
       ## get item id
@@ -449,7 +448,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         }
         xml <- c(xml, '</correctResponse>',
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
-            '" lowerBound="', if(!eval$negative) "0.0" else {
+            '" lowerBound="', mv[[i]] <- if(!eval$negative) "0.0" else {
               if(x$metainfo$type == "cloze") {
                 if(eval$partial) pv[[i]]["neg"] else "0.0"
               } else {
@@ -504,6 +503,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
     }
 
+    if(is.null(minvalue))
+      minvalue <- sum(as.numeric(unlist(mv)))
+
     xml <- c(xml,
       paste('<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" ',
         'normalMaximum="', sum(q_points), '" normalMinimum="', minvalue, '">', sep = ''),
@@ -524,15 +526,13 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
     )
 
-    if(!is.null(minvalue)) {
-      xml <- c(xml,
-        '<outcomeDeclaration identifier="MINSCORE" cardinality="single" baseType="float">',
-        '<defaultValue>',
-        paste('<value baseType="float">', minvalue, '</value>', sep = ''),
-        '</defaultValue>',
-        '</outcomeDeclaration>'
-      )
-    }
+    xml <- c(xml,
+      '<outcomeDeclaration identifier="MINSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      paste('<value baseType="float">', minvalue, '</value>', sep = ''),
+      '</defaultValue>',
+      '</outcomeDeclaration>'
+    )
 
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
@@ -748,29 +748,29 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     )
 
     ## set the minimum points
-    if(!is.null(minvalue)) {
-      xml <- c(xml,
-        '<responseCondition>',
-        '<responseIf>',
-        '<and>',
-        '<match>',
-        '<baseValue baseType="identifier">incorrect</baseValue>',
-        '<variable identifier="FEEDBACKBASIC"/>',
-        '</match>',
-        '<not>',
-        '<gte>',
-        '<variable identifier="SCORE"/>', 
-        '<variable identifier="MINSCORE"/>',
-        '</gte>',
-        '</not>',
-        '</and>',
-        '<setOutcomeValue identifier="SCORE">',
-        paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
-        '</setOutcomeValue>',
-        '</responseIf>',
-        '</responseCondition>'
-      )
-    }
+#    if(!is.null(minvalue)) {
+#      xml <- c(xml,
+#        '<responseCondition>',
+#        '<responseIf>',
+#        '<and>',
+#        '<match>',
+#        '<baseValue baseType="identifier">incorrect</baseValue>',
+#        '<variable identifier="FEEDBACKBASIC"/>',
+#        '</match>',
+#        '<not>',
+#        '<gte>',
+#        '<variable identifier="SCORE"/>', 
+#        '<variable identifier="MINSCORE"/>',
+#        '</gte>',
+#        '</not>',
+#        '</and>',
+#        '<setOutcomeValue identifier="SCORE">',
+#        paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
+#        '</setOutcomeValue>',
+#        '</responseIf>',
+#        '</responseCondition>'
+#      )
+#    }
 
     if(solutionswitch) {
       fid <- make_id(9, 1)
