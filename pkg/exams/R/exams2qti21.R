@@ -424,28 +424,55 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       mv[[i]] <- pv[[i]]["neg"]
     }
 
+    mmatrix <- if(length(i <- grep("matrix", names(x$metainfo)))) {
+      x$metainfo[[i]]
+    } else NULL
+
     for(i in 1:n) {
       ## get item id
       iid <- x$metainfo$id
 
       ## generate ids
-      ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-        "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
+      if(is.null(mmatrix)) {
+        ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
+          "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
+      } else {
+        qs <- strsplit(x$questionlist, mmatrix, fixed = TRUE)
+        mrows <- unique(sapply(qs, function(x) { x[1] }))
+        mcols <- unique(sapply(qs, function(x) { x[2] }))
+        ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
+          "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"),
+          "mmatrix_matches" = matrix(x$metainfo$solution, nrow = length(mrows), byrow = TRUE)
+        )
+        ids[[i]]$mmatrix_questions <- list(
+          "rows" = paste(iid, make_id(10, length(mrows)), sep = "_"),
+          "cols" = paste(iid, make_id(10, length(mcols)), sep = "_")
+        )
+        rownames(ids[[i]]$mmatrix_matches) <- mrows
+        colnames(ids[[i]]$mmatrix_matches) <- mcols
+        for(j in seq_along(ids[[i]]$mmatrix_questions$rows)) {
+          for(jj in seq_along(ids[[i]]$mmatrix_questions$cols)) {
+            ids[[i]]$mmatrix_pairs <- c(ids[[i]]$mmatrix_pairs, paste(ids[[i]]$mmatrix_questions$rows[j], ids[[i]]$mmatrix_questions$cols[jj]))
+          }
+        }
+      }
 
       ## insert choice type responses
       if(length(grep("choice", type[i]))) {
         xml <- c(xml,
           paste('<responseDeclaration identifier="', ids[[i]]$response,
-            '" cardinality="', if(type[i] == "mchoice") "multiple" else "single", '" baseType="identifier">', sep = ''),
+            '" cardinality="', if(type[i] == "mchoice") "multiple" else "single",
+            if(is.null(mmatrix)) '" baseType="identifier">' else '" baseType="directedPair">', sep = ''),
           '<correctResponse>'
         )
         for(j in seq_along(solution[[i]])) {
           if(solution[[i]][j]) {
             xml <- c(xml,
-              paste('<value>', ids[[i]]$questions[j], '</value>', sep = '')
+              paste('<value>', if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j], '</value>', sep = '')
             )
           }
         }
+
         xml <- c(xml, '</correctResponse>',
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
             '" lowerBound="', mv[[i]] <- if(!eval$negative) "0.0" else {
@@ -460,7 +487,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         )
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
-            paste('<mapEntry mapKey="', ids[[i]]$questions[j], '" mappedValue="',
+            paste('<mapEntry mapKey="', if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j], '" mappedValue="',
               if(eval$partial) {
                 if(solution[[i]][j]) {
                   pv[[i]]["pos"]
@@ -478,6 +505,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         }
         xml <- c(xml, '</mapping>', '</responseDeclaration>')
       }
+
       ## numeric responses
       if(type[i] == "num") {
         xml <- c(xml,
@@ -542,22 +570,47 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     for(i in 1:n) {
       ans <- any(grepl(paste0("##ANSWER", i, "##"), xml))
       if(length(grep("choice", type[i]))) {
-        txml <- paste('<choiceInteraction responseIdentifier="', ids[[i]]$response,
-            '" shuffle="', if(shuffle) 'true' else 'false','" maxChoices="',
-            if(type[i] == "schoice") "1" else "0", '">', sep = '')
-        for(j in seq_along(solution[[i]])) {
-          txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
-            if(!ans) '<p>' else NULL,
-            paste(if(enumerate & !ans) {
-              paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
-                if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
-                  sep = "")
-            } else NULL, questionlist[[i]][j]),
-            if(!ans) '</p>' else NULL,
-            '</simpleChoice>'
-          )
+        if(is.null(mmatrix)) {
+          txml <- paste('<choiceInteraction responseIdentifier="', ids[[i]]$response,
+              '" shuffle="', if(shuffle) 'true' else 'false','" maxChoices="',
+              if(type[i] == "schoice") "1" else "0", '">', sep = '')
+          for(j in seq_along(solution[[i]])) {
+            txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
+              if(!ans) '<p>' else NULL,
+              paste(if(enumerate & !ans) {
+                paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                    sep = "")
+              } else NULL, questionlist[[i]][j]),
+              if(!ans) '</p>' else NULL,
+              '</simpleChoice>'
+            )
+          }
+          txml <- c(txml, '</choiceInteraction>')
+        } else {
+          txml <- c(paste0('<matchInteraction class="match_matrix" responseIdentifier="', ids[[i]]$response,
+            '" shuffle="', if(shuffle) 'true' else 'false','" maxAssociations="',
+            if(type[i] == "schoice") "1" else "0", '">', sep = ''),
+            '<simpleMatchSet>')
+          for(j in seq_along(ids[[i]]$mmatrix_questions$rows)) {
+            txml <- c(txml,
+              paste0('<simpleAssociableChoice identifier="',
+                ids[[i]]$mmatrix_questions$rows[j], '" matchMax="1" matchMin="0">'),
+              '<p>',
+              rownames(ids[[i]]$mmatrix_matches)[j],
+              '</p>', '</simpleAssociableChoice>')
+          }
+          txml <- c(txml, '</simpleMatchSet>', '<simpleMatchSet>')
+          for(j in seq_along(ids[[i]]$mmatrix_questions$cols)) {
+            txml <- c(txml,
+              paste0('<simpleAssociableChoice identifier="',
+                ids[[i]]$mmatrix_questions$cols[j], '" matchMax="1" matchMin="0">'),
+              '<p>',
+              colnames(ids[[i]]$mmatrix_matches)[j],
+              '</p>', '</simpleAssociableChoice>')
+          }
+          txml <- c(txml, '</simpleMatchSet>', '</matchInteraction>')
         }
-        txml <- c(txml, '</choiceInteraction>')
       }
       if(type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
