@@ -717,7 +717,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       '<responseCondition>',
       '<responseIf>',
       if(type[i] != "num") {
-        c('<equal toleranceMode="exact">',
+        c('<equal toleranceMode="relative" tolerance="0.001">',
           '<variable identifier="SCORE"/>',
           '<variable identifier="MAXSCORE"/>',
           '</equal>')
