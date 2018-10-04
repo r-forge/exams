@@ -10,7 +10,8 @@
 
 \usage{
   exams2openolat(file, n = 1L, dir = ".", name = "olattest",
-  qti = "2.1", converter = "pandoc-mathjax", table = TRUE, \dots)
+  qti = "2.1", converter = "pandoc-mathjax", table = TRUE,
+  maxattempts = 1, \dots)
 }
 
 \arguments{
@@ -25,6 +26,8 @@
     to HTML with MathJax (and OpenOLAT-specific fixups).}
   \item{table}{logical or character. Should a dedicated table class be
     used in the HTML for OpenOLAT? For details see below.}
+  \item{maxattempts}{integer. The maximum attempts for one question
+    (must be smaller than \code{100000}).}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
     \code{\link[exams]{exams2qti21}}, respectively.}
 }
