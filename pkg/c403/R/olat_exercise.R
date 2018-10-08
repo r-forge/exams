@@ -2,18 +2,23 @@ olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
 {
   ## obtain exam list
   if(is.character(x)) x <- readRDS(x)
-  
-  ## all questions
-  qu <- t(sapply(x, function(y) sapply(y, function(z)
-    paste(c(z$question, unlist(z$questionlist)), collapse = " "))))
 
-  ## determine index of matching questions
-  ix <- lapply(list(...), function(pt)
-    grepl(pattern = pt, x = qu, fixed = fixed))
-  ix <- Reduce("&", ix)
-  dim(ix) <- dim(qu)
-  ix <- which(ix, arr.ind = TRUE)
-  if(nrow(ix) < 1L) stop("no matching exercises found")
+  ## ... can either be a single integer or a sequence of search terms
+  if(length(list(...)) == 1L && is.numeric(..1) && ..1 <= length(x) && ..1 == round(..1)) {
+    ix <- cbind(..1, 1L:length(x[[1L]]))
+  } else {
+    ## all questions
+    qu <- t(sapply(x, function(y) sapply(y, function(z)
+      paste(c(z$question, unlist(z$questionlist)), collapse = " "))))
+
+    ## determine index of matching questions
+    ix <- lapply(list(...), function(pt)
+      grepl(pattern = pt, x = qu, fixed = fixed))
+    ix <- Reduce("&", ix)
+    dim(ix) <- dim(qu)
+    ix <- which(ix, arr.ind = TRUE)
+    if(nrow(ix) < 1L) stop("no matching exercises found")
+  }
 
   ## extract corresponding exercises  
   exm <- lapply(1L:nrow(ix), function(i) {

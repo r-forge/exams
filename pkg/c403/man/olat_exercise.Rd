@@ -17,8 +17,9 @@
   \item{x}{character or list. Either an OLAT exam list as produced
     by \code{\link[c403]{exams2olat}} or a character with the file
     path to an \code{.rds} file containing such an exam.}
-  \item{\dots}{character. Patterns to be searched for in the
-    question text of the exams in \code{x}.}
+  \item{\dots}{character. Either a single numeric index of the exam to be selected.
+    Or, alternatively, patterns to be searched for in the question text
+    of the exams in \code{x}.}
   \item{fixed}{logical. Should the search pattern(s) be matched
     as is?}
   \item{show}{logical. Should the exercise(s) found be shown
