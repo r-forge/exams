@@ -767,6 +767,23 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         } else NULL,
         '</responseCondition>'
       )
+
+      ## Adapt points for mchoice.
+      if(type[i] == "mchoice") {
+        xml <- c(xml,
+          '<responseCondition>',
+          '<responseIf>',
+          '<equal toleranceMode="relative" tolerance="0.001">',
+          '<variable identifier="SCORE"/>',
+          '<variable identifier="MAXSCORE"/>',
+          '</equal>',
+          '<setOutcomeValue identifier="SCORE">',
+          paste('<baseValue baseType="float">', q_points[i], '</baseValue>', sep = ''),
+          '</setOutcomeValue>',
+          '</responseIf>',
+          '</responseCondition>'
+        )
+      }
     }
 
     ## show solution when answered and wrong
