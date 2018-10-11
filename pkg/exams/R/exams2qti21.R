@@ -769,7 +769,24 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       )
 
       ## Adapt points for mchoice.
+      ## Case no correct answers.
       if(type[i] == "mchoice") {
+        if(sum(solution[[i]]) < 1) {
+          xml <- c(xml,
+            '<responseCondition>',
+            '<responseIf>',
+            '<isNull>',
+            paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+            '</isNull>',
+            '<setOutcomeValue identifier="SCORE">',
+            paste('<baseValue baseType="float">', q_points[i], '</baseValue>', sep = ''),
+            '</setOutcomeValue>',
+            '</responseIf>',
+            '</responseCondition>'
+          )
+        }
+
+        ## Case maximum points with rounding errors.
         xml <- c(xml,
           '<responseCondition>',
           '<responseIf>',
