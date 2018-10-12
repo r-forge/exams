@@ -4,8 +4,10 @@ olat_eval <- function(file, plot = TRUE, export = FALSE)
   file <- tools::file_path_sans_ext(file)
 
   ## read/parse data
-  exm <- readRDS(paste(file, "rds", sep = "."))  
-  res <- read_olat_results(paste(file, "xls", sep = "."), exm)
+  exm <- readRDS(paste(file, "rds", sep = "."))
+  res <- paste(file, c("xls", "xlsx"), sep = ".")
+  res <- res[file.exists(res)]
+  res <- read_olat_results(res, exm)
   n <- length(exm)
   k <- length(exm[[1L]])
 
@@ -80,23 +82,45 @@ read_olat_results <- function(file, xexam = NULL)
   if(!is.null(xexam)) {
     if(is.character(xexam)) xexam <- readRDS(xexam)
   }
- 
-  ## read data
-  x <- readLines(file, warn = FALSE)
-  x <- read.table(file, header = TRUE, sep = "\t",
-    colClasses = "character", skip = 1, fill = TRUE,
-    nrows = min(which(x == "")) - 3, quote = "\"")
 
-  ## number of columns of person info
-  nc <- min(grep("X1_", names(x), fixed = TRUE)) - 1
+  ## QTI 2.1 xlsx or QTI 1.2 xls?
+  xlsx <- tools::file_ext(file) == "xlsx"
 
-  ## only test results
-  y <- x[, -(1:nc)]
+  if(xlsx) {
+    ## read data
+    x <- openxlsx::read.xlsx(file, startRow = 2)
 
-  ## columns pertaining to items
-  iid <- na.omit(as.numeric(unlist(sapply(
-    strsplit(substr(names(y), 2, nchar(names(y))),
-    "_", fixed = TRUE), head, 1))))
+    ## number of columns of person info
+    nc <- min(grep("_", names(x), fixed = TRUE)) - 2
+
+    ## only test results, omitting section points
+    y <- x[, -(1:nc)]
+    y <- y[, -grep("Punkte", names(y))] ## FIXME: language?
+
+    ## columns pertaining to items
+    iid <- sapply(strsplit(names(y), "_"), function(x) rev(x)[2L])
+    ok <- which(!is.na(iid))
+    gaps <- diff(c(ok, length(iid) + 1L))
+    iid <- rep(iid[ok], gaps)
+    iid <- as.numeric(iid) - 1
+  } else {
+    ## read data
+    x <- readLines(file, warn = FALSE)
+    x <- read.table(file, header = TRUE, sep = "\t",
+      colClasses = "character", skip = 1, fill = TRUE,
+      nrows = min(which(x == "")) - 3, quote = "\"")
+
+    ## number of columns of person info
+    nc <- min(grep("X1_", names(x), fixed = TRUE)) - 1
+
+    ## only test results
+    y <- x[, -(1:nc)]
+
+    ## columns pertaining to items
+    iid <- na.omit(as.numeric(unlist(sapply(
+      strsplit(substr(names(y), 2, nchar(names(y))),
+      "_", fixed = TRUE), head, 1))))
+  }
 
   ## item-wise data.frame
   y <- lapply(split(x = seq_along(iid), f = iid),
@@ -124,6 +148,12 @@ read_olat_results <- function(file, xexam = NULL)
     ix
   })
 
+  toPOSIXct <- if(xlsx) {
+    function(x) if(is.na(x) || x == "") NA else as.POSIXct(format(structure((x - 25567) * 24 * 3600, class = c("POSIXct", "POSIXt"))))
+  } else {
+    function(x) if(is.na(x) || x == "") NA else as.POSIXct(strptime(x, format = "%Y-%m-%dT%H:%M:%S"))
+  }
+
   ## compute results
   process_item_result <- function(j)
   {
@@ -132,15 +162,19 @@ read_olat_results <- function(file, xexam = NULL)
       if(!is.na(id)) {
         ir <- y[[id + (i - 1) * ns]][j, ]
         k <- ncol(ir)
-        points <- as.numeric(ir[, k - 2])
+        points <- as.numeric(ir[, k - 2 - xlsx])
         points <- if(is.na(points)) 0 else points
         start <- ir[, k - 1]
         dur <- ir[, k]
-        ssol <- ssol0 <- ir[, 1:(k - 3)]
-        if(length(ssol) > 1) {
-          ssol <- ssol0 <- try(gsub(".", "0", paste(ssol[-length(ssol)], collapse = ""), fixed = TRUE), silent = TRUE)
+        ssol <- ssol0 <- ir[, 1:(k - 3 - xlsx)]
+        if(NCOL(ssol) > 1) {
+          ssol <- ssol0 <- if(xlsx) {
+	    try(gsub("NA", "0", gsub("x", "1", paste(ssol, collapse = ""), fixed = TRUE), fixed = TRUE), silent = TRUE)
+	  } else {
+	    try(gsub(".", "0", paste(ssol[-length(ssol)], collapse = ""), fixed = TRUE), silent = TRUE)	  
+	  }
         } else {
-          ssol <- try(gsub(",", ".", ssol, fixed = TRUE), silent = TRUE)
+          ssol <- ssol0 <- try(gsub(",", ".", ssol, fixed = TRUE), silent = TRUE)
         }
         if(inherits(ssol, "try-error")) ssol <- ssol0 <- NA
         solx <- scheck <- NA
@@ -161,46 +195,54 @@ read_olat_results <- function(file, xexam = NULL)
 	  }
         }
         if(is.na(scheck)) scheck <- 0
-	toPOSIXct <- function(x) ifelse(is.na(x) | x == "", NA, as.POSIXct(strptime(start, format = "%Y-%m-%dT%H:%M:%S")))
-        res <- data.frame(id + (i - 1) * ns, as.numeric(points), scheck, ssol0, solx,
+	res <- data.frame(id + (i - 1) * ns, round(as.numeric(points), digits = 8), scheck, ssol0, solx,
           toPOSIXct(start), as.numeric(dur), stringsAsFactors = FALSE)
-      } else res <- data.frame(t(rep(NA, 7L)))
-      res[res == ""] <- NA
+      } else {
+        res <- data.frame(t(rep(NA, 7L)))
+      }
+      if(!xlsx) res[res == ""] <- NA
       names(res) <- paste(c("id", "points", "check", "answer", "solution", "start", "duration"), i, sep = ".")
       return(res)
     })
     return(data.frame(rval, stringsAsFactors = FALSE))
   }
 
-  res <- lapply(1:length(ix2), process_item_result)
-  rval <- res[[1]]
-  for(j in 2:length(res)) rval <- rbind(rval, res[[j]])
-  res <- cbind(x[, 2:nc], rval)
+  res <- lapply(1L:length(ix2), process_item_result)
+  rval <- res[[1L]]
+  for(j in 2L:length(res)) rval <- rbind(rval, res[[j]])
+  res <- cbind(x[, 2L:nc], rval)
   names(res) <- gsub("Institutionsnummer", "MatrNr", names(res))
   names(res) <- gsub("..s.", "", names(res), fixed = TRUE)
+  names(res) <- gsub(".(s)", "", names(res), fixed = TRUE)
 
-  true_false <- apply(res, 2, function(x) {
-    if(is.character(x)) {
-      x == "true" || x == "false"
-    } else FALSE
-  })
-  if(any(true_false)) {
-    for(i in which(true_false)) {
-      wh <- FALSE
-      if(!any(grepl("false", res[[i]]))) {
-        res[[i]] <- rep(TRUE, length(res[[i]]))
-        wh <- TRUE
+  if(xlsx) {
+    if("Datum" %in% names(res)) res$Datum <- toPOSIXct(res$Datum)
+    if("Punkte" %in% names(res)) res$Punkte <- round(res$Punkte, digits = 8)
+  } else {
+    true_false <- apply(res, 2, function(x) {
+      if(is.character(x)) {
+        x == "true" || x == "false"
+      } else FALSE
+    })
+    if(any(true_false)) {
+      for(i in which(true_false)) {
+        wh <- FALSE
+        if(!any(grepl("false", res[[i]]))) {
+          res[[i]] <- rep(TRUE, length(res[[i]]))
+          wh <- TRUE
+        }
+        if(!any(grepl("true", res[[i]]))) {
+          wh <- TRUE
+          res[[i]] <- rep(FALSE, length(res[[i]]))
+        }
+        if(!wh) res[[i]] <- res[[i]] == "true"
       }
-      if(!any(grepl("true", res[[i]]))) {
-        wh <- TRUE
-        res[[i]] <- rep(FALSE, length(res[[i]]))
-      }
-      if(!wh) res[[i]] <- res[[i]] == "true"
     }
   }
-
+  
   res
 }
+
 
 olat_eval_export <- function(results, xexam, file = "olat_eval.zip", html = "Testergebnisse.html",
   col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90), encoding = "latin1")
@@ -338,3 +380,4 @@ olat_eval_export <- function(results, xexam, file = "olat_eval.zip", html = "Tes
   setwd(dir)
   invisible(zip(file.path(odir, file), results[, "Benutzername"]))
 }
+
