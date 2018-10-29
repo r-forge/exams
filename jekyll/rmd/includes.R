@@ -135,19 +135,19 @@ include_pdf_screenshot <- function(file, out = NULL, page = 1, density = 25, asp
   invisible(out)
 }
 
-include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = TRUE, border = TRUE, engine = c("cutycapt", "firefox"))
+include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = TRUE, border = TRUE, engine = c("cutycapt", "firefox", "chromium"))
 {
   ## engine
   ## - 'cutycapt' is available via but does not support MathML
   ## - or open 'firefox' and handle window via 'xdotool' and 'wmctrl'
-  engine <- match.arg(engine, c("cutycapt", "firefox"))
+  engine <- match.arg(engine, c("cutycapt", "firefox", "chromium"))
   ## all tools available via apt-get install
 
   ## screenshot .png path
   if(is.null(out)) out <- paste0(tools::file_path_sans_ext(basename(file)), ".png")
   if(knitr::opts_chunk$get("fig.path") != "figure/") out <- paste0(knitr::opts_chunk$get("fig.path"), out)
 
-  ## make screenshots with 'cutycapt' or 'firefox' (+xdotool +wmctrl)
+  ## make screenshots with 'cutycapt' or 'firefox'/'chromium' (+xdotool +wmctrl)
   ## and resize/crop with ImageMagick's 'mogrify'
   for(i in seq_along(file)) {
     if(engine == "cutycapt") {
@@ -156,18 +156,24 @@ include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = T
         out[i])
       system(cmd)
     } else {
-      system(sprintf("firefox -new-window %s", tools::file_path_as_absolute(file[i])))
+      system(sprintf("%s -new-window %s", engine, tools::file_path_as_absolute(file[i])))
       Sys.sleep(1)
-      id <- tail(sort(as.numeric(system("xdotool search --onlyvisible --name --all 'Mozilla Firefox'", intern = TRUE))), 1)
+      id<- sprintf("xdotool search --onlyvisible --name --all '%s'", if(engine == "firefox") "Mozilla Firefox" else "Chromium")
+      id <- tail(sort(as.numeric(system(id, intern = TRUE))), 1L)
       system(sprintf("wmctrl -ir %s -b remove,maximized_vert,maximized_horz", id))
       system(sprintf("xdotool windowsize %s 600 800", id))
       Sys.sleep(1)
       system(sprintf("import -window %s %s", id, out[i]))
     }
+    off <- switch(engine,
+      "cutycapt" = 0,
+      "firefox" = 2,
+      "chromium" = 1.8
+    )
     cmd <- sprintf("mogrify -resize %s %s %s %s %s",
       density * 8.268,
-      if(aspect43) sprintf("-extent %sx%s", ceiling(density * 8.268), ceiling(density * (8.268 * 0.75 + 2 * (engine == "firefox")))) else "",
-      if(engine == "firefox") sprintf("-gravity north -chop x%s", 2 * density) else "",
+      if(aspect43) sprintf("-extent %sx%s", ceiling(density * 8.268), ceiling(density * (8.268 * 0.75 + off))) else "",
+      if(off > 0) sprintf("-gravity north -chop x%s", off * density) else "",
       if(border) sprintf("-border %sx%s -bordercolor '#666666'", ceiling(density/15), ceiling(density/15)) else "",
       tools::file_path_as_absolute(out[i]))
     system(cmd)    
