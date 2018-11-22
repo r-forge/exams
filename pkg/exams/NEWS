@@ -46,8 +46,12 @@ Changes in Version 2.3-2
     include the supplement with a different file name than the original
     file name.
 
-  o The pandoc interface erroneously produced unbalanced <p> tags in
-    certain situations.
+  o Bug fix in the pandoc interface which previously erroneously produced
+    unbalanced <p> tags in certain situations.
+
+  o Rather than fully importing the basic dependencies "stats", "graphics",
+    "grDevices", "tools", and "utils", the required functions are imported
+    selectively only. (Issue raised by Florian Oswald.)
 
 
 Changes in Version 2.3-1
