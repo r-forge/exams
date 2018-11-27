@@ -435,7 +435,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
       ## generate ids
       ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-        "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
+        "questions" = paste(iid, make_id(10, length(solution[[i]])), sep = "_"))
 
       ## evaluate points for each question
       pv[[i]] <- eval$pointvec(solution[[i]])
