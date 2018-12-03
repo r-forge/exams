@@ -522,16 +522,23 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        xml <- c(xml,
-          paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
-        '<correctResponse>',
-          paste('<value>', solution[[i]], '</value>', sep = ''),
-          '</correctResponse>',
-          paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval, '">', sep = ''),
-          paste('<mapEntry mapKey="', solution[[i]], '" mappedValue="', pv[[i]]["pos"], '"/>', sep = ''),
-          '</mapping>',
-          '</responseDeclaration>'
-        )
+        if(sum(is.na(maxchars[[i]])) < 1) {
+          xml <- c(xml,
+            paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
+          '<correctResponse>',
+            paste('<value>', solution[[i]], '</value>', sep = ''),
+            '</correctResponse>',
+            paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval, '">', sep = ''),
+            paste('<mapEntry mapKey="', solution[[i]], '" mappedValue="', pv[[i]]["pos"], '"/>', sep = ''),
+            '</mapping>',
+            '</responseDeclaration>'
+          )
+        } else {
+          ## Essay type questions.
+          xml <- c(xml,
+            paste('<responseDeclaration identifier="', ids[[i]]$response,
+              '" cardinality="single" baseType="string">', sep = ''))
+        }
       }
     }
 
@@ -633,24 +640,41 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         }
       }
       if(type[i] == "string") {
-        for(j in seq_along(solution[[i]])) {
+        if(sum(is.na(maxchars[[i]])) < 1) {
+          ## Essay type questions.
           txml <- c(
             if(!ans) '<p>' else NULL,
-             if(!is.null(questionlist[[i]][j])) {
+             if(!is.null(questionlist[[i]])) {
                 paste(if(enumerate & n > 1 & !ans) {
                   paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
-                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(1, ".", sep = "") else NULL,
                       sep = "")
-                } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+                } else NULL, if(!is.na(questionlist[[i]])) questionlist[[i]] else NULL)
              },
-             paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
-              '" expectedLength="', if(!is.na(maxchars[[i]][2])) {
-                maxchars[[i]][2]
-              } else maxchars[[i]][1], '" ', if(!is.na(maxchars[[i]][3])) {
-                paste( 'expectedLines="', maxchars[[i]][3], '" ', sep = '')
-              } else NULL, '/>', sep = ''),
-            if(!ans) '</p>' else NULL
+             if(!ans) '</p>' else NULL,
+             paste('<extendedTextInteraction responseIdentifier="', ids[[i]]$response,
+              '" minStrings="0"/>', sep = '')
           )
+        } else {
+          for(j in seq_along(solution[[i]])) {
+            txml <- c(
+              if(!ans) '<p>' else NULL,
+               if(!is.null(questionlist[[i]][j])) {
+                  paste(if(enumerate & n > 1 & !ans) {
+                    paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+                      if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                        sep = "")
+                  } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+               },
+               paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
+                '" expectedLength="', if(!is.na(maxchars[[i]][2])) {
+                  maxchars[[i]][2]
+                } else maxchars[[i]][1], '" ', if(!is.na(maxchars[[i]][3])) {
+                  paste( 'expectedLines="', maxchars[[i]][3], '" ', sep = '')
+                } else NULL, '/>', sep = ''),
+              if(!ans) '</p>' else NULL
+            )
+          }
         }
       }
       if(ans) {
