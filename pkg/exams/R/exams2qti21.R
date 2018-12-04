@@ -653,7 +653,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
              },
              if(!ans) '</p>' else NULL,
              paste('<extendedTextInteraction responseIdentifier="', ids[[i]]$response,
-              '" minStrings="0" expectedLines="', maxchars[[i]][1], '"/>', sep = '')
+              '" minStrings="0"', '" expectedLength="', if(!is.na(maxchars[[i]][2])) {
+                  maxchars[[i]][2]
+                } else maxchars[[i]][1], '" ', if(!is.na(maxchars[[i]][3])) {
+                  paste( 'expectedLines="', maxchars[[i]][3], '" ', sep = '')
+                } else NULL, '"/>', sep = '')
           )
         } else {
           for(j in seq_along(solution[[i]])) {
