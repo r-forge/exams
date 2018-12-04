@@ -522,7 +522,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if(sum(is.na(maxchars[[i]])) < 1) {
+        if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
@@ -640,7 +640,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         }
       }
       if(type[i] == "string") {
-        if(sum(is.na(maxchars[[i]])) < 1) {
+        if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) {
           ## Essay type questions.
           txml <- c(
             if(!ans) '<p>' else NULL,
@@ -653,7 +653,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
              },
              if(!ans) '</p>' else NULL,
              paste('<extendedTextInteraction responseIdentifier="', ids[[i]]$response,
-              '" minStrings="0"/>', sep = '')
+              '" minStrings="0" expectedLines="', maxchars[[i]][1], '"/>', sep = '')
           )
         } else {
           for(j in seq_along(solution[[i]])) {
