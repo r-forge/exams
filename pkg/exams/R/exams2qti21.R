@@ -657,7 +657,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                   paste0('" expectedLength="' = maxchars[[i]][3])
                 } else NULL, if(!is.na(maxchars[[i]][1])) {
                   paste( 'expectedLines="', maxchars[[i]][1], '" ', sep = '')
-                } else NULL, '"/>', sep = '')
+                } else NULL, '/>', sep = '')
           )
         } else {
           for(j in seq_along(solution[[i]])) {
