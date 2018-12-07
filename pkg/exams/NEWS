@@ -40,7 +40,8 @@ Changes in Version 2.3-2
     computations for schoice/mchoice exercises.
 
   o New language support in exams2nops: Russian (ru, contributed by
-    Boris Demeshev).
+    Boris Demeshev) and Serbian (sr, contributed by Tatjana Kecojevic).
+    Croatian (hr) was streamlined along with Serbian (by Tatjana Kecojevic).
     
   o In include_supplement() an argument target=NULL was added to optionally
     include the supplement with a different file name than the original

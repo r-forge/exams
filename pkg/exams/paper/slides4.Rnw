@@ -52,7 +52,8 @@ set.seed(2018-05-16)
 
 \textbf{Motivation:}
 \begin{itemize}
-  \item Many of us teach large lecture courses, also as support for other fields.
+  \item Many statisticians (like myself)
+        teach large lecture courses, also as support for other fields.
   \item For example, statistics, probability, or mathematics in curricula such as business and
     economics, social sciences, psychology, etc.
   \item At WU Wien and Universit\"at Innsbruck: Some courses are attended by more than
@@ -588,7 +589,7 @@ odir <- tempfile()
 
 <<exams2nops>>=
 exams2nops(myexam, n = 3, dir = odir,
-  language = "hu", institution = "eRum 2018")
+  language = "nl", institution = "TEA 2018")
 @
 
 <<exams2pdf-output, echo=FALSE, results=hide>>=
