@@ -146,12 +146,13 @@ File                                                                    | Langua
 [fi.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/fi.dcf)   | Finnish      | [Klaus Nordhausen](http://klausnordhausen.com/)                                                                    |
 [fr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/fr.dcf)   | French       | [Arthur Allignol](https://github.com/aallignol)                                                                    |
 [gsw.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/gsw.dcf) | Swiss German | [Reto Stauffer](http://retostauffer.org)                                                                           |
-[hr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hr.dcf)   | Croatian     | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic)                                                 |
+[hr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hr.dcf)   | Croatian     | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic) & [Tatjana Kecojevic](https://tanjakec.github.io/) |
 [hu.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hu.dcf)   | Hungarian    | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth                                                    |
 [it.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/it.dcf)   | Italian      | [Domenico Zambella](https://domenicozambella.altervista.org/)                                                      |
 [nl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/nl.dcf)   | Dutch        | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)                                              |
 [pt.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt.dcf) <br/> ([pt-BR.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt-BR.dcf), [pt-PT.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt-PT.dcf)) | Portugese | [Mauricio Calvão](http://www.if.ufrj.br/~orca/) & Fabian Petutschnig & <br/> [Thomas Dellinger](http://www3.uma.pt/thd/) |
 [ro.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ro.dcf)   | Romanian     | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                                                                |
+[sr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sr.dcf)   | Serbian      | [Tatjana Kecojevic](https://tanjakec.github.io/)                                                                   |
 [sk.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sk.dcf)   | Slovak       | Peter Fabsic                                                                                                       |
 [tr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/tr.dcf)   | Turkish      | [Emrah Er](http://eremrah.com/)                                                                                    |
 
