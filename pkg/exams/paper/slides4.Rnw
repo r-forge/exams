@@ -52,8 +52,7 @@ set.seed(2018-05-16)
 
 \textbf{Motivation:}
 \begin{itemize}
-  \item Many statisticians (like myself)
-        teach large lecture courses, also as support for other fields.
+  \item Many of us teach large lecture courses, also as support for other fields.
   \item For example, statistics, probability, or mathematics in curricula such as business and
     economics, social sciences, psychology, etc.
   \item At WU Wien and Universit\"at Innsbruck: Some courses are attended by more than
@@ -905,10 +904,11 @@ dev.off()
 \begin{itemize}
   \item \emph{Many volunteers:} Internationalization for ``NOPS'' exams.
   \item \emph{Nikolaus Umlauf:} Exercise ``stress tester''.
-  \item \emph{Stefan Coors, Nikolaus Umlauf:} Graphical exams manager based on \pkg{shiny} that can be
+  \item \emph{Nikolaus Umlauf:} Graphical exams manager based on \pkg{shiny} that can be
     used on a local machine or on a server.
   \item \emph{Achim Zeileis:} Reports for lecturers based on IRT models.
   \item \emph{Niels Smits:} Better management of exercise categories.
+  \item \emph{Niels Smits, Claus Ekstr{\o}m, Nikolaus Umlauf:} \pkg{Canvas} interface based on QTI~1.2.
   \item \emph{Mirko Birbaumer, Andreas Melillo, Achim Zeileis:} \pkg{Ilias} interface based on QTI~1.2.
 \end{itemize}
 
@@ -949,13 +949,14 @@ exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "slides4-no
   \textbf{fi} & Nordhausen & \\
   \textbf{fr} & Allignol & \\
   \textbf{gsw}& Stauffer & \\
-  \textbf{hr} & Jurai{\'c} & \\
+  \textbf{hr} & Jurai{\'c}, Kecojevic & \\
   \textbf{hu} & Dar{\'o}czi, T{\'o}th & \\
   \textbf{it} & Zambella & \\
   \textbf{nl} & Smits & \\
   \textbf{pt} & Calv{\~a}o, Dellinger, & \\
               & Petutschnig (pt-PT/pt-BR) & \\
   \textbf{ro} & Gatu & \\
+  \textbf{ru} & Demeshev & \\
   \textbf{sk} & Fabsic & \\
   \textbf{sr} & Kecojevic & \\
   \textbf{tr} & Er & \\
