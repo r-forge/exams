@@ -1,3 +1,11 @@
+Changes in Version 2.3-3
+
+  o Added new interface exams2ilias() for the open-source ILIAS learning
+    management system (https://www.ilias.de/). This is essentially a
+    convenience wrapper to exams2qti12(), tweaking a few defaults and
+    employing a somewhat modified XML template.
+
+
 Changes in Version 2.3-2
 
   o Added new interface exams2ilias() for the open-source ILIAS learning
