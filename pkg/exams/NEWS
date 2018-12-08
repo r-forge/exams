@@ -12,7 +12,7 @@ Changes in Version 2.3-2
     to shave box borders more reliably.
 
   o nops_scan() tries to process registration numbers more reliably.
-    In case on of the registration columns contains more than one potential
+    In case one of the registration columns contains more than one potential
     mark, the heuristics of determining the intended mark have been improved.
 
   o New exercise confint3.Rmd/Rnw that illustrates how to use the "verbatim"
