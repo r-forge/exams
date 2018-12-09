@@ -1,0 +1,22 @@
+Question
+========
+Which of the following statements about the R system for statistical computing best describes your experience with R?
+
+Answerlist
+----------
+* I have never heard of R.
+* I have seen R but haven't used it (much).
+* I have already used R for some tasks.
+
+
+Solution
+========
+R is a programming language and free software environment for statistical computing and graphics.
+More details and links can be found on the official web page at <https://www.R-project.org/>.
+
+
+Meta-information
+================
+exname: R system for statistical computing
+extype: schoice
+exsolution: 001
