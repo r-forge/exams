@@ -11,6 +11,56 @@
     
     
 			<item>
+        <title><![CDATA[CRAN Release of R/exams 2.3-2]]></title>
+				<link>http://www.R-exams.org/general/cran_release_232/</link>
+        <pubDate>Mon, 10 Dec 2018 00:00:00 +0100</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>New minor release of the R/exams package to CRAN, containing a range of smaller improvements and bug fixes. Notably scanning of written NOPS exams is enhanced and made more reliable and a new exercise template demonstrates how to use advanced processing of numeric answers in Moodle.</p>
+    
+    
+    <p><img alt="CRAN Release of R/exams 2.3-2" src="http://www.R-exams.org/images/cran232.title.png" /></p>
+    
+    <p>Version 2.3-2 of the one-for-all exams generator <a href="http://www.R-exams.org/">R/exams</a> has been published on the Comprehensive R Archive Network at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>. In the next days this will propagate to other CRAN mirrors along with Windows and OS X binary packages. The development version of the package is now version 2.3-3 on R-Forge at <a href="http://R-Forge.R-project.org/forum/?group_id=1337">http://R-Forge.R-project.org/forum/?group_id=1337</a>.</p>
+
+<h2 id="written-exams-nops">Written exams (NOPS)</h2>
+
+<ul>
+  <li>Support for further languages is available in <code class="highlighter-rouge">exams2nops()</code> and <code class="highlighter-rouge">nops_eval()</code>: Russian (<code class="highlighter-rouge">ru</code>, contributed by <a href="https://www.hse.ru/en/staff/bbd/">Boris Demeshev</a>) and Serbian (<code class="highlighter-rouge">sr</code>, contributed by <a href="https://tanjakec.github.io/">Tatjana Kecojevic</a>). Furthermore, Croatian (<code class="highlighter-rouge">hr</code>) was streamlined along with Serbian by Tatjana Kecojevic.</li>
+  <li>In <code class="highlighter-rouge">exams2nops()</code> the <code class="highlighter-rouge">header</code> argument can also be specified simply as <code class="highlighter-rouge">header = "\\mycommand{value}"</code> rather than <code class="highlighter-rouge">header = list(mycommand = "value")</code>. The former is more flexible, e.g., for passing additional options or more complex commands. Internally, the former is turned into an unnamed list which is then processed correspondingly by <code class="highlighter-rouge">exams2pdf()</code>.</li>
+  <li>Scanning of written NOPS exams is enhanced and registration IDs are processed more reliably: First, <code class="highlighter-rouge">nops_scan()</code> gained a new argument <code class="highlighter-rouge">trim = 0.3</code> that controls how much of the check boxes is trimmed in order to shave the borders prior to determining the average gray level. In versions up to 2.3-1 this implicitly had a value of <code class="highlighter-rouge">0.25</code> hard-coded. Now the default increased to <code class="highlighter-rouge">0.3</code> in order to shave box borders more reliably, e.g., in more pixelated scans. Second, <code class="highlighter-rouge">nops_scan()</code> tries to process registration numbers more reliably. In case one of the registration columns contains more than one potential mark, the heuristics of determining the intended mark have been improved.</li>
+  <li><code class="highlighter-rouge">nops_eval()</code> gained a new argument <code class="highlighter-rouge">labels = NULL</code> that can be used to give labels for the marks that differ from the default <code class="highlighter-rouge">(length(mark) + 1):1</code>.</li>
+</ul>
+
+<h2 id="new-exercise-templates">New exercise templates</h2>
+
+<ul>
+  <li>The new exercise <a href="http://www.R-exams.org/templates/confint3/">confint3</a> (Rmd/Rnw) illustrates how to use the <code class="highlighter-rouge">verbatim</code> type for advanced processing in Moodle when asking for the computation of a 2-sided confidence interval. Rather than using a single correct value for each numeric result (along with a corresponding tolerance interval) as in <code class="highlighter-rouge">num</code> exercises (see <a href="http://www.R-exams.org/templates/confint2/">confint2</a>), the exercise also provides a second partially correct value for each result. More precisely, the exercise yields 100% of the points for the correct solution based on t quantiles but still 50% for the solution based on normal quantiles. This is possible by setting the type to <code class="highlighter-rouge">verbatim</code> and specifying the solution via the necessary Moodle XML markup directly, e.g., <code class="highlighter-rouge">:NUMERICAL:=&lt;value1&gt;:&lt;tolerance1&gt;~%50%&lt;value2&gt;:&lt;tolerance2&gt;#&lt;comment&gt;</code>. The exercise is a contribution by <a href="http://prof.beuth-hochschule.de/groemping/">Ulrike Groemping</a>.</li>
+</ul>
+
+<h2 id="extensions">Extensions</h2>
+
+<ul>
+  <li>Rather than fully importing the basic dependencies <code class="highlighter-rouge">stats</code>, <code class="highlighter-rouge">graphics</code>, <code class="highlighter-rouge">grDevices</code>, <code class="highlighter-rouge">tools</code>, and <code class="highlighter-rouge">utils</code>, only the required functions from those packages are imported selectively. The main motivation for this was that otherwise the code evaluated in R/exams exercises might also use the same NAMESPACE semantics as the <code class="highlighter-rouge">exams</code> package - instead of employing the setup in the user’s environment. The issue was raised in this <a href="https://stackoverflow.com/questions/53414611/r-exams-package-weird-behaviour-with-dplyr">StackOverflow thread</a> by <a href="https://floswald.github.io/">Florian Oswald</a>.</li>
+  <li>In <code class="highlighter-rouge">include_supplement()</code> an argument <code class="highlighter-rouge">target = NULL</code> is added to optionally include the supplement with a different file name than the original file name.</li>
+  <li>In all LaTeX templates that use Helvetica (phv) as the font for the main text, this is also used now in math mode by <code class="highlighter-rouge">\usepackage[helvet]{sfmath}</code> (rather than <code class="highlighter-rouge">\usepackage{sfmath}</code>, as employed previously). In particular, this affects <code class="highlighter-rouge">exams2nops()</code> and <code class="highlighter-rouge">tex2image()</code> output.</li>
+</ul>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<ul>
+  <li>In previous versions the <code class="highlighter-rouge">pandoc</code>-based HTML <code class="highlighter-rouge">converter</code> erroneously produced unbalanced <code class="highlighter-rouge">&lt;p&gt;</code> tags in certain situations.</li>
+  <li>The QTI 2.1 XML output from <code class="highlighter-rouge">exams2qti21()</code> is somewhat cleaner, fixing some computations for correct/incorrect answers in <code class="highlighter-rouge">schoice</code>/<code class="highlighter-rouge">mchoice</code> exercises.</li>
+</ul>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/general/cran_release_232/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[confint3: 2-Sided Confidence Interval (Extended Moodle Version)]]></title>
 				<link>http://www.R-exams.org/templates/confint3/</link>
         <pubDate>Sun, 09 Dec 2018 00:00:00 +0100</pubDate>
@@ -900,229 +950,6 @@ final_data &lt;- USairpollution[sampled_dat, ]
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/general/uni_koblenz_landau/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[Written R/exams around the World]]></title>
-				<link>http://www.R-exams.org/tutorials/nops_language/</link>
-        <pubDate>Mon, 08 Jan 2018 00:00:00 +0100</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>How to internationalize exams2nops() by adding support for new natural languages in written R/exams (that can be automatically scanned and evaluated).</p>
-    
-    
-    <p><img alt="Written R/exams around the World" src="http://www.R-exams.org/images/nops.title.jpg" /></p>
-    
-    <h2 id="idea">Idea</h2>
-
-<p>In addition to completely customizable PDF output, R/exams provides a standardized format called
-“NOPS” for <a href="http://www.R-exams.org/intro/written/">written exams</a> with multiple-choice
-(and/or single-choice) exercises that can be
-<a href="http://www.R-exams.org/tutorials/exams2nops/">automatically generated, scanned, and evaluated</a>.
-In order to assure that the automatic scanning works the title page has a fixed layout
-that cannot be modified by R/exams users. However, to internationalize the format there
-is a possibility for customizing the natural language support. A number of languages
-is already available but it is not difficult to add further languages or to tweak
-existing languages if desired.</p>
-
-<h2 id="example">Example</h2>
-
-<p>To illustrate how the language support works, once it has been fully incorporated into the
-<code class="highlighter-rouge">exams</code> package, we set up a short exam with three exercises:
-<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>,
-<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>. All of these are readily available
-in the package (and are actually in English).</p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-myexam &lt;- c(&quot;deriv2.Rnw&quot;, &quot;tstat2.Rnw&quot;, &quot;swisscapital.Rnw&quot;)</code></pre>
-
-<p>Then we set up PDF output in English (en), German (de), and Spanish (es).
-By setting <code class="highlighter-rouge">language</code> most text on the title page is modified, only the name of the
-<code class="highlighter-rouge">institution</code> and the <code class="highlighter-rouge">title</code> of the exam have to be set separately. For the English
-example we produce <code class="highlighter-rouge">n = 1</code> PDF output file in the output directory <code class="highlighter-rouge">nops_pdf</code> (created
-automatically).</p>
-
-<pre><code class="prettyprint ">set.seed(403)
-exams2nops(myexam, n = 1, language = &quot;en&quot;,
-  institution = &quot;R University&quot;, title = &quot;Exam&quot;,
-  dir = &quot;nops_pdf&quot;, name = &quot;en&quot;, date = &quot;2018-01-08&quot;)</code></pre>
-
-<p>Then we do the same for the other two languages.</p>
-
-<pre><code class="prettyprint ">set.seed(403)
-exams2nops(myexam, n = 1, language = &quot;de&quot;,
-  institution = &quot;R Universit\\\&quot;at&quot;, title = &quot;Klausur&quot;,
-  dir = &quot;nops_pdf&quot;, name = &quot;de&quot;, date = &quot;2018-01-08&quot;)
-set.seed(403)
-exams2nops(myexam, n = 1, language = &quot;es&quot;,
-  institution = &quot;R Universidad&quot;, title = &quot;Examen&quot;,
-  dir = &quot;nops_pdf&quot;, name = &quot;es&quot;, date = &quot;2018-01-08&quot;)</code></pre>
-
-<p>The title pages of the resulting PDF files then have the desired languages.</p>
-
-<p><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//en1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/en1.png" alt="en1.pdf" /></a>
-<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//de1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/de1.png" alt="de1.pdf" /></a>
-<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language//es1.pdf"><img src="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/es1.png" alt="es1.pdf" /></a></p>
-
-<h2 id="language-specification">Language specification</h2>
-
-<p>To add a new language, essentially just a single text file (say <code class="highlighter-rouge">lang.dcf</code>) is needed containing
-suitable translations of all the phrases on the title page as well as a few additional phrases,
-e.g., occuring in the HTML evaluation reports etc.
-As an example, the first few phrases in English (<code class="highlighter-rouge">en.dcf</code>) are:</p>
-
-<pre>
-PersonalData: Personal Data
-Name: Name
-FamilyName: Family Name
-GivenName: Given Name
-Signature: Signature
-RegistrationNumber: Registration Number
-Checked: checked
-NoChanges: In this section \textbf{no} changes or modifications must be made!
-...
-</pre>
-
-<p>And the corresponding translations to German (<code class="highlighter-rouge">de.dcf</code>) are:</p>
-
-<pre>
-PersonalData: Pers{\"o}nliche Daten
-Name: Name
-FamilyName: Nachname
-GivenName: Vorname
-Signature: Unterschrift
-RegistrationNumber: Matrikelnummer
-Checked: gepr{\"u}ft
-NoChanges: In diesem Feld d{\"u}rfen \textbf{keine} Ver{\"a}nderungen der Daten vorgenommen werden!
-...
-</pre>
-
-<p>Note that here LaTeX markup is used for the German umlaute and for bold highlighting. Alternatively,
-special characters can be added in a suitable encoding (typically UTF-8) but then the encoding has
-to be declared when calling <code class="highlighter-rouge">exams2nops()</code> (e.g., <code class="highlighter-rouge">encoding = "UTF-8"</code>).</p>
-
-<p>Most of the phrases required in the <code class="highlighter-rouge">.dcf</code> are very straightforward and only some are a bit technical.
-There are also a couple of coordinates (<code class="highlighter-rouge">MarkExample*</code>) necessary for aligning some text lines.
-If you have set up your own <code class="highlighter-rouge">lang.dcf</code> you can easily pass it to <code class="highlighter-rouge">exams2nops()</code> by setting
-<code class="highlighter-rouge">language = "/path/to/lang.dcf"</code>. The same has to be done for <code class="highlighter-rouge">nops_eval()</code> when evaluating the exam.</p>
-
-<h2 id="currently-available-languages">Currently available languages</h2>
-
-<p>Due to the kind support from friends and various dedicated R/exams users, there is already support
-for many important Western languages as well as a few other languages/countries. All of these
-are directly available in the R package (note that <code class="highlighter-rouge">"tr"</code> requires the current
-<a href="http://R-Forge.R-project.org/R/?group_id=1337">development version from R-Forge</a>, though). But for convenience
-and manual inspection the <code class="highlighter-rouge">.dcf</code> files are also linked here.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">File</th>
-      <th style="text-align: left">Language</th>
-      <th style="text-align: left">Contributor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/da.dcf">da.dcf</a></td>
-      <td style="text-align: left">Danish</td>
-      <td style="text-align: left"><a href="http://orcid.org/0000-0002-6594-5094">Tue Vissing Jensen</a> &amp; <a href="http://orcid.org/0000-0002-1027-3673">Jakob Messner</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/de.dcf">de.dcf</a></td>
-      <td style="text-align: left">German</td>
-      <td style="text-align: left"><a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/en.dcf">en.dcf</a></td>
-      <td style="text-align: left">English</td>
-      <td style="text-align: left"><a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/es.dcf">es.dcf</a></td>
-      <td style="text-align: left">Spanish</td>
-      <td style="text-align: left"><a href="http://www.broomcenter.ucsb.edu/people/maria-kogelnik">Maria Kogelnik</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/fi.dcf">fi.dcf</a></td>
-      <td style="text-align: left">Finnish</td>
-      <td style="text-align: left"><a href="http://klausnordhausen.com/">Klaus Nordhausen</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/fr.dcf">fr.dcf</a></td>
-      <td style="text-align: left">French</td>
-      <td style="text-align: left"><a href="https://github.com/aallignol">Arthur Allignol</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/gsw.dcf">gsw.dcf</a></td>
-      <td style="text-align: left">Swiss German</td>
-      <td style="text-align: left"><a href="http://retostauffer.org">Reto Stauffer</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/hr.dcf">hr.dcf</a></td>
-      <td style="text-align: left">Croatian</td>
-      <td style="text-align: left"><a href="http://www.irb.hr/eng/People/Krunoslav-Juraic">Krunoslav Juraić</a> &amp; <a href="https://tanjakec.github.io/">Tatjana Kecojevic</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/hu.dcf">hu.dcf</a></td>
-      <td style="text-align: left">Hungarian</td>
-      <td style="text-align: left"><a href="https://twitter.com/daroczig">Gergely Daróczi</a> &amp; Dénes Tóth</td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/it.dcf">it.dcf</a></td>
-      <td style="text-align: left">Italian</td>
-      <td style="text-align: left"><a href="https://domenicozambella.altervista.org/">Domenico Zambella</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/nl.dcf">nl.dcf</a></td>
-      <td style="text-align: left">Dutch</td>
-      <td style="text-align: left"><a href="https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html">Niels Smits</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt.dcf">pt.dcf</a> <br /> (<a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt-BR.dcf">pt-BR.dcf</a>, <a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/pt-PT.dcf">pt-PT.dcf</a>)</td>
-      <td style="text-align: left">Portugese</td>
-      <td style="text-align: left"><a href="http://www.if.ufrj.br/~orca/">Mauricio Calvão</a> &amp; Fabian Petutschnig &amp; <br /> <a href="http://www3.uma.pt/thd/">Thomas Dellinger</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/ro.dcf">ro.dcf</a></td>
-      <td style="text-align: left">Romanian</td>
-      <td style="text-align: left"><a href="https://profs.info.uaic.ro/~cgatu/">Cristian Gatu</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/sr.dcf">sr.dcf</a></td>
-      <td style="text-align: left">Serbian</td>
-      <td style="text-align: left"><a href="https://tanjakec.github.io/">Tatjana Kecojevic</a></td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/sk.dcf">sk.dcf</a></td>
-      <td style="text-align: left">Slovak</td>
-      <td style="text-align: left">Peter Fabsic</td>
-    </tr>
-    <tr>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2018-01-08-nops_language/tr.dcf">tr.dcf</a></td>
-      <td style="text-align: left">Turkish</td>
-      <td style="text-align: left"><a href="http://eremrah.com/">Emrah Er</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="contributing-new-languages">Contributing new languages</h2>
-
-<p>If you want to contribute a new language, simply set up a <code class="highlighter-rouge">.dcf</code> file starting out from one of the examples
-above and send the file or a link to
-<em>&lt;info at R-exams.org&gt;</em>.
-Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
-For Western languages (e.g., <code class="highlighter-rouge">sv</code>, <code class="highlighter-rouge">no</code> are still missing) it is probably the most robust solution to
-code special characters in LaTeX. For languages requiring other alphabets (e.g., <code class="highlighter-rouge">ru</code> would be nice or Asian languages…)
-it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
-<a href="http://R-Forge.R-project.org/forum/?group_id=1337">support forum</a>
-or on Twitter (<a href="https://twitter.com/AchimZeileis">@AchimZeileis</a>) if you want to know more or need further details.</p>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/tutorials/nops_language/</guid>
 			</item>
 		
 	</channel>

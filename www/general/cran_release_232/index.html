@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>confint3: 2-Sided Confidence Interval (Extended Moodle Version)</title>
+	<title>CRAN Release of R/exams 2.3-2</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,8 +23,8 @@
 
   
 	
-	<meta name="description" content="Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample." />
-  <meta name="keywords" content="cloze, numeric, confidence, interval, statistics" />
+	<meta name="description" content="New minor release of the R/exams package to CRAN, containing a range of smaller improvements and bug fixes. Notably scanning of written NOPS exams is enhanced and made more reliable and a new exercise template demonstrates how to use advanced processing of numeric answers in Moodle." />
+  <meta name="keywords" content="R, exams, scan, Moodle, confidence, internationalization, LaTeX" />
 	
   <meta name="author" content="Achim Zeileis" />
 
@@ -46,11 +46,11 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="confint3: 2-Sided Confidence Interval (Extended Moodle Version)" />
+	<meta property="og:title" content="CRAN Release of R/exams 2.3-2" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//templates/confint3/" />
+	<meta property="og:url" content="http://www.R-exams.org//general/cran_release_232/" />
 	<meta property="og:site_name" content="R/exams" />
-	<meta property="og:image" content="http://www.R-exams.org/images/confint3.small.png" />
+	<meta property="og:image" content="http://www.R-exams.org/images/cran232.300.png" />
 
 	
 
@@ -309,96 +309,62 @@
 		<article itemscope itemtype="http://schema.org/Article">
 			<header>
 				
+				<figure>
+					<img src="http://www.R-exams.org/images/cran232.title.png" width="970" alt="CRAN Release of R/exams 2.3-2" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams on CRAN screenshot (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
 
 				<span itemprop="name">
 					
-					<h1>confint3: 2-Sided Confidence Interval (Extended Moodle Version)</h1>
+					<h1>CRAN Release of R/exams 2.3-2</h1>
 				</span>
 			</header>
 
 
 			
 			<p class="teaser" itemprop="description">
-				Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample.
+				New minor release of the R/exams package to CRAN, containing a range of smaller improvements and bug fixes. Notably scanning of written NOPS exams is enhanced and made more reliable and a new exercise template demonstrates how to use advanced processing of numeric answers in Moodle.
 			</p>
 			
 
 			<span itemprop="articleSection">
-			<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Name:</b></div>
-  <div class="medium-8 columns"><code class="highlighter-rouge">confint3</code></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Type:</b></div>
-  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/cloze/"><code class="highlighter-rouge">cloze</code></a></div>
-</div>
-<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/confint2/"><code class="highlighter-rouge">confint2</code></a></div> </div>
+			<p>Version 2.3-2 of the one-for-all exams generator <a href="http://www.R-exams.org/">R/exams</a> has been published on the Comprehensive R Archive Network at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>. In the next days this will propagate to other CRAN mirrors along with Windows and OS X binary packages. The development version of the package is now version 2.3-3 on R-Forge at <a href="http://R-Forge.R-project.org/forum/?group_id=1337">http://R-Forge.R-project.org/forum/?group_id=1337</a>.</p>
 
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Description:</b></div>
-  <div class="medium-8 columns">Computing the 2-sided confidence interval at 95% level for the mean based on a random sample. The exercise is a cloze with two numeric answers for the lower and upper bound of the confidence interval, respectively. Using the 'verbatim' clozetype for Moodle, the exercises yields 100% of the points for the correct solution based on t quantiles but still 50% for a partially correct solution based on normal quantiles.</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Solution feedback:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Randomization:</b></div>
-  <div class="medium-8 columns">Random numbers</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Images:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Other supplements:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
+<h2 id="written-exams-nops">Written exams (NOPS)</h2>
 
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Template:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.Rnw">confint3.Rnw</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.Rmd">confint3.Rmd</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.tex">confint3.tex</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.md">confint3.md</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>PDF:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw-pdf.png" alt="confint3-Rnw-pdf" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd-pdf.png" alt="confint3-Rmd-pdf" /></a></div>
-</div>
-<div class="row t1 b20">
-  <div class="medium-4 columns"><b>HTML:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw-html.png" alt="confint3-Rnw-html" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd-html.png" alt="confint3-Rmd-html" /></a></div>
-</div>
+<ul>
+  <li>Support for further languages is available in <code class="highlighter-rouge">exams2nops()</code> and <code class="highlighter-rouge">nops_eval()</code>: Russian (<code class="highlighter-rouge">ru</code>, contributed by <a href="https://www.hse.ru/en/staff/bbd/">Boris Demeshev</a>) and Serbian (<code class="highlighter-rouge">sr</code>, contributed by <a href="https://tanjakec.github.io/">Tatjana Kecojevic</a>). Furthermore, Croatian (<code class="highlighter-rouge">hr</code>) was streamlined along with Serbian by Tatjana Kecojevic.</li>
+  <li>In <code class="highlighter-rouge">exams2nops()</code> the <code class="highlighter-rouge">header</code> argument can also be specified simply as <code class="highlighter-rouge">header = "\\mycommand{value}"</code> rather than <code class="highlighter-rouge">header = list(mycommand = "value")</code>. The former is more flexible, e.g., for passing additional options or more complex commands. Internally, the former is turned into an unnamed list which is then processed correspondingly by <code class="highlighter-rouge">exams2pdf()</code>.</li>
+  <li>Scanning of written NOPS exams is enhanced and registration IDs are processed more reliably: First, <code class="highlighter-rouge">nops_scan()</code> gained a new argument <code class="highlighter-rouge">trim = 0.3</code> that controls how much of the check boxes is trimmed in order to shave the borders prior to determining the average gray level. In versions up to 2.3-1 this implicitly had a value of <code class="highlighter-rouge">0.25</code> hard-coded. Now the default increased to <code class="highlighter-rouge">0.3</code> in order to shave box borders more reliably, e.g., in more pixelated scans. Second, <code class="highlighter-rouge">nops_scan()</code> tries to process registration numbers more reliably. In case one of the registration columns contains more than one potential mark, the heuristics of determining the intended mark have been improved.</li>
+  <li><code class="highlighter-rouge">nops_eval()</code> gained a new argument <code class="highlighter-rouge">labels = NULL</code> that can be used to give labels for the marks that differ from the default <code class="highlighter-rouge">(length(mark) + 1):1</code>.</li>
+</ul>
 
-<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
+<h2 id="new-exercise-templates">New exercise templates</h2>
 
-<p><strong>Demo code:</strong></p>
+<ul>
+  <li>The new exercise <a href="http://www.R-exams.org/templates/confint3/">confint3</a> (Rmd/Rnw) illustrates how to use the <code class="highlighter-rouge">verbatim</code> type for advanced processing in Moodle when asking for the computation of a 2-sided confidence interval. Rather than using a single correct value for each numeric result (along with a corresponding tolerance interval) as in <code class="highlighter-rouge">num</code> exercises (see <a href="http://www.R-exams.org/templates/confint2/">confint2</a>), the exercise also provides a second partially correct value for each result. More precisely, the exercise yields 100% of the points for the correct solution based on t quantiles but still 50% for the solution based on normal quantiles. This is possible by setting the type to <code class="highlighter-rouge">verbatim</code> and specifying the solution via the necessary Moodle XML markup directly, e.g., <code class="highlighter-rouge">:NUMERICAL:=&lt;value1&gt;:&lt;tolerance1&gt;~%50%&lt;value2&gt;:&lt;tolerance2&gt;#&lt;comment&gt;</code>. The exercise is a contribution by <a href="http://prof.beuth-hochschule.de/groemping/">Ulrike Groemping</a>.</li>
+</ul>
 
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
+<h2 id="extensions">Extensions</h2>
 
-set.seed(1090)
-exams2html(&quot;confint3.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;confint3.Rnw&quot;)
+<ul>
+  <li>Rather than fully importing the basic dependencies <code class="highlighter-rouge">stats</code>, <code class="highlighter-rouge">graphics</code>, <code class="highlighter-rouge">grDevices</code>, <code class="highlighter-rouge">tools</code>, and <code class="highlighter-rouge">utils</code>, only the required functions from those packages are imported selectively. The main motivation for this was that otherwise the code evaluated in R/exams exercises might also use the same NAMESPACE semantics as the <code class="highlighter-rouge">exams</code> package - instead of employing the setup in the user’s environment. The issue was raised in this <a href="https://stackoverflow.com/questions/53414611/r-exams-package-weird-behaviour-with-dplyr">StackOverflow thread</a> by <a href="https://floswald.github.io/">Florian Oswald</a>.</li>
+  <li>In <code class="highlighter-rouge">include_supplement()</code> an argument <code class="highlighter-rouge">target = NULL</code> is added to optionally include the supplement with a different file name than the original file name.</li>
+  <li>In all LaTeX templates that use Helvetica (phv) as the font for the main text, this is also used now in math mode by <code class="highlighter-rouge">\usepackage[helvet]{sfmath}</code> (rather than <code class="highlighter-rouge">\usepackage{sfmath}</code>, as employed previously). In particular, this affects <code class="highlighter-rouge">exams2nops()</code> and <code class="highlighter-rouge">tex2image()</code> output.</li>
+</ul>
 
-set.seed(1090)
-exams2html(&quot;confint3.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;confint3.Rmd&quot;)</code></pre>
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<ul>
+  <li>In previous versions the <code class="highlighter-rouge">pandoc</code>-based HTML <code class="highlighter-rouge">converter</code> erroneously produced unbalanced <code class="highlighter-rouge">&lt;p&gt;</code> tags in certain situations.</li>
+  <li>The QTI 2.1 XML output from <code class="highlighter-rouge">exams2qti21()</code> is somewhat cleaner, fixing some computations for correct/incorrect answers in <code class="highlighter-rouge">schoice</code>/<code class="highlighter-rouge">mchoice</code> exercises.</li>
+</ul>
 
 			</span>
 
@@ -414,21 +380,19 @@ exams2pdf(&quot;confint3.Rmd&quot;)</code></pre>
 				
 
 				
-				<time class="icon-calendar pr20" datetime="2018-12-09" itemprop="datePublished"> 2018-12-09</time>
+				<time class="icon-calendar pr20" datetime="2018-12-10" itemprop="datePublished"> 2018-12-10</time>
 				
 
-				<span class="icon-archive pr20"><a href="http://www.R-exams.org/templates/">TEMPLATES</a></span>
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
 				<br />
-				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/cloze/">cloze</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/numeric/">numeric</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/confidence/">confidence</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/interval/">interval</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/statistics/">statistics</a></span> </span>
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/scan/">scan</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Moodle/">Moodle</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/confidence/">confidence</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/internationalization/">internationalization</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/LaTeX/">LaTeX</a></span> </span>
 			</p>
 
 			<div id="post-nav" class="row">
 				
-				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/erum2018/">&laquo; R/exams @ eRum 2018</a></div><!-- /.small-4.columns -->
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/templates/confint3/">&laquo; confint3: 2-Sided Confidence Interval (Extended Moodle Version)</a></div><!-- /.small-4.columns -->
 				
         
-				
-				<div class="small-6 columns text-right"><a class="button small radius next" href="http://www.R-exams.org/general/cran_release_232/">CRAN Release of R/exams 2.3-2 &raquo;</a></div><!-- /.small-4.columns -->
 				
 			</div>
 			</div><!--  /.page-meta -->
