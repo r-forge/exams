@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>R/exams</title>
+	<title>confint3: 2-Sided Confidence Interval (Extended Moodle Version)</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,8 +23,8 @@
 
   
 	
-	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-  
+	<meta name="description" content="Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample." />
+  <meta name="keywords" content="cloze, numeric, confidence, interval, statistics" />
 	
   <meta name="author" content="Achim Zeileis" />
 
@@ -46,11 +46,11 @@
 	<!-- Facebook Optimization -->
 	<meta property="og:locale" content="en_EN" />
 	
-	<meta property="og:title" content="R/exams" />
+	<meta property="og:title" content="confint3: 2-Sided Confidence Interval (Extended Moodle Version)" />
 	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//" />
+	<meta property="og:url" content="http://www.R-exams.org//templates/confint3/" />
 	<meta property="og:site_name" content="R/exams" />
-	
+	<meta property="og:image" content="http://www.R-exams.org/images/confint3.small.png" />
 
 	
 
@@ -81,7 +81,7 @@
 <!-- End Piwik Code -->
 
 </head>
-<body id="top-of-page" class="blog-index">
+<body id="top-of-page" class="post">
 	
 	
 <div id="navigation" class="sticky">
@@ -109,7 +109,7 @@
             
             
 
-              <li class="has-dropdown active">
+              <li class="has-dropdown">
                 <a href="http://www.R-exams.org/">R/exams</a>
 
                   <ul class="dropdown">
@@ -285,254 +285,168 @@
 
 	
 
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
 
 
 
 
 
-	
 
 
-<div id="masthead-slider">
-  
-  
-  <div class="slider-item" style="background-image: url('http://www.R-exams.org/images/seminar.cut.big.jpg'); background-position:left center">
-    
-    <a href="http://www.R-exams.org/intro/elearning/">
-      <div class="overlay">
-        <div class="row">
-          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
-            
-            
-            <div class="left icon valign_o" data-equalizer-watch>
-              <div class="valign_i">
-                <img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/elearning.svg" alt="E-Learning" />
-              </div>
-            </div>
-            
-            <div class="valign_o description" data-equalizer-watch>
-              <div class="valign_i">
-                <h2 class="font-size-h4">E-Learning</h2>
-                <p>Exercises for Moodle, Blackboard, OLAT, ...
-</p>
-              </div>
-            </div>
-          </div><!-- /column -->
-        </div><!-- /.row -->
-      </div><!-- /.overlay -->
-    </a>
-  </div><!-- /.slider-item -->
-  
-  
-  <div class="slider-item" style="background-image: url('http://www.R-exams.org/images/moodle-arsnova-nops.big.jpg'); background-position:center">
-    
-    <a href="http://www.R-exams.org/intro/oneforall/">
-      <div class="overlay">
-        <div class="row">
-          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
-            
-            
-            <div class="left icon valign_o" data-equalizer-watch>
-              <div class="valign_i">
-                <img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/oneforall.svg" alt="One-for-All" />
-              </div>
-            </div>
-            
-            <div class="valign_o description" data-equalizer-watch>
-              <div class="valign_i">
-                <h2 class="font-size-h4">One-for-All</h2>
-                <p>The same exercises in exams, online tests, and live voting.
-</p>
-              </div>
-            </div>
-          </div><!-- /column -->
-        </div><!-- /.row -->
-      </div><!-- /.overlay -->
-    </a>
-  </div><!-- /.slider-item -->
-  
-  
-  <div class="slider-item" style="background-image: url('http://www.R-exams.org/images/olympia_side_zoom.big.jpg'); background-position:center">
-    
-    <a href="http://www.R-exams.org/intro/written/">
-      <div class="overlay">
-        <div class="row">
-          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
-            
-            
-            <div class="left icon valign_o" data-equalizer-watch>
-              <div class="valign_i">
-                <img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/written.svg" alt="Written Exams" />
-              </div>
-            </div>
-            
-            <div class="valign_o description" data-equalizer-watch>
-              <div class="valign_i">
-                <h2 class="font-size-h4">Written Exams</h2>
-                <p>Automatic generation, scanning, and evaluation.
-</p>
-              </div>
-            </div>
-          </div><!-- /column -->
-        </div><!-- /.row -->
-      </div><!-- /.overlay -->
-    </a>
-  </div><!-- /.slider-item -->
-  
-  
-  <div class="slider-item" style="background-image: url('http://www.R-exams.org/images/laptop_on_table_deriv2.cut.big.jpg'); background-position:center">
-    
-    <a href="http://www.R-exams.org/intro/dynamic/">
-      <div class="overlay">
-        <div class="row">
-          <div class="small-12 medium-offset-1 medium-10 large-12 large-offset-0 columns" data-equalizer>
-            
-            
-            <div class="left icon valign_o" data-equalizer-watch>
-              <div class="valign_i">
-                <img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/dynamic.svg" alt="Dynamic Exercises" />
-              </div>
-            </div>
-            
-            <div class="valign_o description" data-equalizer-watch>
-              <div class="valign_i">
-                <h2 class="font-size-h4">Dynamic Exercises</h2>
-                <p>Multiple choice, numeric, and text answers.
-</p>
-              </div>
-            </div>
-          </div><!-- /column -->
-        </div><!-- /.row -->
-      </div><!-- /.overlay -->
-    </a>
-  </div><!-- /.slider-item -->
-  
-</div><!-- /#masthead-slider -->
 
-<div class="row">
-  
-  <div class="small-6 large-3 columns t60 text-center frontpage-widget">
-	
-	<a href="http://www.R-exams.org/intro/elearning/">
-		
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+
+				<span itemprop="name">
+					
+					<h1>confint3: 2-Sided Confidence Interval (Extended Moodle Version)</h1>
+				</span>
+			</header>
+
+
 			
-			<img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/elearning.svg" alt="E-Learning" />
-		
-    <h2 class="font-size-h4 t10"">E-Learning</h2>
-	</a>
+			<p class="teaser" itemprop="description">
+				Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Name:</b></div>
+  <div class="medium-8 columns"><code class="highlighter-rouge">confint3</code></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Type:</b></div>
+  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/cloze/"><code class="highlighter-rouge">cloze</code></a></div>
+</div>
+<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/confint2/"><code class="highlighter-rouge">confint2</code></a></div> </div>
+
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Description:</b></div>
+  <div class="medium-8 columns">Computing the 2-sided confidence interval at 95% level for the mean based on a random sample. The exercise is a cloze with two numeric answers for the lower and upper bound of the confidence interval, respectively. Using the 'verbatim' clozetype for Moodle, the exercises yields 100% of the points for the correct solution based on t quantiles but still 50% for a partially correct solution based on normal quantiles.</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Solution feedback:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Randomization:</b></div>
+  <div class="medium-8 columns">Random numbers</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
+  <div class="medium-8 columns">Yes</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Images:</b></div>
+  <div class="medium-8 columns">No</div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Other supplements:</b></div>
+  <div class="medium-8 columns">No</div>
 </div>
 
-
-  
-  <div class="small-6 large-3 columns t60 text-center frontpage-widget">
-	
-	<a href="http://www.R-exams.org/intro/oneforall/">
-		
-			
-			<img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/oneforall.svg" alt="One-for-All" />
-		
-    <h2 class="font-size-h4 t10"">One-for-All</h2>
-	</a>
+<div class="row t20 b1">
+  <div class="medium-4 columns"><b>Template:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.Rnw">confint3.Rnw</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.Rmd">confint3.Rmd</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.tex">confint3.tex</a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.md">confint3.md</a></div>
+</div>
+<div class="row t1 b1">
+  <div class="medium-4 columns"><b>PDF:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw-pdf.png" alt="confint3-Rnw-pdf" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd-pdf.png" alt="confint3-Rmd-pdf" /></a></div>
+</div>
+<div class="row t1 b20">
+  <div class="medium-4 columns"><b>HTML:</b></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw-html.png" alt="confint3-Rnw-html" /></a></div>
+  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd-html.png" alt="confint3-Rmd-html" /></a></div>
 </div>
 
+<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
 
-  
-  <div class="small-6 large-3 columns t60 text-center frontpage-widget">
-	
-	<a href="http://www.R-exams.org/intro/written/">
-		
+<p><strong>Demo code:</strong></p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+
+set.seed(1090)
+exams2html(&quot;confint3.Rnw&quot;)
+set.seed(1090)
+exams2pdf(&quot;confint3.Rnw&quot;)
+
+set.seed(1090)
+exams2html(&quot;confint3.Rmd&quot;)
+set.seed(1090)
+exams2pdf(&quot;confint3.Rmd&quot;)</code></pre>
+
+			</span>
+
 			
-			<img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/written.svg" alt="Written Exams" />
-		
-    <h2 class="font-size-h4 t10"">Written Exams</h2>
-	</a>
-</div>
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
 
+				
+				<time class="icon-calendar pr20" datetime="2018-12-09" itemprop="datePublished"> 2018-12-09</time>
+				
 
-  
-  <div class="small-6 large-3 columns t60 text-center frontpage-widget">
-	
-	<a href="http://www.R-exams.org/intro/dynamic/">
-		
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/templates/">TEMPLATES</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/cloze/">cloze</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/numeric/">numeric</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/confidence/">confidence</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/interval/">interval</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/statistics/">statistics</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/erum2018/">&laquo; R/exams @ eRum 2018</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
 			
-			<img class="frontpage-topic-icon" src="http://www.R-exams.org/images/vector/dynamic.svg" alt="Dynamic Exercises" />
-		
-    <h2 class="font-size-h4 t10"">Dynamic Exercises</h2>
-	</a>
-</div>
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
 
 
-  
+	
+
+
+	
 </div><!-- /.row -->
-
-
-
-
-
-<div class="row t60">
-  <div id='mission' class="medium-centered medium-10 large-uncentered large-6 columns">
-    
-    
-    <h2 class='b20'><img width='50%' src='assets/img/logo_wide.svg' alt='R/exams logo'></h2>
-    
-    <p>The <a href="/resources/">open-source package exams</a> for
-the R system for statistical computing provides a
-<a href="/intro/oneforall/">one-for-all approach</a> to automatic exams generation. Based on (potentially)
-<a href="/intro/dynamic/">dynamic exercise templates</a> large numbers of personalized exams/quizzes/tests can be
-created for various systems: PDFs for classical <a href="/intro/written/">written exams</a> (with
-automatic evaluation), import formats for <a href="/intro/elearning/">learning management systems</a> (like
-Moodle, Blackboard, OLAT, or Ilias), live voting (via ARSnova), and the
-possibility to create custom output (in PDF, HTML, Docx, …).</p>
-
-<p>Exercise types include multiple-choice or single-choice questions, numeric
-or text answers, or combinations of these. Formatting can be done either in
-Markdown or LaTeX with the possibility to generate dynamic content using R,
-e.g., random numbers, graphics, data sets, or shuffled text blocks.</p>
-
-<p>R/exams is open-source software that can be freely used and extended. This
-web site provides an overview, short tutorials, a gallery of exercise
-templates, and links to further materials.</p>
-
-    
-  </div><!-- left col, mission -->
-  <div id='news' class="medium-centered medium-10 large-uncentered large-6 columns">
-    <h2 class='b20'>New Blog Articles</h2>
-    
-    
-    <h3><a href="http://www.R-exams.org/templates/confint3/">confint3: 2-Sided Confidence Interval (Extended Moodle Version)</a></h3>
-    <p>
-      Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample.
-      <a href="http://www.R-exams.org/templates/confint3/" title="Read confint3: 2-Sided Confidence Interval (Extended Moodle Version)"><strong>Read More&nbsp;›</strong></a>
-    </p>
-    
-    <p><strong>More Articles</strong></p>
-    
-
-
-
-
-
-<ul class="side-nav">
-
-  
-
-    
-      <li><a href="http://www.R-exams.org/general/erum2018/"><strong>R/exams @ eRum 2018</strong></a></li>
-    
-      <li><a href="http://www.R-exams.org/templates/fruit2/"><strong>fruit2: Image-Based Systems of Linear Equations (Single-Choice)</strong></a></li>
-    
-      <li><a href="http://www.R-exams.org/templates/fruit/"><strong>fruit: Image-Based Systems of Linear Equations (Numeric)</strong></a></li>
-    
-      <li class="text-right"><a href="http://www.R-exams.org/blog/"><strong>More ›</strong></a></li>
-
-
-  
-</ul>
-
-
-  </div><!-- right col, news -->
-</div><!-- row: mission | news -->
-
 
 
 	
@@ -685,19 +599,6 @@ templates, and links to further materials.</p>
 
 
 
-
-
-
-<script>
-$(document).ready(function(){
-  $("#masthead-slider").slick({
-    lazyLoad: 'progressive',
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-  });
-});
-</script>
 
 
 
