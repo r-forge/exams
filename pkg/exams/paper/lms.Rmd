@@ -1,0 +1,35 @@
+Question
+========
+Which of these are open-source learning management systems?
+
+Answerlist
+----------
+* Canvas
+* Ilias
+* Moodle
+* OLAT
+* Blackboard
+* Desire2Learn
+
+
+Solution
+========
+An overview of learning management systems can be found in Wikipedia at
+<https://en.wikipedia.org/wiki/List_of_learning_management_systems>.
+
+Answerlist
+----------
+* True. Canvas is developed by Instructure Inc. under the Affero General Public License Version 3.
+* True. Ilias is an open-source system released under the General Public License Version 3.
+* True. Moodle is an open-source system released under the General Public License Version 3.
+* True. OLAT is developed by the University of Zurich, released under the Apache License 2.0.
+* False. Blackboard Learn is a commercial system developed by Blackboard Inc.
+* False. Brightspace is a commercial system developed by Desire2Learn.
+
+
+Meta-information
+================
+exname: Learning management systems
+extype: mchoice
+exsolution: 111100
+exshuffle: 5

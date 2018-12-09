@@ -155,14 +155,14 @@ set.seed(2018-05-16)
 \begin{tabular}{lp{3.2cm}p{6.1cm}}
 \hline
 {\bf Type}                  & {\bf Software}                                        & {\bf Purpose}			     \\
-\hline
-{\bf Statistical computing} & \proglang{R}                                          & Random data generation, computations   \\
-{\bf Writing/reporting}     & {\LaTeX}, \emph{Markdown}                             & Text formatting, mathematical notation \\
-{\bf Reproducible research} & \pkg{knitr}, \pkg{rmarkdown}, \texttt{Sweave}         & Dynamically tie everything together    \\
-{\bf Document conversion}   & \emph{TtH}/\emph{TtM}, \emph{pandoc}                  & Conversion to HTML and beyond          \\
-{\bf Image manipulation}    & \emph{ImageMagick}, \pkg{magick}, \pkg{png}           & Embedding graphics		     \\
-{\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                   & Embedding supplementary files	     \\
-{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\
+\hline \noalign{\vspace*{0.18cm}}
+{\bf Statistical computing} & \proglang{R}                                          & Random data generation, computations   \\[0.18cm]
+{\bf Writing/reporting}     & {\LaTeX}, \emph{Markdown}                             & Text formatting, mathematical notation \\[0.18cm]
+{\bf Reproducible research} & \pkg{knitr}, \pkg{rmarkdown}, \texttt{Sweave}         & Dynamically tie everything together    \\[0.18cm]
+{\bf Document conversion}   & \emph{TtH}/\emph{TtM}, \emph{pandoc}                  & Conversion to HTML and beyond          \\[0.18cm]
+{\bf Image manipulation}    & \emph{ImageMagick}, \pkg{magick}, \pkg{png}           & Embedding graphics		     \\[0.18cm]
+{\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                   & Embedding supplementary files	     \\[0.18cm]
+{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\[0.18cm]
 \hline
 \end{tabular}
 }
@@ -217,7 +217,7 @@ Multiple-choice knowledge quiz with shuffled answer alternatives.
 \smallskip
 
 {\color{rexamsmgray}
-Which of these institutions already hosted a useR! or eRum conference?}
+Which of these are open-source learning management systems?}
 \end{minipage}
 
 \bigskip
@@ -241,7 +241,7 @@ What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?}
 \begin{frame}[fragile]
 \frametitle{Dynamic exercises: \texttt{.Rmd}}
 
-\textbf{Example:} Which of these institutions already hosted a useR! or eRum conference?
+\textbf{Example:} Which of these are open-source learning management systems?
 
 \pause
 
@@ -251,19 +251,19 @@ What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?}
 \begin{verbatim}
 Question
 ========
-Which of these institutions already hosted a useR! or eRum conference?
+Which of these are open-source learning management systems?
 \end{verbatim}
 }
 
 {\scriptsize
 \verb|Answerlist|\\
 \verb|----------|\\
-\verb|* Uniwersytet Ekonomiczny w Poznaniu|\\
-\verb|* Agrocampus Ouest|\\
-\verb|* Technische Universit|{\tt \"a}\verb|t Dortmund|\\
-\verb|* Universit|{\tt \"a}\verb|t Wien|\\
-\verb|* ETH Z|{\tt \"u}\verb|rich|\\
-\verb|* K|{\tt \o}\verb|benhavns Universitet|\\
+\verb|* Canvas|\\
+\verb|* Ilias|\\
+\verb|* Moodle|\\
+\verb|* OLAT|\\
+\verb|* Blackboard|\\
+\verb|* Desire2Learn|\\
 }
 
 \end{frame}
@@ -271,7 +271,7 @@ Which of these institutions already hosted a useR! or eRum conference?
 \begin{frame}[fragile]
 \frametitle{Dynamic exercises: \texttt{.Rmd}}
 
-\textbf{Example:} Which of these institutions already hosted a useR! or eRum conference?
+\textbf{Example:} Which of these are open-source learning management systems?
 
 \medskip
 
@@ -279,20 +279,20 @@ Which of these institutions already hosted a useR! or eRum conference?
 \begin{verbatim}
 Solution
 ========
-The list of useR!/DSC and eRum hosts can be found at
-<https://www.R-project.org/conferences.html> and <https://erum.io/>, respectively.
+An overview of learning management systems can be found in Wikipedia at
+<https://en.wikipedia.org/wiki/List_of_learning_management_systems>.
 \end{verbatim}
 }
 
 {\scriptsize
 \verb|Answerlist|\\
 \verb|----------|\\
-\verb|* True. eRum 2016 was hosted in Poznan.|\\
-\verb|* True. useR! 2009 was hosted at Agrocampus Ouest, Rennes.|\\
-\verb|* True. useR! 2008 was hosted at TU Dortmund.|\\
-\verb|* False. Universit|{\tt \"a}\verb|t Wien did not host an R conference yet (only TU Wien and WU Wien).|\\
-\verb|* False. ETH Z|{\tt \"u}\verb|rich did not host an R conference yet.|\\
-\verb|* False. K|{\tt \o}\verb|benhavns Universitet hosted DSC but not useR! or eRum.|\\
+\verb|* True. Canvas is developed by Instructure Inc. under the Affero General Public License Version 3.|\\
+\verb|* True. Ilias is an open-source system released under the General Public License.Version 3.|\\
+\verb|* True. Moodle is an open-source system released under the General Public License Version 3.|\\
+\verb|* True. OLAT is developed by the University of Zurich under the Apache License 2.0 License.|\\
+\verb|* False. Blackboard Learn is a commercial system developed by Blackboard Inc.|\\
+\verb|* False. Brightspace is a commercial system developed by Desire2Learn.|\\
 }
 
 \pause
@@ -301,9 +301,9 @@ The list of useR!/DSC and eRum hosts can be found at
 \begin{verbatim}
 Meta-information
 ================
-exname: R conferences
+exname: Learning management systems
 extype: mchoice
-exsolution: 111000
+exsolution: 111100
 exshuffle: 5
 \end{verbatim}
 }
@@ -398,7 +398,7 @@ exsolution: 010
 
 <<echo=FALSE, results=hide>>=
 set.seed(2018-05-16)
-exams2pdf("conferences.Rmd", dir = ".", name = "slides4-conferences-", template = "standalone.tex")
+exams2pdf("lms.Rmd", dir = ".", name = "slides4-lms-", template = "standalone.tex")
 set.seed(2018-05-16)
 exams2pdf("boxplots.Rnw", dir = ".", name = "slides4-boxplots-", template = "standalone.tex")
 @
@@ -414,7 +414,7 @@ exsolution: 011
 \end{verbatim}
 \end{minipage}
 \begin{minipage}[t]{0.6\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-conferences-1}}}}%
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-lms-1}}}}%
 \only<3>{\raisebox{-\height}{\fbox{\includegraphics[width=0.75\textwidth,trim=0 69 0 0,clip]{slides4-boxplots-1}}}}
 
 \medskip
