@@ -1,0 +1,12 @@
+```{r confint2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "confint3",
+  title = "2-Sided Confidence Interval (Extended Moodle Version)",
+  teaser = "Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample.",
+  description = "Computing the 2-sided confidence interval at 95% level for the mean based on a random sample. The exercise is a cloze with two numeric answers for the lower and upper bound of the confidence interval, respectively. Using the 'verbatim' clozetype for Moodle, the exercises yields 100% of the points for the correct solution based on t quantiles but still 50% for a partially correct solution based on normal quantiles.",
+  tags = c("numeric", "confidence", "interval", "statistics"),
+  related = "confint2",
+  randomization = "Random numbers",
+  thumb = c(157, 169))
+)
+```
