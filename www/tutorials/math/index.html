@@ -1,0 +1,681 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Mathematical Notation in Online R/exams</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+  <script type="text/javascript" async src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Many R/exams exercises employ mathematical notation that needs to be converted and rendered suitably for inclusion in online exams. While R/exams attempts to set suitable defaults, an overview is provided of possible adjustments and when these might be useful or even necessary." />
+  <meta name="keywords" content="LaTeX, MathML, MathJax" />
+	
+  <meta name="author" content="Achim Zeileis" />
+
+	
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="Mathematical Notation in Online R/exams" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//tutorials/math/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/deriv.small.png" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    /// var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/"; ///
+    var u="https" + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/laptop_on_table_deriv2.title.jpg" width="970" alt="Mathematical Notation in Online R/exams" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photo (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>Mathematical Notation in Online R/exams</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Many R/exams exercises employ mathematical notation that needs to be converted and rendered suitably for inclusion in online exams. While R/exams attempts to set suitable defaults, an overview is provided of possible adjustments and when these might be useful or even necessary.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h2 id="overview">Overview</h2>
+
+<p>A popular use case of the <a href="http://www.R-exams.org/">R/exams</a> package is the generation of <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercises</a> for <a href="http://www.R-exams.org/intro/elearning/">online learning management systems</a> in large-scale courses in <a href="http://www.R-exams.org/general/uibk_math/">mathematics</a>, statistics, or physics. Often, these contain some mathematical notation using LaTeX markup. While LaTeX can be easily rendered into PDF for printing written exams, the options for rendering it into HTML for online exams are somewhat more diverse and the best strategies depend on a number of factors. As these involve a number of technical details this tutorial aims to give a brief overview and makes a few practical recommendations. Factors include the following:</p>
+
+<ul>
+  <li><em>Original markup in exercise source files:</em><br />
+The R/exams exercises may employ either <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> or <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> for formatting and structuring the text (see the <a href="http://www.R-exams.org/tutorials/first_steps/">First steps</a> tutorial for more details). In either case LaTeX is used for the mathematical notation. Thus, also in Markdown the mathematical content is embedded as LaTeX code.</li>
+  <li><em>Math markup in HTML:</em><br />
+For display of the formatted text online in a browser, the original markup (Markdown/LaTeX) needs to be converted (see below) to HTML with some suitable formatting for the mathematical content. Either the LaTeX can be preserved or turned into <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>, a dedicated XML format for describing mathematical content.</li>
+  <li><em>Rendering of math markup:</em><br />
+The most widely-used way of rendering mathematical content in web pages is <a href="https://www.mathjax.org/">MathJax</a> (see also the corresponding <a href="https://en.wikipedia.org/wiki/MathJax">Wikipedia page</a>), an open-source JavaScript library that works in all browsers without any setup by the user (except enabling JavaScript). It can render LaTeX directly but also MathML. Moreover, some browsers (mainly Firefox and Safari but <em>not</em> Chrome) have also native support for displaying MathML, i.e, without the need for an additional display engine such as MathJax. The advantage of employing the browser for MathML rendering is that it is faster and typically blends better into the regular text. The disadvantage is obviously that it is not supported by all browsers and does not support rendering of LaTeX directly.</li>
+  <li><em>Convertesion to HTML:</em><br />
+The original markup from the exercises templates needs to be converted to HTML and the most powerful document converter for this is <a href="http://pandoc.org/">Pandoc</a> (see also the corresponding <a href="https://en.wikipedia.org/wiki/Pandoc">Wikipedia page</a>). It can convert both Markdown and LaTeX source files to HTML, either with LaTeX embedded for MathJax or with MathML (among various other options). Moreover, LaTeX (but not Markdown) exercises can be converted to HTML using the TeX-to-MathML converter <a href="http://hutchinson.belmont.ma.us/tth/mml/">TtM</a>. (R/exams also provides a few further options which are typically of less interest due to lower quality, such as TtH or rendered images.)</li>
+  <li><em>Defaults in R/exams:</em><br />
+All <code class="highlighter-rouge">exams2xyz()</code> functions that produce HTML-based output offer a <code class="highlighter-rouge">converter =</code> argument. By default, this is configured to produce HTML with embedded MathML because this can be rendered both by MathJax in all browsers as well as by some browsers directly. The default is is <code class="highlighter-rouge">converter = "pandoc"</code> (equivalent to <code class="highlighter-rouge">"pandoc-mathml"</code>) for R/Markdown exercises and <code class="highlighter-rouge">converter = "ttm"</code> for R/LaTeX exercises, respectively. Whether MathJax is enabled varies across output formats or might depend on the learning management system.</li>
+</ul>
+
+<h2 id="why-does-all-of-this-matter">Why does all of this matter?</h2>
+
+<p>As a simple illustration of the strengths and weaknesses of the different approaches, the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise template (computation of a derivative using the product rule) is converted to HTML using <code class="highlighter-rouge">exams2html()</code>. Here, the R/LaTeX version of the exercise is used (<code class="highlighter-rouge">"deriv"</code> or equivelently <code class="highlighter-rouge">"deriv.Rnw"</code>) but using the R/Markdown version (<code class="highlighter-rouge">"deriv.Rmd"</code>) yields almost the same output.</p>
+
+<p>The following examples and resulting screenshots contrast the output between Firefox and Chrome. By clicking on the screenshots you can also see what the HTML pages look like in your own browser.</p>
+
+<h4 id="mathml-rendered-by-browser">MathML rendered by browser</h4>
+
+<p>By default, <code class="highlighter-rouge">exams2html()</code> generates HTML with MathML embedded and uses a template that does <em>not</em> enable MathJax.</p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+set.seed(1090)
+exams2html(&quot;deriv&quot;)</code></pre>
+
+<p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-firefox.png" alt="deriv-mathml.html" /></a>
+<a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-chrome.png" alt="deriv-mathml.html" /></a></p>
+
+<p>The screenshots that the native MathML support in Firefox leads to output that renders fast and smoothly. However, the lack of native MathML support in Chrome means that the exercise cannot be displayed correctly.</p>
+
+<h4 id="mathml-rendered-by-mathjax">MathML rendered by MathJax</h4>
+
+<p>To easily explore the effect of MathJax rendering <code class="highlighter-rouge">exams2html()</code> supports the argument <code class="highlighter-rouge">mathjax = TRUE</code> which inserts the MathJax <code class="highlighter-rouge">&lt;script&gt;</code> into the template (loaded from RStudio’s content delivery network).</p>
+
+<pre><code class="prettyprint ">set.seed(1090)
+exams2html(&quot;deriv&quot;, mathjax = TRUE)</code></pre>
+
+<p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-mathjax-firefox.png" alt="deriv-mathml-mathjax.html" /></a>
+<a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-mathjax-chrome.png" alt="deriv-mathml-mathjax.html" /></a></p>
+
+<p>Now the math output looks good in both browsers. However, for Firefox users the version without MathJax might still be preferable as it renders faster with somewhat smoother output.</p>
+
+<h4 id="latex-rendered-by-mathjax">LaTeX rendered by MathJax</h4>
+
+<p>To preserve the LaTeX equations, the argument <code class="highlighter-rouge">converter = "pandoc-mathjax"</code> can be used. Then, Pandoc converts the LaTeX text to HTML but preserves the LaTeX equations (in minimal HTML markup).</p>
+
+<pre><code class="prettyprint ">set.seed(1090)
+exams2html(&quot;deriv&quot;, converter = &quot;pandoc-mathjax&quot;, mathjax = TRUE)</code></pre>
+
+<p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathjax-firefox.png" alt="deriv-mathjax.html" /></a>
+<a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathjax-chrome.png" alt="deriv-mathjax.html" /></a></p>
+
+<p>The output is very similar to the MathML rendered MathJax above. However, note that the alignment in the equations is changed (from left to right). This is caused by Pandoc replacing the LaTeX <code class="highlighter-rouge">{eqnarray*}</code> environment employed in the <code class="highlighter-rouge">"deriv"</code> exercise by <code class="highlighter-rouge">{aligned}</code> environments.</p>
+
+<h2 id="practical-considerations">Practical considerations</h2>
+
+<ul>
+  <li><em>Original markup in exercise source files:</em><br />
+Whether to use R/Markdown (<code class="highlighter-rouge">.Rmd</code>) or R/LaTeX (<code class="highlighter-rouge">.Rnw</code>) markup in the exercise source files is mostly a matter of taste. The former is probably somewhat easier to learn for beginners but generally differences are small if there is only moderate text formatting. It is also good practice to keep the formatting simple to be robust across the different output formats and more advanced math constructs should be checked carefully.</li>
+  <li><em>MathML as default math markup:</em><br />
+As of today (January 2019) it might seem more natural to use LaTeX rendered by MathJax as <code class="highlighter-rouge">rmarkdown</code> does. However, when HTML conversion was added to R/exams in early 2012, MathML rendered by Firefox was the more robust choice. MathML has been preserved as the default since then because it can be rendered both by MathJax and some browsers.</li>
+  <li><em>Pandoc vs. TtM:</em><br />
+Pandoc is the default converter for all <code class="highlighter-rouge">.Rmd</code> exercises while TtM is still used by default for <code class="highlighter-rouge">.Rnw</code> exercises. The latter is mostly for backward compatibility but might change to Pandoc in the future. However, differences are not very large for most exercises anyway but some mathematical LaTeX constructs are just supported by one and not the other converter.</li>
+  <li><em>Enabling MathJax rendering:</em><br />
+Many modern learning management systems have MathJax enabled by default, e.g., in Moodle, Canvas, or OpenOLAT. There are a couple of caveats, though: First, the default MathJax configuration in Moodle and OpenOLAT switches off rendering of MathML. Second, some systems do not host their own copy of the MathJax library but employ a content delivery network (CDN). Thus, there is a small risk that the learning management system might be up and running but there are problems loading MathJax from the CDN.</li>
+  <li><em>Moodle:</em><br />
+As noted above the default configuration for <a href="https://moodle.org/">Moodle</a> has MathJax support (via a CDN) but switches off rendering of MathML. As <code class="highlighter-rouge">exams2moodle(...)</code> currently uses MathML markup by default, this necessitates Firefox or Safari for viewing the quizzes in Moodle. In contrast, <code class="highlighter-rouge">exams2moodle(..., converter = "pandoc-mathjax")</code> would use LaTeX math markup and render it by MathJax (unless the Moodle configuration switched off MathJax support).<br />
+ <strong>Request:</strong> Feedback from Moodle users would be appreciated on whether they prefer the current default or <code class="highlighter-rouge">converter = "pandoc-mathjax"</code>. It would be especially useful to find out whether the latter works in their Moodle installations.</li>
+  <li><em>Canvas:</em><br />
+We are currently working on a dedicated <code class="highlighter-rouge">exams2qti12()</code>-based function <code class="highlighter-rouge">exams2canvas()</code> for generating quizzes for <a href="https://www.canvaslms.com/">Canvas</a>. This will keep the MathML-based default for the math notation as this is rendered smoothly by Canvas’ own MathJax support.</li>
+  <li><em>OpenOLAT:</em><br />
+A new dedicated interface <code class="highlighter-rouge">exams2openolat()</code> for generating quizzes for <a href="https://www.openolat.com/">OpenOLAT</a> has been added recently to R/exams (version 2.3-1). By default, this is a wrapper to <code class="highlighter-rouge">exams2qti21(..., converter = "pandoc-mathjax")</code> because OpenOLAT provides MathJax rendering of LaTeX math (but not MathML). Some additional tweaks are necessary, though, because OpenOLAT expects the LaTeX to be embedded slightly differently from standard Pandoc output.</li>
+</ul>
+
+<h2 id="further-technical-details">Further technical details</h2>
+
+<p>The mathematical equation in the random draw of the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise in LaTeX is: <code class="highlighter-rouge">f(x) = x^{8} e^{3.4x}</code>. Here, we highlight that all converters yield almost equivalent output when rendered by MathJax:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"><code class="highlighter-rouge">"pandoc-mathjax"</code></th>
+      <th style="text-align: left"><code class="highlighter-rouge">"ttm"</code></th>
+      <th style="text-align: left"><code class="highlighter-rouge">"pandoc-mathml"</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><span class="math inline">\(f(x) = x^{8} e^{3.4x}\)</span></td>
+      <td style="text-align: left"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mi>x</mi></mrow><mrow><mn>8</mn></mrow></msup><msup><mrow><mi>e</mi></mrow><mrow><mn>3</mn><mo>.</mo><mn>4</mn><mi>x</mi></mrow></msup></mrow></math></td>
+      <td style="text-align: left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>x</mi><mn>8</mn></msup><msup><mi>e</mi><mrow><mn>3.4</mn><mi>x</mi></mrow></msup></mrow><annotation encoding="application/x-tex">f(x) = x^{8} e^{3.4x}</annotation></semantics></math></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>(<strong>Note:</strong> If you are viewing this on R-bloggers or another aggregator some or all of the equations will not display correctly. Refer to the <a href="http://www.R-exams.org/tutorials/math/">R/exams site</a> for a version with MathJax properly enabled.)</p>
+
+<p>The underlying LaTeX code generated by <code class="highlighter-rouge">converter = "pandoc-mathjax"</code> is simply the original LaTeX code with some minimal HTML markup:</p>
+
+<pre><code class="language-`">&lt;span class="math inline"&gt;\(f(x) = x^{8} e^{3.4x}\)&lt;/span&gt;
+</code></pre>
+
+<p>The MathML code generated by <code class="highlighter-rouge">converter = "ttm"</code> differs slightly from the of <code class="highlighter-rouge">converter = "pandoc"</code> (or equivalently <code class="highlighter-rouge">"pandoc-mathml"</code>). The former yields:</p>
+
+<pre><code class="prettyprint ">&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;mrow&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;
+&lt;msup&gt;&lt;mrow&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mn&gt;8&lt;/mn&gt;&lt;/mrow&gt;
+&lt;/msup&gt;
+&lt;msup&gt;&lt;mrow&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;
+&lt;/msup&gt;
+&lt;/mrow&gt;&lt;/math&gt;</code></pre>
+
+<p>The Pandoc version is very similar but contains some more markup and annotation:</p>
+
+<pre><code class="prettyprint ">&lt;math display=&quot;inline&quot; xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;
+&lt;mrow&gt;&lt;mi&gt;f&lt;/mi&gt;
+&lt;mo stretchy=&quot;false&quot; form=&quot;prefix&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot; form=&quot;postfix&quot;&gt;)&lt;/mo&gt;
+&lt;mo&gt;=&lt;/mo&gt;
+&lt;msup&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;8&lt;/mn&gt;&lt;/msup&gt;&lt;msup&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mrow&gt;&lt;mn&gt;3.4&lt;/mn&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;/msup&gt;
+&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;f(x) = x^{8} e^{3.4x}&lt;/annotation&gt;
+&lt;/semantics&gt;&lt;/math&gt;</code></pre>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2019-01-28" itemprop="datePublished"> 2019-01-28</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/LaTeX/">LaTeX</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/MathML/">MathML</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/MathJax/">MathJax</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/cran_release_232/">&laquo; CRAN Release of R/exams 2.3-2</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
