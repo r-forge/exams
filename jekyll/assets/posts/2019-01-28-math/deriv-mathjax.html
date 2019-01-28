@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+<meta charset="utf-8">
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+<p>What is the derivative of <span class="math inline">\(f(x) = x^{8} e^{3.4x}\)</span>, evaluated at <span class="math inline">\(x = 0.7\)</span>?</p>
+<br/>
+<h4>Solution</h4>
+<p>Using the product rule for <span class="math inline">\(f(x) = g(x) \cdot h(x)\)</span>, where <span class="math inline">\(g(x) := x^{8}\)</span> and <span class="math inline">\(h(x) := e^{3.4x}\)</span>, we obtain <span class="math display">\[\begin{aligned}
+f&#39;(x) &amp; = &amp; [g(x) \cdot h(x)]&#39; = g&#39;(x) \cdot h(x) + g(x) \cdot h&#39;(x) \\
+      &amp; = &amp; 8 x^{8 - 1} \cdot e^{3.4x} + x^{8} \cdot e^{3.4x} \cdot 3.4 \\
+      &amp; = &amp; e^{3.4x} \cdot(8 x^7 + 3.4 x^{8}) \\
+      &amp; = &amp; e^{3.4x} \cdot x^7 \cdot (8 + 3.4x).\end{aligned}\]</span> Evaluated at <span class="math inline">\(x = 0.7\)</span>, the answer is <span class="math display">\[e^{3.4\cdot 0.7} \cdot 0.7^7 \cdot (8 + 3.4\cdot 0.7) = 9.236438.\]</span> Thus, rounded to two digits we have <span class="math inline">\(f&#39;(0.7) = 9.24\)</span>.</p>
+<br/>
+</li>
+</ol>
+
+</body>
+</html>
