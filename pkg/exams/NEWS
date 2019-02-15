@@ -5,13 +5,10 @@ Changes in Version 2.3-3
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o Assure in nops_scan() that scanned image file names contain no spaces.
+
 
 Changes in Version 2.3-2
-
-  o Added new interface exams2ilias() for the open-source ILIAS learning
-    management system (https://www.ilias.de/). This is essentially a
-    convenience wrapper to exams2qti12(), tweaking a few defaults and
-    employing a somewhat modified XML template.
 
   o nops_scan() gained a new argument trim=0.3 that controls how much of
     check boxes is trimmed in order to shave the borders prior to determining
