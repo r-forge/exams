@@ -522,7 +522,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) {
+        if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) > 1) { #Z# the second comparison had < 1 rather than > 1 ??
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
@@ -535,7 +535,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           )
         } else {
           ## Essay type questions.
-          xml <- c(xml,
+          xml <- c(xml,  #Z# the closing </responseDeclaration> is missing and also the <correctResponse>/<mapping>
             paste('<responseDeclaration identifier="', ids[[i]]$response,
               '" cardinality="single" baseType="string">', sep = ''))
         }
@@ -671,10 +671,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                   } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
                },
                paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
-                '" expectedLength="', if(!is.na(maxchars[[i]][1])) {
-                  paste0('" expectedLength="', maxchars[[i]][1], '"')
+                if(!is.na(maxchars[[i]][1])) {
+                  paste0('" expectedLength="', maxchars[[i]][1])
                 } else NULL, if(!is.na(maxchars[[i]][2])) {
-                  paste( 'expectedLines="', maxchars[[i]][2], '" ', sep = '')
+                  paste0('" expectedLines="', maxchars[[i]][2])
                 } else NULL, '"/>', sep = ''),
               if(!ans) '</p>' else NULL
             )

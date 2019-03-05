@@ -7,6 +7,9 @@ Changes in Version 2.3-3
 
   o Assure in nops_scan() that scanned image file names contain no spaces.
 
+  o Fixed bugs in exams2qti21() (and hence exams2openolat()) for certain
+    combinations of 'maxchars' specifications in 'string' exercises.
+
 
 Changes in Version 2.3-2
 
