@@ -104,6 +104,8 @@
   are read automatically where both empty and completely filled boxes are
   regarded as not crossed.
   
+  Tutorial for NOPS workflow: \url{http://www.R-exams.org/tutorials/exams2nops/}.
+  
   Limitations: (a) Only up to five answer alternatives per question are supported.
   (b) Currently, only up to 45 questions are supported. If you have
   more questions, consider splitting the entire exam up into two NOPS exams.
