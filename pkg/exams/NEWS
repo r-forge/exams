@@ -10,6 +10,11 @@ Changes in Version 2.3-3
   o Fixed bugs in exams2qti21() (and hence exams2openolat()) for certain
     combinations of 'maxchars' specifications in 'string' exercises.
 
+  o Added \usepackage[...]{babel} support to "language" specification of
+    exams2nops(). In addition to a new "Babel: ..." field, the .dcf can
+    also provide a "Header: ..." field, e.g., for changing the font encoding
+    or adding further options.
+
   o Added "envir" argument in exams2moodle() that is passed on to xweave().
 
 

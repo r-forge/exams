@@ -35,14 +35,19 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   ## header: internationalization
   if(!file.exists(language)) language <- system.file(file.path("nops", paste0(language, ".dcf")), package = "exams")
   if(language == "") language <- system.file(file.path("nops", "en.dcf"), package = "exams")
-  lang <- nops_language(language)[c(
+  lang <- nops_language(language)
+  lang2 <- c(
+    if(!is.null(lang$Babel)) list(sprintf("\\usepackage[%s]{babel}", lang$Babel)),
+    if(!is.null(lang$Header)) list(lang$Header)
+  )
+  lang <- lang[c(
     "PersonalData", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
     "Checked", "NoChanges", "DocumentType", "DocumentID", "Scrambling", 
     "Replacement", "MarkCarefully", "NotMarked", "Or",
     "MarkExampleA", "MarkExampleB", "MarkExampleC", "MarkExampleD", "MarkExampleE",
     "Warning", "Answers", "FillAnswers", "Point", "Points")]
   ## header: collect everything
-  header <- c(list(Date = date, ID = d2id), usepackage, loc, lang, as.list(header))
+  header <- c(list(Date = date, ID = d2id), usepackage, loc, lang, lang2, as.list(header))
 
   ## determine number of alternative choices (and non-supported cloze exercises)
   ## for all (unique) exercises in the exam
