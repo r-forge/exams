@@ -133,8 +133,7 @@ If you have set up your own `lang.dcf` you can easily pass it to `exams2nops()` 
 
 Due to the kind support from friends and various dedicated R/exams users, there is already support
 for many important Western languages as well as a few other languages/countries. All of these
-are directly available in the R package (note that `"tr"` requires the current
-[development version from R-Forge](http://R-Forge.R-project.org/R/?group_id=1337), though). But for convenience
+are directly available in the R package. But for convenience
 and manual inspection the `.dcf` files are also linked here.
 
 File                                                                    | Language     | Contributor                                                                                                        |
@@ -165,7 +164,7 @@ above and send the file or a link to
 _<&#x69;&#x6e;&#x66;&#x6f;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;>_.
 Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
 For Western languages (e.g., `sv`, `no` are still missing) it is probably the most robust solution to
-code special characters in LaTeX. For languages requiring other alphabets (e.g., `ru` would be nice or Asian languages...)
+code special characters in LaTeX. For languages requiring other alphabets (e.g., `ko` would be nice)
 it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
 [support forum](http://R-Forge.R-project.org/forum/?group_id=1337)
 or on Twitter ([@AchimZeileis](https://twitter.com/AchimZeileis)) if you want to know more or need further details.
