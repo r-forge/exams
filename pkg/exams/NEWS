@@ -17,6 +17,11 @@ Changes in Version 2.3-3
 
   o Added "envir" argument in exams2moodle() that is passed on to xweave().
 
+  o The print() method for "exams_metainfo" objects received a new "block"
+    argument so that print(exams_metainfo(x), which = 1, block = 5) prints
+    the metainformation (type/solution) of the first exam in the object x
+    (output from any exams2xyz() function) in blocks of 5 exercises.
+
 
 Changes in Version 2.3-2
 

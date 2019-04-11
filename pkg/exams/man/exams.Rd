@@ -1,6 +1,5 @@
 \name{exams}
 \alias{exams}
-\alias{print.exams_metainfo}
 
 \title{Generation of Simple Exams}
 

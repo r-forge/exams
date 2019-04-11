@@ -1,6 +1,7 @@
 \name{xexams}
 \alias{xexams}
 \alias{exams_metainfo}
+\alias{print.exams_metainfo}
 
 \title{Extensible Generation of Exams}
 
@@ -14,6 +15,7 @@
     driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
     dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     points = NULL, \dots)
+
   exams_metainfo(x, \dots)
 }
 
@@ -102,7 +104,9 @@ Zeileis A, Umlauf N, Leisch F (2014).
 
   When using the default reader, the resulting list can be simplified
   using \code{exams_metainfo}, returning the same (classed) structure
-  as the older \code{\link[exams]{exams}} interface.
+  as the older \code{\link[exams]{exams}} interface. It is recommended
+  to use this to inspect whether the \sQuote{extype} and \sQuote{exsolution}
+  (and corresponding tolerance, if any) are correctly specified.
 }
 
 \seealso{
@@ -143,9 +147,10 @@ x[[1]][[1]]$supplements
 ## The metainformation is a list read for the \ex*{} items
 x[[1]][[1]]$metainfo
 
-## The metainformation can also be extracted/printed as
-## in the old exams() (rather than xexams()) interface
+## The metainformation can also be extracted/printed
 exams_metainfo(x)
+## customize printing: only exam 1 in blocks of up to 3 exercises
+print(exams_metainfo(x), which = 1, block = 3)
 }
 
 \keyword{utilities}
