@@ -52,8 +52,9 @@
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}    
-  \item{edir}{character specifying the path of the directory in which
-    the files in \code{file} are stored (see also below).}
+  \item{edir}{character specifying the path of the directory (along with its
+    sub-directories) in which the files in \code{file} are stored
+    (see also \code{\link{xexams}}).}
   \item{tdir}{character specifying a temporary directory, by default
     this is chosen via \code{\link[base]{tempdir}}. Note that this
     is cleaned up and potentially temporary files are deleted.}

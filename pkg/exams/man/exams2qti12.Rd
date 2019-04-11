@@ -71,8 +71,9 @@
   \item{name}{character. A name prefix for resulting exercises and ZIP file.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[exams]{xweave}}?}
-  \item{edir}{character specifying the path of the directory in which
-    the files in \code{file} are stored (see also below).}
+  \item{edir}{character specifying the path of the directory (along with its
+    sub-directories) in which the files in \code{file} are stored
+    (see also \code{\link{xexams}}).}
   \item{tdir}{character specifying a temporary directory, by default
     this is chosen via \code{\link[base]{tempdir}}. Note that this
     is cleaned up and potentially temporary files are deleted.}

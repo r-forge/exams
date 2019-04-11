@@ -51,8 +51,9 @@
     \code{\link[exams]{xweave}} and \code{\link[tools]{texi2dvi}}.}
   \item{transform}{function. An optional transform driver passed to
     \code{xexams} (by default no transformation is used).}
-  \item{edir}{character specifying the path of the directory in which
-    the files in \code{file} are stored (see also below).}
+  \item{edir}{character specifying the path of the directory (along with its
+    sub-directories) in which the files in \code{file} are stored
+    (see also \code{\link{xexams}}).}
   \item{tdir}{character specifying a temporary directory, by default
     this is chosen via \code{\link[base]{tempdir}}. Note that this
     is cleaned up and potentially temporary files are deleted.}
