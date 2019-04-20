@@ -1,0 +1,20 @@
+Question
+========
+The primary goal of financial management is to maximize the ...
+
+Questionlist
+------------
+* Present value of future operating cash flows
+* Net income, according to GAAP/IFRS
+* Market share
+* Value of the firm
+* Number of shares outstanding
+* Book value of shareholder equity
+* Firm revenue
+
+Meta-information
+================
+exname: Goal of Financial Management
+extype: schoice
+exsolution: 0001000
+exshuffle: 5
