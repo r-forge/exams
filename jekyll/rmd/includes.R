@@ -112,7 +112,7 @@ include_png_screenshot <- function(file, out = NULL, density = 25, aspect43 = TR
 include_pdf_screenshot <- function(file, out = NULL, page = 1, density = 25, aspect43 = TRUE, border = TRUE)
 {
   ## screenshot .png path
-  if(is.null(out)) out <- paste0(tools::file_path_sans_ext(basename(file)), ".png")
+  if(is.null(out)) out <- paste0(tools::file_path_sans_ext(basename(file)), if(page != 1) paste0("-", page), ".png")
   if(knitr::opts_chunk$get("fig.path") != "figure/") out <- paste0(knitr::opts_chunk$get("fig.path"), out)
 
   if(is.numeric(border)) {
