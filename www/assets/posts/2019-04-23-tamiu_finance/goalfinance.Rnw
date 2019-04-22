@@ -1,0 +1,17 @@
+\begin{question}
+The primary goal of financial management is to maximize the \dots
+\begin{answerlist}
+  \item Present value of future operating cash flows
+  \item Net income, according to GAAP/IFRS
+  \item Market share
+  \item Value of the firm
+  \item Number of shares outstanding
+  \item Book value of shareholder equity
+  \item Firm revenue
+\end{answerlist}
+\end{question}
+
+\exname{Goal of Financial Management}
+\extype{schoice}
+\exsolution{0001000}
+\exshuffle{5}

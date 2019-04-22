@@ -1,0 +1,33 @@
+<<echo=FALSE, results=hide>>=
+discountrate <- round(runif(1, min = 6.0, max = 15.0), 2)
+r <- discountrate / 100.0
+
+cf0 <- sample(10:20, 1) * -100
+ocf <- sample(seq(200, 500, 25), 5)
+discounts <- sapply(1:5, function(i) (1 + r) ** i)
+npv <- round(sum(ocf / discounts) + cf0, 2)
+
+notvm <- round(sum(ocf) + cf0, 2)
+wrongtvm <- round(sum(ocf / (1.0 + r)) + cf0, 2)
+revtvm <- round(sum(ocf * (1.0 + r)) + cf0, 2)
+offnpv <- round(npv + sample(c(-200.0, 200.0), 1), 2)
+@
+
+\begin{question}
+Assuming the discount rate is \Sexpr{discountrate}\%, find the 
+net present value of a project with the following cash flows, starting
+at time 0: \$\Sexpr{cf0}, \Sexpr{ocf[1]}, \Sexpr{ocf[2]}, \Sexpr{ocf[3]},
+\Sexpr{ocf[4]}, \Sexpr{ocf[5]}.
+\begin{answerlist}
+  \item \$\Sexpr{wrongtvm}
+  \item \$\Sexpr{notvm}
+  \item \$\Sexpr{npv}
+  \item \$\Sexpr{revtvm}
+  \item \$\Sexpr{offnpv}
+\end{answerlist}
+\end{question}
+
+\exname{Calculating NPV}
+\extype{schoice}
+\exsolution{00100}
+\exshuffle{5}

@@ -1,0 +1,39 @@
+```{r data generation, echo = FALSE, results = "hide"}
+cf0 <- sample(10:16, 1) * -100
+ocf <- sample(seq(225, 550, 25), 5)
+
+npvfunc <- function(r) {
+  discounts <- sapply(1:5, function(i) (1 + r) ** i)
+  npv <- (sum(ocf / discounts) + cf0) ** 2
+  return(npv)
+}
+
+res <- optimize(npvfunc, interval = c(-1,1))
+
+irr <- round(res$minimum, 4) * 100.0
+
+wrong1 <- irr + sample(c(1.0, -1.0), 1)
+wrong2 <- irr + sample(c(0.25, -0.25), 1)
+wrong3 <- irr + sample(c(0.5, -0.5), 1)
+wrong4 <- irr + sample(c(0.75, -0.75), 1)
+```
+
+Question
+========
+Find the internal rate of return of a project with the following cash flows,
+starting at time 0: \$`r cf0`, `r ocf[1]`, `r ocf[2]`, `r ocf[3]`, `r ocf[4]`, `r ocf[5]`.
+
+Questionlist
+------------
+* \$`r wrong1`
+* \$`r wrong2`
+* \$`r irr`
+* \$`r wrong3`
+* \$`r wrong4`
+
+Meta-information
+================
+exname: Calculating IRR
+extype: schoice
+exsolution: 00100
+exshuffle: 5

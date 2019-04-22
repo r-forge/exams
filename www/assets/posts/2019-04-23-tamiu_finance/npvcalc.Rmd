@@ -1,0 +1,36 @@
+```{r data generation, echo = FALSE, results = "hide"}
+discountrate <- round(runif(1, min = 6.0, max = 15.0), 2)
+r <- discountrate / 100.0
+
+cf0 <- sample(10:20, 1) * -100
+ocf <- sample(seq(200, 500, 25), 5)
+discounts <- sapply(1:5, function(i) (1 + r) ** i)
+npv <- round(sum(ocf / discounts) + cf0, 2)
+
+notvm <- round(sum(ocf) + cf0, 2)
+wrongtvm <- round(sum(ocf / (1.0 + r)) + cf0, 2)
+revtvm <- round(sum(ocf * (1.0 + r)) + cf0, 2)
+offnpv <- round(npv + sample(c(-200.0, 200.0), 1), 2)
+```
+
+Question
+========
+Assuming the discount rate is `r discountrate`\%, find the 
+net present value of a project with the following cash flows, starting
+at time 0: \$`r cf0`, `r ocf[1]`, `r ocf[2]`, `r ocf[3]`, `r ocf[4]`, `r ocf[5]`.
+
+Questionlist
+------------
+* \$`r wrongtvm`
+* \$`r notvm`
+* \$`r npv`
+* \$`r revtvm`
+* \$`r offnpv`
+
+
+Meta-information
+================
+exname: Calculating NPV
+extype: schoice
+exsolution: 00100
+exshuffle: 5
