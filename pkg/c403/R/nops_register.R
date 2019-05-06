@@ -17,8 +17,10 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L)
 
   ## read data
   x <- read_vis(file)
-  location <- attr(x, "info")[4L]
-  start <- as.POSIXlt(attr(x, "info")[3L])  
+  info <- attr(x, "info")
+  if(!(info[1L] %in% c("GP", "LVP"))) stop("'file' does not seem to be for an exam registration (GP or LVP)")
+  location <- switch(info[1L], "GP" = info[4L], "LVP" = info[6L], NA)
+  start <- switch(info[1L], "GP" = as.POSIXlt(info[3L]), "LVP" = as.POSIXlt(info[5L]), NA)
   mon <- c("Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "Juli",
     "August", "September", "Oktober", "November", "Dezember")
   wday <- c("So", "Mo", "Di", "Mi", "Do", "Fr", "Sa")
@@ -33,6 +35,7 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L)
     x$Wiederholung[x$Wiederholung == ""] <- "0"
     x$Antritt <- as.character(as.numeric(x$Wiederholung) + 1L)
   }
+  if(!("Account" %in% names(x))) stop("'file' does not contain information about Account/ZID-Benutzerkennung")
   if("LV-Note" %in% names(x)) {
     x <- x[, c("Matrikelnr", "Name", "SKZ", "Antritt", "LV-Note", "Sitzplatz", "Account")]
     names(x)[5] <- "LV"
