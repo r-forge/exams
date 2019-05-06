@@ -452,9 +452,13 @@ if(!is.null(file)) writeLines(rval, file)
 invisible(rval)
 }
 
-make_nops_page <- function(n, replacement = FALSE, nchoice = 5, reglength = 7L) {
-
+make_nops_page <- function(n, replacement = FALSE, nchoice = 5, reglength = 7L)
+{
+## length of registration ID
+if(reglength < 7L) warning(sprintf("'reglength = %s' too small, using 7 instead", reglength))
+if(reglength > 10L) warning(sprintf("'reglength = %s' too large, using 10 instead", reglength))
 addreg <- pmin(3L, pmax(0L, reglength - 7L))
+
 mytype <- if(addreg < 1L) {
   ## the number of questions rounded up in steps of 5 
   ## (needed for uibk scanning services)
