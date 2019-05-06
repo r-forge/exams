@@ -56,7 +56,7 @@ read_vis_xlsx <- function(file, ...) {
     x[1L:(ix - 1L), 4L]
   )))
 
-  ## LV vs. GP
+  ## LV vs. GP (FIXME: LVP)
   ii <- which(info == "Teilnehmerliste")
   if(grepl("Lehrveranstaltung", info[ii + 1L])) {
     info <- strsplit(info[ii + 5L], " ", fixed = TRUE)[[1L]]    
@@ -111,7 +111,7 @@ read_vis_xls <- function(file, ...) {
   info <- x[1L, 1L]
   info <- to_char(strsplit(info, "\n")[[1L]])
 
-  ## extract start/location
+  ## extract start/location (FIXME: currently only GP, not LV or LVP)
   start <- strptime(substr(info[3L], 1L, 14L), "%d%m%Y %H:%M")
   start <- format(start, "%Y-%m-%d %H:%M:%S")
   location <- info[5L]
@@ -152,8 +152,20 @@ read_vis_html <- function(file, subset = FALSE) {
   tbody <- "tbody" %in% names(nr) 
   nr <- if(tbody) nr[[2L]][[1L]] else nr[[2L]]  
   if(grepl("Lehrveranstaltung", XML::xmlValue(nr[[1L]]))) {
-    info <- strsplit(XML::xmlValue(nr[[2L]]), " ")[[1L]]
-    info <- c("LV", info[5L], info[1L], paste(info[-(1L:8L)], collapse = " "))
+    nr <- strsplit(XML::xmlValue(nr[[2L]]), " ")[[1L]]
+    nr <- c("LV", nr[5L], nr[1L], paste(nr[-(1L:8L)], collapse = " "))
+    info <- if(tbody) x[["body"]][[2L]][[2L]][[2L]] else x[["body"]][[2L]][[3L]]
+    if(grepl("Pr.*fung", XML::xmlValue(info[[1L]][[1L]]))) {
+      nr[1L] <- "LVP"
+      info <- XML::xmlValue(info[[2L]][[1L]])
+      start <- strptime(substr(info, 1L, 29L), "Datum: %d.%m.%Y, Zeit: %H.%M")
+      start <- format(start, "%Y-%m-%d %H:%M")
+      location <- strsplit(info, ", Ort: ", fixed = TRUE)[[1L]][2L]
+      info <- c(start, location)  
+    } else {
+      info <- NULL
+    }
+    info <- c(nr, info)
   } else if(grepl("Gesamtpr.*fungstermin", XML::xmlValue(nr[[1L]]))) {
     info <- if(tbody) x[["body"]][[2L]][[2L]][[2L]] else x[["body"]][[2L]][[3L]]
     info <- XML::xmlValue(info[[2L]][[1L]])
