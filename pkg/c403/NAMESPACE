@@ -17,6 +17,8 @@ export(
   ## tools for administering NOPS and OLAT exams
   "nops_register",
   "nops_eval",
+  "nops_items",
+  "nops_zip2tab",
   "olat_eval",
   "olat_exercise",
 

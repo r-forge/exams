@@ -1,6 +1,8 @@
 \name{nops_eval}
 \alias{nops_eval}
 \alias{nops_register}
+\alias{nops_items}
+\alias{nops_zip2tab}
 
 \title{Evaluate NOPS Exams}
 
@@ -19,6 +21,11 @@
     string_scans = Sys.glob("nops_string_scan_*.zip"), string_points = seq(0, 1, 0.25))
 
   nops_register(file = Sys.glob("*.xls*"), startid = 1L)
+
+  nops_items(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
+    psychotools = NULL, labels = NULL, ...)
+
+  nops_zip2tab(file = "nops_eval.zip")
 }
 
 \arguments{
@@ -36,8 +43,9 @@
     (or the FSS).}
   \item{points}{numeric. Vector of points per exercise. By default read from
     \code{solutions}.}
-  \item{eval}{list specification of evaluation policy as computed by
-    \code{\link[exams]{exams_eval}}.}
+  \item{eval}{For \code{nops_eval}: List specification of evaluation policy as computed by
+    \code{\link[exams]{exams_eval}}. For \code{nops_items}: File name of CSV output from
+    \code{nops_eval}.}
   \item{mark}{logical or numeric. If \code{mark = FALSE}, no marks are computed.
     Otherwise \code{mark} needs to be a numeric vector with four threshold values to
     compute marks from 5 to 1. The thresholds can either be relative (all lower than 1)
@@ -66,10 +74,23 @@
     by \code{\link[exams]{nops_scan}}.}
   \item{string_points}{numeric. Vector of length 5 with points assigned
     to string results.}
-  \item{file}{character with file name of an XLS file from VIS.
+  \item{file}{character with file name. For \code{nops_zip2tab}: Output ZIP file
+    from \code{nops_eval}. For \code{nops_register}: Name of an XLS file from VIS.
     The file name should not contain spaces, umlaut or other special characters
     (something like \code{"GP-2014-02.xls"} is recommended).}
   \item{startid}{integer. Starting ID for the seats (defaults to 1).}
+  \item{exam}{file name of RDS output from \code{exams2nops}.}
+  \item{psychotools}{logical. Should \code{itemresp} from \pkg{psychotools} be
+    used as the class for item response columns? By default, this is used if
+    the \pkg{psychotools} package is available. If \code{FALSE}, matrices with
+    dummy codings are used.}
+  \item{labels}{function for extracting exercise labels from each \code{$metainfo}.
+    By default the original file name \code{$metainfo$file} is used.}
+  \item{\dots}{additional arguments (such as \code{colClasses}) passed to
+    \code{read.csv2(eval, dec = ".", ...)}.}
+
+  nops_items(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
+    psychotools = NULL, labels = NULL, ...)
 }
 
 \details{
@@ -84,6 +105,19 @@
   seats for every student and saves the result in both CSV and XLSX format
   as well as a tab-separated text file with the seat numbers for import into OLAT.
   The underlying workhorse function is \code{\link[c403]{read_vis}}.
+  
+  \code{nops_items} returns a data frame with several item response outcomes
+  for each student: \code{solved} indicates whether or not an exercise was
+  fully solved, \code{partial} whether or not it was at least partially solved.
+  \code{points} gives the points achieved for each exercise. The corresponding
+  \code{nsolved}, \code{npartial}, and \code{npoints} are the sums of these
+  for each student. Moreover, \code{solved2}, \code{partial2}, and \code{points2}
+  distinguish not only the exercises within the exam but also the actual
+  source template within each exercise.
+  
+  \code{nops_zip2tab} takes the ZIP file from \code{nops_eval}, extracts all
+  information from the students' individual HTML files but omits the scanned
+  exam sheet, and stores everything as a tab-separated text file.
 }
 
 \value{
