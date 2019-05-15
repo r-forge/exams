@@ -1,7 +1,7 @@
 \name{nops_eval}
 \alias{nops_eval}
 \alias{nops_register}
-\alias{nops_items}
+\alias{nops_itemresp}
 \alias{nops_zip2tab}
 
 \title{Evaluate NOPS Exams}
@@ -22,7 +22,7 @@
 
   nops_register(file = Sys.glob("*.xls*"), startid = 1L)
 
-  nops_items(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
+  nops_itemresp(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
     psychotools = NULL, labels = NULL, ...)
 
   nops_zip2tab(file = "nops_eval.zip")
@@ -44,7 +44,7 @@
   \item{points}{numeric. Vector of points per exercise. By default read from
     \code{solutions}.}
   \item{eval}{For \code{nops_eval}: List specification of evaluation policy as computed by
-    \code{\link[exams]{exams_eval}}. For \code{nops_items}: File name of CSV output from
+    \code{\link[exams]{exams_eval}}. For \code{nops_itemresp}: File name of CSV output from
     \code{nops_eval}.}
   \item{mark}{logical or numeric. If \code{mark = FALSE}, no marks are computed.
     Otherwise \code{mark} needs to be a numeric vector with four threshold values to
@@ -89,7 +89,7 @@
   \item{\dots}{additional arguments (such as \code{colClasses}) passed to
     \code{read.csv2(eval, dec = ".", ...)}.}
 
-  nops_items(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
+  nops_itemresp(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
     psychotools = NULL, labels = NULL, ...)
 }
 
@@ -106,7 +106,7 @@
   as well as a tab-separated text file with the seat numbers for import into OLAT.
   The underlying workhorse function is \code{\link[c403]{read_vis}}.
   
-  \code{nops_items} returns a data frame with several item response outcomes
+  \code{nops_itemresp} returns a data frame with several item response outcomes
   for each student: \code{solved} indicates whether or not an exercise was
   fully solved, \code{partial} whether or not it was at least partially solved.
   \code{points} gives the points achieved for each exercise. The corresponding

@@ -1,4 +1,4 @@
-nops_items <- function(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
+nops_itemresp <- function(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
   psychotools = NULL, labels = NULL, ...)
 {
   ## read evaluation data - once as character and once "as usual" allowing ... arguments
