@@ -55,7 +55,7 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL,
   \item{ssl.verifypeer}{logical. Should SSL certificates be validated when
     connecting via https?}
   \item{fix_choice}{logical. Should math markup be removed in single and multiple
-    choice lists? (This is may be needed for older ARSnova versions where math
+    choice lists? (This may be needed for older ARSnova versions where math
     markup is rendered in the question itself but not the choice list.)}
   \item{\dots}{arguments passed on to \code{\link[exams]{xexams}}.}
 }
