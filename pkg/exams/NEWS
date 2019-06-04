@@ -22,6 +22,10 @@ Changes in Version 2.3-3
     the metainformation (type/solution) of the first exam in the object x
     (output from any exams2xyz() function) in blocks of 5 exercises.
 
+  o For exams2openolat() the handling of the internal pandoc fixups was
+    extended to replace align="right" in tables with style="text-align: right;"
+    (and analogously for "left" and "center").
+
 
 Changes in Version 2.3-2
 
