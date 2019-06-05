@@ -26,6 +26,10 @@ Changes in Version 2.3-3
     extended to replace align="right" in tables with style="text-align: right;"
     (and analogously for "left" and "center").
 
+  o In nops_eval() duplicated sheets (original + replacement) were sometimes
+    omitted even if the student ID was just 000000 (i.e., not read correctly
+    by nops_scan()). A check has been added that avoids this.
+  
 
 Changes in Version 2.3-2
 
