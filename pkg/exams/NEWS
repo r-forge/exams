@@ -29,7 +29,12 @@ Changes in Version 2.3-3
   o In nops_eval() duplicated sheets (original + replacement) were sometimes
     omitted even if the student ID was just 000000 (i.e., not read correctly
     by nops_scan()). A check has been added that avoids this.
-  
+
+  o Changed the default of fix_choice in exams2arsnova(). Current versions of
+    the official ARSnova server (https://arsnova.eu/) have the LaTeX rendering
+    in the choice options switched off. Hence, by setting fix_choice = TRUE
+    by default the LaTeX math markup is removed.
+
 
 Changes in Version 2.3-2
 
