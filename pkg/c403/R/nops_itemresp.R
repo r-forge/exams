@@ -16,7 +16,7 @@ nops_itemresp <- function(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
     nsolved = rowSums(a_solved),
     npartial = rowSums(a_partial),
     npoints = rowSums(a_points),
-    mark = factor(d$mark),
+    mark = if(is.null(d$mark)) NA else factor(d$mark),
     id = factor(d$exam),
     group = factor(substr(d$exam, 7L, 7L))
   )
