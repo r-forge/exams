@@ -12,7 +12,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
-  converter = NULL, xmlcollapse = FALSE, ...)
+  converter = NULL, xmlcollapse = FALSE, canvas = FALSE, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -110,6 +110,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   } else {
     xmlname <- name
   }
+
+  ## Canvas.
+  media_dir_name <- if(!canvas) "media" else "data"
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))
@@ -223,7 +226,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
-        if(!file.exists(media_dir <- file.path(test_dir, "media")))
+        if(!file.exists(media_dir <- file.path(test_dir, media_dir_name)))
           dir.create(media_dir)
         sj <- 1
         while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
@@ -235,11 +238,11 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
             file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
           if(any(grepl(dirname(exm[[i]][[j]]$supplements[si]), ibody))) {
             ibody <- gsub(dirname(exm[[i]][[j]]$supplements[si]),
-              file.path('media', sup_dir), ibody, fixed = TRUE)
+              file.path(media_dir_name, sup_dir), ibody, fixed = TRUE)
           } else {
             if(any(grepl(f, ibody))) {
               ibody <- gsub(paste(f, '"', sep = ''),
-                paste('media/', sup_dir, '/', f, '"', sep = ''), ibody, fixed = TRUE)
+                paste(paste0(media_dir_name, '/'), sup_dir, '/', f, '"', sep = ''), ibody, fixed = TRUE)
             }
           }
         }
@@ -279,7 +282,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     }
     if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
   }
-  maxattempts <- make_integer_tag(maxattempts, type = "maxattempts", default = 1)
+  maxattempts <- make_integer_tag(nmax0 <- maxattempts, type = "maxattempts", default = 1)
   cutvalue <- make_integer_tag(cutvalue, type = "cutvalue", default = 0)
 
   ## finalize the test xml file, insert ids/titles, sections, and further control details
@@ -324,7 +327,63 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## write to dir
-  writeLines(xml, file.path(test_dir, if(zip) "qti.xml" else paste(xmlname, "xml", sep = ".")))
+  if(canvas) {
+    dir.create(file.path(test_dir, "assessment"))
+
+    writeLines(xml, file.path(test_dir, "assessment", if(zip) "qti.xml" else paste(xmlname, "xml", sep = ".")))
+
+    template_canvas <- file.path(pkg_dir, "xml", "canvas.xml")
+    xml_meta <- readLines(template_canvas)
+
+    xml_meta <- gsub("##QuizIdent##", paste0(test_id, '_Q1'), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##TestIdent##", test_id, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##AssignmentIdent##", paste0(test_id, '_A1'), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##GroupIdent##", paste0(test_id, "_G1"), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##TestTitle##", name, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##TestDuration##", duration, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##AssessmentDescription##", adescription, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##Points##", sum(points), xml_meta, fixed = TRUE)
+
+    writeLines(xml_meta, file.path(test_dir, "assessment", "assessment_meta.xml"))
+
+    template_canvas <- file.path(pkg_dir, "xml", "canvas_manifest.xml")
+    manifest <- readLines(template_canvas)
+
+    manifest <- gsub("##ManifestIdent##", paste0(test_id, '_M1'), manifest, fixed = TRUE)
+    manifest <- gsub("##ManifestTitle##", name, manifest, fixed = TRUE)
+    manifest <- gsub("##Date##", Sys.Date(), manifest, fixed = TRUE)
+
+    resources <- c('<resources>',
+      '    <resource identifier="assessment" type="imsqti_xmlv1p2">',
+      paste0('      <file href="assessment/', if(zip) "qti.xml" else paste(xmlname, "xml", sep = "."), '"/>'),
+      paste0('      <dependency identifierref="', paste0(test_id, '_M1_IDREF'), '"/>'),
+      '    </resource>',
+      '    <resource>',
+      paste0('    <resource identifier="', paste0(test_id, '_M1_IDREF'),'" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="assessment/assessment_meta.xml">'),
+      '      <file href="assessment/assessment_meta.xml"/>',
+      '    </resource>'
+    )
+
+    data_supps <- dir(file.path(test_dir, "data"), recursive = TRUE, full.names = FALSE, include.dirs = FALSE)
+    sid <- 1L
+    for(j in data_supps) {
+      resources <- c(resources,
+        paste0('    <resource href="data/', j, '" identifier="', paste0('resource', sid), '" type="webcontent">'),
+        paste0('      <file href="data/', j,'"/>'),
+        '    </resource>'
+      )
+      sid <- sid + 1L
+    }
+
+    resources <- paste0(c(resources, '  <resources>'), collapse = '\n')
+
+    manifest <- gsub("##Resources##", resources, manifest, fixed = TRUE)
+
+    writeLines(manifest, file.path(test_dir, "imsmanifest.xml"))
+  } else {
+    writeLines(xml, file.path(test_dir, if(zip) "qti.xml" else paste(xmlname, "xml", sep = ".")))
+  }
 
   ## compress
   if(zip) {
