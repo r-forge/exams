@@ -35,6 +35,11 @@ Changes in Version 2.3-3
     in the choice options switched off. Hence, by setting fix_choice = TRUE
     by default the LaTeX math markup is removed.
 
+  o Add \setkeys{Gin}{keepaspectratio} in the default exams2pdf() template for
+    pandoc (plain8.tex) and in exams2nops(). This is necessitated by a change
+    in "pandoc" that now always sets height=\textheight when width= is specified
+    (see https://pandoc.org/faqs.html).
+
 
 Changes in Version 2.3-2
 

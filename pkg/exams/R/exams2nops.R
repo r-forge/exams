@@ -189,6 +189,8 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
   \\RequirePackage[helvet]{sfmath}
 }{}
 
+\\setkeys{Gin}{keepaspectratio}
+
 \\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
 \\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
 \\DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
