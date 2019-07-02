@@ -340,7 +340,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         paste0('alt="', basename(j), '"'), xml, fixed = TRUE)
     }
 
-    quiz_id <- "i966fc454cda51e7ad055df7132077074" ##paste0("A_", make_test_ids(type = "test"))
+    quiz_id <- make_test_ids(type = "test")
 
     dir.create(file.path(test_dir, quiz_id))
 
@@ -351,8 +351,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     xml_meta <- gsub("##QuizIdent##", quiz_id, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestIdent##", test_id, xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##AssignmentIdent##", paste0('A_', test_id), xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##GroupIdent##", paste0('G_', test_id), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##AssignmentIdent##", paste0('AID_', test_id), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##GroupIdent##", paste0('GID_', test_id), xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestTitle##", name, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestDuration##", duration, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
@@ -364,34 +364,33 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     template_canvas <- file.path(pkg_dir, "xml", "canvas_manifest.xml")
     manifest <- readLines(template_canvas)
 
-    manifest <- gsub("##ManifestIdent##", paste0(test_id, '_M1'), manifest, fixed = TRUE)
+    manifest <- gsub("##ManifestIdent##", paste0('MID_', test_id), manifest, fixed = TRUE)
     manifest <- gsub("##ManifestTitle##", name, manifest, fixed = TRUE)
     manifest <- gsub("##Date##", Sys.Date(), manifest, fixed = TRUE)
 
     resources <- c('<resources>',
       paste0('    <resource identifier="', quiz_id, '" type="imsqti_xmlv1p2">'),
       paste0('      <file href="', quiz_id, '/', paste(quiz_id, "xml", sep = "."), '"/>'),
-      paste0('      <dependency identifierref="', paste0(test_id, '_M1_IDREF'), '"/>'),
+      paste0('      <dependency identifierref="', paste0('MID_REF_', test_id), '"/>'),
       '    </resource>',
-      '    <resource>',
-      paste0('    <resource identifier="', paste0(test_id, '_M1_IDREF'),'" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="assessment/assessment_meta.xml">'),
-      '      <file href="assessment/assessment_meta.xml"/>',
+      paste0('    <resource identifier="', paste0('MID_REF_', test_id),
+        '" type="associatedcontent/imscc_xmlv1p1/learning-application-resource" href="',
+        quiz_id, '/assessment_meta.xml">'),
+      paste0('      <file href="', quiz_id, '/assessment_meta.xml"/>'),
       '    </resource>'
     )
 
-    sid <- 1L
+    sid <- 1234
     for(j in data_supps) {
       resources <- c(resources,
-        paste0('    <resource href="data/', j, '" identifier="', '1234', '" type="webcontent">'),
+        paste0('    <resource href="data/', j, '" identifier="', sid, '" type="webcontent">'),
         paste0('      <file href="data/', j,'"/>'),
         '    </resource>'
       )
       sid <- sid + 1L
     }
 
-##/courses/1489537/files/73529115/preview
-
-    resources <- paste0(c(resources, '  <resources>'), collapse = '\n')
+    resources <- paste0(c(resources, '  </resources>'), collapse = '\n')
 
     manifest <- gsub("##Resources##", resources, manifest, fixed = TRUE)
 
