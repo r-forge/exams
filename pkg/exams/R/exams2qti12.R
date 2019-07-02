@@ -12,8 +12,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
-  converter = NULL, xmlcollapse = FALSE, canvas = FALSE, ...)
+  converter = NULL, xmlcollapse = FALSE, ...)
 {
+  ## Canvas?
+  canvas <- .exams_get_internal("canvas")
+  if(is.null(canvas))
+    canvas <- FALSE
+
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
     converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
@@ -328,24 +333,33 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## write to dir
   if(canvas) {
-    dir.create(file.path(test_dir, "assessment"))
+    data_supps <- dir(file.path(test_dir, "data"), recursive = TRUE, full.names = FALSE, include.dirs = FALSE)
 
-    writeLines(xml, file.path(test_dir, "assessment", if(zip) "qti.xml" else paste(xmlname, "xml", sep = ".")))
+    for(j in data_supps) {
+      xml <- gsub(paste0('alt="data/', j, '"'),
+        paste0('alt="', basename(j), '"'), xml, fixed = TRUE)
+    }
 
-    template_canvas <- file.path(pkg_dir, "xml", "canvas.xml")
+    quiz_id <- "i966fc454cda51e7ad055df7132077074" ##paste0("A_", make_test_ids(type = "test"))
+
+    dir.create(file.path(test_dir, quiz_id))
+
+    writeLines(xml, file.path(test_dir, quiz_id, paste(quiz_id, "xml", sep = ".")))
+
+    template_canvas <- file.path(pkg_dir, "xml", "canvas_meta.xml")
     xml_meta <- readLines(template_canvas)
 
-    xml_meta <- gsub("##QuizIdent##", paste0(test_id, '_Q1'), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##QuizIdent##", quiz_id, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestIdent##", test_id, xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##AssignmentIdent##", paste0(test_id, '_A1'), xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##GroupIdent##", paste0(test_id, "_G1"), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##AssignmentIdent##", paste0('A_', test_id), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##GroupIdent##", paste0('G_', test_id), xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestTitle##", name, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestDuration##", duration, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##AssessmentDescription##", adescription, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##Points##", sum(points), xml_meta, fixed = TRUE)
 
-    writeLines(xml_meta, file.path(test_dir, "assessment", "assessment_meta.xml"))
+    writeLines(xml_meta, file.path(test_dir, quiz_id, "assessment_meta.xml"))
 
     template_canvas <- file.path(pkg_dir, "xml", "canvas_manifest.xml")
     manifest <- readLines(template_canvas)
@@ -355,8 +369,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     manifest <- gsub("##Date##", Sys.Date(), manifest, fixed = TRUE)
 
     resources <- c('<resources>',
-      '    <resource identifier="assessment" type="imsqti_xmlv1p2">',
-      paste0('      <file href="assessment/', if(zip) "qti.xml" else paste(xmlname, "xml", sep = "."), '"/>'),
+      paste0('    <resource identifier="', quiz_id, '" type="imsqti_xmlv1p2">'),
+      paste0('      <file href="', quiz_id, '/', paste(quiz_id, "xml", sep = "."), '"/>'),
       paste0('      <dependency identifierref="', paste0(test_id, '_M1_IDREF'), '"/>'),
       '    </resource>',
       '    <resource>',
@@ -365,16 +379,17 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       '    </resource>'
     )
 
-    data_supps <- dir(file.path(test_dir, "data"), recursive = TRUE, full.names = FALSE, include.dirs = FALSE)
     sid <- 1L
     for(j in data_supps) {
       resources <- c(resources,
-        paste0('    <resource href="data/', j, '" identifier="', paste0('resource', sid), '" type="webcontent">'),
+        paste0('    <resource href="data/', j, '" identifier="', '1234', '" type="webcontent">'),
         paste0('      <file href="data/', j,'"/>'),
         '    </resource>'
       )
       sid <- sid + 1L
     }
+
+##/courses/1489537/files/73529115/preview
 
     resources <- paste0(c(resources, '  <resources>'), collapse = '\n')
 
