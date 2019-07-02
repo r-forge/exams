@@ -5,6 +5,14 @@ Changes in Version 2.3-3
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o The default in exams2moodle() has been changed to converter = "pandoc-mathjax".
+    Thus, instead of relying on the browser to render mathematical notation
+    from MathML, the MathJax plugin is now assumed to be enabled on the
+    Moodle server (which is the default when setting up a new Moodle server).
+    To employ MathML one can use converter = NULL or converter = "pandoc-mathml"
+    etc. See the discussion at http://www.R-exams.org/tutorials/math/ for more
+    details.
+
   o Assure in nops_scan() that scanned image file names contain no spaces.
 
   o Fixed bugs in exams2qti21() (and hence exams2openolat()) for certain

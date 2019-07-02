@@ -18,7 +18,7 @@
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL, rule = NULL, pluginfile = TRUE,
-    converter = NULL, envir = NULL, \dots)
+    converter = "pandoc-mathjax", envir = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -109,8 +109,10 @@
     or \code{essay} questions? The default is to use \code{shortanswer} unless either
     \code{essay=TRUE} or the exercise's metainformation is set to \code{essay}.}
   \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
-    The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
-    exercises in \code{file} where \code{"pandoc"} is used.}
+    The default for \code{converter} is \code{"pandoc-mathjax"} which assumes that the quiz
+    is imported in a Moodle site with MathJax plugin activated (which is the default setting in
+    Moodle). For using MathML instead of MathJax the \code{converter} can be set to
+    \code{NULL} or \code{"pandoc-mathml"} etc. For details see Zeileis (2019).}
 }
 
 \details{
@@ -167,16 +169,20 @@
 }
 
 \references{
-Dougiamas M, et al. (2015). \emph{Moodle, Version 2.8}.
+Dougiamas M, et al. (2019). \emph{Moodle, Version 3.6}.
   \url{http://moodle.org/}.
 
-MoodleDocs (2015). \emph{Moodle XML Format}.
+MoodleDocs (2019). \emph{Moodle XML Format}.
   \url{http://docs.moodle.org/en/Moodle_XML}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
   \emph{Journal of Statistical Software}, \bold{58}(1), 1--36.
   \url{http://www.jstatsoft.org/v58/i01/}.
+
+Zeileis A (2019).
+  \emph{Mathematical Notation in Online R/exams}.
+  \url{http://www.R-exams.org/tutorials/math/}
 }
 
 \value{

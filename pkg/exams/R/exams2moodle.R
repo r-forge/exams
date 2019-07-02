@@ -6,7 +6,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, pluginfile = TRUE,
-  converter = NULL, envir = NULL, ...)
+  converter = "pandoc-mathjax", envir = NULL, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
