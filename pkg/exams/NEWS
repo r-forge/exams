@@ -13,6 +13,12 @@ Changes in Version 2.3-3
     etc. See the discussion at http://www.R-exams.org/tutorials/math/ for more
     details.
 
+  o exams_skeleton() has been updated. The new default is markup = "markdown"
+    as this appears to be the more common choice for newcomers to R/exams.
+    Furthermore, the list of exercises in the demo-*.R scripts has been
+    updated to use newer exercises as well (along with links to the web
+    page: http://www.R-exams.org/templates/).
+
   o Assure in nops_scan() that scanned image file names contain no spaces.
 
   o Fixed bugs in exams2qti21() (and hence exams2openolat()) for certain
@@ -22,6 +28,9 @@ Changes in Version 2.3-3
     exams2nops(). In addition to a new "Babel: ..." field, the .dcf can
     also provide a "Header: ..." field, e.g., for changing the font encoding
     or adding further options.
+
+  o For convenience, when exams2html(..., converter = "pandoc-mathjax"),
+    mathjax = TRUE is added automatically (unless explicitly switched off).
 
   o Added "envir" argument in exams2moodle() that is passed on to xweave().
 

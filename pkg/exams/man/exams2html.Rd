@@ -14,7 +14,7 @@
   exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = NULL,
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
-    mathjax = FALSE, resolution = 100, width = 4, height = 4, svg = FALSE,
+    mathjax = NULL, resolution = 100, width = 4, height = 4, svg = FALSE,
     encoding = "", envir = NULL, converter = NULL, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
@@ -59,7 +59,8 @@
     Argument \code{question} may also be a vector that controls the output for the templates.}
   \item{solution}{character or logical, see argument \code{question}.}
   \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
-    be included for rendering mathematical formulas?}
+    be included for rendering mathematical formulas? By default \code{mathjax = FALSE}
+    unless \code{converter = "pandoc-mathjax"}.}
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}

@@ -16,7 +16,7 @@ exams_skeleton(dir = ".",
   type = c("num", "schoice", "mchoice", "string", "cloze"),
   writer = c("exams2html", "exams2pdf", "exams2moodle",
     "exams2qti12", "exams2qti21", "exams2arsnova", "exams2nops"),
-  markup = "latex", absolute = FALSE, encoding = "")
+  markup = "markdown", absolute = FALSE, encoding = "")
 }
 
 \arguments{
