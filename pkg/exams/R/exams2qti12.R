@@ -430,6 +430,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
   maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE)
 {
   function(x) {
+    ## Canvas?
+    canvas <- .exams_get_internal("canvas")
+    if(is.null(canvas))
+      canvas <- FALSE
+
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
@@ -701,8 +706,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       wrong_num <- unlist(wrong_num)
     }
 
-
-
     ## partial points
     if(eval$partial | x$metainfo$type == "cloze") {
       if(length(correct_answers)) {
@@ -804,7 +807,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     ## force display of all other correct answers
-    if(length(correct_answers)) {
+    if(length(correct_answers) & !canvas) {
       for(j in seq_along(correct_answers)) {
         if(attr(correct_answers[[j]], "type") != "num") {
           xml <- c(xml,
@@ -817,7 +820,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
       }
     }
-
 
     ## handling incorrect answers
     correct_answers <- unlist(correct_answers)
