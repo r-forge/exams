@@ -435,6 +435,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(is.null(canvas))
       canvas <- FALSE
 
+    if(canvas)
+      fix_num <- FALSE
+
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
@@ -599,6 +602,20 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
       }
 
+      if((type[i] == "num") & canvas) {
+        txml <- c(
+          '<itemmetadata>',
+          '<qtimetadata>',
+          '<qtimetadatafield>',
+          '<fieldlabel>question_type</fieldlabel>',
+          '<fieldentry>numerical_question</fieldentry>',
+          '</qtimetadatafield>',
+          '</qtimetadata>',
+          '</itemmetadata>',
+          txml
+        )
+      }
+
       if(ans) {
         txml <- paste(txml, collapse = '\n')
         xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
@@ -670,8 +687,15 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                       } else solution[[i]][j],
                       ']]></varequal>', sep = "")
                   )
-                }
+                }	
                 wrong_num[[i]] <- paste(
+                  if(canvas) {
+                    paste(c('\n<or>', paste('<varequal respident="', ids[[i]]$response,
+                      '" case="No"><![CDATA[', if(!is.null(digits)) {
+                      format(round(solution[[i]][j], digits), nsmall = digits)
+                      } else solution[[i]][j],
+                      ']]></varequal>\n', sep = "")), collapse = '\n', sep = '')
+                  } else NULL,
                   '<and>\n',
                   paste('<vargte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] - max(tol[[i]]),
@@ -679,7 +703,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                   paste('<varlte respident="', ids[[i]]$response, '"><![CDATA[',
                     solution[[i]][j] + max(tol[[i]]),
                     ']]></varlte>\n', sep = ""),
-                  '</and>', collapse = '\n', sep = ''
+                  '</and>',
+                  if(canvas) '\n</or>' else NULL,
+                  collapse = '\n', sep = ''
                 )
               }
             )
@@ -773,9 +799,15 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     xml <- c(xml,
       unlist(correct_answers),
-      if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '</and>' else NULL,
+      if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) {
+          if(canvas) NULL else '</and>'
+        } else { NULL },
       if(!is.null(wrong_answers)) {
-        c('<not>', '<or>', unlist(wrong_answers), '</or>', '</not>')
+        if(canvas) {
+          c(paste('<not>', unlist(wrong_answers), '</not>'), '</and>')
+        } else {
+          c('<not>', '<or>', unlist(wrong_answers), '</or>', '</not>')
+        }
       } else {
         NULL
       },
@@ -807,16 +839,28 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     ## force display of all other correct answers
-    if(length(correct_answers) & !canvas) {
+    if(length(correct_answers)) {
       for(j in seq_along(correct_answers)) {
         if(attr(correct_answers[[j]], "type") != "num") {
-          xml <- c(xml,
-            '<respcondition continue="Yes" title="Mastery">',
-            '<conditionvar>',
-            correct_answers[[j]],
-            '</conditionvar>',
-            '</respcondition>'
-          )
+          if(canvas & grepl("choice", attr(correct_answers[[j]], "type"))) {
+            if((length(correct_answers) > 1L)) {
+              xml <- c(xml,
+                '<respcondition continue="Yes" title="Mastery">',
+                '<conditionvar>',
+                correct_answers[[j]],
+                '</conditionvar>',
+                '</respcondition>'
+              )
+            }
+          } else {
+            xml <- c(xml,
+              '<respcondition continue="Yes" title="Mastery">',
+              '<conditionvar>',
+              correct_answers[[j]],
+              '</conditionvar>',
+              '</respcondition>'
+            )
+          }
         }
       }
     }
@@ -828,7 +872,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(!eval$partial & x$metainfo$type == "cloze") {
       if(length(correct_answers)) {
         for(i in seq_along(correct_answers)) {
-
             xml <- c(xml,
               '<respcondition title="Fail" continue="Yes">',
               '<conditionvar>',
@@ -863,37 +906,38 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       }
     }
 
-    xml <- c(xml,
-      '<respcondition title="Fail" continue="Yes">',
-      '<conditionvar>',
-      if(!is.null(wrong_answers)) NULL else '<not>',
-      if(is.null(wrong_answers)) {
-        c(if(length(correct_answers) > 1) '<and>' else NULL,
-          correct_answers,
-          if(length(correct_answers) > 1) '</and>' else NULL)
-      } else {
-        c('<or>', wrong_answers, '</or>')
-      },
-      if(!is.null(wrong_answers)) NULL else '</not>',
-      '</conditionvar>',
-      if(!eval$partial & !is.na(minvalue)) {
-        paste('<setvar varname="SCORE" action="Set">', minvalue, '</setvar>', sep = '')
-      } else NULL,
-      '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-      '</respcondition>'
-    )
+    if(!canvas) {
+      xml <- c(xml,
+        '<respcondition title="Fail" continue="Yes">',
+        '<conditionvar>',
+        if(!is.null(wrong_answers)) NULL else '<not>',
+        if(is.null(wrong_answers)) {
+          c(if(length(correct_answers) > 1) '<and>' else NULL,
+            correct_answers,
+            if(length(correct_answers) > 1) '</and>' else NULL)
+        } else {
+          c('<or>', wrong_answers, '</or>')
+        },
+        if(!is.null(wrong_answers)) NULL else '</not>',
+        '</conditionvar>',
+        if(!eval$partial & !is.na(minvalue)) {
+          paste('<setvar varname="SCORE" action="Set">', minvalue, '</setvar>', sep = '')
+        } else NULL,
+        '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+        '</respcondition>'
+      )
 
-
-    ## handle all other cases
-    xml <- c(xml,
-      '<respcondition title="Fail" continue="Yes">',
-      '<conditionvar>',
-      '<other/>',
-      '</conditionvar>',
-      paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''),
-      '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
-      '</respcondition>'
-    )
+      ## handle all other cases
+      xml <- c(xml,
+        '<respcondition title="Fail" continue="Yes">',
+        '<conditionvar>',
+        '<other/>',
+        '</conditionvar>',
+        paste('<setvar varname="SCORE" action="Set">', 0, '</setvar>', sep = ''),
+        '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
+        '</respcondition>'
+      )
+    }
 
     ## handle unanswered cases
 #    xml <- c(xml,
