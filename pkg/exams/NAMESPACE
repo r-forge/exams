@@ -80,6 +80,7 @@ export(
   "make_itembody_qti21",
   "exams2ilias",
   "exams2openolat",
+  "exams2canvas",
 
   ## Blackboard driver (only partially QTI-based)
   "exams2blackboard",
