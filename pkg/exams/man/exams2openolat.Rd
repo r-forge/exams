@@ -51,7 +51,7 @@
 
 \seealso{
   \code{\link[exams]{exams2qti12}},
-  \code{\link[exams]{exams2qti12}}
+  \code{\link[exams]{exams2qti21}}
 }
 
 \examples{

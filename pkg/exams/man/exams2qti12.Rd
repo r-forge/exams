@@ -27,7 +27,8 @@
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    converter = NULL, xmlcollapse = FALSE, \dots)
+    converter = NULL, xmlcollapse = FALSE,
+    flavor = c("plain", "openolat", "canvas"), \dots)
 
   exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
@@ -50,7 +51,7 @@
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = TRUE)
+    fix_num = TRUE, canvas = FALSE)
 
   make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
     minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
@@ -138,12 +139,15 @@
   \item{fix_num}{logical. This is a special flag to enable/force the display of the
     correct solutions for numeric exercises/answers as well as to obtain results when archiving tests.
     Note that this is a workaround, which works e.g. within OLAT.}
+  \item{canvas}{logical. Should XML code with Canvas flavor be created?}
   \item{converter}{character. Argument passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
     exercises in \code{file} where \code{"pandoc"} is used.}
   \item{xmlcollapse}{logical or character. Should line breaks be collapsed in the XML
     code. If \code{TRUE} everything is collapsed with spaces (\code{" "}) but other collapse
     characters could be supplied.}
+  \item{flavor}{character. Which QTI 1.2 flavor should be used? This feature controls learning
+    management system specific XML code.}
   \item{\dots}{further arguments passed on to \code{make_exercise_transform_html}.}
 }
 
