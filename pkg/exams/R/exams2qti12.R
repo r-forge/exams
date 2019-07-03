@@ -602,8 +602,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
       }
 
-      if((type[i] == "num") & canvas) {
-        txml <- c(
+      if(ans) {
+        txml <- paste(txml, collapse = '\n')
+        xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+      } else {
+        xml <- c(xml, txml)
+      }
+    }
+
+    if(length(type) < 2L) {
+      if((type == "num") & canvas) {
+        xml <- c(
           '<itemmetadata>',
           '<qtimetadata>',
           '<qtimetadatafield>',
@@ -612,15 +621,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           '</qtimetadatafield>',
           '</qtimetadata>',
           '</itemmetadata>',
-          txml
+          xml
         )
-      }
-
-      if(ans) {
-        txml <- paste(txml, collapse = '\n')
-        xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
-      } else {
-        xml <- c(xml, txml)
       }
     }
 
