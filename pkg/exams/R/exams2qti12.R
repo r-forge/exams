@@ -12,19 +12,40 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
-  converter = NULL, xmlcollapse = FALSE, ...)
+  converter = NULL, xmlcollapse = FALSE,
+  flavor = c("plain", "openolat", "canvas"), ...)
 {
+  ## which qti flavor
+  flavor <- match.arg(flavor)
+
   ## Canvas?
-  canvas <- .exams_get_internal("canvas")
-  if(is.null(canvas))
-    canvas <- FALSE
+  canvas <- if(flavor == "canvas") TRUE else FALSE
+  if(canvas)
+    eval <- list(partial = FALSE, negative = FALSE)
+
+  if(flavor == "openolat") {
+    if(is.null(converter))
+      converter <- "pandoc-mathjax"
+    ## post-process mathjax output for display in OpenOLAT
+    .exams_set_internal(pandoc_mathjax_fixup = TRUE)
+    on.exit(.exams_set_internal(pandoc_mathjax_fixup = FALSE))
+    .exams_set_internal(pandoc_table_class_fixup = table)
+    on.exit(.exams_set_internal(pandoc_table_class_fixup = FALSE))
+  }
 
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
     converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
   }
+
   ## set up .html transformer
-  htmltransform <- make_exercise_transform_html(converter = converter, ...)
+  args <- list(...)
+  if(is.null(args$base64)) {
+    if(canvas)
+      args$base64 <- FALSE
+  }
+  args$converter <- converter
+  htmltransform <- do.call("make_exercise_transform_html", args)
 
   ## generate the exam
   is.xexam <- FALSE
@@ -56,6 +77,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         itembody[[i]]$eval <- eval
       if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
         itembody[[i]]$eval$rule <- "none"
+      if(canvas)
+        itembody[[i]]$canvas <- TRUE
       itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -427,14 +450,10 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE)
+  maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE,
+  canvas = FALSE)
 {
   function(x) {
-    ## Canvas?
-    canvas <- .exams_get_internal("canvas")
-    if(is.null(canvas))
-      canvas <- FALSE
-
     if(canvas)
       fix_num <- FALSE
 
@@ -610,20 +629,23 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       }
     }
 
-    if(length(type) < 2L) {
-      if((type == "num") & canvas) {
-        xml <- c(
-          '<itemmetadata>',
-          '<qtimetadata>',
-          '<qtimetadatafield>',
-          '<fieldlabel>question_type</fieldlabel>',
-          '<fieldentry>numerical_question</fieldentry>',
-          '</qtimetadatafield>',
-          '</qtimetadata>',
-          '</itemmetadata>',
-          xml
-        )
-      }
+    if((length(type) < 2L) & canvas) {
+      canvas_type <- switch(type,
+        "num" = "numerical_question",
+        "schoice" = "multiple_choice_question",
+        "mchoice" = "multiple_answers_question"
+      )
+      xml <- c(
+        '<itemmetadata>',
+        '<qtimetadata>',
+        '<qtimetadatafield>',
+        '<fieldlabel>question_type</fieldlabel>',
+        paste0('<fieldentry>', canvas_type, '</fieldentry>'),
+        '</qtimetadatafield>',
+        '</qtimetadata>',
+        '</itemmetadata>',
+        xml
+      )
     }
 
     ## finish presentation
