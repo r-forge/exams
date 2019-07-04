@@ -5,6 +5,11 @@ Changes in Version 2.3-3
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o Added new interface exams2canvas() for the open-source Canvas learning
+    management system (https://www.instructure.com/canvas/). This is essentially
+    a convenience wrapper to exams2qti12() along with a few Canvas-specific
+    modifications of the QTI XML specification.
+
   o The default in exams2moodle() has been changed to converter = "pandoc-mathjax".
     Thus, instead of relying on the browser to render mathematical notation
     from MathML, the MathJax plugin is now assumed to be enabled on the

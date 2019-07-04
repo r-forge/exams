@@ -4,8 +4,8 @@
 \title{Generation of Exams for Canvas}
 
 \description{
-  Automatic generation of exams in QTI 1.2 with some
-  tweaks optimized for Canvas.
+  Automatic generation of exams in QTI 1.2 with some tweaks
+  (still under development) for the learning management system Canvas.
 }
 
 \usage{
@@ -32,21 +32,38 @@
     exercises, the \code{converter} needs to be \code{"pandoc-mathml"} (or
     equivalently \code{"pandoc"}). For only LaTeX-based .Rnw exercises \code{"ttm"}
     can be used as an alternative and is currently the default.}
-  \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}}.}
+  \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}}.
+    The arguments \code{base64} and \code{eval} cannot be modified but are
+    hard-coded internally (for details see below).}
 }
 
 \details{
   \code{exams2canvas} is a convenience interface to \code{\link[exams]{exams2qti12}}
-  for generating QTI 1.2 with some small tweaks for Canvas. In particular, Canvas
-  necessitates a \code{converter} that produces HTML plus MathML and supplementary
-  files (images, data, ...) must be embedded without Base 64. Finally, the QTI XML
-  file requires a few special tags which are enforced through \code{flavor = "canvas"}
-  in \code{exams2qti12}.
-
-  Note that Canvas does not currently allow partial credits on mchoice questions, according
-  to the documentation, but an evaluation rule with partial credits is still applied. Therefore
-  there is a warning if the evaluation rule is all or nothing (i.e., \code{partial = FALSE}).
-  Moreover, negative points are currently no supprted by Canvas.
+  for generating QTI 1.2 with some small tweaks for Canvas
+  (\url{https://www.instructure.com/canvas/}). It is still under development
+  and might still change in future versions. Please report any problems to the package
+  maintainer.
+  
+  In particular, these tweaks include:
+  \itemize{
+    \item Canvas necessitates a \code{converter} that produces HTML plus MathML.
+      Thus, \code{"pandoc-mathml"} (or equivalently \code{"pandoc"}) can be used
+      or alternatively \code{"ttm"} for exams with only R/LaTeX .Rnw exercises.
+    \item Supplementary files (images, data, ...) must be embedded without Base 64
+      encoding. Thus, \code{base64 = FALSE} is hard-coded internally in \code{exams2canvas}.
+    \item Multiple-choice exercises (referred to as multiple answer questions in Canvas)
+      are always evaluated (aka scored) with partial credits in Canvas. Therefore,
+      \code{eval = list(partial = TRUE, negative = FALSE)} is hard-coded internally
+      in \code{exams2canvas}. Negative points are not supported in Canvas.
+    \item The QTI XML file requires a few special tags which are enforced through
+      \code{flavor = "canvas"} in \code{exams2qti12}.
+  }
+  
+  \emph{Technical note:} For multiple-choice questions the QTI XML file produced by
+  \code{exams2canvas} appears to encode an \dQuote{all-or-nothing} scheme without partial
+  credits (i.e., \code{partial = FALSE}). However, this is necessary for Canvas to recognize
+  the answer alternatives correctly. Despite this, Canvas always applies partial-credit
+  evaluation (as explained above).
 }
 
 \value{

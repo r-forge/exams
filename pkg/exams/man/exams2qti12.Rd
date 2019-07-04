@@ -51,7 +51,7 @@
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = TRUE, flavor = c("plain", "canvas"))
+    fix_num = TRUE, flavor = "plain")
 
   make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
     minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
@@ -145,8 +145,11 @@
   \item{xmlcollapse}{logical or character. Should line breaks be collapsed in the XML
     code. If \code{TRUE} everything is collapsed with spaces (\code{" "}) but other collapse
     characters could be supplied.}
-  \item{flavor}{character. Which QTI 1.2 flavor should be used? This feature controls learning
-    management system specific XML code.}
+  \item{flavor}{character. Which QTI 1.2 \dQuote{flavor} should be used? Some learning
+    management systems require that the QTI XML tags are used in a rather specific
+    and idiosyncratic way. Typically, users should not set this argument directly but
+    use the convenience interfaces \code{\link{exams2canvas}} or \code{\link{exams2openolat}}
+    instead (which use the \code{flavor} argument internally along with further customizations).}
   \item{\dots}{further arguments passed on to \code{make_exercise_transform_html}.}
 }
 

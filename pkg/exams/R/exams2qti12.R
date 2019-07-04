@@ -486,11 +486,10 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
   maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE,
-  flavor = c("plain", "canvas"))
+  flavor = "plain")
 {
   function(x) {
     flavor <- match.arg(flavor, c("plain", "canvas"))
-
     canvas <- flavor == "canvas"
     if(canvas)
       fix_num <- FALSE
