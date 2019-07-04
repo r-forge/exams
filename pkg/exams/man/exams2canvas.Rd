@@ -10,7 +10,8 @@
 
 \usage{
   exams2canvas(file, n = 1L, dir = ".", name = "canvasquiz",
-    maxattempts = 1, converter = NULL, \dots)
+    maxattempts = 1, duration = NULL, points = NULL,
+    converter = NULL, \dots)
 }
 
 \arguments{
@@ -20,6 +21,11 @@
   \item{name}{character. A name prefix for resulting exercises and ZIP file.}
   \item{maxattempts}{integer. The maximum attempts for one question
     (must be smaller than \code{100000}).}
+  \item{duration}{integer. Set the duration of the exam in minutes.}
+  \item{points}{integer. How many points should be assigned to each exercise? Note that this
+    argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
+    in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
+    the exam.}
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
     indicating the type of converter from LaTeX/Markdown to HTML. Currently,
     Canvas requires HTML with MathML. Hence, if there are Markdown-based .Rmd

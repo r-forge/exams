@@ -51,7 +51,7 @@
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = TRUE, canvas = FALSE)
+    fix_num = TRUE, flavor = c("plain", "canvas"))
 
   make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
     minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
@@ -139,7 +139,6 @@
   \item{fix_num}{logical. This is a special flag to enable/force the display of the
     correct solutions for numeric exercises/answers as well as to obtain results when archiving tests.
     Note that this is a workaround, which works e.g. within OLAT.}
-  \item{canvas}{logical. Should XML code with Canvas flavor be created?}
   \item{converter}{character. Argument passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
     exercises in \code{file} where \code{"pandoc"} is used.}
