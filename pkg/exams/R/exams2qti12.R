@@ -331,7 +331,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   hintswitch <- FALSE
   xml <- gsub("##TestIdent##", test_id, xml, fixed = TRUE)
   xml <- gsub("##TestTitle##", name, xml, fixed = TRUE)
-  xml <- gsub("##TestDuration##", duration, xml, fixed = TRUE)
+  xml <- gsub("##TestDuration##", if(canvas) dur0 else duration, xml, fixed = TRUE)
   xml <- gsub("##TestSections##", paste(sec_xml, collapse = "\n"), xml, fixed = TRUE)
   xml <- gsub("##MaxAttempts##", maxattempts, xml, fixed = TRUE)
   xml <- gsub("##CutValue##", cutvalue, xml, fixed = TRUE)
@@ -339,6 +339,26 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   xml <- gsub("##HintSwitch##",     if(hintswitch)     "Yes" else "No", xml, fixed = TRUE)
   xml <- gsub("##SolutionSwitch##", if(solutionswitch) "Yes" else "No", xml, fixed = TRUE)
   xml <- gsub("##AssessmentDescription##", adescription, xml, fixed = TRUE)
+
+  if(canvas) {
+    pos <- grep('<qtimetadata>', xml, fixed = TRUE)[1L]
+    xml <- c(
+      xml[1:pos],
+      if(!is.null(dur0)) {
+        c('<qtimetadatafield>',
+          '<fieldlabel>qmd_timelimit</fieldlabel>',
+          paste0('<fieldentry>', dur0, '</fieldentry>'),
+          '</qtimetadatafield>')
+      } else NULL,
+      if(is.finite(nmax0)) {
+        c('<qtimetadatafield>',
+          '<fieldlabel>cc_maxattempts</fieldlabel>',
+          paste0('<fieldentry>', nmax0, '</fieldentry>'),
+        '</qtimetadatafield>')
+      } else NULL,
+      xml[(pos + 1L):length(xml)]
+    )
+  }
 
   ## collapse line breaks in XML output?
   if(!identical(xmlcollapse, FALSE)) {
