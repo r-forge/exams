@@ -1,5 +1,5 @@
 exams2canvas <- function(file, n = 1L, dir = ".", name = "canvasquiz",
-  maxattempts = 1, converter = NULL, ...)
+  maxattempts = 1, duration = NULL, points = NULL, converter = NULL, ...)
 {
   ## enforce MathML for mathematical notation
   if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) {
@@ -16,12 +16,11 @@ exams2canvas <- function(file, n = 1L, dir = ".", name = "canvasquiz",
     }  
   }
 
-
-  ## FIXME: Add processing for meta.xml, make corresponding arguments explicit
-
   ## call exams2qti12
   rval <- exams2qti12(file = file, n = n, dir = dir, name = name,
-    converter = converter, maxattempts = maxattempts, flavor = "canvas", base64 = FALSE, ...)
+    maxattempts = maxattempts, duration = duration, points = points,
+    converter = converter, flavor = "canvas", base64 = FALSE,
+    eval = list(partial = FALSE, negative = FALSE), ...)
 
   invisible(rval)
 }

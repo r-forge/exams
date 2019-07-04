@@ -20,9 +20,11 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## Canvas?
   canvas <- flavor == "canvas"
-  if(canvas)
+  if(canvas) {
+    if(eval$partial | eval$negative)
+      warning("evaluation policy for Canvas will be overwritten to partial = FALSE and negative = FALSE!")
     eval <- list(partial = FALSE, negative = FALSE)
-  ## FIXME: Is this really necessary? If so probably more verbose processing!
+  }
 
   if(flavor == "openolat") {
     if(is.null(converter)) converter <- "pandoc-mathjax"
@@ -77,7 +79,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
         itembody[[i]]$eval$rule <- "none"
       if(canvas)
-        itembody[[i]]$canvas <- TRUE
+        itembody[[i]]$flavor <- "canvas"
       itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -354,12 +356,11 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## write to dir
-  ## FIXME: use media_dir_name rather than hard-code "data" below?
   if(canvas) {
-    data_supps <- dir(file.path(test_dir, "data"), recursive = TRUE, full.names = FALSE, include.dirs = FALSE)
+    data_supps <- dir(file.path(test_dir, media_dir_name), recursive = TRUE, full.names = FALSE, include.dirs = FALSE)
 
     for(j in data_supps) {
-      xml <- gsub(paste0('alt="data/', j, '"'),
+      xml <- gsub(paste0('alt="', media_dir_name, '/', j, '"'),
         paste0('alt="', basename(j), '"'), xml, fixed = TRUE)
     }
 
@@ -409,8 +410,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     sid <- 1234
     for(j in data_supps) {
       resources <- c(resources,
-        paste0('    <resource href="data/', j, '" identifier="', sid, '" type="webcontent">'),
-        paste0('      <file href="data/', j,'"/>'),
+        paste0('    <resource href="', media_dir_name, '/', j, '" identifier="', sid, '" type="webcontent">'),
+        paste0('      <file href="', media_dir_name, '/', j,'"/>'),
         '    </resource>'
       )
       sid <- sid + 1L
@@ -454,9 +455,12 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
   maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE,
-  canvas = FALSE) ## FIXME: better flavor = "plain" here?
+  flavor = c("plain", "canvas"))
 {
   function(x) {
+    flavor <- match.arg(flavor, c("plain", "canvas"))
+
+    canvas <- flavor == "canvas"
     if(canvas)
       fix_num <- FALSE
 
