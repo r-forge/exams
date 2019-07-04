@@ -173,11 +173,19 @@ exams_shiny_ui <- function(...) {
          tabPanel("Generate Exams",
            br(),
            p("Compile exams, please select input parameters."),
-           uiOutput("choose_exam"),
-           selectInput("format", "Format", c("PDF", "NOPS", "OpenOLAT", "ARSnova", "Moodle", "Blackboard", "QTI12", "QTI21", "TCExam", "DOCX", "HTML")),
-           uiOutput("template"),
-           numericInput("n", "Number of copies", value = 1),
-           numericInput("seed", "Seed", value = NA),
+           fluidRow(
+             column(6,
+               uiOutput("choose_exam"),
+               selectInput("format", "Format", c("PDF", "NOPS", "OpenOLAT", "ARSnova", "Moodle", "Blackboard", "Canvas", "QTI12", "QTI21", "TCExam", "DOCX", "HTML")),
+               uiOutput("template"),
+               numericInput("n", "Number of copies", value = 1)
+             ),
+             column(6,
+               numericInput("maxattempts", "Maximal attempts", value = 1),
+               numericInput("duration", "Duration in min.", value = NULL),
+               numericInput("seed", "Seed", value = NA)
+             )
+           ),
            actionButton("compile", label = "Compile"),
            tags$hr(),
            fluidRow(
@@ -204,6 +212,7 @@ exams_shiny_server <- function(input, output, session)
     e2 <- input$ex_upload
     e3 <- input$delete_exercises
     exfiles <- list.files("exercises", recursive = TRUE)
+    exfiles <- exfiles[tolower(file_ext(exfiles)) %in% c("rnw", "rmd")]
     if(!is.null(input$selected_exercise)) {
       if(input$selected_exercise != "") {
         if(input$selected_exercise %in% exfiles) {
@@ -228,8 +237,8 @@ exams_shiny_server <- function(input, output, session)
           textInput("exname", label = "Exercise name.", value = input$selected_exercise)
         })
         output$editor <- renderUI({
-          aceEditor("excode", if(input$exmarkup == "LaTeX") "tex" else "markdown",
-            value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
+          aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
+            value = paste(excode, collapse = '\n'))
         })
       }
       return(NULL)
@@ -237,7 +246,7 @@ exams_shiny_server <- function(input, output, session)
   })
 
   output$editor <- renderUI({
-    aceEditor("excode", if(input$exmarkup == "LaTeX") "tex" else "markdown",
+    aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
       value = "Create/edit exercises here!")
   })
 
@@ -257,7 +266,7 @@ exams_shiny_server <- function(input, output, session)
     })
     output$editor <- renderUI({
       aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
-        value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
+        value = paste(excode, collapse = '\n'))
     })
   })
 
@@ -271,7 +280,7 @@ exams_shiny_server <- function(input, output, session)
     markup <- tolower(file_ext(exname))
     output$editor <- renderUI({
       aceEditor("excode", mode = if(markup == "rnw") "tex" else "markdown",
-        value = paste(gsub('\\', '\\\\', excode, fixed = TRUE), collapse = '\n'))
+        value = paste(excode, collapse = '\n'))
     })
   })
 
@@ -305,7 +314,7 @@ exams_shiny_server <- function(input, output, session)
         excode <- exercise_code()
         if(excode[1] != "Create/edit exercises here!") {
           exname <- if(is.null(input$exname)) paste("shinyEx", input$exmarkup, sep = ".") else input$exname
-          exname <- gsub("/", "_", exname, fixed = TRUE)
+          exname <- basename(exname)
           writeLines(excode, file.path("tmp", exname))
           ex <- try(exams2html(exname, n = 1, name = "preview", dir = "tmp", edir = "tmp",
             base64 = TRUE, encoding = input$exencoding, converter = input$exconverter,
@@ -688,7 +697,7 @@ exams_shiny_server <- function(input, output, session)
     content = function(file) {
       owd <- getwd()
       dir.create(tdir <- tempfile())
-      file.copy(file.path("exercises", list.files("exercises")), tdir, recursive = TRUE)
+      file.copy(list.files("exercises", recursive = TRUE), tdir, recursive = TRUE)
       setwd(tdir)
       zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
       setwd(owd)
@@ -727,16 +736,19 @@ exams_shiny_server <- function(input, output, session)
       seed <- input$seed
       if(is.na(seed))
         seed <- as.integer(runif(1, 1, 1e+08))
+      maxattempts <- 
       attr(exam, "specs") <- list(
         "name" = input$selected_exam,
         "format" = input$format,
         "template" = input$selected_template,
         "n" = input$n,
-        "seed" = seed
+        "seed" = seed,
+        "maxattempts" = input$maxattempts,
+        "duration" = input$duration
       )
       saveRDS(exam, file = rds)
       name <- input$selected_exam
-      exlist <- split(exam$Exercises, as.factor(exam$Number))
+      exlist <- split(basename(exam$Exercises), as.factor(exam$Number))
       points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
       set.seed(seed)
       has_template <- TRUE
@@ -746,7 +758,8 @@ exams_shiny_server <- function(input, output, session)
       }
       if(input$format == "Blackboard") {
         ex <- try(exams2blackboard(exlist, n = input$n,
-          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points,
+          maxattempts = input$maxattempts), silent = TRUE)
       }
       if(input$format == "HTML") {
         ex <- try(exams2html(exlist, n = input$n,
@@ -759,7 +772,8 @@ exams_shiny_server <- function(input, output, session)
       }
       if(input$format == "OpenOLAT") {
         ex <- try(exams2openolat(exlist, n = input$n,
-          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points,
+          maxattempts = input$maxattempts, duration = input$duration), silent = TRUE)
       }
       if(input$format == "DOCX") {
         ex <- try(exams2pandoc(exlist, n = input$n,
@@ -770,13 +784,20 @@ exams_shiny_server <- function(input, output, session)
           dir = cdir, edir = "exercises", name = name, points = points,
           template = input$selected_template), silent = TRUE)
       }
+      if(input$format == "Canvas") {
+        ex <- try(exams2canvas(exlist, n = input$n,
+          dir = cdir, edir = "exercises", name = name, points = points,
+          maxattempts = input$maxattempts, duration = input$duration), silent = TRUE)
+      }
       if(input$format == "QTI12") {
         ex <- try(exams2qti12(exlist, n = input$n,
-          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points,
+          maxattempts = input$maxattempts, duration = input$duration), silent = TRUE)
       }
       if(input$format == "QTI21") {
         ex <- try(exams2qti12(exlist, n = input$n,
-          dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
+          dir = cdir, edir = "exercises", name = name, points = points,
+          maxattempts = input$maxattempts, duration = input$duration), silent = TRUE)
       }
       if(input$format == "Moodle") {
         ex <- try(exams2moodle(exlist, n = input$n,
@@ -815,9 +836,18 @@ exams_shiny_server <- function(input, output, session)
       specs <- attr(exam, "specs")
       if(input$include_exercises) {
         dir.create(file.path(tdir, "exercises"))
+        for(j in exam$Exercises) {
+          sp <- split_path(j)
+          if(length(sp) > 1L) {
+            for(i in 1L:(length(sp) - 1L)) {
+              if(!file.exists(file.path(tdir, "exercises", sp[1:i]))) {
+                dir.create(file.path(tdir, "exercises", sp[1:i]))
+              }
+            }
+          }
+        }
         file.copy(file.path(owd, "exercises", exam$Exercises),
-          file.path(tdir, "exercises", basename(exam$Exercises)))
-        exam$Exercises <- basename(exam$Exercises)
+          file.path(tdir, "exercises", exam$Exercises))
       }
       if(input$include_template) {
         if(specs$template != "") {
@@ -847,6 +877,10 @@ exams_shiny_server <- function(input, output, session)
           Rcall <- "exams2openolat"
           has_template <- FALSE
         }
+        if(specs$format == "Canvas") {
+          Rcall <- "exams2canvas"
+          has_template <- FALSE
+        }
         if(specs$format == "DOCX") {
           Rcall <- "exams2pandoc"
           has_template <- FALSE
@@ -870,7 +904,7 @@ exams_shiny_server <- function(input, output, session)
           Rcall <- "exams2tcexam"
           has_template <- FALSE
         }
-        exlist <- split(exam$Exercises, as.factor(exam$Number))
+        exlist <- split(basename(exam$Exercises), as.factor(exam$Number))
         points <- unlist(sapply(split(exam$Points, as.factor(exam$Number)), function(x) { x[1] }))
         dump("exlist", file.path("tmp", "exlist.R"))
         dump("points", file.path("tmp", "points.R"))
@@ -880,8 +914,15 @@ exams_shiny_server <- function(input, output, session)
         code <- c(code, paste0('set.seed(', specs$seed, ')'), '',
           paste0(paste0('ex <- ', Rcall, '(exlist, n = ', specs$n, ','),
           paste0('  dir = ".", edir = "exercises", name = "', specs$name, '", points = points'),
+          if(specs$format %in% c("Blackboard", "OpenOLAT", "Canvas", "QTI12", "QTI21")) {
+            paste0(', maxattempts =', specs$maxattempts)
+          } else NULL,
+          if(specs$format %in% c("Blackboard", "OpenOLAT", "Canvas", "QTI12", "QTI21")) {
+            if(!is.null(specs$duration))
+              paste0(', duration =', specs$duration)
+          } else NULL,
           if(has_template) {
-            paste0(',  template = "', file.path("templates", basename(specs$template)), '")')
+            paste0(', template = "', file.path("templates", basename(specs$template)), '")')
           } else ')', collapse = '')
         )
         writeLines(code, file.path(tdir, paste0(specs$name, ".R")))
@@ -913,59 +954,59 @@ get_template_code <- function(type, markup)
                 'question <- sample(cities, size = 1)',
                 '@',
                 '',
-                '\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\Sexpr{},',
-                '%% e.g., \\Sexpr{question} will return the name of the sampled city in the code above.',
+                '\\\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
+                '%% e.g., \\\\Sexpr{question} will return the name of the sampled city in the code above.',
                 'In which country is Munich?',
-                '\\begin{answerlist}',
-                '  \\item Austria',
-                '  \\item Germany',
-                '  \\item Switzerland',
-                '  \\item Netherlands',
-                '\\end{answerlist}',
-                '\\end{question}',
+                '\\\\begin{answerlist}',
+                '  \\\\item Austria',
+                '  \\\\item Germany',
+                '  \\\\item Switzerland',
+                '  \\\\item Netherlands',
+                '\\\\end{answerlist}',
+                '\\\\end{question}',
                 '',
-                '\\begin{solution}',
+                '\\\\begin{solution}',
                 '%% Supply a solution here!',
                 'Munich is in Germany.',
-                '\\begin{answerlist}',
-                '  \\item False.',
-                '  \\item True.',
-                '  \\item False.',
-                '  \\item False.',
-                '\\end{answerlist}',
-                '\\end{solution}',
+                '\\\\begin{answerlist}',
+                '  \\\\item False.',
+                '  \\\\item True.',
+                '  \\\\item False.',
+                '  \\\\item False.',
+                '\\\\end{answerlist}',
+                '\\\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\extype{schoice}',
-                '%% \\exsolution{0100}',
-                '%% \\exname{Mean}',
-                '%% \\exshuffle{Cities}'),
+                '%% \\\\extype{schoice}',
+                '%% \\\\exsolution{0100}',
+                '%% \\\\exname{Mean}',
+                '%% \\\\exshuffle{Cities}'),
       "num" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'x <- c(-0.17, 0.63, 0.96, 0.97, -0.77)',
                 'Mean <- mean(x)',
                 '@',
                 '',
-                '\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\Sexpr{},',
-                '%% e.g., \\Sexpr{Mean} will return the mean of variable x in the R code above.',
-                'Calculate the mean of the following numbers: \\\\',
+                '\\\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
+                '%% e.g., \\\\Sexpr{Mean} will return the mean of variable x in the R code above.',
+                'Calculate the mean of the following numbers: \\\\\\\\',
                 '$',
                 '-0.17, 0.63, 0.96, 0.97, -0.77.',
                 '$',
-                '\\end{question}',
+                '\\\\end{question}',
                 '',
-                '\\begin{solution}',
+                '\\\\begin{solution}',
                 '%% Supply a solution here!',
                 'The mean is $0.324$.',
-                '\\end{solution}',
+                '\\\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\extype{num}',
-                '%% \\exsolution{0.324}',
-                '%% \\exname{Mean}',
-                '%% \\extol{0.01}'),
+                '%% \\\\extype{num}',
+                '%% \\\\exsolution{0.324}',
+                '%% \\\\exname{Mean}',
+                '%% \\\\extol{0.01}'),
       "mchoice" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'x <- c(33, 3, 33, 333)',
@@ -973,33 +1014,33 @@ get_template_code <- function(type, markup)
                 'solutions <- x * y',
                 '@',
                 '',
-                '\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\Sexpr{},',
-                '%% e.g., \\Sexpr{solutions[1]} will return the solution of the first statement.',
+                '\\\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
+                '%% e.g., \\\\Sexpr{solutions[1]} will return the solution of the first statement.',
                 'Which of the following statements is correct?',
-                '\\begin{answerlist}',
-                '  \\item $33 \\cdot 3 = 109$',
-                '  \\item $3 \\cdot 3 = 9$',
-                '  \\item $33 / 6 = 5.5$',
-                '  \\item $333 / 33.3 = 9$',
-                '\\end{answerlist}',
-                '\\end{question}',
+                '\\\\begin{answerlist}',
+                '  \\\\item $33 \\\\cdot 3 = 109$',
+                '  \\\\item $3 \\\\cdot 3 = 9$',
+                '  \\\\item $33 / 6 = 5.5$',
+                '  \\\\item $333 / 33.3 = 9$',
+                '\\\\end{answerlist}',
+                '\\\\end{question}',
                 '',
-                '\\begin{solution}',
+                '\\\\begin{solution}',
                 '%% Supply a solution here!', '',
-                '\\begin{answerlist}',
-                '  \\item False. Correct answer is $33 \\cdot 3 = 99$.',
-                '  \\item True.',
-                '  \\item True.',
-                '  \\item False. Correct answer is $333 / 33.3 = 10$.',
-                '\\end{answerlist}',
-                '\\end{solution}',
+                '\\\\begin{answerlist}',
+                '  \\\\item False. Correct answer is $33 \\\\cdot 3 = 99$.',
+                '  \\\\item True.',
+                '  \\\\item True.',
+                '  \\\\item False. Correct answer is $333 / 33.3 = 10$.',
+                '\\\\end{answerlist}',
+                '\\\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\extype{mchoice}',
-                '%% \\exsolution{0110}',
-                '%% \\exname{Simple math}',
-                '%% \\exshuffle{TRUE}'),
+                '%% \\\\extype{mchoice}',
+                '%% \\\\exsolution{0110}',
+                '%% \\\\exname{Simple math}',
+                '%% \\\\exshuffle{TRUE}'),
       "string" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'cities <- c("Munich", "Innsbruck", "Zurich", "Amsterdam")',
@@ -1007,21 +1048,21 @@ get_template_code <- function(type, markup)
                 'question <- sample(cities, size = 1)',
                 '@',
                 '',
-                '\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\Sexpr{},',
-                '%% e.g., \\Sexpr{question} will return the name of the sampled city in the code above.',
+                '\\\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
+                '%% e.g., \\\\Sexpr{question} will return the name of the sampled city in the code above.',
                 'In which country is Munich?',
-                '\\end{question}',
+                '\\\\end{question}',
                 '',
-                '\\begin{solution}',
+                '\\\\begin{solution}',
                 '%% Supply a solution here!',
                 'Munich is in Germany.',
-                '\\end{solution}',
+                '\\\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\extype{string}',
-                '%% \\exsolution{Germany}',
-                '%% \\exname{Cities 2}'),
+                '%% \\\\extype{string}',
+                '%% \\\\exsolution{Germany}',
+                '%% \\\\exname{Cities 2}'),
       "cloze" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'x <- c(-0.17, 0.63, 0.96, 0.97, -0.77)',
@@ -1030,40 +1071,46 @@ get_template_code <- function(type, markup)
                 'Var <- var(x)',
                 '@',
                 '',
-                '\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\Sexpr{},',
-                '%% e.g., \\Sexpr{Mean} will return the mean of variable x in the R code above.',
-                'Given the following numbers: \\\\',
+                '\\\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
+                '%% e.g., \\\\Sexpr{Mean} will return the mean of variable x in the R code above.',
+                'Given the following numbers: \\\\\\\\',
                 '$',
                 '-0.17, 0.63, 0.96, 0.97, -0.77.',
                 '$',
-                '\\begin{answerlist}',
-                '  \\item What is the mean?',
-                '  \\item What is the standard deviation?',
-                '  \\item What is the variance?',
-                '\\end{answerlist}',
-                '\\end{question}',
+                '\\\\begin{answerlist}',
+                '  \\\\item What is the mean?',
+                '  \\\\item What is the standard deviation?',
+                '  \\\\item What is the variance?',
+                '\\\\end{answerlist}',
+                '\\\\end{question}',
                 '',
-                '\\begin{solution}',
+                '\\\\begin{solution}',
                 '%% Supply a solution here!', '',
-                '\\begin{answerlist}',
-                '  \\item The mean is $0.324$.',
-                '  \\item The standard deviation is $0.767515$.',
-                '  \\item The variance is $0.58908$.',
-                '\\end{answerlist}',
-                '\\end{solution}',
+                '\\\\begin{answerlist}',
+                '  \\\\item The mean is $0.324$.',
+                '  \\\\item The standard deviation is $0.767515$.',
+                '  \\\\item The variance is $0.58908$.',
+                '\\\\end{answerlist}',
+                '\\\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\extype{cloze}',
-                '%% \\exsolution{0.324|0.767515|0.58908}',
-                '%% \\exclozetype{num|num|num}',
-                '%% \\exname{Statistics}',
-                '%% \\extol{0.01}')
+                '%% \\\\extype{cloze}',
+                '%% \\\\exsolution{0.324|0.767515|0.58908}',
+                '%% \\\\exclozetype{num|num|num}',
+                '%% \\\\exname{Statistics}',
+                '%% \\\\extol{0.01}')
     )
   } else {
     excode <- "Markdown templates not available yet!"
   }
   
   excode
+}
+
+
+split_path <- function(path, mustWork = FALSE, rev = FALSE) {
+  output <- c(strsplit(dirname(normalizePath(path,mustWork = mustWork)), "/|\\\\")[[1]], basename(path))
+  ifelse(rev, return(rev(output)), return(output))
 }
 

@@ -286,6 +286,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## process duration to P0Y0M0DT0H1M35S format
+  dur0 <- duration
   if(!is.null(duration)) {
     dursecs <- round(duration * 60)
     dur <- dursecs %/% 86400 ## days
@@ -381,7 +382,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     xml_meta <- gsub("##AssignmentIdent##", paste0('AID_', test_id), xml_meta, fixed = TRUE)
     xml_meta <- gsub("##GroupIdent##", paste0('GID_', test_id), xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestTitle##", name, xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##TestDuration##", duration, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##TestDuration##", dur0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##AssessmentDescription##", adescription, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##Points##", sum(points), xml_meta, fixed = TRUE)
