@@ -42,6 +42,11 @@
   files (images, data, ...) must be embedded without Base 64. Finally, the QTI XML
   file requires a few special tags which are enforced through \code{flavor = "canvas"}
   in \code{exams2qti12}.
+
+  Note that Canvas does not currently allow partial credits on mchoice questions, according
+  to the documentation, but an evaluation rule with partial credits is still applied. Therefore
+  there is a warning if the evaluation rule is all or nothing (i.e., \code{partial = FALSE}).
+  Moreover, negative points are currently no supprted by Canvas.
 }
 
 \value{
