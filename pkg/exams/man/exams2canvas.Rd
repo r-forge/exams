@@ -10,7 +10,7 @@
 
 \usage{
   exams2canvas(file, n = 1L, dir = ".", name = "canvasquiz",
-  maxattempts = 1, converter = NULL, \dots)
+    maxattempts = 1, converter = NULL, \dots)
 }
 
 \arguments{
@@ -21,14 +21,21 @@
   \item{maxattempts}{integer. The maximum attempts for one question
     (must be smaller than \code{100000}).}
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
-    indicating the type of converter from LaTeX/Markdown to HTML. Defaults
-    to HTML with MathML.}
+    indicating the type of converter from LaTeX/Markdown to HTML. Currently,
+    Canvas requires HTML with MathML. Hence, if there are Markdown-based .Rmd
+    exercises, the \code{converter} needs to be \code{"pandoc-mathml"} (or
+    equivalently \code{"pandoc"}). For only LaTeX-based .Rnw exercises \code{"ttm"}
+    can be used as an alternative and is currently the default.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}}.}
 }
 
 \details{
   \code{exams2canvas} is a convenience interface to \code{\link[exams]{exams2qti12}}
-  for generating QTI 1.2 with some small tweaks for Canvas.
+  for generating QTI 1.2 with some small tweaks for Canvas. In particular, Canvas
+  necessitates a \code{converter} that produces HTML plus MathML and supplementary
+  files (images, data, ...) must be embedded without Base 64. Finally, the QTI XML
+  file requires a few special tags which are enforced through \code{flavor = "canvas"}
+  in \code{exams2qti12}.
 }
 
 \value{

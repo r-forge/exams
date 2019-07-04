@@ -16,21 +16,19 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   flavor = c("plain", "openolat", "canvas"), ...)
 {
   ## which qti flavor
-  flavor <- match.arg(flavor)
+  flavor <- match.arg(flavor, c("plain", "openolat", "canvas"))
 
   ## Canvas?
-  canvas <- if(flavor == "canvas") TRUE else FALSE
+  canvas <- flavor == "canvas"
   if(canvas)
     eval <- list(partial = FALSE, negative = FALSE)
+  ## FIXME: Is this really necessary? If so probably more verbose processing!
 
   if(flavor == "openolat") {
-    if(is.null(converter))
-      converter <- "pandoc-mathjax"
+    if(is.null(converter)) converter <- "pandoc-mathjax"
     ## post-process mathjax output for display in OpenOLAT
     .exams_set_internal(pandoc_mathjax_fixup = TRUE)
     on.exit(.exams_set_internal(pandoc_mathjax_fixup = FALSE))
-    .exams_set_internal(pandoc_table_class_fixup = table)
-    on.exit(.exams_set_internal(pandoc_table_class_fixup = FALSE))
   }
 
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
@@ -39,6 +37,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## set up .html transformer
+  ## FIXME: allow other base64/converter settings here for testing purposes?
   args <- list(...)
   if(is.null(args$base64)) {
     if(canvas)
@@ -332,7 +331,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## collapse character
     xmlcollapse <- if(identical(xmlcollapse, TRUE)) " " else as.character(xmlcollapse)
     
-    ## FIXME replace \n line breaks?
+    ## TODO replace \n line breaks?
     ## xml <- gsub("\n", " ", xml, fixed = TRUE)
     
     ## collapse <pre>-formatted code
@@ -355,6 +354,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## write to dir
+  ## FIXME: use media_dir_name rather than hard-code "data" below?
   if(canvas) {
     data_supps <- dir(file.path(test_dir, "data"), recursive = TRUE, full.names = FALSE, include.dirs = FALSE)
 
@@ -371,6 +371,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     template_canvas <- file.path(pkg_dir, "xml", "canvas_meta.xml")
     xml_meta <- readLines(template_canvas)
+
+    ## FIXME: For replacements like the one below use to least a for() loop.
+    ## But maybe also an internal helper function?
 
     xml_meta <- gsub("##QuizIdent##", quiz_id, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestIdent##", test_id, xml_meta, fixed = TRUE)
@@ -451,7 +454,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
   maxchars = 12, eval = list(partial = TRUE, negative = FALSE), fix_num = TRUE,
-  canvas = FALSE)
+  canvas = FALSE) ## FIXME: better flavor = "plain" here?
 {
   function(x) {
     if(canvas)
@@ -651,7 +654,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## finish presentation
     xml <- c(xml, '</flow>', '</presentation>')
 
-    if(is.null(minvalue)) {  ## FIXME: add additional switch, so negative points don't carry over?!
+    if(is.null(minvalue)) {  ## TODO: add additional switch, so negative points don't carry over?!
       if(eval$negative) {
         minvalue <- sum(sapply(pv, function(x) { x["neg"] }))
       } else minvalue <- 0
