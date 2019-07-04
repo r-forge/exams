@@ -33,6 +33,7 @@
     <assignment_overrides>
     </assignment_overrides>
     <quiz_identifierref>##TestIdent##</quiz_identifierref>
+    <allowed_extensions></allowed_extensions>
     <has_group_category>false</has_group_category>
     <points_possible>##Points##</points_possible>
     <grading_type>points</grading_type>
