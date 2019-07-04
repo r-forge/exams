@@ -28,7 +28,7 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
     texfile <- paste("tex2image-", basename(texfile), sep = "")
     name <- file_path_sans_ext(texfile)
   } else {
-    texdir <- tempdir()
+    dir.create(texdir <- tempfile())
   }
 
   if(any(grepl("\\documentclass", tex, fixed = TRUE))) {

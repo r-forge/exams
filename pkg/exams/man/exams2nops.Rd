@@ -170,7 +170,7 @@ exams2nops(myexam, duplex = FALSE, language = "de")
 
 ## create multiple exams on the disk (in a
 ## temporary directory)
-mydir <- tempdir()
+dir.create(mydir <- tempfile())
 
 ## generate NOPS exam in temporary directory
 set.seed(403)
@@ -181,8 +181,8 @@ dir(mydir)
 ## university/logo and language/title
 ## with a replacement sheet but for non-duplex printing
 set.seed(403)
-ex2 <- exams2nops(myexam, n = 2,
-  institution = "Universit\\\"at Innsbruck",
+ex2 <- exams2nops(myexam, n = 2, dir = mydir,
+  institution = "Universit\\\\\"at Innsbruck",
   name = "uibk", logo = "uibk-logo-bw.png",
   title = "Klausur", language = "de",
   replacement = TRUE, duplex = FALSE)

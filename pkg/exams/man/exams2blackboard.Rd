@@ -51,10 +51,10 @@
     sub-directories) in which the files in \code{file} are stored
     (see also \code{\link{xexams}}).}
   \item{tdir}{character specifying a temporary directory, by default
-    this is chosen via \code{\link[base]{tempdir}}. Note that this
+    this is chosen via \code{\link[base]{tempfile}}. Note that this
     is cleaned up and potentially temporary files are deleted.}
   \item{sdir}{character specifying a directory for storing supplements, by
-    default this is chosen via \code{\link[base]{tempdir}}.}
+    default this is chosen via \code{\link[base]{tempfile}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
@@ -208,7 +208,7 @@ myexam <- list(
 )
 
 ## output directory
-mydir <- tempdir()
+dir.create(mydir <- tempfile())
 
 ## generate .zip with Blackboard exam in temporary directory
 exams2blackboard(myexam, n = 3, dir = mydir)

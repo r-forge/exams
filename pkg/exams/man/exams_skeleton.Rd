@@ -71,8 +71,8 @@ exams_skeleton(dir = ".",
 }
 
 \examples{
-## output directory (replace this with "/path/to/your/directory")
-mydir <- file.path(tempdir(), "myexam")
+## output directory (replace this with mydir <- "/path/to/your/directory")
+dir.create(mydir <- tempfile())
 
 ## create exams skeleton with absolute paths in demo.R
 exams_skeleton(dir = mydir, absolute = TRUE)

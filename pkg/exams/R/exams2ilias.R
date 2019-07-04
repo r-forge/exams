@@ -56,7 +56,8 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(zip) {
     zipfile <- file_path_as_absolute(file.path(dir, paste0(name, ".zip")))
     wdir <- getwd()
-    setwd(tempdir())    
+    dir.create(tdir <- tempfile())
+    setwd(tdir)    
     unzip(zipfile, exdir = name)
     file.rename(file.path(name, "qti.xml"), file.path(name, paste0(name, ".xml")))
     file.remove(zipfile)

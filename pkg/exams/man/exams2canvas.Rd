@@ -73,7 +73,7 @@ myexam <- c(
 )
 
 ## output directory
-mydir <- tempdir()
+dir.create(mydir <- tempfile())
 
 ## generate .zip with OpenOLAT test in temporary directory
 exams2canvas(myexam, n = 3, dir = mydir)
