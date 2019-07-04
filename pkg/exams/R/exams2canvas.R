@@ -20,7 +20,7 @@ exams2canvas <- function(file, n = 1L, dir = ".", name = "canvasquiz",
   rval <- exams2qti12(file = file, n = n, dir = dir, name = name,
     maxattempts = maxattempts, duration = duration, points = points,
     converter = converter, flavor = "canvas", base64 = FALSE,
-    eval = list(partial = FALSE, negative = FALSE), ...)
+    eval = list(partial = TRUE, negative = FALSE), ...)
 
   invisible(rval)
 }

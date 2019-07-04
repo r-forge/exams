@@ -21,8 +21,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## Canvas?
   canvas <- flavor == "canvas"
   if(canvas) {
-    if(eval$partial | eval$negative)
-      warning("evaluation policy for Canvas will be overwritten to partial = FALSE and negative = FALSE!")
+    if(!eval$partial | eval$negative)
+      warning("the current supported evaluation policy for Canvas is partial = TRUE and negative = FALSE, will be overwritten!")
     eval <- list(partial = FALSE, negative = FALSE)
   }
 
@@ -180,6 +180,17 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(j in 1:nq) {
     ## first, create the section header
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section, fixed = TRUE))
+
+    if(canvas) {
+      pos <- grep("<selection_number>", sec_xml, fixed = TRUE)[j]
+      sec_xml <- c(
+        sec_xml[1:pos],
+        '<selection_extension>',
+        paste0('<points_per_item>', points[[j]], '</points_per_item>'),
+        '</selection_extension>',
+        sec_xml[(pos + 1L):length(sec_xml)]
+      )
+    }
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
     sec_xml <- gsub("##SectionTitle##", stitle[j], sec_xml, fixed = TRUE)
@@ -376,13 +387,12 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     ## FIXME: For replacements like the one below use to least a for() loop.
     ## But maybe also an internal helper function?
-
     xml_meta <- gsub("##QuizIdent##", quiz_id, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestIdent##", test_id, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##AssignmentIdent##", paste0('AID_', test_id), xml_meta, fixed = TRUE)
     xml_meta <- gsub("##GroupIdent##", paste0('GID_', test_id), xml_meta, fixed = TRUE)
     xml_meta <- gsub("##TestTitle##", name, xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##TestDuration##", dur0, xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##TestDuration##", if(is.null(dur0)) "" else dur0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##AssessmentDescription##", adescription, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##Points##", sum(points), xml_meta, fixed = TRUE)
