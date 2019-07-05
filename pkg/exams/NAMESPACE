@@ -78,7 +78,6 @@ export(
   "make_itembody_qti12",
   "exams2qti21",
   "make_itembody_qti21",
-  "exams2ilias",
   "exams2openolat",
   "exams2canvas",
 

@@ -1,14 +1,12 @@
 Changes in Version 2.3-3
 
-  o Added new interface exams2ilias() for the open-source ILIAS learning
-    management system (https://www.ilias.de/). This is essentially a
-    convenience wrapper to exams2qti12(), tweaking a few defaults and
-    employing a somewhat modified XML template.
-
   o Added new interface exams2canvas() for the open-source Canvas learning
     management system (https://www.instructure.com/canvas/). This is essentially
     a convenience wrapper to exams2qti12() along with a few Canvas-specific
-    modifications of the QTI XML specification.
+    modifications of the QTI XML specification. The function has only received
+    limited testing so far and is likely to improve in future version. The
+    supported exercise types are num, schoice, mchoice, and string (but not
+    cloze, yet).
 
   o The default in exams2moodle() has been changed to converter = "pandoc-mathjax".
     Thus, instead of relying on the browser to render mathematical notation
