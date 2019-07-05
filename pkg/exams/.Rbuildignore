@@ -1,6 +1,5 @@
 R/xmltools.R
 R/exams_shiny.R
-R/exams2ilias.R
 paper
 vignettes/screenshots/exams2qti12-tstat.png
 vignettes/screenshots/exams2moodle-tstat.png
