@@ -1,10 +1,10 @@
 Question
 ========
-Which of these institutions already hosted a useR! or eRum conference?
+Which of these institutions already hosted a useR! conference?
 
 Answerlist
 ----------
-* Uniwersytet Ekonomiczny w Poznaniu
+* National Institute of Standards and Technology
 * Agrocampus Ouest
 * Technische Universität Dortmund
 * Universität Wien
@@ -14,21 +14,20 @@ Answerlist
 
 Solution
 ========
-The list of useR!/DSC and eRum hosts can be found at
-<https://www.R-project.org/conferences.html> and <https://erum.io/>, respectively.
+The list of useR! (and DSC) hosts can be found at <https://www.R-project.org/conferences/>.
 
 Answerlist
 ----------
-* True. eRum 2016 was hosted in Poznan.
+* True. useR! 2010 was hosted at NIST.
 * True. useR! 2009 was hosted at Agrocampus Ouest, Rennes.
 * True. useR! 2008 was hosted at TU Dortmund.
 * False. Universität Wien did not host an R conference yet (only TU Wien and WU Wien).
 * False. ETH Zürich did not host an R conference yet.
-* False. Københavns Universitet hosted DSC but not useR! or eRum.
+* False. Københavns Universitet hosted DSC but not useR!.
 
 Meta-information
 ================
-exname: R conferences
+exname: useR! conferences
 extype: mchoice
 exsolution: 111000
 exshuffle: 5

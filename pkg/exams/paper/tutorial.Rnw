@@ -1,0 +1,1371 @@
+\documentclass[11pt,t,usepdftitle=false,aspectratio=169]{beamer}
+\usetheme[nototalframenumber,nosectiontitlepage,logo,license]{rexams}
+
+\setlength{\fboxsep}{0pt}
+\setlength{\fboxrule}{0.1pt}
+\usepackage[utf8]{inputenc}
+
+
+\title[R/exams]{R/exams: A One-for-All Exams Generator}
+\subtitle{Written Exams, Online Tests, and Live Quizzes with R}
+\author[Achim Zeileis]{Achim Zeileis}
+
+%% no \usepackage{Sweave}
+\SweaveOpts{engine=R, strip.white=true, keep.source=TRUE, eps=FALSE}
+<<preliminaries, echo=FALSE, results=hide>>=
+options(prompt = "R> ", continue = "+  ", width = 55,
+  digits = 4, show.signif.stars = FALSE, useFancyQuotes = FALSE)
+
+library("exams")
+set.seed(2019-07-01)
+@
+
+\begin{document}
+
+\begin{frame}[plain]
+  \headerimage{1}
+  \titlepage
+\end{frame}
+
+\begin{frame}[plain]
+  \headerimage{3}
+  \titlepage
+\end{frame}
+
+\begin{frame}[plain]
+  \headerimage{4}
+  \titlepage
+\end{frame}
+
+\begin{frame}[plain]
+  \headerimage{2}
+  \titlepage
+\end{frame}
+
+
+
+
+
+\section{R/exams: A One-for-All Exams Generator}
+
+\begin{frame}
+\frametitle{Overview}
+
+\begin{tabular}{ll}
+\hline
+Time  & Content \\ \hline
+14:00 & Introduction (overview, installation, \dots)\\
+14:30 & Dynamic exercises \\
+15:00 & One-for-all \\
+15:30 & \emph{--- Break ---} \\
+16:00 & E-Learning (Moodle, Canvas, ARSnova, \dots) \\
+16:30 & Written exams (NOPS) \\
+17:00 & Outlook \\ \hline
+\end{tabular}
+
+\bigskip
+
+\textbf{More details:} \url{http://www.R-exams.org/general/user2019/}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Motivation and challenges}
+
+\textbf{Motivation:}
+\begin{itemize}
+  \item Many of us teach large lecture courses, also as support for other fields.
+  \item For example, statistics, probability, or mathematics in curricula such as business and
+    economics, social sciences, psychology, etc.
+  \item At WU Wien and Universit\"at Innsbruck: Some courses are attended by more than
+    1,000 students per semester.
+  \item Several lecturers teach lectures and tutorials in parallel.
+\end{itemize}
+
+\bigskip
+
+\textbf{Strategy:}
+\begin{itemize}
+  \item Individualized organization of learning, feedback, and assessment.
+  \item The same pool of exercises at the core of all parts of the course.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Motivation and challenges}
+
+\medskip
+
+\begin{tabular}{rp{2.3cm}p{2.3cm}p{2.3cm}}
+\hline
+                   & {\bf Learning} & {\bf Feedback} & {\bf Assessment} \\ \hline
+{\bf  Synchronous} & Lecture        & Live quiz      & Written exam     \\
+                   & Live stream    & (+ Tutorial)   &                  \\
+{\bf Asynchronous} & Textbook       & Self test      & Online test      \\
+                   & Screencast     & (+ Forum)      &                  \\ \hline
+\end{tabular}
+
+\bigskip
+
+\only<2>{
+\textbf{Learning:}
+\begin{itemize}
+  \item \emph{Standard:} Textbook along with presentation slides.
+  \item \emph{Streaming:} Videos streamed simultaneously or (pre-)recorded.
+\end{itemize}
+}
+
+\only<3>{
+\textbf{Feedback \& assessment:}
+\begin{itemize}
+  \item \emph{Scalability:} Randomized dynamic exercises required.
+  \item \emph{Feedback:} Support for complete correct solutions.
+  \item \emph{Flexibility:} Automatic rendering into different assessment formats.
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{\proglang{R} package \pkg{exams}}
+
+\textbf{Exercises:}
+\begin{itemize}
+  \item Each exercise is a single file (either \code{.Rmd} or \code{.Rnw}).
+  \item Contains question and (optionally) the corresponding solution.
+  \item Dynamic templates if R code is used for randomization.
+\end{itemize}
+
+\bigskip
+
+\textbf{Answer types:}
+\begin{itemize}
+  \item Single choice and multiple choice.
+  \item Numeric values.
+  \item Text strings (typically short).
+  \item Combinations of the above (cloze).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{\proglang{R} package \pkg{exams}}
+
+\textbf{Output:}
+\begin{itemize}
+  \item PDF -- fully customizable vs.\ standardized with automatic scanning/evaluation.
+  \item HTML -- fully customizable vs.\ embedded into exchange formats below.
+  \item \emph{Moodle} XML.
+  \item QTI XML standard (version 1.2 or 2.1), e.g., for \emph{Canvas} or \emph{OLAT}/\emph{OpenOLAT}.
+  \item \emph{Blackboard} (partially based on QTI 1.2)
+  \item \emph{ARSnova}, \emph{TCExam}, \emph{LOPS}, \dots
+\end{itemize}
+
+\bigskip
+
+\textbf{Infrastructure:} Standing on the shoulders of lots of open-source software\dots
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\proglang{R} package \pkg{exams}}
+
+\medskip
+
+{\small
+\begin{tabular}{lp{3.2cm}p{6.1cm}}
+\hline
+{\bf Type}                  & {\bf Software}                                        & {\bf Purpose}			     \\
+\hline \noalign{\vspace*{0.18cm}}
+{\bf Statistical computing} & \proglang{R}                                          & Random data generation, computations   \\[0.18cm]
+{\bf Writing/reporting}     & {\LaTeX}, \emph{Markdown}                             & Text formatting, mathematical notation \\[0.18cm]
+{\bf Reproducible research} & \pkg{knitr}, \pkg{rmarkdown}, \texttt{Sweave}         & Dynamically tie everything together    \\[0.18cm]
+{\bf Document conversion}   & \emph{TtH}/\emph{TtM}, \emph{pandoc}                  & Conversion to HTML and beyond          \\[0.18cm]
+{\bf Image manipulation}    & \emph{ImageMagick}, \pkg{magick}, \pkg{png}           & Embedding graphics		     \\[0.18cm]
+{\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                   & Embedding supplementary files	     \\[0.18cm]
+{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\[0.18cm]
+\hline
+\end{tabular}
+}
+ 	
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Installation}
+
+\textbf{Required tools:}
+\begin{enumerate}
+  \item R (including Rtools on Windows and OS~X)\\
+        RStudio recommended for beginners
+  \item R package \pkg{exams} (including dependencies)\\
+        \code{install.packages("exams", dependencies = TRUE)}
+  \item {\LaTeX} for producing PDF output
+  \item Pandoc (e.g., provided along with RStudio)
+\end{enumerate}
+
+\medskip
+
+\textbf{More details:} \url{http://www.R-exams.org/tutorials/installation/}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{First steps}
+
+\textbf{Starting point:} Create exams skeleton.
+\begin{itemize}
+  \item \code{demo-*.R} scripts.
+  \item \code{exercises/} folder with all \code{.Rmd}/\code{.Rnw} exercises.
+  \item \code{templates/} folder with various customizable templates.
+  \item \code{nops/} folder (empty) for \code{exams2nops()} output.
+\end{itemize}
+
+\bigskip
+
+<<eval=FALSE>>=
+exams_skeleton()
+@
+
+\bigskip
+
+\textbf{More details:} \url{http://www.R-exams.org/tutorials/first_steps/}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{First steps}
+
+Single-choice question: knowledge quiz about the Swiss capital
+(\url{http://www.R-exams.org/templates/swisscapital/}).
+
+<<eval=FALSE>>=
+exams2html("swisscapital.Rmd")
+exams2pdf("swisscapital.Rmd")
+@
+
+\bigskip
+
+Numeric question with mathematical notation: product rule for derivatives
+(\url{http://www.R-exams.org/templates/deriv/}).
+
+<<eval=FALSE>>=
+exams2html("deriv.Rmd")
+exams2html("deriv.Rmd", converter = "pandoc-mathjax")
+exams2pdf("deriv.Rmd")
+@
+
+\bigskip
+    
+Extract the meta-information to check whether it is processed correctly.
+<<>>=
+exams_metainfo(exams2html(c("swisscapital.Rmd", "tstat.Rmd")))
+@
+
+\end{frame}
+
+
+\section{Dynamic Exercises}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=210 0 270 80, clip, keepaspectratio]{background_dynamic.jpg}}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]%
+  \draw[color=white,fill=white,opacity=0.90] 
+  (-10,-8) rectangle (20,-6.6);
+  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont Dynamic Exercises};
+  \end{tikzpicture}
+\end{frame}
+\usebackgroundtemplate{}
+
+<<echo=FALSE, results=hide>>=
+if(!file.exists(file.path("_images", "background_dynamic.jpg"))) {
+  file.copy(
+    file.path("..", "..", "..", "jekyll", "images", "laptop_on_table_deriv2.cut.big.jpg"),
+    file.path("_images", "background_dynamic.jpg")
+  )
+}
+@
+
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises}
+
+\textbf{Text file:}
+\begin{enumerate}
+ \item Random data generation (optional).
+ \item Question.
+ \item Solution (optional).
+ \item Metainformation.
+\end{enumerate}
+
+\bigskip
+
+\textbf{Examples:}
+
+\medskip
+
+\begin{minipage}[c]{0.08\textwidth}
+\includegraphics{template-rmd}
+\end{minipage}
+\begin{minipage}[c]{0.89\textwidth}
+Multiple-choice knowledge quiz with shuffled answer alternatives.
+
+\smallskip
+
+{\color{rexamsmgray}
+Which of these institutions already hosted a useR! conference?}
+\end{minipage}
+
+\bigskip
+
+\begin{minipage}[c]{0.08\textwidth}
+\includegraphics{template-rnw}
+\end{minipage}
+\begin{minipage}[c]{0.89\textwidth}
+Dynamic numeric arithmetic exercise.
+
+\smallskip
+
+{\color{rexamsmgray}
+What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?}
+\end{minipage}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: \texttt{.Rmd}}
+
+\textbf{Example:} Which of these institutions already hosted a useR! conference?
+
+\pause
+
+\medskip
+
+{\scriptsize
+\begin{verbatim}
+Question
+========
+Which of these institutions already hosted a useR! conference?
+\end{verbatim}
+}
+
+{\scriptsize
+\verb|Answerlist|\\
+\verb|----------|\\
+\verb|* National Institute of Standards and Technology|\\
+\verb|* Agrocampus Ouest|\\
+\verb|* Technische Universität Dortmund|\\
+\verb|* Universität Wien|\\
+\verb|* ETH Zürich|\\
+\verb|* Københavns Universitet|\\
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: \texttt{.Rmd}}
+
+\textbf{Example:} Which of these institutions already hosted a useR! conference?
+
+\medskip
+
+{\scriptsize
+\begin{verbatim}
+Solution
+========
+The list of useR! (and DSC) hosts can be found at <https://www.R-project.org/conferences/>.
+\end{verbatim}
+}
+
+{\scriptsize
+\verb|Answerlist|\\
+\verb|----------|\\
+\verb|* True. useR! 2010 was hosted at NIST.|\\
+\verb|* True. useR! 2009 was hosted at Agrocampus Ouest, Rennes.|\\
+\verb|* True. useR! 2008 was hosted at TU Dortmund.|\\
+\verb|* False. Universität Wien did not host an R conference yet (only TU Wien and WU Wien).|\\
+\verb|* False. ETH Zürich did not host an R conference yet.|\\
+\verb|* False. Københavns Universitet hosted DSC but not useR!.|\\
+}
+
+\pause
+
+{\scriptsize
+\begin{verbatim}
+Meta-information
+================
+exname: useR! conferences
+extype: mchoice
+exsolution: 111000
+exshuffle: 5
+\end{verbatim}
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: \texttt{.Rnw}}
+
+\textbf{Example:} What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?
+
+\pause
+
+\medskip
+
+{\scriptsize
+\begin{verbatim}
+\Sexpr{paste("<<echo=FALSE, results=hide>>=")}
+## parameters
+a <- sample(2:9, 1)
+b <- sample(2:4, 1)/10
+c <- sample(6:9, 1)/10
+## solution
+res <- exp(b * c) * (a * c^(a-1) + b * c^a)
+\Sexpr{paste("@")}
+\end{verbatim}
+}
+
+\pause
+\smallskip
+
+{\scriptsize
+\verb|\begin{question}|\\
+\verb|What is the derivative of $f(x) = x^{\|\verb|Sexpr{a}} e^{\|\verb|Sexpr{b} x}$, evaluated at $x = \|\verb|Sexpr{c}$?|\\
+\verb|\end{question}|\\
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: \texttt{.Rnw}}
+
+\textbf{Example:} What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?
+
+\medskip
+
+{\scriptsize
+\verb|\begin{solution}|\\
+\verb|Using the product rule we obtain|\\
+\verb|\[ f'(x) = e^{\|\verb|Sexpr{b} x} \cdot|\\
+\verb|           (\|\verb|Sexpr{a} \cdot x^\|\verb|Sexpr{a-1} + \|\verb|Sexpr{b} \cdot x^\|\verb|Sexpr{a}). \]|\\
+\verb|Evaluated at $x = \|\verb|Sexpr{c}$ and rounded to two digits the answer is|\\
+\verb|$f'(\|\verb|Sexpr{c}) = \|\verb|Sexpr{fmt(res, 6)} \approx \|\verb|Sexpr{fmt(res, 2)}$.|\\
+\verb|\end{solution}|\\
+}
+
+\pause
+\bigskip
+
+{\scriptsize
+\verb|\extype{num}|\\
+\verb|\exsolution{\|\verb|Sexpr{fmt(res, 2)}}|\\
+\verb|\exname{exp derivative}|\\
+\verb|\extol{0.01}|\\
+}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: Single choice}
+
+<<echo=FALSE, results=hide>>=
+set.seed(2018-05-16)
+exams2pdf("swisscapital.Rnw", dir = ".", name = "tutorial-swisscapital-", template = "standalone.tex")
+set.seed(2018-05-16)
+exams2pdf("deriv2.Rnw", dir = ".", name = "tutorial-deriv2-", template = "standalone.tex")
+@
+
+\begin{minipage}[t]{0.38\textwidth}
+\raisebox{-\height}{\includegraphics[width=0.77\textwidth]{dynamic-schoice}}
+
+\medskip
+
+\begin{verbatim}
+extype: schoice
+exsolution: 010
+\end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{tutorial-swisscapital-1}}}}%
+\only<3>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{tutorial-deriv2-1}}}}
+
+\medskip
+
+\only<2>{\emph{Knowledge quiz:} Shuffled distractors.}%
+\only<3>{\emph{Numeric exercises:} Distractors are random numbers and/or typical arithmetic mistakes.}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: Multiple choice}
+
+<<echo=FALSE, results=hide>>=
+set.seed(2018-05-16)
+exams2pdf("conferences.Rmd", dir = ".", name = "tutorial-conferences-", template = "standalone.tex")
+set.seed(2018-05-16)
+exams2pdf("boxplots.Rnw", dir = ".", name = "tutorial-boxplots-", template = "standalone.tex")
+@
+
+\begin{minipage}[t]{0.38\textwidth}
+\raisebox{-\height}{\includegraphics[width=0.77\textwidth]{dynamic-mchoice}}
+
+\medskip
+
+\begin{verbatim}
+extype: mchoice
+exsolution: 011
+\end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{tutorial-conferences-1}}}}%
+\only<3>{\raisebox{-\height}{\fbox{\includegraphics[width=0.75\textwidth,trim=0 69 0 0,clip]{tutorial-boxplots-1}}}}
+
+\medskip
+
+\only<2>{\emph{Knowledge quiz:} Shuffled true/false statements.}%
+\only<3>{\emph{Interpretations:} Statements that are approximately correct or clearly wrong.}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: Numeric}
+
+<<echo=FALSE, results=hide>>=
+set.seed(2018-05-16)
+exams2pdf("fruit.Rnw", dir = ".", name = "tutorial-fruit-", template = "standalone.tex")
+@
+
+\begin{minipage}[t]{0.38\textwidth}
+\raisebox{-\height}{\includegraphics[width=0.77\textwidth]{dynamic-num}}
+
+\medskip
+
+\begin{verbatim}
+extype: num
+exsolution: 123.45
+\end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=0.65\textwidth]{tutorial-fruit-1}}}}%
+
+\medskip
+
+\only<2>{\emph{Numeric exercises:} Solving arithmetic problems.}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: String}
+
+<<echo=FALSE, results=hide>>=
+set.seed(2018-05-16)
+exams2pdf("function.Rnw", dir = ".", name = "tutorial-function-", template = "standalone.tex")
+@
+
+\begin{minipage}[t]{0.38\textwidth}
+\raisebox{-\height}{\includegraphics[width=0.77\textwidth]{dynamic-string}}
+
+\medskip
+
+\begin{verbatim}
+extype: string
+exsolution: ANSWER
+\end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{tutorial-function-1}}}}%
+
+\medskip
+
+\only<2>{\emph{Knowledge quiz:} Sample a word/phrase from a given vocabulary or list of question/answer pairs.}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: Cloze}
+
+<<echo=FALSE, results=hide>>=
+set.seed(2018-05-16)
+exams2pdf("lm.Rnw", dir = ".", name = "tutorial-lm-", template = "standalone.tex")
+@
+
+\begin{minipage}[t]{0.38\textwidth}
+\raisebox{-\height}{\includegraphics[width=0.77\textwidth]{dynamic-cloze}}
+
+\medskip
+
+\begin{verbatim}
+extype: cloze
+exclozetype: mchoice|num
+exsolution: 10|123.45
+\end{verbatim}
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{tutorial-lm-1}}}}%
+
+\medskip
+
+\only<2>{\emph{Exercises with sub-tasks:} Several questions based on same problem setting.}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: Static to numeric to single-choice}
+
+{\scriptsize
+\begin{tabular}{lp{2cm}llp{7cm}}
+\hline
+\# & Exercise \phantom{abc} templates              & Dynamic? & Type             & Description \\ \hline
+1  & \texttt{expderiv1.Rmd} \texttt{expderiv1.Rnw} & No       & \texttt{num}     & Fixed parameters and numeric solution.\\
+2  & \texttt{expderiv2.Rmd} \texttt{expderiv2.Rnw} & No       & \texttt{schoice} & As in \#1 but with single-choice solution (five answer alternatives).\\
+3  & \texttt{expderiv3.Rmd} \texttt{expderiv3.Rnw} & Yes      & \texttt{num}     & Randomly-drawn parameters with dynamic computation of correct solution, based on \#1.\\
+4  & \texttt{expderiv4.Rmd} \texttt{expderiv4.Rnw} & Yes      & \texttt{schoice} & Randomly-drawn parameters (as in \#3) with dynamically-generated single-choice solution (as in \#2), computed by  \verb|num_to_schoice()|.\\
+5  & \texttt{expderiv5.Rmd} \texttt{expderiv5.Rnw} & Yes      & \texttt{schoice} & As in \#4 but with the last alternative: None of the above.\\ \hline
+\end{tabular}
+}
+
+\bigskip
+
+\textbf{More details:} \url{http://www.R-exams.org/tutorials/static_num_schoice/}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Stress tester}
+
+<<results=hide>>=
+s <- stresstest_exercise("expderiv4.Rmd")
+plot(s)
+@
+
+\setkeys{Gin}{width=\textwidth}
+<<fig=TRUE, height=4.5, width=10, echo=FALSE, results=hide>>=
+s1 <- s
+s1$position <- s1$ordering <- s1$rank <- NULL
+plot(s1)
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Stress tester}
+
+<<results=hide, eval=FALSE>>=
+s <- stresstest_exercise("expderiv4.Rmd")
+plot(s)
+@
+
+\setkeys{Gin}{width=\textwidth}
+<<fig=TRUE, height=4.5, width=10, echo=FALSE, results=hide>>=
+s2 <- s
+s2$runtime <- s2$solution <- NULL
+plot(s2)
+@
+
+\end{frame}
+
+
+\section{One-for-All}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=120 0 120 20, clip, keepaspectratio]{background_oneforall.jpg}}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]%
+  \draw[color=white,fill=white,opacity=0.90] 
+  (-10,-8) rectangle (20,-6.6);
+  \node at (0,-7.25) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont One-for-All};
+  \end{tikzpicture}
+\end{frame}
+\usebackgroundtemplate{}
+
+<<echo=FALSE, results=hide>>=
+if(!file.exists(file.path("_images", "background_oneforall.jpg"))) {
+  file.copy(
+    file.path("..", "..", "..", "jekyll", "images", "moodle-arsnova-nops.orig.jpg"),
+    file.path("_images", "background_oneforall.jpg")
+  )
+}
+@
+
+\begin{frame}
+\frametitle{One-for-all}
+
+\begin{minipage}[t]{0.52\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.9\textwidth]{oneforall}}
+\end{minipage}
+\begin{minipage}[t]{0.47\textwidth}
+\begin{itemize}
+  \item The \emph{same} exercise can be exported into different formats.\\\phantom{.}
+  \item Multiple standalone documents vs.\ combined exercise pool.\\\phantom{.}
+  \item Multiple-choice and single-choice supported in all output formats.
+\end{itemize}
+\end{minipage}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{One-for-all}
+
+\textbf{Idea:} An exam is simply a list of exercise templates.
+
+<<myexam>>=
+myexam <- list(
+  "conferences.Rmd",
+  "deriv2.Rmd",
+  c("ttest.Rnw", "boxplots.Rnw")
+)
+@
+
+\medskip
+
+\textbf{Draw random exams:}
+\begin{itemize}
+  \item First randomly select one exercise from each list element.
+  \item Generate random numbers/input for each selected exercise.
+  \item Combine all exercises in output file(s) (PDF, HTML, \dots).
+\end{itemize}
+
+\medskip
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{One-for-all}
+
+\textbf{Written exam:}
+
+<<exams-preliminaries, echo=FALSE>>=
+set.seed(2018-05-16)
+odir <- tempfile()
+@
+
+<<exams2nops>>=
+exams2nops(myexam, n = 3, dir = odir,
+  language = "fr", institution = "useR! 2019")
+@
+
+<<exams2pdf-output, echo=FALSE, results=hide>>=
+file.copy(file.path(odir, "nops1.pdf"), "tutorial-nops1.pdf")
+@
+
+\textbf{Online test:}
+
+<<exams2qti12, eval=FALSE>>=
+exams2moodle(myexam, n = 10, dir = odir)
+@
+
+\textbf{Live quiz:}
+
+<<exams2html, eval=FALSE>>=
+exams2arsnova(myexam, n = 1, dir = odir)
+@
+
+\bigskip
+
+\textbf{Other:} \code{exams2pdf()}, \code{exams2html()}, \code{exams2canvas()}, \code{exams2blackboard()}, \dots
+
+\end{frame}
+
+
+
+\section{E-Learning}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=0 0 0 45, clip, keepaspectratio]{background_elearning.jpg}}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]%
+  \draw[color=white,fill=white,opacity=0.90] 
+  (-10,-8) rectangle (20,-6.6);
+  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont E-Learning};
+  \end{tikzpicture}
+\end{frame}
+\usebackgroundtemplate{}
+
+<<echo=FALSE, results=hide>>=
+if(!file.exists(file.path("_images", "background_elearning.jpg"))) {
+  file.copy(
+    file.path("..", "..", "..", "jekyll", "images", "seminar.orig.jpg"),
+    file.path("_images", "background_elearning.jpg")
+  )
+}
+@
+
+\begin{frame}
+\frametitle{E-Learning}
+
+\textbf{Online quiz:} \url{https://eeecon.uibk.ac.at/~moodle/}
+
+\bigskip
+
+\textbf{Login:} E-mail (lower-case)
+
+\textbf{Password:} 8-digit code
+
+\end{frame}
+
+\begin{frame}
+\frametitle{E-Learning}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-goal}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{1.~Goal}
+\begin{itemize}
+  \item Online tests with flexible exercise types.
+  \item Possibly: Dynamic supplements and/or complete correct solution.
+  \item Random variations of similar exercises to reduce the risk of cheating.
+  \item Use university's learning management system, e.g., Moodle, \dots
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{E-Learning}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-create}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{2.~Create}
+\begin{itemize}
+  \item Draw random replications from exercise templates, e.g., via \texttt{exams2moodle()}, \dots
+  \item Automatically embed these into exchange file format (typically via HTML/XML).
+\end{itemize}
+\end{minipage}
+
+\pause
+\medskip
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-import}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{3.~Import}
+\begin{itemize}
+  \item Import in learning management system.
+  \item From there handling ``as usual'' in the system.
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{E-Learning: Online test}
+
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{moodle1.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{moodle3.png}}%
+
+\end{frame}
+
+\begin{frame}
+\frametitle{E-Learning: Online test}
+
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{openolat-qti21-3.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{openolat-qti21-6.png}}%
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{E-Learning: Live quiz}
+
+\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-1-conferences.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-2-deriv.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-3-fruit.png}}
+
+\end{frame}
+
+
+\section{Written Exams}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,keepaspectratio]{background_written.jpg}}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]%
+  \draw[color=white,fill=white,opacity=0.90] 
+  (-10,-8) rectangle (20,-6.6);
+  \node at (0,-7.25) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont Written Exams};
+  \end{tikzpicture}
+\end{frame}
+\usebackgroundtemplate{}
+
+<<echo=FALSE, results=hide>>=
+if(!file.exists(file.path("_images", "background_written.jpg"))) {
+  file.copy(
+    file.path("..", "..", "..", "jekyll", "images", "olympia_side_zoom.orig.jpg"),
+    file.path("_images", "background_written.jpg")
+  )
+}
+@
+
+
+\begin{frame}
+\frametitle{Written Exams}
+
+\textbf{Flexible:} Roll your own.
+\begin{itemize}
+  \item Combination with user-specified template in \texttt{exams2pdf()} and \texttt{exams2pandoc()}.
+  \item Customizable but typically has to be evaluated ``by hand''.
+\end{itemize}
+
+\bigskip
+
+\textbf{Standardized:} ``NOPS'' format.
+\begin{itemize}
+  \item \texttt{exams2nops()} intended for single- and multiple-choice questions.
+  \item Can be scanned and evaluated automatically within R.
+  \item Limited support for open-ended questions that have to be marked by a person.
+\end{itemize}
+
+\bigskip
+
+\textbf{More details:} \url{http://www.R-exams.org/tutorials/exams2nops/}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Written exams}
+
+\framebox{\includegraphics[width=0.35\textwidth,keepaspectratio=true]{tutorial-nops1.pdf}}%
+\hspace*{0.5cm}%
+\framebox{\includegraphics[width=0.35\textwidth,keepaspectratio=true,page=3]{tutorial-nops1.pdf}}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Written exams}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-create}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{1.~Create}
+\begin{itemize}
+  \item As illustrated above.
+  \item Using \texttt{exams2nops()}, create (individual) PDF files for each examinee.
+\end{itemize}
+\end{minipage}
+
+\pause
+\medskip
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-print}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{2.~Print}
+\begin{itemize}
+  \item Print the PDF exams, e.g., on a standard printer.
+  \item \dots or for large exams at a print shop.
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Written exams}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-exam}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{3.~Exam}
+\begin{itemize}
+  \item Conduct the exam as usual.
+  \item Collect the completed exams sheets.
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Written exams}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-scan}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{4.~Scan}
+\begin{itemize}
+  \item Scan exam sheets, e.g., on a photocopier.
+  \item Using \texttt{nops\_scan()}, process the scanned exam sheets to machine-readable content.
+\end{itemize}
+\end{minipage}
+
+\pause
+\medskip
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-evaluate}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{5.~Evaluate}
+\begin{itemize}
+  \item Using \texttt{nops\_eval()}, evaluate the exam to obtain marks, points, etc. and individual HTML reports for each examinee.
+  \item Required files: Correct answers (1.), scans (4.), and a participant list in CSV format.
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Written exams}
+
+\fbox{\includegraphics[width=0.45\textwidth]{nops_eval1.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.45\textwidth]{nops_eval2.png}}
+
+\end{frame}
+
+
+
+\section{Outlook}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=10 0 20 0, clip, keepaspectratio]{background_whatelse.jpg}}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]%
+  \draw[color=white,fill=white,opacity=0.90] 
+  (-10,-8) rectangle (20,-6.6);
+  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont Outlook};
+  \end{tikzpicture}
+\end{frame}
+\usebackgroundtemplate{}
+
+<<echo=FALSE, results=hide>>=
+if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
+  file.copy(
+    file.path("..", "..", "..", "jekyll", "images", "monitor_psych.big.jpg"),
+    file.path("_images", "background_whatelse.jpg")
+  )
+}
+@
+
+
+<<echo=FALSE, results=hide>>=
+library("psychotools")
+data("MathExam14W", package = "psychotools")
+mex <- subset(MathExam14W, nsolved > 0 & nsolved < 13)
+pr <- prcomp(mex$solved, scale = TRUE)
+names(pr$sdev) <- 1:10
+mr <- raschmodel(mex$solved)
+
+png("tutorial-whatelse.png", height = 9, width = 12, units = "in", res = 150)
+par(mfrow = c(2, 2))
+plot(mex$solved, col = c("#1f7a7a", "#cccccc"), main = "Raw proportions")
+par(lwd = 1.5)
+plot(mr, type = "profile", border = "#1f7a7a", pch = 19, cex = 2, main = "Rasch model")
+biplot(pr, col = c("transparent", "#1f7a7a"),
+  main = "PCA biplot",
+  xlim = c(-0.065, 0.005), ylim = c(-0.04, 0.065))
+plot(pr, main = "PCA screeplot", xlab = "Number of components", col = "#cccccc", border = "#1f7a7a")
+dev.off()
+@
+
+
+\begin{frame}
+\frametitle{Outlook}
+
+\textbf{Under development:}
+\begin{itemize}
+  \item \emph{Many volunteers:} Internationalization for ``NOPS'' exams.
+  \item \emph{Nikolaus Umlauf:} Graphical exams manager based on \pkg{shiny} that can be
+    used on a local machine or on a server.
+  \item \emph{Achim Zeileis:} Reports for lecturers based on IRT models (started in \pkg{c403}).
+  \item \emph{Niels Smits:} Better management of exercise categories.
+  \item \emph{Mirko Birbaumer, Nikolaus Umlauf, Achim Zeileis:} \emph{Ilias} interface based on QTI~1.2.
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{NOPS internationalization}
+
+<<echo=FALSE, results=hide>>=
+exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "tutorial-nops-en-", language = "en")
+exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "tutorial-nops-fr-", language = "fr")
+exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "tutorial-nops-hu-", language = "hu")
+@
+
+\vspace*{-0.2cm}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-\height}{%
+\fbox{\includegraphics[width=0.9\textwidth, trim=50 360 250 360, clip]{tutorial-nops-en-1.pdf}}%
+}
+
+\medskip
+
+\fbox{\includegraphics[width=0.9\textwidth, trim=50 360 250 360, clip]{tutorial-nops-fr-1.pdf}}
+
+\medskip
+
+\fbox{\includegraphics[width=0.9\textwidth, trim=50 360 250 360, clip]{tutorial-nops-hu-1.pdf}}
+\end{minipage}
+\begin{minipage}[t]{0.58\textwidth}
+\raisebox{-\height}{\scriptsize
+\begin{tabular}{lll}
+  \textbf{da} & Jensen, Messner & \textbf{\color{rexamsdgreen} More contributions}\\
+  \textbf{de} & Zeileis & \textbf{\color{rexamsdgreen} welcome \dots}\\
+  \textbf{en} & Zeileis & \\
+  \textbf{es} & Kogelnik & \\
+  \textbf{fi} & Nordhausen & \\
+  \textbf{fr} & Allignol & \\
+  \textbf{gsw}& Stauffer & \\
+  \textbf{hr} & Jurai{\'c}, Kecojevic & \\
+  \textbf{hu} & Dar{\'o}czi, T{\'o}th & \\
+  \textbf{it} & Zambella & \\
+  \textbf{nl} & Smits & \\
+  \textbf{pt} & Calv{\~a}o, Dellinger, & \\
+              & Petutschnig (pt-PT/pt-BR) & \\
+  \textbf{ro} & Gatu & \\
+  \textbf{ru} & Demeshev & \\
+  \textbf{sk} & Fabsic & \\
+  \textbf{sr} & Kecojevic & \\
+  \textbf{tr} & Er & \\
+\end{tabular}
+}
+\end{minipage}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{Graphical exams manager}
+
+\fbox{\includegraphics[width=0.75\textwidth,keepaspectratio=true]{gui-create.png}}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Graphical exams manager}
+
+\fbox{\includegraphics[width=0.75\textwidth,keepaspectratio=true]{gui-preview.png}}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Examining exams}
+
+\textbf{Report:} Exercise difficulty, student performance, unidimensionality, fairness.
+
+\medskip
+
+\textbf{Methods:} Psychometrics, especially item response theory.
+
+\medskip
+
+\textbf{Example:} End-term exam from first-year mathematics course for business and economics students at Universit\"at Innsbruck.
+\begin{itemize}
+  \item 729 students (out of 941 registered).
+  \item 13~single-choice exercises on the basics of analysis, linear algebra, financial mathematics.
+  \item Two groups with partially different pools of exercise templates.
+\end{itemize}
+
+\bigskip
+
+<<>>=
+library("psychotools")
+data("MathExam14W", package = "psychotools")
+mex <- subset(MathExam14W, nsolved > 0 & nsolved < 13)
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Examining exams}
+
+\textbf{Item difficulty:} Raw proportions vs.\ Rasch model.
+
+\medskip
+
+<<eval=FALSE>>=
+plot(mex$solved, ...)
+mr <- raschmodel(mex$solved)
+plot(mr, ...)
+@
+
+\vspace*{-0.4cm}
+
+\setkeys{Gin}{width=\textwidth}
+<<fig=TRUE, height=5.5, width=13, echo=FALSE, results=hide>>=
+par(mfrow = c(1, 2))
+plot(mex$solved, col = c("#1f7a7a", "#cccccc"), main = "")
+par(lwd = 1.5)
+plot(mr, type = "profile", border = "#1f7a7a", pch = 19, cex = 1.5, main = "")
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Examining exams}
+
+\textbf{Student performance:} Points and person-item map.
+
+\medskip
+
+<<eval=FALSE>>=
+hist(MathExam14W$points, ...)
+piplot(mr)
+@
+
+\vspace*{-0.4cm}
+
+\setkeys{Gin}{width=0.49\textwidth}
+<<fig=TRUE, height=5.5, width=6.5, echo=FALSE, results=hide>>=
+MathExam14W <- transform(MathExam14W,
+  points = 2 * nsolved - 0.5 * rowSums(credits == 1)
+)
+hist(MathExam14W$points, breaks = -4:13 * 2 + 0.5, col = "#cccccc",
+  main = "", xlab = "Points")
+abline(v = 12.5, lwd = 3, col = "#1f7a7a")
+@
+<<fig=TRUE, height=5.5, width=6.5, echo=FALSE, results=hide>>=
+piplot(mr, main = "")
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Examining exams}
+
+\textbf{Unidimensionality:} Principal component analysis.
+
+\medskip
+
+<<eval=FALSE>>=
+pr <- prcomp(mex$solved, scale = TRUE)
+plot(pr, ...)
+biplot(pr, ...)
+@
+
+\vspace*{-0.4cm}
+
+\setkeys{Gin}{width=\textwidth}
+<<fig=TRUE, height=5.5, width=13, echo=FALSE, results=hide>>=
+par(mfrow = c(1, 2))
+pr <- prcomp(mex$solved, scale = TRUE)
+names(pr$sdev) <- 1:10
+plot(pr, main = "", xlab = "Number of components", col = "#cccccc")
+biplot(pr, col = c("transparent", "#1f7a7a"),
+  main = "",
+  xlim = c(-0.065, 0.005), ylim = c(-0.04, 0.065))
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Examining exams}
+
+\textbf{Fairness:} Differential item functioning.
+
+\medskip
+
+<<eval=FALSE>>=
+ma <- anchortest(solved ~ group, data = mex, adjust = "single-step")
+plot(ma$final_tests, ...)
+@
+
+\vspace*{-0.4cm}
+
+\setkeys{Gin}{width=\textwidth}
+<<fig=TRUE, height=5.5, width=13, echo=FALSE, results=hide>>=
+mr1 <- raschmodel(subset(mex, group == 1)$solved)
+mr2 <- raschmodel(subset(mex, group == 2)$solved)
+ma <- anchortest(mr1, mr2, adjust = "single-step")
+par(mfrow = c(1, 2))
+plot(mr1, parg = list(ref = ma$anchor_items), ref = FALSE, ylim = c(-2, 3), border = "#1f7a7a", pch = 19)
+plot(mr2, parg = list(ref = ma$anchor_items), ref = FALSE, add = TRUE, border = "#3b3b3b", pch = 19)
+legend("topleft", paste("Group", 1:2), pch = 19, col = c("#1f7a7a", "#3b3b3b"), bty = "n")
+plot(ma$final_tests, main = "", xlab = "Family-wise 95% confidence intervals")
+@
+
+\end{frame}
+
+
+\begin{frame} 
+\frametitle{Recommendations}
+
+\textbf{If you want to try \raisebox{-0.15\height}{\includegraphics[width=0.18\textwidth]{rexams_logo.pdf}}:}
+\begin{itemize}
+  \item Start with simple exercises before moving to more complex tasks.
+  \item Focus on content of exercises.
+  \item Don't worry about layout/formatting too much.
+  \item Try to build a team (with lecturers, assistants, etc.).
+  \item Use exercise types creatively.
+  \item Don't be afraid to try stuff, especially in formative assessments.
+  \item Thorough quality control for dynamic exercises before summative assessments.
+\end{itemize}
+
+\end{frame}
+
+
+\section{Resources}
+
+\begin{frame}
+\frametitle{Resources}
+
+\small
+
+\textbf{Contributors:} Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Stauffer.
+    
+\bigskip
+
+\textbf{Links:}
+
+\smallskip
+
+\begin{tabular}{ll}
+  Web           & \url{http://www.R-exams.org/} \\
+  CRAN          & \url{https://CRAN.R-project.org/package=exams} \\
+  Forum         & \url{http://R-Forge.R-project.org/forum/?group_id=1337} \\
+  StackOverflow & \url{https://stackoverflow.com/questions/tagged/exams} \\
+  Twitter       & \href{https://twitter.com/AchimZeileis}{@AchimZeileis}
+\end{tabular}
+
+\bigskip
+
+\textbf{References:}
+\begin{itemize}
+  \item Zeileis A, Umlauf N, Leisch F (2014).
+    \dquote{Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.}
+    \textit{Journal of Statistical Software}, \textbf{58}(1), 1--36.
+    \doi{10.18637/jss.v058.i01}
+  \item Gr\"un B, Zeileis A (2009).
+    \dquote{Automatic Generation of Exams in R.}
+    \textit{Journal of Statistical Software}, \textbf{29}(10), 1--14.
+    \doi{10.18637/jss.v029.i10}
+\end{itemize}
+
+\end{frame}
+
+\end{document}
+
