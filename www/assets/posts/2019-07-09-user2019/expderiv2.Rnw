@@ -1,0 +1,30 @@
+\begin{question}
+What is the derivative of $f(x) = x^{7} e^{0.2 x}$, evaluated at $x = 0.9$?
+
+\begin{answerlist}
+  \item $5.03$
+  \item $6.08$
+  \item $4.57$
+  \item $6.62$
+  \item $4.45$
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+Using the product rule we obtain
+\[ f'(x) = e^{0.2 x} \cdot (7 \cdot x^6 + 0.2 \cdot x^7). \]
+Evaluated at $x = 0.9$ and rounded to two digits the answer is
+$f'(0.9) = 4.568278 \approx 4.57$.
+
+\begin{answerlist}
+  \item False
+  \item False
+  \item True
+  \item False
+  \item False
+\end{answerlist}
+\end{solution}
+
+%% \extype{schoice}
+%% \exsolution{00100}
+%% \exname{exp derivative}

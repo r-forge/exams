@@ -1,0 +1,28 @@
+\begin{question}
+Which of these institutions already hosted a useR! conference?
+\begin{answerlist}
+  \item National Institute of Standards and Technology
+  \item Agrocampus Ouest
+  \item Technische Universit\"at Dortmund
+  \item Universit\"at Wien
+  \item ETH Z\"urich
+  \item K{\o}benhavns Universitet
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+The list of useR! (and DSC) hosts can be found at \url{https://www.R-project.org/conferences/}.
+\begin{answerlist}
+  \item True. useR! 2010 was hosted at NIST.
+  \item True. useR! 2009 was hosted at Agrocampus Ouest, Rennes.
+  \item True. useR! 2008 was hosted at TU Dortmund.
+  \item False. Universit\"at Wien did not host an R conference yet (only TU Wien and WU Wien).
+  \item False. ETH Z\"urich did not host an R conference yet.
+  \item False. K{\o}benhavns Universitet hosted DSC but not useR!.
+\end{answerlist}
+\end{solution}
+
+\exname{useR! conferences}
+\extype{mchoice}
+\exsolution{111000}
+\exshuffle{5}
