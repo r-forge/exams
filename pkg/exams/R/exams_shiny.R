@@ -53,7 +53,7 @@ exams_shiny <- function(dir = NULL)
 exams_shiny_ui <- function(...) {
   pageWithSidebar(
      ## Application title.
-     headerPanel("R exams manager"),
+     headerPanel("R/exams manager"),
      
      NULL,
 
