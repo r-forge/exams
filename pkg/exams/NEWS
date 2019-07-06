@@ -1,9 +1,16 @@
-Changes in Version 2.3-4
+Changes in Version 2.3-5
 
   o Added new interface exams2ilias() for the open-source ILIAS learning
     management system (https://www.ilias.de/). This is essentially a
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
+
+
+Changes in Version 2.3-4
+
+  o Avoid execution of examples on CRAN that would necessitate pandoc availability.
+    Currently, the "rmarkdown" package but not the underlying "pandoc" support
+    is installed for the CRAN checks on Solaris and OS X.
 
 
 Changes in Version 2.3-3
