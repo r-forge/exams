@@ -53,7 +53,7 @@ set.seed(2019-07-01)
 
 \begin{tabular}{ll}
 \hline
-Time  & Content \\ \hline
+{\bf Time}  & {\bf Content} \\ \hline
 14:00 & Introduction (overview, installation, \dots)\\
 14:30 & Dynamic exercises \\
 15:00 & One-for-all \\
@@ -185,7 +185,7 @@ Time  & Content \\ \hline
 {\bf Document conversion}   & \emph{TtH}/\emph{TtM}, \emph{pandoc}                  & Conversion to HTML and beyond          \\[0.18cm]
 {\bf Image manipulation}    & \emph{ImageMagick}, \pkg{magick}, \pkg{png}           & Embedding graphics		     \\[0.18cm]
 {\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                   & Embedding supplementary files	     \\[0.18cm]
-{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\[0.18cm]
+{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{Canvas}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\[0.18cm]
 \hline
 \end{tabular}
 }
@@ -629,12 +629,12 @@ exsolution: 10|123.45
 {\scriptsize
 \begin{tabular}{lp{2cm}llp{7cm}}
 \hline
-\# & Exercise \phantom{abc} templates              & Dynamic? & Type             & Description \\ \hline
-1  & \texttt{expderiv1.Rmd} \texttt{expderiv1.Rnw} & No       & \texttt{num}     & Fixed parameters and numeric solution.\\
-2  & \texttt{expderiv2.Rmd} \texttt{expderiv2.Rnw} & No       & \texttt{schoice} & As in \#1 but with single-choice solution (five answer alternatives).\\
-3  & \texttt{expderiv3.Rmd} \texttt{expderiv3.Rnw} & Yes      & \texttt{num}     & Randomly-drawn parameters with dynamic computation of correct solution, based on \#1.\\
-4  & \texttt{expderiv4.Rmd} \texttt{expderiv4.Rnw} & Yes      & \texttt{schoice} & Randomly-drawn parameters (as in \#3) with dynamically-generated single-choice solution (as in \#2), computed by  \verb|num_to_schoice()|.\\
-5  & \texttt{expderiv5.Rmd} \texttt{expderiv5.Rnw} & Yes      & \texttt{schoice} & As in \#4 but with the last alternative: None of the above.\\ \hline
+{\bf \#} & {\bf Exercise \phantom{abc} templates}        & {\bf Dynamic?} & {\bf Type} & {\bf Description} \\ \hline
+{\bf 1}  & \texttt{expderiv1.Rmd} \texttt{expderiv1.Rnw} & No       & \texttt{num}     & Fixed parameters and numeric solution.\\
+{\bf 2}  & \texttt{expderiv2.Rmd} \texttt{expderiv2.Rnw} & No       & \texttt{schoice} & As in \#1 but with single-choice solution (five answer alternatives).\\
+{\bf 3}  & \texttt{expderiv3.Rmd} \texttt{expderiv3.Rnw} & Yes      & \texttt{num}     & Randomly-drawn parameters with dynamic computation of correct solution, based on \#1.\\
+{\bf 4}  & \texttt{expderiv4.Rmd} \texttt{expderiv4.Rnw} & Yes      & \texttt{schoice} & Randomly-drawn parameters (as in \#3) with dynamically-generated single-choice solution (as in \#2), computed by  \verb|num_to_schoice()|.\\
+{\bf 5}  & \texttt{expderiv5.Rmd} \texttt{expderiv5.Rnw} & Yes      & \texttt{schoice} & As in \#4 but with the last alternative: None of the above.\\ \hline
 \end{tabular}
 }
 
@@ -1155,7 +1155,7 @@ exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "tutorial-n
 \begin{frame}
 \frametitle{Graphical exams manager}
 
-\fbox{\includegraphics[width=0.75\textwidth,keepaspectratio=true]{gui-create.png}}
+\fbox{\includegraphics[width=0.7\textwidth,keepaspectratio=true]{gui-create.png}}
 
 \end{frame}
 
@@ -1163,7 +1163,7 @@ exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "tutorial-n
 \begin{frame}
 \frametitle{Graphical exams manager}
 
-\fbox{\includegraphics[width=0.75\textwidth,keepaspectratio=true]{gui-preview.png}}
+\fbox{\includegraphics[width=0.7\textwidth,keepaspectratio=true]{gui-define.png}}
 
 \end{frame}
 
