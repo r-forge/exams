@@ -1,0 +1,26 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## parameters
+a <- sample(2:9, 1)
+b <- sample(2:4, 1)/10
+c <- sample(6:9, 1)/10
+## solution
+res <- exp(b * c) * (a * c^(a-1) + b * c^a)
+```
+
+Question
+========
+What is the derivative of $f(x) = x^{`r a`} e^{`r b` x}$, evaluated at $x = `r c`$?
+
+Solution
+========
+Using the product rule we obtain
+$$ f'(x) = e^{`r b` x} \cdot (`r a` \cdot x^`r a-1` + `r b` x^`r a`). $$
+Evaluated at $x = `r c`$ and rounded to two digits the answer is
+$f'(`r c`) = `r fmt(res, 6)` = `r fmt(res, 2)`$.
+
+Meta-information
+================
+extype: num
+exsolution: `r fmt(res, 2)`
+exname: exp derivative
+extol: 0.01

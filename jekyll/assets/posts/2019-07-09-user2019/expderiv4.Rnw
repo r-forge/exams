@@ -1,0 +1,39 @@
+<<echo=FALSE, results=hide>>=
+sc <- NULL
+while(is.null(sc)) {
+## parameters
+a <- sample(2:9, 1)
+b <- sample(2:4, 1)/10
+c <- sample(6:9, 1)/10
+## solution
+res <- exp(b * c) * (a * c^(a-1) + b * c^a)
+## schoice
+err1 <- a * c^(a-1) * exp(b * c)
+err2 <- a * c^(a-1) * exp(b * c) + c^a * exp(b * c)
+rg <- if(res < 4) c(0.5, 5.5) else res * c(0.5, 1.5)
+sc <- num_to_schoice(res, wrong = c(err1, err2), range = rg, delta = 0.1)
+}
+@
+
+\begin{question}
+What is the derivative of $f(x) = x^{\Sexpr{a}} e^{\Sexpr{b} x}$, evaluated at $x = \Sexpr{c}$?
+
+<<echo=FALSE, results=tex>>=
+answerlist(sc$questions)
+@
+\end{question}
+
+\begin{solution}
+Using the product rule we obtain
+\[ f'(x) = e^{\Sexpr{b} x} \cdot (\Sexpr{a} \cdot x^\Sexpr{a-1} + \Sexpr{b} \cdot x^\Sexpr{a}). \]
+Evaluated at $x = \Sexpr{c}$ and rounded to two digits the answer is
+$f'(\Sexpr{c}) = \Sexpr{fmt(res, 6)} \approx \Sexpr{fmt(res, 2)}$.
+
+<<echo=FALSE, results=tex>>=
+answerlist(ifelse(sc$solutions, "True", "False"))
+@
+\end{solution}
+
+%% \extype{schoice}
+%% \exsolution{\Sexpr{mchoice2string(sc$solutions)}}
+%% \exname{exp derivative}
