@@ -31,7 +31,7 @@ image:
 
 ## Overview
 
-After an dynamic exercise has been developed, it is useful to subject it to a detailed
+After a dynamic exercise has been developed, it is useful to subject it to a detailed
 test. Therefore, the exams package provides the function `stresstest_exercise()`. The function takes
 the exercise and compiles it, e.g., 1000 times. In each of the 1000 iterations the correct
 solution(s), the run-times, as well as all length one numeric, integer or character objects are
