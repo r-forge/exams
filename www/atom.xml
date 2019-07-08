@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2019-04-23T01:23:01+02:00</updated>
+	<updated>2019-07-08T12:09:56+02:00</updated>
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 	
 		
@@ -23,6 +23,42 @@
 	<link href="http://www.R-exams.org/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://www.R-exams.org/" rel="alternate" type="text/html" />
 	<generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
+	
+    
+    
+		<entry>
+			<id>http://www.R-exams.org/general/cran_release_234/</id>
+			<title>CRAN Release of R/exams 2.3-3 and 2.3-4</title>
+			<link href="http://www.R-exams.org/general/cran_release_234/" rel="alternate" type="text/html" title="CRAN Release of R/exams 2.3-3 and 2.3-4" />
+			<updated>2019-07-08T00:00:00+02:00</updated>
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>New minor releases of the R/exams package to CRAN, containing a new dedicated function for online quizzes/exams in the Canvas learning management system. Moreover, the update provides a range of smaller improvements and bug fixes.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/general/cran_release_234/">&lt;p&gt;New minor releases of the R/exams package to CRAN, containing a new dedicated function for online quizzes/exams in the Canvas learning management system. Moreover, the update provides a range of smaller improvements and bug fixes.&lt;/p&gt; &lt;p&gt;&lt;img alt=&quot;CRAN Release of R/exams 2.3-3 and 2.3-4&quot; src=&quot;http://www.R-exams.org/images/cran234.title.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;Version 2.3-3 and subsequently 2.3-4 of the one-for-all exams generator &lt;a href=&quot;http://www.R-exams.org/&quot;&gt;R/exams&lt;/a&gt; have been published on the Comprehensive R Archive Network at &lt;a href=&quot;https://CRAN.R-project.org/package=exams&quot;&gt;https://CRAN.R-project.org/package=exams&lt;/a&gt;. In the next days this will propagate to other CRAN mirrors along with Windows and OS X binary packages. Version 2.3-4 was necessary in addition to 2.3-3 to avoid CRAN check problems on platforms where &lt;code class=&quot;highlighter-rouge&quot;&gt;pandoc&lt;/code&gt; is not available (currently, OS X and Solaris). The development version of the package is now version 2.3-5 on R-Forge at &lt;a href=&quot;http://R-Forge.R-project.org/forum/?group_id=1337&quot;&gt;http://R-Forge.R-project.org/forum/?group_id=1337&lt;/a&gt;.&lt;/p&gt; &lt;h2 id=&quot;canvas-support&quot;&gt;Canvas support&lt;/h2&gt; &lt;p&gt;A new interface &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2canvas()&lt;/code&gt; for the open-source &lt;a href=&quot;https://www.instructure.com/canvas/&quot;&gt;Canvas learning management system&lt;/a&gt; has been added. This is the first dedicated Canvas interface after previously some indirect support was available through either &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2blackboard()&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2qti12()&lt;/code&gt;. However, both of these had certain limitations for Canvas that the new function aims to overcome. The function has only received limited testing so far and is likely to improve in future version. Please report any problems to the package maintainer.&lt;/p&gt; &lt;p&gt;Essentially, &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2canvas()&lt;/code&gt; is a wrapper function to &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2qti12()&lt;/code&gt; along with a few Canvas-specific modifications of the QTI XML specification. Supported exercise types are: single-choice, multiple-choice, numeric, and string (but not yet cloze). Embedding mathematical notation, graphics, and data supplements also works.&lt;/p&gt; &lt;h2 id=&quot;mathematical-notation-in-moodle&quot;&gt;Mathematical notation in Moodle&lt;/h2&gt; &lt;p&gt;The default &lt;code class=&quot;highlighter-rouge&quot;&gt;converter&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2moodle()&lt;/code&gt; has been changed to &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;pandoc-mathjax&quot;&lt;/code&gt;. Thus, instead of relying on the browser to render &lt;a href=&quot;http://www.R-exams.org/tutorials/math/&quot;&gt;mathematical notation&lt;/a&gt; from MathML, the MathJax plugin is now assumed to be enabled on the Moodle server (which is the default when setting up a new Moodle server). To employ MathML as in previous versions one can use &lt;code class=&quot;highlighter-rouge&quot;&gt;converter = NULL&lt;/code&gt;. This either selects &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;pandoc-mathml&quot;&lt;/code&gt; (or equivalently &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;pandoc&quot;&lt;/code&gt;) or &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;ttm&quot;&lt;/code&gt; depending on the markup used in the exercises.&lt;/p&gt; &lt;h2 id=&quot;written-exams-nops&quot;&gt;Written exams (NOPS)&lt;/h2&gt; &lt;ul&gt; &lt;li&gt;Assure in &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt; that scanned image file names contain no spaces.&lt;/li&gt; &lt;li&gt;Added &lt;code class=&quot;highlighter-rouge&quot;&gt;\usepackage[...]{babel}&lt;/code&gt; support to &lt;a href=&quot;http://www.R-exams.org/tutorials/nops_language/&quot;&gt;language specification&lt;/a&gt; of &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;. In addition to a new &lt;code class=&quot;highlighter-rouge&quot;&gt;Babel: ...&lt;/code&gt; field, the language &lt;code class=&quot;highlighter-rouge&quot;&gt;.dcf&lt;/code&gt; can also provide a &lt;code class=&quot;highlighter-rouge&quot;&gt;Header: ...&lt;/code&gt; field, e.g., for changing the font encoding or adding further options.&lt;/li&gt; &lt;li&gt;In &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_eval()&lt;/code&gt; duplicated sheets (original + replacement) were sometimes omitted even if the student ID was just 000000 (i.e., not read correctly by &lt;code class=&quot;highlighter-rouge&quot;&gt;nops_scan()&lt;/code&gt;). A check has been added that avoids this.&lt;/li&gt; &lt;/ul&gt; &lt;h2 id=&quot;improvements-and-bug-fixes&quot;&gt;Improvements and bug fixes&lt;/h2&gt; &lt;ul&gt; &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;exams_skeleton()&lt;/code&gt; has been updated. The new default is &lt;code class=&quot;highlighter-rouge&quot;&gt;markup = &quot;markdown&quot;&lt;/code&gt; as this appears to be the more common choice for newcomers to R/exams. Furthermore, the list of exercises in the &lt;code class=&quot;highlighter-rouge&quot;&gt;demo-*.R&lt;/code&gt; scripts has been updated to use newer exercises as well (along with links to the web page: &lt;a href=&quot;http://www.R-exams.org/templates/&quot;&gt;http://www.R-exams.org/templates/&lt;/a&gt;).&lt;/li&gt; &lt;li&gt;Fixed bugs in &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2qti21()&lt;/code&gt; (and hence &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2openolat()&lt;/code&gt;) for certain combinations of &lt;code class=&quot;highlighter-rouge&quot;&gt;maxchars&lt;/code&gt; specifications in &lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt; exercises.&lt;/li&gt; &lt;li&gt;For convenience, when &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2html(..., converter = &quot;pandoc-mathjax&quot;)&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;mathjax = TRUE&lt;/code&gt; is added automatically (unless explicitly switched off).&lt;/li&gt; &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;print()&lt;/code&gt; method for &lt;code class=&quot;highlighter-rouge&quot;&gt;exams_metainfo&lt;/code&gt; objects received a new &lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt; argument so that &lt;code class=&quot;highlighter-rouge&quot;&gt;print(exams_metainfo(x), which = 1, block = 5)&lt;/code&gt; prints the metainformation (type/solution) of the first exam in the object &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; (output from any &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2xyz()&lt;/code&gt; function) in blocks of 5 exercises. Implemented for the blog about R/exams at &lt;a href=&quot;http://www.R-exams.org/general/tamiu_finance&quot;&gt;Texas A&amp;amp;M International University&lt;/a&gt;.&lt;/li&gt; &lt;li&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2openolat()&lt;/code&gt; the handling of the internal pandoc fixups was extended to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;align=&quot;right&quot;&lt;/code&gt; in tables with &lt;code class=&quot;highlighter-rouge&quot;&gt;style=&quot;text-align: right;&quot;&lt;/code&gt; (and analogously for “left” and “center”).&lt;/li&gt; &lt;li&gt;Changed the default of &lt;code class=&quot;highlighter-rouge&quot;&gt;fix_choice&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2arsnova()&lt;/code&gt;. Current versions of the official &lt;a href=&quot;https://arsnova.eu/&quot;&gt;ARSnova server&lt;/a&gt; have the LaTeX rendering in the choice options switched off. Hence, by setting &lt;code class=&quot;highlighter-rouge&quot;&gt;fix_choice = TRUE&lt;/code&gt; by default the LaTeX math markup is removed.&lt;/li&gt; &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;\setkeys{Gin}{keepaspectratio}&lt;/code&gt; in the default &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2pdf()&lt;/code&gt; template for pandoc (&lt;code class=&quot;highlighter-rouge&quot;&gt;plain8.tex&lt;/code&gt;) and in &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops()&lt;/code&gt;. This is necessitated by a change in pandoc that now always sets &lt;code class=&quot;highlighter-rouge&quot;&gt;height=\textheight&lt;/code&gt; when &lt;code class=&quot;highlighter-rouge&quot;&gt;width=&lt;/code&gt; is specified, see the &lt;a href=&quot;https://pandoc.org/faqs.html&quot;&gt;pandoc FAQ&lt;/a&gt;.&lt;/li&gt; &lt;li&gt;Added an &lt;code class=&quot;highlighter-rouge&quot;&gt;envir&lt;/code&gt; argument in &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2moodle()&lt;/code&gt; that is passed on to &lt;code class=&quot;highlighter-rouge&quot;&gt;xweave()&lt;/code&gt;.&lt;/li&gt; &lt;/ul&gt;</content>
+			
+				<category term="general" />
+			
+			
+				<category term="R" />
+			
+				<category term="exams" />
+			
+				<category term="canvas" />
+			
+			<published>2019-07-08T00:00:00+02:00</published>
+		</entry>
 	
     
     
@@ -374,44 +410,6 @@
 				<category term="schoice" />
 			
 				<category term="single-choice" />
-			
-				<category term="visualization" />
-			
-				<category term="computer-science" />
-			
-			<published>2018-05-13T00:00:00+02:00</published>
-		</entry>
-	
-    
-    
-		<entry>
-			<id>http://www.R-exams.org/templates/automaton/</id>
-			<title>automaton: Interpretation of Automaton Diagrams (Using TikZ)</title>
-			<link href="http://www.R-exams.org/templates/automaton/" rel="alternate" type="text/html" title="automaton: Interpretation of Automaton Diagrams (Using TikZ)" />
-			<updated>2018-05-13T00:00:00+02:00</updated>
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Exercise template for assessing the interpretation of an automaton diagram (drawn with TikZ) based on randomly generated input sequences.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/templates/automaton/">&lt;p&gt;Exercise template for assessing the interpretation of an automaton diagram (drawn with TikZ) based on randomly generated input sequences.&lt;/p&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;automaton&lt;/code&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/logic/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;logic&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t20 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;An automaton diagram with four states A-D is drawn with TikZ and is to be interpreted, where A is always the initial state and one state is randomly picked as the accepting state. Five binary 0/1 input sequences acceptance have to be assessed with approximately a quarter of all sequences being accepted. Depending on the exams2xyz() interface the TikZ graphic can be rendered in PNG, SVG, or directly by LaTeX.&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;Random numbers, text blocks, and graphics&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t20 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.Rnw&quot;&gt;automaton.Rnw&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.Rmd&quot;&gt;automaton.Rmd&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.tex&quot;&gt;automaton.tex&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton.md&quot;&gt;automaton.md&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw-pdf.png&quot; alt=&quot;automaton-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd-pdf.png&quot; alt=&quot;automaton-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b20&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rnw-html.png&quot; alt=&quot;automaton-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-13-automaton//automaton-Rmd-html.png&quot; alt=&quot;automaton-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;) set.seed(1090) exams2html(&amp;quot;automaton.Rnw&amp;quot;) set.seed(1090) exams2pdf(&amp;quot;automaton.Rnw&amp;quot;) set.seed(1090) exams2html(&amp;quot;automaton.Rmd&amp;quot;) set.seed(1090) exams2pdf(&amp;quot;automaton.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;</content>
-			
-				<category term="templates" />
-			
-			
-				<category term="mchoice" />
-			
-				<category term="multiple-choice" />
 			
 				<category term="visualization" />
 			

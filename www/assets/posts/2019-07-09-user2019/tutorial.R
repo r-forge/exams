@@ -1,5 +1,5 @@
 ## R/exams useR! tutorial -----------------------------------------------------------
-
+##
 ## 14:00 Introduction (overview, installation, written exam)
 ## 14:30 Dynamic exercises (numeric, single choice, multiple choice, cloze)
 ## 15:00 One-for-all (plain PDF, plain HTML, Moodle XML)
@@ -7,17 +7,19 @@
 ## 16:00 E-Learning (Moodle, Canvas, ARSnova, ...)
 ## 16:30 Written exams (NOPS)
 ## 17:00 Outlook
+##
+## see also http://www.R-exams.org/general/user2019/
 
 
 ## Introduction ---------------------------------------------------------------------
-
+##
 ## for installation see Steps 1-4 in http://www.R-exams.org/tutorials/installation/
 
 ## load package
 library("exams")
 
 ## below we follow http://www.R-exams.org/tutorials/first_steps/
-
+##
 ## create exams skeleton with:
 ## - demo-*.R scripts
 ## - exercises/ folder with all .Rmd/.Rnw exercises
@@ -37,11 +39,11 @@ exams2html("deriv.Rmd", converter = "pandoc-mathjax")
 exams2pdf("deriv.Rmd")
     
 ## extract the meta-information to check whether it is processed correctly
-exams_metainfo(exams2html(c("swisscapital.Rmd", "tstat.Rmd")))
+exams_metainfo(exams2html(c("swisscapital.Rmd", "deriv.Rmd")))
 
 
 ## Dynamic exercises ----------------------------------------------------------------
-
+##
 ## for the supported exercise types see http://www.R-exams.org/intro/dynamic/
 ## for example exercise templates see http://www.R-exams.org/templates/
 
@@ -100,7 +102,34 @@ exams2html(c(
   "fourfold.Rmd"      ## fourfold table (num)
 ))
 
-## download expderiv* files
+## from static to numeric to single-choice exercises
+## see http://www.R-exams.org/tutorials/static_num_schoice/
+##
+## download additional exercise files
+## - conferences: demo quiz question related to useR!
+## - expderiv*: static -> numeric -> single-choice (1-5)
+extra <- c("conferences", paste0("expderiv", 1:5))
+extra <- c(paste0(extra, ".Rnw"), paste0(extra, ".Rmd"))
+for(i in extra) download.file(paste0("http://www.R-exams.org/assets/posts/2019-07-09-user2019/", i), i)
+
+
+## stress testing dynamic exercises
+## num
+s3 <- stresstest_exercise("expderiv3.Rmd")
+plot(s3)
+plot(s3, type = "solution")
+## schoice
+s4 <- stresstest_exercise("expderiv4.Rmd")
+plot(s4)
+plot(s4, type = "solution")
+## focus on typical errors
+plot(s4, type = "solution", variables = c("err1", "err2"))
+## the same "by hand" with some customization
+plot(res ~ err1, data = s4$objects)
+abline(0, 1)
+plot(res ~ err2, data = s4$objects)
+abline(0, 1)
+
 
 ## switch back to the original folder
 setwd("..")
@@ -108,32 +137,47 @@ setwd("..")
 
 ## One-for-all ----------------------------------------------------------------------
 
+## standalone files
 demo_exam <- c("swisscapital.Rmd", "deriv.Rmd")
-exams2html(demo_exam)
-exams2pdf(demo_exam)
-exams2pandoc(demo_exam)
+exams2html(demo_exam, edir = "exercises")
+exams2pdf(demo_exam, edir = "exercises")
+exams2pandoc(demo_exam, edir = "exercises")
+
+## with customized templates, e.g.,
+exams2pdf(demo_exam, edir = "exercises", template = "templates/exam.tex")
+exams2pdf(demo_exam, edir = "exercises", template = "templates/solution.tex")
+
+## Also:
+## - exams2nops() internally sets up a template on the fly and then calls exams2pdf()
+## - for e-learning exams (Moodle XML, QTI 1.2/2.1, ...): see next section
+
 
 
 ## E-Learning (Moodle, Canvas, ARSnova, ...) ----------------------------------------
 
+## Online quiz: https://eeecon.uibk.ac.at/~moodle/
+## Login: E-mail (lower-case)
+## Password: 8-digit code
+
+
 ## Moodle
-moodle_exam <- c("conferences.Rmd", "deriv.Rmd", "ttest.Rmd", "boxplots.Rmd",
+elearn_exam <- c("conferences.Rmd", "deriv.Rmd", "ttest.Rmd", "boxplots.Rmd",
   "function.Rnw", "lm.Rmd", "fourfold2.Rmd", "confint3.Rmd")
 
 set.seed(2019-07-09)
-exams2moodle(moodle_exam, n = 30, name = "useR-2019",
+exams2moodle(elearn_exam, n = 30, name = "useR-2019",
   dir = "output", edir = "exercises")
 
 
 ## Canvas
 set.seed(2019-07-09)
-exams2canvas(moodle_exam[1:5], n = 3, name = "useR-2019",
+exams2canvas(elearn_exam[1:5], n = 3, name = "useR-2019",
   dir = "output", edir = "exercises", duration = 15)
 
 
 ## OpenOLAT
 set.seed(2019-07-09)
-exams2openolat(moodle_exam[1:7], n = 3, name = "useR-2019-olat",
+exams2openolat(elearn_exam[1:7], n = 3, name = "useR-2019-olat",
   dir = "output", edir = "exercises")
 
 
@@ -150,17 +194,12 @@ exams2arsnova(unlist(choice_exam), n = 1, name = "useR-2019",
 
 
 ## Written exams (NOPS) -------------------------------------------------------------
+##
+## see http://www.R-exams.org/tutorials/exams2nops/
 
+## demo exam from the tutorial
 set.seed(2019-07-09)
 exams2nops(choice_exam, n = 35, name = "useR-2019",
   dir = "nops", edir = "exercises",
   reglength = 8, blank = 1, date = "2019-07-09",
   title = "Demo Exam", institution = "useR! 2019")
-
-set.seed(2019-07-09)
-exams2nops(choice_exam, n = 35, name = "useR-2019",
-  dir = "nops2", edir = "exercises", duplex = FALSE,
-  reglength = 8, blank = 0, date = "2019-07-09",
-  title = "Demo Exam", institution = "useR! 2019")
-
-
