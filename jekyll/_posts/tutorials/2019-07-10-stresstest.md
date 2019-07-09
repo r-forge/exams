@@ -64,100 +64,114 @@ In the folllowing, we illustrate typical problems of parameterizing such an exer
 
 If you want to replicate the illustrations below you can easily download all four exercises from within R. Here, we show how to do so for the R/Markdown (`.Rmd`) version of the exercise but equivalently you can also use the R\LaTeX version (`.Rnw`):
 
-```{r, eval=FALSE}
-for(i in paste0(extra, 1:4, ".Rmd")) download.file(
-  paste0("http://www.R-exams.org/assets/posts/2019-07-10-stresstest/", i), i)
-```
 
-```{r, results="hide", echo=FALSE}
-library("exams")
-for(i in paste0("binomial", 1:4, ".Rnw")) file.copy(file.path("..", "..", "..", "assets", "posts", "2019-07-10-stresstest", i), i)
-```
+<pre><code class="prettyprint ">for(i in paste0(extra, 1:4, &quot;.Rmd&quot;)) download.file(
+  paste0(&quot;http://www.R-exams.org/assets/posts/2019-07-10-stresstest/&quot;, i), i)</code></pre>
+
+
 
 
 ## Numerical exercise: First attempt
 
 In a first attempt we generate the parameters in the exercise as:
 
-```{r, eval=FALSE}
-## success probability in percent (= pay with card)
-p <- sample(0:4, size = 1)
+
+<pre><code class="prettyprint ">## success probability in percent (= pay with card)
+p &lt;- sample(0:4, size = 1)
 
 ## number of attempts (= customers in queue)
-n <- sample(6:9, size = 1)
+n &lt;- sample(6:9, size = 1)
 
 ## minimum number of successes (= customers who pay with card)
-k <- sample(2:4, 1)
-```
+k &lt;- sample(2:4, 1)</code></pre>
 
 Let's stress test this exercise:
 
-```{r, echo = TRUE, eval = FALSE}
-s1 <- stresstest_exercise("binomial1.Rmd")
-```
-```{r, echo = FALSE}
-s1 <- stresstest_exercise("binomial1.Rnw")
-```
+
+<pre><code class="prettyprint ">s1 &lt;- stresstest_exercise(&quot;binomial1.Rmd&quot;)</code></pre>
+
+<pre><code>## 1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20/21/22/23/24/25/26/27/28/29/30/31/32/33/34/35/36/37/38/39/40/41/42/43/44/45/46/47/48/49/50/51/52/53/54/55/56/57/58/59/60/61/62/63/64/65/66/67/68/69/70/71/72/73/74/75/76/77/78/79/80/81/82/83/84/85/86/87/88/89/90/91/92/93/94/95/96/97/98/99/100
+</code></pre>
 
 By default this generates 100 random draws from the exercise with seeds from 1 to 100. The seeds are also printed in the R console, seperated by slashes. Therefore, it is easy to reproduce errors that might occur when running the stress test, i.e., just `set.seed(i)` with `i` being the problematic iteration and subsequently run something like `exams2html()` or run the code for generating the parameters manually.
 
 Here, no errors occurred but further examination shows that parameters have clearly been too extreme:
 
-```{r stresstest1-overview, fig.height = 5, fig.width = 10}
-plot(s1)
-```
+
+<pre><code class="prettyprint ">plot(s1)</code></pre>
+
+![plot of chunk stresstest1-overview]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest1-overview-1.svg)
 
 The left panel shows the distribution run times which shows that this was fast without any problems. However, the distribution of solutions in the right panel shows that almost all solutions are extremely small. In fact, when accessing the solutions from the object `s1` and summarizing them we see that a large proportion was exactly zero (due to rounding).
 
-```{r}
-summary(s1$solution)
-```
+
+<pre><code class="prettyprint ">summary(s1$solution)</code></pre>
+
+
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.0000  0.0200  0.5239  0.3100  4.7800
+</code></pre>
 
 You might have already noticed the source of the problems when we presented the code above: the values for `p` are extremely small (and even include 0) but also `k` is rather large. But even if we didn't notice this in the code directly we could have detected it visually by plotting the solution against the parameter variables from the exercise:
 
-```{r stresstest1-solution, fig.height = 10, fig.width = 10}
-plot(s1, type = "solution")
-```
+
+<pre><code class="prettyprint ">plot(s1, type = &quot;solution&quot;)</code></pre>
+
+![plot of chunk stresstest1-solution]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest1-solution-1.svg)
 
 _Remark:_ In addition to the `solution` the object `s1` contains the `seeds`, the `runtime`, and a `data.frame` with all `objects` of length 1 that were newly created within the exercise. Sometimes it is useful to explore these in more detail manually.
 
-```{r}
-names(s1)
-names(s1$objects)
-```
+
+<pre><code class="prettyprint ">names(s1)</code></pre>
+
+
+
+<pre><code>## [1] &quot;seeds&quot;    &quot;runtime&quot;  &quot;objects&quot;  &quot;solution&quot;
+</code></pre>
+
+
+
+<pre><code class="prettyprint ">names(s1$objects)</code></pre>
+
+
+
+<pre><code>## [1] &quot;k&quot;   &quot;n&quot;   &quot;p&quot;   &quot;sol&quot;
+</code></pre>
 
 
 ## Numerical exercise: Improved version
 
 To fix the problems detected above, we increase the range for `p` to be between 10 and 30 percent and reduce `k` to values from 1 to 3, i.e., employ the following lines in the exercise:
 
-```{r, eval=FALSE}
-p <- sample(10:30, size = 1)
-k <- sample(1:3, 1)
-```
+
+<pre><code class="prettyprint ">p &lt;- sample(10:30, size = 1)
+k &lt;- sample(1:3, 1)</code></pre>
 
 Stress testing this modified exercise yields solutions with a much better spread:
 
-```{r, echo = TRUE, eval = FALSE}
-s2 <- stresstest_exercise("binomial2.Rmd")
-plot(s2)
-```
-```{r stresstest2-overview, fig.height = 5, fig.width = 10, echo = FALSE, results = "hide"}
-s2 <- stresstest_exercise("binomial2.Rnw")
-plot(s2)
-```
+
+<pre><code class="prettyprint ">s2 &lt;- stresstest_exercise(&quot;binomial2.Rmd&quot;)
+plot(s2)</code></pre>
+![plot of chunk stresstest2-overview]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest2-overview-1.svg)
 
 Closer inspection shows that solutions can still become rather small:
 
-```{r}
-summary(s2$solution)
-```
+
+<pre><code class="prettyprint ">summary(s2$solution)</code></pre>
+
+
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    3.31   20.31   50.08   47.41   72.52   94.80
+</code></pre>
 
 For fine tuning we might be interested in finding out when the threshold of 5 percent probability is exceeded, depending on the variables `p` and `k`. This can be done graphically via:
 
-```{r stresstest2-solution, fig.height = 5, fig.width = 10}
-plot(s2, type = "solution", variables = c("p", "k"), threshold = 5)
-```
+
+<pre><code class="prettyprint ">plot(s2, type = &quot;solution&quot;, variables = c(&quot;p&quot;, &quot;k&quot;), threshold = 5)</code></pre>
+
+![plot of chunk stresstest2-solution]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest2-solution-1.svg)
 
 So maybe we could increase the minimum for `p` from 10 to 15 percent. In the following single-choice version of the exercise we will do so in order leave more room for incorrect answers below the correct solution.
 
@@ -170,42 +184,38 @@ learning management systems, e.g., for live voting or for written exams that are
 correct solution we simply need to set up a certain number of distractors. Our idea is to use two distractors that are based on
 typical errors students may make plus two random distractors.
 
-```{r, eval=FALSE}
-ok <- FALSE
+
+<pre><code class="prettyprint ">ok &lt;- FALSE
 while(!ok) {
 ## two typical errors: 1-p vs. p, pbinom vs. dbinom
-err1 <- 100 * pbinom(k - 1, size = n, prob = 1 - p/100, lower.tail = FALSE)
-err2 <- 100 * dbinom(k, size = n, prob = p/100)
+err1 &lt;- 100 * pbinom(k - 1, size = n, prob = 1 - p/100, lower.tail = FALSE)
+err2 &lt;- 100 * dbinom(k, size = n, prob = p/100)
 
 ## two random errors
-rand <- runif(2, min = 0, max = 100)
+rand &lt;- runif(2, min = 0, max = 100)
 
 ## make sure solutions and errors are unique
-ans <- round(c(sol, err1, err2, rand), digits = 2)
-ok <- length(unique(ans)) == 5
-}
-```
+ans &lt;- round(c(sol, err1, err2, rand), digits = 2)
+ok &lt;- length(unique(ans)) == 5
+}</code></pre>
 
 Additionally, the code makes sure that we really do obtain five distinct numbers. Even if the probability of two distractors coinciding is very small, it might occur eventually. Finally, because the correct solution is always the first element in `ans` we can set `exsolution` in the meta-information to `10000` but then have to set `exshuffle` to `TRUE` so that the answers are shuffled in each random draw.
 
 So we are quite hopeful that our exercise will do ok in the stress test:
 
-```{r, echo = TRUE, eval = FALSE}
-s3 <- stresstest_exercise("binomial3.Rmd")
-plot(s3)
-```
-```{r stresstest3-overview, fig.height = 10, fig.width = 10, echo = FALSE, results = "hide"}
-s3 <- stresstest_exercise("binomial3.Rnw")
-plot(s3)
-```
+
+<pre><code class="prettyprint ">s3 &lt;- stresstest_exercise(&quot;binomial3.Rmd&quot;)
+plot(s3)</code></pre>
+![plot of chunk stresstest3-overview]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest3-overview-1.svg)
 
 The runtimes are still ok (indicating that the `while` loop was rarely used) as are the numeric solutions - and due to shuffling the position of the correct solution
 in the answer list is completely random. However, the _rank_ of the solution is not: the correct solution is never the smallest or the largest of the
 answer options. The reasons for this surely have to be our typical errors:
 
-```{r stresstest3-solution, fig.height = 5, fig.width = 10}
-plot(s3, type = "solution", variables = c("err1", "err2"))
-```
+
+<pre><code class="prettyprint ">plot(s3, type = &quot;solution&quot;, variables = c(&quot;err1&quot;, &quot;err2&quot;))</code></pre>
+
+![plot of chunk stresstest3-solution]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest3-solution-1.svg)
 
 And indeed `err1` is always (much) larger than the correct solution and `err2` is always smaller. Of course, we could have realized this from the way we set up those typical errors but we didn't have to - due to the stress test. Also, whether or not we consider this to be problem is a different matter. Possibly, if a certain error is very common it does not matter whether it is always larger or smaller than the correct solution.
 
@@ -214,15 +224,13 @@ And indeed `err1` is always (much) larger than the correct solution and `err2` i
 
 Here, we continue to improve the exercise by randomly selecting only one of the two typical errors. Then, sometimes the error is smaller and sometimes larger than the correct solution.
 
-```{r, eval=FALSE}
-err <- sample(c(err1, err2), 1)
-```
+
+<pre><code class="prettyprint ">err &lt;- sample(c(err1, err2), 1)</code></pre>
 
 Moreover, we leverage the function `num_to_schoice()` (or equivalently `num2schoice()`) to sample the random distractors.
 
-```{r, eval=FALSE}
-sc <- num_to_schoice(sol, wrong = err, range = c(2, 98), delta = 0.1)
-```
+
+<pre><code class="prettyprint ">sc &lt;- num_to_schoice(sol, wrong = err, range = c(2, 98), delta = 0.1)</code></pre>
 
 Again, this is run in a `while()` loop to make sure that potential errors are caught (where `num_to_schoice()` returns `NULL` and issues a warning). This has a couple of desirable features:
 
@@ -234,14 +242,10 @@ Finally, the list of possible answers automatically gets LaTeX math markup `$...
 
 The corresponding stress test looks sataisfactory now:
 
-```{r, echo = TRUE, eval = FALSE}
-s4 <- stresstest_exercise("binomial4.Rmd")
-plot(s4)
-```
-```{r stresstest4-overview, fig.height = 10, fig.width = 10, echo = FALSE, results = "hide"}
-s4 <- stresstest_exercise("binomial4.Rnw")
-plot(s4)
-```
+
+<pre><code class="prettyprint ">s4 &lt;- stresstest_exercise(&quot;binomial4.Rmd&quot;)
+plot(s4)</code></pre>
+![plot of chunk stresstest4-overview]({{ site.url }}/assets/posts/2019-07-10-stresstest/stresstest4-overview-1.svg)
 
 Of course, there is still at least one number that is either larger or smaller than the correct solution so that the correct solution takes rank 1 or 5 less often than ranks 2 to 4. But this seems to be a reasonable compromise.
 
