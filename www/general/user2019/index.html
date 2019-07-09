@@ -1,0 +1,855 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>R/exams @ useR! 2019</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+  
+	
+	<meta name="description" content="Pre-conference tutorial about R/exams at useR! 2019 (The R User Conference) in Toulouse: Slides, example code, and links to further information." />
+  <meta name="keywords" content="R, Rmd, Rnw, exams, e-learning, moodle, canvas, written, arithmetic, num, numeric, schoice, single-choice, mchoice, multiple-choice, string, cloze, exams2arsnova, exams2nops, exams2moodle" />
+	
+  <meta name="author" content="Achim Zeileis" />
+
+	
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Facebook Optimization -->
+	<meta property="og:locale" content="en_EN" />
+	
+	<meta property="og:title" content="R/exams @ useR! 2019" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//general/user2019/" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/user2019.300.png" />
+
+	
+
+	<!-- Search Engine Optimization -->
+	
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    /// var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/"; ///
+    var u="https" + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/user2019.title.png" width="970" alt="R/exams @ useR! 2019" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams @ useR! 2019 (CC-BY-SA).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>R/exams @ useR! 2019</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Pre-conference tutorial about R/exams at useR! 2019 (The R User Conference) in Toulouse: Slides, example code, and links to further information.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h2 id="tutorial-at-user-2019">Tutorial at useR! 2019</h2>
+
+<p>Today, the pre-conference tutorials kick off this year’s <a href="https://useR2019.R-project.org/">useR! 2019</a> conference. The organizers kindly invited <a href="http://www.R-exams.org/">R/exams</a> for one of these tutorials. This blog post provides some accompanying resources which may be of interest to those who do not attend the conference/tutorial. The plan is to roughly follow the outline below.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Time</th>
+      <th style="text-align: left">Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">14:00 <br /> 14:30 <br /> 15:00</td>
+      <td style="text-align: left">Introduction (overview, installation, written exam) <br /> Dynamic exercises (numeric, single choice, multiple choice, cloze) <br /> One-for-all (plain PDF, plain HTML, Moodle XML)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">15:30</td>
+      <td style="text-align: left">— <em>Break</em> —</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">16:00 <br /> 16:30 <br /> 17:00</td>
+      <td style="text-align: left">E-Learning (Moodle, Canvas, ARSnova, …) <br /> Written exams (NOPS) <br /> Outlook</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Most importantly the presentation <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/slides.pdf">slides</a> are available in PDF format (under CC-BY) along with an <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/tutorial.R">R script</a> (under GPL-2 or GPL-3) for the examples:</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/slides.pdf"><img src="http://www.R-exams.org/assets/posts/2019-07-09-user2019/slides.png" alt="slides.pdf" /></a>
+<a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/tutorial.R"><img src="http://www.R-exams.org/assets/posts/2019-07-09-user2019/tutorial.png" alt="tutorial.R" /></a></p>
+
+<p>Below, the examples, code, and links from the slides and R script are also provided which might be more convenient for some readers.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>To set up your computer for this tutorial, follow Steps 1-4 in the tutorial <a href="http://www.R-exams.org/tutorials/installation/">http://www.R-exams.org/tutorials/installation/</a>.</p>
+
+<p>Subsequently, we start out with setps described in more detail in <a href="http://www.R-exams.org/tutorials/first_steps/">http://www.R-exams.org/tutorials/first_steps/</a>. The package is loaded and first we create an “exams skeleton” with:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">demo-*.R</code> scripts</li>
+  <li><code class="highlighter-rouge">exercises/</code> folder with all <code class="highlighter-rouge">.Rmd</code>/<code class="highlighter-rouge">.Rnw</code> exercises</li>
+  <li><code class="highlighter-rouge">templates/</code> folder with various customizable templates</li>
+  <li><code class="highlighter-rouge">nops/</code> folder (empty) for <code class="highlighter-rouge">exams2nops()</code> output</li>
+</ul>
+
+<pre><code class="language-{r}">library("exams")
+exams_skeleton()
+</code></pre>
+
+<p>To check whether everything works we render a single-choice question (<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>, knowledge quiz about the Swiss capital) into a plain HTML and PDF format, respectively.</p>
+
+<pre><code class="language-{r}">exams2html("swisscapital.Rmd")
+exams2pdf("swisscapital.Rmd")
+</code></pre>
+
+<p>And then we do the same for a numeric question with mathematical notation: (<a href="http://www.R-exams.org/templates/deriv/">deriv</a>, product rule for derivatives). By default <code class="highlighter-rouge">exams2html()</code> uses MathML for the mathematical notation and expects the browser to render it which works ok in Firefox and Safari. But for Chrome it is better to use MathJax, see this post about <a href="http://www.R-exams.org/tutorials/math/">mathematical notation in web exams</a> for more details.</p>
+
+<pre><code class="language-{r}">exams2html("deriv.Rmd")
+exams2html("deriv.Rmd", converter = "pandoc-mathjax")
+exams2pdf("deriv.Rmd")
+</code></pre>
+
+<p>Finally, a useful trick for checking whether the meta-information associated with an exercise is processed correctly:</p>
+
+<pre><code class="language-{r}">exams_metainfo(exams2html(c("swisscapital.Rmd", "deriv.Rmd")))
+</code></pre>
+
+<h2 id="dynamic-exercises">Dynamic exercises</h2>
+
+<p>This section gives a tour of the dynamic exercises shipped along with the package. See <a href="http://www.R-exams.org/intro/dynamic/">http://www.R-exams.org/intro/dynamic/</a> for the supported exercise types and <a href="http://www.R-exams.org/templates/">http://www.R-exams.org/templates/</a> for a list of all example exercises.</p>
+
+<p>Additionally, there is a simple knowledge quiz question about useR! conferences: <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/conferences.Rmd">conferences.Rmd</a>, <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/conferences.Rnw">conferences.Rnw</a>.</p>
+
+<p>And the following exercises are used to illustrate how to go from a static to a dynamic numeric or single-choice question, see <a href="http://www.R-exams.org/tutorials/static_num_schoice/">http://www.R-exams.org/tutorials/static_num_schoice/</a> for more details. While the tutorial uses a basic economic example about computing elasticities, the exercises below are basic arithmetic exercises about derivatives.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">#</th>
+      <th style="text-align: left">Exercise templates</th>
+      <th style="text-align: left">Dynamic?</th>
+      <th style="text-align: left">Type</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv1.Rmd">expderiv1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv1.Rnw">expderiv1.Rnw</a></td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Fixed parameters and numeric solution.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv2.Rmd">expderiv2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv2.Rnw">expderiv2.Rnw</a></td>
+      <td style="text-align: left">No</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">As in #1 but with single-choice solution (five answer alternatives).</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv3.Rmd">expderiv3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv3.Rnw">expderiv3.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Randomly drawn parameters with dynamic computation of correct solution, based on #1.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv4.Rmd">expderiv4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv4.Rnw">expderiv4.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="highlighter-rouge">num_to_schoice()</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv5.Rmd">expderiv5.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv5.Rnw">expderiv5.Rnw</a></td>
+      <td style="text-align: left">Yes</td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">As in #4 but with the last alternative: <em>None of the above.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All of these extra exercise files can be downloaded from within R and stored in the skeleton set up above:</p>
+
+<pre><code class="language-{r}">extra &lt;- c("conferences", paste0("expderiv", 1:5))
+extra &lt;- c(paste0(extra, ".Rnw"), paste0(extra, ".Rmd"))
+for(i in extra) download.file(paste0("http://www.R-exams.org/assets/posts/2019-07-09-user2019/", i), i)
+</code></pre>
+
+<p>To take a tour of the available exercise files, we switch to the <code class="highlighter-rouge">exercises/</code> folder:</p>
+
+<pre><code class="language-{r}">setwd("exercises")
+dir()
+</code></pre>
+
+<h4 id="numeric-exercises">Numeric exercises</h4>
+
+<pre><code class="language-{r}">exams2html(c(
+  "deriv.Rmd",        ## product rule for derivatives
+  "tstat.Rmd",        ## 1-sample t-test statistic
+  "dist.Rmd",         ## distances and the Pythagorean theorem
+  "regression.Rmd",   ## simple linear regression (by hand)
+  "fruit.Rmd",        ## image-based systems of linear equations (numeric)
+  "lagrange.Rmd",     ## method of Lagrange multipliers
+  "currency8.Rmd"     ## convert currencies (UTF-8 encoding)
+))
+</code></pre>
+
+<h4 id="single-choice-exercises">Single-choice exercises</h4>
+
+<pre><code class="language-{r}">exams2html(c(
+  "swisscapital.Rmd", ## knowledge quiz question about the Swiss capital
+  "Rlogo.Rmd",        ## knowledge quiz question about the R logo
+  "deriv2.Rmd",       ## product rule for derivatives (single-choice, via num_to_schoice)
+  "tstat2.Rmd",       ## 1-sample t-test statistic (single-choice, by hand)
+  "dist3.Rmd",        ## distances and the Pythagorean theorem (single-choice, via num_to_schoice)
+  "fruit2.Rmd",       ## image-based systems of linear equations (single-choice, via num_to_schoice)
+  "hessian.Rmd",      ## 2x2 Hessian matrix (single-choice)
+  "logic.Rmd"         ## interpretation of logic gates (using TikZ)
+))
+</code></pre>
+
+<h4 id="multiple-choice-exercises">Multiple-choice exercises</h4>
+
+<pre><code class="language-{r}">exams2html(c(
+  "switzerland.Rmd",  ## knowledge quiz question about Switzerland
+  "gaussmarkov.Rmd",  ## knowledge quiz question about Gauss-Markov assumptions
+  "anova.Rmd",        ## 1-way analysis of variance
+  "boxplots.Rmd",     ## interpretation of 2-sample boxplots
+  "scatterplot.Rmd",  ## interpretation of a scatterplot
+  "ttest.Rmd",        ## interpretation of 2-sample t test
+  "relfreq.Rmd",      ## interpretation of relative frequency tables
+  "cholesky.Rmd",     ## Cholesky decomposition
+  "automaton.Rmd"     ## interpretation of automaton diagrams (using TikZ)
+))
+</code></pre>
+
+<h4 id="string-exercises">String exercises</h4>
+
+<pre><code class="language-{r}">exams2html(c(
+  "function.Rmd",     ## string question about R functions
+  "countrycodes.Rmd"  ## string question about ISO country codes
+))
+</code></pre>
+
+<h4 id="cloze-exercises">Cloze exercises</h4>
+
+<p>These combine several num/schoice/mchoice/string parts:</p>
+
+<pre><code class="language-{r}">exams2html(c(
+  "lm.Rmd",           ## simple linear regression (with CSV data, schoice/num)
+  "boxhist.Rmd",      ## univariate exploration of a CSV file (schoice/num)
+  "confint2.Rmd",     ## 2-sided confidence interval (num)
+  "dist2.Rmd",        ## three distances in a Cartesian coordinate system (num)
+  "fourfold.Rmd"      ## fourfold table (num)
+))
+</code></pre>
+
+<h4 id="stress-testing-dynamic-exercises">Stress testing dynamic exercises</h4>
+
+<p>The function <code class="highlighter-rouge">stresstest_exercise()</code> can help to do some basic quality control of dynamic exercise templates. It runs the exercises <code class="highlighter-rouge">n</code> times (default: 100) with seeds <code class="highlighter-rouge">1</code> to <code class="highlighter-rouge">n</code> and stores run time, solution, and accompanying variables (of length 1). This can help to spot problems or patterns in the exercises.</p>
+
+<p>A simple example for a numeric exercise is:</p>
+
+<pre><code class="language-{r}">s3 &lt;- stresstest_exercise("expderiv3.Rmd")
+plot(s3)
+plot(s3, type = "solution")
+</code></pre>
+
+<p>And for a single-choice exercise:</p>
+
+<pre><code class="language-{r}">s4 &lt;- stresstest_exercise("expderiv4.Rmd")
+plot(s4)
+plot(s4, type = "solution")
+</code></pre>
+
+<p>To focus on typical errors the plots against the variables <code class="highlighter-rouge">err1</code> and <code class="highlighter-rouge">err2</code> can either be created by the <code class="highlighter-rouge">plot()</code> method or “by hand” with some customization:</p>
+
+<pre><code class="language-{r}">plot(s4, type = "solution", variables = c("err1", "err2"))
+plot(res ~ err1, data = s4$objects)
+abline(0, 1)
+plot(res ~ err2, data = s4$objects)
+abline(0, 1)
+</code></pre>
+
+<p>Finally, we switch back to the original folder:</p>
+
+<pre><code class="language-{r}">setwd("..")
+</code></pre>
+
+<h2 id="one-for-all">One-for-all</h2>
+
+<p>A basic design idea for R/exams is that the same exercise can, in principle, be rendered into a wide range of different output formats. For standalone files the most important formats are PDF, HTML, and possibly also Docx:</p>
+
+<pre><code class="language-{r}">demo_exam &lt;- c("swisscapital.Rmd", "deriv.Rmd")
+exams2html(demo_exam, edir = "exercises")
+exams2pdf(demo_exam, edir = "exercises")
+exams2pandoc(demo_exam, edir = "exercises")
+</code></pre>
+
+<p>The layout can be customized using suitable templates, e.g.,</p>
+
+<pre><code class="language-{r}">exams2pdf(demo_exam, edir = "exercises", template = "templates/exam.tex")
+exams2pdf(demo_exam, edir = "exercises", template = "templates/solution.tex")
+</code></pre>
+
+<p>Also, <code class="highlighter-rouge">exams2nops()</code> internally sets up a template on the fly and then calls <code class="highlighter-rouge">exams2pdf()</code>. And e-learning exams (Moodle XML, QTI 1.2/2.1, …) are illustrated in the next section.</p>
+
+<h2 id="e-learning-moodle-canvas-arsnova-">E-Learning (Moodle, Canvas, ARSnova, …)</h2>
+
+<p>Output for various e-learning formats can be generated in pretty much the same way as the standalone files above. The main difference is that not one file per exam is generated but a combined output file comprising the desired number of exam replications. For example for Moodle:</p>
+
+<pre><code class="language-{r}">elearn_exam &lt;- c("conferences.Rmd", "deriv.Rmd", "ttest.Rmd", "boxplots.Rmd",
+  "function.Rnw", "lm.Rmd", "fourfold2.Rmd", "confint3.Rmd")
+set.seed(2019-07-09)
+exams2moodle(elearn_exam, n = 30, name = "useR-2019",
+  dir = "output", edir = "exercises")
+</code></pre>
+
+<p>For the registered participants of the course the resulting online quiz is made available at <a href="https://eeecon.uibk.ac.at/~moodle/">https://eeecon.uibk.ac.at/~moodle/</a>. You can login with your e-mail address and the numeric code sent to you.</p>
+
+<p>Analogously, the numeric and single-/multiple-choice questions (but not yet cloze) can be prepared for Canvas by:</p>
+
+<pre><code class="language-{r}">set.seed(2019-07-09)
+exams2canvas(elearn_exam[1:5], n = 3, name = "useR-2019",
+  dir = "output", edir = "exercises", duration = 15)
+</code></pre>
+
+<p>For OpenOLAT all exercises except one Moodle-specific exercise can be used as well:</p>
+
+<pre><code class="language-{r}">set.seed(2019-07-09)
+exams2openolat(elearn_exam[1:7], n = 3, name = "useR-2019-olat",
+  dir = "output", edir = "exercises")
+</code></pre>
+
+<p>For ARSnova only single- and multiple-choice questions have good support:</p>
+
+<pre><code class="language-{r}">choice_exam &lt;- list(
+  "conferences.Rmd",
+  "deriv2.Rmd",
+  c("ttest.Rmd", "boxplots.Rmd")
+)
+set.seed(2019-07-09)
+exams2arsnova(unlist(choice_exam), n = 1, name = "useR-2019",
+  dir = "output", edir = "exercises")
+</code></pre>
+
+<h2 id="written-exams-nops">Written exams (NOPS)</h2>
+
+<p>The written demo exam from the tutorial can be replicated by:</p>
+
+<pre><code class="language-{r}">set.seed(2019-07-09)
+exams2nops(choice_exam, n = 35, name = "useR-2019",
+  dir = "nops", edir = "exercises",
+  reglength = 8, blank = 1, date = "2019-07-09",
+  title = "Demo Exam", institution = "useR! 2019")
+</code></pre>
+
+<p>More details about creating and evaluating NOPS exams is provided in the tutorial at <a href="http://www.R-exams.org/tutorials/exams2nops/">http://www.R-exams.org/tutorials/exams2nops/</a>.</p>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2019-07-09" itemprop="datePublished"> 2019-07-09</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Rmd/">Rmd</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Rnw/">Rnw</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/moodle/">moodle</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/canvas/">canvas</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/written/">written</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/arithmetic/">arithmetic</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/num/">num</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/numeric/">numeric</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/schoice/">schoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/single-choice/">single-choice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/mchoice/">mchoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/multiple-choice/">multiple-choice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/string/">string</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/cloze/">cloze</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2arsnova/">exams2arsnova</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2nops/">exams2nops</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2moodle/">exams2moodle</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/cran_release_234/">&laquo; CRAN Release of R/exams 2.3-3 and 2.3-4</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

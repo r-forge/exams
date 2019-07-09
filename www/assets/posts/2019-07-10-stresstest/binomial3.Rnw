@@ -1,0 +1,46 @@
+<<echo=FALSE, results=hide>>=
+## success probability in percent (= pay with card)
+p <- sample(15:30, size = 1)
+
+## number of attempts (= customers in queue)
+n <- sample(6:9, size = 1)
+
+## minimum number of successes (= customers who pay with card)
+k <- sample(1:3, 1)
+ 
+## compute the correct solution in percent
+sol <- 100 * pbinom(k - 1, size = n, prob = p/100, lower.tail = FALSE)
+
+ok <- FALSE
+while(!ok) {
+## two typical errors: 1-p vs. p, pbinom vs. dbinom
+err1 <- 100 * pbinom(k - 1, size = n, prob = 1 - p/100, lower.tail = FALSE)
+err2 <- 100 * dbinom(k, size = n, prob = p/100)
+
+## two random errors
+rand <- runif(2, min = 0, max = 100)
+
+## make sure solutions and errors are unique
+ans <- round(c(sol, err1, err2, rand), digits = 2)
+ok <- length(unique(ans)) == 5
+}
+@
+
+\begin{question}
+According to a recent survey \Sexpr{100 - p} percent of all customers
+in grocery stores pay cash while the rest use their credit or cash card. You
+are currently waiting in the queue at the checkout of a grocery story with
+\Sexpr{n} customers in front of you.
+
+What is the probability (in percent) that \Sexpr{k} or more of the
+other customers pay with their card?
+
+<<echo=FALSE, results=tex>>=
+answerlist(ans)
+@
+\end{question}
+
+\extype{schoice}
+\exsolution{10000}
+\exname{binomial v3}
+\exshuffle{TRUE}
