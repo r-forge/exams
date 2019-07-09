@@ -1,0 +1,44 @@
+```{r data generation, echo = FALSE, results = "hide"}
+sc <- NULL
+while(is.null(sc)) {
+## success probability in percent (= pay with card)
+p <- sample(15:30, size = 1)
+
+## number of attempts (= customers in queue)
+n <- sample(6:9, size = 1)
+
+## minimum number of successes (= customers who pay with card)
+k <- sample(1:3, 1)
+ 
+## compute the correct solution in percent
+sol <- 100 * pbinom(k - 1, size = n, prob = p/100, lower.tail = FALSE)
+
+## use one of two typical errors: 1-p vs. p, pbinom vs. dbinom
+err1 <- 100 * pbinom(k - 1, size = n, prob = 1 - p/100, lower.tail = FALSE)
+err2 <- 100 * dbinom(k, size = n, prob = p/100)
+err <- sample(c(err1, err2), 1)
+
+sc <- num_to_schoice(sol, wrong = err, range = c(2, 98), delta = 0.1)
+}
+```
+
+Question
+========
+According to a recent survey $`r 100 - p`$ percent of all customers
+in grocery stores pay cash while the rest use their credit or cash card. You
+are currently waiting in the queue at the checkout of a grocery story with
+$`r n`$ customers in front of you.
+
+What is the probability (in percent) that $`r k`$ or more of the
+other customers pay with their card?
+
+```{r questionlist, echo = FALSE, results = "asis"}
+answerlist(sc$questions, markup = "markdown")
+```
+
+
+Meta-information
+================
+extype: schoice
+exsolution: `r mchoice2string(sc$solutions)`
+exname: binomial v4
