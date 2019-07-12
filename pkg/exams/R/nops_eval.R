@@ -487,6 +487,9 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
   '<tr>',
   paste0('  <td>', lang$RegistrationNumber, ':</td><td>%s</td>'),
   '</tr>',
+  '<tr>',
+  paste0('  <td>', lang$DocumentID, ':</td><td>%s</td>'),
+  '</tr>',
   if(mark) '<tr>',
   if(mark) paste0('  <td>', lang$Mark, ':</td><td>%s</td>'),
   if(mark) '</tr>',
@@ -542,12 +545,12 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
     ), collapse = "\n")
     
     if(mark) {
-      html_i <- sprintf(html, results[id, "name"], id, results[id, "mark"], results[id, "points"], 
+      html_i <- sprintf(html, results[id, "name"], id, results[id, "exam"], results[id, "mark"], round(as.numeric(results[id, "points"]), digits = 4), 
         res, base64enc::dataURI(file = file.path(odir, results[id, "scan"]), mime = "image/png"),
 	if(nscans == 1L) "" else sprintf('<img src="%s" width=1000/>',
 	  if(results[id, "scan2"] != "") base64enc::dataURI(file = file.path(odir, results[id, "scan2"]), mime = "image/png") else ""))
     } else {    
-      html_i <- sprintf(html, results[id, "name"], id, results[id, "points"], res,
+      html_i <- sprintf(html, results[id, "name"], id, results[id, "exam"], round(as.numeric(results[id, "points"]), digits = 4), res,
         base64enc::dataURI(file = file.path(odir, results[id, "scan"]), mime = "image/png"),
 	if(nscans == 1L) "" else sprintf('<img src="%s" width=1000/>',
 	  if(results[id, "scan2"] != "") base64enc::dataURI(file = file.path(odir, results[id, "scan2"]), mime = "image/png") else ""))
