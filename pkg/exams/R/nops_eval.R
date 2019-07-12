@@ -32,6 +32,9 @@ nops_eval <- function(
   res_csv <- paste0(results, ".csv")
   res_zip <- paste0(results, ".zip")
 
+  ## language file
+  if(tools::file_ext(language) == "dcf") language <- tools::file_path_as_absolute(language)
+
   ## read registration information
   register <- read.csv2(register, colClasses = "character")
   
