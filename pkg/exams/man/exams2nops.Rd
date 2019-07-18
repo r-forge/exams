@@ -37,12 +37,7 @@
     the current working directory.}
   \item{name}{character. A name prefix for resulting exams and RDS file.}
   \item{language}{character. Path to a DCF file with a language specification.
-    Currently, the package ships: English (\code{"en"}), Croatian (\code{"hr"}),
-    Danish (\code{"da"}), Dutch (\code{"nl"}), French (\code{"fr"}),
-    German (\code{"de"}), Hungarian (\code{"hu"}), Italian (\code{"it"}),
-    Romanian (\code{"ro"}), Portuguese (\code{"pt-PT"} or \code{"pt-BR"} or \code{"pt"}
-    which is synonymous with \code{"pt-PT"}), Spanish (\code{"es"}),
-    Swiss German (\code{"gsw"}), Turkish (\code{"tr"}).}
+    See below for the list of supported languages.}
   \item{title}{character. Title of the exam, e.g., \code{"Introduction to Statistics"}.}
   \item{course}{character. Optional course number, e.g., \code{"101"}.}
   \item{institution}{character. Name of the institution at which the exam is conducted.}
@@ -136,11 +131,33 @@
   also be read by \code{nops_scan}.
   
   The \code{language} elements can be specified through a relatively simple
-  text file in DCF format, see \url{http://www.R-exams.org/tutorials/nops_language/}
-  for more details. The package ships with a variety of languages, the names
-  of which correspond to the ISO 639 codes (\url{https://www.loc.gov/standards/iso639-2/php/code_list.php})
+  text file and the package already ships with:
+  English (\code{"en"}),
+  Croatian (\code{"hr"}),
+  Danish (\code{"da"}),
+  Dutch (\code{"nl"}),
+  Finnish (\code{"fi"}),
+  French (\code{"fr"}),
+  German (\code{"de"}),
+  Hungarian (\code{"hu"}),
+  Italian (\code{"it"}),
+  Japanese (\code{"ja"}),
+  Portuguese (\code{"pt-PT"} or \code{"pt-BR"}; also \code{"pt"} is synonymous with \code{"pt-PT"}),
+  Romanian (\code{"ro"}),
+  Russian (\code{"ru"}),
+  Serbian (\code{"sr"}),
+  Slovak (\code{"sk"}),
+  Slovenian (\code{"sl"}),
+  Spanish (\code{"es"}),
+  Swiss German (\code{"gsw"}),
+  Turkish (\code{"tr"}.  
+  Note that the language names correspond to the ISO 639 codes
+  (\url{https://www.loc.gov/standards/iso639-2/php/code_list.php})
   or IETF language tags (\url{https://en.wikipedia.org/wiki/IETF_language_tag}) if
   no ISO 639 codes exists (as for Brazilian Portuguese).
+  For more details about the underlying text file in DCF format, see
+  \url{http://www.R-exams.org/tutorials/nops_language/}
+
 }
 
 \value{
