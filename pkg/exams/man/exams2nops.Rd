@@ -150,7 +150,7 @@
   Slovenian (\code{"sl"}),
   Spanish (\code{"es"}),
   Swiss German (\code{"gsw"}),
-  Turkish (\code{"tr"}.  
+  Turkish (\code{"tr"}).  
   Note that the language names correspond to the ISO 639 codes
   (\url{https://www.loc.gov/standards/iso639-2/php/code_list.php})
   or IETF language tags (\url{https://en.wikipedia.org/wiki/IETF_language_tag}) if
