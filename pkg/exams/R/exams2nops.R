@@ -402,12 +402,14 @@ if(samepage) {
 
 \\makeatother
 
-\\markboth{\\textsf{{\\mytitle}: {\\myID}}}{\\textsf{{\\mytitle}: {\\myID}}}
-\\pagestyle{myheadings}
 \\begin{document} 
 ",
 page1,
 empty,
+"
+\\markboth{\\textsf{{\\mytitle}: {\\myID}}}{\\textsf{{\\mytitle}: {\\myID}}}
+\\pagestyle{myheadings}
+",
 if(replacement) {
   c("\n\\newpage\n", page2, empty)
 },
