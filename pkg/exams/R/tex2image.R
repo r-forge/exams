@@ -123,7 +123,11 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
   writeLines(text = texlines, con = file.path(tdir, paste0(name, ".tex")))
 
   ## compile LaTeX into PDF
-  tools::texi2dvi(file = paste(name, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
+  if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex")) {
+    tinytex::latexmk(paste(name, ".tex", sep = ""))
+  } else {
+    texi2dvi(paste(name, ".tex", sep = ""), pdf = TRUE, clean = TRUE, quiet = TRUE)
+  }
 
   ## shell command on Windows
   shcmd <- Sys.getenv("COMSPEC")

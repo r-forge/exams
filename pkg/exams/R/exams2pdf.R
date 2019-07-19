@@ -293,7 +293,11 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       if(encoding != "") tmpl <- base::iconv(tmpl, to = encoding)
       writeLines(tmpl, con = con)
       base::close(con)
-      texi2dvi(out_tex[j], pdf = TRUE, clean = TRUE, quiet = quiet)
+      if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex")) {
+        tinytex::latexmk(out_tex[j])
+      } else {
+        texi2dvi(out_tex[j], pdf = TRUE, clean = TRUE, quiet = quiet)
+      }
     }
 
     ## check output PDF files and copy to output directory
