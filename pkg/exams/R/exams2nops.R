@@ -403,13 +403,12 @@ if(samepage) {
 \\makeatother
 
 \\begin{document} 
-",
-page1,
-empty,
-"
+
 \\markboth{\\textsf{{\\mytitle}: {\\myID}}}{\\textsf{{\\mytitle}: {\\myID}}}
 \\pagestyle{myheadings}
 ",
+page1,
+empty,
 if(replacement) {
   c("\n\\newpage\n", page2, empty)
 },
@@ -448,6 +447,8 @@ if(!is.null(pages)) paste("\\newpage\n\\includepdf[pages=1-]{", pages, "}", sep 
 "",
 blank[[2L]],
 "
+\\newpage
+
 \\end{document}
 ")
 
