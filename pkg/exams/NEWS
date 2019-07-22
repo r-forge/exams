@@ -5,6 +5,23 @@ Changes in Version 2.3-5
     convenience wrapper to exams2qti12(), tweaking a few defaults and
     employing a somewhat modified XML template.
 
+  o Aadded tinytex::latexmk() as an alternative to tools::texi2dvi() when
+    converting to PDF output (exams2nops, exams2pdf, ...) as suggested
+    by Yihui Xie. The default is to use tinytex if(requireNamespace("tinytex")).
+    However, by setting options(exams_tex = "tools") instead of
+    exams_tex = "tinytex" the old behavior can be enforced even if tinytex
+    is installed
+
+  o Improved NOPS language support: Added Japanese (ja, Kohei Watanabe),
+    Slovenian (sl, Matjaz Jeran), Vietnamese (vi, Tran Thi Hoang Ha).
+    Some languages require that markboth/pagestyle are set after
+    begin{document} and that a newpage is included directly before
+    end{document}, both of which were adapted correspondingly.
+    
+  o Improvements in nops_eval(): Show exam ID in HTML report and round
+    points to four digits. The language= file paths do not have to be
+    absolute anymore.
+
 
 Changes in Version 2.3-4
 

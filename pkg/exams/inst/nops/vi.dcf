@@ -4,7 +4,7 @@ FamilyName: Họ
 GivenName: Tên
 Signature: Chữ ký
 RegistrationNumber: Số đăng ký
-Checked: đã kiểm tra
+Checked: Đã kiểm tra
 NoChanges: Trong phần này, các thông số không được thay đổi, sữa chữa hoặc điều chỉnh!
 DocumentType: Kiểu
 DocumentID: ID bài kiểm tra
@@ -25,7 +25,7 @@ Point: điểm
 Points: điểm
 ExamResults: Kết quả thi
 Evaluation: Đánh giá
-Mark: đánh dấu
+Mark: Xếp loại
 Question: Câu hỏi
 GivenAnswer: Câu trả lời
 CorrectAnswer: Đáp án đúng
