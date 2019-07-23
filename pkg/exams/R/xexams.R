@@ -1,7 +1,7 @@
 xexams <- function(file, n = 1L, nsamp = NULL,
   driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
   dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  points = NULL, ...)
+  points = NULL, seed = NULL, ...)
 {
   if(verbose) cat("Exams generation initialized.\n\n")
 
@@ -62,7 +62,35 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       })
     )
   }
-  
+
+  ## handle matrix specification of 'file' and transform to list specification:
+  ##   - file = list with one vector of all exercises
+  ##   - n and nsamp = number of rows and columns, repectively
+  ##   - file_id = simply remember fixed exercise selection instead of random sampling
+  ##   - expand random seed matrix suitably
+  if(is.matrix(file)) {
+    if(!missing(n) && n != nrow(file)) warning("'n' must not differ from number of rows of 'file'")
+    if(!missing(nsamp) && nsamp != ncol(file)) warning("'nsamp' must not differ from number of rows of 'file'")
+    n <- nrow(file)
+    nsamp <- ncol(file)
+    file_id <- file
+    file <- list(unique(as.vector(t(file))))
+    file_id <- structure(match(file_id, file[[1L]]), .Dim = dim(file_id))
+
+    if(!is.null(seed)) {
+      if(is.matrix(seed) && all(dim(seed) == c(n, nsamp))) {
+        seed_i <- as.integer(seed)
+	seed <- matrix(NA_integer_, nrow = n, ncol = length(file[[1L]]))
+	seed[cbind(rep(1L:n, nsamp), c(file_id))] <- seed_i
+      } else {
+        warning(sprintf("'seed' is not a %s x %s matrix and hence ignored", n, nsamp))
+        seed <- NULL
+      }
+    }
+  } else {
+    file_id <- NULL
+  }
+
   ## number of available exercises in each element of 'file'
   ## and number of selected samples per element
   nfile <- length(file)
@@ -81,7 +109,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   ##   - add paths (generate "foo", "foo.Rnw", "foo.tex", and "path/to/foo.Rnw")
   ##   - check existence (use local files if they exist, otherwise take from package)
   ##   - setup sampling (draw random configuration)
-  file_id <- rep(seq_along(file), navail)
+  if(is.null(file_id)) file_id <- rep.int(seq_along(file), navail)
   file_raw <- unlist(file)
   file_Rnw <- ifelse(
     tolower(substr(file_raw, nchar(file_raw) - 3L, nchar(file_raw))) %in% c(".rnw", ".rmd"),
@@ -118,13 +146,16 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   on.exit(unlink(dir_temp), add = TRUE)
   
   ## convenience function for sampling ids
-  sample_id <- function() unlist(lapply(unique(file_id), function(i) {
-    wi <- file_id == i
-    if(sum(wi) > 1L)
-      sample(which(wi), nsamp[i], replace = navail[i] < nsamp[i])
-    else
-      rep(which(wi), length.out = nsamp[i])
-  }))
+  sample_id <- function(row = NULL) {
+    if(!is.null(row) && is.matrix(file_id)) return(file_id[row, ])
+    unlist(lapply(unique(file_id), function(i) {
+      wi <- file_id == i
+      if(sum(wi) > 1L)
+        sample(which(wi), nsamp[i], replace = navail[i] < nsamp[i])
+      else
+        rep(which(wi), length.out = nsamp[i])
+    }))
+  }
  
   ## set up list of exams (length n) with list of exercises (length m = sum(nsamp))
   m <- sum(nsamp)
@@ -139,7 +170,22 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       warning(sprintf("'points' was ignored because it is not of length 1 or %s", m))
     }
   }
-  
+
+  ## assure seed (if any) is an n x mm matrix
+  mm <- length(file_raw)
+  if(!is.null(seed)) {
+    if(length(seed) != n * mm) {
+      stop(sprintf("seed should be a %s x %s matrix", n, mm))
+    } else {
+      if(!is.null(dim(seed)) && any(dim(seed) != c(n, mm))) {
+        warning(sprintf("seed has the wrong dimension, should be a %s x %s matrix", n, mm))
+      }
+      dim(seed) <- c(n, mm)
+    }
+    ## initialize random seed if necessary
+    if(!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) runif(1L)
+  }
+
   ## cycle through exams: call Sweave, read LaTeX, store supplementary files
   if(verbose) cat("\nGeneration of individual exams.")
   for(i in 1L:n) {
@@ -151,9 +197,12 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     if(!dir.create(dir_supp_i)) stop("could not create directory for supplementary files")
   
     ## select exercise files
-    id <- sample_id()
+    id <- sample_id(i)
     stopifnot(length(id) == m)
     names(exm[[i]]) <- paste("exercise", formatC(1L:m, width = floor(log10(m)) + 1L, flag = "0"), sep = "")
+    
+    ## select corresponding seeds (if any)
+    seed_i <- if(is.null(seed)) NULL else seed[i, id]
     
     ## cycle through exercises within exam
     for(j in 1L:m) {
@@ -166,9 +215,16 @@ xexams <- function(file, n = 1L, nsamp = NULL,
       dir_supp_ij <- file.path(dir_supp_i, names(exm[[i]])[j])
       if(!dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
 
-      ## driver: Sweave
+      ## driver: sweave (with fixing and restoring seeds, if any)
       if(verbose) cat("s")
+      if(!is.null(seed_i)) {
+        .rseed <- get(".Random.seed", envir = .GlobalEnv)
+	set.seed(seed_i[j])
+      }
       driver$sweave(file_Rnw[idj])
+      if(!is.null(seed_i)) {
+        assign(".Random.seed", .rseed, envir = .GlobalEnv)
+      }
 
       ## driver: read LaTeX file
       if(verbose) cat("r")
@@ -185,6 +241,9 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## add points globally (if specified)
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[j]
+
+      ## add seed (if specified)
+      if(!is.null(seed_i)) exm[[i]][[j]]$metainfo$seed <- seed_i[j]
 
       ## driver: transform exercise (e.g., LaTeX -> HTML)
       if(verbose) cat("t")

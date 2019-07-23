@@ -2,7 +2,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = NULL, inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
-  verbose = FALSE, points = NULL, ...)
+  verbose = FALSE, points = NULL, seed = NULL, ...)
 {
   ## for Rnw exercises use "plain" template, for Rmd "plain8"
   if(is.null(template)) template <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "plain8" else "plain"
@@ -37,7 +37,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
     driver = list(sweave = list(quiet = quiet, encoding = encoding, ...),
                   read = NULL, transform = transform, write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
-    points = points)
+    points = points, seed = seed)
 
   ## display single .pdf on the fly
   if(display) {
