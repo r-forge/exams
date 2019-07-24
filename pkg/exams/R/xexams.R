@@ -69,8 +69,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   ##   - file_id = simply remember fixed exercise selection instead of random sampling
   ##   - expand random seed matrix suitably
   if(is.matrix(file)) {
-    if(!missing(n) && n != nrow(file)) warning("'n' must not differ from number of rows of 'file'")
-    if(!missing(nsamp) && nsamp != ncol(file)) warning("'nsamp' must not differ from number of rows of 'file'")
+    if(!missing(n) && !is.null(n) && n != nrow(file)) warning("'n' must not differ from number of rows of 'file'")
+    if(!missing(nsamp) && !is.null(nsamp) && nsamp != ncol(file)) warning("'nsamp' must not differ from number of rows of 'file'")
     n <- nrow(file)
     nsamp <- ncol(file)
     file_id <- file
@@ -173,6 +173,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
   ## assure seed (if any) is an n x mm matrix
   mm <- length(file_raw)
+  if(identical(seed, FALSE)) seed <- NULL
+  if(identical(seed, TRUE)) seed <- matrix(sample(0L:(n * mm * 1000L), n * mm), nrow = n, ncol = mm)
   if(!is.null(seed)) {
     if(length(seed) != n * mm) {
       stop(sprintf("seed should be a %s x %s matrix", n, mm))

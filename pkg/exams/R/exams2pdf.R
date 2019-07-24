@@ -4,6 +4,14 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
   verbose = FALSE, points = NULL, seed = NULL, ...)
 {
+  ## handle matrix specification of file
+  if(is.matrix(file)) {
+    if(!missing(n) && !is.null(n) && n != nrow(file)) warning("'n' must not differ from number of rows of 'file'")
+    if(!missing(nsamp) && !is.null(nsamp) && nsamp != ncol(file)) warning("'nsamp' must not differ from number of rows of 'file'")
+    n <- nrow(file)
+    nsamp <- ncol(file)
+  }
+
   ## for Rnw exercises use "plain" template, for Rmd "plain8"
   if(is.null(template)) template <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "plain8" else "plain"
 
