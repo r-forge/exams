@@ -33,6 +33,10 @@ Changes in Version 2.3-5
     points to four digits. The language= file paths do not have to be
     absolute anymore.
 
+  o In R/Markdown exercises the question/solution answerlist can now use
+    not only "*" but also  "-" as the symbol for bullet points (suggested
+    by Ben Kasel).
+
 
 Changes in Version 2.3-4
 

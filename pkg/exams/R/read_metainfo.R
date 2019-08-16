@@ -104,7 +104,10 @@ extract_items <- function(x, markup = c("latex", "markdown"))
   markup <- match.arg(markup)
 
   ## map markdown to tex
-  if(markup == "markdown") x <- gsub("^\\* ", "\\\\item ", x)
+  if(markup == "markdown") {
+    x <- gsub("^\\* ", "\\\\item ", x)
+    x <- gsub("^- ", "\\\\item ", x)
+  }
     
   ## make sure we get items on multiple lines right
   x <- paste(x, collapse = " ")
