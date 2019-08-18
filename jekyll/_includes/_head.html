@@ -41,9 +41,8 @@
 	<meta property="og:locale" content="{% if site.og_locale == nil %}en_EN{% else %}{{ site.og_locale }}{% endif %}" />
 	<meta property="og:type" content="website" />
 	{% if site.title %}<meta property="og:site_name" content="{{ site.title }}" />{% endif %}
-	{% if page.image.title %}<meta property="og:image" content="{{ site.urlimg }}{{ page.image.title }}" />{% endif %}
-	{% if site.socialmedia.facebook %}<meta property="article:author" content="https://www.facebook.com/{{ site.socialmedia.facebook }}" />{% endif %}
 	<meta property="og:image" content="{% if page.image.thumb %}{{ site.urlimg }}{{ page.image.thumb }}{% else %}{{ site.og_image }}{% endif %}" />
+	{% if site.socialmedia.facebook %}<meta property="article:author" content="https://www.facebook.com/{{ site.socialmedia.facebook }}" />{% endif %}
 
 	
 	<!-- Twitter -->
