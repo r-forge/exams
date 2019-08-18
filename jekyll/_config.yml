@@ -163,7 +163,7 @@ defaults:
 #    / __/ / /_/ / /__/  __/ /_/ / /_/ / /_/ / ,<
 #   /_/    \__,_/\___/\___/_.___/\____/\____/_/|_|      Facebook-Optimization › http://j.mp/fb_optimize
 
-# og_image:                         ""
+og_image:                         "http://www.R-exams.org/assets/img/logo_text.png"
 # og_locale:                        "en_EN"
 # og_type:                          "website"
 # og_title:                         ""
@@ -180,6 +180,9 @@ defaults:
 #
 #  Open _data/socialmedia.yml to adjust the left and right topbar navigation
 #
+
+socialmedia:
+    twitter: AchimZeileis
 
 
 #        ____  _
