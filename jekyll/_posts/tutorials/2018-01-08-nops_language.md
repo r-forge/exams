@@ -149,6 +149,7 @@ File                                                                    | Langua
 [hu.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hu.dcf)   | Hungarian    | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth                                                         |
 [it.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/it.dcf)   | Italian      | [Domenico Zambella](https://domenicozambella.altervista.org/)                                                        |
 [ja.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ja.dcf)   | Japanese     | [Kohei Watanabe](http://koheiw.net/)                                                                                 |
+[ko.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ko.dcf)   | Korean       | 정세원                                                                                                                                                                                                                                |
 [nl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/nl.dcf)   | Dutch        | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)                                                |
 [pt.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt.dcf) <br/> ([pt-BR.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt-BR.dcf), [pt-PT.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt-PT.dcf)) | Portugese | [Mauricio Calvão](http://www.if.ufrj.br/~orca/) & Fabian Petutschnig & <br/> [Thomas Dellinger](http://www3.uma.pt/thd/) |
 [ro.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ro.dcf)   | Romanian     | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                                                                  |
@@ -167,7 +168,7 @@ above and send the file or a link to
 _<&#x69;&#x6e;&#x66;&#x6f;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;>_.
 Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
 For Western languages (e.g., `sv`, `no` are still missing) it is probably the most robust solution to
-code special characters in LaTeX. For languages requiring other alphabets (e.g., `ko` would be nice)
+code special characters in LaTeX. For languages requiring other alphabets (e.g., `ko`)
 it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
 [support forum](http://R-Forge.R-project.org/forum/?group_id=1337)
 or on Twitter ([@AchimZeileis](https://twitter.com/AchimZeileis)) if you want to know more or need further details.
