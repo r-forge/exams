@@ -461,6 +461,7 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "nops_eval.zip",
   if(language == "") language <- system.file(file.path("nops", "en.dcf"), package = "exams")
   lang <- nops_language(language, converter = converter)
   substr(lang$Points, 1L, 1L) <- toupper(substr(lang$Points, 1L, 1L))
+  if(!is.null(lang$PointSum)) lang$Points <- lang$PointSum ## currently only for ko
 
   ## HTML template
   name <- html

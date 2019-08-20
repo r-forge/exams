@@ -3,7 +3,7 @@ Changes in Version 2.3-5
   o Started enabling setting random 'seed's for each individual exercise
     in an exam, to enable custom exercise selection (e.g., when only
     putting together a single exam). Currently, only supported in 
-    xexams(), exams2pdf(), and exams2html().
+    xexams(), exams2pdf(), exams2html(), and exams2blackboard().
     
   o In addition to the vector or list specification of the exercise 'file'
     in the exams2xyz() interfaces, 'file' can now also be a matrix. This
@@ -21,20 +21,21 @@ Changes in Version 2.3-5
     by Yihui Xie. The default is to use tinytex if(requireNamespace("tinytex")).
     However, by setting options(exams_tex = "tools") instead of
     exams_tex = "tinytex" the old behavior can be enforced even if tinytex
-    is installed
+    is installed.
 
-  o Improved NOPS language support: Added Japanese (ja, Kohei Watanabe),
-    Slovenian (sl, Matjaz Jeran), Vietnamese (vi, Tran Thi Hoang Ha).
-    Some languages require that markboth/pagestyle are set after
-    begin{document} and that a newpage is included directly before
-    end{document}, both of which were adapted correspondingly.
+  o Improved NOPS language support: Added Korean (ko, Saewon Jeong),
+    Japanese (ja, Kohei Watanabe), Slovenian (sl, Matjaz Jeran),
+    Vietnamese (vi, Tran Thi Hoang Ha). Some languages require that
+    markboth/pagestyle are set after begin{document} and that a newpage is
+    included directly before end{document}, both of which were adapted
+    correspondingly.
     
   o Improvements in nops_eval(): Show exam ID in HTML report and round
     points to four digits. The language= file paths do not have to be
     absolute anymore.
 
   o In R/Markdown exercises the question/solution answerlist can now use
-    not only "*" but also  "-" as the symbol for bullet points (suggested
+    not only "*" but also "-" as the symbol for bullet points (suggested
     by Ben Kasel).
 
 
