@@ -65,7 +65,8 @@
     of string exercise sheets (if any) containing Daten2.txt and PNG files as produced
     by \code{\link[exams]{nops_scan}}.}
   \item{string_points}{numeric. Vector of length 5 with points assigned
-    to string results.}
+    to string results, multiplied with the \code{points} for the corresponding
+    exercises.}
 }
 
 \details{
