@@ -166,7 +166,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       bn <- basename(supps)
       dups <- which(duplicated(bn))
       if(length(dups)) {
-        bnd <- paste(file_path_sans_ext(bn[dups]), "-", 1L:length(dups) + 1L, ".", file_ext(bn[dups]), sep = "")
+        bnd <- paste0(file_path_sans_ext(bn[dups]), "-", 1L:length(dups) + 1L, ".", file_ext(bn[dups]))
         dn <- dirname(supps[dups])
         nfn <- file.path(dn, bnd)
         file.rename(supps[dups], nfn)
@@ -192,8 +192,11 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
           return(x)
         }
 
+        exi <- lapply(exm, "[[", "supplements")
+	exi <- rep(names(exi), sapply(exi, length))
+
         for(j in seq_along(dups))
-          exm[[dups[j]]] <- dups_graphics_gsub(bn[dups[j]], bnd[j], exm[[dups[j]]])
+          exm[[exi[dups[j]]]] <- dups_graphics_gsub(bn[dups[j]], bnd[j], exm[[exi[dups[j]]]])
       }
 
       file.copy(supps, dir_temp, overwrite = TRUE)

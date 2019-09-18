@@ -38,6 +38,9 @@ Changes in Version 2.3-5
     not only "*" but also "-" as the symbol for bullet points (suggested
     by Ben Kasel).
 
+  o Fixed a bug in exams2pdf() where the case of multiple duplicated supplement
+    names was not handled correctly (reported by TwelveFifths on StackOverflow).
+
 
 Changes in Version 2.3-4
 
