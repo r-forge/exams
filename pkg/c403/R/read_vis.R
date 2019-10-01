@@ -227,15 +227,21 @@ vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
 {
   ## all participants
   x <- lapply(file, read_vis, subset = subset)
-  k <- ncol(x[[1L]])
   if(any(sapply(x, function(y) attr(y, "info")[1L]) != "LV")) stop("'only supported for LV registrations")
 
+  ## only columns that are available for all  
+  nam <- names(x[[1L]])
+  if(length(x) > 1L) {
+    for(i in 2L:length(x)) nam <- intersect(nam, names(x[[i]]))
+  }
+  k <- length(nam)
+  
   ## unique IDs
   id <- unique(unlist(lapply(x, "[[", "Matrikelnr")))
   n <- length(id)
 
   ## set up return value
-  y <- matrix(NA_character_, nrow = n, ncol = k, dimnames = list(id, colnames(x[[1]])))
+  y <- matrix(NA_character_, nrow = n, ncol = k, dimnames = list(id, nam))
 
   ## process LV info
   update_vector <- function(origin, update) ifelse(
@@ -247,7 +253,7 @@ vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
       y <- cbind(y, "")
       colnames(y)[ncol(y)] <- ii[2L]
     }
-    y[rownames(x[[i]]), 1L:k] <- as.matrix(x[[i]][, 1L:k])
+    y[rownames(x[[i]]), nam] <- as.matrix(x[[i]][, nam])
     y[rownames(x[[i]]), ii[2L]] <- update_vector(y[rownames(x[[i]]), ii[2L]], ii[3L])
   }
   
@@ -255,7 +261,7 @@ vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
   y <- data.frame(y, stringsAsFactors = FALSE)
   if(ncol(y) > k) {
     for(i in (k + 1L):ncol(y)) {  
-      y[[i]] <- sapply(strsplit(y[[i]], "|", fixed = TRUE), tail, 1L) ## FIXME: better idea?
+      y[[i]] <- sapply(strsplit(y[[i]], "|", fixed = TRUE), function(z) if(length(z) < 1L) "" else tail(z, 1L)) ## FIXME: better idea?
       y[[i]][y[[i]] == ""] <- "-"
       y[[i]] <- factor(y[[i]])
     }
