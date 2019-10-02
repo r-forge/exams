@@ -191,7 +191,7 @@ nops_eval_check <- function(scans = "Daten.txt", register = dir(pattern = "\\.cs
       for(i in id1) {
         if(requireNamespace("png")) {
           png_i <- trim_nops_scan(d[i, 1L])
-	  png_i <- subimage(png_i, center = c(0.25, 0.85), prop = 0.35)
+	  png_i <- subimage(png_i, center = c(0.25, 0.87 - 0.04 * as.numeric(substr(d[i, 4L], 1L, 1L))), prop = 0.35)
           imageplot(png_i, main = d[i, 1L])
 	}
 	d[i, 6L] <- readline(prompt = sprintf("Correct registration number (for %s, %s): ", d[i, 6L], d[i, 1L]))

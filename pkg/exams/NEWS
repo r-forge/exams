@@ -32,7 +32,8 @@ Changes in Version 2.3-5
     
   o Improvements in nops_eval(): Show exam ID in HTML report and round
     points to four digits. The language= file paths do not have to be
-    absolute anymore.
+    absolute anymore. For "interactive" checking/fixing of registration IDs
+    the width of scanned subimage is now adapted according to the "reglength".
 
   o In R/Markdown exercises the question/solution answerlist can now use
     not only "*" but also "-" as the symbol for bullet points (suggested
