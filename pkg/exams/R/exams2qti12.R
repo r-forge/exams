@@ -548,13 +548,6 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## start item presentation
     ## and insert question
-    multiple_dropdowns <- FALSE
-    if(canvas & (length(type) < 2L)) {
-      if(grepl("[##ANSWER##]", x$question, fixed = TRUE)) {
-        multiple_dropdowns <- TRUE
-      }
-    }
-
     xml <- c(
       '<presentation>',
       '<flow>',
@@ -570,6 +563,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         )
       } else NULL
     )
+
+    ## Canvas.
+    multiple_dropdowns <- FALSE
 
     ## insert responses
     ids <- el <- pv <- list()
@@ -622,8 +618,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           '</response_lid>'
         )
 
-        if(multiple_dropdowns) {
-          xml <- gsub("[##ANSWER##]", paste0("[", ids[[i]]$response, "]"), xml, fixed = TRUE)
+        if(canvas & (type[i] == "schoice")) {
+          if(any(grepl(asub <- paste0("##ANSWER", i, "##"), xml))) {
+            xml <- gsub(asub, paste0("[", ids[[i]]$response, "]"), xml, fixed = TRUE)
+            multiple_dropdowns <- TRUE
+          }
         }
       }
       if(type[i] == "string" || type[i] == "num") {
@@ -677,7 +676,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       }
     }
 
-    if((length(type) < 2L) & canvas) {
+    if(canvas) {
       canvas_type <- if(multiple_dropdowns) {
         "multiple_dropdowns_question"
       } else {
@@ -816,7 +815,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     ## partial points
-    if(eval$partial | x$metainfo$type == "cloze") {
+    if((eval$partial | x$metainfo$type == "cloze") & !multiple_dropdowns) {
       if(length(correct_answers)) {
         for(i in seq_along(correct_answers)) {
           for(j in correct_answers[[i]]) {
@@ -903,14 +902,16 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '</respcondition>'
       )
     } else {
-      xml <- c(xml,
-        '<respcondition>',
-        '<conditionvar>',
-        correct_answers[[1L]],
-        '</conditionvar>',
-        paste0('<setvar varname="SCORE" action="Add">', points, '</setvar>'),
-        '</respcondition>'
-      )
+      for(i in seq_along(correct_answers)) {
+        xml <- c(xml,
+          '<respcondition>',
+          '<conditionvar>',
+          correct_answers[[i]],
+          '</conditionvar>',
+          paste0('<setvar varname="SCORE" action="Add">', if(eval$partial) attr(correct_answers[[i]], "points")["pos"] else points, '</setvar>'),
+          '</respcondition>'
+        )
+      }
     }
 
     ## force display of correct answers of num exercises
@@ -937,7 +938,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       for(j in seq_along(correct_answers)) {
         if(attr(correct_answers[[j]], "type") != "num") {
           if(canvas & grepl("choice", attr(correct_answers[[j]], "type"))) {
-            if((length(correct_answers) > 1L)) {
+            if((length(correct_answers) > 1L) & !multiple_dropdowns) {
               xml <- c(xml,
                 '<respcondition continue="Yes" title="Mastery">',
                 '<conditionvar>',
@@ -964,7 +965,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     wrong_answers <- c(unlist(wrong_answers), unlist(wrong_num))
 
     if(!eval$partial & x$metainfo$type == "cloze") {
-      if(length(correct_answers)) {
+      if(length(correct_answers) & !multiple_dropdowns) {
         for(i in seq_along(correct_answers)) {
             xml <- c(xml,
               '<respcondition title="Fail" continue="Yes">',
@@ -982,7 +983,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         }
       }
 
-      if(length(wrong_answers)) {
+      if(length(wrong_answers) & !multiple_dropdowns) {
         for(i in seq_along(wrong_answers)) {
           for(j in wrong_answers[[i]]) {
             xml <- c(xml,
