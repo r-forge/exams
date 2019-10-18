@@ -718,10 +718,26 @@ sprintf("\\multiput(110,221)(8,0){%s}{\\framebox(4,4){}}", nchoice[3L])
 nops_language <- function(file, converter = c("none", "tth", "pandoc"))
 {
   ## read file
+  if(!file.exists(file)) file <- system.file(file.path("nops", paste0(file, ".dcf")), package = "exams")
+  if(file == "") file <- system.file(file.path("nops", "en.dcf"), package = "exams")
   lang <- drop(read.dcf(file))
   
+  ## handle Babel/Header separately
+  if("Babel" %in% names(lang)) {
+    babel <- as.vector(lang["Babel"])
+    lang <- lang[-which(names(lang) == "Babel")]
+  } else {
+    babel <- NULL
+  }
+  if("Header" %in% names(lang)) {
+    header <- as.vector(lang["Header"])
+    lang <- lang[-which(names(lang) == "Header")]
+  } else {
+    header <- NULL
+  }
+  
   ## necessary fields for a correct lanuage specification
-  langfields <- c("PersonalData", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
+  langfields <- c("PersonalData", "Name", "FamilyName", "GivenName", "Signature", "RegistrationNumber", 
     "Checked", "NoChanges", "DocumentType", "DocumentID", "Scrambling", 
     "Replacement", "MarkCarefully", "NotMarked", "Or",
     "MarkExampleA", "MarkExampleB", "MarkExampleC", "MarkExampleD", "MarkExampleE",
@@ -745,5 +761,10 @@ nops_language <- function(file, converter = c("none", "tth", "pandoc"))
     }
     lang <- structure(sapply(lang, mypandoc), .Names = names(lang))
   }
-  return(as.list(lang))
+  
+  ## convert to list and return
+  lang <- as.list(lang)
+  if(!is.null(babel)) lang$Babel <- babel
+  if(!is.null(header)) lang$Header <- header
+  return(lang)
 }

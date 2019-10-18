@@ -35,6 +35,15 @@ Changes in Version 2.3-5
     absolute anymore. For "interactive" checking/fixing of registration IDs
     the width of scanned subimage is now adapted according to the "reglength".
 
+  o The actual writing of nops_eval results has been modularized. Different
+    nops_eval_write_<flavor> functions can be plugged in. At the moment there
+    is only the default writer (optimized for OpenOLAT) but further flavors
+    are planned (including a workflow for Moodle).
+
+  o Function nops_language() is now exported as part of the users interface
+    (only internal previously). Based on a language specification in a DCF
+    file this sets up a list with language texts (possibly converted to HTML).
+
   o In R/Markdown exercises the question/solution answerlist can now use
     not only "*" but also "-" as the symbol for bullet points (suggested
     by Ben Kasel).
