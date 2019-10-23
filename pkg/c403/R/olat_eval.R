@@ -147,24 +147,33 @@ read_olat_results <- function(file, xexam = NULL) {
     iid <- rep(iid, c(diff(iid), 1 + ncol(x) - max(iid)))
   } else {
 
-    ## Exit here - for not: TODO: adjust code such that it will also
-    ## work with old tests (csv file, but named xls; QTI 1.2, old OLAT
-    ## export format).
-    stop("If you end up here, as you are using QTI 1.2, contact the package devs (not yet modified/adjusted)")
+    ## The old OLAT 1.2 exported a CSV file with the file extension xls. This
+    ## is the way results have been imported before olat 2.1.
 
     ## read data
     x <- readLines(file, warn = FALSE)
     x <- read.table(file, header = TRUE, sep = "\t",
                     colClasses = "character", skip = 1, fill = TRUE,
-                    nrows = min(which(x == "")) - 3, quote = "\"")
+                    nrows = min(which(x == "")) - 3, quote = "\"", na.string = "\"\"")
 
-    ## number of columns of person info
-    nc <- min(grep("X1_", names(x), fixed = TRUE)) - 1
+                                                                                                                                      
+    # Step 1: find all columns starting with X[0-9]+ as they
+    # contain the information about the individual questions.
+    col_idx <- grep("^X[0-9]+_", names(x))
+    # Step 2: rest is meta information
+    meta_idx <- (1:ncol(x))[-col_idx]
+    # Step 3: extract question ID and rename
+    # the columns (e.g., "X111_Pkt" to "Pkt.111")
+    iid <- question_id <- as.integer(regmatches(names(x)[col_idx], regexpr("(?<=(^X))[0-9]+", names(x)[col_idx], perl = TRUE)))
+    stopifnot(all(!is.na(question_id)))
+    # Create new variable names
+    new_name <- regmatches(names(x)[col_idx], regexpr("(?<=(\\_)).*$", names(x)[col_idx], perl = TRUE))
+    new_name <- paste(gsub("\\.+s\\.$", "", new_name), question_id, sep = ".")
+    names(x)[col_idx] <- new_name
 
-    ## columns pertaining to items
-    iid <- na.omit(as.numeric(unlist(sapply(
-      strsplit(substr(names(y), 2, nchar(names(y))),
-      "_", fixed = TRUE), head, 1))))
+    ## modify names, translate everything.
+    x <- olat_eval_adjust_lang(x)
+    stop("old olat csv/xls mode: fails later when trying to crate the ipmat as \"Start\" column missing.")
   }
 
   ## -------------------------------------------------
@@ -377,15 +386,17 @@ olat_eval_guess_lang <- function(x) {
     stopifnot(inherits(x, "character"))
 
     # Check if language is English
-    check_lang <- function(find, x)
-        return(all(sapply(find, function(find, x) any(grepl(find, x)), x = x)))
+    check_lang <- function(find, x, fn)
+        return(fn(sapply(find, function(find, x) any(grepl(find, x)), x = x)))
 
-    if (check_lang(c("^Score$"), x)) {
+    if (check_lang(c("^Score$"), x, all)) {
         lang <- "en"
-    } else if (check_lang(c("^Punkte$"), x)) {
+    } else if (check_lang(c("^Punkte$", "^Laufnummer$"), x, any)) {
         lang <- "de"
     } else {
         print(x)
+        check_lang(c("^Punkte$", "^Laufnummer$"), x)
+        browser()
         stop("Not able to guess the language of the file. Stop")
     }
     return(lang)
@@ -432,8 +443,7 @@ olat_eval_adjust_lang <- function(x) {
 
     # Load and subset the language search and replace
     # file, subset current language, replace names
-    olat_eval_lang <- readRDS(file.path(system.file(package = "c403"),
-                                        "data", "olat_eval_lang.rda"))
+    load(file.path(system.file(package = "c403"), "data", "olat_eval_lang.rda"))
     olat_eval_lang <- olat_eval_lang[olat_eval_lang$lang == lang, ]
 
     # Search and replace
