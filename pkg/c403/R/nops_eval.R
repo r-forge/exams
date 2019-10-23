@@ -105,6 +105,7 @@ uibkmark <- function(x, factor = TRUE) {
 #' 
 #' @seealso \code{\link[c403]{exams2nops}}, \code{\link[exams]{nops_scan}}, \code{\link[c403]{read_vis}}
 #' 
+#' @importFrom exams round2 exams_eval
 #' @keywords utilities
 #' @export
 nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"),

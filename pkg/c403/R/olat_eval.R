@@ -106,6 +106,7 @@ olat_eval <- function(file, plot = TRUE, export = FALSE) {
 #' @param xexam ...
 #' @return ...
 #'
+#' @importFrom tools file_ext
 read_olat_results <- function(file, xexam = NULL) {
 
   ## checking
@@ -117,7 +118,7 @@ read_olat_results <- function(file, xexam = NULL) {
   }
 
   ## QTI 2.1 xlsx or QTI 1.2 xls?
-  xlsx <- tools::file_ext(file) == "xlsx"
+  xlsx <- file_ext(file) == "xlsx"
 
   ## -------------------------------------------------
   ## Import results (xml file).
@@ -471,6 +472,7 @@ olat_eval_adjust_lang <- function(x) {
 #'        is \code{hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90)}
 #' @param encoding character, default \code{"latin1"}
 #'
+#' @importFrom exams string2mchoice
 #' @return Return of the \code{zip()} call.
 olat_eval_export <- function(results, xexam, file = "olat_eval.zip", html = "Testergebnisse.html",
   col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90), encoding = "latin1")

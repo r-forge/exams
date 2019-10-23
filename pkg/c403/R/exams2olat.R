@@ -33,7 +33,7 @@
 #' @param sdescription character Vector of descriptions for each section.
 #' @param eval named list, specifies the settings for the evaluation policy,
 #'        see function \code{\link[exams]{exams_eval}}
-#' @param ... forwarded to \code{\link[exams]{exams2qui12}
+#' @param ... forwarded to \code{\link[exams]{exams2qti12}}
 #'
 #' @export
 exams2olat <- function(file, n = 1L, dir = ".", name = "olattest", maxattempts = 1L,

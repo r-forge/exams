@@ -105,13 +105,13 @@
 #' @keywords utilities
 #' @export
 exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
-                       language = "de", title = "Klausur", course = "",
-                       institution = "Universit\\\"at Innsbruck",
-                       logo = "uibk-logo-bw.png", date = Sys.Date(),
-                       replacement = TRUE, intro = NULL, blank = NULL,
-                       duplex = TRUE, pages = NULL, usepackage = NULL,
-                       encoding = "", startid = 1L, points = NULL,
-                       showpoints = FALSE, reglength = 8L, ...) {
+       language = "de", title = "Klausur", course = "",
+       institution = "Universit\\\"at Innsbruck",
+       logo = "uibk-logo-bw.png", date = Sys.Date(),
+       replacement = TRUE, intro = NULL, blank = NULL,
+       duplex = TRUE, pages = NULL, usepackage = NULL,
+       encoding = "", startid = 1L, points = NULL,
+       showpoints = FALSE, reglength = 8L, ...) {
 
   if(is.null(blank) && duplex && !is.null(pages)) {
     blank <- c(1L, ceiling(length(file)/2L))

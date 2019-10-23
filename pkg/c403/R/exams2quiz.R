@@ -31,6 +31,7 @@ exams2quiz <- function(file, n = 1L, dir = ".", name = "VU", solution = FALSE,
   invisible(rval)
 }
 
+#' @importFrom tools texi2dvi
 make_exams_quizwrite <- function(name = "VU", quiet = TRUE, solution = FALSE)
 {
 

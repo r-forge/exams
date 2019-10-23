@@ -47,6 +47,8 @@ assessment (i.e., exam).}
 
 \item{eval}{named list, specifies the settings for the evaluation policy,
 see function \code{\link[exams]{exams_eval}}}
+
+\item{...}{forwarded to \code{\link[exams]{exams2qti12}}}
 }
 \description{
 Takes (a set of) exams questions (md/Rmd) files and creates

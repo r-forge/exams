@@ -1,5 +1,5 @@
 
-#' @importFrom tools file_path_sans_ext
+#' @importFrom tools file_path_sans_ext file_ext
 nops_zip2tab <- function(file = "nops_eval.zip")
 {
   ## input .zip file and output .tab file

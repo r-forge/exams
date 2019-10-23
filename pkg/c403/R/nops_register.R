@@ -2,7 +2,7 @@
 #' @param file character, by default globbing is used. Can be a file name
 #' @param startid integer, default \code{1L}
 #'
-#' @importFrom tools file_path_sans_ext
+#' @importFrom tools file_path_sans_ext file_ext
 #' @rdname nops_eval
 nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L)
 {

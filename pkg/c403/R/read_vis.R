@@ -17,6 +17,7 @@
 #' @return A \code{data.frame} with an additional attribute \code{"info"} providing
 #' details about the type of course (\code{"LV"}) or exam (\code{"GP"}).
 #'
+#' @importFrom tools file_ext
 #' @aliases vis_register
 #' @keywords utilities
 #' @export
