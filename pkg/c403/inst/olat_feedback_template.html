@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      h1 { font-size: 2.0em; color: #043160; }
+      h2 { font-size: 1.6em; }
+      h3 { font-size: 1.3em; }
+      /* Styling summary/meta information (header) */
+      .meta { margin: 0px; padding: 0px; }
+      .meta li { list-style: none; }
+      /* Summary table styling */
+      .summary-table tr.correct { background-color: #AEE2CE; }
+      .summary-table tr.incorrect { background-color: #ECD3B9; }
+      /* Styling answerlist (questions, flags) */
+      .answerlist .check-TRUE  { color: green; }
+      .answerlist .check-FALSE { color: red; }
+      .answerlist { margin: 0; padding: 0; }
+      .answerlist li { list-style: none; }
+      .answerlist li span {
+          display: block;
+          width: 1em;
+          height: 1em;
+          border: 1px solid black;
+          float: left;
+          margin-right: .3em;
+      }
+      .answerlist li .solution.correct { background-color: #AEE2CE; }
+      .answerlist li .solution.incorrect { background-color: #ECD3B9; }
+      .answerlist li .answer.selected.correct { background-color: #AEE2CE; }
+      .answerlist li .answer.selected.incorrect { background-color: red; }
+      .answerlist li .answer.selected {
+          background-size: 100% 100%;
+          /* base 64 png */
+          background-image: url(data:image/gif;base64,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);
+      }
+
+      /* Code styling */
+      code {
+          padding: 0.2em 0.5em;
+          background-color: #e5eef8;
+          color: #1b599c;
+      }
+    </style>
+    <!-- the exercises in the exams rds file are in "OpenOLAT mathjax syntax -->
+    <!-- the following function takes care that mathjax is rendered correctly -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.js"></script>
+    <script type="text/javascript">
+    /* <![CDATA[ */
+    jQuery.noConflict();
+    
+    function o_mathjax(fct_success) {
+    	window.MathJax = {
+    		extensions: ["jsMath2jax.js"],
+    		messageStyle: \'none\',
+    		showProcessingMessages: false,
+    		showMathMenu: false,
+    		menuSettings: { },
+    		jsMath2jax: {
+    			preview: "none"
+    		},
+    		tex2jax: {
+    			ignoreClass: "math"
+    		},
+    		"HTML-CSS": {
+    		    EqnChunk: 5, EqnChunkFactor: 1, EqnChunkDelay: 100
+    		},
+    		"fast-preview": {
+    			disabled: true
+    		}
+    	}
+    	jQuery.ajax("https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", {
+    		cache: true,
+    		dataType: "script",
+    		crossDomain: true,
+    		success: function() {
+    	    	if(!(typeof fct_success === "undefined")) {
+    	    		fct_success();
+    	    	}
+    		}
+    	});
+    }
+    jQuery(function() {
+    	if ((window.unsafeWindow == null ? window : unsafeWindow).MathJax == null) {
+    		var count = jQuery(\'div.math,span.math,math,div.mathEntryInteraction\').length;
+    		if (count > 0) {
+    		    o_mathjax();
+    		}
+    	}
+    });
+    /* ]]> */
+    </script>
+  </head>
+  <body></body>
+</html>"

@@ -1,8 +1,10 @@
+
+#' @importFrom tools file_path_sans_ext
 nops_zip2tab <- function(file = "nops_eval.zip")
 {
   ## input .zip file and output .tab file
   if(tools::file_ext(file) != "zip") stop("'file' must be a .zip file")
-  out <- paste0(tools::file_path_sans_ext(file), ".tab")
+  out <- paste0(file_path_sans_ext(file), ".tab")
 
   ## create temporary directory
   tdir <- tempfile()

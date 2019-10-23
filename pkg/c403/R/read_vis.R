@@ -1,3 +1,25 @@
+
+#' Reading VIS Registrations
+#'
+#' Read registration lists (for exams or courses) from the Excel export
+#' of VIS (which actually may or may not be XLS or HTML files).
+#'
+#'
+#' @param file character with file name of an XLS file from VIS.
+#' @param ... subset logical. Should students without confirmed registration be omitted?
+#'
+#' @details VIS offers Excel exports but in case of registration lists these are
+#' typically HTML files containing an HTML table. These are read using the XML
+#' package. However, some exports are actually Excel files which are read using
+#' the xlsx package. In either case some basic cleaning is done and additional
+#' meta-information is extracted.
+#'
+#' @return A \code{data.frame} with an additional attribute \code{"info"} providing
+#' details about the type of course (\code{"LV"}) or exam (\code{"GP"}).
+#'
+#' @aliases vis_register
+#' @keywords utilities
+#' @export
 read_vis <- function(file, ...) {
   fex <- tools::file_ext(file)
   if(fex == "xlsx") return(read_vis_xlsx(file, ...))
@@ -11,6 +33,8 @@ read_vis <- function(file, ...) {
   stop("not yet implemented")
 }
 
+vis_register <- function(file, ...) read_vis(file, ...)
+
 ## transform to cleaned-up character
 to_char <- function(x, fixup = NULL) {
   x <- as.character(x)
@@ -22,6 +46,7 @@ to_char <- function(x, fixup = NULL) {
   x[x == " "] <- ""
   return(x)
 }
+
 
 ## transform to character date/time
 to_datetime <- function(x) {
@@ -40,6 +65,8 @@ to_datetime <- function(x) {
   return(x)
 }
 
+
+## ...
 read_vis_xlsx <- function(file, ...) {
   ## ensure a non-C locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -98,7 +125,10 @@ read_vis_xlsx <- function(file, ...) {
   return(x)
 }
 
+
+## ...
 read_vis_xls <- function(file, ...) {
+
   ## ensure a non-C locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
 
@@ -143,7 +173,9 @@ read_vis_xls <- function(file, ...) {
   return(x)
 }
 
+## ...
 read_vis_html <- function(file, subset = FALSE) {
+
   stopifnot(requireNamespace("XML"))
   x <- XML::xmlRoot(XML::htmlTreeParse(file))
 
@@ -223,6 +255,8 @@ read_vis_html <- function(file, subset = FALSE) {
   return(part)
 }
 
+
+## ...
 vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
 {
   ## all participants
@@ -274,3 +308,4 @@ vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
   
   return(y)
 }
+

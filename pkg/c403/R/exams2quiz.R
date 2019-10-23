@@ -54,7 +54,8 @@ header <- sprintf(
 
 footer <- "\\end{document}"
 
-  ## set up actual write function
+  # This function will implicitly be returned - as defined here
+  # it uses the variables above (scoping).
   function(exm, dir, info)
   {
     ## basic indexes

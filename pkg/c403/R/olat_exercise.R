@@ -1,3 +1,39 @@
+
+#' Extract (and Display) Exercises from OLAT Exams
+#' 
+#' Extract (and display) selected exercises from OLAT exams
+#' produced with \code{\link[c403]{exams2olat}} in order
+#' to see both question and solution.
+#' 
+#' 
+#' @param x character or list. Either an OLAT exam list as produced
+#'        by \code{\link[c403]{exams2olat}} or a character with the file
+#'        path to an \code{.rds} file containing such an exam.
+#' @param ... character. Either a single numeric index of the exam to be selected.
+#'        Or, alternatively, patterns to be searched for in the question text
+#'        of the exams in \code{x}.
+#' @param fixed logical. Should the search pattern(s) be matched as is?
+#' @param show logical. Should the exercise(s) found be shown
+#'        in the browser?
+#' @param mathjax logical. Should the JavaScript from \url{http://www.MathJax.org/}
+#'        be included for rendering mathematical formulas?
+#' 
+#' @details \code{olat_exercise} is a companion function for
+#' \code{\link[c403]{exams2olat}}.  As OLAT has no option to look at the precise
+#' question of a particular student -- and more importantly the corresponding
+#' solution -- one strategy is to search for particular words, numbers, or other
+#' strings in the database of all questions from an OLAT exam.
+#' 
+#' \code{olat_exercise} goes through all questions in the exam and selects those
+#' question(s) that match(es) the given search patterns. By default the
+#' question(s)/solution(s) are displayed in the browser and returned invisibly.
+#' 
+#' @return A \code{list} containing either a single exercise or a list of such
+#' exercises (in case the search patterns do not yield a unique question).
+#' 
+#' @seealso \code{\link[c403]{exams2olat}}
+#' @keywords utilities
+#' @export
 olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
 {
   ## obtain exam list

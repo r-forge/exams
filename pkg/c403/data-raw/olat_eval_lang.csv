@@ -1,0 +1,42 @@
+# --------------------------------------------------------
+# Used by olat_eval_adjust_lang().
+# This file contains a set of "search and replace"
+# character strings for different languages. Given the
+# langeuage of the xlsx file (e.g., "en" or "de"; guessed
+# internally by olat_eval_guess_lang()) R replaces
+# the variable names of the data frame as follows:
+# - gsub(find, replace, names(x), perl = TRUE)
+#   ... where 'find' and 'replace' are the strings defined
+#   in the CSV file below.
+# --------------------------------------------------------
+lang,find,replace
+# Modify: English to English
+en,^First.name$,firstname
+en,^Last.name$,lastname
+en,^User.name$,username
+en,^Home.page$,homepage
+en,^Institution.identifier.*,registrationnumber
+en,^Score.course.element$,element_score
+en,^Time$,time
+en,^Date$,date
+en,^Passed.course.element$,element_passed
+en,^Manual.score$,manual_score
+en,^Final.score$,final_score
+en,^Total.time.\(s\)$,time
+en,^Passed$,passed
+# Modify: German to English
+de,^Vorname$,firstname
+de,^Nachname$,lastname
+de,^Benutzername$,username
+de,^Homepage$,homepage
+de,^Matrikelnummer$,registrationnumber
+de,^Kursbaustein.Punkte$,element_score
+de,^Kursbaustein.bestanden$,element_passed
+de,^Manuell.Punkte$,manual_score
+de,^Endg.*ltige.Punkte$,final_score
+de,^Gesamtdauer(.\(s\))?$,time
+de,^Datum$,date
+de,^Bestanden$,passed
+de,^Kommentar,Comment
+de,^Pkt,Score
+de,^Dauer,Duration
