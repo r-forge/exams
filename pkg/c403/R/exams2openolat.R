@@ -1,3 +1,11 @@
+
+#' Exams to OpenOlat
+#'
+#' Interfaces \code{\link[exams]{exams2openolat}} with
+#' slightly different default values.
+#' TODO: Finish docstring
+#'
+#' @export
 exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest", maxattempts = 1,
   cutvalue = 1000, solutionswitch = FALSE, qti = "2.1",
   stitle = "Aufgabe", ititle = "Frage",

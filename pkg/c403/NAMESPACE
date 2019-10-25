@@ -2,6 +2,7 @@
 
 export(exams2nops)
 export(exams2olat)
+export(exams2openolat)
 export(nops_eval)
 export(olat_eval)
 export(olat_exercise)
