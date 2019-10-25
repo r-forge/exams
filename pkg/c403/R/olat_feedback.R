@@ -10,30 +10,40 @@
 #' @param i integer, row index (which row in 'x' to render)
 #' @param show logical, if set to \code{TRUE} the html file will
 #'        be opened in a browser
+#' @param name character, name of the test, will be used to name
+#'        the zip archive file and the html files
 #' @param htmlfile character, name of the output file
-#' @param output character, name of the zip archive file used to store the
-#'        individual feedback files
 #'
-#' @return Returns the name of the temporary file created (html)
+#' @return Returns the name of the zip file created.
 #'
 #' @author Reto Stauffer
 #' @export
-olat_feedback <- function(res, xexam, output = "olat_feedback.zip") {
+olat_feedback <- function(res, xexam, name = "olat_feedback") {
+
+    stopifnot(is.character(name) || !length(name) == 1L)
+    name <- gsub(" ", "_", name)
 
     # Render all html files
-    html <- sapply(1:nrow(res), function(i) olat_feedback_render_one(res, xexam, i, show = FALSE))
+    fn <- function(i, name) {
+        htmlfile <- sprintf("%s.html", name)
+        return(olat_feedback_render_one(res, xexam, i, htmlfile, show = FALSE))
+    }
+    html <- sapply(1:nrow(res), fn, name = name)
 
     # Change working directory
     holdwd <- getwd(); on.exit(setwd(holdwd)); setwd(tempdir())
 
     # Pack (zip) and return name of the zip file
-    invisible(zip(file.path(holdwd, output), res$username))
+    zipfile <- file.path(holdwd, sprintf("%s.zip", name))
+    zip(zipfile, res$username)
+    invisible(basename(zipfile))
+
 }
 
 #' @import xml2
 #' @export
 #' @rdname olat_feedback
-olat_feedback_render_one <- function(res, xexam, i, show = FALSE, htmlfile = "Result.html") {
+olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", show = FALSE) {
 
     # Sanity checks
     stopifnot(inherits(res, "data.frame"))

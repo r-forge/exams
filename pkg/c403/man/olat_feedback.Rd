@@ -5,28 +5,28 @@
 \alias{olat_feedback_render_one}
 \title{Generate OLAT test feedback files (answer/solution)}
 \usage{
-olat_feedback(res, xexam, output = "olat_feedback.zip")
+olat_feedback(res, xexam, name = "olat_feedback")
 
-olat_feedback_render_one(res, xexam, i, show = FALSE,
-  htmlfile = "Result.html")
+olat_feedback_render_one(res, xexam, i, htmlfile = "Result.html",
+  show = FALSE)
 }
 \arguments{
 \item{res}{data.frame, result from olat_eval}
 
 \item{xexam}{list as returned from reading the rds file}
 
-\item{output}{character, name of the zip archive file used to store the
-individual feedback files}
+\item{name}{character, name of the test, will be used to name
+the zip archive file and the html files}
 
 \item{i}{integer, row index (which row in 'x' to render)}
 
+\item{htmlfile}{character, name of the output file}
+
 \item{show}{logical, if set to \code{TRUE} the html file will
 be opened in a browser}
-
-\item{htmlfile}{character, name of the output file}
 }
 \value{
-Returns the name of the temporary file created (html)
+Returns the name of the zip file created.
 }
 \description{
 Similar to what \code{\link[c403]{olat_eval}} with the additional
