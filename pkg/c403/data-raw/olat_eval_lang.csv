@@ -30,8 +30,8 @@ de,^Nachname$,lastname
 de,^Benutzername$,username
 de,^Homepage$,homepage
 de,^Matrikelnummer$,registrationnumber
-de,^Kursbaustein.Punkte$,element_score
-de,^Kursbaustein.bestanden$,element_passed
+de,^Endgültige.Punkte$,element_score
+de,^Bestanden$,element_passed
 de,^Manuell.Punkte$,manual_score
 de,^Endg.*ltige.Punkte$,final_score
 de,^Gesamtdauer(.\(s\))?$,time

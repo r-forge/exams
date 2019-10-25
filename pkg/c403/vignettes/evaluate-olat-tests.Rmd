@@ -1,0 +1,392 @@
+---
+title: "Evaluate OLAT Tests with R-exams"
+author: "Reto Stauffer"
+date: "2019-10-25"
+output:
+  knitr:::html_vignette:
+    toc: true
+    fig_caption: no
+  pdf_document:
+    highlight: null
+    number_sections: yes
+---
+
+
+# Generate Teilnehmerliste
+
+Log in to vis, Teilnehmerverwaltung. For your group click
+"print", select "Teilnehmerliste" and change the exported
+information. Select the following:
+
+* Nr.
+* Anrede, Voname und Nachname getrennt, ...
+* ZID-Benutzerkennung
+* ... disable the rest.
+
+Export this list as Excel file.
+
+# Read Teilnehmerliste
+
+In the `c4031021` package there is a function `read_teilnehmerliste()`
+which reads the xlsx file. As I am not sure whether or not the header
+always has the same number of rows, there is an input "skip" to skip
+the head of the xls file (might have to be adjusted?).
+
+# Export Results
+
+Go to OLAT - Assessment tool (Bewertungswerkzeug), select your
+test and click the "Export results" button at the top of the page.
+This exports all results as a `zip` file.
+
+This zip file contains detailed information (results) about all
+participants. All we need to evaluate the quiz/test is the
+xlsx file from this zip file.
+
+# The c403 package
+
+The c403 package is an extension of the R exams package with some
+custom functions used at the department of statistics. Has some
+interfaces to create tests (with different defaults), functions
+to evaluate the tests, and functions to create customized feedback
+for the students which can be bulk-uploaded on OLAT.
+
+The packge can be installed by calling:
+
+* `install.packages("c403", repos="http://R-Forge.R-project.org")` from _R_.
+
+
+# Generate Quiz/Test (exams2openolat)
+
+Note: I'm using the `c403` package and the script `generate-test.R` to
+test and create the olat tests (based on the _R_ exams package).
+
+* Requires: the [c403][c403] package to be installed.
+* A folder which contains md/Rmd exams questions. The files must be named
+    `01_<name>.<ext>`, `02_<name>.<ext>`, ..., details below.
+    The folder also requires a text file called `quiz-seed` which contains
+    an integer, the seed for pseudo randomization to make the tests
+    reproduciable if needed.
+* Creates `<dir>/olattest.rds` and `<dir>/olattest.zip` used to upload the
+    test on OLAT and for evaluation.
+
+### Structure of the quiz questions
+
+Create a new folder and store your quiz questions in there. The files of the
+individual questions must be named `"[0-9]+.*\\.(md|Rmd)$"` (e.g.,
+`01_create_matrix.Rmd`, `02_matrix_subsetting.Rmd`, ...). The `<ID>` will
+be extracted and defines the structure of the list handed over to
+`exams2openolat`. Note: if two questions have the same `<ID>` they will
+be used for randomization (each test will only contain **one** of them, not all).
+The `<ID>` also defines the order of the questions, the `<ID>` does not have to be
+continuous. E.g., if we have a folder as follows:
+
+```
+03-quiz
+  |__  01_create_matrix.Rmd
+  |___ 20_functions.Rmd
+  |___ 02_matrix_subsetting_1.Rmd
+  |___ 02_matrix_subsetting_2.Rmd
+```
+
+... each test will contain a version of question `01_create_matrix.Rmd`,
+one version of **either** `02_matrix_subsetting_1.Rmd` or `02_matrix_subsetting_2.Rmd`,
+and one version of `20_functions.Rmd` in **this order** (increasing ID).
+
+### The quiz-seed file
+
+The `quiz-seed` file has to contain an integer used for randomization. The file
+can contain comments (`#`) and one but only one line with a simple integer. This
+seed is read and used with `set.seed()` before calling `exams2openolat`.
+
+### Generate the test
+
+On the terminal simply call:
+
+* `Rscript generate-test.R <dir> <what>`
+* `dir`: name of the directory/folder which contains the questions (see above).
+* `what`: a string, either `html` or `olat`.
+
+If `what` is `html` one single plain html file will be created (one randomized
+quiz, html format). Furthermore, this mode (`quiz = html`) renders each
+question individually within a `tryCatch()` and stops if there is an error or
+warning! Can be used to see if the rendering works as expected (`what = olat`
+does not do that).  This call will create an html file stored as
+`<dir>/plain81.html`, can be used to check the test.
+
+
+If `what` is `olat` the zip/rds files will be created used for uploading the
+test to OLAT and for evaluation (called `<dir>/openolat.zip` and
+`<dir>/openolat.rds`. **Keep** the rds file, at least (can be re-created if you
+don't lose the quiz-seed).
+
+
+# Upload Quiz/Test to OLAT
+
+After you created the test (see above) you can upload it to OLAT as follows:
+
+* Log in to OLAT, go to the **Authoring** tab (Authorenbereich). Click the
+    **Import** tab and upload the zip file (`olattest.zip`). OLAT should identify
+    the file as a QTI2.1 test. Give the element a **useful name**! You will need it later.
+* After importing the zip file we need to create a new test element. Navigate to your
+    course, click on **Administration** and:
+    * Either **add new element** (a "Test" element), or ...
+    * ... **copy** an **existing test**. This has the advantage that you also copy the
+        settings and you do not have to adjust the test settings every time.
+* Once the test element has been created navigate to this element (administration
+    area) and:
+    * Check **Title and Description**
+    * Check access options and adjust them
+    * Go to **test configuration** and click **select file**. This is the
+        most important part. After clicking the button you should see all your
+        elements from the authoring area, thus, also the new test you've uploaded.
+        Select the test. That's it.
+
+
+
+
+# Generate Quiz/Test Feedback
+
+* Requires the [c403][c403] package
+* Requires the rds file created by `exams2openolat` (typically `olattest.rds`),
+    stored in a subfolder of your choice.
+* Requires the results from OLAT (xlsx file), must be placed beside the rds file
+    and needs to have the 'same' name (e.g., `olattest.xlsx`).
+
+Once you have a folder whch contains the md/Rmd questions and the generated
+olat test (`exams2openolat`) stored in the rds file (`olattest.rds`) download
+the test results from OLAT and store the xlxs file used for evaluation
+next to the rds file. E.g., if your rds file is `04-quiz/olattest.rds`
+store the xlsx file as `04-quiz/olattest.xlsx`.
+
+The script `generate-test.R` can then be used from the bash console to 
+generate the feedback for the students by calling the script as follows:
+
+* `Rscript generate-test.R <rds> <name>`
+* `rds`: path/name of the rds file (e.g., `04-quiz/olattest.rds`)
+* `name`: name of the output files (e.g., `2019-10-12_Quiz_03`)
+
+The script then checks the rds file and tries to find the corresponding xlsx
+file, reads and evaluates the test results, and creates an output zip file 
+called `<name>.zip`. In addition, the script prints a list with usernames.
+The zip file and this list of usernames can then be used to bulk-upload the
+personalized results on OLAT as follows (NOTE requires a 'Task/Aufgabe' element
+in OLAT with active 'feedback/Abgabe'):
+
+* Log in to OLAT
+* Navigate via assessment tool (Bewertungswerkzeug) to the task/Aufgabe element.
+* Click "bulk upload/Neue Massenbewertung starten"
+* This opens a new window. In the text area on top of this window copy&paste
+    the list of usernames as printed by the script `generate-test.R`.
+    At the end of this window: attach the zip file (upload).
+    Then proceed (next/weiter). Gives you some more information, but should
+    work without any further adjustments.
+
+After you have done this all participants should have a personalized html file
+with his/her results avialable for download.
+
+
+
+
+
+[c403]: https://r-forge.r-project.org/R/?group_id=1337
+
+
+
+
+COPY COPY
+
+
+
+# Export Results
+
+Go to OLAT - Assessment tool (Bewertungswerkzeug), select your
+test and click the "Export results" button at the top of the page.
+This exports all results as a `zip` file.
+
+This zip file contains detailed information (results) about all
+participants. All we need to evaluate the quiz/test is the
+xlsx file from this zip file.
+
+# The c403 package
+
+The c403 package is an extension of the R exams package with some
+custom functions used at the department of statistics. Has some
+interfaces to create tests (with different defaults), functions
+to evaluate the tests, and functions to create customized feedback
+for the students which can be bulk-uploaded on OLAT.
+
+The packge can be installed by calling:
+
+* `install.packages("c403", repos="http://R-Forge.R-project.org")` from _R_.
+
+
+# Generate Quiz/Test (exams2openolat)
+
+Note: I'm using the `c403` package and the script `generate-test.R` to
+test and create the olat tests (based on the _R_ exams package).
+
+* Requires: the [c403][c403] package to be installed.
+* A folder which contains md/Rmd exams questions. The files must be named
+    `01_<name>.<ext>`, `02_<name>.<ext>`, ..., details below.
+    The folder also requires a text file called `quiz-seed` which contains
+    an integer, the seed for pseudo randomization to make the tests
+    reproduciable if needed.
+* Creates `<dir>/olattest.rds` and `<dir>/olattest.zip` used to upload the
+    test on OLAT and for evaluation.
+
+### Structure of the quiz questions
+
+Create a new folder and store your quiz questions in there. The files of the
+individual questions must be named `"[0-9]+.*\\.(md|Rmd)$"` (e.g.,
+`01_create_matrix.Rmd`, `02_matrix_subsetting.Rmd`, ...). The `<ID>` will
+be extracted and defines the structure of the list handed over to
+`exams2openolat`. Note: if two questions have the same `<ID>` they will
+be used for randomization (each test will only contain **one** of them, not all).
+The `<ID>` also defines the order of the questions, the `<ID>` does not have to be
+continuous. E.g., if we have a folder as follows:
+
+```
+03-quiz
+  |__  01_create_matrix.Rmd
+  |___ 20_functions.Rmd
+  |___ 02_matrix_subsetting_1.Rmd
+  |___ 02_matrix_subsetting_2.Rmd
+```
+
+... each test will contain a version of question `01_create_matrix.Rmd`,
+one version of **either** `02_matrix_subsetting_1.Rmd` or `02_matrix_subsetting_2.Rmd`,
+and one version of `20_functions.Rmd` in **this order** (increasing ID).
+
+### The quiz-seed file
+
+The `quiz-seed` file has to contain an integer used for randomization. The file
+can contain comments (`#`) and one but only one line with a simple integer. This
+seed is read and used with `set.seed()` before calling `exams2openolat`.
+
+### Generate the test
+
+On the terminal simply call:
+
+* `Rscript generate-test.R <dir> <what>`
+* `dir`: name of the directory/folder which contains the questions (see above).
+* `what`: a string, either `html` or `olat`.
+
+If `what` is `html` one single plain html file will be created (one randomized
+quiz, html format). Furthermore, this mode (`quiz = html`) renders each
+question individually within a `tryCatch()` and stops if there is an error or
+warning! Can be used to see if the rendering works as expected (`what = olat`
+does not do that).  This call will create an html file stored as
+`<dir>/plain81.html`, can be used to check the test.
+
+
+If `what` is `olat` the zip/rds files will be created used for uploading the
+test to OLAT and for evaluation (called `<dir>/openolat.zip` and
+`<dir>/openolat.rds`. **Keep** the rds file, at least (can be re-created if you
+don't lose the quiz-seed).
+
+
+# Upload Quiz/Test to OLAT
+
+After you created the test (see above) you can upload it to OLAT as follows:
+
+* Log in to OLAT, go to the **Authoring** tab (Authorenbereich). Click the
+    **Import** tab and upload the zip file (`olattest.zip`). OLAT should identify
+    the file as a QTI2.1 test. Give the element a **useful name**! You will need it later.
+* After importing the zip file we need to create a new test element. Navigate to your
+    course, click on **Administration** and:
+    * Either **add new element** (a "Test" element), or ...
+    * ... **copy** an **existing test**. This has the advantage that you also copy the
+        settings and you do not have to adjust the test settings every time.
+* Once the test element has been created navigate to this element (administration
+    area) and:
+    * Check **Title and Description**
+    * Check access options and adjust them
+    * Go to **test configuration** and click **select file**. This is the
+        most important part. After clicking the button you should see all your
+        elements from the authoring area, thus, also the new test you've uploaded.
+        Select the test. That's it.
+
+
+
+
+# Generate Quiz/Test Feedback
+
+* Requires the [c403][c403] package
+* Requires the rds file created by `exams2openolat` (typically `olattest.rds`),
+    stored in a subfolder of your choice.
+* Requires the results from OLAT (xlsx file), must be placed beside the rds file
+    and needs to have the 'same' name (e.g., `olattest.xlsx`).
+
+Once you have a folder whch contains the md/Rmd questions and the generated
+olat test (`exams2openolat`) stored in the rds file (`olattest.rds`) download
+the test results from OLAT and store the xlxs file used for evaluation
+next to the rds file. E.g., if your rds file is `04-quiz/olattest.rds`
+store the xlsx file as `04-quiz/olattest.xlsx`.
+
+The script `generate-test.R` can then be used from the bash console to 
+generate the feedback for the students by calling the script as follows:
+
+* `Rscript generate-test.R <rds> <name>`
+* `rds`: path/name of the rds file (e.g., `04-quiz/olattest.rds`)
+* `name`: name of the output files (e.g., `2019-10-12_Quiz_03`)
+
+The script then checks the rds file and tries to find the corresponding xlsx
+file, reads and evaluates the test results, and creates an output zip file 
+called `<name>.zip`. In addition, the script prints a list with usernames.
+The zip file and this list of usernames can then be used to bulk-upload the
+personalized results on OLAT as follows (NOTE requires a 'Task/Aufgabe' element
+in OLAT with active 'feedback/Abgabe'):
+
+* Log in to OLAT
+* Navigate via assessment tool (Bewertungswerkzeug) to the task/Aufgabe element.
+* Click "bulk upload/Neue Massenbewertung starten"
+* This opens a new window. In the text area on top of this window copy&paste
+    the list of usernames as printed by the script `generate-test.R`.
+    At the end of this window: attach the zip file (upload).
+    Then proceed (next/weiter). Gives you some more information, but should
+    work without any further adjustments.
+
+After you have done this all participants should have a personalized html file
+with his/her results avialable for download.
+
+
+
+
+
+[c403]: https://r-forge.r-project.org/R/?group_id=1337
+[rexams]: http://www.r-exams.org
+[rexamstutorials]: http://www.r-exams.org/tutorials/
+[rexams-firststeps]: http://www.r-exams.org/tutorials/first_steps/
+[rexams-stress]: http://www.r-exams.org/tutorials/stresstest/
+[sweave]: http://leisch.userweb.mwn.de/Sweave/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

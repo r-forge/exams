@@ -1,0 +1,27 @@
+Question
+========
+What is the ISO3 country code for Austria.
+
+Answerlist
+----------
+* AUT
+* AUS
+* USA
+    
+Solution
+========
+The ISO3 country code for Austria is **AUT**.
+
+Answerlist
+----------
+* Correct answer.
+* False, AUS stands for Australia. 
+* False, USA stands for the United States of America.
+    
+
+Meta-information
+================
+exname: ISO3 Country Code
+extype: schoice
+exsolution: 100
+exshuffle: True

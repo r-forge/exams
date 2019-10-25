@@ -1,0 +1,44 @@
+```{r generate question}
+# Create a random integer vector of length 5
+x <- sample(1:100, 5)
+# Ask for the following index between 1:5
+idx <- sample(1:5, 1)
+# Wrong answers
+wrong <- sample((1:5)[-idx], 2)
+# The correct answer:
+res <- x[idx]
+```
+
+Question
+========
+Vector subsetting in _R_. We can access elements/values
+in a vectur using vector subsetting by index. Imagine we
+have the following vector `x`:
+```{r}
+print(x)
+```
+If we call `x[`r idx`]`, what is the resulting value?
+
+Answerlist
+----------
+* We get ``r x[wrong[1L]]``
+* We get ``r x[wrong[2L]]``
+* We get ``r x[idx]``
+
+Solution
+========
+`x[`r idx`]` returns the `r idx`th element of the vector `x`
+which is `r x[idx]`.
+
+Answerlist
+----------
+* False
+* False
+* Correct
+
+Meta-information
+================
+exname: Vector subsetting
+extype: schoice
+exsolution: 001
+exshuffle: True
