@@ -1,6 +1,5 @@
 ---
 title: "Create OLAT Tests with R/exams"
-author: "Reto Stauffer"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Create OLAT Tests with R/exams}
@@ -32,7 +31,7 @@ The following tutorials might be of interest:
 [R/exams][rexams] questions are written in either pure markdown (`.md`),
 R/markdown (`.Rmd`) or R/LaTeX using [Sweave][sweave] (`.Rmd`). 
 For demonstration purposes this tutorial is only using R/Markdown
-files, more information can be found in the ["First Steps"][rexams-firsteps]
+files, more information can be found in the [First Steps][rexams-firsteps]
 tutorial on [r-exams.org][rexams].
 
 ## Write your first static question
@@ -42,22 +41,22 @@ the content with a text editor, e.g., a file called `iso3-code.Rmd`.
 The following output shows the content of this file (`iso3-code.Rmd`)
 which contains a simple 'static' single choice [R/exams][rexams] question:
 
-```{r, results = "markdown", echo = FALSE, comment = ""}
+```{r paste-iso3-code, results = "markdown", echo = FALSE, comment = ""}
 cat(paste(readLines("iso3-code.Rmd"), collapse = "\n"))
 ```
 
 Each question consists of three sections, namely
 "Question", "Solution", and "Meta-information".
 
-* "Question": contains the question itself, simply text which
+* **Question**: contains the question itself, simply text which
   contains the task. The "Answerlist" subsection defines the
   possible answers (here 3).
-* "Solution": this is typically not shown to the participants,
+* **Solution**: this is typically not shown to the participants,
   or only depending on the system settings (e.g., if the 'solutionswitch'
   in OpenOLAT is enabled). Can contain text with an extensive solution
   if needed, and contains a subsection "Answerlist" **in the same order**
   as the possible answers in the "Question" section.
-* "Meta-information": contains the name and type of the question,
+* **Meta-information**: contains the name and type of the question,
   information about the correct solution, and additional settings.
   In this case it is a single choice question (`extype: schoice`),
   `exsolution` defines the correct answer. Three possible answers,
@@ -89,7 +88,7 @@ defined in the Meta-information section is specified correctly.
 set.seed(100)
 ```
 
-```{r}
+```{r exams-metainfo-iso3-code}
 # Test solutionstring
 exams_metainfo(exams2html("iso3-code.Rmd"))
 ```
@@ -106,7 +105,7 @@ can be done by calling `stresstest_exercise()`.
 `stresstest_exercise()` renders the exercise multiple types (100 times
 by default) and returns some information about the randomization.
 
-```{r, results = "hide", fig = TRUE, fig.width = 7, fig.height = 5}
+```{r stress-iso3-code, results = "hide", fig = TRUE, fig.width = 7, fig.height = 5}
 # Stresstesting 'iso3-code.Rmd' (100 times)
 stress <- stresstest_exercise("iso3-code.Rmd")
 plot(stress)
@@ -124,7 +123,7 @@ between 1, 2, and 3.
 content of a second question stored in `vector-subsetting.Rmd`.
 
 
-```{r, results = "markdown", echo = FALSE, comment = ""}
+```{r paste-vector-subsetting, results = "markdown", echo = FALSE, comment = ""}
 cat(paste(readLines("vector-subsetting.Rmd"), collapse = "\n"))
 ```
 
@@ -148,26 +147,26 @@ the function also returns the values of all scalars (here `idx`, `res`)
 of all randomizations during the stress test.
 
 
-```{r, results = "hide"}
-# Run the stresstest
-stress <- stresstest_exercise("vector-subsetting.Rmd")
-# Plot overview
-plot(stress)
+```{r stress-vector-subsetting, results = "hide"}
+## Run the stresstest
+#stress <- stresstest_exercise("vector-subsetting.Rmd")
+## Plot overview
+#plot(stress)
 ```
 
 The additional information stored on `stress$objects` can be
 used to get more insights, e.g., how often each index `idx` $\in {1, ..., 5}$
 has been chosen and what the correct answers were (`res`):
 
-```{r, fig = TRUE, fig.width = 7, fig.height = 3}
-# Plot histograms of the two scalars idx/res from the
-# 100 randomizations performed by the stresstest function
-par(mfrow = c(1, 2), mar = c(5, 5, 2, 1))
-hist(stress$objects$idx, col = "gray90",
-     breaks = seq(0.5, 5.5, by = 1),
-     main = "Histogram of idx")
-hist(stress$objects$res, col = "gray90",
-     main = "Histogram of res")
+```{r stress-vector-subsetting-plot, fig = TRUE, fig.width = 7, fig.height = 3}
+## Plot histograms of the two scalars idx/res from the
+## 100 randomizations performed by the stresstest function
+#par(mfrow = c(1, 2), mar = c(5, 5, 2, 1))
+#hist(stress$objects$idx, col = "gray90",
+#     breaks = seq(0.5, 5.5, by = 1),
+#     main = "Histogram of idx")
+#hist(stress$objects$res, col = "gray90",
+#     main = "Histogram of res")
 ```
 
 
@@ -188,15 +187,16 @@ to adjust/control the test settings (see [R/exams][rexams]).
 To generate the zip archive file for OpenOLAT we have to call the
 following:
 
-```{r}
+```
+# Using the c403 package
+library("c403")
 # Set seed (makes the randomization reproduceable
 set.seed(321)
-# Generate OpenOLAT test/exam resource
-exams <- exams2openolat(file = list("iso3-code.Rmd", "vector-subsetting.Rmd"),
-                        n = 3L, dir = ".", name = "test-quiz",
-                        maxattempts = 100L)
-# Save the generated tests for evaluation
-saveRDS(exams, file = "test-quiz.rds")
+# Generate OpenOLAT test/exam resource using the c403 package
+files <- list("iso3-code.Rmd", "vector-subsetting.Rmd")
+c403::exams2openolat(file = files, quiet = TRUE,
+                     n = 3L, name = "test-quiz",
+                     maxattempts = 100L)
 ```
 
 * `file`: the files with the questions to be converted.
@@ -208,16 +208,40 @@ saveRDS(exams, file = "test-quiz.rds")
 * `maxattempts`: number of attempts - number of times the participants
     are allowed to change the selected answer. Default is only 1
     (`maxattempts = 1L`).
-* **Return**: returns a list with questions/answers.
 
-**Note**: it is very important to store the `exams` object with the
-randomized questions/answers if one wants to evaluate the tests later on!
-It is also highly recommended to **set a seed** for pseudo-randomization.
-This allows to reproduce the generated tests if the `.rds` file gets lost.
+The function `exams2openolat()` from the [`c403`][c403] package automatically
+creates two files: the zip file (`test-quiz.zip`) to be uploaded to OpenOLAT
+and the file `test-quiz.rds` which contains the randomized questions/tests.
 
-The function call `exams2openolat()` creates the output zip archive
-file `test-quiz.zip` used to import the test on the OpenOLAT learning
-management system.
+Alternatively one can use the `exams2openolat()` function from the `exams`
+package. **Note**: `exams::exams2openolat()` does **not automatically** save
+the randomized questions (`.rds` file), however, it is very important to store
+this information if one wants to evaluate the tests later on.  It is also
+highly recommended to **set a seed** for pseudo-randomization.  This allows to
+reproduce the generated tests if the `.rds` file gets lost.
+If one does not want to use the [`c403`][c403] package you can do it as follows
+using the `exams` package:
+
+
+
+```
+# -------------------------------------
+# Or: load the exams package
+# -------------------------------------
+suppressPackageStartupMessages(library("exams"))
+# Set seed (makes the randomization reproduceable
+set.seed(321)
+# Generate OpenOLAT test/exam resource
+exams <- exams:exams2openolat(file = files,
+                              n = 3L, name = "test-quiz-exams",
+                              maxattempts = 100L)
+# Save the generated tests for evaluation
+saveRDS(exams, file = "test-quiz-exams.rds")
+```
+
+Note that `c403::exams2openolat()` and `exams::exams2openolat()` have
+different default arguments (e.g., the [`c403`][c403] package uses the
+German language by default).
 
 
 # Upload test to OpenOLAT
@@ -226,7 +250,7 @@ Once the test has been generated one can import the tests to OpenOlat.
 To do so, log in to OpenOLAT and go to the **Authoring** section.
 The zip file (`test-exam.zip`) can be uploaded via the **Import** button:
 
-```{r img import, echo = FALSE, fig.out = "70%", fig.align = "center"}
+```{r img-import, echo = FALSE, out.width = "100%", fig.align = "center"}
 knitr::include_graphics("olat_test_import.jpg")
 ```
 
@@ -245,11 +269,20 @@ the course element, click on **Test configuration** and **select**
 or **replace** (in case you made a copy of an existing test course element)
 the 'file' (the uploaded test/zip file).
 
+```{r img-test, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("olat_create_test1.jpg")
+knitr::include_graphics("olat_create_test2.jpg")
+knitr::include_graphics("olat_create_test3.jpg")
+```
+
 Note: check and adjust all test settings from Title and description,
 accessibility, and course element options!
 
 
-
-
-
+[c403]: https://r-forge.r-project.org/R/?group_id=1337
+[rexams]: http://www.r-exams.org
+[rexamstutorials]: http://www.r-exams.org/tutorials/
+[rexams-firststeps]: http://www.r-exams.org/tutorials/first_steps/
+[rexams-stress]: http://www.r-exams.org/tutorials/stresstest/
+[sweave]: http://leisch.userweb.mwn.de/Sweave/
 
