@@ -68,7 +68,7 @@ is `.Rmd` while `.Rnw` is conventionally used for R/LaTeX, known as
 [Sweave](http://leisch.userweb.mwn.de/Sweave/).
 
 In the following, a first session should help new R/exams users to explore the materials
-available and get a feeling for the workflow. Furthremore, two
+available and get a feeling for the workflow. Furthermore, two
 [exercise templates]({{ site.url }}/templates/) are shown in more detail:
 
 - [swisscapital]({{ site.url }}/templates/swisscapital/): A static single-choice 
