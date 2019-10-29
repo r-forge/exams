@@ -30,4 +30,4 @@ Question: 質問
 GivenAnswer: 解答
 CorrectAnswer: 正答
 ExamSheet: 試験シート
-Header: \usepackage{CJKutf8}\AtBeginDocument{\begin{CJK}{UTF8}{goth}}\AtEndDocument{\end{CJK}}
+Header: \usepackage[whole]{bxcjkjatype}
