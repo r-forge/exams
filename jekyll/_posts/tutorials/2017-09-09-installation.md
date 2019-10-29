@@ -39,7 +39,8 @@ first installation step is the base R system.
    Comprehensive R Archive Network (CRAN). Simply
    click on the link for your operating system and at least install the "base"
    system. It is recommended to also install the accompanying "Rtools" which are
-   not needed immediately but might useful at some stage.
+   not always needed immediately but, e.g., necessary for producing zip files for
+   some learning management systems.
 - **Linux:** While it is possible to download from CRAN by hand, it is
   easier for most distributions to install the packaged binary. For example,
   on Debian/Ubuntu:
