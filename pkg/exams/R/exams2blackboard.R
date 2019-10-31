@@ -12,7 +12,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## handle matrix specification of file
   if(is.matrix(file)) {
     if(!missing(n) && !is.null(n) && n != nrow(file)) warning("'n' must not differ from number of rows of 'file'")
-    if(!missing(nsamp) && !is.null(nsamp) && nsamp != ncol(file)) warning("'nsamp' must not differ from number of rows of 'file'")
+    if(!missing(nsamp) && !is.null(nsamp) && nsamp != ncol(file)) warning("'nsamp' must not differ from number of columns of 'file'")
     n <- nrow(file)
     nsamp <- ncol(file)
   }
