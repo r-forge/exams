@@ -16,7 +16,7 @@
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
     usepackage = NULL, header = NULL, encoding = "", startid = 1L,
     points = NULL, showpoints = FALSE, samepage = FALSE,
-    twocolumn = FALSE, reglength = 7L, \dots)
+    twocolumn = FALSE, reglength = 7L, seed = NULL, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
     duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
@@ -74,6 +74,12 @@
   \item{twocolumn}{logical. Should a two-column layout be used?}
   \item{reglength}{integer. Number of digits in the registration ID. The
     default is 7 and it can be increased up to 10.}
+  \item{seed}{integer matrix or logical. Either \code{NULL} (default), logical, or a
+    matrix of random seeds for each possible exercise to be set prior to calling
+    \code{driver@sweave}. If \code{NULL} no random seeds are set. If a matrix,
+    the number of rows must be \code{n} and the number of columns must
+    correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
+    is sampled.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}}.}
   \item{nchoice}{character. The number of choice alternatives per exercise.}
 }

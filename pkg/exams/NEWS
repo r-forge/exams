@@ -3,13 +3,13 @@ Changes in Version 2.3-5
   o Started enabling setting random 'seed's for each individual exercise
     in an exam, to enable custom exercise selection (e.g., when only
     putting together a single exam). Currently, only supported in 
-    xexams(), exams2pdf(), exams2html(), and exams2blackboard().
+    xexams(), exams2pdf(), exams2html(), exams2nops(), and exams2blackboard().
     
   o In addition to the vector or list specification of the exercise 'file'
     in the exams2xyz() interfaces, 'file' can now also be a matrix. This
     enables customization of the exact selection of exercises in each
     exam. The 'seed' can be a matrix of the same dimension. Currently,
-    only supported in  xexams(), exams2pdf(), and exams2html().
+    only supported in  xexams(), exams2pdf(), exams2nops(), and exams2html().
   
   o Added new interface exams2ilias() for the open-source ILIAS learning
     management system (https://www.ilias.de/). This is essentially a
