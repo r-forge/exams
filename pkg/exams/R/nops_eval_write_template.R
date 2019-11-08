@@ -1,5 +1,5 @@
 nops_eval_write_template <- function(results = "nops_eval.csv",
-                                     name = "result.html",
+                                     name = "eval.html",
                                      template = NULL,
                                      ...) {
 
@@ -54,7 +54,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   template <- if (!is.null(template)) {
     tools::file_path_as_absolute(template)
   } else {
-    system.file(file.path("xml", "result.html"), package = "exams")
+    system.file(file.path("nops", "eval.html"), package = "exams")
   }
   template <- readLines(template)
 
