@@ -605,7 +605,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) > 1) { #Z# the second comparison had < 1 rather than > 1 ??
+        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) > 1) { #Z# the second comparison had < 1 rather than > 1 ??
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
