@@ -898,19 +898,21 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         }
 
         ## Case maximum points with rounding errors.
-        xml <- c(xml,
-          '<responseCondition>',
-          '<responseIf>',
-          '<equal toleranceMode="relative" tolerance="0.001">',
-          '<variable identifier="SCORE"/>',
-          '<variable identifier="MAXSCORE"/>',
-          '</equal>',
-          '<setOutcomeValue identifier="SCORE">',
-          paste('<baseValue baseType="float">', q_points[i], '</baseValue>', sep = ''),
-          '</setOutcomeValue>',
-          '</responseIf>',
-          '</responseCondition>'
-        )
+        if(x$metainfo$type != "cloze") {
+          xml <- c(xml,
+            '<responseCondition>',
+            '<responseIf>',
+            '<equal toleranceMode="relative" tolerance="0.001">',
+            '<variable identifier="SCORE"/>',
+            '<variable identifier="MAXSCORE"/>',
+            '</equal>',
+            '<setOutcomeValue identifier="SCORE">',
+            paste('<baseValue baseType="float">', q_points[i], '</baseValue>', sep = ''),
+            '</setOutcomeValue>',
+            '</responseIf>',
+            '</responseCondition>'
+          )
+        }
       }
     }
 
