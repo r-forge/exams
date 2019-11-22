@@ -1,29 +1,27 @@
 nops_eval_write_template <- function(results = "nops_eval.csv",
-                                     name = "eval.html",
-                                     template = NULL,
-                                     ...) {
+                                     file = "exam_eval",
+                                     dir = ".", language = "en",
+                                     template = NULL, encoding = "UTF-8", 
+                                     converter = NULL, ...) {
 
   stopifnot(requireNamespace("base64enc"))
   stopifnot(requireNamespace("whisker"))
 
-  # Explicitly Inherit Parameters
-  dots <- list(...)
-  encoding <- dots$encoding
-  language <- dots$language
-  converter <- dots$converter
-  dir <- dots$dir
-
-  # encoding defaults to UTF-8
-  if (is.null(encoding)) encoding <- "UTF-8"
-
+  ## output file names
+  out_file <- paste0(tools::file_path_sans_ext(basename(file)), ".html")
   out_zip <- paste0(tools::file_path_sans_ext(basename(results)), ".zip")
+  
+  ## user lists
   results <- utils::read.csv2(results, colClasses = "character")
-
   names(results)[1:3] <- c("registration", "name", "id")
   rownames(results) <- results$registration
   has_mark <- "mark" %in% names(results)
+  
+  ## dimensions
   m <- length(grep("answer.", colnames(results), fixed = TRUE))
   n <- nrow(results)
+  
+  ## format multiple choice solutions
   format_mchoice <- function(x) {
     mchoice2print <- function(x) {
       paste(ifelse(x, letters[1L:5L], rep("_", 5L)),  collapse = "")
@@ -34,7 +32,11 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   for (i in as.vector(outer(c("answer", "solution"), 1L:m, paste, sep = "."))) {
     results[[i]] <- format_mchoice(results[[i]])
   }
+  
+  ## number of scanned images
   nscans <- 1L + as.integer("scan2" %in% names(results))
+  
+  ## read language specifiation
   if (is.null(converter)) {
     converter <- if (language %in% c("hr", "ro", "sk", "tr")) "pandoc" else "tth"
   }
@@ -45,12 +47,13 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   if (language == "") {
     language <- system.file(file.path("nops", "en.dcf"), package = "exams")
   }
-  lang <- exams::nops_language(language, converter = converter)
+  lang <- nops_language(language, converter = converter)
   substr(lang$Points, 1L, 1L) <- toupper(substr(lang$Points, 1L, 1L))
   if (!is.null(lang$PointSum)) {
     lang$Points <- lang$PointSum
   }
 
+  ## HTML template
   template <- if (!is.null(template)) {
     tools::file_path_as_absolute(template)
   } else {
@@ -76,6 +79,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   )
   checkClasses <- c("negative", "neutral", "positive", "full")
 
+  ## directories
   odir <- getwd()
   dir.create(temp_dir <- tempfile())
   setwd(temp_dir)
@@ -119,7 +123,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
     }
 
     template_i <- whisker::whisker.render(template, dat)
-    writeLines(template_i, file.path(temp_dir, ac, name))
+    writeLines(template_i, file.path(temp_dir, ac, out_file))
   }
 
   invisible(zip(file.path(dir, out_zip), c(results[, "id"])))
