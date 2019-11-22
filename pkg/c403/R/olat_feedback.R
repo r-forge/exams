@@ -1,9 +1,69 @@
 
+#' Generate nops test feedback files (answer/solution)
+#'
+#' Similar to what \code{\link[c403]{olat_eval}} does but in a more
+#' detailed way. Creates html files for each participant with feedback
+#' about his/her test results (including questions and solutions).
+#'
+#' @param res \code{data.frame}, content of the csv file created
+#'        by \code{\link[exams]{nops_eval}}.
+#' @param name character, name of the test, will be used to name
+#'        the zip archive file and the html files
+#'
+#' @return Returns the name of the zip file created.
+#'
+#' @author Reto Stauffer
+#' @export
+nops_feedback <- function(res, xexam, name = "nops_feedback") {
+
+    # Convert latex to html
+    exams:::pandoc("\\textbf{x}", from = "latex", to = "html")
+    
+    cat("Convert latex to html\n")
+    tohtml <- function(x) {
+        fn <- function(x) exams:::pandoc(x, from = "latex", to = "html")
+        x$question     <- fn(x$question)
+        x$questionlist <- sapply(x$questionlist, fn)
+        x$solution     <- fn(x$solution)
+        x$solutionlist <- sapply(x$solutionlist, fn)
+        return(x)
+    }
+    xexam <- lapply(xexam, function(x) lapply(x, tohtml))
+
+    # Modify some information used by olat_feedback_render_file
+    names(res)[grep("^id$", names(res))] <- "username"
+    res$score <- apply(res[, grep("^points\\.[0-9]+$", names(res))], 1, sum)
+
+    invisible(c403::olat_feedback(res, xexam, name))
+
+#    # Render all html files
+#    fn <- function(i, name) {
+#        htmlfile <- sprintf("%s.html", name)
+#        return(olat_feedback_render_one(res, xexam, i, htmlfile, show = FALSE))
+#    }
+#    cat("Render output files\n")
+#    html <- sapply(1:nrow(res), fn, name = name)
+#    browser()
+#
+#    # Change working directory
+#    holdwd <- getwd(); on.exit(setwd(holdwd)); setwd(tempdir())
+#
+#    # Pack (zip) and return name of the zip file
+#    zipfile <- file.path(holdwd, sprintf("%s.zip", name))
+#    zip(zipfile, res$username)
+#    invisible(basename(zipfile))
+
+}
+
+
 #' Generate OLAT test feedback files (answer/solution)
 #'
-#' Similar to what \code{\link[c403]{olat_eval}} with the additional
-#' flag \code{export = TRUE} does but in a different way. Shows ansers
-#' and solutions. Creates a temporary html file.
+#' Similar to what \code{\link[c403]{olat_eval}} does but in a more
+#' detailed way. Creates html files for each participant with feedback
+#' about his/her test results (including questions and solutions).
+#' For OLAT tests use \code{\link[c403]{olat_feedback}},
+#' for nops tests (written tests) use \code{\link[c403]{nops_feedback}}.
+#'
 #'
 #' @param res data.frame, result from olat_eval
 #' @param xexam list as returned from reading the rds file
@@ -22,6 +82,11 @@ olat_feedback <- function(res, xexam, name = "olat_feedback") {
 
     stopifnot(is.character(name) || !length(name) == 1L)
     name <- gsub(" ", "_", name)
+
+    # Append full name used by olat_feedback_render_one
+    if (!"name" %in% names(res)) {
+        res$name <- paste(res$firstname, res$lastname)
+    }
 
     # Render all html files
     fn <- function(i, name) {
@@ -50,10 +115,16 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     stopifnot(is.numeric(i) | !length(i) == 1L)
     stopifnot(is.logical(show) & length(show) == 1L)
 
-    test.id <- 1L + (res$id.1[i] - 1L) %% length(xexam)
+    # OLAT results contain the exam id in 'id.1' ...
+    if (any(grepl("^id\\.1$", names(res)))) {
+        test.id <- 1L + (res$id.1[i] - 1L) %% length(xexam)
+    # ... while NOPS results have a column 'exam'.
+    } else {
+        test.id <- as.character(res$exam[i])
+    }
+    stopifnot(test.id > 0L & test.id <= length(xexam))
     
     # Take test for this participant
-    stopifnot(test.id > 0L & test.id <= length(xexam))
     test <- xexam[[test.id]]
 
     # Doc template: TODO: should be a file in the package
@@ -62,8 +133,6 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     stopifnot(file.exists(template))
     doc <- read_html(template)
 
-
-    
     # Append a summary div (will be filled later on)
     xml_add_child(xml_find_first(doc, "//html/body"), "div", id = "meta")
     xml_add_child(xml_find_first(doc, "//html/body"), "div", id = "summary")
@@ -130,7 +199,6 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
                                                     ifelse(solution[j], "correct", "incorrect")))
             xml_add_child(li, xml_cdata(test[[qnr]]$questionlist[j]))
         }
-        
         # Append a second ul with the answers
         xml_set_text(xml_add_child(tmp, "h3"), "Solution")
         ul <- xml_add_child(tmp, "ul", class = "solutionlist")
@@ -141,14 +209,13 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         }
     }
 
-    
     # ------------------------------------------
     # Adding meta information
     # ------------------------------------------
     div <- xml_find_first(doc, "//*/div[@id='meta']")
     xml_set_text(xml_add_child(div, "h1"), "Meta")
     ul <- xml_add_child(div, "ul", class = "meta")
-    xml_set_text(xml_add_child(ul, "li"), sprintf("Name: %s %s", res$firstname[i], res$lastname[i])) 
+    xml_set_text(xml_add_child(ul, "li"), sprintf("Name: %s", res$name[i]))
     xml_set_text(xml_add_child(ul, "li"), sprintf("User: %s", res$username[i]))
     xml_set_text(xml_add_child(ul, "li", id = "meta-score"), "Points:  ")
     
@@ -172,13 +239,21 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         # Get answer/solution logical vectors once more
         answer   <- binary_to_logical(res[i, paste("answer", qnr, sep = ".")])
         solution <- test[[qnr]]$metainfo$solution
+        # In case of nops: length of "answer" can be longer
+        # than "solution" (dependent on the number of answers
+        # among all questions).
+        answer   <- answer[seq_along(solution)]
         # Add row
         tr <- xml_add_child(tbody, "tr",
                             class = if (identical(answer, solution)) "correct" else "incorrect")
         values <- list(qnr,
                        test[[qnr]]$metainfo$type,
                        res[i, paste("points", qnr, sep = ".")], 
-                       paste(res[i, paste("duration", qnr, sep = ".")], " sec"), 
+                       if (any(grepl("^duration", names(res)))) {
+                         paste(res[i, paste("duration", qnr, sep = ".")], " sec")
+                       } else {
+                         "-nops-"
+                       },
                        xml_cdata(sprintf("<a href=\"#question-%d\">%s</a>", qnr,
                                          test[[qnr]]$metainfo$file)))
         # Loop over values, add data
@@ -190,7 +265,6 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
             }
         }
     }
-
 
     # ------------------------------------------
     # Write output into temporary folder

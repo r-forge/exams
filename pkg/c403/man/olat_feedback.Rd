@@ -29,9 +29,11 @@ be opened in a browser}
 Returns the name of the zip file created.
 }
 \description{
-Similar to what \code{\link[c403]{olat_eval}} with the additional
-flag \code{export = TRUE} does but in a different way. Shows ansers
-and solutions. Creates a temporary html file.
+Similar to what \code{\link[c403]{olat_eval}} does but in a more
+detailed way. Creates html files for each participant with feedback
+about his/her test results (including questions and solutions).
+For OLAT tests use \code{\link[c403]{olat_feedback}},
+for nops tests (written tests) use \code{\link[c403]{nops_feedback}}.
 }
 \author{
 Reto Stauffer
