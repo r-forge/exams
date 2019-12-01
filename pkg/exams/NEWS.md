@@ -8,7 +8,11 @@
 * To make the fixed `seed`s above applicable to static exercises where
   only the `exshuffle` tag is enabled, the `seed` is not only set prior
   to weaving but also to reading the exercise. 
-  
+
+* Improved random shuffling if `exshuffle` is numeric where previously the
+  correct solution(s) were not completely randomly distributed across the
+  possible answers.
+
 * In addition to the vector or list specification of the exercise `file`
   in the `exams2xyz()` interfaces, `file` can now also be a matrix. This
   enables customization of the exact selection of exercises in each
