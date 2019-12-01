@@ -5,6 +5,10 @@
   putting together a single exam). Currently, only supported in 
   `xexams()`, `exams2pdf()`, `exams2html()`, `exams2nops()`, and `exams2blackboard()`.
 
+* To make the fixed `seed`s above applicable to static exercises where
+  only the `exshuffle` tag is enabled, the `seed` is not only set prior
+  to weaving but also to reading the exercise. 
+  
 * In addition to the vector or list specification of the exercise `file`
   in the `exams2xyz()` interfaces, `file` can now also be a matrix. This
   enables customization of the exact selection of exercises in each

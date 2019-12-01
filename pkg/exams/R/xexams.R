@@ -230,7 +230,14 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## driver: read LaTeX file
       if(verbose) cat("r")
+      if(!is.null(seed_i)) {
+        .rseed <- get(".Random.seed", envir = .GlobalEnv)
+	set.seed(seed_i[j])
+      }
       exm[[i]][[j]] <- driver$read(file_tex[idj])
+      if(!is.null(seed_i)) {
+        assign(".Random.seed", .rseed, envir = .GlobalEnv)
+      }
 
       ## infer and save supplements
       sfile <- dir(pattern = "[.]")
