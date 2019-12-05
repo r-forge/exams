@@ -1,5 +1,11 @@
 # exams 2.3-5
 
+* New function `expar()` that helps to fix parameters (defined in the first
+  code chunk of an exercise). For example `expar("deriv.Rmd", a = 1, c = 0)`
+  generates a temporary file where the parameters `a` and `c` of the
+  `deriv.Rmd` exercise are fixed to the values `1` and `0`, respectively.
+  This can then be processed with `exams2xyz()` "as usual".
+
 * Started enabling setting random `seed`s for each individual exercise
   in an exam, to enable custom exercise selection (e.g., when only
   putting together a single exam). Currently, only supported in 
