@@ -66,6 +66,9 @@
 * Fixed a bug in `exams2pdf()` where the case of multiple duplicated supplement
   names was not handled correctly (reported by TwelveFifths on StackOverflow).
 
+* Improved `xexams()` so that full file paths to exercise files also work on
+  Windows.
+
 
 # exams 2.3-4
 

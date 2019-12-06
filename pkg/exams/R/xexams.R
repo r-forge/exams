@@ -128,13 +128,14 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     cat(sprintf("Exercises: %s\n", paste(file_base, collapse = ", ")))
   }
 
+  ## substitute (back)slashes, colons, and tildes by underscores
+  ## in temporary file names to allow handling of relative file paths
+  ## (in addition to edir argument)
+  file_base <- sub("^(\\./|\\.\\./)+", "", file_base)
+  file_base <- gsub("(/|~|\\\\|\\:)+", "_", file_base)
+
   ## assure uniqueness of temporary file names
   file_base <- make.unique(file_base, sep = "_")
-
-  ## substitute (back)slashes by underscores in temporary file names
-  ## to allow handling of relative file paths (in addition to edir argument)
-  file_base <- sub("^(\\./|\\.\\./)+", "", file_base)
-  file_base <- gsub("/", "_", file_base, fixed = TRUE)
 
   ## put together temporary file names
   file_Rnw <- paste(file_base, file_ext0, sep = ".")
