@@ -162,6 +162,9 @@ read_metainfo <- function(file, markup = NULL)
     as.numeric(exshuffle)
   }
 
+  ## set default exname
+  if(is.null(exname)) exname <- "R/exams exercise"
+
   ## process valid solution types (in for loop for each cloze element)
   slength <- length(exsolution)
   if(slength < 1L) stop("no exsolution specified")

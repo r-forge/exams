@@ -69,6 +69,9 @@
 * Improved `xexams()` so that full file paths to exercise files also work on
   Windows.
 
+* `read_metainfo()` now assures a non-`NULL` `exname`. The default is to use
+  "R/exams exercise".
+
 
 # exams 2.3-4
 
