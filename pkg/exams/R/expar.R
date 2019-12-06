@@ -26,6 +26,7 @@ expar <- function(file, ...)
   tfile <- c(hex(tfile), hex(1000 * (tfile - floor(tfile))))
   tfile <- paste0(tools::file_path_sans_ext(basename(file)), "+", tfile[1], "+", tfile[2], ".", file_ext)
   tfile <- file.path(tempdir(), tfile) ## FIXME: tempdir() currently hard-coded
+  tfile <- normalizePath(tfile)
 
   ## read file and replace
   txt <- readLines(file)

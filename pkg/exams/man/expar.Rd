@@ -45,6 +45,9 @@ expar(file, \dots)
 if(interactive()){
 exams2html(expar("deriv.Rmd", a = 1, c = 0))
 }
+
+x <- xexams(expar("deriv.Rmd", a = 1, c = 0))
+writeLines(x[[1]][[1]]$question)
 }
 
 \keyword{utilities}
