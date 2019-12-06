@@ -42,10 +42,13 @@ expar(file, \dots)
 \examples{
 ## fix parameters "a" and "c" in deriv.Rmd
 ## (but still generate "b" randomly)
+
+## HTML output
 if(interactive()){
 exams2html(expar("deriv.Rmd", a = 1, c = 0))
 }
 
+## just the question text
 x <- xexams(expar("deriv.Rmd", a = 1, c = 0))
 writeLines(x[[1]][[1]]$question)
 }
