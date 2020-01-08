@@ -13,6 +13,8 @@ stresstest_exercise <- function(file, n = 100,
     }
     class(rval) <- c("stress.list", "stress", "list")
   } else {
+    # Stop if the file does not exist
+    if (!file.exists(file)) stop(sprintf("Cannot find file \"%s\".", file))
     stress_env <- .GlobalEnv
 
     ## stress_env <- new.env()
@@ -31,8 +33,12 @@ stresstest_exercise <- function(file, n = 100,
 #    }
 #    runcode <- makeRweaveLatexCodeRunner(evalFunc = stress_EvalWithOpt)
 
+    # If length(seed) < n: set n to length(seed).
+    # If length(seed) > n: take first n entries of seed.
+    if(!is.null(seeds)) {
+        if (length(seeds) < n) { n <- length(seeds) } else { seeds <- seeds[1:n] }
+    }
     sq <- objects <- vector("list", length = n)
-    seeds <- if(!is.null(seeds)) rep(seeds, length.out = n) else 1:n
     times <- rep(0, n)
     if(verbose & !is.null(attr(n, "stress.list")))
       cat("---\ntesting file:", file, "\n---\n")
@@ -84,7 +90,7 @@ stresstest_exercise <- function(file, n = 100,
         for(j in nobj[!ok])
           x[[j]] <- NA
       }
-      x <- x[, nobj]
+      x <- x[, nobj, drop = FALSE]
       x
     })
     objects <- do.call("rbind", objects)
