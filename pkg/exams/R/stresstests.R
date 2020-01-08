@@ -37,7 +37,7 @@ stresstest_exercise <- function(file, n = 100,
     # If length(seed) > n: take first n entries of seed.
     if(!is.null(seeds)) {
         if (length(seeds) < n) { n <- length(seeds) } else { seeds <- seeds[1:n] }
-    }
+    } else { seeds <- 1:n }
     sq <- objects <- vector("list", length = n)
     times <- rep(0, n)
     if(verbose & !is.null(attr(n, "stress.list")))
