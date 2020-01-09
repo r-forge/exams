@@ -133,6 +133,12 @@ read_olat_results <- function(file, xexam = NULL) {
     ## modify names, translate everything.
     x <- olat_eval_adjust_lang(x)
 
+    ## Find Score-rows with no non-missing values.
+    ## These are section scores and need to be removed
+    ## before proceeding.
+    idx <- which(sapply(x, function(x) sum(is.na(x)) == 0) & names(x) == "Score")
+    x <- structure(x[, -idx], names = names(x)[-idx])
+
     ## columns pertaining to items
     ## Only test results (not user information).
     ## Creates a vector with the indizes of all columns
@@ -166,6 +172,7 @@ read_olat_results <- function(file, xexam = NULL) {
     # the columns (e.g., "X111_Pkt" to "Pkt.111")
     iid <- question_id <- as.integer(regmatches(names(x)[col_idx], regexpr("(?<=(^X))[0-9]+", names(x)[col_idx], perl = TRUE)))
     stopifnot(all(!is.na(question_id)))
+
     # Create new variable names
     new_name <- regmatches(names(x)[col_idx], regexpr("(?<=(\\_)).*$", names(x)[col_idx], perl = TRUE))
     new_name <- paste(gsub("\\.+s\\.$", "", new_name), question_id, sep = ".")
@@ -187,6 +194,7 @@ read_olat_results <- function(file, xexam = NULL) {
             "time", "element_score", "element_passed")
   idx <- grep(sprintf("^(%s)$", paste(take, collapse = "|")), names(x), perl = TRUE)
   user_info <- x[, idx]
+
   ## Check if we have all expected columns. If not, proceed,
   ## but throw a warning!
   if (!all(take %in% names(user_info))) {
@@ -207,18 +215,19 @@ read_olat_results <- function(file, xexam = NULL) {
   ## Convert list 'y' into a matrix
   ipmat_fun <- function(d) {
       col <- grep("^Start$", names(d))
+      stopifnot(length(col) == 1L)
       return(nchar(as.character(d[, col])) > 10L)
   }
   ipmat <- t(sapply(y, ipmat_fun))
 
-
   ## assume xexams object
   ## number of sections and items
-  ix1 <- lapply(1:ncol(ipmat), function(i) which(as.vector(ipmat[,i])))
-  ni <- max(unlist(lapply(ix1, length)))
-  ns <- length(unique(iid)) / ni
+  ix1 <- lapply(1:ncol(ipmat), function(i) which(ipmat[ , i, drop = TRUE]))
+  ni <- max(sapply(ix1, length))      # Number of questions in the quiz
+  ns <- length(unique(iid)) / ni      # Number of different (random) quizzes
 
-  stopifnot(ns %% 1 == 0)
+
+  stopifnot(ns %% 1 == 0)             # Must be divisible by 1.
 
   ix2 <- lapply(ix1, function(i) {
     ix <- rep(NA, ni)
@@ -253,6 +262,7 @@ read_olat_results <- function(file, xexam = NULL) {
                         score    = grep("^Score",    names(ir)))
 
         stopifnot(all(sapply(col_idx, length) == 1L))
+
         col_idx$ssol <- (1:ncol(ir))[-unlist(col_idx)]
         stopifnot(!length(col_idx$ssol) == 2L)
 
@@ -314,6 +324,7 @@ read_olat_results <- function(file, xexam = NULL) {
     })
     return(data.frame(rval, stringsAsFactors = FALSE))
   }
+
   res <- lapply(1L:length(ix2), process_item_result)
 
   ## -------------------------------------------------

@@ -182,8 +182,7 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         solution <- test[[qnr]]$metainfo$solution
     
         # Just check if the test solution fits the one stored in the data.frame x.
-        # Not required, but would prevent errors matching wrong results and
-        # questions to some extent.
+        # Prevent errors matching wrong results and questions to some extent.
         stopifnot(identical(solution, binary_to_logical(res[i, paste("solution", qnr, sep = ".")])))
     
         # Append an <ul> element to add the possible answers
