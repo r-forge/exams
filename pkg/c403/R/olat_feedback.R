@@ -134,10 +134,8 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     tmp <- cbind(exam_id, question = seq_along(xexam[[1]]))
     test <- apply(tmp, 1, function(x, xexam) xexam[[x]], xexam = xexam)
 
-
-    # Doc template: TODO: should be a file in the package
-    template <- file.path(system.file(package = "c403"),
-                          "olat_feedback_template.html")
+    # HTML template to use to create personalized feedback
+    template <- file.path(system.file(package = "c403"), "templates/olat_feedback_template.html")
     stopifnot(file.exists(template))
     doc <- read_html(template)
 
