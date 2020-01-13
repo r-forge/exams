@@ -127,17 +127,22 @@ read_olat_results <- function(file, xexam = NULL) {
   ## marked by the participants, duration, time started ...
   ## -------------------------------------------------
   if(xlsx) {
-    ## read data
-    x <- openxlsx::read.xlsx(file, startRow = 2)
+    ## Read first two rows. Used to identify columns with section scores.
+    x_head <- openxlsx::read.xlsx(file, colNames = FALSE, rows = 1:2)
+    ## Find columns where the first row contains a string of the format
+    ## defined below (regular expression;
+    ## (typically "Sektion \"<user text>\"" or "Section \"<user text>\"").
+    ## We will later on (see read.xlsx) ignore these columns and only take
+    ## the ones where x_take_cols is TRUE.
+    x_take_cols <- !grepl("^[A-Z][a-z]+\\s\\\".*\\\"$", x_head[1, ])
+
+    ## Read 'main' content of the file.
+    x <- openxlsx::read.xlsx(file, startRow = 2L, cols = which(x_take_cols))
+
+    rm(list = c("x_take_cols", "x_head"))
 
     ## modify names, translate everything.
     x <- olat_eval_adjust_lang(x)
-
-    ## Find Score-rows with no non-missing values.
-    ## These are section scores and need to be removed
-    ## before proceeding.
-    idx <- which(sapply(x, function(x) sum(is.na(x)) == 0) & names(x) == "Score")
-    x <- structure(x[, -idx], names = names(x)[-idx])
 
     ## columns pertaining to items
     ## Only test results (not user information).
@@ -198,7 +203,7 @@ read_olat_results <- function(file, xexam = NULL) {
   ## Check if we have all expected columns. If not, proceed,
   ## but throw a warning!
   if (!all(take %in% names(user_info))) {
-    warning(sprintf("not all columns found as expected! Missing variable(s) %s\n",
+    warning(sprintf("not all columns found as expected! Missing variable(s): %s\n",
                     paste(take[!take %in% names(user_info)], collapse = ", ")))
   }
 
