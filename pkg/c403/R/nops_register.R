@@ -4,6 +4,7 @@
 #'
 #' @importFrom tools file_path_sans_ext file_ext
 #' @rdname nops_eval
+#' @export
 nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L)
 {
   ## ensure a non-C locale

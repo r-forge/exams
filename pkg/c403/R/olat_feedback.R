@@ -124,8 +124,16 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     }
     stopifnot(test.id > 0L & test.id <= length(xexam))
     
+    # Generate correct exam id's. Note: may change for one participant
+    # for the different questions (must not be a unique number).
+    exam_id <- unlist(res[i, grep("^id\\.[0-9]+$", names(res), perl = TRUE)])
+    exam_id <- 1L + (exam_id - 1L) %% length(xexam)
+
+
     # Take test for this participant
-    test <- xexam[[test.id]]
+    tmp <- cbind(exam_id, question = seq_along(xexam[[1]]))
+    test <- apply(tmp, 1, function(x, xexam) xexam[[x]], xexam = xexam)
+
 
     # Doc template: TODO: should be a file in the package
     template <- file.path(system.file(package = "c403"),
@@ -178,12 +186,12 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         xml_add_child(tmp, xml_cdata(paste(test[[qnr]]$question, collapse = "\n")))
     
         # Answer given by the participant
-        answer   <- binary_to_logical(res[i, paste("answer", qnr, sep = ".")])
-        solution <- test[[qnr]]$metainfo$solution
+        answer       <- binary_to_logical(res[i, paste("answer", qnr, sep = ".")])
+        solution     <- binary_to_logical(res[i, paste("solution", qnr, sep = ".")])
+        solution_rds <- test[[qnr]]$metainfo$solution
     
         # Just check if the test solution fits the one stored in the data.frame x.
-        # Prevent errors matching wrong results and questions to some extent.
-        stopifnot(identical(solution, binary_to_logical(res[i, paste("solution", qnr, sep = ".")])))
+        stopifnot(identical(solution_rds, binary_to_logical(res[i, paste("solution", qnr, sep = ".")])))
     
         # Append an <ul> element to add the possible answers
         ul <- xml_add_child(tmp, "ul", class = "answerlist")
