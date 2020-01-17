@@ -72,6 +72,11 @@
 * `read_metainfo()` now assures a non-`NULL` `exname`. The default is to use
   "R/exams exercise".
 
+* Fixed a bug in `extract_items()` which incorrectly dropped the last element
+  in an answerlist if it was completely empty (even without a trailing space).
+  This was a problem for cloze exercises with ##ANSWER## patterns, leading to
+  a questionlist that was too short (reported by Julia Guggenberger).
+
 
 # exams 2.3-4
 
