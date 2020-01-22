@@ -14,6 +14,11 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest", maxattemp
   eval = list(partial = FALSE, negative = FALSE),
   ...)
 {
+  ## use simple ASCII quotes
+  quot <- getOption("useFancyQuotes")
+  options(useFancyQuotes = FALSE)
+  on.exit(options(useFancyQuotes = quot))
+
   ## call exams::exams2openolat
   rval <- exams::exams2openolat(file, n = n, dir = dir, name = name, maxattempts = maxattempts,
     cutvalue = cutvalue, solutionswitch = solutionswitch, qti = qti,
