@@ -17,41 +17,29 @@
 nops_feedback <- function(res, xexam, name = "nops_feedback") {
 
     # Convert latex to html
-    exams:::pandoc("\\textbf{x}", from = "latex", to = "html")
+    # Example: exams:::pandoc("\\textbf{x}", from = "latex", to = "html")
     
     cat("Convert latex to html\n")
     tohtml <- function(x) {
-        fn <- function(x) exams:::pandoc(x, from = "latex", to = "html")
+        fn <- function(x, qslist = FALSE) {
+            # qslist: question list or answer list.
+            # different handling of quote-replacements.
+            if (qslist) {
+                x <- gsub("\"", "{\"}", gsub("(``|'')", "\"", x))
+            } else {
+                x <- gsub("(``|'')", "\"", x)
+            }
+            exams:::pandoc(x, from = "latex", to = "html")
+        }
         x$question     <- fn(x$question)
-        x$questionlist <- sapply(x$questionlist, fn)
+        x$questionlist <- sapply(x$questionlist, fn, qslist = TRUE)
         x$solution     <- fn(x$solution)
-        x$solutionlist <- sapply(x$solutionlist, fn)
+        x$solutionlist <- sapply(x$solutionlist, fn, qslist = TRUE)
         return(x)
     }
     xexam <- lapply(xexam, function(x) lapply(x, tohtml))
 
-    # Modify some information used by olat_feedback_render_file
-    names(res)[grep("^id$", names(res))] <- "username"
-    res$score <- apply(res[, grep("^points\\.[0-9]+$", names(res))], 1, sum)
-
     invisible(c403::olat_feedback(res, xexam, name))
-
-#    # Render all html files
-#    fn <- function(i, name) {
-#        htmlfile <- sprintf("%s.html", name)
-#        return(olat_feedback_render_one(res, xexam, i, htmlfile, show = FALSE))
-#    }
-#    cat("Render output files\n")
-#    html <- sapply(1:nrow(res), fn, name = name)
-#    browser()
-#
-#    # Change working directory
-#    holdwd <- getwd(); on.exit(setwd(holdwd)); setwd(tempdir())
-#
-#    # Pack (zip) and return name of the zip file
-#    zipfile <- file.path(holdwd, sprintf("%s.zip", name))
-#    zip(zipfile, res$username)
-#    invisible(basename(zipfile))
 
 }
 
@@ -100,7 +88,7 @@ olat_feedback <- function(res, xexam, name = "olat_feedback") {
 
     # Pack (zip) and return name of the zip file
     zipfile <- file.path(holdwd, sprintf("%s.zip", name))
-    zip(zipfile, res$username)
+    zip(zipfile, res$id)
     invisible(basename(zipfile))
 
 }
@@ -118,21 +106,26 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     # OLAT results contain the exam id in 'id.1' ...
     if (any(grepl("^id\\.1$", names(res)))) {
         test.id <- 1L + (res$id.1[i] - 1L) %% length(xexam)
+    
+        # Generate correct exam id's. Note: may change for one participant
+        # for the different questions (must not be a unique number).
+        exam_id <- unlist(res[i, grep("^id\\.[0-9]+$", names(res), perl = TRUE)])
+        exam_id <- 1L + (exam_id - 1L) %% length(xexam)
+        stopifnot(test.id > 0L & test.id <= length(xexam))
+
+        # Take test for this participant
+        tmp <- cbind(exam_id, question = seq_along(xexam[[1]]))
+        test <- apply(tmp, 1, function(x, xexam) xexam[[x]], xexam = xexam)
     # ... while NOPS results have a column 'exam'.
     } else {
-        test.id <- as.character(res$exam[i])
+
+        # Modify some information used by olat_feedback_render_file
+        names(res)[grep("^id$", names(res))] <- "username"
+        res$score <- apply(res[, grep("^points\\.[0-9]+$", names(res))], 1, sum)
+
+        # Extract test given exam ID
+        test <- xexam[[test.id <- as.character(res$exam[i])]]
     }
-    stopifnot(test.id > 0L & test.id <= length(xexam))
-    
-    # Generate correct exam id's. Note: may change for one participant
-    # for the different questions (must not be a unique number).
-    exam_id <- unlist(res[i, grep("^id\\.[0-9]+$", names(res), perl = TRUE)])
-    exam_id <- 1L + (exam_id - 1L) %% length(xexam)
-
-
-    # Take test for this participant
-    tmp <- cbind(exam_id, question = seq_along(xexam[[1]]))
-    test <- apply(tmp, 1, function(x, xexam) xexam[[x]], xexam = xexam)
 
     # HTML template to use to create personalized feedback
     template <- file.path(system.file(package = "c403"), "templates/olat_feedback_template.html")
@@ -189,6 +182,12 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         solution_rds <- test[[qnr]]$metainfo$solution
     
         # Just check if the test solution fits the one stored in the data.frame x.
+        if (!identical(solution_rds, binary_to_logical(res[i, paste("solution", qnr, sep = ".")]))) {
+            print(solution_rds)
+            print(binary_to_logical(res[i, paste("solution", qnr, sep = ".")]))
+            browser()
+        }
+
         stopifnot(identical(solution_rds, binary_to_logical(res[i, paste("solution", qnr, sep = ".")])))
     
         # Append an <ul> element to add the possible answers
