@@ -1,7 +1,13 @@
+Changes in Version 4.12-0
+
+  o Upgrade to latest TtH version included in Debian (4.12).
+
+
 Changes in Version 4.3-3
 
   o Added a line to the Windows Makefile necessary by new R Windows
     toolchain to include appropriate Makeconf
+
 
 Changes in Version 4.3-2
 
