@@ -137,6 +137,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     name <- file_path_sans_ext(basename(template))
     xmlname <- "qti"
   } else {
+    name <- gsub("\\s", "_", name)
     xmlname <- name
   }
 
