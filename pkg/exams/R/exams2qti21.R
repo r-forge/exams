@@ -122,6 +122,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(name))
     name <- file_path_sans_ext(basename(template))
   name <- gsub("\\s", "_", name)
+  if(is_number1(name))
+    name <- paste0("_", name)
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))
@@ -1117,6 +1119,16 @@ process_html_pbl <- function(x)
     x <- gsub('<p></p>', '', x, fixed = TRUE)
   }
 
+  return(x)
+}
+
+## Check if first element of string is a number.
+is_number1 <- function(x)
+{
+  x <- strsplit(x, "")
+  x <- sapply(x, function(z) {
+    suppressWarnings(!is.na(as.numeric(z[1])))
+  })
   return(x)
 }
 

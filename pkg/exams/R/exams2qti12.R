@@ -138,6 +138,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     xmlname <- "qti"
   } else {
     name <- gsub("\\s", "_", name)
+    if(is_number1(name))
+      name <- paste0("_", name)
     xmlname <- name
   }
 
