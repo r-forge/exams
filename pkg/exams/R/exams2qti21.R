@@ -522,14 +522,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       ## generate ids
       if(is.null(mmatrix)) {
         ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-          "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"))
+          "questions" = paste(iid, make_id(10, length(x$metainfo$solution[[i]])), sep = "_"))
       } else {
         qs <- strsplit(x$questionlist, mmatrix, fixed = TRUE)
         mrows <- unique(sapply(qs, function(x) { x[1] }))
         mcols <- unique(sapply(qs, function(x) { x[2] }))
         ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-          "questions" = paste(iid, make_id(10, length(x$metainfo$solution)), sep = "_"),
-          "mmatrix_matches" = matrix(x$metainfo$solution, nrow = length(mrows), byrow = TRUE)
+          "questions" = paste(iid, make_id(10, length(x$metainfo$solution[[i]])), sep = "_"),
+          "mmatrix_matches" = matrix(x$metainfo$solution[[i]], nrow = length(mrows), byrow = TRUE)
         )
         ids[[i]]$mmatrix_questions <- list(
           "rows" = paste(iid, make_id(10, length(mrows)), sep = "_"),
