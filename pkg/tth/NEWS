@@ -2,6 +2,8 @@ Changes in Version 4.12-0
 
   o Upgrade to latest TtH version included in Debian (4.12).
 
+  o Updated Makefile.win according to "Writing R Extensions"
+
 
 Changes in Version 4.3-3
 
