@@ -515,6 +515,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       x$metainfo[[i]]
     } else NULL
 
+    ## extract solution.
+    msol <- x$metainfo$solution
+    if(!is.list(msol))
+      msol <- list(msol)
+
     for(i in 1:n) {
       ## get item id
       iid <- x$metainfo$id
@@ -522,14 +527,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       ## generate ids
       if(is.null(mmatrix)) {
         ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-          "questions" = paste(iid, make_id(10, length(x$metainfo$solution[[i]])), sep = "_"))
+          "questions" = paste(iid, make_id(10, length(msol[[i]])), sep = "_"))
       } else {
         qs <- strsplit(x$questionlist, mmatrix, fixed = TRUE)
         mrows <- unique(sapply(qs, function(x) { x[1] }))
         mcols <- unique(sapply(qs, function(x) { x[2] }))
         ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-          "questions" = paste(iid, make_id(10, length(x$metainfo$solution[[i]])), sep = "_"),
-          "mmatrix_matches" = matrix(x$metainfo$solution[[i]], nrow = length(mrows), byrow = TRUE)
+          "questions" = paste(iid, make_id(10, length(msol[[i]])), sep = "_"),
+          "mmatrix_matches" = matrix(msol[[i]], nrow = length(mrows), byrow = TRUE)
         )
         ids[[i]]$mmatrix_questions <- list(
           "rows" = paste(iid, make_id(10, length(mrows)), sep = "_"),
