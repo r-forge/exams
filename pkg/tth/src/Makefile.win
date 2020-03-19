@@ -9,10 +9,10 @@ CFLAGS = -w
 all: tth.exe ttm.exe
 
 tth.exe: tth.c
-	$(CC) $(CFLAGS) -o tth.exe tth.c 
+	$(CC) -w -o tth.exe tth.c 
 
 ttm.exe: ttm.c
-	$(CC) $(CFLAGS) -o ttm.exe ttm.c 
+	$(CC) -w -o ttm.exe ttm.c 
 
 clean:
 	rm -f tth.exe ttm.exe
