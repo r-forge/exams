@@ -4,6 +4,8 @@ Changes in Version 4.12-0
 
   o Updated Makefile.win according to "Writing R Extensions"
 
+  o Compile executables using flag -w
+
 
 Changes in Version 4.3-3
 
