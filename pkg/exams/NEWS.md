@@ -59,6 +59,13 @@
   (only internal previously). Based on a language specification in a DCF
   file this sets up a list with language texts (possibly converted to HTML).
 
+* New exercise `capitals.Rmd`/`Rnw` that illustrates how a certain number
+  of true/false items can be chosen randomly from a longer list. The exercise
+  can also be switched from `mchoice` to `schoice` without any further
+  necessary modifications. Finally, the exercise illustrates that UTF-8
+  encoding is needed for the Rmd version with in the Rnw version the few
+  special characters can be coded in ASCII using LaTeX commands.
+
 * In R/Markdown exercises the question/solution answerlist can now use
   not only `*` but also `-` as the symbol for bullet points (suggested
   by Ben Kasel).
