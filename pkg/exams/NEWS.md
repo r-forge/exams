@@ -1,4 +1,4 @@
-# exams 2.3-5
+6# exams 2.3-5
 
 * New function `expar()` that helps to fix parameters (defined in the first
   code chunk of an exercise). For example `expar("deriv.Rmd", a = 1, c = 0)`
@@ -55,7 +55,7 @@
   is only the default writer (optimized for OpenOLAT) but further flavors
   are planned (including a workflow for Moodle).
 
-* Function `nops_language()` is now exported as part of the users interface
+* Function `nops_language()` is now exported as part of the user interface
   (only internal previously). Based on a language specification in a DCF
   file this sets up a list with language texts (possibly converted to HTML).
 
@@ -63,7 +63,7 @@
   of true/false items can be chosen randomly from a longer list. The exercise
   can also be switched from `mchoice` to `schoice` without any further
   necessary modifications. Finally, the exercise illustrates that UTF-8
-  encoding is needed for the Rmd version with in the Rnw version the few
+  encoding is needed for the Rmd version while in the Rnw version the few
   special characters can be coded in ASCII using LaTeX commands.
 
 * In R/Markdown exercises the question/solution answerlist can now use
