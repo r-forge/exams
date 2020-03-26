@@ -775,6 +775,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       if(ans) {
         txml <- paste(txml, collapse = '\n')
+        if(length(grep("choice", type[i])) & !any(grepl('<table>', xml, fixed = TRUE)))
+          txml <- paste0('</p>', txml, '<p>')
         xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
       } else {
         xml <- c(xml, txml)
