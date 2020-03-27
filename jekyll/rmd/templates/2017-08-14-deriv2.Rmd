@@ -2,7 +2,7 @@
 writeLines(include_template(
   name = "deriv2",
   title = "Product Rule for Derivatives (Single-Choice)",
-  teaser = "Exercise template for computing the derivative (single-choice) of a production function with factors of type x<sup>a</sup> and exp(b * x) at a given point c, with randomly-drawn a, b, and c.",
+  teaser = "Exercise template for computing the derivative (single-choice) of a product function with factors of type x<sup>a</sup> and exp(b * x) at a given point c, with randomly-drawn a, b, and c.",
   description = "Computing the first derivative of a product function with two factors and randomly-drawn parameters, using the product rule. In addition to the correct solution, four false alternatives are generated through <code class=\"highlighter-rouge\">num_to_schoice()</code> by providing two common errors along with a range and minimal delta for two further random solutions.",
   tags = c("single-choice", "arithmetic", "derivative", "mathematics"),
   related = "deriv",

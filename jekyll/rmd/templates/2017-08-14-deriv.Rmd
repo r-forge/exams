@@ -2,7 +2,7 @@
 writeLines(include_template(
   name = "deriv",
   title = "Product Rule for Derivatives",
-  teaser = "Exercise template for computing the derivative (numeric answer) of a production function with factors of type x<sup>a</sup> and exp(b * x) at a given point c, with randomly-drawn a, b, and c.",
+  teaser = "Exercise template for computing the derivative (numeric answer) of a product function with factors of type x<sup>a</sup> and exp(b * x) at a given point c, with randomly-drawn a, b, and c.",
   description = "Computing the first derivative of a product function with two factors and randomly-drawn parameters, using the product rule.",
   tags = c("numeric", "arithmetic", "derivative", "mathematics"),
   related = "deriv2",
