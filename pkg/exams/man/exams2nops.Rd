@@ -1,6 +1,7 @@
 \name{exams2nops}
 \alias{exams2nops}
 \alias{make_nops_template}
+\encoding{UTF-8}
 
 \title{Generation of Written Exams for Automatic Evaluation}
 
@@ -149,6 +150,7 @@
   Italian (\code{"it"}),
   Japanese (\code{"ja"}),
   Korean (\code{"ko"}),
+  Norwegian (Bokmål, \code{"no"}),
   Portuguese (\code{"pt-PT"} or \code{"pt-BR"}; also \code{"pt"} is synonymous with \code{"pt-PT"}),
   Romanian (\code{"ro"}),
   Russian (\code{"ru"}),

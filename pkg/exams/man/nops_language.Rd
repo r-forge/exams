@@ -14,16 +14,13 @@
 
 \arguments{
   \item{file}{character. Path to a DCF file with a language specification.
-    Currently, the package ships: English (\code{"en"}), Dutch (\code{"nl"}),
-    French (\code{"fr"}), German (\code{"de"}), Italian (\code{"it"}),
-    Romanian (\code{"ro"}), Portuguese (\code{"pt"}), Spanish (\code{"es"}),
-    Turkish (\code{"tr"}).}
+    See \code{\link[exams]{exams2nops}} for a list of languages shipped in the package.}
   \item{converter}{character. The HTML converter to be used for the language
     text elements. Can be \code{"none"}, \code{"tth"}, or \code{"pandoc"}.}
 }
 
 \details{
-  The NOPS exams infrastructure is internationalized and can be customized throug
+  The NOPS exams infrastructure is internationalized and can be customized through
   DCF files (borrowing the format from Debian configuration files). For a detailed
   description see: \url{http://www.R-exams.org/tutorials/nops_language/}.
   The DCF files typically either contain special characters as LaTeX commands or

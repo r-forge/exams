@@ -1,4 +1,4 @@
-6# exams 2.3-5
+# exams 2.3-5
 
 * New function `expar()` that helps to fix parameters (defined in the first
   code chunk of an exercise). For example `expar("deriv.Rmd", a = 1, c = 0)`
@@ -39,11 +39,11 @@
   is installed.
 
 * Improved NOPS language support: Added Korean (`ko`, Saewon Jeong),
-  Japanese (`ja`, Kohei Watanabe), Slovenian (`sl`, Matjaz Jeran),
-  Vietnamese (`vi`, Tran Thi Hoang Ha). Some languages require that
-  markboth/pagestyle are set after `\begin{document}` and that a `\newpage` is
-  included directly before `\end{document}`, both of which were adapted
-  correspondingly.
+  Japanese (`ja`, Kohei Watanabe), Norwegian (Bokmal, `no`, Tormod Boe),
+  Slovenian (`sl`, Matjaz Jeran), Vietnamese (`vi`, Tran Thi Hoang Ha).
+  Some languages require that markboth/pagestyle are set after
+  `\begin{document}` and that a `\newpage` is included directly before
+  `\end{document}`, both of which were adapted correspondingly.
   
 * Improvements in `nops_eval()`: Show exam ID in HTML report and round
   points to four digits. The `language=` file paths do not have to be
