@@ -15,7 +15,7 @@ topics:
     title: E-Learning
     url: '/intro/elearning/'
     description: |
-      Exercises for Moodle, Blackboard, OLAT, ...
+      Exercises for Moodle, Canvas, OpenOLAT, Blackboard, ...
 
   - icon: vector/oneforall.svg
     image: "moodle-arsnova-nops.big.jpg"
@@ -48,7 +48,7 @@ mission:
     [dynamic exercise templates](/intro/dynamic/) large numbers of personalized exams/quizzes/tests can be
     created for various systems: PDFs for classical [written exams](/intro/written/) (with
     automatic evaluation), import formats for [learning management systems](/intro/elearning/) (like
-    Moodle, Blackboard, OLAT, or Ilias), live voting (via ARSnova), and the
+    Moodle, Canvas, OpenOLAT, or Blackboard), live voting (via ARSnova), and the
     possibility to create custom output (in PDF, HTML, Docx, ...).
     
     Exercise types include multiple-choice or single-choice questions, numeric

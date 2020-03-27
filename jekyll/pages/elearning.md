@@ -6,7 +6,7 @@ layout: workflow
 title: "<img height='100%' src='../../images/vector/elearning.svg' alt='E-Learning'> E-Learning"
 meta_title: "R/exams: E-Learning"
 subheadline: "Tests for Moodle, Blackboard, ..."
-teaser: "Easily generate large online tests for various learning management systems (like Moodle, Blackboard, OLAT, Ilias, ...)."
+teaser: "Easily generate large online tests for various learning management systems (like Moodle, Canvas, OpenOLAT, Blackboard, ...)."
 permalink: "/intro/elearning/"
 #
 # Style
@@ -29,7 +29,7 @@ workflow:
         ###### 1. Goal
         * Online tests as part of your course, typically using your
           university's learning management system (like Moodle,
-          Blackboard, OLAT, Ilias).
+          Canvas, OpenOLAT, Blackboard).
         * But entering exams "by hand" is tedious and...
         * ...(a large number of) random variations of
           similar exercises is required to reduce the risk of cheating.
@@ -56,5 +56,6 @@ workflow:
 
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
 * Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Tutorial: [E-Learning Quizzes with R/exams for Moodle and OpenOLAT]({{ site.url }}/tutorials/elearning/).
 * Tutorial: [Dynamic Online Tests with Blackboard and R/exams]({{ site.url }}/tutorials/exams2blackboard/).
 * [Blog archive]({{ site.url }}/blog/).

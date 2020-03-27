@@ -1,0 +1,1344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 1</text>
+</category>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R1 Q1 : swisscapital </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>There is no de jure capital but the de facto capital and seat of the federal authorities is Bern.</p>
+<ol type = "a">
+<li> False. </li>
+<li> False. </li>
+<li> False. </li>
+<li> True. </li>
+<li> False. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>true</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Geneva
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+St. Gallen
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Lausanne
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="100" format="html">
+<text><![CDATA[<p>
+Bern
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Basel
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R2 Q1 : swisscapital </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>There is no de jure capital but the de facto capital and seat of the federal authorities is Bern.</p>
+<ol type = "a">
+<li> False. </li>
+<li> False. </li>
+<li> False. </li>
+<li> True. </li>
+<li> False. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>true</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Basel
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+St. Gallen
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Vaduz
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="100" format="html">
+<text><![CDATA[<p>
+Bern
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Lausanne
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R3 Q1 : swisscapital </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>There is no de jure capital but the de facto capital and seat of the federal authorities is Bern.</p>
+<ol type = "a">
+<li> False. </li>
+<li> True. </li>
+<li> False. </li>
+<li> False. </li>
+<li> False. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>true</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Lausanne
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="100" format="html">
+<text><![CDATA[<p>
+Bern
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Geneva
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+St. Gallen
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+Basel
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 2</text>
+</category>
+</question>
+
+
+<question type="numerical">
+<name>
+<text> R1 Q2 : deriv </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the derivative of <span class="math">f(x) = x^{3} e^{3.6x}</span>, evaluated at <span class="math">x = 0.72</span>?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>Using the product rule for <span class="math">f(x) = g(x) \cdot h(x)</span>, where <span class="math">g(x) := x^{3}</span> and <span class="math">h(x) := e^{3.6x}</span>, we obtain </p><div class="math">\begin{aligned}
+f&#39;(x) &amp; = &amp; [g(x) \cdot h(x)]&#39; = g&#39;(x) \cdot h(x) + g(x) \cdot h&#39;(x) \\
+      &amp; = &amp; 3 x^{3 - 1} \cdot e^{3.6x} + x^{3} \cdot e^{3.6x} \cdot 3.6 \\
+      &amp; = &amp; e^{3.6x} \cdot(3 x^2 + 3.6 x^{3}) \\
+      &amp; = &amp; e^{3.6x} \cdot x^2 \cdot (3 + 3.6x).\end{aligned}</div><p> Evaluated at <span class="math">x = 0.72</span>, the answer is </p><div class="math">e^{3.6\cdot 0.72} \cdot 0.72^2 \cdot (3 + 3.6\cdot 0.72) = 38.718939.</div><p> Thus, rounded to two digits we have <span class="math">f&#39;(0.72) = 38.72</span>.</p>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<answer fraction="100" format="moodle_auto_format">
+<text>38.72</text>
+<tolerance>0.01</tolerance>
+</answer>
+</question>
+
+
+<question type="numerical">
+<name>
+<text> R2 Q2 : deriv </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the derivative of <span class="math">f(x) = x^{5} e^{2.6x}</span>, evaluated at <span class="math">x = 0.53</span>?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>Using the product rule for <span class="math">f(x) = g(x) \cdot h(x)</span>, where <span class="math">g(x) := x^{5}</span> and <span class="math">h(x) := e^{2.6x}</span>, we obtain </p><div class="math">\begin{aligned}
+f&#39;(x) &amp; = &amp; [g(x) \cdot h(x)]&#39; = g&#39;(x) \cdot h(x) + g(x) \cdot h&#39;(x) \\
+      &amp; = &amp; 5 x^{5 - 1} \cdot e^{2.6x} + x^{5} \cdot e^{2.6x} \cdot 2.6 \\
+      &amp; = &amp; e^{2.6x} \cdot(5 x^4 + 2.6 x^{5}) \\
+      &amp; = &amp; e^{2.6x} \cdot x^4 \cdot (5 + 2.6x).\end{aligned}</div><p> Evaluated at <span class="math">x = 0.53</span>, the answer is </p><div class="math">e^{2.6\cdot 0.53} \cdot 0.53^4 \cdot (5 + 2.6\cdot 0.53) = 1.996392.</div><p> Thus, rounded to two digits we have <span class="math">f&#39;(0.53) = 2.00</span>.</p>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<answer fraction="100" format="moodle_auto_format">
+<text>2</text>
+<tolerance>0.01</tolerance>
+</answer>
+</question>
+
+
+<question type="numerical">
+<name>
+<text> R3 Q2 : deriv </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the derivative of <span class="math">f(x) = x^{7} e^{2x}</span>, evaluated at <span class="math">x = 0.64</span>?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>Using the product rule for <span class="math">f(x) = g(x) \cdot h(x)</span>, where <span class="math">g(x) := x^{7}</span> and <span class="math">h(x) := e^{2x}</span>, we obtain </p><div class="math">\begin{aligned}
+f&#39;(x) &amp; = &amp; [g(x) \cdot h(x)]&#39; = g&#39;(x) \cdot h(x) + g(x) \cdot h&#39;(x) \\
+      &amp; = &amp; 7 x^{7 - 1} \cdot e^{2x} + x^{7} \cdot e^{2x} \cdot 2 \\
+      &amp; = &amp; e^{2x} \cdot(7 x^6 + 2 x^{7}) \\
+      &amp; = &amp; e^{2x} \cdot x^6 \cdot (7 + 2x).\end{aligned}</div><p> Evaluated at <span class="math">x = 0.64</span>, the answer is </p><div class="math">e^{2\cdot 0.64} \cdot 0.64^6 \cdot (7 + 2\cdot 0.64) = 2.046478.</div><p> Thus, rounded to two digits we have <span class="math">f&#39;(0.64) = 2.05</span>.</p>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<answer fraction="100" format="moodle_auto_format">
+<text>2.05</text>
+<tolerance>0.01</tolerance>
+</answer>
+</question>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 3</text>
+</category>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R1 Q3 : ttest </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>The waiting time (in minutes) at the cashier of two supermarket chains with different cashier systems is compared. The following statistical test was performed:</p>
+<pre><code>    Two Sample t-test
+
+data:  Waiting by Supermarket
+t = -2.0525, df = 120, p-value = 0.02115
+alternative hypothesis: true difference in means is less than 0
+95 percent confidence interval:
+       -Inf -0.2212139
+sample estimates:
+ mean in group Sparag mean in group Consumo 
+             4.331325              5.481321 </code></pre>
+<p>Which of the following statements are correct? (Significance level <span class="math">5\%</span>)</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<ol type = "a">
+<li> True. The absolute value of the test statistic is equal to 2.052. </li>
+<li> True. The test aims at showing that the difference of means is smaller than <span class="math">0</span>. </li>
+<li> False. The <span class="math">p</span> value is equal to <span class="math">0.0211</span>. </li>
+<li> False. The test aims at showing that the alternative that the waiting time is shorter at Sparag than at Consumo. </li>
+<li> True. The test result is significant (<span class="math">p &lt; 0.05</span>) and hence the alternative is shown, that the difference of means are smaller than <span class="math">0</span>. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>false</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+The absolute value of the test statistic is larger than 1.96.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The absolute value of the test statistic is equal to 2.052.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+A one-sided alternative was tested.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The test aims at showing that the difference of means is smaller than <span class="math">0</span>.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The <span class="math">p</span> value is larger than <span class="math">0.05</span>.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The <span class="math">p</span> value is equal to <span class="math">0.0211</span>.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The test shows that the waiting time is longer at Sparag than at Consumo.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The test aims at showing that the alternative that the waiting time is shorter at Sparag than at Consumo.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+The test shows that the waiting time is shorter at Sparag than at Consumo.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The test result is significant (<span class="math">p &lt; 0.05</span>) and hence the alternative is shown, that the difference of means are smaller than <span class="math">0</span>.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R2 Q3 : ttest </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>The waiting time (in minutes) at the cashier of two supermarket chains with different cashier systems is compared. The following statistical test was performed:</p>
+<pre><code>    Two Sample t-test
+
+data:  Waiting by Supermarket
+t = -1.9156, df = 117, p-value = 0.05786
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -2.74815480  0.04574051
+sample estimates:
+ mean in group Sparag mean in group Consumo 
+             5.925846              7.277053 </code></pre>
+<p>Which of the following statements are correct? (Significance level <span class="math">5\%</span>)</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<ol type = "a">
+<li> False. The absolute value of the test statistic is equal to 1.916. </li>
+<li> False. The test aims at showing that the difference of means is unequal to <span class="math">0</span>. </li>
+<li> True. The <span class="math">p</span> value is equal to <span class="math">0.0579</span>. </li>
+<li> False. The test result is not significant (<span class="math">p \ge 0.05</span>). </li>
+<li> False. The test result ist not significant (<span class="math">p \ge 0.05</span>). </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>false</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+The absolute value of the test statistic is larger than 1.96.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The absolute value of the test statistic is equal to 1.916.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+A one-sided alternative was tested.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The test aims at showing that the difference of means is unequal to <span class="math">0</span>.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="100" format="html">
+<text><![CDATA[<p>
+The <span class="math">p</span> value is larger than <span class="math">0.05</span>.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The <span class="math">p</span> value is equal to <span class="math">0.0579</span>.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+The test shows that the waiting time is longer at Sparag than at Consumo.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The test result is not significant (<span class="math">p \ge 0.05</span>).
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-25" format="html">
+<text><![CDATA[<p>
+The test shows that the waiting time is shorter at Sparag than at Consumo.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The test result ist not significant (<span class="math">p \ge 0.05</span>).
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R3 Q3 : ttest </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>The waiting time (in minutes) at the cashier of two supermarket chains with different cashier systems is compared. The following statistical test was performed:</p>
+<pre><code>    Two Sample t-test
+
+data:  Waiting by Supermarket
+t = 1.336, df = 135, p-value = 0.0919
+alternative hypothesis: true difference in means is greater than 0
+95 percent confidence interval:
+ -0.2010577        Inf
+sample estimates:
+ mean in group Sparag mean in group Consumo 
+             7.067593              6.228852 </code></pre>
+<p>Which of the following statements are correct? (Significance level <span class="math">5\%</span>)</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<ol type = "a">
+<li> False. The absolute value of the test statistic is equal to 1.336. </li>
+<li> True. The test aims at showing that the difference of means is larger than <span class="math">0</span>. </li>
+<li> True. The <span class="math">p</span> value is equal to <span class="math">0.0919</span>. </li>
+<li> False. The test result is not significant (<span class="math">p \ge 0.05</span>). </li>
+<li> False. The test aims at showing that the waiting time at Sparag is longer than at Consumo. The test result ist not significant (<span class="math">p \ge 0.05</span>). </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>false</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-33.33333" format="html">
+<text><![CDATA[<p>
+The absolute value of the test statistic is larger than 1.96.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The absolute value of the test statistic is equal to 1.336.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="50" format="html">
+<text><![CDATA[<p>
+A one-sided alternative was tested.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The test aims at showing that the difference of means is larger than <span class="math">0</span>.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="50" format="html">
+<text><![CDATA[<p>
+The <span class="math">p</span> value is larger than <span class="math">0.05</span>.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The <span class="math">p</span> value is equal to <span class="math">0.0919</span>.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-33.33333" format="html">
+<text><![CDATA[<p>
+The test shows that the waiting time is longer at Sparag than at Consumo.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The test result is not significant (<span class="math">p \ge 0.05</span>).
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-33.33333" format="html">
+<text><![CDATA[<p>
+The test shows that the waiting time is shorter at Sparag than at Consumo.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The test aims at showing that the waiting time at Sparag is longer than at Consumo. The test result ist not significant (<span class="math">p \ge 0.05</span>).
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 4</text>
+</category>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R1 Q4 : boxplots </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>In the following figure the distributions of a variable given by two samples (A and B) are represented by parallel boxplots. Which of the following statements are correct? <em>(Comment: The statements are either about correct or clearly wrong.)</em></p>
+<p><img src="@@PLUGINFILE@@/boxplots-002.png" alt="image" /></p>
+</p>]]></text>
+<file name="boxplots-002.png" encoding="base64">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</file>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<ol type = "a">
+<li> False. Distribution A has on average higher values than distribution B. </li>
+<li> True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box. </li>
+<li> False. The interquartile range in sample A is<br />
+emph<span>not</span> clearly bigger than in B. </li>
+<li> True. The skewness of both distributions is similar, both are about symmetric. </li>
+<li> True. Distribution A is about symmetric. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>false</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The location of both distributions is about the same.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. Distribution A has on average higher values than distribution B.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+Both distributions contain no outliers.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The spread in sample A is clearly bigger than in B.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The interquartile range in sample A is<br />
+emph<span>not</span> clearly bigger than in B.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+The skewness of both samples is similar.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The skewness of both distributions is similar, both are about symmetric.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+Distribution A is about symmetric.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. Distribution A is about symmetric.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R2 Q4 : boxplots </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>In the following figure the distributions of a variable given by two samples (A and B) are represented by parallel boxplots. Which of the following statements are correct? <em>(Comment: The statements are either about correct or clearly wrong.)</em></p>
+<p><img src="@@PLUGINFILE@@/boxplots-002.png" alt="image" /></p>
+</p>]]></text>
+<file name="boxplots-002.png" encoding="base64">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</file>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<ol type = "a">
+<li> False. Distribution B has on average higher values than distribution A. </li>
+<li> True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box. </li>
+<li> True. The interquartile range in sample A is clearly bigger than in B. </li>
+<li> True. The skewness of both distributions is similar, both are about symmetric. </li>
+<li> False. Distribution B is about symmetric. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>false</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The location of both distributions is about the same.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. Distribution B has on average higher values than distribution A.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+Both distributions contain no outliers.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+The spread in sample A is clearly bigger than in B.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The interquartile range in sample A is clearly bigger than in B.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+The skewness of both samples is similar.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The skewness of both distributions is similar, both are about symmetric.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+Distribution B is left-skewed.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. Distribution B is about symmetric.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="multichoice">
+<name>
+<text> R3 Q4 : boxplots </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>In the following figure the distributions of a variable given by two samples (A and B) are represented by parallel boxplots. Which of the following statements are correct? <em>(Comment: The statements are either about correct or clearly wrong.)</em></p>
+<p><img src="@@PLUGINFILE@@/boxplots-002.png" alt="image" /></p>
+</p>]]></text>
+<file name="boxplots-002.png" encoding="base64">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</file>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<ol type = "a">
+<li> False. Distribution A has on average higher values than distribution B. </li>
+<li> True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box. </li>
+<li> False. The interquartile range in sample A is<br />
+emph<span>not</span> clearly bigger than in B. </li>
+<li> True. The skewness of both distributions is similar, both are about symmetric. </li>
+<li> True. Distribution B is about symmetric. </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<shuffleanswers>false</shuffleanswers>
+<single>false</single>
+<answernumbering>abc</answernumbering>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The location of both distributions is about the same.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. Distribution A has on average higher values than distribution B.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+Both distributions contain no outliers.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="-50" format="html">
+<text><![CDATA[<p>
+The spread in sample A is clearly bigger than in B.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+False. The interquartile range in sample A is<br />
+emph<span>not</span> clearly bigger than in B.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+The skewness of both samples is similar.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. The skewness of both distributions is similar, both are about symmetric.
+</p>]]></text>
+</feedback>
+</answer>
+<answer fraction="33.33333" format="html">
+<text><![CDATA[<p>
+Distribution B is about symmetric.
+</p>]]></text>
+<feedback format="html">
+<text><![CDATA[<p>
+True. Distribution B is about symmetric.
+</p>]]></text>
+</feedback>
+</answer>
+</question>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 5</text>
+</category>
+</question>
+
+
+<question type="shortanswer">
+<name>
+<text> R1 Q5 : function </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the name of the R function for least-squares regression?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p><code>lm</code> is the R function for least-squares regression. See <code>?lm</code> for the corresponding manual page.</p>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<usecase>0</usecase>
+<answer fraction="100" format="moodle_auto_format">
+<text>
+lm
+</text>
+</answer>
+</question>
+
+
+<question type="shortanswer">
+<name>
+<text> R2 Q5 : function </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the name of the R function for extracting the estimated covariance matrix from a fitted (generalized) linear model object?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p><code>vcov</code> is the R function for extracting the estimated covariance matrix from a fitted (generalized) linear model object. See <code>?vcov</code> for the corresponding manual page.</p>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<usecase>0</usecase>
+<answer fraction="100" format="moodle_auto_format">
+<text>
+vcov
+</text>
+</answer>
+</question>
+
+
+<question type="shortanswer">
+<name>
+<text> R3 Q5 : function </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>What is the name of the R function for Poisson regression?</p>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p><code>glm</code> is the R function for Poisson regression. See <code>?glm</code> for the corresponding manual page.</p>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>1</defaultgrade>
+<usecase>0</usecase>
+<answer fraction="100" format="moodle_auto_format">
+<text>
+glm
+</text>
+</answer>
+</question>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 6</text>
+</category>
+</question>
+
+
+<question type="cloze">
+<name>
+<text> R1 Q6 : lm </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>Using the data provided in <a href="@@PLUGINFILE@@/regression.csv"><code>regression.csv</code></a> estimate a linear regression of <code>y</code> on <code>x</code> and answer the following questions.</p>
+<ol type = "a">
+<li> {1:MULTICHOICE:%0%<code>x</code> and <code>y</code> are not significantly correlated~%0%<code>y</code> increases significantly with <code>x</code>~%100%<code>y</code> decreases significantly with <code>x</code>} </li>
+<li> Estimated slope with respect to <code>x</code>: {1:NUMERICAL:=-0.861:0.01} </li>
+</ol>
+</p>]]></text>
+<file name="regression.csv" encoding="base64">eCx5CjAuMzkzMDU1ODkwMjIxMTQ5LC0wLjQwMjcxOTc0NzcyNDU4NAowLjQwMDMwMjg5MjA4NTE2NSwtMC40ODQ0NzAwMzI3OTMyMzcKLTAuNDc4MjYxMzcwNjc3NTAxLDAuNjA4NTE2NjA2NTc4ODc1Ci0wLjE4OTg1MTM3MDY0MDA5OSwwLjE5NTcwMTI4NTQ5NjAwOQowLjYxOTI5NTAwNTY4NjU4MSwtMC42MDA4OTcyOTUzNDQ1ODkKLTAuMTUxNTIxNDg5OTU1NDg1LC0wLjA2ODc4NTk3OTY0MjkxNjkKMC44NzEyNTE1MTYwNDQxNCwtMS4zNzA2MzIyNTk0NTczOQowLjQxMDM2OTg5NjMyOTkzOSwtMC4yMDUwOTE4NzIxMzc3MjYKLTAuMjcyNzc5NzczOTIwNzc0LDAuNjY4MTk2NTg2MzgzNTUzCi0wLjg2ODkyMTQ0Mjg4ODY3NywwLjczMzYxMzgxMzE5MTcwMwowLjQ4MzI3NDMzOTY5ODI1NSwtMC4xNDQ4ODc1OTA1NzM1NDYKLTAuOTc2NjE4MjUyNjk0NjA3LDEuMDUzOTI3NDAyNjIyNDkKLTAuNTE0NTY5MDk5MDYxMTkxLDAuNDI3Njg4Njg0NDY2ODIxCi0wLjI2NDk2MzcyODg0MTM5NCwwLjU4OTUzMzA3NTY4MTI1NgowLjcwNTk4MzcwMjU1OTAyNCwtMC44MDYwNzk1ODEyMTU3OAowLjUwOTE4NTk0NjA4MDgzNCwtMC41MTUxMDQzNzYwOTc1MjIKLTAuMjQ0NTcwOTM5MzM1OTcyLC0wLjA1Mzg2OTk4MTA5ODI0NDgKMC40OTg0MTY1NzcwMDAxNzEsLTAuNTAxMTI2NjA2NDEyMDkxCjAuNDQzODM0MjQxMDEzOTc0LC0wLjg1NDE0OTI2ODU4MTI2NgotMC43Njc1MzU4MzUwMzg4NzEsMC44OTY5NzEzMzc5MzQzNjMKLTAuMDMwNTI4Mzg0MjYwODMzMywtMC40MTgzNTM1NDg2MjAwNjgKLTAuODMwODA4Njk3MjY4MzY3LDAuNDcwNTUwNDY1NjM0NDEzCi0wLjg5NjkzNjM3MTQ1NjgzMiwwLjQ5NjYxMjY5ODAyNjQyMwotMC43OTc4ODUzNTk3MzA1NzIsMC44NzQwNjIxOTg0NjU5NTkKMC44NzU4OTI0Njk2NTk0NDgsLTAuODM2MTY0NjI3OTY0ODA2CjAuNTExNTMxMTQ3MTc0NTM3LC0wLjQxMTU4MDU3NTU2NzA4NwowLjE4MzE5OTExNDE2NjIsLTAuMjU0ODU2NzM3MDE3NTY1Ci0wLjY2MTYwMjE3MjA2OTI1MiwwLjI0MTk4MDA0MjU2ODUxNQotMC45MTk3ODU5NTU0NTUxNTQsMS4wMzg3MjI2MzMwNTUwOAowLjEzOTg3ODk0MTY5OTg2MiwwLjE3NzIxMzk4NjkyMzY0NQowLjc0OTc1NDIxNTU5MDY1NiwtMC4yOTMxOTQ4OTA2NDUxMzQKMC4xMTc5NzMzMzg4MTI1OSwwLjE0NDc2NTQyNDA3ODQwOQowLjg0Mjg5OTA4NTQ4ODE3LC0wLjkyODQxMTQzMjQ1OTcxOQowLjExNTk5OTc2MzM2NTgzNSwtMC4wMjExODg3Njk3NDc3MDQxCi0wLjEyNTI4NzA4ODU2NTUyOCwtMC4wMjA3OTQyNzExOTAyMjIyCjAuMjM5MjY3MDkxMjY2ODExLC0wLjAwNjkwNjIyNTg0MTcwODg2CjAuMTM4MTcwNzU4NzI3OTM4LC0wLjM0NDY1MDM4MzM2NjQzMgowLjY0MjQyMDQ0NDE3MTg3NiwtMC44NjE5OTgzODk0NTI0OTUKLTAuNDcyNzQ5ODU4MTYzMjk3LC0wLjA0MjIxMjk4NTM1NDE1MQotMC44MDc3MDU1NDk1MjMyMzQsMC40MDA0NDA2OTgyODI3MDkKLTAuOTI4MTEyNDIyMTE2MTAxLDAuMTg0NDY0MTYxMTM1Njc4Ci0wLjM2MjI2NTk0MDc1NTYwNiwtMC4wNDU5Mzc2Nzk3NTM2OTY0CjAuNzU0MzI4NzgzNjAxNTIyLC0xLjA4MTM4MjQwNTM2NDg2Ci0wLjk2NTgwNzM3MDg0MTUwMywwLjg1MDA0Nzk5NDg1MjcyNAowLjMxMzg0NzkzMzQzMDIyNSwtMC4xOTY3NzU1MDMxNzM5NzYKLTAuNzY2NzY5NDM1NzIyMzgxLDEuMTI3MzQwOTU3NjIzNDMKMC44ODc3NTg2ODU3NDE1NzQsLTAuNjE4MTQxMjgyMTUyMjU4CjAuMjUwMjA0NzY1MjM3ODY4LC0wLjExNDY5OTI0ODcxNTg2MgotMC4zMDY1NDg5NzE2ODI3ODcsMC4zMzU0NDU4OTkyMzA2NDQKLTAuNzQ2NDEwNzc2Mzk1MzUxLDAuNjY1Mzc0MTExODc5MjA3Ci0wLjcxNTgxMzE2MzIwMjI1NiwwLjg3MTA1ODE0ODY1OTkyNQowLjQ5Mzg1OTgyOTM4MTEwOCwtMC42OTczNDcyOTQ4MDYwNTQKLTAuNTQ1MjM2NjAxOTU5OTE0LDAuMTg0MDIyMjE2NTAzNjczCi0wLjkxMTg3MTQ5OTM4MTk1OSwwLjk1MTAzODc5MzQ3NDY5NQowLjAyMzIwNjE3NTc3MDYxMDYsLTAuMTY4MzE0NzY2MTYzMjk4CjAuNTkzMDYyMDY2OTM4NzI4LC0wLjI5ODI1NzU4MjI2MDE0MgowLjExMjY2NTM0Nzc1NDk1NSwtMC4xNjE1ODQ0MzAyMTAzMTMKMC4yOTE5NzkwMjQxODY3MywtMC4wMjUyNDUyOTk5MTQ0Njc1CjAuNzQ2MDg0MjQwMjY1MTkxLC0wLjc5MjY5ODE5Nzk1NjE4OQowLjA4ODQ3MjYzNTAxOTU3MDYsLTAuMDU2MTg1ODc5NzQ4MDI1MQowLjg4MjU0NzAwMTgyMDA1OCwtMC40ODM4NDM4NDU3MzEwNzgKLTAuMTcyMDAzNTU2MDQyOTEsLTAuMjA3MzkzMzc5Njc3Mzc2CjAuMTY5NjAxNDE5OTQwNTkxLC0wLjQxOTkzNDgzMzgzMzIyNwowLjkwODA4NzU4NTEyMTM5MywtMC42Njk3NzQyNjU1MTE2MTIKLTAuMzc1MDYzMTI1OTc1NDMsMC4xNjM3MDQyMjc1MTk4MTUKMC4xNDI0NTQ5OTQzNzY3NDksLTAuMTE4OTE2ODAxMDI0MzYxCi0wLjM2NjkwODkzMjEwNDcwNywwLjAzODUwODI2MzMxNzkxNzMKMC4xOTc2ODk1ODg2NDczMzYsLTAuMDMxOTExMDA1NzYxMTIKMC41MzI4MDE4ODE4OTgxOTUsLTAuNDYyNDExNzg2NDc4Nzk2CjAuODA0NzY2NDE2NTQ5NjgzLC0wLjYzNDY3NDU5NTM3ODUKMC4xMDMxODY1NTAwODQ1MDIsLTAuMDkyNDg2MjcyNjg5MjkxNwowLjE5NjI2NDcyNjU3NTQ2NCwtMC4yNTk2NDc0NzMwNjU1ODUKLTAuNzYxOTY0MTQyNzg4MjAyLDAuNjI1OTIyOTE0MTE2MTg5CjAuOTcxMjExMDUyMDM0MDUsLTAuNzQyMzU1MzAzNDY0NDkzCjAuNDkxNzExMzUyNDg2MTYzLC0wLjcyOTQ0MzI1NjM5NTQ2NgotMC42NDY1NzA1NDE4OTU5MjYsMC42NzkwMzc2NjE0ODU5NDgKLTAuNzAwNTg1NzIxNTI2Mjk1LDAuMzAwNTExNjEwNDQ4NTk4Ci0wLjYzODI5MTA0MzIyOTQwMSwwLjc5NTUyMzY0ODAyODI2MwowLjU2NDU3NjY5NzA3MDE1MiwtMC43MzgxMzE1MzQ4NjUyNzUKLTAuMzc1NjkzOTA5MzU4MjMzLDAuMzgyNzI4OTI3MTk3MzQxCi0wLjM1NzAwOTY2MzI0NjU3MiwwLjMyNDMyMTUyODg4ODgyNQowLjYwNjg0Njg5NzM5NzE5LC0wLjU5NTcxNjgyMjk1MzE0NAowLjc3ODU4MDcyNDI2MTcwMSwtMC4zNDc4NTYzMDYyODg0NTQKLTAuMTM1MTM4NDk0ODkzOTA5LC0wLjEwNjgxNjI3MDkyMzM3NgowLjQyMDU5NzQ1NDA2NzMyLC0wLjYwNjY4NTE1NjIwMTI4MgowLjM2NzM3MjA4MTYxNTAzMSwtMC4yNTkzMDQ3ODU0NzM4MzcKLTAuMjczMDg3MTQyMDM1MzY1LDAuMzU3MTI4NTI4NTEwMDg3Ci0wLjQ5MzkxMzU5MTM3MzcxMiwwLjYyNDMzNjI0ODU2OTI0MgowLjY2NjA1NjQyNDg0NTAxLC0wLjU3MjI4MTU4Mjk3OTA0MQotMC44MDgxNTg0MzM5OTYxNDEsMC42ODE1ODMzMzA0OTMyMzgKLTAuNTYyNjQyMTc5NDI5NTMxLDAuNjk1MzEyMjI2Nzc0MDg4Ci0wLjQzMDA2NTM0NjQxNjA4NiwwLjI5NjAzMDUyMTU5MjUxNwotMC44MDEzOTc0ODk4NDk0NzgsMC4zMzg1Nzc0ODQzNTMzMzMKLTAuNDQyOTY0MTE3MDQyNzIsMC41MDUxNTIzOTg1ODgwMjQKLTAuNDQ5Njg0MjY4MzI5MjkzLDAuMDY0MzUyNzY4NjE1NTU0NwotMC4yMDk2MDkwNTE3MDA2ODEsMC4wMzAzMjE2NjU1Mzg0MDEKMC42MTMxMTg3MTE4NTg5ODgsLTAuNDAxNjAwNzg3NTU3NDA3Ci0wLjA1MzQ4OTk0MTE3MjMwMTgsMC4xNjgxOTI3NTU4NTY0NzcKLTAuODA4NzEzMDQ1NDM2ODg5LDAuNTIzMzY5NTM4NzQzOTQ3Ci0wLjkyMTE5Nzk5MDg4Njg2NywwLjY3MTY1MzI1Mzg4ODEwNAo=</file>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p><img src="@@PLUGINFILE@@/lm-002.png" alt="image" /></p>
+<p>To replicate the analysis in R:</p>
+<pre><code>## data
+d &lt;- read.csv(&quot;regression.csv&quot;)
+## regression
+m &lt;- lm(y ~ x, data = d)
+summary(m)
+## visualization
+plot(y ~ x, data = d)
+abline(m)</code></pre>
+</p>]]></text>
+<file name="lm-002.png" encoding="base64">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</file>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>2</defaultgrade>
+</question>
+
+
+<question type="cloze">
+<name>
+<text> R2 Q6 : lm </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>Using the data provided in <a href="@@PLUGINFILE@@/regression.csv"><code>regression.csv</code></a> estimate a linear regression of <code>y</code> on <code>x</code> and answer the following questions.</p>
+<ol type = "a">
+<li> {1:MULTICHOICE:%0%<code>x</code> and <code>y</code> are not significantly correlated~%100%<code>y</code> increases significantly with <code>x</code>~%0%<code>y</code> decreases significantly with <code>x</code>} </li>
+<li> Estimated slope with respect to <code>x</code>: {1:NUMERICAL:=0.531:0.01} </li>
+</ol>
+</p>]]></text>
+<file name="regression.csv" encoding="base64">eCx5CjAuODEyOTQ0MjE2NjUzNzA1LDAuMTUyNzEwNjc3ODIxNjUKMC43NzY4MTMwMjk3NzcyNTksMC41NTU5OTEwMzQ2NDQ2NQowLjk3MTAzNzg4MTkxNDUyNiwwLjgwMTc3ODExODU3MTkzNwotMC45NjM1NTY3NjA0NTY0MTMsLTAuMzg1NTc0NzU1MDkwNzU3CjAuMjg4OTAzMzQ1ODE5NTYzLDAuMjI5MjYwNDM2NzY1MDU2CjAuODQyMzgyODkyNTAwNjA5LDAuMzk5MzI4NDMwNTUzMTc2CjAuNjA1NTM1MzI4Mzg4MjE0LDAuNDI2Mjc0OTk5NzI2OTQKLTAuMDUwMjcyMTk0NjY4NjUwNiwtMC4zODUwNTk3ODQxMDM2MTEKMC4xNjkxMDExNzM1MjM4MTMsLTAuMTA2MTg1MjQwOTI1NjUyCi0wLjUzNDUwNzcwMzk2NzM5MiwtMC44OTg2NjM4NTk4NzY4NTcKLTAuOTU0MDc5NDgxNzczMDc4LC0wLjI0OTU4MzQ0NzUxMTU5Ci0wLjEyOTAyODQ0MzcxMjc0MSwtMC4wNzI0NDA2NjE4NTIyMDgKMC43NTg5MzcyODM0MTkwNzMsMC42NjY2MjYwMzM3NDE4OTQKMC43MTQyMzI5MTc0MDkzOSwwLjI0NjQ3ODg4ODI0MzA0NwowLjYxMTY1NjE1MzU3NDU4NiwwLjUyNzg3NDc2MjEzMTY3NwotMC4wMDk0Mjc4MjQwNTc2Mzg2NSwwLjAzMTA1OTExNjE5Mjk3NzUKMC44MDQxODc1MzQ4NDI2NCwwLjUxMDgzMDQwNzM0ODAwNQowLjMwNzI2NTA2MTQxOTQ1NywwLjA4MDYzNDkzMzE5MjQxODMKMC44Mzg2OTgyMjEzNzA1NzgsMC4zMzMzODE5MzEyODE2MDcKLTAuMTk2Nzg1ODUxMzgxNzE5LC0wLjMxMDYwMDk4NjE3NTg0NwotMC4yNjExMDk0MjU2ODYzLC0wLjM1NjE5MjQyNjQ0NzE5MwotMC4wOTA5ODE5NTYxMDU2NzkzLDAuMTE2OTMxMTk1NDE4NDIKLTAuOTc3MTI1NDcwNTI2NTE2LC0wLjUwNzc1NDE0Mzk5ODQ3Ci0wLjIxNzgyMDA1NzY0NTQ0LC0wLjA2NjU5MDAyMDUzNDIxMwowLjQwMTM2NzEzNjc0MjkyLDAuMjQwNTE4Mzk1MDkzNTUKMC40NDk0NzQwOTY3NjM4NzksMC4zNzMwNTkyMDM3MDUzNDYKMC42NjI1NzczMDY4NTE3NDUsMC4zNDgyMjE2NTY4OTE4MzUKLTAuNTMxMDA5NTg2MDYyMjgyLDAuMDYyMDEwNzAzNTI2Mjg5NAotMC40NjAyNDIwMDI3MzY3NzcsLTAuMzg2NzM0MDAzNTkyNTA3Ci0wLjIwOTEzMjM0MjEzMzY3MSwwLjAzNjAwNTQ1ODc5NzUyMjQKMC4wMjYyMjUyNjM3MTg1MTU2LC0wLjIzMTAxODM0MzgxOTMyCjAuNTc4NjA3OTAwNTMzODI1LDAuNDE5NjE1MTQ1MjI0NjY4Ci0wLjg1OTI3MTQxMTMxODMzMiwtMC41NDQ3MDgwMjMzMjc4NjEKLTAuOTc1MTQ2OTE0ODMyMjk0LC0wLjMwOTgyMDg2MDQyMzAxMQowLjM1MDI5NDY5ODAyOTc1NywwLjA2MjE5OTI4MDUxNzgwNDkKLTAuOTk0OTk5MDg4MzQ2OTU4LC0wLjMzMjE5NzQxNDg0MjEwOAotMC45NTcyODIzNjI1MDU3OTQsLTAuNTcxODE3Njk4OTY3MzY3Ci0wLjUxOTU4MDg0Mzg1ODQyMSwtMC40MDgxMTg1ODU1OTE0NjgKLTAuNDM5MDUwNDUwOTIxMDU5LC0wLjIzMTYzOTE3NDA0NzU2NAowLjQ4NDYzMTM3MjE1MDAzNCwwLjA0MjA4MzMzMzI1Nzg3NDkKLTAuOTU3Njc1NzkyMjc2ODU5LC0wLjY0ODkzNTI2MTc2MzUyMgotMC41NDAxNzY0ODI0MDU1MTQsLTAuMTI5OTU3OTAyMjEyNTQ2CjAuNzQ1MjM0NzA2NDM5MDc4LDAuMDA3Mzc3OTk0NzY4ODQyNDkKLTAuNjE4NjY3NzAzMTIxOTAxLC0wLjQ2MzY5OTU3MjMyODEzMQotMC43NTkyNjc3Mjc4NDQ0MTcsLTAuMzQyMjAxMDY3MjYxMzc1Ci0wLjkyODg1OTA2NDgyMTE1NCwtMC4wOTUzNjMwODkzOTExOAowLjg2MzIwOTM3MDUyMzY5MSwwLjI4ODEwNzkyMjc1MTkwOAotMC44Mjk2MTE1NDI2MzQ2NjYsLTAuMjQ5NTU4NDQwMDkwODQKMC41ODQxNjY0MjE1NTQ5ODMsMC4zNjQ5MDUxMzMyMjAxOTMKMC43OTQwNDAwNTY4NzY4MzgsMC42Mzc3OTMxMTQzMDg0MjYKMC43MjI3Nzc0OTA5Njk3NDcsMC44MzM1OTkyODU0NDI0MDIKMC42NzM2MzY2MTg1MzU5NjYsMC4xMjM0OTcxMDI4NzA1NjYKLTAuNTMwMzI0MjkxOTAzNTI2LC0wLjY1Mzc1MTIzNTI0NjMxNwotMC4xNjMwMDU5OTc4OTI0NjksMC4wMzM0MzMyOTA3MjUzNzUKLTAuMTQxNzA2MzM0ODkyNjYsLTAuMjQzOTYyMjA2MTk0MDc2Ci0wLjk0NTIxNDI3NjIwMjAyMywtMC40NTEyODI5MzgxMzgzCjAuODAxODYwODI5MzQ5NjA3LDAuMDU1MjM5MTI5NzEzNzc2CjAuNjMxODE1NTE5MTgzODc0LDAuNzg3MjUyMDc0NTc1NjQ5CjAuNDQ3MjkzNDg1NTE0ODIsMC4yOTQyNTY1MDk3MjQzMTMKMC45NzE0OTAxNzMxMzQ5NTMsMC4yOTI2MTAyMzAxMjczMjkKLTAuODMwNzA0NDcyNDkzMzgsLTAuMTg5MzgzNTk0Njk4MTUKLTAuNTgyMjA4NzQ3OTc1NTI4LC0wLjEyNDI2NTk3MjE5NjcwOQotMC45MDk0ODgxODgxMDI4NDEsLTEuMDUxNzM1ODQ1ODU0ODUKLTAuNjE5MDc1NzA2Njk0Mjc1LC0wLjU0MjY4MTIzMTY0NzI1OAotMC42OTI1ODQ3NTgxNTg3NzMsLTAuMzg0NTY2NDA0MTM3MTM0CjAuMzM5NjM0NDI1MDA2ODA3LC0wLjAxMTExNTMwNjgzMDY0OTIKMC4wMjE5OTM2NTg1MDUzODAyLC0wLjQ4ODk1NDc5MjQwMTQ3NgotMC4xNDEyNjE0NTgzOTY5MTIsLTAuNDM4NzkyOTQ4NjAzODkzCjAuODI4NTM3NDk3NjY5NDU4LDAuNzAyMDk5MTEzNjA0NTI1CjAuODE0NjUwNTgxNjgzOTY0LDAuNTY3Mjk4OTk4ODU2MTI1Ci0wLjI5NTU0ODA4NDY1NzYzOSwtMC4yNzIzNjMyOTY2NTk4MQowLjI0MzU2MTE1OTgxOTM2NSwtMC4xMTAwMTU1NDQ0MjI3MjMKLTAuNjQ4NTUzNDU4OTczNzY1LC0wLjIxNzAwNTUyMzQ5MjcyNAotMC40MjY4MTc0OTE2NTA1ODEsLTAuNDMyNjk4MjUwNTM0Mzg1Ci0wLjg1NjgxMjI5MTc3ODYyNCwtMC43NDY5NTkwMTM2OTExNgowLjIzNjk5ODE3MDYxNDI0MywwLjIxMTQxNjMxMTY4MDAzMwowLjU2NTU1MzU1NzEyNzcxNCwwLjE4MTc2MzY3NTQwNzEzMgotMC4yODk5NjkyMTAwNDcyNzUsLTAuMjg2MTE5OTYzNTkxODA0CjAuMzQyMjc5MjQwOTU0NjY3LC0wLjA3OTQzMDE0NTcwOTUzNDUKLTAuMDUzNTQyODk2NjM5NTU1NywwLjQwODE0NTQ1MDE5MTIzOAowLjEwNTI4NTgzMDMzMDEwNCwtMC40NDIzNjUzMzgzNDE3NjIKLTAuNjg5NTczMzU0NTUzNDMxLC0wLjM2ODA4OTQwMTY3MjQxNgowLjgxOTEwMjMyNjg3MzY5LDAuMzE3MTM3OTU5NzY3NzcKMC4zODA0MjExNzk4MTI0MDIsMC4yMDUxMDk0NjIxODI5MTQKMC43NTUyMTQyMjg3NjA0NTEsMC4zNjc5MTU4MzQzNjIwNjkKMC41ODMxMDMxMDk2MTY3ODYsMC4xNDI3Mzk2NTcyMTY3NzYKMC40Njc2NDk3NjcxNzUzMTcsLTAuMDIyMjUwOTQyNzg3NTYzNAowLjE0MzQ4MDE3Mzc3Nzc4OSwtMC4xMDc3MzgzMjEzNDk1MDMKMC4zMjE0OTIyNTUxOTk3MDEsMC4wNjY3NzE0ODUzMzg3NTA1Ci0wLjg5Mzk3MTE5MTcxOTE3NCwtMC4yMzU5MzIwNzMxNzQzNzcKLTAuMzIzODgzMzY2NzcxMDQyLC0wLjI4NTc3MjU0NjM2OTc1NwotMC44NTIzNTYzNjcyNzg4NDQsLTAuNTE1ODQyMDcwNTA0MTczCi0wLjY0OTMyMDk2MzMwNDQ5LC0wLjQxOTU2MDc1NjM4MjYxOQotMC43NDQ3OTIxODQ3OTI0NTksLTAuNzQ1OTUwMzM0NTQyODEzCjAuMDIwNTc3NDQ5ODE3MjEwNCwtMC4xMjkxNDkyNjc1NzYxNgotMC45MDQ4OTQ1ODk0NDY0ODUsLTAuMzY0NDU2MzEwMDkxMDg2Ci0wLjcyNTA3NzM4NDYxNzE4LC0wLjY1NjY3MjkzOTE3OTg3NAowLjMyNzY1Mzc1NDUwMjUzNSwwLjA2MTA1MTk3MTY4NTk1NjYKLTAuODAwNTE1MDE3MDA2NTQ2LC0wLjQ4OTk2OTQwOTU4Nzk2NwowLjI2NTAzMzIyNDEzMTkxMiwwLjM3NTM2NTc3MjI1NjAyMwo=</file>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p><img src="@@PLUGINFILE@@/lm-002.png" alt="image" /></p>
+<p>To replicate the analysis in R:</p>
+<pre><code>## data
+d &lt;- read.csv(&quot;regression.csv&quot;)
+## regression
+m &lt;- lm(y ~ x, data = d)
+summary(m)
+## visualization
+plot(y ~ x, data = d)
+abline(m)</code></pre>
+</p>]]></text>
+<file name="lm-002.png" encoding="base64">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</file>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>2</defaultgrade>
+</question>
+
+
+<question type="cloze">
+<name>
+<text> R3 Q6 : lm </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>Using the data provided in <a href="@@PLUGINFILE@@/regression.csv"><code>regression.csv</code></a> estimate a linear regression of <code>y</code> on <code>x</code> and answer the following questions.</p>
+<ol type = "a">
+<li> {1:MULTICHOICE:%100%<code>x</code> and <code>y</code> are not significantly correlated~%0%<code>y</code> increases significantly with <code>x</code>~%0%<code>y</code> decreases significantly with <code>x</code>} </li>
+<li> Estimated slope with respect to <code>x</code>: {1:NUMERICAL:=0.024:0.01} </li>
+</ol>
+</p>]]></text>
+<file name="regression.csv" encoding="base64">eCx5CjAuMjI2NzA1NTkxNjU5OTkzLC0wLjE2NjMyMzI4NDM5NTI4MgowLjM2MjUwOTM1NzI3NzMwNCwtMC40ODcxODE5MjUwMDIyMjIKLTAuMDc2NTQ3MTQxMTg2ODkzLC0wLjI1MzI0NTk0OTEwODE2NQowLjgzNTc1Nzg1MzkyODk1MywtMC4xNjU3Mjk3MDU0MzAwMDkKLTAuMzExOTM3Njc4MTM5NjU3LC0wLjE5MDIwNTAyMDYyNjYzNQowLjcxODY5MjA3MDgwNDUzNiwwLjEwMTQzNTQ5NDU4MTk3OQowLjc2MTYxMTY2MzczNjQwMywwLjAzMjg4NTIyODIyNDA2MzEKMC45Njg0NDI1OTIzMDQyLDAuMDQ4MzI0MzgyNzA0NTczCjAuNDM5MjE1NzU4MzQ5NzQ2LC0wLjEwNzg1NTMxNzIzMzQ2NgotMC4zNjY5NTkwNzAzMjExNzIsLTAuMTgzMDc3NzQyNjQyMDQKMC40MTIwNzA0MzU0NzE4MzMsMC4wMjQ5NTIxOTgxOTg3OTIxCi0wLjE5MzczMDUxOTE1MzE3OCwwLjIzMTY0NDU2OTQ5MjQxOAotMC44NTIyODkxMTIyODQ3OCwwLjI5OTQ2NzU0ODg2NTQ2MgotMC43OTkzMDE4NDgyODExNzUsLTAuMDAwNDE3MDc2MTcyMjMwNzE2Ci0wLjYxNzcxNzQzNzkxMTc3OSwtMC4xNjE3NTMxNDcxMTE4OTkKLTAuNzQ5MDY4NzA0NDMzNzM5LDAuMjY0OTE4NDE0NTE2ODkzCi0wLjczMTQ5MzkzMzEyNjMzLDAuMTc2NDI5NTUzMzQzNTU4Ci0wLjE3ODcyNTg1MjYzMTAzMiwtMC4xNzQ1MzkwNjgyMDk2MzkKLTAuMjIwODYwODkyOTA2Nzg1LC0wLjY2OTM1NjY0NTc5Nzk5NwotMC40Nzc1MjcyODU0NjAzODMsMC4zMzA5NDQwODk4NTQ3NgotMC43MzY1NjgyMDc4NTI1NDIsLTAuNjQwNjk0Mjk0MDE3MDM2CjAuNDA5MjkyMTYzNzkyOTk4LC0wLjA1MDU1MDA4OTM0MDEzNTkKLTAuOTE4MTA0NTQ5ODY5ODk1LC0wLjMzMjM0MTY1NDI1MzIzNQowLjA3MDI3MzkyMzY4NzYzNjksMC4wMDE1MzY2NzE4MzYwOTM0OAotMC4xMTc3OTYwOTUwODgxMjQsLTAuMTczNzE2NTQ0MTcwNjMxCi0wLjkxOTY3OTcwODc3ODg1OCwwLjQzNjY1MDU5MjQ4MzYyNgowLjE4NjQ5NTkwMzg3OTQwNCwtMC40ODM2MDUwOTA4OTY2MzQKLTAuOTk3MzQzMjY2ODQ4NDc1LDAuMTM5MzkzMjM3NDcyODQ3CjAuNjEyNjkyODc0ODU2MjkzLC0wLjA0MDM5NDIyMjQxNTM3MQowLjczODA2MTIxMTA3MTkwOCwtMC4wNDgwOTAzODc3NTQ0Mzk4CjAuOTM0Njg0MjE4ODM4ODExLC0wLjQ0NjY4NTQ0MjE3NjU1CjAuNTc2NTczOTQ0MTg0OTI5LC0wLjA3MDMwNTM0MDI0MTA2NzUKLTAuOTc1NDA1MDIyNTAxOTQ1LDAuMDk1MTY0OTg4MDk3NTcwOAotMC45OTg2Njg5NTQ3MDc2ODIsMC4xNTcwMzUxMzg4ODQ5MDkKLTAuNjY5MDA0NzkwOTUwNTY3LC0wLjA2MzQyMTg5ODk3NjkwNTcKLTAuOTgwODYyMjY5NjQzNjk0LC0wLjE0OTkwODg1NjI3MDc5NAowLjc1MTEyMDMwNzAxNzExOCwwLjEwMjE5OTMzNDU4MTE3NgowLjIzODA4OTk2MzMyODA5MywwLjA5MjM4NDA1MTQ0NjA0MDkKMC4xNjQxMDA4MDExMDY1NDIsLTAuMTAyMjgyNzE1Mzg2MTQ0Ci0wLjkzMjYwMzU5NjcwOTY2OSwtMC4wMDMyMzg5ODA2MDAxNDk2OAowLjQ5NTMyMDE0NjQzNzczNCwwLjIwMTY4MDEzMzQwMjc4NQowLjIxMTExODA2OTk0MzA0MSwtMC4yNjQzNzgxNDA4NDg4NjMKLTAuNTk5NDIwMzM1MTQzODA1LDAuMDY2ODgwMTAzNzAxMjQxMgowLjg2MTc5NzY1MDM0NDY3LDAuMzE2ODcwMzI3MjE5MDY2Ci0wLjk3MTMxMjYxNDYyMzQ1NywtMC4zNzQyOTA1NzE1MTU2NjcKMC44NjEwNTAyNDQ0MjA3NjcsLTAuMzQxOTY1NTI3Njc2NzM3Ci0wLjkyNzc2NTAyNzYxOTg5OCwtMC4xMzczMzk2MTg4NTk1OTQKLTAuNjU1MTgwMzU1MDY4Mjk2LC0wLjA4NjQ1Mjg0NDA5Mjk0NTUKMC40NjkxMjcwMTI4ODIzODIsLTAuMTM5MTE0MzE4MDc4MDM4CjAuNzE3NjAwMTAxNjA1MDU4LC0wLjMxODI0MDk4OTY0ODUwOAowLjE4NDczOTU3MTUzMDM3MiwtMC4xMTk3NTYzODcwMjA5NDYKMC42NDg0NDA4MjQzNTU5MywwLjE1MTM5Njg2NjYwNTIwNAowLjM1MjY2MjUyODM5OTM3OCwwLjEzMzE3MzYzNzE1MDA2NgowLjg4NDg0ODAyNDIzMDQ1LDAuNDExMzk0MDQyNzMwNTk0Ci0wLjY1MzI3ODI0ODg1MDI1NiwwLjAzODk2Mzg3ODE5ODY4OTQKLTAuMjU1MDQ2MjI5MzQzODYxLC0wLjE4ODIxMDk3MzQzODQ4NgotMC4zNDI4NDcyNjIwNDM1MDYsLTAuNDIxOTMwMzU1NjMzODYxCjAuMzY3NTY4ODA0NDE2ODA2LDAuMDI1OTI1MjEyMTA5ODMwNgotMC45MTA0OTYwMDM0NjAxMzksMC40MDg1OTg3NTI5NDA3MjMKLTAuNzgyMjI3NjYxNDYwNjM4LC0wLjA5NzUxMjI4OTIxNjkzNTQKLTAuMjA0MTY4ODk5OTE2MTEyLDAuMDQyOTQyMjA3NzYwNTMwOAowLjM4NDM1MzI4NDI1ODM5NSwwLjM0MjUwMzc5MDgyMTg0MQowLjI0ODEzNjIwNjk5NTY5NiwtMC4yOTIzNzkzMzUzNTk0MDIKLTAuMzI4MDM0MDIyMzU3MzE1LC0wLjA5MTAyNTA0ODA2MDIxNjEKLTAuMjc3MTc1NzI0NTA2Mzc4LC0wLjM0OTAyMTAyODg4ODE1OAotMC4xODI5NzQ1OTE4NTEyMzQsLTAuMDQxOTMzNjY0MjcwNTE5NQowLjI4MDI3MTAyMzUxMTg4NywtMC4yNTQ3ODkxMzUwNjQ1OTcKMC4wODE4MTQ3Mjc3NDU5NTAyLC0wLjE4NDY3Nzg3NzU5NTM1OQotMC41MTYzNjU4NjE1MjAxNzEsMC4wMDgyNjM0MzIwNzIzNjE5MQotMC4zOTMzMDA5MzcwMjMwMTQsLTAuMjE0MDcxNzI0NDQ2OTA4CjAuNzY2MzAyODc4OTY4NDE4LC0wLjE1OTg4MDg5MzIxMDU4CjAuMDUyNTk4Mjc4MDM4MjAzNywtMC4wMTg4ODYwNjk4MTk3MDE2Ci0wLjU0MTQzMDU0MTMxNDE4NSwtMC4yNDc0MzUyOTYyODU4NgowLjg4ODAwNDY1NTQ4NDExLDAuMTM3Njg1NDgzMDA2MTQKMC45NzI5NjMzNzk2OTYwMTIsLTAuMjAyMzg3Mzc0NjUzNTAxCjAuMTc2MTQ3NTY0Nzc5OTY3LDAuMDM5NjAxMTI2NDU2MDU5OAowLjAxNjg0OTk4MjA4NjU2OTEsLTAuMTkxODEwNTcyNTQ1NzgKMC4yNzc4MTk1MDYzNTgzNTUsMC4wNjIwNTE0NzExNzQ5NTk2CjAuODYwMjgyODQ5OTg2MTA2LDAuMjcwMDA3OTQzNTI4MjEyCjAuNjU1Nzg3Mjk5ODUyODE4LDAuMDQ0MTQwNTY0MDQ4MDI1NQowLjQxMTMyNjU4MTYxMjIyOSwwLjIxNDI0ODUxOTU2Njk5OAowLjgwMDUzNjU2NzgxMDkyMywtMC41Nzg4NjgwMjI0OTk2MDcKMC42MDkwNDA4MDg4NjM5MzgsLTAuMTU4MDcwMzM4NzM1Njc3Ci0wLjk3MDQwOTgxOTM5MDYyNSwtMC4yOTYyNDE0NDg2Mzc5NzMKLTAuMzcwNDA0Nzc1MjU0NDI4LDAuMjY3MjUzMTkxOTk5MzkyCjAuNDQzNzY0MjAwODk5NzUsMC40MzE3MDU0MjUwODA1OTQKLTAuMTY0ODQ1NjcxNTA0NzM2LDAuMDUxMjQ5NzUxOTAyMDQyMgowLjkyMzU4Mzg2OTgyMjMyMywwLjI1NzIzOTg2MTk1OTQ5NwowLjkxMjE4NDg0NjEyMTgxOCwwLjE0NDE0NjI5NjMwNDQzNwowLjE5MTg5OTE1MjAwNjk1NCwtMC4wNTczNzgxODI2NDI2MTg5Ci0wLjIxNzY3MDQ4NDkxMTY1LC0wLjUyNzE0NTE5NjU5NDIyNgowLjYyMTEwNzI1MzI0NjAwOSwwLjExMjA3MzIwNTQzMzc1NQotMC43MDU4MzA2NDg1NDE0NTEsLTAuMDg3MzEyMzc5NDQyMzU4MwowLjI1ODYwMjA5NTMwMjE5NCwwLjEzODQyOTg0MjI0MTY0CjAuMTYwMjk4ODQ3MTI3NzA2LC0wLjI1MzI5MjI3NzA5OTUwNQotMC4wODc4MzA2NTI5NDg0Njg5LDAuMDExMjE0ODMxNDczMTg5CjAuMjYwMjYwNjM5MjQ2NTUzLDAuNTc0MDQ0MDE2MjM0NjYyCjAuNjAyMTM4OTUxNDIwNzg0LC0wLjE1NTgxMjI3MTI3NDU0OQowLjE3ODAwNzYxODA1ODQ3MywwLjAxNTE4Nzg4NjQ4NTM0NTEKLTAuNjUzNzUyNTk1MTg2MjM0LC0wLjI3MDE5ODE3OTg2Mzk4OAo=</file>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p><img src="@@PLUGINFILE@@/lm-002.png" alt="image" /></p>
+<p>To replicate the analysis in R:</p>
+<pre><code>## data
+d &lt;- read.csv(&quot;regression.csv&quot;)
+## regression
+m &lt;- lm(y ~ x, data = d)
+summary(m)
+## visualization
+plot(y ~ x, data = d)
+abline(m)</code></pre>
+</p>]]></text>
+<file name="lm-002.png" encoding="base64">iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAMAAAC3Ycb+AAADAFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////isF19AAAACXBIWXMAAA9hAAAPYQGoP6dpAAAgAElEQVR4nO2dB1gTSRvHo2hQipCEKiBKU0ARAUXsBQSxF+y9cPZynqJYz+7pnZ4dey/ofXIoNiynnnqKBT0blrMclrOg0qQl8+3OBkhCNtlNdsmg83sedtkyO5v970595x0BwCCFwNA3gFEGC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRCDtSAvM4i/mHnH+LgZDGtB0nsIksEpC4GRIOQLPzf0rcNSkJEm07NyHVo+zU+wiObnhr51WApiOxGAG4IU4r8FtXi5n28eloI4rQHgqoDIRsBuC17u55uHpSADfd6BXPEB4r+erXi5n28eloK8cbcZv3dmlQV7egnP8HND3zpsi72vo+0FJI1O052RFIVRZdoN3gQBQPry+slrr+iPTw8y9M9Hj6DpPAqijenMI/9mYPFMdBbk6R39I/9mKA1BgpVDHo0oxKmZrpc0AM8uviuNaEpDkLUTlDZfxBZSq76ulyx1rgZI6pp1ecF/RKUhCC2NG3N+SZ54IN4kBVlT3LJ4j4lXQW7sWr027ib98bIjyJBZcNV2He8x8SjIfh9YDRHU2k13RtkRpM5luFo5mPeY+BNkv6BD7P23bx/E9Sm3h+YULEhJ+BMkoH/hf1Ma0pxSdgSRJ1lhZTnJqrK58L8TdK29ZUeQB+KNZT5TbxGaS/0jHdCS5pSyIwhV7O1cpou9l4Te8+IuXIhfHFCJrrW3DAlCVgzflkY0PJaykrqXJwtZFTpdpDujTAlSSvBaD8l+fO7sgwz641iQkuCaOmJgQRADZUFSBcf1jCD3Xz0vUPqUYUEutbCov7/k1v6WFs4j31M7h9jpe4ulTtkVJMk4dHO/cvtVt2LKdd4xzyIwn9x5UIAFYYVegnT3Jiqe7X1UtmQ2HWQAHBbEk+HFrlgQVmgV5FCkg0P/92oPZhvNJZaxghvKW68E24h/MgSLAJC17j4JC8IKrYLYh2yZbVorX93Bx4I4YnlfsEt5K+dOOvHPMQGReC2r+uEHLAgrtArSQApAAnznS3BOcIFYvhWsVrN1w94rD9w0Pg6wIOzQKsgacuU4Cm7dobq7BI7UwbNyCdaW2MqKFtb/F2R7jQFYEJaoEyT3WVEKlQrTIdCoK9zKuUPxgDr4AObbD6hTFLfOu1qtJC6x0HRPXFwny7irnN81vyAmyIsIoa1w8H/UhvwLcZ6oLmyG0WJiGSe4qbJ1StjrI7nnB/kH1Z3zu1bm46lDj7m8HlqCvHOM+gzejahJ9QOlChoSRdgTgkNwSyXJAp0CiAymTy2VLWn1cIXr8Z9krZAEhlr14NBiCy1BZlB91u1/hatUQcW2O+ebNZLBLZUkC1w0HngyqtxuANYGPy3e+lMwZDVJMjyHd0E21LwDQOaw5jLOroiWIM0Pw9UWKp1JFRzraO08MpMm9OnmFg1Ig5YJgjvFW9vk39EKeArvgrj+QS7zXWi7fDQg+6xuL1qCNDoJXv00dMbcTpxHxQ8ZFaRwPXAN66DPe5oa2/6YXWI/WoKMmrZPPGhlVOUAKedx8cIXI2qAcc+NbEO+sJ32n+zvsJASaR1agjywNL0KZJsk3hs4j4sf6u8ll5+s7rMN+N0kcplfO171AFqCgEiLmuE1fJN+b8R5XPxwympHPrjVaBjrgB5JcDWnRJEeMUFG/HT14PUC8LAq53HxxPkAoUiyNI91uGr34GrZCNUDBhDkatHwLUffErfzA1z94VMiFLKkv9QlVDiV63QuURowgCDXNAhy1Y40fpJ1nsVRXMiSaHeV+J3r7D+qHkAsyQKTq21M+r1VgAbboa+EHdbNenv6lhyrgZog4GRnz9bLGaXJSn3q52B10JL4781AJ/tR6arH0ePj0c3nC0ruRk4Qxij3qW8xWrps2bJVALx2r7NmvElP1eNlBtQFof9WlPvUo10L/7EhcqHp5V6pHC8zoCxIquCYr8BpqNomH5U+ddAjlFpL7ccTy6zkDJXjXJM1w7Wi29ySLR96g7YgVVpvmWPqp7YdRblPHfg1aW7q8n0meCnYm5uUnFfiOMdk+3W+ln61XcNczq+MtiD+RK53VBCr7qByLzqwMDI2MyrnJ7sumCUWCBxPqx7nmBWhZCOUtHkM51dGWxDYL+I4Hm5p7FMvaFD/AcgbLPjlpMA8Nv1BS8tXyse5JpwaNrmlG+dXRluQg+SqURe4pbFP/aoDmZxnlnO5JphP/PNUEKN8nGuaUZ49/9dGt+C5y5q7hx9WewhtQeAX4jxa3UHlPvW5HcnUPLu80UsB+e7mG81TPs41w+fC1bRxOoXO8A9OuLXNdYy6Y+gKkp+RKiD7RU4KdsJtjX3qowTk498nKF8Q1AuQtlzHVPrcOea65C9ieUF0V6fQczqTOVCao7p+RlQFSQ4WGlcTmIfuXGDuQ9VnNfapHzc3Gbl7ukmwL2l1smehZbCs+Dgv7LVuO66N7W+6Ba5HDbqcNkXNMUQFuSxe+Tn/kCB0kH3VgSXa3+Qo9qkX+Df0Nas7sfo+YneLKjWnZSsc54cPexftp7szbThTbe8rh6o5hqggzTYBMg8xT2F6qVedrEMDrMpIR2OLA3AVOV/NMTQFyTMim3tTBc1YPOGUQ2fTubipUmCbN2nIdcXyHzXH0BQky4jMN1IFbX7lPE4UkH1v1X1IZ4nahk80BQE1/iQWOYkecpcDH3fM3siqY+73NtUbLkTX5fwKC0dHky4f1B1CVJBVdZ4Q1acf/KlmrDjb9lN6iFjYPo1123kvsX2dT3rfIT/E1LoDQPqg1gAU3E18pnwMUUFk80RtelQLoQbRPhKdI5b37Wn9/6py2SGNXPWapu8N8kT18+Qyz/nKH57VGovClLISRAUhik2/bbsm/zeaqg+vimB63ejJcPWnt853xiufhJR5XL8Z4lgiYZ7pouhjiEdB8uMXxcL+peQVNGcw7DGMoIZQXazLNOaRy+DqEaLGRJkVqFb7iMDFcN12vcJB/gR530AgEHiTic5qupAMBRnyC1wdbso06p8GwdWhJiWO5NynM90uTfxgPeSjpMZ1uLl8uMIx/gQZYXkk45h9g3z9BTngS75Rsk4LmUb9ryWZSL+rvVVl/+t+QkdhB07H1+jECas9+eB20HBPanjXsu8UjvEnSDWyHnpduEp/QaRtG59+/VdnH+Yv9+/WPRaNs/pexZI5033sJ5A9x/414+vwxVlfY4l4ad7gmXCrmeKoVv4EsdhBLqdZfdRbEJC/sp6Z1yw27vXerx67MFl1568d4Oo7dW16OvH8t0O6OlP5RAZMkawuAJ++q6PYEcyji78u5Aua5dJbf0E4oscmuDrGUazZI8RtQkTj9OlWv9nY1E044D/FXfwJsq9cx23pAJwTthuCiCDdtsPV6UBuLjek3TsA3gRTZfKncYlqK97aeH9LJSHmsdgbYwPHmp1yFiAiyPwBcDVtJCdX+88M1j5fm34mCkz9xSGNRIu5GGnIZ8VQ9iqHXEn/VOuKAZS6IG9tV0oB2CNm3KavkTMNqHXtK0RNoi+hSorPcg4ui2xNnQ9uBzq2quF1gZuLXaxDrV1uglv28M27ZsfBSDwDTOjyXKfpKt6dTdLfTlB2N/6mGgNnnci2gP1+16zywA7K1wSoomF6J6YYYEKXY0UTulh5Mb1ExmjzBp7WrIdW8sqvNU4U5B92Iopue9vBHQWVOXAgYIAJXYphnmR17vIWgCTXLbreAi/EehgLvUi7r+eW0MdyPOP3SwOI5CEfHmlMSW7bweTqXHXOb0E/PsoNwcf7J4H8WBv1pm/sQGJCl3O+JvamszR08G2lWt5lXKQJfFCwysbS2CdRZe+78ynsMywUJnT5Q7JbCp600eC3ZztlTVpQSafKV6nwWrV78m1/s3qOblomk/9c4i1EYUKXJttzk+LuZDkk0V4rRQLThmOGnHb6v4esXveC+sOIe463Ok9/StZ2N2Nhg3PKOxGY0EVa4ZBrrRCHJt3o+rEIBrV4TOhR9SC7W+CQk17m9mY/5lAbOVfjtNqQxvvCevvGEJrj0hi38uUb3/uy01o550FgQpf88uJ44o1aaqrObkxOzhyT6pLqh9jdAYccszkoA49aUu/Y0RqeIVWbP9AcYmYUXKVa0hyP9IuvcnOh+DZI8FDaj8KELqKB5LLATK2VeyF5955pOswzfvDbzLAhq7hXJQnEW7SommazvFlUv/4LkfrDt2w/xRGP5ef2QFpFycAJhQldHO2uED92uMsgdhGUItlG1MvVmxwxFfEz/L+95qFAR+rAdpR1YeoPrxgM9rcH4E1lAGyfKB5AYUIXn2ibus1FPeeyd+FSWmRUoDL0AaQI7lRBXqknXJVX33kIqxIJcazkkvoTFo0D92y+gKzyBQ8slUYaozChy8gfMi8nPJM1pWsURgCPU+Qyz5kcFeJ5Be5aoqEV/671xOvXm5Wzk3jBxCH7xhPp66NHFJOm3+sDED4gI9ErNWi2UlAUaurPrBdmg7fdaqJqaEiw3eUaUS/vB4tMw6D9nSxIw1CHsKXk8qY5LMhnTTGpaWdh2ryl5bicojNya84rSOshMfcWRSmXplEQBKSECSXlKrlWGo+q+fqZIR6VajS2GAi7pJ5YLfkC3vQLUOsBHZJTkWpSCYeadQ//F0z0sYkDb0IVzEseNXLvH16l5/9SVcIiIQhRkhQfICq7XWlyQEMz1vGXhGVV2xQaNNxrI6xqPDKN/vwPlag1dMWYbJ8N0k1fxtcB4L2pQtOP7ML6WDUG5IgI0gSOI8xz4ajziFuOupIPP8O7ePhA5mON7nGkEqqS4nuSWMT0IUrK3iDPKAuABnTlzWLQEEQmpN63ET9xHgcHDKIsJzd2ZRwiqg1ZlPnVg5RtfT8iN3EF+RUyifKk9hcODUGkFakMfdQSxmFz1g2L3MTetZ4uhFFjOxOZO4LM6eMwJrpxLdhTes0hB+SJbx71AuBBFe22ZWgIAgKh+4wCD8YjDlJcQ1cub+H1nPN7UsMQWGYCY+xcgxYw7Ua+vHj6fvnr0r7rf2CdnfU+2Rn3n7UHRESQI3ZEQT+tP3OX3fVh4jY9WIdY0/9h2UuRWI00ZRtdcdydkx282Y+8TR9jWs9FZGtq5ryTwdmICAJ+c6oRYDaYcXfHfcrAI6cKaw+UN5oJ7UymsHMhOM1m7v7R5WFDQt/JbCMkSLt4Oxe8p+1ck8WO6LOocGInVAQBeX+fZzr577Nn4IR8pIF84nlmZC9uE9jFYk0eeN4pmNmnKHt8+gl55pWx7etTnZZ/1WQcXcFarwoOkf9pPe9zM9+lmwZYn6K2kBGEMZvsrCT2c6jedankiZazFXjl3vF/Z71MyAaa/FqMpqy8FWQTZNPoNvx/3CK4embNOL4egX+kp4x2KDIN+nBbfZY+uheZhCbYUl9tmRNksSfxUVysKYGlgI31WITsT7p5sjksIj/EKTMYBHhpvaoAFKy0gcMXlveD+47I7RWl6v3cKXDGBRYAxsqbvG41NXEVDlTzvcjkw9WbU2W5siZIlvkjcnXPVDTu5PFI6+vMQ8pMyVYK8Yv2ZNY6YyqDEFOpZxkJH9FLETkzRZovHH72uIuJsf3ih4Pcq3elteGYRkVx3Q2uHkpW5quOPKD4XIFaD6c6TMuaIJfkBpy1jo5v3OwHNkYomeXJ3KDV9hFk2bPRPgYhQg6BuwfPph+k3Dketu6xZKLNGPIij6x+fC+96S+cfuPucgndlcZSAwifUFOYDKU+yeZbS5wnNaEStTDK8qCsCXJBnkgp5eaf/nrMwKpW/JBYnLCrdwDkTPUk39SDwztN09QN2WZ9W7vw+tYj21KbH1aNmU8NDO47m1z62pANIZesaKoma6iK/d4WcOVFtdkviyx5Yl/oMS9JRJWzypogH01hip5qWtwwnBZZubadu/Zcenx3sn12avnaIbZhhA7ZobVX7BovUm1El/5TVNOYIZqSQzwp096qV6pKzk7xssokOCLNj6Z96oM1eelHNSjDjFqUlCvUdMK98mh/4NTMwhtBTJDknQlKydC7SY0CRii9xROaEbXzp42LqwOypn0/kKMK/9AWW0br2otj+lknXIqDTX+zwkl9rlsq1WS+zDG3rRTwJ7Wxo+KPOeDLbLG/6pXEL4jF3epz4MwBoXROsy67NxzdRSSvnPehCmnh69Sc+GVJWOPvCsdIICXIv6GOXVqKFdoXblqPSDw7VXRS4Zy8aIv69S1mFHdGnPCEFe+tdJYUxch+G91/SVHd041KRHoruS3tHvwIFGyXUIr8OLRt5VqV2l2rpHqhZuQ0LukmzckRWQWOt+jiy/l96Y7C7o5k0kdA7qwaWgeuoiRIQb3JRNL+oGaR/RBoAF+oBEelvqAPZ84o9kXMo0y5/zNhGXllKs2eoeh/46ojzBA2N4dbC8eAtJtpINVcNWicEyGC1N+USNxksxgOkDtbq1oTcRvt1SYDCJJxrRDfIKUDJ2rD+nOiZ+GO1CqUEp6aJkHTVZDqVJG5v4IHKGlPB4+QHTKQVhGWES5Uh12uv7YrETZG0rKXh18Ttx+mBdR7yjC+/DsnmZxqAEF2uhRSWbkdQj7dTG75wsJ6MlWGB8G/a7jcCS+YZG1rwfI2pnQj5b9vWZxDFYQ7ht7a79tFSrnrAqBTSArIWSNWU9l5f3jLn1KQODf6f1yN/ykEpSRrFTUo82PFwjLse1OY5MqcSgw5V0DapD+RL8Rba++MUyY9qOG2hFliBT8jWwKPeUnBl7p74+UTzXyZYyESNmVR+eQAlAS5bQPbI9a3KtrTcTz5Fv/sq7EpMG2oSZ2qbkcZxvm8qG2pYFP35iMVbXQ7bZUGjswE69pUK3ZunsrGXUEx/+zf8bdOAZESBAwJTJJmrhZfKdrx2i9wyc9tXLVNSpd2SfN4nyJk620lFs50c4o0PQ7edJe0chHqO1Arb7y4fXfbCMWuk08PNPVu5qV9ePLk5rULiUdju+oiSOBabsZpqAqSv6JqZWFLxQkmCnaPjtyQA7hiNjmGObE6zVjF/mTf+ZP4yMEMr3ZnRLPuG9W9CVNavAEgc0AH+aY07Vx9oZ2w+6ETsbEbY5Yvnhs1OTKyV0S74Gb+fi4uViJjcm4gkZOLl3+D4GBPXQQJryDsGsdBf7aamvoH7ieAKOajGezyTbJWb1J1pupTYvnIRtH68++oHpNppmRfK5mTsD0oKB1kp718cod4vRPjY7fHrFg8e5JwcGT/iPatKtT293KxFwmJ511RZO9cxcy/cXD7iP6R46KiZi9eEbM9Nj4x8cK1O09epikM29EtyXq7qqFAMoZ+gA1DdGg6yVjas+9qXT+ZRHmdweme+uM/iUYt/06k6Al1gSRqw2Sr4XeuEc+betyLZ0eNIx93cOMK3uTjNiIedyWRvQvxflOPO3Lc8CrwccfWm0M97rRe0LGUtB6T4RQ65yFP5noIai3S1RkOBXtBkh0iNseEuT3VLb5jchdoLreLdpFvN3y9yccdMz3Uv/lA4nGTz5t8u83LlyMet6WRncLjlr/dscNDyMf95LizSrvm34sGyNtvGxeOZ6tGFR1m/8DgHnUVJO/YUInA26wCk34FWlgLIvOGpdTZTG0blB/3iunC8eTb3bZCK/JxE693efLtJl5v6nHD1IR83DA1IR9376g0MnVbr27441SqQf19ZeXd0yVjlpiZw3bFKoW5etWHcDWfbni4UnhdBMk5PNBSUGdeCsiYIdAykEgjrAW5WQ0WgHPMYZNvdpo88Y6PpRJvIjGhUhPqcVeQpybk46YSbx/X6YtXLHDpTj5umJpoyQjbUeXfM+qaR1ZRjcB/uSvtjXUnbi1OZHorN8G1yOqvHTWUpMUOBj9RJ0HMBd4/UkXRTEEC4/Al0SyIal45oaG9WaWQ9t6m5SqWt7MXVSzxuEvklZ9vXlS2wP0ywaJxA8s5jF2SDKZsFrd3UHMs1ZKsMeaFzVbaGwYf+nl7I6FXcWXmgvVx4i2K9mDi2VknQWYXVaekqfQ24NppXDcx8WDstphVixdGRY2M7BfRKbi1v7+7i53IlHjaZsTT9vD3b92kRZf+kSOjRlj4jRlsZl67+oLTByuKLqZp7dQGW23d6plNUG5ffXPyNIsi+xF3MpYvftvVHdwtGrtruVeY8lOuSRXaY3ordVsddq7Z3DqM0Zg8w1YMzfxbBHeI6BMZGRU1n3i5N8fGJiZeJl7u52lphZXzM54Sz0rfEalxl5mE/m4Tyz8C4JfGs3tqv/q2GpeJqmUHxt5+S3JlXVOHtX9s8uyu/pN6Ft05UrUzJIhqMZirMvVOzrUjDH1vIlVTV8MF0rzkfZ9msnxjsrn8oqnpxAN9qt57SjOWUpEasMsqy0a3WXCIWNtXG9jLskb97gc0nRQz+VfFR72wHfkmfXZR9erAGNQFCYETVhR4HU8zhtuTbWq1nfsZfKqoNeS7ytRH1k3XkXJthxGp0ad2GscGH7TqNmeIaFHxjqzAVkfv7KnFtLJfEtQFkduKTpojtYQv4t4qcJx9Yh2tId9XohKarmozAO08khB6PJsfUfGchnNEZK3+mbPC2P+8n5vWCNH0TWkBdUHMqTrWD7PB+M5kq8pWI7IinVp7vcZQEHfY85tupWPBPL41AJtEI9dYSsbRNjbPGAtXmzrqFoU6UBek1VZyKfU5AjLDPWYu6+C4y9t/TE/RDAa2uXsdTwHwNHiAjjd3OgDcE98BMqsb3rRW670px7NJXDjKkoOWM37Zjs7+PZXywzPWR4iEfGggmfwcixq5NhPkH/lpk7q5gkpywMnO3XS6rg1fmZZ/Tyeq1gmusr20DQMjYe7xaqzjJs78RiHljD83rN7OC2uqjVfcl+BSzc+sv26/V/o4WY+m+3UOTX95t06SAG66051ypFYWABvFVVt0seJqPjhUnPEf79Wwx6FVzcgv6kM1JROr/PvnDeS27IS9kVnrq8Q7QT+WLaLe7wctm9bLBEni27QnsQIRZ/yR1dec2VDThqpm/TiWXUy8cd6JrPsUhCylPUO2tXFlhwVkZT1aoSp4qbuzW+8So+2kT54waLNBwxn/YQ+yiSK7EjXD7Bbt1fDY4OpNfuZ/yOe46hsuxwY1//JGQzdDY8qM72Dboj2LxCLf9jZGygMKZeut7GxtYF9l9vUb9K1aaDjjH0j5hK5DGW1GaR02NtBz791jrRvoZoDAhuNda4fG7KtRRWS/ga5c13YvXK3vVbgjxdKSnKi6o6miwSVY4J0EwBXPpUC6xLKmh2gZ3ceChjP+tpRFcrQJ2Tj70EqT1Q/JSVfS1FoWvkjLeWqI7eTTKRaAjOha5n7rmFlGbHQmnuxl77k0h1cGk882P7Co/rksYAi5ShZ3Ujgr0xzWax9UyZ4ecB+Au/Xm0FwODWf8w6mxFGvd7GZumiBape3KY+fB1dEg+lPubVqjxtxR2sNr+6XtXj0/ekZcfX0ysLPat/7lbaUEJd8aGq4/NafxjfMlMPT8y9PNWxWpO9UHGsC+raRoBljomNzzrClpqQ3+MaOx8kXDGf8fDmQLyTvX+EuT+8x4qPXCfakZWa/T+sTMHW7Ta0iNkDcg60oCmbm+WDR4JvlY99YlW8WzfbrBXOqLl5K7wxyYivxR29LNeJxC2/5dJ2rd4BRNZDkLfS38lhdnaGtd4Zd73lnRar5wXEvtGPnUZt5/qb8aIjX1H62mbZ9ly6TPmWQGVaLZ3pbuhEkhRNqXO6bFDrs6zUQ9324VDV812WaiDETEwMPrxVTyvnBUUQjZbq+KlUNugouSvTLwJqJ18bdzy5VaN2E0TpTgjZlLLpF5NvVTNOP+aArbgF6YnpQL4nVFTVBgEGf8xSjUQ5Ind5tEc4slSRGRr/srNzonpTnmsC8oT2x3mcguIn1FZB3hvedu0PIIPH7EhDIPjelXFGRGrRM5aavEF6jW5fyaxZ9DtjlsF0gzZ+xpP05oO2GqvYuLUk/YpMbEZR4HTU2nTJGemCuWSO4fPFWYIBrAGX8xOk9XsVvcb8loCe1I2sf21NpiErmUWlGDy/aEgIFUUXSZE2UqF1mUUadawFblnQ3kj33CvOKrzWhIPMrXYeomP6fhZQeL8rbjlHuP82dV8fOzmFMAZvoR7+ftugoRvOpgGx5oJXfhWEac8avyesWYRXTfHcjbYbydrDhIy1HN4DUpQW66g9OO5P5/HRY5kWN5T4mKKm97qCEHuUITauDypB+LL1cwy7JhU4txek91/PH8BfIzkP5s6eoiWl6cJhYEjCdytlsuu+AWInkIlyTVaiAOFP1ElDEFT+GOOm3gKoEolM2TTFo/STIfLBf1mtLWvthAY7O8FmEWBFt2ydZlBd6fOs7lVHu5t24r2mee8IbiHKXKYQZwxh8jKMKN9SW188luKzglnlV9y4FqrlvJHV9sbcnUQ9qGNMu5M6P/DPLTerFh9k6FotRlF1hqvWVz3JbI79MjG3A97EMDS6miRXZ5aC+CgjN+btlA2uzcDKtcvsGR85JdUvA0rPNol81Xf2vcREOiIwuaQLy0LwMXgEPVXBpW6a3dQwl3rID1yMJhWyg44+eW76ns8oWEWJz3NalqEp0NEjp5hazV+NK/CnHu01E0mXgmebfOcDBzEQuu28M64kZq1CoCzvj1RPpauVloJixagdvV4Op9ClPDsSsb9j7l4HZ0oE+zO4br3PwAAAzOSURBVCB3g5gyukfAGb9evBliYm46XNGx0wVn+MJ9z8RPdn6KRqu5rAd8Do4oIneRyELYSF4LQ8EZvx58ch31H3g9vKZiw1Cf+mczHo63126YnzW1soOJP+0I38cdhA7CAcXFq3s9arj00seUWQMvi6qJKDjj14OFPeCqo2LfQ8F6rwr2QxmUU8PbvQDS7WIaH2iv7OZkg7RRNbOe/xZLDi9PEC36++8FSk4M+AAFZ/wsuRaztWjQYShl0bxLxQ6Hkb+4cy7wE46hmXLlB8o5U1hzcWi4ZFhWgRNsy4qvwcHkkZpAwRk/K953cOoTYT1Mbrwgb5z6LZT9hcAiyibxDY3HgUYn4KqVLVEE/tBp4M0a1G5HHUfXMqXM1dTbDssmyuxhcsuUcZMVV+yQj5/5YKz+e6K8UH82bk+uPpr9Jncl58ez822+BXmsabCTDoI8tILVu1QzKhd8KP4fsdwvfqrDrSX4QCX20xTKKUdySRYL4FbQXksYcRbzRl/d4FuQZE2hlAT5/Fcyg0JmnFzg6vKmxTNudTp719QwFRo9Bf6jicLZn1VppoO8L95HlBCnGkEbpGuWzhZ+xH/5I9WN3eESVAT5EmXm42pDM4BcgZPU6DKZ5Kl8R86FnX/qWFt4013UrLY9XTMCOO/pEuzYALox2CCqdOl/thUip3g1ZerLVldQEWQAORnEVbcN2q6XTs3RfISbZslnCVc0+A7Pv/H7Hdk2h//lvTZ1WEm8BH1rzj7KxRz2GuFbkMw/NRwsFuSJCDa9XnbQWqhc6XQw/UOMRJ+hjew4UkdYwRR2rKQJS8H5PyKlrP1yn1Qi7fXrhAChSUvGvb1ckPmzfP44HWd+fTS5/XDGUzCiIkg4tbZUnQFIHXk8181KkFAfrh6LdIp4o2jy3hW1OjDM6BAR5KklHGR/wSn3xIrYN5xHpCc5zqQhU05HJgP/S/BERA5yzG21mNnpiAgChrV4QvrUm+3pNzRcvFpDGIOQ5Nx28TTXDjqZri6hmp3P+jA7HRVBcmeZuTvar7fdSvx/z0mTSz+DkLVxXLSOzYrjoOcZqsOskPRof+cw9ddDRRCiJnIjpWAtNW/6ztZcxvJgdMsItW6tSoeF1Fx552sX73pdo/e5e1uqzVJ3OjqCkMj9pT+y5zCSTaIZR7Y1CtTu+IEnUsSkmXVBWwVj7eFjyOUriTpPeWgJEhUNV9c5tEb515JsZJH1mMTdJVmyQjInYaNfK4UaqB2lxFB1U1KhJchJd9iCN2EEd3GsoZz23HLi7pJsuTWiZc+dilV8Y6o+M03ds0dGkFezug7fJ+vc5FLu04n2TGojDJFPNF84SwcSeFK+CNqrc7aJiiBx4hE7Vvi2SPvFtbxkEJct3Osp5zPXnTm8pr4sa0jalMZbq5u9FRFB3ovJfp+CrkRKz7Ghx2tL0jVkQYdpWs8sPQqG202Y16HqWXXHEBFkO+yXA3ftOI8D7BWN273SpzX/4xHZcHXBhA3qp8ZGRJAFVJdsrkAff2g0PJ/Wceg+3pvNuQIRQTZTNcKHVpzHUdZARJDXlnDk7aCRnMdR1kBEELBdNCNhV0tfblyYF8Kdj/LSwwCC7C6aP0Rx4HDKqGZdVnPZI/eoq4WR55bS7jrRGwMIkl40w05dOrN4Drgtnvfqy+m6Y/iLgR9QSbI4Jxy63P1grasLTEPxtQoiq0TZ6wzQ6hbC0HxRTlW/VkHyy1E5+pglvEXBBbKtHhVNwhRdbX2tggAPyguaP41dIiJ8X+dM7odfFOYU+noFWVPnOQDS+bVKwZRKdx6LYcK6sVnxrq9WENkcUaeBNQMf8RcDB2ym5sHINCpuUf1qBQHg+Z7VfyDehLWa8oAtrVjc0PgVC8IN/2mdvVYPznjCN+ZyteJdWBBNFKyyMxM2KDlEJ31r9MoUNeezvr5fFJHHvaj3S/EuLIgmxgQkgdwdVokqu0/Yh88YLJ7NQQQvWtbo0040UyFlxYJo4IkINnbG+invfiUmx3+metCOLGHDXxv2v1DcxoJoYDvVS5NXUblzbxnlo2I/2+mQGYEF0cDGPnAlUxmGMGIZXD104CNOLIgGrjjDHuXLTsql5yhqrsCLHM6JUMy3JEj+S5a9I7IWw4hCb0ptlQbKc84wCRugy1hsrXw7gqT2NbYwGfGeVZh3EdZtm4pKtE8OqhP3/HJPD267N+XwKcjLDOIvZt4x2hNKU5D3Tt9/AK8Ge2sY5KmOlNjjJedmkO1qZF1nmgYXFXrAnyDpPQTJ4JSFwEgQQufKrTQFmUGNEwxdU3pR6gR/gow0mZ6V69DyaX6CRTTNKaUpSDPKK8pGBhMgGhT+BLGdCMANAdnAsIDOJXhpCtKQco28q3PpRakT/AniRCQOVwVkQrubR49yjImkxisNn116UeoEf4IM9HkHcsXkiPuerWhOKU1B7ojjidx4m9XL0otSJ/gT5I27zfi9M6ss2NNLyJ9HORacdPHpVLM2zZwE6MBjsfd1tD3029voNN0ZpVsxzLmw6y8ebLlZsT+iYV/axwHhtWIofXn95DUNo29QbzrhmvxO3ptPr3TS6H/g26mpI0BMQ9I26UM1uiScBJX5Q74JQvbD1fxRGs4pm/OHlFHqUs6rd3TTcE4ZnT+kbNIOTu0IZmrKRHAeUors8SJ9Hj2zuarhHAPMH3I8ohArb9aXLNPIRtv/uH2KmH4mV2CQ+UOexRYSNpDlJcs8FyZ2i9I8QMKg84ewiPybwaDzhzCPPGNW0zp9SyR+XyMGnT+EceQvnHsdv/yTlXa3vmUfg84fwjjyntCDzN+WpTk1lIEw6PwhTCOXVqb8Yrbfye4WyiIGnT+EaeTpRpRhVORylregRO4tDfPKI4NB5w9hHLmEMjVvytgdcUlkKyWuHhYLDed7kSEGrakzjnxiJzI/OlBVD5c+i2snA5ASyItxG5cYdP4QxpFnhXvMWd7VXo+5VHIs4HRer8x4sW7jEIPOjsAi8oTJw1fq41g0WT4reqDm/jrDU1YE0RcsiBxUBClMsky/9SRL4/whpdmWBTP1BzhT5ypyvZGtFLu642IvZ5FzAK4Ychn5NwMWBDEMK0hQlJyu3g31w7Oenhdwq6/nBVz0DB/QAD6JIEMKklSoR1SAnZ4/R+Kq5wUq1dEvfH2BnjfgZQmfxLQbBhSkmEXj9LxAT3WO7dngnqxf+Izyet7AeX+2IbAgmsCCKIMF4RYsCBZEBSyIElgQLIgKWBAlsCBYEBWwIErcuaznBU7/o+cF9urp7FK2Wfs5Gkn7jW0IPgXB6AAWBDGwIIiBBUEMLAhiYEEQAwuCGFgQxMCCIAYWBDGwIIiBBUEM3gSRsnRu/LWh6+/nTZAtCo4FLrWwqL+fVWilEOegMw9LHUPrELue0UN0/f18CfKve/ENJRmHbu5Xjs0zUQ6xxWjpsmXLmM/uqRyafex6Rg/R+ffzI8iVgAqC4hvq7p0LQHsfFuGVQ0S7sotdOTT72PWMHuj1+/kR5J/Vq32KbijbaC6xjBUwN6dUCdEjlFXkyqHZx65n9CR6/H7e8pDORTf0WBBHLO8LdjEOqxLCr0lzM7fvGXf+KYdmH7ue0cvR9feXgiDnBOTI57eC1YzDqoSwEE7ZOUnYgul8ksqh2ceuZ/RydP39HAuSmZyc/Fjlhs7Kb2gt4/DKIQq2XSeWWwT0U5YooxyaTexqL8A2ejm6/X7OBfmTKCAGq9zQA0E8XMYxDq8uRGa5BQzvQTk0m9g13DDz6OXo9vtLJcnKMFpMLOMEzF2VKYd4+xfpgiO7/EqdQrOPXc/o5ej6+0tBENApQApAH7r5RtShFOKSgPxB+wRJOoXWIXY9o6fQ9ffzLMja4KcAXDQeeDKq3G4tARQpCgHDdzAZuXu6yWAdQ7OPXc/oKXT9/TwLMkFAeiQ/3dyiAasnUhQChi+Y62dW92cWs+MphdYhdj2jh+j6+3FrL2JgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiIEFQQwsCGJgQRADC4IYWBDEwIIgBhYEMbAgiPHVCnK+3B4A/jFZauj7YMtXKwgYa/0eBAexHWdjcL5eQTJrDNhSOcXQd8Gar1cQcKac6QpD3wN7vmJBgK/xR0PfAnu+YkF2VLL9ztD3wJ6vV5CXlosOljtr6LtgzdcrSLhvPujkWuYcDX61gmwxug5AapVJhr4Ptny1gpRVsCCIgQVBDCwIYmBBEAMLghhYEMTAgiAGFgQxsCCIgQVBDCwIYmBBEAMLghhYEMTAgiAGFgQxsCCIgQVBDCwIYmBBEAMLghhYEMTAgiAGFgQxsCCI8X+hp3cj3Q2DSAAAAABJRU5ErkJggg==</file>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>2</defaultgrade>
+</question>
+
+
+<question type="category">
+<category>
+<text>$course$/R-exams/Exercise 7</text>
+</category>
+</question>
+
+
+<question type="cloze">
+<name>
+<text> R1 Q7 : fourfold2 </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>An industry-leading company seeks a qualified candidate for a management position. A management consultancy carries out an assessment center which concludes in making a positive or negative recommendation for each candidate: From previous assessments they know that of those candidates that are actually eligible for the position (event <span class="math">E</span>) <span class="math">74\%</span> get a positive recommendation (event <span class="math">R</span>). However, out of those candidates that are not eligible <span class="math">79\%</span> get a negative recommendation. Overall, they know that only <span class="math">6\%</span> of all job applicants are actually eligible.</p>
+<p>What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"> <span class="math">R</span> </th>
+<th align="center"> <span class="math">\overline{R}</span> </th>
+<th align="center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"> <span class="math">E</span> </td>
+<td align="center">  {1:NUMERICAL:=4.44:0.05~%0%689609:0}% </td>
+<td align="center">  {1:NUMERICAL:=1.56:0.05~%0%689609:0}% </td>
+<td align="center">  {1:NUMERICAL:=6:0.05~%0%689609:0}% </td>
+</tr>
+<tr class="even">
+<td align="center"> <span class="math">\overline{E}</span> </td>
+<td align="center">  {1:NUMERICAL:=19.74:0.05~%0%689609:0}% </td>
+<td align="center">  {1:NUMERICAL:=74.26:0.05~%0%689609:0}% </td>
+<td align="center">  {1:NUMERICAL:=94:0.05~%0%689609:0}% </td>
+</tr>
+<tr class="odd">
+<td align="center">sum</td>
+<td align="center">  {1:NUMERICAL:=24.18:0.05~%0%689609:0}% </td>
+<td align="center">  {1:NUMERICAL:=75.82:0.05~%0%689609:0}% </td>
+<td align="center">  {1:NUMERICAL:=100:0.05~%0%689609:0}% </td>
+</tr>
+</tbody>
+</table>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>Using the information from the text, we can directly calculate the following joint probabilities: </p><div class="math">\begin{aligned}
+  P(E \cap R) &amp; = &amp;
+    P(R | E) \cdot P(E) = 0.74 \cdot 0.06 = 0.0444 = 4.44\%\\
+  P(\overline{E} \cap \overline{R}) &amp; = &amp;
+    P(\overline{R} | \overline{E}) \cdot P(\overline{E}) = 0.79 \cdot 0.94 = 0.7426 = 74.26\%.\end{aligned}</div><p> The remaining probabilities can then be found by calculating sums and differences in the fourfold table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"> <span class="math">R</span> </th>
+<th align="center"> <span class="math">\overline{R}</span> </th>
+<th align="center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"> <span class="math">E</span> </td>
+<td align="center"> <span><strong>4.44</strong></span> </td>
+<td align="center"> <span><em>1.56</em></span> </td>
+<td align="center"> <span><strong>6.00</strong></span> </td>
+</tr>
+<tr class="even">
+<td align="center"> <span class="math">\overline{E}</span> </td>
+<td align="center"> <span><em>19.74</em></span> </td>
+<td align="center"> <span><strong>74.26</strong></span> </td>
+<td align="center"> <span><em>94.00</em></span> </td>
+</tr>
+<tr class="odd">
+<td align="center">sum</td>
+<td align="center"> <span><em>24.18</em></span> </td>
+<td align="center"> <span><em>75.82</em></span> </td>
+<td align="center"> <span><strong>100.00</strong></span> </td>
+</tr>
+</tbody>
+</table>
+<ol type = "a">
+<li> <span class="math">P(E \cap R) =   4.44\%</span> </li>
+<li> <span class="math">P(\overline{E} \cap R) =  19.74\%</span> </li>
+<li> <span class="math">P(E \cap \overline{R}) =   1.56\%</span> </li>
+<li> <span class="math">P(\overline{E} \cap \overline{R}) =  74.26\%</span> </li>
+<li> <span class="math">P(R) =  24.18\%</span> </li>
+<li> <span class="math">P(\overline{R}) =  75.82\%</span> </li>
+<li> <span class="math">P(E) =   6.00\%</span> </li>
+<li> <span class="math">P(\overline{E}) =  94.00\%</span> </li>
+<li> <span class="math">P(\Omega) = 100.00\%</span> </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>9</defaultgrade>
+</question>
+
+
+<question type="cloze">
+<name>
+<text> R2 Q7 : fourfold2 </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>An industry-leading company seeks a qualified candidate for a management position. A management consultancy carries out an assessment center which concludes in making a positive or negative recommendation for each candidate: From previous assessments they know that of those candidates that are actually eligible for the position (event <span class="math">E</span>) <span class="math">72\%</span> get a positive recommendation (event <span class="math">R</span>). However, out of those candidates that are not eligible <span class="math">74\%</span> get a negative recommendation. Overall, they know that only <span class="math">8\%</span> of all job applicants are actually eligible.</p>
+<p>What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"> <span class="math">R</span> </th>
+<th align="center"> <span class="math">\overline{R}</span> </th>
+<th align="center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"> <span class="math">E</span> </td>
+<td align="center">  {1:NUMERICAL:=5.76:0.05~%0%216905:0}% </td>
+<td align="center">  {1:NUMERICAL:=2.24:0.05~%0%216905:0}% </td>
+<td align="center">  {1:NUMERICAL:=8:0.05~%0%216905:0}% </td>
+</tr>
+<tr class="even">
+<td align="center"> <span class="math">\overline{E}</span> </td>
+<td align="center">  {1:NUMERICAL:=23.92:0.05~%0%216905:0}% </td>
+<td align="center">  {1:NUMERICAL:=68.08:0.05~%0%216905:0}% </td>
+<td align="center">  {1:NUMERICAL:=92:0.05~%0%216905:0}% </td>
+</tr>
+<tr class="odd">
+<td align="center">sum</td>
+<td align="center">  {1:NUMERICAL:=29.68:0.05~%0%216905:0}% </td>
+<td align="center">  {1:NUMERICAL:=70.32:0.05~%0%216905:0}% </td>
+<td align="center">  {1:NUMERICAL:=100:0.05~%0%216905:0}% </td>
+</tr>
+</tbody>
+</table>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>Using the information from the text, we can directly calculate the following joint probabilities: </p><div class="math">\begin{aligned}
+  P(E \cap R) &amp; = &amp;
+    P(R | E) \cdot P(E) = 0.72 \cdot 0.08 = 0.0576 = 5.76\%\\
+  P(\overline{E} \cap \overline{R}) &amp; = &amp;
+    P(\overline{R} | \overline{E}) \cdot P(\overline{E}) = 0.74 \cdot 0.92 = 0.6808 = 68.08\%.\end{aligned}</div><p> The remaining probabilities can then be found by calculating sums and differences in the fourfold table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"> <span class="math">R</span> </th>
+<th align="center"> <span class="math">\overline{R}</span> </th>
+<th align="center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"> <span class="math">E</span> </td>
+<td align="center"> <span><strong>5.76</strong></span> </td>
+<td align="center"> <span><em>2.24</em></span> </td>
+<td align="center"> <span><strong>8.00</strong></span> </td>
+</tr>
+<tr class="even">
+<td align="center"> <span class="math">\overline{E}</span> </td>
+<td align="center"> <span><em>23.92</em></span> </td>
+<td align="center"> <span><strong>68.08</strong></span> </td>
+<td align="center"> <span><em>92.00</em></span> </td>
+</tr>
+<tr class="odd">
+<td align="center">sum</td>
+<td align="center"> <span><em>29.68</em></span> </td>
+<td align="center"> <span><em>70.32</em></span> </td>
+<td align="center"> <span><strong>100.00</strong></span> </td>
+</tr>
+</tbody>
+</table>
+<ol type = "a">
+<li> <span class="math">P(E \cap R) =   5.76\%</span> </li>
+<li> <span class="math">P(\overline{E} \cap R) =  23.92\%</span> </li>
+<li> <span class="math">P(E \cap \overline{R}) =   2.24\%</span> </li>
+<li> <span class="math">P(\overline{E} \cap \overline{R}) =  68.08\%</span> </li>
+<li> <span class="math">P(R) =  29.68\%</span> </li>
+<li> <span class="math">P(\overline{R}) =  70.32\%</span> </li>
+<li> <span class="math">P(E) =   8.00\%</span> </li>
+<li> <span class="math">P(\overline{E}) =  92.00\%</span> </li>
+<li> <span class="math">P(\Omega) = 100.00\%</span> </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>9</defaultgrade>
+</question>
+
+
+<question type="cloze">
+<name>
+<text> R3 Q7 : fourfold2 </text>
+</name>
+<questiontext format="html">
+<text><![CDATA[<p>
+<p>An industry-leading company seeks a qualified candidate for a management position. A management consultancy carries out an assessment center which concludes in making a positive or negative recommendation for each candidate: From previous assessments they know that of those candidates that are actually eligible for the position (event <span class="math">E</span>) <span class="math">65\%</span> get a positive recommendation (event <span class="math">R</span>). However, out of those candidates that are not eligible <span class="math">75\%</span> get a negative recommendation. Overall, they know that only <span class="math">10\%</span> of all job applicants are actually eligible.</p>
+<p>What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"> <span class="math">R</span> </th>
+<th align="center"> <span class="math">\overline{R}</span> </th>
+<th align="center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"> <span class="math">E</span> </td>
+<td align="center">  {1:NUMERICAL:=6.5:0.05~%0%124381:0}% </td>
+<td align="center">  {1:NUMERICAL:=3.5:0.05~%0%124381:0}% </td>
+<td align="center">  {1:NUMERICAL:=10:0.05~%0%124381:0}% </td>
+</tr>
+<tr class="even">
+<td align="center"> <span class="math">\overline{E}</span> </td>
+<td align="center">  {1:NUMERICAL:=22.5:0.05~%0%124381:0}% </td>
+<td align="center">  {1:NUMERICAL:=67.5:0.05~%0%124381:0}% </td>
+<td align="center">  {1:NUMERICAL:=90:0.05~%0%124381:0}% </td>
+</tr>
+<tr class="odd">
+<td align="center">sum</td>
+<td align="center">  {1:NUMERICAL:=29:0.05~%0%124381:0}% </td>
+<td align="center">  {1:NUMERICAL:=71:0.05~%0%124381:0}% </td>
+<td align="center">  {1:NUMERICAL:=100:0.05~%0%124381:0}% </td>
+</tr>
+</tbody>
+</table>
+</p>]]></text>
+</questiontext>
+<generalfeedback format="html">
+<text><![CDATA[<p>
+<p>Using the information from the text, we can directly calculate the following joint probabilities: </p><div class="math">\begin{aligned}
+  P(E \cap R) &amp; = &amp;
+    P(R | E) \cdot P(E) = 0.65 \cdot 0.1 = 0.065 = 6.5\%\\
+  P(\overline{E} \cap \overline{R}) &amp; = &amp;
+    P(\overline{R} | \overline{E}) \cdot P(\overline{E}) = 0.75 \cdot 0.9 = 0.675 = 67.5\%.\end{aligned}</div><p> The remaining probabilities can then be found by calculating sums and differences in the fourfold table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"> <span class="math">R</span> </th>
+<th align="center"> <span class="math">\overline{R}</span> </th>
+<th align="center">sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"> <span class="math">E</span> </td>
+<td align="center"> <span><strong>6.50</strong></span> </td>
+<td align="center"> <span><em>3.50</em></span> </td>
+<td align="center"> <span><strong>10.00</strong></span> </td>
+</tr>
+<tr class="even">
+<td align="center"> <span class="math">\overline{E}</span> </td>
+<td align="center"> <span><em>22.50</em></span> </td>
+<td align="center"> <span><strong>67.50</strong></span> </td>
+<td align="center"> <span><em>90.00</em></span> </td>
+</tr>
+<tr class="odd">
+<td align="center">sum</td>
+<td align="center"> <span><em>29.00</em></span> </td>
+<td align="center"> <span><em>71.00</em></span> </td>
+<td align="center"> <span><strong>100.00</strong></span> </td>
+</tr>
+</tbody>
+</table>
+<ol type = "a">
+<li> <span class="math">P(E \cap R) =   6.5\%</span> </li>
+<li> <span class="math">P(\overline{E} \cap R) =  22.5\%</span> </li>
+<li> <span class="math">P(E \cap \overline{R}) =   3.5\%</span> </li>
+<li> <span class="math">P(\overline{E} \cap \overline{R}) =  67.5\%</span> </li>
+<li> <span class="math">P(R) =  29.0\%</span> </li>
+<li> <span class="math">P(\overline{R}) =  71.0\%</span> </li>
+<li> <span class="math">P(E) =  10.0\%</span> </li>
+<li> <span class="math">P(\overline{E}) =  90.0\%</span> </li>
+<li> <span class="math">P(\Omega) = 100.0\%</span> </li>
+</ol>
+</p>]]></text>
+</generalfeedback>
+<penalty>0</penalty>
+<defaultgrade>9</defaultgrade>
+</question>
+
+</quiz>
