@@ -1,0 +1,724 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>E-Learning Quizzes with R/exams for Moodle and OpenOLAT</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+	
+	
+	<meta name="description" content="Step-by-step tutorials for generating, importing, and customizing online tests and quizzes using exams2moodle() and exams2openolat() in R/exams." />
+	<meta name="keywords" content="exams2moodle, exams2openolat, e-learning, quiz, num, mchoice, schoice, cloze, R" />
+	
+	<meta name="author" content="Achim Zeileis" />
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Search Engine Optimization -->
+	
+	
+	
+
+	<!-- Facebook Optimization -->
+	<meta property="og:title" content="E-Learning Quizzes with R/exams for Moodle and OpenOLAT" />
+	<meta property="og:description" content="Step-by-step tutorials for generating, importing, and customizing online tests and quizzes using exams2moodle() and exams2openolat() in R/exams." />
+	<meta property="og:url" content="http://www.R-exams.org//tutorials/elearning/" />
+	<meta property="og:locale" content="en_EN" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/elearning.300.png" />
+	
+
+	
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="AchimZeileis" />
+	<meta name="twitter:creator" content="AchimZeileis" />
+	<meta name="twitter:title" content="E-Learning Quizzes with R/exams for Moodle and OpenOLAT" />
+	<meta name="twitter:description" content="Step-by-step tutorials for generating, importing, and customizing online tests and quizzes using exams2moodle() and exams2openolat() in R/exams." />
+	<meta name="twitter:image" content="http://www.R-exams.org/images/elearning.300.png" />
+
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    /// var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/"; ///
+    var u="https" + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/elearning.title.png" width="970" alt="E-Learning Quizzes with R/exams for Moodle and OpenOLAT" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams + Moodle + OpenOLAT (CC-BY-SA).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>E-Learning Quizzes with R/exams for Moodle and OpenOLAT</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Step-by-step tutorials for generating, importing, and customizing online tests and quizzes using exams2moodle() and exams2openolat() in R/exams.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h2 id="motivation">Motivation</h2>
+
+<div class="row t20 b20">
+  <div class="small-8 medium-9 columns">
+
+<p>E-learning resources such as online tests and quizzes or more formal e-exams are very useful in a variety of settings: formative vs. summative assessments; in-class vs. distance learning; synchronous vs. asynchronous; small vs. large groups of students. Some typical examples are outlined here.</p>
+
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/elearning-goal.svg" alt="Motivation" />
+  </div>
+</div>
+
+<ul>
+  <li>Short tests/quizzes conducted in-class (synchronously) as a quick assessment of content the students had to prepare before class. In a flipped classroom approach the test/quiz might also be conducted after a collaboration phase in class.</li>
+  <li>Asynchronous online tests that students can do in their own time (e.g., over several days) to obtain (incentivized) feedback regarding their learning progress. Such tests might follow any form of content delivery, be it classical lectures or video screencasts or some other approach.</li>
+  <li>Synchronous e-exams conducted in-class or remotely (e.g., coupled with a safe exam browser) as a summative assessment at the end of a course.</li>
+</ul>
+
+<p><a href="http://www.R-exams.org">R/exams</a> can support these scenarios by creating a sufficiently large number of randomized versions of <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercises</a> that can subsequently be imported into a learning management system (LMS). The actual quiz/test/exam is then conducted in the LMS only, i.e., without the need to have R running in the background, because all exercises and corresponding solutions have been pre-computed and stored in the LMS. Popular LMS include the open-source systems <a href="https://moodle.org/">Moodle</a>, <a href="https://www.instructure.com/canvas/">Canvas</a>, <a href="https://www.openolat.com/?lang=en">OpenOLAT</a>, or <a href="https://www.ilias.de/en/">Ilias</a> or the commerical <a href="https://www.blackboard.com/">Blackboard</a> system. R/exams provides suitable interfaces for all of these but the capabilities differ somewhat between the LMS. In the following we focus on Moodle and OpenOLAT, both of which provide very flexible and powerful assessment modules.</p>
+
+<h2 id="creation-in-rexams">Creation in R/exams</h2>
+
+<div class="row t20 b20">
+  <div class="small-8 medium-9 columns">
+
+<p>Just like for other R/exams interfaces the starting point is putting together a vector or list of <a href="http://www.R-exams.org/intro/dynamic/">(potentially) dynamic exercises</a> in R. From these exercises - in either R/Markdown or R/LaTeX format - a number of random replications can be drawn using either <code class="highlighter-rouge">exams2moodle()</code> or <code class="highlighter-rouge">exams2openolat()</code>, respectively. Both interfaces support all R/exams exercise types: single-choice (<code class="highlighter-rouge">schoice</code>), multiple-choice (<code class="highlighter-rouge">mchoice</code>), numeric (<code class="highlighter-rouge">num</code>), string (<code class="highlighter-rouge">string</code>), or combinations of these (<code class="highlighter-rouge">cloze</code>). See the <a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a> tutorial for more details.</p>
+
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/elearning-create.svg" alt="Creation" />
+  </div>
+</div>
+
+<p>Here, we use a collection of exercise templates that are all shipped within the R/exams package and that cover a broad range of different question types as well as different randomyly-generated content (shuffling, random parameters, R output, graphics, simulated data sets).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Exercise template</th>
+      <th style="text-align: left">Type</th>
+      <th style="text-align: left">Task</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">Knowledge quiz question with basic shuffling</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/deriv/">deriv</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left">Computing the derivative of a function with randomized parameters</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/ttest/">ttest</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">mchoice</code></td>
+      <td style="text-align: left">Interpretation of R output from <code class="highlighter-rouge">t.test()</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/boxplots/">boxplots</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">mchoice</code></td>
+      <td style="text-align: left">Interpretation of parallel boxplots</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/function/">function</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: left">Knowledge quiz question where the answer is the name of an R function</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/lm/">lm</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">cloze</code></td>
+      <td style="text-align: left">Conducting a simple linear regression based on a randomly-generated CSV file</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="http://www.R-exams.org/templates/fourfold2/">fourfold2</a></td>
+      <td style="text-align: left"><code class="highlighter-rouge">cloze</code></td>
+      <td style="text-align: left">Completing a fourfold table based on verbal description with randomized parameters</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>First, we load the <code class="highlighter-rouge">exams</code> package and define a vector with all exercise <code class="highlighter-rouge">.Rmd</code> file names.</p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+elearn_exam &lt;- c(&quot;swisscapital.Rmd&quot;, &quot;deriv.Rmd&quot;, &quot;ttest.Rmd&quot;,
+  &quot;boxplots.Rmd&quot;, &quot;function.Rmd&quot;, &quot;lm.Rmd&quot;, &quot;fourfold2.Rmd&quot;)</code></pre>
+
+<p>Alternatively, the corresponding <code class="highlighter-rouge">.Rnw</code> files could be used, yielding virtually identical output.</p>
+
+<p>Second, we generate a Moodle XML file with 3 random replications of each of the exercises.</p>
+
+<pre><code class="prettyprint ">set.seed(2020-03-15)
+exams2moodle(elearn_exam, n = 3, name = &quot;R-exams&quot;)</code></pre>
+
+<p>This yields the file <a href="http://www.R-exams.org/assets/posts/2020-03-28-elearning//R-exams.xml">R-exams.xml</a> that can be imported into Moodle.</p>
+
+<p>Analogously, a ZIP archive containing QTI 2.1 XML files (Question &amp; Test Interoperability standard) for import into OpenOLAT.</p>
+
+<pre><code class="prettyprint ">set.seed(2020-03-15)
+rxm &lt;- exams2openolat(elearn_exam, n = 3, name = &quot;R-exams&quot;)</code></pre>
+
+<p>The resulting output file is <a href="http://www.R-exams.org/assets/posts/2020-03-28-elearning//R-exams.zip">R-exams.zip</a>.</p>
+
+<p>Moreover, to show that the object returned within R can also be useful we have assigned the output of <code class="highlighter-rouge">exams2openolat()</code> to an object <code class="highlighter-rouge">rxm</code>. This is not necessary but inspecting this object might be helpful when developing and testing new exercises. In particular, we can easily extract the meta-information regarding the correct answers in all randomly generated exercises.</p>
+
+<pre><code class="prettyprint ">exams_metainfo(rxm)</code></pre>
+
+<pre><code>## 
+## exam1
+##     1. Swiss Capital: 4
+##     2. derivative exp: 38.72 (38.71--38.73)
+##     3. 2-sample t-test: 1, 2, 5
+##     4. Parallel boxplots: 2, 4, 5
+##     5. R functions: lm
+##     6. Linear regression: FALSE, FALSE, TRUE | -0.861
+##     7. fourfold: 4.44 | 19.74 | 1.56 | 74.26 | 24.18 | 75.82 | 6 | 94 | 100
+## 
+## exam2
+##     1. Swiss Capital: 4
+##     2. derivative exp: 2 (1.99--2.01)
+##     3. 2-sample t-test: 3
+##     4. Parallel boxplots: 2, 3, 4
+##     5. R functions: vcov
+##     6. Linear regression: FALSE, TRUE, FALSE | 0.531
+##     7. fourfold: 5.76 | 23.92 | 2.24 | 68.08 | 29.68 | 70.32 | 8 | 92 | 100
+## 
+## exam3
+##     1. Swiss Capital: 2
+##     2. derivative exp: 2.05 (2.04--2.06)
+##     3. 2-sample t-test: 2, 3
+##     4. Parallel boxplots: 2, 4, 5
+##     5. R functions: glm
+##     6. Linear regression: TRUE, FALSE, FALSE | 0.024
+##     7. fourfold: 6.5 | 22.5 | 3.5 | 67.5 | 29 | 71 | 10 | 90 | 100
+</code></pre>
+
+<h2 id="import-into-moodle-and-openolat">Import into Moodle and OpenOLAT</h2>
+
+<div class="row t20 b20">
+  <div class="small-8 medium-9 columns">
+
+<p>Finally, the output files generated above can be imported into the Moodle and OpenOLAT learning management system, respectively. In Moodle the random exercises are imported into a question bank based on which a quiz with randomly-selected questions can be constructed. In OpenOLAT the import directly yields a test learning resource that can then be embedded in a course.</p>
+
+  </div>
+  <div class="small-4 medium-3 columns">
+    <img src="http://www.R-exams.org/images/elearning-import.svg" alt="Import" />
+  </div>
+</div>
+
+<h3 id="moodle-import">Moodle import</h3>
+
+<p>A step-by-step video guide to importing and customizing the quiz in Moodle is available on YouTube at <a href="https://www.youtube.com/watch?v=5K9hrE3YkPs">https://www.youtube.com/watch?v=5K9hrE3YkPs</a>.</p>
+
+<p><a href="https://www.youtube.com/watch?v=5K9hrE3YkPs"><img src="http://www.R-exams.org/assets/posts/2020-03-28-elearning/moodle.png" alt="Moodle import" /></a></p>
+
+<h3 id="openolat-import">OpenOLAT import</h3>
+
+<p>A step-by-step video guide to importing and customizing the test in OpenOLAT is available on YouTube at <a href="https://www.youtube.com/watch?v=1ZhdmoDtUSA">https://www.youtube.com/watch?v=1ZhdmoDtUSA</a>.</p>
+
+<p><a href="https://www.youtube.com/watch?v=1ZhdmoDtUSA"><img src="http://www.R-exams.org/assets/posts/2020-03-28-elearning/openolat.png" alt="OpenOLAT import" /></a></p>
+
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2020-03-28" itemprop="datePublished"> 2020-03-28</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2moodle/">exams2moodle</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2openolat/">exams2openolat</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/quiz/">quiz</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/num/">num</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/mchoice/">mchoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/schoice/">schoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/cloze/">cloze</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/stresstest/">&laquo; Stress Testing Dynamic R/exams Exercises</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
