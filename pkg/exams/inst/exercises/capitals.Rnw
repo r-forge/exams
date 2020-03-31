@@ -1,5 +1,5 @@
 \begin{question}
-Which of the following cities is the capital of the corresponding country?
+Which of the following cities are the capital of the corresponding country?
 
 \begin{answerlist}
   \item Lagos (Nigeria)
