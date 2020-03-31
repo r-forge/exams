@@ -461,6 +461,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       } else list(x$questionlist)
     } else x$questionlist
     if(length(questionlist) < 1) questionlist <- NULL
+    for(i in 1:length(questionlist)) {
+      if(length(questionlist[[i]]) < 1)
+        questionlist[[i]] <- NA
+    }
 
     tol <- if(!is.list(x$metainfo$tolerance)) {
       if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
@@ -522,6 +526,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     msol <- x$metainfo$solution
     if(!is.list(msol))
       msol <- list(msol)
+
+    is_essay <- rep(FALSE, n)
 
     for(i in 1:n) {
       ## get item id
@@ -617,7 +623,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1) { #Z# the second comparison had < 1 rather than > 1 ??
+        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
@@ -629,10 +635,17 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             '</responseDeclaration>'
           )
         } else {
+          is_essay[i] <- TRUE
           ## Essay type questions.
-          xml <- c(xml,  #Z# the closing </responseDeclaration> is missing and also the <correctResponse>/<mapping>
+          xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response,
-              '" cardinality="single" baseType="string">', sep = ''))
+              '" cardinality="single" baseType="string">', sep = ''),
+            ## '<correctResponse>', N, correct response seems not to work?
+            ## if(dopbl) process_html_pbl(x$solution) else x$solution,
+            ## paste('<value>', solution[[i]], '</value>', sep = ''),
+            ## '</correctResponse>',
+            '</responseDeclaration>'
+          )
         }
       }
     }
@@ -861,11 +874,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         '<setOutcomeValue identifier="SCORE">',
         '<sum>',
         '<variable identifier="SCORE"/>',
-        switch(type[i],
+        switch(if(is_essay[i]) "essay" else type[i],
           "mchoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
           "schoice" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
           "string" =  paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
-          "num" = paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = '')
+          "num" = paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = ''),
+          "essay" = NULL
         ),
         '</sum>',
         '</setOutcomeValue>',
