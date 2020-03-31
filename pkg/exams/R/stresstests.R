@@ -4,7 +4,7 @@ stresstest_exercise <- function(file, n = 100,
   stop_on_error = length(as.character(unlist(file))) < 2, ...)
 {
   file <- as.character(unlist(file))
-  if(length(file) > 1) {
+  if(length(file) > 1L) {
     rval <- list()
     for(i in seq_along(file)) {
       attr(n, "stress.list") <- TRUE
@@ -13,8 +13,10 @@ stresstest_exercise <- function(file, n = 100,
     }
     class(rval) <- c("stress.list", "stress", "list")
   } else {
-    # Stop if the file does not exist
-    if (!file.exists(file)) stop(sprintf("Cannot find file \"%s\".", file))
+    # Stop if the file does not exist (and is not one of the built-in files)
+    if (!(tolower(substr(file, nchar(file) - 3L, nchar(file))) %in% c(".rnw", ".rmd"))) file <- paste0(file, ".Rnw")
+    if (!file.exists(file) && !file.exists(file.path(find.package("exams"), "exercises", file))) stop(sprintf("Cannot find file: %s.", file))
+
     stress_env <- .GlobalEnv
 
     ## stress_env <- new.env()
