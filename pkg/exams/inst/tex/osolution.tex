@@ -13,11 +13,10 @@
 \setlength{\parindent}{0em}
 
 %% fonts: Helvetica
+\usepackage{helvet}
+\usepackage[helvet]{sfmath}
 \renewcommand{\sfdefault}{phv}
-\IfFileExists{sfmath.sty}{
-  \RequirePackage[helvet]{sfmath}
-  \renewcommand{\rmdefault}{phv}
-}{}
+\renewcommand{\rmdefault}{phv}
 
 \newcommand{\extext}[1]{\textbf{\large #1}}
 \newcommand{\exmchoice}[5]{%

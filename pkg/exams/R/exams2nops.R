@@ -215,9 +215,6 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 \\usepackage{verbatim,url,fancyvrb,ae}
 \\usepackage{multicol,a4wide,pdfpages}
 \\usepackage{booktabs,longtable,eurosym,textcomp}
-\\IfFileExists{sfmath.sty}{
-  \\RequirePackage[helvet]{sfmath}
-}{}
 
 \\setkeys{Gin}{keepaspectratio}
 
@@ -229,6 +226,8 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 \\usepackage[T1]{fontenc}",
 if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 "
+\\usepackage{helvet}
+\\RequirePackage[helvet]{sfmath}
 \\renewcommand{\\rmdefault}{phv}
 \\renewcommand{\\sfdefault}{phv}
 

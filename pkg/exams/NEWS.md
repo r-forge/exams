@@ -6,6 +6,15 @@
   `deriv.Rmd` exercise are fixed to the values `1` and `0`, respectively.
   This can then be processed with `exams2xyz()` "as usual".
 
+* Added `tinytex::latexmk()` as an alternative to `tools::texi2dvi()` when
+  converting to PDF output (`exams2nops()`, `exams2pdf()`, ...) as suggested
+  by Yihui Xie. The default is to use tinytex `if(requireNamespace("tinytex"))`.
+  However, by setting `options(exams_tex = "tools")` instead of
+  `exams_tex = "tinytex"` the old behavior can be enforced even if tinytex
+  is installed. When no other LaTeX distribution (like TeXLive or MikTeX)
+  is installed, yet, `tinytex::install_tinytex()` can easily install the
+  TeXLive-based TinyTeX system.
+
 * Started enabling setting random `seed`s for each individual exercise
   in an exam, to enable custom exercise selection (e.g., when only
   putting together a single exam). Currently, only supported in 
@@ -30,13 +39,6 @@
   management system (<https://www.ilias.de/>). This is essentially a
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
   employing a somewhat modified XML template.
-
-* Added `tinytex::latexmk()` as an alternative to `tools::texi2dvi()` when
-  converting to PDF output (`exams2nops()`, `exams2pdf()`, ...) as suggested
-  by Yihui Xie. The default is to use tinytex `if(requireNamespace("tinytex"))`.
-  However, by setting `options(exams_tex = "tools")` instead of
-  `exams_tex = "tinytex"` the old behavior can be enforced even if tinytex
-  is installed.
 
 * Improved NOPS language support: Added Korean (`ko`, Saewon Jeong),
   Japanese (`ja`, Kohei Watanabe), Norwegian (Bokmal, `no`, Tormod Boe),
@@ -65,6 +67,12 @@
   necessary modifications. Finally, the exercise illustrates that UTF-8
   encoding is needed for the Rmd version while in the Rnw version the few
   special characters can be coded in ASCII using LaTeX commands.
+
+* All LaTeX templates that use `\fontfamily{phv}` now also gained a
+  `\usepackage{helvet}` to ensure that the corresponding LaTeX packages
+  are installed. Also `\usepackage{sfmath}` is now always used - and not
+  just if already available on the system. When using `tinytex` (see above)
+  the corresponding LaTeX packages will be installed if not yet available.
 
 * In R/Markdown exercises the question/solution answerlist can now use
   not only `*` but also `-` as the symbol for bullet points (suggested

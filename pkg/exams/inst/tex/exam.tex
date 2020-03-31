@@ -17,11 +17,10 @@
 \setkeys{Gin}{keepaspectratio}
 
 %% fonts: Helvetica
+\usepackage{helvet}
+\usepackage[helvet]{sfmath}
 \renewcommand{\sfdefault}{phv}
-\IfFileExists{sfmath.sty}{
-  \RequirePackage[helvet]{sfmath}
-  \renewcommand{\rmdefault}{phv}
-}{}
+\renewcommand{\rmdefault}{phv}
 
 \newcommand{\extext}[1]{\phantom{\large #1}}
 \newcommandx{\exmchoice}[9][2=-,3=-,4=-,5=-,6=-,7=-,8=-,9=-]{%
