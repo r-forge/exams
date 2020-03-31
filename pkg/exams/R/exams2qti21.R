@@ -467,6 +467,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     } else x$metainfo$tolerance
     tol <- rep(tol, length.out = n)
 
+    if((length(points) == 1) & (x$metainfo$type == "cloze"))
+      points <- points / n
+
     q_points <- rep(points, length.out = n)
     if(x$metainfo$type == "cloze")
       points <- sum(q_points)
