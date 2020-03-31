@@ -3,10 +3,11 @@
 
 \setlength{\fboxsep}{0pt}
 \setlength{\fboxrule}{0.1pt}
+\usepackage[utf8]{inputenc}
 
 
 \title[R/exams]{R/exams: A One-for-All Exams Generator}
-\subtitle{Written Exams, Online Tests, and Live Quizzes with R}
+\subtitle{Online Tests, Live Quizzes, and Written Exams with R}
 \author[Achim Zeileis]{Achim Zeileis}
 
 %% no \usepackage{Sweave}
@@ -16,7 +17,7 @@ options(prompt = "R> ", continue = "+  ", width = 55,
   digits = 4, show.signif.stars = FALSE, useFancyQuotes = FALSE)
 
 library("exams")
-set.seed(2018-05-16)
+set.seed(2020-04-02)
 @
 
 \begin{document}
@@ -135,7 +136,8 @@ set.seed(2018-05-16)
   \item PDF -- fully customizable vs.\ standardized with automatic scanning/evaluation.
   \item HTML -- fully customizable vs.\ embedded into exchange formats below.
   \item \pkg{Moodle} XML.
-  \item QTI XML standard (version 1.2 or 2.1), e.g., for \pkg{OLAT}/\pkg{OpenOLAT}.
+  \item QTI XML standard (version 1.2 or 2.1), e.g., for \emph{Canvas} or \emph{OpenOLAT}.
+  \item \emph{Blackboard} (partially based on QTI 1.2)
   \item \pkg{ARSnova}, \pkg{TCExam}, \pkg{LOPS}, \dots
 \end{itemize}
 
@@ -162,7 +164,7 @@ set.seed(2018-05-16)
 {\bf Document conversion}   & \emph{TtH}/\emph{TtM}, \emph{pandoc}                  & Conversion to HTML and beyond          \\[0.18cm]
 {\bf Image manipulation}    & \emph{ImageMagick}, \pkg{magick}, \pkg{png}           & Embedding graphics		     \\[0.18cm]
 {\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                   & Embedding supplementary files	     \\[0.18cm]
-{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\[0.18cm]
+{\bf Learning management}   & \emph{Moodle}, \emph{OpenOLAT}, \emph{Canvas}, \emph{ARSnova}, \dots & E-learning infrastructure 	     \\[0.18cm]
 \hline
 \end{tabular}
 }
@@ -217,7 +219,7 @@ Multiple-choice knowledge quiz with shuffled answer alternatives.
 \smallskip
 
 {\color{rexamsmgray}
-Which of these are open-source learning management systems?}
+Which of the following cities are the capital of the corresponding country?}
 \end{minipage}
 
 \bigskip
@@ -241,7 +243,7 @@ What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?}
 \begin{frame}[fragile]
 \frametitle{Dynamic exercises: \texttt{.Rmd}}
 
-\textbf{Example:} Which of these are open-source learning management systems?
+\textbf{Example:} Which of the following cities are the capital of the corresponding country?
 
 \pause
 
@@ -251,27 +253,33 @@ What is the derivative of $f(x) = x^a e^{b \cdot x}$, evaluated at $x = c$?}
 \begin{verbatim}
 Question
 ========
-Which of these are open-source learning management systems?
+Which of the following cities are the capital of the corresponding country?
 \end{verbatim}
 }
 
 {\scriptsize
 \verb|Answerlist|\\
 \verb|----------|\\
-\verb|* Canvas|\\
-\verb|* Ilias|\\
-\verb|* Moodle|\\
-\verb|* OLAT|\\
-\verb|* Blackboard|\\
-\verb|* Desire2Learn|\\
+\verb|* Lagos (Nigeria)|\\
+\verb|* São Paulo (Brazil)|\\
+\verb|* Toronto (Canada)|\\
+\verb|* Auckland (New Zealand)|\\
+\verb|* Istanbul (Turkey)|\\
+\verb|* Zürich (Switzerland)|\\
+\verb|* Tokyo (Japan)|\\
+\verb|* New Delhi (India)|\\
+\verb|* Astana (Kazakhstan)|\\
+\verb|* Warsaw (Poland)|\\
+\verb|* Riyadh (Saudi Arabia)|\\
 }
+
 
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Dynamic exercises: \texttt{.Rmd}}
 
-\textbf{Example:} Which of these are open-source learning management systems?
+\textbf{Example:} Which of the following cities are the capital of the corresponding country?
 
 \medskip
 
@@ -279,37 +287,46 @@ Which of these are open-source learning management systems?
 \begin{verbatim}
 Solution
 ========
-An overview of learning management systems can be found in Wikipedia at
-<https://en.wikipedia.org/wiki/List_of_learning_management_systems>.
 \end{verbatim}
 }
 
 {\scriptsize
 \verb|Answerlist|\\
 \verb|----------|\\
-\verb|* True. Canvas is developed by Instructure Inc. under the Affero General Public License Version 3.|\\
-\verb|* True. Ilias is an open-source system released under the General Public License.Version 3.|\\
-\verb|* True. Moodle is an open-source system released under the General Public License Version 3.|\\
-\verb|* True. OLAT is developed by the University of Zurich under the Apache License 2.0 License.|\\
-\verb|* False. Blackboard Learn is a commercial system developed by Blackboard Inc.|\\
-\verb|* False. Brightspace is a commercial system developed by Desire2Learn.|\\
+\verb|* False. The capital of Nigeria is Abuja.|\\
+\verb|* False. The capital of Brazil is Brasilia.|\\
+\verb|* False. The capital of Canada is Ottawa.|\\
+\verb|* False. The capital of New Zealand is Wellington.|\\
+\verb|* False. The capital of Turkey is Ankara.|\\
+\verb|* False. The de facto capital of Switzerland is Bern.|\\
+\verb|* True. Tokyo is the capital of Japan.|\\
+\verb|* True. New Delhi is the capital of India.|\\
+\verb|* True. Astana is the capital of Kazakhstan.|\\
+\verb|* True. Warsaw is the capital of Poland.|\\
+\verb|* True. Riyadh is the capital of Saudi Arabia.|\\
 }
 
-\pause
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic exercises: \texttt{.Rmd}}
+
+\textbf{Example:} Which of the following cities are the capital of the corresponding country?
+
+\medskip
 
 {\scriptsize
 \begin{verbatim}
 Meta-information
 ================
-exname: Learning management systems
+exname: Capitals
 extype: mchoice
-exsolution: 111100
+exsolution: 00000011111
 exshuffle: 5
 \end{verbatim}
 }
 
 \end{frame}
-
 
 
 \begin{frame}[fragile]
@@ -398,7 +415,7 @@ exsolution: 010
 
 <<echo=FALSE, results=hide>>=
 set.seed(2018-05-16)
-exams2pdf("lms.Rmd", dir = ".", name = "slides4-lms-", template = "standalone.tex")
+exams2pdf("capitals.Rmd", dir = ".", name = "slides4-capitals-", template = "standalone.tex")
 set.seed(2018-05-16)
 exams2pdf("boxplots.Rnw", dir = ".", name = "slides4-boxplots-", template = "standalone.tex")
 @
@@ -414,7 +431,7 @@ exsolution: 011
 \end{verbatim}
 \end{minipage}
 \begin{minipage}[t]{0.6\textwidth}
-\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-lms-1}}}}%
+\only<2>{\raisebox{-\height}{\fbox{\includegraphics[width=\textwidth]{slides4-capitals-1}}}}%
 \only<3>{\raisebox{-\height}{\fbox{\includegraphics[width=0.75\textwidth,trim=0 69 0 0,clip]{slides4-boxplots-1}}}}
 
 \medskip
@@ -556,8 +573,8 @@ if(!file.exists(file.path("_images", "background_oneforall.jpg"))) {
 
 <<myexam>>=
 myexam <- list(
-  "deriv2.Rnw",
-  "fruit2.Rnw",
+  "capitals.Rmd",
+  "deriv2.Rmd",
   c("ttest.Rnw", "boxplots.Rnw")
 )
 @
@@ -579,22 +596,6 @@ myexam <- list(
 \begin{frame}[fragile]
 \frametitle{One-for-All}
 
-\textbf{Written exam:}
-
-<<exams-preliminaries, echo=FALSE>>=
-set.seed(2018-05-16)
-odir <- tempfile()
-@
-
-<<exams2nops>>=
-exams2nops(myexam, n = 3, dir = odir,
-  language = "nl", institution = "TEA 2018")
-@
-
-<<exams2pdf-output, echo=FALSE, results=hide>>=
-file.copy(file.path(odir, "nops1.pdf"), "slides4-nops1.pdf")
-@
-
 \textbf{Online test:}
 
 <<exams2qti12, eval=FALSE>>=
@@ -607,14 +608,131 @@ exams2moodle(myexam, n = 10, dir = odir)
 exams2arsnova(myexam, n = 1, dir = odir)
 @
 
+\textbf{Written exam:}
+
+<<exams-preliminaries, echo=FALSE>>=
+set.seed(2018-05-16)
+odir <- tempfile()
+@
+
+<<exams2nops>>=
+exams2nops(myexam, n = 3, dir = odir,
+  language = "hu", institution = "WhyR?")
+@
+
+<<exams2pdf-output, echo=FALSE, results=hide>>=
+file.copy(file.path(odir, "nops1.pdf"), "slides4-nops1.pdf")
+@
+
 \bigskip
 
-\textbf{Other:} \code{exams2pdf()}, \code{exams2html()}, \code{exams2qti12()}, \code{exams2qti21()}, \dots
+\textbf{Other:} \code{exams2pdf()}, \code{exams2html()}, \code{exams2canvas()}, \code{exams2openolat()}, \dots
 
 
 
 \end{frame}
 
+
+
+\section{E-Learning}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=0 0 0 45, clip, keepaspectratio]{background_elearning.jpg}}
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]%
+  \draw[color=white,fill=white,opacity=0.90] 
+  (-10,-8) rectangle (20,-6.6);
+  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont E-Learning};
+  \end{tikzpicture}
+\end{frame}
+\usebackgroundtemplate{}
+
+<<echo=FALSE, results=hide>>=
+if(!file.exists(file.path("_images", "background_elearning.jpg"))) {
+  file.copy(
+    file.path("..", "..", "..", "jekyll", "images", "seminar.orig.jpg"),
+    file.path("_images", "background_elearning.jpg")
+  )
+}
+@
+
+\begin{frame}
+\frametitle{E-Learning}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-goal}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{1.~Goal}
+\begin{itemize}
+  \item Online tests with flexible exercise types.
+  \item Possibly: Dynamic supplements and/or complete correct solution.
+  \item Random variations of similar exercises to reduce the risk of cheating.
+  \item Use university's learning management system, e.g., Moodle, \dots
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{E-Learning}
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-create}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{2.~Create}
+\begin{itemize}
+  \item Draw random replications from exercise templates, e.g., via \texttt{exams2moodle()}, \dots
+  \item Automatically embed these into exchange file format (typically via HTML/XML).
+\end{itemize}
+\end{minipage}
+
+\pause
+\medskip
+
+\begin{minipage}[t]{0.4\textwidth}
+\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-import}}
+\end{minipage}
+\begin{minipage}[t]{0.57\textwidth}
+\textbf{3.~Import}
+\begin{itemize}
+  \item Import in learning management system.
+  \item From there handling ``as usual'' in the system.
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{E-Learning: Online test}
+
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{moodle1.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{moodle3.png}}%
+
+\end{frame}
+
+\begin{frame}
+\frametitle{E-Learning: Online test}
+
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{openolat-qti21-3.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{openolat-qti21-6.png}}%
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{E-Learning: Live quiz}
+
+\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-1-conferences.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-2-deriv.png}}%
+\hspace*{0.6cm}%
+\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-3-fruit.png}}
+
+\end{frame}
 
 
 \section{Written Exams}
@@ -754,107 +872,6 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 
 
 
-\section{E-Learning}
-\usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=0 0 0 45, clip, keepaspectratio]{background_elearning.jpg}}
-\begin{frame}[plain]
-  \begin{tikzpicture}[remember picture,overlay]%
-  \draw[color=white,fill=white,opacity=0.90] 
-  (-10,-8) rectangle (20,-6.6);
-  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont E-Learning};
-  \end{tikzpicture}
-\end{frame}
-\usebackgroundtemplate{}
-
-<<echo=FALSE, results=hide>>=
-if(!file.exists(file.path("_images", "background_elearning.jpg"))) {
-  file.copy(
-    file.path("..", "..", "..", "jekyll", "images", "seminar.orig.jpg"),
-    file.path("_images", "background_elearning.jpg")
-  )
-}
-@
-
-\begin{frame}
-\frametitle{E-Learning}
-
-\begin{minipage}[t]{0.4\textwidth}
-\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-goal}}
-\end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\textbf{1.~Goal}
-\begin{itemize}
-  \item Online tests with flexible exercise types.
-  \item Possibly: Dynamic supplements and/or complete correct solution.
-  \item Random variations of similar exercises to reduce the risk of cheating.
-  \item Use university's learning management system, e.g., Moodle, \dots
-\end{itemize}
-\end{minipage}
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{E-Learning}
-
-\begin{minipage}[t]{0.4\textwidth}
-\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-create}}
-\end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\textbf{2.~Create}
-\begin{itemize}
-  \item Draw random replications from exercise templates, e.g., via \texttt{exams2moodle()}, \dots
-  \item Automatically embed these into exchange file format (typically via HTML/XML).
-\end{itemize}
-\end{minipage}
-
-\pause
-\medskip
-
-\begin{minipage}[t]{0.4\textwidth}
-\raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-import}}
-\end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\textbf{3.~Import}
-\begin{itemize}
-  \item Import in learning management system.
-  \item From there handling ``as usual'' in the system.
-\end{itemize}
-\end{minipage}
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{E-Learning: Online test}
-
-\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{moodle1.png}}%
-\hspace*{0.6cm}%
-\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{moodle3.png}}%
-
-\end{frame}
-
-\begin{frame}
-\frametitle{E-Learning: Online test}
-
-\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{openolat-qti21-3.png}}%
-\hspace*{0.6cm}%
-\fbox{\includegraphics[width=0.43\textwidth,keepaspectratio=true]{openolat-qti21-6.png}}%
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{E-Learning: Live quiz}
-
-\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-1-conferences.png}}%
-\hspace*{0.6cm}%
-\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-2-deriv.png}}%
-\hspace*{0.6cm}%
-\fbox{\includegraphics[width=0.28\textwidth,keepaspectratio=true]{arsnova-3-fruit.png}}
-
-\end{frame}
-
-
 \section{What Else?}
 \usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=10 0 20 0, clip, keepaspectratio]{background_whatelse.jpg}}
 \begin{frame}[plain]
@@ -939,27 +956,42 @@ exams2nops(rep("swisscapital", 21), reglength = 8, dir = ".", name = "slides4-no
 
 \fbox{\includegraphics[width=0.9\textwidth, trim=50 360 250 360, clip]{slides4-nops-hu-1.pdf}}
 \end{minipage}
-\begin{minipage}[t]{0.58\textwidth}
+\begin{minipage}[t]{0.3\textwidth}
 \raisebox{-\height}{\scriptsize
-\begin{tabular}{lll}
-  \textbf{da} & Jensen, Messner & \textbf{\color{rexamsdgreen} More contributions}\\
-  \textbf{de} & Zeileis & \textbf{\color{rexamsdgreen} welcome \dots}\\
-  \textbf{en} & Zeileis & \\
-  \textbf{es} & Kogelnik & \\
-  \textbf{fi} & Nordhausen & \\
-  \textbf{fr} & Allignol & \\
-  \textbf{gsw}& Stauffer & \\
-  \textbf{hr} & Jurai{\'c}, Kecojevic & \\
-  \textbf{hu} & Dar{\'o}czi, T{\'o}th & \\
-  \textbf{it} & Zambella & \\
-  \textbf{nl} & Smits & \\
-  \textbf{pt} & Calv{\~a}o, Dellinger, & \\
-              & Petutschnig (pt-PT/pt-BR) & \\
-  \textbf{ro} & Gatu & \\
-  \textbf{ru} & Demeshev & \\
-  \textbf{sk} & Fabsic & \\
-  \textbf{sr} & Kecojevic & \\
-  \textbf{tr} & Er & \\
+\begin{tabular}{ll}
+  \textbf{da} & Jensen, Messner \\
+  \textbf{de} & Zeileis \\
+  \textbf{en} & Zeileis \\
+  \textbf{es} & Kogelnik \\
+  \textbf{fi} & Nordhausen \\
+  \textbf{fr} & Allignol \\
+  \textbf{gsw}& Stauffer \\
+  \textbf{hr} & Jurai{\'c}, Kecojevic \\
+  \textbf{hu} & Dar{\'o}czi, T{\'o}th \\
+  \textbf{it} & Zambella \\
+  \textbf{ja} & Watanabe \\
+  \textbf{ko} & Jeong \\
+  \textbf{nl} & Smits \\
+  \textbf{no} & B{\o}e \\
+  \textbf{pt} & Calv{\~a}o, Dellinger, \\
+              & Petutschnig (pt-PT/pt-BR) \\
+\end{tabular}
+}
+\end{minipage}
+\begin{minipage}[t]{0.26\textwidth}
+\raisebox{-\height}{\scriptsize
+\begin{tabular}{ll}
+  \textbf{ro} & Gatu \\
+  \textbf{ru} & Demeshev \\
+  \textbf{sk} & Fabsic \\
+  \textbf{sl} & Jeran \\
+  \textbf{sr} & Kecojevic \\
+  \textbf{tr} & Er \\
+  \textbf{vi} & Tran Thi Hoang Ha \\
+  & \\
+  & \\
+  \multicolumn{2}{l}{\textbf{\color{rexamsdgreen} More contributions}}\\
+  \multicolumn{2}{l}{\textbf{\color{rexamsdgreen} welcome \dots}}\\
 \end{tabular}
 }
 \end{minipage}
@@ -1006,7 +1038,7 @@ plot(s2)
 \begin{frame}
 \frametitle{Graphical exams manager}
 
-\fbox{\includegraphics[width=0.75\textwidth,keepaspectratio=true]{gui-create.png}}
+\fbox{\includegraphics[width=0.7\textwidth,keepaspectratio=true]{gui-create.png}}
 
 \end{frame}
 
@@ -1014,7 +1046,7 @@ plot(s2)
 \begin{frame}
 \frametitle{Graphical exams manager}
 
-\fbox{\includegraphics[width=0.75\textwidth,keepaspectratio=true]{gui-preview.png}}
+\fbox{\includegraphics[width=0.7\textwidth,keepaspectratio=true]{gui-define.png}}
 
 \end{frame}
 
@@ -1186,7 +1218,7 @@ plot(ma$final_tests, main = "", xlab = "Family-wise 95% confidence intervals")
 
 \small
 
-\textbf{Contributors:} Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Stauffer.
+\textbf{Contributors:} Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Stauffer, Sato.
     
 \bigskip
 
@@ -1198,7 +1230,7 @@ plot(ma$final_tests, main = "", xlab = "Family-wise 95% confidence intervals")
   Web           & \url{http://www.R-exams.org/} \\
   CRAN          & \url{https://CRAN.R-project.org/package=exams} \\
   Forum         & \url{http://R-Forge.R-project.org/forum/?group_id=1337} \\
-  StackOverflow & \url{https://stackoverflow.com/questions/tagged/exams} \\
+  StackOverflow & \url{https://stackoverflow.com/questions/tagged/r-exams} \\
   Twitter       & \href{https://twitter.com/AchimZeileis}{@AchimZeileis}
 \end{tabular}
 
