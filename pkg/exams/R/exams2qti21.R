@@ -640,7 +640,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response,
               '" cardinality="single" baseType="string">', sep = ''),
-            ## '<correctResponse>', N, correct response seems not to work?
+            ## '<correctResponse>', ## N, correct response seems not to work?
             ## if(dopbl) process_html_pbl(x$solution) else x$solution,
             ## paste('<value>', solution[[i]], '</value>', sep = ''),
             ## '</correctResponse>',
