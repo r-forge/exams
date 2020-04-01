@@ -94,6 +94,12 @@
   This was a problem for cloze exercises with ##ANSWER## patterns, leading to
   a questionlist that was too short (reported by Julia Guggenberger).
 
+* Various fixes and improvements in `exams2qti21()` (and thus inherited by
+  `exams2openolat()`): Support of cloze and essay type exercises has been
+  much improved, fixing bugs in the XML and meta-information handling.
+  String exercises work again. The internally-generated XML labels are
+  more robust now avoiding spaces and leading integers.
+  
 * Dependency on R >= 3.4.0 now which enables plugging a custom svg device
   into `Sweave()`. In previous versions of the package a workaround was
   included that work for R < 3.4.0 (but required writing into the global
