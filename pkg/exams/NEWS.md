@@ -52,10 +52,11 @@
   absolute anymore. For `interactive` checking/fixing of registration IDs
   the width of scanned subimage is now adapted according to the `reglength`.
 
-* The actual writing of nops_eval results has been modularized. Different
-  `nops_eval_write_<flavor>` functions can be plugged in. At the moment there
-  is only the default writer (optimized for OpenOLAT) but further flavors
-  are planned (including a workflow for Moodle).
+* The actual writing of nops_eval results has been modularized (with contributions
+  from Kenji Sato). Different `nops_eval_write_<flavor>` functions can be plugged in.
+  At the moment there is only the default writer (optimized for OpenOLAT)
+  but further flavors are planned (including a standalone workflow and
+  one for Moodle).
 
 * Function `nops_language()` is now exported as part of the user interface
   (only internal previously). Based on a language specification in a DCF
@@ -72,7 +73,8 @@
   `\usepackage{helvet}` to ensure that the corresponding LaTeX packages
   are installed. Also `\usepackage{sfmath}` is now always used - and not
   just if already available on the system. When using `tinytex` (see above)
-  the corresponding LaTeX packages will be installed if not yet available.
+  the corresponding LaTeX packages will be installed if not yet available
+  upon first usage.
 
 * In R/Markdown exercises the question/solution answerlist can now use
   not only `*` but also `-` as the symbol for bullet points (suggested
@@ -91,6 +93,11 @@
   in an answerlist if it was completely empty (even without a trailing space).
   This was a problem for cloze exercises with ##ANSWER## patterns, leading to
   a questionlist that was too short (reported by Julia Guggenberger).
+
+* Dependency on R >= 3.4.0 now which enables plugging a custom svg device
+  into `Sweave()`. In previous versions of the package a workaround was
+  included that work for R < 3.4.0 (but required writing into the global
+  environment which is avoided now).
 
 
 # exams 2.3-4
