@@ -227,7 +227,9 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 "
 \\usepackage{helvet}
-\\RequirePackage[helvet]{sfmath}
+\\IfFileExists{sfmath.sty}{
+  \\RequirePackage[helvet]{sfmath}
+}{}
 \\renewcommand{\\rmdefault}{phv}
 \\renewcommand{\\sfdefault}{phv}
 

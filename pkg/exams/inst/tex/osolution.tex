@@ -14,7 +14,9 @@
 
 %% fonts: Helvetica
 \usepackage{helvet}
-\usepackage[helvet]{sfmath}
+\IfFileExists{sfmath.sty}{
+  \RequirePackage[helvet]{sfmath}
+}{}
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\rmdefault}{phv}
 
