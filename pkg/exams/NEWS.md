@@ -35,11 +35,6 @@
   only supported in  `xexams()`, `exams2pdf()`, `exams2html()`, `exams2nops()`,
   and `exams2blackboard()`.
 
-* Added new interface `exams2ilias()` for the open-source ILIAS learning
-  management system (<https://www.ilias.de/>). This is essentially a
-  convenience wrapper to `exams2qti12()`, tweaking a few defaults and
-  employing a somewhat modified XML template.
-
 * Improved NOPS language support: Added Korean (`ko`, Saewon Jeong),
   Japanese (`ja`, Kohei Watanabe), Norwegian (Bokmal, `no`, Tormod Boe),
   Slovenian (`sl`, Matjaz Jeran), Vietnamese (`vi`, Tran Thi Hoang Ha).
@@ -71,10 +66,8 @@
 
 * All LaTeX templates that use `\fontfamily{phv}` now also gained a
   `\usepackage{helvet}` to ensure that the corresponding LaTeX packages
-  are installed. Also `\usepackage{sfmath}` is now always used - and not
-  just if already available on the system. When using `tinytex` (see above)
-  the corresponding LaTeX packages will be installed if not yet available
-  upon first usage.
+  are installed. When using `tinytex` (see above) the corresponding LaTeX
+  packages will be installed if not yet available upon first usage.
 
 * In R/Markdown exercises the question/solution answerlist can now use
   not only `*` but also `-` as the symbol for bullet points (suggested
