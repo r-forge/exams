@@ -196,7 +196,7 @@ browseURL(file.path(mydir, "jane_doe",    "Exam-2015-07-29.html"))
 browseURL(file.path(mydir, "ambi_dexter", "Exam-2015-07-29.html"))
 }
 
-
+\donttest{
 ## --- Options ---
 if(interactive()) {
 ## below three typically needed options are discussed:
@@ -235,6 +235,7 @@ cbind(ev1$points, ev2$points)
 unzip("nops_eval.zip")
 browseURL(file.path(mydir, "jane_doe",    "Exam-2015-07-29.html"))
 browseURL(file.path(mydir, "ambi_dexter", "Exam-2015-07-29.html"))
+}
 }
 
 ## switch back to original working directory

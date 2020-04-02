@@ -133,7 +133,12 @@ Zeileis A, Umlauf N, Leisch F (2014).
 
 \examples{
 ## load package and enforce par(ask = FALSE)
-options(device.ask.default = FALSE)
+##
+## additionally, for simplicity, enforce using the basic
+## tools::texi2dvi() LaTeX interface instead of the more
+## flexible/robust tinytex::latexmk()
+library("exams")
+oopt <- options(device.ask.default = FALSE, exams_tex = "tools")
 
 if(interactive()) {
 ## compile a single random exam (displayed on screen)
@@ -145,6 +150,8 @@ exams2pdf(list(
   "relfreq"
 ))
 }
+
+options(exams_tex = oopt$exams_tex)
 }
 
 \keyword{utilities}
