@@ -1,3 +1,11 @@
+# exams 2.3-6
+
+* Added new interface `exams2ilias()` for the open-source ILIAS learning
+  management system (<https://www.ilias.de/>). This is essentially a
+  convenience wrapper to `exams2qti12()`, tweaking a few defaults and
+  employing a somewhat modified XML template.
+
+
 # exams 2.3-5
 
 * New function `expar()` that helps to fix parameters (defined in the first

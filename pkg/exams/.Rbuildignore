@@ -6,5 +6,3 @@ vignettes/screenshots/exams2moodle-tstat.png
 WISHLIST
 inst/nops/eval.html
 R/nops_eval_write_template.R
-R/exams2ilias.R
-inst/xml/ilias.xml
