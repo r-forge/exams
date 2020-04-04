@@ -1,0 +1,594 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Why R? Webinar on R/exams for E-Learning Quizzes and Beyond</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+	
+	
+	<meta name="description" content="Webinar hosted by Why R? Foundation: Slides, video, and e-learning resources." />
+	<meta name="keywords" content="R, exams, e-learning" />
+	
+	<meta name="author" content="Achim Zeileis" />
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Search Engine Optimization -->
+	
+	
+	
+
+	<!-- Facebook Optimization -->
+	<meta property="og:title" content="Why R? Webinar on R/exams for E-Learning Quizzes and Beyond" />
+	<meta property="og:description" content="Webinar hosted by Why R? Foundation: Slides, video, and e-learning resources." />
+	<meta property="og:url" content="http://www.R-exams.org//general/whyr2020/" />
+	<meta property="og:locale" content="en_EN" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/whyr2020.300.png" />
+	
+
+	
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="AchimZeileis" />
+	<meta name="twitter:creator" content="AchimZeileis" />
+	<meta name="twitter:title" content="Why R? Webinar on R/exams for E-Learning Quizzes and Beyond" />
+	<meta name="twitter:description" content="Webinar hosted by Why R? Foundation: Slides, video, and e-learning resources." />
+	<meta name="twitter:image" content="http://www.R-exams.org/images/whyr2020.300.png" />
+
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    /// var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/"; ///
+    var u="https" + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/whyr2020.title.png" width="970" alt="Why R? Webinar on R/exams for E-Learning Quizzes and Beyond" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams @ eRum 2018 (CC-BY-SA).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>Why R? Webinar on R/exams for E-Learning Quizzes and Beyond</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Webinar hosted by Why R? Foundation: Slides, video, and e-learning resources.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h3 id="why-r-webinar-001">Why R? Webinar 001</h3>
+
+<p><a href="http://www.R-exams.org/">R/exams</a> was presented in the first <a href="http://whyr.pl/webinars/">Why R? webinar</a> by <a href="https://eeecon.uibk.ac.at/~zeileis/">Achim Zeileis</a>. <a href="http://r-addict.com/">Marcin Kosiński</a> was the host and did a great job setting up the Zoom session that was streamed live on YouTube where more than 100 participants joined the live chat.</p>
+
+<p>Compared to previous presentations on R/exams, the webinar gave some emphasis to e-learning. Also, the presentation shared some experiences from Universität Innsbruck on how R/exams can assist the transition to distance learning due to the corona crisis in spring 2020.</p>
+
+<p>This blog post provides various resources for those who did not attend the webinar or who want to explore the materials in some more detail. Most importantly the presentation slides are available in PDF format (under CC-BY):</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2020-04-04-whyr2020/slides.pdf"><img src="http://www.R-exams.org/assets/posts/2020-04-04-whyr2020/slides.png" alt="slides.pdf" /></a></p>
+
+<h3 id="video">Video</h3>
+
+<p>Thanks to the great job done by the Why R? organizers, the recording of the live stream is available on YouTube:</p>
+
+<p><a href="https://www.youtube.com/watch?v=PnyCR7q4P4Q"><img src="http://www.R-exams.org/assets/posts/2020-04-04-whyr2020/youtube.png" alt="YouTube" /></a></p>
+
+<h3 id="e-learning">E-Learning</h3>
+
+<p>To illustrate the e-learning capabilities supported by R/exams, the presentation went through an online quiz generated by R/exams and imported into <a href="https://www.OpenOLAT.com/">OpenOLAT</a>, an open-source learning management system (available under the Apache License). The online test is made available again here for anonymous guest access. <em>(Note however, that the system only has one guest user so that when you start the test there may already be some test results from a previous guest session. In that case you can finish the test and also start it again.)</em></p>
+
+<p><a href="https://lms.uibk.ac.at/url/RepositoryEntry/2823520256/CourseNode/97603810083315?guest=true"><img src="http://www.R-exams.org/assets/posts/2020-04-04-whyr2020/openolat.png" alt="OpenOLAT" /></a></p>
+
+<p>A detailed description of the generation and import of this online quiz is available in the recent <a href="http://www.R-exams.org/tutorials/elearning/">R/exams e-learning tutorial</a>.</p>
+
+<h3 id="getting-started">Getting started</h3>
+
+<p>Further resources for getting started with R/exams are available in these tutorials:</p>
+
+<ul>
+  <li><a href="http://www.R-exams.orgtutorials/installation/">Installing R/exams</a></li>
+  <li><a href="http://www.R-exams.orgtutorials/first_steps/">First Steps</a></li>
+  <li><a href="http://www.R-exams.orgtutorials/stresstest/">Stress Testing Dynamic R/exams Exercises</a></li>
+</ul>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2020-04-04" itemprop="datePublished"> 2020-04-04</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/elearning/">&laquo; E-Learning Quizzes with R/exams for Moodle and OpenOLAT</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
