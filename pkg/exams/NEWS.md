@@ -5,6 +5,9 @@
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
   employing a somewhat modified XML template.
 
+* `stresstest_exercise()` gained an `encoding` argument that is necessary
+  for stresstesting non-ASCII .Rnw exercises (reported by Ulrich Morawetz).
+
 
 # exams 2.3-6
 
