@@ -40,10 +40,10 @@ en <- nops_language("en")
 names(en)
 en$NoChanges
 
-\donttest{
 ## French (LaTeX vs. HTML)
 nops_language("fr", converter = "none")$NoChanges
 nops_language("fr", converter = "tth")$NoChanges
+if (requireNamespace("rmarkdown") && rmarkdown::pandoc_available()) {
 nops_language("fr", converter = "pandoc")$NoChanges
 }
 }

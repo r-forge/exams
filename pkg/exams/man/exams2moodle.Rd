@@ -201,7 +201,7 @@ Zeileis A (2019).
 }
 
 \examples{
-\donttest{
+if (requireNamespace("rmarkdown") && rmarkdown::pandoc_available()) {
 ## load package and enforce par(ask = FALSE)
 library("exams")
 options(device.ask.default = FALSE)

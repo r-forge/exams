@@ -1,9 +1,14 @@
-# exams 2.3-6
+# exams 2.3-7
 
 * Added new interface `exams2ilias()` for the open-source ILIAS learning
   management system (<https://www.ilias.de/>). This is essentially a
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
   employing a somewhat modified XML template.
+
+
+# exams 2.3-6
+
+* Properly test for `pandoc` availability in `nops_language()` examples.
 
 
 # exams 2.3-5
