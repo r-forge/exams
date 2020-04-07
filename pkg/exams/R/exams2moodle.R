@@ -2,7 +2,7 @@
 ## http://docs.moodle.org/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "", 
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, pluginfile = TRUE,
@@ -15,8 +15,13 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(converter = converter, ..., base64 = !pluginfile)
 
+  ## encoding always assumed to be UTF-8 starting from R/exams 2.4-0
+  if(!is.null(encoding) && !(tolower(encoding) %in% c("", "utf-8", "utf8"))) {
+    warning("the only supported 'encoding' is UTF-8")
+  }
+  encoding <- "UTF-8"
+
   ## generate the exam
-  if(encoding == "") encoding <- "UTF-8"
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
        sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
@@ -85,7 +90,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(!is.null(points))
     points <- rep(points, length.out = nq)
 
-  ## encoding
+  ## encoding (actually only UTF-8 supported starting from 2.4-0)
   enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
   if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
   if(enc == "iso885915") enc <- "latin9"

@@ -1,12 +1,18 @@
-# exams 2.3-7
+# exams 2.4-0
+
+* Switched the entire package to support UTF-8 encodings by default for
+  all exercises types. Previously, this was only the case for .Rmd exercises.
+  All templates etc. have been modified to support UTF-8 out-of-the-box.
+  Support for all other encodings like ISO-8859-* (latin1, latin9, etc.),
+  which had previously been available for .Rnw exercises in certain interfaces,
+  has been disabled. While this reduces the functionality of the package slightly,
+  it greatly facilitates working with UTF-8 which appears to be predominantly
+  used in practice. Documentation also becomes easier/clearer.
 
 * Added new interface `exams2ilias()` for the open-source ILIAS learning
   management system (<https://www.ilias.de/>). This is essentially a
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
   employing a somewhat modified XML template.
-
-* `stresstest_exercise()` gained an `encoding` argument that is necessary
-  for stresstesting non-ASCII .Rnw exercises (reported by Ulrich Morawetz).
 
 
 # exams 2.3-6

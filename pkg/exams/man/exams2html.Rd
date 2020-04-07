@@ -11,11 +11,11 @@
 }
 
 \usage{
-  exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = NULL,
+  exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.html",
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
     mathjax = NULL, resolution = 100, width = 4, height = 4, svg = FALSE,
-    encoding = "", envir = NULL, converter = NULL, seed = NULL, \dots)
+    encoding = "UTF-8", envir = NULL, converter = NULL, seed = NULL, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
     base64 = TRUE, \dots)
@@ -37,10 +37,7 @@
     current working directory). If only a single HTML file is produced
     and no \code{dir} is explicitly specified, the file is displayed in the
     browser rather than saved in \code{dir}.}
-  \item{template}{character. A specification of a HTML template. The default
-    is to use the \code{"plain.html"} file provided in the package unless
-    there are Rmd exercises in \code{file}. Then, \code{"plain8.html"}
-    is used (which expects UTF-8 encoding as used by pandoc).}
+  \item{template}{character. A specification of a HTML template.}
   \item{name}{character. A name prefix for resulting exercises.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[exams]{xweave}}?}
@@ -64,7 +61,7 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{envir}{argument passed to \code{\link[exams]{xweave}} (which passes
     it to \code{\link[knitr]{knit}}).}
   \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?
@@ -147,17 +144,6 @@ exams2html(list(
   "scatterplot",
   "relfreq"
 ))
-
-## examples with different locales (UTF-8, ISO-8859-15)
-## using special characters (Euro and Pound symbol, German umlaut)
-if(!identical(Sys.getlocale(), "C")) {
-## UTF-8
-exams2html("currency8", encoding = "utf8", template = "plain8")
-
-## ISO Latin 9 (aka ISO-8859-15)
-exams2html("currency9", encoding = "latin9", template = "plain9")
-}
-
 
 ## various versions of displaying mathematical formulae
 

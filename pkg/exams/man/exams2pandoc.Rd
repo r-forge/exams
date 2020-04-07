@@ -12,8 +12,9 @@
     name = "pandoc", type = "docx", template = "plain.tex",
     question = "Question", solution = "Solution",
     header = list(Date = Sys.Date()), inputs = NULL, options = NULL,
-    quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
-    edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, points = NULL, \dots)
+    quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
+    encoding = "UTF-8", edir = NULL, tdir = NULL, sdir = NULL, 
+    verbose = FALSE, points = NULL, \dots)
 }
 
 \arguments{
@@ -51,7 +52,7 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}    
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{edir}{character specifying the path of the directory (along with its
     sub-directories) in which the files in \code{file} are stored
     (see also \code{\link{xexams}}).}

@@ -4,7 +4,7 @@
 ## http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bestv1p2.html#1466669
 exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "",
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti12",
   duration = NULL, stitle = "Exercise", ititle = "Question",

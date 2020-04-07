@@ -13,7 +13,7 @@
   exams2moodle(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, verbose = FALSE,
-    resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
+    resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
@@ -53,7 +53,8 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{encoding, envir}{arguments passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
+  \item{envir}{passed to \code{\link[exams]{xweave}}.}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to
     certain already existing question banks, i.e. \code{iname = TRUE} will include the exam

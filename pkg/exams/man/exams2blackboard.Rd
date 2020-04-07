@@ -13,7 +13,7 @@
   exams2blackboard(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, verbose = FALSE,
-    resolution = 100, width = 4, height = 4, encoding = "",
+    resolution = 100, width = 4, height = 4, encoding = "UTF-8",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "blackboard",
@@ -59,7 +59,7 @@
     be reported?}
   \item{resolution, width, height}{numeric. Options for rendering PNG
     graphics passed to \code{\link[exams]{xweave}}.}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
     for generating the item body of the question, see function \code{make_itembody_blackboard()}.

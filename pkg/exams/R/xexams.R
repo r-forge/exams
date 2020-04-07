@@ -293,10 +293,16 @@ print.exams_metainfo <- function(x, which = NULL, block = NULL, ...) {
   invisible(x)
 }
 
-xweave <- function(file, quiet = TRUE, encoding = NULL, engine = NULL,
+xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
   envir = new.env(), pdf = TRUE, png = FALSE, svg = FALSE, height = 6, width = 6,
   resolution = 100, highlight = FALSE, ...)
 {
+  ## encoding always assumed to be UTF-8 starting from R/exams 2.4-0
+  if(!is.null(encoding) && !(tolower(encoding) %in% c("", "utf-8", "utf8"))) {
+    warning("the only supported 'encoding' is UTF-8")
+  }
+  encoding <- "UTF-8"
+
   ## process file extension, rendering engine, and graphics device
   ext <- tolower(tools::file_ext(file))
   if(is.null(engine)) {

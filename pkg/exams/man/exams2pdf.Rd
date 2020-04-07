@@ -9,14 +9,14 @@
 }
 
 \usage{
-  exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = NULL, 
+  exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = "plain", 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
-    control = NULL, encoding = "", quiet = TRUE, transform = NULL,
+    control = NULL, encoding = "UTF-8", quiet = TRUE, transform = NULL,
     edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
     verbose = FALSE, points = NULL, seed = NULL, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
-    header = list(Date = Sys.Date()), name = NULL, encoding = "",
+    header = list(Date = Sys.Date()), name = NULL, encoding = "UTF-8",
     quiet = TRUE, control = NULL, texdir = NULL)
 }
 
@@ -46,7 +46,7 @@
     chosen based on \code{template}.}
   \item{control}{A list of control arguments for the appearance of
     multiple choice results (see details).}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[exams]{xweave}} and \code{\link[tools]{texi2dvi}}.}
   \item{transform}{function. An optional transform driver passed to

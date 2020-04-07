@@ -1,6 +1,6 @@
 exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
-  template = NULL, inputs = NULL, header = list(Date = Sys.Date()),
-  name = NULL, control = NULL, encoding = "", quiet = TRUE,
+  template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
+  name = NULL, control = NULL, encoding = "UTF-8", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
   verbose = FALSE, points = NULL, seed = NULL, ...)
 {
@@ -11,9 +11,6 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
     n <- nrow(file)
     nsamp <- ncol(file)
   }
-
-  ## for Rnw exercises use "plain" template, for Rmd "plain8"
-  if(is.null(template)) template <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "plain8" else "plain"
 
   ## output directory or display on the fly
   display <- missing(dir)
@@ -59,9 +56,15 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 make_exams_write_pdf <- function(template = "plain", inputs = NULL,
-  header = list(Date = Sys.Date()), name = NULL, encoding = "", quiet = TRUE,
+  header = list(Date = Sys.Date()), name = NULL, encoding = "UTF-8", quiet = TRUE,
   control = NULL, texdir = NULL)
 {
+  ## encoding always assumed to be UTF-8 starting from R/exams 2.4-0
+  if(!is.null(encoding) && !(tolower(encoding) %in% c("", "utf-8", "utf8"))) {
+    warning("the only supported 'encoding' is UTF-8")
+  }
+  encoding <- "UTF-8"
+
   ## template pre-processing
   template_raw <- template
   template_tex <- template_path <- ifelse(

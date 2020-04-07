@@ -1,8 +1,7 @@
 ## Test exercises.
 stresstest_exercise <- function(file, n = 100,
   verbose = TRUE, seeds = NULL,
-  stop_on_error = length(as.character(unlist(file))) < 2,
-  encoding = NULL, ...)
+  stop_on_error = length(as.character(unlist(file))) < 2, ...)
 {
   file <- as.character(unlist(file))
   if(length(file) > 1L) {
@@ -49,7 +48,7 @@ stresstest_exercise <- function(file, n = 100,
       set.seed(seeds[i])
       if(verbose) cat(seeds[i])
       .global_obj_before <- ls(envir = stress_env)
-      times[i] <- system.time(xtmp <- try(xexams(file, driver = list("sweave" = list(envir = stress_env, encoding = encoding)), ...),
+      times[i] <- system.time(xtmp <- try(xexams(file, driver = list("sweave" = list(envir = stress_env)), ...),
         silent = TRUE))["elapsed"]
       .global_obj_after <- ls(envir = stress_env)
       ex_objects <- .global_obj_after[!(.global_obj_after %in% .global_obj_before)]

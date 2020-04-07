@@ -15,12 +15,12 @@
     language = "en", title = "Exam", course = "",
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-    usepackage = NULL, header = NULL, encoding = "", startid = 1L,
+    usepackage = NULL, header = NULL, encoding = "UTF-8", startid = 1L,
     points = NULL, showpoints = FALSE, samepage = FALSE,
     twocolumn = FALSE, reglength = 7L, seed = NULL, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
-    duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
+    duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "UTF-8",
     samepage = FALSE, twocolumn = FALSE, reglength = 7L)
 }
 
@@ -62,7 +62,7 @@
   \item{header}{character vector or list. Either a character vector with LaTeX
     code to include in the header or a named list with further options to
     be passed to the LaTeX files.}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{startid}{integer. Starting ID for the exam numbers (defaults to 1).}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within the \code{expoints} tags

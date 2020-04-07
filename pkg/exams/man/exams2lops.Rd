@@ -12,7 +12,7 @@
   exams2lops(file, n = 1L, nsamp = NULL, dir = ".", name = NULL, 
     quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     solution = TRUE, doctype = NULL, head = NULL, resolution = 100, width = 4, 
-    height = 4, svg = FALSE,  encoding = "", converter = "tex2image", base64 = FALSE,
+    height = 4, svg = FALSE,  encoding = "UTF-8", converter = "tex2image", base64 = FALSE,
     auto_scramble = TRUE, \dots)
 
   make_exams_write_lops(name = NULL, auto_scramble = TRUE, \dots)
@@ -49,7 +49,7 @@
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{converter}{character. Workhorse function for transforming LaTeX
     code to HTML.}
   \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?

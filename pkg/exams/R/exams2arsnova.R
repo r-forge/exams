@@ -1,6 +1,6 @@
 exams2arsnova <- function(file, n = 1L, dir = ".",
   name = "R/exams", sname = NULL, qname = NULL,
-  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
+  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
   url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
   active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE, abstention = TRUE,
   variant = "lecture", ssl.verifypeer = TRUE, fix_choice = TRUE, ...)

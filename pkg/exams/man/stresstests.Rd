@@ -16,8 +16,7 @@
 \usage{
 ## Stresstest function.
 stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
-  stop_on_error = length(as.character(unlist(file))) < 2,
-  encoding = NULL, ...)
+  stop_on_error = length(as.character(unlist(file))) < 2, ...)
 
 ## Plotting stresstest results.
 \method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime"),
@@ -37,7 +36,6 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   \item{stop_on_error}{logical. Should the function stop on error or return
     the the seed, the file name and the error message. Useful when testing
     a number of exercises.}
-  \item{encoding}{character. Encoding passed on to \code{\link[exams]{xweave}}.}
   \item{x}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
     numeric solutions, position/number/rank of correct solution(s), if available.

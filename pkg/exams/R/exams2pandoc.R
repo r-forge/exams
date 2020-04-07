@@ -2,7 +2,7 @@ exams2pandoc <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = "pandoc", type = "docx", template = "plain.tex",
   question = "Question", solution = "Solution",
   header = list(Date = Sys.Date()), inputs = NULL, options = NULL,
-  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
+  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
   edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, points = NULL, ...)
 {
   ## determine intermediate output format from template

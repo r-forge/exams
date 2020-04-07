@@ -1,6 +1,6 @@
 exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "",
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
   num = list(fix_num = FALSE, minvalue = NA),
   mchoice = list(maxchars = c(3, NA, 3), minvalue = NA),
   schoice = mchoice, string = NULL, cloze = NULL,

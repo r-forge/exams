@@ -12,7 +12,7 @@
 \usage{
 exams2arsnova(file, n = 1L, dir = ".",
   name = "R/exams", sname = NULL, qname = NULL,
-  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "",
+  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
   url = "https://arsnova.eu/api", sessionkey = NULL, jsessionid = NULL,
   active = TRUE, votingdisabled = FALSE, showstatistic = FALSE, showanswer = FALSE,
   abstention = TRUE, variant = "lecture", ssl.verifypeer = TRUE,
@@ -39,7 +39,7 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL,
     \code{\link[exams]{xweave}} and \code{\link[tools]{texi2dvi}}.}
   \item{resolution, width, height}{numeric, passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{encoding}{character, passed to \code{\link[exams]{xweave}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{url,sessionkey,jsessionid}{character specifying (1) the base URL of the ARSnova API,
     (2) the 8-digit ARSnova session key, (3) the JSESSIONID cookie of an active ARSnova session.
     If all are provided all questions are imported directly into the existing ARSnova session.

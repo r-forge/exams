@@ -2,7 +2,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   language = "en", title = "Exam", course = "",
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-  usepackage = NULL, header = NULL, encoding = "", startid = 1L, points = NULL,
+  usepackage = NULL, header = NULL, encoding = "UTF-8", startid = 1L, points = NULL,
   showpoints = FALSE, samepage = FALSE, twocolumn = FALSE, reglength = 7L, seed = NULL, ...)
 {
   ## handle matrix specification of file
@@ -163,7 +163,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
 }
 
 make_nops_template <- function(n, replacement = FALSE, intro = NULL, blank = NULL,
-  duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "",
+  duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "UTF-8",
   samepage = FALSE, twocolumn = FALSE, reglength = 7L)
 {
 
@@ -182,7 +182,13 @@ page3 <- if(any(nchoice < 1L)) {
 ## number of additional units in registration ID
 addreg <- pmin(3L, pmax(0L, reglength - 7L))
 
-## encoding
+## encoding always assumed to be UTF-8 starting from R/exams 2.4-0
+if(!is.null(encoding) && !(tolower(encoding) %in% c("", "utf-8", "utf8"))) {
+  warning("the only supported 'encoding' is UTF-8")
+}
+encoding <- "UTF-8"
+
+## legacy code for other encodings
 enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
 if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
 if(enc == "iso885915") enc <- "latin9"
