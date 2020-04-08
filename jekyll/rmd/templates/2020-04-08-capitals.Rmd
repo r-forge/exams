@@ -1,0 +1,13 @@
+```{r capitals, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "capitals",
+  title = "Knowledge Quiz Question about Capitals around the World",
+  teaser = "Exercise template for a multiple-choice knowledge quiz question with flexible shuffling of the alternatives.",
+  description = "Knowledge quiz question about capitals (vs. large cities) in countries around the world with 5 correct and 6 false alternatives which are shuffled randomly in each version of the exercise. Due to the large number of both correct and false alternatives, the same template could also easily be turned into a single-choice (schoice) exercise. The Rmd exercise is in UTF-8 encoding while the Rnw exercise avoids non-ASCII characters by using LaTeX commands.",
+  tags = c("multiple-choice", "knowledge", "quiz", "utf8", "switzerland"),
+  randomization = "Shuffling (5 out of 11 alternatives)",
+  related = "swisscapital",
+  thumb = c(157, 167),
+  seed = 403)
+)
+```
