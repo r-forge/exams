@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>http://www.R-exams.org/</id>
 	<title>R/exams</title>
-	<updated>2020-04-04T12:18:50+02:00</updated>
+	<updated>2020-04-08T03:27:07+02:00</updated>
 	<subtitle>Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.</subtitle>
 	
 		
@@ -23,6 +23,48 @@
 	<link href="http://www.R-exams.org/atom.xml" rel="self" type="application/rss+xml" />
 	<link href="http://www.R-exams.org/" rel="alternate" type="text/html" />
 	<generator uri="http://jekyllrb.com" version="3.7.3">Jekyll</generator>
+	
+    
+    
+		<entry>
+			<id>http://www.R-exams.org/templates/capitals/</id>
+			<title>capitals: Knowledge Quiz Question about Capitals around the World</title>
+			<link href="http://www.R-exams.org/templates/capitals/" rel="alternate" type="text/html" title="capitals: Knowledge Quiz Question about Capitals around the World" />
+			<updated>2020-04-08T00:00:00+02:00</updated>
+			
+				
+				<author>
+					
+						<name>Achim Zeileis</name>
+					
+					
+						<email>Achim.Zeileis@R-project.org</email>
+					
+					
+						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
+					
+				</author>
+			
+			<summary>Exercise template for a multiple-choice knowledge quiz question with flexible shuffling of the alternatives.</summary>
+			<content type="html" xml:base="http://www.R-exams.org/templates/capitals/">&lt;p&gt;Exercise template for a multiple-choice knowledge quiz question with flexible shuffling of the alternatives.&lt;/p&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Name:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;capitals&lt;/code&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/tag/mchoice/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mchoice&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Related:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/templates/swisscapital/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;swisscapital&lt;/code&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t20 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Description:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;Knowledge quiz question about capitals (vs. large cities) in countries around the world with 5 correct and 6 false alternatives which are shuffled randomly in each version of the exercise. Due to the large number of both correct and false alternatives, the same template could also easily be turned into a single-choice (schoice) exercise. The Rmd exercise is in UTF-8 encoding while the Rnw exercise avoids non-ASCII characters by using LaTeX commands.&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Solution feedback:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;Yes&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Randomization:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;Shuffling (5 out of 11 alternatives)&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Mathematical notation:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Verbatim R input/output:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Images:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Other supplements:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-8 columns&quot;&gt;No&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t20 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Template:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals.Rnw&quot;&gt;capitals.Rnw&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals.Rmd&quot;&gt;capitals.Rmd&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;Raw:&lt;/b&gt; (1 random version)&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals.tex&quot;&gt;capitals.tex&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals.md&quot;&gt;capitals.md&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b1&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;PDF:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rnw.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rnw-pdf.png&quot; alt=&quot;capitals-Rnw-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rmd.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rmd-pdf.png&quot; alt=&quot;capitals-Rmd-pdf&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;row t1 b20&quot;&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;b&gt;HTML:&lt;/b&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rnw.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rnw-html.png&quot; alt=&quot;capitals-Rnw-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;div class=&quot;medium-4 columns&quot;&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rmd.html&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2020-04-08-capitals//capitals-Rmd-html.png&quot; alt=&quot;capitals-Rmd-html&quot; /&gt;&lt;/a&gt;&lt;/div&gt; &lt;/div&gt; &lt;p&gt;&lt;strong&gt;Demo code:&lt;/strong&gt;&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;prettyprint &quot;&gt;library(&amp;quot;exams&amp;quot;) set.seed(403) exams2html(&amp;quot;capitals.Rnw&amp;quot;) set.seed(403) exams2pdf(&amp;quot;capitals.Rnw&amp;quot;) set.seed(403) exams2html(&amp;quot;capitals.Rmd&amp;quot;) set.seed(403) exams2pdf(&amp;quot;capitals.Rmd&amp;quot;)&lt;/code&gt;&lt;/pre&gt;</content>
+			
+				<category term="templates" />
+			
+			
+				<category term="mchoice" />
+			
+				<category term="multiple-choice" />
+			
+				<category term="knowledge" />
+			
+				<category term="quiz" />
+			
+				<category term="utf8" />
+			
+				<category term="switzerland" />
+			
+			<published>2020-04-08T00:00:00+02:00</published>
+		</entry>
 	
     
     
@@ -412,48 +454,6 @@
 				<category term="statistics" />
 			
 			<published>2018-12-09T00:00:00+01:00</published>
-		</entry>
-	
-    
-    
-		<entry>
-			<id>http://www.R-exams.org/general/erum2018/</id>
-			<title>R/exams @ eRum 2018</title>
-			<link href="http://www.R-exams.org/general/erum2018/" rel="alternate" type="text/html" title="R/exams @ eRum 2018" />
-			<updated>2018-05-20T00:00:00+02:00</updated>
-			
-				
-				<author>
-					
-						<name>Achim Zeileis</name>
-					
-					
-						<email>Achim.Zeileis@R-project.org</email>
-					
-					
-						<uri>https://eeecon.uibk.ac.at/~zeileis/</uri>
-					
-				</author>
-			
-			<summary>Keynote lecture about R/exams at eRum 2018 (European R Users Meeting) in Budapest: Slides, video, e-learning, replication materials.</summary>
-			<content type="html" xml:base="http://www.R-exams.org/general/erum2018/">&lt;p&gt;Keynote lecture about R/exams at eRum 2018 (European R Users Meeting) in Budapest: Slides, video, e-learning, replication materials.&lt;/p&gt; &lt;p&gt;&lt;img alt=&quot;R/exams @ eRum 2018&quot; src=&quot;http://www.R-exams.org/images/erum2018.title.png&quot; /&gt;&lt;/p&gt; &lt;h3 id=&quot;keynote-lecture-at-erum-2018&quot;&gt;Keynote lecture at eRum 2018&lt;/h3&gt; &lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/&quot;&gt;R/exams&lt;/a&gt; was presented in a keynote lecture by &lt;a href=&quot;https://eeecon.uibk.ac.at/~zeileis/&quot;&gt;Achim Zeileis&lt;/a&gt; at &lt;a href=&quot;https://2018.eRum.io/&quot;&gt;eRum 2018&lt;/a&gt;, the European R Users Meeting, this time organized by a team around &lt;a href=&quot;https://twitter.com/daroczig&quot;&gt;Gergely Daróczi&lt;/a&gt; in Budapest. It was a great event with many exciting presentations, reflecting the vibrant R community in Europe (and beyond).&lt;/p&gt; &lt;p&gt;This blog post provides various resources accompanying the presentation which may be of interest to those who did not attend the meeting as well as those who did and who want to explore the materials in more detail.&lt;/p&gt; &lt;p&gt;Most importantly the presentation slides are available in PDF format (under CC-BY):&lt;/p&gt; &lt;p&gt;&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/slides.pdf&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/slides.png&quot; alt=&quot;slides.pdf&quot; /&gt;&lt;/a&gt;&lt;/p&gt; &lt;h3 id=&quot;video&quot;&gt;Video&lt;/h3&gt; &lt;p&gt;The eRum organizers did a great job in making the meeting accessible to those useRs who could not make it to Budapest. All presentations were available in a livestream on YouTube where also videos of all lectures were made available after the meeting (Standard YouTube License):&lt;/p&gt; &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=NMIzbrklBEE&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/youtube.png&quot; alt=&quot;YouTube&quot; /&gt;&lt;/a&gt;&lt;/p&gt; &lt;h3 id=&quot;e-learning&quot;&gt;E-Learning&lt;/h3&gt; &lt;p&gt;To illustrate the e-learning capabilities supported by R/exams, the presentation started with a live quiz using the audience response system &lt;a href=&quot;https://ARSnova.eu/&quot;&gt;ARSnova&lt;/a&gt;. The original version of the quiz was hosted on the ARSnova installation at Universität Innsbruck. To encourage readers to try out ARSnova for their own purposes, a copy of the quiz was also posted on the official ARSnova server at Technische Hochschule Mittelhessen (where ARSnova is developed under the General Public License, GPL):&lt;/p&gt; &lt;p&gt;&lt;a href=&quot;https://arsnova.eu/mobile/#id/39755874&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/arsnova.png&quot; alt=&quot;ARSnova&quot; /&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;The presentation briefly also showed an online test generated by R/exams and imported into &lt;a href=&quot;https://www.OpenOLAT.com/&quot;&gt;OpenOLAT&lt;/a&gt;, an open-source learning management system (available under the Apache License). The online test is made available again here for anonymous guest access. &lt;em&gt;(Note however, that the system only has one guest user so that when you start the test there may already be some test results from a previous guest session. In that case you can finish the test and also start it again.)&lt;/em&gt;&lt;/p&gt; &lt;p&gt;&lt;a href=&quot;https://lms.uibk.ac.at/url/RepositoryEntry/2823520256/CourseNode/97603810083315?guest=true&quot;&gt;&lt;img src=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/openolat.png&quot; alt=&quot;OpenOLAT&quot; /&gt;&lt;/a&gt;&lt;/p&gt; &lt;h3 id=&quot;replication-code&quot;&gt;Replication code&lt;/h3&gt; &lt;p&gt;The presentation slides show how to set up an exam using the R package and then rendering it into different output formats. In order to allow the same exam to be rendered into a wide range of different output formats, only single-choice and multiple-choice exercises were employed (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;choice&lt;/code&gt; list below). However, in the e-learning test shown in OpenOLAT all exercises types are supported (see the &lt;code class=&quot;highlighter-rouge&quot;&gt;elearn&lt;/code&gt; list below). All these exercises are readily provided in the package and also introduced online: &lt;a href=&quot;http://www.R-exams.org/templates/deriv/&quot;&gt;deriv&lt;/a&gt;/&lt;a href=&quot;http://www.R-exams.org/templates/deriv2/&quot;&gt;deriv2&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/templates/fruit/&quot;&gt;fruit&lt;/a&gt;/&lt;a href=&quot;http://www.R-exams.org/templates/fruit2/&quot;&gt;fruit2&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/templates/ttest/&quot;&gt;ttest&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/templates/boxplots/&quot;&gt;boxplots&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/templates/cholesky/&quot;&gt;cholesky&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/templates/lm/&quot;&gt;lm&lt;/a&gt;, &lt;a href=&quot;http://www.R-exams.org/templates/function/&quot;&gt;function&lt;/a&gt;. The code below uses the R/LaTeX (.Rnw) version but the R/Markdown version (.Rmd) could also be used instead.&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;language-{r}&quot;&gt;## package library(&quot;exams&quot;) ## single-choice and multiple-choice only choice &amp;lt;- list(&quot;deriv2.Rnw&quot;, &quot;fruit2.Rnw&quot;, c(&quot;ttest.Rnw&quot;, &quot;boxplots.Rnw&quot;)) ## e-learning test (all exercise types) elearn &amp;lt;- c(&quot;deriv.Rnw&quot;, &quot;fruit.Rnw&quot;, &quot;ttest.Rnw&quot;, &quot;boxplots.Rnw&quot;, &quot;cholesky.Rnw&quot;, &quot;lm.Rnw&quot;, &quot;function.Rnw&quot;) &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;First, the exam with the choice-based questions can be easily turned into a PDF exam in &lt;a href=&quot;http://www.R-exams.org/tutorials/exams2nops/&quot;&gt;NOPS format&lt;/a&gt; using &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2nops&lt;/code&gt;, here using Hungarian language for illustration. Exams in this format can be easily scanned and evaluated within R.&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;language-{r}&quot;&gt;set.seed(2018-05-16) exams2nops(choice, institution = &quot;eRum 2018&quot;, language = &quot;hu&quot;) &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;Second, the choice-based exam version can be exported into the JSON format for ARSnova: &lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/Rexams-1.json&quot;&gt;Rexams-1.json&lt;/a&gt;. This contains an entire ARSnova session that can be directly imported into the ARSnova system as shown above. It employs a custom exercise set up just for eRum (&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/conferences.Rmd&quot;&gt;conferences.Rmd&lt;/a&gt;) as well as a slightly tweaked exercise (&lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/fruit3.Rmd&quot;&gt;fruit3.Rmd&lt;/a&gt;) that displays better in ARSnova.&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;language-{r}&quot;&gt;set.seed(2018-05-16) exams2arsnova(list(&quot;conferences.Rmd&quot;, choice[[1]], &quot;fruit3.Rmd&quot;, choice[[3]]), name = &quot;R/exams&quot;, abstention = FALSE, fix_choice = TRUE) &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;Third, the e-learning exam can be generated in QTI 1.2 format for OpenOLAT, as shown above: &lt;a href=&quot;http://www.R-exams.org/assets/posts/2018-05-20-erum2018/eRum-2018.zip&quot;&gt;eRum-2018.zip&lt;/a&gt;. The &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2openolat&lt;/code&gt; command below is provided starting from the current &lt;a href=&quot;http://www.R-exams.org/general/cran_release_231/&quot;&gt;R/exams version 2.3-1&lt;/a&gt;. It essentially just calls &lt;code class=&quot;highlighter-rouge&quot;&gt;exams2qti12&lt;/code&gt; but slightly tweaks the MathJax output from pandoc so that it is displayed properly by OpenOLAT.&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;language-{r}&quot;&gt;set.seed(2018-05-16) exams2openolat(elearn, name = &quot;eRum-2018&quot;, n = 10, qti = &quot;1.2&quot;) &lt;/code&gt;&lt;/pre&gt; &lt;h3 id=&quot;what-else&quot;&gt;What else?&lt;/h3&gt; &lt;p&gt;In the last part of the presentation a couple of new and ongoing efforts within the R/exams project are highlighted. First, the &lt;a href=&quot;http://www.R-exams.org/tutorials/nops_language/&quot;&gt;natural language support in NOPS exams&lt;/a&gt; is mentioned which was recently described in more detail in this blog. Second, the relatively new “stress tester” was illustrated with the following example. (A more detailed blog post will follow soon.)&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;language-{r}&quot;&gt;s &amp;lt;- stresstest_exercise(&quot;deriv2.Rnw&quot;) plot(s) &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;Finally, a psychometric analysis illustrated how to examine exams regarding: Exercise difficulty, student performance, unidimensionality, fairness. The replication code for the results from the slides is included below (omitting some graphical details for simplicity, e.g., labeling or color).&lt;/p&gt; &lt;pre&gt;&lt;code class=&quot;language-{r}&quot;&gt;## load data and exclude extreme scorers library(&quot;psychotools&quot;) data(&quot;MathExam14W&quot;, package = &quot;psychotools&quot;) mex &amp;lt;- subset(MathExam14W, nsolved &amp;gt; 0 &amp;amp; nsolved &amp;lt; 13) ## raw data plot(mex$solved) ## Rasch model parameters mr &amp;lt;- raschmodel(mex$solved) plot(mr, type = &quot;profile&quot;) ## points per student MathExam14W &amp;lt;- transform(MathExam14W, points = 2 * nsolved - 0.5 * rowSums(credits == 1) ) hist(MathExam14W$points, breaks = -4:13 * 2 + 0.5, col = &quot;lightgray&quot;) abline(v = 12.5, lwd = 2, col = 2) ## person-item map plot(mr, type = &quot;piplot&quot;) ## principal component analysis pr &amp;lt;- prcomp(mex$solved, scale = TRUE) plot(pr) biplot(pr, col = c(&quot;transparent&quot;, &quot;black&quot;), xlim = c(-0.065, 0.005), ylim = c(-0.04, 0.065)) ## differential item functioning mr1 &amp;lt;- raschmodel(subset(mex, group == 1)$solved) mr2 &amp;lt;- raschmodel(subset(mex, group == 2)$solved) ma &amp;lt;- anchortest(mr1, mr2, adjust = &quot;single-step&quot;) ## anchored item difficulties plot(mr1, parg = list(ref = ma$anchor_items), ref = FALSE, ylim = c(-2, 3), pch = 19) plot(mr2, parg = list(ref = ma$anchor_items), ref = FALSE, add = TRUE, pch = 19, border = 4) legend(&quot;topleft&quot;, paste(&quot;Group&quot;, 1:2), pch = 19, col = c(1, 4), bty = &quot;n&quot;) ## simultaneous Wald test for pairwise differences plot(ma$final_tests) &lt;/code&gt;&lt;/pre&gt;</content>
-			
-				<category term="general" />
-			
-			
-				<category term="R" />
-			
-				<category term="exams" />
-			
-				<category term="exams2qti12" />
-			
-				<category term="exams2arsnova" />
-			
-				<category term="exams2nops" />
-			
-				<category term="e-learning" />
-			
-			<published>2018-05-20T00:00:00+02:00</published>
 		</entry>
 	
 </feed>
