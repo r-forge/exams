@@ -136,29 +136,30 @@ for many important Western languages as well as a few other languages/countries.
 are directly available in the R package. But for convenience
 and manual inspection the `.dcf` files are also linked here.
 
-File                                                                    | Language     | Contributor                                                                                                          |
-:-----------------------------------------------------------------------|:-------------|:---------------------------------------------------------------------------------------------------------------------|
-[da.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/da.dcf)   | Danish       | [Tue Vissing Jensen](http://orcid.org/0000-0002-6594-5094) & [Jakob Messner](http://orcid.org/0000-0002-1027-3673)   |
-[de.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/de.dcf)   | German       | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
-[en.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/en.dcf)   | English      | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
-[es.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/es.dcf)   | Spanish      | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik)                                              |
-[fi.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/fi.dcf)   | Finnish      | [Klaus Nordhausen](http://klausnordhausen.com/)                                                                      |
-[fr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/fr.dcf)   | French       | [Arthur Allignol](https://github.com/aallignol)                                                                      |
-[gsw.dcf]({{site.url }}/assets/posts/2018-01-08-nops_language/gsw.dcf)  | Swiss German | [Reto Stauffer](http://retostauffer.org/)                                                                            |
-[hr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hr.dcf)   | Croatian     | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic) & [Tatjana Kecojevic](https://tanjakec.github.io/) |
-[hu.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hu.dcf)   | Hungarian    | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth                                                         |
-[it.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/it.dcf)   | Italian      | [Domenico Zambella](https://domenicozambella.altervista.org/)                                                        |
-[ja.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ja.dcf)   | Japanese     | [Kohei Watanabe](http://koheiw.net/)                                                                                 |
-[ko.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ko.dcf)   | Korean       | 정세원                                                                                                                                                                                                                                |
-[nl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/nl.dcf)   | Dutch        | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)                                                |
+File                                                                    | Language            | Contributor                                                                                                          |
+:-----------------------------------------------------------------------|:--------------------|:---------------------------------------------------------------------------------------------------------------------|
+[da.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/da.dcf)   | Danish              | [Tue Vissing Jensen](http://orcid.org/0000-0002-6594-5094) & [Jakob Messner](http://orcid.org/0000-0002-1027-3673)   |
+[de.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/de.dcf)   | German              | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
+[en.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/en.dcf)   | English             | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
+[es.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/es.dcf)   | Spanish             | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik)                                              |
+[fi.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/fi.dcf)   | Finnish             | [Klaus Nordhausen](http://klausnordhausen.com/)                                                                      |
+[fr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/fr.dcf)   | French              | [Arthur Allignol](https://github.com/aallignol)                                                                      |
+[gsw.dcf]({{site.url }}/assets/posts/2018-01-08-nops_language/gsw.dcf)  | Swiss German        | [Reto Stauffer](http://retostauffer.org/)                                                                            |
+[hr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hr.dcf)   | Croatian            | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic) & [Tatjana Kecojevic](https://tanjakec.github.io/) |
+[hu.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/hu.dcf)   | Hungarian           | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth                                                         |
+[it.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/it.dcf)   | Italian             | [Domenico Zambella](https://domenicozambella.altervista.org/)                                                        |
+[ja.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ja.dcf)   | Japanese            | [Kohei Watanabe](http://koheiw.net/)                                                                                 |
+[ko.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ko.dcf)   | Korean              | 정세원                                                                                                                                                                                                                                |
+[nl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/nl.dcf)   | Dutch               | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)                                                |
+[no.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/no.dcf)   | Norwegian (Bokmål) | [Tormod Bøe](http://tormodb.github.io/)                                                                             |
 [pt.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt.dcf) <br/> ([pt-BR.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt-BR.dcf), [pt-PT.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/pt-PT.dcf)) | Portugese | [Mauricio Calvão](http://www.if.ufrj.br/~orca/) & Fabian Petutschnig & <br/> [Thomas Dellinger](http://www3.uma.pt/thd/) |
-[ro.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ro.dcf)   | Romanian     | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                                                                  |
-[ru.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ru.dcf)   | Russian      | [Boris Demeshev](https://www.hse.ru/en/staff/bbd/)                                                                   |
-[sk.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sk.dcf)   | Slovak       | Peter Fabsic                                                                                                         |
-[sl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sl.dcf)   | Slovenian    | Matjaž Jeran                                                                                                         |
-[sr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sr.dcf)   | Serbian      | [Tatjana Kecojevic](https://tanjakec.github.io/)                                                                     |
-[tr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/tr.dcf)   | Turkish      | [Emrah Er](http://eremrah.com/)                                                                                      |
-[vi.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/vi.dcf)   | Vietnamese   | Trần Thị Hoàng Hà                                                                                                    |
+[ro.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ro.dcf)   | Romanian            | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                                                                  |
+[ru.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ru.dcf)   | Russian             | [Boris Demeshev](https://www.hse.ru/en/staff/bbd/)                                                                   |
+[sk.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sk.dcf)   | Slovak              | Peter Fabsic                                                                                                         |
+[sl.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sl.dcf)   | Slovenian           | Matjaž Jeran                                                                                                         |
+[sr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/sr.dcf)   | Serbian             | [Tatjana Kecojevic](https://tanjakec.github.io/)                                                                     |
+[tr.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/tr.dcf)   | Turkish             | [Emrah Er](http://eremrah.com/)                                                                                      |
+[vi.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/vi.dcf)   | Vietnamese          | Trần Thị Hoàng Hà                                                                                                    |
 
 
 ## Contributing new languages
@@ -167,8 +168,8 @@ If you want to contribute a new language, simply set up a `.dcf` file starting o
 above and send the file or a link to
 _<&#x69;&#x6e;&#x66;&#x6f;&#x20;&#x61;&#x74;&#x20;&#x52;&#x2d;&#x65;&#x78;&#x61;&#x6d;&#x73;&#x2e;&#x6f;&#x72;&#x67;>_.
 Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
-For Western languages (e.g., `sv`, `no` are still missing) it is probably the most robust solution to
-code special characters in LaTeX. For languages requiring other alphabets (e.g., `ko`)
+For Western languages (e.g., `sv` is still missing) it is probably the most robust solution to
+code special characters in LaTeX. For languages requiring other alphabets (e.g., `gr`)
 it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
 [support forum](http://R-Forge.R-project.org/forum/?group_id=1337)
 or on Twitter ([@AchimZeileis](https://twitter.com/AchimZeileis)) if you want to know more or need further details.
