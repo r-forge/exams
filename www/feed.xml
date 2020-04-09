@@ -11,6 +11,115 @@
     
     
 			<item>
+        <title><![CDATA[New R/exams Version: TinyTeX, Fixing Parameters and Random Seeds, and More]]></title>
+				<link>http://www.R-exams.org/general/cran_release_236/</link>
+        <pubDate>Thu, 09 Apr 2020 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>New minor releases of the R/exams package to CRAN with many enhancements including TinyTeX support and extended control over the random variation in dynamic exercises through fixed parameters or custom random seeds.</p>
+    
+    
+    <p><img alt="New R/exams Version: TinyTeX, Fixing Parameters and Random Seeds, and More" src="http://www.R-exams.org/images/cran236.title.png" /></p>
+    
+    <p>New versions of the <a href="http://www.R-exams.org/">R/exams</a> package (2.3-5 and 2.3-6) have been released on the Comprehensive R Archive Network at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>. The second update was necessitated by more thorough checks for <code class="highlighter-rouge">pandoc</code> availability on Solaris and OS X. In the next days binary Windows and OS X packages should also become available. The development version of the package is now version 2.4-0 on R-Forge at <a href="http://R-Forge.R-project.org/R/?group_id=1337">http://R-Forge.R-project.org/R/?group_id=1337</a>.</p>
+
+<h2 id="tinytex-support">TinyTeX support</h2>
+
+<p>R/exams users that want to produce PDF output, e.g., via <code class="highlighter-rouge">exams2pdf()</code> or <code class="highlighter-rouge">exams2nops()</code>, need to install LaTeX for rendering the exercises. Especially for users that do not write LaTeX documents themselves (but only Markdown instead) it is now much easier to install a lightweight LaTeX distribution thanks to the wonderful <a href="https://yihui.org/tinytex/">TinyTeX</a> package by Yihui Xie. All that needs to be done is:</p>
+
+<pre><code class="language-{r}">install.packages("tinytex")
+tinytex::install_tinytex()
+</code></pre>
+
+<p>The latter installs the TinyTeX distribution and the former makes the R interface available. After that it is recommended to run <code class="highlighter-rouge">exams2nops()</code> once:</p>
+
+<pre><code class="language-{r}">exams2nops(c("swisscapital.Rmd", "deriv2.Rmd"))
+</code></pre>
+
+<p>This takes a while because some additional LaTeX packages will be downloaded and installed automatically. Running the same command a second time will be much faster because then all required LaTeX packages will already be available.</p>
+
+<p>If the <code class="highlighter-rouge">tinytex</code> R package is installed, the default is to compile PDF exams with <code class="highlighter-rouge">tinytex::latexmk()</code>; otherwise <code class="highlighter-rouge">tools::texi2dvi()</code> is used (which does not offer automatic LaTeX package installation). If the latter should be used even when <code class="highlighter-rouge">requireNamespace("tinytex")</code> is true, then <code class="highlighter-rouge">options(exams_tex = "tools")</code> can be set (instead of <code class="highlighter-rouge">exams_tex = "tinytex"</code>)</p>
+
+<h2 id="fixing-parameters-and-seeds">Fixing parameters and seeds</h2>
+
+<p>One frequent feature request for R/exams was to reduce the amount of random variation in exams even if the underlying exercise templates offer more flexibility. Application cases are where teachers want to control each randomly selected exercise in a quiz or exam manually. To address this, two mechanisms are provided now:</p>
+
+<ol>
+  <li>Some of the parameters that would usually be sampled randomly can be temporarily fixed (on the fly) by using the new function <code class="highlighter-rouge">expar()</code>.</li>
+  <li>Several <code class="highlighter-rouge">exams2xyz()</code> interfaces gained a <code class="highlighter-rouge">seed</code> argument with which dedicated random seeds can be selected per exercise.</li>
+</ol>
+
+<h3 id="fixing-parameters">Fixing parameters</h3>
+
+<p>The first feature is of interest, for example, if computing the solution becomes harder when a certain parameter increases or takes a particular value. The new function <code class="highlighter-rouge">expar()</code> allows to fix such parameters on the fly if they are defined in the first code chunk of the exercise. For example</p>
+
+<pre><code class="language-{r}">expar("deriv.Rmd", a = 1, c = 0)
+</code></pre>
+
+<p>generates a temporary file where the parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">c</code> of the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise are fixed to the values <code class="highlighter-rouge">1</code> and <code class="highlighter-rouge">0</code>, respectively. The result can then be processed by all <code class="highlighter-rouge">exams2xyz()</code> interfaces “as usual”, e.g.:</p>
+
+<pre><code class="language-{r}">exams2html(c(
+  expar("deriv.Rmd", a = 1, c = 0),
+  "deriv.Rmd"
+))
+</code></pre>
+
+<p>A potential caveat is that <code class="highlighter-rouge">expar()</code> either needs the exercise file to be available locally in the current working directoy or with the full path. It does not work with the <code class="highlighter-rouge">edir</code> argument of subsequent <code class="highlighter-rouge">exams2xyz()</code> calls.</p>
+
+<h3 id="fixing-seeds">Fixing seeds</h3>
+
+<p>Some <code class="highlighter-rouge">exams2xyz()</code> interfaces now support setting <code class="highlighter-rouge">seed</code>s for each individual exercise in an exam to enable custom exercise selection (e.g., when only putting together a single exam). Currently, this is only supported in <code class="highlighter-rouge">xexams()</code>, <code class="highlighter-rouge">exams2pdf()</code>, <code class="highlighter-rouge">exams2html()</code>, <code class="highlighter-rouge">exams2nops()</code>, and <code class="highlighter-rouge">exams2blackboard()</code>. Other interfaces will follow, though.</p>
+
+<p>Thus, using this feature, teachers can try a few random seeds for a given exercise until they get a variant they like. Then they do the same with the next exercise etc. At the end all exercises and all seeds are collected and passed on in this form: <code class="highlighter-rouge">exams2xyz(c(exercise1, exercise2, ...), seed = c(seed1, seed2, ...))</code>.</p>
+
+<p>Moreover, in the <code class="highlighter-rouge">exams2xyz()</code> interfaces that support setting seeds, the <code class="highlighter-rouge">file</code> argument can now also be a matrix (rather than a vector or list). This enables customization of the exact selection of exercises in each exam. In the example below we use exactly the same random replication of the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> and <a href="http://www.R-exams.org/templates/tstat/">tstat</a> exercises, respectively, but permute their order. The final exercise is <a href="http://www.R-exams.org/templates/ttest/">ttest</a> in both cases but with different seeds.</p>
+
+<pre><code class="language-{r}">f &lt;- rbind(
+  c("deriv.Rmd", "tstat.Rmd", "ttest.Rmd"),
+  c("tstat.Rmd", "deriv.Rmd", "ttest.Rmd")
+)
+s &lt;- rbind(
+  c(123, 321, 111),
+  c(321, 123, 222)
+)
+exams2html(f, seed = s)
+browseURL(Sys.glob("plain*.html")[1])
+browseURL(Sys.glob("plain*.html")[2])
+</code></pre>
+
+<h2 id="written-exams-nops">Written exams (NOPS)</h2>
+
+<p>The tools for written <a href="http://www.R-exams.org/tutorials/exams2nops">NOPS exams</a> that can be automatically scanned and evaluated have been enhanced.</p>
+
+<ul>
+  <li>Several users were kind enough to provide new <a href="http://www.R-exams.org/tutorials/nops_language/">language support</a>: Korean (<code class="highlighter-rouge">ko</code>, 정세원), Japanese (<code class="highlighter-rouge">ja</code>, Kohei Watanabe), Norwegian (Bokmål, <code class="highlighter-rouge">no</code>, Tormod Bøe), Slovenian (<code class="highlighter-rouge">sl</code>, Matjaž Jeran), Vietnamese (<code class="highlighter-rouge">vi</code>, Trần Thị Hoàng Hà).</li>
+  <li>Improvements in <code class="highlighter-rouge">nops_eval()</code>: Show exam ID in HTML report and round points to four digits. The <code class="highlighter-rouge">language=</code> file paths do not have to be absolute anymore. For <code class="highlighter-rouge">interactive</code> checking/fixing of registration IDs the width of scanned subimage is now adapted according to the <code class="highlighter-rouge">reglength</code>.</li>
+  <li>The actual writing of <code class="highlighter-rouge">nops_eval()</code> results has been modularized (with contributions from Kenji Sato). Different <code class="highlighter-rouge">nops_eval_write_&lt;flavor&gt;</code> functions can be plugged in. At the moment there is only the default writer (optimized for OpenOLAT) but further flavors are planned (including a standalone workflow and one for Moodle).</li>
+  <li>Function <code class="highlighter-rouge">nops_language()</code> is now exported as part of the user interface (only internal previously). Based on a language specification in a DCF file this sets up a list with language texts (possibly converted to HTML).</li>
+</ul>
+
+<h2 id="improvements-and-bug-fixes">Improvements and bug fixes</h2>
+
+<ul>
+  <li>New exercise <a href="http://www.R-exams.org/templates/capitals/">capitals</a> that illustrates how a certain number of true/false items can be chosen randomly from a longer list. The exercise can also be switched from <code class="highlighter-rouge">mchoice</code> to <code class="highlighter-rouge">schoice</code> without any further necessary modifications. Finally, the exercise illustrates that UTF-8 encoding is needed for the Rmd version while in the Rnw version the few special characters can be coded in ASCII using LaTeX commands.</li>
+  <li>All LaTeX templates that use <code class="highlighter-rouge">\fontfamily{phv}</code> now also gained a <code class="highlighter-rouge">\usepackage{helvet}</code> to ensure that the corresponding LaTeX packages are installed. When using <code class="highlighter-rouge">tinytex</code> (see above) the corresponding LaTeX packages will be installed if not yet available upon first usage.</li>
+  <li>In R/Markdown exercises the question/solution answerlist can now use not only <code class="highlighter-rouge">*</code> but also <code class="highlighter-rouge">-</code> as the symbol for bullet points (suggested by Ben Kasel).</li>
+  <li>Fixed a bug in <code class="highlighter-rouge">exams2pdf()</code> where the case of multiple duplicated supplement names was not handled correctly (reported by TwelveFifths on StackOverflow).</li>
+  <li>Improved <code class="highlighter-rouge">xexams()</code> so that full file paths to exercise files also work on Windows.</li>
+  <li><code class="highlighter-rouge">read_metainfo()</code> now assures a non-<code class="highlighter-rouge">NULL</code> <code class="highlighter-rouge">exname</code>. The default is to use “R/exams exercise”.</li>
+  <li>Fixed a bug in <code class="highlighter-rouge">extract_items()</code> which incorrectly dropped the last element in an answerlist if it was completely empty (even without a trailing space). This was a problem for cloze exercises with ##ANSWER## patterns, leading to a questionlist that was too short (reported by Julia Guggenberger).</li>
+  <li>Various fixes and improvements in <code class="highlighter-rouge">exams2qti21()</code> (and thus inherited by <code class="highlighter-rouge">exams2openolat()</code>): Support of cloze and essay type exercises has been much improved, fixing bugs in the XML and meta-information handling. String exercises work again. The internally-generated XML labels are more robust now avoiding spaces and leading integers.</li>
+  <li>The package depends on R &gt;= 3.4.0 now, which enables plugging a custom svg device into <code class="highlighter-rouge">Sweave()</code>. In previous versions of the package a workaround was included that works for R &lt; 3.4.0 (but required writing into the global environment which is avoided now).</li>
+</ul>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/general/cran_release_236/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[capitals: Knowledge Quiz Question about Capitals around the World]]></title>
 				<link>http://www.R-exams.org/templates/capitals/</link>
         <pubDate>Wed, 08 Apr 2020 00:00:00 +0200</pubDate>
@@ -1438,98 +1547,6 @@ A new dedicated interface <code class="highlighter-rouge">exams2openolat()</code
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/general/cran_release_232/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[confint3: 2-Sided Confidence Interval (Extended Moodle Version)]]></title>
-				<link>http://www.R-exams.org/templates/confint3/</link>
-        <pubDate>Sun, 09 Dec 2018 00:00:00 +0100</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Exercise template for computing the 2-sided confidence interval (with extended Moodle processing) for the mean based on a random sample.</p>
-    
-    
-    <div class="row t1 b1">
-  <div class="medium-4 columns"><b>Name:</b></div>
-  <div class="medium-8 columns"><code class="highlighter-rouge">confint3</code></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Type:</b></div>
-  <div class="medium-8 columns"><a href="http://www.R-exams.org/tag/cloze/"><code class="highlighter-rouge">cloze</code></a></div>
-</div>
-<div class="row t1 b1">   <div class="medium-4 columns"><b>Related:</b></div>   <div class="medium-8 columns"><a href="http://www.R-exams.org/templates/confint2/"><code class="highlighter-rouge">confint2</code></a></div> </div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Description:</b></div>
-  <div class="medium-8 columns">Computing the 2-sided confidence interval at 95% level for the mean based on a random sample. The exercise is a cloze with two numeric answers for the lower and upper bound of the confidence interval, respectively. Using the 'verbatim' clozetype for Moodle, the exercises yields 100% of the points for the correct solution based on t quantiles but still 50% for a partially correct solution based on normal quantiles.</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Solution feedback:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Randomization:</b></div>
-  <div class="medium-8 columns">Random numbers</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Mathematical notation:</b></div>
-  <div class="medium-8 columns">Yes</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Verbatim R input/output:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Images:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Other supplements:</b></div>
-  <div class="medium-8 columns">No</div>
-</div>
-
-<div class="row t20 b1">
-  <div class="medium-4 columns"><b>Template:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.Rnw">confint3.Rnw</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.Rmd">confint3.Rmd</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>Raw:</b> (1 random version)</div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.tex">confint3.tex</a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3.md">confint3.md</a></div>
-</div>
-<div class="row t1 b1">
-  <div class="medium-4 columns"><b>PDF:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw.pdf"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw-pdf.png" alt="confint3-Rnw-pdf" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd.pdf"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd-pdf.png" alt="confint3-Rmd-pdf" /></a></div>
-</div>
-<div class="row t1 b20">
-  <div class="medium-4 columns"><b>HTML:</b></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw.html"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rnw-html.png" alt="confint3-Rnw-html" /></a></div>
-  <div class="medium-4 columns"><a href="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd.html"><img src="http://www.R-exams.org/assets/posts/2018-12-09-confint3//confint3-Rmd-html.png" alt="confint3-Rmd-html" /></a></div>
-</div>
-
-<p><em>(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)</em></p>
-
-<p><strong>Demo code:</strong></p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-
-set.seed(1090)
-exams2html(&quot;confint3.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;confint3.Rnw&quot;)
-
-set.seed(1090)
-exams2html(&quot;confint3.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;confint3.Rmd&quot;)</code></pre>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/templates/confint3/</guid>
 			</item>
 		
 	</channel>
