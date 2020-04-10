@@ -31,9 +31,7 @@ image:
 
 ## 1. R
 
-The R/exams system is an extension for the
-[R system for statistical computing](https://www.R-project.org) and hence the
-first installation step is the base R system. 
+[R/exams](http://www.R-exams.org/) is an extension for the [R system for statistical computing](https://www.R-project.org) and hence the first installation step is the base R system. 
 
 - **Windows and (Mac) OS X:** Go to <https://CRAN.R-project.org/>, the 
    Comprehensive R Archive Network (CRAN). Simply
@@ -45,7 +43,7 @@ first installation step is the base R system.
   easier for most distributions to install the packaged binary. For example,
   on Debian/Ubuntu:
 
-  ```
+  ```{r}
   apt-get install r-base-core r-base-dev
   ```
 
@@ -56,7 +54,7 @@ environment that facilitates many common tasks for R beginners.
 
 - **For R beginners:** Go to
   <https://www.RStudio.com/products/RStudio/> and obtain the "Desktop" version
-  of RStudio.
+  of RStudio (Open Source Edition).
 
 
 
@@ -70,27 +68,41 @@ may provide some new features or small improvements.
 
 - **Stable version:**
 
-  ```
+  ```{r}
   install.packages("exams", dependencies = TRUE)
   ```
 - **Development version:**
 
-  ```
+  ```{r}
   install.packages("exams", repos = "http://R-Forge.R-project.org")
   ```
 
 _Details:_ Several additional R packages, automatically installed by the command above,
 are needed for certain tasks: `base64enc` (HTML-based output: Base64 encoding of
-supplements), `knitr` (R/Markdown-based exercises), `png` (NOPS exams: reading
-scanned PNG images), `RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova:
-JSON format), `rmarkdown` (pandoc-based conversion), `tth` (HTML output from
-R/LaTeX exercises).
+supplements), `knitr` (R/Markdown-based exercises), `magick` (turning LaTeX output
+into images, e.g., for TikZ graphics), `png` (NOPS exams: reading scanned PNG images),
+`RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova: JSON format),
+`rmarkdown` (pandoc-based conversion), `tinytex` (PDF output: lightweight LaTeX distribution),
+`tth` (HTML output from R/LaTeX exercises).
 
 
 
 ## 3. LaTeX
 
 For producing PDF output, the typesetting system LaTeX is used internally by R/exams.
+If no LaTeX distribution (like TeXLive or MikTeX) is already installed, then TinyTeX
+is a lightweight distribution that can be easily obtained and maintained with the `tinytex`
+R package (already installed in the step above). TinyTeX can be installed from within R with:
+
+```{r}
+tinytex::install_tinytex()
+```
+
+_Note:_ When producing the first PDF files with R/exams, `tinytex` will automatically install
+further required LaTeX packages and hence take somewhat longer to compile.
+
+Instead of TinyTeX it is, of course, also possible to install a full LaTeX distribution,
+especially if this is not only needed for R/exams:
 
 - **Windows:** Go to <http://www.MikTeX.org/> and click on "Download" to obtain
   the MikTeX distribution for Windows.
@@ -109,7 +121,7 @@ pandoc is provided along with it and nothing else needs to be done.
 Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
 e.g., for Debian/Ubuntu:
 
-```
+```{r}
 apt-get install pandoc
 ```
 
@@ -137,7 +149,7 @@ ImageMagick's `convert`.
     The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).
 - **Linux:** Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:
 
-  ```
+  ```{r}
   apt-get install pdftk imagemagick
   ```
 
