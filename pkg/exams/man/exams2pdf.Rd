@@ -12,12 +12,12 @@
   exams2pdf(file, n = 1L, nsamp = NULL, dir = ".", template = "plain", 
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "UTF-8", quiet = TRUE, transform = NULL,
-    edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
+    edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL, texengine = "pdflatex",
     verbose = FALSE, points = NULL, seed = NULL, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, encoding = "UTF-8",
-    quiet = TRUE, control = NULL, texdir = NULL)
+    quiet = TRUE, control = NULL, texdir = NULL, texengine = "pdflatex")
 }
 
 \arguments{
@@ -63,6 +63,7 @@
     in. By default this is chosen via \code{\link[base]{tempfile}} (and deleted
     again) but, if specified by the user, the temporary LaTeX files from the last
     iteration are preserved and not deleted. This is intended especially for debugging purposes.}
+  \item{texengine}{character. Passed to \code{\link[tinytex]{latexmk}} if \code{tinytex} is available.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this

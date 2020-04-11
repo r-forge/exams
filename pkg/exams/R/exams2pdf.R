@@ -2,7 +2,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "UTF-8", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
-  verbose = FALSE, points = NULL, seed = NULL, ...)
+  texengine = "pdflatex", verbose = FALSE, points = NULL, seed = NULL, ...)
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -35,7 +35,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
     texdir <- tools::file_path_as_absolute(texdir)
   }
   pdfwrite <- make_exams_write_pdf(template = template, inputs = inputs, header = header,
-    name = name, encoding = encoding, quiet = quiet, control = control, texdir = texdir)
+    name = name, encoding = encoding, quiet = quiet, control = control, texdir = texdir, texengine = texengine)
 
   ## generate xexams
   rval <- xexams(file, n = n, nsamp = nsamp,
@@ -57,7 +57,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
 make_exams_write_pdf <- function(template = "plain", inputs = NULL,
   header = list(Date = Sys.Date()), name = NULL, encoding = "UTF-8", quiet = TRUE,
-  control = NULL, texdir = NULL)
+  control = NULL, texdir = NULL, texengine = "pdflatex")
 {
   ## encoding always assumed to be UTF-8 starting from R/exams 2.4-0
   if(!is.null(encoding) && !(tolower(encoding) %in% c("", "utf-8", "utf8"))) {
@@ -305,7 +305,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       writeLines(tmpl, con = con)
       base::close(con)
       if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex")) {
-        tinytex::latexmk(out_tex[j])
+        tinytex::latexmk(out_tex[j], engine = texengine)
       } else {
         texi2dvi(out_tex[j], pdf = TRUE, clean = TRUE, quiet = quiet)
       }

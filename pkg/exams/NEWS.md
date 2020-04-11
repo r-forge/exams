@@ -14,6 +14,11 @@
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
   employing a somewhat modified XML template.
 
+* Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
+  on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
+  support is installed, this option can also be set to `texengine = "xelatex"`
+  or `"lualatex"` for example.
+
 
 # exams 2.3-6
 
@@ -69,7 +74,7 @@
   absolute anymore. For `interactive` checking/fixing of registration IDs
   the width of scanned subimage is now adapted according to the `reglength`.
 
-* The actual writing of nops_eval results has been modularized (with contributions
+* The actual writing of `nops_eval()` results has been modularized (with contributions
   from Kenji Sato). Different `nops_eval_write_<flavor>` functions can be plugged in.
   At the moment there is only the default writer (optimized for OpenOLAT)
   but further flavors are planned (including a standalone workflow and
@@ -117,7 +122,7 @@
   
 * Dependency on R >= 3.4.0 now which enables plugging a custom svg device
   into `Sweave()`. In previous versions of the package a workaround was
-  included that work for R < 3.4.0 (but required writing into the global
+  included that works for R < 3.4.0 (but required writing into the global
   environment which is avoided now).
 
 
