@@ -26,8 +26,9 @@
     to HTML with MathJax (and OpenOLAT-specific fixups).}
   \item{table}{logical or character. Should a dedicated table class be
     used in the HTML for OpenOLAT? For details see below.}
-  \item{maxattempts}{integer. The maximum attempts for one question
-    (must be smaller than \code{100000}).}
+  \item{maxattempts}{integer. The maximum attempts for one question.
+    Set to \code{0} for unlimited attempts. For a finite number of attempts this
+    must be smaller than \code{100000}.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
     \code{\link[exams]{exams2qti21}}, respectively.}
 }

@@ -38,10 +38,10 @@
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti21", duration = NULL,
     stitle = "Exercise", ititle = "Question",
-    adescription = "Please solve the following exercises.",
-    sdescription = "Please answer the following question.",
+    adescription = "Please solve the following exercises.", sdescription = "",
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-    navigation = "nonlinear", zip = TRUE, points = NULL,
+    navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
+    shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, base64 = TRUE, mode = "hex", \dots)
 
@@ -106,7 +106,8 @@
     titles. Note that the maximum of different item titles is the number of sections/questions
     that are used for the exam.}
   \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
-  \item{sdescription}{character. Vector of descriptions for each section.}
+  \item{sdescription}{character. Vector of descriptions for each section, omitted if empty
+    (or \code{NULL} or \code{FALSE}).}
   \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
     \code{Inf}.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
@@ -116,6 +117,12 @@
   \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}
+  \item{allowskipping}{logical. Can a question/section be skipped (default) or must it be answered?}
+  \item{allowcomment}{logical. Are comments allowed?}
+  \item{shufflesections}{logical or character. Should the order of the sections be shuffled?
+    If \code{TRUE} an extra outer section is included within which the sections are shuffled automatically.
+    If a character string is specified, this implies \code{TRUE} and is then used as the title
+    for the outer section.}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag

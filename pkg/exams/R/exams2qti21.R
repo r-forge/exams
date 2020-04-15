@@ -12,10 +12,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti21",
   duration = NULL, stitle = "Exercise", ititle = "Question",
-  adescription = "Please solve the following exercises.",
-  sdescription = "Please answer the following question.", 
+  adescription = "Please solve the following exercises.", sdescription = "", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-  navigation = "nonlinear", zip = TRUE, points = NULL,
+  navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
+  shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, base64 = TRUE, mode = "hex", ...)
 {
@@ -123,14 +123,13 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(name))
     name <- file_path_sans_ext(basename(template))
   name <- gsub("\\s", "_", name)
-  if(is_number1(name))
-    name <- paste0("_", name)
+  name_base <- if(is_number1(name)) paste0("_", name) else name
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))
   {
     switch(type,
-      "test" = paste(name, make_id(9), sep = "_"),
+      "test" = paste(name_base, make_id(9), sep = "_"),
       paste(type, formatC(1:n, flag = "0", width = nchar(n)), sep = "_")
     )
   }
@@ -146,8 +145,12 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   stitle <- rep(stitle, length.out = nq)
   if(!is.null(ititle)) ititle <- rep(ititle, length.out = nq)
   if(is.null(adescription)) adescription <- ""
-  if(is.null(sdescription)) sdescription <- ""
+  if(is.null(sdescription) || identical(sdescription, FALSE)) sdescription <- ""
   sdescription <- rep(sdescription, length.out = nq)
+  sdescription[sdescription != ""] <- sprintf(
+    '<rubricBlock view="candidate"><p>%s</p></rubricBlock>',
+    sdescription[sdescription != ""]
+  )
 
   ## points setting
   if(!is.null(points))
@@ -297,6 +300,21 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     sec_xml <- gsub('##SectionItems##', paste(sec_items_A, collapse = '\n'), sec_xml, fixed = TRUE)
   }
 
+  ## to shuffle sections an extra section layer must be inserted
+  ## for now: use same specification for the outer section as for the inner sections
+  if(!identical(shufflesections, FALSE)) {
+     shufflesections <- if(identical(shufflesections, TRUE)) "" else as.character(shufflesections)
+     sec_outer_xml <- section_xml[1L]
+     sec_outer_xml <- gsub("##SectionId##", paste(test_id, 'part1', 'sections', sep = '_'), sec_outer_xml, fixed = TRUE)
+     sec_outer_xml <- gsub("##SectionTitle##", shufflesections, sec_outer_xml, fixed = TRUE)
+     sec_xml <- c(
+       sec_outer_xml,
+       '<ordering shuffle="true"/>',
+       sec_xml,
+       '</assessmentSection>'
+     )
+  }
+
   manifest_xml <- gsub('##AssessmentId##',
     test_id, manifest_xml, fixed = TRUE)
   manifest_xml <- gsub('##AssessmentTitle##',
@@ -306,20 +324,20 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   manifest_xml <- gsub('##ManifestItemRessources##',
     paste(sec_items_R, collapse = '\n'), manifest_xml, fixed = TRUE)
   manifest_xml <- gsub("##AssessmentDescription##", adescription, manifest_xml, fixed = TRUE)
-  manifest_xml <- gsub("##Date##", '2014-04-08T05:35:56', manifest_xml, fixed = TRUE)
+  manifest_xml <- gsub("##Date##", format(Sys.time(), "%Y-%m-%dT%H:%M:%S"), manifest_xml, fixed = TRUE)
 
   assessment_xml <- gsub('##AssessmentId##', test_id, assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##TestpartId##', paste(test_id, 'part1', sep = '_'),
-    assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##TestpartId##', paste(test_id, 'part1', sep = '_'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##TestTitle##', name, assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'),
-    assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts)), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##ShowSolution##', if(solutionswitch) 'true' else 'false', assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##NavigationMode##', match.arg(navigation, c("nonlinear", "linear")), assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##AllowComment##', if(allowcomment) 'true' else 'false', assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##AllowSkipping##', if(allowskipping) 'true' else 'false', assessment_xml, fixed = TRUE)
 
   ## assessment duration provided in minutes
   if(!is.null(duration)) {

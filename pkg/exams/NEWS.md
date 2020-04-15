@@ -14,16 +14,23 @@
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
   employing a somewhat modified XML template.
 
+* Several extensions in `exams2qti21()` (and thus inherited by `exams2openolat()`)
+  that provide more control and options in the assessments.
+
+  - New argument `navigation = "nonlinear"`. This can be switched to `"linear"`
+    enforcing that questions in the test must be answered sequentially while the
+    default `"nonlinear"` means that participants can switch back and forth between
+    questions.
+  - New argument `shufflesections = FALSE` can be set to `TRUE` in order to
+    randomly shuffle the order of sections/exercises for each participant.
+  - New argument `allowskipping = TRUE` controlling whether exercises
+    can be skipped without answering (default) or must be answered.
+  - New argument `allowcomment = FALSE` can be set to `TRUE` to allow comments.
+
 * Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
   on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
   support is installed, this option can also be set to `texengine = "xelatex"`
   or `"lualatex"` for example.
-
-* Added new argument `navigation = "nonlinear"` to `exams2qti21()` (and thus
-  inherited by `exams2openolat()`). This can be switched to `"linear"` enforcing
-  that questions in the test must be answered sequentially while the default
-  `"nonlinear"` means that participants can switch back and forth between
-  questions.
 
 
 # exams 2.3-6

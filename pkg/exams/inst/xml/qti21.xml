@@ -17,7 +17,7 @@
 </outcomeDeclaration>
 ##TimeLimits##
 <testPart identifier="##TestpartId##" navigationMode="##NavigationMode##" submissionMode="individual">
-<itemSessionControl allowComment="false" maxAttempts="##MaxAttempts##" showSolution="##ShowSolution##"/>
+<itemSessionControl allowComment="##AllowComment##" maxAttempts="##MaxAttempts##" showSolution="##ShowSolution##" allowSkipping="##AllowSkipping##"/>
 ##AssessmentSections##
 </testPart>
 <outcomeProcessing>
@@ -51,9 +51,7 @@
 <assessmentSection identifier="##SectionId##" fixed="false" title="##SectionTitle##" visible="true">
 <selection select="1"/>
 <ordering shuffle="true"/>
-<rubricBlock view="candidate">
-<p>##SectionDescription##</p>
-</rubricBlock>
+##SectionDescription##
 ##SectionItems##
 </assessmentSection>
 
