@@ -19,6 +19,12 @@
   support is installed, this option can also be set to `texengine = "xelatex"`
   or `"lualatex"` for example.
 
+* Added new argument `navigation = "nonlinear"` to `exams2qti21()` (and thus
+  inherited by `exams2openolat()`). This can be switched to `"linear"` enforcing
+  that questions in the test must be answered sequentially while the default
+  `"nonlinear"` means that participants can switch back and forth between
+  questions.
+
 
 # exams 2.3-6
 

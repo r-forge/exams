@@ -41,7 +41,7 @@
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.",
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-    zip = TRUE, points = NULL,
+    navigation = "nonlinear", zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, base64 = TRUE, mode = "hex", \dots)
 
@@ -113,6 +113,9 @@
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
+  \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
+    or \code{"linear"}. The former means that test participants can switch back and forth
+    between questions while the latter implies that the questions need to be answered sequentially.}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag

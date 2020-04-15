@@ -14,8 +14,9 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.",
   sdescription = "Please answer the following question.", 
-  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE),
+  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
+  navigation = "nonlinear", zip = TRUE, points = NULL,
+  eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, base64 = TRUE, mode = "hex", ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
@@ -318,6 +319,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts)), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##ShowSolution##', if(solutionswitch) 'true' else 'false', assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##NavigationMode##', match.arg(navigation, c("nonlinear", "linear")), assessment_xml, fixed = TRUE)
 
   ## assessment duration provided in minutes
   if(!is.null(duration)) {

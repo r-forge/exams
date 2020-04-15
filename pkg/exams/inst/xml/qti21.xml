@@ -16,7 +16,7 @@
 </defaultValue>
 </outcomeDeclaration>
 ##TimeLimits##
-<testPart identifier="##TestpartId##" navigationMode="nonlinear" submissionMode="individual">
+<testPart identifier="##TestpartId##" navigationMode="##NavigationMode##" submissionMode="individual">
 <itemSessionControl allowComment="false" maxAttempts="##MaxAttempts##" showSolution="##ShowSolution##"/>
 ##AssessmentSections##
 </testPart>
@@ -85,7 +85,7 @@
 <source>LOMv1.0</source>
 <value>author</value>
 </role>
-<entity>Mr. Exam</entity>
+<entity>R/exams</entity>
 <date>
 <dateTime>##Date##</dateTime>
 </date>
