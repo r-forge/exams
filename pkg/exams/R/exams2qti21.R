@@ -326,6 +326,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   manifest_xml <- gsub("##AssessmentDescription##", adescription, manifest_xml, fixed = TRUE)
   manifest_xml <- gsub("##Date##", format(Sys.time(), "%Y-%m-%dT%H:%M:%S"), manifest_xml, fixed = TRUE)
 
+  if(maxattempts != 1L && solutionswitch) {
+    warning("if solutionswitch is TRUE, maxattempts should typically be 1 so that the solution cannot be copied by participants")
+  }
+
   assessment_xml <- gsub('##AssessmentId##', test_id, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##TestpartId##', paste(test_id, 'part1', sep = '_'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##TestTitle##', name, assessment_xml, fixed = TRUE)

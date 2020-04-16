@@ -26,6 +26,11 @@
   - New argument `allowskipping = TRUE` controlling whether exercises
     can be skipped without answering (default) or must be answered.
   - New argument `allowcomment = FALSE` can be set to `TRUE` to allow comments.
+  - The default `sdescription` is now empty omitting the section description
+    as it is typically not necessary.
+  - If `solutionswitch = TRUE` and `maxattempts != 1` a warning is issued now.
+    This is because with more than one attempt participants could otherwise
+    copy the solution shown after an incorrect first attempt.
 
 * Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
   on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
