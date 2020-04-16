@@ -1,4 +1,4 @@
 if(!identical(Sys.getlocale(), "C")) {
 library("exams")
-exams2pdf("currency8.Rnw", dir = tempdir())
+exams2pdf("currency8.Rnw", dir = tempfile())
 }
