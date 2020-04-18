@@ -170,8 +170,12 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription <- rep(sdescription, length.out = nq)
 
   ## points setting
-  if(!is.null(points))
+  if(!is.null(points)) {
     points <- rep(points, length.out = nq)
+  } else if(canvas) {
+    points <- sapply(1:nq, function(j) c(exm[[1L]][[j]]$metainfo$points, NA_real_)[1L])
+    points[is.na(points)] <- 1
+  }
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
@@ -189,7 +193,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       sec_xml <- c(
         sec_xml[1:pos],
         '<selection_extension>',
-        paste0('<points_per_item>', points[[j]], '</points_per_item>'),
+        paste0('<points_per_item>', points[j], '</points_per_item>'),
         '</selection_extension>',
         sec_xml[(pos + 1L):length(sec_xml)]
       )

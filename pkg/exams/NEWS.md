@@ -37,6 +37,9 @@
   support is installed, this option can also be set to `texengine = "xelatex"`
   or `"lualatex"` for example.
 
+* Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
+  the points per section/exercise are set correctly in the exported QTI code.
+
 
 # exams 2.3-6
 
