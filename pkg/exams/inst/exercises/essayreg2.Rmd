@@ -45,7 +45,7 @@ if(summary(m)$coefficients[2, 4] < 0.05) {
 }
 
 var <- sample(c("x1", "x2"), size = 1)
-rsq <- summary(m)$adj.r.squared
+rsq <- summary(m)$r.squared
 fstat <- summary(m)$fstatistic["value"]
 
 write.csv(d, "regression.csv", row.names = FALSE, quote = FALSE)
@@ -58,13 +58,17 @@ Using the data provided in [regression.csv](regression.csv) estimate a linear re
 
 Answerlist
 ----------
-* Adjusted R-squared:
+* Proportion of variance explained (in percent):
 * F-statistic:
-* Describe how the response `y` depends on the regressors `x1` and `x2`.
+* Characterize in your own words how the response `y` depends on the regressors `x1` and `x2`.
 
 Solution
 ========
 The presented results describe a `r type` regression.
+
+```{r, echo = FALSE, comment = ""}
+summary(m)
+```
 
 The mean of the response `y` `r direct` with increasing `x1`. Variable `x2` has no
 influence on the response since the estimated confidence intervals contain zero.
@@ -73,17 +77,24 @@ If `x1` increases by 1 `r xunit` then a change of `y` by about `r eff` `r yunit`
 
 `r sign1`, the effect of `x1` is `r sign2` significant at the 5 percent level.
 
-The adjusted R-squared is `r round(rsq, 2)`.
+The R-squared is `r signif(rsq, 4)` and thus the variance explained by the regression is `r fmt(100 * rsq, 2)`
 
-The F-statistic is `r round(fstat, 2)`.
+The F-statistic is `r fmt(fstat, 2)`.
+
+Answerlist
+----------
+* Proportion of variance explained: `r fmt(100 * rsq, 2)` percent.
+* F-statistic: `r fmt(fstat, 2)`.
+* Characterization: `r type`.
+
 
 Meta-information
 ================
-exname: Regression
+exname: Regression cloze essay
 extype: cloze
-exsolution: `r rsq`|`r fstat`|nil
+exsolution: `r fmt(100 * rsq, 2)`|`r fmt(fstat, 2)`|nil
 exclozetype: num|num|string
-extol: 0.01
+extol: 0.1
 exextra[essay,logical]: TRUE
 exextra[essay_format,character]: editor
 exextra[essay_required,logical]: FALSE
