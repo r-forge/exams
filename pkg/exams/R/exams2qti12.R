@@ -266,9 +266,21 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## insert an item id
       ibody <- gsub("##ItemId##", iname, ibody, fixed = TRUE)
 
+      ## insert question type if needed (Ilias)
+      Ilias <- FALSE
+      if(any(grepl("##QuestionType##", ibody, fixed = TRUE))) {
+        type2 <- switch(type,
+          "schoice" = "SINGLE CHOICE QUESTION",
+          "mchoice" = "MULTIPLE CHOICE QUESTION",
+          "num" = "NUMERIC QUESTION"
+        )
+        ibody <- gsub("##QuestionType##", type2, ibody, fixed = TRUE)
+        Ilias <- TRUE
+      }
+
       ## insert an item title
       ibody <- gsub("##ItemTitle##",
-        if(is.null(ititle)) exm[[i]][[j]]$metainfo$name else ititle[j],
+        if(is.null(ititle) | Ilias) exm[[i]][[j]]$metainfo$name else ititle[j],
         ibody, fixed = TRUE)
 
       ## copy supplements
@@ -652,8 +664,8 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             } else NULL,
             paste(if(type[i] == "string") '<response_str ident="' else {
               if(!tolerance | fix_num) '<response_str ident="' else '<response_num ident="'
-              }, ids[[i]]$response, '" rcardinality="Single">', sep = ''),
-            paste('<render_fib',
+              }, ids[[i]]$response, '" rcardinality="Single"', if(!(!tolerance | fix_num)) ' numtype="Decimal"' else NULL, '>', sep = ''),
+            paste('<render_fib', if(!(!tolerance | fix_num)) ' fibtype="Decimal"' else NULL,
               if(!is.na(maxchars[[i]][1])) {
                 paste(' maxchars="', max(c(nchar(soltext), maxchars[[i]][1])), '"', sep = '')
               } else NULL,
