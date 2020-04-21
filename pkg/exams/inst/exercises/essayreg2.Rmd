@@ -15,20 +15,20 @@ d$y <- 0 + b * d$x1 + d$err
 ## different types
 type <- sample(c("linear", "semi-logarithmic", "log-log"), 1)
 if(type == "linear") {
-  m <- lm(y ~ x1, data = d)
+  m <- lm(y ~ x1 + x2, data = d)
   xunit <- "unit" 
   yunit <- "units"
   eff <- round(coef(m)[2], digits = 2)
 } else if(type == "semi-logarithmic") {
   d$y <- exp(d$y)
-  m <- lm(log(y) ~ x1, data = d)
+  m <- lm(log(y) ~ x1 + x2, data = d)
   xunit <- "unit" 
   yunit <- "percent"
   eff <- round(100 * exp(coef(m)[2]) - 100, digits = 2)
 } else if(type == "log-log") {
   d$y <- exp(d$y)
   d$x1 <- exp(d$x1)
-  m <- lm(log(y) ~ log(x1), data = d)
+  m <- lm(log(y) ~ log(x1) + log(x2), data = d)
   xunit <- "percent" 
   yunit <- "percent"
   eff <- round(100 * exp(0.01 * coef(m)[2]) - 100, digits = 2)
@@ -44,7 +44,6 @@ if(summary(m)$coefficients[2, 4] < 0.05) {
   sign2 <- "_not_"
 }
 
-var <- sample(c("x1", "x2"), size = 1)
 rsq <- summary(m)$r.squared
 fstat <- summary(m)$fstatistic["value"]
 
@@ -77,7 +76,7 @@ If `x1` increases by 1 `r xunit` then a change of `y` by about `r eff` `r yunit`
 
 `r sign1`, the effect of `x1` is `r sign2` significant at the 5 percent level.
 
-The R-squared is `r signif(rsq, 4)` and thus the variance explained by the regression is `r fmt(100 * rsq, 2)`
+The R-squared is `r signif(rsq, 4)` and thus the variance explained by the regression is `r fmt(100 * rsq, 2)`.
 
 The F-statistic is `r fmt(fstat, 2)`.
 
