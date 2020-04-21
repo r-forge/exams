@@ -42,7 +42,7 @@
 <qtimetadata>
 <qtimetadatafield>
 <fieldlabel>QUESTIONTYPE</fieldlabel>
-<fieldentry>NUMERIC QUESTION</fieldentry>
+<fieldentry>##QuestionType##</fieldentry>
 </qtimetadatafield>
 </qtimetadata>
 </itemmetadata>
