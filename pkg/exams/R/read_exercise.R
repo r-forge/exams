@@ -1,4 +1,4 @@
-read_exercise <- function(file, markup = NULL)
+read_exercise <- function(file, markup = NULL, exshuffle = NULL)
 {
   ## read all text
   x <- readLines(file)
@@ -54,7 +54,7 @@ read_exercise <- function(file, markup = NULL)
     solution <- zap_text_if_empty(solution[-(sl[1L]:sl[2L])])
   }
 
-  metainfo <- read_metainfo(file)
+  metainfo <- read_metainfo(file, exshuffle = exshuffle)
   
   ## consistency checks
   if(!is.null(questionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(questionlist))

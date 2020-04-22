@@ -118,7 +118,7 @@ extract_items <- function(x, markup = c("latex", "markdown"))
   gsub(" +$", "", x)
 }
 
-read_metainfo <- function(file, markup = NULL)
+read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
 {
   ## read file
   x <- readLines(file)
@@ -129,6 +129,10 @@ read_metainfo <- function(file, markup = NULL)
     "md"   = "markdown",
     "rmd"  = "markdown"
   )
+
+  ## overwrite exshuffle settings?
+  exshuffle_overwrite <- !is.null(exshuffle)
+  exshuffle_arg <- exshuffle
 
   ## Description ###################################
   extype <- match.arg(extract_command(x, "extype", markup = markup), ## exercise type: schoice, mchoice, num, string, or cloze
@@ -162,6 +166,7 @@ read_metainfo <- function(file, markup = NULL)
   } else {
     as.numeric(exshuffle)
   }
+  if(exshuffle_overwrite) exshuffle <- exshuffle_arg
 
   ## set default exname
   if(is.null(exname)) exname <- "R/exams exercise"
