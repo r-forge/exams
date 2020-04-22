@@ -175,6 +175,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   } else if(canvas) {
     points <- sapply(1:nq, function(j) c(exm[[1L]][[j]]$metainfo$points, NA_real_)[1L])
     points[is.na(points)] <- 1
+  } else {
+    points <- sapply(1:nq, function(j) exm[[1L]][[j]]$metainfo$points)
+    points[is.na(points)] <- 1
   }
 
   ## create the directory where the test is stored
@@ -193,7 +196,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       sec_xml <- c(
         sec_xml[1:pos],
         '<selection_extension>',
-        paste0('<points_per_item>', points[j], '</points_per_item>'),
+        paste0('<points_per_item>', sum(points[j]), '</points_per_item>'),
         '</selection_extension>',
         sec_xml[(pos + 1L):length(sec_xml)]
       )
@@ -434,7 +437,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     xml_meta <- gsub("##TestDuration##", dur0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##AssessmentDescription##", adescription, xml_meta, fixed = TRUE)
-    xml_meta <- gsub("##Points##", sum(points), xml_meta, fixed = TRUE)
+    xml_meta <- gsub("##Points##", sum(unlist(points)), xml_meta, fixed = TRUE)
 
     writeLines(xml_meta, file.path(test_dir, quiz_id, "assessment_meta.xml"))
 
@@ -534,6 +537,9 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
     } else x$metainfo$tolerance
     tol <- rep(tol, length.out = n)
+
+    if((length(points) == 1) & (x$metainfo$type == "cloze"))
+      points <- points / n
 
     q_points <- rep(points, length.out = n)
     if(x$metainfo$type == "cloze")

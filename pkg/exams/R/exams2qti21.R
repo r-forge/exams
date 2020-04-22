@@ -197,9 +197,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
       if(i < 2) {
         tpts <- if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
-        if(exm[[i]][[j]]$metainfo$type == "cloze")
-          tpts <- sum(rep(tpts, length = length(exm[[i]][[j]]$metainfo$solution)))
-        maxscore <- maxscore + tpts
+        maxscore <- maxscore + sum(tpts)
       }
 
       ## get and insert the item body
