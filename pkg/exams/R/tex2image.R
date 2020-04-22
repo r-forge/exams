@@ -157,7 +157,7 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
     file.copy(from = file.path(tdir, image[i]), 
       to = dirout[i], overwrite = TRUE)
     dirout[i] <- normalizePath(dirout[i])
-    if(show) browseFile(dirout[i])
+    if(show) browse_file(dirout[i])
   }
   
   return(invisible(dirout))

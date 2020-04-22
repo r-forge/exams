@@ -52,7 +52,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.
   if(display) {
     out <- file.path(dir, paste(name, "1.html", sep = ""))
     out <- normalizePath(out)
-    browseFile(out)
+    browse_file(out)
   }
   
   ## return xexams object invisibly
@@ -239,7 +239,7 @@ make_exams_write_html <- function(template = "plain", name = NULL,
 
 ## an internal wrapper for browseURL to work around the setting of getOption("browser")
 ## in RStudio < 0.97.133
-browseFile <- function(file) {
+browse_file <- browseFile <- function(file) {
   if(is.function(br <- getOption("browser")) & .Platform$OS.type != "windows") {
     rstudio_browser <- any(grepl("rs_browseURL", deparse(br), fixed = TRUE))
     rstudio_version <- try(packageVersion("rstudio"), silent = TRUE)
@@ -257,7 +257,7 @@ browseFile <- function(file) {
 
 
 ## show .html code in browser, only used for internal testing
-show.html <- function(x)
+browse_html <- show.html <- function(x)
 {
   if(length(x) == 1L && file.exists(x[1L])) {
     tempf <- dirname(x)
@@ -271,5 +271,5 @@ show.html <- function(x)
         file.copy(i, file.path(tempf, basename(i)))
     }
   }
-  browseFile(normalizePath(file.path(tempf, fname)))
+  browse_file(normalizePath(file.path(tempf, fname)))
 }
