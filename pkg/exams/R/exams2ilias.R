@@ -59,9 +59,46 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     dir.create(tdir <- tempfile())
     setwd(tdir)    
     unzip(zipfile, exdir = name)
-    file.rename(file.path(name, "qti.xml"), file.path(name, paste0(name, ".xml")))
+    file.rename(file.path(name, "qti.xml"), file.path(name, paste0(name, "_qti.xml")))
+
+    ## Add qpl file.
+    xml <- c(
+      '<?xml version="1.0" encoding="utf-8"?>',
+      '<!DOCTYPE Test SYSTEM "http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd">',
+      '<!--Export of ILIAS Test Questionpool 3029 of installation .-->',
+      '<ContentObject Type="Questionpool_Test">',
+      '<MetaData>',
+      '<General Structure="Hierarchical">',
+      paste0('<Identifier Catalog="ILIAS" Entry="', name, '_qpl"/>'),
+      paste0('<Title Language="en">', name, '</Title>'),
+      '<Language Language="en"/>',
+      '<Description Language="en"/>',
+      '<Keyword Language="en"/>',
+      '</General>',
+      '</MetaData>',
+      '<Settings>',
+      '<ShowTaxonomies>0</ShowTaxonomies>',
+      '<NavTaxonomy>0</NavTaxonomy>',
+      '<SkillService>0</SkillService>',
+      '</Settings>',
+      '<PageObject>'
+    )
+    for(i in 1:length(rval)) {
+      for(j in 1:length(rval[[i]])) {
+        xml <- c(xml,
+          '<PageContent>',
+          paste0('<Question QRef="', rval[[i]][[j]]$metainfo$id, '"/>'),
+          '</PageContent>'
+        )
+      }
+    }
+    xml <- c(xml, '</PageObject>', '</ContentObject>')
+    writeLines(xml, file.path(name, paste0(name, "_qpl.xml")))
+
     file.remove(zipfile)
-    zip(zipfile, name)
+    file.rename(name, paste0(name, "_qpl"))
+    zip(zipfile = paste0(name, "_qpl.zip"), files = list.files())
+    file.copy(paste0(name, "_qpl.zip"), file.path(wdir, paste0(name, "_qpl.zip")))
     setwd(wdir)
   }
 
