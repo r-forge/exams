@@ -43,6 +43,7 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
     qli <- if(markup == "latex") (ql[1L] + 1L):(ql[2L] - 1L) else (ql[1L] + 2L):ql[2L]
     questionlist <- extract_items(question[qli], markup = markup)
     question <- zap_text_if_empty(question[-(ql[1L]:ql[2L])])
+    if(any(duplicated(questionlist))) warning("duplicated items in question list")
   }
 
   ## process solution
@@ -119,7 +120,7 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
     solutionlist <- unlist(solutionlist)
     metainfo$string <- paste(metainfo$name, ": ", paste(sapply(metainfo$solution, paste, collapse = ", "), collapse = " | "), sep = "")
   }
-  
+
   ## collect everything in one list
   list(
     question = question,
