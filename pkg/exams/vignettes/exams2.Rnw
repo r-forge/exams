@@ -24,7 +24,7 @@
 \Plainkeywords{exams, e-learning, multiple choice, arithmetic problems, Sweave, R, LaTeX, HTML, XML, IMS QTI, Moodle, OLAT}
 
 \Abstract{
-  This introduction to version~2 of the \proglang{R} package \pkg{exams} is a (slightly)
+  This introduction to version~2 of the \proglang{R}/\pkg{exams} package is a (slightly)
   modified version of \cite{exams:Zeileis+Umlauf+Leisch:2014}, published in the
   \emph{Journal of Statistical Software}. Since its publication, the \pkg{exams} package
   has been extended in various ways which are not yet reflected in this vignette (e.g.,
