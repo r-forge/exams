@@ -284,6 +284,9 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     ## penalty and points
     if((length(points) == 1) & (type == "cloze"))
       points <- points / length(x$metainfo$solution)
+
+    points2 <- points * as.integer(paste0(c(1, rep(0, max(sapply(points, dc)))), collapse = ""))
+
     xml <- c(xml,
       paste('<penalty>', penalty, '</penalty>', sep = ''),
       paste('<defaultgrade>', sum(points), '</defaultgrade>', sep = '')
@@ -454,7 +457,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         k <- length(ql)
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
-          tmp <- paste('{', points[i], ':', cloze_mchoice_display, ':', sep = '')
+          tmp <- paste('{', points2[i], ':', cloze_mchoice_display, ':', sep = '')
 
           frac <- solution[[i]]
           if(length(frac) < 2)
@@ -481,7 +484,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':NUMERICAL:=', solution[[i]][j],
               ':', max(tol[[i]]), if(numwidth) paste('~%0%', fnums, ":0", sep = '') else NULL,
               '}', sep = ''))
           }
@@ -495,7 +498,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
         if(x$metainfo$clozetype[i] == "verbatim") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste0(ql[j], ' {', points[i], solution[[i]][j], '}'))
+            tmp <- c(tmp, paste0(ql[j], ' {', points2[i], solution[[i]][j], '}'))
           }
         }
 
@@ -541,5 +544,16 @@ moodlePercent <- function(p)
   if(any(abs(mp - p) > 1))
     stop("Percentage not in list of moodle fractions")
   as.character(mp)
+}
+
+## Count decimal places.
+dc <- function(x) {
+  if((x %% 1) != 0) {
+    strs <- strsplit(as.character(format(x, scientific = F)), "\\.")
+    n <- nchar(strs[[1]][2])
+  } else {
+    n <- 0
+  }
+  return(n) 
 }
 
