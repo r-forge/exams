@@ -27,10 +27,13 @@
   This introduction to version~2 of the \proglang{R}/\pkg{exams} package is a (slightly)
   modified version of \cite{exams:Zeileis+Umlauf+Leisch:2014}, published in the
   \emph{Journal of Statistical Software}. Since its publication, the \pkg{exams} package
-  has been extended in various ways which are not yet reflected in this vignette (e.g.,
-  exercises in \proglang{R}/Markdown format instead of \proglang{R}/{\LaTeX}, or
+  has been extended in numerous ways which are not reflected in this vignette. Examples include:
+  Exercises in \proglang{R}/Markdown format (instead of \proglang{R}/{\LaTeX}), 
   the \code{exams2nops} interface for exams that can be automatically scanned and
-  evaluated).
+  evaluated, export to \pkg{Canvas} or \pkg{Blackboard} etc.
+
+  For a current and more general introduction to the \proglang{R}/\pkg{exams} package
+  see the materials at the official web page: \url{http://www.R-exams.org/}.
 
   The capabilities of the package \pkg{exams} for automatic generation
   of (statistical) exams in \proglang{R} are extended by adding support for learning

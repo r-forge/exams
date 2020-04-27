@@ -19,7 +19,7 @@
 \Plainkeywords{exams, multiple choice, arithmetic problems, Sweave, LaTeX, R}
 
 \Abstract{ 
-  This introduction to version 1.0-0 of the \proglang{R}/\pkg{exams} package is a (slightly)
+  This introduction to version~1 of the \proglang{R}/\pkg{exams} package is a (slightly)
   modified version of \cite{exams:Gruen+Zeileis:2009}, published in the
   \emph{Journal of Statistical Software}. It describes how to produce PDF
   files from exercises in Sweave format. Meanwhile, \proglang{R}/\pkg{exams} has been
