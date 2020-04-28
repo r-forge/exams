@@ -40,6 +40,9 @@
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 
+* In single-choice and multiple-choice questions it is now checked whether the
+  question list contains duplicated items. If so a warning is issued.
+
 
 # exams 2.3-6
 
