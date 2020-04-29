@@ -21,7 +21,8 @@ exams2kahoot(file, n = 1L, dir = ".", name = "kahootquiz",
   \item{quiet}{logical. Should output be suppressed when calling \code{\link[exams]{xweave}}?}
   \item{time}{numeric. Time limit (in seconds) allowed for answering the question
     in Kahoot!, must be one of 5, 10, 20, 30, 60, 90, 120, 240. If other numeric
-    inputs are made, they are forced to the nearest admissable specification.}
+    inputs are made, they are forced to the nearest admissable specification.
+    Default: 60 seconds.}
   \item{\dots}{arguments passed on to \code{\link[exams]{xexams}}.}
 }
 
