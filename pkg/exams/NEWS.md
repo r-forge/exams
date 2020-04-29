@@ -32,6 +32,13 @@
     This is because with more than one attempt participants could otherwise
     copy the solution shown after an incorrect first attempt.
 
+* Added new interface `exams2kahoot()` that can export sufficiently simple
+  single-choice and multiple-choice exercises to an Excel sheet via
+  `openxlsx::write.xlsx()` that can be imported by the game-based learning
+  platform Kahoot! at <https://kahoot.com/> (suggested by Rushad Faridi).
+  Exercises are converted to plain text and questions must not exceed 120
+  characters, answers must not exceed 75 characters.
+
 * Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
   on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
   support is installed, this option can also be set to `texengine = "xelatex"`
