@@ -108,6 +108,9 @@ export(
   "exams2arsnova",
   "make_exams_write_arsnova",
   
+  ## Kahoot! driver
+  "exams2kahoot",
+
   ## TCExam driver
   "exams2tcexam",
   
