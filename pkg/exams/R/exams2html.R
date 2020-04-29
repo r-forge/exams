@@ -12,8 +12,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.
     nsamp <- ncol(file)
   }
 
-  ## for Rnw exercises use "ttm" converter and "plain" template,
-  ## otherwise "pandoc" converter and "plain8" template
+  ## for Rnw exercises still use "ttm" converter (for now), otherwise "pandoc"
   if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) {
     if(is.null(converter)) converter <- "pandoc"
   } else {
