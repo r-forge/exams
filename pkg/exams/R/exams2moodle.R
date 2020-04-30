@@ -323,17 +323,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           '</answer>'
         )
       }
-
-      ## add abstention option (if any)
-      if(abstention != "") {
-        xml <- c(xml,
-          '<answer fraction="0" format="html">',
-          '<text><![CDATA[<p>',
-          abstention,
-          '</p>]]></text>',
-          '</answer>'
-        )
-      }
     }
 
     ## numeric question processing
@@ -516,6 +505,17 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
       qtext <- c(x$question, qtext)
       xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml, fixed = TRUE)
+    }
+
+    ## add abstention option (if any)
+    if(abstention != "") {
+      xml <- c(xml,
+        '<answer fraction="0" format="html">',
+        '<text><![CDATA[<p>',
+        abstention,
+        '</p>]]></text>',
+        '</answer>'
+      )
     }
 
     ## end the question
