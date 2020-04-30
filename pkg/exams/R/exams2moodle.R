@@ -282,8 +282,10 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     }
 
     ## penalty and points
-    if((length(points) == 1) & (type == "cloze"))
+    if((length(points) == 1) & (type == "cloze")) {
       points <- points / length(x$metainfo$solution)
+      points <- rep(points, length = length(x$metainfo$solution))
+    }
 
     points2 <- points * as.integer(paste0(c(1, rep(0, max(sapply(points, dc)))), collapse = ""))
 
