@@ -283,7 +283,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
     ## penalty and points
     if((length(points) == 1) & (type == "cloze")) {
-      points <- points / length(x$metainfo$solution)
+      #points <- points / length(x$metainfo$solution)
       points <- rep(points, length = length(x$metainfo$solution))
     }
 
@@ -320,6 +320,17 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             '<text><![CDATA[<p>', x$solutionlist[i], '</p>]]></text>',
             '</feedback>')
           } else NULL,
+          '</answer>'
+        )
+      }
+
+      ## add abstention option (if any)
+      if(abstention != "") {
+        xml <- c(xml,
+          '<answer fraction="0" format="html">',
+          '<text><![CDATA[<p>',
+          abstention,
+          '</p>]]></text>',
           '</answer>'
         )
       }
@@ -448,7 +459,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         k <- length(ql)
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
-          tmp <- paste('{', points2[i], ':', cloze_mchoice_display, ':', sep = '')
+          tmp <- paste('{', points[i], ':', cloze_mchoice_display, ':', sep = '')
 
           frac <- solution[[i]]
           if(length(frac) < 2)
@@ -475,21 +486,21 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':NUMERICAL:=', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', points[i], ':NUMERICAL:=', solution[[i]][j],
               ':', max(tol[[i]]), if(numwidth) paste('~%0%', fnums, ":0", sep = '') else NULL,
               '}', sep = ''))
           }
         }
         if(x$metainfo$clozetype[i] == "string") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':SHORTANSWER:%100%', solution[[i]][j],
+            tmp <- c(tmp, paste(ql[j], ' {', points[i], ':SHORTANSWER:%100%', solution[[i]][j],
               if(!usecase) paste('~%100%', tolower(solution[[i]][j]), sep = '') else NULL,
               '}', sep = ''))
           }
         }
         if(x$metainfo$clozetype[i] == "verbatim") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste0(ql[j], ' {', points2[i], solution[[i]][j], '}'))
+            tmp <- c(tmp, paste0(ql[j], ' {', points[i], solution[[i]][j], '}'))
           }
         }
 
@@ -504,18 +515,13 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       if(!is.null(qtext) & enumerate)
         qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
       qtext <- c(x$question, qtext)
+      ## add abstention option (if any)
+#      if(abstention != "") {
+#        qtext <- c(qtext,
+#          paste0('<p>', abstention, ' {0:', cloze_mchoice_display, ':%100%', truefalse[1], '~%0%', truefalse[2], '} </p>')
+#        )
+#      }
       xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml, fixed = TRUE)
-    }
-
-    ## add abstention option (if any)
-    if(abstention != "") {
-      xml <- c(xml,
-        '<answer fraction="0" format="html">',
-        '<text><![CDATA[<p>',
-        abstention,
-        '</p>]]></text>',
-        '</answer>'
-      )
     }
 
     ## end the question
