@@ -58,9 +58,9 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
   
   ## consistency checks
   if(!is.null(questionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(questionlist))
-    warning("length of exsolution and questionlist does not match")
+    warning(sprintf("length of exsolution and questionlist does not match in '%s'", metainfo$file))
   if(!is.null(solutionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(solutionlist))
-    warning("length of exsolution and solutionlist does not match")
+    warning(sprintf("length of exsolution and solutionlist does not match in '%s'", metainfo$file))
 
   ## perform shuffling?
   if(!identical(metainfo$shuffle, FALSE) & metainfo$type %in% c("schoice", "mchoice")) {
@@ -80,7 +80,8 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
       }
       os <- c(os, nos[1L:min(c(ns - length(os), length(nos)))])
       o <- o[sample(os)]
-      if(length(o) < metainfo$shuffle) warning(sprintf("%s shuffled answers requested, only %s available", metainfo$shuffle, length(o)))
+      if(length(o) < metainfo$shuffle) warning(sprintf("%s shuffled answers requested, only %s available in '%s'",
+        metainfo$shuffle, length(o), metainfo$file))
     }
     questionlist <- questionlist[o]
     solutionlist <- solutionlist[o]
@@ -122,7 +123,7 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
 
   ## question list of schoice/mchoice items should usually not have duplicated items
   if(metainfo$type %in% c("schoice", "mchoice") && !is.null(questionlist)) {
-    if(any(duplicated(questionlist))) warning("duplicated items in question list")
+    if(any(duplicated(questionlist))) warning(sprintf("duplicated items in question list in '%s'", metainfo$file))
   }
 
   ## collect everything in one list
