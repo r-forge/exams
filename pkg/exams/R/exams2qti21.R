@@ -549,6 +549,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(!is.list(msol))
       msol <- list(msol)
 
+    ## small helper to remove too many ".
+    cch <- function(x) {
+      gsub("'", '&apos;', gsub('"', '&quot;', x))
+    }
+
     is_essay <- rep(FALSE, n)
 
     for(i in 1:n) {
@@ -610,7 +615,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         )
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
-            paste('<mapEntry mapKey="', if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j], '" mappedValue="',
+            paste('<mapEntry mapKey="', cch(if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j]), '" mappedValue="',
               if(eval$partial) {
                 if(solution[[i]][j]) {
                   pv[[i]]["pos"]
@@ -652,7 +657,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             paste('<value>', solution[[i]], '</value>', sep = ''),
             '</correctResponse>',
             paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval, '">', sep = ''),
-            paste('<mapEntry mapKey="', solution[[i]], '" mappedValue="', pv[[i]]["pos"], '"/>', sep = ''),
+            paste('<mapEntry mapKey="', cch(solution[[i]]), '" mappedValue="', pv[[i]]["pos"], '"/>', sep = ''),
             '</mapping>',
             '</responseDeclaration>'
           )
