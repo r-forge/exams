@@ -59,7 +59,7 @@ tex2image <- function(tex, format = "png", width = NULL, pt = 12,
     files <- list.files(idir)
     cp <- NULL
     for(k in 1L:length(graphics)) {
-      graphics[k] <- extract_command(graphics[k], "includegraphics")
+      graphics[k] <- sub(".*\\\\includegraphics\\[*.*\\]*\\{([^\\}]*)\\}.*", "\\1", graphics[k]) ## formerly: extract_command(graphics[k], "includegraphics")
       cp <- c(cp, grep(graphics[k], files, fixed = TRUE, value = TRUE))
     }
     if(length(cp)) {
