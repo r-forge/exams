@@ -31,7 +31,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
         resolution = resolution, width = width, height = height,
         encoding = encoding),
       read = NULL, transform = htmltransform, write = NULL),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed)
 
   ## start .xml assessement creation
   ## get the possible item body functions and options
