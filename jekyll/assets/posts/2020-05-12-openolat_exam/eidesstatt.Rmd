@@ -1,0 +1,17 @@
+Question
+========
+"Ich erkläre an Eides statt, dass ich die Prüfung alleine und selbständig ablege
+und keine anderen als die erlaubten Hilfsmittel verwende. Ich nehme zur Kenntnis,
+dass die Prüfung bei Zuwiderhandeln gemäß § 23 Abs. 2 Satzungsteil
+"Studienrechtliche Bestimmungen" mit der Note "Nicht genügend" beurteilt wird.
+Die Strafbarkeit einer falschen eidesstattlichen Erklärung ist mir bekannt."
+
+Answerlist
+----------
+* Ja
+
+Meta-information
+================
+extype: schoice
+exsolution: 1
+exname: Eidesstattliche Erklärung
