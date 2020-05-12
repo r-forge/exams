@@ -1,0 +1,16 @@
+\begin{question}
+``I declare in lieu of oath that I will take the exam alone and independently
+and that I will not use any other means than the ones expressly permitted.
+I take note that in case of violations according to \S 23(2) of the statue
+``Study Law Regulations'' the examination is rated with the grade ``Insufficient''.
+I know that a false affidavit is punishable.''
+
+\begin{answerlist}
+  \item Ja
+\end{answerlist}
+
+\end{question}
+
+\extype{schoice}
+\exsolution{1}
+\exname{Sworn declaration}

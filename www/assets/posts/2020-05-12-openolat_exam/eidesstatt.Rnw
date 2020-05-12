@@ -1,0 +1,16 @@
+\begin{question}
+``Ich erkl\"are an Eides statt, dass ich die Pr\"ufung alleine und selbst\"andig ablege
+und keine anderen als die erlaubten Hilfsmittel verwende. Ich nehme zur Kenntnis,
+dass die Pr\"ufung bei Zuwiderhandeln gem\"a{\ss} \$~23 Abs.~2 Satzungsteil
+``Studienrechtliche Bestimmungen'' mit der Note ``Nicht gen\"ugend'' beurteilt wird.
+Die Strafbarkeit einer falschen eidesstattlichen Erkl\"arung ist mir bekannt.''
+
+\begin{answerlist}
+  \item Ja
+\end{answerlist}
+
+\end{question}
+
+\extype{schoice}
+\exsolution{1}
+\exname{Eidesstattliche Erklaerung}
