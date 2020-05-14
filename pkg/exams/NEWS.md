@@ -51,6 +51,9 @@
   checked whether the question list contains duplicated items for single-choice
   and multiple-choice exercises.
 
+* Bug fix in exams2blackboard() when using shuffle = TRUE which used to lead
+  to a missing closing bracket.
+
 
 # exams 2.3-6
 
