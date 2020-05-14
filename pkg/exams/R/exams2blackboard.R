@@ -498,7 +498,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           paste('<response_lid ident="', ids[[i]]$response, '" rcardinality="',
             if(type[i] == "mchoice") "Multiple" else "Single", '" rtiming=',
             if(rtiming) '"Yes"' else '"No"', '>', sep = ''),
-          paste('<render_choice shuffle=', if(shuffle) '"Yes"' else '"No">', sep = '')
+          paste('<render_choice shuffle="', if(shuffle) 'Yes' else 'No', '">', sep = '')
         )
         for(j in seq_along(solution[[i]])) {
           if(qti12) {
