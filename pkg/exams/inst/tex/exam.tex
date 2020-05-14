@@ -2,7 +2,7 @@
 
 %% packages
 \usepackage[utf8]{inputenc}
-\usepackage{a4wide,graphicx,color,verbatim,url,fancyvrb,ae,xargs,amsmath,amssymb,booktabs,longtable,eurosym}
+\usepackage{a4wide,color,verbatim,Sweave,url,xargs,amsmath,booktabs,longtable,eurosym}
 
 %% new environments
 \newenvironment{question}{\item}{}
@@ -16,12 +16,6 @@
 %% compatibility with pandoc
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setkeys{Gin}{keepaspectratio}
-
-%% compatibility with Sweave
-\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
-\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
-\DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
-\newenvironment{Schunk}{}{}
 
 %% fonts: Helvetica
 \usepackage{helvet}
