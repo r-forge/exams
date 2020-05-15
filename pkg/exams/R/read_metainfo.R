@@ -118,6 +118,14 @@ extract_items <- function(x, markup = c("latex", "markdown"))
   gsub(" +$", "", x)
 }
 
+extract_latex <- function(x, command)
+{
+  pattern <- sprintf("\\\\%s(\\[.*?\\])?\\{.*?\\}", command)
+  rval <- regmatches(x, gregexpr(pattern, x, perl = TRUE))
+  rval <- lapply(rval, function(x) regmatches(x, regexpr("(?<=\\{).*?(?=\\})", x, perl = TRUE)))
+  return(unlist(rval))
+}
+
 read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
 {
   ## read file
