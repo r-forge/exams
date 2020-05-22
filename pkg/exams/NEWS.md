@@ -49,7 +49,7 @@
   can be rendered by MathJax (rather then by the browser directly). The default
   is `FALSE` by default unless `converter = "pandoc-mathjax"` is used. But
   also for the default converters (producing MathML output) `mathjax = TRUE`
-  can be used.
+  can be used. (Suggested and tested by Sean Quallen and Gabriele Cantaluppi.)
 
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
