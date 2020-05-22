@@ -44,6 +44,13 @@
   support is installed, this option can also be set to `texengine = "xelatex"`
   or `"lualatex"` for example.
 
+* Added `exams2blackboard(..., mathjax = NULL)` that optionally embeds the
+  MathJax `<script>` in each of the exercises so that mathematical content
+  can be rendered by MathJax (rather then by the browser directly). The default
+  is `FALSE` by default unless `converter = "pandoc-mathjax"` is used. But
+  also for the default converters (producing MathML output) `mathjax = TRUE`
+  can be used.
+
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 

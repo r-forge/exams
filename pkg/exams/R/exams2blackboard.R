@@ -7,7 +7,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   pdescription = "This is an item from an item pool.", tdescription = "This is today's test.",
   pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = FALSE, converter = NULL, seed = NULL, ...)
+  points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = FALSE, converter = NULL,
+  mathjax = NULL, seed = NULL, ...)
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -21,6 +22,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(converter)) {
     converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
   }
+  if(is.null(mathjax)) mathjax <- converter == "pandoc-mathjax"
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(converter = converter, base64 = base64, ...)
 
@@ -44,6 +46,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
         itembody[[i]]$eval <- eval
       if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
         itembody[[i]]$eval$rule <- "none"
+      if(is.null(itembody[[i]]$mathjax)) itembody[[i]]$mathjax <- mathjax
       itembody[[i]] <- do.call("make_itembody_blackboard", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -382,7 +385,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
   maxchars = 12, eval = list(partial = TRUE, negative = FALSE),
-  qti12 = FALSE)
+  qti12 = FALSE, mathjax = FALSE)
 {
   function(x) {
     ## how many points?
@@ -438,6 +441,13 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         maxchars[[j]] <- c(maxchars[[j]], NA, NA)
     }
 
+    ## include MathJax script?
+    mathjax <- if(!mathjax) {
+      NULL
+    } else {
+      '<p><script type="text/javascript" src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></p>'
+    }
+
     ## start item presentation
     ## and insert question
     if(qti12) {
@@ -448,6 +458,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           c(
             '<material>',
             '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
+	    mathjax,
             x$question,
             ']]></mat_formattedtext></mat_extension>',
             '</material>'
@@ -464,6 +475,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
           c(
             '<material>',
             '<mat_extension><mat_formattedtext type="HTML"><![CDATA[',
+	    mathjax,
             x$question,
             ']]></mat_formattedtext></mat_extension>',
             '</material>'
