@@ -275,7 +275,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         type2 <- switch(type,
           "schoice" = "SINGLE CHOICE QUESTION",
           "mchoice" = "MULTIPLE CHOICE QUESTION",
-          "num" = "NUMERIC QUESTION"
+          "num" = "NUMERIC QUESTION",
+          "cloze" = "CLOZE QUESTION"
         )
         ibody <- gsub("##QuestionType##", type2, ibody, fixed = TRUE)
         Ilias <- TRUE
