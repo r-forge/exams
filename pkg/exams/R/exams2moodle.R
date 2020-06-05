@@ -470,7 +470,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           if(length(frac) < 2)
             frac <- c(frac, !frac)
           frac2 <- frac
-          pv <- eval$pointvec(frac)
+          pv <- eval$pointvec(frac) ## FIXME: this passes correct as a logical rather as a character, is this intended?
           frac[frac2] <- pv["pos"]
           frac[!frac2] <- pv["neg"]
           p <- moodlePercent(frac)
