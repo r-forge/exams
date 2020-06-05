@@ -64,25 +64,7 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
 
   ## perform shuffling?
   if(!identical(metainfo$shuffle, FALSE) & metainfo$type %in% c("schoice", "mchoice")) {
-    o <- sample(metainfo$length)
-    if(is.numeric(metainfo$shuffle)) {
-      ## subsample the choices: take the first TRUE and FALSE (if any)
-      ## and then the first remaining ones (only FALSE ones for schoice)
-      ns <- min(c(metainfo$length, metainfo$shuffle))
-      os <- c(
-        if(any(metainfo$solution)) which.max(metainfo$solution[o]),
-        if(any(!metainfo$solution)) which.max(!metainfo$solution[o])
-      )
-      nos <- if(metainfo$type == "mchoice") {
-        seq_along(o)[-os]
-      } else {
-        seq_along(o)[-unique(c(os, which(metainfo$solution[o])))]
-      }
-      os <- c(os, nos[1L:min(c(ns - length(os), length(nos)))])
-      o <- o[sample(os)]
-      if(length(o) < metainfo$shuffle) warning(sprintf("%s shuffled answers requested, only %s available in '%s'",
-        metainfo$shuffle, length(o), metainfo$file))
-    }
+    o <- shuffle_choice(metainfo$solution, metainfo$shuffle, metainfo$type, metainfo$file)
     questionlist <- questionlist[o]
     solutionlist <- solutionlist[o]
     metainfo$solution <- metainfo$solution[o]
@@ -97,27 +79,17 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
   }
   if(!identical(metainfo$shuffle, FALSE) & metainfo$type == "cloze") {
     gr <- rep.int(1L:metainfo$length, sapply(metainfo$solution, length))
+    ssol <- length(solutionlist) == length(questionlist) ## shuffle solutionlist?
     questionlist <- split(questionlist, gr)
-    solutionlist <- split(solutionlist, gr)
+    if(ssol) solutionlist <- split(solutionlist, gr)
     for(i in which(metainfo$clozetype %in% c("schoice", "mchoice"))) {
-      o <- sample(length(questionlist[[i]]))
-      if(is.numeric(metainfo$shuffle)) {
-        ## subsample the choices: take the first TRUE and FALSE (if any)
-        ## and then the first remaining ones
-        ns <- min(c(length(questionlist[[i]]), metainfo$shuffle))
-        os <- c(
-          if(any(metainfo$solution[[i]])) which.max(metainfo$solution[[i]]),
-          if(any(!metainfo$solution[[i]])) which.max(!metainfo$solution[[i]])
-        )
-        os <- c(os, (seq_along(o)[-os])[1L:(ns - length(os))])
-        o <- o[sample(os)]
-      }
+      o <- shuffle_choice(metainfo$solution[[i]], metainfo$shuffle, metainfo$clozetype[i], metainfo$file)
       questionlist[[i]] <- questionlist[[i]][o]
-      solutionlist[[i]] <- solutionlist[[i]][o]
+      if(ssol) solutionlist[[i]] <- solutionlist[[i]][o]
       metainfo$solution[[i]] <- metainfo$solution[[i]][o]
     }
-    questionlist <- unlist(questionlist)
-    solutionlist <- unlist(solutionlist)
+    questionlist <- as.vector(unlist(questionlist))
+    if(ssol) solutionlist <- as.vector(unlist(solutionlist))
     metainfo$string <- paste(metainfo$name, ": ", paste(sapply(metainfo$solution, paste, collapse = ", "), collapse = " | "), sep = "")
   }
 
@@ -134,4 +106,28 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
     solutionlist = solutionlist,
     metainfo = metainfo
   )
+}
+
+shuffle_choice <- function(solution, shuffle, type = "mchoice", file = NULL) {
+  len <- length(solution)
+  o <- sample(len)
+  if(is.numeric(shuffle)) {
+    ## subsample the choices: take the first TRUE and FALSE (if any)
+    ## and then the first remaining ones (only FALSE ones for schoice)
+    ns <- min(c(len, shuffle))
+    os <- c(
+      if(any(solution)) which.max(solution[o]),
+      if(any(!solution)) which.max(!solution[o])
+    )
+    nos <- if(type == "mchoice") {
+      seq_along(o)[-os]
+    } else {
+      seq_along(o)[-unique(c(os, which(solution[o])))]
+    }
+    if(ns > 2L) os <- c(os, nos[1L:min(c(ns - length(os), length(nos)))])
+    o <- o[sample(os)]
+    if(length(o) < shuffle) warning(sprintf("%s shuffled answers requested, only %s available%s",
+      shuffle, length(o), if(is.null(file)) "" else sprintf(" in '%s'", file)))
+  }
+  return(o)
 }
