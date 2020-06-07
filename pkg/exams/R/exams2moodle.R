@@ -40,8 +40,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
         moodlequestion[[i]]$eval <- list("partial" = TRUE, "rule" = rule)
       if(is.list(moodlequestion[[i]]$eval)) {
         if(!moodlequestion[[i]]$eval$partial) stop("Moodle can only process partial credits!")
-        if(i == "cloze" & is.null(moodlequestion[[i]]$eval$rule))
-          moodlequestion[[i]]$eval$rule <- "none"
       }
       moodlequestion[[i]] <- do.call("make_question_moodle", moodlequestion[[i]])
     }
@@ -215,7 +213,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 ## Moodle question constructor function (originally for Moodle 2.3)
 make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
-  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = "MULTICHOICE",
+  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL,
   truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
   essay = NULL)
@@ -224,13 +222,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
-
-    ## choice policy
-    eval <- if(!all(names(exams_eval()) %in% names(eval))) {
-      if(x$metainfo$type == "cloze" & is.null(eval$rule))
-        eval$rule <- "none"
-      do.call("exams_eval", eval)
-    } else eval
 
     ## match question type
     type <- switch(x$metainfo$type,
@@ -302,6 +293,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         paste('<answernumbering>', answernumbering, '</answernumbering>', sep = '')
       )
 
+      ## evaluation policy
+      if(!("pointvec" %in% names(eval))) eval <- do.call("exams_eval", eval)
       frac <- as.integer(x$metainfo$solution)
       pv <- eval$pointvec(paste(frac, sep = "", collapse = ""))
       pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
@@ -394,7 +387,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     if(type == "cloze") {
       if(!all(points2 == points)) {
         if(any((points %% 1) > 0))
-          warning("non whole-number points, please check points in Moodle!")
+          warning("non-integer points, please check points in Moodle")
       }
 
       ## how many questions
@@ -461,29 +454,60 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       qtext <- NULL; inum <- 1
       for(i in 1:n) {
         ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
+	if(any(grepl("}", ql, fixed = TRUE))) {
+	  ## due to "{1:TYPE:...}" markup in cloze questions it is necessary
+	  ## to escape closing curly brackets in the questionlist
+	  ql <- gsub("}", "\\}", ql, fixed = TRUE)
+	}
         k <- length(ql)
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
+	  if(is.null(cloze_mchoice_display)) {
+	    ## default display options:
+	    ## - MULTIRESPONSE for mchoice items
+	    ## - MULTICHOICE_V for schoice items with math markup \(...\) which isn't supported in drop-down menus
+	    ## - MULTICHOICE for all other schoice items
+	    cloze_mchoice_display <- if(x$metainfo$clozetype[i] == "mchoice") {
+	      "MULTIRESPONSE"
+	    } else if(any(grepl("\\(", ql, fixed = TRUE) & grepl("\\)", ql, fixed = TRUE))) {
+	      "MULTICHOICE_V"
+	    } else {
+	      "MULTICHOICE"
+	    }
+	  }
+	  ## FIXME: Warn if the selected display option cannot work? (e.g., mchoice or math?)
           tmp <- paste('{', points2[i], ':', cloze_mchoice_display, ':', sep = '')
 
+          ## set up Moodle percent fractions for correct and incorrect items
+	  ## -> use "=" instead of "%...%" for correct items if they sum up to 100%
           frac <- solution[[i]]
-          if(length(frac) < 2)
-            frac <- c(frac, !frac)
+          if(length(frac) < 2) frac <- c(frac, !frac)
           frac2 <- frac
-          pv <- eval$pointvec(frac) ## FIXME: this passes correct as a logical rather as a character, is this intended?
+	  eval_i <- eval
+          if(!("pointvec" %in% names(eval_i))) {
+	    if(is.null(eval_i$rule)) eval_i$rule <- "none"
+            eval_i <- do.call("exams_eval", eval_i)
+          }
+          pv <- eval_i$pointvec(frac) ## FIXME: this passes correct as a logical rather as a character, is this intended?
           frac[frac2] <- pv["pos"]
           frac[!frac2] <- pv["neg"]
           p <- moodlePercent(frac)
+          if(isTRUE(all.equal(100, sum(as.numeric(p[frac2])), tol = 1e-5))) {
+	    p <- paste0("%", p, "%")
+            p[frac2] <- "="
+	    if(all(p[!frac2] == "%0%")) p[!frac2] <- ""
+	  } else {
+	    p <- paste0("%", p, "%")
+	  }
 
           if(k < 2) {
             tmp <- paste(ql, tmp)
-            p <- paste('%', p, '%', sep = '')
             p[2] <- paste('~', p[2], sep = '')
             ql <- paste(p, truefalse[rev(frac2 + 1)], sep = '', collapse = '')
           } else {
             ql2 <- NULL
             for(j in 1:k)
-              ql2 <- paste(ql2, if(j > 1) '~' else NULL, paste('%',  p[j], '%', sep = ''), ql[j], sep = '')
+              ql2 <- paste(ql2, if(j > 1) '~' else NULL, p[j], ql[j], sep = '')
             ql <- ql2
           }
           tmp <- paste(tmp, ql, sep = '')

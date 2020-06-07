@@ -32,6 +32,21 @@
     This is because with more than one attempt participants could otherwise
     copy the solution shown after an incorrect first attempt.
 
+* Several extensions for `cloze` questions in `exams2moodle()`:
+
+  - `mchoice` elements in `cloze` questions are now properly supported.
+    By default they are shown as `MULTIRESPONSE` checkboxes and employ
+    Moodle's default evaluation strategy where each incorrect box eliminates
+    one correct box. A different evaluation strategy can, in principle, be
+    chosen but Moodle does not process all negative points correctly.
+  - `schoice` elements in `cloze` questions are still rendered as
+    `MULTICHOICE` drop-down menus unless they contain math markup.
+    As this is not rendered by Moodle in drop-down menus, a `MULTICHOICE_V`
+    column of radio buttons is used in this case.
+  - If choice items contained closing curly brackets, these would typically
+    corrupt Moodle's embedded answers for `cloze` questions which relies on
+    curly brackets. Hence, these are properly escaped now.
+
 * Added new interface `exams2kahoot()` that can export sufficiently simple
   single-choice and multiple-choice exercises to an Excel sheet via
   `openxlsx::write.xlsx()` that can be imported by the game-based learning
