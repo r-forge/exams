@@ -69,11 +69,12 @@
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 
-* Warnings in read_exercise() have been improved. In particular, it is now
-  checked whether the question list contains duplicated items for single-choice
-  and multiple-choice exercises.
+* Improvements in `read_exercise()`: `exshuffle` now works for `cloze` questions
+  even if no `solution list` is provided. Generally, warnings have been improved.
+  In particular, it is now checked whether the question list contains duplicated
+  items for single-choice and multiple-choice exercises.
 
-* Bug fix in exams2blackboard() when using shuffle = TRUE which used to lead
+* Bug fix in `exams2blackboard()` when using shuffle = TRUE which used to lead
   to a missing closing bracket.
 
 
