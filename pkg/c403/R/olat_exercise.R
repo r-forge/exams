@@ -44,7 +44,7 @@ olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
     ix <- cbind(..1, 1L:length(x[[1L]]))
   } else {
     ## all questions
-    qu <- t(sapply(x, function(y) sapply(y, function(z)
+    qu <- do.call("rbind", lapply(x, function(y) sapply(y, function(z)
       paste(c(z$question, unlist(z$questionlist)), collapse = " "))))
 
     ## determine index of matching questions
