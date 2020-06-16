@@ -2,7 +2,8 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "UTF-8", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
-  texengine = "pdflatex", verbose = FALSE, points = NULL, seed = NULL, ...)
+  texengine = "pdflatex", verbose = FALSE, points = NULL, seed = NULL,
+  attachfile = FALSE, ...)
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -26,7 +27,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
 
   ## pandoc (if necessary) as default transformer
-  if(is.null(transform)) transform <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE)
+  if(is.null(transform)) transform <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE, attachfile = attachfile)
 
   ## create PDF write with custom options
   if(!is.null(texdir)) {

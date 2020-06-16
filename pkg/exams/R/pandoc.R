@@ -1,5 +1,5 @@
 ## helper transformator function (FIXME: which output formats can handle base64?)
-make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex", ...)
+make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex", attachfile = FALSE, ...)
 {
   ## base64 checks
   if(is.null(base64)) base64 <- c("bmp", "gif", "jpeg", "jpg", "png", "svg")
@@ -100,6 +100,19 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
         }
       }
       attr(x$supplements, "dir") <- sdir
+    }
+    
+    ## optionally use \attachfile{...}{...} instead of \url{...} in LaTeX
+    if(to == "latex" && attachfile && length(sfiles <- dir(sdir))) {
+      sfiles <- intersect(sfiles, c(extract_latex(unlist(trex), "url"), extract_latex(unlist(trex), "href")))    
+      for(sf in sfiles) {
+    	for(i in seq_along(trex)) {
+  	  if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
+            trex[[i]][j] <- gsub(sprintf("\\url{%s}", sf), sprintf("\\textattachfile{%s}{\\tt %s}", sf, sf), trex[[i]][j], fixed = TRUE)
+            trex[[i]][j] <- gsub(sprintf("\\href{%s}{", sf), sprintf("\\textattachfile{%s}{\\tt ", sf), trex[[i]][j], fixed = TRUE)
+	  }
+	}
+      }
     }
 
     ## replace .tex chunks with pandoc output
