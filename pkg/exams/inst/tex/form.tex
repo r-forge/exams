@@ -4,13 +4,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage{a4wide,color,verbatim,Sweave,url,xargs,amsmath,booktabs,longtable,eurosym}
 
-%% two-column layout for exercise form
-\usepackage{multicol}
+%%% %% optionally: two-column layout for exercise form
+%%% \usepackage{multicol}
 
 %% embed supplementary data files etc.
 \usepackage{attachfile}
 \attachfilesetup{color=0.5 0 0}
 
+%% support PDF forms
 \usepackage{hyperref}
 
 %% new environments
@@ -56,8 +57,8 @@
   \if #8- \else \CheckBox[name=ch, width=1em]{\roman{enumiii}.} \stepcounter{enumiii} \fi%
   \if #9- \else \CheckBox[name=ci, width=1em]{\roman{enumiii}.}  \fi%
 }
-\newcommand{\exnum}[9]{\TextField[width=4cm]{}}
-\newcommand{\exstring}[1]{\TextField[width=4cm]{}}
+\newcommand{\exnum}[9]{\TextField[name=num, width=4cm]{}}
+\newcommand{\exstring}[1]{\TextField[name=string, width=4cm]{}}
 
 %% new commands
 \makeatletter
@@ -96,11 +97,11 @@
 
 \vspace*{1cm}
 
-\begin{multicols}{2}
+%%% \begin{multicols}{2}
 
 %% \exinput{questionnaire}
 
-\end{multicols}
+%%% \end{multicols}
 
 \Submit{Submit} ~~ \Reset{Clear}
 
