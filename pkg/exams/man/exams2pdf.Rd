@@ -13,7 +13,8 @@
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "UTF-8", quiet = TRUE, transform = NULL,
     edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL, texengine = "pdflatex",
-    verbose = FALSE, points = NULL, seed = NULL, \dots)
+    verbose = FALSE, points = NULL, seed = NULL, 
+    attachfile = FALSE, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, encoding = "UTF-8",
@@ -76,6 +77,10 @@
     the number of rows must be \code{n} and the number of columns must
     correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
     is sampled.}
+  \item{attachfile}{logical. Should the LaTeX commands \code{url} and \code{href}
+    be replaced by \code{attachfile} commends when used for supplementary files?
+    This enables embedding these supplementary files directly into the PDF when
+    \code{template} loads the \code{attachfile} LaTeX package.}
   \item{\dots}{further arguments passed on to \code{\link[exams]{xweave}}.}
 }
 

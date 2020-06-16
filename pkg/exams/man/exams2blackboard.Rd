@@ -23,7 +23,7 @@
     tinstruction = "Give an answer to each question.",
     maxattempts = 1, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    base64 = FALSE, converter = NULL, seed = NULL,
+    base64 = FALSE, converter = NULL, mathjax = NULL, seed = NULL,
     \dots)
 
   make_itembody_blackboard(rtiming = FALSE, shuffle = FALSE,
@@ -32,7 +32,7 @@
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    qti12 = FALSE)
+    qti12 = FALSE, mathjax = FALSE)
 }
 
 \arguments{
@@ -96,6 +96,12 @@
     the number of rows must be \code{n} and the number of columns must
     correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
     is sampled.}
+  \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
+    be included for rendering mathematical formulas? By default \code{mathjax = FALSE}
+    unless \code{converter = "pandoc-mathjax"} is used. However, also for the default
+    converters (producing MathML output) \code{mathjax = TRUE} can be used, enabling
+    rendering of mathematical equations in browsers without native MathML support
+    (like Chrome/Chromium).}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}
