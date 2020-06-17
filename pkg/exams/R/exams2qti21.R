@@ -152,9 +152,20 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     sdescription[sdescription != ""]
   )
 
+  ## enable different maxattempts per sections (simply added before section description)
+  if(length(maxattempts) > 1L) {
+    maxattempts <- rep(maxattempts, length.out = nq)
+    sdescription <- paste0(
+      sprintf('<itemSessionControl maxAttempts="%s"/>', round(as.numeric(maxattempts))),
+      "\n",
+      sdescription
+    )
+  }
+
   ## points setting
-  if(!is.null(points))
+  if(!is.null(points)) {
     points <- rep(points, length.out = nq)
+  }
 
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(tdir, name))
@@ -324,7 +335,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   manifest_xml <- gsub("##AssessmentDescription##", adescription, manifest_xml, fixed = TRUE)
   manifest_xml <- gsub("##Date##", format(Sys.time(), "%Y-%m-%dT%H:%M:%S"), manifest_xml, fixed = TRUE)
 
-  if(maxattempts != 1L && solutionswitch) {
+  ## warn if solutions could be copied by participants
+  if(any(maxattempts != 1L) && solutionswitch) {
     warning("if solutionswitch is TRUE, maxattempts should typically be 1 so that the solution cannot be copied by participants")
   }
 
@@ -335,7 +347,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts)), assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts[1L])), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##ShowSolution##', if(solutionswitch) 'true' else 'false', assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##NavigationMode##', match.arg(navigation, c("nonlinear", "linear")), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##AllowComment##', if(allowcomment) 'true' else 'false', assessment_xml, fixed = TRUE)

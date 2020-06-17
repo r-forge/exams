@@ -161,6 +161,17 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## create section ids
   sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
 
+  ## convenience function for creating integer XML tags
+  make_integer_tag <- function(x, type, default = 1) {
+    if(is.null(x)) x <- Inf
+    x <- round(as.numeric(x))
+    if(x < default) {
+      warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
+      x <- default
+    }
+    if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
+  }
+
   ## create section/item titles and section description
   if(is.null(stitle)) stitle <- ""
   stitle <- rep(stitle, length.out = nq)
@@ -168,6 +179,9 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(adescription)) adescription <- ""
   if(is.null(sdescription)) sdescription <- ""
   sdescription <- rep(sdescription, length.out = nq)
+
+  ## enable different maxattempts per sections
+  maxattempts <- rep(maxattempts, length.out = nq)
 
   ## points setting
   if(!is.null(points)) {
@@ -317,6 +331,15 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     ## close the section
     sec_xml <- c(sec_xml, "", "</section>")
+
+    ## process maximal number of attempts
+    maxattempts_tag <- make_integer_tag(nmax0 <- maxattempts[j], type = "maxattempts", default = 1)
+    sec_xml <- gsub("##MaxAttempts##", maxattempts_tag, sec_xml, fixed = TRUE)
+  }
+
+  ## warn if solutions could be copied by participants
+  if(any(maxattempts != 1L) && solutionswitch) {
+    warning("if solutionswitch is TRUE, maxattempts should typically be 1 so that the solution cannot be copied by participants")
   }
 
   ## process duration to P0Y0M0DT0H1M35S format
@@ -336,17 +359,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     dur0 <- duration <- ""
   }
 
-  ## process cutvalue/maximal number of attempts
-  make_integer_tag <- function(x, type, default = 1) {
-    if(is.null(x)) x <- Inf
-    x <- round(as.numeric(x))
-    if(x < default) {
-      warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
-      x <- default
-    }
-    if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
-  }
-  maxattempts <- make_integer_tag(nmax0 <- maxattempts, type = "maxattempts", default = 1)
+  ## process cutvalue
   cutvalue <- make_integer_tag(cutvalue, type = "cutvalue", default = 0)
 
   ## finalize the test xml file, insert ids/titles, sections, and further control details
@@ -356,7 +369,6 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   xml <- gsub("##TestTitle##", name, xml, fixed = TRUE)
   xml <- gsub("##TestDuration##", if(canvas) dur0 else duration, xml, fixed = TRUE)
   xml <- gsub("##TestSections##", paste(sec_xml, collapse = "\n"), xml, fixed = TRUE)
-  xml <- gsub("##MaxAttempts##", maxattempts, xml, fixed = TRUE)
   xml <- gsub("##CutValue##", cutvalue, xml, fixed = TRUE)
   xml <- gsub("##FeedbackSwitch##", if(feedbackswitch) "Yes" else "No", xml, fixed = TRUE)
   xml <- gsub("##HintSwitch##",     if(hintswitch)     "Yes" else "No", xml, fixed = TRUE)
