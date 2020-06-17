@@ -108,8 +108,9 @@
   \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
   \item{sdescription}{character. Vector of descriptions for each section, omitted if empty
     (or \code{NULL} or \code{FALSE}).}
-  \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
-    \code{Inf}.}
+  \item{maxattempts}{integer. The maximum attempts for one question. This may also be a vector
+    so that the maximum number of attempts varies across questions. A value of \code{Inf} or
+    \code{0} signals that the attempts per question are not limited.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution

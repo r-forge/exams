@@ -31,6 +31,8 @@
   - If `solutionswitch = TRUE` and `maxattempts != 1` a warning is issued now.
     This is because with more than one attempt participants could otherwise
     copy the solution shown after an incorrect first attempt.
+  - Also `maxattempts` can now be a vector so that different numbers of
+    attempts per question are allowed for different sections/questions.
 
 * Several extensions for `cloze` questions in `exams2moodle()`:
 
