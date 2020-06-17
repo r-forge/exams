@@ -105,9 +105,9 @@ round2 <- function (x, digits = 0)
 fmt <- function(x, digits = 2L, zeros = digits < 4L, ...) {
   x <- round2(x, digits = digits)
   if(zeros) {
-    format(x, nsmall = digits, scientific = FALSE, digits = 12, ...)
+    format(x, nsmall = digits, scientific = FALSE, digits = 12L, ...)
   } else {
-    format(x, scientific = FALSE, digits = 12, ...)
+    format(x, scientific = FALSE, digits = 12L, ...)
   }
 }
 
