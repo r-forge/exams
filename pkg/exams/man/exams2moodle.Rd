@@ -91,7 +91,8 @@
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will
     force Moodle to additionally shuffle the provided answer list.}
   \item{penalty}{numeric. Specifies the penalty tag for a question.}
-  \item{answernumbering}{character. Specifies how choice questions should be numbered.}
+  \item{answernumbering}{character. Specifies how choice questions should be numbered,
+    allowed values are: \code{"abc"} (default), \code{"ABCD"}, \code{"123"} or \code{"none"}.}
   \item{usecase}{logical. Should string questions be case sensitive or not.}
   \item{cloze_mchoice_display}{character. In \code{cloze} type questions, the user may set the
     visual appearance of choice questions. If \code{NULL} (default),
