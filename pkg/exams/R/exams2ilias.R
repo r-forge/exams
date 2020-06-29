@@ -80,19 +80,20 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
       '<ShowTaxonomies>0</ShowTaxonomies>',
       '<NavTaxonomy>0</NavTaxonomy>',
       '<SkillService>0</SkillService>',
-      '</Settings>',
-      '<PageObject>'
+      '</Settings>'
     )
     for(i in 1:length(rval)) {
       for(j in 1:length(rval[[i]])) {
         xml <- c(xml,
+          '<PageObject>',
           '<PageContent>',
           paste0('<Question QRef="', rval[[i]][[j]]$metainfo$id, '"/>'),
-          '</PageContent>'
+          '</PageContent>',
+          '</PageObject>'
         )
       }
     }
-    xml <- c(xml, '</PageObject>', '</ContentObject>')
+    xml <- c(xml, '</ContentObject>')
     writeLines(xml, file.path(name, paste0(name, "_qpl.xml")))
 
     file.remove(zipfile)
