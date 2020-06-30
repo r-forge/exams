@@ -282,22 +282,22 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## insert an item id
       ibody <- gsub("##ItemId##", iname, ibody, fixed = TRUE)
 
-      ## insert question type if needed (Ilias)
-      Ilias <- FALSE
+      ## insert question type if needed (currently for ilias)
       if(any(grepl("##QuestionType##", ibody, fixed = TRUE))) {
         type2 <- switch(type,
           "schoice" = "SINGLE CHOICE QUESTION",
           "mchoice" = "MULTIPLE CHOICE QUESTION",
           "num" = "NUMERIC QUESTION",
-          "cloze" = "CLOZE QUESTION"
+          "cloze" = "CLOZE QUESTION",
+	  "string" = "SHORTANSWER QUESTION" ##FIXME: Is this correct? Distinguish short answers from text fields?
         )
         ibody <- gsub("##QuestionType##", type2, ibody, fixed = TRUE)
-        Ilias <- TRUE
       }
 
       ## insert an item title
+      ## FIXME: ilias is special cased: no distinction between internal label (metainfo$name) and display for participants (ititle)
       ibody <- gsub("##ItemTitle##",
-        if(is.null(ititle) | Ilias) exm[[i]][[j]]$metainfo$name else ititle[j],
+        if(is.null(ititle) | flavor == "ilias") exm[[i]][[j]]$metainfo$name else ititle[j],
         ibody, fixed = TRUE)
 
       ## copy supplements
