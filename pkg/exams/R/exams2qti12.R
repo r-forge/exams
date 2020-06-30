@@ -13,10 +13,10 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, xmlcollapse = FALSE,
-  flavor = c("plain", "openolat", "canvas"), ...)
+  flavor = c("plain", "openolat", "canvas", "ilias"), ...)
 {
   ## which qti flavor
-  flavor <- match.arg(flavor, c("plain", "openolat", "canvas"))
+  flavor <- match.arg(flavor, c("plain", "openolat", "canvas", "ilias"))
 
   ## Canvas?
   canvas <- flavor == "canvas"
@@ -78,8 +78,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         itembody[[i]]$eval <- eval
       if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
         itembody[[i]]$eval$rule <- "none"
-      if(canvas)
-        itembody[[i]]$flavor <- "canvas"
+      itembody[[i]]$flavor <- flavor
       itembody[[i]] <- do.call("make_itembody_qti12", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -524,7 +523,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
   flavor = "plain")
 {
   function(x) {
-    flavor <- match.arg(flavor, c("plain", "canvas"))
+    flavor <- match.arg(flavor, c("plain", "openolat", "canvas", "ilias"))
     canvas <- flavor == "canvas"
     if(canvas)
       fix_num <- FALSE
@@ -538,13 +537,23 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     } else x$metainfo$solution
     n <- length(solution)
 
+    ## turn questionlist from a vector into a list
     questionlist <- if(!is.list(x$questionlist)) {
       if(x$metainfo$type == "cloze") {
         g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
         split(x$questionlist, g)
       } else list(x$questionlist)
-    } else x$questionlist
-    if(length(questionlist) < 1) questionlist <- NULL
+    } else {
+      x$questionlist
+    }
+    if(length(questionlist) < 1) {
+      questionlist <- NULL
+    } else if(flavor == "ilias") {
+      ## add <span> for ILIAS to keep it from adding line breaks
+      questionlist <- lapply(questionlist, function(q) {
+        ifelse(grepl("<span", q, fixed = TRUE), q, paste0("<span>", q, "</span>"))
+      })
+    }
 
     tol <- if(!is.list(x$metainfo$tolerance)) {
       if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)

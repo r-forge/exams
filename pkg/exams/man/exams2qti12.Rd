@@ -28,7 +28,7 @@
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, xmlcollapse = FALSE,
-    flavor = c("plain", "openolat", "canvas"), \dots)
+    flavor = c("plain", "openolat", "canvas", "ilias"), \dots)
 
   exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
@@ -159,8 +159,9 @@
   \item{flavor}{character. Which QTI 1.2 \dQuote{flavor} should be used? Some learning
     management systems require that the QTI XML tags are used in a rather specific
     and idiosyncratic way. Typically, users should not set this argument directly but
-    use the convenience interfaces \code{\link{exams2canvas}} or \code{\link{exams2openolat}}
-    instead (which use the \code{flavor} argument internally along with further customizations).}
+    use the convenience interfaces \code{\link{exams2openolat}}, \code{\link{exams2canvas}}, 
+    or \code{\link{exams2ilias}} instead (which use the \code{flavor} argument internally
+    along with further customizations).}
   \item{\dots}{further arguments passed on to \code{make_exercise_transform_html}.}
 }
 

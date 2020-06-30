@@ -50,7 +50,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     adescription = adescription, sdescription = sdescription, 
     maxattempts = maxattempts, cutvalue = cutvalue, solutionswitch = solutionswitch, zip = zip,
     points = points, eval = eval, converter = converter, xmlcollapse = xmlcollapse,
-    base64 = base64, ...)
+    base64 = base64, flavor = "ilias", ...)
 
   ## fix-up zipping: base directory name must be the same as .xml name
   if(zip) {
