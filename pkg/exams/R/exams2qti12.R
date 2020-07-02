@@ -690,9 +690,22 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
                 '<material>', '<matbreak/>', '</material>'
               )
             } else NULL,
-            paste(if(type[i] == "string") '<response_str ident="' else {
-              if(!tolerance | fix_num) '<response_str ident="' else '<response_num ident="'
-              }, ids[[i]]$response, '" rcardinality="Single"', if(!(!tolerance | fix_num)) ' numtype="Decimal"' else NULL, '>', sep = ''),
+            paste(
+	      if(type[i] == "string") {
+	        '<response_str ident="'
+	      } else if(!tolerance | fix_num) {
+	        '<response_str ident="'
+	      } else {
+	        '<response_num ident="'
+              },
+	      ids[[i]]$response,
+	      if(flavor == "ilias" && !is.na(maxchars[[i]][3])) {
+	        '" rcardinality="Ordered"' ## NOTE:ILIAS requires Ordered for displaying a text box (rather than a single line)
+	       } else {
+	        '" rcardinality="Single"'
+	       },
+	      if(!(!tolerance | fix_num)) ' numtype="Decimal"' else NULL,
+	      '>', sep = ''),
             paste('<render_fib', if(!(!tolerance | fix_num)) ' fibtype="Decimal"' else NULL,
               if(!is.na(maxchars[[i]][1])) {
                 paste(' maxchars="', max(c(nchar(soltext), maxchars[[i]][1])), '"', sep = '')
