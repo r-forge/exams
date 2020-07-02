@@ -289,7 +289,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
           "mchoice" = "MULTIPLE CHOICE QUESTION",
           "num" = "NUMERIC QUESTION",
           "cloze" = "CLOZE QUESTION",
-	  "string" = "SHORTANSWER QUESTION" ##FIXME: Is this correct? Distinguish short answers from text fields?
+	  "string" = "TEXT QUESTION" ##FIXME: Is this correct? Distinguish short answers from text fields?
         )
         ibody <- gsub("##QuestionType##", type2, ibody, fixed = TRUE)
       }
@@ -702,7 +702,11 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               } else NULL,
               if(!is.na(maxchars[[i]][3])) {
                 paste(' columns="', maxchars[[i]][3], '"', sep = '')
-              } else NULL, '>', sep = ''),
+              } else NULL,
+              if(flavor == "ilias" && !is.na(maxchars[[i]][3])) {
+                ' fibtype="String" prompt="Box"'
+              } else NULL,	      
+	      '>', sep = ''),
             '<flow_label class="Block">',
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
             '</flow_label>',
