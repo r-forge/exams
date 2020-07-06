@@ -305,7 +305,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       if(encoding != "") tmpl <- base::iconv(tmpl, to = encoding)
       writeLines(tmpl, con = con)
       base::close(con)
-      if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex")) {
+      if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex", quietly = TRUE)) {
         tinytex::latexmk(out_tex[j], engine = texengine)
       } else {
         texi2dvi(out_tex[j], pdf = TRUE, clean = TRUE, quiet = quiet)
