@@ -454,14 +454,14 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       qtext <- NULL; inum <- 1
       for(i in 1:n) {
         ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
-	if(any(grepl("}", ql, fixed = TRUE))) {
-	  ## due to "{1:TYPE:...}" markup in cloze questions it is necessary
-	  ## to escape closing curly brackets in the questionlist
-	  ql <- gsub("}", "\\}", ql, fixed = TRUE)
-	}
         k <- length(ql)
         tmp <- NULL
         if(grepl("choice", x$metainfo$clozetype[i])) {
+          if(any(grepl("}", ql, fixed = TRUE))) {
+            ## due to "{1:TYPE:...}" markup in cloze questions it is necessary
+            ## to escape closing curly brackets in the questionlist
+            ql <- gsub("}", "\\}", ql, fixed = TRUE)
+          }
 	  if(is.null(cloze_mchoice_display)) {
 	    ## default display options:
 	    ## - MULTIRESPONSE for mchoice items
