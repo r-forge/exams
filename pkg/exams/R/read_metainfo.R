@@ -12,12 +12,12 @@ extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markd
     sublines <- grep("^----", x)
     alllines <- sort(c(seclines, sublines))
     ## match environment names
-    x[alllines - 1L] <- tolower(x[alllines - 1L])
-    x[alllines - 1L] <- gsub("-", "", x[alllines - 1L], fixed = TRUE)
-    x[alllines - 1L] <- gsub("questionlist", "answerlist", x[alllines - 1L], fixed = TRUE)
-    x[alllines - 1L] <- gsub("solutionlist", "answerlist", x[alllines - 1L], fixed = TRUE)
+    x_alllines_m1 <- tolower(x[alllines - 1L])
+    x_alllines_m1 <- gsub("-", "", x_alllines_m1, fixed = TRUE)
+    x_alllines_m1 <- gsub("questionlist", "answerlist", x_alllines_m1, fixed = TRUE)
+    x_alllines_m1 <- gsub("solutionlist", "answerlist", x_alllines_m1, fixed = TRUE)
     ## find desired environment
-    wi <- which(env == x[alllines - 1L])
+    wi <- which(env == x_alllines_m1)
     if(length(wi) < 1L) return(NULL)
 
     ## begin/end

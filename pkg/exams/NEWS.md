@@ -79,6 +79,10 @@
 * Bug fix in `exams2blackboard()` when using shuffle = TRUE which used to lead
   to a missing closing bracket.
 
+* Bug fix in `extract_environment()` underlying `read_exercise()`: When Markdown
+  tables were formatted with just `---` markup (rather that `|---|`) some lines
+  in the table were erroneously forced to lower case (reported by Ulrike Groemping).
+
 
 # exams 2.3-6
 
