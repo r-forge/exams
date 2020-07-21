@@ -58,12 +58,18 @@ chooseTabUI <- function(id){
              fluidRow(
                column(4),
                column(5,
-                      tags$head(
-                        tags$style(type="text/css", "#inline label{ display: table-cell; text-align: center; vertical-align: middle; } 
-                                  #inline .form-group { display: table-row;}")
-                      ),
-                      tags$div(id = "inline", textInput(inputId = ns("examName"), label = "Name of the exam:"))
-                      #textInput(ns("examName"), label = "Name of the exam: ")
+                      selectInput(ns("examNameDropDown"), label = "Choose your Exam:", choices = c("make new exam")),
+                      
+                      conditionalPanel(condition = "input.examNameDropDown == 'make new exam'",
+                                       ns = ns,
+                                       tags$head(
+                                         tags$style(type="text/css", "#inline label{ display: table-cell; text-align: center; vertical-align: middle; } 
+                                                      #inline .form-group { display: table-row;}")
+                                       ),
+                                       tags$div(id = "inline", textInput(inputId = ns("examName"), label = "Name of the exam:"))
+                                       #textInput(ns("examName"), label = "Name of the exam: ")
+                                       )
+                      
                ),
                column(3,
                       actionButton(ns("saveExam"), label = "Save exam")
@@ -82,6 +88,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric()),
     listExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character()),
     numberExercises = 1,
+    examNames = c("make new exam"),
     randomNumbering = FALSE
   )
   
@@ -89,7 +96,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     reactVals$pathToTmpFolder = pathToFolder()
     reactVals$possibleExercises = possibleExerciseList()
     reactVals$listExamExercises = selectedExerciseList()
-    reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, reactVals$listExamExercises[,1:3])
+    #reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, reactVals$listExamExercises[,1:3])
     #reactVals$tmpExamExercises = reactVals$tmpExamExercises[!duplicated(reactVals$tmpExamExercises)]
   })
   
@@ -113,9 +120,70 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   })
   
   observeEvent(input$deleteExerciseFromList, {
-    rowNumbers = input$choosenExercisesTable_rows_selected
-    reactVals$tmpExamExercises = reactVals$tmpExamExercises[-rowNumbers, ]
-    reactVals$numberExercises = reactVals$numberExercises - length(rowNumbers)
+    rowNumbers = as.vector(input$choosenExercisesTable_rows_selected)
+    if(!is.null(rowNumbers)){
+      reactVals$tmpExamExercises = reactVals$tmpExamExercises[-rowNumbers, ]
+      reactVals$numberExercises = reactVals$numberExercises - length(rowNumbers)
+      tmpData = reactVals$tmpExamExercises
+      #print(rowNumbers)
+      #rowNumbers = rowNumbers[rowNumbers <= nrow(tmpData)]
+      #print(rowNumbers)
+      for(i in 1:length(rowNumbers)){
+        if(rowNumbers[i] <= nrow(tmpData)){
+          if(rowNumbers[i] == nrow(tmpData)){
+            tmpData[rowNumbers[i],3] = reactVals$numberExercises - 1
+            ## passt noch nicht :(
+          }
+          else if((rowNumbers[i] == 1) && (tmpData[rowNumbers[i]+1, 3] != 1)){
+            #print(tmpData$Number)
+            tmpData$Number = tmpData$Number - 1
+            #print(tmpData$Number)
+          }
+          else if(!((tmpData[rowNumbers[i], 3] == tmpData[rowNumbers[i]+1, 3]) || (tmpData[rowNumbers[i], 3] == tmpData[rowNumbers[i]-1, 3]))){
+            tmpData[seq(rowNumbers[i], nrow(tmpData)),3] = tmpData[seq(rowNumbers[i], nrow(tmpData)),3]-1
+          }
+        }
+      }
+      #print(reactVals$numberExercises)
+      reactVals$tmpExamExercises = tmpData
+    }
+  })
+  
+  observeEvent(input$saveExam, {
+    #req(input$examName)
+    if(input$examNameDropDown != "make new exam"){
+      #print(reactVals$listExamExercises$ExamName)
+      reactVals$listExamExercises = reactVals$listExamExercises[!(reactVals$listExamExercises$ExamName %in% input$examNameDropDown),]
+      ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
+      reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName))
+      #print(reactVals$listExamExercises)
+      #updateSelectInput(session, "examNameDropDown", selected = input$examNameDropDown)
+      print("case1")
+    }
+    else{
+      req(input$examName)
+      print("case2")
+      if(!(input$examName %in% reactVals$examNames)){
+        reactVals$examNames = c(reactVals$examNames, input$examName)
+        ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
+        reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName))
+        # reactVals$listExamExercises = rbind(reactVals$listExamExercises,
+        #                                     data.frame(Foldername = reactVals$tmpExamExercises[,1],
+        #                                                Filename = reactVals$tmpExamExercises[,2],
+        #                                                Number = reactVals$tmpExamExercises[,3],
+        #                                                ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises))))
+        
+        #print(reactVals$tmpExamExercises)
+        print(reactVals$listExamExercises)
+        #print(nrow(reactVals$listExamExercises))
+       
+        updateSelectInput(session, "examNameDropDown", choices = reactVals$examNames, selected = input$examName)
+        updateTextInput(session, "examName", value = "")
+      }
+      else{
+        showNotification("The name already exists. Please choose another name or select the Exam in the Drop Down List.",type = c("error"))
+      }
+    }
   })
   
   output$exerciseSelector <- renderDataTable({
