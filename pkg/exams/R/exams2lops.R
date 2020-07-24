@@ -33,7 +33,7 @@ make_exams_write_lops <- function(name = NULL, auto_scramble = TRUE, ...)
 
     dir.create(tdir <- tempfile())
     on.exit(unlink(tdir))
-    dir.create(test_dir <- file.path(tdir, name))
+    dir.create(test_dir <- file.path(file_path_as_absolute(tdir), name))
 
     ## start to write the exam.xml
     exam.xml <- c(

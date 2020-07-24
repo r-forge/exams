@@ -76,7 +76,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   test_id <- make_test_ids(type = "test")
 
   ## create the directory where the test is stored
-  dir.create(test_dir <- file.path(tdir, name))
+  dir.create(test_dir <- file.path(file_path_as_absolute(tdir), name))
 
   exsecs <- rep(NA, length = nq)
   if(!is.null(stitle)) {

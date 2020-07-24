@@ -194,7 +194,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## create the directory where the test is stored
-  dir.create(test_dir <- file.path(tdir, name))
+  dir.create(test_dir <- file.path(file_path_as_absolute(tdir), name))
 
   ## cycle through all exams and questions
   ## similar questions are combined in a section,

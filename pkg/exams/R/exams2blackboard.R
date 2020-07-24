@@ -141,7 +141,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     points <- rep(points, length.out = nq)
 
   ## create the directory where the test is stored
-  dir.create(test_dir <- file.path(tdir, name))
+  dir.create(test_dir <- file.path(file_path_as_absolute(tdir), name))
 
   ## get correct question type spec for blackboard
   ## FIXME: cloze items are not yet available for blackboard
