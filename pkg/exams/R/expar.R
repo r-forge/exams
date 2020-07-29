@@ -23,7 +23,7 @@ expar <- function(file, ...)
   ## new temporary file name
   hex <- function(x) format(as.hexmode(as.integer(x)), upper.case = TRUE)
   tfile <- unclass(Sys.time())
-  tfile <- c(hex(tfile), hex(1000 * (tfile - floor(tfile))))
+  tfile <- c(hex(tfile), hex(100000 * (tfile - floor(tfile))))
   tfile <- paste0(tools::file_path_sans_ext(basename(file)), "+", tfile[1], "+", tfile[2], ".", file_ext)
   tfile <- file.path(tempdir(), tfile) ## FIXME: tempdir() currently hard-coded
   tfile <- normalizePath(tfile, mustWork = FALSE)
