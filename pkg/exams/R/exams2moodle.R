@@ -522,8 +522,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
         if(x$metainfo$clozetype[i] == "string") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':SHORTANSWER:%100%', solution[[i]][j],
-              if(!usecase) paste('~%100%', tolower(solution[[i]][j]), sep = '') else NULL,
+            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':SHORTANSWER:%100%', gsub("}", "\\}", solution[[i]][j], fixed = TRUE),
+              if(!usecase) paste('~%100%', tolower(gsub("}", "\\}", solution[[i]][j], fixed = TRUE)), sep = '') else NULL,
               '}', sep = ''))
           }
         }

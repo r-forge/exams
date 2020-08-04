@@ -48,6 +48,8 @@
   - If choice items contained closing curly brackets, these would typically
     corrupt Moodle's embedded answers for `cloze` questions which relies on
     curly brackets. Hence, these are properly escaped now.
+  - Similarly closing curly brackets in the solutions to `string` items
+    (`SHORTANSWER`) needed to be properly escaped.
 
 * Added new interface `exams2kahoot()` that can export sufficiently simple
   single-choice and multiple-choice exercises to an Excel sheet via
