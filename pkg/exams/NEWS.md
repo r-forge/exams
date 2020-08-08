@@ -74,7 +74,7 @@
   the points per section/exercise are set correctly in the exported QTI code.
 
 * Improvements in `read_exercise()`: `exshuffle` now works for `cloze` questions
-  even if no `solution list` is provided. Generally, warnings have been improved.
+  even if no `solutionlist` is provided. Generally, warnings have been improved.
   In particular, it is now checked whether the question list contains duplicated
   items for single-choice and multiple-choice exercises.
 
