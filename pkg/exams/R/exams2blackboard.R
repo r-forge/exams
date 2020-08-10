@@ -823,8 +823,8 @@ fix_bb_pre <- function(x) {
   pre_start <- grep("<pre>", x, fixed = TRUE)
   pre_end <- grep("</pre>", x, fixed = TRUE)
   if(length(pre_start) > 0L) {
-    x[pre_start] <- gsub("<pre>", "<p><span style=\"font-family: courier new,courier;\">", x[pre_start], fixed = TRUE)
-    x[pre_end] <- gsub("</pre>", "</span></p>", x[pre_end], fixed = TRUE)
+    x[pre_start] <- gsub("<pre>", "<pre><code style=\"font-family: 'courier';\">", x[pre_start], fixed = TRUE)
+    x[pre_end] <- gsub("</pre>", "</code></pre>", x[pre_end], fixed = TRUE)
     for(i in seq_along(pre_start)) {
       x[(pre_start[i] + 1L):(pre_end[i] - 1L)] <- paste(x[(pre_start[i] + 1L):(pre_end[i] - 1L)], "<br/>", sep = "")
     }
