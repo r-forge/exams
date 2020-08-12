@@ -85,6 +85,11 @@
   tables were formatted with just `---` markup (rather that `|---|`) some lines
   in the table were erroneously forced to lower case (reported by Ulrike Groemping).
 
+* Interfaces `exams2html()`, `exams2pdf()`, and `exams2pandoc()` gained an argument
+  `exshuffle = NULL` which can be modified to overrule the `exshuffle` setting
+  within an exercise (if any). For example, setting `exams2xyz(..., exshuffle = FALSE)`
+  retains the full answerlist without any permutation.
+
 
 # exams 2.3-6
 

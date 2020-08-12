@@ -3,7 +3,8 @@ exams2pandoc <- function(file, n = 1L, nsamp = NULL, dir = ".",
   question = "Question", solution = "Solution",
   header = list(Date = Sys.Date()), inputs = NULL, options = NULL,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
-  edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, points = NULL, ...)
+  edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, points = NULL,
+  exshuffle = NULL, ...)
 {
   ## determine intermediate output format from template
   via <- switch(tolower(file_ext(template)),
@@ -27,9 +28,11 @@ exams2pandoc <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## generate xexams
   rval <- xexams(file, n = n, nsamp = nsamp,
-    driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
-      resolution = resolution, width = width, height = height, encoding = encoding),
-      read = NULL, transform = transform, write = pandocwrite),
+    driver = list(
+      sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg, resolution = resolution, width = width, height = height, encoding = encoding),
+      read = list(exshuffle = exshuffle),
+      transform = transform,
+      write = pandocwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
     points = points)
 

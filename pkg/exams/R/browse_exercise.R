@@ -107,7 +107,7 @@ browse_exercise <- function(file, dir = ".", template = "plain.html", name = "br
   rval <- xexams(file,
     driver = list(sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
       resolution = resolution, width = width, height = height, encoding = "UTF-8", envir = envir),
-      read = function(file) read_exercise(file, exshuffle = exshuffle),
+      read = list(exshuffle = exshuffle),
       transform = trafo,
       write = html_write),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed)

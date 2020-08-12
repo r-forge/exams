@@ -14,7 +14,7 @@
     control = NULL, encoding = "UTF-8", quiet = TRUE, transform = NULL,
     edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL, texengine = "pdflatex",
     verbose = FALSE, points = NULL, seed = NULL, 
-    attachfile = FALSE, \dots)
+    attachfile = FALSE, exshuffle = NULL, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
     header = list(Date = Sys.Date()), name = NULL, encoding = "UTF-8",
@@ -81,6 +81,10 @@
     be replaced by \code{attachfile} commends when used for supplementary files?
     This enables embedding these supplementary files directly into the PDF when
     \code{template} loads the \code{attachfile} LaTeX package.}
+  \item{exshuffle}{logical or integer. If the \code{exshuffle}
+    argument is non-\code{NULL} it is used to overrule the \code{exshuffle}
+    tag from the \code{file} (e.g., \code{exshuffle = FALSE} can be used
+    to keep all available answers without permutation).}
   \item{\dots}{further arguments passed on to \code{\link[exams]{xweave}}.}
 }
 

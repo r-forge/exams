@@ -3,7 +3,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, control = NULL, encoding = "UTF-8", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
   texengine = "pdflatex", verbose = FALSE, points = NULL, seed = NULL,
-  attachfile = FALSE, ...)
+  attachfile = FALSE, exshuffle = NULL, ...)
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -41,7 +41,9 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## generate xexams
   rval <- xexams(file, n = n, nsamp = nsamp,
     driver = list(sweave = list(quiet = quiet, encoding = encoding, ...),
-                  read = NULL, transform = transform, write = pdfwrite),
+                  read = list(exshuffle = exshuffle),
+		  transform = transform,
+		  write = pdfwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
     points = points, seed = seed)
 

@@ -15,7 +15,8 @@
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
     mathjax = NULL, resolution = 100, width = 4, height = 4, svg = FALSE,
-    encoding = "UTF-8", envir = NULL, converter = NULL, seed = NULL, \dots)
+    encoding = "UTF-8", envir = NULL, converter = NULL, seed = NULL,
+    exshuffle = NULL, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
     base64 = TRUE, \dots)
@@ -77,6 +78,10 @@
     the number of rows must be \code{n} and the number of columns must
     correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
     is sampled.}
+  \item{exshuffle}{logical or integer. If the \code{exshuffle}
+    argument is non-\code{NULL} it is used to overrule the \code{exshuffle}
+    tag from the \code{file} (e.g., \code{exshuffle = FALSE} can be used
+    to keep all available answers without permutation).}
 }
 
 \details{

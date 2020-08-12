@@ -14,7 +14,7 @@
     header = list(Date = Sys.Date()), inputs = NULL, options = NULL,
     quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
     encoding = "UTF-8", edir = NULL, tdir = NULL, sdir = NULL, 
-    verbose = FALSE, points = NULL, \dots)
+    verbose = FALSE, points = NULL, exshuffle = NULL, \dots)
 }
 
 \arguments{
@@ -67,6 +67,10 @@
     argument overules any exercise points that are provided within the \code{expoints} tags
     of the exercise files (if any). The vector of points supplied should either have
     length 1 or the number of exercises in the exam.}
+  \item{exshuffle}{logical or integer. If the \code{exshuffle}
+    argument is non-\code{NULL} it is used to overrule the \code{exshuffle}
+    tag from the \code{file} (e.g., \code{exshuffle = FALSE} can be used
+    to keep all available answers without permutation).}
   \item{\dots}{currently not used.}
 }
 

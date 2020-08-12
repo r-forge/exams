@@ -12,7 +12,12 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     driver_sweave_args <- driver$sweave
     driver$sweave <- function(f) do.call("xweave", c(list(file = f), driver_sweave_args))
   }
-  if(is.null(driver$read)) driver$read <- read_exercise
+  if(is.null(driver$read)) {
+    driver$read <- read_exercise
+  } else if(is.list(driver$read)) {
+    driver_read_args <- driver$read
+    driver$read <- function(f) do.call("read_exercise", c(list(file = f), driver_read_args))
+  }
   stopifnot(is.function(driver$sweave), is.function(driver$read),
     is.null(driver$transform) || is.function(driver$transform),
     is.null(driver$write) || is.function(driver$write))

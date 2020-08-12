@@ -29,7 +29,7 @@
   \item{exshuffle}{logical or integer. If the \code{exshuffle}
     argument is non-\code{NULL} it is used to overrule the \code{exshuffle}
     tag from the \code{file} (e.g., \code{exshuffle = FALSE} can be used
-    to inspect all available answers).}
+    to keep all available answers without permutation).}
 }
 
 \details{
