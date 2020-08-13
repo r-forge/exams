@@ -7,7 +7,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   converter <- match.arg(options[1L], c("ttm", "tth", "pandoc", "tex2image"))
   options <- options[-1L]
   options <- if(length(options) > 0L) {
-    paste0("--", options, collapse = " ")
+    paste0("--", options)
   } else {
     "--mathml"
   }

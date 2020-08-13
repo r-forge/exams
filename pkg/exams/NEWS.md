@@ -90,6 +90,11 @@
   within an exercise (if any). For example, setting `exams2xyz(..., exshuffle = FALSE)`
   retains the full answerlist without any permutation.
 
+* When using `pandoc` as the `converter` to HTML with multiple options, e.g.,
+  `converter = "pandoc-mathml-ascii"`, then the options were collapsed to a single
+  string whereas `rmarkdown::pandoc_convert()` expects them as a vector (for checking
+  them).
+
 
 # exams 2.3-6
 
