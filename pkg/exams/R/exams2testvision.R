@@ -650,7 +650,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
                 if(type[i] == "schoice") "1" else "0", '">', sep = '')
             for(j in seq_along(solution[[i]])) {
               txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
-                paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="textblock tvblock tvcss_1">', sep=''),
+                paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
                 paste(if(enumerate & !ans) {
                   paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                     if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
@@ -662,7 +662,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
             }
             txml <- c(txml, '</choiceInteraction>')
             } else {
-            txml <- c(paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', letters[i], '.', sep = ''),
+            txml <- c(paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', letters[i], '.', sep = ''),
             paste('<inlineChoiceInteraction class="multipleinput" id="', ids[[i]]$idcs, '" responseIdentifier="',
                 ids[[1]]$response, '" shuffle="', if(shuffle) 'true' else 'false', '" required="true">', sep = '')
                 )
@@ -704,7 +704,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
       if(type[i] == "num") {
         for(j in seq_along(solution[[i]])) {
           txml <- c(
-            if(x$metainfo$type == "cloze") paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
+            if(x$metainfo$type == "cloze") paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
               if(!is.null(questionlist[[i]][j])) {
                 paste(if(enumerate & n > 1 & !ans) {
                   paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
@@ -722,7 +722,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
         if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) {
           ## Essay type questions.
           txml <- c(
-             if(x$metainfo$type == "cloze") paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
+             if(x$metainfo$type == "cloze") paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
              if(!is.null(questionlist[[i]])) {
                 paste(if(enumerate & n > 1 & !ans) {
                   paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
@@ -745,7 +745,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
         } else {
           for(j in seq_along(solution[[i]])) {
             txml <- c(
-             if(x$metainfo$type == "cloze") paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
+             if(x$metainfo$type == "cloze") paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
                if(!is.null(questionlist[[i]][j])) {
                   paste(if(enumerate & n > 1 & !ans) {
                     paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
@@ -1043,7 +1043,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="FAILURE" outcomeIdentifier="FEEDBACK" showHide="show">', sep = ''),
-        paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="textblock tvblock tvcss_1">', sep=''),
+        paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
         xsolution, '</div>', '</div>',
         '</modalFeedback>'
       )
@@ -1053,7 +1053,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="ANSWER_CORRECT" outcomeIdentifier="FEEDBACK" showHide="show">', sep = ''),
-        paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="textblock tvblock tvcss_1">', sep=''),
+        paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
         xsolution, '</div>', '</div>',
         '</modalFeedback>'
       )
