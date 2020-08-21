@@ -243,7 +243,7 @@ exams2testvision <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       exm[[i]][[j]]$converter <- converter
 
-      ibody <- itembody[[type]](exm[[i]][[j]])
+      ibody <- fix_tvo_img(itembody[[type]](exm[[i]][[j]]))
 
       exm[[i]][[j]]$converter <- NULL
 
@@ -349,7 +349,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
-    dopbl <- x$converter %in% c("ttm", "tth")
+#    dopbl <- x$converter %in% c("ttm", "tth")
 
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
@@ -1015,7 +1015,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
 #      )
 
       ## create solution
-      xsolution <- x$solution
+      xsolution <- fix_tvo_img(x$solution)
       if(!is.null(x$solutionlist)) {
         if(!all(is.na(x$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
@@ -1043,7 +1043,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="FAILURE" outcomeIdentifier="FEEDBACK" showHide="show">', sep = ''),
-        paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
+        paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
         xsolution, '</div>', '</div>',
         '</modalFeedback>'
       )
@@ -1053,7 +1053,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="ANSWER_CORRECT" outcomeIdentifier="FEEDBACK" showHide="show">', sep = ''),
-        paste('<div id="textBlockId_', make_id(4), '" class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
+        paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
         xsolution, '</div>', '</div>',
         '</modalFeedback>'
       )
@@ -1153,5 +1153,18 @@ is_number1 <- function(x)
   x <- sapply(x, function(z) {
     suppressWarnings(!is.na(as.numeric(z[1])))
   })
+  return(x)
+}
+
+## fix the issue of TVO not allowing for a missing alternate text 'alt=' in img specifations
+fix_tvo_img <- function(x){
+  img_start <- grep("<img[^>]+>", x)
+    if(length(img_start) > 0L) {
+      for(i in img_start) {
+        if(!grepl("alt=", x[i])){
+          x[i] <- gsub("/>", "alt=\"image\"/>", x[i])
+        }
+      }
+    }
   return(x)
 }
