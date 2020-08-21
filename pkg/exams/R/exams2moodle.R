@@ -216,8 +216,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL,
   truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-  essay = NULL)
-
+  essay = NULL, numwidth = NULL, stringwidth = NULL)
 {
   function(x) {
     ## how many points?
@@ -415,39 +414,51 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
       ## optionally fix the num answer field width
       ## by supplying an additional wrong answer
-      numwidth <- if(is.null(x$metainfo$numwidth)) FALSE else TRUE
-      if(numwidth) {
-        nums <- NULL
-        for(i in 1:n) {
-          ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
-          k <- length(ql)
-          if(x$metainfo$clozetype[i] == "num") {
-            for(j in 1:k) {
-              nums <- rbind(nums,
-                c(solution[[i]][j] - max(tol[[i]]),
-                solution[[i]][j] + max(tol[[i]])))
-            }
-          }
+      if(is.null(numwidth)) numwidth <- x$metainfo$numwidth
+      if(is.null(numwidth)) numwidth <- FALSE
+      numcloze <- x$metainfo$clozetype == "num"
+      if(!identical(numwidth, FALSE) && any(numcloze)) {
+        ## all correct numeric solutions
+        nums <- unlist(x$metainfo$solution[numcloze])
+	## +/- corresponding tolerance
+	nums <- cbind(nums - unlist(tol[numcloze]), nums + unlist(tol[numcloze]))
+
+        ## formatted number (of a wrong solution to enforce the width)
+        fnum <- if(is.logical(numwidth)) {
+          format(as.numeric(nums))
+        } else if(is.character(numwidth)) {
+	  numwidth
+	} else {
+          paste(rep.int("9", as.integer(numwidth)), collapse = "")
         }
-        if(!is.null(nums)) {
-          if(is.logical(x$metainfo$numwidth)) {
-            fnums <- format(as.numeric(nums))
-          } else {
-            fnums <- if(!is.character(x$metainfo$numwidth)) {
-              paste(rep("1", length = as.integer(x$metainfo$numwidth)), sep = "", collapse = "")
-            } else x$metainfo$numwidth
-          }
-          num_w <- max(unlist(sapply(fnums, nchar)))
-          do <- TRUE
-          while(do) {
-            fnums <- make_id(num_w)
-            tolcheck <- NULL
-            for(i in 1:nrow(nums)) {
-              tolcheck <- c(tolcheck, fnums >= nums[i, 1] & fnums <= nums[i, 2])
-            }
-            do <- (fnums %in% nums) & any(tolcheck)
-          }
-        }
+	
+	## make sure that the formatted number is not within tolerance of any correct solution
+        fnum <- fnum[which.max(nchar(fnum))]
+	num_w <- nchar(fnum)
+	fnum <- as.integer(fnum)
+	while(any(fnum == nums) || any(fnum >= nums[, 1] & fnum <= nums[, 2])) {
+	  fnum <- make_id(num_w)
+	}
+      }
+      
+      ## analogously fix the string width
+      ## by supplying an additional wrong answer
+      if(is.null(stringwidth)) stringwidth <- x$metainfo$stringwidth
+      if(is.null(stringwidth)) stringwidth <- FALSE
+      stringcloze <- x$metainfo$clozetype == "string"
+      if(!identical(stringwidth, FALSE) && any(stringcloze)) {
+        strings <- unlist(x$metainfo$solution[stringcloze])
+	fstring <- if(is.logical(stringwidth)) {
+	  strings[which.max(nchar(strings))]
+	} else if(is.character(stringwidth)) {
+	  stringwidth
+	} else {
+	  paste(rep.int("Z", as.integer(stringwidth)), collapse = "")
+	}	
+	string_w <- nchar(fstring)
+	while(any(tolower(fstring) == tolower(strings))) {
+	  fstring <- paste(sample(base::LETTERS, string_w, replace = TRUE), collapse = "")
+	}
       }
 
       ## cycle through all questions
@@ -502,29 +513,31 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
           if(k < 2) {
             tmp <- paste(ql, tmp)
-            p[2] <- paste('~', p[2], sep = '')
-            ql <- paste(p, truefalse[rev(frac2 + 1)], sep = '', collapse = '')
+            p[2] <- paste0('~', p[2])
+            ql <- paste0(p, truefalse[rev(frac2 + 1)], collapse = '')
           } else {
             ql2 <- NULL
             for(j in 1:k)
-              ql2 <- paste(ql2, if(j > 1) '~' else NULL, p[j], ql[j], sep = '')
+              ql2 <- paste0(ql2, if(j > 1) '~' else NULL, p[j], ql[j])
             ql <- ql2
           }
-          tmp <- paste(tmp, ql, sep = '')
-          tmp <- paste(tmp, '}', sep = '')
+          tmp <- paste0(tmp, ql)
+          tmp <- paste0(tmp, '}')
         }
         if(x$metainfo$clozetype[i] == "num") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':NUMERICAL:=', solution[[i]][j],
-              ':', max(tol[[i]]), if(numwidth) paste('~%0%', fnums, ":0", sep = '') else NULL,
-              '}', sep = ''))
+            tmp <- c(tmp, paste0(ql[j], ' {', points2[i], ':NUMERICAL:=', solution[[i]][j],
+              ':', tol[[i]][j],
+	      if(!identical(numwidth, FALSE)) paste0('~%0%', fnum, ":0") else NULL,
+              '}'))
           }
         }
         if(x$metainfo$clozetype[i] == "string") {
           for(j in 1:k) {
-            tmp <- c(tmp, paste(ql[j], ' {', points2[i], ':SHORTANSWER:%100%', gsub("}", "\\}", solution[[i]][j], fixed = TRUE),
-              if(!usecase) paste('~%100%', tolower(gsub("}", "\\}", solution[[i]][j], fixed = TRUE)), sep = '') else NULL,
-              '}', sep = ''))
+            tmp <- c(tmp, paste0(ql[j], ' {', points2[i], ':SHORTANSWER:%100%', gsub("}", "\\}", solution[[i]][j], fixed = TRUE),
+              if(!usecase && tolower(solution[[i]][j]) != solution[[i]][j]) paste0('~%100%', tolower(gsub("}", "\\}", solution[[i]][j], fixed = TRUE))) else NULL,
+	      if(!identical(stringwidth, FALSE)) paste0('~%0%', fstring) else NULL,
+              '}'))
           }
         }
         if(x$metainfo$clozetype[i] == "verbatim") {

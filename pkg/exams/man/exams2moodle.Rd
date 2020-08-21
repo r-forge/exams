@@ -25,7 +25,7 @@
     usecase = FALSE, cloze_mchoice_display = NULL,
     truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
     eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-    essay = NULL)
+    essay = NULL, numwidth = NULL, stringwidth = NULL)
 }
 
 \arguments{
@@ -115,6 +115,16 @@
   \item{essay}{logical. Should \code{string} questions be rendered into Moodle \code{shortanswer}
     or \code{essay} questions? The default is to use \code{shortanswer} unless either
     \code{essay=TRUE} or the exercise's metainformation is set to \code{essay}.}
+  \item{numwidth, stringwidth}{logical, numeric, or character. Should the width of
+    all \code{num} or \code{string} sub-items, respectively, in a \code{cloze} be fixed to
+    the same width? This can be accomplished by adding a wrong solution with a suitable
+    length to all sub-items in Moodle XML. The default (\code{NULL} or equivalently
+    \code{FALSE}) is not to do so but let Moodle decide the width of each cell based
+    on the respective correct solution. Alternatively, the arguments can be set to
+    \code{TRUE} (then the maximum width from the correct solutions is used), an
+    integer (indicating the maximum width) or a character (like \code{"1111111"},
+    to be used as the wrong solution). Both arguments can also be set through
+    exextra tags in each of the exercises' meta-information.}
   \item{converter, \dots}{arguments passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is \code{"pandoc-mathjax"} which assumes that the quiz
     is imported in a Moodle site with MathJax plugin activated (which is the default setting in

@@ -50,6 +50,12 @@
     curly brackets. Hence, these are properly escaped now.
   - Similarly closing curly brackets in the solutions to `string` items
     (`SHORTANSWER`) needed to be properly escaped.
+  - To fix the maximum width of fill-in-the-blank cells in `num` and/or
+    `string` sub-items (e.g., when presented in a table), arguments
+    `numwidth` and `stringwidth` have been added to `make_question_moodle()`.
+    Alternatively, they can also be specified through `exextra` tags in
+    each exercise. See the `fourfold2` exercise for an example and
+    `?make_question_moodle` for more details.
 
 * Added new interface `exams2kahoot()` that can export sufficiently simple
   single-choice and multiple-choice exercises to an Excel sheet via
