@@ -237,15 +237,17 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
           }
         }
       }
-      
+
+      ql_all_NA <- all(sapply(exm[[j]]$questionlist, is.na))
+
       ## combine question+questionlist and solution+solutionlist
       writeLines(c(
         "",
 	"\\begin{question}",
         exm[[j]]$question,
-	if(is.null(exm[[j]]$questionlist) || length(ql <- na.omit(exm[[j]]$questionlist)) == 0) NULL else c(
+	if(is.null(exm[[j]]$questionlist) | ql_all_NA) NULL else c(
         "\\begin{answerlist}",
-        paste("  \\item", ql),
+        paste("  \\item", exm[[j]]$questionlist),
         "\\end{answerlist}"),
 	"\\end{question}",
 	"",
