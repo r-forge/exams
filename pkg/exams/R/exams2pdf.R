@@ -225,29 +225,26 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       ## collapse answer groups of clozes (if necessary)
       if(exm[[j]]$metainfo$type == "cloze") {
         g <- rep(seq_along(exm[[j]]$metainfo$solution), sapply(exm[[j]]$metainfo$solution, length))
-        if(!is.list(exm[[j]]$questionlist)) exm[[j]]$questionlist <- as.list(exm[[j]]$questionlist)
         exm[[j]]$questionlist <- sapply(split(exm[[j]]$questionlist, g), collapse)
         if(!is.null(exm[[j]]$solutionlist)) exm[[j]]$solutionlist <- sapply(split(exm[[j]]$solutionlist, g), collapse)
         for(qj in seq_along(exm[[j]]$questionlist)) {
-          if(any(grepl(paste("##ANSWER", qj, "##", sep = ""), exm[[j]]$question, fixed = TRUE))) {
-            ans <- exm[[j]]$questionlist[qj]
-            exm[[j]]$question <- gsub(paste("##ANSWER", qj, "##", sep = ""),
-              ans, exm[[j]]$question, fixed = TRUE)
+	  ansj <- sprintf(c("##ANSWER%s##", "\\\\#\\\\#ANSWER%s\\\\#\\\\#", "\\#\\#ANSWER%s\\#\\#"), qj)
+          if(any(grepl(paste(ansj[1L:2L], collapse = "|"), exm[[j]]$question))) {
+            exm[[j]]$question <- gsub(ansj[3L], ansj[1L], exm[[j]]$question, fixed = TRUE)
+            exm[[j]]$question <- gsub(ansj[1L], exm[[j]]$questionlist[qj], exm[[j]]$question, fixed = TRUE)
             exm[[j]]$questionlist[qj] <- NA
           }
         }
       }
-
-      ql_all_NA <- all(sapply(exm[[j]]$questionlist, is.na))
-
+      
       ## combine question+questionlist and solution+solutionlist
       writeLines(c(
         "",
 	"\\begin{question}",
         exm[[j]]$question,
-	if(is.null(exm[[j]]$questionlist) | ql_all_NA) NULL else c(
+	if(is.null(exm[[j]]$questionlist) || length(ql <- na.omit(exm[[j]]$questionlist)) == 0) NULL else c(
         "\\begin{answerlist}",
-        paste("  \\item", exm[[j]]$questionlist),
+        paste("  \\item", ql),
         "\\end{answerlist}"),
 	"\\end{question}",
 	"",

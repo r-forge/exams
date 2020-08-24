@@ -103,6 +103,10 @@
   string whereas `rmarkdown::pandoc_convert()` expects them as a vector (for checking
   them).
 
+* Improved formatting in `exams2pdf()` for `cloze` exercises with embedded
+  `##ANSWERi##` tags. The formatting of the question in that case is improved and the
+  question list is not displayed anymore - analogously to `exams2html()`.
+
 
 # exams 2.3-6
 
