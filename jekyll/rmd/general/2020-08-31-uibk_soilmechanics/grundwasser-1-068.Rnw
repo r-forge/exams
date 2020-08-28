@@ -1,0 +1,32 @@
+<<echo=FALSE, results=hide>>=
+typ <- if(match_exams_call() %in% c("exams2pdf", "exams2nops")) ".pdf" else ".svg"
+sup <- c("image68_1.eps")
+sup <- gsub(".eps", typ, sup, fixed = TRUE)
+include_supplement(sup, recursive = TRUE)
+@
+
+\begin{question}
+A very long cylinder with the cross-sectional area of an equilateral
+triangle of side length $a$ and specific weight $\gamma_r$ is submerged. 
+\begin{center}
+   \includegraphics[scale=0.8]{image68_1\Sexpr{typ}}
+\end{center}
+The water pressure at the bottom is $u=\gamma_w \cdot \frac{\sqrt{3}}{2} a$.
+The buoyancy force per linear meter of the cylinder is 
+\begin{answerlist}
+  \item $A_w = u \cdot a = \gamma_w \cdot \displaystyle \frac{a^2\sqrt{3}}{2}$
+  \item $A_w = \gamma_w \cdot \displaystyle \frac{a^2\sqrt{3}}{4}$
+  \item $A_w = (\gamma_r-\gamma_w) \cdot \displaystyle \frac{a^2\sqrt{3}}{4}$
+  \item $A_w = \gamma_w \cdot a^2$
+  \item $A_w = \gamma_w \cdot \displaystyle  a^2 \sqrt{\frac{3}{16}}$
+  \item $A_w = \gamma_w \cdot \frac{\sqrt{3}}{2} a$
+  \item $A_w = \gamma_w \cdot a \cdot \frac{1}{2} \left(\frac{\sqrt{3}}{2} a \right)$  
+\end{answerlist}
+\end{question}
+
+\exname{Exercise 68 (groundwater)}
+\extype{mchoice}
+\exsolution{0100101}
+\exshuffle{4}
+\exextra[difficulty,numeric]{1}
+\exextra[category,character]{groundwater}
