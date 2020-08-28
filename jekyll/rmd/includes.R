@@ -53,7 +53,7 @@ include_rmd <- function(file, ...)
   invisible(rval)
 }
 
-include_asset <- function(file, asset = TRUE, screenshot = TRUE, link = TRUE, density = 25, aspect43 = TRUE, border = TRUE, ...)
+include_asset <- function(file, asset = TRUE, screenshot = TRUE, image = FALSE, link = TRUE, density = 25, aspect43 = TRUE, border = TRUE, ...)
 {
   ## expand file path if necessary
   if(any(grepl("*", file, fixed = TRUE))) file <- Sys.glob(file)
@@ -66,6 +66,7 @@ include_asset <- function(file, asset = TRUE, screenshot = TRUE, link = TRUE, de
   if(link) asset <- TRUE
   
   ## make a screenshot/thumb?
+  if(image && missing(screenshot)) screenshot <- FALSE
   if(screenshot) {
     file_s <- do.call(paste("include", ext, "screenshot", sep = "_"), c(
       list(file = file, density = density, aspect43 = aspect43, border = border),
@@ -77,8 +78,8 @@ include_asset <- function(file, asset = TRUE, screenshot = TRUE, link = TRUE, de
 
   ## create link?
   if(link) {
-    file_l <- if(screenshot) {
-      sprintf("[![%s](%s)](%s)", basename(file_a), file_s, file_a)
+    file_l <- if(screenshot | image) {
+      sprintf("[![%s](%s)](%s)", basename(file_a), if(screenshot) file_s else file_a, file_a)
     } else {
       sprintf("[%s](%s)", basename(file_a), file_a)
     }
