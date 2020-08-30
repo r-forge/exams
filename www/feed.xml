@@ -11,6 +11,137 @@
     
     
 			<item>
+        <title><![CDATA[Transitioning a Soil Mechanics Course to R/exams]]></title>
+				<link>http://www.R-exams.org/general/uibk_soilmechanics/</link>
+        <pubDate>Mon, 31 Aug 2020 00:00:00 +0200</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Experiences with transitioning to R/exams for multiple automated and randomized online exams in a soil mechanics course at Universität Innsbruck (UIBK).</p>
+    
+    
+    <p><img alt="Transitioning a Soil Mechanics Course to R/exams" src="http://www.R-exams.org/images/uibk_soilmechanics.title.svg" /></p>
+    
+    <p>Guest post by <a href="https://www.uibk.ac.at/geotechnik/staff/wolfgang_fellin.html">Wolfgang Fellin</a> (Universität Innsbruck, Division of Geotechnical and Tunnel Engineering).</p>
+
+<h2 id="background">Background</h2>
+
+<p>Our exercises in soil mechanics are attended by about 120 students every year. Students receive
+their grades based on a final exam, with a multiple-choice part and additional small exercises with
+calculations. Due to the COVID-19 restrictions we were forced to switch from the written exams to
+online exams at rather short notice, for which we decided to use <a href="http://www.R-exams.org">R/exams</a> to randomize the exercises.
+The possibility that the exercises produced can be used in the following (hopefully COVID-free years) as part of a blended
+learning course made the decision for the (not so small) effort to switch to R/exams easy.</p>
+
+<h2 id="transition-of-multiple-choice-exercises">Transition of multiple-choice exercises</h2>
+
+<p>To leverage the about 100 multiple-choice exercises from our old question pool, we had to convert them to
+the <a href="http://www.R-exams.org/intro/dynamic/">R/exams format</a>. The pool was stored in a MySQL data base
+including LaTeX text for the questions, answer alternatives, images for some exercises (in EPS format)
+and some additional meta-information regarding the topic category and the difficulty. Due to
+the standardized format of the question pool - and the kind support by Achim Zeileis and Christiane Ernst -
+it was possible to extract all questions, embed them into the same template for R/LaTeX questions (.Rnw),
+and convert all EPS figures to both SVG and PDF format.
+A typical example is shown below (in a screen shot from <a href="https://www.openolat.com/">OpenOLAT</a>,
+the learning management system at UIBK).</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png"><img src="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png" alt="grundwasser-1-068.png" /></a></p>
+
+<p>The corresponding R/LaTeX exercise file is <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rnw">grundwasser-1-068.Rnw</a> which we also converted to
+R/Markdown for this blog post: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rmd">grundwasser-1-068.Rmd</a>. Both rely on the corresponding
+image file being available in the same directory or a sub-directory. Different graphics formats are used for
+different exam output formats: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.svg">image68_1.svg</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.pdf">image68_1.pdf</a>,
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.eps">image68_1.eps</a>.</p>
+
+<p>Essentially, the exercises consist of:</p>
+<ul>
+  <li>some R code for including the right graphics file (SVG vs. PDF) depending on the type of output format (HTML vs. PDF),</li>
+  <li>the (static) question text and answer alternatives in LaTeX format,</li>
+  <li>meta-information including <code class="highlighter-rouge">exextra</code> tags for our custom topic category and difficulty level,</li>
+  <li>the <code class="highlighter-rouge">exshuffle</code> tag is used for randomly subsampling the available answer alternatives.</li>
+</ul>
+
+<h2 id="new-numeric-exercises">New numeric exercises</h2>
+
+<p>While the subsampling approach in the multiple-choice exercises provides a certain level of
+randomization, I wanted to set up new numeric exercises in which all students have to calculate
+the correct solution(s) based on their personalized parameters. Therefore, I set up new numeric
+exercises in <code class="highlighter-rouge">cloze</code> format where several quantities have to be computed based on the same
+question text. A typical example is shown below.</p>
+
+<p><a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.png"><img src="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.png" alt="num-setzung-1-steinbrenner.png" /></a></p>
+
+<p>Again, the corresponding exercise files are available as:
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rnw">num-setzung-1-steinbrenner.Rnw</a>,
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rmd">num-setzung-1-steinbrenner.Rmd</a>.<br />
+And the graphics files are:
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.svg">steinbrenner_fdmt.svg</a>,
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.pdf">steinbrenner_fdmt.pdf</a>.</p>
+
+<p>Despite being a newcomer to both R and R/exams, setting up these exercises was quite easy
+because I have been using MATLAB for a long time and could quickly grasp basic R code.
+Also the <a href="http://www.R-exams.org/templates/">exercise templates</a> available online helped as did the
+friendly e-mail support by Achim for resolving many of the small “details” along the way.</p>
+
+<h2 id="exam-implementation">Exam implementation</h2>
+
+<p>Following the R/exams tutorial on <a href="http://www.R-exams.org/tutorials/openolat_exam/">summative online exams in OpenOLAT</a>
+I prepared the online exam using the <code class="highlighter-rouge">exams2openolat()</code> function. The R code I used along with a couple
+of comments is provided below.</p>
+
+<pre><code class="prettyprint ">## load package
+library(&quot;exams&quot;)
+
+## exercises for the exam
+## (the actual exam had 16 exercises overall, not just 2)
+exm &lt;- c(&quot;grundwasser-1-068.Rnw&quot;, &quot;num-setzung-1-steinbrenner.Rnw&quot;)
+
+## date used as seed and file name
+dat &lt;- 20200528
+set.seed(dat)
+
+rxm &lt;- exams2openolat(exm,
+  edir = &quot;/path/to/exercise/folder/&quot;,
+  n = 200,                ## number of random versions for each exercise
+  name = paste(&quot;BmGb1-Onlinetest&quot;, dat, sep = &quot;_&quot;),
+  points = 1,             ## all exercises yield 1 point
+  cutvalue = 8,           ## threshold for passing the exam
+  
+  ## evaluation rule for multiple-choice exercises (standalone and within cloze):
+  ## every wrong answer cancels a correct answer
+  mchoice = list(eval = exams_eval(partial = TRUE, negative = FALSE, rule = &quot;true&quot;)),
+  cloze   = list(eval = exams_eval(partial = TRUE, negative = FALSE, rule = &quot;true&quot;)),
+
+  solutionswitch = FALSE, ## do not show full solution explanation
+  maxattempts = 1,
+  shufflesections = TRUE, ## sequence of exercises is shuffled randomly
+  navigation = &quot;linear&quot;,  ## disable switching back and forth between exercises
+  duration = 120,         ## 2 hours
+  stitle = &quot;Exercise&quot;,    ## section title (for group of exercises)
+  ititle = &quot;Question&quot;     ## item title (for individual exercises)
+)</code></pre>
+
+<h2 id="challenges-and-outlook">Challenges and outlook</h2>
+
+<p>The main problem by producing randomized numeric examples was to find limits for the input so that
+the output is physically reasonable. Especially for newly created exercises, it is absolutely necessary
+that other colleagues act as test calculators, such that errors can be detected before students find
+them in their exams. The <a href="http://www.R-exams.org/tutorials/stresstest/">stress testing</a> facilities in
+R/exams can also help.</p>
+
+<p>Since the course will continue being online in 2020/21 due to ongoing COVID-19 restrictions,
+I use R/exams now also for the practice exercises which students have to calculate during the semester.
+Thus, I produced about 70 new exercises, which are offered in OpenOLAT in 12 weekly online tests.
+After COVID-19 I will use these examples as addition to written ones, where longer and more complex
+task could be trained.</p>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/general/uibk_soilmechanics/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[Summative Online Exams with R/exams and OpenOLAT]]></title>
 				<link>http://www.R-exams.org/tutorials/openolat_exam/</link>
         <pubDate>Mon, 11 May 2020 00:00:00 +0200</pubDate>
@@ -1440,152 +1571,6 @@ split(exam_solutions(fin3310exam3, examnum = 3), rep(1:8, each = 5))</code></pre
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/general/tamiu_finance/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[Mathematical Notation in Online R/exams]]></title>
-				<link>http://www.R-exams.org/tutorials/math/</link>
-        <pubDate>Mon, 28 Jan 2019 00:00:00 +0100</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Many R/exams exercises employ mathematical notation that needs to be converted and rendered suitably for inclusion in online exams. While R/exams attempts to set suitable defaults, an overview is provided of possible adjustments and when these might be useful or even necessary.</p>
-    
-    
-    <p><img alt="Mathematical Notation in Online R/exams" src="http://www.R-exams.org/images/laptop_on_table_deriv2.title.jpg" /></p>
-    
-    <h2 id="overview">Overview</h2>
-
-<p>A popular use case of the <a href="http://www.R-exams.org/">R/exams</a> package is the generation of <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercises</a> for <a href="http://www.R-exams.org/intro/elearning/">online learning management systems</a> in large-scale courses in <a href="http://www.R-exams.org/general/uibk_math/">mathematics</a>, statistics, or physics. Often, these contain some mathematical notation using LaTeX markup. While LaTeX can be easily rendered into PDF for printing written exams, the options for rendering it into HTML for online exams are somewhat more diverse and the best strategies depend on a number of factors. As these involve a number of technical details this tutorial aims to give a brief overview and makes a few practical recommendations. Factors include the following:</p>
-
-<ul>
-  <li><em>Original markup in exercise source files:</em><br />
-The R/exams exercises may employ either <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> or <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> for formatting and structuring the text (see the <a href="http://www.R-exams.org/tutorials/first_steps/">First steps</a> tutorial for more details). In either case LaTeX is used for the mathematical notation. Thus, also in Markdown the mathematical content is embedded as LaTeX code.</li>
-  <li><em>Math markup in HTML:</em><br />
-For display of the formatted text online in a browser, the original markup (Markdown/LaTeX) needs to be converted (see below) to HTML with some suitable formatting for the mathematical content. Either the LaTeX can be preserved or turned into <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>, a dedicated XML format for describing mathematical content.</li>
-  <li><em>Rendering of math markup:</em><br />
-The most widely-used way of rendering mathematical content in web pages is <a href="https://www.mathjax.org/">MathJax</a> (see also the corresponding <a href="https://en.wikipedia.org/wiki/MathJax">Wikipedia page</a>), an open-source JavaScript library that works in all browsers without any setup by the user (except enabling JavaScript). It can render LaTeX directly but also MathML. Moreover, some browsers (mainly Firefox and Safari but <em>not</em> Chrome) have also native support for displaying MathML, i.e, without the need for an additional display engine such as MathJax. The advantage of employing the browser for MathML rendering is that it is faster and typically blends better into the regular text. The disadvantage is obviously that it is not supported by all browsers and does not support rendering of LaTeX directly.</li>
-  <li><em>Conversion to HTML:</em><br />
-The original markup from the exercises templates needs to be converted to HTML and the most powerful document converter for this is <a href="http://pandoc.org/">Pandoc</a> (see also the corresponding <a href="https://en.wikipedia.org/wiki/Pandoc">Wikipedia page</a>). It can convert both Markdown and LaTeX source files to HTML, either with LaTeX embedded for MathJax or with MathML (among various other options). Moreover, LaTeX (but not Markdown) exercises can be converted to HTML using the TeX-to-MathML converter <a href="http://hutchinson.belmont.ma.us/tth/mml/">TtM</a>. (R/exams also provides a few further options which are typically of less interest due to lower quality, such as TtH or rendered images.)</li>
-  <li><em>Defaults in R/exams:</em><br />
-All <code class="highlighter-rouge">exams2xyz()</code> functions that produce HTML-based output offer a <code class="highlighter-rouge">converter =</code> argument. By default, this is configured to produce HTML with embedded MathML because this can be rendered both by MathJax in all browsers as well as by some browsers directly. The default is is <code class="highlighter-rouge">converter = "pandoc"</code> (equivalent to <code class="highlighter-rouge">"pandoc-mathml"</code>) for R/Markdown exercises and <code class="highlighter-rouge">converter = "ttm"</code> for R/LaTeX exercises, respectively. Whether MathJax is enabled varies across output formats or might depend on the learning management system.</li>
-</ul>
-
-<h2 id="why-does-all-of-this-matter">Why does all of this matter?</h2>
-
-<p>As a simple illustration of the strengths and weaknesses of the different approaches, the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise template (computation of a derivative using the product rule) is converted to HTML using <code class="highlighter-rouge">exams2html()</code>. Here, the R/LaTeX version of the exercise is used (<code class="highlighter-rouge">"deriv"</code> or equivelently <code class="highlighter-rouge">"deriv.Rnw"</code>) but using the R/Markdown version (<code class="highlighter-rouge">"deriv.Rmd"</code>) yields almost the same output.</p>
-
-<p>The following examples and resulting screenshots contrast the output between Firefox and Chrome. By clicking on the screenshots you can also see what the HTML pages look like in your own browser.</p>
-
-<h4 id="mathml-rendered-by-browser">MathML rendered by browser</h4>
-
-<p>By default, <code class="highlighter-rouge">exams2html()</code> generates HTML with MathML embedded and uses a template that does <em>not</em> enable MathJax.</p>
-
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-set.seed(1090)
-exams2html(&quot;deriv&quot;)</code></pre>
-
-<p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-firefox.png" alt="deriv-mathml.html" /></a>
-<a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-chrome.png" alt="deriv-mathml.html" /></a></p>
-
-<p>The screenshots that the native MathML support in Firefox leads to output that renders fast and smoothly. However, the lack of native MathML support in Chrome means that the exercise cannot be displayed correctly.</p>
-
-<h4 id="mathml-rendered-by-mathjax">MathML rendered by MathJax</h4>
-
-<p>To easily explore the effect of MathJax rendering <code class="highlighter-rouge">exams2html()</code> supports the argument <code class="highlighter-rouge">mathjax = TRUE</code> which inserts the MathJax <code class="highlighter-rouge">&lt;script&gt;</code> into the template (loaded from RStudio’s content delivery network).</p>
-
-<pre><code class="prettyprint ">set.seed(1090)
-exams2html(&quot;deriv&quot;, mathjax = TRUE)</code></pre>
-
-<p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-mathjax-firefox.png" alt="deriv-mathml-mathjax.html" /></a>
-<a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathml-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathml-mathjax-chrome.png" alt="deriv-mathml-mathjax.html" /></a></p>
-
-<p>Now the math output looks good in both browsers. However, for Firefox users the version without MathJax might still be preferable as it renders faster with somewhat smoother output.</p>
-
-<h4 id="latex-rendered-by-mathjax">LaTeX rendered by MathJax</h4>
-
-<p>To preserve the LaTeX equations, the argument <code class="highlighter-rouge">converter = "pandoc-mathjax"</code> can be used. Then, Pandoc converts the LaTeX text to HTML but preserves the LaTeX equations (in minimal HTML markup).</p>
-
-<pre><code class="prettyprint ">set.seed(1090)
-exams2html(&quot;deriv&quot;, converter = &quot;pandoc-mathjax&quot;, mathjax = TRUE)</code></pre>
-
-<p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathjax-firefox.png" alt="deriv-mathjax.html" /></a>
-<a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathjax-chrome.png" alt="deriv-mathjax.html" /></a></p>
-
-<p>The output is very similar to the MathML rendered MathJax above. However, note that the alignment in the equations is changed (from left to right). This is caused by Pandoc replacing the LaTeX <code class="highlighter-rouge">{eqnarray*}</code> environment employed in the <code class="highlighter-rouge">"deriv"</code> exercise by <code class="highlighter-rouge">{aligned}</code> environments.</p>
-
-<h2 id="practical-considerations">Practical considerations</h2>
-
-<ul>
-  <li><em>Original markup in exercise source files:</em><br />
-Whether to use R/Markdown (<code class="highlighter-rouge">.Rmd</code>) or R/LaTeX (<code class="highlighter-rouge">.Rnw</code>) markup in the exercise source files is mostly a matter of taste. The former is probably somewhat easier to learn for beginners but generally differences are small if there is only moderate text formatting. It is also good practice to keep the formatting simple to be robust across the different output formats and more advanced math constructs should be checked carefully.</li>
-  <li><em>MathML as default math markup:</em><br />
-As of today (January 2019) it might seem more natural to use LaTeX rendered by MathJax as <code class="highlighter-rouge">rmarkdown</code> does. However, when HTML conversion was added to R/exams in early 2012, MathML rendered by Firefox was the more robust choice. MathML has been preserved as the default since then because it can be rendered both by MathJax and some browsers.</li>
-  <li><em>Pandoc vs. TtM:</em><br />
-Pandoc is the default converter for all <code class="highlighter-rouge">.Rmd</code> exercises while TtM is still used by default for <code class="highlighter-rouge">.Rnw</code> exercises. The latter is mostly for backward compatibility but might change to Pandoc in the future. However, differences are not very large for most exercises anyway but some mathematical LaTeX constructs are just supported by one and not the other converter.</li>
-  <li><em>Enabling MathJax rendering:</em><br />
-Many modern learning management systems have MathJax enabled by default, e.g., in Moodle, Canvas, or OpenOLAT. There are a couple of caveats, though: First, the default MathJax configuration in Moodle and OpenOLAT switches off rendering of MathML. Second, some systems do not host their own copy of the MathJax library but employ a content delivery network (CDN). Thus, there is a small risk that the learning management system might be up and running but there are problems loading MathJax from the CDN.</li>
-  <li><em>Moodle:</em><br />
-As noted above the default configuration for <a href="https://moodle.org/">Moodle</a> has MathJax support (via a CDN) but switches off rendering of MathML. As <code class="highlighter-rouge">exams2moodle(...)</code> currently uses MathML markup by default, this necessitates Firefox or Safari for viewing the quizzes in Moodle. In contrast, <code class="highlighter-rouge">exams2moodle(..., converter = "pandoc-mathjax")</code> would use LaTeX math markup and render it by MathJax (unless the Moodle configuration switched off MathJax support).<br />
- <strong>Request:</strong> Feedback from Moodle users would be appreciated on whether they prefer the current default or <code class="highlighter-rouge">converter = "pandoc-mathjax"</code>. It would be especially useful to find out whether the latter works in their Moodle installations.</li>
-  <li><em>Canvas:</em><br />
-We are currently working on a dedicated <code class="highlighter-rouge">exams2qti12()</code>-based function <code class="highlighter-rouge">exams2canvas()</code> for generating quizzes for <a href="https://www.canvaslms.com/">Canvas</a>. This will keep the MathML-based default for the math notation as this is rendered smoothly by Canvas’ own MathJax support.</li>
-  <li><em>OpenOLAT:</em><br />
-A new dedicated interface <code class="highlighter-rouge">exams2openolat()</code> for generating quizzes for <a href="https://www.openolat.com/">OpenOLAT</a> has been added recently to R/exams (version 2.3-1). By default, this is a wrapper to <code class="highlighter-rouge">exams2qti21(..., converter = "pandoc-mathjax")</code> because OpenOLAT provides MathJax rendering of LaTeX math (but not MathML). Some additional tweaks are necessary, though, because OpenOLAT expects the LaTeX to be embedded slightly differently from standard Pandoc output.</li>
-</ul>
-
-<h2 id="further-technical-details">Further technical details</h2>
-
-<p>The mathematical equation in the random draw of the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise in LaTeX is: <code class="highlighter-rouge">f(x) = x^{8} e^{3.4x}</code>. Here, we highlight that all converters yield almost equivalent output when rendered by MathJax:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left"><code class="highlighter-rouge">"pandoc-mathjax"</code></th>
-      <th style="text-align: left"><code class="highlighter-rouge">"ttm"</code></th>
-      <th style="text-align: left"><code class="highlighter-rouge">"pandoc-mathml"</code></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left"><span class="math inline">\(f(x) = x^{8} e^{3.4x}\)</span></td>
-      <td style="text-align: left"><math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mi>x</mi></mrow><mrow><mn>8</mn></mrow></msup><msup><mrow><mi>e</mi></mrow><mrow><mn>3</mn><mo>.</mo><mn>4</mn><mi>x</mi></mrow></msup></mrow></math></td>
-      <td style="text-align: left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>x</mi><mn>8</mn></msup><msup><mi>e</mi><mrow><mn>3.4</mn><mi>x</mi></mrow></msup></mrow><annotation encoding="application/x-tex">f(x) = x^{8} e^{3.4x}</annotation></semantics></math></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>(<strong>Note:</strong> If you are viewing this on R-bloggers or another aggregator some or all of the equations will not display correctly. Refer to the <a href="http://www.R-exams.org/tutorials/math/">R/exams site</a> for a version with MathJax properly enabled.)</p>
-
-<p>The underlying LaTeX code generated by <code class="highlighter-rouge">converter = "pandoc-mathjax"</code> is simply the original LaTeX code with some minimal HTML markup:</p>
-
-<pre><code class="language-`">&lt;span class="math inline"&gt;\(f(x) = x^{8} e^{3.4x}\)&lt;/span&gt;
-</code></pre>
-
-<p>The MathML code generated by <code class="highlighter-rouge">converter = "ttm"</code> differs slightly from the of <code class="highlighter-rouge">converter = "pandoc"</code> (or equivalently <code class="highlighter-rouge">"pandoc-mathml"</code>). The former yields:</p>
-
-<pre><code class="prettyprint ">&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
-&lt;mrow&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;
-&lt;msup&gt;&lt;mrow&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mn&gt;8&lt;/mn&gt;&lt;/mrow&gt;
-&lt;/msup&gt;
-&lt;msup&gt;&lt;mrow&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;
-&lt;/msup&gt;
-&lt;/mrow&gt;&lt;/math&gt;</code></pre>
-
-<p>The Pandoc version is very similar but contains some more markup and annotation:</p>
-
-<pre><code class="prettyprint ">&lt;math display=&quot;inline&quot; xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;
-&lt;mrow&gt;&lt;mi&gt;f&lt;/mi&gt;
-&lt;mo stretchy=&quot;false&quot; form=&quot;prefix&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot; form=&quot;postfix&quot;&gt;)&lt;/mo&gt;
-&lt;mo&gt;=&lt;/mo&gt;
-&lt;msup&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;8&lt;/mn&gt;&lt;/msup&gt;&lt;msup&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mrow&gt;&lt;mn&gt;3.4&lt;/mn&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;/msup&gt;
-&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;f(x) = x^{8} e^{3.4x}&lt;/annotation&gt;
-&lt;/semantics&gt;&lt;/math&gt;</code></pre>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/tutorials/math/</guid>
 			</item>
 		
 	</channel>

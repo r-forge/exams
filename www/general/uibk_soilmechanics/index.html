@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>R/exams</title>
+	<title>Transitioning a Soil Mechanics Course to R/exams</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,8 +23,8 @@
 
 	
 	
-	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	
+	<meta name="description" content="Experiences with transitioning to R/exams for multiple automated and randomized online exams in a soil mechanics course at Universität Innsbruck (UIBK)." />
+	<meta name="keywords" content="R, exams, exams2openolat" />
 	
 	<meta name="author" content="Achim Zeileis" />
 
@@ -44,16 +44,16 @@
 	<!-- Search Engine Optimization -->
 	
 	
-	<meta name="robots" content="noindex" />
+	
 
 	<!-- Facebook Optimization -->
-	<meta property="og:title" content="R/exams" />
-	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//tag/exams/" />
+	<meta property="og:title" content="Transitioning a Soil Mechanics Course to R/exams" />
+	<meta property="og:description" content="Experiences with transitioning to R/exams for multiple automated and randomized online exams in a soil mechanics course at Universität Innsbruck (UIBK)." />
+	<meta property="og:url" content="http://www.R-exams.org//general/uibk_soilmechanics/" />
 	<meta property="og:locale" content="en_EN" />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="R/exams" />
-	<meta property="og:image" content="http://www.R-exams.org/assets/img/logo_text.png" />
+	<meta property="og:image" content="http://www.R-exams.org/images/uibk_soilmechanics.300.png" />
 	
 
 	
@@ -61,9 +61,9 @@
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:site" content="AchimZeileis" />
 	<meta name="twitter:creator" content="AchimZeileis" />
-	<meta name="twitter:title" content="R/exams" />
-	<meta name="twitter:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta name="twitter:image" content="http://www.R-exams.org/assets/img/logo_text.png" />
+	<meta name="twitter:title" content="Transitioning a Soil Mechanics Course to R/exams" />
+	<meta name="twitter:description" content="Experiences with transitioning to R/exams for multiple automated and randomized online exams in a soil mechanics course at Universität Innsbruck (UIBK)." />
+	<meta name="twitter:image" content="http://www.R-exams.org/images/uibk_soilmechanics.300.png" />
 
 
 	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
@@ -90,7 +90,7 @@
 <!-- End Piwik Code -->
 
 </head>
-<body id="top-of-page" class="">
+<body id="top-of-page" class="post">
 	
 	
 <div id="navigation" class="sticky">
@@ -313,281 +313,195 @@
 
 
 
-	<div class="row blog-index">
-	<div class="medium-10 medium-offset-1 columns t30">
-		
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/uibk_soilmechanics.title.svg" width="970" alt="Transitioning a Soil Mechanics Course to R/exams" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						Typical issue in soil mechanics: Slope stabilty (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>Transitioning a Soil Mechanics Course to R/exams</h1>
+				</span>
+			</header>
 
 
+			
+			<p class="teaser" itemprop="description">
+				Experiences with transitioning to R/exams for multiple automated and randomized online exams in a soil mechanics course at Universität Innsbruck (UIBK).
+			</p>
+			
 
+			<span itemprop="articleSection">
+			<p>Guest post by <a href="https://www.uibk.ac.at/geotechnik/staff/wolfgang_fellin.html">Wolfgang Fellin</a> (Universität Innsbruck, Division of Geotechnical and Tunnel Engineering).</p>
 
+<h2 id="background">Background</h2>
 
+<p>Our exercises in soil mechanics are attended by about 120 students every year. Students receive
+their grades based on a final exam, with a multiple-choice part and additional small exercises with
+calculations. Due to the COVID-19 restrictions we were forced to switch from the written exams to
+online exams at rather short notice, for which we decided to use <a href="http://www.R-exams.org">R/exams</a> to randomize the exercises.
+The possibility that the exercises produced can be used in the following (hopefully COVID-free years) as part of a blended
+learning course made the decision for the (not so small) effort to switch to R/exams easy.</p>
 
+<h2 id="transition-of-multiple-choice-exercises">Transition of multiple-choice exercises</h2>
 
+<p>To leverage the about 100 multiple-choice exercises from our old question pool, we had to convert them to
+the <a href="http://www.R-exams.org/intro/dynamic/">R/exams format</a>. The pool was stored in a MySQL data base
+including LaTeX text for the questions, answer alternatives, images for some exercises (in EPS format)
+and some additional meta-information regarding the topic category and the difficulty. Due to
+the standardized format of the question pool - and the kind support by Achim Zeileis and Christiane Ernst -
+it was possible to extract all questions, embed them into the same template for R/LaTeX questions (.Rnw),
+and convert all EPS figures to both SVG and PDF format.
+A typical example is shown below (in a screen shot from <a href="https://www.openolat.com/">OpenOLAT</a>,
+the learning management system at UIBK).</p>
 
+<p><a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png"><img src="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png" alt="grundwasser-1-068.png" /></a></p>
 
-<div class='row'>
-  <div class='small-12 columns b30'>
-    <h1>Tag: exams</h1>
-  </div>
-</div>
+<p>The corresponding R/LaTeX exercise file is <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rnw">grundwasser-1-068.Rnw</a> which we also converted to
+R/Markdown for this blog post: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rmd">grundwasser-1-068.Rmd</a>. Both rely on the corresponding
+image file being available in the same directory or a sub-directory. Different graphics formats are used for
+different exam output formats: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.svg">image68_1.svg</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.pdf">image68_1.pdf</a>,
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.eps">image68_1.eps</a>.</p>
 
+<p>Essentially, the exercises consist of:</p>
+<ul>
+  <li>some R code for including the right graphics file (SVG vs. PDF) depending on the type of output format (HTML vs. PDF),</li>
+  <li>the (static) question text and answer alternatives in LaTeX format,</li>
+  <li>meta-information including <code class="highlighter-rouge">exextra</code> tags for our custom topic category and difficulty level,</li>
+  <li>the <code class="highlighter-rouge">exshuffle</code> tag is used for randomly subsampling the available answer alternatives.</li>
+</ul>
 
+<h2 id="new-numeric-exercises">New numeric exercises</h2>
 
+<p>While the subsampling approach in the multiple-choice exercises provides a certain level of
+randomization, I wanted to set up new numeric exercises in which all students have to calculate
+the correct solution(s) based on their personalized parameters. Therefore, I set up new numeric
+exercises in <code class="highlighter-rouge">cloze</code> format where several quantities have to be computed based on the same
+question text. A typical example is shown below.</p>
 
+<p><a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.png"><img src="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.png" alt="num-setzung-1-steinbrenner.png" /></a></p>
+
+<p>Again, the corresponding exercise files are available as:
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rnw">num-setzung-1-steinbrenner.Rnw</a>,
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rmd">num-setzung-1-steinbrenner.Rmd</a>.<br />
+And the graphics files are:
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.svg">steinbrenner_fdmt.svg</a>,
+<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.pdf">steinbrenner_fdmt.pdf</a>.</p>
+
+<p>Despite being a newcomer to both R and R/exams, setting up these exercises was quite easy
+because I have been using MATLAB for a long time and could quickly grasp basic R code.
+Also the <a href="http://www.R-exams.org/templates/">exercise templates</a> available online helped as did the
+friendly e-mail support by Achim for resolving many of the small “details” along the way.</p>
+
+<h2 id="exam-implementation">Exam implementation</h2>
+
+<p>Following the R/exams tutorial on <a href="http://www.R-exams.org/tutorials/openolat_exam/">summative online exams in OpenOLAT</a>
+I prepared the online exam using the <code class="highlighter-rouge">exams2openolat()</code> function. The R code I used along with a couple
+of comments is provided below.</p>
+
+<pre><code class="prettyprint ">## load package
+library(&quot;exams&quot;)
+
+## exercises for the exam
+## (the actual exam had 16 exercises overall, not just 2)
+exm &lt;- c(&quot;grundwasser-1-068.Rnw&quot;, &quot;num-setzung-1-steinbrenner.Rnw&quot;)
+
+## date used as seed and file name
+dat &lt;- 20200528
+set.seed(dat)
+
+rxm &lt;- exams2openolat(exm,
+  edir = &quot;/path/to/exercise/folder/&quot;,
+  n = 200,                ## number of random versions for each exercise
+  name = paste(&quot;BmGb1-Onlinetest&quot;, dat, sep = &quot;_&quot;),
+  points = 1,             ## all exercises yield 1 point
+  cutvalue = 8,           ## threshold for passing the exam
   
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/uibk_soilmechanics/">Transitioning a Soil Mechanics Course to R/exams</a></h2>
-        <a href="http://www.R-exams.org/general/uibk_soilmechanics/" title="Transitioning a Soil Mechanics Course to R/exams"><img src="http://www.R-exams.org/images/uibk_soilmechanics.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Experiences with transitioning to R/exams for multiple automated and randomized online exams in a soil mechanics course at Universität Innsbruck (UIBK).
-      
+  ## evaluation rule for multiple-choice exercises (standalone and within cloze):
+  ## every wrong answer cancels a correct answer
+  mchoice = list(eval = exams_eval(partial = TRUE, negative = FALSE, rule = &quot;true&quot;)),
+  cloze   = list(eval = exams_eval(partial = TRUE, negative = FALSE, rule = &quot;true&quot;)),
 
-      <a href="http://www.R-exams.org/general/uibk_soilmechanics/" title="Read Transitioning a Soil Mechanics Course to R/exams"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+  solutionswitch = FALSE, ## do not show full solution explanation
+  maxattempts = 1,
+  shufflesections = TRUE, ## sequence of exercises is shuffled randomly
+  navigation = &quot;linear&quot;,  ## disable switching back and forth between exercises
+  duration = 120,         ## 2 hours
+  stitle = &quot;Exercise&quot;,    ## section title (for group of exercises)
+  ititle = &quot;Question&quot;     ## item title (for individual exercises)
+)</code></pre>
 
+<h2 id="challenges-and-outlook">Challenges and outlook</h2>
 
+<p>The main problem by producing randomized numeric examples was to find limits for the input so that
+the output is physically reasonable. Especially for newly created exercises, it is absolutely necessary
+that other colleagues act as test calculators, such that errors can be detected before students find
+them in their exams. The <a href="http://www.R-exams.org/tutorials/stresstest/">stress testing</a> facilities in
+R/exams can also help.</p>
 
+<p>Since the course will continue being online in 2020/21 due to ongoing COVID-19 restrictions,
+I use R/exams now also for the practice exercises which students have to calculate during the semester.
+Thus, I produced about 70 new exercises, which are offered in OpenOLAT in 12 weekly online tests.
+After COVID-19 I will use these examples as addition to written ones, where longer and more complex
+task could be trained.</p>
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/cran_release_236/">New R/exams Version: TinyTeX, Fixing Parameters and Random Seeds, and More</a></h2>
-        <a href="http://www.R-exams.org/general/cran_release_236/" title="New R/exams Version: TinyTeX, Fixing Parameters and Random Seeds, and More"><img src="http://www.R-exams.org/images/cran236.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        New minor releases of the R/exams package to CRAN with many enhancements including TinyTeX support and extended control over the random variation in dynamic exercises through fixed parameters or custom random seeds.
-      
+			</span>
 
-      <a href="http://www.R-exams.org/general/cran_release_236/" title="Read New R/exams Version: TinyTeX, Fixing Parameters and Random Seeds, and More"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
 
+				
+				<time class="icon-calendar pr20" datetime="2020-08-31" itemprop="datePublished"> 2020-08-31</time>
+				
 
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2openolat/">exams2openolat</a></span> </span>
+			</p>
 
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/openolat_exam/">&laquo; Summative Online Exams with R/exams and OpenOLAT</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/whyr2020/">Why R? Webinar on R/exams for E-Learning Quizzes and Beyond</a></h2>
-        <a href="http://www.R-exams.org/general/whyr2020/" title="Why R? Webinar on R/exams for E-Learning Quizzes and Beyond"><img src="http://www.R-exams.org/images/whyr2020.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Webinar hosted by Why R? Foundation: Slides, video, and e-learning resources.
-      
+			
 
-      <a href="http://www.R-exams.org/general/whyr2020/" title="Read Why R? Webinar on R/exams for E-Learning Quizzes and Beyond"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+			
 
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/stresstest/">Stress Testing Dynamic R/exams Exercises</a></h2>
-        <a href="http://www.R-exams.org/tutorials/stresstest/" title="Stress Testing Dynamic R/exams Exercises"><img src="http://www.R-exams.org/images/stresstest.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Before actually using a dynamic exercise in a course it should be thoroughly tested. While certain aspects require critical reading by a human, other aspects can be automatically stress-tested in R.
-      
-
-      <a href="http://www.R-exams.org/tutorials/stresstest/" title="Read Stress Testing Dynamic R/exams Exercises"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/user2019/">R/exams @ useR! 2019</a></h2>
-        <a href="http://www.R-exams.org/general/user2019/" title="R/exams @ useR! 2019"><img src="http://www.R-exams.org/images/user2019.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Pre-conference tutorial about R/exams at useR! 2019 (The R User Conference) in Toulouse: Slides, example code, and links to further information.
-      
-
-      <a href="http://www.R-exams.org/general/user2019/" title="Read R/exams @ useR! 2019"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/cran_release_234/">CRAN Release of R/exams 2.3-3 and 2.3-4</a></h2>
-        <a href="http://www.R-exams.org/general/cran_release_234/" title="CRAN Release of R/exams 2.3-3 and 2.3-4"><img src="http://www.R-exams.org/images/cran234.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        New minor releases of the R/exams package to CRAN, containing a new dedicated function for online quizzes/exams in the Canvas learning management system. Moreover, the update provides a range of smaller improvements and bug fixes.
-      
-
-      <a href="http://www.R-exams.org/general/cran_release_234/" title="Read CRAN Release of R/exams 2.3-3 and 2.3-4"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/tamiu_finance/">Using R/exams for Written Exams in Finance Classes</a></h2>
-        <a href="http://www.R-exams.org/general/tamiu_finance/" title="Using R/exams for Written Exams in Finance Classes"><img src="http://www.R-exams.org/images/tamiu_finance.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Experiences with using R/exams for written exams in finance classes with a moderate number of students at Texas A&amp;M International University (TAMIU).
-      
-
-      <a href="http://www.R-exams.org/general/tamiu_finance/" title="Read Using R/exams for Written Exams in Finance Classes"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/cran_release_232/">CRAN Release of R/exams 2.3-2</a></h2>
-        <a href="http://www.R-exams.org/general/cran_release_232/" title="CRAN Release of R/exams 2.3-2"><img src="http://www.R-exams.org/images/cran232.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        New minor release of the R/exams package to CRAN, containing a range of smaller improvements and bug fixes. Notably scanning of written NOPS exams is enhanced and made more reliable and a new exercise template demonstrates how to use advanced processing of numeric answers in Moodle.
-      
-
-      <a href="http://www.R-exams.org/general/cran_release_232/" title="Read CRAN Release of R/exams 2.3-2"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/erum2018/">R/exams @ eRum 2018</a></h2>
-        <a href="http://www.R-exams.org/general/erum2018/" title="R/exams @ eRum 2018"><img src="http://www.R-exams.org/images/erum2018.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Keynote lecture about R/exams at eRum 2018 (European R Users Meeting) in Budapest: Slides, video, e-learning, replication materials.
-      
-
-      <a href="http://www.R-exams.org/general/erum2018/" title="Read R/exams @ eRum 2018"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/cran_release_231/">CRAN Release of R/exams 2.3-1</a></h2>
-        <a href="http://www.R-exams.org/general/cran_release_231/" title="CRAN Release of R/exams 2.3-1"><img src="http://www.R-exams.org/images/cran231.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        New minor release of the R/exams package to CRAN, containing a wide range of smaller improvements and bug fixes. Notable new features include a dedicated OpenOLAT interface, and a convenience function facilitating the use of TikZ-based graphics.
-      
-
-      <a href="http://www.R-exams.org/general/cran_release_231/" title="Read CRAN Release of R/exams 2.3-1"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-<nav id="pagination">
-    
+		</article>
 
     
-
-    
-    <a class="radius button small" href="http://www.R-exams.org/tag/exams/page2/" title="Next Posts">Next &raquo;</a>
-    
-</nav>
-
 
 	</div><!-- /.medium-8.columns -->
 
-  
+
+	
+
+
+	
 </div><!-- /.row -->
 
 

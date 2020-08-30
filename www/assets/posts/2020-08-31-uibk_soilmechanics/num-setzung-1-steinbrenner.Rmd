@@ -1,0 +1,84 @@
+```{r, echo = FALSE, results = "hide"}
+typ <- if(match_exams_call() %in% c("exams2pdf", "exams2nops")) ".pdf" else ".svg"
+sup <- paste0("steinbrenner_fdmt",typ)
+include_supplement(sup, recursive = TRUE)
+
+## stress under center of single footing
+## equation from Steinbrenner
+
+round2 <- function(x, n) {
+  posneg = sign(x)
+  z = abs(x)*10^n
+  z = z + 0.5
+  z = trunc(z)
+  z = z/10^n
+  z * posneg
+}
+
+b <- sample(seq(0.25, 1, 0.02),1) ## m, 1/2 * width of footing
+fa <- sample(c(1, 1.5, 2, 3, 5, 10), 1) ## a/b values for using "Steinbrenner" tables
+a <- fa*b ## m, 1/2 * length of footing
+a2 <- 2*a ## 
+b2 <- 2*b ## 
+
+p <- sample(seq(100, 400, 1),1) ## kPa, base pressure including concrete
+d <- sample(seq(round(b/2,2),b,0.01),1) ## m, thickness of footing
+t <- sample(seq(d, 2*d,0.01),1) ## m, depth of footing base
+bs <- round(b/2,2) ## m, width of column
+V <- a2*b2*d ## m^3, volume of footing
+Vs <- bs*bs*(t-d) ## m^3 volume of column
+VB <- round(V+Vs,4)
+gamma_B <- 26 ## kN/m^3, specific weight of reinforced concrete 
+gamma <- sample(seq(16,18,0.5),1)
+p_red <- p-VB*(gamma)/a2/b2
+
+fz <- sample(c(0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6), 1) ## z/b values for "Steinbrenner" table
+z <- fz*b ## m
+
+R <- sqrt(a^2+b^2+z^2)
+i <- (atan(a*b/z/R)+a*b*z/R*(1/(a^2+z^2)+1/(b^2+z^2)))/2/pi
+i <- round2(i,4)
+
+sig_p <- 4*p_red*i
+
+sol <- fmt(c(p_red,sig_p),2)
+```
+
+Question
+========
+A single footing with the width $b=`r b2`$ m and the length $a=`r a2`$ m
+is embedded $t=`r t`$ m deep into a soil with $\gamma=`r gamma`$ kN/m$^3$.
+At this depth the footing transfers the bearing pressure $p=`r p`$ kN/m$^2$
+(including concrete parts) to the ground. The volume of the concrete parts
+(footing plus column) insinde the ground is $V_b=`r VB`$ m$^3$. The reinforced
+concrete has the specific weight $\gamma=`r gamma_B`$ kN/m$^3$. For a
+settlement calculation, the stress $\sigma_p$ induced by the footing under the
+center of the footing at the depth $z=`r z`$ m should be calculated.
+\
+![](steinbrenner_fdmt`r typ`)
+
+Answerlist
+----------
+* How large is the reduced bearing pressure in kN/m$^2$?
+* How large is the stress $\sigma_p$ in kN/m$^2$? 
+
+
+Solution
+========
+
+Answerlist
+----------
+* The reduced bearing pressure is $p_{red}=p - \frac{V_b (\gamma_b-\gamma)}{a \cdot b} = `r fmt(p_red,6)`=`r sol[1]`$ kN/m$^2$.
+* For the stress below the center of the footing $a'=a/2$ and $b'=b/2$ has to be used. With $a'/b'=`r fa`$ and $z/b'=`r fz`$ we get the Steinbrenner value $i=`r fmt(i,4)`$.  
+  The stress is $\sigma_p=4 \cdot i \cdot p_{red} = `r sol[2]`$ kN/m$^2$.
+
+
+Meta-information
+================
+exname: Stress below footing (Steinbrenner)
+extype: cloze
+exclozetype: num|num
+exsolution: `r paste(sol, collapse = "|")`
+extol: 1
+exextra[difficulty,numeric]: 1
+exextra[category,character]: Settlement
