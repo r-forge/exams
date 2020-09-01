@@ -820,12 +820,15 @@ delete.NULLs <- function(x.list) {
 
 ## fix Blackboard's failure to render html-<pre> environment properly
 fix_bb_pre <- function(x) {
-  pre_start <- grep("<pre>", x, fixed = TRUE)
+  pre_start <- grep("(<pre>)|(<pre )", x)
+  x[pre_start] <- gsub("<pre [^>]*>", "<pre>", x[pre_start])
   pre_end <- grep("</pre>", x, fixed = TRUE)
   if(length(pre_start) > 0L) {
-    pndc <- grepl("<code>", x[pre_start])
+    pndc <- any(grepl("<code>", x[pre_start]))
     for(i in seq_along(pre_start)) {
-      x[(pre_start[i] + 1L - pndc):(pre_end[i] - 2*(1L - pndc))] <- paste(x[(pre_start[i] + 1L - pndc):(pre_end[i] - 2*(1L - pndc))], "<br/>", sep = "")
+      pre_start_i <- pre_start[i] + 1L - pndc
+      pre_end_i <- pre_end[i] - 2L *(1L - pndc)
+      if(pre_end_i >= pre_start_i) x[pre_start_i:pre_end_i] <- paste0(x[pre_start_i:pre_end_i], "<br/>")
     }
     x[pre_start] <- gsub("<code>", "", x[pre_start], fixed = TRUE)
     x[pre_end] <- gsub("</code>", "", x[pre_end], fixed = TRUE)
