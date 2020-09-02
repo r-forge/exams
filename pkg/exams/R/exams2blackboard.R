@@ -366,7 +366,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(zip) {
     owd <- getwd()
     setwd(test_dir)
-    zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = list.files(test_dir, all.files = TRUE))
+    zip(zipfile = zipname <- paste(name, "zip", sep = "."), files = c(list.files(test_dir), ".bb-package-info"))
     setwd(owd)
   } else zipname <- list.files(test_dir)
 
@@ -832,7 +832,7 @@ fix_bb_pre <- function(x) {
     }
     x[pre_start] <- gsub("<code>", "", x[pre_start], fixed = TRUE)
     x[pre_end] <- gsub("</code>", "", x[pre_end], fixed = TRUE)
-    x[pre_start] <- gsub("<pre>", "<pre><code style=\"font-family: \'courier\';\">&nbsp;", x[pre_start], fixed = TRUE)
+    x[pre_start] <- gsub("<pre>", paste0("<pre><code style=\"font-family: \'courier\';\">", if(pndc) "&nbsp;"), x[pre_start], fixed = TRUE)
     x[pre_end] <- gsub("</pre>", "</code></pre>", x[pre_end], fixed = TRUE)
   }
   return(x)
