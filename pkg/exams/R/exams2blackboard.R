@@ -832,7 +832,7 @@ fix_bb_pre <- function(x) {
     }
     x[pre_start] <- gsub("<code>", "", x[pre_start], fixed = TRUE)
     x[pre_end] <- gsub("</code>", "", x[pre_end], fixed = TRUE)
-    x[pre_start] <- gsub("<pre>", "<pre><code style=\"font-family: \'courier\';\">", x[pre_start], fixed = TRUE)
+    x[pre_start] <- gsub("<pre>", "<pre><code style=\"font-family: \'courier\';\">&nbsp;", x[pre_start], fixed = TRUE)
     x[pre_end] <- gsub("</pre>", "</code></pre>", x[pre_end], fixed = TRUE)
   }
   return(x)
