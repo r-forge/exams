@@ -1,0 +1,20 @@
+{{#DCF}}{{ExamResults}}: {{exam}}
+=======================================
+
+{{Name}}: {{name}}
+{{RegistrationNumber}}: {{registration}}{{#has_mark}}
+{{Mark}}: {{mark}}{{/has_mark}}
+{{Points}}: {{points}}
+
+
+
+{{Evaluation}}
+----------------
+
+[ {{GivenAnswer}} / {{CorrectAnswer}} ]
+
+
+{{#results}}#{{question}} ({{points}} pts.) [ {{answer}} / {{solution}} ]
+{{/results}}
+
+{{/DCF}}

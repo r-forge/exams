@@ -2,7 +2,7 @@
 <html lang="{{language}}">
 <head>
 <meta charset="{{encoding}}">
-<title>{{registration}} - {{LANG_ExamResults}}</title>
+<title>{{registration}} - {{#DCF}}{{ExamResults}}{{/DCF}}</title>
 
 <style>
   body { -webkit-print-color-adjust: exact; }
@@ -58,38 +58,38 @@
 
 <section>
 
-<div id="Data">
+<div id="Data">{{#DCF}}
 <div id="ExamResults">
-  <h3>{{LANG_ExamResults}}</h3>
+  <h3>{{ExamResults}}</h3>
   <table id="Info">
   <tr>
-    <td>{{LANG_Name}}</td><td>{{name}}</td>
+    <td>{{Name}}</td><td>{{name}}</td>
   </tr>
   <tr>
-    <td>{{LANG_RegistrationNumber}}</td><td>{{registration}}</td>
+    <td>{{RegistrationNumber}}</td><td>{{registration}}</td>
   </tr>
   <tr>
-    <td>{{LANG_DocumentID}}</td><td>{{exam}}</td>
+    <td>{{DocumentID}}</td><td>{{exam}}</td>
   </tr>
   {{#has_mark}}
   <tr>
-    <td>{{LANG_Mark}}</td><td>{{mark}}</td>
+    <td>{{Mark}}</td><td>{{mark}}</td>
   </tr>
   {{/has_mark}}
   <tr>
-    <td>{{LANG_Points}}</td><td>{{points}}</td>
+    <td>{{Points}}</td><td>{{points}}</td>
   </tr>
   </table>
 </div>
 
 <div id="Evaluation">
-  <h3>{{LANG_Evaluation}}</h3>
+  <h3>{{Evaluation}}</h3>
   <table id="scores">
   <tr>
-    <th>{{LANG_Question}}</th>
-    <th>{{LANG_Points}}</th>
-    <th>{{LANG_GivenAnswer}}</th>
-    <th>{{LANG_CorrectAnswer}}</th>
+    <th>{{Question}}</th>
+    <th>{{Points}}</th>
+    <th>{{GivenAnswer}}</th>
+    <th>{{CorrectAnswer}}</th>
   </tr>
 
   {{#results}}
@@ -102,7 +102,7 @@
   {{/results}}
   </table>
 </div>
-</div>
+{{/DCF}}</div>
 
 <div id="ExamSheet">
 
