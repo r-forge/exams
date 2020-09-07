@@ -157,6 +157,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     type
   }
 
+  ##
+
   ## function to give right option for <bbmd_negative_points_ind>
 
   set_negative_points <- function(eval = eval, type = type) {
@@ -655,7 +657,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               format(round(solution[[i]][j], digits), nsmall = digits)
             } else solution[[i]][j]
             correct_answers[[i]] <- c(correct_answers[[i]], paste('<varequal respident="', ids[[i]]$response,
-              '" case="No">', soltext, '</varequal>', sep = "")
+              '" case="', string_evaltype(x$metainfo$evaltype, x$metainfo$evalcase)[2], '">', soltext, '</varequal>', sep = "")
             )
           } else {
             correct_answers[[i]] <- c(correct_answers[[i]],
@@ -726,7 +728,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
     xml <- c(xml,
       if(x$metainfo$type != "string" | !is.null(x$metainfo$essay))'<respcondition title="correct">' else '<respcondition title="right">',## string fails with "correct"
       '<conditionvar>',
-      if(!is.null(correct_answers) & (length(correct_answers) > 1 | x$metainfo$type == "mchoice")) '<and>' else NULL
+      if(!is.null(just_answers) & (length(just_answers) > 1 | x$metainfo$type == "mchoice")) '<and>' else NULL
     )
 
     xml <- c(xml,
@@ -738,7 +740,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
       } else NULL,
       if(!eval$partial & x$metainfo$type == "string") {
         if(is.null(x$metainfo$essay)) {
-           paste('<setvar varname="EvaluationType" action="Set">', "CONTAINS", '</setvar>', sep = '')
+           paste('<setvar varname="EvaluationType" action="Set">"', string_evaltype(x$metainfo$evaltype, x$metainfo$evalcase)[1], '"</setvar>', sep = '')
         } else '<setvar varname="SCORE" action="Set">SCORE.max</setvar>'
       } else NULL,
       '<displayfeedback feedbacktype="Response" linkrefid="correct"/>',
@@ -841,3 +843,19 @@ fix_bb_pre <- function(x) {
   }
   return(x)
 }
+
+  ## set evaluation type and case for evaluating string answer of Fill in the Blank
+  ## below, x is x$metainfo$evaltype, and y x$metainfo$evalcase. Exercise should have these in metainfo
+  string_evaltype <- function(x, y) {
+    if(is.null(x)) type <- "CONTAINS" else{
+      type <- switch(x,
+        "contains" = "CONTAINS",
+        "pattern" = "MATCHES",
+        "exact" = "EXACT"
+        )
+    }
+    if(is.null(y) | type == "MATCHES") case <- "No" else{
+      case <- ifelse(y, "Yes", "No")
+    }
+    c(type, case)
+  }
