@@ -657,7 +657,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
               format(round(solution[[i]][j], digits), nsmall = digits)
             } else solution[[i]][j]
             correct_answers[[i]] <- c(correct_answers[[i]], paste('<varequal respident="', ids[[i]]$response,
-              '" case="', string_evaltype(x$metainfo$evaltype, x$metainfo$evalcase)[2], '">', soltext, '</varequal>', sep = "")
+              '" case="', string_evaltype(x$metainfo$evaltype, x$metainfo$usecase)[2], '">', soltext, '</varequal>', sep = "")
             )
           } else {
             correct_answers[[i]] <- c(correct_answers[[i]],
@@ -740,7 +740,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
       } else NULL,
       if(!eval$partial & x$metainfo$type == "string") {
         if(is.null(x$metainfo$essay)) {
-           paste('<setvar varname="EvaluationType" action="Set">"', string_evaltype(x$metainfo$evaltype, x$metainfo$evalcase)[1], '"</setvar>', sep = '')
+           paste('<setvar varname="EvaluationType" action="Set">"', string_evaltype(x$metainfo$evaltype, x$metainfo$usecase)[1], '"</setvar>', sep = '')
         } else '<setvar varname="SCORE" action="Set">SCORE.max</setvar>'
       } else NULL,
       '<displayfeedback feedbacktype="Response" linkrefid="correct"/>',
@@ -845,7 +845,7 @@ fix_bb_pre <- function(x) {
 }
 
   ## set evaluation type and case for evaluating string answer of Fill in the Blank
-  ## below, x is x$metainfo$evaltype, and y x$metainfo$evalcase. Exercise should have these in metainfo
+  ## below, x is x$metainfo$evaltype, and y x$metainfo$usecase. Exercise should have these in metainfo
   string_evaltype <- function(x, y) {
     if(is.null(x)) type <- "CONTAINS" else{
       type <- switch(x,
