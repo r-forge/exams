@@ -10,7 +10,8 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
-  converter = "pandoc-mathjax", xmlcollapse = TRUE, ...)
+  converter = "pandoc-mathjax", xmlcollapse = TRUE,
+  add_solution_to_qtimetadata = FALSE, ...)
 {
   ## assure a certain processing of items for Ilias
   if(is.null(num)) {
@@ -96,6 +97,10 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     xml <- c(xml, '</ContentObject>')
     writeLines(xml, file.path(name, paste0(name, "_qpl.xml")))
 
+    ## Add solution to xml as qtimetadata
+    if(add_solution_to_qtimetadata)
+      solution_to_qtimetadata(name, rval)
+
     file.remove(zipfile)
     file.rename(name, paste0(name, "_qpl"))
     zip(zipfile = paste0(name, "_qpl.zip"), files = list.files())
@@ -106,3 +111,71 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## return exams list
   invisible(rval)
 }
+
+
+# In order for an Ilias test to recognize a solution to an essay question, the
+# solution needs to be included in the xml as a qtimetadata tag.
+solution_to_qtimetadata <- function(name, exm) {
+  xml <- readLines(file.path(name, paste0(name, "_qti.xml")))
+  
+  for(i in seq_along(exm)) {
+    ## Where to append qtimetadata?
+    idx <- (grep("QUESTIONTYPE", xml) + 2)[i]
+
+    ## Get solution, FIXME: exm[[i]] may have more than a single question
+    solustr <- paste(exm[[i]][[1]]$solution, collapse="\n")
+
+    ## Split into several solustr by ol/ul li items
+    if(exm[[i]][[1]]$solution[1] %in% c("<ol>", "<ul>"))
+      solustr <- gsub("</li>.*", "", strsplit(solustr, "<li>")[[1]])[-1]
+
+    ## Encode solution
+    solustr <- solustr_to_phpstruct(solustr, length(solustr))
+    
+    ## Append solution
+    xml <- append(xml,
+      c("<qtimetadatafield>",
+        paste0("<fieldlabel>termscoring</fieldlabel><fieldentry>",
+               solustr, "</fieldentry>"),
+        "</qtimetadatafield>",
+        "<qtimetadatafield>",
+        "<fieldlabel>termrelation</fieldlabel><fieldentry>any</fieldentry>",
+        "</qtimetadatafield>"),
+      after = idx)
+  }
+
+  writeLines(xml, file.path(name, paste0(name, "_qti.xml")))
+}
+
+
+# And the solution needs to be wrapped in some php data structure,
+# https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php
+# and be base encoded.
+solustr_to_phpstruct <- function(solustr, nitems, encode = TRUE){
+  items <- raw(0)
+  for(i in seq_len(nitems)){
+    items <- c(items,
+      c(
+        charToRaw(paste0(
+          'i:', i - 1,
+          ';O:31:"ASS_AnswerMultipleResponseImage":6:{',
+          's:5:"image";s:0:"";s:16:"points_unchecked";s:1:"0";'
+        )),
+        charToRaw('s:13:"'), as.raw(0x00), charToRaw('*'), as.raw(0x00),
+          charToRaw(paste0('answertext";s:', nchar(solustr[i]), ':"',
+                           solustr[i], '";')),
+        charToRaw('s:9:"'), as.raw(0x00), charToRaw('*'), as.raw(0x00),
+          charToRaw('points";s:1:"1";'),
+        charToRaw('s:8:"'), as.raw(0x00), charToRaw('*'), as.raw(0x00),
+          charToRaw('order";i:0;'),
+        charToRaw('s:5:"'), as.raw(0x00), charToRaw('*'), as.raw(0x00),
+          charToRaw('id";i:-1;}')
+      )
+    )
+  }
+  rval <- c(charToRaw(paste0('a:', nitems, ':{')), items, charToRaw('}'))
+  if(encode)
+    rval <- base64enc::base64encode(rval)
+  rval
+}
+
