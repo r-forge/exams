@@ -15,11 +15,14 @@ permalink: /resources/
 #### Getting help
 
 - Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
-- R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
+- R/exams-related questions with `r-exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/r-exams/>.
 
 
 #### Presentations and publications
 
+- Zeileis A (2020). [R/exams: A One-for-All Exams Generator - Online Tests, Live Quizzes, and Written Exams with R.]({{ site.url }}/assets/posts/2020-04-04-whyr2020/slides.pdf)
+  Presented at _Why R? Webinar 001_.   
+  _Video:_ [YouTube](https://www.youtube.com/watch?v=PnyCR7q4P4Q)
 - Zeileis A (2018). [R/exams: A One-for-All Exams Generator - Written Exams, Online Tests, and Live Quizzes with R.]({{ site.url }}/assets/posts/2018-05-20-erum2018/slides.pdf)
   Presented at _eRum 2018 - European R Users Meeting_, Budapest, Hungary.   
   _Video:_ [YouTube](https://www.youtube.com/watch?v=NMIzbrklBEE)
