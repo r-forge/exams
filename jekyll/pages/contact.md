@@ -16,7 +16,7 @@ permalink: /contact/
 #### Getting help
 
 - Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
-- R/exams-related questions with `exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/exams>.
+- R/exams-related questions with `r-exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/r-exams/>.
 
 
 #### Twitter
@@ -33,6 +33,8 @@ permalink: /contact/
 - [Niels Smits](http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard adaptation)
 - [Mirko Birbaumer](https://www.hslu.ch/de-ch/hochschule-luzern/ueber-uns/personensuche/profile/?pid=1537) [contributor] (Ilias adaptation)
 - Dominik Ernst [contributor] (Moodle adaptation)
+- [Kenji Sato](https://www.kenjisato.jp/) [contributor] (Templates and HTML extensions)
+- [Florian Wickelmaier](http://www.mathpsy.uni-tuebingen.de/wickelmaier/) [contributor] (Ilias adaptation)
 - [Patrik Keller](http://informationsecurity.uibk.ac.at/people/patrik-keller/) [contributor] (Web page)
 - Hanna Krimm [contributor] (Web page)
 - [Reto Stauffer](http://retostauffer.org/) [contributor] (Web page)
