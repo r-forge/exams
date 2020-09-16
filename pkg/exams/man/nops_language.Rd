@@ -9,7 +9,7 @@
 }
 
 \usage{
-  nops_language(file, converter = c("none", "tth", "pandoc"))
+  nops_language(file, converter = c("none", "tth", "pandoc"), \dots)
 }
 
 \arguments{
@@ -17,6 +17,8 @@
     See \code{\link[exams]{exams2nops}} for a list of languages shipped in the package.}
   \item{converter}{character. The HTML converter to be used for the language
     text elements. Can be \code{"none"}, \code{"tth"}, or \code{"pandoc"}.}
+  \item{\dots}{further arguments passed to the \code{converter} (if any), e.g.,
+    for obtaining output formats other than HTML.}
 }
 
 \details{
@@ -43,8 +45,11 @@ en$NoChanges
 ## French (LaTeX vs. HTML)
 nops_language("fr", converter = "none")$NoChanges
 nops_language("fr", converter = "tth")$NoChanges
+
+## French (HTML or Markdown via pandoc, if available)
 if (requireNamespace("rmarkdown") && rmarkdown::pandoc_available()) {
 nops_language("fr", converter = "pandoc")$NoChanges
+nops_language("fr", converter = "pandoc", to = "markdown_strict")$NoChanges
 }
 }
 

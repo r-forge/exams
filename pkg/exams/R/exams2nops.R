@@ -751,7 +751,7 @@ sprintf("\\multiput(110,221)(8,0){%s}{\\framebox(4,4){}}", nchoice[3L])
 ")
 }
 
-nops_language <- function(file, converter = c("none", "tth", "pandoc"))
+nops_language <- function(file, converter = c("none", "tth", "pandoc"), ...)
 {
   ## read file
   if(!file.exists(file)) file <- system.file(file.path("nops", paste0(file, ".dcf")), package = "exams")
@@ -785,11 +785,11 @@ nops_language <- function(file, converter = c("none", "tth", "pandoc"))
   ## convert to desired output markup
   converter <- match.arg(tolower(converter), c("none", "tth", "pandoc"))
   if(converter == "tth") {
-    lang <- structure(tth::tth(lang), .Names = names(lang))
+    lang <- structure(tth::tth(lang, ...), .Names = names(lang))
   }
   if(converter == "pandoc") {
     mypandoc <- function(x) {
-      x <- pandoc(x)
+      x <- pandoc(x, ...)
       x <- paste(x, collapse = "\n")
       x <- gsub("<p>", "", x, fixed = TRUE)
       x <- gsub("</p>", "", x, fixed = TRUE)
