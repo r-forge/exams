@@ -54,7 +54,8 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   report_name <- tmpl$report_name
   
   ## Read results
-  results <- utils::read.csv2(results, colClasses = "character")
+  results <- if(is.character(results)) 
+    utils::read.csv2(results, colClasses = "character") else results
   names(results)[1:3] <- c("registration", "name", "id")
   rownames(results) <- results$registration
   has_mark <- "mark" %in% names(results)
@@ -70,7 +71,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   ## number of scanned images
   nscans <- 1L + as.integer("scan2" %in% names(results))
   
-  ## read language specifiation
+  ## read language specification
   if (is.null(converter)) {
     converter <- if (language %in% c("hr", "ro", "sk", "tr")) "pandoc" else "tth"
   }
