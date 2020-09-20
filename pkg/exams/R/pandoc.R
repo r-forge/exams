@@ -168,6 +168,21 @@ pandoc <- function(x, ..., from = "latex", to = "html", fixup = TRUE, Sweave = T
   ## fixup Sweave and related special LaTeX to plain LaTeX  
   if(Sweave) x <- fixup_sweave_pandoc(x, from = from, to = to)
   
+  ## fixup logical comparisons with \not to LaTeX commands
+  if(fixup) {
+    tab <- rbind(
+      c("\\\\not",	   "\\\\not "),
+      c("\\\\not +=",	   "\\\\neq"),
+      c("\\\\not +&lt;",   "\\\\nless"),
+      c("\\\\not +<",      "\\\\nless"),
+      c("\\\\not +&gt;",   "\\\\ngtr"),
+      c("\\\\not +>",      "\\\\ngtr"),
+      c("\\\\not +\\\\le", "\\\\nleq"),
+      c("\\\\not +\\\\ge", "\\\\ngeq")
+    )
+    for(i in 1:nrow(tab)) x <- gsub(tab[i, 1L], tab[i, 2L], x)
+  }
+
   ## call pandoc_convert()
   writeLines(x, infile)
   rmarkdown::pandoc_convert(input = infile, output = outfile, from = from, to = to, ...)
@@ -181,21 +196,6 @@ pandoc <- function(x, ..., from = "latex", to = "html", fixup = TRUE, Sweave = T
       rval <- gsub("</span>", "", rval, fixed = TRUE)
     }
     
-    ## fixup logical comparisons with \not in html
-    if(substr(to, 1L, 4L) == "html") {
-      tab <- rbind(
-        c("\\\\not",	     "\\\\not "),
-        c("\\\\not +=",      "&#8800;"),
-        c("\\\\not +&lt;",   "&#8814;"),
-        c("\\\\not +&gt;",   "&#8815;"),
-        c("\\\\not +\\\\le", "&#8816;"),
-        c("\\\\nleq",	     "&#8816;"),
-        c("\\\\not +\\\\ge", "&#8817;"),
-        c("\\\\ngeq",	     "&#8817;")
-      )
-      for(i in 1:nrow(tab)) rval <- gsub(tab[i, 1L], tab[i, 2L], rval)
-    }
-
     if(isTRUE(.exams_get_internal("pandoc_mathjax_fixup"))) {
       tab <- rbind(
         c('<span class="math display">\\[', '</p><div class="math">'),
