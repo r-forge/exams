@@ -1,6 +1,7 @@
 library(shiny)
 source("loadTabModules.R")
 source("chooseTabModules.R")
+source("addPointsTabModules.R")
 
 #https://stackoverflow.com/questions/39270365/shiny-dt-single-cell-selection/39270631
 
@@ -36,7 +37,8 @@ ui <- navbarPage(
   #titlePanel("Load Exercises"),
   title = "R Exams",
   loadTabUI("loadTab"),
-  chooseTabUI("chooseTab")
+  chooseTabUI("chooseTab"),
+  addPointsTabUI("addPointsTab")
 )
 
 server <- function(input, output, session){
@@ -45,7 +47,7 @@ server <- function(input, output, session){
     pathToTmpFolder = NULL,
     pathExercisesGiven = NULL,
     possibleExerciseList = data.frame(Foldername=character(), Filename=character()),
-    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character()),
+    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
     givenExercises = NULL
   )
   
@@ -53,7 +55,7 @@ server <- function(input, output, session){
     reactVals$pathToTmpFolder = makeTmpPath()
     reactVals$pathExercisesGiven = file.path("../testExercises")
     reactVals$possibleExerciseList = data.frame(Foldername=character(), Filename=character())
-    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character())
+    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric())
     reactVals$givenExercises = getDirFilesOneLevel("../testExercises")
   })
   
@@ -63,11 +65,21 @@ server <- function(input, output, session){
     #print(reactVals$possibleExerciseList)
   })
   
+  observe({
+    reactVals$selectedExerciseList = modifiedDataChooseTab()
+  })
+  
+  observe({
+    reactVals$selectedExerciseList = modifiedDataAddPointsTab()
+  })
+  
   modifiedDataLoadTab = callModule(loadTabLogic, "loadTab", reactive(reactVals$pathExercisesGiven), reactive(reactVals$pathToTmpFolder), 
                                   reactive(reactVals$possibleExerciseList), reactive(reactVals$givenExercises))
   
-  callModule(chooseTabLogic, "chooseTab", reactive(reactVals$pathToTmpFolder), reactive(reactVals$possibleExerciseList),
-             reactive(reactVals$selectedExerciseList))
+  modifiedDataChooseTab = callModule(chooseTabLogic, "chooseTab", reactive(reactVals$pathToTmpFolder), reactive(reactVals$possibleExerciseList),
+                                    reactive(reactVals$selectedExerciseList))
+  
+  modifiedDataAddPointsTab = callModule(addPointsTabLogic, "addPointsTab", reactive(reactVals$selectedExerciseList))
   
 }
 
