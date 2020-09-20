@@ -95,10 +95,15 @@ matrix_to_mchoice <- matrix2mchoice <- function(
   y <- ifelse(sample(c(TRUE, FALSE), 5, replace = TRUE, prob = c(prob, 1 - prob)), x[ix], y)
   
   ## randomly choose (in)equality type
-  comp <- comp_latex <- sample(comparisons, 5, replace = TRUE)
+  comp <- comp_latex <- not_comp_latex <- sample(comparisons, 5, replace = TRUE)
   comp_latex[comp == "=="] <- "="
   comp_latex[comp == "<="] <- "\\le"
   comp_latex[comp == ">="] <- "\\ge"
+  not_comp_latex[comp == "=="] <- "\\neq"
+  not_comp_latex[comp == "<"] <- "\\nless"
+  not_comp_latex[comp == ">"] <- "\\ngtr"
+  not_comp_latex[comp == "<="] <- "\\nleq"
+  not_comp_latex[comp == ">="] <- "\\ngeq"
   
   ## questions/solution/explanation generation
   questions <- character(5)
