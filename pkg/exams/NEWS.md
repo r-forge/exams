@@ -107,6 +107,10 @@
   `##ANSWERi##` tags. The formatting of the question in that case is improved and the
   question list is not displayed anymore - analogously to `exams2html()`.
 
+* Bug fix for pandoc-based HTML conversion of LaTeX equations containing \not. 
+  These are now converted to \neq, \nless, \ngtr, \nleq, \ngeq which are handled
+  by pandoc correctly. Notably, this affects `cholesky.Rmd`.
+
 
 # exams 2.3-6
 
