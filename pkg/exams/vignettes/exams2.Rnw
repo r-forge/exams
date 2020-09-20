@@ -663,7 +663,7 @@ Command & Description \\ \hline
                         a string of zeros/ones for \code{mchoice}/\code{schoice}, or a character
 			string of \code{string}. For \code{cloze} a combination of these can
 			be specified, e.g., \verb+\exsolution{1.23|001|glm}+. \\
-\verb|\extolerance{}| & Tolerance for \code{num} solutions or a vector of tolerances (expanded if
+\verb|\extol{}|       & Tolerance for \code{num} solutions or a vector of tolerances (expanded if
                         necessary) for \code{cloze} solutions. If unspecified the tolerance is 0. \\
 \verb|\exclozetype{}| & List of types for the elements of a \code{cloze} exercise, e.g.,
                         \verb+\exclozetype{num|schoice|string}+ for the example above. \\ 
