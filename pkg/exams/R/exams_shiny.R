@@ -44,7 +44,7 @@ exams_shiny <- function(dir = NULL)
     dir.create(ut)
 
   dump("exams_shiny_ui", file = file.path(dir, "ui.R"), envir = .GlobalEnv)
-  dump("exams_shiny_server", file = file.path(dir, "server.R"), envir = .GlobalEnv)
+  dump("exams_shiny_server", file = file.path(dir, "server.R"), envir = .GlobalEnv) 
 
   runApp(dir)
 }
@@ -57,11 +57,10 @@ exams_shiny_ui <- function(...) {
      
      NULL,
 
-     ## Show a plot of the generated distribution.
      mainPanel(
        tags$style(HTML("
          .gray-node {
-           color: #E59400;
+           color: yellow;
          }
        ")),
        tabsetPanel(
@@ -237,8 +236,8 @@ exams_shiny_server <- function(input, output, session)
           textInput("exname", label = "Exercise name.", value = input$selected_exercise)
         })
         output$editor <- renderUI({
-          aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
-            value = paste(excode, collapse = '\n'))
+          aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "latex" else "markdown",
+            value = paste(excode, collapse = '\n'), autoComplete = "live", theme = "dreamweaver")
         })
       }
       return(NULL)
@@ -246,8 +245,8 @@ exams_shiny_server <- function(input, output, session)
   })
 
   output$editor <- renderUI({
-    aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
-      value = "Create/edit exercises here!")
+    aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "latex" else "markdown",
+      value = "Create/edit exercises here!", autoComplete = "live", theme = "dreamweaver")
   })
 
   output$playbutton <- renderUI({
@@ -265,8 +264,8 @@ exams_shiny_server <- function(input, output, session)
       textInput("exname", label = "Exercise name.", value = exname)
     })
     output$editor <- renderUI({
-      aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "tex" else "markdown",
-        value = paste(excode, collapse = '\n'))
+      aceEditor("excode", mode = if(input$exmarkup == "LaTeX") "latex" else "markdown",
+        value = paste(excode, collapse = '\n'), autoComplete = "live", theme = "dreamweaver")
     })
   })
 
@@ -279,8 +278,8 @@ exams_shiny_server <- function(input, output, session)
     })
     markup <- tolower(file_ext(exname))
     output$editor <- renderUI({
-      aceEditor("excode", mode = if(markup == "rnw") "tex" else "markdown",
-        value = paste(excode, collapse = '\n'))
+      aceEditor("excode", mode = if(markup == "rnw") "latex" else "markdown",
+        value = paste(excode, collapse = '\n'),  autoComplete = "live", theme = "dreamweaver")
     })
   })
 
@@ -954,59 +953,59 @@ get_template_code <- function(type, markup)
                 'question <- sample(cities, size = 1)',
                 '@',
                 '',
-                '\\\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
-                '%% e.g., \\\\Sexpr{question} will return the name of the sampled city in the code above.',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{question} will return the name of the sampled city in the code above.',
                 'In which country is Munich?',
-                '\\\\begin{answerlist}',
-                '  \\\\item Austria',
-                '  \\\\item Germany',
-                '  \\\\item Switzerland',
-                '  \\\\item Netherlands',
-                '\\\\end{answerlist}',
-                '\\\\end{question}',
+                '\\begin{answerlist}',
+                '  \\item Austria',
+                '  \\item Germany',
+                '  \\item Switzerland',
+                '  \\item Netherlands',
+                '\\end{answerlist}',
+                '\\end{question}',
                 '',
-                '\\\\begin{solution}',
+                '\\begin{solution}',
                 '%% Supply a solution here!',
                 'Munich is in Germany.',
-                '\\\\begin{answerlist}',
-                '  \\\\item False.',
-                '  \\\\item True.',
-                '  \\\\item False.',
-                '  \\\\item False.',
-                '\\\\end{answerlist}',
-                '\\\\end{solution}',
+                '\\begin{answerlist}',
+                '  \\item False.',
+                '  \\item True.',
+                '  \\item False.',
+                '  \\item False.',
+                '\\end{answerlist}',
+                '\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\\\extype{schoice}',
-                '%% \\\\exsolution{0100}',
-                '%% \\\\exname{Mean}',
-                '%% \\\\exshuffle{Cities}'),
+                '%% \\extype{schoice}',
+                '%% \\exsolution{0100}',
+                '%% \\exname{Mean}',
+                '%% \\exshuffle{Cities}'),
       "num" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'x <- c(-0.17, 0.63, 0.96, 0.97, -0.77)',
                 'Mean <- mean(x)',
                 '@',
                 '',
-                '\\\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
-                '%% e.g., \\\\Sexpr{Mean} will return the mean of variable x in the R code above.',
-                'Calculate the mean of the following numbers: \\\\\\\\',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{Mean} will return the mean of variable x in the R code above.',
+                'Calculate the mean of the following numbers: \\\\',
                 '$',
                 '-0.17, 0.63, 0.96, 0.97, -0.77.',
                 '$',
-                '\\\\end{question}',
+                '\\end{question}',
                 '',
-                '\\\\begin{solution}',
+                '\\begin{solution}',
                 '%% Supply a solution here!',
                 'The mean is $0.324$.',
-                '\\\\end{solution}',
+                '\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\\\extype{num}',
-                '%% \\\\exsolution{0.324}',
-                '%% \\\\exname{Mean}',
-                '%% \\\\extol{0.01}'),
+                '%% \\extype{num}',
+                '%% \\exsolution{0.324}',
+                '%% \\exname{Mean}',
+                '%% \\extol{0.01}'),
       "mchoice" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'x <- c(33, 3, 33, 333)',
@@ -1014,33 +1013,33 @@ get_template_code <- function(type, markup)
                 'solutions <- x * y',
                 '@',
                 '',
-                '\\\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
-                '%% e.g., \\\\Sexpr{solutions[1]} will return the solution of the first statement.',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{solutions[1]} will return the solution of the first statement.',
                 'Which of the following statements is correct?',
-                '\\\\begin{answerlist}',
-                '  \\\\item $33 \\\\cdot 3 = 109$',
-                '  \\\\item $3 \\\\cdot 3 = 9$',
-                '  \\\\item $33 / 6 = 5.5$',
-                '  \\\\item $333 / 33.3 = 9$',
-                '\\\\end{answerlist}',
-                '\\\\end{question}',
+                '\\begin{answerlist}',
+                '  \\item $33 \\cdot 3 = 109$',
+                '  \\item $3 \\cdot 3 = 9$',
+                '  \\item $33 / 6 = 5.5$',
+                '  \\item $333 / 33.3 = 9$',
+                '\\end{answerlist}',
+                '\\end{question}',
                 '',
-                '\\\\begin{solution}',
+                '\\begin{solution}',
                 '%% Supply a solution here!', '',
-                '\\\\begin{answerlist}',
-                '  \\\\item False. Correct answer is $33 \\\\cdot 3 = 99$.',
-                '  \\\\item True.',
-                '  \\\\item True.',
-                '  \\\\item False. Correct answer is $333 / 33.3 = 10$.',
-                '\\\\end{answerlist}',
-                '\\\\end{solution}',
+                '\\begin{answerlist}',
+                '  \\item False. Correct answer is $33 \\cdot 3 = 99$.',
+                '  \\item True.',
+                '  \\item True.',
+                '  \\item False. Correct answer is $333 / 33.3 = 10$.',
+                '\\end{answerlist}',
+                '\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\\\extype{mchoice}',
-                '%% \\\\exsolution{0110}',
-                '%% \\\\exname{Simple math}',
-                '%% \\\\exshuffle{TRUE}'),
+                '%% \\extype{mchoice}',
+                '%% \\exsolution{0110}',
+                '%% \\exname{Simple math}',
+                '%% \\exshuffle{TRUE}'),
       "string" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'cities <- c("Munich", "Innsbruck", "Zurich", "Amsterdam")',
@@ -1048,21 +1047,21 @@ get_template_code <- function(type, markup)
                 'question <- sample(cities, size = 1)',
                 '@',
                 '',
-                '\\\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
-                '%% e.g., \\\\Sexpr{question} will return the name of the sampled city in the code above.',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{question} will return the name of the sampled city in the code above.',
                 'In which country is Munich?',
-                '\\\\end{question}',
+                '\\end{question}',
                 '',
-                '\\\\begin{solution}',
+                '\\begin{solution}',
                 '%% Supply a solution here!',
                 'Munich is in Germany.',
-                '\\\\end{solution}',
+                '\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\\\extype{string}',
-                '%% \\\\exsolution{Germany}',
-                '%% \\\\exname{Cities 2}'),
+                '%% \\extype{string}',
+                '%% \\exsolution{Germany}',
+                '%% \\exname{Cities 2}'),
       "cloze" = c('<<echo=FALSE, results=hide>>=',
                 '## DATA GENERATION EXAMPLE',
                 'x <- c(-0.17, 0.63, 0.96, 0.97, -0.77)',
@@ -1071,35 +1070,35 @@ get_template_code <- function(type, markup)
                 'Var <- var(x)',
                 '@',
                 '',
-                '\\\\begin{question}',
-                '%% Enter the question here, you can access R variables with \\\\Sexpr{},',
-                '%% e.g., \\\\Sexpr{Mean} will return the mean of variable x in the R code above.',
-                'Given the following numbers: \\\\\\\\',
+                '\\begin{question}',
+                '%% Enter the question here, you can access R variables with \\Sexpr{},',
+                '%% e.g., \\Sexpr{Mean} will return the mean of variable x in the R code above.',
+                'Given the following numbers: \\\\',
                 '$',
                 '-0.17, 0.63, 0.96, 0.97, -0.77.',
                 '$',
-                '\\\\begin{answerlist}',
-                '  \\\\item What is the mean?',
-                '  \\\\item What is the standard deviation?',
-                '  \\\\item What is the variance?',
-                '\\\\end{answerlist}',
-                '\\\\end{question}',
+                '\\begin{answerlist}',
+                '  \\item What is the mean?',
+                '  \\item What is the standard deviation?',
+                '  \\item What is the variance?',
+                '\\end{answerlist}',
+                '\\end{question}',
                 '',
-                '\\\\begin{solution}',
+                '\\begin{solution}',
                 '%% Supply a solution here!', '',
-                '\\\\begin{answerlist}',
-                '  \\\\item The mean is $0.324$.',
-                '  \\\\item The standard deviation is $0.767515$.',
-                '  \\\\item The variance is $0.58908$.',
-                '\\\\end{answerlist}',
-                '\\\\end{solution}',
+                '\\begin{answerlist}',
+                '  \\item The mean is $0.324$.',
+                '  \\item The standard deviation is $0.767515$.',
+                '  \\item The variance is $0.58908$.',
+                '\\end{answerlist}',
+                '\\end{solution}',
                 '',
                 '%% META-INFORMATION',
-                '%% \\\\extype{cloze}',
-                '%% \\\\exsolution{0.324|0.767515|0.58908}',
-                '%% \\\\exclozetype{num|num|num}',
-                '%% \\\\exname{Statistics}',
-                '%% \\\\extol{0.01}')
+                '%% \\extype{cloze}',
+                '%% \\exsolution{0.324|0.767515|0.58908}',
+                '%% \\exclozetype{num|num|num}',
+                '%% \\exname{Statistics}',
+                '%% \\extol{0.01}')
     )
   } else {
     excode <- "Markdown templates not available yet!"
