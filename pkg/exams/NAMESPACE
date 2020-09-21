@@ -103,6 +103,7 @@ export(
   "exams2moodle",
   "make_question_moodle",
   "make_question_moodle23",
+  "moodle2exams",
 
   ## ARSnova driver
   "exams2arsnova",

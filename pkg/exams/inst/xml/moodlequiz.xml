@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+        <text>$course$/top</text>
+
+    </category>
+  </question>
+
+  <question type="category">
+    <category>
+        <text>$course$/top/useR-2019</text>
+
+    </category>
+  </question>
+
+  <question type="multichoice">
+    <name>
+      <text>R01 Q1 : conferences</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+<p>Which of these institutions already hosted a useR! conference?</p>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+<p>The list of useR! (and DSC) hosts can be found at <a href="https://www.R-project.org/conferences/" class="uri">https://www.R-project.org/conferences/</a>.</p>
+<ol type = "a">
+<li> True. useR! 2008 was hosted at TU Dortmund. </li>
+<li> False. Universität Wien did not host an R conference yet (only TU Wien and WU Wien). </li>
+<li> False. Københavns Universitet hosted DSC but not useR!. </li>
+<li> True. useR! 2010 was hosted at NIST. </li>
+<li> True. useR! 2009 was hosted at Agrocampus Ouest, Rennes. </li>
+</ol>
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <single>false</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>
+Technische Universität Dortmund
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+True. useR! 2008 was hosted at TU Dortmund.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="-50" format="html">
+      <text><![CDATA[<p>
+Universität Wien
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+False. Universität Wien did not host an R conference yet (only TU Wien and WU Wien).
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="-50" format="html">
+      <text><![CDATA[<p>
+Københavns Universitet
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+False. Københavns Universitet hosted DSC but not useR!.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>
+National Institute of Standards and Technology
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+True. useR! 2010 was hosted at NIST.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>
+Agrocampus Ouest
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+True. useR! 2009 was hosted at Agrocampus Ouest, Rennes.
+</p>]]></text>
+      </feedback>
+    </answer>
+  </question>
+
+  <question type="numerical">
+    <name>
+      <text>R01 Q2 : deriv</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+<p>What is the derivative of <span class="math inline">\(f(x) = x^{2} e^{2.1 x}\)</span>, evaluated at <span class="math inline">\(x = 0.54\)</span>?</p>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+<p>Using the product rule for <span class="math inline">\(f(x) = g(x) \cdot h(x)\)</span>, where <span class="math inline">\(g(x) := x^{2}\)</span> and <span class="math inline">\(h(x) := e^{2.1 x}\)</span>, we obtain <span class="math display">\[
+\begin{aligned}
+f&#39;(x) &amp;= [g(x) \cdot h(x)]&#39; = g&#39;(x) \cdot h(x) + g(x) \cdot h&#39;(x) \\
+      &amp;= 2 x^{2 - 1} \cdot e^{2.1 x} + x^{2} \cdot e^{2.1 x} \cdot 2.1 \\
+      &amp;= e^{2.1 x} \cdot(2 x^1 + 2.1 x^{2}) \\
+      &amp;= e^{2.1 x} \cdot x^1 \cdot (2 + 2.1 x).
+\end{aligned}
+\]</span> Evaluated at <span class="math inline">\(x = 0.54\)</span>, the answer is <span class="math display">\[ e^{2.1 \cdot 0.54} \cdot 0.54^1 \cdot (2 + 2.1 \cdot 0.54) = 5.259963. \]</span> Thus, rounded to two digits we have <span class="math inline">\(f&#39;(0.54) = 5.26\)</span>.</p>
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <answer fraction="100" format="moodle_auto_format">
+      <text>5.26</text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+      <tolerance>0.01</tolerance>
+    </answer>
+    <unitgradingtype>0</unitgradingtype>
+    <unitpenalty>0.1000000</unitpenalty>
+    <showunits>3</showunits>
+    <unitsleft>0</unitsleft>
+  </question>
+
+  <question type="multichoice">
+    <name>
+      <text>R01 Q3 : ttest</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+<p>The waiting time (in minutes) at the cashier of two supermarket chains with different cashier systems is compared. The following statistical test was performed:</p>
+<pre><code>
+    Two Sample t-test
+
+data:  Waiting by Supermarket
+t = -3.4985, df = 123, p-value = 0.000326
+alternative hypothesis: true difference in means is less than 0
+95 percent confidence interval:
+      -Inf -1.120364
+sample estimates:
+ mean in group Sparag mean in group Consumo 
+             3.933431              6.062307 </code></pre>
+<p>Which of the following statements are correct? (Significance level 5%)</p>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+<ol type = "a">
+<li> True. The absolute value of the test statistic is equal to 3.498. </li>
+<li> True. The test aims at showing that the difference of means is smaller than 0. </li>
+<li> False. The p-value is equal to 0.000326. </li>
+<li> False. The test aims at showing that the alternative that the waiting time is shorter at Sparag than at Consumo. </li>
+<li> True. The test result is significant (<span class="math inline">\(p &lt; 0.05\)</span>) and hence the alternative is shown, that the difference of means are smaller than 0. </li>
+</ol>
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <single>false</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html">
+      <text></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text></text>
+    </incorrectfeedback>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>
+The absolute value of the test statistic is larger than 1.96.
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+True. The absolute value of the test statistic is equal to 3.498.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>
+A one-sided alternative was tested.
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+True. The test aims at showing that the difference of means is smaller than 0.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="-50" format="html">
+      <text><![CDATA[<p>
+The p-value is larger than 0.05.
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+False. The p-value is equal to 0.000326.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="-50" format="html">
+      <text><![CDATA[<p>
+The test shows that the waiting time is longer at Sparag than at Consumo.
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+False. The test aims at showing that the alternative that the waiting time is shorter at Sparag than at Consumo.
+</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>
+The test shows that the waiting time is shorter at Sparag than at Consumo.
+</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>
+True. The test result is significant (<span class="math inline">\(p &lt; 0.05\)</span>) and hence the alternative is shown, that the difference of means are smaller than 0.
+</p>]]></text>
+      </feedback>
+    </answer>
+  </question>
+
+  <question type="shortanswer">
+    <name>
+      <text>R01 Q5 : function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+<p>What is the name of the R function for negative binomial regression?</p>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+<p><code>glm.nb</code> is the R function for negative binomial regression. See <code>?glm.nb</code> for the corresponding manual page.</p>
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format">
+      <text>glm.nb</text>
+      <feedback format="html">
+        <text></text>
+      </feedback>
+    </answer>
+  </question>
+
+  <question type="cloze">
+    <name>
+      <text>R01 Q8 : confint3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+<p>It is suspected that a supplier systematically underfills 5 l canisters of detergent. The filled volumes are assumed to be normally distributed. A small sample of <span class="math inline">\(8\)</span> canisters is measured exactly. This shows that the canisters contain on average <span class="math inline">\(4963\)</span> ml. The sample variance <span class="math inline">\(s^2_{n-1}\)</span> is equal to <span class="math inline">\(3327.5\)</span>.</p>
+<p>Determine a <span class="math inline">\(99\%\)</span> confidence interval for the average content of a canister (in ml).</p>
+<ol type = "a">
+<li> What is the lower confidence bound? {1:NUMERICAL:=4891.629:0.1~%50%4910.468:0.1#Normal-based instead of t-based interval; for small samples, intervals based on the normal approximation are too narrow.} </li>
+<li> What is the upper confidence bound? {1:NUMERICAL:=5034.371:0.1~%50%5015.532:0.1#Normal-based instead of t-based interval; for small samples, intervals based on the normal approximation are too narrow.} </li>
+</ol>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+<p>The <span class="math inline">\(99\%\)</span> confidence interval for the average content <span class="math inline">\(\mu\)</span> in ml is given by: <span class="math display">\[
+\begin{aligned}
+&amp; \left[\bar{y} \, - \, t_{n-1;0.995}\sqrt{\frac{s_{n-1}^2}{n}}, \;
+  \bar{y} \, + \, t_{n-1;0.995}\sqrt{\frac{s_{n-1}^2}{n}}\right] \\
+&amp;= \left[ 4963 \, - \, 3.4995\sqrt{\frac{3327.5}{8}}, \;
+          4963 \, + \, 3.4995\sqrt{\frac{3327.5}{8}}\right] \\
+&amp;= \left[4891.629, \, 5034.371\right].
+\end{aligned}
+\]</span></p>
+<ol type = "a">
+<li> The lower confidence bound is <span class="math inline">\(4891.629\)</span>. </li>
+<li> The upper confidence bound is <span class="math inline">\(5034.371\)</span>. </li>
+</ol>
+</p>]]></text>
+    </generalfeedback>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+</quiz>
