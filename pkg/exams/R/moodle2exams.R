@@ -1,68 +1,152 @@
-moodle2exams <- function(x, dir = NULL, tdir = NULL)
+moodle2exams <- function(x, dir = NULL, exshuffle = TRUE)
 {
+  ## read Moodle XML file (if necessary)
   stopifnot(requireNamespace("xml2"))
+  if(!inherits(x, "xml_node") && length(x) == 1L) x <- xml2::read_xml(x)
 
-  if(is.null(tdir)) {
-    tdir <- tempfile()
-    dir.create(tdir)
-    on.exit(unlink(tdir))
+  ## set up template in indicated markup
+  ## FIXME: markup currently hard-coded as "markdown" because "latex" needs more testing/improvements
+  markup <- "markdown"
+  if(markup == "markdown") markup <- "markdown_strict"
+  if(!(markup %in% c("markdown_strict", "latex"))) stop("'markup' must be either markdown/markdown_strict or latex")
+  fext <- if(markup == "markdown_strict") "Rmd" else "Rnw"
+  tmpl <- if(markup == "markdown_strict") {
+
+'Question
+========
+%s
+%s
+
+%s
+
+Meta-information
+================
+exname: %s
+extype: %s
+exsolution: %s
+%s
+'
+
+  } else {
+  
+'\\begin{question}
+%s
+%s
+\\end{question}
+
+%s
+
+\\exname{%s}
+\\extype{%s}
+\\exsolution{%s}
+%s
+'
+
+  }
+  
+  ## convenience functions
+  answerlist_env <- function(x) {
+    if(markup == "markdown_strict") {
+      c("Answerlist", "----------", paste("*", x))
+    } else {
+      c("\\begin{answerlist}", paste("  \\item", x), "\\end{answerlist}")
+    }
+  }
+  
+  solution_env <- function(solutions, feedback) {
+    if(length(solutions) > 0L) solutions <- answerlist_env(solutions)
+    solutions <- c(feedback, solutions)
+    solutions <- if(markup == "markdown_strict") {
+      c("Solution", "========", solutions)
+    } else {
+      c("\\begin{solution}", solutions, "\\end{solutions}")
+    }
+  }
+  
+  name_to_file <- function(name) {
+    name <- gsub(":|,|!", "", name)
+    name <- gsub(" ", "_", name)
+    for(i in c("...", "|", "/", "(", ")", "[", "]", "{", "}", "<", ">")) {
+      name <- gsub(i, "", name, fixed = TRUE)
+    }
+    return(name)
   }
 
-  if(length(x) < 2)
-    x <- xml2::read_xml(x)
-
-  owd <- getwd()
-  setwd(tdir)
-
+  ## extract questions
+  ## FIXME: restrict question types some more?
   qu <- xml2::xml_find_all(x, "question")
-  types <- xml2::xml_attr(qu, "type")
-  converted <- list()
-  i <- 1
-  titles <- NULL
-  for(j in 1:length(qu)) {
-    if(types[j] == "cloze")
+  type <- xml2::xml_attr(qu, "type")
+  qu <- qu[type != "category"]
+  type <- type[type != "category"]
+  n <- length(qu)
+  if(n < 1L) stop("no <question> tags (of supported type)")
+  
+  ## set up variables for each question
+  ## FIXME: currently name = NULL hard-coded, also let the user specify this?
+  exrc <- vector(mode = "list", length = n)
+  name <- NULL
+  if(is.null(name)) {
+    name <- rep.int("", n)
+  } else {
+    name <- rep_len(as.character(name), n)
+    name[is.na(name) | duplicated(name)] <- ""
+  }
+  exshuffle <- rep_len(as.character(exshuffle), n)
+  
+  ## cycle through questions
+  for(i in 1L:n) {
+    ## cloze not fully supported yet
+    if(type[i] == "cloze")
       warning("cloze conversion not fully supported yet!")
-    quj <- xml2::xml_children(qu[[j]])
-    qn <- xml2::xml_name(quj)
+    qui <- xml2::xml_children(qu[[i]])
+    qn <- xml2::xml_name(qui)
     if("questiontext" %in% qn) {
-      qtext <- xml2::xml_text(quj[qn == "questiontext"])
-      qtext <- pandoc(qtext, from = "html", to = "markdown_strict")
+      qtext <- xml2::xml_text(qui[qn == "questiontext"])
+      qtext <- pandoc(qtext, from = "html", to = markup)
       exsol <- extol <- feedback <- NULL
       answers <- solutions <- list()
-      if(types[j] == "numerical") {
-        exsol <- xml2::xml_text(xml2::xml_children(quj[qn == "answer"])[1])
-        extol <- xml2::xml_children(quj[qn == "answer"])
+
+      ## num
+      if(type[i] == "numerical") {
+        exsol <- xml2::xml_text(xml2::xml_children(qui[qn == "answer"])[1L])
+        extol <- xml2::xml_children(qui[qn == "answer"])
         if("tolerance" %in% xml2::xml_name(extol))
           extol <- xml2::xml_text(extol[xml2::xml_name(extol) == "tolerance"])
       }
-      if(types[j] == "multichoice") {
-        ans <- quj[qn == "answer"]
+      
+      ## schoice/mchoice
+      if(type[i] == "multichoice") {
+        ans <- qui[qn == "answer"]
         frac <- xml2::xml_attr(ans, "fraction")
         frac <- as.numeric(frac)
         sol <- frac > 0
         exsol <- paste0(sol * 1, collapse = "")
-        for(j in 1:length(ans)) {
+        for(j in 1L:length(ans)) {
           ac <- xml2::xml_children(ans[j])
           ac <- ac[xml2::xml_name(ac) == "text"]
           ac <- xml2::xml_text(ac)
-          answers[[j]] <- pandoc(ac[1], from = "html", to = "markdown_strict")
-          if(length(ac) > 1)
-            solutions[[j]] <- pandoc(ac[2], from = "html", to = "markdown_strict")
+          answers[[j]] <- pandoc(ac[1], from = "html", to = markup)
+          if(length(ac) > 1L)
+            solutions[[j]] <- pandoc(ac[2], from = "html", to = markup)
         }
       }
-      if(types[j] == "shortanswer") {
-        ans <- xml2::xml_children(quj[qn == "answer"])
+      
+      ## string
+      if(type[i] == "shortanswer") {
+        ans <- xml2::xml_children(qui[qn == "answer"])
         exsol <- xml2::xml_text(ans[xml2::xml_name(ans) == "text"][1])
       }
 
+      ## general feedback
       if("generalfeedback" %in% qn) {
-        feedback <- quj[qn == "generalfeedback"]
+        feedback <- qui[qn == "generalfeedback"]
         feedback <- xml2::xml_text(feedback)
-        feedback <- pandoc(feedback, from = "html", to = "markdown_strict")
+        feedback <- pandoc(feedback, from = "html", to = markup)
       }
 
-      extitle <- xml2::xml_text(quj[qn == "name"])
-      extype <- switch(types[j],
+      ## name/label and type
+      exname <- xml2::xml_text(qui[qn == "name"])
+      extype <- switch(type[i],
         "numerical" = "numeric",
         "essay" = "string",
         "cloze" = "cloze",
@@ -70,48 +154,38 @@ moodle2exams <- function(x, dir = NULL, tdir = NULL)
         "shortanswer" = "string"
       )
 
-      rmd <- c("Question", "========",
-        qtext, "",
-        if(types[j] == "multichoice") {
-          c(paste("*", unlist(answers)), "")
-        } else NULL,
-        "Solution", "========",
-        "",
-        if(length(solutions)) {
-          c(paste("*", unlist(solutions)), "")
-        } else NULL,
-        if(!is.null(feedback)) {
-          c(feedback, "")
-        } else NULL,
-        "Meta-information",
-        "================",
-        paste("exname:", extitle),
-        paste("extype:", extype),
-        paste("exsolution:", exsol),
-        if(!is.null(extol)) {
-          paste("extol:", extol)
-        } else NULL
-      )
+      ## further meta-information tags
+      exother <- if(type[i] == "numerical" && !is.null(extol)) {
+        sprintf(if(markup == "markdown_strict") "extol: %s" else "\\extol{%s}", extol)
+      } else if(type[i] == "multichoice") {
+        sprintf(if(markup == "markdown_strict") "exshuffle: %s" else "\\exshuffle{%s}", exshuffle[i])
+      } else {
+        ""
+      }
 
-      converted[[i]] <- rmd
-      titles <- c(titles, extitle)
-      i <- i + 1
+      ## insert information into template
+      exrc[[i]] <- sprintf(tmpl,
+        paste(qtext, collapse = "\n"),
+	if(type[i] == "multichoice") paste(c("", answerlist_env(unlist(answers))), collapse = "\n") else "",
+        if(length(solutions) >= 1L || !is.null(feedback)) paste(solution_env(solutions, feedback), collapse = "\n") else "",
+	exname,
+	extype,
+	exsol,
+	exother)
+      
+      ## default file name
+      if(name[i] == "") name[i] <- name_to_file(exname)
     }
   }
 
-  titles <- gsub(" ", "", titles)
-  titles <- gsub("...", "", titles, fixed = TRUE)
-  titles <- paste0("ex", 1:length(titles), "_", titles)
-  names(converted) <- titles
-
-  setwd(owd)
-
+  ## write/return resulting exercises
+  names(exrc) <- name
   if(!is.null(dir)) {
-    for(j in 1:length(converted)) {
-      writeLines(converted[[j]], file.path(dir, paste0(titles[j], ".Rmd")))
+    for(i in 1L:length(exrc)) {
+      writeLines(exrc[[i]], file.path(dir, paste(name[i], fext, sep = ".")))
     }
+    invisible(exrc)
+  } else {
+    return(exrc)
   }
-
-  converted
 }
-

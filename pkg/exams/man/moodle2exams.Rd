@@ -1,22 +1,22 @@
 \name{moodle2exams}
 \alias{moodle2exams}
 
-\title{Convert Moodle XML Quizzes to Markdown Exercises}
+\title{Convert Moodle XML Quizzes to R/exams Exercises}
 
 \description{
   Function to convert numerical, multichoice, shortanswer and essay type Moodle quiz exercises
-  to exams type Markdown exercises.
+  to R/exams exercises (currently in R/Markdown only).
 }
 
 \usage{
-moodle2exams(x, dir = NULL, tdir = NULL)
+moodle2exams(x, dir = NULL, exshuffle = TRUE)
 }
 
 \arguments{
   \item{x}{character, a path to a Moodle XML file. Optionally also the completely read, with 
     \code{\link[base]{readLines}}, XML code as character string.}
-  \item{dir}{charcter, the directory where the converted exercises should be saved.}
-  \item{tdir}{character, a temporary directory that should be used during conversion.}
+  \item{dir}{character, the directory where the converted exercises should be saved.}
+  \item{exshuffle}{meta-information tag used for multiple-choice items.}
 }
 
 \details{
