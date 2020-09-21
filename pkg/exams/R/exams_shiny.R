@@ -157,11 +157,11 @@ exams_shiny_ui <- function(...) {
                  column(2, uiOutput("blockbutton")),
                  column(2, uiOutput("unblockbutton"))
                ),
+               br(),
                fluidRow(
                  column(3, uiOutput("pointsbutton")),
                  column(3, uiOutput("pointsbuttonpoints"))
                ),
-               actionButton("set_preview", label = "Preview"),
                tags$hr(),
                textInput("exam_name", "Name of the exam.", "Exam1"),
                uiOutput("saveexambutton"),
@@ -484,7 +484,7 @@ exams_shiny_server <- function(input, output, session)
     actionButton("block_points", label = "Block points")
   })
   output$pointsbuttonpoints <- renderUI({
-    numericInput("block_points_p", label = NA, 1)
+    numericInput("block_points_p", label = NULL, 1)
   })
   output$saveexambutton <- renderUI({
     actionButton("save_exam", label = "Save exam")
@@ -694,14 +694,19 @@ exams_shiny_server <- function(input, output, session)
       paste("exercises", "zip", sep = ".")
     },
     content = function(file) {
-      owd <- getwd()
-      dir.create(tdir <- tempfile())
-      file.copy(list.files("exercises", recursive = TRUE), tdir, recursive = TRUE)
-      setwd(tdir)
-      zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
-      setwd(owd)
-      file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
-      unlink(tdir)
+      id <- input$ex_table_rows_selected
+      if(length(id)) {
+        ex <- available_exercises()
+        ex <- ex[id]
+        owd <- getwd()
+        dir.create(tdir <- tempfile())
+        file.copy(file.path("exercises", ex), file.path(tdir, ex), recursive = TRUE)
+        setwd(tdir)
+        zip(zipfile = paste("exercises", "zip", sep = "."), files = list.files(tdir))
+        setwd(owd)
+        file.copy(file.path(tdir, paste("exercises", "zip", sep = ".")), file)
+        unlink(tdir)
+      }
     }
   )
 
