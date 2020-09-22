@@ -42,6 +42,7 @@ moodle2exams(x, dir = NULL, exshuffle = TRUE)
 \seealso{\code{\link{exams2moodle}}}
 
 \examples{
+\dontrun{
 ## Path to saved Moodle quiz.
 path_to_quiz <- file.path(find.package("exams"), "xml", "moodlequiz.xml")
 
@@ -52,6 +53,7 @@ ex_converted <- moodle2exams(path_to_quiz)
 ## using writeLines.
 names(ex_converted)
 writeLines(ex_converted[[1]])
+}
 }
 
 \keyword{utilities}
