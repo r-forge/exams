@@ -102,7 +102,7 @@ Of course, other learning management systems are also very powerful with Blackbo
 
 ## Collaborating with colleagues
 
-One design principle of R/exams is that each exercise is a separate file. The motivation behind this is to make it easy to distribute work on a question bank among a larger group before someone eventually compiles a final exam from this question bank. Hence it's great to see that various R/exams users report that they work on the exercises together with their colleagues, e.g., [Fernando Mayer @fernando_mayer on Twitter](https://twitter.com/AchimZeileis/status/1292774253516001280) or:
+One design principle of R/exams is that each exercise is a separate file. The motivation behind this is to make it easy to distribute work on a question bank among a larger group before someone eventually compiles a final exam from this question bank. Hence it's great to see that various R/exams users report that they work on the exercises together with their colleagues, e.g., [Fernando Mayer @fernando_mayer on Twitter](https://twitter.com/fernando_mayer/status/1293483065243832322) or:
 
 > [Ilaria Prosdocimi @ilapros](https://twitter.com/ilapros/status/1292825732897476611): used by me and colleagues in Venice for about 500 exams via Moodle (in different basic stats courses). Mostly single choice and numeric questions. After some initial learning it worked perfectly and made the whole exam writing much easier.
 
