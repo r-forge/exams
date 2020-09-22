@@ -382,7 +382,7 @@ two options are available: <a href="https://en.wikipedia.org/wiki/Markdown">Mark
 and recommended for authors who do not know LaTeX yet. If mathematic notation and
 formulas are needed, then LaTeX can be used - either within a LaTeX or also within
 a Markdown question. The file suffix for <a href="http://rmarkdown.rstudio.com/">R/Markdown</a>
-is <code class="highlighter-rouge">.Rmd</code> while <code class="highlighter-rouge">.Rnw</code> is conventionally used for R/LaTeX, known as
+is <code class="language-plaintext highlighter-rouge">.Rmd</code> while <code class="language-plaintext highlighter-rouge">.Rnw</code> is conventionally used for R/LaTeX, known as
 <a href="http://leisch.userweb.mwn.de/Sweave/">Sweave</a>.</p>
 
 <p>In the following, a first session should help new R/exams users to explore the materials
@@ -401,10 +401,10 @@ product rule for derivatives where various numbers are drawn randomly in R.</li>
 
 <p>To explore what is available in R/exams two things are necessary: a couple of exercise
 templates to draw inspiration from, and some demo R scripts that illustrate how the
-different <code class="highlighter-rouge">exams2xyz()</code> functions can produce output in a variety of formats. (Here,
-<code class="highlighter-rouge">xyz</code> is a <em>placeholder</em> for the output format like <code class="highlighter-rouge">html</code>, <code class="highlighter-rouge">pdf</code>, <code class="highlighter-rouge">moodle</code>, etc.)
-The function <code class="highlighter-rouge">exams_skeleton()</code> is a helper function that generates exactly these
-materials in a specified folder. For example, when <code class="highlighter-rouge">exams</code> has already been
+different <code class="language-plaintext highlighter-rouge">exams2xyz()</code> functions can produce output in a variety of formats. (Here,
+<code class="language-plaintext highlighter-rouge">xyz</code> is a <em>placeholder</em> for the output format like <code class="language-plaintext highlighter-rouge">html</code>, <code class="language-plaintext highlighter-rouge">pdf</code>, <code class="language-plaintext highlighter-rouge">moodle</code>, etc.)
+The function <code class="language-plaintext highlighter-rouge">exams_skeleton()</code> is a helper function that generates exactly these
+materials in a specified folder. For example, when <code class="language-plaintext highlighter-rouge">exams</code> has already been
 <a href="http://www.R-exams.org/tutorials/installation/">installed</a>, the following can be carried out
 in R:</p>
 
@@ -413,8 +413,8 @@ exams_skeleton(markup = &quot;markdown&quot;, encoding = &quot;UTF-8&quot;,
   writer = c(&quot;exams2html&quot;, &quot;exams2pdf&quot;, &quot;exams2moodle&quot;))</code></pre>
 
 <p>This copies all R/Markdown files to the current working directory along with demo scripts,
-illustrating the usage of <code class="highlighter-rouge">exams2html()</code> and <code class="highlighter-rouge">exams2pdf()</code> for customizable HTML and
-PDF output, respectively, along with Moodle output via <code class="highlighter-rouge">exams2moodle()</code>. Specifically,
+illustrating the usage of <code class="language-plaintext highlighter-rouge">exams2html()</code> and <code class="language-plaintext highlighter-rouge">exams2pdf()</code> for customizable HTML and
+PDF output, respectively, along with Moodle output via <code class="language-plaintext highlighter-rouge">exams2moodle()</code>. Specifically,
 the working directory then contains:</p>
 
 <pre><code class="prettyprint ">dir()</code></pre>
@@ -427,7 +427,7 @@ the working directory then contains:</p>
 <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-all.R">demo-all.R</a> for the first steps and then continue with
 more details in <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-html.R">demo-html.R</a>, <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-pdf.R">demo-pdf.R</a>, or
 <a href="http://www.R-exams.org/assets/posts/2017-09-10-first_steps//demo-moodle.R">demo-moodle.R</a>, respectively.
-More information about all the <code class="highlighter-rouge">exercises</code> can be found in the
+More information about all the <code class="language-plaintext highlighter-rouge">exercises</code> can be found in the
 <a href="http://www.R-exams.org/templates/">exercise template gallery</a> online.</p>
 
 <h2 id="single-choice-swiss-capital">Single-choice: Swiss capital</h2>
@@ -435,7 +435,7 @@ More information about all the <code class="highlighter-rouge">exercises</code> 
 <p>Knowledge quiz question (about the Swiss capital) with 1 correct and 6 false alternative.
 4 out of the 6 false alternatives are sampled randomly and shuffled. Otherwise the
 exercise is static and contains no R code. Below the structure of the exercise is
-highlighted side-by-side in both <code class="highlighter-rouge">.Rmd</code> and <code class="highlighter-rouge">.Rnw</code>, illustrating that the additional
+highlighted side-by-side in both <code class="language-plaintext highlighter-rouge">.Rmd</code> and <code class="language-plaintext highlighter-rouge">.Rnw</code>, illustrating that the additional
 exercise markup is similar in spirit to the respective typesetting system.</p>
 
 <p>To see what the output looks like, run the following code within R or take a look at
@@ -577,11 +577,11 @@ the federal authorities is Bern.
 
 <h4 id="meta-information">Meta-information</h4>
 
-<p>In the meta-information, each exercise must specify at least an <code class="highlighter-rouge">extype</code>,
-and an <code class="highlighter-rouge">exsolution</code>, and should typically also have a short descriptive
-<code class="highlighter-rouge">exname</code>. The type for single-choice questions is <code class="highlighter-rouge">schoice</code> and the
-<code class="highlighter-rouge">exsolution</code> is simply a binary coding of the 7 answer alternatives.
-For randomization, additionally <code class="highlighter-rouge">exshuffle</code> is set to 5 so that 1 correct
+<p>In the meta-information, each exercise must specify at least an <code class="language-plaintext highlighter-rouge">extype</code>,
+and an <code class="language-plaintext highlighter-rouge">exsolution</code>, and should typically also have a short descriptive
+<code class="language-plaintext highlighter-rouge">exname</code>. The type for single-choice questions is <code class="language-plaintext highlighter-rouge">schoice</code> and the
+<code class="language-plaintext highlighter-rouge">exsolution</code> is simply a binary coding of the 7 answer alternatives.
+For randomization, additionally <code class="language-plaintext highlighter-rouge">exshuffle</code> is set to 5 so that 1 correct
 and 4 random wrong alternatives are subsampled and shuffled.</p>
 
 <div class="row t20 b20">
@@ -656,10 +656,10 @@ exams2pdf("deriv.Rnw")
 
 <h4 id="data-generation">Data generation</h4>
 
-<p>The R code simply draws the two parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> as well as the argument <code class="highlighter-rouge">c</code>
+<p>The R code simply draws the two parameters <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> as well as the argument <code class="language-plaintext highlighter-rouge">c</code>
 from a discrete uniform distribution. (See the question below for the actual function used.)
 Subsequently, the random numbers are inserted into the correct solution and storing
-it as <code class="highlighter-rouge">res</code>.</p>
+it as <code class="language-plaintext highlighter-rouge">res</code>.</p>
 
 <div class="row t20 b20">
   <div class="medium-6 columns">
@@ -723,9 +723,9 @@ evaluated at $x = \Sexpr{c}$?
 
 <h4 id="meta-information-1">Meta-information</h4>
 
-<p>Again, the meta-information lists <code class="highlighter-rouge">extype</code> (which is <code class="highlighter-rouge">num</code> for numeric exercises),
-<code class="highlighter-rouge">exsolution</code> (which is inserted dynamically from the variable <code class="highlighter-rouge">res</code> computed above),
-and a short <code class="highlighter-rouge">exname</code>. Additionally, the tolerance <code class="highlighter-rouge">extol</code> which is used for automatically
+<p>Again, the meta-information lists <code class="language-plaintext highlighter-rouge">extype</code> (which is <code class="language-plaintext highlighter-rouge">num</code> for numeric exercises),
+<code class="language-plaintext highlighter-rouge">exsolution</code> (which is inserted dynamically from the variable <code class="language-plaintext highlighter-rouge">res</code> computed above),
+and a short <code class="language-plaintext highlighter-rouge">exname</code>. Additionally, the tolerance <code class="language-plaintext highlighter-rouge">extol</code> which is used for automatically
 evaluating answers, e.g., in an online test/exam.</p>
 
 <div class="row t20 b20">

@@ -345,7 +345,7 @@
 			<span itemprop="articleSection">
 			<p>Online tests and quizzes conducted in learning management systems are a highly useful tool for students to practice course and materials and for teachers to monitor the progress students make while working on their exercises. However, to allow for enough variation and avoid cheating among students, it is often necessary to generate a large number of variations of exercises for such online tests.</p>
 
-<p>In the following it is demonstrated how <a href="http://www.R-exams.org">R/exams</a> and its <code class="highlighter-rouge">exams2blackboard()</code> function can be used to create “dynamic” online tests and quizzes as well as large item pools for the learning management system <a href="http://www.blackboard.com/">Blackboard</a>. The discussion is based on experiences at the University of Amsterdam, in the Bachelor programme Child Development and Education, where Blackboard testing facilities are used extensively in courses in methods and statistics: Students make formative tests in their preparation of practicals, and teachers use student results to optimize the content of those practicals.</p>
+<p>In the following it is demonstrated how <a href="http://www.R-exams.org">R/exams</a> and its <code class="language-plaintext highlighter-rouge">exams2blackboard()</code> function can be used to create “dynamic” online tests and quizzes as well as large item pools for the learning management system <a href="http://www.blackboard.com/">Blackboard</a>. The discussion is based on experiences at the University of Amsterdam, in the Bachelor programme Child Development and Education, where Blackboard testing facilities are used extensively in courses in methods and statistics: Students make formative tests in their preparation of practicals, and teachers use student results to optimize the content of those practicals.</p>
 
 <p><img src="http://www.R-exams.org/assets/posts/2018-04-16-exams2blackboard/display_of_relfreq_exercise.png" alt="Display of a Blackboard exercise (as rendered by Firefox)." /></p>
 
@@ -357,7 +357,7 @@
 
 <h2 id="exercise-types">Exercise types</h2>
 
-<p>In its testing facilities, Blackboard employs the international QTI 1.2 (question &amp; test interoperability) standard. However, as Blackboard created its own special flavor of QTI 1.2, it was not possible to simply use <code class="highlighter-rouge">exams2qti12()</code> from R/exams but it was necessary to create a separate function <code class="highlighter-rouge">exams2blackboard()</code>. This supports four types of R/exams exercises to be included in the Blackboard testing system:</p>
+<p>In its testing facilities, Blackboard employs the international QTI 1.2 (question &amp; test interoperability) standard. However, as Blackboard created its own special flavor of QTI 1.2, it was not possible to simply use <code class="language-plaintext highlighter-rouge">exams2qti12()</code> from R/exams but it was necessary to create a separate function <code class="language-plaintext highlighter-rouge">exams2blackboard()</code>. This supports four types of R/exams exercises to be included in the Blackboard testing system:</p>
 
 <table>
   <thead>
@@ -368,25 +368,25 @@
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">Calculated numeric</td>
     </tr>
     <tr>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">Multiple choice</td>
     </tr>
     <tr>
-      <td style="text-align: left"><code class="highlighter-rouge">mchoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">mchoice</code></td>
       <td style="text-align: left">Multiple answer</td>
     </tr>
     <tr>
-      <td style="text-align: left"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">string</code></td>
       <td style="text-align: left">Fill in the blank</td>
     </tr>
   </tbody>
 </table>
 
-<p>The R/exams <code class="highlighter-rouge">cloze</code> type is part of the QTI 1.2 standard but not officially supported in Blackboard. Hence this type of item is not supported in the current version of <code class="highlighter-rouge">exams2blackboard()</code> either as no workaround for implementation in Blackbard has been found (yet).</p>
+<p>The R/exams <code class="language-plaintext highlighter-rouge">cloze</code> type is part of the QTI 1.2 standard but not officially supported in Blackboard. Hence this type of item is not supported in the current version of <code class="language-plaintext highlighter-rouge">exams2blackboard()</code> either as no workaround for implementation in Blackbard has been found (yet).</p>
 
 <p>For an overview of question types in Blackboard’s testing module, see <a href="http://help.blackboard.com/Learn/Instructor/Tests_Pools_Surveys/040_Question_Types">Question types</a>.</p>
 
@@ -403,7 +403,7 @@ myexam &lt;- list(
   &quot;boxplots.Rnw&quot;
 )</code></pre>
 
-<p>Here, we use a collection of one <code class="highlighter-rouge">num</code> (<a href="http://www.R-exams.org/templates/tstat/">tstat</a>), one <code class="highlighter-rouge">schoice</code> (<a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>), and three <code class="highlighter-rouge">mchoice</code> (<a href="http://www.R-exams.org/templates/relfreq/">relfreq</a>, <a href="http://www.R-exams.org/templates/anova/">anova</a>, <a href="http://www.R-exams.org/templates/boxplots/">boxplots</a>) questions, respectively, that are a part of the package. Above, the items have a .Rnw format, but all of the examples are also available in .Rmd format, leading to virtually identical output.</p>
+<p>Here, we use a collection of one <code class="language-plaintext highlighter-rouge">num</code> (<a href="http://www.R-exams.org/templates/tstat/">tstat</a>), one <code class="language-plaintext highlighter-rouge">schoice</code> (<a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>), and three <code class="language-plaintext highlighter-rouge">mchoice</code> (<a href="http://www.R-exams.org/templates/relfreq/">relfreq</a>, <a href="http://www.R-exams.org/templates/anova/">anova</a>, <a href="http://www.R-exams.org/templates/boxplots/">boxplots</a>) questions, respectively, that are a part of the package. Above, the items have a .Rnw format, but all of the examples are also available in .Rmd format, leading to virtually identical output.</p>
 
 <p>Next, as a first check of the exam and its questions, it is easier to create one HTML version on-the-fly in the browser before importing one or more versions into Blackboard. (Alternatively or additionally, a PDF version can be easily used.)</p>
 
@@ -419,7 +419,7 @@ exams2blackboard(myexam)</code></pre>
 
 <h2 id="uploading-exams-into-blackboard">Uploading exams into Blackboard</h2>
 
-<p>Next, the exam <code class="highlighter-rouge">blackboard.zip</code> is imported in Blackboard using <em>Import Test</em> in the <em>Tests</em> menu. Below, it can be seen that importing was successful: It now appears as <em>blackboard-test</em> in the menu along with three other exams.</p>
+<p>Next, the exam <code class="language-plaintext highlighter-rouge">blackboard.zip</code> is imported in Blackboard using <em>Import Test</em> in the <em>Tests</em> menu. Below, it can be seen that importing was successful: It now appears as <em>blackboard-test</em> in the menu along with three other exams.</p>
 
 <p><img src="http://www.R-exams.org/assets/posts/2018-04-16-exams2blackboard/test_collection.png" alt="Display of the exams available in the Tests menu (as rendered by Firefox)." /></p>
 
@@ -443,21 +443,21 @@ exams2blackboard(myexam, n = 3, name = &quot;myexam&quot;)</code></pre>
 
 <h3 id="decimal-marks">Decimal marks</h3>
 
-<p>When a non-integer numerical answer is required for <code class="highlighter-rouge">num</code> exercises, it is important that the correct decimal mark is used when typing the number in the answer box in Blackboard’s testing environment. The decimal mark depends on the language settings of the <em>individual</em> student in Blackboard. For example, if the language options are either English or Dutch, English requires a point (“.”) as decimal mark and Dutch requires a comma (“,”). For student level language settings, see <a href="https://help.blackboard.com/Learn/Student/About_You/Personal_Settings">Personal settings</a>. It is advised that students be extensively informed about which decimal mark to use in their tests, because using an inappropriate decimal mark will lead to an incorrect answer. Alternatively, one may <a href="https://help.blackboard.com/Learn/Instructor/FAQ/Language_FAQ">Enforce the Language Pack</a>, forcing students to use a given language (and matching decimal sign).  It is stressed that this issue is specific to Blackboard and has nothing to do with how exercises are created with R/exams; it is simply an issue we experienced at the University of Amsterdam while deploying online tests.</p>
+<p>When a non-integer numerical answer is required for <code class="language-plaintext highlighter-rouge">num</code> exercises, it is important that the correct decimal mark is used when typing the number in the answer box in Blackboard’s testing environment. The decimal mark depends on the language settings of the <em>individual</em> student in Blackboard. For example, if the language options are either English or Dutch, English requires a point (“.”) as decimal mark and Dutch requires a comma (“,”). For student level language settings, see <a href="https://help.blackboard.com/Learn/Student/About_You/Personal_Settings">Personal settings</a>. It is advised that students be extensively informed about which decimal mark to use in their tests, because using an inappropriate decimal mark will lead to an incorrect answer. Alternatively, one may <a href="https://help.blackboard.com/Learn/Instructor/FAQ/Language_FAQ">Enforce the Language Pack</a>, forcing students to use a given language (and matching decimal sign).  It is stressed that this issue is specific to Blackboard and has nothing to do with how exercises are created with R/exams; it is simply an issue we experienced at the University of Amsterdam while deploying online tests.</p>
 
 <h3 id="internet-browser">Internet browser</h3>
 
-<p>By default <code class="highlighter-rouge">exams2blackboard()</code> converts mathematical symbols to <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>. Hence, it is advised that Blackboard tests are administered in a web browser that supports MathML such as Mozilla Firefox and Safari. Of these two the former shows the best performance and the latter does a fairly decent job. Therefore students should be instructed to open their tests in either one of them. Note that Chrome does not support MathML.</p>
+<p>By default <code class="language-plaintext highlighter-rouge">exams2blackboard()</code> converts mathematical symbols to <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>. Hence, it is advised that Blackboard tests are administered in a web browser that supports MathML such as Mozilla Firefox and Safari. Of these two the former shows the best performance and the latter does a fairly decent job. Therefore students should be instructed to open their tests in either one of them. Note that Chrome does not support MathML.</p>
 
-<p>Alternatively, <code class="highlighter-rouge">exams2blackboard(..., converter = "pandoc-mathjax")</code> would allow to embed mathematical formulas for the <a href="https://www.MathJax.org/">MathJax</a> plugin that would need to be available in the Blackboard system. As we did not have access to a MathJax-enabled Blackboard system, we were not able to test this option, though.</p>
+<p>Alternatively, <code class="language-plaintext highlighter-rouge">exams2blackboard(..., converter = "pandoc-mathjax")</code> would allow to embed mathematical formulas for the <a href="https://www.MathJax.org/">MathJax</a> plugin that would need to be available in the Blackboard system. As we did not have access to a MathJax-enabled Blackboard system, we were not able to test this option, though.</p>
 
 <h3 id="evaluation-policies">Evaluation policies</h3>
 
-<p>Evaluation of <code class="highlighter-rouge">num</code>, <code class="highlighter-rouge">schoice</code>, and <code class="highlighter-rouge">string</code> item types generated by R/exams is relatively straightforward: Answers can either be correct or wrong. However, for <code class="highlighter-rouge">mchoice</code> exercises there is more flexibility: Either all parts of an answer have to be exactly correct or partial credits can be assigned. The <code class="highlighter-rouge">exams2blackboard()</code> function allows for specifying evaluation policies and passing them to Blackboard. For more details, see <code class="highlighter-rouge">?exams_eval</code>.</p>
+<p>Evaluation of <code class="language-plaintext highlighter-rouge">num</code>, <code class="language-plaintext highlighter-rouge">schoice</code>, and <code class="language-plaintext highlighter-rouge">string</code> item types generated by R/exams is relatively straightforward: Answers can either be correct or wrong. However, for <code class="language-plaintext highlighter-rouge">mchoice</code> exercises there is more flexibility: Either all parts of an answer have to be exactly correct or partial credits can be assigned. The <code class="language-plaintext highlighter-rouge">exams2blackboard()</code> function allows for specifying evaluation policies and passing them to Blackboard. For more details, see <code class="language-plaintext highlighter-rouge">?exams_eval</code>.</p>
 
 <h3 id="mix-of-exercises">Mix of exercises</h3>
 
-<p>If the test constructor develops exercises for the purpose of creating Blackboard <em>item pools</em> (as opposed to <em>exams</em>), it is advised not to mix exercises into one pool, as is done with <code class="highlighter-rouge">regression</code> and <code class="highlighter-rouge">anova</code> in:</p>
+<p>If the test constructor develops exercises for the purpose of creating Blackboard <em>item pools</em> (as opposed to <em>exams</em>), it is advised not to mix exercises into one pool, as is done with <code class="language-plaintext highlighter-rouge">regression</code> and <code class="language-plaintext highlighter-rouge">anova</code> in:</p>
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 myexam &lt;- list(
@@ -474,7 +474,7 @@ myexam &lt;- list(
 
 <h3 id="importing-blackboard-material-into-other-learning-systems">Importing Blackboard material into other learning systems</h3>
 
-<p>Various other learning management systems allow for importing tests and item pools created in Blackboard. Thus, in principle, exams created using <code class="highlighter-rouge">exams2blackboard()</code> maybe uploaded in those systems as well We did some limited trials with <em>Desire2Learn (D2L)</em> and <em>Canvas</em> suggesting that this route for import works. However, more trials and possibly further finetuning may be needed for things to work properly.</p>
+<p>Various other learning management systems allow for importing tests and item pools created in Blackboard. Thus, in principle, exams created using <code class="language-plaintext highlighter-rouge">exams2blackboard()</code> maybe uploaded in those systems as well We did some limited trials with <em>Desire2Learn (D2L)</em> and <em>Canvas</em> suggesting that this route for import works. However, more trials and possibly further finetuning may be needed for things to work properly.</p>
 
 			</span>
 

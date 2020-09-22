@@ -1,0 +1,692 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+		<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>R/exams for Distance Learning: Resources and Experiences</title>
+	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
+	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Lato:400,700,400italic:latin', 'Noto+Serif:400,700,400italic:latin' ]
+      }
+    });
+  </script>
+
+  <noscript>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic|Volkhov' rel='stylesheet' type='text/css' />
+  </noscript>
+
+	
+	
+	<meta name="description" content="Resources and experiences shared by the R/exams community for supporting distance learning in different learning management systems." />
+	<meta name="keywords" content="R, exams, exams2moodle, exams2canvas, exams2openolat, exams2blackboard" />
+	
+	<meta name="author" content="Achim Zeileis" />
+
+	
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/manifest.json">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#1f7a7a">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="R/exams">
+<meta name="application-name" content="R/exams">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#1f7a7a">
+
+
+	<!-- Search Engine Optimization -->
+	
+	
+	
+
+	<!-- Facebook Optimization -->
+	<meta property="og:title" content="R/exams for Distance Learning: Resources and Experiences" />
+	<meta property="og:description" content="Resources and experiences shared by the R/exams community for supporting distance learning in different learning management systems." />
+	<meta property="og:url" content="http://www.R-exams.org//general/distancelearning/" />
+	<meta property="og:locale" content="en_EN" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="R/exams" />
+	<meta property="og:image" content="http://www.R-exams.org/images/distancelearning.300.png" />
+	
+
+	
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="AchimZeileis" />
+	<meta name="twitter:creator" content="AchimZeileis" />
+	<meta name="twitter:title" content="R/exams for Distance Learning: Resources and Experiences" />
+	<meta name="twitter:description" content="Resources and experiences shared by the R/exams community for supporting distance learning in different learning management systems." />
+	<meta name="twitter:image" content="http://www.R-exams.org/images/distancelearning.300.png" />
+
+
+	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
+
+	
+
+	
+
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    /// var u=(("https:" == document.location.protocol) ? "https" : "http") + "://retostauffer.org/piwik/"; ///
+    var u="https" + "://retostauffer.org/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "3"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+</head>
+<body id="top-of-page" class="post">
+	
+	
+<div id="navigation" class="sticky">
+  <nav class="top-bar" role="navigation" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+          <a href="http://www.R-exams.org">
+            <img class='nav-logo' src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams">
+          </a>
+          <!-- <h1 class="show-for-small-only"><a href="http://www.R-exams.org" class="icon-tree"> R/exams</a></h1> -->
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+
+      <ul class="left">
+        
+
+              
+
+          
+          
+
+            
+            
+
+              <li class="has-dropdown">
+                <a href="http://www.R-exams.org/">R/exams</a>
+
+                  <ul class="dropdown">
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/elearning/">E-Learning</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/oneforall/">One-for-All</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/written/">Written Exams</a></li>
+                    
+
+                      
+
+                      <li><a href="http://www.R-exams.org/intro/dynamic/">Dynamic Exercises</a></li>
+                    
+                  </ul>
+
+              </li>
+              <li class="divider"></li>
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/tutorials/">Tutorials</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/templates/">Exercise Templates</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+
+            
+            
+              <li><a href="http://www.R-exams.org/blog/">Blog</a></li>
+              <li class="divider"></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+        
+      </ul>
+
+      <ul class="right">
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/resources/">Resources</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/contact/">Contact</a></li>
+
+            
+            
+          
+        
+
+              
+
+          
+          
+            
+            
+              <li class="divider"></li>
+              <li><a href="http://www.R-exams.org/search/">Search</a></li>
+
+            
+            
+          
+        
+        
+      </ul>
+    </section>
+  </nav>
+</div><!-- /#navigation -->
+
+	
+
+	
+
+<!-- <div id="masthead-no-image-header"> -->
+	<!-- <div class="row"> -->
+		<!-- <div class="small-12 columns"> -->
+			<!-- <a id="logo" href="http://www.R-exams.org" title="R/exams – The One-for-All Exams Generator"> -->
+				<!-- <img src="http://www.R-exams.org/assets/img/logo.svg" alt="R/exams – The One-for-All Exams Generator"> -->
+			<!-- </a> -->
+		<!-- </div>[> /.small-12.columns <] -->
+	<!-- </div>[> /.row <] -->
+<!-- </div>[> /#masthead <] -->
+
+
+
+
+
+
+
+
+
+
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/distancelearning.title.png" width="970" alt="R/exams for Distance Learning: Resources and Experiences" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams photo (CC-BY).
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>R/exams for Distance Learning: Resources and Experiences</h1>
+				</span>
+			</header>
+
+
+			
+			<p class="teaser" itemprop="description">
+				Resources and experiences shared by the R/exams community for supporting distance learning in different learning management systems.
+			</p>
+			
+
+			<span itemprop="articleSection">
+			<h2 id="motivation">Motivation</h2>
+
+<p>The COVID-19 pandemic forced many of us to switch abruptly from our usual teaching schedules to distance learning formats. Within days or a couple of weeks, it was necessary to deliver courses in live streams or screen casts, to develop new materials for giving students feedback online, and to move assessments to online formats. This led to a sudden increase in the interest in video conference software (like <a href="https://zoom.us/">Zoom</a>, <a href="https://www.bigbluebutton.org/">BigBlueButton</a>, …), learning management systems (like <a href="https://www.moodle.org/">Moodle</a>, <a href="https://www.instructure.com/canvas/">Canvas</a>, <a href="https://www.openolat.com/">OpenOLAT</a>, <a href="https://www.blackboard.com/">Blackboard</a>, <a href="https://www.ilias.de/">ILIAS</a>, …), and - last not least - our <a href="http://www.R-exams.org">R/exams</a> package. Due to the flexible “one-for-all” approach, it was relatively easy for R/exams users who had been using the system for in-class materials to transition to e-learning materials. But also many new R/exams users emerged that were interested in leveraging their university’s learning management system (often Moodle) for their classes (often related to statistics, data analysis, etc.).</p>
+
+<p>As distance learning will continue to play an important role in most universities in the upcoming semester, I called for sharing experiences and resources related to R/exams. Here, I collect and summarize some of the feedback from the R/exams community. The full original threads can be found on Twitter and in the R-Forge forum, respectively.</p>
+
+<ul>
+  <li><a href="https://twitter.com/AchimZeileis/status/1292774253516001280">Twitter (@AchimZeileis): After a semester of #distancelearning is before the next semester of #distancelearning…</a></li>
+  <li><a href="https://R-Forge.R-project.org/forum/forum.php?thread_id=34019&amp;forum_id=4377&amp;group_id=1337">R-Forge forum: Experiences with R/exams for distance learning</a>.</li>
+</ul>
+
+<h2 id="resources">Resources</h2>
+
+<p>Due to the increased interest in R/exams, I contributed various YouTube videos to help getting an overview of the system and to tackle specific tasks (creating exercises or online tests, summative exams, etc.). Also, the many questions asked on StackOverflow and the R-Forge forum led to numerous improvements in the software and support for various typical challenges.</p>
+
+<ul>
+  <li>R/exams webinar @ WhyR?: <a href="https://www.youtube.com/watch?v=PnyCR7q4P4Q">YouTube video</a>, <a href="http://www.R-exams.org/general/whyr2020/">blog post</a>.</li>
+  <li>Video tutorials: <a href="https://www.youtube.com/channel/UCWDENSBdBxq-Z-hKIcLg1bA/videos">YouTube channel Achim Zeileis</a>.</li>
+  <li>Questions &amp; answers: <a href="https://stackoverflow.com/questions/tagged/r-exams">StackOverflow/r-exams</a>, <a href="https://R-Forge.R-project.org/forum/forum.php?forum_id=4377">R-Forge forum</a>.</li>
+</ul>
+
+<p>But in addition to these materials that we developed, many R/exams users stepped up and also created really cool and useful materials. Especially from users in Spain came a lot of interest along with great contributions:</p>
+
+<ul>
+  <li>Jonathan Tuke (YouTube video, in English): <a href="https://www.youtube.com/watch?v=yQnIxwTx_PU">Online tests in Canvas.</a>.</li>
+  <li>Julio Mulero (blog post, in Spanish): <a href="https://elultimoversodefermat.wordpress.com/2020/03/29/uso-de-r-para-la-elaboracion-de-cuestionarios-aleatorios-en-moodle/">Online tests in Moodle</a>.</li>
+  <li>Estadística útil (YouTube videos, in Spanish): <a href="https://www.youtube.com/watch?v=nL7iZhFJY1Y">Package</a>, <a href="https://www.youtube.com/watch?v=YXuFFZK1gwE">Installation</a>, <a href="https://www.youtube.com/watch?v=BccEnoS2T6c">First steps</a>, <a href="https://www.youtube.com/watch?v=UmX-RItyyQs">Single choice</a>, <a href="https://www.youtube.com/watch?v=fBIdJGphxGE">Written exams</a>, <a href="https://www.youtube.com/watch?v=6sv71iyYV1U">Moodle exams</a>.</li>
+  <li>Pedro Luis Luque Calvo (YouTube video and blog, in Spanish): <a href="https://www.youtube.com/watch?v=X6dBJmzCAzE">Online tests in Blackboard</a>, <a href="http://destio.us.es/calvo/post/2020-05-01-como-crear-examenes-con-rexams-y-rmarkdown/como-crear-examenes-con-rexams-y-rmarkdown/">blog post</a>.</li>
+  <li>Kenji Sato (blog posts, in Japanese or English): <a href="https://www.kenjisato.jp/post/2020/08/rexams-online-1/">Part 1</a>, <a href="https://www.kenjisato.jp/post/2020/08/rexams-online-2/">Part 2</a>, <a href="https://www.kenjisato.jp/post/2020/09/rexams-online-3/">Part 3</a>, <a href="https://kenjisato.jp/en/post/2020/07/moodle-bordered-table/">bordered tables</a>.</li>
+</ul>
+
+<h2 id="at-universität-innsbruck">At Universität Innsbruck</h2>
+
+<p>Not surprisingly, we had been using R/exams extensively in our teaching for a <a href="http://www.R-exams.org/general/uibk_math/">blended learning approach in a Mathematics 101 course (R/exams blog)</a>. The asynchronous parts of the course (screencasts, forum, self tests, and formative online tests) were already delivered through the university’s OpenOLAT learning management system. Thus, we “just” had to switch the synchronous parts of the course (lecture, tutorials, and summative written exams) to distance learning formats:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left">Learning</th>
+      <th style="text-align: left">Feedback</th>
+      <th style="text-align: left">Assessment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Synchronous</strong></td>
+      <td style="text-align: left">Lecture <br /> Live stream</td>
+      <td style="text-align: left"><em>Previously: Live quiz</em> <br /> <strong>Now: Online test</strong> <br /> (+ Tutorial)</td>
+      <td style="text-align: left"><em>Previously: Written exam</em> <br /> <strong>Now: Online exam</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Asynchronous</strong></td>
+      <td style="text-align: left">Textbook <br /> Screencast</td>
+      <td style="text-align: left">Self test <br /> (+ Forum)</td>
+      <td style="text-align: left">Online test</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The most challenging part was the <a href="http://www.R-exams.org/tutorials/openolat_exam/">summative online exam (R/exams blog)</a> but overall everything worked out reasonably ok. One nice aspect was that other colleagues profited immediately from using a similar approach for their online exams as well. Like my colleague <a href="http://www.lisalechner.com/">Lisa Lechner</a> from the Department of Political Science:</p>
+
+<blockquote>
+  <p>Lisa Lechner: R/exams was a life-saver during the difficult semester we faced. I used it for the statistics lecture with approx. 300 students (final online exam, but also ARSnova questions) and for a smaller course on empirical methods in political science. But even before the pandemic, R/exams increased the fairness of my final exams and reduced the time spent on evaluating results. #bestRpackage2020</p>
+</blockquote>
+
+<h2 id="replacing-written-exams">Replacing written exams</h2>
+
+<p>Finding a suitable replacement for the summative written exams was not only a challenge for us. One concern that came up several times was that learning management systems like Moodle might not be reliable enough for online exams, especially if students’ internet connections were flaky. Hence, one idea that was discussed, especially with <a href="https://www.nicebread.de/">Felix Schönbrodt</a> and <a href="https://freakonometrics.github.io/">Arthur Charpentier</a>, was to e-mail <a href="https://stackoverflow.com/questions/62392297/create-fillable-pdf-form-with-exams2nops">fillable PDF forms (StackOverflow Q&amp;A)</a> to students <a href="https://twitter.com/freakonometrics/status/1293985139089911820">instead of relying entirely on Moodle (Twitter)</a>. However, I could convince them that PDF forms would create more problems than they solve (see the linked threads above for more details):</p>
+
+<blockquote>
+  <p><a href="https://twitter.com/nicebread303/status/1294213560923455489">Felix Schönbrodt @nicebread303</a>: We thought about doing a (pseudo-written) PDF-exam, but we are very glad that we followed @AchimZeileis advice to go for Moodle. Grading is so much easier!</p>
+</blockquote>
+
+<p>Another concern is, of course, cheating, no matter which format the exams use. Many R/exams users recommended to use open-ended questions and/or more complex cloze questions forcing participants to interact with a certain randomized problem, e.g., based on a randomized data set. As <a href="https://prof.beuth-hochschule.de/groemping/">Ulrike Grömping</a> reports, this can also be combined with online proctoring for moderately-sized exams.</p>
+
+<blockquote>
+  <p><a href="https://R-Forge.R-project.org/forum/forum.php?thread_id=34019&amp;forum_id=4377&amp;group_id=1337">Ulrike Grömping (R-Forge)</a>: I have also run online exams via Moodle in real time, supervised in a video conference […]. And I have not used auto correction, but have asked questions that also require free text answers from students (text fields with arbitrary correct answer of (e.g.) 72 characters in a cloze exercise). Of course, the solutions support my manual correction process.</p>
+</blockquote>
+
+<p>Other approaches to tackling this problem can be found in the <a href="https://R-Forge.R-project.org/forum/forum.php?thread_id=34019&amp;forum_id=4377&amp;group_id=1337">R-Forge thread</a>, see e.g., the contribution by Niels Smits.</p>
+
+<h2 id="moodle-vs-other-learning-management-systems">Moodle vs. other learning management systems</h2>
+
+<p>While overall there is a lot of heterogeneity in the learning management systems that the R/exams community uses, Moodle is clearly the favorite. Moodle quizzes also have their quirks but they are surprisingly flexible and can be used at various levels.</p>
+
+<blockquote>
+  <p><a href="https://twitter.com/LinXEric/status/1300750949368164352">Eric Lin @LinXEric</a>: I use #rexams extensively, have been for years. I used to do paper exams. Now, with distance learning, I’m serving up exams, quizzes, entry ticket questions, exit ticket questions, all using a #rexams with #moodle.</p>
+</blockquote>
+
+<p>Especially, the cloze question format is popular, allowing to combine multiple-choice, single-choice, numeric, and string items.</p>
+
+<blockquote>
+  <p><a href="https://R-Forge.R-project.org/forum/forum.php?thread_id=34019&amp;forum_id=4377&amp;group_id=1337">Rebecca Killick (R-Forge)</a>: We moved to using this exclusively for our undergraduate quizzes in the summer of 2019 and this served us well when COVID-19 hit. We are now expanding our online assessment using R/exams. We mainly use cloze questions with randomization.</p>
+</blockquote>
+
+<p>See also the tweet by <a href="https://twitter.com/emilopezcano/status/1292955475579932672">Emilio L. Cano @emilopezcano</a>.</p>
+
+<p>Of course, other learning management systems are also very powerful with Blackboard and Canvas probably being second and third in popularity. The OpenOLAT system, also used at our university, is less popular but in various respects even more powerful than Moodle. The support of the QTI 2.1 standard (question and test interoperability) allows to specify a complete exam, including random selection of exercises, randomized order of questions, and flexible cloze questions.</p>
+
+<h2 id="collaborating-with-colleagues">Collaborating with colleagues</h2>
+
+<p>One design principle of R/exams is that each exercise is a separate file. The motivation behind this is to make it easy to distribute work on a question bank among a larger group before someone eventually compiles a final exam from this question bank. Hence it’s great to see that various R/exams users report that they work on the exercises together with their colleagues, e.g., <a href="https://twitter.com/AchimZeileis/status/1292774253516001280">Fernando Mayer @fernando_mayer on Twitter</a> or:</p>
+
+<blockquote>
+  <p><a href="https://twitter.com/ilapros/status/1292825732897476611">Ilaria Prosdocimi @ilapros</a>: used by me and colleagues in Venice for about 500 exams via Moodle (in different basic stats courses). Mostly single choice and numeric questions. After some initial learning it worked perfectly and made the whole exam writing much easier.</p>
+</blockquote>
+
+<p>For facilitating their collaboration, the group around Fernando Mayer has even created a <a href="http://shiny.leg.ufpr.br/fernandomayer/rexams/">ShinyExams interface (in Portuguese)</a>.</p>
+
+<h2 id="statistics--data-science-vs-other-fields">Statistics &amp; data science vs. other fields</h2>
+
+<p>It is not unexpected that the majority of the R/exams community employs the system for creating resources for teaching statistics, data science, or related topics. See the tweets and posts by <a href="https://twitter.com/FDechterenko/status/1293500357046403072">Filip Děchtěrenko @FDechterenko</a>, <a href="https://twitter.com/BrettPresnell/status/1308209477687152641">@BrettPresnell</a>, <a href="https://twitter.com/statsgen/status/1292952412206972928">Emi Tanaka @statsgen</a>, <a href="https://twitter.com/visnut/status/1273445677482119168">Dianne Cook @visnut</a>, and <a href="https://stuartlee.org/2020/06/17/teaching-during-a-pandemic/">Stuart Lee</a>. In many cases such courses are for students from other fields, such as pharmacy as reported by <a href="https://twitter.com/faolmath/status/1292879192854601728">Francisco A. Ocaña @faolmath</a> or biology as reported by:</p>
+
+<blockquote>
+  <p><a href="https://twitter.com/OwenPetchey/status/1284062358709641217">@OwenPetchey</a>: The Data Analysis in Biology course at University of Zurich, with 300 students this spring, used this fantastic resource to author its final exams, with upload to OLAT.</p>
+</blockquote>
+
+<p>However, there is also a broad diversity of other fields/topics, e.g., international finance and macroeconomics (<a href="https://twitter.com/kamromero/status/1292782321075130368">Kamal Romero @kamromero</a>), applied economics and accounting (<a href="https://twitter.com/LinXEric/status/1300750949368164352">Eric Lin @LinXEric</a>), econometrics (Francisco Goerlich), linguistics (Maria Paola Bissiri), <a href="http://www.R-exams.org/general/uibk_soilmechanics/">soil mechanics</a> (Wolfgang Fellin), or programming (John Tipton).</p>
+
+<h2 id="going-forward">Going forward</h2>
+
+<p>All the additions, improvements, and bug fixes in R/exams that were added over the last month are currently only available in the <a href="https://R-Forge.R-project.org/R/?group_id=1337">development version of R/exams 2.4-0 on R-Forge</a>. The plan is to also release this version to CRAN in the next weeks.</p>
+
+<p>Another topic, that will likely become more relevant in the next months as well, is the creation of interactive self-study materials outside of learning-management systems, e.g., as part of an online tutorial. <a href="http://www.sunymaritime.edu/faculty/science/debbie-yuster">Debbie Yuster</a> nicely describes such a scenario:</p>
+
+<blockquote>
+  <p><a href="https://R-Forge.R-project.org/forum/forum.php?thread_id=34019&amp;forum_id=4377&amp;group_id=1337">Debbie Yuster (R-Forge)</a>: I plan to use R/exams to maintain source files for “video quizzes” students will take after they watch lecture videos asynchronously in my Introduction to Data Science course. Instructors at different universities will be using these videos (created by the curriculum author), and I will distribute the quizzes to interested faculty, each of whom may have a different preferred delivery mode. I’ll be giving the quizzes through my LMS (Canvas), while others may administer the quizzes in learnr, or use a different LMS. With R/exams, I can maintain a single source, and instructors can convert the quizzes into their preferred format.</p>
+</blockquote>
+
+<p>Two approaches that are particularly interesting are <a href="https://github.com/rstudio/learnr">learnr (RStudio)</a>, that uses R/Markdown with shiny, and <a href="https://github.com/psyteachr/webex">webex (psyTeachR project)</a>, that uses more lightweight R/Markdown with some custom Javascript and CSS. Some first proof-of-concept code is avaiable for a <a href="https://R-Forge.R-project.org/forum/forum.php?thread_id=34001&amp;forum_id=4377&amp;group_id=1337">learnr interface (R-Forge)</a> and <a href="https://stackoverflow.com/questions/62315622/using-r-exams-in-bookdown-document-especially-for-html-output">integrating webex exercises in Markdown documents (StackOverflow Q&amp;A)</a> but more work is needed to turn this into full R/exams interfaces.</p>
+
+			</span>
+
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
+				</span>
+				
+
+				
+				<time class="icon-calendar pr20" datetime="2020-09-22" itemprop="datePublished"> 2020-09-22</time>
+				
+
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/general/">GENERAL</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams/">exams</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2moodle/">exams2moodle</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2canvas/">exams2canvas</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2openolat/">exams2openolat</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/exams2blackboard/">exams2blackboard</a></span> </span>
+			</p>
+
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/uibk_soilmechanics/">&laquo; Transitioning a Soil Mechanics Course to R/exams</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
+
+			
+
+			
+
+		</article>
+
+    
+
+	</div><!-- /.medium-8.columns -->
+
+
+	
+
+
+	
+</div><!-- /.row -->
+
+
+	
+	    <div id="up-to-top" class="row">
+      <div class="small-12 columns" style="text-align: right;">
+        <a class="icon-chevron-up" href="#top-of-page"></a>
+      </div><!-- /.small-12.columns -->
+    </div><!-- /.row -->
+
+
+    <footer id="footer-content" class="bg-grau">
+      <div id="footer">
+        <div class="row">
+          <div class="medium-6 large-5 columns">
+            <h5 class="shadow-black">About This Site</h5>
+
+            <p class="shadow-black">
+              Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting.
+              <!-- <a href="http://www.R-exams.org/about/">More ›</a> -->
+            </p>
+          </div><!-- /.large-6.columns -->
+
+
+          <div class="small-6 medium-3 large-3 large-offset-1 columns">
+            
+              
+                <h5 class="shadow-black">Services</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+              <ul class="no-bullet shadow-black">
+              
+                
+                  <li >
+                    <a href=""  title=""></a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/feed.xml"  title="Subscribe to RSS Feed">RSS</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/atom.xml"  title="Subscribe to Atom Feed">Atom</a>
+                  </li>
+              
+                
+                  <li >
+                    <a href="/sitemap.xml"  title="Sitemap for Google Webmaster Tools">sitemap.xml</a>
+                  </li>
+              
+              </ul>
+          </div><!-- /.large-4.columns -->
+
+
+          <div class="small-6 medium-3 large-3 columns">
+            
+              
+                <h5 class="shadow-black">Network</h5>
+              
+            
+              
+            
+              
+            
+              
+            
+
+            <ul class="no-bullet shadow-black">
+            
+              
+                <li >
+                  <a href=""  title=""></a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://CRAN.R-project.org/package=exams" target="_blank"  title="Software download">CRAN</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://R-Forge.R-project.org/R/?group_id=1337" target="_blank"  title="Package development">R-Forge</a>
+                </li>
+            
+              
+                <li >
+                  <a href="https://www.R-bloggers.com/" target="_blank"  title="R blog aggregator">R-bloggers</a>
+                </li>
+            
+            </ul>
+          </div><!-- /.large-3.columns -->
+        </div><!-- /.row -->
+
+      </div><!-- /#footer -->
+
+
+      <div id="subfooter">
+        <nav class="row">
+          <section id="subfooter-left" class="b30 small-12 medium-6 columns credits">
+            <p>
+            Built with
+            <a href="https://jekyllrb.com/" alt="Page built with Jekyll">
+              Jekyll
+            </a>
+             based on
+             <a href="http://phlow.github.io/feeling-responsive/" alt="Page based on Feeling Responisve Theme">
+               Feeling Responsive
+             </a>
+              by
+              <a href="http://phlow.de" alt="Theme created by Phlow">Phlow</a>.
+            </p>
+          </section>
+
+          <section id="subfooter-right" class="small-12 medium-6 columns social-icons">
+            <ul class="inline-list">
+            
+              <li><a href="mailto:info@R-exams.org" target="_blank" class="icon-mail" title="General inquiries"></a></li>
+            
+              <li><a href="https://CRAN.R-project.org/package=exams" target="_blank" class="icon-cran" title="R package on CRAN"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/R/?group_id=1337" target="_blank" class="icon-code" title="Source code management on R-Forge"></a></li>
+            
+              <li><a href="http://R-Forge.R-project.org/forum/?group_id=1337" target="_blank" class="icon-chat" title="Discussion forum on R-Forge"></a></li>
+            
+              <li><a href="https://StackOverflow.com/questions/tagged/exams" target="_blank" class="icon-stackoverflow" title="Ask questions on StackOverflow (tag: exams)"></a></li>
+            
+              <li><a href="http://twitter.com/AchimZeileis" target="_blank" class="icon-twitter" title="@AchimZeileis on Twitter"></a></li>
+            
+            </ul>
+          </section>
+        </nav>
+      </div><!-- /#subfooter -->
+    </footer>
+
+	
+
+	
+
+
+<script src="http://www.R-exams.org/assets/js/javascript.min.js"></script>
+<script src="http://www.R-exams.org/assets/js/slick.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

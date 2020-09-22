@@ -371,7 +371,7 @@
 
 <h3 id="replication-code">Replication code</h3>
 
-<p>The presentation slides show how to set up an exam using the R package and then rendering it into different output formats. In order to allow the same exam to be rendered into a wide range of different output formats, only single-choice and multiple-choice exercises were employed (see the <code class="highlighter-rouge">choice</code> list below). However, in the e-learning test shown in OpenOLAT all exercises types are supported (see the <code class="highlighter-rouge">elearn</code> list below). All these exercises are readily provided in the package and also introduced online: <a href="http://www.R-exams.org/templates/deriv/">deriv</a>/<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/fruit/">fruit</a>/<a href="http://www.R-exams.org/templates/fruit2/">fruit2</a>, <a href="http://www.R-exams.org/templates/ttest/">ttest</a>, <a href="http://www.R-exams.org/templates/boxplots/">boxplots</a>, <a href="http://www.R-exams.org/templates/cholesky/">cholesky</a>, <a href="http://www.R-exams.org/templates/lm/">lm</a>, <a href="http://www.R-exams.org/templates/function/">function</a>. The code below uses the R/LaTeX (.Rnw) version but the R/Markdown version (.Rmd) could also be used instead.</p>
+<p>The presentation slides show how to set up an exam using the R package and then rendering it into different output formats. In order to allow the same exam to be rendered into a wide range of different output formats, only single-choice and multiple-choice exercises were employed (see the <code class="language-plaintext highlighter-rouge">choice</code> list below). However, in the e-learning test shown in OpenOLAT all exercises types are supported (see the <code class="language-plaintext highlighter-rouge">elearn</code> list below). All these exercises are readily provided in the package and also introduced online: <a href="http://www.R-exams.org/templates/deriv/">deriv</a>/<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/fruit/">fruit</a>/<a href="http://www.R-exams.org/templates/fruit2/">fruit2</a>, <a href="http://www.R-exams.org/templates/ttest/">ttest</a>, <a href="http://www.R-exams.org/templates/boxplots/">boxplots</a>, <a href="http://www.R-exams.org/templates/cholesky/">cholesky</a>, <a href="http://www.R-exams.org/templates/lm/">lm</a>, <a href="http://www.R-exams.org/templates/function/">function</a>. The code below uses the R/LaTeX (.Rnw) version but the R/Markdown version (.Rmd) could also be used instead.</p>
 
 <pre><code class="language-{r}">## package
 library("exams")
@@ -384,7 +384,7 @@ elearn &lt;- c("deriv.Rnw", "fruit.Rnw", "ttest.Rnw", "boxplots.Rnw",
   "cholesky.Rnw", "lm.Rnw", "function.Rnw")
 </code></pre>
 
-<p>First, the exam with the choice-based questions can be easily turned into a PDF exam in <a href="http://www.R-exams.org/tutorials/exams2nops/">NOPS format</a> using <code class="highlighter-rouge">exams2nops</code>, here using Hungarian language for illustration. Exams in this format can be easily scanned and evaluated within R.</p>
+<p>First, the exam with the choice-based questions can be easily turned into a PDF exam in <a href="http://www.R-exams.org/tutorials/exams2nops/">NOPS format</a> using <code class="language-plaintext highlighter-rouge">exams2nops</code>, here using Hungarian language for illustration. Exams in this format can be easily scanned and evaluated within R.</p>
 
 <pre><code class="language-{r}">set.seed(2018-05-16)
 exams2nops(choice, institution = "eRum 2018", language = "hu")
@@ -397,7 +397,7 @@ exams2arsnova(list("conferences.Rmd", choice[[1]], "fruit3.Rmd", choice[[3]]),
   name = "R/exams", abstention = FALSE, fix_choice = TRUE)
 </code></pre>
 
-<p>Third, the e-learning exam can be generated in QTI 1.2 format for OpenOLAT, as shown above: <a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/eRum-2018.zip">eRum-2018.zip</a>. The <code class="highlighter-rouge">exams2openolat</code> command below is provided starting from the current <a href="http://www.R-exams.org/general/cran_release_231/">R/exams version 2.3-1</a>. It essentially just calls <code class="highlighter-rouge">exams2qti12</code> but slightly tweaks the MathJax output from pandoc so that it is displayed properly by OpenOLAT.</p>
+<p>Third, the e-learning exam can be generated in QTI 1.2 format for OpenOLAT, as shown above: <a href="http://www.R-exams.org/assets/posts/2018-05-20-erum2018/eRum-2018.zip">eRum-2018.zip</a>. The <code class="language-plaintext highlighter-rouge">exams2openolat</code> command below is provided starting from the current <a href="http://www.R-exams.org/general/cran_release_231/">R/exams version 2.3-1</a>. It essentially just calls <code class="language-plaintext highlighter-rouge">exams2qti12</code> but slightly tweaks the MathJax output from pandoc so that it is displayed properly by OpenOLAT.</p>
 
 <pre><code class="language-{r}">set.seed(2018-05-16)
 exams2openolat(elearn, name = "eRum-2018", n = 10, qti = "1.2")

@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Installing R/exams</title>
+	<title>R/exams</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,8 +23,8 @@
 
 	
 	
-	<meta name="description" content="Installation guide for R itself and the R package &quot;exams&quot; as well as further open-source tools that are required for certain tasks." />
-	<meta name="keywords" content="R, RStudio, LaTeX, Markdown, pandoc" />
+	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	
 	
 	<meta name="author" content="Achim Zeileis" />
 
@@ -44,16 +44,16 @@
 	<!-- Search Engine Optimization -->
 	
 	
-	
+	<meta name="robots" content="noindex" />
 
 	<!-- Facebook Optimization -->
-	<meta property="og:title" content="Installing R/exams" />
-	<meta property="og:description" content="Installation guide for R itself and the R package &quot;exams&quot; as well as further open-source tools that are required for certain tasks." />
-	<meta property="og:url" content="http://www.R-exams.org//tutorials/installation/" />
+	<meta property="og:title" content="R/exams" />
+	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta property="og:url" content="http://www.R-exams.org//tag/exams2canvas/" />
 	<meta property="og:locale" content="en_EN" />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="R/exams" />
-	<meta property="og:image" content="http://www.R-exams.org/images/logo.150.svg" />
+	<meta property="og:image" content="http://www.R-exams.org/assets/img/logo_text.png" />
 	
 
 	
@@ -61,9 +61,9 @@
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:site" content="AchimZeileis" />
 	<meta name="twitter:creator" content="AchimZeileis" />
-	<meta name="twitter:title" content="Installing R/exams" />
-	<meta name="twitter:description" content="Installation guide for R itself and the R package &quot;exams&quot; as well as further open-source tools that are required for certain tasks." />
-	<meta name="twitter:image" content="http://www.R-exams.org/images/logo.150.svg" />
+	<meta name="twitter:title" content="R/exams" />
+	<meta name="twitter:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta name="twitter:image" content="http://www.R-exams.org/assets/img/logo_text.png" />
 
 
 	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
@@ -90,7 +90,7 @@
 <!-- End Piwik Code -->
 
 </head>
-<body id="top-of-page" class="post">
+<body id="top-of-page" class="">
 	
 	
 <div id="navigation" class="sticky">
@@ -313,228 +313,63 @@
 
 
 
-	<div class="row t30">
-	<div class="columns medium-10 medium-offset-1 end">
-		<article itemscope itemtype="http://schema.org/Article">
-			<header>
-				
-				<figure>
-					<img src="http://www.R-exams.org/images/logo.title.svg" width="970" alt="Installing R/exams" itemprop="image">
-
-					
-					<figcaption class="text-right">
-						R/exams logo (CC-BY-SA | GPL-2).
-					</figcaption>
-					
-				</figure>
-				
-
-				<span itemprop="name">
-					
-					<h1>Installing R/exams</h1>
-				</span>
-			</header>
+	<div class="row blog-index">
+	<div class="medium-10 medium-offset-1 columns t30">
+		
 
 
-			
-			<p class="teaser" itemprop="description">
-				Installation guide for R itself and the R package "exams" as well as further open-source tools that are required for certain tasks.
-			</p>
-			
-
-			<span itemprop="articleSection">
-			<h2 id="1-r">1. R</h2>
-
-<p><a href="http://www.R-exams.org/">R/exams</a> is an extension for the <a href="https://www.R-project.org">R system for statistical computing</a> and hence the first installation step is the base R system.</p>
-
-<ul>
-  <li><strong>Windows and (Mac) OS X:</strong> Go to <a href="https://CRAN.R-project.org/">https://CRAN.R-project.org/</a>, the 
- Comprehensive R Archive Network (CRAN). Simply
- click on the link for your operating system and at least install the “base”
- system. It is recommended to also install the accompanying “Rtools” which are
- not always needed immediately but, e.g., necessary for producing zip files for
- some learning management systems.</li>
-  <li>
-    <p><strong>Linux:</strong> While it is possible to download from CRAN by hand, it is
-easier for most distributions to install the packaged binary. For example,
-on Debian/Ubuntu:</p>
-
-    <pre><code class="language-{r}">apt-get install r-base-core r-base-dev
-</code></pre>
-  </li>
-</ul>
-
-<p>There is a wide variety of interfaces for using R including simply the shell,
-Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively.
-Moreover, RStudio is an open-source cross-platform integrated development
-environment that facilitates many common tasks for R beginners.</p>
-
-<ul>
-  <li><strong>For R beginners:</strong> Go to
-<a href="https://www.RStudio.com/products/RStudio/">https://www.RStudio.com/products/RStudio/</a> and obtain the “Desktop” version
-of RStudio (Open Source Edition).</li>
-</ul>
-
-<h2 id="2-r-package-exams">2. R package “exams”</h2>
-
-<p>The core of R/exams is the open-source R package
-<a href="https://CRAN.R-project.org/package=exams">“exams”</a>, also available from CRAN.
-It can be easily installed interactively from within R with a single command.
-If necessary, the development version of the package is also available, which
-may provide some new features or small improvements.</p>
-
-<ul>
-  <li>
-    <p><strong>Stable version:</strong></p>
-
-    <pre><code class="language-{r}">install.packages("exams", dependencies = TRUE)
-</code></pre>
-  </li>
-  <li>
-    <p><strong>Development version:</strong></p>
-
-    <pre><code class="language-{r}">install.packages("exams", repos = "http://R-Forge.R-project.org")
-</code></pre>
-  </li>
-</ul>
-
-<p><em>Details:</em> Several additional R packages, automatically installed by the command above,
-are needed for certain tasks: <code class="language-plaintext highlighter-rouge">base64enc</code> (HTML-based output: Base64 encoding of
-supplements), <code class="language-plaintext highlighter-rouge">knitr</code> (R/Markdown-based exercises), <code class="language-plaintext highlighter-rouge">magick</code> (turning LaTeX output
-into images, e.g., for TikZ graphics), <code class="language-plaintext highlighter-rouge">png</code> (NOPS exams: reading scanned PNG images),
-<code class="language-plaintext highlighter-rouge">RCurl</code> (ARSnova: posting exercises), <code class="language-plaintext highlighter-rouge">RJSONIO</code> (ARSnova: JSON format),
-<code class="language-plaintext highlighter-rouge">rmarkdown</code> (pandoc-based conversion), <code class="language-plaintext highlighter-rouge">tinytex</code> (PDF output: lightweight LaTeX distribution),
-<code class="language-plaintext highlighter-rouge">tth</code> (HTML output from R/LaTeX exercises).</p>
-
-<h2 id="3-latex">3. LaTeX</h2>
-
-<p>For producing PDF output, the typesetting system LaTeX is used internally by R/exams.
-If no LaTeX distribution (like TeXLive or MikTeX) is already installed, then TinyTeX
-is a lightweight distribution that can be easily obtained and maintained with the <code class="language-plaintext highlighter-rouge">tinytex</code>
-R package (already installed in the step above). TinyTeX can be installed from within R with:</p>
-
-<pre><code class="language-{r}">tinytex::install_tinytex()
-</code></pre>
-
-<p><em>Note:</em> When producing the first PDF files with R/exams, <code class="language-plaintext highlighter-rouge">tinytex</code> will automatically install
-further required LaTeX packages and hence take somewhat longer to compile.</p>
-
-<p>Instead of TinyTeX it is, of course, also possible to install a full LaTeX distribution,
-especially if this is not only needed for R/exams:</p>
-
-<ul>
-  <li><strong>Windows:</strong> Go to <a href="http://www.MikTeX.org/">http://www.MikTeX.org/</a> and click on “Download” to obtain
-the MikTeX distribution for Windows.</li>
-  <li><strong>(Mac) OS X and Linux:</strong> LaTeX distributions are available in the standard
-repositories and can be installed in the “usual” way, typically using the
-<a href="https://www.tug.org/texlive/">TeX Live</a> distribution.</li>
-</ul>
-
-<h2 id="4-pandoc">4. Pandoc</h2>
-
-<p>For certain conversions performed internally in R/exams, specifically when
-Markdown is involved, the universal document converter
-<a href="https://www.pandoc.org/">pandoc</a> is employed. If you have installed RStudio, then
-pandoc is provided along with it and nothing else needs to be done.</p>
-
-<p>Otherwise pandoc can be obtained from its web page (linked above) or standard repositories,
-e.g., for Debian/Ubuntu:</p>
-
-<pre><code class="language-{r}">apt-get install pandoc
-</code></pre>
-
-<h2 id="optional-further-scanning-tools">Optional: Further scanning tools</h2>
-
-<p><em>Note:</em> Unless you want to process <a href="http://www.R-exams.org/intro/written/">written NOPS exams</a>
-from scanned PDF files, this section can be skipped.</p>
-
-<p>If the scanned images of written NOPS exams (from your photocopier) are in PDF format,
-they need to be converted to PNG first using the PDF Toolkit <code class="language-plaintext highlighter-rouge">pdftk</code> and
-ImageMagick’s <code class="language-plaintext highlighter-rouge">convert</code>.</p>
-
-<ul>
-  <li><strong>Windows:</strong> Install PDFTk Free, ImageMagick, and Ghostscript.
-    <ul>
-      <li><a href="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe">http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe</a></li>
-      <li><a href="http://www.imagemagick.org/script/download.php#windows">http://www.imagemagick.org/script/download.php#windows</a></li>
-      <li><a href="http://www.ghostscript.com/download/gsdnld.html">http://www.ghostscript.com/download/gsdnld.html</a></li>
-      <li><em>Note:</em> During the installation of PDFTk and ImageMagick check the boxes for 
-“Add application directory to your environmental path” or
-“Add application directory to your System Path”, respectively.</li>
-    </ul>
-  </li>
-  <li><strong>(Mac) OS X:</strong> Install MacPorts, PDFTk Free, and ImageMagick.
-    <ul>
-      <li><a href="https://www.macports.org/">https://www.macports.org/</a></li>
-      <li><a href="https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg">https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg</a></li>
-      <li><a href="http://www.imagemagick.org/script/download.php#macosx">http://www.imagemagick.org/script/download.php#macosx</a></li>
-      <li><em>Note:</em> ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
-The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Linux:</strong> Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:</p>
-
-    <pre><code class="language-{r}">apt-get install pdftk imagemagick
-</code></pre>
-  </li>
-</ul>
-
-<h2 id="make-sure-everything-works">Make sure everything works</h2>
-
-<p>To check that the software from Steps 1-4 works, try to run some examples from the
-exercise template gallery, e.g., <a href="http://www.R-exams.org/templates/dist">dist</a> or
-<a href="http://www.R-exams.org/templates/ttest">ttest</a>.</p>
 
 
-			</span>
 
-			
-						<div id="page-meta" class="t30">
-				<p>
-					<!-- Look the author details up from the site config. -->
-					
-					<!-- Output author details if some exist. -->
-					
-					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
-				</span>
-				
 
-				
-				<time class="icon-calendar pr20" datetime="2017-09-09" itemprop="datePublished"> 2017-09-09</time>
-				
 
-				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
-				<br />
-				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/RStudio/">RStudio</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/LaTeX/">LaTeX</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/Markdown/">Markdown</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/pandoc/">pandoc</a></span> </span>
-			</p>
 
-			<div id="post-nav" class="row">
-				
-				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/templates/ttest/">&laquo; ttest: Interpretation of 2-Sample t Test</a></div><!-- /.small-4.columns -->
-				
-        
-				
-				<div class="small-6 columns text-right"><a class="button small radius next" href="http://www.R-exams.org/tutorials/first_steps/">First Steps &raquo;</a></div><!-- /.small-4.columns -->
-				
-			</div>
-			</div><!--  /.page-meta -->
 
-			
+<div class='row'>
+  <div class='small-12 columns b30'>
+    <h1>Tag: exams2canvas</h1>
+  </div>
+</div>
 
-			
 
-		</article>
+
+
+  
+  <div class="row b60">
+    <div class="small-12 columns">
+      
+      <h2 class='b15' ><a href="http://www.R-exams.org/general/distancelearning/">R/exams for Distance Learning: Resources and Experiences</a></h2>
+        <a href="http://www.R-exams.org/general/distancelearning/" title="R/exams for Distance Learning: Resources and Experiences"><img src="http://www.R-exams.org/images/distancelearning.300.png" class="alignleft" width="150" height="150" alt=""></a>
+      
+      <p>
+        <span class="category">general</span>
+      </p>
+      
+      <p>
+      
+        Resources and experiences shared by the R/exams community for supporting distance learning in different learning management systems.
+      
+
+      <a href="http://www.R-exams.org/general/distancelearning/" title="Read R/exams for Distance Learning: Resources and Experiences"><strong>Read More&nbsp;›</strong></a>
+      </p>
+    </div><!-- /.small-12.columns -->
+  </div><!-- /.row -->
+
+
+
+
+<nav id="pagination">
+    
 
     
 
+    
+</nav>
+
+
 	</div><!-- /.medium-8.columns -->
 
-
-	
-
-
-	
+  
 </div><!-- /.row -->
 
 

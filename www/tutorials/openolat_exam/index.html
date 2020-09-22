@@ -372,7 +372,7 @@
 
 <p>Both for legal reasons and for priming the students to be honest, they have to sign a sworn declaration stating that they do the exam alone using only allowed tools. Technically, this is implemented by an online test with one single-choice item where they can only say “Yes”. Only when signing the declaration in this way, students can see the actual online exam.</p>
 
-<p>As the declaration is also just an online test, the corresponding learning resource for OpenOLAT can be easily generated with R/exams’ <code class="highlighter-rouge">exams2openolat()</code> function. The “exercise” file with the text employed at <a href="https://www.uibk.ac.at/">Universität Innsbruck</a> is available both in R/Markdown and R/LaTeX format and both in English <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/declaration.Rmd">[Rmd]</a> <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/declaration.Rnw">[Rnw]</a> and in German <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/eidesstatt.Rmd">[Rmd]</a> <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/eidesstatt.Rnw">[Rnw]</a>.</p>
+<p>As the declaration is also just an online test, the corresponding learning resource for OpenOLAT can be easily generated with R/exams’ <code class="language-plaintext highlighter-rouge">exams2openolat()</code> function. The “exercise” file with the text employed at <a href="https://www.uibk.ac.at/">Universität Innsbruck</a> is available both in R/Markdown and R/LaTeX format and both in English <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/declaration.Rmd">[Rmd]</a> <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/declaration.Rnw">[Rnw]</a> and in German <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/eidesstatt.Rmd">[Rmd]</a> <a href="http://www.R-exams.org/assets/posts/2020-05-12-openolat_exam/eidesstatt.Rnw">[Rnw]</a>.</p>
 
 <p>The ZIP archive containing the learning resource in QTI 2.1 XML format (Question &amp; Test Interoperability standard) for import into OpenOLAT can be generated with:</p>
 
@@ -384,7 +384,7 @@ exams2openolat("declaration.Rmd", n = 1, name = "R-exams-declaration",
   adescription = "", sdescription = "")
 </code></pre>
 
-<p>There is only <code class="highlighter-rouge">n = 1</code> version of the declaration because it is not random and it can be passed (<code class="highlighter-rouge">cutvalue</code>) when correctly signing the only exercise (<code class="highlighter-rouge">points</code>). Moreover, the code sets a couple above of titles, descriptions, and styles.</p>
+<p>There is only <code class="language-plaintext highlighter-rouge">n = 1</code> version of the declaration because it is not random and it can be passed (<code class="language-plaintext highlighter-rouge">cutvalue</code>) when correctly signing the only exercise (<code class="language-plaintext highlighter-rouge">points</code>). Moreover, the code sets a couple above of titles, descriptions, and styles.</p>
 
 <h2 id="randomized-exam">Randomized exam</h2>
 
@@ -400,7 +400,7 @@ exams2openolat("declaration.Rmd", n = 1, name = "R-exams-declaration",
 
 <p>Thus, the first exercise would be a randomly selected exercise from the three templates in geography (<a href="http://www.R-exams.org/templates/capitals/">capitals</a>, <a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>, <a href="http://www.R-exams.org/templates/switzerland/">switzerland</a>). Similarly, the subsequent topics are graphics (<a href="http://www.R-exams.org/templates/boxplots/">boxplots</a>, <a href="http://www.R-exams.org/templates/scatterplot/">scatterplot</a>), inference (<a href="http://www.R-exams.org/templates/ttest/">ttest</a>, <a href="http://www.R-exams.org/templates/anova/">anova</a>), and derivatives (<a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/hessian/">hessian</a>) with some random variation within each topic/section.</p>
 
-<p>Then, we can draw <code class="highlighter-rouge">n = 50</code> random exams from this specification (which we would usually do if we had around 50 participants in the exam), specifying several further options:</p>
+<p>Then, we can draw <code class="language-plaintext highlighter-rouge">n = 50</code> random exams from this specification (which we would usually do if we had around 50 participants in the exam), specifying several further options:</p>
 
 <pre><code class="language-{r}">set.seed(2020-05-11)
 exams2openolat(exm, n = 50, name = "R-exams-OpenOLAT",
@@ -410,7 +410,7 @@ exams2openolat(exm, n = 50, name = "R-exams-OpenOLAT",
   adescription = "", sdescription = "")
 </code></pre>
 
-<p>Specifically, we fix the maximum <code class="highlighter-rouge">duration</code> to 60 minutes, tell OpenOLAT to shuffle the order of the four sections/topics in the exam (<code class="highlighter-rouge">shufflesections</code>) and to fix the <code class="highlighter-rouge">navigation</code> to be linear. In order to help students to see the topics of the exercises that are still to come (without giving away too much detail) we label the section titles with the four topics from above.</p>
+<p>Specifically, we fix the maximum <code class="language-plaintext highlighter-rouge">duration</code> to 60 minutes, tell OpenOLAT to shuffle the order of the four sections/topics in the exam (<code class="language-plaintext highlighter-rouge">shufflesections</code>) and to fix the <code class="language-plaintext highlighter-rouge">navigation</code> to be linear. In order to help students to see the topics of the exercises that are still to come (without giving away too much detail) we label the section titles with the four topics from above.</p>
 
 <p>What the resulting online exam looks like and how it can be configured further within OpenOLAT is shown in detail in the video tutorial on YouTube already mentioned above. More information regarding R/exams for <a href="http://www.R-exams.org/tutorials/elearning/">e-learning with OpenOLAT (and Moodle)</a> is provided in another tutorial.</p>
 

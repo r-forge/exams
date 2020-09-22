@@ -347,68 +347,38 @@
 
 <h2 id="background">Background</h2>
 
-<p>Our exercises in soil mechanics are attended by about 120 students every year. Students receive
-their grades based on a final exam, with a multiple-choice part and additional small exercises with
-calculations. Due to the COVID-19 restrictions we were forced to switch from the written exams to
-online exams at rather short notice, for which we decided to use <a href="http://www.R-exams.org">R/exams</a> to randomize the exercises.
-The possibility that the exercises produced can be used in the following (hopefully COVID-free years) as part of a blended
-learning course made the decision for the (not so small) effort to switch to R/exams easy.</p>
+<p>Our exercises in soil mechanics are attended by about 120 students every year. Students receive their grades based on a final exam, with a multiple-choice part and additional small exercises with calculations. Due to the COVID-19 restrictions we were forced to switch from the written exams to online exams at rather short notice, for which we decided to use <a href="http://www.R-exams.org">R/exams</a> to randomize the exercises. The possibility that the exercises produced can be used in the following (hopefully COVID-free years) as part of a blended learning course made the decision for the (not so small) effort to switch to R/exams easy.</p>
 
 <h2 id="transition-of-multiple-choice-exercises">Transition of multiple-choice exercises</h2>
 
-<p>To leverage the about 100 multiple-choice exercises from our old question pool, we had to convert them to
-the <a href="http://www.R-exams.org/intro/dynamic/">R/exams format</a>. The pool was stored in a MySQL data base
-including LaTeX text for the questions, answer alternatives, images for some exercises (in EPS format)
-and some additional meta-information regarding the topic category and the difficulty. Due to
-the standardized format of the question pool - and the kind support by Achim Zeileis and Christiane Ernst -
-it was possible to extract all questions, embed them into the same template for R/LaTeX questions (.Rnw),
-and convert all EPS figures to both SVG and PDF format.
-A typical example is shown below (in a screen shot from <a href="https://www.openolat.com/">OpenOLAT</a>,
-the learning management system at UIBK).</p>
+<p>To leverage the about 100 multiple-choice exercises from our old question pool, we had to convert them to the <a href="http://www.R-exams.org/intro/dynamic/">R/exams format</a>. The pool was stored in a MySQL data base including LaTeX text for the questions, answer alternatives, images for some exercises (in EPS format) and some additional meta-information regarding the topic category and the difficulty. Due to the standardized format of the question pool - and the kind support by Achim Zeileis and Christiane Ernst - it was possible to extract all questions, embed them into the same template for R/LaTeX questions (.Rnw), and convert all EPS figures to both SVG and PDF format. A typical example is shown below (in a screen shot from <a href="https://www.openolat.com/">OpenOLAT</a>, the learning management system at UIBK).</p>
 
 <p><a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png"><img src="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png" alt="grundwasser-1-068.png" /></a></p>
 
-<p>The corresponding R/LaTeX exercise file is <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rnw">grundwasser-1-068.Rnw</a> which we also converted to
-R/Markdown for this blog post: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rmd">grundwasser-1-068.Rmd</a>. Both rely on the corresponding
-image file being available in the same directory or a sub-directory. Different graphics formats are used for
-different exam output formats: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.svg">image68_1.svg</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.pdf">image68_1.pdf</a>,
-<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.eps">image68_1.eps</a>.</p>
+<p>The corresponding R/LaTeX exercise file is <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rnw">grundwasser-1-068.Rnw</a> which we also converted to R/Markdown for this blog post: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.Rmd">grundwasser-1-068.Rmd</a>. Both rely on the corresponding image file being available in the same directory or a sub-directory. Different graphics formats are used for different exam output formats: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.svg">image68_1.svg</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.pdf">image68_1.pdf</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//image68_1.eps">image68_1.eps</a>.</p>
 
 <p>Essentially, the exercises consist of:</p>
 <ul>
   <li>some R code for including the right graphics file (SVG vs. PDF) depending on the type of output format (HTML vs. PDF),</li>
   <li>the (static) question text and answer alternatives in LaTeX format,</li>
-  <li>meta-information including <code class="highlighter-rouge">exextra</code> tags for our custom topic category and difficulty level,</li>
-  <li>the <code class="highlighter-rouge">exshuffle</code> tag is used for randomly subsampling the available answer alternatives.</li>
+  <li>meta-information including <code class="language-plaintext highlighter-rouge">exextra</code> tags for our custom topic category and difficulty level,</li>
+  <li>the <code class="language-plaintext highlighter-rouge">exshuffle</code> tag is used for randomly subsampling the available answer alternatives.</li>
 </ul>
 
 <h2 id="new-numeric-exercises">New numeric exercises</h2>
 
-<p>While the subsampling approach in the multiple-choice exercises provides a certain level of
-randomization, I wanted to set up new numeric exercises in which all students have to calculate
-the correct solution(s) based on their personalized parameters. Therefore, I set up new numeric
-exercises in <code class="highlighter-rouge">cloze</code> format where several quantities have to be computed based on the same
-question text. A typical example is shown below.</p>
+<p>While the subsampling approach in the multiple-choice exercises provides a certain level of randomization, I wanted to set up new numeric exercises in which all students have to calculate the correct solution(s) based on their personalized parameters. Therefore, I set up new numeric exercises in <code class="language-plaintext highlighter-rouge">cloze</code> format where several quantities have to be computed based on the same question text. A typical example is shown below.</p>
 
 <p><a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.png"><img src="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.png" alt="num-setzung-1-steinbrenner.png" /></a></p>
 
-<p>Again, the corresponding exercise files are available as:
-<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rnw">num-setzung-1-steinbrenner.Rnw</a>,
-<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rmd">num-setzung-1-steinbrenner.Rmd</a>.<br />
-And the graphics files are:
-<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.svg">steinbrenner_fdmt.svg</a>,
-<a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.pdf">steinbrenner_fdmt.pdf</a>.</p>
+<p>Again, the corresponding exercise files are available as: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rnw">num-setzung-1-steinbrenner.Rnw</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//num-setzung-1-steinbrenner.Rmd">num-setzung-1-steinbrenner.Rmd</a>.<br />
+And the graphics files are: <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.svg">steinbrenner_fdmt.svg</a>, <a href="http://www.R-exams.org/assets/posts/2020-08-31-uibk_soilmechanics//steinbrenner_fdmt.pdf">steinbrenner_fdmt.pdf</a>.</p>
 
-<p>Despite being a newcomer to both R and R/exams, setting up these exercises was quite easy
-because I have been using MATLAB for a long time and could quickly grasp basic R code.
-Also the <a href="http://www.R-exams.org/templates/">exercise templates</a> available online helped as did the
-friendly e-mail support by Achim for resolving many of the small “details” along the way.</p>
+<p>Despite being a newcomer to both R and R/exams, setting up these exercises was quite easy because I have been using MATLAB for a long time and could quickly grasp basic R code. Also the <a href="http://www.R-exams.org/templates/">exercise templates</a> available online helped as did the friendly e-mail support by Achim for resolving many of the small “details” along the way.</p>
 
 <h2 id="exam-implementation">Exam implementation</h2>
 
-<p>Following the R/exams tutorial on <a href="http://www.R-exams.org/tutorials/openolat_exam/">summative online exams in OpenOLAT</a>
-I prepared the online exam using the <code class="highlighter-rouge">exams2openolat()</code> function. The R code I used along with a couple
-of comments is provided below.</p>
+<p>Following the R/exams tutorial on <a href="http://www.R-exams.org/tutorials/openolat_exam/">summative online exams in OpenOLAT</a> I prepared the online exam using the <code class="language-plaintext highlighter-rouge">exams2openolat()</code> function. The R code I used along with a couple of comments is provided below.</p>
 
 <pre><code class="prettyprint ">## load package
 library(&quot;exams&quot;)
@@ -444,17 +414,9 @@ rxm &lt;- exams2openolat(exm,
 
 <h2 id="challenges-and-outlook">Challenges and outlook</h2>
 
-<p>The main problem by producing randomized numeric examples was to find limits for the input so that
-the output is physically reasonable. Especially for newly created exercises, it is absolutely necessary
-that other colleagues act as test calculators, such that errors can be detected before students find
-them in their exams. The <a href="http://www.R-exams.org/tutorials/stresstest/">stress testing</a> facilities in
-R/exams can also help.</p>
+<p>The main problem by producing randomized numeric examples was to find limits for the input so that the output is physically reasonable. Especially for newly created exercises, it is absolutely necessary that other colleagues act as test calculators, such that errors can be detected before students find them in their exams. The <a href="http://www.R-exams.org/tutorials/stresstest/">stress testing</a> facilities in R/exams can also help.</p>
 
-<p>Since the course will continue being online in 2020/21 due to ongoing COVID-19 restrictions,
-I use R/exams now also for the practice exercises which students have to calculate during the semester.
-Thus, I produced about 70 new exercises, which are offered in OpenOLAT in 12 weekly online tests.
-After COVID-19 I will use these examples as addition to written ones, where longer and more complex
-task could be trained.</p>
+<p>Since the course will continue being online in 2020/21 due to ongoing COVID-19 restrictions, I use R/exams now also for the practice exercises which students have to calculate during the semester. Thus, I produced about 70 new exercises, which are offered in OpenOLAT in 12 weekly online tests. After COVID-19 I will use these examples as addition to written ones, where longer and more complex task could be trained.</p>
 
 			</span>
 
@@ -483,6 +445,8 @@ task could be trained.</p>
 				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/openolat_exam/">&laquo; Summative Online Exams with R/exams and OpenOLAT</a></div><!-- /.small-4.columns -->
 				
         
+				
+				<div class="small-6 columns text-right"><a class="button small radius next" href="http://www.R-exams.org/general/distancelearning/">R/exams for Distance Learning: Resources and Experiences &raquo;</a></div><!-- /.small-4.columns -->
 				
 			</div>
 			</div><!--  /.page-meta -->

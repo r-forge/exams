@@ -359,18 +359,18 @@ The most widely-used way of rendering mathematical content in web pages is <a hr
   <li><em>Conversion to HTML:</em><br />
 The original markup from the exercises templates needs to be converted to HTML and the most powerful document converter for this is <a href="http://pandoc.org/">Pandoc</a> (see also the corresponding <a href="https://en.wikipedia.org/wiki/Pandoc">Wikipedia page</a>). It can convert both Markdown and LaTeX source files to HTML, either with LaTeX embedded for MathJax or with MathML (among various other options). Moreover, LaTeX (but not Markdown) exercises can be converted to HTML using the TeX-to-MathML converter <a href="http://hutchinson.belmont.ma.us/tth/mml/">TtM</a>. (R/exams also provides a few further options which are typically of less interest due to lower quality, such as TtH or rendered images.)</li>
   <li><em>Defaults in R/exams:</em><br />
-All <code class="highlighter-rouge">exams2xyz()</code> functions that produce HTML-based output offer a <code class="highlighter-rouge">converter =</code> argument. By default, this is configured to produce HTML with embedded MathML because this can be rendered both by MathJax in all browsers as well as by some browsers directly. The default is is <code class="highlighter-rouge">converter = "pandoc"</code> (equivalent to <code class="highlighter-rouge">"pandoc-mathml"</code>) for R/Markdown exercises and <code class="highlighter-rouge">converter = "ttm"</code> for R/LaTeX exercises, respectively. Whether MathJax is enabled varies across output formats or might depend on the learning management system.</li>
+All <code class="language-plaintext highlighter-rouge">exams2xyz()</code> functions that produce HTML-based output offer a <code class="language-plaintext highlighter-rouge">converter =</code> argument. By default, this is configured to produce HTML with embedded MathML because this can be rendered both by MathJax in all browsers as well as by some browsers directly. The default is is <code class="language-plaintext highlighter-rouge">converter = "pandoc"</code> (equivalent to <code class="language-plaintext highlighter-rouge">"pandoc-mathml"</code>) for R/Markdown exercises and <code class="language-plaintext highlighter-rouge">converter = "ttm"</code> for R/LaTeX exercises, respectively. Whether MathJax is enabled varies across output formats or might depend on the learning management system.</li>
 </ul>
 
 <h2 id="why-does-all-of-this-matter">Why does all of this matter?</h2>
 
-<p>As a simple illustration of the strengths and weaknesses of the different approaches, the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise template (computation of a derivative using the product rule) is converted to HTML using <code class="highlighter-rouge">exams2html()</code>. Here, the R/LaTeX version of the exercise is used (<code class="highlighter-rouge">"deriv"</code> or equivelently <code class="highlighter-rouge">"deriv.Rnw"</code>) but using the R/Markdown version (<code class="highlighter-rouge">"deriv.Rmd"</code>) yields almost the same output.</p>
+<p>As a simple illustration of the strengths and weaknesses of the different approaches, the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise template (computation of a derivative using the product rule) is converted to HTML using <code class="language-plaintext highlighter-rouge">exams2html()</code>. Here, the R/LaTeX version of the exercise is used (<code class="language-plaintext highlighter-rouge">"deriv"</code> or equivelently <code class="language-plaintext highlighter-rouge">"deriv.Rnw"</code>) but using the R/Markdown version (<code class="language-plaintext highlighter-rouge">"deriv.Rmd"</code>) yields almost the same output.</p>
 
 <p>The following examples and resulting screenshots contrast the output between Firefox and Chrome. By clicking on the screenshots you can also see what the HTML pages look like in your own browser.</p>
 
 <h4 id="mathml-rendered-by-browser">MathML rendered by browser</h4>
 
-<p>By default, <code class="highlighter-rouge">exams2html()</code> generates HTML with MathML embedded and uses a template that does <em>not</em> enable MathJax.</p>
+<p>By default, <code class="language-plaintext highlighter-rouge">exams2html()</code> generates HTML with MathML embedded and uses a template that does <em>not</em> enable MathJax.</p>
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 set.seed(1090)
@@ -383,7 +383,7 @@ exams2html(&quot;deriv&quot;)</code></pre>
 
 <h4 id="mathml-rendered-by-mathjax">MathML rendered by MathJax</h4>
 
-<p>To easily explore the effect of MathJax rendering <code class="highlighter-rouge">exams2html()</code> supports the argument <code class="highlighter-rouge">mathjax = TRUE</code> which inserts the MathJax <code class="highlighter-rouge">&lt;script&gt;</code> into the template (loaded from RStudio’s content delivery network).</p>
+<p>To easily explore the effect of MathJax rendering <code class="language-plaintext highlighter-rouge">exams2html()</code> supports the argument <code class="language-plaintext highlighter-rouge">mathjax = TRUE</code> which inserts the MathJax <code class="language-plaintext highlighter-rouge">&lt;script&gt;</code> into the template (loaded from RStudio’s content delivery network).</p>
 
 <pre><code class="prettyprint ">set.seed(1090)
 exams2html(&quot;deriv&quot;, mathjax = TRUE)</code></pre>
@@ -395,7 +395,7 @@ exams2html(&quot;deriv&quot;, mathjax = TRUE)</code></pre>
 
 <h4 id="latex-rendered-by-mathjax">LaTeX rendered by MathJax</h4>
 
-<p>To preserve the LaTeX equations, the argument <code class="highlighter-rouge">converter = "pandoc-mathjax"</code> can be used. Then, Pandoc converts the LaTeX text to HTML but preserves the LaTeX equations (in minimal HTML markup).</p>
+<p>To preserve the LaTeX equations, the argument <code class="language-plaintext highlighter-rouge">converter = "pandoc-mathjax"</code> can be used. Then, Pandoc converts the LaTeX text to HTML but preserves the LaTeX equations (in minimal HTML markup).</p>
 
 <pre><code class="prettyprint ">set.seed(1090)
 exams2html(&quot;deriv&quot;, converter = &quot;pandoc-mathjax&quot;, mathjax = TRUE)</code></pre>
@@ -403,38 +403,38 @@ exams2html(&quot;deriv&quot;, converter = &quot;pandoc-mathjax&quot;, mathjax = 
 <p><a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathjax-firefox.png" alt="deriv-mathjax.html" /></a>
 <a href="http://www.R-exams.org/assets/posts/2019-01-28-math//deriv-mathjax.html"><img src="http://www.R-exams.org/assets/posts/2019-01-28-math/deriv-mathjax-chrome.png" alt="deriv-mathjax.html" /></a></p>
 
-<p>The output is very similar to the MathML rendered MathJax above. However, note that the alignment in the equations is changed (from left to right). This is caused by Pandoc replacing the LaTeX <code class="highlighter-rouge">{eqnarray*}</code> environment employed in the <code class="highlighter-rouge">"deriv"</code> exercise by <code class="highlighter-rouge">{aligned}</code> environments.</p>
+<p>The output is very similar to the MathML rendered MathJax above. However, note that the alignment in the equations is changed (from left to right). This is caused by Pandoc replacing the LaTeX <code class="language-plaintext highlighter-rouge">{eqnarray*}</code> environment employed in the <code class="language-plaintext highlighter-rouge">"deriv"</code> exercise by <code class="language-plaintext highlighter-rouge">{aligned}</code> environments.</p>
 
 <h2 id="practical-considerations">Practical considerations</h2>
 
 <ul>
   <li><em>Original markup in exercise source files:</em><br />
-Whether to use R/Markdown (<code class="highlighter-rouge">.Rmd</code>) or R/LaTeX (<code class="highlighter-rouge">.Rnw</code>) markup in the exercise source files is mostly a matter of taste. The former is probably somewhat easier to learn for beginners but generally differences are small if there is only moderate text formatting. It is also good practice to keep the formatting simple to be robust across the different output formats and more advanced math constructs should be checked carefully.</li>
+Whether to use R/Markdown (<code class="language-plaintext highlighter-rouge">.Rmd</code>) or R/LaTeX (<code class="language-plaintext highlighter-rouge">.Rnw</code>) markup in the exercise source files is mostly a matter of taste. The former is probably somewhat easier to learn for beginners but generally differences are small if there is only moderate text formatting. It is also good practice to keep the formatting simple to be robust across the different output formats and more advanced math constructs should be checked carefully.</li>
   <li><em>MathML as default math markup:</em><br />
-As of today (January 2019) it might seem more natural to use LaTeX rendered by MathJax as <code class="highlighter-rouge">rmarkdown</code> does. However, when HTML conversion was added to R/exams in early 2012, MathML rendered by Firefox was the more robust choice. MathML has been preserved as the default since then because it can be rendered both by MathJax and some browsers.</li>
+As of today (January 2019) it might seem more natural to use LaTeX rendered by MathJax as <code class="language-plaintext highlighter-rouge">rmarkdown</code> does. However, when HTML conversion was added to R/exams in early 2012, MathML rendered by Firefox was the more robust choice. MathML has been preserved as the default since then because it can be rendered both by MathJax and some browsers.</li>
   <li><em>Pandoc vs. TtM:</em><br />
-Pandoc is the default converter for all <code class="highlighter-rouge">.Rmd</code> exercises while TtM is still used by default for <code class="highlighter-rouge">.Rnw</code> exercises. The latter is mostly for backward compatibility but might change to Pandoc in the future. However, differences are not very large for most exercises anyway but some mathematical LaTeX constructs are just supported by one and not the other converter.</li>
+Pandoc is the default converter for all <code class="language-plaintext highlighter-rouge">.Rmd</code> exercises while TtM is still used by default for <code class="language-plaintext highlighter-rouge">.Rnw</code> exercises. The latter is mostly for backward compatibility but might change to Pandoc in the future. However, differences are not very large for most exercises anyway but some mathematical LaTeX constructs are just supported by one and not the other converter.</li>
   <li><em>Enabling MathJax rendering:</em><br />
 Many modern learning management systems have MathJax enabled by default, e.g., in Moodle, Canvas, or OpenOLAT. There are a couple of caveats, though: First, the default MathJax configuration in Moodle and OpenOLAT switches off rendering of MathML. Second, some systems do not host their own copy of the MathJax library but employ a content delivery network (CDN). Thus, there is a small risk that the learning management system might be up and running but there are problems loading MathJax from the CDN.</li>
   <li><em>Moodle:</em><br />
-As noted above the default configuration for <a href="https://moodle.org/">Moodle</a> has MathJax support (via a CDN) but switches off rendering of MathML. As <code class="highlighter-rouge">exams2moodle(...)</code> currently uses MathML markup by default, this necessitates Firefox or Safari for viewing the quizzes in Moodle. In contrast, <code class="highlighter-rouge">exams2moodle(..., converter = "pandoc-mathjax")</code> would use LaTeX math markup and render it by MathJax (unless the Moodle configuration switched off MathJax support).<br />
- <strong>Request:</strong> Feedback from Moodle users would be appreciated on whether they prefer the current default or <code class="highlighter-rouge">converter = "pandoc-mathjax"</code>. It would be especially useful to find out whether the latter works in their Moodle installations.</li>
+As noted above the default configuration for <a href="https://moodle.org/">Moodle</a> has MathJax support (via a CDN) but switches off rendering of MathML. As <code class="language-plaintext highlighter-rouge">exams2moodle(...)</code> currently uses MathML markup by default, this necessitates Firefox or Safari for viewing the quizzes in Moodle. In contrast, <code class="language-plaintext highlighter-rouge">exams2moodle(..., converter = "pandoc-mathjax")</code> would use LaTeX math markup and render it by MathJax (unless the Moodle configuration switched off MathJax support).<br />
+ <strong>Request:</strong> Feedback from Moodle users would be appreciated on whether they prefer the current default or <code class="language-plaintext highlighter-rouge">converter = "pandoc-mathjax"</code>. It would be especially useful to find out whether the latter works in their Moodle installations.</li>
   <li><em>Canvas:</em><br />
-We are currently working on a dedicated <code class="highlighter-rouge">exams2qti12()</code>-based function <code class="highlighter-rouge">exams2canvas()</code> for generating quizzes for <a href="https://www.canvaslms.com/">Canvas</a>. This will keep the MathML-based default for the math notation as this is rendered smoothly by Canvas’ own MathJax support.</li>
+We are currently working on a dedicated <code class="language-plaintext highlighter-rouge">exams2qti12()</code>-based function <code class="language-plaintext highlighter-rouge">exams2canvas()</code> for generating quizzes for <a href="https://www.canvaslms.com/">Canvas</a>. This will keep the MathML-based default for the math notation as this is rendered smoothly by Canvas’ own MathJax support.</li>
   <li><em>OpenOLAT:</em><br />
-A new dedicated interface <code class="highlighter-rouge">exams2openolat()</code> for generating quizzes for <a href="https://www.openolat.com/">OpenOLAT</a> has been added recently to R/exams (version 2.3-1). By default, this is a wrapper to <code class="highlighter-rouge">exams2qti21(..., converter = "pandoc-mathjax")</code> because OpenOLAT provides MathJax rendering of LaTeX math (but not MathML). Some additional tweaks are necessary, though, because OpenOLAT expects the LaTeX to be embedded slightly differently from standard Pandoc output.</li>
+A new dedicated interface <code class="language-plaintext highlighter-rouge">exams2openolat()</code> for generating quizzes for <a href="https://www.openolat.com/">OpenOLAT</a> has been added recently to R/exams (version 2.3-1). By default, this is a wrapper to <code class="language-plaintext highlighter-rouge">exams2qti21(..., converter = "pandoc-mathjax")</code> because OpenOLAT provides MathJax rendering of LaTeX math (but not MathML). Some additional tweaks are necessary, though, because OpenOLAT expects the LaTeX to be embedded slightly differently from standard Pandoc output.</li>
 </ul>
 
 <h2 id="further-technical-details">Further technical details</h2>
 
-<p>The mathematical equation in the random draw of the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise in LaTeX is: <code class="highlighter-rouge">f(x) = x^{8} e^{3.4x}</code>. Here, we highlight that all converters yield almost equivalent output when rendered by MathJax:</p>
+<p>The mathematical equation in the random draw of the <a href="http://www.R-exams.org/templates/deriv/">deriv</a> exercise in LaTeX is: <code class="language-plaintext highlighter-rouge">f(x) = x^{8} e^{3.4x}</code>. Here, we highlight that all converters yield almost equivalent output when rendered by MathJax:</p>
 
 <table>
   <thead>
     <tr>
-      <th style="text-align: left"><code class="highlighter-rouge">"pandoc-mathjax"</code></th>
-      <th style="text-align: left"><code class="highlighter-rouge">"ttm"</code></th>
-      <th style="text-align: left"><code class="highlighter-rouge">"pandoc-mathml"</code></th>
+      <th style="text-align: left"><code class="language-plaintext highlighter-rouge">"pandoc-mathjax"</code></th>
+      <th style="text-align: left"><code class="language-plaintext highlighter-rouge">"ttm"</code></th>
+      <th style="text-align: left"><code class="language-plaintext highlighter-rouge">"pandoc-mathml"</code></th>
     </tr>
   </thead>
   <tbody>
@@ -448,12 +448,12 @@ A new dedicated interface <code class="highlighter-rouge">exams2openolat()</code
 
 <p>(<strong>Note:</strong> If you are viewing this on R-bloggers or another aggregator some or all of the equations will not display correctly. Refer to the <a href="http://www.R-exams.org/tutorials/math/">R/exams site</a> for a version with MathJax properly enabled.)</p>
 
-<p>The underlying LaTeX code generated by <code class="highlighter-rouge">converter = "pandoc-mathjax"</code> is simply the original LaTeX code with some minimal HTML markup:</p>
+<p>The underlying LaTeX code generated by <code class="language-plaintext highlighter-rouge">converter = "pandoc-mathjax"</code> is simply the original LaTeX code with some minimal HTML markup:</p>
 
 <pre><code class="language-`">&lt;span class="math inline"&gt;\(f(x) = x^{8} e^{3.4x}\)&lt;/span&gt;
 </code></pre>
 
-<p>The MathML code generated by <code class="highlighter-rouge">converter = "ttm"</code> differs slightly from the of <code class="highlighter-rouge">converter = "pandoc"</code> (or equivalently <code class="highlighter-rouge">"pandoc-mathml"</code>). The former yields:</p>
+<p>The MathML code generated by <code class="language-plaintext highlighter-rouge">converter = "ttm"</code> differs slightly from the of <code class="language-plaintext highlighter-rouge">converter = "pandoc"</code> (or equivalently <code class="language-plaintext highlighter-rouge">"pandoc-mathml"</code>). The former yields:</p>
 
 <pre><code class="prettyprint ">&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
 &lt;mrow&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;

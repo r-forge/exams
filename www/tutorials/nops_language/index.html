@@ -358,7 +358,7 @@ existing languages if desired.</p>
 <h2 id="example">Example</h2>
 
 <p>To illustrate how the language support works, once it has been fully incorporated into the
-<code class="highlighter-rouge">exams</code> package, we set up a short exam with three exercises:
+<code class="language-plaintext highlighter-rouge">exams</code> package, we set up a short exam with three exercises:
 <a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>, <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>,
 <a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>. All of these are readily available
 in the package (and are actually in English).</p>
@@ -367,9 +367,9 @@ in the package (and are actually in English).</p>
 myexam &lt;- c(&quot;deriv2.Rnw&quot;, &quot;tstat2.Rnw&quot;, &quot;swisscapital.Rnw&quot;)</code></pre>
 
 <p>Then we set up PDF output in English (en), German (de), and Spanish (es).
-By setting <code class="highlighter-rouge">language</code> most text on the title page is modified, only the name of the
-<code class="highlighter-rouge">institution</code> and the <code class="highlighter-rouge">title</code> of the exam have to be set separately. For the English
-example we produce <code class="highlighter-rouge">n = 1</code> PDF output file in the output directory <code class="highlighter-rouge">nops_pdf</code> (created
+By setting <code class="language-plaintext highlighter-rouge">language</code> most text on the title page is modified, only the name of the
+<code class="language-plaintext highlighter-rouge">institution</code> and the <code class="language-plaintext highlighter-rouge">title</code> of the exam have to be set separately. For the English
+example we produce <code class="language-plaintext highlighter-rouge">n = 1</code> PDF output file in the output directory <code class="language-plaintext highlighter-rouge">nops_pdf</code> (created
 automatically).</p>
 
 <pre><code class="prettyprint ">set.seed(403)
@@ -396,10 +396,10 @@ exams2nops(myexam, n = 1, language = &quot;es&quot;,
 
 <h2 id="language-specification">Language specification</h2>
 
-<p>To add a new language, essentially just a single text file (say <code class="highlighter-rouge">lang.dcf</code>) is needed containing
+<p>To add a new language, essentially just a single text file (say <code class="language-plaintext highlighter-rouge">lang.dcf</code>) is needed containing
 suitable translations of all the phrases on the title page as well as a few additional phrases,
 e.g., occuring in the HTML evaluation reports etc.
-As an example, the first few phrases in English (<code class="highlighter-rouge">en.dcf</code>) are:</p>
+As an example, the first few phrases in English (<code class="language-plaintext highlighter-rouge">en.dcf</code>) are:</p>
 
 <pre>
 PersonalData: Personal Data
@@ -413,7 +413,7 @@ NoChanges: In this section \textbf{no} changes or modifications must be made!
 ...
 </pre>
 
-<p>And the corresponding translations to German (<code class="highlighter-rouge">de.dcf</code>) are:</p>
+<p>And the corresponding translations to German (<code class="language-plaintext highlighter-rouge">de.dcf</code>) are:</p>
 
 <pre>
 PersonalData: Pers{\"o}nliche Daten
@@ -429,19 +429,19 @@ NoChanges: In diesem Feld d{\"u}rfen \textbf{keine} Ver{\"a}nderungen der Daten 
 
 <p>Note that here LaTeX markup is used for the German umlaute and for bold highlighting. Alternatively,
 special characters can be added in a suitable encoding (typically UTF-8) but then the encoding has
-to be declared when calling <code class="highlighter-rouge">exams2nops()</code> (e.g., <code class="highlighter-rouge">encoding = "UTF-8"</code>).</p>
+to be declared when calling <code class="language-plaintext highlighter-rouge">exams2nops()</code> (e.g., <code class="language-plaintext highlighter-rouge">encoding = "UTF-8"</code>).</p>
 
-<p>Most of the phrases required in the <code class="highlighter-rouge">.dcf</code> are very straightforward and only some are a bit technical.
-There are also a couple of coordinates (<code class="highlighter-rouge">MarkExample*</code>) necessary for aligning some text lines.
-If you have set up your own <code class="highlighter-rouge">lang.dcf</code> you can easily pass it to <code class="highlighter-rouge">exams2nops()</code> by setting
-<code class="highlighter-rouge">language = "/path/to/lang.dcf"</code>. The same has to be done for <code class="highlighter-rouge">nops_eval()</code> when evaluating the exam.</p>
+<p>Most of the phrases required in the <code class="language-plaintext highlighter-rouge">.dcf</code> are very straightforward and only some are a bit technical.
+There are also a couple of coordinates (<code class="language-plaintext highlighter-rouge">MarkExample*</code>) necessary for aligning some text lines.
+If you have set up your own <code class="language-plaintext highlighter-rouge">lang.dcf</code> you can easily pass it to <code class="language-plaintext highlighter-rouge">exams2nops()</code> by setting
+<code class="language-plaintext highlighter-rouge">language = "/path/to/lang.dcf"</code>. The same has to be done for <code class="language-plaintext highlighter-rouge">nops_eval()</code> when evaluating the exam.</p>
 
 <h2 id="currently-available-languages">Currently available languages</h2>
 
 <p>Due to the kind support from friends and various dedicated R/exams users, there is already support
 for many important Western languages as well as a few other languages/countries. All of these
 are directly available in the R package. But for convenience
-and manual inspection the <code class="highlighter-rouge">.dcf</code> files are also linked here.</p>
+and manual inspection the <code class="language-plaintext highlighter-rouge">.dcf</code> files are also linked here.</p>
 
 <table>
   <thead>
@@ -567,12 +567,12 @@ and manual inspection the <code class="highlighter-rouge">.dcf</code> files are 
 
 <h2 id="contributing-new-languages">Contributing new languages</h2>
 
-<p>If you want to contribute a new language, simply set up a <code class="highlighter-rouge">.dcf</code> file starting out from one of the examples
+<p>If you want to contribute a new language, simply set up a <code class="language-plaintext highlighter-rouge">.dcf</code> file starting out from one of the examples
 above and send the file or a link to
 <em>&lt;info at R-exams.org&gt;</em>.
 Do not worry if not everything is 100% perfect, yet, we can still sort this out together!
-For Western languages (e.g., <code class="highlighter-rouge">sv</code> is still missing) it is probably the most robust solution to
-code special characters in LaTeX. For languages requiring other alphabets (e.g., <code class="highlighter-rouge">gr</code>)
+For Western languages (e.g., <code class="language-plaintext highlighter-rouge">sv</code> is still missing) it is probably the most robust solution to
+code special characters in LaTeX. For languages requiring other alphabets (e.g., <code class="language-plaintext highlighter-rouge">gr</code>)
 it is probably easiest to use UTF-8 encoding. Get in touch through e-mail, the 
 <a href="http://R-Forge.R-project.org/forum/?group_id=1337">support forum</a>
 or on Twitter (<a href="https://twitter.com/AchimZeileis">@AchimZeileis</a>) if you want to know more or need further details.</p>

@@ -345,7 +345,7 @@
 			<span itemprop="articleSection">
 			<h2 id="motivation">Motivation</h2>
 
-<p>After a dynamic exercise has been developed, thorough testing is recommended before administering the exercise in a student assessment. Therefore, the <a href="http://www.R-exams.org">R/exams</a> package provides the function <code class="highlighter-rouge">stresstest_exercise()</code> to aid teachers in this process. While the teachers still have to assess themselves how sensible/intelligible/appropriate/… the exercise is, the R function can help check:</p>
+<p>After a dynamic exercise has been developed, thorough testing is recommended before administering the exercise in a student assessment. Therefore, the <a href="http://www.R-exams.org">R/exams</a> package provides the function <code class="language-plaintext highlighter-rouge">stresstest_exercise()</code> to aid teachers in this process. While the teachers still have to assess themselves how sensible/intelligible/appropriate/… the exercise is, the R function can help check:</p>
 
 <ul>
   <li>whether the data-generating process works without errors or infinite loops,</li>
@@ -365,14 +365,14 @@
 <table>
   <tbody>
     <tr>
-      <td>According to a recent survey <code class="highlighter-rouge">100 - p</code> percent of all customers in grocery stores pay cash while the rest use their credit or cash card. You are currently waiting in the queue at the checkout of a grocery story with <code class="highlighter-rouge">n</code> customers in front of you. <br /> <br /> What is the probability (in percent) that <code class="highlighter-rouge">k</code> or more of the other customers pay with their card?</td>
+      <td>According to a recent survey <code class="language-plaintext highlighter-rouge">100 - p</code> percent of all customers in grocery stores pay cash while the rest use their credit or cash card. You are currently waiting in the queue at the checkout of a grocery story with <code class="language-plaintext highlighter-rouge">n</code> customers in front of you. <br /> <br /> What is the probability (in percent) that <code class="language-plaintext highlighter-rouge">k</code> or more of the other customers pay with their card?</td>
     </tr>
   </tbody>
 </table>
 
-<p>In R, the correct answer for this exercise can be computed as <code class="highlighter-rouge">100 * pbinom(k - 1, size = n, prob = p/100, lower.tail = FALSE)</code> which we ask for in the exercise (rounded to two digits).</p>
+<p>In R, the correct answer for this exercise can be computed as <code class="language-plaintext highlighter-rouge">100 * pbinom(k - 1, size = n, prob = p/100, lower.tail = FALSE)</code> which we ask for in the exercise (rounded to two digits).</p>
 
-<p>In the folllowing, we illustrate typical problems of parameterizing such an exercise: For an exercise with numeric answer we only need to sample the variables <code class="highlighter-rouge">p</code>, <code class="highlighter-rouge">n</code>, and <code class="highlighter-rouge">k</code>. For a single-choice version we also need a certain number of wrong answers (or “distractors”), comprised of typical errors and/or random numbers. For both types of exercises we first show a version that exhibits some undesirable properties and then proceed to an improved version of it.</p>
+<p>In the folllowing, we illustrate typical problems of parameterizing such an exercise: For an exercise with numeric answer we only need to sample the variables <code class="language-plaintext highlighter-rouge">p</code>, <code class="language-plaintext highlighter-rouge">n</code>, and <code class="language-plaintext highlighter-rouge">k</code>. For a single-choice version we also need a certain number of wrong answers (or “distractors”), comprised of typical errors and/or random numbers. For both types of exercises we first show a version that exhibits some undesirable properties and then proceed to an improved version of it.</p>
 
 <table>
   <thead>
@@ -387,31 +387,31 @@
     <tr>
       <td style="text-align: right">1</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial1.Rmd">binomial1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial1.Rnw">binomial1.Rnw</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">First attempt with poor parameter ranges.</td>
     </tr>
     <tr>
       <td style="text-align: right">2</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial2.Rmd">binomial2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial2.Rnw">binomial2.Rnw</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">As in #1 but with some parameter ranges improved.</td>
     </tr>
     <tr>
       <td style="text-align: right">3</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial3.Rmd">binomial3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial3.Rnw">binomial3.Rnw</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">Single-choice version based on #2 but with too many typical wrong solutions and poor random answers.</td>
     </tr>
     <tr>
       <td style="text-align: right">4</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial4.Rmd">binomial4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/binomial4.Rnw">binomial4.Rnw</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">As in #3 but with improved sampling of both typical errors and random solutions.</td>
     </tr>
   </tbody>
 </table>
 
-<p>If you want to replicate the illustrations below you can easily download all four exercises from within R. Here, we show how to do so for the R/Markdown (<code class="highlighter-rouge">.Rmd</code>) version of the exercise but equivalently you can also use the R\LaTeX version (<code class="highlighter-rouge">.Rnw</code>):</p>
+<p>If you want to replicate the illustrations below you can easily download all four exercises from within R. Here, we show how to do so for the R/Markdown (<code class="language-plaintext highlighter-rouge">.Rmd</code>) version of the exercise but equivalently you can also use the R\LaTeX version (<code class="language-plaintext highlighter-rouge">.Rnw</code>):</p>
 
 <pre><code class="prettyprint ">for(i in paste0(extra, 1:4, &quot;.Rmd&quot;)) download.file(
   paste0(&quot;http://www.R-exams.org/assets/posts/2019-07-10-stresstest/&quot;, i), i)</code></pre>
@@ -436,7 +436,7 @@ k &lt;- sample(2:4, 1)</code></pre>
 <pre><code>## 1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20/21/22/23/24/25/26/27/28/29/30/31/32/33/34/35/36/37/38/39/40/41/42/43/44/45/46/47/48/49/50/51/52/53/54/55/56/57/58/59/60/61/62/63/64/65/66/67/68/69/70/71/72/73/74/75/76/77/78/79/80/81/82/83/84/85/86/87/88/89/90/91/92/93/94/95/96/97/98/99/100
 </code></pre>
 
-<p>By default this generates 100 random draws from the exercise with seeds from 1 to 100. The seeds are also printed in the R console, seperated by slashes. Therefore, it is easy to reproduce errors that might occur when running the stress test, i.e., just <code class="highlighter-rouge">set.seed(i)</code> with <code class="highlighter-rouge">i</code> being the problematic iteration and subsequently run something like <code class="highlighter-rouge">exams2html()</code> or run the code for generating the parameters manually.</p>
+<p>By default this generates 100 random draws from the exercise with seeds from 1 to 100. The seeds are also printed in the R console, seperated by slashes. Therefore, it is easy to reproduce errors that might occur when running the stress test, i.e., just <code class="language-plaintext highlighter-rouge">set.seed(i)</code> with <code class="language-plaintext highlighter-rouge">i</code> being the problematic iteration and subsequently run something like <code class="language-plaintext highlighter-rouge">exams2html()</code> or run the code for generating the parameters manually.</p>
 
 <p>Here, no errors occurred but further examination shows that parameters have clearly been too extreme:</p>
 
@@ -444,7 +444,7 @@ k &lt;- sample(2:4, 1)</code></pre>
 
 <p><img src="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/stresstest1-overview-1.svg" alt="plot of chunk stresstest1-overview" /></p>
 
-<p>The left panel shows the distribution run times which shows that this was fast without any problems. However, the distribution of solutions in the right panel shows that almost all solutions are extremely small. In fact, when accessing the solutions from the object <code class="highlighter-rouge">s1</code> and summarizing them we see that a large proportion was exactly zero (due to rounding).</p>
+<p>The left panel shows the distribution run times which shows that this was fast without any problems. However, the distribution of solutions in the right panel shows that almost all solutions are extremely small. In fact, when accessing the solutions from the object <code class="language-plaintext highlighter-rouge">s1</code> and summarizing them we see that a large proportion was exactly zero (due to rounding).</p>
 
 <pre><code class="prettyprint ">summary(s1$solution)</code></pre>
 
@@ -452,13 +452,13 @@ k &lt;- sample(2:4, 1)</code></pre>
 ##  0.0000  0.0000  0.0200  0.5239  0.3100  4.7800
 </code></pre>
 
-<p>You might have already noticed the source of the problems when we presented the code above: the values for <code class="highlighter-rouge">p</code> are extremely small (and even include 0) but also <code class="highlighter-rouge">k</code> is rather large. But even if we didn’t notice this in the code directly we could have detected it visually by plotting the solution against the parameter variables from the exercise:</p>
+<p>You might have already noticed the source of the problems when we presented the code above: the values for <code class="language-plaintext highlighter-rouge">p</code> are extremely small (and even include 0) but also <code class="language-plaintext highlighter-rouge">k</code> is rather large. But even if we didn’t notice this in the code directly we could have detected it visually by plotting the solution against the parameter variables from the exercise:</p>
 
 <pre><code class="prettyprint ">plot(s1, type = &quot;solution&quot;)</code></pre>
 
 <p><img src="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/stresstest1-solution-1.svg" alt="plot of chunk stresstest1-solution" /></p>
 
-<p><em>Remark:</em> In addition to the <code class="highlighter-rouge">solution</code> the object <code class="highlighter-rouge">s1</code> contains the <code class="highlighter-rouge">seeds</code>, the <code class="highlighter-rouge">runtime</code>, and a <code class="highlighter-rouge">data.frame</code> with all <code class="highlighter-rouge">objects</code> of length 1 that were newly created within the exercise. Sometimes it is useful to explore these in more detail manually.</p>
+<p><em>Remark:</em> In addition to the <code class="language-plaintext highlighter-rouge">solution</code> the object <code class="language-plaintext highlighter-rouge">s1</code> contains the <code class="language-plaintext highlighter-rouge">seeds</code>, the <code class="language-plaintext highlighter-rouge">runtime</code>, and a <code class="language-plaintext highlighter-rouge">data.frame</code> with all <code class="language-plaintext highlighter-rouge">objects</code> of length 1 that were newly created within the exercise. Sometimes it is useful to explore these in more detail manually.</p>
 
 <pre><code class="prettyprint ">names(s1)</code></pre>
 
@@ -472,7 +472,7 @@ k &lt;- sample(2:4, 1)</code></pre>
 
 <h2 id="numerical-exercise-improved-version">Numerical exercise: Improved version</h2>
 
-<p>To fix the problems detected above, we increase the range for <code class="highlighter-rouge">p</code> to be between 10 and 30 percent and reduce <code class="highlighter-rouge">k</code> to values from 1 to 3, i.e., employ the following lines in the exercise:</p>
+<p>To fix the problems detected above, we increase the range for <code class="language-plaintext highlighter-rouge">p</code> to be between 10 and 30 percent and reduce <code class="language-plaintext highlighter-rouge">k</code> to values from 1 to 3, i.e., employ the following lines in the exercise:</p>
 
 <pre><code class="prettyprint ">p &lt;- sample(10:30, size = 1)
 k &lt;- sample(1:3, 1)</code></pre>
@@ -491,13 +491,13 @@ plot(s2)</code></pre>
 ##    3.31   20.31   50.08   47.41   72.52   94.80
 </code></pre>
 
-<p>For fine tuning we might be interested in finding out when the threshold of 5 percent probability is exceeded, depending on the variables <code class="highlighter-rouge">p</code> and <code class="highlighter-rouge">k</code>. This can be done graphically via:</p>
+<p>For fine tuning we might be interested in finding out when the threshold of 5 percent probability is exceeded, depending on the variables <code class="language-plaintext highlighter-rouge">p</code> and <code class="language-plaintext highlighter-rouge">k</code>. This can be done graphically via:</p>
 
 <pre><code class="prettyprint ">plot(s2, type = &quot;solution&quot;, variables = c(&quot;p&quot;, &quot;k&quot;), threshold = 5)</code></pre>
 
 <p><img src="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/stresstest2-solution-1.svg" alt="plot of chunk stresstest2-solution" /></p>
 
-<p>So maybe we could increase the minimum for <code class="highlighter-rouge">p</code> from 10 to 15 percent. In the following single-choice version of the exercise we will do so in order leave more room for incorrect answers below the correct solution.</p>
+<p>So maybe we could increase the minimum for <code class="language-plaintext highlighter-rouge">p</code> from 10 to 15 percent. In the following single-choice version of the exercise we will do so in order leave more room for incorrect answers below the correct solution.</p>
 
 <h2 id="single-choice-exercise-first-attempt">Single-choice exercise: First attempt</h2>
 
@@ -520,7 +520,7 @@ ans &lt;- round(c(sol, err1, err2, rand), digits = 2)
 ok &lt;- length(unique(ans)) == 5
 }</code></pre>
 
-<p>Additionally, the code makes sure that we really do obtain five distinct numbers. Even if the probability of two distractors coinciding is very small, it might occur eventually. Finally, because the correct solution is always the first element in <code class="highlighter-rouge">ans</code> we can set <code class="highlighter-rouge">exsolution</code> in the meta-information to <code class="highlighter-rouge">10000</code> but then have to set <code class="highlighter-rouge">exshuffle</code> to <code class="highlighter-rouge">TRUE</code> so that the answers are shuffled in each random draw.</p>
+<p>Additionally, the code makes sure that we really do obtain five distinct numbers. Even if the probability of two distractors coinciding is very small, it might occur eventually. Finally, because the correct solution is always the first element in <code class="language-plaintext highlighter-rouge">ans</code> we can set <code class="language-plaintext highlighter-rouge">exsolution</code> in the meta-information to <code class="language-plaintext highlighter-rouge">10000</code> but then have to set <code class="language-plaintext highlighter-rouge">exshuffle</code> to <code class="language-plaintext highlighter-rouge">TRUE</code> so that the answers are shuffled in each random draw.</p>
 
 <p>So we are quite hopeful that our exercise will do ok in the stress test:</p>
 
@@ -528,7 +528,7 @@ ok &lt;- length(unique(ans)) == 5
 plot(s3)</code></pre>
 <p><img src="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/stresstest3-overview-1.svg" alt="plot of chunk stresstest3-overview" /></p>
 
-<p>The runtimes are still ok (indicating that the <code class="highlighter-rouge">while</code> loop was rarely used) as are the numeric solutions - and due to shuffling the position of the correct solution
+<p>The runtimes are still ok (indicating that the <code class="language-plaintext highlighter-rouge">while</code> loop was rarely used) as are the numeric solutions - and due to shuffling the position of the correct solution
 in the answer list is completely random. However, the <em>rank</em> of the solution is not: the correct solution is never the smallest or the largest of the
 answer options. The reasons for this surely have to be our typical errors:</p>
 
@@ -536,7 +536,7 @@ answer options. The reasons for this surely have to be our typical errors:</p>
 
 <p><img src="http://www.R-exams.org/assets/posts/2019-07-10-stresstest/stresstest3-solution-1.svg" alt="plot of chunk stresstest3-solution" /></p>
 
-<p>And indeed <code class="highlighter-rouge">err1</code> is always (much) larger than the correct solution and <code class="highlighter-rouge">err2</code> is always smaller. Of course, we could have realized this from the way we set up those typical errors but we didn’t have to - due to the stress test. Also, whether or not we consider this to be problem is a different matter. Possibly, if a certain error is very common it does not matter whether it is always larger or smaller than the correct solution.</p>
+<p>And indeed <code class="language-plaintext highlighter-rouge">err1</code> is always (much) larger than the correct solution and <code class="language-plaintext highlighter-rouge">err2</code> is always smaller. Of course, we could have realized this from the way we set up those typical errors but we didn’t have to - due to the stress test. Also, whether or not we consider this to be problem is a different matter. Possibly, if a certain error is very common it does not matter whether it is always larger or smaller than the correct solution.</p>
 
 <h2 id="single-choice-exercise-improved-version">Single-choice exercise: Improved version</h2>
 
@@ -544,19 +544,19 @@ answer options. The reasons for this surely have to be our typical errors:</p>
 
 <pre><code class="prettyprint ">err &lt;- sample(c(err1, err2), 1)</code></pre>
 
-<p>Moreover, we leverage the function <code class="highlighter-rouge">num_to_schoice()</code> (or equivalently <code class="highlighter-rouge">num2schoice()</code>) to sample the random distractors.</p>
+<p>Moreover, we leverage the function <code class="language-plaintext highlighter-rouge">num_to_schoice()</code> (or equivalently <code class="language-plaintext highlighter-rouge">num2schoice()</code>) to sample the random distractors.</p>
 
 <pre><code class="prettyprint ">sc &lt;- num_to_schoice(sol, wrong = err, range = c(2, 98), delta = 0.1)</code></pre>
 
-<p>Again, this is run in a <code class="highlighter-rouge">while()</code> loop to make sure that potential errors are caught (where <code class="highlighter-rouge">num_to_schoice()</code> returns <code class="highlighter-rouge">NULL</code> and issues a warning). This has a couple of desirable features:</p>
+<p>Again, this is run in a <code class="language-plaintext highlighter-rouge">while()</code> loop to make sure that potential errors are caught (where <code class="language-plaintext highlighter-rouge">num_to_schoice()</code> returns <code class="language-plaintext highlighter-rouge">NULL</code> and issues a warning). This has a couple of desirable features:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">num_to_schoice()</code> first samples how many random solutions should be to the left and to the right of the correct solution. This makes sure that even if the correct solution is not in the middle of the admissible range (in our case: either close to 0 or to 100), it is not more likely to get greater vs. smaller distractors.</li>
-  <li>We can set a minimum distance <code class="highlighter-rouge">delta</code> between all answer options (correct solution and distractors) to make sure that answers are not too close.</li>
-  <li>Shuffling is also carried out automatically so <code class="highlighter-rouge">exshuffle</code> does not have to be set.</li>
+  <li><code class="language-plaintext highlighter-rouge">num_to_schoice()</code> first samples how many random solutions should be to the left and to the right of the correct solution. This makes sure that even if the correct solution is not in the middle of the admissible range (in our case: either close to 0 or to 100), it is not more likely to get greater vs. smaller distractors.</li>
+  <li>We can set a minimum distance <code class="language-plaintext highlighter-rouge">delta</code> between all answer options (correct solution and distractors) to make sure that answers are not too close.</li>
+  <li>Shuffling is also carried out automatically so <code class="language-plaintext highlighter-rouge">exshuffle</code> does not have to be set.</li>
 </ul>
 
-<p>Finally, the list of possible answers automatically gets LaTeX math markup <code class="highlighter-rouge">$...$</code> for nicer formatting in certain situations. Therefore, for consistency, the <code class="highlighter-rouge">binomial4</code> version of the exercise uses math markup for all numbers in the question.</p>
+<p>Finally, the list of possible answers automatically gets LaTeX math markup <code class="language-plaintext highlighter-rouge">$...$</code> for nicer formatting in certain situations. Therefore, for consistency, the <code class="language-plaintext highlighter-rouge">binomial4</code> version of the exercise uses math markup for all numbers in the question.</p>
 
 <p>The corresponding stress test looks sataisfactory now:</p>
 
@@ -568,11 +568,11 @@ plot(s4)</code></pre>
 
 <h2 id="summary">Summary</h2>
 
-<p>When drawing many random versions from a certain exercise template, it is essential to thoroughly check that exercise before using it in real exams. Most importantly, of course, the authors should make sure that the story and setup is sensible, question and solution are carefully formulated, etc. But then the technical aspects should be checked as well. This should include checking whether the exercise can be rendered correctly into PDF via <code class="highlighter-rouge">exams2pdf(...)</code> and into HTML via <code class="highlighter-rouge">exams2html(...)</code> and/or possibly <code class="highlighter-rouge">exams2html(..., converter = "pandoc-mathjax")</code> (to check different forms of math rendering). And when all of this has been checked, <code class="highlighter-rouge">stresstest_exercise()</code> can help to find further problems and/or patterns that can be detected when making many random draws.</p>
+<p>When drawing many random versions from a certain exercise template, it is essential to thoroughly check that exercise before using it in real exams. Most importantly, of course, the authors should make sure that the story and setup is sensible, question and solution are carefully formulated, etc. But then the technical aspects should be checked as well. This should include checking whether the exercise can be rendered correctly into PDF via <code class="language-plaintext highlighter-rouge">exams2pdf(...)</code> and into HTML via <code class="language-plaintext highlighter-rouge">exams2html(...)</code> and/or possibly <code class="language-plaintext highlighter-rouge">exams2html(..., converter = "pandoc-mathjax")</code> (to check different forms of math rendering). And when all of this has been checked, <code class="language-plaintext highlighter-rouge">stresstest_exercise()</code> can help to find further problems and/or patterns that can be detected when making many random draws.</p>
 
-<p>The problems in this tutorial could be detected with <code class="highlighter-rouge">n = 100</code> random draws. But it is possible that some edge cases occur only very rarely so that, dependending on the complexity of the data-generating process, it is often useful to use much higher values of <code class="highlighter-rouge">n</code>.</p>
+<p>The problems in this tutorial could be detected with <code class="language-plaintext highlighter-rouge">n = 100</code> random draws. But it is possible that some edge cases occur only very rarely so that, dependending on the complexity of the data-generating process, it is often useful to use much higher values of <code class="language-plaintext highlighter-rouge">n</code>.</p>
 
-<p>Note that in our <code class="highlighter-rouge">binomial*</code> exercises it would also have been possible to set up all factorial combinations of input parameters, e.g., by <code class="highlighter-rouge">expand.grid(p = 15:30, n = 6:9, k = 1:3)</code>. Then we could have asssessed directly which of these lead to ok solutions and which are too extreme. However, when the data-generating process becomes more complex this might not be so easy. The random exploration as done by <code class="highlighter-rouge">num_to_schoice()</code> is still straightforward, though.</p>
+<p>Note that in our <code class="language-plaintext highlighter-rouge">binomial*</code> exercises it would also have been possible to set up all factorial combinations of input parameters, e.g., by <code class="language-plaintext highlighter-rouge">expand.grid(p = 15:30, n = 6:9, k = 1:3)</code>. Then we could have asssessed directly which of these lead to ok solutions and which are too extreme. However, when the data-generating process becomes more complex this might not be so easy. The random exploration as done by <code class="language-plaintext highlighter-rouge">num_to_schoice()</code> is still straightforward, though.</p>
 
 			</span>
 

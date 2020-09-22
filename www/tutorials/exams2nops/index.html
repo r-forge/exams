@@ -368,13 +368,13 @@ myexam &lt;- list(
   &quot;cholesky.Rnw&quot;
 )</code></pre>
 
-<p>Here, we use a number of <code class="highlighter-rouge">schoice</code> and <code class="highlighter-rouge">mchoice</code> questions that are directly shipped
+<p>Here, we use a number of <code class="language-plaintext highlighter-rouge">schoice</code> and <code class="language-plaintext highlighter-rouge">mchoice</code> questions that are directly shipped
 within the package. In practice, you would use files that you have authored and stored
 somewhere locally. Above, exercises in .Rnw format are used but all of the examples
 are also available in .Rmd format, leading to virtually identical output.</p>
 
-<p>Then, we create a small exam with only <code class="highlighter-rouge">n = 2</code> randomly-drawn versions, storing the
-resulting PDF files (plus metainformation) on the disk in a new output directory <code class="highlighter-rouge">nops_pdf</code>.
+<p>Then, we create a small exam with only <code class="language-plaintext highlighter-rouge">n = 2</code> randomly-drawn versions, storing the
+resulting PDF files (plus metainformation) on the disk in a new output directory <code class="language-plaintext highlighter-rouge">nops_pdf</code>.
 To customize the exam we assign a different number of points to the different exercises
 and also show the respective number of points at the beginning of each question.</p>
 
@@ -398,7 +398,7 @@ that were generated.</p>
 <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//demo2.pdf"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/demo2.png" alt="demo2.pdf" /></a></p>
 
 <p>Furthermore, the metainfromation about the exam (exam IDs, questions, correct and wrong
-answer alternatives) is stored in a <code class="highlighter-rouge">demo.rds</code> file (serialized R data). This crucial
+answer alternatives) is stored in a <code class="language-plaintext highlighter-rouge">demo.rds</code> file (serialized R data). This crucial
 for being able to evaluate the exam later on.</p>
 
 <h2 id="print-pdf-files">Print PDF files</h2>
@@ -471,12 +471,12 @@ render them into a single PDF file.</p>
   <li>If the exams were stapled in the top-left corner (see above) the sheet feeder often
 works better if the sheets are rotated by 180 degrees (so that the damaged corner
 is not fed first into the machine). This often improves the scanning results
-considerably and can be accomodated by setting <code class="highlighter-rouge">rotate = TRUE</code> in <code class="highlighter-rouge">nops_scan()</code>
+considerably and can be accomodated by setting <code class="language-plaintext highlighter-rouge">rotate = TRUE</code> in <code class="language-plaintext highlighter-rouge">nops_scan()</code>
 below.</li>
 </ul>
 
 <p>For demonstration, we use two completed demo sheets that are provided along with
-the <code class="highlighter-rouge">exams</code> package and copy them to a dedicated directory <code class="highlighter-rouge">nops_scan</code>.</p>
+the <code class="language-plaintext highlighter-rouge">exams</code> package and copy them to a dedicated directory <code class="language-plaintext highlighter-rouge">nops_scan</code>.</p>
 
 <pre><code class="prettyprint ">img &lt;- dir(system.file(&quot;nops&quot;, package = &quot;exams&quot;), pattern = &quot;nops_scan&quot;,
   full.names = TRUE)
@@ -489,10 +489,10 @@ file.copy(img, to = &quot;nops_scan&quot;)</code></pre>
 <p>(Note that the first scanned image corresponds to one of the PDFs above while
 the other one was generated with custom title/logo/language/etc.)</p>
 
-<p>Using the function <code class="highlighter-rouge">nops_scan()</code> we can now read all scanned images (i.e.,
+<p>Using the function <code class="language-plaintext highlighter-rouge">nops_scan()</code> we can now read all scanned images (i.e.,
 all locally available PNG and/or PDF files) and collect everything in a ZIP file.
 (Note that if there were PDF files that need to be scanned, then the
-PDF toolkit <code class="highlighter-rouge">pdftk</code> and the function <code class="highlighter-rouge">convert</code> from ImageMagick need to be
+PDF toolkit <code class="language-plaintext highlighter-rouge">pdftk</code> and the function <code class="language-plaintext highlighter-rouge">convert</code> from ImageMagick need to be
 available outside of R on the command line.)</p>
 
 <pre><code class="prettyprint ">nops_scan(dir = &quot;nops_scan&quot;)</code></pre>
@@ -504,10 +504,10 @@ available outside of R on the command line.)</p>
 </code></pre>
 
 <p>The resulting file <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//nops_scan_20170810004404.zip">nops_scan_20170810004404.zip</a> contains copies of the
-PNG files along with a file called <code class="highlighter-rouge">Daten.txt</code> (for historical reasons) that
+PNG files along with a file called <code class="language-plaintext highlighter-rouge">Daten.txt</code> (for historical reasons) that
 contains the scanned information in machine-readable from.</p>
 
-<p>See <code class="highlighter-rouge">?nops_scan</code> for more details, e.g., multicore support or options for
+<p>See <code class="language-plaintext highlighter-rouge">?nops_scan</code> for more details, e.g., multicore support or options for
 rotating PDF files prior to scanning.</p>
 
 <h2 id="evaluate-results">Evaluate results</h2>
@@ -531,8 +531,8 @@ and a format for humans (one HTML page for each student).</p>
 <p>To do so, three files are required:</p>
 
 <ul>
-  <li>An RDS file with the exam meta-information, generated by <code class="highlighter-rouge">exams2nops()</code> above.</li>
-  <li>A ZIP file with the scanned sheets, generated by <code class="highlighter-rouge">nops_scan()</code> above.</li>
+  <li>An RDS file with the exam meta-information, generated by <code class="language-plaintext highlighter-rouge">exams2nops()</code> above.</li>
+  <li>A ZIP file with the scanned sheets, generated by <code class="language-plaintext highlighter-rouge">nops_scan()</code> above.</li>
   <li>A CSV file (semicolon-separated values) with the student infomation (registration number, name, and some
 ID or username). In practice, this CSV file will typically be processed from some
 registration service or learning management system etc. However, here we simply
@@ -588,7 +588,7 @@ entered into the university’s information system.</p>
 ## 9901071       0        0    11100      00011       0        0
 </code></pre>
 
-<p>And <code class="highlighter-rouge">nops_eval.zip</code> contains subdirectories with HTML reports for each of the two participants.</p>
+<p>And <code class="language-plaintext highlighter-rouge">nops_eval.zip</code> contains subdirectories with HTML reports for each of the two participants.</p>
 
 <p><a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-jane_doe.html"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-jane_doe.png" alt="Exam-2015-07-29-jane_doe.html" /></a>
 <a href="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops//Exam-2015-07-29-ambi_dexter.html"><img src="http://www.R-exams.org/assets/posts/2017-09-18-exams2nops/Exam-2015-07-29-ambi_dexter.png" alt="Exam-2015-07-29-ambi_dexter.html" /></a></p>

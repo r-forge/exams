@@ -384,10 +384,10 @@
 <p>Subsequently, we start out with setps described in more detail in <a href="http://www.R-exams.org/tutorials/first_steps/">http://www.R-exams.org/tutorials/first_steps/</a>. The package is loaded and first we create an “exams skeleton” with:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">demo-*.R</code> scripts</li>
-  <li><code class="highlighter-rouge">exercises/</code> folder with all <code class="highlighter-rouge">.Rmd</code>/<code class="highlighter-rouge">.Rnw</code> exercises</li>
-  <li><code class="highlighter-rouge">templates/</code> folder with various customizable templates</li>
-  <li><code class="highlighter-rouge">nops/</code> folder (empty) for <code class="highlighter-rouge">exams2nops()</code> output</li>
+  <li><code class="language-plaintext highlighter-rouge">demo-*.R</code> scripts</li>
+  <li><code class="language-plaintext highlighter-rouge">exercises/</code> folder with all <code class="language-plaintext highlighter-rouge">.Rmd</code>/<code class="language-plaintext highlighter-rouge">.Rnw</code> exercises</li>
+  <li><code class="language-plaintext highlighter-rouge">templates/</code> folder with various customizable templates</li>
+  <li><code class="language-plaintext highlighter-rouge">nops/</code> folder (empty) for <code class="language-plaintext highlighter-rouge">exams2nops()</code> output</li>
 </ul>
 
 <pre><code class="language-{r}">library("exams")
@@ -400,7 +400,7 @@ exams_skeleton()
 exams2pdf("swisscapital.Rmd")
 </code></pre>
 
-<p>And then we do the same for a numeric question with mathematical notation: (<a href="http://www.R-exams.org/templates/deriv/">deriv</a>, product rule for derivatives). By default <code class="highlighter-rouge">exams2html()</code> uses MathML for the mathematical notation and expects the browser to render it which works ok in Firefox and Safari. But for Chrome it is better to use MathJax, see this post about <a href="http://www.R-exams.org/tutorials/math/">mathematical notation in web exams</a> for more details.</p>
+<p>And then we do the same for a numeric question with mathematical notation: (<a href="http://www.R-exams.org/templates/deriv/">deriv</a>, product rule for derivatives). By default <code class="language-plaintext highlighter-rouge">exams2html()</code> uses MathML for the mathematical notation and expects the browser to render it which works ok in Firefox and Safari. But for Chrome it is better to use MathJax, see this post about <a href="http://www.R-exams.org/tutorials/math/">mathematical notation in web exams</a> for more details.</p>
 
 <pre><code class="language-{r}">exams2html("deriv.Rmd")
 exams2html("deriv.Rmd", converter = "pandoc-mathjax")
@@ -435,35 +435,35 @@ exams2pdf("deriv.Rmd")
       <td style="text-align: right">1</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv1.Rmd">expderiv1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv1.Rnw">expderiv1.Rnw</a></td>
       <td style="text-align: left">No</td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">Fixed parameters and numeric solution.</td>
     </tr>
     <tr>
       <td style="text-align: right">2</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv2.Rmd">expderiv2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv2.Rnw">expderiv2.Rnw</a></td>
       <td style="text-align: left">No</td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">As in #1 but with single-choice solution (five answer alternatives).</td>
     </tr>
     <tr>
       <td style="text-align: right">3</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv3.Rmd">expderiv3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv3.Rnw">expderiv3.Rnw</a></td>
       <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">Randomly drawn parameters with dynamic computation of correct solution, based on #1.</td>
     </tr>
     <tr>
       <td style="text-align: right">4</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv4.Rmd">expderiv4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv4.Rnw">expderiv4.Rnw</a></td>
       <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
-      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="highlighter-rouge">num_to_schoice()</code>.</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="language-plaintext highlighter-rouge">num_to_schoice()</code>.</td>
     </tr>
     <tr>
       <td style="text-align: right">5</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv5.Rmd">expderiv5.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv5.Rnw">expderiv5.Rnw</a></td>
       <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">As in #4 but with the last alternative: <em>None of the above.</em></td>
     </tr>
   </tbody>
@@ -476,7 +476,7 @@ extra &lt;- c(paste0(extra, ".Rnw"), paste0(extra, ".Rmd"))
 for(i in extra) download.file(paste0("http://www.R-exams.org/assets/posts/2019-07-09-user2019/", i), i)
 </code></pre>
 
-<p>To take a tour of the available exercise files, we switch to the <code class="highlighter-rouge">exercises/</code> folder:</p>
+<p>To take a tour of the available exercise files, we switch to the <code class="language-plaintext highlighter-rouge">exercises/</code> folder:</p>
 
 <pre><code class="language-{r}">setwd("exercises")
 dir()
@@ -547,7 +547,7 @@ dir()
 
 <h4 id="stress-testing-dynamic-exercises">Stress testing dynamic exercises</h4>
 
-<p>The function <code class="highlighter-rouge">stresstest_exercise()</code> can help to do some basic quality control of dynamic exercise templates. It runs the exercises <code class="highlighter-rouge">n</code> times (default: 100) with seeds <code class="highlighter-rouge">1</code> to <code class="highlighter-rouge">n</code> and stores run time, solution, and accompanying variables (of length 1). This can help to spot problems or patterns in the exercises.</p>
+<p>The function <code class="language-plaintext highlighter-rouge">stresstest_exercise()</code> can help to do some basic quality control of dynamic exercise templates. It runs the exercises <code class="language-plaintext highlighter-rouge">n</code> times (default: 100) with seeds <code class="language-plaintext highlighter-rouge">1</code> to <code class="language-plaintext highlighter-rouge">n</code> and stores run time, solution, and accompanying variables (of length 1). This can help to spot problems or patterns in the exercises.</p>
 
 <p>A simple example for a numeric exercise is:</p>
 
@@ -563,7 +563,7 @@ plot(s4)
 plot(s4, type = "solution")
 </code></pre>
 
-<p>To focus on typical errors the plots against the variables <code class="highlighter-rouge">err1</code> and <code class="highlighter-rouge">err2</code> can either be created by the <code class="highlighter-rouge">plot()</code> method or “by hand” with some customization:</p>
+<p>To focus on typical errors the plots against the variables <code class="language-plaintext highlighter-rouge">err1</code> and <code class="language-plaintext highlighter-rouge">err2</code> can either be created by the <code class="language-plaintext highlighter-rouge">plot()</code> method or “by hand” with some customization:</p>
 
 <pre><code class="language-{r}">plot(s4, type = "solution", variables = c("err1", "err2"))
 plot(res ~ err1, data = s4$objects)
@@ -593,7 +593,7 @@ exams2pandoc(demo_exam, edir = "exercises")
 exams2pdf(demo_exam, edir = "exercises", template = "templates/solution.tex")
 </code></pre>
 
-<p>Also, <code class="highlighter-rouge">exams2nops()</code> internally sets up a template on the fly and then calls <code class="highlighter-rouge">exams2pdf()</code>. And e-learning exams (Moodle XML, QTI 1.2/2.1, …) are illustrated in the next section.</p>
+<p>Also, <code class="language-plaintext highlighter-rouge">exams2nops()</code> internally sets up a template on the fly and then calls <code class="language-plaintext highlighter-rouge">exams2pdf()</code>. And e-learning exams (Moodle XML, QTI 1.2/2.1, …) are illustrated in the next section.</p>
 
 <h2 id="e-learning-moodle-canvas-arsnova-">E-Learning (Moodle, Canvas, ARSnova, …)</h2>
 

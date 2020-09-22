@@ -390,49 +390,49 @@
   <tbody>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">Knowledge quiz question with basic shuffling</td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/deriv/">deriv</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">Computing the derivative of a function with randomized parameters</td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/ttest/">ttest</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">mchoice</code></td>
-      <td style="text-align: left">Interpretation of R output from <code class="highlighter-rouge">t.test()</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">mchoice</code></td>
+      <td style="text-align: left">Interpretation of R output from <code class="language-plaintext highlighter-rouge">t.test()</code></td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/boxplots/">boxplots</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">mchoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">mchoice</code></td>
       <td style="text-align: left">Interpretation of parallel boxplots</td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/function/">function</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">string</code></td>
       <td style="text-align: left">Knowledge quiz question where the answer is the name of an R function</td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/lm/">lm</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">cloze</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cloze</code></td>
       <td style="text-align: left">Conducting a simple linear regression based on a randomly-generated CSV file</td>
     </tr>
     <tr>
       <td style="text-align: left"><a href="http://www.R-exams.org/templates/fourfold2/">fourfold2</a></td>
-      <td style="text-align: left"><code class="highlighter-rouge">cloze</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">cloze</code></td>
       <td style="text-align: left">Completing a fourfold table based on verbal description with randomized parameters</td>
     </tr>
   </tbody>
 </table>
 
-<p>First, we load the <code class="highlighter-rouge">exams</code> package and define a vector with all exercise <code class="highlighter-rouge">.Rmd</code> file names.</p>
+<p>First, we load the <code class="language-plaintext highlighter-rouge">exams</code> package and define a vector with all exercise <code class="language-plaintext highlighter-rouge">.Rmd</code> file names.</p>
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 elearn_exam &lt;- c(&quot;swisscapital.Rmd&quot;, &quot;deriv.Rmd&quot;, &quot;ttest.Rmd&quot;,
   &quot;boxplots.Rmd&quot;, &quot;function.Rmd&quot;, &quot;lm.Rmd&quot;, &quot;fourfold2.Rmd&quot;)</code></pre>
 
-<p>Alternatively, the corresponding <code class="highlighter-rouge">.Rnw</code> files could be used, yielding virtually identical output.</p>
+<p>Alternatively, the corresponding <code class="language-plaintext highlighter-rouge">.Rnw</code> files could be used, yielding virtually identical output.</p>
 
 <p>Second, we generate a Moodle XML file with 3 random replications of each of the exercises.</p>
 
@@ -448,7 +448,7 @@ rxm &lt;- exams2openolat(elearn_exam, n = 3, name = &quot;R-exams&quot;)</code><
 
 <p>The resulting output file is <a href="http://www.R-exams.org/assets/posts/2020-03-28-elearning//R-exams.zip">R-exams.zip</a>.</p>
 
-<p>Moreover, to show that the object returned within R can also be useful we have assigned the output of <code class="highlighter-rouge">exams2openolat()</code> to an object <code class="highlighter-rouge">rxm</code>. This is not necessary but inspecting this object might be helpful when developing and testing new exercises. In particular, we can easily extract the meta-information regarding the correct answers in all randomly generated exercises.</p>
+<p>Moreover, to show that the object returned within R can also be useful we have assigned the output of <code class="language-plaintext highlighter-rouge">exams2openolat()</code> to an object <code class="language-plaintext highlighter-rouge">rxm</code>. This is not necessary but inspecting this object might be helpful when developing and testing new exercises. In particular, we can easily extract the meta-information regarding the correct answers in all randomly generated exercises.</p>
 
 <pre><code class="prettyprint ">exams_metainfo(rxm)</code></pre>
 

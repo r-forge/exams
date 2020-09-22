@@ -351,8 +351,8 @@
 generating large-scale exams in their introductory economics courses. However, they face the challenge that
 so far they had been writing static exercises and modified them <em>by hand</em> if they wanted to reuse them in a
 different exam in another semester. To let R/exams do this job it is illustrated how a static arithmetic
-exercise can be turned into a <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercise template</a> either in <code class="highlighter-rouge">num</code>
-format with a numeric solution or into <code class="highlighter-rouge">schoice</code> format with a single-choice solution.
+exercise can be turned into a <a href="http://www.R-exams.org/intro/dynamic/">dynamic exercise template</a> either in <code class="language-plaintext highlighter-rouge">num</code>
+format with a numeric solution or into <code class="language-plaintext highlighter-rouge">schoice</code> format with a single-choice solution.
 The idea for the exercise is a very basic <em>price elasticity of demand</em> task:</p>
 
 <table>
@@ -379,7 +379,7 @@ Based on these the solution is simply:</p>
 
 <h2 id="overview">Overview</h2>
 
-<p>Below various incarnations of this exercise are provided in both R/Markdown <code class="highlighter-rouge">Rmd</code> and R/LaTeX <code class="highlighter-rouge">Rnw</code> format.
+<p>Below various incarnations of this exercise are provided in both R/Markdown <code class="language-plaintext highlighter-rouge">Rmd</code> and R/LaTeX <code class="language-plaintext highlighter-rouge">Rnw</code> format.
 The following table gives a brief overview of all available versions along with a short description of the idea behind it.
 More detailed explanations are provided in the subsequent sections.</p>
 
@@ -398,35 +398,35 @@ More detailed explanations are provided in the subsequent sections.</p>
       <td style="text-align: right">1</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rmd">elasticity1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity1.Rnw">elasticity1.Rnw</a></td>
       <td style="text-align: left">No</td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">Fixed parameters and numeric solution.</td>
     </tr>
     <tr>
       <td style="text-align: right">2</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rmd">elasticity2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity2.Rnw">elasticity2.Rnw</a></td>
       <td style="text-align: left">No</td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">As in #1 but with single-choice solution (five answer alternatives).</td>
     </tr>
     <tr>
       <td style="text-align: right">3</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rmd">elasticity3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rnw">elasticity3.Rnw</a></td>
       <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="highlighter-rouge">num</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
       <td style="text-align: left">Randomly drawn parameters with dynamic computation of correct solution, based on #1.</td>
     </tr>
     <tr>
       <td style="text-align: right">4</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rmd">elasticity4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rnw">elasticity4.Rnw</a></td>
       <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
-      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="highlighter-rouge">num_to_schoice()</code>.</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
+      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="language-plaintext highlighter-rouge">num_to_schoice()</code>.</td>
     </tr>
     <tr>
       <td style="text-align: right">5</td>
       <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rmd">elasticity5.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity5.Rnw">elasticity5.Rnw</a></td>
       <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="highlighter-rouge">schoice</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
       <td style="text-align: left">As in #4 but with the last alternative: <em>None of the above.</em></td>
     </tr>
   </tbody>
@@ -447,9 +447,9 @@ or R/LaTeX (<a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_s
 Note that LaTeX is used in either case for the mathematical notation. In case you are unfamiliar
 with the R/exams format, please check out the <a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a> tutorial.</p>
 
-<p>The meta-information simply sets <code class="highlighter-rouge">extype</code> to <code class="highlighter-rouge">num</code>, supplies the <code class="highlighter-rouge">exsolution</code> with a precision of three digits,
-and allows an <code class="highlighter-rouge">extol</code> tolerance of 0.01. To see what the result looks like download the files linked above
-and run <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code>. (The examples below always use the R/Markdown version but the
+<p>The meta-information simply sets <code class="language-plaintext highlighter-rouge">extype</code> to <code class="language-plaintext highlighter-rouge">num</code>, supplies the <code class="language-plaintext highlighter-rouge">exsolution</code> with a precision of three digits,
+and allows an <code class="language-plaintext highlighter-rouge">extol</code> tolerance of 0.01. To see what the result looks like download the files linked above
+and run <code class="language-plaintext highlighter-rouge">exams2html()</code> and/or <code class="language-plaintext highlighter-rouge">exams2pdf()</code>. (The examples below always use the R/Markdown version but the
 R/LaTeX version can be used in exactly the same way.)</p>
 
 <pre>
@@ -472,13 +472,13 @@ essentially copies of the static numeric exercise above but:</p>
 
 <ol>
   <li>Question/solution now contain an answerlist (with five alternatives).</li>
-  <li>The <code class="highlighter-rouge">extype</code> has been changed to <code class="highlighter-rouge">schoice</code>.</li>
-  <li>The <code class="highlighter-rouge">exsolution</code> now contains a binary coding of the correct solution.</li>
-  <li>Furthermore, to obtain some basic randomization we have turned on shuffling by setting <code class="highlighter-rouge">exshuffle</code>
-to <code class="highlighter-rouge">TRUE</code>. (Subsampling more than five alternatives would also be possible and would add some further randomization.)</li>
+  <li>The <code class="language-plaintext highlighter-rouge">extype</code> has been changed to <code class="language-plaintext highlighter-rouge">schoice</code>.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">exsolution</code> now contains a binary coding of the correct solution.</li>
+  <li>Furthermore, to obtain some basic randomization we have turned on shuffling by setting <code class="language-plaintext highlighter-rouge">exshuffle</code>
+to <code class="language-plaintext highlighter-rouge">TRUE</code>. (Subsampling more than five alternatives would also be possible and would add some further randomization.)</li>
 </ol>
 
-<p>As above <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the exercise interactively in R/exams.</p>
+<p>As above <code class="language-plaintext highlighter-rouge">exams2html()</code> and/or <code class="language-plaintext highlighter-rouge">exams2pdf()</code> can be used to display the exercise interactively in R/exams.</p>
 
 <h2 id="dynamic-numeric">Dynamic numeric</h2>
 
@@ -497,9 +497,9 @@ a &lt;- p + b * x
 sol &lt;- -1/b * p/x
 </pre>
 
-<p>Note that in order to obtain “nice” numbers a common scaling factor <code class="highlighter-rouge">fctr</code> is used for both <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">b</code>.
-Also, while the examinees are presented with parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> and have to compute <code class="highlighter-rouge">x</code>,
-the data-generating process actually draws <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">b</code> and computes <code class="highlighter-rouge">a</code> from that. Again, this makes it
+<p>Note that in order to obtain “nice” numbers a common scaling factor <code class="language-plaintext highlighter-rouge">fctr</code> is used for both <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">b</code>.
+Also, while the examinees are presented with parameters <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> and have to compute <code class="language-plaintext highlighter-rouge">x</code>,
+the data-generating process actually draws <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">b</code> and computes <code class="language-plaintext highlighter-rouge">a</code> from that. Again, this makes it
 easier to obtain “nice” numbers.</p>
 
 <p>The R/exams templates
@@ -507,10 +507,10 @@ easier to obtain “nice” numbers.</p>
 <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity3.Rnw">elasticity3.Rnw</a> include
 the data-generating process above as a code chunk either in R/Markdown or R/LaTeX format.
 The parameters are then inserted into question/solution/metainformation using <code class="prettyprint ">`r a`</code> (R/Markdown)
-or <code class="highlighter-rouge">\Sexpr{a}</code> (R/LaTeX). Sometimes the <code class="highlighter-rouge">fmt()</code> function is used for formatting the parameters
-with a desired number of digits. (See <code class="highlighter-rouge">?fmt</code> for more details.)</p>
+or <code class="language-plaintext highlighter-rouge">\Sexpr{a}</code> (R/LaTeX). Sometimes the <code class="language-plaintext highlighter-rouge">fmt()</code> function is used for formatting the parameters
+with a desired number of digits. (See <code class="language-plaintext highlighter-rouge">?fmt</code> for more details.)</p>
 
-<p>As before <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
+<p>As before <code class="language-plaintext highlighter-rouge">exams2html()</code> and/or <code class="language-plaintext highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
 the exercise templates. For checking that the meta-information is included correctly, it is often
 helpful to run</p>
 
@@ -519,7 +519,7 @@ exams_metainfo(exams2html("elasticity3.Rmd"))
 </pre>
 
 <p>Furthermore, some tweaking is usually required when calibrating the parameter ranges in the
-data-generating process. The <code class="highlighter-rouge">stresstest_exercise()</code> function draws a large number of random replications
+data-generating process. The <code class="language-plaintext highlighter-rouge">stresstest_exercise()</code> function draws a large number of random replications
 and thus can help to spot errors that occur or to find solutions that are “extreme” (e.g., much larger or smaller than usual). To clean up your
 global environment and run the function use something like this:</p>
 
@@ -532,13 +532,13 @@ plot(s, type = "solution")
 
 <p>The latter command plots the correct solution against the (scalar) parameters that were
 generated in the exercise. This might show patterns for which parameters the solution becomes
-too large or too small etc. See <code class="highlighter-rouge">?stresstest_exercise</code> for further features/details.</p>
+too large or too small etc. See <code class="language-plaintext highlighter-rouge">?stresstest_exercise</code> for further features/details.</p>
 
 <h2 id="dynamic-single-choice">Dynamic single-choice</h2>
 
 <p>To go from the dynamic numeric exercise to a dynamic single-choice exercise we need to
 extend the data-generating process to also produce a number of wrong alternatives.
-The function <code class="highlighter-rouge">num_to_schoice()</code> helps with this by providing different sampling
+The function <code class="language-plaintext highlighter-rouge">num_to_schoice()</code> helps with this by providing different sampling
 mechanisms. It allows to set a range in which the alternatives have to be, a minimum
 distance between all alternatives, possibly include typical wrong solutions, etc.
 It also shuffles the resulting alternatives and tries to make sure that the correct
@@ -548,7 +548,7 @@ smallest alternative).</p>
 <p>The R/exams templates
 <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rmd">elasticity4.Rmd</a> and
 <a href="http://www.R-exams.org/assets/posts/2017-10-07-static_num_schoice/elasticity4.Rnw">elasticity4.Rnw</a> first
-wrap the data-generating process into a while loop with <code class="highlighter-rouge">while(sol &gt; -0.11)</code>. This makes sure
+wrap the data-generating process into a while loop with <code class="language-plaintext highlighter-rouge">while(sol &gt; -0.11)</code>. This makes sure
 that there is enough “space” for four wrong alternatives between -0.11 and 0, using a minimum
 distance of 0.017. Subsequently, the four wrong alternatives are generated by:</p>
 
@@ -561,15 +561,15 @@ sc &lt;- num_to_schoice(sol, wrong = err, range = rng,
   delta = 0.017, method = "delta", digits = 3)
 </pre>
 
-<p>This suggests a number of typical wrong solutions <code class="highlighter-rouge">err</code> (provided that they are not too small
-or too large) and makes sure that the range <code class="highlighter-rouge">rng</code> is large enough. With these arguments
-<code class="highlighter-rouge">num_to_schoice()</code> is run, see <code class="highlighter-rouge">?num_to_schoice</code> for the details. The resulting <code class="highlighter-rouge">sc</code> list
-contains suitable <code class="highlighter-rouge">$questions</code> and <code class="highlighter-rouge">$solutions</code> that can be easily embedded in an <code class="highlighter-rouge">answerlist()</code>
-and in the meta-information. Sometimes it is useful to wrap <code class="highlighter-rouge">num_to_schoice()</code> into another
-<code class="highlighter-rouge">while()</code> loop to make sure a valid result is found. See the <a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>
+<p>This suggests a number of typical wrong solutions <code class="language-plaintext highlighter-rouge">err</code> (provided that they are not too small
+or too large) and makes sure that the range <code class="language-plaintext highlighter-rouge">rng</code> is large enough. With these arguments
+<code class="language-plaintext highlighter-rouge">num_to_schoice()</code> is run, see <code class="language-plaintext highlighter-rouge">?num_to_schoice</code> for the details. The resulting <code class="language-plaintext highlighter-rouge">sc</code> list
+contains suitable <code class="language-plaintext highlighter-rouge">$questions</code> and <code class="language-plaintext highlighter-rouge">$solutions</code> that can be easily embedded in an <code class="language-plaintext highlighter-rouge">answerlist()</code>
+and in the meta-information. Sometimes it is useful to wrap <code class="language-plaintext highlighter-rouge">num_to_schoice()</code> into another
+<code class="language-plaintext highlighter-rouge">while()</code> loop to make sure a valid result is found. See the <a href="http://www.R-exams.org/templates/deriv2/">deriv2</a>
 template for illustraion.</p>
 
-<p>As before <code class="highlighter-rouge">exams2html()</code> and/or <code class="highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
+<p>As before <code class="language-plaintext highlighter-rouge">exams2html()</code> and/or <code class="language-plaintext highlighter-rouge">exams2pdf()</code> can be used to display the <em>random draws</em> from
 this exercise template. And some stress-testing could be carried out by:</p>
 
 <pre>

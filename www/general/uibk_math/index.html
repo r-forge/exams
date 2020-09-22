@@ -457,7 +457,7 @@ is C incorrectly entered/saved by the student, prompting OpenOLAT to display the
 
 <p>To import an online test into OpenOLAT, an XML-based exchange format by the IMS Global Learning Consortium is used:
 <a href="http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html">IMS Question &amp; Test Interoperability, Version 1.2</a> (QTI 1.2).
-The R/exams function <code class="highlighter-rouge">exams2qti12()</code> generates a zipped XML file
+The R/exams function <code class="language-plaintext highlighter-rouge">exams2qti12()</code> generates a zipped XML file
 that can be imported into OpenOLAT as a complete online test. To do so
 we first set up a list of exercises à la:</p>
 
@@ -468,9 +468,9 @@ we first set up a list of exercises à la:</p>
 )
 </code></pre>
 
-<p>And then <code class="highlighter-rouge">exams2qti12()</code> can proceed to draw many replications from this combining two forms of
+<p>And then <code class="language-plaintext highlighter-rouge">exams2qti12()</code> can proceed to draw many replications from this combining two forms of
 randomization: (a) Sampling one item from a given vector of exercise templates (e.g., here
-the <code class="highlighter-rouge">deriv-*.Rnw</code> templates for the first item). (b) In each <code class="highlighter-rouge">.Rnw</code> template random
+the <code class="language-plaintext highlighter-rouge">deriv-*.Rnw</code> templates for the first item). (b) In each <code class="language-plaintext highlighter-rouge">.Rnw</code> template random
 numbers are drawn and inserted into the exercise (e.g., the coefficients <em>a</em>, <em>b</em>, <em>c</em>, <em>d</em>
 in the cubic polynomial). For example:</p>
 
@@ -479,22 +479,22 @@ in the cubic polynomial). For example:</p>
 </code></pre>
 
 <p>draws 500 random versions for each of the items in the test. We don’t
-show the correct solution approach at the end (only the correct numeric result, <code class="highlighter-rouge">solutionswitch = FALSE</code>)
+show the correct solution approach at the end (only the correct numeric result, <code class="language-plaintext highlighter-rouge">solutionswitch = FALSE</code>)
 but allow our students to attempt each item within the test twice (i.e., one wrong attempt is
 tolerated). Because individual tests cannot be passed or failed (they just collect points for
-the overall course), we set <code class="highlighter-rouge">cutvalue = 1000</code> which can never be attained. Due to the large
+the overall course), we set <code class="language-plaintext highlighter-rouge">cutvalue = 1000</code> which can never be attained. Due to the large
 exercise pools and the large number of random variations, the students cannot simply copy
 a single number or a certain solution formula. Of course, during a 3.5-day test it is possible
 to help each other and in fact we encourage the students to form small learning groups.</p>
 
-<p>Further control arguments of <code class="highlighter-rouge">exams2qti12()</code> include the number of <code class="highlighter-rouge">points</code> and the <code class="highlighter-rouge">eval</code> strategy (e.g., 
-for negative points upon incorrect results etc.). See <code class="highlighter-rouge">?exams2qti</code> for more technical
+<p>Further control arguments of <code class="language-plaintext highlighter-rouge">exams2qti12()</code> include the number of <code class="language-plaintext highlighter-rouge">points</code> and the <code class="language-plaintext highlighter-rouge">eval</code> strategy (e.g., 
+for negative points upon incorrect results etc.). See <code class="language-plaintext highlighter-rouge">?exams2qti</code> for more technical
 details and also for an example you can run yourself based on exercises from the 
 <a href="/templates/">template gallery</a>.</p>
 
 <p>In addition to the online tests (= assessment) we employ self tests (= feedback), either in the
 form of selected demo exercises (“Musteraufgaben”) for which the full solution approach is shown
-(<code class="highlighter-rouge">solutionswitch = TRUE</code>), short tests that sample exercises from almost the entire exercise
+(<code class="language-plaintext highlighter-rouge">solutionswitch = TRUE</code>), short tests that sample exercises from almost the entire exercise
 pool (“Selbsttests”), or “mock exams” based on past written exams (“Probeklausuren”).</p>
 
 <table>
@@ -568,7 +568,7 @@ also practice using this item type (see the screenshot below).</p>
 
 <p>The course ends in a “strict” written exam (“Gesamtprüfung”) in the sense that now each student really
 has to solve his/her own exam without further help in a time window of 90 minutes.
-The function employed for generating the PDF files is <code class="highlighter-rouge">exams2nops()</code> and its usage
+The function employed for generating the PDF files is <code class="language-plaintext highlighter-rouge">exams2nops()</code> and its usage
 is illustrated in detail in the tutorial on <a href="/tutorials/exams2nops/">written exams</a>.</p>
 
 <p>First, a <em>vector</em> (as opposed to a <em>list</em>) of exercises is set up à la:</p>
@@ -605,7 +605,7 @@ evaluation process can be found in the <a href="/tutorials/exams2nops/">exams2no
 
 <p>A very nice benefit of using R/exams here is that we can share an interactive online
 “mock exam” (“Probeklausur”) in addition to the PDF version in the exam archive. This
-can again be generated by <code class="highlighter-rouge">exams2qti12()</code> with time limit and evaluation settings
+can again be generated by <code class="language-plaintext highlighter-rouge">exams2qti12()</code> with time limit and evaluation settings
 corresponding to the actual written exam:</p>
 
 <pre><code class="language-{r}">exams2qti12(gp, n = 10, name = "Mathematik-GP-2017-04-05",
@@ -627,7 +627,7 @@ audience response system ARSnova is used (see <a href="https://arsnova.eu/">http
 the system for assessment but only for feedback it is not as important to have a lot
 of random variation in the exercises, but it certainly helps to avoid duplication
 across courses taught in parallel or in subsequent semesters.
-Moreover, the R/exams function <code class="highlighter-rouge">exams2arsnova()</code> can directly import the drawn exercises
+Moreover, the R/exams function <code class="language-plaintext highlighter-rouge">exams2arsnova()</code> can directly import the drawn exercises
 into ARSnova using its REST interface (via Rcurl and suitable JSON data). Alternatively,
 JSON files can be generated on the hard disk and subsequently imported manually.</p>
 
