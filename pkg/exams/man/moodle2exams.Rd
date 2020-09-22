@@ -23,10 +23,10 @@ moodle2exams(x, dir = NULL, exshuffle = TRUE)
   The function should make it possible to convert an existing Moodle question pool to Markdown exams 
   in a relatively simple way. Exercises can be easily edited afterwards and can be randomized.
 
-  The function takes a Moodle quiz and converts each exercise int a Markdown exams exercise.
+  The function takes a Moodle quiz and converts each exercise into a Markdown exams exercise.
   The HTML answers and questions are converted to Markdown using pandoc. Note that conversion
   needs to be checked by the user, because it can naturally happen that certain sections are not
-  as needed. Currently only numerical, multichoice, string and essay type Moodle quiz exercises
+  as needed. Currently only numerical, multichoice, shortanswer and essay type Moodle quiz exercises
   are converted.
 
   However, the function can also convert cloze type exercises, but the resulting
