@@ -102,7 +102,9 @@ exsolution: %s
     qn <- xml2::xml_name(qui)
     if("questiontext" %in% qn) {
       qtext <- xml2::xml_text(qui[qn == "questiontext"])
-      qtext <- pandoc(qtext, from = "html", to = markup)
+      qtext <- pandoc(qtext,
+        from = "html+tex_math_dollars+tex_math_single_backslash",
+        to = markup)
       exsol <- extol <- feedback <- NULL
       answers <- solutions <- list()
 
@@ -134,9 +136,13 @@ exsolution: %s
           ac <- xml2::xml_children(ans[j])
           ac <- ac[xml2::xml_name(ac) == "text"]
           ac <- xml2::xml_text(ac)
-          answers[[j]] <- pandoc(ac[1], from = "html", to = markup)
+          answers[[j]] <- pandoc(ac[1],
+            from = "html+tex_math_dollars+tex_math_single_backslash",
+            to = markup)
           if(length(ac) > 1L)
-            solutions[[j]] <- pandoc(ac[2], from = "html", to = markup)
+            solutions[[j]] <- pandoc(ac[2],
+              from = "html+tex_math_dollars+tex_math_single_backslash",
+              to = markup)
         }
       }
       
@@ -150,7 +156,9 @@ exsolution: %s
       if("generalfeedback" %in% qn) {
         feedback <- qui[qn == "generalfeedback"]
         feedback <- xml2::xml_text(feedback)
-        feedback <- pandoc(feedback, from = "html", to = markup)
+        feedback <- pandoc(feedback,
+          from = "html+tex_math_dollars+tex_math_single_backslash",
+          to = markup)
       }
 
       ## name/label and type
