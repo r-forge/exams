@@ -116,6 +116,15 @@ exsolution: %s
       
       ## schoice/mchoice
       if(type[i] == "multichoice") {
+        single <- qui[qn == "single"]
+        if(!is.null(single)) {
+          single <- xml2::xml_text(single)
+          single <- single == "true"
+        } else {
+          single <- FALSE
+        }
+        if(single)
+          type[i] <- "singlechoice"
         ans <- qui[qn == "answer"]
         frac <- xml2::xml_attr(ans, "fraction")
         frac <- as.numeric(frac)
@@ -147,10 +156,11 @@ exsolution: %s
       ## name/label and type
       exname <- xml2::xml_text(qui[qn == "name"])
       extype <- switch(type[i],
-        "numerical" = "numeric",
+        "numerical" = "num",
         "essay" = "string",
         "cloze" = "cloze",
         "multichoice" = "mchoice",
+        "singlechoice" = "schoice",
         "shortanswer" = "string"
       )
 
