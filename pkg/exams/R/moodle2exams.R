@@ -1,12 +1,12 @@
-moodle2exams <- function(x, dir = NULL, exshuffle = TRUE)
+moodle2exams <- function(x, markup = c("markdown", "latex"),
+  dir = NULL, exshuffle = TRUE, names = NULL)
 {
   ## read Moodle XML file (if necessary)
   stopifnot(requireNamespace("xml2"))
   if(!inherits(x, "xml_node") && length(x) == 1L) x <- xml2::read_xml(x)
 
   ## set up template in indicated markup
-  ## FIXME: markup currently hard-coded as "markdown" because "latex" needs more testing/improvements
-  markup <- "markdown"
+  markup <- match.arg(markup)
   if(markup == "markdown") markup <- "markdown_strict"
   if(!(markup %in% c("markdown_strict", "latex"))) stop("'markup' must be either markdown/markdown_strict or latex")
   fext <- if(markup == "markdown_strict") "Rmd" else "Rnw"
@@ -36,6 +36,7 @@ exsolution: %s
 
 %s
 
+%%%% Meta-information
 \\exname{%s}
 \\extype{%s}
 \\exsolution{%s}
@@ -59,7 +60,7 @@ exsolution: %s
     solutions <- if(markup == "markdown_strict") {
       c("Solution", "========", solutions)
     } else {
-      c("\\begin{solution}", solutions, "\\end{solutions}")
+      c("\\begin{solution}", solutions, "\\end{solution}")
     }
   }
   
@@ -82,16 +83,17 @@ exsolution: %s
   if(n < 1L) stop("no <question> tags (of supported type)")
   
   ## set up variables for each question
-  ## FIXME: currently name = NULL hard-coded, also let the user specify this?
   exrc <- vector(mode = "list", length = n)
-  name <- NULL
-  if(is.null(name)) {
-    name <- rep.int("", n)
+  if(is.null(names)) {
+    names <- rep.int("", n)
   } else {
-    name <- rep_len(as.character(name), n)
-    name[is.na(name) | duplicated(name)] <- ""
+    names <- rep_len(as.character(names), n)
+    names[is.na(names) | duplicated(names)] <- ""
   }
   exshuffle <- rep_len(as.character(exshuffle), n)
+
+  ## Feedback tags.
+  fbtags <- c("generalfeedback", "partiallycorrectfeedback", "incorrectfeedback")
   
   ## cycle through questions
   for(i in 1L:n) {
@@ -139,10 +141,11 @@ exsolution: %s
           answers[[j]] <- pandoc(ac[1],
             from = "html+tex_math_dollars+tex_math_single_backslash",
             to = markup)
-          if(length(ac) > 1L)
+          if(length(ac) > 1L) {
             solutions[[j]] <- pandoc(ac[2],
               from = "html+tex_math_dollars+tex_math_single_backslash",
               to = markup)
+          }
         }
       }
       
@@ -153,12 +156,14 @@ exsolution: %s
       }
 
       ## general feedback
-      if("generalfeedback" %in% qn) {
-        feedback <- qui[qn == "generalfeedback"]
-        feedback <- xml2::xml_text(feedback)
-        feedback <- pandoc(feedback,
-          from = "html+tex_math_dollars+tex_math_single_backslash",
-          to = markup)
+      if(any(k <- fbtags %in% qn)) {
+        for(l in seq_along(fbtags[k])) {
+          fbtmp <- qui[qn == fbtags[k][l]]
+          fbtmp <- xml2::xml_text(fbtmp)
+          feedback <- c(feedback, pandoc(fbtmp,
+            from = "html+tex_math_dollars+tex_math_single_backslash",
+            to = markup))
+        }
       }
 
       ## name/label and type
@@ -186,21 +191,21 @@ exsolution: %s
         paste(qtext, collapse = "\n"),
 	if(type[i] == "multichoice") paste(c("", answerlist_env(unlist(answers))), collapse = "\n") else "",
         if(length(solutions) >= 1L || !is.null(feedback)) paste(solution_env(solutions, feedback), collapse = "\n") else "",
-	exname,
+	if(names[i] == "") exname else names[i],
 	extype,
 	exsol,
 	exother)
       
       ## default file name
-      if(name[i] == "") name[i] <- name_to_file(exname)
+      if(names[i] == "") names[i] <- name_to_file(exname)
     }
   }
 
   ## write/return resulting exercises
-  names(exrc) <- name
+  names(exrc) <- names
   if(!is.null(dir)) {
     for(i in 1L:length(exrc)) {
-      writeLines(exrc[[i]], file.path(dir, paste(name[i], fext, sep = ".")))
+      writeLines(exrc[[i]], file.path(dir, paste(names[i], fext, sep = ".")))
     }
     invisible(exrc)
   } else {
