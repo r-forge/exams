@@ -9,29 +9,34 @@
 }
 
 \usage{
-moodle2exams(x, dir = NULL, exshuffle = TRUE)
+moodle2exams(x, markup = c("markdown", "latex"), dir = NULL,
+  exshuffle = TRUE, names = NULL)
 }
 
 \arguments{
   \item{x}{character, a path to a Moodle XML file. Optionally also the completely read, with 
     \code{\link[base]{readLines}}, XML code as character string.}
+  \item{markup}{character, the markup language to convert to.}
   \item{dir}{character, the directory where the converted exercises should be saved.}
   \item{exshuffle}{meta-information tag used for multiple-choice items.}
+  \item{names}{character, optional names that should be used for the exercises. If supplied,
+    the names will also be written in the meta-information and overwrites all names
+    that are supplied in the Moodle XML file.}
 }
 
 \details{
   The function should make it possible to convert an existing Moodle question pool to Markdown exams 
   in a relatively simple way. Exercises can be easily edited afterwards and can be randomized.
 
-  The function takes a Moodle quiz and converts each exercise into a Markdown exams exercise.
-  The HTML answers and questions are converted to Markdown using pandoc. Note that conversion
+  The function takes a Moodle quiz and converts each exercise into a Markdown or LaTeX exams exercise.
+  The HTML answers and questions are converted using pandoc. Note that conversion
   needs to be checked by the user, because it can naturally happen that certain sections are not
   as needed. Currently only numerical, multichoice, shortanswer and essay type Moodle quiz exercises
   are converted.
 
   However, the function can also convert cloze type exercises, but the resulting
   meta-information needed by exams will be incorrect, therefore the function gives a warning
-  when converting cloze exercises (see also the example).
+  when converting cloze exercises.
 }
 
 \value{
