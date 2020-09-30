@@ -47,6 +47,10 @@ exsolution: %s
   
   ## convenience functions
   answerlist_env <- function(x) {
+    if(is.list(x)) {
+      x <- lapply(x, paste, collapse = "\n  ")
+      x <- unlist(x)
+    }
     if(markup == "markdown_strict") {
       c("Answerlist", "----------", paste("*", x))
     } else {
@@ -198,7 +202,7 @@ exsolution: %s
       ## insert information into template
       exrc[[i]] <- sprintf(tmpl,
         paste(qtext, collapse = "\n"),
-	if(type[i] == "multichoice") paste(c("", answerlist_env(unlist(answers))), collapse = "\n") else "",
+	if(type[i] == "multichoice") paste(c("", answerlist_env(answers)), collapse = "\n") else "",
         if(length(solutions) >= 1L || !is.null(feedback)) paste(solution_env(solutions, feedback), collapse = "\n") else "",
 	if(names[i] == "") exname else names[i],
 	extype,
@@ -219,7 +223,7 @@ exsolution: %s
     }
     cat("converted the following exercises:\n")
     print(fn <- dir(tdir))
-    file.copy(file.path(tdir, fn), file.path(dir, fn))
+    file.copy(file.path(tdir, fn), file.path(dir, fn), overwrite = TRUE)
     unlink(tdir)
     invisible(exrc)
   } else {
