@@ -512,6 +512,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(x$metainfo$type == "cloze")
       points <- sum(q_points)
 
+    ## an uploads?
+    upfiles <- grepl("##UploadFile##", x$question, fixed = TRUE)
+
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
@@ -689,6 +692,17 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
     }
 
+    ## insert uploads.
+    upids <- NULL
+    if(any(upfiles)) {
+      nup <- length(upfiles)
+      for(i in 1:nup) {
+        upids <- c(upids, paste(iid, "RESPONSE", make_id(7), sep = "_"))
+        xml <- c(xml, paste0('<responseDeclaration identifier="',
+          upids[length(upids)],'" cardinality="single" baseType="file"/>'))
+      }
+    }
+
     if(is.null(minvalue))
       minvalue <- sum(as.numeric(unlist(mv)))
 
@@ -835,6 +849,18 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
       } else {
         xml <- c(xml, txml)
+      }
+    }
+
+    if(length(upids)) {
+      i <- grep("##UploadFile##", xml, fixed = TRUE)
+      for(j in 1:length(i)) {
+        open <- any(grepl("<p>", xml[i[j]], fixed = TRUE))
+        xml[i[j]] <- gsub("##UploadFile##",
+          paste0(if(open) '</p>' else NULL,
+          '<uploadInteraction responseIdentifier="', upids[j], '"/>', if(open) '<p>' else NULL),
+          xml[i[j]], fixed = TRUE)
+        xml[i[j]] <- gsub("<p></p>", "", xml[i[j]], fixed = TRUE)
       }
     }
 
