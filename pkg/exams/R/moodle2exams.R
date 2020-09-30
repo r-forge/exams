@@ -1,5 +1,5 @@
 moodle2exams <- function(x, markup = c("markdown", "latex"),
-  dir = NULL, exshuffle = TRUE, names = NULL)
+  dir = ".", exshuffle = TRUE, names = NULL)
 {
   ## read Moodle XML file (if necessary)
   stopifnot(requireNamespace("xml2"))
@@ -160,9 +160,18 @@ exsolution: %s
         for(l in seq_along(fbtags[k])) {
           fbtmp <- qui[qn == fbtags[k][l]]
           fbtmp <- xml2::xml_text(fbtmp)
-          feedback <- c(feedback, pandoc(fbtmp,
+          slist <- grepl("<ul>", fbtmp, fixed = TRUE)
+          fbtmp <- pandoc(fbtmp,
             from = "html+tex_math_dollars+tex_math_single_backslash",
-            to = markup))
+            to = markup)
+          if(slist) {
+            if(markup == "latex") {
+              fbtmp <- c("", gsub("{itemize}", "{answerlist}", fbtmp, fixed = TRUE))
+            } else {
+              fbtmp <- c("", "Answerlist", "----------", fbtmp)
+            }
+          }
+          feedback <- c(feedback, fbtmp)
         }
       }
 
@@ -204,9 +213,14 @@ exsolution: %s
   ## write/return resulting exercises
   names(exrc) <- names
   if(!is.null(dir)) {
+    dir.create(tdir <- tempfile())
     for(i in 1L:length(exrc)) {
-      writeLines(exrc[[i]], file.path(dir, paste(names[i], fext, sep = ".")))
+      writeLines(exrc[[i]], file.path(tdir, paste(names[i], fext, sep = ".")))
     }
+    cat("converted the following exercises:\n")
+    print(fn <- dir(tdir))
+    file.copy(file.path(tdir, fn), file.path(dir, fn))
+    unlink(tdir)
     invisible(exrc)
   } else {
     return(exrc)
