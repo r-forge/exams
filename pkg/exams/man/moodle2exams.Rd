@@ -9,7 +9,7 @@
 }
 
 \usage{
-moodle2exams(x, markup = c("markdown", "latex"), dir = NULL,
+moodle2exams(x, markup = c("markdown", "latex"), dir = ".",
   exshuffle = TRUE, names = NULL)
 }
 
