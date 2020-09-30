@@ -47,7 +47,7 @@ moodle2exams(x, markup = c("markdown", "latex"), dir = ".",
 \seealso{\code{\link{exams2moodle}}}
 
 \examples{
-\dontrun{
+if(require("xml2")) {
 ## Path to saved Moodle quiz.
 path_to_quiz <- file.path(find.package("exams"), "xml", "moodlequiz.xml")
 
