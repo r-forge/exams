@@ -221,8 +221,7 @@ exsolution: %s
     for(i in 1L:length(exrc)) {
       writeLines(exrc[[i]], file.path(tdir, paste(names[i], fext, sep = ".")))
     }
-    cat("converted the following exercises:\n")
-    print(fn <- dir(tdir))
+    fn <- dir(tdir)
     file.copy(file.path(tdir, fn), file.path(dir, fn), overwrite = TRUE)
     unlink(tdir)
     invisible(exrc)
