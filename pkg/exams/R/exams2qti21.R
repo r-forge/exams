@@ -513,11 +513,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       points <- sum(q_points)
 
     ## an uploads?
-    upfiles <- grepl("##UploadFile##", x$question, fixed = TRUE)
-    upfiles2 <- FALSE
+    upfiles <- 0
     if(!is.null(x$metainfo$essay)) {
       if(x$metainfo$essay & length(x$metainfo$essay_attachments))
-        upfiles2 <- TRUE
+        upfiles <- length(x$metainfo$essay_attachments)
     }
 
     ## set question type(s)
@@ -699,19 +698,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     ## insert uploads.
     upids <- NULL
-    if(any(upfiles)) {
-      nup <- length(upfiles)
-      for(i in 1:nup) {
+    if(upfiles > 0) {
+      for(j in 1:upfiles) {
         upids <- c(upids, paste(iid, "RESPONSE", make_id(7), sep = "_"))
         xml <- c(xml, paste0('<responseDeclaration identifier="',
-          upids[length(upids)],'" cardinality="single" baseType="file"/>'))
+            upids[length(upids)],'" cardinality="single" baseType="file"/>'))
       }
-    }
-    upid2 <- NULL
-    if(upfiles2) {
-      upid2 <- paste(iid, "RESPONSE", make_id(7), sep = "_")
-      xml <- c(xml, paste0('<responseDeclaration identifier="',
-          upid2,'" cardinality="single" baseType="file"/>'))
     }
 
     if(is.null(minvalue))
@@ -863,21 +855,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
     }
 
-    if(length(upids)) {
-      i <- grep("##UploadFile##", xml, fixed = TRUE)
-      for(j in 1:length(i)) {
-        open <- any(grepl("<p>", xml[i[j]], fixed = TRUE))
-        xml[i[j]] <- gsub("##UploadFile##",
-          paste0(if(open) '</p>' else NULL,
-          '<uploadInteraction responseIdentifier="', upids[j], '"/>', if(open) '<p>' else NULL),
-          xml[i[j]], fixed = TRUE)
-        xml[i[j]] <- gsub("<p></p>", "", xml[i[j]], fixed = TRUE)
+    if(!is.null(upids)) {
+      for(j in upids) {
+        xml <- c(xml,
+          paste0('<uploadInteraction responseIdentifier="', j, '"/>')
+        )
       }
-    }
-    if(!is.null(upid2)) {
-      xml <- c(xml,
-        paste0('<uploadInteraction responseIdentifier="', upid2, '"/>')
-      )
     }
 
     ## close itembody
