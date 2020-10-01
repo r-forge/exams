@@ -51,13 +51,20 @@ if(require("xml2")) {
 ## Path to saved Moodle quiz.
 path_to_quiz <- file.path(find.package("exams"), "xml", "moodlequiz.xml")
 
+## Open a temporary directory.
+dir.create(tdir <- tempfile())
+
 ## Convert the quiz to exams Markdown.
-ex_converted <- moodle2exams(path_to_quiz)
+ex_converted <- moodle2exams(path_to_quiz, dir = tdir)
+print(dir(tdir))
 
 ## Each exercise is one list entry, can be saved
 ## using writeLines.
 names(ex_converted)
 writeLines(ex_converted[[1]])
+
+## Remove files.
+unlink(tdir)
 }
 }
 
