@@ -514,6 +514,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     ## an uploads?
     upfiles <- grepl("##UploadFile##", x$question, fixed = TRUE)
+    upfiles2 <- FALSE
+    if(!is.null(x$metainfo$essay)) {
+      if(x$metainfo$essay & length(x$metainfo$essay_attachments))
+        upfiles2 <- TRUE
+    }
 
     ## set question type(s)
     type <- x$metainfo$type
@@ -702,6 +707,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           upids[length(upids)],'" cardinality="single" baseType="file"/>'))
       }
     }
+    upid2 <- NULL
+    if(upfiles2) {
+      upid2 <- paste(iid, "RESPONSE", make_id(7), sep = "_")
+      xml <- c(xml, paste0('<responseDeclaration identifier="',
+          upid2,'" cardinality="single" baseType="file"/>'))
+    }
 
     if(is.null(minvalue))
       minvalue <- sum(as.numeric(unlist(mv)))
@@ -862,6 +873,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           xml[i[j]], fixed = TRUE)
         xml[i[j]] <- gsub("<p></p>", "", xml[i[j]], fixed = TRUE)
       }
+    }
+    if(!is.null(upid2)) {
+      xml <- c(xml,
+        paste0('<uploadInteraction responseIdentifier="', upid2, '"/>')
+      )
     }
 
     ## close itembody
