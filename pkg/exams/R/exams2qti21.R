@@ -670,8 +670,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           nstring <- sum(type == "string")
           if(nstring > length(x$metainfo$stringtype)) {
             stype <- rep(x$metainfo$stringtype, length.out = nstring)
+            stype <- stype[strcounter]
+          } else {
+            stype <- x$metainfo$stringtype[strcounter]
           }
-          stype <- x$metainfo$stringtype[strcounter]
           is_essay[i] <- any(grepl("essay", stype, fixed = TRUE))
           upfile[i] <- any(grepl("file", stype, fixed = TRUE))
         }
