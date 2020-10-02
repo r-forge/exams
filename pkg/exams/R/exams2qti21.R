@@ -568,6 +568,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     is_essay <- upfile <- rep(FALSE, n)
     upids <- rep(NA, n)
+    strcounter <- 0L
 
     for(i in 1:n) {
       ## get item id
@@ -663,14 +664,13 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
+        strcounter <- strcounter + 1L
         ## any uploads?
         if(!is.null(x$metainfo$stringtype)) {
-          stype <- x$metainfo$stringtype
-          is_essay[i] <- any(grepl("essay", x$metainfo$stringtype, fixed = TRUE))
-          upfile[i] <- any(grepl("file", x$metainfo$stringtype, fixed = TRUE))
+          stype <- x$metainfo$stringtype[strcounter]        
+          is_essay[i] <- any(grepl("essay", stype, fixed = TRUE))
+          upfile[i] <- any(grepl("file", stype, fixed = TRUE))
         }
-
-
         if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i]) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
