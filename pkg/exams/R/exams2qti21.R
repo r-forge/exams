@@ -512,13 +512,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(x$metainfo$type == "cloze")
       points <- sum(q_points)
 
-    ## an uploads?
-    upfiles <- 0
-    if(!is.null(x$metainfo$essay)) {
-      if(x$metainfo$essay & length(x$metainfo$essay_attachments))
-        upfiles <- length(x$metainfo$essay_attachments)
-    }
-
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
@@ -573,7 +566,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       gsub("'", '&apos;', gsub('"', '&quot;', x))
     }
 
-    is_essay <- rep(FALSE, n)
+    is_essay <- upfile <- rep(FALSE, n)
+    upids <- rep(NA, n)
 
     for(i in 1:n) {
       ## get item id
@@ -669,7 +663,15 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1) {
+        ## any uploads?
+        if(!is.null(x$metainfo$stringtype)) {
+          stype <- x$metainfo$stringtype
+          is_essay[i] <- any(grepl("essay", x$metainfo$stringtype, fixed = TRUE))
+          upfile[i] <- any(grepl("file", x$metainfo$stringtype, fixed = TRUE))
+        }
+
+
+        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i]) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
@@ -682,6 +684,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           )
         } else {
           is_essay[i] <- TRUE
+          if(sum(!is.na(maxchars[[i]])) == 1) {
+            maxchars[[i]] <- c(1000, 10, 50)
+          }
           ## Essay type questions.
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response,
@@ -693,16 +698,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             '</responseDeclaration>'
           )
         }
-      }
-    }
-
-    ## insert uploads.
-    upids <- NULL
-    if(upfiles > 0) {
-      for(j in 1:upfiles) {
-        upids <- c(upids, paste(iid, "RESPONSE", make_id(7), sep = "_"))
-        xml <- c(xml, paste0('<responseDeclaration identifier="',
-            upids[length(upids)],'" cardinality="single" baseType="file"/>'))
+        if(upfile[i]) {
+          upids[i] <- paste(iid, "RESPONSE", make_id(7), sep = "_")
+          xml <- c(xml, paste0('<responseDeclaration identifier="',
+            upids[i],'" cardinality="single" baseType="file"/>'))
+        }
       }
     }
 
@@ -844,6 +844,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             )
           }
         }
+        ## Uploads.
+        if(upfile[i]) {
+          txml <- c(txml, paste0('<uploadInteraction responseIdentifier="', upids[i], '"/>'))
+        }
       }
       if(ans) {
         txml <- paste(txml, collapse = '\n')
@@ -852,14 +856,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
       } else {
         xml <- c(xml, txml)
-      }
-    }
-
-    if(!is.null(upids)) {
-      for(j in upids) {
-        xml <- c(xml,
-          paste0('<uploadInteraction responseIdentifier="', j, '"/>')
-        )
       }
     }
 

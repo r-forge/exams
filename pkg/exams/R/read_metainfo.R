@@ -162,6 +162,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   exsingle     <- extract_command(x, "exsingle",    "logical", markup = markup)   ## use radio buttons?
   exmaxchars   <- extract_command(x, "exmaxchars",   markup = markup)             ## maximum number of characters in string answers
   exabstention <- extract_command(x, "exabstention", markup = markup)             ## string for abstention in schoice/mchoice answers
+  exstringtype <- extract_command(x, "exstringtype", markup = markup)             ## essay+file
 
   ## User-Defined ###################################
   exextra <- extract_extra(x, markup = markup)
@@ -268,7 +269,8 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
     length = slength,
     string = string,
     maxchars = exmaxchars,
-    abstention = exabstention
+    abstention = exabstention,
+    stringtype = exstringtype
   )
   rval <- c(rval, exextra)
   return(rval)
