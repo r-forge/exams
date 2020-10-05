@@ -146,13 +146,14 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## get correct question type spec for blackboard
   ## FIXME: cloze items are not yet available for blackboard
   bb_questiontype <- function(x, y, item = FALSE) {
-    type <- switch(if(y) "essay" else x,
+    type <- switch(if(!is.null(y)) y else x,
       "mchoice" = "Multiple Answer",
       "schoice" = "Multiple Choice",
       "num" = "Numeric",
       "cloze" = "Cloze",
       "string" = "Fill in the Blank",
-      "essay" = "Short Response"
+      "essay" = "Short Response",
+      "file" = "File Upload"
     )
     type
   }
@@ -225,7 +226,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     bank_xml <- gsub("##AbsoluteScoreMax##", sprintf("%d.0", points[j]), bank_xml, fixed = TRUE)
     bank_xml <- gsub("##Weighting##", sprintf("%d.0", points[j]), bank_xml, fixed = TRUE)
     bank_xml <- gsub('##SectionItems##', paste(ordering_xml, collapse = "\n"), bank_xml, fixed = TRUE)
-    bank_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type, !is.null(exm[[1]][[j]]$metainfo$essay)), bank_xml, fixed = TRUE)
+    bank_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type, exm[[1]][[j]]$metainfo$stringtype), bank_xml, fixed = TRUE)
     bank_xml <- gsub('##SourceBankRef##', sprintf("res%05d", j), bank_xml, fixed = TRUE)
 
     ## create structure of pool j
@@ -239,7 +240,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     pool_xml <- gsub('##SectionId##', sec_ids[j], pool_xml, fixed = TRUE)
     pool_xml <- gsub('##AssessmentType##', "Pool", pool_xml, fixed = TRUE)
     pool_xml <- gsub('##SectionType##', "Subsection", pool_xml, fixed = TRUE)
-    pool_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type, !is.null(exm[[1]][[j]]$metainfo$essay)), pool_xml, fixed = TRUE)
+    pool_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type, exm[[1]][[j]]$metainfo$stringtype), pool_xml, fixed = TRUE)
     pool_xml <- gsub('##AbsoluteScoreMax##', "0.0", pool_xml, fixed = TRUE)
     pool_xml <- gsub('##Weighting##', "0.0", pool_xml, fixed = TRUE)
 
@@ -339,7 +340,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
 
       ## insert question type
-      ibody <- gsub("##QuestionType##", bb_questiontype(type, !is.null(exm[[i]][[j]]$metainfo$essay), item = FALSE), ibody, fixed = TRUE)
+      ibody <- gsub("##QuestionType##", bb_questiontype(type, exm[[i]][[j]]$metainfo$stringtype, item = FALSE), ibody, fixed = TRUE)
       ibody <- gsub('##MaxAttempts##', 'maxattempts="1"', ibody, fixed = TRUE)
       ibody <- gsub('##NegativePoints##', set_negative_points(eval = eval, type = type) , ibody, fixed = TRUE)
       ibody <- gsub('##PartialCredit##', ifelse(grepl("choice", type) & eval$partial, "true", "false"), ibody, fixed = TRUE)
