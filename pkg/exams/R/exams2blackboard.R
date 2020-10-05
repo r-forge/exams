@@ -727,7 +727,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
     ## scoring/solution display for the correct answers
     xml <- c(xml,
-      if(x$metainfo$type != "string" | !is.null(x$metainfo$essay))'<respcondition title="correct">' else '<respcondition title="right">',## string fails with "correct"
+      if(x$metainfo$type != "string" | !is.null(x$metainfo$stringtype))'<respcondition title="correct">' else '<respcondition title="right">',## string fails with "correct"
       '<conditionvar>',
       if(!is.null(just_answers) & (length(just_answers) > 1 | x$metainfo$type == "mchoice")) '<and>' else NULL
     )
@@ -740,7 +740,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
         paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '') ## note that Blackboard never uses "Add" (as in qti12) but "Set"
       } else NULL,
       if(!eval$partial & x$metainfo$type == "string") {
-        if(is.null(x$metainfo$essay)) {
+        if(is.null(x$metainfo$stringtype)) {
            paste('<setvar varname="EvaluationType" action="Set">"', string_evaltype(x$metainfo$evaltype, x$metainfo$usecase)[1], '"</setvar>', sep = '')
         } else '<setvar varname="SCORE" action="Set">SCORE.max</setvar>'
       } else NULL,
