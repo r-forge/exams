@@ -168,10 +168,11 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
               # Insert base64 encoded file at the end of <questiontext>
               idx <- which(grepl(newhref, question_xml, fixed = TRUE))
-              textend <- which(grepl("</text>", question_xml, fixed = TRUE))
-              textend <- head(textend[textend > idx], 1)
-
-              question_xml <- append(question_xml, filetag, after = textend)
+              for(k in idx) {
+                textend <- which(grepl("</text>", question_xml, fixed = TRUE))
+                textend <- head(textend[textend > k], 1)
+                question_xml <- append(question_xml, filetag, after = textend)
+              }
             } else {
               question_xml <- gsub(href,
                 paste0('"', fileURI(exm[[i]][[j]]$supplements[si]), '"'),
