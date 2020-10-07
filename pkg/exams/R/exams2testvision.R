@@ -5,16 +5,18 @@
 ## https://www.onyx-editor.de/
 ## http://membervalidator.imsglobal.org/qti/
 ## https://webapps.ph.ed.ac.uk/qtiworks/anonymous/validator
+## http://www.imsglobal.org/question/qtiv2p1/imsqti_implv2p1.html
 ## http://www.imsglobal.org/question/index.html#version2.0
 exams2testvision <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "testvision",
-  duration = NULL, stitle = "Exercise", ititle = "Question",
-  adescription = "Please solve the following exercises.", sdescription = "",
-  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-  navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE, zip = TRUE, points = NULL,
+  stitle = "Exercise", ititle = "Question",
+  adescription = "Please solve the following exercises.",
+  sdescription = "Please answer the following question.",
+  maxattempts = 1,  solutionswitch = TRUE,
+  zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
   converter = "pandoc", base64 = FALSE, mode = "hex", ...)
 {
@@ -865,6 +867,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
         ## Case no correct answers.
         if(type[i] == "mchoice") {
           if(sum(solution[[i]]) < 1) {
+            warning(sprintf("Exercise '%s' has all options incorrect, and can therefore not be handled by TestVision", x$metainfo$file))
             xml <- c(xml,
               '<responseCondition>',
               '<responseIf>',
