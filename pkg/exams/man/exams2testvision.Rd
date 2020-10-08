@@ -66,6 +66,16 @@
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
   \item{template}{character. The IMS QTI 1.2 or 2.1 template that should be used. Currently,
     the package provides \code{"testvision.xml"}.}
+  \item{stitle}{character. A title that should be used for the sections. May be a vector of
+    length 1 to use the same title for each section, or a vector containing different section
+    titles.}
+  \item{ititle}{character. A title that should be used for the assessment items. May be a vector
+    of length 1 to use the same title for each item, or a vector containing different item
+    titles. Note that the maximum of different item titles is the number of sections/questions
+    that are used for the exam.}
+  \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
+  \item{sdescription}{character. Vector of descriptions for each section, omitted if empty
+    (or \code{NULL} or \code{FALSE}).}
   \item{maxattempts}{integer. The maximum attempts for one question, may also be set to
     \code{Inf}.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?}
