@@ -19,7 +19,7 @@
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.",
-    maxattempts = 1, zip = TRUE, points = NULL,
+    maxattempts = 1, solutionswitch = TRUE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE), converter = "pandoc",
     base64 = FALSE, mode = "hex", \dots)
 
@@ -82,7 +82,7 @@
     If set to \code{NULL} only image files will be encoded.}
   \item{converter}{character. Argument passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is set to \code{"pandoc"} unless \code{"ttm"} is required. The default works best in TestVision.}
-  \item{mode}{character. See function \code{\link{tth}}.}
+  \item{mode}{character. See function \code{\link[tth]{tth}}.}
   \item{shuffle,
         defaultval,
         minvalue,
@@ -176,7 +176,7 @@ Zeileis A, Umlauf N, Leisch F (2014).
 }
 
 \seealso{
-  \code{\link[exams]{exams2qti21}}
+  \code{\link[exams]{exams2qti12}}
 }
 
 \examples{
