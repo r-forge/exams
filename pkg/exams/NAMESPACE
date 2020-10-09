@@ -37,7 +37,7 @@ export(
   "matrix_to_schoice",
   "matrix2mchoice",
   "matrix_to_mchoice",
-  
+
   ## version 2 extensible interface
   "xexams",
   "xweave",
@@ -45,7 +45,7 @@ export(
   "exams_eval",
   "exams_skeleton",
   "exams.skeleton",
-  
+
   ## exercise reader and helper functions
   "read_exercise",
   "read_metainfo",
@@ -108,13 +108,17 @@ export(
   ## ARSnova driver
   "exams2arsnova",
   "make_exams_write_arsnova",
-  
+
   ## Kahoot! driver
   "exams2kahoot",
 
   ## TCExam driver
   "exams2tcexam",
   
+  ## TestVision driver
+  "exams2testvision",
+  "make_itembody_testvision",  
+
   ## Pandoc driver
   "exams2pandoc"
 )
