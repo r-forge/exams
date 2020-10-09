@@ -414,7 +414,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     xml <- paste('<assessmentItem identifier="', x$metainfo$id, '" title="', paste(x$metainfo$id, x$metainfo$name, sep = '_'), '" adaptive="false" timeDependent="false" toolName="Testvision Online" toolVersion="39.0.9084" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1">', sep = '')
 
     ## cycle trough all questions
-    ids <- el <- pv <- mv <- list()
+    ids <- pv <- mv <- list()
     for(i in 1:n) {
       ## evaluate points for each question
       pv[[i]] <- eval$pointvec(solution[[i]])
@@ -595,7 +595,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
              ## Essay type questions.
              xml <- c(xml,
                  paste('<value fieldIdentifier="', ids[[i]]$idcs, '" baseType="float">',
-                  solution[[i]], '</value>', sep = ''),
+                  solution[[i]], '</value>', sep = '')
              )
            }
          }
