@@ -108,6 +108,26 @@ exsolution: %s
     qn <- xml2::xml_name(qui)
     if("questiontext" %in% qn) {
       qtext <- xml2::xml_text(qui[qn == "questiontext"])
+
+      pif <- grep("@PLUGINFILE@", qtext, fixed = TRUE)
+      if(length(pif)) {
+        pif <- qtext[pif]
+        pif <- regmatches(pif, gregexpr("(?<=<a).*?(?=</a>)", pif, perl = TRUE))
+        for(j in seq_along(pif)) {
+          pfn <- regmatches(pif, gregexpr("(?<=href=\").*?(?=\")", pif, perl = TRUE))[[1L]]
+          pfnn <- xml2::xml_find_all(qui, ".//file")
+          for(f in 1:length(pfnn)) {
+            fname <- xml2::xml_attr(pfnn[i], "name")
+            if(fname == basename(pfn)) {
+              ftext <- xml2::xml_text(pfnn[i])
+              writeLines(ftext, file.path(dir, "b64.txt"))
+              b64f <- base64enc::base64decode(file.path(dir, basename(pfn)))
+              writeBin(b64f, file.path(dir, basename(pfn))) ## FIXME!
+            }
+          }
+        }
+      }
+
       qtext <- pandoc(qtext,
         from = "html+tex_math_dollars+tex_math_single_backslash",
         to = markup)
