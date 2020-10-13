@@ -64,6 +64,11 @@
   Exercises are converted to plain text and questions must not exceed 120
   characters, answers must not exceed 75 characters.
 
+* New function `moodle2exams()` that can take a Moodle XML quiz file with
+  numeric, multichoice, shortanswer, and essay exercises and convert them
+  to R/exams exercise files, either in R/Markdown (Rmd, default) or R/LaTeX
+  (Rnw) format.
+
 * Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
   on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
   support is installed, this option can also be set to `texengine = "xelatex"`
