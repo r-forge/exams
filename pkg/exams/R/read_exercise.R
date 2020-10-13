@@ -124,7 +124,7 @@ shuffle_choice <- function(solution, shuffle, type = "mchoice", file = NULL) {
     } else {
       seq_along(o)[-unique(c(os, which(solution[o])))]
     }
-    if(ns > 2L) os <- c(os, nos[1L:min(c(ns - length(os), length(nos)))])
+    if(ns > 2L && length(nos) > 0L) os <- c(os, nos[1L:min(c(ns - length(os), length(nos)))])
     o <- o[sample(os)]
     if(length(o) < shuffle) warning(sprintf("%s shuffled answers requested, only %s available%s",
       shuffle, length(o), if(is.null(file)) "" else sprintf(" in '%s'", file)))
