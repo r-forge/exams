@@ -77,6 +77,37 @@ exsolution: %s
     return(name)
   }
 
+  pluginfile <- function(x, xml) {
+    supps <- NULL
+    pif <- grep("@PLUGINFILE@", x, fixed = TRUE)
+    if(length(pif)) {
+      pif <- x[pif]
+      pif <- regmatches(pif, gregexpr("(?<=<a).*?(?=</a>)", pif, perl = TRUE))
+      for(j in seq_along(pif)) {
+        pfn <- regmatches(pif, gregexpr("(?<=href=\").*?(?=\")", pif, perl = TRUE))[[1L]]
+        pfnn <- xml2::xml_find_all(xml, ".//file")
+        if(length(pfnn)) {
+          for(f in 1:length(pfnn)) {
+            fname <- xml2::xml_attr(pfnn[f], "name")
+            bnf <- basename(pfn)
+            if(fname == bnf) {
+              ftext <- xml2::xml_text(pfnn[f])
+              b64f <- base64enc::base64decode(ftext)
+              writeBin(b64f, file.path(dir, bnf))
+              x <- gsub(paste0("@@PLUGINFILE@@/", bnf), file.path(dir, bnf), x, fixed = TRUE)
+              xml2::xml_remove(pfnn[f])
+              supps <- c(supps, bnf)
+            }
+          }
+        }
+      }
+      if(any(grepl("@@PLUGINFILE@@/", x, fixed = TRUE))) {
+        x <- gsub("@@PLUGINFILE@@", file.path(dir), x, fixed = TRUE)
+      }
+    }
+    return(list("text" = x, "xml" = xml, "supplements" = supps))
+  }
+
   ## extract questions
   ## FIXME: restrict question types some more?
   qu <- xml2::xml_find_all(x, "question")
@@ -98,6 +129,9 @@ exsolution: %s
 
   ## Feedback tags.
   fbtags <- c("generalfeedback", "partiallycorrectfeedback", "incorrectfeedback")
+
+  ## Collect supplements.
+  supps <- NULL
   
   ## cycle through questions
   for(i in 1L:n) {
@@ -108,26 +142,10 @@ exsolution: %s
     qn <- xml2::xml_name(qui)
     if("questiontext" %in% qn) {
       qtext <- xml2::xml_text(qui[qn == "questiontext"])
-
-      pif <- grep("@PLUGINFILE@", qtext, fixed = TRUE)
-      if(length(pif)) {
-        pif <- qtext[pif]
-        pif <- regmatches(pif, gregexpr("(?<=<a).*?(?=</a>)", pif, perl = TRUE))
-        for(j in seq_along(pif)) {
-          pfn <- regmatches(pif, gregexpr("(?<=href=\").*?(?=\")", pif, perl = TRUE))[[1L]]
-          pfnn <- xml2::xml_find_all(qui, ".//file")
-          for(f in 1:length(pfnn)) {
-            fname <- xml2::xml_attr(pfnn[i], "name")
-            if(fname == basename(pfn)) {
-              ftext <- xml2::xml_text(pfnn[i])
-              writeLines(ftext, file.path(dir, "b64.txt"))
-              b64f <- base64enc::base64decode(file.path(dir, basename(pfn)))
-              writeBin(b64f, file.path(dir, basename(pfn))) ## FIXME!
-            }
-          }
-        }
-      }
-
+      pff <- pluginfile(qtext, qui)
+      supps <- c(supps, pff$supplements)
+      qtext <- pff$text
+      qui <- pff$xml
       qtext <- pandoc(qtext,
         from = "html+tex_math_dollars+tex_math_single_backslash",
         to = markup)
@@ -183,7 +201,9 @@ exsolution: %s
       if(any(k <- fbtags %in% qn)) {
         for(l in seq_along(fbtags[k])) {
           fbtmp <- qui[qn == fbtags[k][l]]
-          fbtmp <- xml2::xml_text(fbtmp)
+          pff <- pluginfile(xml2::xml_text(fbtmp), fbtmp)
+          supps <- c(supps, pff$supplements)
+          fbtmp <- pff$text
           slist <- grepl("<ul>", fbtmp, fixed = TRUE)
           fbtmp <- pandoc(fbtmp,
             from = "html+tex_math_dollars+tex_math_single_backslash",
@@ -228,6 +248,23 @@ exsolution: %s
 	extype,
 	exsol,
 	exother)
+
+      ## supplements.
+      if(length(supps)) {
+        scode <- if(markup == "markdown_strict") {
+          '```{r, echo = FALSE, results = "hide"}'
+        } else {
+          '<<echo=FALSE, results=hide>>='
+        }
+        for(f in supps)
+          scode <- c(scode, paste0('include_supplement("', f, '")'))
+        scode <- c(scode, if(markup == "markdown_strict") {
+          '```'
+        } else {
+          '@'
+        })
+        exrc[[i]] <- c(scode, "", exrc[[i]])
+      }
       
       ## default file name
       if(names[i] == "") names[i] <- name_to_file(exname)
