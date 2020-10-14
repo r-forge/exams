@@ -117,11 +117,10 @@ stresstest_exercise <- function(file, n = 100,
         rval$position <- pmat
         rank <- do.call("rbind", lapply(questions, function(x) {
           x <- gsub("$", "", gsub(" ", "", x, fixed = TRUE), fixed = TRUE)
-          if(!all(is.na(suppressWarnings(as.numeric(x)))))
-            x <- as.numeric(x)
+          if(!anyNA(suppressWarnings(as.numeric(x)))) x <- as.numeric(x)
           rank(x, ties.method = "min")
         }))
-        if(all(!is.na(suppressWarnings(as.numeric(gsub("$", "", questions[[1]], fixed = TRUE)))))) {
+        if(!anyNA(suppressWarnings(as.numeric(gsub("$", "", questions[[1]], fixed = TRUE))))) {
           questions <- lapply(questions, function(x) {
             as.numeric(gsub("$", "", x, fixed = TRUE)) })
           questions <- do.call("rbind", questions)
