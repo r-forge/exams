@@ -89,7 +89,7 @@ exsolution: %s
         if(length(pfnn)) {
           for(f in 1:length(pfnn)) {
             fname <- xml2::xml_attr(pfnn[f], "name")
-            bnf <- basename(pfn)
+            bnf <- basename(fname)
             if(fname == bnf) {
               ftext <- xml2::xml_text(pfnn[f])
               b64f <- base64enc::base64decode(ftext)
