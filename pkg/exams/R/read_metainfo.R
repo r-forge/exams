@@ -210,6 +210,10 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   ## lower/upper tolerance value
   if(is.null(extol)) extol <- 0
   extol <- rep(extol, length.out = slength)
+  if(any(extol < 0)) {
+    warning("'extol' must not be negative, using 0 instead")
+    extol <- pmax(extol, 0)
+  }
 
   ## compute "nice" string for printing solution in R
   string <- switch(extype,

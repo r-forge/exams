@@ -116,6 +116,10 @@
   These are now converted to \neq, \nless, \ngtr, \nleq, \ngeq which are handled
   by pandoc correctly. Notably, this affects `cholesky.Rmd`.
 
+* The `extol` metainformation is now enforced to be non-negative in `read_metainfo()`.
+  If a negative value is provided by the exercise, a warning is issued and 0
+  is used instead.
+
 
 # exams 2.3-6
 
@@ -213,7 +217,7 @@
 
 * Various fixes and improvements in `exams2qti21()` (and thus inherited by
   `exams2openolat()`): Support of cloze and essay type exercises has been
-  much improved, fixing bugs in the XML and meta-information handling.
+  much improved, fixing bugs in the XML and metainformation handling.
   String exercises work again. The internally-generated XML labels are
   more robust now avoiding spaces and leading integers.
   
