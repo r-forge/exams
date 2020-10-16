@@ -1,7 +1,7 @@
 library(shiny)
 library(DT)
-library(exams)
-library(tth)
+#library(exams)
+#library(tth)
 
 addPointsTabUI <- function(id){
   
@@ -92,7 +92,7 @@ addPointsTabLogic <- function(input, output, session, selectedExerciseList){
   observeEvent(input$saveExam, {
     examName = input$selectExercise
     reactVals$selectedExerciseDF[which(reactVals$selectedExerciseDF$ExamName == examName),5] = reactVals$tmpExamExercises$Points
-    print(reactVals$selectedExerciseDF)
+    #print(reactVals$selectedExerciseDF)
   })
   
   output$exerciseSelector <- renderDataTable({
