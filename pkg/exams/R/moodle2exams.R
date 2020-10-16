@@ -82,20 +82,21 @@ exsolution: %s
     pif <- grep("@PLUGINFILE@", x, fixed = TRUE)
     if(length(pif)) {
       pif <- x[pif]
-      pif <- regmatches(pif, gregexpr("(?<=<a).*?(?=</a>)", pif, perl = TRUE))
+      pif <- regmatches(pif, gregexpr('(?<=@@).*?(?=")', pif, perl = TRUE))
       for(j in seq_along(pif)) {
-        pfn <- regmatches(pif, gregexpr("(?<=href=\").*?(?=\")", pif, perl = TRUE))[[1L]]
+        pfn <- gsub("PLUGINFILE@@/", "", pif[j], fixed = TRUE)
         pfnn <- xml2::xml_find_all(xml, ".//file")
         if(length(pfnn)) {
           for(f in 1:length(pfnn)) {
             fname <- xml2::xml_attr(pfnn[f], "name")
             bnf <- basename(fname)
-            if(fname == bnf) {
+            if(bnf == pfn) {
               ftext <- xml2::xml_text(pfnn[f])
               b64f <- base64enc::base64decode(ftext)
               writeBin(b64f, file.path(dir, bnf))
               x <- gsub(paste0("@@PLUGINFILE@@/", bnf), file.path(dir, bnf), x, fixed = TRUE)
               xml2::xml_remove(pfnn[f])
+              x <- xml2::xml_text(xml)
               supps <- c(supps, bnf)
             }
           }
@@ -103,6 +104,20 @@ exsolution: %s
       }
       if(any(grepl("@@PLUGINFILE@@/", x, fixed = TRUE))) {
         x <- gsub("@@PLUGINFILE@@", file.path(dir), x, fixed = TRUE)
+      }
+    }
+    if(length(i <- grep('href="data:text', x, fixed = TRUE))) {
+      for(j in i) {
+        df <- x[j]
+        dfl <- regmatches(df, gregexpr("(?<=<a).*?(?=</a>)", df, perl = TRUE))
+        b64f <- regmatches(dfl, gregexpr('(?<=href=").*?(?=")', dfl, perl = TRUE))[[1L]]
+        fname <- regmatches(dfl, gregexpr('(?<=download=").*?(?=")', dfl, perl = TRUE))[[1L]]
+        b64f <- paste0(b64f, "'")
+        b64f <- regmatches(b64f, gregexpr("(?<=,).*?(?=')", b64f, perl = TRUE))[[1L]] ## FIXME!
+        b64fd <- base64enc::base64decode(b64f)
+        writeBin(b64fd, file.path(dir, fname))
+        x <- gsub(paste0('href="', b64f, '"'), paste0('href="', file.path(dir, fname), '"'), x, fixed = TRUE)
+        supps <- c(supps, fname)
       }
     }
     return(list("text" = x, "xml" = xml, "supplements" = supps))
@@ -202,8 +217,8 @@ exsolution: %s
         for(l in seq_along(fbtags[k])) {
           fbtmp <- qui[qn == fbtags[k][l]]
           pff <- pluginfile(xml2::xml_text(fbtmp), fbtmp)
-          supps <- c(supps, pff$supplements)
           fbtmp <- pff$text
+          supps <- c(supps, pff$supplements)
           slist <- grepl("<ul>", fbtmp, fixed = TRUE)
           fbtmp <- pandoc(fbtmp,
             from = "html+tex_math_dollars+tex_math_single_backslash",
