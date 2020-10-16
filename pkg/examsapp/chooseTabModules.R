@@ -86,10 +86,11 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     pathToTmpFolder = NULL,
     possibleExercises = data.frame(Foldername=character(), Filename=character()),
     tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric()),
-    listExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character()),
+    listExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
     numberExercises = 1,
     examNames = c("make new exam"),
-    randomNumbering = FALSE
+    randomNumbering = FALSE,
+    randomNumberingExams = data.frame(Examname=character(), RandomNumber=logical())
   )
   
   observe({
@@ -122,30 +123,41 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   observeEvent(input$deleteExerciseFromList, {
     rowNumbers = as.vector(input$choosenExercisesTable_rows_selected)
     if(!is.null(rowNumbers)){
-      reactVals$tmpExamExercises = reactVals$tmpExamExercises[-rowNumbers, ]
-      reactVals$numberExercises = reactVals$numberExercises - length(rowNumbers)
-      tmpData = reactVals$tmpExamExercises
+      #reactVals$tmpExamExercises = reactVals$tmpExamExercises[-rowNumbers, ]
+      #reactVals$numberExercises = reactVals$numberExercises - length(unique(rowNumbers))
+      baseData = reactVals$tmpExamExercises
+      baseData = baseData[-rowNumbers,]
       #print(rowNumbers)
       #rowNumbers = rowNumbers[rowNumbers <= nrow(tmpData)]
       #print(rowNumbers)
-      for(i in 1:length(rowNumbers)){
-        if(rowNumbers[i] <= nrow(tmpData)){
-          if(rowNumbers[i] == nrow(tmpData)){
-            tmpData[rowNumbers[i],3] = reactVals$numberExercises - 1
-            ## passt noch nicht :(
-          }
-          else if((rowNumbers[i] == 1) && (tmpData[rowNumbers[i]+1, 3] != 1)){
-            #print(tmpData$Number)
-            tmpData$Number = tmpData$Number - 1
-            #print(tmpData$Number)
-          }
-          else if(!((tmpData[rowNumbers[i], 3] == tmpData[rowNumbers[i]+1, 3]) || (tmpData[rowNumbers[i], 3] == tmpData[rowNumbers[i]-1, 3]))){
-            tmpData[seq(rowNumbers[i], nrow(tmpData)),3] = tmpData[seq(rowNumbers[i], nrow(tmpData)),3]-1
-          }
+      # for(i in 1:length(rowNumbers)){
+      #   if(rowNumbers[i] <= nrow(tmpData)){
+      #     if(rowNumbers[i] == nrow(tmpData)){
+      #       tmpData[rowNumbers[i],3] = reactVals$numberExercises - 1
+      #       ## passt noch nicht :(
+      #     }
+      #     else if((rowNumbers[i] == 1) && (tmpData[rowNumbers[i]+1, 3] != 1)){
+      #       #print(tmpData$Number)
+      #       tmpData$Number = tmpData$Number - 1
+      #       #print(tmpData$Number)
+      #     }
+      #     else if(!((tmpData[rowNumbers[i], 3] == tmpData[rowNumbers[i]+1, 3]) || (tmpData[rowNumbers[i], 3] == tmpData[rowNumbers[i]-1, 3]))){
+      #       tmpData[seq(rowNumbers[i], nrow(tmpData)),3] = tmpData[seq(rowNumbers[i], nrow(tmpData)),3]-1
+      #     }
+      #   }
+      # }
+      #print(reactVals$numberExercises)
+      for(i in 1:(nrow(baseData)-1)){
+        if((i == 1) && (baseData[i,3] != 1)){
+          baseData$Number = baseData$Number - (baseData[i,3] - 1)
+        }
+        if((baseData[i+1,3]-baseData[i,3])>=2){
+          baseData$Number = as.vector(baseData$Number) - c(rep(0,i),rep((baseData[i+1,3]-baseData[i,3]-1),nrow(baseData)-i))
         }
       }
-      #print(reactVals$numberExercises)
-      reactVals$tmpExamExercises = tmpData
+      reactVals$numberExercises = baseData[nrow(baseData),3]+1
+      reactVals$tmpExamExercises = baseData
+      row.names(reactVals$tmpExamExercises) = NULL
     }
   })
   
@@ -155,7 +167,8 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       #print(reactVals$listExamExercises$ExamName)
       reactVals$listExamExercises = reactVals$listExamExercises[!(reactVals$listExamExercises$ExamName %in% input$examNameDropDown),]
       ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
-      reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName))
+      Points = rep(0, nrow(reactVals$tmpExamExercises))
+      reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
       #print(reactVals$listExamExercises)
       #updateSelectInput(session, "examNameDropDown", selected = input$examNameDropDown)
       print("case1")
@@ -166,7 +179,8 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       if(!(input$examName %in% reactVals$examNames)){
         reactVals$examNames = c(reactVals$examNames, input$examName)
         ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
-        reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName))
+        Points = rep(0, nrow(reactVals$tmpExamExercises))
+        reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
         # reactVals$listExamExercises = rbind(reactVals$listExamExercises,
         #                                     data.frame(Foldername = reactVals$tmpExamExercises[,1],
         #                                                Filename = reactVals$tmpExamExercises[,2],
@@ -184,6 +198,85 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
         showNotification("The name already exists. Please choose another name or select the Exam in the Drop Down List.",type = c("error"))
       }
     }
+    if(input$randomNumbering){
+      # random numbering is missing
+    }
+  })
+  
+  insertRow <- function(existingDF, newrow, rowNum){
+    existingDF[seq(rowNum+1,nrow(existingDF)+1),] = existingDF[seq(rowNum,nrow(existingDF)),]
+    existingDF[rowNum,] = newrow
+    return(existingDF)
+  }
+  
+  observeEvent(input$blockExercises, {
+    rowNumbers = sort(as.vector(input$choosenExercisesTable_rows_selected))
+    len = length(rowNumbers)
+    reactVals$numberExercises = reactVals$numberExercises - (len-1)
+    if(len >= 2){
+      baseData = reactVals$tmpExamExercises[-rowNumbers[2:len],]
+      # for(i in 2:len){
+      #    baseData[c(rowNumbers[i]:nrow(baseData)),3] = baseData[c(rowNumbers[i]:nrow(baseData)),3]-1
+      # }
+      # baseData = na.omit(baseData)
+      # print(baseData)
+      # tmpData1 = baseData[-c(rowNumbers[1]+1:nrow(baseData)),]
+      # tmpData2 = baseData[-c(1:rowNumbers[1]+1),]
+      # if(rowNumbers[1] == 1){
+      #   tmpData2$Number = na.omit(baseData[c(rowNumbers[1]+2:nrow(baseData)-1),3])
+      # }
+      # 
+      # else if(rowNumbers[len] >= nrow(reactVals$tmpExamExercises)){
+      #   tmpData2 = NULL
+      # }
+      # else {
+      #   tmpData2$Number = na.omit(baseData[c(rowNumbers[1]+3:nrow(baseData)-2),3])
+      # }
+      # tmpData1 = rbind(tmpData1, blockExercises, tmpData2)
+      blockExercises = reactVals$tmpExamExercises[rowNumbers[2:len],]
+      blockExercises$Number = rep(baseData[rowNumbers[1],3],len-1)
+      for(i in 1:(len-1)){
+        baseData = insertRow(baseData, blockExercises[i,], rowNumbers[1]+i)
+      }
+      baseData = na.omit(baseData)
+      for(i in 1:(nrow(baseData)-1)){
+        if((i == 1) && (baseData[i,3] != 1)){
+          baseData$Number = baseData$Number - (baseData[i,3] - 1)
+        }
+        if((baseData[i+1,3]-baseData[i,3])>=2){
+          baseData$Number = as.vector(baseData$Number) - c(rep(0,i),rep((baseData[i+1,3]-baseData[i,3]-1),nrow(baseData)-i))
+        }
+      }
+      reactVals$tmpExamExercises = baseData
+      row.names(reactVals$tmpExamExercises) = NULL
+    }
+    else{
+      showNotification("You have to choose at least two exercises.", type = c("error"))
+    }
+  })
+  
+  observeEvent(input$unblockExercises, {
+    rowNumbers = sort(as.vector(input$choosenExercisesTable_rows_selected))
+    len = length(rowNumbers)
+    if(len >= 2){
+      baseData = reactVals$tmpExamExercises
+      if(length(unique(baseData[rowNumbers,3])) == 1){
+        for(i in 2:len){
+          print(baseData$Number)
+          print(c(rep(0,rowNumbers[i]-1),rep(1,nrow(baseData)-rowNumbers[i]+1)))
+          baseData$Number = baseData$Number + c(rep(0,rowNumbers[i]-1),rep(1,nrow(baseData)-rowNumbers[i]+1))
+        }
+        reactVals$numberExercises = baseData[nrow(baseData),3]+1
+        reactVals$tmpExamExercises = baseData
+        row.names(reactVals$tmpExamExercises) = NULL
+      }
+      else{
+        showNotification("You have to choose blocked exercises.", type = c("error"))
+      }
+    }
+    else{
+      showNotification("You have to choose at least two blocked exercises.", type = c("error"))
+    }
   })
   
   output$exerciseSelector <- renderDataTable({
@@ -194,4 +287,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     reactVals$tmpExamExercises
   })
   
+  return(
+    listExamExercises = reactive({reactVals$listExamExercises})
+  )
 }
