@@ -61,8 +61,8 @@ exportTabUI <- function(id){
 exportTabLogic <- function(input, output, session, selectedExerciseList, formatList, pathToTemplates, pathToTmp){
   
   reactVals <- reactiveValues(
-    examExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
-    exercisesToExam = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
+    examExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    exercisesToExam = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
     formats = c("---"),
     examNames = c("---"),
     templateNames = c("---"),

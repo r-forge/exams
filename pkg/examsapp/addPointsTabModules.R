@@ -47,8 +47,9 @@ addPointsTabUI <- function(id){
 addPointsTabLogic <- function(input, output, session, selectedExerciseList){
   
   reactVals <- reactiveValues(
-    selectedExerciseDF = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
-    tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
+    selectedExerciseDF = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    #tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
     #examExercisesList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
     examNames = c("---")
   )
@@ -70,7 +71,7 @@ addPointsTabLogic <- function(input, output, session, selectedExerciseList){
       if(length(rowNumbers)>0){
         tmpNumberExercises = reactVals$tmpExamExercises[rowNumbers,3]
         rowNumbersUpdate = which(reactVals$tmpExamExercises$Number %in% tmpNumberExercises)
-        reactVals$tmpExamExercises[rowNumbersUpdate,5] = rep(as.numeric(input$pointsExercise),length(rowNumbersUpdate))
+        reactVals$tmpExamExercises[rowNumbersUpdate,6] = rep(as.numeric(input$pointsExercise),length(rowNumbersUpdate))
       }
       else{
         showNotification("Please choose at least one exercise.", type = c("error"))
@@ -84,19 +85,19 @@ addPointsTabLogic <- function(input, output, session, selectedExerciseList){
       reactVals$tmpExamExercises = reactVals$selectedExerciseDF[which(reactVals$selectedExerciseDF$ExamName == examName),]
     }
     else{
-      reactVals$tmpExamExercises = matrix(c("","","","",""), nrow = 1, ncol=5, byrow = TRUE)
-      colnames(reactVals$tmpExamExercises) = c("Foldername", "Filename", "Number", "ExamName", "Points")
+      reactVals$tmpExamExercises = matrix(c("","","","","",""), nrow = 1, ncol=6, byrow = TRUE)
+      colnames(reactVals$tmpExamExercises) = c("Foldername", "Filename", "Number", "Seed", "ExamName", "Points")
     }
   })
   
   observeEvent(input$saveExam, {
     examName = input$selectExercise
-    reactVals$selectedExerciseDF[which(reactVals$selectedExerciseDF$ExamName == examName),5] = reactVals$tmpExamExercises$Points
+    reactVals$selectedExerciseDF[which(reactVals$selectedExerciseDF$ExamName == examName),6] = reactVals$tmpExamExercises$Points
     #print(reactVals$selectedExerciseDF)
   })
   
   output$exerciseSelector <- renderDataTable({
-    reactVals$tmpExamExercises[,c(1,2,3,5)]
+    reactVals$tmpExamExercises[,c(1,2,3,6)]
   })
   
   return(

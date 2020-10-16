@@ -45,7 +45,7 @@ ui <- navbarPage(
   title = "R Exams",
   loadTabUI("loadTab"),
   chooseTabUI("chooseTab"),
-  addPointsTabUI("addPointsTab"),
+#  addPointsTabUI("addPointsTab"),
   exportTabUI("exportTab")
 )
 
@@ -56,9 +56,10 @@ server <- function(input, output, session){
     pathExercisesGiven = NULL,
     pathTemplatesGiven = NULL,
     possibleExerciseList = data.frame(Foldername=character(), Filename=character()),
-    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
+    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
     givenExercises = NULL,
-    formatList = c()
+    formatList = c(),
+    seedList = c()
   )
   
   observe({
@@ -66,9 +67,10 @@ server <- function(input, output, session){
     reactVals$pathExercisesGiven = file.path(locationExercises)
     reactVals$pathTemplatesGiven = file.path(locationTemplates)
     reactVals$possibleExerciseList = data.frame(Foldername=character(), Filename=character())
-    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric())
+    selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric())
     reactVals$givenExercises = getDirFilesOneLevel(locationExercises)
     reactVals$formatList = c("TCExam", "Moodle", "QTI21", "QTI12", "Canvas", "PDF", "DOCX", "OpenOLAT", "NOPS", "HTML", "Blackboard", "ARSnova")
+    reactVals$seedList = c(845934, 9468946, 2039589)
   })
   
   #Observes the output of the loadTab - at the moment it is only the selectedFiles table
@@ -83,14 +85,14 @@ server <- function(input, output, session){
   observe({
     reactVals$selectedExerciseList = modifiedDataAddPointsTab()
   })
-  
+
   modifiedDataLoadTab = callModule(loadTabLogic, "loadTab", reactive(reactVals$pathExercisesGiven), reactive(reactVals$pathToTmpFolder), 
                                   reactive(reactVals$possibleExerciseList), reactive(reactVals$givenExercises))
   
   modifiedDataChooseTab = callModule(chooseTabLogic, "chooseTab", reactive(reactVals$pathToTmpFolder), reactive(reactVals$possibleExerciseList),
-                                    reactive(reactVals$selectedExerciseList))
+                                    reactive(reactVals$selectedExerciseList), reactive(reactVals$seedList))
   
-  modifiedDataAddPointsTab = callModule(addPointsTabLogic, "addPointsTab", reactive(reactVals$selectedExerciseList))
+ modifiedDataAddPointsTab = callModule(addPointsTabLogic, "addPointsTab", reactive(reactVals$selectedExerciseList))
   
   callModule(exportTabLogic, "exportTab", reactive(reactVals$selectedExerciseList), reactive(reactVals$formatList), reactive(reactVals$pathTemplatesGiven), reactive(reactVals$pathToTmpFolder))
   

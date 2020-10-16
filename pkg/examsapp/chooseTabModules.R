@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyBS)
 library(DT)
 library(exams)
 library(tth)
@@ -11,7 +12,10 @@ chooseTabUI <- function(id){
   tabPanel("Choose and Arrange",
            
            tagList(
-             
+             fluidRow(
+                      radioButtons(ns("seedSelectorRadio"), label = "Wich seed do you prefer?", choices = c("set seed randomly", "select a seed for every exercise"),
+                                   inline = TRUE, selected = "set seed randomly")
+             ),
              fluidRow(
                column(9,
                       DT::dataTableOutput(ns("exerciseSelector"))
@@ -22,9 +26,35 @@ chooseTabUI <- function(id){
                br(),
                column(7),
                column(2,
-                      actionButton(ns("addExerciseToList"), label = "Choose Exercises")
+                      conditionalPanel(condition = "input.seedSelectorRadio == 'set seed randomly'",
+                                       ns = ns,
+                                       actionButton(ns("addExerciseToList"), label = "Choose Exercises")
+                      ),
+                      conditionalPanel(condition = "input.seedSelectorRadio == 'select a seed for every exercise'",
+                                       ns = ns,
+                                       actionButton(ns("selectSeedOfExercise"), label = "Select Seed")
+                      )
                       )
              ),
+             bsModal(ns("seedPopUp"), title = "Choose your seed", trigger = ns("selectSeedOfExercise"), size = "large",
+                     fluidRow(
+                              column(4,
+                                     
+                                     uiOutput(ns("playerSeed1"), inline = TRUE, container = div),
+                                     checkboxInput(ns("cbSeed1"), "Seed 1")
+                                     ),
+                              column(4,
+                                     
+                                     uiOutput(ns("playerSeed2"), inline = TRUE, container = div),
+                                     checkboxInput(ns("cbSeed2"), "Seed 2")
+                              ),
+                              column(4,
+                                     
+                                     uiOutput(ns("playerSeed3"), inline = TRUE, container = div),
+                                     checkboxInput(ns("cbSeed3"), "Seed 3"),
+                                     actionButton(ns("addExercisesSeed"), label = "Choose Exercise")
+                              )
+                     )),
              br(),
              br(),
              fluidRow(
@@ -80,23 +110,26 @@ chooseTabUI <- function(id){
   )
 }
 
-chooseTabLogic <- function(input, output, session, pathToFolder, possibleExerciseList, selectedExerciseList){
+chooseTabLogic <- function(input, output, session, pathToFolder, possibleExerciseList, selectedExerciseList, seedList){
   
   reactVals <- reactiveValues(
     pathToTmpFolder = NULL,
     possibleExercises = data.frame(Foldername=character(), Filename=character()),
-    tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric()),
-    listExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
+    tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric()),
+    listExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
     numberExercises = 1,
     examNames = c("make new exam"),
+    selectedSeed = -1,
     randomNumbering = FALSE,
-    randomNumberingExams = data.frame(Examname=character(), RandomNumber=logical())
+    randomNumberingExams = data.frame(Examname=character(), RandomNumber=logical()),
+    seedList = c()
   )
   
   observe({
     reactVals$pathToTmpFolder = pathToFolder()
     reactVals$possibleExercises = possibleExerciseList()
     reactVals$listExamExercises = selectedExerciseList()
+    reactVals$seedList = seedList()
     #reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, reactVals$listExamExercises[,1:3])
     #reactVals$tmpExamExercises = reactVals$tmpExamExercises[!duplicated(reactVals$tmpExamExercises)]
   })
@@ -109,14 +142,57 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
         if(!(reactVals$possibleExercises[rowNumbers[i],2] %in% reactVals$tmpExamExercises$Filename)){
           #print(reactVals$possibleExercises[rowNumbers[i],2])
           reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, data.frame(Foldername = reactVals$possibleExercises[rowNumbers[i],1],
-                                                                            Filename = reactVals$possibleExercises[rowNumbers[i],2],
-                                                                            Number = reactVals$numberExercises))
+                                                                                    Filename = reactVals$possibleExercises[rowNumbers[i],2],
+                                                                                    Number = reactVals$numberExercises, Seed = -1))
           reactVals$numberExercises = reactVals$numberExercises + 1
         }
       }
     }
     else{
       showNotification("You have to choose at least one exercise.", type = c("error"))
+    }
+    
+    
+  })
+  
+  observeEvent(input$addExercisesSeed, {
+    rowNumber = input$exerciseSelector_rows_selected
+    if(!(reactVals$possibleExercises[rowNumber,2] %in% reactVals$tmpExamExercises$Filename)){
+      reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, data.frame(Foldername = reactVals$possibleExercises[rowNumber,1],
+                                                                                Filename = reactVals$possibleExercises[rowNumber,2],
+                                                                                Number = reactVals$numberExercises, Seed = reactVals$selectedSeed))
+      reactVals$numberExercises = reactVals$numberExercises + 1
+    }
+    else{
+      reactVals$tmpExamExercises[which(reactVals$tmpExamExercises$Filename == reactVals$possibleExercises[rowNumber,2] && 
+                                         reactVals$tmpExamExercises$Foldername == reactVals$possibleExercises[rowNumber,1]), 4] = reactVals$selectedSeed
+    }
+  })
+  
+  observeEvent(input$cbSeed1, {
+    if(input$cbSeed1 == TRUE && reactVals$selectedSeed != 1){
+      reactVals$selectedSeed = 1
+      updateCheckboxInput(session = session, "cbSeed2", value = FALSE)
+      updateCheckboxInput(session = session, "cbSeed3", value = FALSE)
+      updateCheckboxInput(session = session, "cbSeed1", value = TRUE)
+    }
+  })
+  
+  observeEvent(input$cbSeed2, {
+    if(input$cbSeed2 == TRUE && reactVals$selectedSeed != 2){
+      reactVals$selectedSeed = 2
+      updateCheckboxInput(session = session, "cbSeed1", value = FALSE)
+      updateCheckboxInput(session = session, "cbSeed3", value = FALSE)
+      updateCheckboxInput(session = session, "cbSeed2", value = TRUE)
+    }
+  })
+  
+  observeEvent(input$cbSeed3, {
+    if(input$cbSeed3 == TRUE && reactVals$selectedSeed != 3){
+      reactVals$selectedSeed = 3
+      updateCheckboxInput(session = session, "cbSeed2", value = FALSE)
+      updateCheckboxInput(session = session, "cbSeed1", value = FALSE)
+      updateCheckboxInput(session = session, "cbSeed3", value = TRUE)
     }
   })
   
@@ -161,6 +237,108 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     }
   })
   
+  observeEvent(input$selectSeedOfExercise, {
+    rowNumber = input$exerciseSelector_rows_selected
+    if(length(rowNumber)>1){
+      showNotification("Please select only one exercise!", type = c("error"))
+    }
+  })
+  
+  output$playerSeed1 <- renderUI({
+    selectedRow = reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],]
+    print(reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],])
+    fromFile = file.path(reactVals$pathToTmpFolder,"exercises", selectedRow$Filename)
+    print(fromFile)
+    toFile = file.path(reactVals$pathToTmpFolder, "tmp")
+    fileDest = file.path(reactVals$pathToTmpFolder, "tmp", selectedRow$Filename)
+    file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
+    #encoding = stringi::stri_enc_detect(fileDest)[[1]][1,1]
+    # encoding = encoding,
+    ex <- try(exams2html(fileDest, n = 1, name = "preview1", dir = file.path(reactVals$pathToTmpFolder, "tmp"), 
+                         edir = file.path(reactVals$pathToTmpFolder, "tmp"),
+                         base64 = TRUE, mathjax = TRUE), silent = TRUE)
+    if(!inherits(ex, "try-error")){
+      hf = "preview11.html"
+      html = readLines(file.path(reactVals$pathToTmpFolder, "tmp", hf))
+      n = c(which(html == "<body>"), length(html))
+      html = c(
+        html[1L:n[1L]],                  ## header
+        '<div style="border: 1px solid black;border-radius:5px;padding:8px;margin:8px;">', ## border
+        html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
+        '</div>', '</br>',               ## border
+        html[(n[2L] - 1L):(n[2L])]       ## footer
+      )
+      writeLines(html, file.path(reactVals$pathToTmpFolder, "tmp", hf))
+      return(includeHTML(file.path(reactVals$pathToTmpFolder, "tmp", hf)))
+    } else {
+      return(HTML(paste('<div>', ex, '</div>')))
+    }
+  })
+  
+  output$playerSeed2 <- renderUI({
+    selectedRow = reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],]
+    print(reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],])
+    fromFile = file.path(reactVals$pathToTmpFolder,"exercises", selectedRow$Filename)
+    print(fromFile)
+    toFile = file.path(reactVals$pathToTmpFolder, "tmp")
+    fileDest = file.path(reactVals$pathToTmpFolder, "tmp", selectedRow$Filename)
+    file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
+    #encoding = stringi::stri_enc_detect(fileDest)[[1]][1,1]
+    # encoding = encoding,
+    ex <- try(exams2html(fileDest, n = 1, name = "preview2", dir = file.path(reactVals$pathToTmpFolder, "tmp"), 
+                         edir = file.path(reactVals$pathToTmpFolder, "tmp"),
+                         base64 = TRUE, mathjax = TRUE), silent = TRUE)
+    if(!inherits(ex, "try-error")){
+      hf = "preview21.html"
+      html = readLines(file.path(reactVals$pathToTmpFolder, "tmp", hf))
+      n = c(which(html == "<body>"), length(html))
+      html = c(
+        html[1L:n[1L]],                  ## header
+        '<div style="border: 1px solid black;border-radius:5px;padding:8px;margin:8px;">', ## border
+        html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
+        '</div>', '</br>',               ## border
+        html[(n[2L] - 1L):(n[2L])]       ## footer
+      )
+      writeLines(html, file.path(reactVals$pathToTmpFolder, "tmp", hf))
+      return(includeHTML(file.path(reactVals$pathToTmpFolder, "tmp", hf)))
+    } else {
+      return(HTML(paste('<div>', ex, '</div>')))
+    }
+  })
+  
+  output$playerSeed3 <- renderUI({
+    selectedRow = reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],]
+    print(reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],])
+    fromFile = file.path(reactVals$pathToTmpFolder,"exercises", selectedRow$Filename)
+    print(fromFile)
+    toFile = file.path(reactVals$pathToTmpFolder, "tmp")
+    fileDest = file.path(reactVals$pathToTmpFolder, "tmp", selectedRow$Filename)
+    file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
+    #encoding = stringi::stri_enc_detect(fileDest)[[1]][1,1]
+    # encoding = encoding,
+    ex <- try(exams2html(fileDest, n = 1, name = "preview3", dir = file.path(reactVals$pathToTmpFolder, "tmp"), 
+                         edir = file.path(reactVals$pathToTmpFolder, "tmp"),
+                         base64 = TRUE, mathjax = TRUE), silent = TRUE)
+    if(!inherits(ex, "try-error")){
+      hf = "preview31.html"
+      html = readLines(file.path(reactVals$pathToTmpFolder, "tmp", hf))
+      n = c(which(html == "<body>"), length(html))
+      html = c(
+        html[1L:n[1L]],                  ## header
+        '<div style="border: 1px solid black;border-radius:5px;padding:8px;margin:8px;">', ## border
+        html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
+        '</div>', '</br>',               ## border
+        html[(n[2L] - 1L):(n[2L])]       ## footer
+      )
+      writeLines(html, file.path(reactVals$pathToTmpFolder, "tmp", hf))
+      return(includeHTML(file.path(reactVals$pathToTmpFolder, "tmp", hf)))
+    } else {
+      return(HTML(paste('<div>', ex, '</div>')))
+    }
+  })
+  
+
+  
   observeEvent(input$saveExam, {
     #req(input$examName)
     if(input$examNameDropDown != "make new exam"){
@@ -169,13 +347,20 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
       Points = rep(0, nrow(reactVals$tmpExamExercises))
       reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
+      if(input$examNameDropDown %in% reactVals$randomNumberingExams$Examname){
+        reactVals$randomNumberingExams[which(reactVals$randomNumberingExams$Examname == input$examNameDropDown), 2] = input$randomNumbering
+      }
+      else{
+        reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examNameDropDown, RandomNumber=input$randomNumbering))
+      }
+      print(reactVals$randomNumberingExams)
       #print(reactVals$listExamExercises)
       #updateSelectInput(session, "examNameDropDown", selected = input$examNameDropDown)
-      print("case1")
+      #print("case1")
     }
     else{
       req(input$examName)
-      print("case2")
+      #print("case2")
       if(!(input$examName %in% reactVals$examNames)){
         reactVals$examNames = c(reactVals$examNames, input$examName)
         ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
@@ -186,11 +371,12 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
         #                                                Filename = reactVals$tmpExamExercises[,2],
         #                                                Number = reactVals$tmpExamExercises[,3],
         #                                                ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises))))
-        
+        reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examName, RandomNumber=input$randomNumbering))
+        print(reactVals$randomNumberingExams)
         #print(reactVals$tmpExamExercises)
-        print(reactVals$listExamExercises)
+        #print(reactVals$listExamExercises)
         #print(nrow(reactVals$listExamExercises))
-       
+        
         updateSelectInput(session, "examNameDropDown", choices = reactVals$examNames, selected = input$examName)
         updateTextInput(session, "examName", value = "")
       }
@@ -198,9 +384,8 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
         showNotification("The name already exists. Please choose another name or select the Exam in the Drop Down List.",type = c("error"))
       }
     }
-    if(input$randomNumbering){
-      # random numbering is missing
-    }
+    #if(input$randomNumbering){
+    
   })
   
   insertRow <- function(existingDF, newrow, rowNum){
@@ -284,10 +469,11 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   })
   
   output$choosenExercisesTable <- renderDataTable({
-    reactVals$tmpExamExercises
+    reactVals$tmpExamExercises[,c(1,2,3)]
   })
   
   return(
-    listExamExercises = reactive({reactVals$listExamExercises})
+    listExamExercises = reactive({reactVals$listExamExercises})#,
+    #randomNumbering = reactive({reactVals$randomNumberingExams})
   )
 }
