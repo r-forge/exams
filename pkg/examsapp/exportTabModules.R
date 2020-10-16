@@ -58,38 +58,57 @@ exportTabUI <- function(id){
   
 }
 
-exportTabLogic <- function(input, output, session, selectedExerciseList, formatList, pathToTemplates, pathToTmp){
+exportTabLogic <- function(input, output, session, selectedExerciseList, formatList, pathToTemplates, pathToTmp, seedList){
   
   reactVals <- reactiveValues(
+    # dataframe with the saved exams from other tabs
     examExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    # temporary dataframe with the exercises to build an exam
     exercisesToExam = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    # list of formats - formats are added dynamically (parameter to this function)
     formats = c("---"),
+    # list of exam names - exam names are added dynamically (parameter to this function)
     examNames = c("---"),
+    # list of templates - templates are added dynamically (parameter to this function)
     templateNames = c("---"),
+    # path to the templates (paramter to this function)
     pathToTemplates = NULL,
-    pathToTmp = NULL
+    # path to the temporary folder
+    pathToTmp = NULL,
+    # list of the possible seeds
+    seedList = c(),
+    # selected format in the drop down list
+    selectedFormat = "---"
   )
   
+  # Observer to store the parameters given by the function exportTabLogic(...) in reactive values
+  # using reactive values for the data was in the test cases more convenient and furthermore a
+  # standardizesed pattern to call the data is given 
   observe({
-    
     reactVals$examExerciseList = selectedExerciseList()
     reactVals$formatList = formatList()
     reactVals$pathToTemplates = pathToTemplates()
     reactVals$pathToTmp = pathToTmp()
+    reactVals$seedList = seedList()
     
+    # updating drop down list of exam names
     reactVals$examNames = as.vector(unique(c(reactVals$examNames, as.vector(unique(reactVals$examExerciseList$ExamName)))))
     tmp = input$examDropDown
     updateSelectInput(session, "examDropDown", choices = reactVals$examNames, selected = tmp)
     
+    # updating drop down list of formats
     reactVals$formats = as.vector(unique(c(reactVals$formats, as.vector(unique(reactVals$formatList)))))
-    tmp = input$formatDropDownDropDown
+    tmp = input$formatDropDown
     updateSelectInput(session, "formatDropDown", choices = reactVals$formats, selected = tmp)
     
+    # updating drop down list of templates
     reactVals$templateNames = as.vector(unique(c(reactVals$templateNames, list.files(path = reactVals$pathToTemplates))))
     tmp = input$templateDropDown
     updateSelectInput(session, "templateDropDown", choices = reactVals$templateNames, selected = tmp)
   })
   
+  # Observer: Drop Down for exam name
+  # the data of the selected exam is copied to the temporary dataframe
   observeEvent(input$examDropDown, {
     if(input$examDropDown != "---"){
       examName = input$examDropDown
@@ -99,107 +118,130 @@ exportTabLogic <- function(input, output, session, selectedExerciseList, formatL
     else{
       reactVals$exercisesToExam = NULL
     }
-    print(reactVals$exercisesToExam)
   })
   
+  # Observer: Drop down for format
+  # stores the selected format in a reactive value
+  observeEvent(input$formatDropDown, {
+    reactVals$selectedFormat = input$formatDropDown
+  })
+  
+  # Observer: Drop down template
+  # guarantees that the format is still selected in formatDropDown
+  observeEvent(input$templateDropDown, {
+    updateSelectInput(session, "formatDropDown", choices = reactVals$formats, selected = reactVals$selectedFormat)
+  })
+  
+  # Observer: Click on "Compile"
+  # compiles the exercises to the selected format
   observeEvent(input$compile, {
-    if(!is.null(reactVals$exercisesToExam)){
-      if(!file.exists(file.path(reactVals$pathToTmp, "exams", "current"))) {
-        dir.create(file.path(reactVals$pathToTmp, "exams", "current"))
-      }
-      else {
-        cfiles = dir(file.path(reactVals$pathToTmp, "exams", "current"))
-        if(length(cfiles)){
-          unlink(cfiles)
+    if(input$formatDropDown != "---"){
+      if(!is.null(reactVals$exercisesToExam)){
+        if(!file.exists(file.path(reactVals$pathToTmp, "exams", "current"))) {
+          dir.create(file.path(reactVals$pathToTmp, "exams", "current"))
         }
-      }
-      cdir = file.path(reactVals$pathToTmp, "exams", "current")
-      seed = as.integer(runif(1, 1, 1e+08))
-      examName = input$examDropDown
-      format = input$formatDropDownDropDown
-      template = input$templateDropDown
-      n = input$numberCopies
-      maxAttempts = input$maxAttempts
-      duration = input$durationMin
-      points = unlist(sapply(split(reactVals$exercisesToExam$Points, as.factor(reactVals$exercisesToExam$Number)), function(x) { x[1] }))
-      exlist = split(as.vector(reactVals$exercisesToExam$Filename), as.factor(reactVals$exercisesToExam$Number))
-      #print(exlist)
-      set.seed(seed)
-      if(input$formatDropDown == "ARSnova"){
-        ex <- try(exams2arsnova(exlist, n = n,
-                                dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName), silent = TRUE)
-      }
-      if(input$formatDropDown == "Blackboard"){
-        ex <- try(exams2blackboard(exlist, n = n,
+        else {
+          cfiles = dir(file.path(reactVals$pathToTmp, "exams", "current"))
+          if(length(cfiles)){
+            unlink(cfiles)
+          }
+        }
+        cdir = file.path(reactVals$pathToTmp, "exams", "current")
+        seed = as.integer(runif(1, 1, 1e+08))
+        tmpSeedList = c(seed, reactVals$seedList)
+        examName = input$examDropDown
+        format = input$formatDropDown
+        template = input$templateDropDown
+        if(template == "---"){
+          template = NULL
+        }
+        n = input$numberCopies
+        maxAttempts = input$maxAttempts
+        duration = input$durationMin
+        points = unlist(sapply(split(reactVals$exercisesToExam$Points, as.factor(reactVals$exercisesToExam$Number)), function(x) { x[1] }))
+        exlist = split(as.vector(reactVals$exercisesToExam$Filename), as.factor(reactVals$exercisesToExam$Number))
+        # computing seed matrix for pdf, html, nops, blackboard
+        tmpSeed = as.vector(tmpSeedList[reactVals$exercisesToExam$Seed+1])
+        sdlist = matrix(tmpSeed, nrow = n, ncol=length(tmpSeed), byrow = TRUE)
+        set.seed(seed)
+        if(input$formatDropDown == "ARSnova"){
+          ex <- try(exams2arsnova(exlist, n = n,
+                                  dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName), silent = TRUE)
+        }
+        if(input$formatDropDown == "Blackboard"){
+          ex <- try(exams2blackboard(exlist, n = n,
+                                     dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
+                                     maxattempts = maxAttempts, seed = sdlist), silent = TRUE)
+        }
+        if(input$formatDropDown == "HTML"){
+          ex <- try(exams2html(exlist, n = n,
+                               dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName,
+                               template = template, seed = sdlist), silent = TRUE)
+        }
+        if(input$formatDropDown == "NOPS"){
+          ex <- try(exams2nops(exlist, n = n,
+                               dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
+                               seed = sdlist), silent = TRUE)
+        }
+        if(input$formatDropDown == "OpenOLAT"){
+          ex <- try(exams2openolat(exlist, n = n,
                                    dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
-                                   maxattempts = maxAttempts), silent = TRUE)
-      }
-      if(input$formatDropDown == "HTML"){
-        ex <- try(exams2html(exlist, n = n,
-                             dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName,
-                             template = template), silent = TRUE)
-      }
-      if(input$formatDropDown == "NOPS"){
-        ex <- try(exams2nops(exlist, n = n,
-                             dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
-      }
-      if(input$formatDropDown == "OpenOLAT"){
-        ex <- try(exams2openolat(exlist, n = n,
+                                   maxattempts = maxAttempts, duration = duration), silent = TRUE)
+        }
+        if(input$formatDropDown == "DOCX"){
+          ex <- try(exams2pandoc(exlist, n = n,
+                                 dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
+        }
+        if(input$formatDropDown == "PDF"){
+          ex <- try(exams2pdf(exlist, n = n,
+                              dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
+                              template = template, seed = sdlist), silent = TRUE)
+        }
+        if(input$formatDropDown == "Canvas"){
+          ex <- try(exams2canvas(reactVals$exercisesToExam$Filename, n = n,
                                  dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
                                  maxattempts = maxAttempts, duration = duration), silent = TRUE)
+        }
+        if(input$formatDropDown == "QTI12"){
+          ex <- try(exams2qti12(exlist, n = n,
+                                dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
+                                maxattempts = maxAttempts, duration = input$duration), silent = TRUE)
+        }
+        if(input$formatDropDown == "QTI21"){
+          ex <- try(exams2qti12(exlist, n = n,
+                                dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
+                                maxattempts = maxAttempts, duration = duration), silent = TRUE)
+        }
+        if(input$formatDropDown == "Moodle"){
+          ex <- try(exams2moodle(exlist, n = n,
+                                 dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
+        }
+        if(input$formatDropDown == "TCExam"){
+          ex <- try(exams2tcexam(exlist, n = n,
+                                 dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
+        }
+        if(inherits(ex, "try-error")){
+          writeLines(ex)
+          showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
+          ex <- NULL
+        } else {
+          output$exams <- renderText({
+            basename(grep(input$selected_exam, dir(cdir, full.names = TRUE), fixed = TRUE, value = TRUE))
+          })
+          showNotification(paste("Compiled", input$selected_exam, "using", input$formatDropDown), duration = 1, closeButton = FALSE)
+        }
       }
-      if(input$formatDropDown == "DOCX"){
-        ex <- try(exams2pandoc(exlist, n = n,
-                               dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
-      }
-      if(input$formatDropDown == "PDF"){
-        ex <- try(exams2pdf(exlist, n = n,
-                            dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
-                            template = template), silent = TRUE)
-      }
-      if(input$formatDropDown == "Canvas"){
-        ex <- try(exams2canvas(reactVals$exercisesToExam$Filename, n = n,
-                               dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
-                               maxattempts = maxAttempts, duration = duration), silent = TRUE)
-      }
-      if(input$formatDropDown == "QTI12"){
-        ex <- try(exams2qti12(exlist, n = n,
-                              dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
-                              maxattempts = maxAttempts, duration = input$duration), silent = TRUE)
-      }
-      if(input$formatDropDown == "QTI21"){
-        ex <- try(exams2qti12(exlist, n = n,
-                              dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points,
-                              maxattempts = maxAttempts, duration = duration), silent = TRUE)
-      }
-      if(input$formatDropDown == "Moodle"){
-        ex <- try(exams2moodle(exlist, n = n,
-                               dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
-      }
-      if(input$formatDropDown == "TCExam"){
-        ex <- try(exams2tcexam(exlist, n = n,
-                               dir = cdir, edir = file.path(reactVals$pathToTmp, "exercises"), name = examName, points = points), silent = TRUE)
-      }
-      if(inherits(ex, "try-error")){
-        writeLines(ex)
-        showNotification("Error: could not compile exam!", duration = 2, closeButton = FALSE, type = "error")
-        ex <- NULL
-      } else {
-        output$exams <- renderText({
-          basename(grep(input$selected_exam, dir(cdir, full.names = TRUE), fixed = TRUE, value = TRUE))
-        })
-        showNotification(paste("Compiled", input$selected_exam, "using", input$formatDropDown), duration = 1, closeButton = FALSE)
+      else {
+        showNotification("Please select an exam.", type = c("error"))
       }
     }
-    else {
-      showNotification("Please select an exam.", type = c("error"))
+    else{
+      showNotification("Please select a format", type = c("error"))
     }
   })
   
-  # observeEvent(input$additionalDocs, {
-  #   print(as.vector(input$additionalDocs))
-  # })
-  
+  # Output: Download Data
+  # downloads the exam and additional documents by using the downloadHandler
   output$downloadExam <- downloadHandler(
     filename = function(){
       time <- Sys.time()

@@ -7,8 +7,7 @@ source("exportTabModules.R")
 locationExercises <- "./testExercises"
 locationTemplates <- "./templates"
 
-#https://stackoverflow.com/questions/39270365/shiny-dt-single-cell-selection/39270631
-
+# function creates temporary folder
 makeTmpPath <- function(){
     owd <- getwd()
     dir = NULL
@@ -30,6 +29,8 @@ makeTmpPath <- function(){
     return(file.path(dir))
 }
 
+# function creates list of list of the subfolder including files of a 
+# given path (folder)
 getDirFilesOneLevel <- function(path){
   dirList = list.dirs(path = path, recursive=FALSE);
   dirFileList = list();
@@ -40,28 +41,39 @@ getDirFilesOneLevel <- function(path){
   return(dirFileList)
 }
 
+# user interface of the app
+# using the user interface elements defined in the modules
 ui <- navbarPage(
-  #titlePanel("Load Exercises"),
   title = "R Exams",
   loadTabUI("loadTab"),
   chooseTabUI("chooseTab"),
-#  addPointsTabUI("addPointsTab"),
+  addPointsTabUI("addPointsTab"),
   exportTabUI("exportTab")
 )
 
 server <- function(input, output, session){
   
   reactVals <- reactiveValues(
+    # path to the temporary folder
     pathToTmpFolder = NULL,
+    # path to the existing exercises
     pathExercisesGiven = NULL,
+    # path to the templates
     pathTemplatesGiven = NULL,
+    # possible exercises (are already choosen but not stored in an exam)
     possibleExerciseList = data.frame(Foldername=character(), Filename=character()),
+    # selected exercises (are stored in an exam)
     selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    # exercises from path pathExercisesGiven
     givenExercises = NULL,
+    # list of possible formats for export
     formatList = c(),
+    # list of seeds (vector with three elements - more elements are ignored)
     seedList = c()
   )
-  
+ 
+  # Observer to store the parameters given to the app in reactive values 
+  # using the values directly in the reactive values did not work in all cases
   observe({
     reactVals$pathToTmpFolder = makeTmpPath()
     reactVals$pathExercisesGiven = file.path(locationExercises)
@@ -73,28 +85,35 @@ server <- function(input, output, session){
     reactVals$seedList = c(845934, 9468946, 2039589)
   })
   
-  #Observes the output of the loadTab - at the moment it is only the selectedFiles table
+  # Observes the output of the load tab
   observe({
     reactVals$possibleExerciseList = modifiedDataLoadTab()
   })
   
+  # Observes the output of the choose tab
   observe({
     reactVals$selectedExerciseList = modifiedDataChooseTab()
   })
   
+  # Observes the output of the add points tab
   observe({
     reactVals$selectedExerciseList = modifiedDataAddPointsTab()
   })
-
+  
+  # call the server logic of the load tab and store the returned value
   modifiedDataLoadTab = callModule(loadTabLogic, "loadTab", reactive(reactVals$pathExercisesGiven), reactive(reactVals$pathToTmpFolder), 
                                   reactive(reactVals$possibleExerciseList), reactive(reactVals$givenExercises))
   
+  # call the server logic of the choose tab and store the returned value
   modifiedDataChooseTab = callModule(chooseTabLogic, "chooseTab", reactive(reactVals$pathToTmpFolder), reactive(reactVals$possibleExerciseList),
                                     reactive(reactVals$selectedExerciseList), reactive(reactVals$seedList))
   
- modifiedDataAddPointsTab = callModule(addPointsTabLogic, "addPointsTab", reactive(reactVals$selectedExerciseList))
+  # call the server logic of the add points tab and store the returned value
+  modifiedDataAddPointsTab = callModule(addPointsTabLogic, "addPointsTab", reactive(reactVals$selectedExerciseList))
   
-  callModule(exportTabLogic, "exportTab", reactive(reactVals$selectedExerciseList), reactive(reactVals$formatList), reactive(reactVals$pathTemplatesGiven), reactive(reactVals$pathToTmpFolder))
+  # call the server logic of the export tab
+  callModule(exportTabLogic, "exportTab", reactive(reactVals$selectedExerciseList), reactive(reactVals$formatList), reactive(reactVals$pathTemplatesGiven), 
+             reactive(reactVals$pathToTmpFolder), reactive(reactVals$seedList))
   
 }
 

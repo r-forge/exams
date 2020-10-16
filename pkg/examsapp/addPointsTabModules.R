@@ -47,13 +47,17 @@ addPointsTabUI <- function(id){
 addPointsTabLogic <- function(input, output, session, selectedExerciseList){
   
   reactVals <- reactiveValues(
+    # dataframe which holds all saved exams (including numeration, seeds, blocking and points)
     selectedExerciseDF = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    # temporary dataframe to do not corrupt the real data, before the points are stored
     tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
-    #tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
-    #examExercisesList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), ExamName=character(), Points=numeric()),
+    # list of exam names for the drop down (is built dynamically)
     examNames = c("---")
   )
   
+  # Observer to store the parameters given by the function addPointsTabLogic(...) in reactive values
+  # using reactive values for the data was in the test cases more convenient and furthermore a
+  # standardizesed pattern to call the data is given 
   observe({
     reactVals$selectedExerciseDF = selectedExerciseList()
     reactVals$examNames = as.vector(unique(c(reactVals$examNames, as.vector(unique(reactVals$selectedExerciseDF$ExamName)))))
@@ -61,9 +65,12 @@ addPointsTabLogic <- function(input, output, session, selectedExerciseList){
     updateSelectInput(session, "selectExercise", choices = reactVals$examNames, selected = tmpExam)
   })
   
+  # Observer: Click on "Set Points"
+  # the points from the numeric input are assigned to the selected exercises
+  # blocked exercises get automatically the same amount of points, even if they are not all selected
   observeEvent(input$setPoints, {
     req(input$pointsExercise)
-    if(is.null(input$pointsExercise)){
+    if(is.null(input$pointsExercise) || !is.numeric(input$pointsExercise)){
       showNotification("Please enter a positive number as points.", type = c("error"))
     }
     else{
@@ -79,27 +86,32 @@ addPointsTabLogic <- function(input, output, session, selectedExerciseList){
     }
   })
   
+  # Observer: Drop Down to select an exam
+  # the data of the selected exam is copied to the temporary dataframe to work on this
   observeEvent(input$selectExercise, {
     if(input$selectExercise != "---"){
       examName = input$selectExercise
       reactVals$tmpExamExercises = reactVals$selectedExerciseDF[which(reactVals$selectedExerciseDF$ExamName == examName),]
     }
     else{
-      reactVals$tmpExamExercises = matrix(c("","","","","",""), nrow = 1, ncol=6, byrow = TRUE)
-      colnames(reactVals$tmpExamExercises) = c("Foldername", "Filename", "Number", "Seed", "ExamName", "Points")
+      reactVals$tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric())
     }
   })
   
+  # Observer: Click on "Save Exam"
+  # the points from the temporary dataframe are used to update the "exam-dataframe"
   observeEvent(input$saveExam, {
     examName = input$selectExercise
     reactVals$selectedExerciseDF[which(reactVals$selectedExerciseDF$ExamName == examName),6] = reactVals$tmpExamExercises$Points
-    #print(reactVals$selectedExerciseDF)
   })
   
+  # Table-Output: the exercises of the selected exam are shown
   output$exerciseSelector <- renderDataTable({
     reactVals$tmpExamExercises[,c(1,2,3,6)]
   })
   
+  # Return-Value of the module
+  # the saved exams with points (dataframe) will be returned
   return(
     selectedExerciseDF = reactive({reactVals$selectedExerciseDF})
   )
