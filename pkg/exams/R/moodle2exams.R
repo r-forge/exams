@@ -113,7 +113,7 @@ exsolution: %s
         b64f <- regmatches(dfl, gregexpr('(?<=href=").*?(?=")', dfl, perl = TRUE))[[1L]]
         fname <- regmatches(dfl, gregexpr('(?<=download=").*?(?=")', dfl, perl = TRUE))[[1L]]
         b64f <- paste0(b64f, "'")
-        b64f <- regmatches(b64f, gregexpr("(?<=,).*?(?=')", b64f, perl = TRUE))[[1L]] ## FIXME!
+        b64f <- regmatches(b64f, gregexpr("(?<=,).*?(?=')", b64f, perl = TRUE))[[1L]]
         b64fd <- base64enc::base64decode(b64f)
         writeBin(b64fd, file.path(dir, fname))
         x <- gsub(paste0('href="', b64f, '"'), paste0('href="', file.path(dir, fname), '"'), x, fixed = TRUE)
