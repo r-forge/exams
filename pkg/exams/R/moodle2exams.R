@@ -94,7 +94,7 @@ exsolution: %s
               ftext <- xml2::xml_text(pfnn[f])
               b64f <- base64enc::base64decode(ftext)
               writeBin(b64f, file.path(dir, bnf))
-              x <- gsub(paste0("@@PLUGINFILE@@/", bnf), file.path(dir, bnf), x, fixed = TRUE)
+              x <- gsub(paste0("@@PLUGINFILE@@/", bnf), bnf, x, fixed = TRUE)
               xml2::xml_remove(pfnn[f])
               x <- xml2::xml_text(xml)
               supps <- c(supps, bnf)
@@ -103,7 +103,7 @@ exsolution: %s
         }
       }
       if(any(grepl("@@PLUGINFILE@@/", x, fixed = TRUE))) {
-        x <- gsub("@@PLUGINFILE@@", file.path(dir), x, fixed = TRUE)
+        x <- gsub("@@PLUGINFILE@@/", "", x, fixed = TRUE)
       }
     }
     if(length(i <- grep('href="data:text', x, fixed = TRUE))) {
@@ -116,7 +116,7 @@ exsolution: %s
         b64f <- regmatches(b64f, gregexpr("(?<=,).*?(?=')", b64f, perl = TRUE))[[1L]]
         b64fd <- base64enc::base64decode(b64f)
         writeBin(b64fd, file.path(dir, fname))
-        x <- gsub(paste0('href="', b64f, '"'), paste0('href="', file.path(dir, fname), '"'), x, fixed = TRUE)
+        x <- gsub(paste0('href="', b64f, '"'), paste0('href="', fname, '"'), x, fixed = TRUE)
         supps <- c(supps, fname)
       }
     }
@@ -254,11 +254,17 @@ exsolution: %s
         ""
       }
 
+      if(type[i] %in% c("singlechoice", "multichoice") & (length(solutions) < 1)) {
+        solutions <- as.list(ifelse(sol, "True", "False"))
+      }
+
       ## insert information into template
       exrc[[i]] <- sprintf(tmpl,
         paste(qtext, collapse = "\n"),
-	if(type[i] == "multichoice") paste(c("", answerlist_env(answers)), collapse = "\n") else "",
-        if(length(solutions) >= 1L || !is.null(feedback)) paste(solution_env(solutions, feedback), collapse = "\n") else "",
+	if(type[i] %in% c("singlechoice", "multichoice"))
+    paste(c("", answerlist_env(answers)), collapse = "\n") else "",
+      if(length(solutions) >= 1L || !is.null(feedback))
+        paste(solution_env(solutions, feedback), collapse = "\n") else "",
 	if(names[i] == "") exname else names[i],
 	extype,
 	exsol,
