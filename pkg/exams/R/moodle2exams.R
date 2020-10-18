@@ -116,7 +116,8 @@ exsolution: %s
         b64f <- regmatches(b64f, gregexpr("(?<=,).*?(?=')", b64f, perl = TRUE))[[1L]]
         b64fd <- base64enc::base64decode(b64f)
         writeBin(b64fd, file.path(dir, fname))
-        x <- gsub(paste0('href="', b64f, '"'), paste0('href="', fname, '"'), x, fixed = TRUE)
+        x <- gsub(paste0('href="', paste0("data:text/csv;base64,", b64f), '"'),
+          paste0('href="', fname, '"'), x, fixed = TRUE)
         supps <- c(supps, fname)
       }
     }
