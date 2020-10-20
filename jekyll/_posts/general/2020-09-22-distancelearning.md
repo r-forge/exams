@@ -56,6 +56,7 @@ But in addition to these materials that we developed, many R/exams users stepped
 * Estadística útil (YouTube videos, in Spanish): [Package](https://www.youtube.com/watch?v=nL7iZhFJY1Y), [Installation](https://www.youtube.com/watch?v=YXuFFZK1gwE), [First steps](https://www.youtube.com/watch?v=BccEnoS2T6c), [Single choice](https://www.youtube.com/watch?v=UmX-RItyyQs), [Written exams](https://www.youtube.com/watch?v=fBIdJGphxGE), [Moodle exams](https://www.youtube.com/watch?v=6sv71iyYV1U).
 * Pedro Luis Luque Calvo (YouTube video and blog, in Spanish): [Online tests in Blackboard](https://www.youtube.com/watch?v=X6dBJmzCAzE), [blog post](http://destio.us.es/calvo/post/2020-05-01-como-crear-examenes-con-rexams-y-rmarkdown/como-crear-examenes-con-rexams-y-rmarkdown/).
 * Kenji Sato (blog posts, in Japanese or English): [Part 1](https://www.kenjisato.jp/post/2020/08/rexams-online-1/), [Part 2](https://www.kenjisato.jp/post/2020/08/rexams-online-2/), [Part 3](https://www.kenjisato.jp/post/2020/09/rexams-online-3/), [bordered tables](https://kenjisato.jp/en/post/2020/07/moodle-bordered-table/).
+* Faisal Almalki (YouTube video and supporting materials, in Arabic): [Online tests in Blackboard](https://www.youtube.com/watch?v=rl64n_wexfY), [slides]({{ site.url }}/assets/posts/2020-09-22-distancelearning/Almalki.pdf), [exercises](https://github.com/falmalki/Rexams_Tutorial/).
 
 
 ## At Universität Innsbruck
