@@ -21,7 +21,7 @@
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
     points = NULL, eval = list(partial = TRUE, negative = FALSE),
     converter = "pandoc-mathjax", xmlcollapse = TRUE,
-    solutionmetadata = FALSE, \dots)
+    metasolution = FALSE, \dots)
 }
 
 \arguments{
@@ -92,7 +92,7 @@
   \item{xmlcollapse}{logical or character. Should line breaks be collapsed in the XML
     code. If \code{TRUE} everything is collapsed with spaces (\code{" "}) but other collapse
     characters could be supplied.}
-  \item{solutionmetadata}{logical. Should the solution be added to the XML
+  \item{metasolution}{logical. Should the solution be added to the XML
     output as qtimetadata tag? This currently only works for essay questions.}
   \item{\dots}{further arguments passed on to \code{make_exercise_transform_html}.}
 }
