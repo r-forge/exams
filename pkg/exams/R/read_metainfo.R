@@ -204,7 +204,8 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
         "string" = exsolution[[i]],
         "verbatim" = exsolution[[i]])
       exsolution
-    })
+    }
+  )
   slength <- length(exsolution)
 
   ## lower/upper tolerance value
@@ -216,22 +217,31 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   }
 
   ## compute "nice" string for printing solution in R
-  string <- switch(extype,
-    "schoice" = paste(exname, ": ", which(exsolution), sep = ""),                                                      ## FIXME: currently fixed
-    "mchoice" = paste(exname, ": ", paste(if(any(exsolution)) which(exsolution) else "-", collapse = ", "), sep = ""), ## FIXME: currently fixed
-    "num" = if(max(extol) <= 0) {
-      paste(exname, ": ", exsolution, sep = "")
-    } else {
-      if(slength == 1L) {
-        paste(exname, ": ", exsolution, " (", exsolution - extol, "--", exsolution + extol, ")", sep = "")
+  sol_to_string <- function(sol, type, tol = 0) {
+    slength <- length(sol)
+    switch(type,
+      "schoice" = if(slength <= 26L) letters[which(sol)] else paste0(which(sol)), ## FIXME: currently fixed
+      "mchoice" = if(all(!sol)) "-" else paste0(if(slength <= 26L) letters[which(sol)] else which(sol), collapse = ", "), ## FIXME: currently fixed
+      "num" = if(max(tol) <= 0) {
+        paste0(sol)
       } else {
-	paste(exname, ": [", exsolution[1L], ", ", exsolution[2L], "] ([", exsolution[1L] - extol[1L], "--", exsolution[1L] + extol[1L], ", ",
-	  exsolution[2L] - extol[2L], "--", exsolution[2L] + extol[2L], "])", sep = "")
-      }
-    },
-    "string" = paste(exname, ": ", paste(exsolution, collapse = "\n"), sep = ""),
-    "cloze" = paste(exname, ": ", paste(sapply(exsolution, paste, collapse = ", "), collapse = " | "), sep = "")
-  )
+        if(slength == 1L) {
+          paste0(sol, " (", sol - tol, "--", sol + tol, ")")
+        } else {
+	  paste0("[", sol[1L], ", ", sol[2L], "] ([", sol[1L] - tol[1L], "--", sol[1L] + tol[1L], ", ",
+	    sol[2L] - tol[2L], "--", sol[2L] + tol[2L], "])")
+        }
+      },
+      "string" = paste0(sol, collapse = "\n"),
+      paste0(sapply(sol, paste0, collapse = ", "), collapse = " | ")
+    )
+  }
+  string <- if(extype == "cloze") {
+    paste0(sapply(seq_along(exclozetype), function(i) sol_to_string(exsolution[[i]], exclozetype[i], tol = extol[i])), collapse = " | ")
+  } else {
+    sol_to_string(exsolution, extype, tol = extol)
+  }
+  string <- paste0(exname, ": ", string)
 
   ## points should be a vector for cloze
   if(!is.null(expoints) & extype == "cloze") {

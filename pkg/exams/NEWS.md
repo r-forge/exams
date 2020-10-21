@@ -120,6 +120,12 @@
   If a negative value is provided by the exercise, a warning is issued and 0
   is used instead.
 
+* Improved the `string` representation in `metainfo` of exercises and corresponding
+  printing in `print.exams_metainfo()`. For cloze exercises tolerances of numeric
+  elements are reported. For single-choice and multiple-choice exercises lower-case
+  letters (instead of integer indexes) are used to incide the correct elements
+  (provided that there are not more than 26 elements).
+
 
 # exams 2.3-6
 

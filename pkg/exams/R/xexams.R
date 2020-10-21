@@ -290,7 +290,10 @@ print.exams_metainfo <- function(x, which = NULL, block = NULL, ...) {
   for(i in which) {
     cat("\n", i, "\n", sep = "")
     for(j in 1L:n) {
-      cat("    ", format(c(n, j))[-1L], ". ", x[[i]][[j]]$string, "\n", sep = "")
+      writeLines(strwrap(
+        paste0(j, ". ", x[[i]][[j]]$string),
+	indent = 4 + nchar(format(n)) - nchar(format(j)), exdent = 6 + nchar(format(n))
+      ))
       if(!is.null(block) && j %% as.integer(block) == 0L) cat("\n")
     }
   }

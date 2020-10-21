@@ -69,11 +69,12 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
     solutionlist <- solutionlist[o]
     metainfo$solution <- metainfo$solution[o]
     metainfo$tolerance <- metainfo$tolerance[o]
+    ## adapted from read_metainfo
+    s <- if(length(metainfo$solution) <= 26) letters[which(metainfo$solution)] else which(metainfo$solution)
     metainfo$string <- if(metainfo$type == "schoice") {
-      ## copied from read_metainfo
-      paste(metainfo$name, ": ", which(metainfo$solution), sep = "")
+      paste(metainfo$name, ": ", s, sep = "")
     } else {
-      paste(metainfo$name, ": ", paste(if(any(metainfo$solution)) which(metainfo$solution) else "-", collapse = ", "), sep = "")
+      paste(metainfo$name, ": ", paste(if(any(metainfo$solution)) s else "-", collapse = ", "), sep = "")
     }
     metainfo$length <- length(questionlist)
   }
