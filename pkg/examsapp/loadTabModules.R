@@ -7,8 +7,10 @@ loadTabUI <- function(id){
   
   ns = NS(id)
   tabPanel("Load Exercises",
+   # tags$head(tags$style(HTML(".checkbox {margin-left:15px}"))),
     tagList(
-      fluidRow(
+      fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+        ## FS: Option shinyTree
         column(6,
                DT::dataTableOutput(ns("folderSelector"))
         ),
@@ -19,13 +21,34 @@ loadTabUI <- function(id){
       br(),
       br(),
       fluidRow(
-        column(6),
+        column(6,
+          fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',checkboxInput(ns("loadSingleFile"), label = "load exercise from local storage"),
+                   conditionalPanel(condition = "input.loadSingleFile == 1",
+                                    ns = ns,
+                                    column(6,
+                                           fileInput(ns("inputLocalFile"), label="", multiple = FALSE, accept = c(".Rmd", ".Rnw"))
+                                    ),
+                                    column(6,align="right",
+                                           br(),
+                                           actionButton(ns("addLocalExercise"), label = "Add exercise")
+                                    )
+                                    
+                   ))),
+          fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',
+               checkboxInput(ns("addedExerciseShow"), label = "Show added exercise(s)", value = FALSE),
+               conditionalPanel(condition = "input.addedExerciseShow == 1",
+                                ns = ns,
+                                DT::dataTableOutput(ns("outputAddedFiles"))
+               )
+               ))
+          ),
         column(6,
                
                column(6,
-                      actionButton(ns("previewShow"), label = "Show Preview")
+                     # actionButton(ns("previewShow"), label = "Show Preview")
+                     checkboxInput(ns("previewShow"), label = "Show Preview", value = FALSE)
                ),
-               column(6,
+               column(6,align="right",
                       actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)")
                ),
                br(),
@@ -33,33 +56,8 @@ loadTabUI <- function(id){
                uiOutput(ns("player"), inline = TRUE, container = div)
                
         )
-      ),
-      fluidRow(
-        checkboxInput(ns("addedExerciseShow"), label = "Show added exercise(s)", value = FALSE),
-        
-        conditionalPanel(condition = "input.addedExerciseShow == 1",
-                         ns = ns,
-                         DT::dataTableOutput(ns("outputAddedFiles"))
-                         
-        ),
-        
-        checkboxInput(ns("loadSingleFile"), label = "load exercise from local storage"),
-        
-        conditionalPanel(condition = "input.loadSingleFile == 1",
-                         ns = ns,
-                         column(9,
-                                fileInput(ns("inputLocalFile"), label="", multiple = FALSE, accept = c(".Rmd", ".Rnw"))
-                         ),
-                         column(3,
-                                br(),
-                                actionButton(ns("addLocalExercise"), label = "Add exercise")
-                         )
-                         
-        )
-        
-        
-      )
     )
+  )
   )
 }
 
@@ -141,7 +139,8 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
   # every button has a counter, which is increased by 1 on every click
   # the setPreview-Flag only checks if the counter is divisible by two
   observeEvent(input$previewShow, {
-    reactVals$setPreview = as.numeric(input$previewShow) %% 2 == 1
+    # reactVals$setPreview = as.numeric(input$previewShow) %% 2 == 1
+    reactVals$setPreview = input$previewShow == 1
   })
   
   # Table-Output: shows all of the folder from given exercises
@@ -211,7 +210,7 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
           n = c(which(html == "<body>"), length(html))
           html = c(
             html[1L:n[1L]],                  ## header
-            '<div style="border: 1px solid black;border-radius:5px;padding:8px;margin:8px;">', ## border
+            '<div style="border: 1px solid #5e5e5e;border-radius:5px;padding:8px;margin:8px;">', ## border
             html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
             '</div>', '</br>',               ## border
             html[(n[2L] - 1L):(n[2L])]       ## footer
