@@ -479,16 +479,18 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 	    ## - MULTIRESPONSE for mchoice items
 	    ## - MULTICHOICE_V for schoice items with math markup \(...\) which isn't supported in drop-down menus
 	    ## - MULTICHOICE for all other schoice items
-	    cloze_mchoice_display <- if(x$metainfo$clozetype[i] == "mchoice") {
+	    cloze_mchoice_display_i <- if(x$metainfo$clozetype[i] == "mchoice") {
 	      "MULTIRESPONSE"
 	    } else if(any(grepl("\\(", ql, fixed = TRUE) & grepl("\\)", ql, fixed = TRUE))) {
 	      "MULTICHOICE_V"
 	    } else {
 	      "MULTICHOICE"
 	    }
+	  } else {
+	    cloze_mchoice_display_i <- cloze_mchoice_display
 	  }
 	  ## FIXME: Warn if the selected display option cannot work? (e.g., mchoice or math?)
-          tmp <- paste('{', points2[i], ':', cloze_mchoice_display, ':', sep = '')
+          tmp <- paste('{', points2[i], ':', cloze_mchoice_display_i, ':', sep = '')
 
           ## set up Moodle percent fractions for correct and incorrect items
 	  ## -> use "=" instead of "%...%" for correct items if they sum up to 100%
@@ -561,7 +563,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       ## add abstention option (if any)
 #      if(abstention != "") {
 #        qtext <- c(qtext,
-#          paste0('<p>', abstention, ' {0:', cloze_mchoice_display, ':%100%', truefalse[1], '~%0%', truefalse[2], '} </p>')
+#          paste0('<p>', abstention, ' {0:', cloze_mchoice_display_i, ':%100%', truefalse[1], '~%0%', truefalse[2], '} </p>')
 #        )
 #      }
       xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml, fixed = TRUE)
