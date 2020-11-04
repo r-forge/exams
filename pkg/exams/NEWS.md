@@ -126,6 +126,11 @@
   letters (instead of integer indexes) are used to incide the correct elements
   (provided that there are not more than 26 elements).
 
+* `matrix_to_mchoice()` gained a new argument `restricted = FALSE` which can
+  be set to `TRUE` in order to assure that there is at least one correct and one
+  wrong solution/comparison in the list of choice items. The option
+  `restricted = TRUE` is used in the `cholesky.Rmd`/`cholesky.Rnw` exercise now.
+
 
 # exams 2.3-6
 
