@@ -11,7 +11,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
   converter = "pandoc-mathjax", xmlcollapse = TRUE,
-  solutionmetadata = FALSE, ...)
+  metasolution = FALSE, ...)
 {
   ## assure a certain processing of items for Ilias
   if(is.null(num)) {
@@ -98,8 +98,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     writeLines(xml, file.path(name, paste0(name, "_qpl.xml")))
 
     ## Add solution to xml as qtimetadata
-    if(solutionmetadata)
-      solution_to_qtimetadata(name, rval)
+    if(metasolution) solution_to_qtimetadata(name, rval)
 
     file.remove(zipfile)
     file.rename(name, paste0(name, "_qpl"))
