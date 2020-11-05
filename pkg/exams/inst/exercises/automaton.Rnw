@@ -49,7 +49,7 @@ n0 <- sapply(sequences, length) - n1
 sol <- (even0 == (n0 %% 2L < 1L)) & (even1 == (n1 %% 2L < 1L))
 sequences <- sapply(sequences, paste, collapse = "")
 
-ok <- all(!duplicated(sequences))
+ok <- all(!duplicated(sequences)) && any(sol) && any(!sol)
 }
 @
 

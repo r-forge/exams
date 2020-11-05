@@ -126,6 +126,15 @@
   letters (instead of integer indexes) are used to incide the correct elements
   (provided that there are not more than 26 elements).
 
+* In all `mchoice` exercise templates provided within the package it is now assured
+  that there is at least one correct and one wrong choice item. This is necessary
+  for some learning management systems like Moodle or Canvas because otherwise they
+  cannot be scored correctly (specifically when using partial credits). This
+  necessitated changes in the following exercise templates in the package: anova,
+  automaton, boxplots, cholesky, relfreq, scatterplot. Consequently, these templates
+  are not fully backward compatible with their earlier versions. Further improvements
+  were made in automaton and relfreq.
+
 * `matrix_to_mchoice()` gained a new argument `restricted = FALSE` which can
   be set to `TRUE` in order to assure that there is at least one correct and one
   wrong solution/comparison in the list of choice items. The option
