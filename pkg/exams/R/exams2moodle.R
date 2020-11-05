@@ -214,7 +214,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 ## Moodle question constructor function (originally for Moodle 2.3)
 make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
-  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL,
+  answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
   truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
   essay = NULL, numwidth = NULL, stringwidth = NULL)
@@ -474,20 +474,36 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             ## to escape closing curly brackets in the questionlist
             ql <- gsub("}", "\\}", ql, fixed = TRUE)
           }
-	  if(is.null(cloze_mchoice_display)) {
-	    ## default display options:
-	    ## - MULTIRESPONSE for mchoice items
-	    ## - MULTICHOICE_V for schoice items with math markup \(...\) which isn't supported in drop-down menus
-	    ## - MULTICHOICE for all other schoice items
-	    cloze_mchoice_display_i <- if(x$metainfo$clozetype[i] == "mchoice") {
-	      "MULTIRESPONSE"
+
+          ## Moodle multiple-choice and single-choice displays
+          moodle_schoice_display <- c("MULTICHOICE", "MC", "MULTICHOICE_V", "MCV", "MULTICHOICE_H", "MCH",
+	    "MULTICHOICE_S", "MCS", "MULTICHOICE_VS", "MCVS", "MULTICHOICE_HS", "MCHS")
+          moodle_mchoice_display <- c("MULTIRESPONSE", "MR", "MULTIRESPONSE_H", "MRH", "MULTIRESPONSE_S", "MRS", "MULTIRESPONSE_HS", "MRHS")
+          ## select display type, defaults:
+	  ## - MULTIRESPONSE for mchoice items
+	  ## - MULTICHOICE_V for schoice items with math markup \(...\) which isn't supported in drop-down menus
+	  ## - MULTICHOICE for all other schoice items
+          if(x$metainfo$clozetype[i] == "mchoice") {
+	    cloze_mchoice_display_i <- if(is.null(cloze_mchoice_display)) "MULTIRESPONSE" else cloze_mchoice_display
+	    if(cloze_mchoice_display_i %in% moodle_schoice_display) {
+	      warning("MULTICHOICE-type displays should not be used for mchoice items, maybe it was intended to specify 'cloze_schoice_display'?")
+	    }
+	  } else {
+	    ## try to catch old-style cloze_mchoice_display for schoice elements
+	    if(x$metainfo$clozetype[i] == "schoice" &&
+	       is.null(cloze_schoice_display) &&
+	       !is.null(cloze_mchoice_display) &&
+	       cloze_mchoice_display %in% moodle_schoice_display) {
+	      warning("MULTICHOICE-type display was specified in 'cloze_mchoice_display' rather than 'cloze_schoice_display'")
+	      cloze_schoice_display <- cloze_mchoice_display
+	    }
+	    cloze_mchoice_display_i <- if(!is.null(cloze_schoice_display)) {
+	      cloze_schoice_display
 	    } else if(any(grepl("\\(", ql, fixed = TRUE) & grepl("\\)", ql, fixed = TRUE))) {
 	      "MULTICHOICE_V"
 	    } else {
 	      "MULTICHOICE"
 	    }
-	  } else {
-	    cloze_mchoice_display_i <- cloze_mchoice_display
 	  }
 	  ## FIXME: Warn if the selected display option cannot work? (e.g., mchoice or math?)
           tmp <- paste('{', points2[i], ':', cloze_mchoice_display_i, ':', sep = '')

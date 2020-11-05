@@ -40,11 +40,16 @@
     By default they are shown as `MULTIRESPONSE` checkboxes and employ
     Moodle's default evaluation strategy where each incorrect box eliminates
     one correct box. A different evaluation strategy can, in principle, be
-    chosen but Moodle does not process all negative points correctly.
+    chosen but Moodle might not process all negative points correctly.
   - `schoice` elements in `cloze` questions are still rendered as
-    `MULTICHOICE` drop-down menus unless they contain math markup.
+    `MULTICHOICE` drop-down menus by default unless they contain math markup.
     As this is not rendered by Moodle in drop-down menus, a `MULTICHOICE_V`
     column of radio buttons is used in this case.
+  - To allow for customization of both `mchoice` and `schoice` elements in
+    `cloze` questions, the are now both `cloze_mchoice_display` and
+    `cloze_schoice_display` arguments. This is not fully backward compatible
+    because in previous versions `cloze_mchoice_display` was also used to
+    customize `schoice` elements. Now a warning is issued in this case.
   - If choice items contained closing curly brackets, these would typically
     corrupt Moodle's embedded answers for `cloze` questions which relies on
     curly brackets. Hence, these are properly escaped now.

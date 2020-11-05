@@ -22,7 +22,7 @@
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
-    usecase = FALSE, cloze_mchoice_display = NULL,
+    usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
     truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
     eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
     essay = NULL, numwidth = NULL, stringwidth = NULL)
@@ -94,8 +94,8 @@
   \item{answernumbering}{character. Specifies how choice questions should be numbered,
     allowed values are: \code{"abc"} (default), \code{"ABCD"}, \code{"123"} or \code{"none"}.}
   \item{usecase}{logical. Should string questions be case sensitive or not.}
-  \item{cloze_mchoice_display}{character. In \code{cloze} type questions, the user may set the
-    visual appearance of choice questions. If \code{NULL} (default),
+  \item{cloze_mchoice_display, cloze_schoice_display}{character. In \code{cloze} type questions,
+    the user may set the visual appearance of choice questions. If \code{NULL} (default),
     \code{"MULTIRESPONSE"} (column of checkboxes) is used for \code{mchoice} questions and
     \code{"MULTICHOICE"} (drop-down menu) for \code{schoice} questions unless math markup is present in the question list.
     The latter is not rendered in drop-down menus and hence \code{"MULTICHOICE_V"} (radio buttons, vertical column) are used.
