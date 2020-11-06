@@ -129,7 +129,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       collapse = "}{"), "}", sep = "")
     rval 
   }
-  string2quest <- function(x) paste("  \\item \\exstring{", x, "}", sep = "")  
+  string2quest <- function(x) paste("  \\item \\exstring{", gsub("_", "\\_", x, fixed = TRUE), "}", sep = "")  
   cloze2quest <- function(x, type) paste(
       "  \\item \n",
       "  \\begin{enumerate}\n   ",

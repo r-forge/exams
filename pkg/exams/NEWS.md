@@ -145,6 +145,9 @@
   wrong solution/comparison in the list of choice items. The option
   `restricted = TRUE` is used in the `cholesky.Rmd`/`cholesky.Rnw` exercise now.
 
+* In `exams2pdf()` when auto-generating a questionnaire, the `_` is now escaped
+  within the `\exstring{}` command.
+
 
 # exams 2.3-6
 
