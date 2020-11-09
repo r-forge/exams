@@ -35,7 +35,7 @@ loadTabUI <- function(id){
                                     
                    ))),
           fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',
-               checkboxInput(ns("addedExerciseShow"), label = "Show added exercise(s)", value = FALSE),
+               checkboxInput(ns("addedExerciseShow"), label = "Show added exercise(s)", value = TRUE),
                conditionalPanel(condition = "input.addedExerciseShow == 1",
                                 ns = ns,
                                 DT::dataTableOutput(ns("outputAddedFiles"))
@@ -46,7 +46,7 @@ loadTabUI <- function(id){
                
                column(6,
                      # actionButton(ns("previewShow"), label = "Show Preview")
-                     checkboxInput(ns("previewShow"), label = "Show Preview", value = FALSE)
+                     checkboxInput(ns("previewShow"), label = "Show Preview", value = TRUE)
                ),
                column(6,align="right",
                       actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)")
@@ -174,7 +174,7 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
       colnames(m) = c("Choose exercises")
       return(m)
     }
-  }, option = list(pageLength = 5))
+  }, selection = ifelse(reactVals$setPreview,'single','multiple'), option = list(pageLength = 5))
   
   # Table-Output: selected exercises are displayed
   output$outputAddedFiles <- renderDataTable({
