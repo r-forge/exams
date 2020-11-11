@@ -34,11 +34,13 @@ loadTabUI <- function(id){
                                     )
                                     
                    ))),
-          fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',
+          fluidRow(column(12,style='margin: 5px; padding:5px; border: 2px solid #5e5e5e; border-radius: 5px;',
                checkboxInput(ns("addedExerciseShow"), label = "Show added exercise(s)", value = TRUE),
                conditionalPanel(condition = "input.addedExerciseShow == 1",
                                 ns = ns,
-                                DT::dataTableOutput(ns("outputAddedFiles"))
+                                column(12,DT::dataTableOutput(ns("outputAddedFiles"))),
+                                br(),
+                                column(12,align="right",actionButton(ns("deleteAddedExerciseFromList"), label = "Delete Exercise"))
                )
                ))
           ),
@@ -143,6 +145,19 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
     reactVals$setPreview = input$previewShow == 1
   })
   
+  # Observer: Click on "Delete Exercises"
+  # one or more exercises should be selected
+  observeEvent(input$deleteAddedExerciseFromList, {
+    rowNumbers = as.vector(input$outputAddedFiles_rows_selected)
+    if(!is.null(rowNumbers)){
+      baseData = reactVals$selectedFiles
+      # the selected exercises are removed
+      baseData = baseData[-rowNumbers,]
+      reactVals$selectedFiles = baseData
+      row.names(reactVals$selectedFiles) = NULL
+    }
+  })
+
   # Table-Output: shows all of the folder from given exercises
   # only a single choice is possible
   output$folderSelector <- renderDataTable({
