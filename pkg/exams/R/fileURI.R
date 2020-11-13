@@ -27,7 +27,8 @@
   "tsv", "text/tab-separated-values",
   "xls", "application/vnd.ms-excel",
   "xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "zip", "application/zip"
+  "zip", "application/zip",
+  "r",   "text/plain"
 
 ), ncol = 2L, byrow = TRUE, dimnames = list(NULL, c("ext", "mime")))
 
