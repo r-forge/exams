@@ -8,15 +8,22 @@
   "jpeg","image/jpeg",
   "gif", "image/gif",
   "svg", "image/svg+xml",
+  "wmf", "application/x-msmetafile",
 
   "doc", "application/msword",
   "docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   "htm", "text/html",
   "html","text/html",
   "pdf", "application/pdf",
+  "rtf", "application/rtf",
   "tex", "application/x-tex",
   "txt", "text/plain",
   "xml", "application/xml",
+
+  "c",   "text/plain",
+  "py",  "text/plain",
+  "r",   "text/plain",
+  "rmd", "text/plain",
 
   "csv", "text/csv",
   "dta", "application/octet-stream",
@@ -27,8 +34,7 @@
   "tsv", "text/tab-separated-values",
   "xls", "application/vnd.ms-excel",
   "xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "zip", "application/zip",
-  "r",   "text/plain"
+  "zip", "application/zip"
 
 ), ncol = 2L, byrow = TRUE, dimnames = list(NULL, c("ext", "mime")))
 
