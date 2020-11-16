@@ -371,6 +371,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             if(!is.null(essay[[i]])) essay_opts[[i]] <- essay[[i]]
         }
 
+        if((essay_opts$fieldlines < 1) | !essay_opts$required) {
+          essay_opts$required <- FALSE
+          essay_opts$format <- "noinline"
+        }
+
         txt <- paste0(
             "<responseformat>", essay_opts$format, "</responseformat>\n",
             "<responserequired>", as.integer(essay_opts$required), "</responserequired>\n",
