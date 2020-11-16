@@ -60,7 +60,12 @@ exsolution: %s
   
   solution_env <- function(solutions, feedback) {
     if(length(solutions) > 0L) solutions <- answerlist_env(solutions)
+    if(any(grepl("answerlist", tolower(feedback)))) {
+      solutions <- feedback
+      feedback <- NULL
+    }
     solutions <- c(feedback, solutions)
+    solutions <- solutions[!grepl("tightlist", solutions)]
     solutions <- if(markup == "markdown_strict") {
       c("Solution", "========", solutions)
     } else {
