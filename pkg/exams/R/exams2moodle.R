@@ -371,9 +371,13 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             if(!is.null(essay[[i]])) essay_opts[[i]] <- essay[[i]]
         }
 
-        if((essay_opts$fieldlines < 1) | !essay_opts$required) {
+        if((essay_opts$fieldlines < 1L) | !essay_opts$required) {
           essay_opts$required <- FALSE
           essay_opts$format <- "noinline"
+          essay_opts$attachmentsrequired <- TRUE
+          if(essay_opts$attachments < 1L) {
+            essay_opts$attachments <- 1L
+          }
         }
 
         txt <- paste0(
