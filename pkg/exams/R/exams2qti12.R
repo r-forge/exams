@@ -611,6 +611,10 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       } else NULL
     )
 
+    letters2 <- c(letters,
+      paste0(sort(rep(letters, length(letters))),
+      rep(letters, length(letters))))
+
     ## Canvas.
     multiple_dropdowns <- FALSE
 
@@ -648,7 +652,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             '<material>',
             '<mattext texttype="text/html" charset="utf-8"><![CDATA[',
              paste(if(enumerate & n > 1) {
-               paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
+               paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                  sep = "")
              } else NULL, questionlist[[i]][j]),
@@ -684,7 +688,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
             if(!qlc) {
               c('<material>',
                 paste('<mattext><![CDATA[', paste(if(enumerate & n > 1) {
-                  paste(letters[i], ".", sep = '')
+                  paste(letters2[i], ".", sep = '')
                 } else NULL, questionlist[[i]][j]), ']]></mattext>', sep = ""),
                 '</material>',
                 '<material>', '<matbreak/>', '</material>'
