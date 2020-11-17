@@ -568,19 +568,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     is_essay <- upfile <- rep(FALSE, n)
     upids <- rep(NA, n)
-
-    ## any uploads?
-    if(!is.null(x$metainfo$stringtype)) {
-      nstring <- sum(type == "string")
-      stype <- if(nstring != length(x$metainfo$stringtype)) {
-        rep(x$metainfo$stringtype, length.out = nstring)
-      } else {
-        x$metainfo$stringtype
-      }
-      i <- type == "string"
-      is_essay[i] <- stype == "essay"
-      upfile[i] <- stype == "file"
-    }
+    strcounter <- 0L
 
     for(i in 1:n) {
       ## get item id
@@ -676,7 +664,20 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i] & !upfile[i]) {
+        strcounter <- strcounter + 1L
+        ## any uploads?
+        if(!is.null(x$metainfo$stringtype)) {
+          nstring <- sum(type == "string")
+          if(nstring > length(x$metainfo$stringtype)) {
+            stype <- rep(x$metainfo$stringtype, length.out = nstring)
+            stype <- stype[strcounter]
+          } else {
+            stype <- x$metainfo$stringtype[strcounter]
+          }
+          is_essay[i] <- any(grepl("essay", stype, fixed = TRUE))
+          upfile[i] <- any(grepl("file", stype, fixed = TRUE))
+        }
+        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i]) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
@@ -688,21 +689,20 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             '</responseDeclaration>'
           )
         } else {
-          if(!upfile[i] & is_essay[i]) {
-            if(sum(!is.na(maxchars[[i]])) == 1) {
-              maxchars[[i]] <- c(1000, 10, 50)
-            }
-            ## Essay type questions.
-            xml <- c(xml,
-              paste('<responseDeclaration identifier="', ids[[i]]$response,
-                '" cardinality="single" baseType="string">', sep = ''),
-              ## '<correctResponse>', ## N, correct response seems not to work?
-              ## if(dopbl) process_html_pbl(x$solution) else x$solution,
-              ## paste('<value>', solution[[i]], '</value>', sep = ''),
-              ## '</correctResponse>',
-              '</responseDeclaration>'
-            )
+          is_essay[i] <- TRUE
+          if(sum(!is.na(maxchars[[i]])) == 1) {
+            maxchars[[i]] <- c(1000, 10, 50)
           }
+          ## Essay type questions.
+          xml <- c(xml,
+            paste('<responseDeclaration identifier="', ids[[i]]$response,
+              '" cardinality="single" baseType="string">', sep = ''),
+            ## '<correctResponse>', ## N, correct response seems not to work?
+            ## if(dopbl) process_html_pbl(x$solution) else x$solution,
+            ## paste('<value>', solution[[i]], '</value>', sep = ''),
+            ## '</correctResponse>',
+            '</responseDeclaration>'
+          )
         }
         if(upfile[i]) {
           upids[i] <- paste(iid, "RESPONSE", make_id(7), sep = "_")
@@ -748,10 +748,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(!is.null(x$question))
       xml <- c(xml, if(dopbl) process_html_pbl(x$question) else x$question)
 
-    letters2 <- c(letters,
-      paste0(sort(rep(letters, length(letters))),
-      rep(letters, length(letters))))
-
     for(i in 1:n) {
       ans <- any(grepl(paste0("##ANSWER", i, "##"), xml))
       if(length(grep("choice", type[i]))) {
@@ -763,7 +759,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
               if(!ans) '<p>' else NULL,
               paste(if(enumerate & !ans) {
-                paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
+                paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                   if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                     sep = "")
               } else NULL, questionlist[[i]][j]),
@@ -803,7 +799,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             if(!ans) '<p>' else NULL,
               if(!is.null(questionlist[[i]][j])) {
                 paste(if(enumerate & n > 1 & !ans) {
-                  paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
+                  paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                     if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                       sep = "")
                 } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
@@ -820,7 +816,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             if(!ans) '<p>' else NULL,
              if(!is.null(questionlist[[i]])) {
                 paste(if(enumerate & n > 1 & !ans) {
-                  paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
+                  paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                     if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(1, ".", sep = "") else NULL,
                       sep = "")
                 } else NULL, if(!is.na(questionlist[[i]])) questionlist[[i]] else NULL)
@@ -839,19 +835,17 @@ make_itembody_qti21 <- function(shuffle = FALSE,
               if(!ans) '<p>' else NULL,
                if(!is.null(questionlist[[i]][j])) {
                   paste(if(enumerate & n > 1 & !ans) {
-                    paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
+                    paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                       if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                         sep = "")
                   } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
                },
-               if(!upfile[i]) {
-                 paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
-                   if(!is.na(maxchars[[i]][1])) {
-                    paste0('" expectedLength="', maxchars[[i]][1])
-                  } else NULL, if(!is.na(maxchars[[i]][2])) {
-                    paste0('" expectedLines="', maxchars[[i]][2])
-                  } else NULL, '"/>', sep = '')
-              } else NULL,
+               paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
+                if(!is.na(maxchars[[i]][1])) {
+                  paste0('" expectedLength="', maxchars[[i]][1])
+                } else NULL, if(!is.na(maxchars[[i]][2])) {
+                  paste0('" expectedLines="', maxchars[[i]][2])
+                } else NULL, '"/>', sep = ''),
               if(!ans) '</p>' else NULL
             )
           }
