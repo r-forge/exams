@@ -676,7 +676,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
       ## string responses
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i]) {
+        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i] & !upfile[i]) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
           '<correctResponse>',
@@ -688,8 +688,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             '</responseDeclaration>'
           )
         } else {
-          if(!upfile[i]) {
-            is_essay[i] <- TRUE
+          if(!upfile[i] & is_essay[i]) {
             if(sum(!is.na(maxchars[[i]])) == 1) {
               maxchars[[i]] <- c(1000, 10, 50)
             }
@@ -845,12 +844,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                         sep = "")
                   } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
                },
-               paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
-                if(!is.na(maxchars[[i]][1])) {
-                  paste0('" expectedLength="', maxchars[[i]][1])
-                } else NULL, if(!is.na(maxchars[[i]][2])) {
-                  paste0('" expectedLines="', maxchars[[i]][2])
-                } else NULL, '"/>', sep = ''),
+               if(!upfile[i]) {
+                 paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
+                   if(!is.na(maxchars[[i]][1])) {
+                    paste0('" expectedLength="', maxchars[[i]][1])
+                  } else NULL, if(!is.na(maxchars[[i]][2])) {
+                    paste0('" expectedLines="', maxchars[[i]][2])
+                  } else NULL, '"/>', sep = '')
+              } else NULL,
               if(!ans) '</p>' else NULL
             )
           }
