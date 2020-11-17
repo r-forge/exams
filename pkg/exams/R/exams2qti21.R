@@ -815,7 +815,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         }
       }
       if(type[i] == "string") {
-        if((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) {
+        if(((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) | upfile[i]) {
           ## Essay type questions.
           txml <- c(
             if(!ans) '<p>' else NULL,
