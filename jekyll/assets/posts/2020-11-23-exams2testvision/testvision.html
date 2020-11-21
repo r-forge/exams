@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+<meta charset="utf-8" />
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+<p>Consider the following table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="right">Length</th>
+<th align="right">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Fritz</td>
+<td align="right">187</td>
+<td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="left">Wilhelm</td>
+<td align="right">161</td>
+<td align="right">66</td>
+</tr>
+<tr class="odd">
+<td align="left">Dieter</td>
+<td align="right">163</td>
+<td align="right">66</td>
+</tr>
+<tr class="even">
+<td align="left">Detlef</td>
+<td align="right">195</td>
+<td align="right">98</td>
+</tr>
+</tbody>
+</table>
+<p>What is the average of the variable “Length”?</p>
+<br/>
+<h4>Solution</h4>
+<p>The average “Length” is 176.5:</p>
+<p><span class="math display">\[\bar x = \frac{187 + 161 + 163 + 195}{4} = 176.5.\]</span></p>
+<br/>
+</li>
+<li>
+<h4>Question</h4>
+<p>A machine fills milk into <span class="math inline">\(250\)</span>ml packages. It is suspected that the machine is not working correctly and that the amount of milk filled differs from the setpoint <span class="math inline">\(\mu_0 = 250\)</span>. A sample of <span class="math inline">\(157\)</span> packages filled by the machine are collected. The sample mean <span class="math inline">\(\bar{y}\)</span> is equal to <span class="math inline">\(240.8\)</span> and the sample variance <span class="math inline">\(s^2_{n-1}\)</span> is equal to <span class="math inline">\(137.67\)</span>.</p>
+<p>Test the hypothesis that the amount filled corresponds on average to the setpoint. What is the value of the t-test statistic?</p>
+<br/>
+<ol type="a">
+<li>
+<span class="math inline">\(25.240\)</span>
+</li>
+<li>
+<span class="math inline">\(-9.825\)</span>
+</li>
+<li>
+<span class="math inline">\(-9.495\)</span>
+</li>
+<li>
+<span class="math inline">\(5.415\)</span>
+</li>
+<li>
+<span class="math inline">\(28.504\)</span>
+</li>
+</ol>
+<br/>
+<h4>Solution</h4>
+<p>The t-test statistic is calculated by: <span class="math display">\[
+\begin{aligned}
+  t &amp; = &amp; \frac{\bar y - \mu_0}{\sqrt{\frac{s^2_{n-1}}{n}}}
+  = \frac{240.8 - 250}{\sqrt{\frac{137.67}{157}}}
+  = -9.825.
+\end{aligned}
+\]</span> The t-test statistic is thus equal to <span class="math inline">\(-9.825\)</span>.</p>
+<br/>
+<ol type="a">
+<li>
+False
+</li>
+<li>
+True
+</li>
+<li>
+False
+</li>
+<li>
+False
+</li>
+<li>
+False
+</li>
+</ol>
+<br/>
+</li>
+<li>
+<h4>Question</h4>
+<p>In a small city the satisfaction with the local public transportation is evaluated. One question of interest is whether inhabitants of the city are more satisfied with public transportation compared to those living in the suburbs.</p>
+<p>A survey with 250 respondents gave the following contingency table:</p>
+<pre><code>           Location
+Evaluation  City Suburbs
+  Very good   18      22
+  Good        36      23
+  Bad         36      66
+  Very bad    10      39
+</code></pre>
+<p>The following table of percentages was constructed:</p>
+<pre><code>           Location
+Evaluation  City    Suburbs
+  Very good    18.0    14.7
+  Good         36.0    15.3
+  Bad          36.0    44.0
+  Very bad     10.0    26.0
+</code></pre>
+<p>Which of the following statements are correct?</p>
+<br/>
+<ol type="a">
+<li>
+The percentage table provides the satisfaction distribution for each location type.
+</li>
+<li>
+The percentage table provides row percentages.
+</li>
+<li>
+The value in row 1 and column 2 in the percentage table indicates: 14.7 percent of those living in the suburbs evaluated the public transportation as very good.
+</li>
+<li>
+The value in row 2 and column 2 in the percentage table indicates: 15.3 percentage of those, who evaluated the public transportation as good live in the suburbs.
+</li>
+<li>
+The percentage table can be easily constructed from the original contingency table: percentages are calculated for each column.
+</li>
+</ol>
+<br/>
+<h4>Solution</h4>
+<p>In the percentage table, the column sums are about 100 (except for possible rounding errors). Hence, the table provides column percentages, i.e., conditional relative frequencies for satisfaction level given location type.</p>
+<br/>
+<ol type="a">
+<li>
+True. The column sums are equal to 100 (except for possible rounding errors).
+</li>
+<li>
+False. The row sums are not equal to 100.
+</li>
+<li>
+True. This is the correct interpretation for column percentages.
+</li>
+<li>
+False. This is an interpretation for row percentaes, but the table provides column percentages.
+</li>
+<li>
+True. This calculation yields column percentages.
+</li>
+</ol>
+<br/>
+</li>
+<li>
+<h4>Question</h4>
+<p>Consider the following regression results:</p>
+<pre><code>
+Call:
+lm(formula = log(y) ~ x, data = d)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.45662 -0.31421 -0.04617  0.26287  1.27416 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.03675    0.06787   0.541     0.59    
+x           -0.74279    0.05701 -13.030   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4987 on 52 degrees of freedom
+Multiple R-squared:  0.7655,    Adjusted R-squared:  0.761 
+F-statistic: 169.8 on 1 and 52 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+<p>Describe how the response <code>y</code> depends on the regressor <code>x</code>.</p>
+<br/>
+<h4>Solution</h4>
+<p>The presented results describe a semi-logarithmic regression.</p>
+<p>The mean of the response <code>y</code> decreases with increasing <code>x</code>.</p>
+<p>If <code>x</code> increases by 1 unit then a change of <code>y</code> by about -52.42 percent can be expected.</p>
+<p>Also, the effect of <code>x</code> is significant at the 5 percent level.</p>
+<br/>
+</li>
+<li>
+<h4>Question</h4>
+<p>For the 30 observations of the variable <code>x</code> in the data file <a href="boxhist.csv">boxhist.csv</a> draw a histogram, a boxplot and a stripchart. Based on the graphics, answer the following questions or check the correct statements, respectively. <em>(Comment: The tolerance for numeric answers is <span class="math inline">\(\pm0.3\)</span>, the true/false statements are either about correct or clearly wrong.)</em></p>
+<br/>
+<ol type="a">
+<li>
+The distribution is unimodal. / The distribution is <em>not</em> unimodal.
+</li>
+<li>
+The distribution is symmetric. / The distribution is right-skewed. / The distribution is left-skewed.
+</li>
+<li>
+The boxplot shows outliers. / The boxplot shows <em>no</em> outliers.
+</li>
+<li>
+A quarter of the observations is smaller than which value?
+</li>
+<li>
+A quarter of the observations is greater than which value?
+</li>
+<li>
+Half of the observations are greater than which value?
+</li>
+</ol>
+<br/>
+<h4>Solution</h4>
+<p><br />
+<img src="data:image/png;base64,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" /></p>
+<br/>
+<ol type="a">
+<li>
+True / False
+</li>
+<li>
+False / True / False
+</li>
+<li>
+True / False
+</li>
+<li>
+0.53
+</li>
+<li>
+1.13
+</li>
+<li>
+0.58
+</li>
+</ol>
+<br/>
+</li>
+</ol>
+
+</body>
+</html>

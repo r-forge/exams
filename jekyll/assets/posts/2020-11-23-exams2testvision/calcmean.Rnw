@@ -1,0 +1,28 @@
+\begin{question}
+Consider the following table:
+
+<<echo = FALSE, results = tex>>=
+d <- data.frame(
+  Name = c("Fritz", "Wilhelm",  "Dieter", "Detlef"),
+  Length = c(187, 161, 163, 195),
+  Weight = c(85, 66, 66, 98)
+)
+m <- mean(d$Length)
+knitr::kable(d, align = c("l", "r", "r", "l"), format = "latex")
+@
+
+What is the average of the variable ``Length''?
+\end{question}
+
+
+\begin{solution}
+The average ``Length'' is \Sexpr{m}:
+
+$$\bar x = \frac{\Sexpr{paste(d$Length, collapse = " + ")}}{4} = \Sexpr{m}.$$
+\end{solution}
+
+
+\exname{Calculate mean from table}
+\extype{num}
+\exsolution{\Sexpr{m}}
+\extol{0.01}
