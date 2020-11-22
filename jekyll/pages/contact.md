@@ -30,7 +30,7 @@ permalink: /contact/
 - [Bettina Grün](http://ifas.jku.at/gruen/) [author] (Version 1 design)
 - [Friedrich Leisch](http://short.boku.ac.at/leisch.html) [author] (Version 2 design, Moodle infrastructure)
 - [Nikolaus Umlauf](https://eeecon.uibk.ac.at/~umlauf/) [author] (Version 2 design, QTI/Moodle infrastructure)
-- [Niels Smits](http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard adaptation)
+- [Niels Smits](http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard/TestVision adaptation)
 - [Mirko Birbaumer](https://www.hslu.ch/de-ch/hochschule-luzern/ueber-uns/personensuche/profile/?pid=1537) [contributor] (Ilias adaptation)
 - Dominik Ernst [contributor] (Moodle adaptation)
 - [Kenji Sato](https://www.kenjisato.jp/) [contributor] (Templates and HTML extensions)

@@ -12,6 +12,12 @@ permalink: /resources/
 - License: GPL-2 \| GPL-3.
 
 
+#### Getting started
+
+- [Installing R/exams]({{ site.url }}/tutorials/installation/).
+- [First steps]({{ site.url }}/tutorials/first_steps/).
+
+
 #### Getting help
 
 - Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
