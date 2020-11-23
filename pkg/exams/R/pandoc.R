@@ -73,7 +73,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
     ## base64 image/supplements handling
     if(b64 && length(sfiles <- dir(sdir))) {
       for(sf in sfiles) {
-        if(any(grepl(sf, unlist(trex), fixed = TRUE)) && file_ext(sf) %in% base64) {
+        if(any(grepl(sf, unlist(trex), fixed = TRUE)) && tolower(file_ext(sf)) %in% base64) {
 	  ## replacement pattern pairs
           sf64 <- fileURI(file = sf)
 	  ## always include HTML replacements (could also be in Markdown)
