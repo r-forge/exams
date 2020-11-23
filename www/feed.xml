@@ -11,6 +11,115 @@
     
     
 			<item>
+        <title><![CDATA[Online Tests for TestVision with R/exams]]></title>
+				<link>http://www.R-exams.org/tutorials/exams2testvision/</link>
+        <pubDate>Mon, 23 Nov 2020 00:00:00 +0100</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>Generating, importing, and customizing online tests for TestVision with R/exams.</p>
+    
+    
+    <p><img alt="Online Tests for TestVision with R/exams" src="http://www.R-exams.org/images/exams2testvision.title.png" /></p>
+    
+    <h2 id="motivation">Motivation</h2>
+
+<p>This tutorial illustrates how to use <a href="http://www.R-exams.org">R/exams</a> for creating online exams for <a href="https://www.testvision.nl/en/">TestVision</a>. Testvision is a Dutch commercial online testing company which administers online exams for many universities in the Netherlands. Until now the import of external material from R/exams into TestVision was rather limited, and therefore a new function was necessary.</p>
+
+<p>Here, two things are illustrated:</p>
+
+<ol>
+  <li>Steps required using R/exams to create tests in TestVision format.</li>
+  <li>Steps required in TestVision online to import these tests in TestVision system.</li>
+</ol>
+
+<p>An accompanying video guide is available on YouTube at <a href="https://www.youtube.com/watch?v=rrpudw2aKVc">https://www.youtube.com/watch?v=rrpudw2aKVc</a>.</p>
+
+<p><a href="https://www.youtube.com/watch?v=rrpudw2aKVc"><img src="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision/exams2testvision.png" alt="exams2testvision" /></a></p>
+
+<h2 id="steps-in-r">Steps in R</h2>
+
+<h3 id="install-the-package">Install the package</h3>
+
+<p>At the moment (November 2020) the <code class="language-plaintext highlighter-rouge">exams2testvision()</code> function is not yet part of the CRAN version of R/exams. For the time being one should use the development version from R-forge. To obtain it, use:</p>
+
+<pre><code class="prettyprint ">install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)</code></pre>
+
+<p>Note that this line of code only needs to be run once, and that after that R/exams is permanently installed on your machine.</p>
+
+<h3 id="run-example">Run example</h3>
+
+<p>After loading the exams package, we create an exam called <code class="language-plaintext highlighter-rouge">myexam</code> which is a list of exercises. It consists of, respectively, a <a href="http://www.R-exams.org/tag/num/">num</a>, <a href="http://www.R-exams.org/tag/schoice/">schoice</a>, <a href="http://www.R-exams.org/tag/mchoice/">mchoice</a>, <a href="http://www.R-exams.org/tag/string/">string</a>, and <a href="http://www.R-exams.org/tag/cloze/">cloze</a> item.</p>
+
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+myexam &lt;- list(
+  &quot;calcmean.Rmd&quot;,
+  &quot;tstat2.Rmd&quot;,
+  &quot;relfreq.Rmd&quot;,
+  &quot;essayreg.Rmd&quot;,
+  &quot;boxhist.Rmd&quot;
+)</code></pre>
+
+<p>The first item in the list of exercises, <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//calcmean.Rmd">calcmean.Rmd</a> (or alternatively <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//calcmean.Rnw">calcmean.Rnw</a> in R/LaTeX format), is a question that is <strong>not</strong> part of the package. It was added to show (a) how a table may be generated, an (b) what this table looks like in TestVision. For things to work this exercise should be saved in the working directory. The remaining exercises do not need to be copied as they are shipped withing the package. For more information on these exercises, see: <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>, <a href="http://www.R-exams.org/templates/relfreq/">relfreq</a>, <a href="http://www.R-exams.org/templates/essayreg/">essayreg</a>, <a href="http://www.R-exams.org/templates/boxhist/">boxhist</a>.</p>
+
+<p>As a first quick check that all exercises work correctly and can be rendered well in a browser, we use the following code (setting a seed for exact reproducibility):</p>
+
+<pre><code class="prettyprint ">set.seed(127)
+exams2html(myexam, converter = &quot;pandoc-mathjax&quot;)</code></pre>
+
+<p><a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//testvision.html"><img src="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision/testvision-html.png" alt="testvision.html" /></a></p>
+
+<p>Subsequently, we create the import file for an exam in TestVision.</p>
+
+<pre><code class="prettyprint ">set.seed(127)
+exams2testvision(myexam)</code></pre>
+
+<p>In the working directory a zip file called <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//testvision.zip">testvision.zip</a> is created, which includes (a) a collection of XML files containing the exercises in TestVision format (based on QTI 2.1) and (b) a directory containing supplementary material, such as images and data files.</p>
+
+<h2 id="steps-in-testvision">Steps in TestVision</h2>
+
+<h3 id="importing-rexams-output">Importing R/exams output</h3>
+
+<p>To import the exams created using R/exams into TestVision the following steps should be performed:</p>
+
+<ol>
+  <li>Log in into your institution’s TestVision site.</li>
+  <li>Select ‘Vragen’ (‘Questions’).</li>
+  <li>Select ‘Import’ in the upper left corner.<br />
+A pop-up screen called ‘Vragen importeren’ (‘Import questions’) appears .</li>
+  <li>Select the zip-file ‘testvision.zip’ on your computer.</li>
+  <li>Check the option ‘Minder strikte import controle’ (‘less strict import evaluation’).</li>
+  <li>Click ‘OK’. <strong>Uploading may take a while!</strong></li>
+</ol>
+
+<p><em>Comment:</em> Here ‘Minder strikte import controle’ was required because the first exercise contains a table. TestVision has very strict rules for the HTML structure of tables, and when this option is not chosen uploading fails.</p>
+
+<h3 id="inspecting-the-exam">Inspecting the exam</h3>
+
+<p>Once imported you can take a closer look at the content using ‘Preview’. To permanently import the questions they should be moved to a directory.</p>
+
+<ol>
+  <li>Under ‘…’ select ‘Geïmporteerde vragen verplaatsen’ (‘Move imported questions’).</li>
+  <li>Select an appropriate directory and click ‘OK’.<br />
+In this directory the questions can be edited and inspected more closely.</li>
+  <li>Select ‘Bewerken’ (‘Edit’) to learn more about the content and settings and/or edit the exercises.</li>
+</ol>
+
+<p>Note that formula content is displayed using a relatively large font size. This is a TestVision issue. Hopefully it will disappear in future versions of the system. For now: The font size can be manually adjusted.</p>
+
+<p>To employ the collection of items in a online exam, (a) their status should be changed (from ‘Concept’) into ‘Approved (Aan)’, (b) a new test should be created by selecting ‘Toets’ (‘Test’) in the main menu, and (c) the new items should be included in the new test. For more information see the help function in TestVision.</p>
+
+<h2 id="funding">Funding</h2>
+
+<p>The work on the <code class="language-plaintext highlighter-rouge">exams2testvision()</code> function, the video tutorial, and this blog are part of the <a href="https://www.sharestats.nl/">ShareStats</a> project, and are financially supported by the Dutch Ministry of Education, Culture and Science (Project code OL20-06), and the University of Amsterdam.</p>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/tutorials/exams2testvision/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[R/exams for Distance Learning: Resources and Experiences]]></title>
 				<link>http://www.R-exams.org/general/distancelearning/</link>
         <pubDate>Tue, 22 Sep 2020 00:00:00 +0200</pubDate>
@@ -1343,57 +1452,6 @@ exams2nops(choice_exam, n = 35, name = "useR-2019",
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/general/user2019/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[CRAN Release of R/exams 2.3-3 and 2.3-4]]></title>
-				<link>http://www.R-exams.org/general/cran_release_234/</link>
-        <pubDate>Mon, 08 Jul 2019 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>New minor releases of the R/exams package to CRAN, containing a new dedicated function for online quizzes/exams in the Canvas learning management system. Moreover, the update provides a range of smaller improvements and bug fixes.</p>
-    
-    
-    <p><img alt="CRAN Release of R/exams 2.3-3 and 2.3-4" src="http://www.R-exams.org/images/cran234.title.png" /></p>
-    
-    <p>Version 2.3-3 and subsequently 2.3-4 of the one-for-all exams generator <a href="http://www.R-exams.org/">R/exams</a> have been published on the Comprehensive R Archive Network at <a href="https://CRAN.R-project.org/package=exams">https://CRAN.R-project.org/package=exams</a>. In the next days this will propagate to other CRAN mirrors along with Windows and OS X binary packages.  Version 2.3-4 was necessary in addition to 2.3-3 to avoid CRAN check problems on platforms where <code class="language-plaintext highlighter-rouge">pandoc</code> is not available (currently, OS X and Solaris). The development version of the package is now version 2.3-5 on R-Forge at <a href="http://R-Forge.R-project.org/forum/?group_id=1337">http://R-Forge.R-project.org/forum/?group_id=1337</a>.</p>
-
-<h2 id="canvas-support">Canvas support</h2>
-
-<p>A new interface <code class="language-plaintext highlighter-rouge">exams2canvas()</code> for the open-source <a href="https://www.instructure.com/canvas/">Canvas learning management system</a> has been added. This is the first dedicated Canvas interface after previously some indirect support was available through either <code class="language-plaintext highlighter-rouge">exams2blackboard()</code> or <code class="language-plaintext highlighter-rouge">exams2qti12()</code>. However, both of these had certain limitations for Canvas that the new function aims to overcome. The function has only received limited testing so far and is likely to improve in future version. Please report any problems to the package maintainer.</p>
-
-<p>Essentially, <code class="language-plaintext highlighter-rouge">exams2canvas()</code> is a wrapper function to <code class="language-plaintext highlighter-rouge">exams2qti12()</code> along with a few Canvas-specific modifications of the QTI XML specification. Supported exercise types are: single-choice, multiple-choice, numeric, and string (but not yet cloze). Embedding mathematical notation, graphics, and data supplements also works.</p>
-
-<h2 id="mathematical-notation-in-moodle">Mathematical notation in Moodle</h2>
-
-<p>The default <code class="language-plaintext highlighter-rouge">converter</code> in <code class="language-plaintext highlighter-rouge">exams2moodle()</code> has been changed to <code class="language-plaintext highlighter-rouge">"pandoc-mathjax"</code>. Thus, instead of relying on the browser to render <a href="http://www.R-exams.org/tutorials/math/">mathematical notation</a> from MathML, the MathJax plugin is now assumed to be enabled on the Moodle server (which is the default when setting up a new Moodle server). To employ MathML as in previous versions one can use <code class="language-plaintext highlighter-rouge">converter = NULL</code>. This either selects <code class="language-plaintext highlighter-rouge">"pandoc-mathml"</code> (or equivalently <code class="language-plaintext highlighter-rouge">"pandoc"</code>) or <code class="language-plaintext highlighter-rouge">"ttm"</code> depending on the markup used in the exercises.</p>
-
-<h2 id="written-exams-nops">Written exams (NOPS)</h2>
-
-<ul>
-  <li>Assure in <code class="language-plaintext highlighter-rouge">nops_scan()</code> that scanned image file names contain no spaces.</li>
-  <li>Added <code class="language-plaintext highlighter-rouge">\usepackage[...]{babel}</code> support to <a href="http://www.R-exams.org/tutorials/nops_language/">language specification</a> of <code class="language-plaintext highlighter-rouge">exams2nops()</code>. In addition to a new <code class="language-plaintext highlighter-rouge">Babel: ...</code> field, the language <code class="language-plaintext highlighter-rouge">.dcf</code> can also provide a <code class="language-plaintext highlighter-rouge">Header: ...</code> field, e.g., for changing the font encoding or adding further options.</li>
-  <li>In <code class="language-plaintext highlighter-rouge">nops_eval()</code> duplicated sheets (original + replacement) were sometimes omitted even if the student ID was just 000000 (i.e., not read correctly by <code class="language-plaintext highlighter-rouge">nops_scan()</code>). A check has been added that avoids this.</li>
-</ul>
-
-<h2 id="improvements-and-bug-fixes">Improvements and bug fixes</h2>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">exams_skeleton()</code> has been updated. The new default is <code class="language-plaintext highlighter-rouge">markup = "markdown"</code> as this appears to be the more common choice for newcomers to R/exams. Furthermore, the list of exercises in the <code class="language-plaintext highlighter-rouge">demo-*.R</code> scripts has been updated to use newer exercises as well (along with links to the web page: <a href="http://www.R-exams.org/templates/">http://www.R-exams.org/templates/</a>).</li>
-  <li>Fixed bugs in <code class="language-plaintext highlighter-rouge">exams2qti21()</code> (and hence <code class="language-plaintext highlighter-rouge">exams2openolat()</code>) for certain combinations of <code class="language-plaintext highlighter-rouge">maxchars</code> specifications in <code class="language-plaintext highlighter-rouge">string</code> exercises.</li>
-  <li>For convenience, when <code class="language-plaintext highlighter-rouge">exams2html(..., converter = "pandoc-mathjax")</code>, <code class="language-plaintext highlighter-rouge">mathjax = TRUE</code> is added automatically (unless explicitly switched off).</li>
-  <li>The <code class="language-plaintext highlighter-rouge">print()</code> method for <code class="language-plaintext highlighter-rouge">exams_metainfo</code> objects received a new <code class="language-plaintext highlighter-rouge">block</code> argument so that <code class="language-plaintext highlighter-rouge">print(exams_metainfo(x), which = 1, block = 5)</code> prints the metainformation (type/solution) of the first exam in the object <code class="language-plaintext highlighter-rouge">x</code> (output from any <code class="language-plaintext highlighter-rouge">exams2xyz()</code> function) in blocks of 5 exercises. Implemented for the blog about R/exams at <a href="http://www.R-exams.org/general/tamiu_finance">Texas A&amp;M International University</a>.</li>
-  <li>For <code class="language-plaintext highlighter-rouge">exams2openolat()</code> the handling of the internal pandoc fixups was extended to replace <code class="language-plaintext highlighter-rouge">align="right"</code> in tables with <code class="language-plaintext highlighter-rouge">style="text-align: right;"</code> (and analogously for “left” and “center”).</li>
-  <li>Changed the default of <code class="language-plaintext highlighter-rouge">fix_choice</code> in <code class="language-plaintext highlighter-rouge">exams2arsnova()</code>. Current versions of the official <a href="https://arsnova.eu/">ARSnova server</a> have the LaTeX rendering in the choice options switched off. Hence, by setting <code class="language-plaintext highlighter-rouge">fix_choice = TRUE</code> by default the LaTeX math markup is removed.</li>
-  <li>Add <code class="language-plaintext highlighter-rouge">\setkeys{Gin}{keepaspectratio}</code> in the default <code class="language-plaintext highlighter-rouge">exams2pdf()</code> template for pandoc (<code class="language-plaintext highlighter-rouge">plain8.tex</code>) and in <code class="language-plaintext highlighter-rouge">exams2nops()</code>. This is necessitated by a change in pandoc that now always sets <code class="language-plaintext highlighter-rouge">height=\textheight</code> when <code class="language-plaintext highlighter-rouge">width=</code> is specified, see the <a href="https://pandoc.org/faqs.html">pandoc FAQ</a>.</li>
-  <li>Added an <code class="language-plaintext highlighter-rouge">envir</code> argument in <code class="language-plaintext highlighter-rouge">exams2moodle()</code> that is passed on to <code class="language-plaintext highlighter-rouge">xweave()</code>.</li>
-</ul>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/general/cran_release_234/</guid>
 			</item>
 		
 	</channel>

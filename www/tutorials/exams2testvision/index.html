@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>R/exams</title>
+	<title>Online Tests for TestVision with R/exams</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,10 +23,10 @@
 
 	
 	
-	<meta name="description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
+	<meta name="description" content="Generating, importing, and customizing online tests for TestVision with R/exams." />
+	<meta name="keywords" content="e-learning, quiz, num, mchoice, schoice, string, cloze, R" />
 	
-	
-	<meta name="author" content="Achim Zeileis" />
+	<meta name="author" content="Niels Smits" />
 
 	
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
@@ -44,16 +44,16 @@
 	<!-- Search Engine Optimization -->
 	
 	
-	<meta name="robots" content="noindex" />
+	
 
 	<!-- Facebook Optimization -->
-	<meta property="og:title" content="R/exams" />
-	<meta property="og:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta property="og:url" content="http://www.R-exams.org//tag/num/" />
+	<meta property="og:title" content="Online Tests for TestVision with R/exams" />
+	<meta property="og:description" content="Generating, importing, and customizing online tests for TestVision with R/exams." />
+	<meta property="og:url" content="http://www.R-exams.org//tutorials/exams2testvision/" />
 	<meta property="og:locale" content="en_EN" />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="R/exams" />
-	<meta property="og:image" content="http://www.R-exams.org/assets/img/logo_text.png" />
+	<meta property="og:image" content="http://www.R-exams.org/images/exams2testvision.300.png" />
 	
 
 	
@@ -61,9 +61,9 @@
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:site" content="AchimZeileis" />
 	<meta name="twitter:creator" content="AchimZeileis" />
-	<meta name="twitter:title" content="R/exams" />
-	<meta name="twitter:description" content="Automatic generation  and evaluation of exams. From Markdown, LaTeX and R code to standalone documents, learning management systems and live voting." />
-	<meta name="twitter:image" content="http://www.R-exams.org/assets/img/logo_text.png" />
+	<meta name="twitter:title" content="Online Tests for TestVision with R/exams" />
+	<meta name="twitter:description" content="Generating, importing, and customizing online tests for TestVision with R/exams." />
+	<meta name="twitter:image" content="http://www.R-exams.org/images/exams2testvision.300.png" />
 
 
 	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
@@ -90,7 +90,7 @@
 <!-- End Piwik Code -->
 
 </head>
-<body id="top-of-page" class="">
+<body id="top-of-page" class="post">
 	
 	
 <div id="navigation" class="sticky">
@@ -313,281 +313,173 @@
 
 
 
-	<div class="row blog-index">
-	<div class="medium-10 medium-offset-1 columns t30">
-		
+	<div class="row t30">
+	<div class="columns medium-10 medium-offset-1 end">
+		<article itemscope itemtype="http://schema.org/Article">
+			<header>
+				
+				<figure>
+					<img src="http://www.R-exams.org/images/exams2testvision.title.png" width="970" alt="Online Tests for TestVision with R/exams" itemprop="image">
+
+					
+					<figcaption class="text-right">
+						R/exams + TestVision.
+					</figcaption>
+					
+				</figure>
+				
+
+				<span itemprop="name">
+					
+					<h1>Online Tests for TestVision with R/exams</h1>
+				</span>
+			</header>
 
 
+			
+			<p class="teaser" itemprop="description">
+				Generating, importing, and customizing online tests for TestVision with R/exams.
+			</p>
+			
 
+			<span itemprop="articleSection">
+			<h2 id="motivation">Motivation</h2>
 
+<p>This tutorial illustrates how to use <a href="http://www.R-exams.org">R/exams</a> for creating online exams for <a href="https://www.testvision.nl/en/">TestVision</a>. Testvision is a Dutch commercial online testing company which administers online exams for many universities in the Netherlands. Until now the import of external material from R/exams into TestVision was rather limited, and therefore a new function was necessary.</p>
 
+<p>Here, two things are illustrated:</p>
 
+<ol>
+  <li>Steps required using R/exams to create tests in TestVision format.</li>
+  <li>Steps required in TestVision online to import these tests in TestVision system.</li>
+</ol>
 
+<p>An accompanying video guide is available on YouTube at <a href="https://www.youtube.com/watch?v=rrpudw2aKVc">https://www.youtube.com/watch?v=rrpudw2aKVc</a>.</p>
 
+<p><a href="https://www.youtube.com/watch?v=rrpudw2aKVc"><img src="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision/exams2testvision.png" alt="exams2testvision" /></a></p>
 
-<div class='row'>
-  <div class='small-12 columns b30'>
-    <h1>Tag: num</h1>
-  </div>
-</div>
+<h2 id="steps-in-r">Steps in R</h2>
 
+<h3 id="install-the-package">Install the package</h3>
 
+<p>At the moment (November 2020) the <code class="language-plaintext highlighter-rouge">exams2testvision()</code> function is not yet part of the CRAN version of R/exams. For the time being one should use the development version from R-forge. To obtain it, use:</p>
 
+<pre><code class="prettyprint ">install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)</code></pre>
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/exams2testvision/">Online Tests for TestVision with R/exams</a></h2>
-        <a href="http://www.R-exams.org/tutorials/exams2testvision/" title="Online Tests for TestVision with R/exams"><img src="http://www.R-exams.org/images/exams2testvision.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Generating, importing, and customizing online tests for TestVision with R/exams.
-      
+<p>Note that this line of code only needs to be run once, and that after that R/exams is permanently installed on your machine.</p>
 
-      <a href="http://www.R-exams.org/tutorials/exams2testvision/" title="Read Online Tests for TestVision with R/exams"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+<h3 id="run-example">Run example</h3>
 
+<p>After loading the exams package, we create an exam called <code class="language-plaintext highlighter-rouge">myexam</code> which is a list of exercises. It consists of, respectively, a <a href="http://www.R-exams.org/tag/num/">num</a>, <a href="http://www.R-exams.org/tag/schoice/">schoice</a>, <a href="http://www.R-exams.org/tag/mchoice/">mchoice</a>, <a href="http://www.R-exams.org/tag/string/">string</a>, and <a href="http://www.R-exams.org/tag/cloze/">cloze</a> item.</p>
 
+<pre><code class="prettyprint ">library(&quot;exams&quot;)
+myexam &lt;- list(
+  &quot;calcmean.Rmd&quot;,
+  &quot;tstat2.Rmd&quot;,
+  &quot;relfreq.Rmd&quot;,
+  &quot;essayreg.Rmd&quot;,
+  &quot;boxhist.Rmd&quot;
+)</code></pre>
 
+<p>The first item in the list of exercises, <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//calcmean.Rmd">calcmean.Rmd</a> (or alternatively <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//calcmean.Rnw">calcmean.Rnw</a> in R/LaTeX format), is a question that is <strong>not</strong> part of the package. It was added to show (a) how a table may be generated, an (b) what this table looks like in TestVision. For things to work this exercise should be saved in the working directory. The remaining exercises do not need to be copied as they are shipped withing the package. For more information on these exercises, see: <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>, <a href="http://www.R-exams.org/templates/relfreq/">relfreq</a>, <a href="http://www.R-exams.org/templates/essayreg/">essayreg</a>, <a href="http://www.R-exams.org/templates/boxhist/">boxhist</a>.</p>
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/elearning/">E-Learning Quizzes with R/exams for Moodle and OpenOLAT</a></h2>
-        <a href="http://www.R-exams.org/tutorials/elearning/" title="E-Learning Quizzes with R/exams for Moodle and OpenOLAT"><img src="http://www.R-exams.org/images/elearning.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Step-by-step tutorials for generating, importing, and customizing online tests and quizzes using exams2moodle() and exams2openolat() in R/exams.
-      
+<p>As a first quick check that all exercises work correctly and can be rendered well in a browser, we use the following code (setting a seed for exact reproducibility):</p>
 
-      <a href="http://www.R-exams.org/tutorials/elearning/" title="Read E-Learning Quizzes with R/exams for Moodle and OpenOLAT"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+<pre><code class="prettyprint ">set.seed(127)
+exams2html(myexam, converter = &quot;pandoc-mathjax&quot;)</code></pre>
 
+<p><a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//testvision.html"><img src="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision/testvision-html.png" alt="testvision.html" /></a></p>
 
+<p>Subsequently, we create the import file for an exam in TestVision.</p>
 
+<pre><code class="prettyprint ">set.seed(127)
+exams2testvision(myexam)</code></pre>
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/general/user2019/">R/exams @ useR! 2019</a></h2>
-        <a href="http://www.R-exams.org/general/user2019/" title="R/exams @ useR! 2019"><img src="http://www.R-exams.org/images/user2019.300.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">general</span>
-      </p>
-      
-      <p>
-      
-        Pre-conference tutorial about R/exams at useR! 2019 (The R User Conference) in Toulouse: Slides, example code, and links to further information.
-      
+<p>In the working directory a zip file called <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//testvision.zip">testvision.zip</a> is created, which includes (a) a collection of XML files containing the exercises in TestVision format (based on QTI 2.1) and (b) a directory containing supplementary material, such as images and data files.</p>
 
-      <a href="http://www.R-exams.org/general/user2019/" title="Read R/exams @ useR! 2019"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+<h2 id="steps-in-testvision">Steps in TestVision</h2>
 
+<h3 id="importing-rexams-output">Importing R/exams output</h3>
 
+<p>To import the exams created using R/exams into TestVision the following steps should be performed:</p>
 
+<ol>
+  <li>Log in into your institution’s TestVision site.</li>
+  <li>Select ‘Vragen’ (‘Questions’).</li>
+  <li>Select ‘Import’ in the upper left corner.<br />
+A pop-up screen called ‘Vragen importeren’ (‘Import questions’) appears .</li>
+  <li>Select the zip-file ‘testvision.zip’ on your computer.</li>
+  <li>Check the option ‘Minder strikte import controle’ (‘less strict import evaluation’).</li>
+  <li>Click ‘OK’. <strong>Uploading may take a while!</strong></li>
+</ol>
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/templates/fruit/">fruit: Image-Based Systems of Linear Equations (Numeric)</a></h2>
-        <a href="http://www.R-exams.org/templates/fruit/" title="fruit: Image-Based Systems of Linear Equations (Numeric)"><img src="http://www.R-exams.org/images/fruit.small.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">templates</span>
-      </p>
-      
-      <p>
-      
-        Exercise template for solving a system of three linear equations (numeric answer) with a problem description based on shuffled images.
-      
+<p><em>Comment:</em> Here ‘Minder strikte import controle’ was required because the first exercise contains a table. TestVision has very strict rules for the HTML structure of tables, and when this option is not chosen uploading fails.</p>
 
-      <a href="http://www.R-exams.org/templates/fruit/" title="Read fruit: Image-Based Systems of Linear Equations (Numeric)"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+<h3 id="inspecting-the-exam">Inspecting the exam</h3>
 
+<p>Once imported you can take a closer look at the content using ‘Preview’. To permanently import the questions they should be moved to a directory.</p>
 
+<ol>
+  <li>Under ‘…’ select ‘Geïmporteerde vragen verplaatsen’ (‘Move imported questions’).</li>
+  <li>Select an appropriate directory and click ‘OK’.<br />
+In this directory the questions can be edited and inspected more closely.</li>
+  <li>Select ‘Bewerken’ (‘Edit’) to learn more about the content and settings and/or edit the exercises.</li>
+</ol>
 
+<p>Note that formula content is displayed using a relatively large font size. This is a TestVision issue. Hopefully it will disappear in future versions of the system. For now: The font size can be manually adjusted.</p>
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/exams2blackboard/">Dynamic Online Tests with Blackboard and R/exams</a></h2>
-        <a href="http://www.R-exams.org/tutorials/exams2blackboard/" title="Dynamic Online Tests with Blackboard and R/exams"><img src="http://www.R-exams.org/images/seminar.cut.150.jpg" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Step-by-step guide to generating, importing, and conducting online tests and quizzes generated by exams2blackboard() in R/exams.
-      
+<p>To employ the collection of items in a online exam, (a) their status should be changed (from ‘Concept’) into ‘Approved (Aan)’, (b) a new test should be created by selecting ‘Toets’ (‘Test’) in the main menu, and (c) the new items should be included in the new test. For more information see the help function in TestVision.</p>
 
-      <a href="http://www.R-exams.org/tutorials/exams2blackboard/" title="Read Dynamic Online Tests with Blackboard and R/exams"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+<h2 id="funding">Funding</h2>
 
+<p>The work on the <code class="language-plaintext highlighter-rouge">exams2testvision()</code> function, the video tutorial, and this blog are part of the <a href="https://www.sharestats.nl/">ShareStats</a> project, and are financially supported by the Dutch Ministry of Education, Culture and Science (Project code OL20-06), and the University of Amsterdam.</p>
 
+			</span>
 
+			
+						<div id="page-meta" class="t30">
+				<p>
+					<!-- Look the author details up from the site config. -->
+					
+					<!-- Output author details if some exist. -->
+					
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html" target="_blank"> Niels Smits</a></span>
+				</span>
+				
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/tutorials/static_num_schoice/">From Static to Numeric to Single-Choice Exercises in R/exams</a></h2>
-        <a href="http://www.R-exams.org/tutorials/static_num_schoice/" title="From Static to Numeric to Single-Choice Exercises in R/exams"><img src="http://www.R-exams.org/images/elasticity.small.jpg" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">tutorials</span>
-      </p>
-      
-      <p>
-      
-        Tutorial for turning a static arithmetic exercise into a dynamic numeric exercise template and furthermore into a dynamic single-choice exercise template.
-      
+				
+				<time class="icon-calendar pr20" datetime="2020-11-23" itemprop="datePublished"> 2020-11-23</time>
+				
 
-      <a href="http://www.R-exams.org/tutorials/static_num_schoice/" title="Read From Static to Numeric to Single-Choice Exercises in R/exams"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
+				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
+				<br />
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/quiz/">quiz</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/num/">num</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/mchoice/">mchoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/schoice/">schoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/string/">string</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/cloze/">cloze</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> </span>
+			</p>
 
+			<div id="post-nav" class="row">
+				
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/distancelearning/">&laquo; R/exams for Distance Learning: Resources and Experiences</a></div><!-- /.small-4.columns -->
+				
+        
+				
+			</div>
+			</div><!--  /.page-meta -->
 
+			
 
+			
 
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/templates/tstat/">tstat: 1-Sample t-Test Statistic</a></h2>
-        <a href="http://www.R-exams.org/templates/tstat/" title="tstat: 1-Sample t-Test Statistic"><img src="http://www.R-exams.org/images/tstat.small.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">templates</span>
-      </p>
-      
-      <p>
-      
-        Exercise template for computing the t-test statistic (numeric answer) from given hypothesized mean and empirical mean and variance.
-      
-
-      <a href="http://www.R-exams.org/templates/tstat/" title="Read tstat: 1-Sample t-Test Statistic"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/templates/regression/">regression: Simple Linear Regression (by Hand)</a></h2>
-        <a href="http://www.R-exams.org/templates/regression/" title="regression: Simple Linear Regression (by Hand)"><img src="http://www.R-exams.org/images/regression.small.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">templates</span>
-      </p>
-      
-      <p>
-      
-        Exercise template for computing the prediction from a simple linear prediction by hand, based on randomly-generated marginal means/variances and correlation.
-      
-
-      <a href="http://www.R-exams.org/templates/regression/" title="Read regression: Simple Linear Regression (by Hand)"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/templates/lagrange/">lagrange: Method of Lagrange Multipliers</a></h2>
-        <a href="http://www.R-exams.org/templates/lagrange/" title="lagrange: Method of Lagrange Multipliers"><img src="http://www.R-exams.org/images/lagrange.small.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">templates</span>
-      </p>
-      
-      <p>
-      
-        Exercise template for minimizing a linear objective function with two arguments subject to a Cobb-Douglas-type constraint. Both the parameters of the functions and the exact question (argument 1 vs. argument 2 vs. function value in optimum) are drawn randomly.
-      
-
-      <a href="http://www.R-exams.org/templates/lagrange/" title="Read lagrange: Method of Lagrange Multipliers"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-  
-  <div class="row b60">
-    <div class="small-12 columns">
-      
-      <h2 class='b15' ><a href="http://www.R-exams.org/templates/dist/">dist: Distances and the Pythagorean Theorem</a></h2>
-        <a href="http://www.R-exams.org/templates/dist/" title="dist: Distances and the Pythagorean Theorem"><img src="http://www.R-exams.org/images/dist.small.png" class="alignleft" width="150" height="150" alt=""></a>
-      
-      <p>
-        <span class="category">templates</span>
-      </p>
-      
-      <p>
-      
-        Exercise template for computing the distance (numeric answer) between two randomly-drawn points in a Cartesian coordinate system.
-      
-
-      <a href="http://www.R-exams.org/templates/dist/" title="Read dist: Distances and the Pythagorean Theorem"><strong>Read More&nbsp;›</strong></a>
-      </p>
-    </div><!-- /.small-12.columns -->
-  </div><!-- /.row -->
-
-
-
-
-<nav id="pagination">
-    
+		</article>
 
     
-
-    
-    <a class="radius button small" href="http://www.R-exams.org/tag/num/page2/" title="Next Posts">Next &raquo;</a>
-    
-</nav>
-
 
 	</div><!-- /.medium-8.columns -->
 
-  
+
+	
+
+
+	
 </div><!-- /.row -->
 
 
