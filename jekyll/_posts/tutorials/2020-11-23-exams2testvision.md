@@ -29,7 +29,7 @@ image:
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "R/exams + TestVision (CC-BY-SA)."
+  caption: "R/exams + TestVision."
 ---
 
 
