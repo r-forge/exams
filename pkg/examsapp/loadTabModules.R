@@ -15,14 +15,16 @@ loadTabUI <- function(id){
                DT::dataTableOutput(ns("folderSelector"))
         ),
         column(6,
-               DT::dataTableOutput(ns("fileSelector"))
+               DT::dataTableOutput(ns("fileSelector")),
+               br(),align="right",
+               actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)")
         )
       ),
       br(),
       br(),
       fluidRow(
         column(6,
-          fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',checkboxInput(ns("loadSingleFile"), label = "load exercise from local storage"),
+          fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',checkboxInput(ns("loadSingleFile"), label = "Load exercise from local storage"),
                    conditionalPanel(condition = "input.loadSingleFile == 1",
                                     ns = ns,
                                     column(6,
@@ -46,16 +48,13 @@ loadTabUI <- function(id){
           ),
         column(6,
                
-               column(6,
-                     # actionButton(ns("previewShow"), label = "Show Preview")
-                     checkboxInput(ns("previewShow"), label = "Show Preview", value = TRUE)
-               ),
-               column(6,align="right",
-                      actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)")
-               ),
-               br(),
-               br(),
-               uiOutput(ns("player"), inline = TRUE, container = div)
+               column(12,style='margin: 5px; padding:5px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                     checkboxInput(ns("previewShow"), label = "Show Preview (implies single file selection)", value = TRUE),
+                     uiOutput(ns("player"), inline = TRUE, container = div)
+               )
+               # column(6,align="right",
+               #        actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)")
+               # )
                
         )
     )
@@ -92,7 +91,23 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
     reactVals$dirFileList = givenExercises()
     reactVals$pathToTmpFolder = pathToFolder()
     reactVals$selectedFiles = possibleExerciseList()
+
+  })    
+  
+  ## Observer: Exercises can pnly be selected in "Choose Exercise" or in "Added Exercises"
+  observe({    
+    if (length(input$fileSelector_rows_selected)>0) {
+      selectRows(dataTableProxy("fileSelector"), input$fileSelector_rows_selected)
+      selectRows(dataTableProxy("outputAddedFiles"), NULL)
+    }
   })
+  observe({ 
+    if (length(input$outputAddedFiles_rows_selected)>0) {
+      selectRows(dataTableProxy("outputAddedFiles"), input$outputAddedFiles_rows_selected)
+      selectRows(dataTableProxy("fileSelector"), NULL)
+    }
+})  
+  
   
   # function copies all the files in dataframeFiles into the exercises folder in the tmp folder
   # @param dataframeFiles: Dataframe, with foldernames and filenames of the selected exercises
@@ -138,10 +153,8 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
   })
   
   # Observer: Click on Button "Show Preview"
-  # every button has a counter, which is increased by 1 on every click
-  # the setPreview-Flag only checks if the counter is divisible by two
+  # TRUE "Show Preview" implies single file selection in "Choose Exercise" and in "Added Exercises"
   observeEvent(input$previewShow, {
-    # reactVals$setPreview = as.numeric(input$previewShow) %% 2 == 1
     reactVals$setPreview = input$previewShow == 1
   })
   
@@ -157,6 +170,7 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
       row.names(reactVals$selectedFiles) = NULL
     }
   })
+  
 
   # Table-Output: shows all of the folder from given exercises
   # only a single choice is possible
@@ -194,24 +208,30 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
   # Table-Output: selected exercises are displayed
   output$outputAddedFiles <- renderDataTable({
     reactVals$selectedFiles
-  })
+  }, selection = ifelse(reactVals$setPreview,'single','multiple'))
   
   # HTML-Output: the preview of a selected exercise is displayed
   output$player <- renderUI({
-    # code is only executed if preview should be shown
+    # code is only executed if preview should be shown; this implies that maximum one exercises can be selected
     if(reactVals$setPreview){
-      # warning message if more than one exercise is selected
-      if(length(input$fileSelector_rows_selected) != 1){
+      if ((length(input$fileSelector_rows_selected) != 1)&(length(input$outputAddedFiles_rows_selected) != 1)){
         showNotification("You have to choose one exercise to show the preview.", type = c("error"))
         return(NULL)
       }
       else{
-        # copy file to tmp folder
-        selectedFile = reactVals$currentFiles[input$fileSelector_rows_selected[1]]
-        fromFile = file.path(reactVals$path, reactVals$selectedFolder, selectedFile)
-        toFile = file.path(reactVals$pathToTmpFolder, "tmp")
-        fileDest = file.path(reactVals$pathToTmpFolder, "tmp", selectedFile)
-        file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
+        # for selected files copy file to tmp folder
+        # for added files use file in tmp/exercises folder
+        if (length(input$fileSelector_rows_selected) == 1) {
+          selectedFile = reactVals$currentFiles[input$fileSelector_rows_selected]
+          fromFile = file.path(reactVals$path, reactVals$selectedFolder, selectedFile)
+          toFile = file.path(reactVals$pathToTmpFolder, "tmp")
+          fileDest = file.path(reactVals$pathToTmpFolder, "tmp", selectedFile)
+          file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
+        } 
+        else {
+          selectedFile <- reactVals$selectedFiles[input$outputAddedFiles_rows_selected,2]
+          fileDest = file.path(reactVals$pathToTmpFolder, "exercises", selectedFile)
+        }
         # get encoding of the file
         encoding = stringi::stri_enc_detect(fileDest)[[1]][1,1]
         # trying to get the html format of the exercise
