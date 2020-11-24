@@ -46,17 +46,7 @@
 <item ident="##ItemId##" title="##ItemTitle##" ##MaxAttempts##>
 <itemcontrol feedbackswitch="##FeedbackSwitch##" hintswitch="##HintSwitch##" solutionswitch="##SolutionSwitch##"/>
 ##ItemBody##
-<itemfeedback ident="Solution" view="All">
-<solution>
-<solutionmaterial>
-<material>
-<mattext texttype="text/html"><![CDATA[
 ##ItemSolution##
-]]></mattext>
-</material>
-</solutionmaterial>
-</solution>
-</itemfeedback>
 </item>
 
 </section>
