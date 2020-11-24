@@ -9,7 +9,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "qti12",
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.",
-  sdescription = "Please answer the following question.", 
+  sdescription = "Please answer the following question.",
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, xmlcollapse = FALSE,
@@ -68,7 +68,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## start .xml assessement creation
-  ## get the possible item body functions and options  
+  ## get the possible item body functions and options
   itembody <- list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
 
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
@@ -276,6 +276,24 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
           if(enumerate) xsolution <- c(xsolution, '</ol>')
         }
       }
+      if(!canvas){
+        xsolution <- c('<itemfeedback ident="Solution" view="All">',
+        '<solution>', '<solutionmaterial>', '<material>',
+        '<mattext texttype="text/html"><![CDATA[', xsolution,
+        ']]></mattext>', '</material>', '</solutionmaterial>', '</solution>',
+        '</itemfeedback>')
+      } else {
+        xsolution <- c('<itemfeedback ident="correct_fb" view="All">',
+        '<flow_mat>', '<material>',
+        '<mattext texttype="text/html"><![CDATA[', xsolution,
+        ']]></mattext>', '</material>', '</flow_mat>',
+        '</itemfeedback>',
+        '<itemfeedback ident="general_incorrect_fb" view="All">',
+        '<flow_mat>', '<material>',
+        '<mattext texttype="text/html"><![CDATA[', xsolution,
+        ']]></mattext>', '</material>', '</flow_mat>',
+        '</itemfeedback>')
+      }
 
       ibody <- gsub("##ItemSolution##", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
@@ -398,10 +416,10 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(!identical(xmlcollapse, FALSE)) {
     ## collapse character
     xmlcollapse <- if(identical(xmlcollapse, TRUE)) " " else as.character(xmlcollapse)
-    
+
     ## TODO replace \n line breaks?
     ## xml <- gsub("\n", " ", xml, fixed = TRUE)
-    
+
     ## collapse <pre>-formatted code
     pre1 <- grep("<pre>", xml, fixed = TRUE)
     pre2 <- grep("</pre>", xml, fixed = TRUE)
@@ -416,7 +434,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         }
       }
     }
-    
+
     ## collapse everything else
     xml <- paste(xml, collapse = " ")
   }
@@ -509,7 +527,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 
-.empty_text <- function(x) { 
+.empty_text <- function(x) {
   is.null(x) || anyNA(x) || all(grepl("^[[:space:]]*$", x))
 }
 
@@ -722,7 +740,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
               } else NULL,
               if(flavor == "ilias" && !is.na(maxchars[[i]][3])) {
                 ' fibtype="String" prompt="Box"'
-              } else NULL,	      
+              } else NULL,	
 	      '>', sep = ''),
             '<flow_label class="Block">',
             paste('<response_label ident="', ids[[i]]$response, '" rshuffle="No"/>', sep = ''),
@@ -796,7 +814,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     correct_answers <- wrong_answers <- correct_num <- wrong_num <- vector(mode = "list", length = n)
     for(i in 1:n) {
       if(length(grep("choice", type[i]))) {
-        
+
         for(j in seq_along(solution[[i]])) {
           if(solution[[i]][j]) {
             correct_answers[[i]] <- c(correct_answers[[i]],
@@ -872,7 +890,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
 
     ## delete NULL list elements
     correct_answers <- delete.NULLs(correct_answers)
-    wrong_answers <- delete.NULLs(wrong_answers) 
+    wrong_answers <- delete.NULLs(wrong_answers)
     correct_num <- unlist(delete.NULLs(correct_num))
     wrong_num <- delete.NULLs(wrong_num)
     if(length(wrong_num)) {
@@ -943,7 +961,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     ## scoring/solution display for the correct answers
     if(!multiple_dropdowns) {
       xml <- c(xml,
-        '<respcondition title="Mastery" continue="Yes">',
+        paste('<respcondition title="Mastery"', if(canvas) 'continue="No">' else ' continue="Yes">'),
         '<conditionvar>',
         if(!is.null(correct_answers) & (length(correct_answers) > 1 | grepl("choice", x$metainfo$type))) '<and>' else NULL
       )
@@ -966,7 +984,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         if(!eval$partial) {
           paste('<setvar varname="SCORE" action="Set">', points, '</setvar>', sep = '')
         } else NULL,
-        '<displayfeedback feedbacktype="Response" linkrefid="Mastery"/>',
+        paste('<displayfeedback feedbacktype="Response"', if(canvas) 'linkrefid="correct_fb"/>' else 'linkrefid="Mastery"/>'),
         '</respcondition>'
       )
     } else {
@@ -1100,6 +1118,15 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         '<displayfeedback feedbacktype="Solution" linkrefid="Solution"/>',
         '</respcondition>'
       )
+    } else{
+      xml <- c(xml,
+        '<respcondition continue="Yes">',
+        '<conditionvar>',
+        '<other/>',
+        '</conditionvar>',
+        '<displayfeedback feedbacktype="Response" linkrefid="general_incorrect_fb"/>',
+        '</respcondition>'
+      )
     }
 
     ## handle unanswered cases
@@ -1149,7 +1176,7 @@ read_olat_results <- function(file, xexam = NULL)
   if(!is.null(xexam)) {
     if(is.character(xexam)) xexam <- readRDS(xexam)
   }
- 
+
   ## read data
   x <- readLines(file, warn = FALSE)
   x <- read.table(file, header = TRUE, sep = "\t",
@@ -1276,7 +1303,7 @@ read_olat_results <- function(file, xexam = NULL)
 ## ## other functions, not in use yet
 ## ## functions to input test and item controls text
 ## controllist <- function(...) structure(list(...), class = "controllist")
-## 
+##
 ## as.character.controllist <- function(x, ...)
 ## {
 ##   paste(
