@@ -12,7 +12,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.",
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE),
-  converter = NULL, xmlcollapse = FALSE,
+  converter = NULL, envir = NULL, xmlcollapse = FALSE,
   flavor = c("plain", "openolat", "canvas", "ilias"), ...)
 {
   ## which qti flavor
@@ -59,7 +59,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       driver = list(
         sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
           resolution = resolution, width = width, height = height,
-          encoding = encoding),
+          encoding = encoding, envir = envir),
         read = NULL, transform = htmltransform, write = NULL),
       dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
   } else {

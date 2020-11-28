@@ -17,7 +17,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
-  converter = NULL, base64 = TRUE, mode = "hex", ...)
+  converter = NULL, envir = NULL, base64 = TRUE, mode = "hex", ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -41,7 +41,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       driver = list(
         sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg,
           resolution = resolution, width = width, height = height,
-          encoding = encoding),
+          encoding = encoding, envir = envir),
         read = NULL, transform = htmltransform, write = NULL),
       dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
   } else {

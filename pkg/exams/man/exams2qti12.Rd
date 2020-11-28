@@ -26,7 +26,7 @@
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
     zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    converter = NULL, xmlcollapse = FALSE,
+    converter = NULL, envir = NULL, xmlcollapse = FALSE,
     flavor = c("plain", "openolat", "canvas", "ilias"), \dots)
 
   exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
@@ -42,7 +42,7 @@
     navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
     shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    converter = NULL, base64 = TRUE, mode = "hex", \dots)
+    converter = NULL, envir = NULL, base64 = TRUE, mode = "hex", \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -152,6 +152,7 @@
   \item{converter}{character. Argument passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
     exercises in \code{file} where \code{"pandoc"} is used.}
+  \item{envir}{passed to \code{\link[exams]{xweave}}.}
   \item{xmlcollapse}{logical or character. Should line breaks be collapsed in the XML
     code. If \code{TRUE} everything is collapsed with spaces (\code{" "}) but other collapse
     characters could be supplied.}

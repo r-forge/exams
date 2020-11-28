@@ -148,6 +148,13 @@
 * In `exams2pdf()` when auto-generating a questionnaire, the `_` is now escaped
   within the `\exstring{}` command.
 
+* Added `envir` argument in `exams2qti12()` and `exams2qti21()` that is passed on to
+  `xweave()`. This allows to re-use variables generated in one exercise in previous
+  exercises, e.g., for creating a sequence of variables based on the same data set.
+  However, learning-management systems typically do _not_ the drawing of random
+  questions to the same replication. Thus, this will typically only be useful for
+  exams with a single random replication.
+
 
 # exams 2.3-6
 
