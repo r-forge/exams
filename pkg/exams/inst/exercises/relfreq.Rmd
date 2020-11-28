@@ -99,7 +99,7 @@ if (question == 1) {
                         "live in the suburbs.")
   solutions[4] <- variant == 1
   explanations[4] <- if (solutions[4]) "This is the correct interpretation for row percentages."
-  else paste("This is an interpretation for row percentaes, but the table provides ", 
+  else paste("This is an interpretation for row percentages, but the table provides ", 
              percentage[variant], "percentages.")
 } else {
   questions[4] <- paste("The value in row 3 and column 1 in the percentage table indicates:", prop_public[3,1], 
