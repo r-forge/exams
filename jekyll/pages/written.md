@@ -43,7 +43,7 @@ workflow:
       dsc: |
         ###### 3. Exam
         * Conduct the exam as usual.
-        * Collect the completed exams sheets.
+        * Collect the completed exam sheets.
   - step:
       img: ../../images/written-scan.svg
       alt: scan
@@ -58,7 +58,7 @@ workflow:
       dsc: |
         ###### 5. Evaluate
         * Using `nops_eval()` from R/exams,
-          evaluate the exam to obtain marks, points, etc.
+          evaluate the exam to obtain grades, points, etc.
           and individual HTML reports for each examinee.
         * Required files: Correct answers from Step 1, scans from Step 4, and a
           participant list in CSV format.

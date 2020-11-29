@@ -24,8 +24,8 @@ image:
 
 #### Overview
 
-- R/exams is based on exercises with either LaTeX or Markdown text and
-  optional R code to make the content [dynamic]({{ site.url }}/intro/dynamic/).
+- R/exams is based on exercises in plain text files with formatting either via Markdown or LaTeX
+  and optional R code to make the content [dynamic]({{ site.url }}/intro/dynamic/).
 - The format is agnostic to a specific output format and can be rendered
   into a wide variety of files.
 - Thus, the _same_ exercise can be exported into different
