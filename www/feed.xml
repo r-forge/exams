@@ -11,6 +11,87 @@
     
     
 			<item>
+        <title><![CDATA[Using LaTeX in R/exams: What, Why, How?]]></title>
+				<link>http://www.R-exams.org/tutorials/latex/</link>
+        <pubDate>Mon, 30 Nov 2020 00:00:00 +0100</pubDate>
+        
+        <description><![CDATA[
+    
+    <p>LaTeX is a document prepration system that is very powerful but can sometimes also be a bit confusing. Hence, some useful details are provided that should help R/exams users getting LaTeX installed and used effectively for preparing exams.</p>
+    
+    
+    <p><img alt="Using LaTeX in R/exams: What, Why, How?" src="http://www.R-exams.org/images/latex.title.svg" /></p>
+    
+    <h2 id="what">What?</h2>
+
+<p><a href="https://latex-project.org/">LaTeX</a> is a software system for document preparation, see the corresponding <a href="https://en.wikipedia.org/wiki/LaTeX">Wikipedia</a> page for an overview. The system encompasses various elements that are important to distinguish:</p>
+
+<ul>
+  <li>It uses a <strong>markup language</strong> that can be written in any simple text editor with commands structuring a document (title, sections, etc.), formatting text (italics, bold face, etc.), and providing a powerful mathematical notation.</li>
+  <li>Subsequently, a <strong>TeX engine</strong> can be used to process such a text file and produce an output document that can be viewed, printed, etc. The probably most commonly-used TeX engine is <a href="https://www.tug.org/applications/pdftex/">pdfTeX</a> rendering LaTeX files into PDF documents.</li>
+  <li><strong>TeX distributions</strong> ship collections of such TeX engines along with further utilities, macros, and fonts for processing LaTeX files. The most widely-used TeX distributions are <a href="https://www.tug.org/texlive/">TeX Live</a> available on all major operating systems and <a href="https://miktex.org/">MikTeX</a> for Windows.</li>
+</ul>
+
+<h2 id="why">Why?</h2>
+
+<p>In general LaTeX it is very useful for professional typesetting, especially of scientific documents, and is the most widely-used markup language for mathematical notation. However, the complexity of the LaTeX markup language can also be confusing, especially for newcomers, and hence it can be easier to use other markup languages such as <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> for many documents. But even when using Markdown as the main markup for a document, LaTeX may still be involved in producing an output document: either only for mathematical notation (e.g., in HTML output) and/or for rendering PDF output. In short, due to its power and flexibility LaTeX is used either explicitly or implicitly in the preparation of a lot of output documents.</p>
+
+<p>Consequently, <a href="http://www.R-exams.org">R/exams</a> leverages LaTeX, mainly for three purposes:</p>
+
+<ul>
+  <li><strong>As the main markup language for authoring exercises and formatting text in R/LaTeX (Rnw) format.</strong><br />
+However, this is optional and the R/Markdown (Rmd) format for authoring exercises is probably more widely used. See the <a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a> tutorial for a side-by-side comparison.</li>
+  <li><strong>As the markup language for mathematical notation.</strong><br />
+This is used in both Rnw and Rmd exercises and can be displayed in various ways. See the <a href="http://www.R-exams.org/tutorials/math/">Mathematical Notation</a> tutorial for some guidance, especially when rendering online exams.</li>
+  <li><strong>As the engine for producing PDF output.</strong><br />
+This is also used for both Rnw and Rmd exercises, especially when using <code class="language-plaintext highlighter-rouge">exams2pdf()</code> for flexible, customizable PDF output and <code class="language-plaintext highlighter-rouge">exams2nops()</code> for standardized PDF output that can be <a href="http://www.R-exams.org/tutorials/exams2nops/">automatically scanned and evaluated</a>.</li>
+</ul>
+
+<h2 id="how">How?</h2>
+
+<p>If you use R/exams for rendering exercises without mathematical notation into online exams then you likely do not need LaTeX at all (and can stop reading here).</p>
+
+<p>If you only use mathematical notation but still only generate online HTML-based exams, especially for e-learning materials, then you need a bit of the markup language but do not actually need to install a TeX engine as part of a TeX distribution.</p>
+
+<p>However, when you produce PDF output, be it from Rnw or Rmd exercises, then you need to install a TeX distribution with suitable TeX engines. In case of R/Markdown exercises in Rmd format, R/exams converts the Markdown markup to LaTeX behind the scenes (using the powerful <a href="http://pandoc.org/">pandoc</a> document converter), before using a TeX engine to render the PDF output. The following comments should help you choose an appropriate way to install and interface a TeX distribution when working with R/exams.</p>
+
+<p>The TeX distribution providing the TeX engine(s) can either be installed “as usual” on the system, e.g., by downloading MikTeX for Windows or installing TeX Live from a standard repository under Linux or OS X. Alternatively, the R package <a href="https://yihui.name/tinytex/">tinytex</a> offers the possibility for installing a lightweight TeX distribution called “TinyTeX”, based on TeX Live. The latter option is particularly attractive for R/exams users that do not actually use LaTeX for other projects. This is due to a couple of reasons: Everything is handled through R; no special super user rights are needed for the installation; and the installation is minimal with additional style files etc. being installed automatically only if needed. To install the R package <code class="language-plaintext highlighter-rouge">tinytex</code> you just need</p>
+
+<pre><code class="language-{r}">install.packages("tinytex")
+</code></pre>
+
+<p>or alternatively use the graphical user interface in RStudio etc. To install the TeX distribution “TinyTeX” you just need</p>
+
+<pre><code class="language-{r}">tinytex::install_tinytex()
+</code></pre>
+
+<p>Finally, even when you have installed a TeX distribution (other than TinyTeX) on your system (e.g., TeX Live or MikTeX), the R package <code class="language-plaintext highlighter-rouge">tinytex</code> may (or may not) still be useful for producing PDF exams. Three cases need to be distinguished.</p>
+
+<ol>
+  <li>
+    <p><strong>System LaTeX via <code class="language-plaintext highlighter-rouge">tools::texi2dvi()</code></strong><br />
+<em>When:</em> The R package <code class="language-plaintext highlighter-rouge">tinytex</code> is <em>not</em> installed or when setting <code class="language-plaintext highlighter-rouge">options(exams_tex = "tools")</code>.<br />
+<em>Why:</em> For R/exams users that also use LaTeX for other projects and do not need any further assistance and hence do not need to introduce another dependency in their code.</p>
+  </li>
+  <li>
+    <p><strong>System LaTeX via <code class="language-plaintext highlighter-rouge">tinytex::latexmk()</code></strong><br />
+<em>When:</em> The R package <code class="language-plaintext highlighter-rouge">tinytex</code> is installed but not the TinyTeX distribution (and the <code class="language-plaintext highlighter-rouge">exams_tex</code> option is not set to <code class="language-plaintext highlighter-rouge">"tools"</code>).<br />
+<em>Why:</em> This tries to resolve some dependencies automatically (e.g., additional style files). Also, it not only supports the <code class="language-plaintext highlighter-rouge">"pdflatex"</code> engine but also <code class="language-plaintext highlighter-rouge">"xelatex"</code> or <code class="language-plaintext highlighter-rouge">"lualatex"</code> etc., which may be useful/necessary for handling certain fonts.</p>
+  </li>
+  <li>
+    <p><strong>TinyTeX via <code class="language-plaintext highlighter-rouge">tinytex::latexmk()</code></strong><br />
+<em>When:</em> The R package <code class="language-plaintext highlighter-rouge">tinytex</code> is installed and <code class="language-plaintext highlighter-rouge">tinytex::install_tinytex()</code> was used to install the TinyTeX distribution (and the <code class="language-plaintext highlighter-rouge">exams_tex</code> option is not set to <code class="language-plaintext highlighter-rouge">"tools"</code>).<br />
+<em>Why:</em> For users that do not use LaTeX outside of R as it is more lightweight and very easy to install/maintain.</p>
+  </li>
+</ol>
+
+    ]]></description>
+				<guid isPermaLink="true">http://www.R-exams.org/tutorials/latex/</guid>
+			</item>
+		
+    
+    
+			<item>
         <title><![CDATA[Online Tests for TestVision with R/exams]]></title>
 				<link>http://www.R-exams.org/tutorials/exams2testvision/</link>
         <pubDate>Mon, 23 Nov 2020 00:00:00 +0100</pubDate>
@@ -1130,328 +1211,6 @@ plot(s4)</code></pre>
 
     ]]></description>
 				<guid isPermaLink="true">http://www.R-exams.org/tutorials/stresstest/</guid>
-			</item>
-		
-    
-    
-			<item>
-        <title><![CDATA[R/exams @ useR! 2019]]></title>
-				<link>http://www.R-exams.org/general/user2019/</link>
-        <pubDate>Tue, 09 Jul 2019 00:00:00 +0200</pubDate>
-        
-        <description><![CDATA[
-    
-    <p>Pre-conference tutorial about R/exams at useR! 2019 (The R User Conference) in Toulouse: Slides, example code, and links to further information.</p>
-    
-    
-    <p><img alt="R/exams @ useR! 2019" src="http://www.R-exams.org/images/user2019.title.png" /></p>
-    
-    <h2 id="tutorial-at-user-2019">Tutorial at useR! 2019</h2>
-
-<p>Today, the pre-conference tutorials kick off this year’s <a href="https://useR2019.R-project.org/">useR! 2019</a> conference. The organizers kindly invited <a href="http://www.R-exams.org/">R/exams</a> for one of these tutorials. This blog post provides some accompanying resources which may be of interest to those who do not attend the conference/tutorial. The plan is to roughly follow the outline below.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">Time</th>
-      <th style="text-align: left">Content</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">14:00 <br /> 14:30 <br /> 15:00</td>
-      <td style="text-align: left">Introduction (overview, installation, written exam) <br /> Dynamic exercises (numeric, single choice, multiple choice, cloze) <br /> One-for-all (plain PDF, plain HTML, Moodle XML)</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">15:30</td>
-      <td style="text-align: left">— <em>Break</em> —</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">16:00 <br /> 16:30 <br /> 17:00</td>
-      <td style="text-align: left">E-Learning (Moodle, Canvas, ARSnova, …) <br /> Written exams (NOPS) <br /> Outlook</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Most importantly the presentation <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/slides.pdf">slides</a> are available in PDF format (under CC-BY) along with an <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/tutorial.R">R script</a> (under GPL-2 or GPL-3) for the examples:</p>
-
-<p><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/slides.pdf"><img src="http://www.R-exams.org/assets/posts/2019-07-09-user2019/slides.png" alt="slides.pdf" /></a>
-<a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/tutorial.R"><img src="http://www.R-exams.org/assets/posts/2019-07-09-user2019/tutorial.png" alt="tutorial.R" /></a></p>
-
-<p>Below, the examples, code, and links from the slides and R script are also provided which might be more convenient for some readers.</p>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>To set up your computer for this tutorial, follow Steps 1-4 in the tutorial <a href="http://www.R-exams.org/tutorials/installation/">http://www.R-exams.org/tutorials/installation/</a>.</p>
-
-<p>Subsequently, we start out with setps described in more detail in <a href="http://www.R-exams.org/tutorials/first_steps/">http://www.R-exams.org/tutorials/first_steps/</a>. The package is loaded and first we create an “exams skeleton” with:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">demo-*.R</code> scripts</li>
-  <li><code class="language-plaintext highlighter-rouge">exercises/</code> folder with all <code class="language-plaintext highlighter-rouge">.Rmd</code>/<code class="language-plaintext highlighter-rouge">.Rnw</code> exercises</li>
-  <li><code class="language-plaintext highlighter-rouge">templates/</code> folder with various customizable templates</li>
-  <li><code class="language-plaintext highlighter-rouge">nops/</code> folder (empty) for <code class="language-plaintext highlighter-rouge">exams2nops()</code> output</li>
-</ul>
-
-<pre><code class="language-{r}">library("exams")
-exams_skeleton()
-</code></pre>
-
-<p>To check whether everything works we render a single-choice question (<a href="http://www.R-exams.org/templates/swisscapital/">swisscapital</a>, knowledge quiz about the Swiss capital) into a plain HTML and PDF format, respectively.</p>
-
-<pre><code class="language-{r}">exams2html("swisscapital.Rmd")
-exams2pdf("swisscapital.Rmd")
-</code></pre>
-
-<p>And then we do the same for a numeric question with mathematical notation: (<a href="http://www.R-exams.org/templates/deriv/">deriv</a>, product rule for derivatives). By default <code class="language-plaintext highlighter-rouge">exams2html()</code> uses MathML for the mathematical notation and expects the browser to render it which works ok in Firefox and Safari. But for Chrome it is better to use MathJax, see this post about <a href="http://www.R-exams.org/tutorials/math/">mathematical notation in web exams</a> for more details.</p>
-
-<pre><code class="language-{r}">exams2html("deriv.Rmd")
-exams2html("deriv.Rmd", converter = "pandoc-mathjax")
-exams2pdf("deriv.Rmd")
-</code></pre>
-
-<p>Finally, a useful trick for checking whether the meta-information associated with an exercise is processed correctly:</p>
-
-<pre><code class="language-{r}">exams_metainfo(exams2html(c("swisscapital.Rmd", "deriv.Rmd")))
-</code></pre>
-
-<h2 id="dynamic-exercises">Dynamic exercises</h2>
-
-<p>This section gives a tour of the dynamic exercises shipped along with the package. See <a href="http://www.R-exams.org/intro/dynamic/">http://www.R-exams.org/intro/dynamic/</a> for the supported exercise types and <a href="http://www.R-exams.org/templates/">http://www.R-exams.org/templates/</a> for a list of all example exercises.</p>
-
-<p>Additionally, there is a simple knowledge quiz question about useR! conferences: <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/conferences.Rmd">conferences.Rmd</a>, <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/conferences.Rnw">conferences.Rnw</a>.</p>
-
-<p>And the following exercises are used to illustrate how to go from a static to a dynamic numeric or single-choice question, see <a href="http://www.R-exams.org/tutorials/static_num_schoice/">http://www.R-exams.org/tutorials/static_num_schoice/</a> for more details. While the tutorial uses a basic economic example about computing elasticities, the exercises below are basic arithmetic exercises about derivatives.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">#</th>
-      <th style="text-align: left">Exercise templates</th>
-      <th style="text-align: left">Dynamic?</th>
-      <th style="text-align: left">Type</th>
-      <th style="text-align: left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv1.Rmd">expderiv1.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv1.Rnw">expderiv1.Rnw</a></td>
-      <td style="text-align: left">No</td>
-      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
-      <td style="text-align: left">Fixed parameters and numeric solution.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">2</td>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv2.Rmd">expderiv2.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv2.Rnw">expderiv2.Rnw</a></td>
-      <td style="text-align: left">No</td>
-      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
-      <td style="text-align: left">As in #1 but with single-choice solution (five answer alternatives).</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">3</td>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv3.Rmd">expderiv3.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv3.Rnw">expderiv3.Rnw</a></td>
-      <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">num</code></td>
-      <td style="text-align: left">Randomly drawn parameters with dynamic computation of correct solution, based on #1.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv4.Rmd">expderiv4.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv4.Rnw">expderiv4.Rnw</a></td>
-      <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
-      <td style="text-align: left">Randomly drawn parameters (as in #3) with dynamically-generated single-choice solution (as in #2), computed by <code class="language-plaintext highlighter-rouge">num_to_schoice()</code>.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">5</td>
-      <td style="text-align: left"><a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv5.Rmd">expderiv5.Rmd</a> <br /> <a href="http://www.R-exams.org/assets/posts/2019-07-09-user2019/expderiv5.Rnw">expderiv5.Rnw</a></td>
-      <td style="text-align: left">Yes</td>
-      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">schoice</code></td>
-      <td style="text-align: left">As in #4 but with the last alternative: <em>None of the above.</em></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>All of these extra exercise files can be downloaded from within R and stored in the skeleton set up above:</p>
-
-<pre><code class="language-{r}">extra &lt;- c("conferences", paste0("expderiv", 1:5))
-extra &lt;- c(paste0(extra, ".Rnw"), paste0(extra, ".Rmd"))
-for(i in extra) download.file(paste0("http://www.R-exams.org/assets/posts/2019-07-09-user2019/", i), i)
-</code></pre>
-
-<p>To take a tour of the available exercise files, we switch to the <code class="language-plaintext highlighter-rouge">exercises/</code> folder:</p>
-
-<pre><code class="language-{r}">setwd("exercises")
-dir()
-</code></pre>
-
-<h4 id="numeric-exercises">Numeric exercises</h4>
-
-<pre><code class="language-{r}">exams2html(c(
-  "deriv.Rmd",        ## product rule for derivatives
-  "tstat.Rmd",        ## 1-sample t-test statistic
-  "dist.Rmd",         ## distances and the Pythagorean theorem
-  "regression.Rmd",   ## simple linear regression (by hand)
-  "fruit.Rmd",        ## image-based systems of linear equations (numeric)
-  "lagrange.Rmd",     ## method of Lagrange multipliers
-  "currency8.Rmd"     ## convert currencies (UTF-8 encoding)
-))
-</code></pre>
-
-<h4 id="single-choice-exercises">Single-choice exercises</h4>
-
-<pre><code class="language-{r}">exams2html(c(
-  "swisscapital.Rmd", ## knowledge quiz question about the Swiss capital
-  "Rlogo.Rmd",        ## knowledge quiz question about the R logo
-  "deriv2.Rmd",       ## product rule for derivatives (single-choice, via num_to_schoice)
-  "tstat2.Rmd",       ## 1-sample t-test statistic (single-choice, by hand)
-  "dist3.Rmd",        ## distances and the Pythagorean theorem (single-choice, via num_to_schoice)
-  "fruit2.Rmd",       ## image-based systems of linear equations (single-choice, via num_to_schoice)
-  "hessian.Rmd",      ## 2x2 Hessian matrix (single-choice)
-  "logic.Rmd"         ## interpretation of logic gates (using TikZ)
-))
-</code></pre>
-
-<h4 id="multiple-choice-exercises">Multiple-choice exercises</h4>
-
-<pre><code class="language-{r}">exams2html(c(
-  "switzerland.Rmd",  ## knowledge quiz question about Switzerland
-  "gaussmarkov.Rmd",  ## knowledge quiz question about Gauss-Markov assumptions
-  "anova.Rmd",        ## 1-way analysis of variance
-  "boxplots.Rmd",     ## interpretation of 2-sample boxplots
-  "scatterplot.Rmd",  ## interpretation of a scatterplot
-  "ttest.Rmd",        ## interpretation of 2-sample t test
-  "relfreq.Rmd",      ## interpretation of relative frequency tables
-  "cholesky.Rmd",     ## Cholesky decomposition
-  "automaton.Rmd"     ## interpretation of automaton diagrams (using TikZ)
-))
-</code></pre>
-
-<h4 id="string-exercises">String exercises</h4>
-
-<pre><code class="language-{r}">exams2html(c(
-  "function.Rmd",     ## string question about R functions
-  "countrycodes.Rmd"  ## string question about ISO country codes
-))
-</code></pre>
-
-<h4 id="cloze-exercises">Cloze exercises</h4>
-
-<p>These combine several num/schoice/mchoice/string parts:</p>
-
-<pre><code class="language-{r}">exams2html(c(
-  "lm.Rmd",           ## simple linear regression (with CSV data, schoice/num)
-  "boxhist.Rmd",      ## univariate exploration of a CSV file (schoice/num)
-  "confint2.Rmd",     ## 2-sided confidence interval (num)
-  "dist2.Rmd",        ## three distances in a Cartesian coordinate system (num)
-  "fourfold.Rmd"      ## fourfold table (num)
-))
-</code></pre>
-
-<h4 id="stress-testing-dynamic-exercises">Stress testing dynamic exercises</h4>
-
-<p>The function <code class="language-plaintext highlighter-rouge">stresstest_exercise()</code> can help to do some basic quality control of dynamic exercise templates. It runs the exercises <code class="language-plaintext highlighter-rouge">n</code> times (default: 100) with seeds <code class="language-plaintext highlighter-rouge">1</code> to <code class="language-plaintext highlighter-rouge">n</code> and stores run time, solution, and accompanying variables (of length 1). This can help to spot problems or patterns in the exercises.</p>
-
-<p>A simple example for a numeric exercise is:</p>
-
-<pre><code class="language-{r}">s3 &lt;- stresstest_exercise("expderiv3.Rmd")
-plot(s3)
-plot(s3, type = "solution")
-</code></pre>
-
-<p>And for a single-choice exercise:</p>
-
-<pre><code class="language-{r}">s4 &lt;- stresstest_exercise("expderiv4.Rmd")
-plot(s4)
-plot(s4, type = "solution")
-</code></pre>
-
-<p>To focus on typical errors the plots against the variables <code class="language-plaintext highlighter-rouge">err1</code> and <code class="language-plaintext highlighter-rouge">err2</code> can either be created by the <code class="language-plaintext highlighter-rouge">plot()</code> method or “by hand” with some customization:</p>
-
-<pre><code class="language-{r}">plot(s4, type = "solution", variables = c("err1", "err2"))
-plot(res ~ err1, data = s4$objects)
-abline(0, 1)
-plot(res ~ err2, data = s4$objects)
-abline(0, 1)
-</code></pre>
-
-<p>Finally, we switch back to the original folder:</p>
-
-<pre><code class="language-{r}">setwd("..")
-</code></pre>
-
-<h2 id="one-for-all">One-for-all</h2>
-
-<p>A basic design idea for R/exams is that the same exercise can, in principle, be rendered into a wide range of different output formats. For standalone files the most important formats are PDF, HTML, and possibly also Docx:</p>
-
-<pre><code class="language-{r}">demo_exam &lt;- c("swisscapital.Rmd", "deriv.Rmd")
-exams2html(demo_exam, edir = "exercises")
-exams2pdf(demo_exam, edir = "exercises")
-exams2pandoc(demo_exam, edir = "exercises")
-</code></pre>
-
-<p>The layout can be customized using suitable templates, e.g.,</p>
-
-<pre><code class="language-{r}">exams2pdf(demo_exam, edir = "exercises", template = "templates/exam.tex")
-exams2pdf(demo_exam, edir = "exercises", template = "templates/solution.tex")
-</code></pre>
-
-<p>Also, <code class="language-plaintext highlighter-rouge">exams2nops()</code> internally sets up a template on the fly and then calls <code class="language-plaintext highlighter-rouge">exams2pdf()</code>. And e-learning exams (Moodle XML, QTI 1.2/2.1, …) are illustrated in the next section.</p>
-
-<h2 id="e-learning-moodle-canvas-arsnova-">E-Learning (Moodle, Canvas, ARSnova, …)</h2>
-
-<p>Output for various e-learning formats can be generated in pretty much the same way as the standalone files above. The main difference is that not one file per exam is generated but a combined output file comprising the desired number of exam replications. For example for Moodle:</p>
-
-<pre><code class="language-{r}">elearn_exam &lt;- c("conferences.Rmd", "deriv.Rmd", "ttest.Rmd", "boxplots.Rmd",
-  "function.Rnw", "lm.Rmd", "fourfold2.Rmd", "confint3.Rmd")
-set.seed(2019-07-09)
-exams2moodle(elearn_exam, n = 30, name = "useR-2019",
-  dir = "output", edir = "exercises")
-</code></pre>
-
-<p>For the registered participants of the course the resulting online quiz is made available at <a href="https://eeecon.uibk.ac.at/~moodle/">https://eeecon.uibk.ac.at/~moodle/</a>. You can login with your e-mail address and the numeric code sent to you.</p>
-
-<p>Analogously, the numeric and single-/multiple-choice questions (but not yet cloze) can be prepared for Canvas by:</p>
-
-<pre><code class="language-{r}">set.seed(2019-07-09)
-exams2canvas(elearn_exam[1:5], n = 3, name = "useR-2019",
-  dir = "output", edir = "exercises", duration = 15)
-</code></pre>
-
-<p>For OpenOLAT all exercises except one Moodle-specific exercise can be used as well:</p>
-
-<pre><code class="language-{r}">set.seed(2019-07-09)
-exams2openolat(elearn_exam[1:7], n = 3, name = "useR-2019-olat",
-  dir = "output", edir = "exercises")
-</code></pre>
-
-<p>For ARSnova only single- and multiple-choice questions have good support:</p>
-
-<pre><code class="language-{r}">choice_exam &lt;- list(
-  "conferences.Rmd",
-  "deriv2.Rmd",
-  c("ttest.Rmd", "boxplots.Rmd")
-)
-set.seed(2019-07-09)
-exams2arsnova(unlist(choice_exam), n = 1, name = "useR-2019",
-  dir = "output", edir = "exercises")
-</code></pre>
-
-<h2 id="written-exams-nops">Written exams (NOPS)</h2>
-
-<p>The written demo exam from the tutorial can be replicated by:</p>
-
-<pre><code class="language-{r}">set.seed(2019-07-09)
-exams2nops(choice_exam, n = 35, name = "useR-2019",
-  dir = "nops", edir = "exercises",
-  reglength = 8, blank = 1, date = "2019-07-09",
-  title = "Demo Exam", institution = "useR! 2019")
-</code></pre>
-
-<p>More details about creating and evaluating NOPS exams is provided in the tutorial at <a href="http://www.R-exams.org/tutorials/exams2nops/">http://www.R-exams.org/tutorials/exams2nops/</a>.</p>
-
-    ]]></description>
-				<guid isPermaLink="true">http://www.R-exams.org/general/user2019/</guid>
 			</item>
 		
 	</channel>

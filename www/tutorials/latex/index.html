@@ -3,7 +3,7 @@
 <head>
 		<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Online Tests for TestVision with R/exams</title>
+	<title>Using LaTeX in R/exams: What, Why, How?</title>
 	<link rel="stylesheet" type="text/css" href="http://www.R-exams.org/assets/css/styles_feeling_responsive.css" />
 	<script src="http://www.R-exams.org/assets/js/modernizr.min.js"></script>
   
@@ -23,10 +23,10 @@
 
 	
 	
-	<meta name="description" content="Generating, importing, and customizing online tests for TestVision with R/exams." />
-	<meta name="keywords" content="e-learning, quiz, num, mchoice, schoice, string, cloze, R" />
+	<meta name="description" content="LaTeX is a document prepration system that is very powerful but can sometimes also be a bit confusing. Hence, some useful details are provided that should help R/exams users getting LaTeX installed and used effectively for preparing exams." />
+	<meta name="keywords" content="LaTeX, MathML, MathJax" />
 	
-	<meta name="author" content="Niels Smits" />
+	<meta name="author" content="Achim Zeileis" />
 
 	
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
@@ -47,13 +47,13 @@
 	
 
 	<!-- Facebook Optimization -->
-	<meta property="og:title" content="Online Tests for TestVision with R/exams" />
-	<meta property="og:description" content="Generating, importing, and customizing online tests for TestVision with R/exams." />
-	<meta property="og:url" content="http://www.R-exams.org//tutorials/exams2testvision/" />
+	<meta property="og:title" content="Using LaTeX in R/exams: What, Why, How?" />
+	<meta property="og:description" content="LaTeX is a document prepration system that is very powerful but can sometimes also be a bit confusing. Hence, some useful details are provided that should help R/exams users getting LaTeX installed and used effectively for preparing exams." />
+	<meta property="og:url" content="http://www.R-exams.org//tutorials/latex/" />
 	<meta property="og:locale" content="en_EN" />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="R/exams" />
-	<meta property="og:image" content="http://www.R-exams.org/images/exams2testvision.300.png" />
+	<meta property="og:image" content="http://www.R-exams.org/images/latex.300.png" />
 	
 
 	
@@ -61,9 +61,9 @@
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:site" content="AchimZeileis" />
 	<meta name="twitter:creator" content="AchimZeileis" />
-	<meta name="twitter:title" content="Online Tests for TestVision with R/exams" />
-	<meta name="twitter:description" content="Generating, importing, and customizing online tests for TestVision with R/exams." />
-	<meta name="twitter:image" content="http://www.R-exams.org/images/exams2testvision.300.png" />
+	<meta name="twitter:title" content="Using LaTeX in R/exams: What, Why, How?" />
+	<meta name="twitter:description" content="LaTeX is a document prepration system that is very powerful but can sometimes also be a bit confusing. Hence, some useful details are provided that should help R/exams users getting LaTeX installed and used effectively for preparing exams." />
+	<meta name="twitter:image" content="http://www.R-exams.org/images/latex.300.png" />
 
 
 	<link type="text/plain" rel="author" href="http://www.R-exams.org/humans.txt" />
@@ -319,11 +319,11 @@
 			<header>
 				
 				<figure>
-					<img src="http://www.R-exams.org/images/exams2testvision.title.png" width="970" alt="Online Tests for TestVision with R/exams" itemprop="image">
+					<img src="http://www.R-exams.org/images/latex.title.svg" width="970" alt="Using LaTeX in R/exams: What, Why, How?" itemprop="image">
 
 					
 					<figcaption class="text-right">
-						R/exams + TestVision.
+						LaTeX logo.
 					</figcaption>
 					
 				</figure>
@@ -331,108 +331,80 @@
 
 				<span itemprop="name">
 					
-					<h1>Online Tests for TestVision with R/exams</h1>
+					<h1>Using LaTeX in R/exams: What, Why, How?</h1>
 				</span>
 			</header>
 
 
 			
 			<p class="teaser" itemprop="description">
-				Generating, importing, and customizing online tests for TestVision with R/exams.
+				LaTeX is a document prepration system that is very powerful but can sometimes also be a bit confusing. Hence, some useful details are provided that should help R/exams users getting LaTeX installed and used effectively for preparing exams.
 			</p>
 			
 
 			<span itemprop="articleSection">
-			<h2 id="motivation">Motivation</h2>
+			<h2 id="what">What?</h2>
 
-<p>This tutorial illustrates how to use <a href="http://www.R-exams.org">R/exams</a> for creating online exams for <a href="https://www.testvision.nl/en/">TestVision</a>. Testvision is a Dutch commercial online testing company which administers online exams for many universities in the Netherlands. Until now the import of external material from R/exams into TestVision was rather limited, and therefore a new function was necessary.</p>
+<p><a href="https://latex-project.org/">LaTeX</a> is a software system for document preparation, see the corresponding <a href="https://en.wikipedia.org/wiki/LaTeX">Wikipedia</a> page for an overview. The system encompasses various elements that are important to distinguish:</p>
 
-<p>Here, two things are illustrated:</p>
+<ul>
+  <li>It uses a <strong>markup language</strong> that can be written in any simple text editor with commands structuring a document (title, sections, etc.), formatting text (italics, bold face, etc.), and providing a powerful mathematical notation.</li>
+  <li>Subsequently, a <strong>TeX engine</strong> can be used to process such a text file and produce an output document that can be viewed, printed, etc. The probably most commonly-used TeX engine is <a href="https://www.tug.org/applications/pdftex/">pdfTeX</a> rendering LaTeX files into PDF documents.</li>
+  <li><strong>TeX distributions</strong> ship collections of such TeX engines along with further utilities, macros, and fonts for processing LaTeX files. The most widely-used TeX distributions are <a href="https://www.tug.org/texlive/">TeX Live</a> available on all major operating systems and <a href="https://miktex.org/">MikTeX</a> for Windows.</li>
+</ul>
 
-<ol>
-  <li>Steps required using R/exams to create tests in TestVision format.</li>
-  <li>Steps required in TestVision online to import these tests in TestVision system.</li>
-</ol>
+<h2 id="why">Why?</h2>
 
-<p>An accompanying video guide is available on YouTube at <a href="https://www.youtube.com/watch?v=rrpudw2aKVc">https://www.youtube.com/watch?v=rrpudw2aKVc</a>.</p>
+<p>In general LaTeX it is very useful for professional typesetting, especially of scientific documents, and is the most widely-used markup language for mathematical notation. However, the complexity of the LaTeX markup language can also be confusing, especially for newcomers, and hence it can be easier to use other markup languages such as <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> for many documents. But even when using Markdown as the main markup for a document, LaTeX may still be involved in producing an output document: either only for mathematical notation (e.g., in HTML output) and/or for rendering PDF output. In short, due to its power and flexibility LaTeX is used either explicitly or implicitly in the preparation of a lot of output documents.</p>
 
-<p><a href="https://www.youtube.com/watch?v=rrpudw2aKVc"><img src="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision/exams2testvision.png" alt="exams2testvision" /></a></p>
+<p>Consequently, <a href="http://www.R-exams.org">R/exams</a> leverages LaTeX, mainly for three purposes:</p>
 
-<h2 id="steps-in-r">Steps in R</h2>
+<ul>
+  <li><strong>As the main markup language for authoring exercises and formatting text in R/LaTeX (Rnw) format.</strong><br />
+However, this is optional and the R/Markdown (Rmd) format for authoring exercises is probably more widely used. See the <a href="http://www.R-exams.org/tutorials/first_steps/">First Steps</a> tutorial for a side-by-side comparison.</li>
+  <li><strong>As the markup language for mathematical notation.</strong><br />
+This is used in both Rnw and Rmd exercises and can be displayed in various ways. See the <a href="http://www.R-exams.org/tutorials/math/">Mathematical Notation</a> tutorial for some guidance, especially when rendering online exams.</li>
+  <li><strong>As the engine for producing PDF output.</strong><br />
+This is also used for both Rnw and Rmd exercises, especially when using <code class="language-plaintext highlighter-rouge">exams2pdf()</code> for flexible, customizable PDF output and <code class="language-plaintext highlighter-rouge">exams2nops()</code> for standardized PDF output that can be <a href="http://www.R-exams.org/tutorials/exams2nops/">automatically scanned and evaluated</a>.</li>
+</ul>
 
-<h3 id="install-the-package">Install the package</h3>
+<h2 id="how">How?</h2>
 
-<p>At the moment (November 2020) the <code class="language-plaintext highlighter-rouge">exams2testvision()</code> function is not yet part of the CRAN version of R/exams. For the time being one should use the development version from R-forge. To obtain it, use:</p>
+<p>If you use R/exams for rendering exercises without mathematical notation into online exams then you likely do not need LaTeX at all (and can stop reading here).</p>
 
-<pre><code class="prettyprint ">install.packages(&quot;exams&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)</code></pre>
+<p>If you only use mathematical notation but still only generate online HTML-based exams, especially for e-learning materials, then you need a bit of the markup language but do not actually need to install a TeX engine as part of a TeX distribution.</p>
 
-<p>Note that this line of code only needs to be run once, and that after that R/exams is permanently installed on your machine.</p>
+<p>However, when you produce PDF output, be it from Rnw or Rmd exercises, then you need to install a TeX distribution with suitable TeX engines. In case of R/Markdown exercises in Rmd format, R/exams converts the Markdown markup to LaTeX behind the scenes (using the powerful <a href="http://pandoc.org/">pandoc</a> document converter), before using a TeX engine to render the PDF output. The following comments should help you choose an appropriate way to install and interface a TeX distribution when working with R/exams.</p>
 
-<h3 id="run-example">Run example</h3>
+<p>The TeX distribution providing the TeX engine(s) can either be installed “as usual” on the system, e.g., by downloading MikTeX for Windows or installing TeX Live from a standard repository under Linux or OS X. Alternatively, the R package <a href="https://yihui.name/tinytex/">tinytex</a> offers the possibility for installing a lightweight TeX distribution called “TinyTeX”, based on TeX Live. The latter option is particularly attractive for R/exams users that do not actually use LaTeX for other projects. This is due to a couple of reasons: Everything is handled through R; no special super user rights are needed for the installation; and the installation is minimal with additional style files etc. being installed automatically only if needed. To install the R package <code class="language-plaintext highlighter-rouge">tinytex</code> you just need</p>
 
-<p>After loading the exams package, we create an exam called <code class="language-plaintext highlighter-rouge">myexam</code> which is a list of exercises. It consists of, respectively, a <a href="http://www.R-exams.org/tag/num/">num</a>, <a href="http://www.R-exams.org/tag/schoice/">schoice</a>, <a href="http://www.R-exams.org/tag/mchoice/">mchoice</a>, <a href="http://www.R-exams.org/tag/string/">string</a>, and <a href="http://www.R-exams.org/tag/cloze/">cloze</a> item.</p>
+<pre><code class="language-{r}">install.packages("tinytex")
+</code></pre>
 
-<pre><code class="prettyprint ">library(&quot;exams&quot;)
-myexam &lt;- list(
-  &quot;calcmean.Rmd&quot;,
-  &quot;tstat2.Rmd&quot;,
-  &quot;relfreq.Rmd&quot;,
-  &quot;essayreg.Rmd&quot;,
-  &quot;boxhist.Rmd&quot;
-)</code></pre>
+<p>or alternatively use the graphical user interface in RStudio etc. To install the TeX distribution “TinyTeX” you just need</p>
 
-<p>The first item in the list of exercises, <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//calcmean.Rmd">calcmean.Rmd</a> (or alternatively <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//calcmean.Rnw">calcmean.Rnw</a> in R/LaTeX format), is a question that is <strong>not</strong> part of the package. It was added to show (a) how a table may be generated, an (b) what this table looks like in TestVision. For things to work this exercise should be saved in the working directory. The remaining exercises do not need to be copied as they are shipped withing the package. For more information on these exercises, see: <a href="http://www.R-exams.org/templates/tstat2/">tstat2</a>, <a href="http://www.R-exams.org/templates/relfreq/">relfreq</a>, <a href="http://www.R-exams.org/templates/essayreg/">essayreg</a>, <a href="http://www.R-exams.org/templates/boxhist/">boxhist</a>.</p>
+<pre><code class="language-{r}">tinytex::install_tinytex()
+</code></pre>
 
-<p>As a first quick check that all exercises work correctly and can be rendered well in a browser, we use the following code (setting a seed for exact reproducibility):</p>
-
-<pre><code class="prettyprint ">set.seed(127)
-exams2html(myexam, converter = &quot;pandoc-mathjax&quot;)</code></pre>
-
-<p><a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//testvision.html"><img src="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision/testvision-html.png" alt="testvision.html" /></a></p>
-
-<p>Subsequently, we create the import file for an exam in TestVision.</p>
-
-<pre><code class="prettyprint ">set.seed(127)
-exams2testvision(myexam)</code></pre>
-
-<p>In the working directory a zip file called <a href="http://www.R-exams.org/assets/posts/2020-11-23-exams2testvision//testvision.zip">testvision.zip</a> is created, which includes (a) a collection of XML files containing the exercises in TestVision format (based on QTI 2.1) and (b) a directory containing supplementary material, such as images and data files.</p>
-
-<h2 id="steps-in-testvision">Steps in TestVision</h2>
-
-<h3 id="importing-rexams-output">Importing R/exams output</h3>
-
-<p>To import the exams created using R/exams into TestVision the following steps should be performed:</p>
+<p>Finally, even when you have installed a TeX distribution (other than TinyTeX) on your system (e.g., TeX Live or MikTeX), the R package <code class="language-plaintext highlighter-rouge">tinytex</code> may (or may not) still be useful for producing PDF exams. Three cases need to be distinguished.</p>
 
 <ol>
-  <li>Log in into your institution’s TestVision site.</li>
-  <li>Select ‘Vragen’ (‘Questions’).</li>
-  <li>Select ‘Import’ in the upper left corner.<br />
-A pop-up screen called ‘Vragen importeren’ (‘Import questions’) appears .</li>
-  <li>Select the zip-file ‘testvision.zip’ on your computer.</li>
-  <li>Check the option ‘Minder strikte import controle’ (‘less strict import evaluation’).</li>
-  <li>Click ‘OK’. <strong>Uploading may take a while!</strong></li>
+  <li>
+    <p><strong>System LaTeX via <code class="language-plaintext highlighter-rouge">tools::texi2dvi()</code></strong><br />
+<em>When:</em> The R package <code class="language-plaintext highlighter-rouge">tinytex</code> is <em>not</em> installed or when setting <code class="language-plaintext highlighter-rouge">options(exams_tex = "tools")</code>.<br />
+<em>Why:</em> For R/exams users that also use LaTeX for other projects and do not need any further assistance and hence do not need to introduce another dependency in their code.</p>
+  </li>
+  <li>
+    <p><strong>System LaTeX via <code class="language-plaintext highlighter-rouge">tinytex::latexmk()</code></strong><br />
+<em>When:</em> The R package <code class="language-plaintext highlighter-rouge">tinytex</code> is installed but not the TinyTeX distribution (and the <code class="language-plaintext highlighter-rouge">exams_tex</code> option is not set to <code class="language-plaintext highlighter-rouge">"tools"</code>).<br />
+<em>Why:</em> This tries to resolve some dependencies automatically (e.g., additional style files). Also, it not only supports the <code class="language-plaintext highlighter-rouge">"pdflatex"</code> engine but also <code class="language-plaintext highlighter-rouge">"xelatex"</code> or <code class="language-plaintext highlighter-rouge">"lualatex"</code> etc., which may be useful/necessary for handling certain fonts.</p>
+  </li>
+  <li>
+    <p><strong>TinyTeX via <code class="language-plaintext highlighter-rouge">tinytex::latexmk()</code></strong><br />
+<em>When:</em> The R package <code class="language-plaintext highlighter-rouge">tinytex</code> is installed and <code class="language-plaintext highlighter-rouge">tinytex::install_tinytex()</code> was used to install the TinyTeX distribution (and the <code class="language-plaintext highlighter-rouge">exams_tex</code> option is not set to <code class="language-plaintext highlighter-rouge">"tools"</code>).<br />
+<em>Why:</em> For users that do not use LaTeX outside of R as it is more lightweight and very easy to install/maintain.</p>
+  </li>
 </ol>
-
-<p><em>Comment:</em> Here ‘Minder strikte import controle’ was required because the first exercise contains a table. TestVision has very strict rules for the HTML structure of tables, and when this option is not chosen uploading fails.</p>
-
-<h3 id="inspecting-the-exam">Inspecting the exam</h3>
-
-<p>Once imported you can take a closer look at the content using ‘Preview’. To permanently import the questions they should be moved to a directory.</p>
-
-<ol>
-  <li>Under ‘…’ select ‘Geïmporteerde vragen verplaatsen’ (‘Move imported questions’).</li>
-  <li>Select an appropriate directory and click ‘OK’.<br />
-In this directory the questions can be edited and inspected more closely.</li>
-  <li>Select ‘Bewerken’ (‘Edit’) to learn more about the content and settings and/or edit the exercises.</li>
-</ol>
-
-<p>Note that formula content is displayed using a relatively large font size. This is a TestVision issue. Hopefully it will disappear in future versions of the system. For now: The font size can be manually adjusted.</p>
-
-<p>To employ the collection of items in a online exam, (a) their status should be changed (from ‘Concept’) into ‘Approved (Aan)’, (b) a new test should be created by selecting ‘Toets’ (‘Test’) in the main menu, and (c) the new items should be included in the new test. For more information see the help function in TestVision.</p>
-
-<h2 id="funding">Funding</h2>
-
-<p>The work on the <code class="language-plaintext highlighter-rouge">exams2testvision()</code> function, the video tutorial, and this blog are part of the <a href="https://www.sharestats.nl/">ShareStats</a> project, and are financially supported by the Dutch Ministry of Education, Culture and Science (Project code OL20-06), and the University of Amsterdam.</p>
 
 			</span>
 
@@ -443,26 +415,24 @@ In this directory the questions can be edited and inspected more closely.</li>
 					
 					<!-- Output author details if some exist. -->
 					
-					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html" target="_blank"> Niels Smits</a></span>
+					<span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name" class="pr20 icon-edit"><a href="https://eeecon.uibk.ac.at/~zeileis/" target="_blank"> Achim Zeileis</a></span>
 				</span>
 				
 
 				
-				<time class="icon-calendar pr20" datetime="2020-11-23" itemprop="datePublished"> 2020-11-23</time>
+				<time class="icon-calendar pr20" datetime="2020-11-30" itemprop="datePublished"> 2020-11-30</time>
 				
 
 				<span class="icon-archive pr20"><a href="http://www.R-exams.org/tutorials/">TUTORIALS</a></span>
 				<br />
-				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/e-learning/">e-learning</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/quiz/">quiz</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/num/">num</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/mchoice/">mchoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/schoice/">schoice</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/string/">string</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/cloze/">cloze</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/R/">R</a></span> </span>
+				<span class="pr20"><span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/LaTeX/">LaTeX</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/MathML/">MathML</a></span> <span class="icon-price-tag pr10"><a href="http://www.R-exams.org/tag/MathJax/">MathJax</a></span> </span>
 			</p>
 
 			<div id="post-nav" class="row">
 				
-				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/general/distancelearning/">&laquo; R/exams for Distance Learning: Resources and Experiences</a></div><!-- /.small-4.columns -->
+				<div class="small-6 columns"><a class="button small radius prev" href="http://www.R-exams.org/tutorials/exams2testvision/">&laquo; Online Tests for TestVision with R/exams</a></div><!-- /.small-4.columns -->
 				
         
-				
-				<div class="small-6 columns text-right"><a class="button small radius next" href="http://www.R-exams.org/tutorials/latex/">Using LaTeX in R/exams: What, Why, How? &raquo;</a></div><!-- /.small-4.columns -->
 				
 			</div>
 			</div><!--  /.page-meta -->
