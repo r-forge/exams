@@ -86,7 +86,8 @@
   also for the default converters (producing MathML output) `mathjax = TRUE`
   can be used. (Suggested and tested by Sean Quallen and Gabriele Cantaluppi.)
 
-* Verbatim code chunk formatting improved in `exams2blackboard()`.
+* Improvements in `exams2blackboard()`: Verbatim code chunk formatting.
+  Points can be specified through `expoints`.
 
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.

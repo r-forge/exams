@@ -136,8 +136,12 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(tinstruction)) tinstruction <- ""
 
   ## points setting
-  if(!is.null(points))
-    points <- rep(points, length.out = nq) else points <- rep(1, length.out = nq)
+  if(!is.null(points)) {
+    points <- rep(points, length.out = nq)
+  } else {
+    points <- sapply(1:nq, function(j) exm[[1L]][[j]]$metainfo$points)
+    points[is.na(points)] <- 1
+  }
 
 
   ## create the directory where the test is stored

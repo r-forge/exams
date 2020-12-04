@@ -78,8 +78,8 @@
     \code{Inf}.}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
-    argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
-    in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
+    argument overules any exercise points that are provided within an \code{expoints} tag
+    in the Rnw/Rmd exercise file. The vector of points supplied is expanded to the number of exercises in
     the exam.}
   \item{eval}{named list, specifies the settings for the evaluation policy, see function
     \code{\link{exams_eval}}.}
