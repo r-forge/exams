@@ -6,7 +6,8 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, pluginfile = TRUE,
-  converter = "pandoc-mathjax", envir = NULL, ...)
+  converter = "pandoc-mathjax", envir = NULL,
+  table = NULL, style = NULL, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -20,6 +21,17 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     warning("the only supported 'encoding' is UTF-8")
   }
   encoding <- "UTF-8"
+
+  ## change <table> class for custom CSS in Moodle
+  if(!is.null(table)) {
+    if(isTRUE(table)) table <- "table_grid"
+    .exams_set_internal(pandoc_table_class_fixup = table)
+    on.exit(.exams_set_internal(pandoc_table_class_fixup = FALSE))
+
+    if(is.null(style) && table == "table_grid") {
+      style <- readLines(system.file(file.path("css", "table_grid.css"), package = "exams"))
+    }
+  }
 
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,
@@ -41,6 +53,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(is.list(moodlequestion[[i]]$eval)) {
         if(!moodlequestion[[i]]$eval$partial) stop("Moodle can only process partial credits!")
       }
+      if(is.null(moodlequestion[[i]]$css)) moodlequestion[[i]]$style <- style
       moodlequestion[[i]] <- do.call("make_question_moodle", moodlequestion[[i]])
     }
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -217,7 +230,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
   truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-  essay = NULL, numwidth = NULL, stringwidth = NULL)
+  essay = NULL, numwidth = NULL, stringwidth = NULL, style = NULL)
 {
   function(x) {
     ## how many points?
@@ -251,7 +264,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       paste('<text>', name, '</text>'),
       '</name>',
       '<questiontext format="html">',
-      '<text><![CDATA[<p>', if(type != "cloze") x$question else '##QuestionText##', '</p>]]></text>',
+      '<text><![CDATA[',
+      style,
+      '<p>',
+      if(type != "cloze") x$question else '##QuestionText##',
+      '</p>]]></text>',
       '</questiontext>'
     )
 

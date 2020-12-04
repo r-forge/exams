@@ -18,14 +18,16 @@
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL, rule = NULL, pluginfile = TRUE,
-    converter = "pandoc-mathjax", envir = NULL, \dots)
+    converter = "pandoc-mathjax", envir = NULL,
+    table = NULL, style = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
     truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
     eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-    essay = NULL, numwidth = NULL, stringwidth = NULL)
+    essay = NULL, numwidth = NULL, stringwidth = NULL,
+    style = NULL)
 }
 
 \arguments{
@@ -55,6 +57,10 @@
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{envir}{passed to \code{\link[exams]{xweave}}.}
+  \item{table}{character. An optional class assigned to \code{<table>} elements
+    (without a class) in the question (only supported for pandoc-based \code{converter}).}
+  \item{style}{character. A character string (or vector) containing a \code{<style>}
+    tag to be included in every question (e.g., for formatting \code{<table>} elements).}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to
     certain already existing question banks, i.e. \code{iname = TRUE} will include the exam
