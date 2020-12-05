@@ -139,7 +139,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(!is.null(points)) {
     points <- rep(points, length.out = nq)
   } else {
-    points <- sapply(1:nq, function(j) exm[[1L]][[j]]$metainfo$points)
+    points <- sapply(1:nq, function(j) c(exm[[1L]][[j]]$metainfo$points, NA_real_)[1L])
     points[is.na(points)] <- 1
   }
 
