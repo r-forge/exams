@@ -19,7 +19,7 @@
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL, rule = NULL, pluginfile = TRUE,
     converter = "pandoc-mathjax", envir = NULL,
-    table = NULL, style = NULL, \dots)
+    table = NULL, css = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -27,7 +27,7 @@
     truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
     eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
     essay = NULL, numwidth = NULL, stringwidth = NULL,
-    style = NULL)
+    css = NULL)
 }
 
 \arguments{
@@ -59,7 +59,8 @@
   \item{envir}{passed to \code{\link[exams]{xweave}}.}
   \item{table}{character. An optional class assigned to \code{<table>} elements
     (without a class) in the question (only supported for pandoc-based \code{converter}).}
-  \item{style}{character. A character string (or vector) containing a \code{<style>}
+  \item{css}{character. A character string (or vector) containing the path(s) to
+    CSS style file(s). Alternatively, a string (or vector) with a \code{<style>}
     tag to be included in every question (e.g., for formatting \code{<table>} elements).}
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to

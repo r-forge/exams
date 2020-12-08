@@ -7,7 +7,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, pluginfile = TRUE,
   converter = "pandoc-mathjax", envir = NULL,
-  table = NULL, style = NULL, ...)
+  table = NULL, css = NULL, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -24,12 +24,12 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## change <table> class for custom CSS in Moodle
   if(!is.null(table)) {
-    if(isTRUE(table)) table <- "table_grid"
+    if(isTRUE(table)) table <- "table_shade"
     .exams_set_internal(pandoc_table_class_fixup = table)
     on.exit(.exams_set_internal(pandoc_table_class_fixup = FALSE))
 
-    if(is.null(style) && table == "table_grid") {
-      style <- readLines(system.file(file.path("css", "table_grid.css"), package = "exams"))
+    if(is.null(css) && table %in% c("table_grid", "table_rule", "table_shade")) {
+      css <- readLines(system.file(file.path("css", "table.css"), package = "exams"))
     }
   }
 
@@ -53,7 +53,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(is.list(moodlequestion[[i]]$eval)) {
         if(!moodlequestion[[i]]$eval$partial) stop("Moodle can only process partial credits!")
       }
-      if(is.null(moodlequestion[[i]]$css)) moodlequestion[[i]]$style <- style
+      if(is.null(moodlequestion[[i]]$css)) moodlequestion[[i]]$css <- css
       moodlequestion[[i]] <- do.call("make_question_moodle", moodlequestion[[i]])
     }
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -230,7 +230,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
   truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-  essay = NULL, numwidth = NULL, stringwidth = NULL, style = NULL)
+  essay = NULL, numwidth = NULL, stringwidth = NULL, css = NULL)
 {
   function(x) {
     ## how many points?
@@ -257,6 +257,19 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     if(is.null(abstention) || identical(abstention, FALSE)) abstention <- ""
     if(isTRUE(abstention)) abstention <- "Abstention"
 
+    ## read CSS files
+    if(!is.null(css) && all(tools::file_ext(css) == "css")) {
+      css_inst <- system.file(file.path("css", css), package = "exams")
+      css <- ifelse(!file.exists(css) & file.exists(css_inst), css_inst, css)
+      if(!all(file.exists(css))) stop(paste("The following CSS files cannot be found: ",
+        paste(css[!file.exists(css)], collapse = ", "), ".", sep = ""))
+      css <- do.call("cbind", lapply(css, readLines))
+    }
+    ## turn into <style> tag
+    if(!is.null(css) && !grepl("<style", css[1L], fixed = TRUE)) {
+      css <- c('<style type="text/css" rel="stylesheet">', css, '</style>')
+    }
+
     ## start the question xml
     xml <- c(
       paste('\n<question type="', type, '">', sep = ''),
@@ -265,7 +278,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       '</name>',
       '<questiontext format="html">',
       '<text><![CDATA[',
-      style,
+      css,
       '<p>',
       if(type != "cloze") x$question else '##QuestionText##',
       '</p>]]></text>',
