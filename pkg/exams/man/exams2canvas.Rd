@@ -11,7 +11,7 @@
 \usage{
   exams2canvas(file, n = 1L, dir = ".", name = "canvasquiz",
     maxattempts = 1, duration = NULL, points = NULL,
-    converter = NULL, \dots)
+    converter = NULL, template = "canvas_qti12.xml", \dots)
 }
 
 \arguments{
@@ -32,6 +32,7 @@
     exercises, the \code{converter} needs to be \code{"pandoc-mathml"} (or
     equivalently \code{"pandoc"}). For only LaTeX-based .Rnw exercises \code{"ttm"}
     can be used as an alternative and is currently the default.}
+  \item{template}{character. The IMS QTI 1.2 template that should be used.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}}.
     The arguments \code{base64} and \code{eval} cannot be modified but are
     hard-coded internally (for details see below).}
