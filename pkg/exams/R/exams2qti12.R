@@ -273,24 +273,6 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
           if(enumerate) xsolution <- c(xsolution, '</ol>')
         }
       }
-      if(!canvas){
-        xsolution <- c('<itemfeedback ident="Solution" view="All">',
-        '<solution>', '<solutionmaterial>', '<material>',
-        '<mattext texttype="text/html"><![CDATA[', xsolution,
-        ']]></mattext>', '</material>', '</solutionmaterial>', '</solution>',
-        '</itemfeedback>')
-      } else {
-        xsolution <- c('<itemfeedback ident="correct_fb" view="All">',
-        '<flow_mat>', '<material>',
-        '<mattext texttype="text/html"><![CDATA[', xsolution,
-        ']]></mattext>', '</material>', '</flow_mat>',
-        '</itemfeedback>',
-        '<itemfeedback ident="general_incorrect_fb" view="All">',
-        '<flow_mat>', '<material>',
-        '<mattext texttype="text/html"><![CDATA[', xsolution,
-        ']]></mattext>', '</material>', '</flow_mat>',
-        '</itemfeedback>')
-      }
 
       ibody <- gsub("##ItemSolution##", paste(xsolution, collapse = "\n"), ibody, fixed = TRUE)
 
