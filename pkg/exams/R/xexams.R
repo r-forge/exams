@@ -47,6 +47,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     cat(sprintf("Supplement directory: %s\n", dir_supp))
     cat(sprintf("Temporary directory: %s\n", dir_temp))
   }
+  if(dir_temp == dir) stop("Temporary directory 'tdir' must not be the same as the output directory 'dir'.")
+  if(dir_temp == dir_exrc) stop("Temporary directory 'tdir' must not be the same as the exercise directory 'edir'.")
 
   ## for access in helper functions:
   ## create global variable storing file paths
@@ -149,7 +151,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   ## take everything to temp dir
   file.copy(file_path, file.path(dir_temp, file_Rnw))
   setwd(dir_temp)
-  on.exit(unlink(dir_temp), add = TRUE)
+  ## could try to delete the temporary directory but not if user-specified, commented for now
+  ## on.exit(unlink(dir_temp), add = TRUE)
   
   ## convenience function for sampling ids
   sample_id <- function(row = NULL) {

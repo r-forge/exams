@@ -156,6 +156,11 @@
   questions to the same replication. Thus, this will typically only be useful for
   exams with a single random replication.
 
+* To avoid accidental deletion of files in pre-existing temporary directories
+  `xexams()` now assures that the `tdir` is not identical to the output directory
+  `dir` or the exercise directory `edir`. Also, the documentation of `tdir` in the
+  manual pages has been made even more explicit.
+
 
 # exams 2.3-6
 
