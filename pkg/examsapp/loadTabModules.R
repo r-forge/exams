@@ -16,8 +16,8 @@ loadTabUI <- function(id){
         ),
         column(6,
                DT::dataTableOutput(ns("fileSelector")),
-               br(),align="right",
-               actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)")
+               align="right",
+               actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)",style='margin-top:10px')
         )
       ),
       br(),
@@ -42,7 +42,7 @@ loadTabUI <- function(id){
                                 ns = ns,
                                 column(12,DT::dataTableOutput(ns("outputAddedFiles"))),
                                 br(),
-                                column(12,align="right",actionButton(ns("deleteAddedExerciseFromList"), label = "Delete Exercise"))
+                                column(12,align="right",actionButton(ns("deleteAddedExerciseFromList"), label = "Delete Exercise",style='margin-top:10px'))
                )
                ))
           ),
