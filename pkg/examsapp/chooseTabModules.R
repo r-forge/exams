@@ -6,7 +6,9 @@ library(tth)
 #library(tidyverse)
 
 ## TODO: 
-## - row reorder: https://rstudio.github.io/DT/extensions.html
+## - last part with arrange... , generate... and Save Exam ...
+## - seeds matrix for mixed types: chosen seeds and random seeds
+## - row reorder for : https://rstudio.github.io/DT/extensions.html
 
 chooseTabUI <- function(id){
   
