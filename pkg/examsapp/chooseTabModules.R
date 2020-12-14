@@ -140,7 +140,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   
   # Observer: Click on Button "New seeds" #####
   observeEvent(input$newSeeds, {
-    reactVals$seedList <- sample(1:1e8,3)
+    reactVals$seedList <- sample(0L:1e8L,3)
   })
   
   ##############
@@ -171,7 +171,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
         #if(!(reactVals$possibleExercises[rowNumbers[i],2] %in% reactVals$tmpExamExercises$Filename)){
           reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, data.frame(Foldername = reactVals$possibleExercises[rowNumbers[i],1],
                                                                                     Filename = reactVals$possibleExercises[rowNumbers[i],2],
-                                                                                    Number = reactVals$numberExercises, Seed = 0))
+                                                                                    Number = reactVals$numberExercises, Seed = NA))
           #increment number of exercises
           reactVals$numberExercises = reactVals$numberExercises + 1
         #}
@@ -335,7 +335,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     }
   })
   
-  # function inserts a row into a existing dataframe on given rownumber
+  # function inserts a row into a existing dataframe on given rownumber #####
   # @param existingDF: existing Dataframe
   # @param newrow: new row with equal columns to existing dataframe
   # @param rowNum: row number of the new row in the existing dataframe
@@ -346,7 +346,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     return(existingDF)
   }
   
-  # Observer: Click on "Block"
+  # Observer: Click on "Block" #####
   # the blocked exercises get the lowest exercise number
   # if exercises 2, 5 and 7 are blocked -> they all get number 2
   observeEvent(input$blockExercises, {
@@ -385,7 +385,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     }
   })
   
-  # Observer: Click on "Unblock"
+  # Observer: Click on "Unblock" #####
   # blocked exercises can be unblocked
   # only the numeration of the exercises is changed
   observeEvent(input$unblockExercises, {
@@ -414,17 +414,17 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     }
   })
   
-  # Table-Output: possible exercises (pre-selected exercises from load tab)
+  # Table-Output: possible exercises (pre-selected exercises from load tab) #####
   output$exerciseSelector <- renderDataTable({
     reactVals$possibleExercises
   }, selection = ifelse(reactVals$setSeedSelection,'single','multiple'))
   
-  # Table-Output: selected exercises (including numeration and blocking)
+  # Table-Output: selected exercises (including numeration and blocking) #####
   output$choosenExercisesTable <- renderDataTable({
     reactVals$tmpExamExercises[,c(1,2,3,4)]
   })
   
-  # Return-Value of the module
+  # Return-Value of the module  #####
   # the saved exams (dataframe) will be returned
   return(
     listExamExercises = reactive({reactVals$listExamExercises})#,
