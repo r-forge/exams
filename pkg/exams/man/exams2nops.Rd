@@ -74,7 +74,10 @@
     the same page?}
   \item{twocolumn}{logical. Should a two-column layout be used?}
   \item{reglength}{integer. Number of digits in the registration ID. The
-    default is 7 and it can be increased up to 10.}
+    default is 7 and it can be increased up to 10. In case of \code{reglength < 7},
+    internally \code{reglength = 7} is enforced (and thus necessary in the registration
+    CSV file) but the initial ID digits are fixed to 0 in the exam sheet and
+    corresponding boxes ticked already.}
   \item{seed}{integer matrix or logical. Either \code{NULL} (default), logical, or a
     matrix of random seeds for each possible exercise to be set prior to calling
     \code{driver@sweave}. If \code{NULL} no random seeds are set. If a matrix,

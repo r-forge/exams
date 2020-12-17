@@ -87,7 +87,13 @@
   can be used. (Suggested and tested by Sean Quallen and Gabriele Cantaluppi.)
 
 * Improvements in `exams2blackboard()`: Verbatim code chunk formatting.
-  Points can be specified through `expoints`.
+  Points can be specified through `expoints`. Bug fix in when using
+  `shuffle = TRUE` which used to lead to a missing closing bracket.
+
+* Improved handling of `reglength < 7` in `exams2nops()`. Internally,
+  `reglength = 7` is still enforced (and thus necessary in the registration
+  CSV file) but the initial IDs are fixed to "0" in the exam sheet and
+  corresponding boxes ticked already.
 
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
@@ -96,9 +102,6 @@
   even if no `solutionlist` is provided. Generally, warnings have been improved.
   In particular, it is now checked whether the question list contains duplicated
   items for single-choice and multiple-choice exercises.
-
-* Bug fix in `exams2blackboard()` when using shuffle = TRUE which used to lead
-  to a missing closing bracket.
 
 * Bug fix in `extract_environment()` underlying `read_exercise()`: When Markdown
   tables were formatted with just `---` markup (rather that `|---|`) some lines
@@ -120,7 +123,7 @@
 
 * Bug fix for pandoc-based HTML conversion of LaTeX equations containing \not. 
   These are now converted to \neq, \nless, \ngtr, \nleq, \ngeq which are handled
-  by pandoc correctly. Notably, this affects `cholesky.Rmd`.
+  by pandoc correctly. Notably, this affects exercise template `cholesky.Rmd`.
 
 * The `extol` metainformation is now enforced to be non-negative in `read_metainfo()`.
   If a negative value is provided by the exercise, a warning is issued and 0

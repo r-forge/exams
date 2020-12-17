@@ -497,7 +497,12 @@ invisible(rval)
 make_nops_page <- function(n, replacement = FALSE, nchoice = 5, reglength = 7L)
 {
 ## length of registration ID
-if(reglength < 7L) warning(sprintf("'reglength = %s' too small, using 7 instead", reglength))
+if(reglength < 7L) {
+  warning(sprintf("'reglength = %s' too small, using 7 instead, but fixing initial IDs to 0", reglength))
+  initialzeros <- 7L - reglength
+} else {
+  initialzeros <- 0L
+}
 if(reglength > 10L) warning(sprintf("'reglength = %s' too large, using 10 instead", reglength))
 addreg <- pmin(3L, pmax(0L, reglength - 7L))
 
@@ -583,7 +588,23 @@ if(replacement) "\\setcounter{nr3}{0}" else "\\newcounter{nr3}",
 "
 \\multiput(\\regleftn,228)(0,-7){10}{\\begin{picture}(0,0) 
 \\multiput(0,0)(\\regwidthn,0){2}{\\makebox(0,0){\\textsf{\\arabic{nr3}}}}
-\\end{picture} \\stepcounter{nr3}} 
+\\end{picture} \\stepcounter{nr3}}
+",
+if(initialzeros > 0L) {
+sprintf("
+%% initial zeros in registration number
+\\begin{picture}(0,0) 
+\\multiput(\\regleftb.5,235)(8,0){%s}{\\textsf{\\Large 0}}
+\\thicklines
+\\multiput(\\regleftb.1,225.9)(8, 0){%s}{\\line(1,1){3.9}}
+\\multiput(\\regleftb.1,230.1)(8, 0){%s}{\\line(1,-1){3.9}}
+\\multiput(\\regleftb,226.1)(8, 0){%s}{\\line(1,1){3.9}}
+\\multiput(\\regleftb,229.9)(8, 0){%s}{\\line(1,-1){3.9}}
+\\end{picture}
+", initialzeros, initialzeros, initialzeros, initialzeros, initialzeros)
+},
+"
+
 % general instructions and logo
 \\IfFileExists{\\mylogo}{\\put(175,251){\\includegraphics[height=2.51cm,keepaspectratio]{\\mylogo}}}{}
 \\put(40,270){\\makebox(0,0)[bl]{\\textsf{\\textbf{\\LARGE{\\myinstitution}}}}}
