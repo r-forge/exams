@@ -488,8 +488,13 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     } else x$metainfo$solution
     n <- length(solution)
 
+    ## exercise (cloze)type
+    cloze <- x$metainfo$type == "cloze"
+    type <- if(cloze) x$metainfo$clozetype else x$metainfo$type
+
+    ## question list
     questionlist <- if(!is.list(x$questionlist)) {
-      if(x$metainfo$type == "cloze") {
+      if(cloze) {
         g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
         split(x$questionlist, g)
       } else list(x$questionlist)
@@ -500,17 +505,16 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         questionlist[[i]] <- NA
     }
 
+    ## tolerance(s)
     tol <- if(!is.list(x$metainfo$tolerance)) {
-      if(x$metainfo$type == "cloze") as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
+      if(cloze) as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
     } else x$metainfo$tolerance
     tol <- rep(tol, length.out = n)
 
-    if((length(points) == 1) & (x$metainfo$type == "cloze"))
-      points <- points / n
-
+    ## points
+    if((length(points) == 1) & (cloze)) points <- points / n
     q_points <- rep(points, length.out = n)
-    if(x$metainfo$type == "cloze")
-      points <- sum(q_points)
+    if(cloze) points <- sum(q_points)
 
     ## set question type(s)
     type <- x$metainfo$type
@@ -521,7 +525,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
     eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
     if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
-    if(x$metainfo$type == "cloze" & is.null(eval$rule)) eval$rule <- "none"
+    if(cloze & is.null(eval$rule)) eval$rule <- "none"
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
     ## character fields
@@ -550,7 +554,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ids <- el <- pv <- mv <- list()
     for(i in 1:n) {
       ## evaluate points for each question
-      pv[[i]] <- eval$pointvec(solution[[i]])
+      pv[[i]] <- eval$pointvec(solution[[i]], type = type[i])
       pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
       pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
       mv[[i]] <- pv[[i]]["neg"]
@@ -622,7 +626,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         xml <- c(xml, '</correctResponse>',
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
             '" lowerBound="', mv[[i]] <- if(!eval$negative) "0.0" else {
-              if(x$metainfo$type == "cloze") {
+              if(cloze) {
                 if(eval$partial) pv[[i]]["neg"] else "0.0"
               } else {
                 if(eval$partial) {
@@ -764,8 +768,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
               if(!ans) '<p>' else NULL,
               paste(if(enumerate & !ans) {
-                paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
-                  if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                paste(letters2[if(cloze) i else j], ".",
+                  if(cloze && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                     sep = "")
               } else NULL, questionlist[[i]][j]),
               if(!ans) '</p>' else NULL,
@@ -804,8 +808,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             if(!ans) '<p>' else NULL,
               if(!is.null(questionlist[[i]][j])) {
                 paste(if(enumerate & n > 1 & !ans) {
-                  paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
-                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                  paste(letters2[if(cloze) i else j], ".",
+                    if(cloze && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                       sep = "")
                 } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
               },
@@ -821,8 +825,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             if(!ans) '<p>' else NULL,
              if(!is.null(questionlist[[i]])) {
                 paste(if(enumerate & n > 1 & !ans) {
-                  paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
-                    if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(1, ".", sep = "") else NULL,
+                  paste(letters2[if(cloze) i else j], ".",
+                    if(cloze && length(solution[[i]]) > 1) paste(1, ".", sep = "") else NULL,
                       sep = "")
                 } else NULL, if(!is.na(questionlist[[i]])) questionlist[[i]] else NULL)
              },
@@ -844,8 +848,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
               if(!ans) '<p>' else NULL,
                if(!is.null(questionlist[[i]][j])) {
                   paste(if(enumerate & n > 1 & !ans) {
-                    paste(letters2[if(x$metainfo$type == "cloze") i else j], ".",
-                      if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                    paste(letters2[if(cloze) i else j], ".",
+                      if(cloze && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                         sep = "")
                   } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
                },
@@ -1102,7 +1106,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         if(!all(is.na(x$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
           if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
-          if(x$metainfo$type == "cloze") {
+          if(cloze) {
             g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
             ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
             sl <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
