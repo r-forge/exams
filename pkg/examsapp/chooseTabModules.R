@@ -6,9 +6,10 @@ library(tth)
 #library(tidyverse)
 
 ## TODO: 
-## - last part with arrange... , generate... and Save Exam ...
 ## - seeds matrix for mixed types: chosen seeds and random seeds
-## - row reorder for : https://rstudio.github.io/DT/extensions.html
+## - row reorder for : https://rstudio.github.io/DT/extensions.html, 
+##   problem in  https://community.rstudio.com/t/getting-the-rowreorder-extension-to-work-in-a-shiny-datatable/71414
+##   possible solution in https://atchen.me/code/2019/04/09/datatables-rowreorder.html
 
 chooseTabUI <- function(id){
   
@@ -47,31 +48,32 @@ chooseTabUI <- function(id){
              ),
              br(),
              br(),
-             fluidRow(
-               checkboxInput(ns("arrangeExercises"), label = "arrange the exercises in different exams", value = FALSE),
+            #  fluidRow(
+            #    checkboxInput(ns("arrangeExercises"), label = "arrange the exercises in different exams", value = FALSE),
                
-               conditionalPanel(condition = "input.arrangeExercises == 1",
-                                ns = ns,
-                                checkboxInput(ns("randomNumbering"), label = "Generate Random Numbering of Exercises")
-                                )
-             ),
-             fluidRow(
-               column(2),
+            #    conditionalPanel(condition = "input.arrangeExercises == 1",
+            #                     ns = ns,
+            #                     checkboxInput(ns("randomNumbering"), label = "Generate Random Numbering of Exercises")
+            #                     )
+            #  ),
+             fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
                column(4,
-                      selectInput(ns("examNameDropDown"), label = "Choose your Exam:", choices = c("make new exam")),
-                      
+                      selectInput(ns("examNameDropDown"), label = "Choose your Exam:", choices = c("make new exam"))
+                      ),
+                column(4,                     
                       conditionalPanel(condition = "input.examNameDropDown == 'make new exam'",
                                        ns = ns,
-                                       tags$head(
-                                         tags$style(type="text/css", "#inline label{ display: table-cell; text-align: center; vertical-align: middle; } 
-                                                      #inline .form-group { display: table-row;}")
-                                       ),
-                                       tags$div(id = "inline", textInput(inputId = ns("examName"), label = "Name of the exam:"))
-                                       )
+                                      #  tags$head(
+                                      #    tags$style(type="text/css", "#inline label{ display: table-cell; text-align: center; vertical-align: middle; } 
+                                      #                 #inline .form-group { display: table-row;}")
+                                      #  ),
+                                      #tags$div(id = "inline", textInput(inputId = ns("examName"), label = "Name of the exam:"))
+                                      textInput(inputId = ns("examName"), label = "Name of the exam:")
+                                      )
                       
                ),
-               column(3,
-                      actionButton(ns("saveExam"), label = "Save exam")
+               column(4,align="right",
+                      actionButton(ns("saveExam"), label = "Save exam", style = 'margin-top:25px')
                       )
              )
              
@@ -270,15 +272,15 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   
   output$playerSeed <- renderUI({
     rowNumber = input$exerciseSelector_rows_selected
-    if(length(rowNumber)>1){
-      showNotification("Please select only one exercise!", type = c("error"))
-    }
-    else{
+    if(length(rowNumber)!=1){
+      tagList(br(),p("Please select an exercise!"))
+      #showNotification("Please select only one exercise!", type = c("error"))
+    } else {
     selectedRow = reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],]
     file <- selectedRow$Filename
     tagList(
       fluidRow(
-        column(12,
+        column(12,br(),        
                checkboxGroupInput(ns("chooseSeed"), "Choose seed:",
                                   choiceNames =
                                     list(file2htmlOutput(file,seed = reactVals$seedList[1]),
@@ -306,13 +308,6 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
       Points = rep(0, nrow(reactVals$tmpExamExercises))
       reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
-      if(input$examNameDropDown %in% reactVals$randomNumberingExams$Examname){
-        reactVals$randomNumberingExams[which(reactVals$randomNumberingExams$Examname == input$examNameDropDown), 2] = input$randomNumbering
-      }
-      else{
-        reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examNameDropDown, RandomNumber=input$randomNumbering))
-      }
-      print(reactVals$randomNumberingExams)
     }
     # a new exam is generated - name must be unique
     else{
@@ -322,8 +317,6 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
         ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
         Points = rep(0, nrow(reactVals$tmpExamExercises))
         reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
-        reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examName, RandomNumber=input$randomNumbering))
-        print(reactVals$randomNumberingExams)
         
         # updating the Drop Down List with the new exam name
         updateSelectInput(session, "examNameDropDown", choices = reactVals$examNames, selected = input$examName)
@@ -334,6 +327,42 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       }
     }
   })
+
+  # observeEvent(input$saveExam, {
+  #   # a existing exam is selected
+  #   if(input$examNameDropDown != "make new exam"){
+  #     reactVals$listExamExercises = reactVals$listExamExercises[!(reactVals$listExamExercises$ExamName %in% input$examNameDropDown),]
+  #     ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
+  #     Points = rep(0, nrow(reactVals$tmpExamExercises))
+  #     reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
+  #     if(input$examNameDropDown %in% reactVals$randomNumberingExams$Examname){
+  #       reactVals$randomNumberingExams[which(reactVals$randomNumberingExams$Examname == input$examNameDropDown), 2] = input$randomNumbering
+  #     }
+  #     else{
+  #       reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examNameDropDown, RandomNumber=input$randomNumbering))
+  #     }
+  #     print(reactVals$randomNumberingExams)
+  #   }
+  #   # a new exam is generated - name must be unique
+  #   else{
+  #     req(input$examName)
+  #     if(!(input$examName %in% reactVals$examNames)){
+  #       reactVals$examNames = c(reactVals$examNames, input$examName)
+  #       ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
+  #       Points = rep(0, nrow(reactVals$tmpExamExercises))
+  #       reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
+  #       reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examName, RandomNumber=input$randomNumbering))
+  #       print(reactVals$randomNumberingExams)
+        
+  #       # updating the Drop Down List with the new exam name
+  #       updateSelectInput(session, "examNameDropDown", choices = reactVals$examNames, selected = input$examName)
+  #       updateTextInput(session, "examName", value = "")
+  #     }
+  #     else{
+  #       showNotification("The name already exists. Please choose another name or select the Exam in the Drop Down List.",type = c("error"))
+  #     }
+  #   }
+  # })
   
   # function inserts a row into a existing dataframe on given rownumber #####
   # @param existingDF: existing Dataframe
@@ -341,8 +370,12 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   # @param rowNum: row number of the new row in the existing dataframe
   # return: the dataframe including the new row
   insertRow <- function(existingDF, newrow, rowNum){
-    existingDF[seq(rowNum+1,nrow(existingDF)+1),] = existingDF[seq(rowNum,nrow(existingDF)),]
-    existingDF[rowNum,] = newrow
+    if (rowNum > nrow(existingDF)) {
+      existingDF <- rbind(existingDF,newrow)
+    } else {
+      existingDF[seq(rowNum+1,nrow(existingDF)+1),] = existingDF[seq(rowNum,nrow(existingDF)),]
+      existingDF[rowNum,] = newrow
+    }
     return(existingDF)
   }
   
@@ -365,7 +398,7 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       for(i in 1:(len-1)){
         baseData = insertRow(baseData, blockExercises[i,], rowNumbers[1]+i)
       }
-      baseData = na.omit(baseData)
+      # baseData = na.omit(baseData)
       # check the numbering of the exam exercises
       for(i in 1:(nrow(baseData)-1)){
         # adopt the numbering of the exercises by subtracting the difference of two following elements
@@ -420,9 +453,14 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   }, selection = ifelse(reactVals$setSeedSelection,'single','multiple'))
   
   # Table-Output: selected exercises (including numeration and blocking) #####
-  output$choosenExercisesTable <- renderDataTable({
-    reactVals$tmpExamExercises[,c(1,2,3,4)]
-  })
+  output$choosenExercisesTable <- DT::renderDataTable({
+    reactVals$tmpExamExercises[,c("Foldername","Filename","Number","Seed")]}
+    # editable = TRUE, 
+    # rownames = TRUE,
+    # extensions = 'RowReorder',
+    # options = list(order = list(list(0, 'asc')),rowReorder = TRUE)
+  )
+
   
   # Return-Value of the module  #####
   # the saved exams (dataframe) will be returned

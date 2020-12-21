@@ -82,7 +82,7 @@ server <- function(input, output, session){
     selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric())
     reactVals$givenExercises = getDirFilesOneLevel(locationExercises)
     reactVals$formatList = c("TCExam", "Moodle", "QTI21", "QTI12", "Canvas", "PDF", "DOCX", "OpenOLAT", "NOPS", "HTML", "Blackboard", "ARSnova")
-    reactVals$seedList = sample(1:1e8,3)#c(845934, 9468946, 2039589)
+    reactVals$seedList = sample(0L:1e8L,3)#c(845934, 9468946, 2039589)
   })
   
   # Observes the output of the load tab
