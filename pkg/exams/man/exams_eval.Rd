@@ -75,19 +75,25 @@ exams_eval(partial = TRUE, negative = FALSE,
 \value{
   \code{exams_eval} returns a list with the input parameters
   \code{partial}, \code{negative}, and \code{rule} along with
-  the following functions:
+  the following functions:  
   \item{checkanswer}{function with arguments
-    \code{(correct}, \code{answer}, and \code{tolerance = 0}.
+    \code{(correct}, \code{answer}, \code{tolerance = 0}, and \code{type = NULL}.
     It checks whether \code{answer} (sufficiently) matches
     \code{correct} or not. It returns \code{1} for correct, \code{-1}
     for wrong and \code{0} for not attempted. In case of \code{partial = TRUE}, the
     functions returns a vector for multiple-choice questions.}
-  \item{pointvec}{function with argument \code{correct = NULL}.
+  \item{pointvec}{function with arguments \code{correct = NULL} and \code{type = NULL}.
     It computes the vector of points for correct and wrong answers,
     respectively.}
   \item{pointsum}{function with arguments
-    \code{(correct}, \code{answer}, and \code{tolerance = 0}.
+    \code{(correct}, \code{answer}, \code{tolerance = 0}, and \code{type = NULL}.
     It computes the overall number of points.}
+
+  All of the functions require at least the \code{correct} answer and optionally
+  the exercise \code{type} (num, mchoice/schoice, or string). By default, the
+  \code{type} is inferred from \code{correct} which works automatically except
+  in a few edge cases (e.g., to correctly autodetect a string exercise the correct
+  answer must contain at least one character that is not 0 or 1).
 }
 
 \seealso{
