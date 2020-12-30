@@ -2,8 +2,9 @@ library(shiny)
 library(exams)
 library(jsonlite)
 
-## ToDo: defalut values instead of initial values of shiny inputs, but see https://github.com/rstudio/shiny/issues/559; perhaps workaround 0 -> NULL ?!?
-
+## ToDo: 
+# - [OK?!?] defalut values instead of initial values of shiny inputs, but see https://github.com/rstudio/shiny/issues/559; perhaps workaround 0 -> NULL ?!?
+# - filter "userSetable"
 
 ##############
 
