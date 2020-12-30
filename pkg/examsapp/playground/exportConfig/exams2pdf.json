@@ -1,0 +1,44 @@
+{ "name": "exams2pdf",
+  "command": "exams2pdf",
+  "argument": {
+    "n": {
+      "description": "The number of copies to be compiled from file",
+      "type": "integer",
+      "default": 1,
+      "userSetable": true,
+      "range": [1,50]
+    },
+    "nsamp": {
+      "description": "The number(s) of exercise files sampled from each list element of file",
+      "type": "integer",
+      "default": null,
+      "userSetable": true,
+      "range": [0,50]
+    },
+    "template": {
+      "description": "A specification of a LaTeX template",
+      "type": "selection",
+      "default": null,
+      "userSetable": true,
+      "range": [ "exam", "solution", "plain" ]
+    },
+    "header": {
+      "description": "A list of further options to be passed to the LaTeX files",
+      "type": "list",
+      "default": "list(Date = Sys.Date())",
+      "userSetable": true
+    },
+    "name": {
+      "description": "A name prefix for resulting exercises, by default chosen based on template",
+      "type": "character",
+      "default": null,
+      "userSetable": true
+    },
+    "encoding": {
+      "description": "The default encoding to assume for file",
+      "type": "character",
+      "default": "",
+      "userSetable": true
+    }
+  }
+}
