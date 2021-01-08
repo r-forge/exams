@@ -2,9 +2,11 @@ library(shiny)
 library(exams)
 library(jsonlite)
 
+list.files("templates",full.names = T,recursive = T)
 ## ToDo: 
-# - [OK?!?] defalut values instead of initial values of shiny inputs, but see https://github.com/rstudio/shiny/issues/559; perhaps workaround 0 -> NULL ?!?
-# - filter "userSetable"
+# - [OK?!?] default values instead of initial values of shiny inputs, but see https://github.com/rstudio/shiny/issues/559; perhaps workaround 0 -> NULL ?!?
+# - template-dependent input list: search in template between "\def\@" and "{"
+
 
 ##############
 
@@ -69,7 +71,7 @@ make_ui <- function(x, id, var) {
     selectInput(id, label=argumentLabel,choices = x$type, selected = argumentValue)
     # Not supported
     # NULL
-  }
+    }
 }
 
 getArgumentValues <- function(x, val) {
@@ -94,15 +96,62 @@ examsArgumentServer <- function(id, df) {
     vars <- reactive(names(df()))
     
     output$controls <- renderUI({
-      purrr::map(vars(), function(var) make_ui(df()[[var]], NS(id, var), var))
+      # purrr::map(vars(), function(var) make_ui(df()[[var]], NS(id, var), var))
+      lapply(vars(), function(var) {
+        if (df()[[var]]$userSetable == TRUE) make_ui(df()[[var]], NS(id, var), var)
+      })
     })
     
     reactive({
-      each_var <- purrr::map(vars(), function(var) getArgumentValues(df()[[var]], input[[var]]))
+      #each_var <- purrr::map(vars(), function(var) getArgumentValues(df()[[var]], input[[var]]))
+      each_var <- lapply(vars(), function(var) {
+        if (df()[[var]]$userSetable == TRUE) getArgumentValues(df()[[var]], input[[var]]) else df()[[var]]$default}
+        )
       #each_var <- map(vars(), function(var) input[[var]])
       names(each_var) <- vars()
       #print(each_var)
       #paste0(each_var,collapse = ";; ")
+      each_var
+    })
+  })
+}
+
+
+
+examsTemplateOptionsUI <- function(id) {
+  uiOutput(NS(id, "controls"))
+}
+
+getTemplateOptions <- function(templateName) {
+  #templateName <- "templates/tex/plain.tex"
+  
+  #TODO: add other template-styles md, ...
+  
+  # FIXME: use base R only !
+  x <- unlist(lapply(readLines(templateName), function(x)qdapRegex::ex_between(x, "\\\\def\\\\@", "{#")))
+  x <- if (all(is.na(x))) NA else x[!is.na(x)]
+  # TODO: default values or remove NULL values at the end
+  setNames(vector("list", length(x)), x)
+}
+
+examsTemplateOptionsServer <- function(id, templateName) {
+  stopifnot(is.reactive(templateName))
+  
+  moduleServer(id, function(input, output, session) {
+    vars <- reactive(names(getTemplateOptions(templateName())))
+    
+      output$controls <- renderUI({
+        lapply(vars(), function(var) {
+          textInput(NS(id, var), label=as.character(var), value = NULL)
+        })
+
+    })
+      
+    reactive({
+      each_var <- lapply(vars(), function(var) {
+        input[[var]]
+      })
+      names(each_var) <- vars()
       each_var
     })
   })
@@ -115,9 +164,17 @@ examsExportApp <- function() {
     sidebarLayout(
       sidebarPanel(
         exportFormatInput("exportFormat"),
-        examsArgumentUI("examsArgument"),
+        examsArgumentUI("examsArgument")
       ),
       mainPanel(
+        fluidPage(
+          column(4,
+                 p("Selected exams2xyz:"),
+                 examsTemplateOptionsUI("examsTemplateOptions"),
+                 p("Template options:"),
+                 verbatimTextOutput("templateOptions")
+                 ),
+          column(8,
         #textOutput("compileCommand")
         p("Selected exams2xyz:"),
         verbatimTextOutput("selectedCommand"),
@@ -128,21 +185,28 @@ examsExportApp <- function() {
         verbatimTextOutput("tempDirectory"),
         p("Generated Exams:"),
         verbatimTextOutput("generatedExams")
-      )
+      )))
     )
   )
   server <- function(input, output, session) {
     
+    # reactVals <- reactiveValues(
+    #   mytemplate = "exam.tex"
+    # )
     
     exportFormat <- exportFormatServer("exportFormat")
     
     examsArgument <- examsArgumentServer("examsArgument", exportFormat$dataList)
+    
+    examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", reactive("exam.tex"))
+    
     
     dir.create(tdir <- tempfile())
     
     output$selectedCommand <- renderPrint(print(exportFormat$selectedCommand()))
     output$compileCommand <- renderPrint(print(examsArgument()))
     output$tempDirectory <- renderPrint(print(tdir))
+    output$templateOptions <- renderPrint(print(examsTemplateOptions()))
 
     
     observeEvent(input$compileExam, {
