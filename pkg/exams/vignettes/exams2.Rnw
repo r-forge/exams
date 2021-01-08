@@ -60,7 +60,7 @@
   Universit\"atsstr.~15\\
   6020 Innsbruck, Austria\\
   E-mail: \email{Achim.Zeileis@R-project.org}, \email{Nikolaus.Umlauf@uibk.ac.at}\\
-  URL: \url{http://eeecon.uibk.ac.at/~zeileis/}, \url{http://eeecon.uibk.ac.at/~umlauf/}\\
+  URL: \url{https://www.zeileis.org/}, \url{http://eeecon.uibk.ac.at/~umlauf/}\\
 
   Friedrich Leisch\\
   Institute of Applied Statistics and Computing\\
