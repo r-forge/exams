@@ -1,0 +1,33 @@
+PersonalData: Osobni podaci
+Name: Ime
+FamilyName: Prezime
+GivenName: Ime
+Signature: Potpis
+RegistrationNumber: Identifikacijski Broj 
+Checked: Ozna\v{c}en
+NoChanges: U ovom odjeljku promjene i modifikacije \textbf{nisu} dozvoljene!
+DocumentType: Tip
+DocumentID: Ispitni IB 
+Scrambling: Kod
+Replacement: Zamjena
+MarkCarefully: Ispravno ozna\v{c}eno
+NotMarked: Ne ispravno ozna\v{c}eno
+Or: ili
+MarkExampleA: 53
+MarkExampleB: 61
+MarkExampleC: 98
+MarkExampleD: 105
+MarkExampleE: 110
+Warning: Ovaj dokument je obra\dj{}en automatski. Molim da ga ne savijate i ne gu\v{z}vate. Za ispunjavanje odgovora koristite \textbf{plavu ili crnu} kemijsku olovku. \\ \textbf{Samo jasno i na predvi\dj{}enom mjestu ozna\v{c}eni odgovori {\'c}e biti prihva{\'c}eni!}
+Answers: Odgovori
+FillAnswers: Molimo Vas da u nastavku ispunite svoje odgovore. 
+Point: poen
+Points: poena
+ExamResults: Ispitni Rezultati
+Evaluation: Ocjenjivanje
+Mark: Ocjena
+Question: Pitanje
+GivenAnswer: Dati Odgovor
+CorrectAnswer: To\v{c}an Odgovor
+ExamSheet: Ispitni List
+Babel: croatian

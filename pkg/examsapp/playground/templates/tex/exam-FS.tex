@@ -1,0 +1,76 @@
+\documentclass[11pt,a4paper,parskip=half]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{mathrsfs,siunitx,listings,xintexpr,graphics,enumitem}
+
+
+% \documentclass[11pt,a4paper,parskip=half-]{scrartcl}
+% \usepackage[utf8]{inputenc}
+% \usepackage[ngerman]{babel}
+% \usepackage[T1]{fontenc}
+
+%% packages
+
+\usepackage{a4wide,color,verbatim,url,xargs,amsmath}
+%Sweave verhindert bold textsc
+
+\usepackage{geometry}
+\geometry{a4paper,left=20mm,right=15mm, top=15mm, bottom=25mm}
+
+%% new environments
+\newenvironment{question}{\item}{}
+\newenvironment{solution}{\comment}{\endcomment}
+\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+
+
+%% new commands
+\makeatletter
+\newcommand{\ID}[1]{\def\@ID{#1}}
+\newcommand{\Date}[1]{\def\@Date{#1}}
+\newcommand{\Subject}[1]{\def\@Subject{#1}}
+\newcommand{\Sem}[1]{\def\@Sem{#1}}
+
+\ID{00001}
+\Date{YYYY-MM-DD}
+\Subject{000}
+\Sem{000}
+
+%% \exinput{header}
+
+\newcommand{\myID}{\@ID}
+\newcommand{\myDate}{\@Date}
+\newcommand{\mySubject}{\@Subject}
+\newcommand{\mySem}{\@Sem}
+\makeatother
+
+% %% headings
+% \markboth{\textnormal{\bf \large Statistics Exam: \myID}}%
+% {\textnormal{\bf \large Statistics Exam: \myID}}
+% \pagestyle{myheadings}
+
+
+\newcommand{\myheader}[2]{
+{\large \hrule \vskip-0.3em
+    \textbf{\textsc{\mySubject}} \hfill \textsc{\mySem}
+    \\
+    \textsc{#1} \hfill \textsc{#2}
+    \\[-1em]\hrule\vskip0cm\normalfont}
+\noindent
+}
+
+
+\begin{document}
+
+\myheader{\myID}{\myDate}
+
+%% title page
+\thispagestyle{empty}
+
+\begin{enumerate}[label=(\arabic*)]
+%% \exinput{exercises}
+
+\end{enumerate}
+
+\end{document}
