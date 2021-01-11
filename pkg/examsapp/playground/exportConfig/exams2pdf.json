@@ -1,5 +1,6 @@
 { "name": "exams2pdf",
   "command": "exams2pdf",
+  "templateFolder": "tex",
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",
@@ -19,14 +20,14 @@
       "description": "A specification of a LaTeX template",
       "type": "selection",
       "default": null,
-      "userSetable": true,
+      "userSetable": false,
       "range": [ "exam", "solution", "plain" ]
     },
     "header": {
       "description": "A list of further options to be passed to the LaTeX files",
       "type": "list",
       "default": "list(Date = Sys.Date())",
-      "userSetable": true
+      "userSetable": false
     },
     "name": {
       "description": "A name prefix for resulting exercises, by default chosen based on template",

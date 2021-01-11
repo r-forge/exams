@@ -22,7 +22,8 @@ exportFormatServer <- function(id) {
     
     reactVals <- reactiveValues(
       selectedCommand = listOfAllExportFormats[[1]]$command,
-      selectedArgument = listOfAllExportFormats[[1]]$argument
+      selectedArgument = listOfAllExportFormats[[1]]$argument,
+      selectedTemplateFolder = listOfAllExportFormats[[1]]$templateFolder
     )
     
     output$exportFormatSelection <- renderUI({
@@ -32,17 +33,15 @@ exportFormatServer <- function(id) {
     observeEvent(input$exportFormat,{
       reactVals$selectedCommand <- listOfAllExportFormats[[which(names == input$exportFormat)]]$command
       reactVals$selectedArgument <- listOfAllExportFormats[[which(names == input$exportFormat)]]$argument
+      reactVals$selectedTemplateFolder <- listOfAllExportFormats[[which(names == input$exportFormat)]]$templateFolder
       })
     
     
     
     list(
       selectedCommand = reactive(reactVals$selectedCommand),
-      #which(names == input$exportFormat)
-      ## FIXME: Error in [[: attempt to select less than one element in get1index 
-      #dataList=reactive(listOfAllExportFormats[[which(names == input$exportFormat)]]$argument)
-      dataList=reactive(reactVals$selectedArgument)
-      #dataList = reactive(readRDS(paste0(input$exportFormat,".rds")))
+      selectedArgument=reactive(reactVals$selectedArgument),
+      selectedTemplateFolder=reactive(reactVals$selectedTemplateFolder)
     )
   })
 }
@@ -118,6 +117,27 @@ examsArgumentServer <- function(id, df) {
 
 
 
+examsTemplateUI <- function(id) {
+  uiOutput(NS(id, "controls"))
+}
+
+examsTemplateServer <- function(id, selectedTemplateFolder) {
+  stopifnot(is.reactive(selectedTemplateFolder))
+  
+  moduleServer(id, function(input, output, session) {
+    
+    output$controls <- renderUI({
+      templateFile = grep(".tex",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
+      templateChoices = grep(".tex",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
+      selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))
+    })
+    
+    reactive(input$templateFile)
+    #reactive(if (is.null(selectedTemplateFolder())) NULL else input$templateFile)
+  })
+}
+
+
 examsTemplateOptionsUI <- function(id) {
   uiOutput(NS(id, "controls"))
 }
@@ -131,19 +151,26 @@ getTemplateOptions <- function(templateName) {
   x <- unlist(lapply(readLines(templateName), function(x)qdapRegex::ex_between(x, "\\\\def\\\\@", "{#")))
   x <- if (all(is.na(x))) NA else x[!is.na(x)]
   # TODO: default values or remove NULL values at the end
-  setNames(vector("list", length(x)), x)
+  if (all(is.na(x))) NULL else setNames(vector("list", length(x)), x)
 }
 
 examsTemplateOptionsServer <- function(id, templateName) {
   stopifnot(is.reactive(templateName))
   
   moduleServer(id, function(input, output, session) {
-    vars <- reactive(names(getTemplateOptions(templateName())))
+    
+    vars <- reactive({
+      if (is.null(templateName())) NULL else names(getTemplateOptions(templateName()))
+      })
     
       output$controls <- renderUI({
+        if (is.null(vars())) {p("No further options available.")} else {
+          tagList(
+            p("Further options for the template:"),
         lapply(vars(), function(var) {
           textInput(NS(id, var), label=as.character(var), value = NULL)
-        })
+        }))
+        }
 
     })
       
@@ -169,13 +196,15 @@ examsExportApp <- function() {
       mainPanel(
         fluidPage(
           column(4,
-                 p("Selected exams2xyz:"),
+                 examsTemplateUI("examsTemplate"),
                  examsTemplateOptionsUI("examsTemplateOptions"),
                  p("Template options:"),
                  verbatimTextOutput("templateOptions")
                  ),
           column(8,
         #textOutput("compileCommand")
+        p("My Test:"),
+        verbatimTextOutput("mytest"),
         p("Selected exams2xyz:"),
         verbatimTextOutput("selectedCommand"),
         p("List of arguments:"),
@@ -196,17 +225,35 @@ examsExportApp <- function() {
     
     exportFormat <- exportFormatServer("exportFormat")
     
-    examsArgument <- examsArgumentServer("examsArgument", exportFormat$dataList)
+    examsArgument <- examsArgumentServer("examsArgument", exportFormat$selectedArgument)
     
-    examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", reactive("exam.tex"))
+    examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder)
     
+    examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", examsTemplate) #reactive("exam.tex")
+    
+    # examsTemplate <- reactive(if (is.null(exportFormat$selectedTemplateFolder())) NULL else examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder))
+    # 
+    # examsTemplateOptions <- reactive(if (is.null(examsTemplate())) NULL else examsTemplateOptionsServer("examsTemplateOptions", examsTemplate)) #reactive("exam.tex"))
     
     dir.create(tdir <- tempfile())
     
+    mylist <-reactive({
+      ll <- examsArgument()
+      ll$file <- "dist.Rmd"
+      ll$dir <- tdir
+      ll$template <- examsTemplate()
+      ll$header <- examsTemplateOptions()
+      ll
+    })
+    
     output$selectedCommand <- renderPrint(print(exportFormat$selectedCommand()))
-    output$compileCommand <- renderPrint(print(examsArgument()))
+    output$compileCommand <- renderPrint(print(mylist()))
+    #output$compileCommand <- renderPrint(print(examsArgument()))
     output$tempDirectory <- renderPrint(print(tdir))
     output$templateOptions <- renderPrint(print(examsTemplateOptions()))
+    output$mytest <- renderPrint(print(examsTemplate()))
+    
+    
 
     
     observeEvent(input$compileExam, {
@@ -215,6 +262,8 @@ examsExportApp <- function() {
       ll <- examsArgument()
       ll$file <- "dist.Rmd"
       ll$dir <- tdir
+      ll$template <- examsTemplate()
+      ll$header <- examsTemplateOptions()
       do.call(exportFormat$selectedCommand(),ll)
       output$generatedExams <- renderPrint(print(list.files(tdir)))
     })

@@ -1,5 +1,6 @@
 { "name": "exams2docx",
   "command": "exams2pandoc",
+  "templateFolder": "pandoc",
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",

@@ -1,5 +1,6 @@
 { "name": "exams2html",
   "command": "exams2html",
+    "templateFolder": null,
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",
