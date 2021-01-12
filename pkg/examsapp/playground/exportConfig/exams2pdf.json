@@ -1,6 +1,7 @@
 { "name": "exams2pdf",
   "command": "exams2pdf",
   "templateFolder": "tex",
+  "templateSubstitute": ["\\def\\@","{#"],
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",

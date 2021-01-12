@@ -9,11 +9,9 @@ list.files("templates",full.names = T,recursive = T)
 
 
 ##############
-
 exportFormatInput <- function(id) {
   uiOutput(NS(id, "exportFormatSelection"))
 }
-
 exportFormatServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     
@@ -23,7 +21,8 @@ exportFormatServer <- function(id) {
     reactVals <- reactiveValues(
       selectedCommand = listOfAllExportFormats[[1]]$command,
       selectedArgument = listOfAllExportFormats[[1]]$argument,
-      selectedTemplateFolder = listOfAllExportFormats[[1]]$templateFolder
+      selectedTemplateFolder = listOfAllExportFormats[[1]]$templateFolder,
+      selectedTemplateSubstitute = listOfAllExportFormats[[1]]$templateSubstitute
     )
     
     output$exportFormatSelection <- renderUI({
@@ -34,6 +33,7 @@ exportFormatServer <- function(id) {
       reactVals$selectedCommand <- listOfAllExportFormats[[which(names == input$exportFormat)]]$command
       reactVals$selectedArgument <- listOfAllExportFormats[[which(names == input$exportFormat)]]$argument
       reactVals$selectedTemplateFolder <- listOfAllExportFormats[[which(names == input$exportFormat)]]$templateFolder
+      reactVals$selectedTemplateSubstitute <- listOfAllExportFormats[[which(names == input$exportFormat)]]$templateSubstitute
       })
     
     
@@ -41,18 +41,15 @@ exportFormatServer <- function(id) {
     list(
       selectedCommand = reactive(reactVals$selectedCommand),
       selectedArgument=reactive(reactVals$selectedArgument),
-      selectedTemplateFolder=reactive(reactVals$selectedTemplateFolder)
+      selectedTemplateFolder=reactive(reactVals$selectedTemplateFolder),
+      selectedTemplateSubstitute=reactive(reactVals$selectedTemplateSubstitute)
     )
   })
 }
-
-
-
-
+##
 examsArgumentUI <- function(id) {
   uiOutput(NS(id, "controls"))
 }
-
 make_ui <- function(x, id, var) {
   argumentLabel <- paste0(x$description," (",var,")")
   argumentValue <- x$default
@@ -72,7 +69,6 @@ make_ui <- function(x, id, var) {
     # NULL
     }
 }
-
 getArgumentValues <- function(x, val) {
   if (x$type %in% c("numeric","logical","selection")) {
     val
@@ -87,7 +83,6 @@ getArgumentValues <- function(x, val) {
     val
   }
 }
-
 examsArgumentServer <- function(id, df) {
   stopifnot(is.reactive(df))
   
@@ -114,13 +109,10 @@ examsArgumentServer <- function(id, df) {
     })
   })
 }
-
-
-
+##
 examsTemplateUI <- function(id) {
   uiOutput(NS(id, "controls"))
 }
-
 examsTemplateServer <- function(id, selectedTemplateFolder) {
   stopifnot(is.reactive(selectedTemplateFolder))
   
@@ -136,31 +128,32 @@ examsTemplateServer <- function(id, selectedTemplateFolder) {
     #reactive(if (is.null(selectedTemplateFolder())) NULL else input$templateFile)
   })
 }
-
-
+##
 examsTemplateOptionsUI <- function(id) {
   uiOutput(NS(id, "controls"))
 }
-
-getTemplateOptions <- function(templateName) {
+getTemplateOptions <- function(templateName,templateSubstitute) {
   #templateName <- "templates/tex/plain.tex"
   
   #TODO: add other template-styles md, ...
   
   # FIXME: use base R only !
-  x <- unlist(lapply(readLines(templateName), function(x)qdapRegex::ex_between(x, "\\\\def\\\\@", "{#")))
+  # x <- unlist(lapply(readLines(templateName), function(x)qdapRegex::ex_between(x, "\\\\def\\\\@", "{#")))
+  prefix <- gsub("\\\\","\\\\\\\\",templateSubstitute[1])
+  suffix <- gsub("\\\\","\\\\\\\\",templateSubstitute[2])
+  x <- unlist(lapply(readLines(templateName), function(x)qdapRegex::ex_between(x, prefix, suffix)))
   x <- if (all(is.na(x))) NA else x[!is.na(x)]
   # TODO: default values or remove NULL values at the end
   if (all(is.na(x))) NULL else setNames(vector("list", length(x)), x)
 }
-
-examsTemplateOptionsServer <- function(id, templateName) {
+examsTemplateOptionsServer <- function(id, templateName,selectedTemplateSubstitute) {
   stopifnot(is.reactive(templateName))
+  stopifnot(is.reactive(selectedTemplateSubstitute))
   
   moduleServer(id, function(input, output, session) {
     
     vars <- reactive({
-      if (is.null(templateName())) NULL else names(getTemplateOptions(templateName()))
+      if (is.null(templateName())) NULL else names(getTemplateOptions(templateName(),selectedTemplateSubstitute()))
       })
     
       output$controls <- renderUI({
@@ -183,7 +176,7 @@ examsTemplateOptionsServer <- function(id, templateName) {
     })
   })
 }
-
+##
 
 
 examsExportApp <- function() {
@@ -229,11 +222,23 @@ examsExportApp <- function() {
     
     examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder)
     
-    examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", examsTemplate) #reactive("exam.tex")
+    examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", examsTemplate, exportFormat$selectedTemplateSubstitute) #reactive("exam.tex")
     
     # examsTemplate <- reactive(if (is.null(exportFormat$selectedTemplateFolder())) NULL else examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder))
     # 
     # examsTemplateOptions <- reactive(if (is.null(examsTemplate())) NULL else examsTemplateOptionsServer("examsTemplateOptions", examsTemplate)) #reactive("exam.tex"))
+    
+    # hier weiter ...
+    # output$TemplateWithOptions <- renderUI({
+    #   if (is.null(vars())) {p("No further options available.")} else {
+    #     tagList(
+    #       p("Further options for the template:"),
+    #       lapply(vars(), function(var) {
+    #         textInput(NS(id, var), label=as.character(var), value = NULL)
+    #       }))
+    #   }
+    #   
+    # })
     
     dir.create(tdir <- tempfile())
     
