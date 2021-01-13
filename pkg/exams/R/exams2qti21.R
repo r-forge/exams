@@ -904,7 +904,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       '<baseValue baseType="identifier">correct</baseValue>',
       '</setOutcomeValue>',
       '</responseElse>',
-      '</responseCondition>'
+      '</responseCondition>'  
     )
 
     ## not answered points single
