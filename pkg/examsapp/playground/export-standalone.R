@@ -132,6 +132,11 @@ examsTemplateServer <- function(id, selectedTemplateFolder) {
       templateFile = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
       templateChoices = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
       selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))
+      
+      # if ( (is.null(selectedTemplateFolder())) | (length(templateFile)==0)) {
+      #   p("No template available.")
+      # } else {
+      #   selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))}
     })
     
     reactive(input$templateFile)
@@ -212,6 +217,7 @@ examsExportApp <- function() {
           column(4,
                  #uiOutput("TemplateWithOptions")
                  examsTemplateUI("examsTemplate"),
+                 p("ENDE examsTemplate!!"),
                  examsTemplateOptionsUI("examsTemplateOptions"),
                  p("Template options:"),
                  verbatimTextOutput("templateOptions")

@@ -111,12 +111,16 @@ examsArgumentServer <- function(id, df) {
 }
 ##
 examsTemplateUI <- function(id) {
-  uiOutput(NS(id, "controls"))
+  fluidPage(
+    uiOutput(NS(id, "controlsTemplate")),
+    uiOutput(NS(id, "controlsTemplateOptions"))
+  )
 }
 getTemplateOptions <- function(templateName,templateSubstitute) {
   # templateName <- "templates/tex/plain.tex"
-  # templateName <-"templates//pandoc/pandoc-exam.tex"
+  # templateName <-"templates/pandoc/pandoc-exam.tex"
   # templateName <-"templates/pandoc/plain.html"
+  # templateSubstitute <- c("\\def\\@","{#")
   
   fileExtension <- tools::file_ext(templateName)
   
@@ -138,38 +142,43 @@ getTemplateOptions <- function(templateName,templateSubstitute) {
   # TODO: default values or remove NULL values at the end
   if (all(is.na(x))) NULL else setNames(vector("list", length(x)), x)
 }
-examsTemplateServer <- function(id, selectedTemplateFolder) {
+examsTemplateServer <- function(id, selectedTemplateFolder,selectedTemplateSubstitute) {
   stopifnot(is.reactive(selectedTemplateFolder))
+  stopifnot(is.reactive(selectedTemplateSubstitute))
   
   moduleServer(id, function(input, output, session) {
-    
-    # make_template <- reactive({
-    #   templateFile = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
-    #   templateChoices = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
-    #   if (!is.null(selectedTemplateFolder())) {
-    #     selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))} else div()
-    # })
-    # 
-    # output$controls <- renderUI({make_template()})
-    
-    ## FIXME: no template available "tempalteFolder": null !?!?
-    # output$controls <- renderUI({
-    #   templateFile = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
-    #   templateChoices = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
-    #   selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))
-    # })
-    
-    output$controls <- renderUI({
-      if (is.null(selectedTemplateFolder())) {
+
+    output$controlsTemplate <- renderUI({
+      templateFile = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
+      templateChoices = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
+      if ( (is.null(selectedTemplateFolder())) | (length(templateFile)==0)) {
         p("No template available.")
       } else {
-        templateFile = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
-        templateChoices = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
-        selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))
-        ## hier weiter ... 
-        
+        selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile, templateChoices))}
+      })
+    
+    output$controlsTemplateOptions <- renderUI({
+      templateFile = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T)
+      templateChoices = grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T)
+      if ( (is.null(selectedTemplateFolder())) | (length(templateFile)==0)) {} else {
+        setableTemplateOptions <- names(getTemplateOptions(input$templateFile,selectedTemplateSubstitute()))
+        if (is.null(setableTemplateOptions)) {
+          p("No further options available.")
+          } else {
+          tagList(
+            p("Further options for the template:"),
+            lapply(setableTemplateOptions, function(var) {
+              textInput(NS(id, var), label=as.character(var), value = NULL)
+            })
+            )
+          }
       }
-    })
+      
+      ## return
+    
+      
+      
+      })
     
     # output$controls <- renderUI({
     #   if (is.null(vars())) {p("No further options available.")} else {
@@ -202,42 +211,44 @@ examsTemplateServer <- function(id, selectedTemplateFolder) {
     #reactive(if (is.null(selectedTemplateFolder())) NULL else input$templateFile)
   })
 }
-##
-examsTemplateOptionsUI <- function(id) {
-  uiOutput(NS(id, "controls"))
-}
 
-examsTemplateOptionsServer <- function(id, templateName,selectedTemplateSubstitute) {
-  stopifnot(is.reactive(templateName))
-  stopifnot(is.reactive(selectedTemplateSubstitute))
-  
-  moduleServer(id, function(input, output, session) {
-    
-    vars <- reactive({
-      if (is.null(templateName())) NULL else names(getTemplateOptions(templateName(),selectedTemplateSubstitute()))
-      })
-    
-      output$controls <- renderUI({
-        if (is.null(vars())) {p("No further options available.")} else {
-          tagList(
-            p("Further options for the template:"),
-        lapply(vars(), function(var) {
-          textInput(NS(id, var), label=as.character(var), value = NULL)
-        }))
-        }
 
-    })
-      
-    reactive({
-      each_var <- lapply(vars(), function(var) {
-        input[[var]]
-      })
-      names(each_var) <- vars()
-      each_var
-    })
-  })
-}
 ##
+# examsTemplateOptionsUI <- function(id) {
+#   uiOutput(NS(id, "controls"))
+# }
+# 
+# examsTemplateOptionsServer <- function(id, templateName,selectedTemplateSubstitute) {
+#   stopifnot(is.reactive(templateName))
+#   stopifnot(is.reactive(selectedTemplateSubstitute))
+#   
+#   moduleServer(id, function(input, output, session) {
+#     
+#     vars <- reactive({
+#       if (is.null(templateName())) NULL else names(getTemplateOptions(templateName(),selectedTemplateSubstitute()))
+#       })
+#     
+#       output$controls <- renderUI({
+#         if (is.null(vars())) {p("No further options available.")} else {
+#           tagList(
+#             p("Further options for the template:"),
+#         lapply(vars(), function(var) {
+#           textInput(NS(id, var), label=as.character(var), value = NULL)
+#         }))
+#         }
+# 
+#     })
+#       
+#     reactive({
+#       each_var <- lapply(vars(), function(var) {
+#         input[[var]]
+#       })
+#       names(each_var) <- vars()
+#       each_var
+#     })
+#   })
+# }
+# ##
 
 
 examsExportApp <- function() {
@@ -251,10 +262,10 @@ examsExportApp <- function() {
         fluidPage(
           column(4,
                  #uiOutput("TemplateWithOptions")
-                 examsTemplateUI("examsTemplate"),
-                 examsTemplateOptionsUI("examsTemplateOptions"),
-                 p("Template options:"),
-                 verbatimTextOutput("templateOptions")
+                 examsTemplateUI("examsTemplate")
+                 #examsTemplateOptionsUI("examsTemplateOptions"),
+                # p("Template options:"),
+                 #verbatimTextOutput("templateOptions")
                  ),
           column(8,
         #textOutput("compileCommand")
@@ -284,7 +295,7 @@ examsExportApp <- function() {
     
     examsArgument <- examsArgumentServer("examsArgument", withoutTemplate)
     
-    examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder)
+    examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder,exportFormat$selectedTemplateSubstitute)
      
     #examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", examsTemplate, exportFormat$selectedTemplateSubstitute) #reactive("exam.tex")
 
@@ -322,7 +333,7 @@ examsExportApp <- function() {
       ll$file <- "dist.Rmd"
       ll$dir <- tdir
       ll$template <- examsTemplate()
-      ll$header <- examsTemplateOptions()
+      #ll$header <- examsTemplateOptions()
       ll
     })
     
@@ -330,7 +341,7 @@ examsExportApp <- function() {
     output$compileCommand <- renderPrint(print(mylist()))
     #output$compileCommand <- renderPrint(print(examsArgument()))
     output$tempDirectory <- renderPrint(print(tdir))
-    output$templateOptions <- renderPrint(print(examsTemplateOptions()))
+    #output$templateOptions <- renderPrint(print(examsTemplateOptions()))
     output$mytest <- renderPrint(print(examsTemplate()))
     
     
@@ -343,7 +354,7 @@ examsExportApp <- function() {
       ll$file <- "dist.Rmd"
       ll$dir <- tdir
       ll$template <- examsTemplate()
-      ll$header <- examsTemplateOptions()
+      #ll$header <- examsTemplateOptions()
       do.call(exportFormat$selectedCommand(),ll)
       output$generatedExams <- renderPrint(print(list.files(tdir)))
     })
@@ -351,4 +362,29 @@ examsExportApp <- function() {
   shinyApp(ui, server)
 }
 
-examsExportApp()
+examsExportAppTest <- function() {
+  ui <- fluidPage(column(6,
+         checkboxInput("einschalten","Template ein/aus:"),
+         p("My Test App:"),
+         examsTemplateUI("examsTemplate"),
+         uiOutput("template")
+         
+  ))
+  
+  server <- function(input, output, session) {
+#    examsTemplateServer("examsTemplate", reactive("pandoc"),reactive(c("##","##")))
+    observeEvent(input$einschalten,{
+      if (input$einschalten) {
+        examsTemplateServer("examsTemplate", reactive("tex"),reactive(c("\\def\\@","{#")))
+        output$template <- renderUI({examsTemplateUI("examsTemplate")}) 
+      } else {
+        output$template <- renderUI({})
+      }
+        
+    })
+    
+  }
+  shinyApp(ui, server)
+}
+
+examsExportAppTest()          
