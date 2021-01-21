@@ -557,7 +557,16 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       pv[[i]] <- eval$pointvec(solution[[i]], type = type[i])
       pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
       pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
-      mv[[i]] <- pv[[i]]["neg"]
+      
+      ## setting minimum scores
+      mv[[i]] <- if(eval$negative) {
+        if(type[i] == "mchoice" & eval$partial) {
+          pv[[i]]["neg"] * sum(!solution[[i]])
+        } else pv[[i]]["neg"]
+      } else "0.0"
+      if(cloze & !eval$partial) {
+        mv[[i]] <- "0.0"
+      }
     }
 
     mmatrix <- if(length(i <- grep("matrix", names(x$metainfo)))) {
@@ -625,15 +634,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
         xml <- c(xml, '</correctResponse>',
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
-            '" lowerBound="', mv[[i]] <- if(!eval$negative) "0.0" else {
-              if(cloze) {
-                if(eval$partial) pv[[i]]["neg"] else "0.0"
-              } else {
-                if(eval$partial) {
-                  if(type[i] == "mchoice") pv[[i]]["neg"] * sum(!solution[[i]]) else pv[[i]]["neg"]
-                } else pv[[i]]["neg"]
-              }
-            }, '">', sep = '')
+            '" lowerBound="', mv[[i]], '">', sep = '')
         )
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
