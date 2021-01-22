@@ -21,8 +21,7 @@ exportFormatServer <- function(id) {
     reactVals <- reactiveValues(
       selectedCommand = listOfAllExportFormats[[1]]$command,
       selectedArgument = listOfAllExportFormats[[1]]$argument,
-      selectedTemplateFolder = listOfAllExportFormats[[1]]$templateFolder,
-      selectedTemplateSubstitute = listOfAllExportFormats[[1]]$templateSubstitute
+      selectedTemplate = listOfAllExportFormats[[1]]$template
     )
     
     output$exportFormatSelection <- renderUI({
@@ -32,17 +31,15 @@ exportFormatServer <- function(id) {
     observeEvent(input$exportFormat,{
       reactVals$selectedCommand <- listOfAllExportFormats[[which(names == input$exportFormat)]]$command
       reactVals$selectedArgument <- listOfAllExportFormats[[which(names == input$exportFormat)]]$argument
-      reactVals$selectedTemplateFolder <- listOfAllExportFormats[[which(names == input$exportFormat)]]$templateFolder
-      reactVals$selectedTemplateSubstitute <- listOfAllExportFormats[[which(names == input$exportFormat)]]$templateSubstitute
+      reactVals$selectedTemplate <- listOfAllExportFormats[[which(names == input$exportFormat)]]$template
       })
     
     
-    
-    list(
-      selectedCommand = reactive(reactVals$selectedCommand),
-      selectedArgument=reactive(reactVals$selectedArgument),
-      selectedTemplateFolder=reactive(reactVals$selectedTemplateFolder),
-      selectedTemplateSubstitute=reactive(reactVals$selectedTemplateSubstitute)
+    reactive(list(
+      command = reactVals$selectedCommand,
+      template = reactVals$selectedTemplate,
+      argument = reactVals$selectedArgument
+      )
     )
   })
 }
@@ -54,6 +51,7 @@ make_ui <- function(x, id, var) {
   argumentLabel <- paste0(x$description," (",var,")")
   argumentValue <- x$default
   if (x$type == "integer") {
+    if (is.null(argumentValue)) argumentValue = 0
     sliderInput(id, label = argumentLabel, min = x$range[1], max = x$range[2], value = argumentValue,step=1)
   } else if (x$type == "numeric") {
     numericInput(id, label = argumentLabel, min = x$range[1], max = x$range[2], value = argumentValue)
@@ -109,7 +107,118 @@ examsArgumentServer <- function(id, df) {
     })
   })
 }
-##
+## ALT
+# examsTemplateUI <- function(id) {
+#   fluidPage(
+#     uiOutput(NS(id, "controlsTemplate")),
+#     uiOutput(NS(id, "controlsTemplateOptions"))
+#   )
+# }
+# getTemplateOptions <- function(templateName,templateSubstitute) {
+#   # templateName <- "templates/tex/exam-FS.tex"
+#   # templateName <-"templates/pandoc/pandoc-exam.tex"
+#   # templateName <-"templates/pandoc/plain.html"
+#   # templateSubstitute <- c("\\def\\@","{#")
+#   # templateSubstitute <- c("##","##")
+#   # getTemplateOptions(templateName,templateSubstitute)
+#   
+#   fileExtension <- tools::file_ext(templateName)
+#   
+#   ## remove uncommented tags
+#   uncommentedTemplate <- switch(fileExtension,
+#                                 "tex" = readLines(templateName)[lapply(readLines(templateName), function(x) length(grep("^ *%",x,value = FALSE)))==0],
+#                                 "html" = readLines(templateName)[lapply(readLines(templateName), function(x) length(grep("^ *<!--",x,value = FALSE)))==0],
+#                                 "md" = readLines(templateName)[lapply(readLines(templateName), function(x) length(grep("^ *<!--",x,value = FALSE)))==0]
+#   )
+#   
+#   # FIXME: use base R only !
+#   # x <- unlist(lapply(readLines(templateName), function(x)qdapRegex::ex_between(x, "\\\\def\\\\@", "{#")))
+#   prefix <- gsub("\\\\","\\\\\\\\",templateSubstitute[1])
+#   suffix <- gsub("\\\\","\\\\\\\\",templateSubstitute[2])
+#   x <- unlist(lapply(uncommentedTemplate, function(x)qdapRegex::ex_between(x, prefix, suffix)))
+#   x <- setdiff(x,c("Questionheader", "Question", "Questionlist", "Solutionheader", "Solution", "Solutionlist"))
+#   x <- if (all(is.na(x))) NA else x[!is.na(x)]
+#   
+#   # TODO: default values or remove NULL values at the end
+#   if (all(is.na(x))) NULL else setNames(vector("list", length(x)), x)
+# }
+# examsTemplateServer <- function(id, selectedTemplateFolder,selectedTemplateSubstitute) {
+#   stopifnot(is.reactive(selectedTemplateFolder))
+#   stopifnot(is.reactive(selectedTemplateSubstitute))
+#   
+#   moduleServer(id, function(input, output, session) {
+#     
+#     reactVals <- reactiveValues(
+#       selectedTemplate = NULL,
+#       selectedTemplateOptions = NULL
+#     )
+#     
+#     #selectedTemplateFolder <- reactive("pandoc")
+#     #selectedTemplateFolder <- reactive("tex")
+#     
+#       templateFile = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T))
+#       
+#       templateChoices = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T))
+#       
+#     
+#     output$controlsTemplate <- renderUI({
+#       if ( (is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {
+#         p("No template available.")
+#       } else {
+#         selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile(), templateChoices()))}
+#       })
+#     
+#     observeEvent(input$templateFile, {
+#       reactVals$selectedTemplate = input$templateFile
+#     })
+#     
+#     setableTemplateOptionsFS = reactive({
+#       req(input$templateFile)
+#       names(getTemplateOptions(input$templateFile,selectedTemplateSubstitute()))
+#     })
+#  
+#     
+#     output$controlsTemplateOptions <- renderUI({
+#       if ( (is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {} else {
+#         #  wait until input$templateFile is available 
+#         #req(input$templateFile)
+#         #setableTemplateOptions <- names(getTemplateOptions(input$templateFile,selectedTemplateSubstitute()))
+#         #setableTemplateOptions <- names(getTemplateOptions("templates/tex/exam-FS.tex",selectedTemplateSubstitute()))
+#         if (is.null(setableTemplateOptionsFS())) {
+#           p("No further options available.")
+#           } else {
+#           tagList(
+#             p("Further options for the template:"),
+#             lapply(setableTemplateOptionsFS(), function(var) {
+#               textInput(NS(id, var), label=as.character(var), value = NULL)
+#             })
+#             )
+#           }
+#       }
+#     })
+#     
+#     observe({
+#       req(input$templateFile)
+#       each_var <- lapply(setableTemplateOptionsFS(), function(var) {
+#         input[[var]]
+#       })
+#       names(each_var) <- setableTemplateOptionsFS()
+#       reactVals$selectedTemplateOptions <- each_var
+#     })
+#     
+#       # list(
+#       #   selectedTemplate = reactive({reactVals$selectedTemplate}),
+#       #   selectedTemplateOptions = reactive({reactVals$selectedTemplateOptions})
+#       #   
+#       # )
+#       reactive(list(
+#         selectedTemplate = reactVals$selectedTemplate,
+#         selectedTemplateOptions = reactVals$selectedTemplateOptions
+#       ))
+#       
+#   })
+# }
+# ## NEU
 examsTemplateUI <- function(id) {
   fluidPage(
     uiOutput(NS(id, "controlsTemplate")),
@@ -144,9 +253,9 @@ getTemplateOptions <- function(templateName,templateSubstitute) {
   # TODO: default values or remove NULL values at the end
   if (all(is.na(x))) NULL else setNames(vector("list", length(x)), x)
 }
-examsTemplateServer <- function(id, selectedTemplateFolder,selectedTemplateSubstitute) {
-  stopifnot(is.reactive(selectedTemplateFolder))
-  stopifnot(is.reactive(selectedTemplateSubstitute))
+examsTemplateServer <- function(id, exportFormat) {
+  stopifnot(is.reactive(exportFormat))
+ # stopifnot(is.reactive(selectedTemplateSubstitute))
   
   moduleServer(id, function(input, output, session) {
     
@@ -155,139 +264,92 @@ examsTemplateServer <- function(id, selectedTemplateFolder,selectedTemplateSubst
       selectedTemplateOptions = NULL
     )
     
-      templateFile = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T))
-      
-      templateChoices = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T))
-      
+    selectedTemplateFolder <- reactive({
+      exportFormat()$template$folder
+    })
+    selectedTemplateSubstitute <- reactive({
+       exportFormat()$template$substitute
+    })
+    
+    # if (!is.null(exportFormat()$template)) 
+    #selectedTemplateFolder <- reactive("pandoc")
+    #selectedTemplateFolder <- reactive("tex")
+    
+    templateFile = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T))
+    
+    templateChoices = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T))
+    
     
     output$controlsTemplate <- renderUI({
-      if ( (is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {
+      if (is.null(exportFormat()$template)) {
+        p("template is NULL.")
+        } else if ((is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {
         p("No template available.")
       } else {
         selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile(), templateChoices()))}
-      })
+    })
     
+    observeEvent(input$templateFile, {
+      reactVals$selectedTemplate = input$templateFile
+    })
+    
+    observe({
+      if (is.null(exportFormat()$template)) reactVals$selectedTemplate = NULL
+    })
+    
+
     setableTemplateOptionsFS = reactive({
       req(input$templateFile)
       names(getTemplateOptions(input$templateFile,selectedTemplateSubstitute()))
     })
- 
-    
+
+
     output$controlsTemplateOptions <- renderUI({
-      if ( (is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {} else {
-        #  wait until input$templateFile is available 
-        #req(input$templateFile)
-        #setableTemplateOptions <- names(getTemplateOptions(input$templateFile,selectedTemplateSubstitute()))
-        #setableTemplateOptions <- names(getTemplateOptions("templates/tex/exam-FS.tex",selectedTemplateSubstitute()))
+      if (is.null(exportFormat()$template)) {
+        p("template is NULL.")
+      } else if ( (is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {} else {
         if (is.null(setableTemplateOptionsFS())) {
           p("No further options available.")
-          } else {
+        } else {
           tagList(
             p("Further options for the template:"),
             lapply(setableTemplateOptionsFS(), function(var) {
               textInput(NS(id, var), label=as.character(var), value = NULL)
             })
-            )
-          }
+          )
+        }
       }
-      
-      # ..hier weiter 
-      
-      # vars <- reactive({
-      #   if (is.null(templateName())) NULL else names(getTemplateOptions(templateName(),selectedTemplateSubstitute()))
-      # })
+    })
 
-      # templateOptions = reactive({
-      #   req(input$templateFile)
-      #   each_var <- lapply(setableTemplateOptionsFS(), function(var) {
-      #     input[[var]]
-      #   })
-      #   names(each_var) <- setableTemplateOptionsFS()
-      #   each_var
-      # })
-
-
-      ## return
-      # list(
-      #   selectedTemplate = reactive(reactVals$selectedTemplate),
-      #   selectedTemplateOptions = reactive(reactVals$selectedTemplateOptions)
-      # )
-
-      
-      
+    ## hier liegt das Problem !!!
+    observe({
+      req(input$templateFile)
+      if (!is.null(exportFormat()$template)) {
+      each_var <- lapply(setableTemplateOptionsFS(), function(var) {
+        input[[var]]
       })
+      names(each_var) <- setableTemplateOptionsFS()
+      reactVals$selectedTemplateOptions <- each_var
+      } else reactVals$selectedTemplateOptions <- NULL
+        
+    })
     
-    # output$controls <- renderUI({
-    #   if (is.null(vars())) {p("No further options available.")} else {
-    #     tagList(
-    #       p("Further options for the template:"),
-    #       lapply(vars(), function(var) {
-    #         textInput(NS(id, var), label=as.character(var), value = NULL)
-    #       }))
-    #   }
+
+    # list(
+    #   selectedTemplate = reactive({reactVals$selectedTemplate}),
+    #   selectedTemplateOptions = reactive({reactVals$selectedTemplateOptions})
     #   
-    # })
-    # 
-    # reactive({
-    #   each_var <- lapply(vars(), function(var) {
-    #     input[[var]]
-    #   })
-    #   names(each_var) <- vars()
-    #   each_var
-    # })
+    # )
     
-    # output$numeric <- renderUI({
-    #   if (input$type == "slider") {
-    #     sliderInput("dynamic", input$label, value = 0, min = 0, max = 10)
-    #   } else {
-    #     numericInput("dynamic", input$label, value = 0, min = 0, max = 10) 
-    #   }
-    # })
     
-    #reactive(input$templateFile)
-    #reactive(if (is.null(selectedTemplateFolder())) NULL else input$templateFile)
+    reactive(list(
+      template = reactVals$selectedTemplate,
+      templateOptions = reactVals$selectedTemplateOptions
+    ))
+    
   })
 }
-
-
 ##
-# examsTemplateOptionsUI <- function(id) {
-#   uiOutput(NS(id, "controls"))
-# }
-# 
-# examsTemplateOptionsServer <- function(id, templateName,selectedTemplateSubstitute) {
-#   stopifnot(is.reactive(templateName))
-#   stopifnot(is.reactive(selectedTemplateSubstitute))
-#   
-#   moduleServer(id, function(input, output, session) {
-#     
-#     vars <- reactive({
-#       if (is.null(templateName())) NULL else names(getTemplateOptions(templateName(),selectedTemplateSubstitute()))
-#       })
-#     
-#       output$controls <- renderUI({
-#         if (is.null(vars())) {p("No further options available.")} else {
-#           tagList(
-#             p("Further options for the template:"),
-#         lapply(vars(), function(var) {
-#           textInput(NS(id, var), label=as.character(var), value = NULL)
-#         }))
-#         }
-# 
-#     })
-#       
-#     reactive({
-#       each_var <- lapply(vars(), function(var) {
-#         input[[var]]
-#       })
-#       names(each_var) <- vars()
-#       each_var
-#     })
-#   })
-# }
-# ##
-
-
 examsExportApp <- function() {
   ui <- fluidPage(
     sidebarLayout(
@@ -322,10 +384,6 @@ examsExportApp <- function() {
   )
   server <- function(input, output, session) {
     
-    # reactVals <- reactiveValues(
-    #   mytemplate = "exam.tex"
-    # )
-    
     exportFormat <- exportFormatServer("exportFormat")
     
     withoutTemplate <- reactive({exportFormat$selectedArgument()[!(names(exportFormat$selectedArgument()) %in% c("template","header"))]})
@@ -334,35 +392,7 @@ examsExportApp <- function() {
     
     examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder,exportFormat$selectedTemplateSubstitute)
      
-    #examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", examsTemplate, exportFormat$selectedTemplateSubstitute) #reactive("exam.tex")
 
-    
-    # # hier weiter ...
-    # output$TemplateWithOptions <- renderUI({
-    # if (is.null(exportFormat$selectedTemplateFolder())) {
-    #   p("No further options available.")
-    #   } else {
-    #     # examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder)
-    #     if (is.null(examsTemplate())) {
-    #       tagList(
-    #         examsTemplateUI("examsTemplate"),
-    #         p("No further options available.")
-    #       )
-    #     } else {
-    #       # examsTemplateOptions <- examsTemplateOptionsServer("examsTemplateOptions", examsTemplate, exportFormat$selectedTemplateSubstitute)
-    #       tagList(
-    #         examsTemplateUI("examsTemplate"),
-    #         p("Further options for the template:"),
-    #         examsTemplateOptionsUI("examsTemplateOptions"),
-    #         p("Template options:"),
-    #         renderPrint(print(examsTemplateOptions()))
-    #       )
-    #       }
-    #     }
-    #   })
-    # 
-
-    
     dir.create(tdir <- tempfile())
     
     mylist <-reactive({
@@ -404,15 +434,23 @@ examsExportAppTest <- function() {
          checkboxInput("einschalten","Template ein/aus:"),
          p("My Test App:"),
          uiOutput("template")
-         
   ))
   
   server <- function(input, output, session) {
 
     observeEvent(input$einschalten,{
       if (input$einschalten) {
-        examsTemplateServer("examsTemplate", reactive("tex"),reactive(c("\\def\\@","{#")))
-        output$template <- renderUI({examsTemplateUI("examsTemplate")}) 
+        #examsReturn <- examsTemplateServer("examsTemplate", reactive("tex"),reactive(c("\\def\\@","{#")))
+        # examsReturn <- examsTemplateServer("examsTemplate", reactive("pandoc"),reactive(c("##","##")))
+        mylist = list(template=list("folder"="tex","substitute" = c("\\def\\@","{#")))
+        #mylist = list(template=NULL)
+        examsReturn <- examsTemplateServer("examsTemplate", reactive(mylist))
+        output$template <- renderUI({
+          tagList(
+            examsTemplateUI("examsTemplate"),
+            renderPrint(print(examsReturn()))#$selectedTemplateOptions()))
+            )
+          }) 
       } else {
         output$template <- renderUI({p("Nix da.")})
       }
@@ -423,4 +461,40 @@ examsExportAppTest <- function() {
   shinyApp(ui, server)
 }
 
-examsExportAppTest()          
+# examsExportAppTest()
+
+
+
+
+
+
+exportFormatApp <- function() {
+  ui <- fluidPage(column(4,
+                         exportFormatInput("exportFormat"),
+                         examsArgumentUI("examsArgument")),
+                  column(4,
+                         examsTemplateUI("examsTemplate")),
+                  column(4,
+                         verbatimTextOutput("showReturn")
+  ))
+  
+  server <- function(input, output, session) {
+    
+    exportFormat <- exportFormatServer("exportFormat")
+    
+    withoutTemplate <- reactive({exportFormat()$argument[!(names(exportFormat()$argument) %in% c("template","header"))]})
+    
+    examsArgument <- examsArgumentServer("examsArgument", withoutTemplate)
+    
+    examsTemplate <- examsTemplateServer("examsTemplate", exportFormat)
+
+    output$showReturn <- renderPrint(print(examsTemplate()))
+
+    
+  }
+  shinyApp(ui, server)
+}
+
+exportFormatApp()          
+
+# examsExportAppTest()

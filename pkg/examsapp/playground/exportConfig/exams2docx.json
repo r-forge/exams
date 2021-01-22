@@ -1,7 +1,9 @@
 { "name": "exams2docx",
   "command": "exams2pandoc",
-  "templateFolder": "pandoc",
-  "templateSubstitute": ["##","##"],
+  "template": {
+    "folder": "pandoc",
+    "substitute": ["##","##"]    
+  },
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",
