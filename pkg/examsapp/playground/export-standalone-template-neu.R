@@ -344,7 +344,7 @@ examsTemplateServer <- function(id, exportFormat) {
     
     reactive(list(
       template = reactVals$selectedTemplate,
-      templateOptions = reactVals$selectedTemplateOptions
+      header = reactVals$selectedTemplateOptions
     ))
     
   })
