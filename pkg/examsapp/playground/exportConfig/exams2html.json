@@ -1,6 +1,5 @@
 { "name": "exams2html",
   "command": "exams2html",
-  "template": null,
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",
@@ -18,8 +17,9 @@
     },
     "template": {
       "description": "A specification of a LaTeX template",
-      "type": "plain",
       "default": null,
+      "folder": null,
+      "substitute": null,
       "userSetable": true
     },
     "name": {

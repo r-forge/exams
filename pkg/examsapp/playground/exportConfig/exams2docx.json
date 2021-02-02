@@ -1,9 +1,5 @@
 { "name": "exams2docx",
   "command": "exams2pandoc",
-  "template": {
-    "folder": "pandoc",
-    "substitute": ["##","##"]    
-  },
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",
@@ -32,13 +28,6 @@
       "userSetable": true,
       "range": ["docx", "odt", "html", "markdown"]
     },
-    "template": {
-      "description": "A specification of a template in either LaTeX, HTML, or Markdown format",
-      "type": "selection",
-      "default": "plain.tex",
-      "userSetable": true,
-      "range": [ "plain.tex", "plain.html"]
-    },
     "question": {
       "description": "The header for resulting questions. FALSE removes the header for questions",
       "type": "character",
@@ -51,10 +40,16 @@
       "default": "Solution",
       "userSetable": true
     },
+    "template": {
+      "description": "A specification of a template in either LaTeX, HTML, or Markdown format",
+      "default": null,
+      "folder": "pandoc",
+      "substitute": ["##","##"],
+      "userSetable": true
+    },
     "header": {
       "description": "A list of named character strings (or functions generating such) to be substituted in the template",
-      "type": "list",
-      "default": "list(Date = Sys.Date())",
+      "default": {"Date": "Sys.Date()"},
       "userSetable": true
     },
     "mathjax": {
