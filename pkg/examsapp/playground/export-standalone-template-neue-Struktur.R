@@ -2,13 +2,12 @@ library(shiny)
 library(exams)
 library(jsonlite)
 
-list.files("templates",full.names = T,recursive = T)
 ## ToDo: 
 # - [OK?!?] default values instead of initial values of shiny inputs, but see https://github.com/rstudio/shiny/issues/559; perhaps workaround 0 -> NULL ?!?
-# - template-dependent input list: search in template between "\def\@" and "{"
 
 
-##############
+#####
+## module exportFormat: the ui shows the selection of an export format; the server reads all json files in "exportConfig" (structure: list with name, command (exams2xyz), argument), output of server is the command and argument-list of the selected export format
 exportFormatInput <- function(id) {
   uiOutput(NS(id, "exportFormatSelection"))
 }
@@ -40,7 +39,8 @@ exportFormatServer <- function(id) {
     )
   })
 }
-##
+#####
+## module examsArgument: the ui shows shiny input elements for all names (description) of namedList (except userSetable = FALSE) where the input type is given by type; the server build the ui elements from the input (namedList) and returns as output a named list with the inputs from th ui
 examsArgumentUI <- function(id) {
   uiOutput(NS(id, "controls"))
 }
@@ -78,37 +78,36 @@ getArgumentValues <- function(x, val) {
     val
   }
 }
-examsArgumentServer <- function(id, df) {
-  stopifnot(is.reactive(df))
+examsArgumentServer <- function(id, namedList) {
+  stopifnot(is.reactive(namedList))
   
   moduleServer(id, function(input, output, session) {
-    vars <- reactive(names(df()))
+    vars <- reactive(names(namedList()))
     
     output$controls <- renderUI({
-      # purrr::map(vars(), function(var) make_ui(df()[[var]], NS(id, var), var))
+      # purrr::map(vars(), function(var) make_ui(namedList()[[var]], NS(id, var), var))
       lapply(vars(), function(var) {
-        if (df()[[var]]$userSetable == TRUE) make_ui(df()[[var]], NS(id, var), var)
+        if (namedList()[[var]]$userSetable == TRUE) make_ui(namedList()[[var]], NS(id, var), var)
       })
     })
     
     reactive({
-      #each_var <- purrr::map(vars(), function(var) getArgumentValues(df()[[var]], input[[var]]))
+      #each_var <- purrr::map(vars(), function(var) getArgumentValues(namedList()[[var]], input[[var]]))
       each_var <- lapply(vars(), function(var) {
-        if (df()[[var]]$userSetable == TRUE) getArgumentValues(df()[[var]], input[[var]]) else df()[[var]]$default}
+        if (namedList()[[var]]$userSetable == TRUE) getArgumentValues(namedList()[[var]], input[[var]]) else namedList()[[var]]$default}
         )
-      #each_var <- map(vars(), function(var) input[[var]])
       names(each_var) <- vars()
-      #print(each_var)
-      #paste0(each_var,collapse = ";; ")
       each_var
     })
   })
 }
-## 
+#####
+## module examsTemplate: the ui shows a selectInput for all available templates and all available template-specific header arguments; the server extracts from an exportFormat the folder of all available templates, the auxiliary function getTemplateOptions extracts from a selected template all available template-specific header arguments by matching templateSubstitute, the oupput of the sever ist the selectedTemplate and the selectedTemplateOptions (NULL if not available)
 examsTemplateUI <- function(id) {
   fluidPage(
     uiOutput(NS(id, "controlsTemplate")),
-    uiOutput(NS(id, "controlsTemplateOptions"))
+    uiOutput(NS(id, "controlsTemplateOptions")),
+    tags$br()
   )
 }
 getTemplateOptions <- function(templateName,templateSubstitute) {
@@ -144,8 +143,7 @@ getTemplateOptions <- function(templateName,templateSubstitute) {
 }}
 examsTemplateServer <- function(id, exportFormat) {
   stopifnot(is.reactive(exportFormat))
- # stopifnot(is.reactive(selectedTemplateSubstitute))
-  
+
   moduleServer(id, function(input, output, session) {
     
     reactVals <- reactiveValues(
@@ -160,10 +158,6 @@ examsTemplateServer <- function(id, exportFormat) {
        exportFormat()$argument$template$substitute
     })
     
-    # if (!is.null(exportFormat()$template)) 
-    #selectedTemplateFolder <- reactive("pandoc")
-    #selectedTemplateFolder <- reactive("tex")
-    
     templateFile = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = TRUE),fixed = T,value = T))
     
     templateChoices = reactive(grep("",dir(file.path("templates", selectedTemplateFolder()), full.names = FALSE),fixed = T,value = T))
@@ -171,12 +165,12 @@ examsTemplateServer <- function(id, exportFormat) {
     
     output$controlsTemplate <- renderUI({
       if (is.null(exportFormat()$argument$template)) {
-        p("template is NULL.")
+       # p("template is NULL.")
         } else {
           if (!exportFormat()$argument$template$userSetable) {
-            p("template already set.")
+            tags$b("Template already set.")
           } else if ((is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {
-        p("No template available.")
+            tags$b("No template available.")
       } else {
         selectInput(NS(id, "templateFile"), "Pick a template file", choices = setNames(templateFile(), templateChoices()))}}
     })
@@ -195,7 +189,7 @@ examsTemplateServer <- function(id, exportFormat) {
     })
     
 
-    setableTemplateOptionsFS = reactive({
+    setableTemplateOptions = reactive({
       req(input$templateFile)
       names(getTemplateOptions(reactVals$selectedTemplate,selectedTemplateSubstitute()))
     })
@@ -203,18 +197,20 @@ examsTemplateServer <- function(id, exportFormat) {
 
     output$controlsTemplateOptions <- renderUI({
            if (is.null(exportFormat()$argument$header)) {
-        p("template is NULL.")
+        #p("template is NULL.")
            } else {
              if (!exportFormat()$argument$header$userSetable) {
-               p("further options alread set") 
+               tags$b("Further template options already set") 
                } else if ( (is.null(selectedTemplateFolder())) | (length(templateFile())==0)) {} else {
-        if (is.null(setableTemplateOptionsFS())) {
-          p("No further options available.")
+        if (is.null(setableTemplateOptions())) {
+          tags$b("No further template options available")
         } else {
           tagList(
-            p("Further options for the template:"),
-            lapply(setableTemplateOptionsFS(), function(var) {
-              textInput(NS(id, var), label=as.character(var), value = NULL)
+            tags$b("Further template options:"),
+            lapply(setableTemplateOptions(), function(var) {
+              textInput(NS(id, var), 
+                        label=as.character(var), 
+                        value = if (var %in% names(exportFormat()$argument$header$default)) exportFormat()$argument$header$default[[var]] else NULL)
             })
           )
         }
@@ -222,42 +218,23 @@ examsTemplateServer <- function(id, exportFormat) {
       })
 
     
-    
-    ## hier liegt das Problem !!!
-    # observe({
-    #   req(input$templateFile)
-    #   if (!is.null(exportFormat()$argument$template)) {
-    #   each_var <- lapply(setableTemplateOptionsFS(), function(var) {
-    #     input[[var]]
-    #   })
-    #   names(each_var) <- setableTemplateOptionsFS()
-    #   reactVals$selectedTemplateOptions <- each_var
-    #   } else reactVals$selectedTemplateOptions <- NULL
-    # 
-    # })
-    
-    ## hier liegt noch ein Problem bei Html ?!?
-    observeEvent(reactVals$selectedTemplate, {
-      if ( (!exportFormat()$argument$header$userSetable) | (is.null(exportFormat()$argument$template)) ) {
+    observe({
+      if (!is.null(exportFormat()$argument$header)) {
+      if ( (!exportFormat()$argument$header$userSetable) | 
+           (is.null(exportFormat()$argument$template))) {
         reactVals$selectedTemplateOptions <- exportFormat()$argument$header$default
       } else {
-        each_var <- lapply(setableTemplateOptionsFS(), function(var) {
-          input[[var]]
+        each_var <- lapply(setableTemplateOptions(), function(var) {
+          if (length(grep("^ *Rfun",input[[var]],value = F))==1) {
+            if (inherits(try(eval(parse(text=gsub("Rfun ","",input[[var]]))),silent = T),"try-error")) NULL else eval(parse(text=gsub("Rfun ","",input[[var]])))
+          } else input[[var]]
         })
-        names(each_var) <- setableTemplateOptionsFS()
+        names(each_var) <- setableTemplateOptions()
         reactVals$selectedTemplateOptions <- each_var
       }
-
+      }
       })
 
-
-    # list(
-    #   selectedTemplate = reactive({reactVals$selectedTemplate}),
-    #   selectedTemplateOptions = reactive({reactVals$selectedTemplateOptions})
-    #   
-    # )
-    
-    
     reactive(list(
       template = reactVals$selectedTemplate,
       header = reactVals$selectedTemplateOptions
@@ -266,130 +243,13 @@ examsTemplateServer <- function(id, exportFormat) {
   })
 }
 ##
-examsExportApp <- function() {
-  ui <- fluidPage(
-    sidebarLayout(
-      sidebarPanel(
-        exportFormatInput("exportFormat"),
-        examsArgumentUI("examsArgument")
-      ),
-      mainPanel(
-        fluidPage(
-          column(4,
-                 #uiOutput("TemplateWithOptions")
-                 examsTemplateUI("examsTemplate")
-                 #examsTemplateOptionsUI("examsTemplateOptions"),
-                # p("Template options:"),
-                 #verbatimTextOutput("templateOptions")
-                 ),
-          column(8,
-        #textOutput("compileCommand")
-        p("My Test:"),
-        verbatimTextOutput("mytest"),
-        p("Selected exams2xyz:"),
-        verbatimTextOutput("selectedCommand"),
-        p("List of arguments:"),
-        verbatimTextOutput("compileCommand"),
-        actionButton("compileExam",label = "Compile Exam"),
-        p("Temp Dir:"),
-        verbatimTextOutput("tempDirectory"),
-        p("Generated Exams:"),
-        verbatimTextOutput("generatedExams")
-      )))
-    )
-  )
-  server <- function(input, output, session) {
-    
-    exportFormat <- exportFormatServer("exportFormat")
-    
-    withoutTemplate <- reactive({exportFormat$selectedArgument()[!(names(exportFormat$selectedArgument()) %in% c("template","header"))]})
-    
-    examsArgument <- examsArgumentServer("examsArgument", withoutTemplate)
-    
-    examsTemplate <- examsTemplateServer("examsTemplate", exportFormat$selectedTemplateFolder,exportFormat$selectedTemplateSubstitute)
-     
-
-    dir.create(tdir <- tempfile())
-    
-    mylist <-reactive({
-      ll <- examsArgument()
-      ll$file <- "dist.Rmd"
-      ll$dir <- tdir
-      ll$template <- examsTemplate()
-      #ll$header <- examsTemplateOptions()
-      ll
-    })
-    
-    output$selectedCommand <- renderPrint(print(exportFormat$selectedCommand()))
-    output$compileCommand <- renderPrint(print(mylist()))
-    #output$compileCommand <- renderPrint(print(examsArgument()))
-    output$tempDirectory <- renderPrint(print(tdir))
-    #output$templateOptions <- renderPrint(print(examsTemplateOptions()))
-    output$mytest <- renderPrint(print(examsTemplate()))
-    
-    
-
-    
-    observeEvent(input$compileExam, {
-      #message("running exams2xyz")
-      # exams2pdf("dist.Rmd")
-      ll <- examsArgument()
-      ll$file <- "dist.Rmd"
-      ll$dir <- tdir
-      ll$template <- examsTemplate()
-      #ll$header <- examsTemplateOptions()
-      do.call(exportFormat$selectedCommand(),ll)
-      output$generatedExams <- renderPrint(print(list.files(tdir)))
-    })
-  }
-  shinyApp(ui, server)
-}
-
-examsExportAppTest <- function() {
-  ui <- fluidPage(column(6,
-         checkboxInput("einschalten","Template ein/aus:"),
-         p("My Test App:"),
-         uiOutput("template")
-  ))
-  
-  server <- function(input, output, session) {
-
-    observeEvent(input$einschalten,{
-      if (input$einschalten) {
-        #examsReturn <- examsTemplateServer("examsTemplate", reactive("tex"),reactive(c("\\def\\@","{#")))
-        # examsReturn <- examsTemplateServer("examsTemplate", reactive("pandoc"),reactive(c("##","##")))
-        mylist = list(template=list("folder"="tex","substitute" = c("\\def\\@","{#")))
-        #mylist = list(template=NULL)
-        examsReturn <- examsTemplateServer("examsTemplate", reactive(mylist))
-        output$template <- renderUI({
-          tagList(
-            examsTemplateUI("examsTemplate"),
-            renderPrint(print(examsReturn()))#$selectedTemplateOptions()))
-            )
-          }) 
-      } else {
-        output$template <- renderUI({p("Nix da.")})
-      }
-        
-    })
-    
-  }
-  shinyApp(ui, server)
-}
-
-# examsExportAppTest()
-
-
-
-
-
-
 exportFormatApp <- function() {
   ui <- fluidPage(column(4,
-                         exportFormatInput("exportFormat"),
-                         examsArgumentUI("examsArgument")),
+                         fluidPage(exportFormatInput("exportFormat")),
+                         examsTemplateUI("examsTemplate"),
+                         fluidPage(examsArgumentUI("examsArgument"))),
                   column(4,
-                         examsTemplateUI("examsTemplate")),
+                         ),
                   column(4,
                          verbatimTextOutput("showReturn")
   ))
@@ -419,4 +279,3 @@ exportFormatApp <- function() {
 
 exportFormatApp()          
 
-# examsExportAppTest()

@@ -25,7 +25,7 @@
       "description": "The file type to convert to using pandoc",
       "type": "selection",
       "default": "docx",
-      "userSetable": true,
+      "userSetable": false,
       "range": ["docx", "odt", "html", "markdown"]
     },
     "question": {

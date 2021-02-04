@@ -24,7 +24,7 @@
     },
     "header": {
       "description": "A list of further options to be passed to the LaTeX files",
-      "default": {"Date": "Sys.Date()"},
+      "default": {"Date": "Rfun Sys.Date()"},
       "userSetable": true
     },
     "name": {
