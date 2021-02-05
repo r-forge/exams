@@ -74,6 +74,14 @@
   to R/exams exercise files, either in R/Markdown (Rmd, default) or R/LaTeX
   (Rnw) format.
 
+* When running exercises via `knitr::knit()` errors in the R code will stop
+  the evaluation now by default. This was always the default behavior for Rnw
+  exercises (i.e., when processed with `engine = "sweave"`) but now is also
+  the default for Rmd exercises and for Rnw exercises via `engine = "knitr"`.
+  In exercises processed via `knitr::knit()` it is possible to carry on with
+  code evaluation after errors (the default in `knitr`) by setting the chunk
+  option `error = TRUE`.
+
 * Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
   on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
   support is installed, this option can also be set to `texengine = "xelatex"`
