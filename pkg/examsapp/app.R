@@ -16,16 +16,17 @@ makeTmpPath <- function(){
       on.exit(unlink(dir))
     }
     dir <- path.expand(dir)
-    print(dir)
-    if(!file.exists(file.path(dir, "exercises"))) {
-      dir.create(file.path(dir, "exercises"))
-    }
-    if(!file.exists(file.path(dir, "tmp"))) {
-      dir.create(file.path(dir, "tmp"))
-    }
-    if(!file.exists(file.path(dir, "exams"))) {
-      dir.create(file.path(dir, "exams"))
-    }
+    #print(dir)
+    
+    lapply(c("exercises","tmp","exams","templates"),function(x) {
+      if(!file.exists(file.path(dir, x))) {
+        dir.create(file.path(dir, x))
+      } else {
+        tf <- dir(file.path(dir, x), full.names = TRUE)
+        unlink(tf)
+      }
+    })
+    
     return(file.path(dir))
 }
 
@@ -101,8 +102,7 @@ server <- function(input, output, session){
   })
   
   # call the server logic of the load tab and store the returned value
-  modifiedDataLoadTab = callModule(loadTabLogic, "loadTab", reactive(reactVals$pathExercisesGiven), reactive(reactVals$pathToTmpFolder), 
-                                  reactive(reactVals$possibleExerciseList), reactive(reactVals$givenExercises))
+  modifiedDataLoadTab = loadTabServer("loadTab", reactive(reactVals$pathExercisesGiven), reactive(reactVals$pathToTmpFolder),                                  reactive(reactVals$possibleExerciseList), reactive(reactVals$givenExercises))
   
   # call the server logic of the choose tab and store the returned value
   modifiedDataChooseTab = callModule(chooseTabLogic, "chooseTab", reactive(reactVals$pathToTmpFolder), reactive(reactVals$possibleExerciseList),

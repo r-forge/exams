@@ -62,8 +62,13 @@ loadTabUI <- function(id){
   )
 }
 
-
-loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolder, possibleExerciseList, givenExercises){
+loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExerciseList, givenExercises) {
+  stopifnot(is.reactive(pathExercisesGiven))
+  stopifnot(is.reactive(pathToFolder))
+  stopifnot(is.reactive(possibleExerciseList))
+  stopifnot(is.reactive(givenExercises))
+  
+  moduleServer(id, function(input, output, session) {
   reactVals <- reactiveValues(
     # path to the given exercises (pre-stored data)
     path = NULL,
@@ -266,6 +271,7 @@ loadTabLogic <- function(input, output, session, pathExercisesGiven, pathToFolde
   return(
     selectedFiles = reactive({reactVals$selectedFiles})
   )
+})
 }
 
 getDirFilesOneLevel <- function(path){
