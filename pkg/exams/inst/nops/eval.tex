@@ -1,0 +1,35 @@
+\documentclass[a4paper]{article}{{#DCF}}
+
+\usepackage[utf8]{inputenc}
+\usepackage{a4wide,color,Sweave,url,amsmath,booktabs,longtable,eurosym}
+{{#Babel}}\usepackage[{{Babel}}]{babel}{{/Babel}}
+{{#Header}}{{Header}}{{/Header}}
+
+\begin{document}
+\subsection*{ {{ExamResults}} }
+
+\begin{tabular}{ll}
+\hline
+{{DocumentID}} & {{exam}}\\
+{{Name}} & {{name}} \\
+{{RegistrationNumber}} & {{registration}}\\
+{{#has_mark}}
+{{Mark}} & {{mark}}\\{{/has_mark}}
+{{Points}} & {{points}}\\
+\hline
+\end{tabular}
+
+
+\subsection*{ {{Evaluation}} }
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+{{Question}} & {{Point}} & {{GivenAnswer}} & {{CorrectAnswer}} \\{{#results}}
+\hline
+{{question}} & {{points}} &  \verb|{{answer}}| & \verb|{{solution}}|\\{{/results}}
+\hline
+\end{tabular}
+
+
+{{/DCF}}
+\end{document}

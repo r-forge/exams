@@ -34,7 +34,8 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
                                      dir = ".", language = "en",
                                      template = NULL, encoding = "UTF-8", 
                                      converter = NULL, zip = TRUE, 
-                                     return_scan = FALSE, ...) {
+                                     return_scan = FALSE, 
+                                     convert_dcf_to = "markdown_strict", ...) {
 
   stopifnot(requireNamespace("base64enc"))
   stopifnot(requireNamespace("whisker"))
@@ -72,9 +73,6 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   nscans <- 1L + as.integer("scan2" %in% names(results))
   
   ## read language specification
-  if (is.null(converter)) {
-    converter <- if (language %in% c("hr", "ro", "sk", "tr")) "pandoc" else "tth"
-  }
   if (!file.exists(language)) {
     language <- system.file(file.path("nops", paste0(language, ".dcf")),
                             package = "exams")
@@ -82,7 +80,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   if (language == "") {
     language <- system.file(file.path("nops", "en.dcf"), package = "exams")
   }
-  DCF <- nops_language(language, converter = converter)
+  DCF <- nops_language(language, converter = "pandoc", to = convert_dcf_to)
   substr(DCF$Points, 1L, 1L) <- toupper(substr(DCF$Points, 1L, 1L))
   if (!is.null(DCF$PointSum)) {
     DCF$Points <- DCF$PointSum
