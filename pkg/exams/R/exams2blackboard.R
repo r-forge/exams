@@ -167,10 +167,10 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## function to give right option for <bbmd_negative_points_ind>
 
   set_negative_points <- function(eval = eval, type = type) {
-      if(!eval$negative){
+      if(!eval$partial){
           x <- "N"
       } else if(grepl("choice", type)){
-          x <- "Y"
+          x <- ifelse(eval$negative < 0, "Y", "Q")
       } else {
           x <- "N"
       }
