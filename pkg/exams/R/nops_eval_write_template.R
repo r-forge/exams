@@ -33,7 +33,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
                                      file = "exam_eval",
                                      dir = ".", language = "en",
                                      template = NULL, encoding = "UTF-8", 
-                                     converter = NULL, zip = TRUE, 
+                                     converter = "pandoc", zip = TRUE, 
                                      return_scan = FALSE, 
                                      convert_dcf_to = "markdown_strict", ...) {
 
@@ -80,7 +80,11 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
   if (language == "") {
     language <- system.file(file.path("nops", "en.dcf"), package = "exams")
   }
-  DCF <- nops_language(language, converter = "pandoc", to = convert_dcf_to)
+  DCF <- if (converter == "pandoc") {
+    nops_language(language, converter = converter, to = convert_dcf_to)
+  } else {
+    nops_language(language, converter = converter)
+  }
   substr(DCF$Points, 1L, 1L) <- toupper(substr(DCF$Points, 1L, 1L))
   if (!is.null(DCF$PointSum)) {
     DCF$Points <- DCF$PointSum
