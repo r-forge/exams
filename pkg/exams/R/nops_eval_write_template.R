@@ -35,7 +35,8 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
                                      template = NULL, encoding = "UTF-8", 
                                      converter = "pandoc", zip = TRUE, 
                                      return_scan = FALSE, 
-                                     convert_dcf_to = "markdown_strict", ...) {
+                                     convert_dcf_to = "markdown_strict", 
+                                     post_process = NULL, ...) {
 
   stopifnot(requireNamespace("base64enc"))
   stopifnot(requireNamespace("whisker"))
@@ -151,7 +152,10 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
     }
 
     template_i <- whisker::whisker.render(template, dat)
-    writeLines(template_i, file.path(temp_dir, ac, report_name))
+    report_file_path <- file.path(temp_dir, ac, report_name)
+    writeLines(template_i, report_file_path)
+    
+    if (!is.null(post_process)) post_process(report_file_path)
   }
 
   if (isTRUE(zip)) {
