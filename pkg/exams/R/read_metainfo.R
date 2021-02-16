@@ -57,6 +57,9 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
     rval <- gsub("[^\\}]+$", "", rval)
     ## get everthing within brackets
     rval <- gsub("{", "", strsplit(rval, "}")[[1L]], fixed = TRUE)
+    ## omit leading and trailing white space
+    rval <- gsub("^[ \t]+", "", rval)
+    rval <- gsub("[ \t]+$", "", rval)
     ## split further with respect to other symbols (currently only |)
     rval <- unlist(strsplit(rval, "|", fixed = TRUE))
   } else {

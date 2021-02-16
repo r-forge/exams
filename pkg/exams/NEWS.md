@@ -114,6 +114,10 @@
 * Bug fix in `extract_environment()` underlying `read_exercise()`: When Markdown
   tables were formatted with just `---` markup (rather that `|---|`) some lines
   in the table were erroneously forced to lower case (reported by Ulrike Groemping).
+  
+* Improvement in `extract_command()` underlying `read_exercise()`: For Sweave
+  exercises leading and trailing spaces are now also removed (as they always were for
+  Markdown exercises, pointed out by Ulrich Morawetz).
 
 * Interfaces `exams2html()`, `exams2pdf()`, and `exams2pandoc()` gained an argument
   `exshuffle = NULL` which can be modified to overrule the `exshuffle` setting
