@@ -587,14 +587,14 @@ make_itembody_testvision <- function(shuffle = FALSE,
          if(type[i] == "string") {
            if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1) {
              xml <- c(xml,
-               paste('<value fieldIdentifier="', ids[[i]]$idcs, '" baseType="float">',
+               paste('<value fieldIdentifier="', ids[[i]]$idcs, '" baseType="string">',
                 solution[[i]], '</value>', sep = '')
              )
            } else {
              is_essay[i] <- TRUE
              ## Essay type questions.
              xml <- c(xml,
-                 paste('<value fieldIdentifier="', ids[[i]]$idcs, '" baseType="float">',
+                 paste('<value fieldIdentifier="', ids[[i]]$idcs, '" baseType="string">',
                   solution[[i]], '</value>', sep = '')
              )
            }
@@ -757,12 +757,12 @@ make_itembody_testvision <- function(shuffle = FALSE,
                },
                paste(if(x$metainfo$type != "cloze") '<extendedTextInteraction responseIdentifier="' else '<textEntryInteraction responseIdentifier="', ids[[i]]$response,
                 if(!is.na(maxchars[[i]][1])) {
-                  paste0('" expectedLength="', maxchars[[i]][1])
+                  paste0('" expectedLength="', maxchars[[i]][1], '"')
                 } else NULL, if(!is.na(maxchars[[i]][2])) {
-                  paste0('" expectedLines="', maxchars[[i]][2])
+                  paste0('" expectedLines="', maxchars[[i]][2], '"')
                 } else NULL,  if(x$metainfo$type == "cloze") {
                   paste0(' id="', ids[[i]]$idcs, '"')
-                } else NULL, '"/>', sep = ''),
+                } else NULL, '/>', sep = ''),
               if(x$metainfo$type == "cloze") c('</div>', '</div>') else NULL
             )
           }
