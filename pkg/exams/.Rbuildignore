@@ -6,6 +6,7 @@ vignettes/screenshots/exams2moodle-tstat.png
 WISHLIST
 inst/nops/eval.html
 inst/nops/eval.txt
+inst/nops/eval.tex
 R/nops_eval_write_template.R
 inst/exercises/currency1.Rnw
 inst/exercises/currency9.Rnw
