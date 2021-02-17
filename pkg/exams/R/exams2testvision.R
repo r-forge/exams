@@ -638,9 +638,10 @@ make_itembody_testvision <- function(shuffle = FALSE,
 #    )
 #
 #    xml <- c(xml, x$question, '</div>', '</div>', if(x$metainfo$type == "cloze") '<div class="interactieblok">' else NULL)
-
-    xml <- c(xml,
-    '<itemBody>',  x$question, if(x$metainfo$type == "cloze") '<div class="interactieblok">' else NULL)
+#
+    if(ant <- any(grepl("##ANSWER[0-9]+##", x$question))) x$question[rev(grep('<table>', x$question))[1]] <- gsub('<table>',
+          '<div class="interactieblok"><table>', x$question[rev(grep('<table>' ,x$question))[1]])
+    xml <- c(xml, '<itemBody>',  x$question, if(x$metainfo$type == "cloze" & !ant) '<div class="interactieblok">' else NULL)
 
     for(i in 1:n) {
       ans <- any(grepl(paste0("##ANSWER", i, "##"), xml))
@@ -708,7 +709,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
           txml <- c(
             if(x$metainfo$type == "cloze") paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
               if(!is.null(questionlist[[i]][j])) {
-                paste(if(enumerate & n > 1 & !ans) {
+                paste(if(enumerate & n > 1 ) {
                   paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                     if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                       sep = "")
@@ -726,7 +727,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
           txml <- c(
              if(x$metainfo$type == "cloze") paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
              if(!is.null(questionlist[[i]])) {
-                paste(if(enumerate & n > 1 & !ans) {
+                paste(if(enumerate & n > 1) {
                   paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                     if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(1, ".", sep = "") else NULL,
                       sep = "")
@@ -749,7 +750,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
             txml <- c(
              if(x$metainfo$type == "cloze") paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep = '') else NULL,
                if(!is.null(questionlist[[i]][j])) {
-                  paste(if(enumerate & n > 1 & !ans) {
+                  paste(if(enumerate & n > 1) {
                     paste(letters[if(x$metainfo$type == "cloze") i else j], ".",
                       if(x$metainfo$type == "cloze" && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
                         sep = "")
