@@ -21,7 +21,7 @@ format_mchoice <- function(x) {
     basename <- paste0("eval.", ext)
     template <- system.file(file.path("nops", basename), package = "exams")
     if (nchar(template) == 0L) {
-      stop("No default tamplate with extenstion, ", ext, ".")
+      stop("No default template with extenstion, ", ext, ".")
     }
   }
   list(template = readLines(template),
