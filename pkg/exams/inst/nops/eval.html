@@ -5,8 +5,10 @@
 <title>{{registration}} - {{#DCF}}{{ExamResults}}{{/DCF}}</title>
 
 <style>
-  body { -webkit-print-color-adjust: exact; }
-  h3 { font-family: system-ui, sans-serif; }
+  body { 
+    -webkit-print-color-adjust: exact; 
+    font-family: system-ui, sans-serif;
+  }
   table { border-collapse: collapse; }
   #Data {
     min-width: 200px;
@@ -18,7 +20,6 @@
     background-color: #F7F7F7;
   }
   #Info td:first-child {
-    font-family: system-ui, sans-serif;
     width: 150px;
   }
   #Info td {
@@ -34,7 +35,6 @@
   }
   #Evaluation th {
     font-weight: bold;
-    font-family: system-ui, sans-serif;
   }
   #scores { margin-left: 20px; }
   #ExamSheet {
@@ -106,8 +106,8 @@
 
 <div id="ExamSheet">
 
-  {{{image1}}}
-  {{{image2}}}
+  <img src="{{scan1}}" />
+  {{#scan2}}<img src="{{scan2}}" />{{/scan2}}
 
 </div>
 </section>

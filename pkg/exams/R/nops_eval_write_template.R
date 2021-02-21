@@ -21,7 +21,7 @@ format_mchoice <- function(x) {
     basename <- paste0("eval.", ext)
     template <- system.file(file.path("nops", basename), package = "exams")
     if (nchar(template) == 0L) {
-      stop("No default template with extenstion, ", ext, ".")
+      stop("No default tamplate with extension, ", ext, ".")
     }
   }
   list(template = readLines(template),
@@ -38,7 +38,7 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
                                      convert_dcf_to = "markdown_strict", 
                                      post_process = NULL, ...) {
 
-  stopifnot(requireNamespace("base64enc"))
+  if (!return_scan) stopifnot(requireNamespace("base64enc"))
   stopifnot(requireNamespace("whisker"))
 
   ## output file
@@ -110,14 +110,16 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
 
     id <- rownames(results)[i]
     ac <- results[id, "id"]
-    dir.create(file.path(temp_dir, ac))
+    
+    dat$tempdir <- file.path(temp_dir, ac)
+    dir.create(dat$tempdir)
 
     ## Exam Information
     dat$name <- results[id, "name"]
     dat$registration <- results[id, "registration"]
     dat$exam <- results[id, "exam"]
     dat$mark <- if (has_mark) results[id, "mark"] else ""
-    dat$points <- results[id, "points"]
+    dat$points <- round(as.numeric(results[id, "points"]), digits = 4)
 
     ## Evaluation for Each Questions
     res <- data.frame(
@@ -132,22 +134,23 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
     dat$results <- unname(whisker::rowSplit(res))
 
     ## Images
-    dat$image1 <- sprintf("<img src=\"%s\" />",
-                      base64enc::dataURI(file = file.path(work_dir, results[id, "scan"]),
-                                         mime = "image/png"))
     if (return_scan) {
+      dat$scan1 <- "scan1.png"
       file.copy(file.path(work_dir, results[id, "scan"]), 
                 file.path(temp_dir, ac, "scan1.png"))
+    } else {
+      dat$scan1 <- base64enc::dataURI(file = file.path(work_dir, results[id, "scan"]),
+                                      mime = "image/png")
     }
     
     if (nscans > 1L && results[id, "scan2"] != "") {
-      dat$image2 <-
-        sprintf("<img src=\"%s\" />",
-                base64enc::dataURI(file = file.path(work_dir, results[id, "scan2"]),
-                                   mime = "image/png"))
       if (return_scan) {
+        dat$scan2 <- "scan2.png"
         file.copy(file.path(work_dir, results[id, "scan2"]), 
                   file.path(temp_dir, ac, "scan2.png"))
+      } else {
+        dat$image2 <- base64enc::dataURI(file = file.path(work_dir, results[id, "scan2"]),
+                                         mime = "image/png")
       }
     }
 
