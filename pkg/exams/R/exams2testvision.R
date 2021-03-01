@@ -639,8 +639,14 @@ make_itembody_testvision <- function(shuffle = FALSE,
 #
 #    xml <- c(xml, x$question, '</div>', '</div>', if(x$metainfo$type == "cloze") '<div class="interactieblok">' else NULL)
 #
-    if(ant <- any(grepl("##ANSWER[0-9]+##", x$question))) x$question[rev(grep('<table>', x$question))[1]] <- gsub('<table>',
-          '<div class="interactieblok"><table>', x$question[rev(grep('<table>' ,x$question))[1]])
+    if(ant <- any(grepl("##ANSWER[0-9]+##", x$question))) {
+        x$question[rev(grep('<table>', x$question))[1]] <- gsub('<table>', '<div class="interactieblok"><table>',
+            x$question[rev(grep('<table>' ,x$question))[1]])
+    patterns <- c('align="left"', 'align="right"', 'align="center"') #necessary as long as TVO does not accept standard html
+    for(i in seq_along(patterns))
+    x$question <- gsub(patterns[i], "", x$question)
+    }
+
     xml <- c(xml, '<itemBody>',  x$question, if(x$metainfo$type == "cloze" & !ant) '<div class="interactieblok">' else NULL)
 
     for(i in 1:n) {
@@ -1057,6 +1063,16 @@ make_itembody_testvision <- function(shuffle = FALSE,
     if(solutionswitch) {
       xml <- c(xml,
         paste('<modalFeedback identifier="ANSWER_CORRECT" outcomeIdentifier="FEEDBACK" showHide="show">', sep = ''),
+        paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
+        xsolution, '</div>', '</div>',
+        '</modalFeedback>'
+      )
+    }
+
+    ## solution when partially correct (cloze and mchoice)
+    if(solutionswitch) {
+      xml <- c(xml,
+        paste('<modalFeedback identifier="PARTIAL_CORRECT" outcomeIdentifier="FEEDBACK" showHide="show">', sep = ''),
         paste('<div class="textblock tvblock tvcss_1">', '<div class="rte_zone tveditor1">', sep=''),
         xsolution, '</div>', '</div>',
         '</modalFeedback>'
