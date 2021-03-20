@@ -3,6 +3,13 @@ library(DT)
 library(exams)
 library(tth)
 
+##  TODO: 
+## - reactive available_exercisese from exams_shiny.R
+## - delete_exercises from exams_shiny.R
+## - ex_upload from exams_shiny.R
+
+
+
 loadTabUI <- function(id){
   
   ns = NS(id)

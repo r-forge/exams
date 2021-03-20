@@ -7,7 +7,7 @@ source("exportTabModules.R")
 locationExercises <- "./testExercises"
 locationTemplates <- "./templates"
 
-# function creates temporary folder
+# function creates temporary folder with subfolders
 makeTmpPath <- function(){
     owd <- getwd()
     dir = NULL
@@ -29,6 +29,7 @@ makeTmpPath <- function(){
     
     return(file.path(dir))
 }
+
 
 # function creates list of list of the subfolder including files of a 
 # given path (folder)
