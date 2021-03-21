@@ -1,4 +1,5 @@
 library(shiny)
+library(tools)
 source("loadTabModules.R")
 source("chooseTabModules.R")
 source("addPointsTabModules.R")
@@ -42,6 +43,15 @@ getDirFilesOneLevel <- function(path){
   names(dirFileList) = gsub("^.*/","",dirList);
   return(dirFileList)
 }
+
+
+getExercises <- function(path){
+  exfiles <- list.files(paste0(path,"/","exercises"), recursive = TRUE)
+  exfiles <- exfiles[tolower(file_ext(exfiles)) %in% c("rnw", "rmd")]
+  return(exfiles)
+}
+
+
 
 # user interface of the app
 # using the user interface elements defined in the modules

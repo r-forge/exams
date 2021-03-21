@@ -4,7 +4,9 @@ library(exams)
 library(tth)
 
 ##  TODO: 
-## - reactive available_exercisese from exams_shiny.R
+## - reactive available_exercises from exams_shiny.R: instead of selectedFiles = possibleExerciseList() -> get available_exercises from tmp folder
+## - in addFiles: copy with path, see exams_shiny.R ?!?
+
 ## - delete_exercises from exams_shiny.R
 ## - ex_upload from exams_shiny.R
 
@@ -50,7 +52,8 @@ loadTabUI <- function(id){
                                 column(12,DT::dataTableOutput(ns("outputAddedFiles"))),
                                 br(),
                                 column(12,align="right",actionButton(ns("deleteAddedExerciseFromList"), label = "Delete Exercise",style='margin-top:10px'))
-               )
+               ),
+               actionButton(ns("refresh"), label = "refresh")
                ))
           ),
         column(6,
@@ -106,7 +109,18 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
 
   })    
   
-  ## Observer: Exercises can pnly be selected in "Choose Exercise" or in "Added Exercises"
+  ## Observer: available exercises, i.e. all files in or added to tmp/exerciese
+  availableExercises <- reactive({
+    e1 <- input$addExcerciseToList
+    #e2 <- input$refresh
+    # e1 <- input$save_ex
+    # e2 <- input$ex_upload
+    # e3 <- input$delete_exercises
+    exfiles <- getExercises(reactVals$pathToTmpFolder)
+    return(exfiles)
+  })
+  
+  ## Observer: Exercises can only be selected in "Choose Exercise" or in "Added Exercises"
   observe({    
     if (length(input$fileSelector_rows_selected)>0) {
       selectRows(dataTableProxy("fileSelector"), input$fileSelector_rows_selected)
@@ -219,9 +233,13 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
   
   # Table-Output: selected exercises are displayed
   output$outputAddedFiles <- renderDataTable({
-    reactVals$selectedFiles
+    exfiles <- availableExercises()
+    data.frame("Folder" = dirname(exfiles), "File" = basename(exfiles))
   }, selection = ifelse(reactVals$setPreview,'single','multiple'))
-  
+  # output$outputAddedFiles <- renderDataTable({
+  #   reactVals$selectedFiles
+  # }, selection = ifelse(reactVals$setPreview,'single','multiple'))
+
   # HTML-Output: the preview of a selected exercise is displayed
   output$player <- renderUI({
     # code is only executed if preview should be shown; this implies that maximum one exercises can be selected
