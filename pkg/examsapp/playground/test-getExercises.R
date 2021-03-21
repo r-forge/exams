@@ -8,7 +8,34 @@ library(tools)
 # basename(exfiles)
 # data.frame("Folder" = dirname(exfiles), "File" = basename(exfiles))
 
+from <- "dir1"
+to   <- "dir2"
+file.copy(list.files(from, full.names = TRUE), 
+          to, 
+          recursive = TRUE)
 
+file <- exfiles[1]
+dir.exists("versuch/")
+dir.create(paste0("versuch/",dirname(file)),recursive = T)
+
+file.copy(paste0("testExercises/",file),tmpDir)
+
+
+fileCopySubdir <- function(file,dirFrom,dirTo) {
+  tmpDir <- paste0(dirTo,"/",dirname(file))
+  if (!dir.exists(tmpDir)) dir.create(tmpDir,recursive = T)
+  file.copy(paste0(dirFrom,"/",file),tmpDir)
+}
+
+
+
+exfiles <- list.files("testExercises",full.names = F,recursive = T)
+
+fileCopySubdir(exfiles[1],dirFrom = "testExercises",dirTo = "versuch")
+
+dirname(exfiles[1])
+
+file.copy(exfiles[1],"versuch",recursive = T)
 
 makeTmpPath <- function(){
   owd <- getwd()

@@ -6,6 +6,7 @@ library(tth)
 ##  TODO: 
 ## - reactive available_exercises from exams_shiny.R: instead of selectedFiles = possibleExerciseList() -> get available_exercises from tmp folder
 ## - in addFiles: copy with path, see exams_shiny.R ?!?
+## - argument givenExercises in loadTabServer not necessary ?!?
 
 ## - delete_exercises from exams_shiny.R
 ## - ex_upload from exams_shiny.R
@@ -109,7 +110,7 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
 
   })    
   
-  ## Observer: available exercises, i.e. all files in or added to tmp/exerciese
+  ## Observer: available exercises, i.e. all files in or added to tmp/exercises
   availableExercises <- reactive({
     e1 <- input$addExcerciseToList
     #e2 <- input$refresh
@@ -201,11 +202,14 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
   # Table-Output: shows all of the folder from given exercises
   # only a single choice is possible
   output$folderSelector <- renderDataTable({
-    m = matrix(names(reactVals$dirFileList))
+    m = matrix(unique(dirname(list.files(reactVals$path,recursive = T))))
+    #m = matrix(names(reactVals$dirFileList))
     colnames(m) = c("Choose a folder")
     return(m)
   }, selection = 'single', option = list(pageLength = 5))
   
+  
+  ## hier weiter ...
   # Table-Output: shows all of the exercises in pre-selected folder
   output$fileSelector <- renderDataTable({
     reactVals$selectedFolder = names(reactVals$dirFileList[input$folderSelector_rows_selected])
