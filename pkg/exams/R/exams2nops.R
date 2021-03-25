@@ -331,9 +331,9 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\newenvironment{solution}{\\comment}{\\endcomment}",
 
 if(samepage) {
-  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{samepage}\\begin{enumerate}}{\\end{enumerate}\\end{samepage}}"
+  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{(\\alph{enumii})}\\begin{samepage}\\begin{enumerate}}{\\end{enumerate}\\end{samepage}}"
 } else {
-  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumi}{(\\alph{enumi})}\\begin{enumerate}}{\\end{enumerate}}"
+  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{(\\alph{enumii})}\\begin{enumerate}}{\\end{enumerate}}"
 },
 "
 %% additional header commands

@@ -176,6 +176,12 @@
   `dir` or the exercise directory `edir`. Also, the documentation of `tdir` in the
   manual pages has been made even more explicit.
 
+* In `{answerlist}` definitions for `exams2pdf()` and `exams2nops()` the `enumii`
+  counter is used correctly now (rather than `enumi` as in previous versions).
+  As all templates provided in R/exams aimed to set the counter formatting that
+  is used by default for `enumii` in LaTeX (namely (a), (b), ...) the difference
+  was never noticed up to now.
+
 
 # exams 2.3-6
 
