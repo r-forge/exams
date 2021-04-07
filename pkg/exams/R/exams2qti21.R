@@ -1074,29 +1074,21 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     )
 
     ## set the minimum points
-#    if(!is.null(minvalue)) {
-#      xml <- c(xml,
-#        '<responseCondition>',
-#        '<responseIf>',
-#        '<and>',
-#        '<match>',
-#        '<baseValue baseType="identifier">incorrect</baseValue>',
-#        '<variable identifier="FEEDBACKBASIC"/>',
-#        '</match>',
-#        '<not>',
-#        '<gte>',
-#        '<variable identifier="SCORE"/>', 
-#        '<variable identifier="MINSCORE"/>',
-#        '</gte>',
-#        '</not>',
-#        '</and>',
-#        '<setOutcomeValue identifier="SCORE">',
-#        paste('<baseValue baseType="float">', minvalue, '</baseValue>', sep = ''),
-#        '</setOutcomeValue>',
-#        '</responseIf>',
-#        '</responseCondition>'
-#      )
-#    }
+    if(!is.null(minvalue)) {
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<lt>', ## <gt>
+        '<variable identifier="SCORE"/>',
+        '<variable identifier="MINSCORE"/>',
+        '</lt>',
+        '<setOutcomeValue identifier="SCORE">',
+        paste0('<baseValue baseType="float">', minvalue, '</baseValue>'),
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
+    }
 
     if(solutionswitch) {
       fid <- make_id(9, 1)
