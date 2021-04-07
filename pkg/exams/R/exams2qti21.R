@@ -521,12 +521,28 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
 
     ## evaluation policy
+    eval_cloze <- NULL
     if(is.null(eval) || length(eval) < 1L) eval <- exams_eval()
-    if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
-    eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
-    if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
-    if(cloze & is.null(eval$rule)) eval$rule <- "none"
-    eval <- do.call("exams_eval", eval) ## always re-call exams_eval
+    if(cloze & FALSE) {
+      if(!is.list(eval)) stop("'eval' needs to specify a list for cloze exercises")
+      if(any(c("partial", "negative", "rule") %in% names(eval))) {
+        eval <- rep(list(eval), length.out = length(c("num", "string", "schoice", "mchoice")))
+        names(eval) <- c("num", "string", "schoice", "mchoice")
+      }
+      if(is.null(names(eval))) stop("'eval' needs to specify a named list for cloze exercises")
+      eval_cloze <- lapply(eval, function(z) {
+        z <- z[match(c("partial", "negative", "rule"), names(z), nomatch = 0)]
+        if(x$metainfo$type %in% c("num", "string")) z$partial <- FALSE
+        if(is.null(z$rule)) z$rule <- "none"
+        do.call("exams_eval", z)
+      })
+    } else {
+      if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
+      eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
+      if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
+      if(cloze & is.null(eval$rule)) eval$rule <- "none"
+      eval <- do.call("exams_eval", eval) ## always re-call exams_eval
+    }
 
     ## character fields
     maxchars <- if(is.null(x$metainfo$maxchars)) {
@@ -553,6 +569,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## cycle trough all questions
     ids <- el <- pv <- mv <- list()
     for(i in 1:n) {
+      if(!is.null(eval_cloze))
+        eval <- eval_cloze[[type[i]]]
       ## evaluate points for each question
       pv[[i]] <- eval$pointvec(solution[[i]], type = type[i])
       pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
