@@ -269,7 +269,7 @@ read_olat_results <- function(file, xexam = NULL) {
         stopifnot(all(sapply(col_idx, length) == 1L))
 
         col_idx$ssol <- (1:ncol(ir))[-unlist(col_idx)]
-        stopifnot(!length(col_idx$ssol) == 2L)
+        #stopifnot(!length(col_idx$ssol) == 2L)
 
         # Extracting points
         points <- as.numeric(ir[, col_idx$score])
@@ -281,6 +281,7 @@ read_olat_results <- function(file, xexam = NULL) {
 
         # Answer/Solution
         ssol <- ssol0 <- ir[, col_idx$ssol]
+
         if(NCOL(ssol) > 1L) {
           ssol <- ssol0 <- if(xlsx) {
             try(gsub("NA", "0", gsub("x", "1", paste(ssol, collapse = ""), fixed = TRUE), fixed = TRUE), silent = TRUE)
@@ -311,6 +312,10 @@ read_olat_results <- function(file, xexam = NULL) {
             stop("OLAT cloze reader not yet implemented")
           }
         }
+
+        # Check that $ssol has the same length as the
+        # solution string (solx; 0010 or similar).
+        stopifnot(length(col_idx$ssol) == nchar(solx))
 
         if(is.na(scheck)) scheck <- 0
         res <- data.frame(id + (i - 1) * ns,
