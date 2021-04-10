@@ -106,10 +106,15 @@
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 
-* Improvements in `read_exercise()`: `exshuffle` now works for `cloze` questions
-  even if no `solutionlist` is provided. Generally, warnings have been improved.
-  In particular, it is now checked whether the question list contains duplicated
-  items for single-choice and multiple-choice exercises.
+* Improvements in `read_exercise()`:
+
+  - `exshuffle` now works for `cloze` questions even if no `solutionlist` is
+    provided. Generally, warnings have been improved. In particular, it is now
+    checked whether the question list contains duplicated items for
+    single-choice and multiple-choice exercises.
+  - For cloze exercises with ##ANSWERi## placeholders it is checked that all
+    necessary placeholders occur exactly once. Otherwise a warning is issued
+    about missing and/or duplicated placeholders.
 
 * Bug fix in `extract_environment()` underlying `read_exercise()`: When Markdown
   tables were formatted with just `---` markup (rather that `|---|`) some lines

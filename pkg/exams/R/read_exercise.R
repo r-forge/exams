@@ -62,6 +62,15 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
   if(!is.null(solutionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(solutionlist))
     warning(sprintf("length of exsolution and solutionlist does not match in '%s'", metainfo$file))
 
+  ## cloze with placeholds: all placeholders available?
+  if(metainfo$type == "cloze" && any(grepl(paste0(if(metainfo$markup == "markdown") "\\#\\#" else "##", "ANSWER"), question, fixed = TRUE))) {
+    ii <- 1L:length(metainfo$clozetype)
+    tag <- if(metainfo$markup == "markdown") "\\#\\#" else "##"
+    frq <- sapply(ii, function(i) sum(grepl(paste0(tag, "ANSWER", i, tag), question, fixed = TRUE)))
+    if(any(frq < 1L)) warning(paste("the ##ANSWERi## placeholders are missing for i in", paste(ii[frq < 1L], collapse = ", ")))
+    if(any(frq > 1L)) warning(paste("the ##ANSWERi## placeholders are occuring more than once for i in", paste(ii[frq > 1L], collapse = ", ")))
+  }
+
   ## perform shuffling?
   if(!identical(metainfo$shuffle, FALSE) & metainfo$type %in% c("schoice", "mchoice")) {
     o <- shuffle_choice(metainfo$solution, metainfo$shuffle, metainfo$type, metainfo$file)
