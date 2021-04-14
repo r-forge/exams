@@ -493,7 +493,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 	} else if(is.character(stringwidth)) {
 	  stringwidth
 	} else {
-	  paste(rep.int("Z", as.integer(stringwidth)), collapse = "")
+	  paste(rep.int("9", as.integer(stringwidth)), collapse = "")
 	}	
 	string_w <- nchar(fstring)
 	while(any(tolower(fstring) == tolower(strings))) {
