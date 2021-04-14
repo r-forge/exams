@@ -475,8 +475,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 	## make sure that the formatted number is not within tolerance of any correct solution
         fnum <- fnum[which.max(nchar(fnum))]
 	num_w <- nchar(fnum)
-	fnum <- as.integer(fnum)
-	while(any(fnum == nums) || any(fnum >= nums[, 1] & fnum <= nums[, 2])) {
+	while(any(as.numeric(fnum) == nums) || any(as.numeric(fnum) >= nums[, 1] & as.numeric(fnum) <= nums[, 2])) {
 	  fnum <- make_id(num_w)
 	}
       }
