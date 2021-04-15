@@ -1,0 +1,5 @@
+importFrom("exams", "xexams", "make_exercise_transform_html")
+importFrom("learnr", "question", "quiz", "answer")
+importFrom("knitr", "opts_current")
+
+export("exams2learnr")
