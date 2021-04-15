@@ -1,16 +1,17 @@
 ---
-title: "Combining R/exams and learnr"
+title: "R/exams quiz"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include = FALSE}
-## package and exercises
+## package and list of various exercises
 library("exams2learnr")
 exm <- list(
     c("swisscapital.Rmd", "capitals.Rmd"),
     "deriv.Rnw",
     "deriv2.Rnw",
+    "fruit.Rmd",
     "boxplots.Rmd",
     "ttest.Rmd",
     "function.Rmd"
@@ -18,5 +19,5 @@ exm <- list(
 ```
 
 ```{r rexams_quiz, echo = FALSE, message = FALSE}
-exams2learnr(exm)
+exams2learnr(exm, caption = "Please solve the following exercises")
 ```

@@ -1,5 +1,5 @@
 ---
-title: "Combining R/exams and learnr"
+title: "R/exams questions"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -22,7 +22,7 @@ exams2learnr("capitals.Rmd")
 
 ## Arithmetic (numeric)
 
-_Important note:_ Numeric questions are handled like string questions.
+_Important note:_ Numeric questions are currently handled like string questions.
 Thus, only a `.` (and not a `,`) will work as the decimal separator
 and the exact digits have to be supplied. No tolerance is applied
 and missing or extra trailing zeros etc.
