@@ -44,7 +44,20 @@ exams2learnr(file, output = NULL,
 }
 
 \examples{
-\donttest{
-if(require("rmarkdown")) rmarkdown::run("quiz.Rmd")
-}
+## Default outputs:
+## - converting a single R/exams exercise yields a learnr tutorial_question
+## - converting several R/exams exercises yields a learnr tutorial_quiz
+
+## Example R/exams exercise:
+## - function: "string" question, represented as "learnr_text"
+qn <- exams2learnr("function.Rmd")
+class(qn)
+print(qn)
+
+## Example R/exams exercises:
+## - swisscapital: "schoice" (single-choice) question, represented as "learnr_radio"
+## - switzerland: "mchoice" (multiple-choice) question, represented as "learnr_checkbox"
+qz <- exams2learnr(c("swisscapital.Rmd", "switzerland.Rmd"))
+class(qz)
+print(qz)
 }
