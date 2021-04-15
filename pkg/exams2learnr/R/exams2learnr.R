@@ -1,12 +1,10 @@
 exams2learnr <- function(file, 
   output = NULL, show_solution = TRUE, allow_retry = FALSE, random_answer_order = FALSE, 
-  correct = "Correct!", incorrect = "Incorrect", try_again = incorrect,
+  correct = "Correct!", incorrect = "Incorrect", try_again = incorrect, caption = "Quiz",
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = TRUE, label = NULL,
   ...) {
-
-  stopifnot(requireNamespace("learnr"))
 
   ## determine desired output format:
   ## - a single learnr::question
@@ -100,7 +98,7 @@ exams2learnr <- function(file,
 
   ## return desired output format
   if(output == "quiz") {
-    rval <- do.call(learnr::quiz, rval[[1L]])
+    rval <- do.call(learnr::quiz, c(rval[[1L]], list(caption = caption)))
   } else if(output == "question") {
     rval <- rval[[1L]][[1L]]
   }
