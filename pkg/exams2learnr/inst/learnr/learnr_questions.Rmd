@@ -1,0 +1,56 @@
+---
+title: "Combining R/exams and learnr"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library("exams2learnr")
+```
+
+## Knowledge quiz (single-choice)
+
+```{r schoice1, echo = FALSE, message = FALSE}
+exams2learnr("swisscapital.Rmd", allow_retry = TRUE, incorrect = "Incorrect, try again.")
+```
+
+## Knowledge quiz (multiple-choice)
+
+```{r mchoice2, echo = FALSE, message = FALSE}
+exams2learnr("capitals.Rmd")
+```
+
+## Arithmetic (numeric)
+
+_Important note:_ Numeric questions are handled like string questions.
+Thus, only a `.` (and not a `,`) will work as the decimal separator
+and the exact digits have to be supplied. No tolerance is applied
+and missing or extra trailing zeros etc.
+
+```{r num3, echo = FALSE, message = FALSE}
+exams2learnr("deriv.Rnw", allow_retry = TRUE)
+```
+
+## Arithmetic (single-choice)
+
+```{r schoice4, echo = FALSE, message = FALSE}
+exams2learnr("deriv2.Rnw")
+```
+
+## Multiple-choice with graphic
+
+```{r mchoice5, echo = FALSE, message = FALSE}
+exams2learnr("boxplots.Rmd")
+```
+
+## Multiple-choice with R output
+
+```{r mchoice6, echo = FALSE, message = FALSE}
+exams2learnr("ttest.Rmd")
+```
+
+## String question
+
+```{r mchoice7, echo = FALSE, message = FALSE}
+exams2learnr("function.Rmd", allow_retry = TRUE)
+```
