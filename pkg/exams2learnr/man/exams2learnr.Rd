@@ -77,6 +77,11 @@ exams2learnr(file, output = NULL,
   This is done by rendering the exercises (either in .Rnw or .Rmd format)
   into HTML and embedding that into learnr \code{\link[learnr]{question}}
   objects. These can then be rendered by learnr shiny apps.
+
+  Currently, \code{num}, \code{schoice} (single-choice}, \code{mchoice}
+  (multiple-choice), and \code{string} exercises from R/exams are supported.
+  But \code{cloze} questions that combine several of these question types
+  in a single exercise are not supported yet.
   
   The output format of \code{exams2learnr} is chosen automatically, by default.
 
@@ -113,7 +118,8 @@ exams2learnr(file, output = NULL,
 
 \seealso{
   \code{\link[learnr]{question}}, \code{\link[learnr]{quiz}},
-  \code{\link[exams]{xexams}}, \code{\link[exams]{xweave}}
+  \code{\link[exams]{xexams}}, \code{\link[exams]{xweave}},
+  \code{\link[exams2learnr]{run_quiz}}
 }
 
 \examples{
