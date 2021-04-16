@@ -48,6 +48,6 @@ run_quiz(file, name = "quiz", title = "R/exams quiz", dir = NULL, \dots,
 \examples{
 \dontrun{
 ## quickly run a quiz with two R/exams exercises
-rmarkdown::run(c("capitals.Rmd", "fruit.Rmd"))
+run_quiz(c("capitals.Rmd", "fruit.Rmd"))
 }
 }

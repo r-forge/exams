@@ -124,8 +124,8 @@ exams2learnr(file, output = NULL,
 
 \examples{
 ## Default outputs:
-## - converting a single R/exams exercise yields a learnr tutorial_question
-## - converting several R/exams exercises yields a learnr tutorial_quiz
+## - a single exercise yields a learnr tutorial_question
+## - several exercises yields a learnr tutorial_quiz
 
 ## Example R/exams exercise:
 ## - function: "string" question, represented as "learnr_text"
@@ -134,16 +134,16 @@ class(qn)
 print(qn)
 
 ## Example R/exams exercises:
-## - swisscapital: "schoice" (single-choice) question, represented as "learnr_radio"
-## - switzerland: "mchoice" (multiple-choice) question, represented as "learnr_checkbox"
+## - swisscapital: "schoice" question, represented as "learnr_radio"
+## - switzerland: "mchoice" question, represented as "learnr_checkbox"
 qz <- exams2learnr(c("swisscapital.Rmd", "switzerland.Rmd"))
 class(qz)
 print(qz)
 
-## Usually the exams2learnr() function is used within learnr .Rmd tutorials,
+## Usually exams2learnr() is used within learnr .Rmd tutorials,
 ## two example files are shipped within the package.
-## - learnr_questions.Rmd shows how to set up several questions individually
-## - learnr_quiz.Rmd shows how to set up an entire quiz in one call
+## - learnr_questions.Rmd: all questions set up indvidually
+## - learnr_quiz.Rmd: an entire quiz set up in one go
 lr <- system.file("learnr", package = "exams2learnr")
 dir(lr)
 
