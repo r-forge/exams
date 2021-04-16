@@ -78,7 +78,7 @@ exams2learnr(file, output = NULL,
   into HTML and embedding that into learnr \code{\link[learnr]{question}}
   objects. These can then be rendered by learnr shiny apps.
 
-  Currently, \code{num}, \code{schoice} (single-choice}, \code{mchoice}
+  Currently, \code{num}, \code{schoice} (single-choice), \code{mchoice}
   (multiple-choice), and \code{string} exercises from R/exams are supported.
   But \code{cloze} questions that combine several of these question types
   in a single exercise are not supported yet.
