@@ -24,8 +24,7 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
         "unknown"
       }
     }
-    if(type == "schoice") type <- "mchoice"
-    if(!(type %in% c("num", "mchoice", "string"))) stop("Unknown exercise type.")
+    if(!(type %in% c("num", "mchoice", "schoice", "string"))) stop("Unknown exercise type.")
     
     ## canonicalize correct
     if(type != "string" && is.character(correct)) {
@@ -40,6 +39,10 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
           as.numeric(answer)	
 	},
 	"mchoice" = {
+          if(is.character(answer)) answer <- mchoice01(answer)
+	  as.logical(answer)
+	},
+	"schoice" = {
           if(is.character(answer)) answer <- mchoice01(answer)
 	  as.logical(answer)
 	},
@@ -75,9 +78,9 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
     }
     
     ## mchoice answer can be processed partially or as a whole pattern
-    if(type == "mchoice") {
+    if(type %in% c("mchoice", "schoice")) {
       if(any(is.na(answer))) return(0L)
-      if(partial) {
+      if(partial && type == "mchoice") {
 	rval <- rep.int(0L, length(answer))
         if(all(!answer)) return(rval)
 	rval[which(correct & answer)] <- 1L

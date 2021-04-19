@@ -98,6 +98,14 @@
   Points can be specified through `expoints`. Bug fix in when using
   `shuffle = TRUE` which used to lead to a missing closing bracket.
 
+* The auxiliary functions from `exams_eval()` now explicitly distinguish
+  between multiple-choice (`mchoice`) and single-choice (`schoice` exercises
+  provided that the `type` of exercise is explicitly indicated in the functions.
+  Consequently, `schoice` questions are now handled like `num` or `string`
+  questions that can just be correct or wrong (and not like `mchoice`
+  questions anymore). Partial credits are only supported for `mchoice`
+  questions.
+
 * Improved handling of `reglength < 7` in `exams2nops()`. Internally,
   `reglength = 7` is still enforced (and thus necessary in the registration
   CSV file) but the initial IDs are fixed to "0" in the exam sheet and
