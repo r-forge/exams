@@ -5,15 +5,24 @@
 \alias{nops_register}
 \title{Evaluate NOPS Exams}
 \usage{
-nops_eval(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"),
-  scans = Sys.glob("nops_scan_*.zip"), points = NULL,
-  eval = exams_eval(partial = FALSE, negative = 0.25), mark = c(0.5,
-  0.6, 0.75, 0.85), dir = ".", results = "nops_eval", html = NULL,
+nops_eval(
+  register = Sys.glob("*.csv"),
+  solutions = Sys.glob("*.rds"),
+  scans = Sys.glob("nops_scan_*.zip"),
+  points = NULL,
+  eval = exams_eval(partial = FALSE, negative = 0.25),
+  mark = c(0.5, 0.6, 0.75, 0.85),
+  dir = ".",
+  results = "nops_eval",
+  html = NULL,
   col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90),
-  encoding = "latin1", language = "de", module = NULL,
+  encoding = "latin1",
+  language = "de",
+  module = NULL,
   interactive = TRUE,
   string_scans = Sys.glob("nops_string_scan_*.zip"),
-  string_points = seq(0, 1, 0.25))
+  string_points = seq(0, 1, 0.25)
+)
 
 nops_register(file = Sys.glob("*.xls*"), startid = 1L)
 }
@@ -81,13 +90,6 @@ to string results.}
 \item{file}{character, by default globbing is used. Can be a file name}
 
 \item{startid}{integer, default \code{1L}}
-
-\item{...}{arguments passed on to \code{\link[exams]{nops_eval}}.
-Arguments which might be of interest:
-\code{file} (character), file name of an XLS file from VIS.
-The file name should not contain spaces, umlaut or other special characters
-(something like \code{"GP-2014-02.xls"} is recommended).
-\code{startid} (integer), tarting ID for the seats (defaults to 1).}
 }
 \value{
 A \code{data.frame} with the detailed exam results is returned

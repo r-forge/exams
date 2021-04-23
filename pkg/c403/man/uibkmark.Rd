@@ -5,8 +5,11 @@
 \alias{uibkmark}
 \title{Auxiliary Formatting Functions}
 \usage{
-mchoice2text(x, true = "\\\\\\\\textbf{Richtig}",
-  false = "\\\\\\\\textbf{Falsch}")
+mchoice2text(
+  x,
+  true = "\\\\\\\\textbf{Richtig}",
+  false = "\\\\\\\\textbf{Falsch}"
+)
 
 uibkmark(x, factor = TRUE)
 }

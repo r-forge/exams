@@ -7,6 +7,7 @@
 #'
 #' @param res \code{data.frame}, content of the csv file created
 #'        by \code{\link[exams]{nops_eval}}.
+#' @param xexam list as returned from reading the rds file
 #' @param name character, name of the test, will be used to name
 #'        the zip archive file and the html files
 #'

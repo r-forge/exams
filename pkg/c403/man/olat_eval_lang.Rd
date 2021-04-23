@@ -4,18 +4,20 @@
 \name{olat_eval_lang}
 \alias{olat_eval_lang}
 \title{Olat evaluation language data set}
-\format{A data frame with a language flag (given your
+\format{
+A data frame with a language flag (given your
 export was in German, only rows with \code{lang == "de"}
 will be considered). The two columns \code{search} and
 \code{replace} are used for \code{gsub()} (regular expression
-string replacement).}
+string replacement).
+}
 \usage{
 olat_eval_lang
 }
 \description{
 Depending on the user profile language settings OLAT
 exports test results (xlsx file) in differnet languages.
-To make things easier in the \code{c403} package the
+To make things easier in the \pkg{c403} package the
 variable names are modified using this language
 search-and-replace data set.
 }

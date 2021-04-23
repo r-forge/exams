@@ -79,12 +79,6 @@ uibkmark <- function(x, factor = TRUE) {
 #'        by \code{\link[exams]{nops_scan}}.
 #' @param string_points numeric. Vector of length 5 with points assigned
 #'        to string results.
-#' @param ... arguments passed on to \code{\link[exams]{nops_eval}}.
-#'        Arguments which might be of interest:
-#'        \code{file} (character), file name of an XLS file from VIS.
-#'        The file name should not contain spaces, umlaut or other special characters
-#'        (something like \code{"GP-2014-02.xls"} is recommended).
-#'        \code{startid} (integer), tarting ID for the seats (defaults to 1).
 #' 
 #' @details \code{nops_eval} is a companion function for
 #' \code{\link[c403]{exams2nops}} and \code{\link[exams]{nops_scan}}. It evaluates

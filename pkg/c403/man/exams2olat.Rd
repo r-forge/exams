@@ -2,14 +2,23 @@
 % Please edit documentation in R/exams2olat.R
 \name{exams2olat}
 \alias{exams2olat}
-\title{Prepare exercises to be uploaded to OLAT}
+\title{Legacy Generation of Exams for OpenOlat (Uni Innsbruck)}
 \usage{
-exams2olat(file, n = 1L, dir = ".", name = "olattest",
-  maxattempts = 1L, cutvalue = 1000, solutionswitch = FALSE,
-  stitle = "Aufgabe", ititle = "Frage",
+exams2olat(
+  file,
+  n = 1L,
+  dir = ".",
+  name = "olattest",
+  maxattempts = 1L,
+  cutvalue = 1000,
+  solutionswitch = FALSE,
+  stitle = "Aufgabe",
+  ititle = "Frage",
   adescription = "Bitte bearbeiten Sie folgende Aufgaben.",
   sdescription = "Bitte beantworten Sie folgende Frage.",
-  eval = list(partial = FALSE, negative = FALSE), ...)
+  eval = list(partial = FALSE, negative = FALSE),
+  ...
+)
 }
 \arguments{
 \item{file}{list, of \code{md}/\code{Rmd} files to be used}
@@ -51,11 +60,12 @@ see function \code{\link[exams]{exams_eval}}}
 \item{...}{forwarded to \code{\link[exams]{exams2qti12}}}
 }
 \description{
-Takes (a set of) exams questions (md/Rmd) files and creates
-\code{n} randomized tests to be used in Olat.
-Outputs an \code{rds} and \code{zip} file. The \code{rds} file
-contains the questions/answers of the randomized tests and is
-REQUIRED for evaluation (keep it; use a seed to make it
-reproduceable), the zip archive file contains the files which
-for the OLAT import.
+Old legacy interface for producing QTI 1.2 (rather than QTI 2.1)
+exams for OpenOlat at Uni Innsbruck. By now superseded by
+\code{\link[c403]{exams2openolat}}.
+}
+\details{
+\code{exams2olat} is the old convenience interface to produce QTI 1.2
+tests/exams for OpenOlat. It has been superseded by \code{\link[c403]{exams2openolat}}
+which offers more options and flexibility.
 }

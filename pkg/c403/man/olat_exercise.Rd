@@ -2,13 +2,13 @@
 % Please edit documentation in R/olat_exercise.R
 \name{olat_exercise}
 \alias{olat_exercise}
-\title{Extract (and Display) Exercises from OLAT Exams}
+\title{Extract (and Display) Exercises from OpenOlat Exams}
 \usage{
 olat_exercise(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
 }
 \arguments{
-\item{x}{character or list. Either an OLAT exam list as produced
-by \code{\link[c403]{exams2olat}} or a character with the file
+\item{x}{character or list. Either an OpenOlat exam list as produced
+by \code{\link[c403]{exams2openolat}} or a character with the file
 path to an \code{.rds} file containing such an exam.}
 
 \item{...}{character. Either a single numeric index of the exam to be selected.
@@ -28,22 +28,22 @@ A \code{list} containing either a single exercise or a list of such
 exercises (in case the search patterns do not yield a unique question).
 }
 \description{
-Extract (and display) selected exercises from OLAT exams
-produced with \code{\link[c403]{exams2olat}} in order
+Extract (and display) selected exercises from OpenOlat exams
+produced with \code{\link[c403]{exams2openolat}} in order
 to see both question and solution.
 }
 \details{
 \code{olat_exercise} is a companion function for
-\code{\link[c403]{exams2olat}}.  As OLAT has no option to look at the precise
-question of a particular student -- and more importantly the corresponding
-solution -- one strategy is to search for particular words, numbers, or other
-strings in the database of all questions from an OLAT exam.
+\code{\link[c403]{exams2openolat}}.  As OpenOlat has no option during an exam
+to look at the precise question of a particular student -- and more importantly
+the corresponding solution -- one strategy is to search for particular words,
+numbers, or other strings in the database of all questions from an OpenOlat exam.
 
 \code{olat_exercise} goes through all questions in the exam and selects those
 question(s) that match(es) the given search patterns. By default the
 question(s)/solution(s) are displayed in the browser and returned invisibly.
 }
 \seealso{
-\code{\link[c403]{exams2olat}}
+exams2openolat
 }
 \keyword{utilities}

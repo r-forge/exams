@@ -7,8 +7,7 @@
 \usage{
 olat_feedback(res, xexam, name = "olat_feedback")
 
-olat_feedback_render_one(res, xexam, i, htmlfile = "Result.html",
-  show = FALSE)
+olat_feedback_render_one(res, xexam, i, htmlfile = "Result.html", show = FALSE)
 }
 \arguments{
 \item{res}{data.frame, result from olat_eval}

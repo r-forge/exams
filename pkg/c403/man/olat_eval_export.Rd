@@ -4,9 +4,14 @@
 \alias{olat_eval_export}
 \title{Olat eval export}
 \usage{
-olat_eval_export(results, xexam, file = "olat_eval.zip",
-  html = "Testergebnisse.html", col = hcl(c(0, 0, 60, 120), c(70, 0,
-  70, 70), 90), encoding = "latin1")
+olat_eval_export(
+  results,
+  xexam,
+  file = "olat_eval.zip",
+  html = "Testergebnisse.html",
+  col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90),
+  encoding = "latin1"
+)
 }
 \arguments{
 \item{results}{data.frame,  results from \code{\link[c403]{read_olat_results}}}

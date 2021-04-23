@@ -1,13 +1,11 @@
-
-#' Extract (and Display) Exercises from OLAT Exams
+#' Extract (and Display) Exercises from OpenOlat Exams
 #' 
-#' Extract (and display) selected exercises from OLAT exams
-#' produced with \code{\link[c403]{exams2olat}} in order
+#' Extract (and display) selected exercises from OpenOlat exams
+#' produced with \code{\link[c403]{exams2openolat}} in order
 #' to see both question and solution.
 #' 
-#' 
-#' @param x character or list. Either an OLAT exam list as produced
-#'        by \code{\link[c403]{exams2olat}} or a character with the file
+#' @param x character or list. Either an OpenOlat exam list as produced
+#'        by \code{\link[c403]{exams2openolat}} or a character with the file
 #'        path to an \code{.rds} file containing such an exam.
 #' @param ... character. Either a single numeric index of the exam to be selected.
 #'        Or, alternatively, patterns to be searched for in the question text
@@ -19,10 +17,10 @@
 #'        be included for rendering mathematical formulas?
 #' 
 #' @details \code{olat_exercise} is a companion function for
-#' \code{\link[c403]{exams2olat}}.  As OLAT has no option to look at the precise
-#' question of a particular student -- and more importantly the corresponding
-#' solution -- one strategy is to search for particular words, numbers, or other
-#' strings in the database of all questions from an OLAT exam.
+#' \code{\link[c403]{exams2openolat}}.  As OpenOlat has no option during an exam
+#' to look at the precise question of a particular student -- and more importantly
+#' the corresponding solution -- one strategy is to search for particular words,
+#' numbers, or other strings in the database of all questions from an OpenOlat exam.
 #' 
 #' \code{olat_exercise} goes through all questions in the exam and selects those
 #' question(s) that match(es) the given search patterns. By default the
@@ -31,8 +29,9 @@
 #' @return A \code{list} containing either a single exercise or a list of such
 #' exercises (in case the search patterns do not yield a unique question).
 #' 
-#' @seealso \code{\link[c403]{exams2olat}}
+#' @seealso exams2openolat
 #' @keywords utilities
+#'
 #' @export
 olat_exercise <- function(x, ..., fixed = TRUE, show = TRUE, mathjax = TRUE)
 {

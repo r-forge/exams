@@ -3,7 +3,7 @@
 #'
 #' Depending on the user profile language settings OLAT
 #' exports test results (xlsx file) in differnet languages.
-#' To make things easier in the \code{c403} package the
+#' To make things easier in the \pkg{c403} package the
 #' variable names are modified using this language
 #' search-and-replace data set.
 #'
