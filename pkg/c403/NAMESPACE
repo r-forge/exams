@@ -3,6 +3,7 @@
 export(exams2nops)
 export(exams2olat)
 export(exams2openolat)
+export(mchoice2text)
 export(nops_eval)
 export(nops_feedback)
 export(nops_register)
