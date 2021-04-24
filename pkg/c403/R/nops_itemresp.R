@@ -1,4 +1,36 @@
-
+#' Extract Item-Response Data from NOPS Exams
+#' 
+#' Process data from NOPS evaluation results (via \code{\link[c403]{nops_eval}})
+#' for subsequent IRT (item response theory) modeling.
+#' 
+#' \code{nops_itemresp} returns a data frame with several item response
+#' outcomes for each student: \code{solved} indicates whether or not an
+#' exercise was fully solved, \code{partial} whether or not it was at least
+#' partially solved.  \code{points} gives the points achieved for each
+#' exercise. The corresponding \code{nsolved}, \code{npartial}, and
+#' \code{npoints} are the sums of these for each student. Moreover,
+#' \code{solved2}, \code{partial2}, and \code{points2} distinguish not only the
+#' exercises within the exam but also the actual source template within each
+#' exercise.
+#' 
+#' @param eval character. File name of CSV output from \code{nops_eval}.
+#' @param exam character. File name of RDS output from \code{exams2nops}.
+#' @param psychotools logical. Should \code{itemresp} from \pkg{psychotools} be
+#' used as the class for item response columns? By default, this is used if the
+#' \pkg{psychotools} package is available. If \code{FALSE}, matrices with dummy
+#' codings are used.
+#' @param labels function for extracting exercise labels from each
+#' \code{$metainfo}.  By default the original file name \code{$metainfo$file}
+#' is used.
+#' @param \dots additional arguments (such as \code{colClasses}) passed to
+#' \code{read.csv2(eval, dec = ".", ...)}.
+#'
+#' @return A \code{data.frame}.
+#'
+#' @aliases nops_itemresp
+#' @seealso nops_eval
+#' @keywords utilities
+#' @export
 nops_itemresp <- function(eval = "nops_eval.csv", exam = Sys.glob("*.rds"),
   psychotools = NULL, labels = NULL, ...)
 {
