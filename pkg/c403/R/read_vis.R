@@ -1,24 +1,27 @@
-
 #' Reading VIS Registrations
 #'
 #' Read registration lists (for exams or courses) from the Excel export
 #' of VIS (which actually may or may not be XLS or HTML files).
 #'
-#'
 #' @param file character with file name of an XLS file from VIS.
-#' @param ... subset logical. Should students without confirmed registration be omitted?
+#' @param subset logical. Should students without confirmed registration be omitted?
+#' @param ... additional arguments passed to \code{\link[xlsx]{read.xlsx}}.
 #'
 #' @details VIS offers Excel exports but in case of registration lists these are
-#' typically HTML files containing an HTML table. These are read using the XML
-#' package. However, some exports are actually Excel files which are read using
+#' actually HTML files containing an HTML table. (Note that as of 2021 VIS offers an additional
+#' \dQuote{real Excel} export.) HTMLtables are read using the XML
+#' package. However, some exports are also converted to actual Excel files which are read using
 #' the xlsx package. In either case some basic cleaning is done and additional
 #' meta-information is extracted.
+#'
+#' The \code{vis_register} function loops over reading several VIS exports and then
+#' consolidates the resulting data frames.
 #'
 #' @return A \code{data.frame} with an additional attribute \code{"info"} providing
 #' details about the type of course (\code{"LV"}) or exam (\code{"GP"}).
 #'
 #' @importFrom tools file_ext
-#' @aliases vis_register
+#' @aliases read_vis vis_register
 #' @keywords utilities
 #' @export
 read_vis <- function(file, ...) {
@@ -33,8 +36,6 @@ read_vis <- function(file, ...) {
   }
   stop("not yet implemented")
 }
-
-vis_register <- function(file, ...) read_vis(file, ...)
 
 ## transform to cleaned-up character
 to_char <- function(x, fixup = NULL) {
@@ -67,7 +68,8 @@ to_datetime <- function(x) {
 }
 
 
-## ...
+## workhorse function for reading VIS lists that were downloaded
+## as HTML and then converted to actual XLSX
 read_vis_xlsx <- function(file, ...) {
   ## ensure a non-C locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -127,7 +129,8 @@ read_vis_xlsx <- function(file, ...) {
 }
 
 
-## ...
+## workhorse function for reading VIS lists that were downloaded
+## as HTML and then converted to actual XLS
 read_vis_xls <- function(file, ...) {
 
   ## ensure a non-C locale
@@ -174,7 +177,7 @@ read_vis_xls <- function(file, ...) {
   return(x)
 }
 
-## ...
+## workhorse function for reading VIS lists that were downloaded as HTML
 read_vis_html <- function(file, subset = FALSE) {
 
   stopifnot(requireNamespace("XML"))
@@ -257,7 +260,8 @@ read_vis_html <- function(file, subset = FALSE) {
 }
 
 
-## ...
+#' @rdname read_vis
+#' @export
 vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
 {
   ## all participants

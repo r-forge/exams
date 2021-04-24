@@ -6,11 +6,15 @@
 \title{Reading VIS Registrations}
 \usage{
 read_vis(file, ...)
+
+vis_register(file = Sys.glob("*.xls"), subset = TRUE)
 }
 \arguments{
 \item{file}{character with file name of an XLS file from VIS.}
 
-\item{...}{subset logical. Should students without confirmed registration be omitted?}
+\item{...}{additional arguments passed to \code{\link[xlsx]{read.xlsx}}.}
+
+\item{subset}{logical. Should students without confirmed registration be omitted?}
 }
 \value{
 A \code{data.frame} with an additional attribute \code{"info"} providing
@@ -22,9 +26,13 @@ of VIS (which actually may or may not be XLS or HTML files).
 }
 \details{
 VIS offers Excel exports but in case of registration lists these are
-typically HTML files containing an HTML table. These are read using the XML
-package. However, some exports are actually Excel files which are read using
+actually HTML files containing an HTML table. (Note that as of 2021 VIS offers an additional
+\dQuote{real Excel} export.) HTMLtables are read using the XML
+package. However, some exports are also converted to actual Excel files which are read using
 the xlsx package. In either case some basic cleaning is done and additional
 meta-information is extracted.
+
+The \code{vis_register} function loops over reading several VIS exports and then
+consolidates the resulting data frames.
 }
 \keyword{utilities}
