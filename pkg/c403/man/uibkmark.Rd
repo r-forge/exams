@@ -18,9 +18,9 @@ mchoice2text(
 
 \item{factor}{logical. Should the result be a factor or a character?}
 
-\item{true}{character, text for true results}
+\item{true}{character. Text for true results.}
 
-\item{false}{character, text for false results}
+\item{false}{character. Text for false results.}
 }
 \description{
 Auxiliary functions for formatting elements of exams.

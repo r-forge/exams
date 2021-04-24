@@ -49,10 +49,13 @@
 #'        to string results.
 #' 
 #' @details \code{nops_eval} is a companion function for
-#' \code{\link[c403]{exams2nops}} and \code{\link[exams]{nops_scan}}. It evaluates
+#' \code{\link[c403]{exams2nops}} and \code{\link[exams]{nops_scan}}.
+#' It calls \code{\link[exams]{nops_eval}} from the \pkg{exams} package which evaluates
 #' the scanned exams by computing the sums of the points achived and (if desired)
 #' mapping them to marks (and to module marks). Furthermore HTML reports for each
-#' individual student are generated for upload into OLAT.
+#' individual student are generated for upload into OpenOlat. In addition to this
+#' function from the \pkg{exams} package, the function adds the marks in the Uni
+#' Innsbruck-specifc format in an Excel spreadsheet.
 #' 
 #' \code{nops_register} is another companion function for preprocessing the
 #' registration lists that are provided by VIS. The function assigns random seats
@@ -65,7 +68,7 @@
 #' with a ZIP file containing the HTML reports (for upload into OLAT), and an XLSX
 #' file (for importing the marks into VIS).
 #' 
-#' @seealso \code{\link[c403]{exams2nops}}, \code{\link[exams]{nops_scan}}, \code{\link[c403]{read_vis}}
+#' @seealso \code{\link[c403]{exams2nops}}, \code{\link[exams]{nops_scan}}, \code{\link[exams]{nops_eval}}, \code{\link[c403]{read_vis}}
 #' 
 #' @importFrom exams round2 exams_eval
 #' @keywords utilities
@@ -130,9 +133,7 @@ nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"
     register$Account <- register$Passwort <- register$Sitzplatz <- register$Wiederholung <- NULL    
 
     ## write results
-    if(requireNamespace("xlsx")) {
-      write_eval <- function(data) xlsx::write.xlsx(data, file = res_xls, row.names = FALSE)
-    } else if(requireNamespace("openxlsx")) {
+    if(requireNamespace("openxlsx")) {
       write_eval <- function(data) {
         wb <- openxlsx::createWorkbook("")
         openxlsx::addWorksheet(wb, "Sheet1")
@@ -140,7 +141,7 @@ nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"
         openxlsx::saveWorkbook(wb, res_xls)      
       }
     } else {
-      warning("packages 'openxlsx' or 'xlsx' not available, the .xlsx file is actually a .csv")
+      warning("package 'openxlsx' not available, the .xlsx file is actually a .csv")
       write_eval <- function(data) write.table(data, file = res_xls, row.names = FALSE, quote = FALSE, sep = ";")
     }
     write_eval(register)

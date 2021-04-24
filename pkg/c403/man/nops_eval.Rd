@@ -103,10 +103,13 @@ and scanned by \code{\link[exams]{nops_scan}}.
 }
 \details{
 \code{nops_eval} is a companion function for
-\code{\link[c403]{exams2nops}} and \code{\link[exams]{nops_scan}}. It evaluates
+\code{\link[c403]{exams2nops}} and \code{\link[exams]{nops_scan}}.
+It calls \code{\link[exams]{nops_eval}} from the \pkg{exams} package which evaluates
 the scanned exams by computing the sums of the points achived and (if desired)
 mapping them to marks (and to module marks). Furthermore HTML reports for each
-individual student are generated for upload into OLAT.
+individual student are generated for upload into OpenOlat. In addition to this
+function from the \pkg{exams} package, the function adds the marks in the Uni
+Innsbruck-specifc format in an Excel spreadsheet.
 
 \code{nops_register} is another companion function for preprocessing the
 registration lists that are provided by VIS. The function assigns random seats
@@ -115,6 +118,6 @@ tab-separated text file with the seat numbers for import into OLAT.  The
 underlying workhorse function is \code{\link[c403]{read_vis}}.
 }
 \seealso{
-\code{\link[c403]{exams2nops}}, \code{\link[exams]{nops_scan}}, \code{\link[c403]{read_vis}}
+\code{\link[c403]{exams2nops}}, \code{\link[exams]{nops_scan}}, \code{\link[exams]{nops_eval}}, \code{\link[c403]{read_vis}}
 }
 \keyword{utilities}
