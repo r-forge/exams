@@ -26,6 +26,8 @@
   - New argument `allowskipping = TRUE` controlling whether exercises
     can be skipped without answering (default) or must be answered.
   - New argument `allowcomment = FALSE` can be set to `TRUE` to allow comments.
+  - New argument `casesensitive = TRUE` that controls whether the evaluation of
+    string exercises is case sensitive or not.
   - The default `sdescription` is now empty omitting the section description
     as it is typically not necessary.
   - If `solutionswitch = TRUE` and `maxattempts != 1` a warning is issued now.

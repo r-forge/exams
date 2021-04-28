@@ -38,7 +38,7 @@
     template = "qti21", duration = NULL,
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.", sdescription = "",
-    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
+    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, casesensitive = TRUE,
     navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
     shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
@@ -56,7 +56,7 @@
     minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
     digits = NULL, tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    solutionswitch = TRUE)
+    solutionswitch = TRUE, casesensitive = TRUE)
 }
 
 \arguments{
@@ -115,6 +115,7 @@
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
+  \item{casesensitive}{logical. Should the evaluation of string exercises be case sensitive?}
   \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}

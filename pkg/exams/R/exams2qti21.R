@@ -13,7 +13,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "qti21",
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.", sdescription = "", 
-  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
+  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, casesensitive = TRUE,
   navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
@@ -60,7 +60,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         itembody[[i]]$eval <- eval
       if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
         itembody[[i]]$eval$rule <- "none"
-      itembody[[i]]$solutionswitch <- solutionswitch
+      if(is.null(itembody[[i]]$solutionswitch)) itembody[[i]]$solutionswitch <- solutionswitch
+      if(is.null(itembody[[i]]$casesensitive)) itembody[[i]]$casesensitive <- casesensitive
       itembody[[i]] <- do.call("make_itembody_qti21", itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -474,7 +475,8 @@ stop()
 make_itembody_qti21 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
-  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE)
+  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
+  casesensitive = TRUE)
 {
   function(x) {
     ## how many points?
@@ -711,7 +713,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             paste('<value>', solution[[i]], '</value>', sep = ''),
             '</correctResponse>',
             paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval, '">', sep = ''),
-            paste('<mapEntry mapKey="', cch(solution[[i]]), '" mappedValue="', pv[[i]]["pos"], '"/>', sep = ''),
+            paste('<mapEntry mapKey="', cch(solution[[i]]), '" mappedValue="', pv[[i]]["pos"], '" caseSensitive="', if(casesensitive) 'true' else 'false', '"/>', sep = ''),
             '</mapping>',
             '</responseDeclaration>'
           )
