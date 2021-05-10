@@ -1,0 +1,50 @@
+<<echo=FALSE, results=hide>>=
+questions <- solutions <- list()
+type <- rep(list("num"), 4)
+
+## Mchoice.
+questions[[1L]] <- paste0(
+  "If you choose an answer to this question at random, the chance it will be correct is ",
+  c("25", "50", "0", "25"), "\\%?"
+)
+solutions[[1L]] <- rep(FALSE, 4)
+type[[1L]] <- "mchoice"
+
+## Numeric.
+questions[[2L]] <- "I am an odd number. Take away one letter and I become even. What number am I?"
+solutions[[2L]] <- 7
+
+questions[[3L]] <- "There is a three digit number. The second digit is four times as big as the third digit, while the first digit is three less than the second digit. What is the number?"
+solutions[[3L]] <- 141
+
+questions[[4L]] <- "What is the smallest number that increases by 12 when it is flipped and turned upside down?"
+solutions[[4L]] <- 86
+
+sol <- solutions
+solutions[[1L]] <- mchoice2string(solutions[[1L]])
+@
+
+\begin{question}
+Please answer the following questions:
+
+<<echo=FALSE, results=tex>>=
+answerlist(unlist(questions))
+@ 
+
+\end{question}
+
+\begin{solution}
+
+<<echo=FALSE, results=tex>>=
+answerlist(unlist(sol))
+@ 
+
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{cloze}
+%% \exsolution{\Sexpr{paste(solutions, collapse = "|")}}
+%% \exclozetype{\Sexpr{paste(type, collapse = "|")}}
+%% \exname{numeric and mchoice}
+%% \extol{0}
+

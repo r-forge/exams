@@ -1,0 +1,19 @@
+Question
+========
+
+| A | B | C |
+|:------------:|:---------------------:|:--------------------------:|
+| A | ##ANSWER1## | ##ANSWER8## |
+| B | ##ANSWER2## | ##ANSWER9## |
+| C | ##ANSWER3## | ##ANSWER10## |
+| D | ##ANSWER4## | ##ANSWER11## |
+| E | ##ANSWER5## | ##ANSWER12## |
+| F | ##ANSWER6## | ##ANSWER13## |
+| G | ##ANSWER7## | ##ANSWER14## |
+
+Meta-information
+================
+extype: cloze  
+exsolution: 7|11|23|5|14|10|13|E|E|H|A|H|A|C  
+exclozetype: string|string|string|string|string|string|string|string|string|string|string|string|string|string  
+exname: repro2

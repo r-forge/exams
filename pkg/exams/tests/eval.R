@@ -32,40 +32,46 @@ dir.create(tdir)
 ##
 ## negative = FALSE
 ##
-## 1. num: -> OK!
+## 01. num: -> OK!
 exams2openolat("tstat.Rnw", n = 1, dir = "~/misc", name = "tstat-teval")
 
-## 2. string: -> OK!
+## 02. string: -> OK!
 exams2openolat("function.Rmd", n = 1, dir = "~/misc", name = "string-teval")
 
-## 3. schoice: -> OK!
+## 03. schoice: -> OK!
 exams2openolat("Rlogo.Rmd", n = 1, dir = "~/misc", name = "schoice-teval")
 
-## 4. mchoice: -> OK!
+## 04. mchoice: -> OK!
 ##    partial = TRUE, negative = FALSE, rule = false2
 exams2openolat("relfreq.Rmd", n = 1, dir = "~/misc", name = "mchoice-teval-01")
 
-## 5. mchoice: -> OK!
+## 05. mchoice: -> OK!
 ##    partial = FALSE, negative = FALSE, rule = false2
 exams2openolat("relfreq.Rmd", n = 1, dir = "~/misc", name = "mchoice-teval-02",
   mchoice = list("eval" = list(partial = FALSE)))
 
 ## negative = TRUE
 
-## 6. num: -> OK!
+## 06. num: -> OK!
 exams2openolat("tstat.Rnw", n = 1, dir = "~/misc", name = "tstat-teval-n",
   num = list("eval" = list(negative = TRUE)))
 
-## 7. string: -> OK!
+## 07. string: -> OK!
 exams2openolat("function.Rmd", n = 1, dir = "~/misc", name = "string-teval-n",
   string = list("eval" = list(negative = TRUE)))
 
-## 8. schoice: -> OK!
+## 08. schoice: -> OK!
 exams2openolat("Rlogo.Rmd", n = 1, dir = "~/misc", name = "schoice-teval-n",
   schoice = list("eval" = list(negative = TRUE)))
 
-## 9. mchoice: -> OK!
+## 09. mchoice: -> OK!
 ##    partial = TRUE, negative = TRUE, rule = false2
 exams2openolat("relfreq.Rmd", n = 1, dir = "~/misc", name = "mchoice-teval-03",
   mchoice = list("eval" = list(negative = TRUE)))
+
+## 10. mchoice: -> OK!
+##    partial = FALSE, negative = TRUE, rule = false2
+exams2openolat("relfreq.Rmd", n = 1, dir = "~/misc", name = "mchoice-teval-04",
+  mchoice = list("eval" = list(negative = TRUE, partial = FALSE)))
+
 

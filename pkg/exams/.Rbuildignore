@@ -12,3 +12,5 @@ R/nops_eval_write_template.R
 inst/exercises/currency1.Rnw
 inst/exercises/currency9.Rnw
 tests/eval.R
+tests/numbers.Rnw
+tests/repro-fail.Rmd
