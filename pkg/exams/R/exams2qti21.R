@@ -546,8 +546,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       eval <- do.call("exams_eval", eval) ## always re-call exams_eval
     }
 
-print(eval)
-
     ## character fields
     maxchars <- if(is.null(x$metainfo$maxchars)) {
         if(length(maxchars) < 2) {
