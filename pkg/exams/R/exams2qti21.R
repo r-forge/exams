@@ -773,6 +773,21 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       '</outcomeDeclaration>'
     )
 
+    if(eval$negative & x$metainfo$type == "cloze") {
+      for(i in 1:n) {
+        if(type[i] == "string") {
+          xml <- c(xml,
+            paste0('<outcomeDeclaration identifier="SCORE_RESPONSE_', i,
+              '" cardinality="single" baseType="float">'),
+            '<defaultValue>',
+            '<value>0.0</value>',
+            '</defaultValue>',
+            '</outcomeDeclaration>'
+          )
+        }
+      }
+    }
+
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
     if(!is.null(x$question))
@@ -901,6 +916,18 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## response processing
     xml <- c(xml, '<responseProcessing>')
 
+    if(eval$negative & x$metainfo$type == "cloze") {
+      for(i in 1:n) {
+        if(type[i] == "string") {
+          xml <- c(xml,
+            paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+            paste('<mapResponse identifier="', ids[[i]]$response, '"/>', sep = ''),
+            '</setOutcomeValue>'
+          )
+        }
+      }
+    }
+
     ## all not answered
     xml <- c(xml,
       '<responseCondition>',
@@ -1002,6 +1029,33 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         } else NULL,
         '</responseCondition>'
       )
+
+      ## Negative string.
+      if(eval$negative & type[i] == "string" & x$metainfo$type == "cloze") {
+        xml <- c(xml,
+          '<responseCondition>',
+          '<responseIf>',
+          '<and>',
+          '<not>',
+          '<isNull>',
+          paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+          '</isNull>',
+          '</not>',
+          '<lt>',
+          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+          paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = ''),
+          '</lt>',
+          '</and>',
+          '<setOutcomeValue identifier="SCORE">',
+          '<sum>',
+          '<variable identifier="SCORE"/>',
+          paste('<baseValue baseType="float">', pv[[i]]["neg"], '</baseValue>', sep = ''),
+          '</sum>',
+          '</setOutcomeValue>',
+          '</responseIf>',  
+          '</responseCondition>'
+        )
+      }
 
       ## Adapt points for mchoice.
       ## Case no correct answers.

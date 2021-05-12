@@ -90,3 +90,10 @@ exams2openolat("numbers.Rnw", n = 1, dir = "~/misc", name = "cloze-teval-01-n",
   cloze = list("eval" = list(negative = TRUE, partial = TRUE, rule = "all")), points = 4,
   edir = "exams/tests")
 
+## 13. cloze. -> OK
+##     all string.
+##     partial = TRUE, negative = TRUE
+exams2openolat("repro-fail.Rmd", n = 1, dir = "~/misc", name = "cloze-teval-02-n",
+  cloze = list("eval" = list(negative = TRUE, partial = TRUE)), points = 4,
+  edir = "exams/tests")
+
