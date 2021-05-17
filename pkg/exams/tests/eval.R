@@ -1,28 +1,29 @@
-## Default strategy:
-## ----------------
-##
-## num/string/schoice
-## ------------------
-##   |           
-##   | correct? 
+## num/string/schoice/mchoice+partial=FALSE
+## ----------------------------------------
+##   |
+##   | correct?
 ##   ---
 ##   | -> yes: 100%
-##   | -> no: negative = FALSE
+##   | -> no: negative (FALSE=0%, TRUE=100%, numeric * 100%)
 ##
-## mchoice
-## -------
+## mchoice+partial=TRUE
+## --------------------
 ##   |
-##   | correct? partial = TRUE
+##   | for each _checked_ item:
 ##   ---
-##   | -> yes: * 1/c * 100%
-##   | -> no: rule? default: 1/f * 100%
-##   |        default: negative = FALSE
+##   | -> true: 1/t * 100%
+##   | -> false: rule * 100% (default rule = 1/f)
 ##   |
-##   | correct? partial = FALSE
+##   | sum over all items:
 ##   ---
-##   | -> yes: max(sum, negative) * 100%
-##   | -> no:  max(sum, minvalue)
-##             default: negative = FALSE
+##   | max(sum, negative) * 100%
+## 
+## cloze
+## -----
+##   |
+##   | sum over all elements (as above):
+##   ---
+##   | max(sum, minvalue)
 
 tdir <- tempfile()
 dir.create(tdir)
