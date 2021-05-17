@@ -498,10 +498,22 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
 
       ## setting minimum scores
       mv[[i]] <- if(eval[[i]]$negative) {
-        if(type[i] == "mchoice" & eval[[i]]$partial) {
-          pv[[i]]["neg"] * sum(!solution[[i]])
-        } else pv[[i]]["neg"]
+        -1 * q_points[i]
       } else "0.0"
+
+      ## fix partial = FALSE for mchoice.
+      if(type[i] == "mchoice" & !eval[[i]]$partial) {
+        pv[[i]]["pos"] <- pv[[i]]["pos"] / sum(solution[[i]])
+        pv[[i]]["neg"] <- -1 * q_points[i]
+      }
+
+      ## fix no correct solution, mchoice, partial = TRUE
+      if(type[i] == "mchoice") {
+        if(all(!solution[[i]])) {
+          if(eval[[i]]$partial & !(eval[[i]]$rule == "all"))
+            pv[[i]]["neg"] <- -1 * q_points[i] / length(solution[[i]])
+        }
+      }
     }
 
     mmatrix <- if(length(i <- grep("matrix", names(x$metainfo)))) {
@@ -571,25 +583,14 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
           paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
             '" lowerBound="', mv[[i]], '">', sep = '')
         )
+
         for(j in seq_along(solution[[i]])) {
           xml <- c(xml,
             paste('<mapEntry mapKey="', cch(if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j]), '" mappedValue="',
-              if(eval[[i]]$partial) {
-                if(solution[[i]][j]) {
-                  pv[[i]]["pos"]
-                } else {
-                  pv[[i]]["neg"] 
-                }
+              if(solution[[i]][j]) {
+                pv[[i]]["pos"]
               } else {
-                if(solution[[i]][j]) {
-                  if(type[i] == "mchoice") pv[[i]]["pos"] / sum(solution[[i]]) else pv[[i]]["pos"]
-                } else {
-                  if(pv[[i]]["neg"] == 0) {
-                    -1 * pv[[i]]["pos"]
-                  } else {
-                    if(type[i] == "mchoice") pv[[i]]["neg"] * length(solution[[i]]) else pv[[i]]["neg"]
-                  }
-                }
+                pv[[i]]["neg"]
               }, '"/>', sep = '')
           )
         }
@@ -658,7 +659,7 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
       }
     }
 
-    if(is.null(minvalue))
+    if(is.null(minvalue)) ## FIXME: switch for minvalue for full question?
       minvalue <- sum(as.numeric(unlist(mv)))
 
     xml <- c(xml,
@@ -699,7 +700,7 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
         '</outcomeDeclaration>',
         paste0('<outcomeDeclaration identifier="MINSCORE_RESPONSE_', i, '" cardinality="single" baseType="float">'),
         '<defaultValue>',
-        '<value>0.0</value>',
+        paste0('<value>', mv[[i]], '</value>'),
         '</defaultValue>',
         '</outcomeDeclaration>'
       )
@@ -865,15 +866,15 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
         xml <- c(xml,
           '<responseCondition>',
           '<responseIf>',
-          paste('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
-            max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">', sep = ''),
-          paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
-          paste('<correct identifier="', ids[[i]]$response, '"/>', sep = ''),
+          paste0('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
+            max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">'),
+          paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+          paste0('<correct identifier="', ids[[i]]$response, '"/>'),
           '</equal>',
           paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
           '<sum>',
           paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
-          paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = ''),
+          paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
           '</sum>',
           '</setOutcomeValue>',
           '</responseIf>',
@@ -891,6 +892,25 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
             '</sum>',
             '</setOutcomeValue>'
           )
+
+          ## Adapt points for mchoice.
+          ## Case no correct answers.
+          if(type[i] == "mchoice") {
+            if(sum(solution[[i]]) < 1) {
+              xml <- c(xml,
+                '<responseCondition>',
+                '<responseIf>',
+                '<isNull>',
+                paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+                '</isNull>',
+                paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+                paste0('<baseValue baseType="float">', q_points[i], '</baseValue>'),
+                '</setOutcomeValue>',
+                '</responseIf>',
+                '</responseCondition>'
+              )
+            }
+          }
         }
       }
     }
@@ -899,27 +919,72 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     for(i in 1:n) {
       n_points <- if(eval[[i]]$negative) pv[[i]]["neg"] else 0.0
 
+      if(!grepl("choice", type[i])) {
+        xml <- c(xml,
+          '<responseCondition>',
+          '<responseIf>',
+          '<and>',
+          '<not>',
+          '<isNull>',
+          paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+          '</isNull>',
+          '</not>',
+          '<lt>',
+          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+          paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
+          '</lt>',
+          '</and>',
+          paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+          '<sum>',
+          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+          paste0('<baseValue baseType="float">', n_points, '</baseValue>'),
+          '</sum>',
+          '</setOutcomeValue>',
+          '</responseIf>',  
+          '</responseCondition>'
+        )
+      }
+
+      if((type[i] == "mchoice") & !eval[[i]]$partial) {
+        xml <- c(xml,
+          '<responseCondition>',
+          '<responseIf>',
+          '<and>',
+          '<not>',
+          '<isNull>',
+          paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+          '</isNull>',
+          '</not>',
+          '<lt>',
+          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+          paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
+          '</lt>',
+          '</and>',
+          paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+          '<sum>',
+          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+          paste0('<baseValue baseType="float">', -1 * q_points[i], '</baseValue>'),
+          '</sum>',
+          '</setOutcomeValue>',
+          '</responseIf>',  
+          '</responseCondition>'
+        )
+      }
+    }
+
+    ## check minvalues for each question
+    for(i in 1:n) {
       xml <- c(xml,
         '<responseCondition>',
         '<responseIf>',
-        '<and>',
-        '<not>',
-        '<isNull>',
-        paste0('<variable identifier="', ids[[i]]$response, '"/>'),
-        '</isNull>',
-        '</not>',
         '<lt>',
         paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
-        paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
+        paste0('<variable identifier="MINSCORE_RESPONSE_', i, '"/>'),
         '</lt>',
-        '</and>',
         paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
-        '<sum>',
-        paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
-        paste0('<baseValue baseType="float">', n_points, '</baseValue>'),
-        '</sum>',
+        paste0('<variable identifier="MINSCORE_RESPONSE_', i, '"/>'),
         '</setOutcomeValue>',
-        '</responseIf>',  
+        '</responseIf>',
         '</responseCondition>'
       )
     }
