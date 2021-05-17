@@ -392,7 +392,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti21_v2 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
-  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE)
+  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
+  casesensitive = TRUE)
 {
   function(x) {
     ## how many points?
@@ -406,69 +407,600 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     } else x$metainfo$solution
     n <- length(solution)
 
+    ## exercise (cloze)type
+    cloze <- x$metainfo$type == "cloze"
+    type <- if(cloze) x$metainfo$clozetype else x$metainfo$type
+
+    ## question list
     questionlist <- if(!is.list(x$questionlist)) {
-      if(x$metainfo$type == "cloze") {
+      if(cloze) {
         g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
         split(x$questionlist, g)
       } else list(x$questionlist)
     } else x$questionlist
     if(length(questionlist) < 1) questionlist <- NULL
+    for(i in 1:length(questionlist)) {
+      if(length(questionlist[[i]]) < 1)
+        questionlist[[i]] <- NA
+    }
 
+    ## tolerance(s)
+    tol <- if(!is.list(x$metainfo$tolerance)) {
+      if(cloze) as.list(x$metainfo$tolerance) else list(x$metainfo$tolerance)
+    } else x$metainfo$tolerance
+    tol <- rep(tol, length.out = n)
+
+    ## points
+    if((length(points) == 1) & cloze) points <- points / n
     q_points <- rep(points, length.out = n)
-    if(x$metainfo$type == "cloze")
-      points <- sum(q_points)
+    if(cloze) points <- sum(q_points)
 
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
 
-    ## Start itembody.
-    itemBody <- list("question" = if(dopbl) process_html_pbl(x$question) else x$question)
-
-    ## Response declarations.
-    iid <- x$metainfo$id
-    ids <- list()
-    respDec <- respProc <- list()
-    for(i in 1:n) {
-      ## Gerenate response IDs.
-      ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"))
-
-      ## (1) Single choice.
-      if(type[i] == "schoice") {
-        ids[[i]]$questions <- paste(iid, make_id(10, length(solution[[i]])), sep = "_")
-        qp <- rep(0, length(solution[[i]]))
-        qp[which(solution[[i]])] <- 1.5
-
-        respDec[[i]] <- paste0(
-          '<responseDeclaration identifier="', ids[[i]]$response,'" cardinality="single" baseType="identifier">\n',
-          '<correctResponse>\n',
-          '<value>', ids[[i]]$questions[which(solution[[i]])], '</value>\n',
-          '</correctResponse>\n',
-          '<mapping defaultValue="0.0">\n',
-          '<mapEntry mapKey="', ids[[i]]$questions[which(solution[[i]])],
-            '" mappedValue="', qp[which(solution[[i]])],'"/>\n',
-          '<mapEntry mapKey="', ids[[i]]$questions[which(!solution[[i]])],
-            '" mappedValue="', qp[which(!solution[[i]])],'"/>\n',
-          '</mapping>\n',
-          '</responseDeclaration>\n'
-        )
-
-        itemBody[[paste0("e", i)]] <- paste0(
-          '<choiceInteraction responseIdentifier="', ids[[i]]$response,
-            '" shuffle="true" maxChoices="1" orientation="horizontal">\n',
-          paste0('<simpleChoice identifier="', ids[[i]]$questions, '">\n',
-            '<p>', questionlist[[i]], '</p>\n', '</simpleChoice>',
-            collapse = '\n'), '\n',
-          '</choiceInteraction>'
-        )
-
-        respProc[[i]] <- 1
+    ## evaluation policy
+    if(is.null(eval) | length(eval) < 1L) {
+      eval <- exams_eval()
+      eval <- rep(list(eval), length = n)
+    } else {
+      if(!is.list(eval)) stop("'eval' needs to specify a list!")
+      if(any(c("partial", "negative", "rule") %in% names(eval))) {
+        eval <- rep(list(eval), length = n)
+      } else {
+        eval <- rep(eval, length.out = n)
       }
     }
 
-writeLines(itemBody$e2)
-stop()
+    names(eval) <- paste0(type, ".", 1:n)
 
+    for(i in 1:n) {
+      if(type[i] %in% c("num", "string"))
+        eval[[i]]$partial <- FALSE
+      others <- names(eval[[i]])[!names(eval[[i]]) %in% c("partial", "negative", "rule")]
+      if(length(others))
+        others <- eval[[i]][others]
+      eval[[i]] <- eval[[i]][match(c("partial", "negative", "rule"), names(eval[[i]]), nomatch = 0)]
+      eval[[i]] <- do.call("exams_eval", eval[[i]])
+      if(length(others))
+        eval[[i]][names(others)] <- others
+    }
+
+    ## character fields
+    maxchars <- if(is.null(x$metainfo$maxchars)) {
+        if(length(maxchars) < 2) {
+           c(maxchars, NA, NA)
+        } else maxchars[1:3]
+    } else x$metainfo$maxchars
+    if(!is.list(maxchars))
+      maxchars <- list(maxchars)
+    maxchars <- rep(maxchars, length.out = n)
+    for(j in seq_along(maxchars)) {
+      if(length(maxchars[[j]]) < 2)
+        maxchars[[j]] <- c(maxchars[[j]], NA, NA)
+    }
+
+    letters2 <- c(letters,
+      paste0(sort(rep(letters, length(letters))),
+      rep(letters, length(letters))))
+
+    ## start item presentation
+    ## and insert question
+    xml <- paste('<assessmentItem xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd" identifier="', x$metainfo$id, '" title="', x$metainfo$name, '" adaptive="false" timeDependent="false" xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">', sep = '')
+
+    ## cycle trough all questions
+    ids <- el <- pv <- mv <- list()
+    for(i in 1:n) {
+      ## evaluate points for each question
+      pv[[i]] <- eval[[i]]$pointvec(solution[[i]], type = type[i])
+      pv[[i]]["pos"] <- pv[[i]]["pos"] * q_points[i]
+      pv[[i]]["neg"] <- pv[[i]]["neg"] * q_points[i]
+
+      ## setting minimum scores
+      mv[[i]] <- if(eval[[i]]$negative) {
+        if(type[i] == "mchoice" & eval[[i]]$partial) {
+          pv[[i]]["neg"] * sum(!solution[[i]])
+        } else pv[[i]]["neg"]
+      } else "0.0"
+    }
+
+    mmatrix <- if(length(i <- grep("matrix", names(x$metainfo)))) {
+      x$metainfo[[i]]
+    } else NULL
+
+    ## extract solution.
+    msol <- x$metainfo$solution
+    if(!is.list(msol))
+      msol <- list(msol)
+
+    ## small helper to remove too many ".
+    cch <- function(x) {
+      gsub("'", '&apos;', gsub('"', '&quot;', x))
+    }
+
+    is_essay <- upfile <- rep(FALSE, n)
+    upids <- rep(NA, n)
+    strcounter <- 0L
+
+    for(i in 1:n) {
+      ## get item id
+      iid <- x$metainfo$id
+
+      ## generate ids
+      if(is.null(mmatrix)) {
+        ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
+          "questions" = paste(iid, make_id(10, length(msol[[i]])), sep = "_"))
+      } else {
+        qs <- strsplit(x$questionlist, mmatrix, fixed = TRUE)
+        mrows <- unique(sapply(qs, function(x) { x[1] }))
+        mcols <- unique(sapply(qs, function(x) { x[2] }))
+        ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
+          "questions" = paste(iid, make_id(10, length(msol[[i]])), sep = "_"),
+          "mmatrix_matches" = matrix(msol[[i]], nrow = length(mrows), byrow = TRUE)
+        )
+        ids[[i]]$mmatrix_questions <- list(
+          "rows" = paste(iid, make_id(10, length(mrows)), sep = "_"),
+          "cols" = paste(iid, make_id(10, length(mcols)), sep = "_")
+        )
+        rownames(ids[[i]]$mmatrix_matches) <- mrows
+        colnames(ids[[i]]$mmatrix_matches) <- mcols
+        for(j in seq_along(ids[[i]]$mmatrix_questions$rows)) {
+          for(jj in seq_along(ids[[i]]$mmatrix_questions$cols)) {
+            ids[[i]]$mmatrix_pairs <- c(ids[[i]]$mmatrix_pairs, paste(ids[[i]]$mmatrix_questions$rows[j], ids[[i]]$mmatrix_questions$cols[jj]))
+          }
+        }
+      }
+
+      ## insert choice type responses
+      if(length(grep("choice", type[i]))) {
+        xml <- c(xml,
+          paste('<responseDeclaration identifier="', ids[[i]]$response,
+            '" cardinality="', if(type[i] == "mchoice") "multiple" else "single",
+            if(is.null(mmatrix)) '" baseType="identifier">' else '" baseType="directedPair">', sep = ''),
+          '<correctResponse>'
+        )
+        for(j in seq_along(solution[[i]])) {
+          if(solution[[i]][j]) {
+            xml <- c(xml,
+              paste('<value>', if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j], '</value>', sep = '')
+            )
+          }
+        }
+
+        xml <- c(xml, '</correctResponse>',
+          paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval,
+            '" lowerBound="', mv[[i]], '">', sep = '')
+        )
+        for(j in seq_along(solution[[i]])) {
+          xml <- c(xml,
+            paste('<mapEntry mapKey="', cch(if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j]), '" mappedValue="',
+              if(eval[[i]]$partial) {
+                if(solution[[i]][j]) {
+                  pv[[i]]["pos"]
+                } else {
+                  pv[[i]]["neg"] 
+                }
+              } else {
+                if(solution[[i]][j]) {
+                  if(type[i] == "mchoice") pv[[i]]["pos"] / sum(solution[[i]]) else pv[[i]]["pos"]
+                } else {
+                  if(pv[[i]]["neg"] == 0) {
+                    -1 * pv[[i]]["pos"]
+                  } else {
+                    if(type[i] == "mchoice") pv[[i]]["neg"] * length(solution[[i]]) else pv[[i]]["neg"]
+                  }
+                }
+              }, '"/>', sep = '')
+          )
+        }
+        xml <- c(xml, '</mapping>', '</responseDeclaration>')
+      }
+
+      ## numeric responses
+      if(type[i] == "num") {
+        xml <- c(xml,
+          paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="float">', sep = ''),
+        '<correctResponse>',
+          paste('<value>', solution[[i]], '</value>', sep = ''),
+          '</correctResponse>',
+          '</responseDeclaration>'
+        )
+      }
+
+      ## string responses
+      if(type[i] == "string") {
+        strcounter <- strcounter + 1L
+        ## any uploads?
+        if(!is.null(x$metainfo$stringtype)) {
+          nstring <- sum(type == "string")
+          if(nstring > length(x$metainfo$stringtype)) {
+            stype <- rep(x$metainfo$stringtype, length.out = nstring)
+            stype <- stype[strcounter]
+          } else {
+            stype <- x$metainfo$stringtype[strcounter]
+          }
+          is_essay[i] <- any(grepl("essay", stype, fixed = TRUE))
+          upfile[i] <- any(grepl("file", stype, fixed = TRUE))
+        }
+        if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i] & !upfile[i]) {
+          xml <- c(xml,
+            paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
+          '<correctResponse>',
+            paste('<value>', solution[[i]], '</value>', sep = ''),
+            '</correctResponse>',
+            paste('<mapping defaultValue="', if(is.null(defaultval)) 0 else defaultval, '">', sep = ''),
+            paste('<mapEntry mapKey="', cch(solution[[i]]), '" mappedValue="', pv[[i]]["pos"], '" caseSensitive="', if(casesensitive) 'true' else 'false', '"/>', sep = ''),
+            '</mapping>',
+            '</responseDeclaration>'
+          )
+        } else {
+          if(!upfile[i]) {
+            is_essay[i] <- TRUE
+            if(sum(!is.na(maxchars[[i]])) == 1) {
+              maxchars[[i]] <- c(1000, 10, 50)
+            }
+            ## Essay type questions.
+            xml <- c(xml,
+              paste('<responseDeclaration identifier="', ids[[i]]$response,
+                '" cardinality="single" baseType="string">', sep = ''),
+              ## '<correctResponse>', ## N, correct response seems not to work?
+              ## if(dopbl) process_html_pbl(x$solution) else x$solution,
+              ## paste('<value>', solution[[i]], '</value>', sep = ''),
+              ## '</correctResponse>',
+              '</responseDeclaration>'
+            )
+          }
+        }
+        if(upfile[i]) {
+          xml <- c(xml, paste0('<responseDeclaration identifier="',
+            ids[[i]]$response,'" cardinality="single" baseType="file">'), '</responseDeclaration>')
+        }
+      }
+    }
+
+    if(is.null(minvalue))
+      minvalue <- sum(as.numeric(unlist(mv)))
+
+    xml <- c(xml,
+      paste('<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" ',
+        'normalMaximum="', sum(q_points), '" normalMinimum="', minvalue, '">', sep = ''),
+      '<defaultValue>',
+      '<value>0.0</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>',
+      '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      paste('<value>', if(is.null(maxvalue)) sum(q_points) else maxvalue, '</value>', sep = ''),
+      '</defaultValue>',
+      '</outcomeDeclaration>',
+      '<outcomeDeclaration identifier="FEEDBACKBASIC" cardinality="single" baseType="identifier" view="testConstructor">',
+      '<defaultValue>',
+      '<value>empty</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>',
+      '<outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>'
+    )
+
+    xml <- c(xml,
+      '<outcomeDeclaration identifier="MINSCORE" cardinality="single" baseType="float">',
+      '<defaultValue>',
+      paste('<value baseType="float">', minvalue, '</value>', sep = ''),
+      '</defaultValue>',
+      '</outcomeDeclaration>'
+    )
+
+    for(i in 1:n) {
+      ## score, minscore for each question.
+      xml <- c(xml,
+        paste0('<outcomeDeclaration identifier="SCORE_RESPONSE_', i, '" cardinality="single" baseType="float">'),
+        '<defaultValue>',
+        '<value>0.0</value>',
+        '</defaultValue>',
+        '</outcomeDeclaration>',
+        paste0('<outcomeDeclaration identifier="MINSCORE_RESPONSE_', i, '" cardinality="single" baseType="float">'),
+        '<defaultValue>',
+        '<value>0.0</value>',
+        '</defaultValue>',
+        '</outcomeDeclaration>'
+      )
+    }
+
+    ## starting the itembody
+    xml <- c(xml, '<itemBody>')
+    if(!is.null(x$question))
+      xml <- c(xml, if(dopbl) process_html_pbl(x$question) else x$question)
+
+    for(i in 1:n) {
+      ans <- any(grepl(paste0("##ANSWER", i, "##"), xml))
+      if(length(grep("choice", type[i]))) {
+        if(is.null(mmatrix)) {
+          txml <- paste('<choiceInteraction responseIdentifier="', ids[[i]]$response,
+              '" shuffle="', if(shuffle) 'true' else 'false','" maxChoices="',
+              if(type[i] == "schoice") "1" else "0", '">', sep = '')
+          for(j in seq_along(solution[[i]])) {
+            txml <- c(txml, paste('<simpleChoice identifier="', ids[[i]]$questions[j], '">', sep = ''),
+              if(!ans) '<p>' else NULL,
+              paste(if(enumerate & !ans) {
+                paste(letters2[if(cloze) i else j], ".",
+                  if(cloze && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                    sep = "")
+              } else NULL, questionlist[[i]][j]),
+              if(!ans) '</p>' else NULL,
+              '</simpleChoice>'
+            )
+          }
+          txml <- c(txml, '</choiceInteraction>')
+        } else {
+          txml <- c(paste0('<matchInteraction class="match_matrix" responseIdentifier="', ids[[i]]$response,
+            '" shuffle="', if(shuffle) 'true' else 'false','" maxAssociations="',
+            if(type[i] == "schoice") "1" else "0", '">', sep = ''),
+            '<simpleMatchSet>')
+          for(j in seq_along(ids[[i]]$mmatrix_questions$rows)) {
+            txml <- c(txml,
+              paste0('<simpleAssociableChoice identifier="',
+                ids[[i]]$mmatrix_questions$rows[j], '" matchMax="1" matchMin="0">'),
+              '<p>',
+              rownames(ids[[i]]$mmatrix_matches)[j],
+              '</p>', '</simpleAssociableChoice>')
+          }
+          txml <- c(txml, '</simpleMatchSet>', '<simpleMatchSet>')
+          for(j in seq_along(ids[[i]]$mmatrix_questions$cols)) {
+            txml <- c(txml,
+              paste0('<simpleAssociableChoice identifier="',
+                ids[[i]]$mmatrix_questions$cols[j], '" matchMax="1" matchMin="0">'),
+              '<p>',
+              colnames(ids[[i]]$mmatrix_matches)[j],
+              '</p>', '</simpleAssociableChoice>')
+          }
+          txml <- c(txml, '</simpleMatchSet>', '</matchInteraction>')
+        }
+      }
+      if(type[i] == "num") {
+        for(j in seq_along(solution[[i]])) {
+          txml <- c(
+            if(!ans) '<p>' else NULL,
+              if(!is.null(questionlist[[i]][j])) {
+                paste(if(enumerate & n > 1 & !ans) {
+                  paste(letters2[if(cloze) i else j], ".",
+                    if(cloze && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                      sep = "")
+                } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+              },
+            paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
+            if(!ans) '</p>' else NULL
+          )
+        }
+      }
+      if(type[i] == "string") {
+        if(((length(maxchars[[i]]) > 1) & sum(is.na(maxchars[[i]])) < 1) | upfile[i]) {
+          ## Essay type questions.
+          txml <- c(
+            if(!ans) '<p>' else NULL,
+             if(!is.null(questionlist[[i]])) {
+                paste(if(enumerate & n > 1 & !ans) {
+                  paste(letters2[if(cloze) i else j], ".",
+                    if(cloze && length(solution[[i]]) > 1) paste(1, ".", sep = "") else NULL,
+                      sep = "")
+                } else NULL, if(!is.na(questionlist[[i]])) questionlist[[i]] else NULL)
+             },
+             if(!ans) '</p>' else NULL,
+             if(!upfile[i]) {
+               paste('<extendedTextInteraction responseIdentifier="', ids[[i]]$response,
+                '" minStrings="0" ', if(!is.na(maxchars[[i]][1])) {
+                    paste0(' expectedLength="', maxchars[[i]][1], '"')
+                  } else NULL, if(!is.na(maxchars[[i]][2])) {
+                    paste(' expectedLines="', maxchars[[i]][2], '" ', sep = '')
+                  } else NULL, '/>', sep = '')
+             } else {
+               paste0('<uploadInteraction responseIdentifier="', ids[[i]]$response, '"/>')
+             }
+          )
+        } else {
+          for(j in seq_along(solution[[i]])) {
+            txml <- c(
+              if(!ans) '<p>' else NULL,
+               if(!is.null(questionlist[[i]][j])) {
+                  paste(if(enumerate & n > 1 & !ans) {
+                    paste(letters2[if(cloze) i else j], ".",
+                      if(cloze && length(solution[[i]]) > 1) paste(j, ".", sep = "") else NULL,
+                        sep = "")
+                  } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
+               },
+               paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response,
+                if(!is.na(maxchars[[i]][1])) {
+                  paste0('" expectedLength="', maxchars[[i]][1])
+                } else NULL, if(!is.na(maxchars[[i]][2])) {
+                  paste0('" expectedLines="', maxchars[[i]][2])
+                } else NULL, '"/>', sep = ''),
+              if(!ans) '</p>' else NULL
+            )
+          }
+        }
+      }
+      if(ans) {
+        txml <- paste(txml, collapse = '\n')
+        if(length(grep("choice", type[i])) & !any(grepl('<table>', xml, fixed = TRUE)))
+          txml <- paste0('</p>', txml, '<p>')
+        xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+      } else {
+        xml <- c(xml, txml)
+      }
+    }
+
+    ## close itembody
+    xml <- c(xml, '</itemBody>')
+
+    ## response processing
+    xml <- c(xml, '<responseProcessing>')
+
+    ## FIXME: create a switch?
+    not_answered_points <- if(is.null(eval[[i]]$not_answered)) {
+      0.0
+    } else {
+      as.numeric(eval[[i]]$not_answered)
+    }
+
+    ## not answered points single
+    for(i in 1:n) {
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<isNull>',
+        paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+        '</isNull>',
+        paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+        '<sum>',
+        paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+        paste0('<baseValue baseType="float">', not_answered_points, '</baseValue>'),
+        '</sum>',
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
+    }
+
+    ## score each answer
+    for(i in 1:n) {
+      if(type[i] == "num") {
+        xml <- c(xml,
+          '<responseCondition>',
+          '<responseIf>',
+          paste('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
+            max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">', sep = ''),
+          paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+          paste('<correct identifier="', ids[[i]]$response, '"/>', sep = ''),
+          '</equal>',
+          paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+          '<sum>',
+          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+          paste('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>', sep = ''),
+          '</sum>',
+          '</setOutcomeValue>',
+          '</responseIf>',
+          '</responseCondition>'
+        )
+      }
+
+      if(type[i] %in% c("schoice", "mchoice", "string")) {
+        if(!(is_essay[i] | upfile[i])) {
+          xml <- c(xml,
+            paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+            '<sum>',
+            paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+            paste0('<mapResponse identifier="', ids[[i]]$response, '"/>'),
+            '</sum>',
+            '</setOutcomeValue>'
+          )
+        }
+      }
+    }
+
+    ## negative points
+    for(i in 1:n) {
+      n_points <- if(eval[[i]]$negative) pv[[i]]["neg"] else 0.0
+
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<and>',
+        '<not>',
+        '<isNull>',
+        paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+        '</isNull>',
+        '</not>',
+        '<lt>',
+        paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+        paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
+        '</lt>',
+        '</and>',
+        paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+        '<sum>',
+        paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+        paste0('<baseValue baseType="float">', n_points, '</baseValue>'),
+        '</sum>',
+        '</setOutcomeValue>',
+        '</responseIf>',  
+        '</responseCondition>'
+      )
+    }
+
+    ## sum all points.
+    xml <- c(xml, '<setOutcomeValue identifier="SCORE">', '<sum>')
+    for(i in 1:n)
+      xml <- c(xml, paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'))
+    xml <- c(xml, '</sum>', '</setOutcomeValue>')
+
+    ## check minscore
+    xml <- c(xml, 
+      '<responseCondition>',
+      '<responseIf>',
+      '<lt>',
+      '<variable identifier="SCORE"/>',
+      '<variable identifier="MINSCORE"/>',
+      '</lt>',
+      '<setOutcomeValue identifier="SCORE">',
+      '<variable identifier="MINSCORE"/>',
+      '</setOutcomeValue>',
+      '</responseIf>',
+      '</responseCondition>'
+    )
+
+    if(solutionswitch) {
+      fid <- make_id(9, 1)
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<lt>',
+        '<variable identifier="SCORE"/>',
+        paste('<baseValue baseType="float">', points, '</baseValue>', sep = ''),
+        '</lt>',
+        '<setOutcomeValue identifier="FEEDBACKMODAL">',
+        '<multiple>',
+        '<variable identifier="FEEDBACKMODAL"/>',
+        paste('<baseValue baseType="identifier">Feedback', fid, '</baseValue>', sep = ''),
+        '</multiple>',
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
+
+      ## create solution
+      xsolution <- x$solution
+      if(!is.null(x$solutionlist)) {
+        if(!all(is.na(x$solutionlist))) {
+          xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
+          if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+          if(cloze) {
+            g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
+            ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
+            sl <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
+          } else {
+            ql <- x$questionlist
+            sl <- x$solutionlist
+          }
+          nsol <- length(ql)
+          xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+            ql, if(length(x$solutionlist)) "<br />" else NULL,
+            sl, if(enumerate) rep('</li>', nsol) else NULL))
+          if(enumerate) xsolution <- c(xsolution, '</ol>')
+        }
+      }
+    }
+
+    xml <- c(xml, '</responseProcessing>')
+
+    ## solution when wrong
+    if(solutionswitch) {
+      xml <- c(xml,
+        paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
+        if(dopbl) process_html_pbl(xsolution) else xsolution,
+        '</modalFeedback>'
+      )
+    }
+
+    xml <- c(xml, '</assessmentItem>')
+
+    xml
   }
 }
 
