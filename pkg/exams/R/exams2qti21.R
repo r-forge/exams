@@ -14,7 +14,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.", sdescription = "", 
   maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, casesensitive = TRUE,
-  navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
+  navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, envir = NULL, base64 = TRUE, mode = "hex", ...)
@@ -353,6 +353,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##NavigationMode##', match.arg(navigation, c("nonlinear", "linear")), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##AllowComment##', if(allowcomment) 'true' else 'false', assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##AllowSkipping##', if(allowskipping) 'true' else 'false', assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##AllowReview##', if(allowreview) 'true' else 'false', assessment_xml, fixed = TRUE)
 
   ## assessment duration provided in minutes
   if(!is.null(duration)) {

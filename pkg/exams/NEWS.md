@@ -25,6 +25,8 @@
     randomly shuffle the order of sections/exercises for each participant.
   - New argument `allowskipping = TRUE` controlling whether exercises
     can be skipped without answering (default) or must be answered.
+  - New argument `allowreview = FALSE` controlling whether exercises
+    can be viewed again at the end of a test/exam.
   - New argument `allowcomment = FALSE` can be set to `TRUE` to allow comments.
   - New argument `casesensitive = TRUE` that controls whether the evaluation of
     string exercises is case sensitive or not.

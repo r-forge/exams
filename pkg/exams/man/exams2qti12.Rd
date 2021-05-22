@@ -39,8 +39,8 @@
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.", sdescription = "",
     maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, casesensitive = TRUE,
-    navigation = "nonlinear", allowskipping = TRUE, allowcomment = FALSE,
-    shufflesections = FALSE, zip = TRUE, points = NULL,
+    navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
+    allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex", \dots)
 
@@ -120,6 +120,7 @@
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}
   \item{allowskipping}{logical. Can a question/section be skipped (default) or must it be answered?}
+  \item{allowreview}{logical. Can questions be viewed again at the end of a test/exam or not (default)?}
   \item{allowcomment}{logical. Are comments allowed?}
   \item{shufflesections}{logical or character. Should the order of the sections be shuffled?
     If \code{TRUE} an extra outer section is included within which the sections are shuffled automatically.
