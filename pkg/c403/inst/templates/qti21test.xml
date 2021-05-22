@@ -12,7 +12,7 @@
 </outcomeDeclaration>
 ##TimeLimits##
 <testPart identifier="##TestpartId##" navigationMode="##NavigationMode##" submissionMode="individual">
-<itemSessionControl allowComment="##AllowComment##" maxAttempts="##MaxAttempts##" showSolution="##ShowSolution##" allowSkipping="##AllowSkipping##"/>
+<itemSessionControl allowComment="##AllowComment##" maxAttempts="##MaxAttempts##" showSolution="##ShowSolution##" allowSkipping="##AllowSkipping##" allowReview="##AllowReview##"/>
 ##AssessmentSections##
 </testPart>
 <outcomeProcessing>
