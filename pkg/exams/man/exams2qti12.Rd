@@ -230,23 +230,17 @@
 
   Generating exams/assessment in IMS QTI 2.1 format using \code{exams2qti21()} and \code{make_itembody_qti21()}
   is performed in a similar way as described above. The generated XML files have been validated using the IMS validator provided
-  at \url{http://membervalidator.imsglobal.org/qti/} (when it was still freely available).
-  Furthermore, a selection of generated exams/assessments has been tested using the ONYX Editor and
-  Player, see \url{https://www.onyx-editor.de/}.
+  at \url{https://membervalidator.imsglobal.org/qti/} (when it was still freely available).
 }
 
 \references{
 IMS Global Learning Consortium, Inc. (2012a).
 \emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.
-\url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
+\url{https://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
 
 IMS Global Learning Consortium, Inc. (2012b).
 \emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
-\url{http://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
-
-BPS Bildungsportal Sachsen GmbH (2014).
-\emph{ONYX Testsuite}.
-\url{http://www.bps-system.de/cms/en/products/onyx-testsuite/}
+\url{https://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.

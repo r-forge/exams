@@ -113,10 +113,6 @@ IMS Global Learning Consortium, Inc. (2012b).
 \emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
 \url{https://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
 
-BPS Bildungsportal Sachsen GmbH (2014).
-\emph{ONYX Testsuite}.
-\url{http://www.bps-system.de/cms/en/products/onyx-testsuite/}
-
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
   \emph{Journal of Statistical Software}, \bold{58}(1), 1--36.
