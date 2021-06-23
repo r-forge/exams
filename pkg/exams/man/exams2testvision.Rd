@@ -171,12 +171,12 @@ TestVision (2020). \emph{English introduction tutorial on TestVision}.
 
 IMS Global Learning Consortium, Inc. (2012).
 \emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
-\url{http://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
+\url{https://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
   \emph{Journal of Statistical Software}, \bold{58}(1), 1--36.
-  \url{http://www.jstatsoft.org/v58/i01/}.
+  \doi{10.18637/jss.v058.i01}.
 }
 
 \value{

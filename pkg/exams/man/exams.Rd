@@ -116,7 +116,7 @@
 \references{
 Gruen B, Zeileis A (2009). Automatic Generation of Exams in R.
   \emph{Journal of Statistical Software}, \bold{29}(10), 1--14.
-  \url{http://www.jstatsoft.org/v29/i10/}.
+  \doi{10.18637/jss.v029.i10}.
 }
 
 \value{

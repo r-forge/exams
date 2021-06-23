@@ -97,7 +97,7 @@
     the number of rows must be \code{n} and the number of columns must
     correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
     is sampled.}
-  \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
+  \item{mathjax}{logical. Should the JavaScript from \url{https://www.MathJax.org/}
     be included for rendering mathematical formulas? By default \code{mathjax = FALSE}
     unless \code{converter = "pandoc-mathjax"} is used. However, also for the default
     converters (producing MathML output) \code{mathjax = TRUE} can be used, enabling
@@ -183,16 +183,16 @@
 
 \references{
 Blackboard, Inc. (2016). \emph{Blackboard Help: Question types}.
-  \url{http://en-us.help.blackboard.com/Learn/Instructor/Tests_Pools_Surveys/040_Question_Types}
+  \url{https://en-us.help.blackboard.com/Learn/Instructor/Tests_Pools_Surveys/040_Question_Types}
 
 IMS Global Learning Consortium, Inc. (2012).
 \emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.
-\url{http://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
+\url{https://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
   \emph{Journal of Statistical Software}, \bold{58}(1), 1--36.
-  \url{http://www.jstatsoft.org/v58/i01/}.
+  \doi{10.18637/jss.v058.i01}.
 }
 
 \value{
