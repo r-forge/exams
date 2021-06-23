@@ -66,9 +66,9 @@
   these need to be converted to PNG first which requires PDFTk, GhostScript, and ImageMagick's
   convert to be available on the system. On Linux(-esque) systems this is typically
   easy to install by pdftk and imagemagick. The download links for Windows are:
-  \url{http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe},
-  \url{http://www.imagemagick.org/script/download.php#windows},
-  \url{http://www.ghostscript.com/download/gsdnld.html}.
+  \url{https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe},
+  \url{https://www.imagemagick.org/script/download.php#windows},
+  \url{https://www.ghostscript.com/download/gsdnld.html}.
   
   Tutorial for NOPS workflow: \url{http://www.R-exams.org/tutorials/exams2nops/}.
   
