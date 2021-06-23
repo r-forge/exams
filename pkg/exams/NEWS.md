@@ -199,6 +199,9 @@
   is used by default for `enumii` in LaTeX (namely (a), (b), ...) the difference
   was never noticed up to now.
 
+* Tolerate trailing white spaces in section names for environments like question,
+  solution, answerlist, etc. in R/Markdown exercises.
+
 
 # exams 2.3-6
 

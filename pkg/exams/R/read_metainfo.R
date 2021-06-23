@@ -14,6 +14,7 @@ extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markd
     ## match environment names
     x_alllines_m1 <- tolower(x[alllines - 1L])
     x_alllines_m1 <- gsub("-", "", x_alllines_m1, fixed = TRUE)
+    x_alllines_m1 <- gsub("[[:space:]]+$", "", x_alllines_m1)
     x_alllines_m1 <- gsub("questionlist", "answerlist", x_alllines_m1, fixed = TRUE)
     x_alllines_m1 <- gsub("solutionlist", "answerlist", x_alllines_m1, fixed = TRUE)
     ## find desired environment
