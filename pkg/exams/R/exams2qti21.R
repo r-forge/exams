@@ -823,6 +823,7 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
         txml <- paste(txml, collapse = '\n')
         if(length(grep("choice", type[i])) & !any(grepl('<table>', xml, fixed = TRUE)))
           txml <- paste0('</p>', txml, '<p>')
+        xml <- gsub(paste0("<p>##ANSWER", i, "##</p>"), txml, xml, fixed = TRUE)
         xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
       } else {
         xml <- c(xml, txml)
@@ -1502,6 +1503,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         txml <- paste(txml, collapse = '\n')
         if(length(grep("choice", type[i])) & !any(grepl('<table>', xml, fixed = TRUE)))
           txml <- paste0('</p>', txml, '<p>')
+        xml <- gsub(paste0("<p>##ANSWER", i, "##</p>"), txml, xml, fixed = TRUE)
         xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
       } else {
         xml <- c(xml, txml)
