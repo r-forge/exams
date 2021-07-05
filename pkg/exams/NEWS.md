@@ -115,6 +115,9 @@
   CSV file) but the initial IDs are fixed to "0" in the exam sheet and
   corresponding boxes ticked already.
 
+* Improved NOPS language support: Added Galician (`gl`, Marta Sestelo &
+  Nora M. Villanueva).
+
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 

@@ -148,6 +148,7 @@
   Dutch (\code{"nl"}),
   Finnish (\code{"fi"}),
   French (\code{"fr"}),
+  Galician (\code{"gl"}),
   German (\code{"de"}),
   Hungarian (\code{"hu"}),
   Italian (\code{"it"}),
