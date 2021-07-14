@@ -5,7 +5,7 @@ GivenName: Nome
 Signature: Firma
 RegistrationNumber: N{\'u}mero de identificaci{\'o}n
 Checked: verificado
-NoChanges: Nesta secci{\'o}n \textbf{non} se poden facer modificaci{\'o}ns.
+NoChanges: \textbf{Non} facer modificaci{\'o}ns nesta secci{\'o}n.
 DocumentType: Tipo
 DocumentID: Identificador do exame
 Scrambling: Remostraxe
