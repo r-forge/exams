@@ -5,11 +5,13 @@ library(tth)
 
 ##  TODO: 
 ## - reactive available_exercises from exams_shiny.R: instead of selectedFiles = possibleExerciseList() -> get available_exercises from tmp folder
-## - in addFiles: copy with path, see exams_shiny.R ?!?
 ## - argument givenExercises in loadTabServer not necessary ?!?
+## - delete empty folders (a check in deleteExercises)
+## - FIX Preview
 
-## - delete_exercises from exams_shiny.R
-## - ex_upload from exams_shiny.R
+## DONE - in addFiles: copy with path, see exams_shiny.R ?!?
+## DONE - delete_exercises from exams_shiny.R
+## DONE - ex_upload from exams_shiny.R
 
 
 
@@ -21,7 +23,7 @@ loadTabUI <- function(id){
     tagList(
       fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
         ## FS: Option shinyTree
-        column(6,
+        column(6,verbatimTextOutput(ns("showReturn")),
                DT::dataTableOutput(ns("folderSelector"))
         ),
         column(6,
@@ -37,12 +39,10 @@ loadTabUI <- function(id){
           fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',checkboxInput(ns("loadSingleFile"), label = "Load exercise from local storage"),
                    conditionalPanel(condition = "input.loadSingleFile == 1",
                                     ns = ns,
-                                    column(6,
-                                           fileInput(ns("inputLocalFile"), label="", multiple = FALSE, accept = c(".Rmd", ".Rnw"))
-                                    ),
-                                    column(6,align="right",
-                                           br(),
-                                           actionButton(ns("addLocalExercise"), label = "Add exercise")
+                                    column(12,
+                                           fileInput(ns("uploadExercises"), NULL, multiple = TRUE,
+                                                     accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz",
+                                                                "jpg", "JPG", "png", "PNG"))
                                     )
                                     
                    ))),
@@ -52,7 +52,7 @@ loadTabUI <- function(id){
                                 ns = ns,
                                 column(12,DT::dataTableOutput(ns("outputAddedFiles"))),
                                 br(),
-                                column(12,align="right",actionButton(ns("deleteAddedExerciseFromList"), label = "Delete Exercise",style='margin-top:10px'))
+                                column(12,align="right",actionButton(ns("deleteExercises"), label = "Delete Exercise",style='margin-top:10px'))
                ),
                actionButton(ns("refresh"), label = "refresh")
                ))
@@ -96,8 +96,12 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
     # flag to supress the warnings by opening the app (did not work appropriately)
     initOpen = TRUE,
     # flag to show or hide the preview
-    setPreview = FALSE
+    setPreview = FALSE,
+    #  flag after a file is deleted
+    fileDeleted = FALSE
   )
+  
+  output$showReturn <- renderPrint(print(availableExercises()))
   
   # Observer to store the parameters given by the function loadTabLogic(...) in reactive values
   # using reactive values for the data was in the test cases more convenient and furthermore a
@@ -113,6 +117,9 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
   ## Observer: available exercises, i.e. all files in or added to tmp/exercises
   availableExercises <- reactive({
     e1 <- input$addExcerciseToList
+    e2 <- input$uploadExercises
+    #e3 <- input$deleteExercises
+    e4 <- reactVals$fileDeleted
     #e2 <- input$refresh
     # e1 <- input$save_ex
     # e2 <- input$ex_upload
@@ -120,6 +127,25 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
     exfiles <- getExercises(reactVals$pathToTmpFolder)
     return(exfiles)
   })
+  
+  # ## from exams_shiny.R
+  # available_exercises <- reactive({
+  #   e1 <- input$save_ex
+  #   e2 <- input$ex_upload
+  #   e3 <- input$delete_exercises
+  #   exfiles <- list.files("exercises", recursive = TRUE)
+  #   exfiles <- exfiles[tolower(file_ext(exfiles)) %in% c("rnw", "rmd")]
+  #   if(!is.null(input$selected_exercise)) {
+  #     if(input$selected_exercise != "") {
+  #       if(input$selected_exercise %in% exfiles) {
+  #         i <- which(exfiles == input$selected_exercise)
+  #         exfiles <- c(exfiles[i], exfiles[-i])
+  #       }
+  #     }
+  #   }
+  #   return(exfiles)
+  # })
+  
   
   ## Observer: Exercises can only be selected in "Choose Exercise" or in "Added Exercises"
   observe({    
@@ -164,20 +190,41 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
     savingExercisesToTmp(reactVals$selectedFiles)
   })
   
-  # Observer: Click on Button "Add exercise" - exercises from local storage
-  # the exercise from local storage is uploaded an appended to the dataframe
-  # the uploaded exercise is copied automatically to the tmp folder
-  observeEvent(input$addLocalExercise, {
-    req(input$inputLocalFile)
-    if(!is.null(input$inputLocalFile)){
-      tmpFilePath = input$inputLocalFile
-      reactVals$selectedFiles = rbind(reactVals$selectedFiles, data.frame(Foldername = "from local storage", 
-                                                                          Filename = input$inputLocalFile$name))
-      file.copy(from=input$inputLocalFile$datapath, to=file.path(reactVals$pathToTmpFolder, "exercises"),
-                overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
-      file.rename(input$inputLocalFile$datapath,file.path(reactVals$pathToTmpFolder, "exercises", input$inputLocalFile$name))
+  # Observer: Exercises from local storage
+  ## from exams_shiny.R: the uploaded exercises are copied automatically to the tmp folder
+  observeEvent(input$uploadExercises, {
+    if(!is.null(input$uploadExercises$datapath)) {
+      for(i in seq_along(input$uploadExercises$name)) {
+        fext <- tolower(file_ext(input$uploadExercises$name[i]))
+        if(fext %in% c("rnw", "rmd")) {
+          file.copy(input$uploadExercises$datapath[i], file.path(reactVals$pathToTmpFolder,"exercises", input$uploadExercises$name[i]))
+        } else {
+          tdir <- tempfile()
+          dir.create(tdir)
+          owd <- getwd()
+          setwd(tdir)
+          file.copy(input$uploadExercises$datapath[i], input$uploadExercises$name[i])
+          if(fext == "zip") {
+            unzip(input$uploadExercises$name[i], exdir = ".")
+          } else {
+            untar(input$uploadExercises$name[i], exdir = ".")
+          }
+          file.remove(input$uploadExercises$name[i])
+          cf <- dir(tdir)
+          file.copy(cf, file.path(reactVals$pathToTmpFolder, "exercises"), recursive = TRUE)
+          setwd(owd)
+          unlink(tdir)
+        }
+      }
     }
   })
+  
+  
+  
+  
+  
+  
+  
   
   # Observer: Click on Button "Show Preview"
   # TRUE "Show Preview" implies single file selection in "Choose Exercise" and in "Added Exercises"
@@ -185,17 +232,21 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
     reactVals$setPreview = input$previewShow == 1
   })
   
+
   # Observer: Click on "Delete Exercises"
   # one or more exercises should be selected
-  observeEvent(input$deleteAddedExerciseFromList, {
-    rowNumbers = as.vector(input$outputAddedFiles_rows_selected)
-    if(!is.null(rowNumbers)){
-      baseData = reactVals$selectedFiles
-      # the selected exercises are removed
-      baseData = baseData[-rowNumbers,]
-      reactVals$selectedFiles = baseData
-      row.names(reactVals$selectedFiles) = NULL
-    }
+  ## from exams_shiny.R 
+  observeEvent(input$deleteExercises, {
+    id <- input$outputAddedFiles_rows_selected
+    if(length(id)) {
+      ex <- availableExercises()
+      rmfile <- ex[id]
+      if(all(file.exists(file.path(reactVals$pathToTmpFolder,"exercises", rmfile))))
+        file.remove(file.path(reactVals$pathToTmpFolder,"exercises", rmfile))
+      ex <- ex[-id] 
+      reactVals$fileDeleted <- !reactVals$fileDeleted } else {
+        NULL
+      }
   })
   
 
@@ -243,6 +294,8 @@ loadTabServer <- function(id, pathExercisesGiven, pathToFolder, possibleExercise
   # output$outputAddedFiles <- renderDataTable({
   #   reactVals$selectedFiles
   # }, selection = ifelse(reactVals$setPreview,'single','multiple'))
+  
+  
 
   # HTML-Output: the preview of a selected exercise is displayed
   output$player <- renderUI({
