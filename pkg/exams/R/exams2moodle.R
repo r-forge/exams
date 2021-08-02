@@ -168,7 +168,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
 	  f <- basename(exm[[i]][[j]]$supplements[si])
 	  href <- paste0("\"", f,"\"")
-          if(any(grepl(href, question_xml))) {
+          if(any(grepl(href, question_xml, fixed = TRUE))) {
             if(isTRUE(pluginfile)) {
               newfn   <- paste0("@@PLUGINFILE@@/", f)
               newhref <- paste0("\"", newfn,"\"")

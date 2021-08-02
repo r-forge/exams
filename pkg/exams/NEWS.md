@@ -205,6 +205,11 @@
 * Tolerate trailing white spaces in section names for environments like question,
   solution, answerlist, etc. in R/Markdown exercises.
 
+* Bug fix in `exams2moodle()` which did not process `pluginfile` correctly when
+  the supplementary files contained a `+` symbol - as produced by `expar()`
+  temporary files. The latter now also use `_` instead of `+` in the file name.
+  (Reported by Nina Timmesfeld.)
+
 
 # exams 2.3-6
 
