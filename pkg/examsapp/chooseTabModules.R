@@ -3,13 +3,15 @@ library(shinyBS)
 library(DT)
 library(exams)
 library(tth)
+library(tools)
 #library(tidyverse)
 
-## TODO: 
+## TODO Julia Petz: 
 ## - seeds matrix for mixed types: chosen seeds and random seeds
 ## - row reorder for : https://rstudio.github.io/DT/extensions.html, 
 ##   problem in  https://community.rstudio.com/t/getting-the-rowreorder-extension-to-work-in-a-shiny-datatable/71414
 ##   possible solution in https://atchen.me/code/2019/04/09/datatables-rowreorder.html
+
 
 chooseTabUI <- function(id){
   
@@ -25,7 +27,20 @@ chooseTabUI <- function(id){
              fluidRow(
                column(12,
                  fluidRow(
-               column(6,
+               column(6,#textOutput(ns("showReturn")),
+                      fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                               column(4,
+                                      selectInput(ns("examDropDown"), label = "Choose your Exam:", choices = c("make new exam"))
+                               ),
+                               column(4,
+                                      textInput(inputId = ns("examName"), label = "Name of the exam:")
+                                      ),
+                               column(4,align="right",
+                                      actionButton(ns("saveExam"), label = "Save exam", style = 'margin-top:25px')
+                               )
+                      ),
+                      br(),
+                      br(),
                       fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
                       column(12,
                              DT::dataTableOutput(ns("exerciseSelector")),
@@ -40,41 +55,17 @@ chooseTabUI <- function(id){
                column(12,
                       DT::dataTableOutput(ns("choosenExercisesTable"))
                ),
-                fluidRow(style='margin-right:5px',align="right",
+                fluidRow(style='margin:5px',
+                         column(3,align="left",
+                                numericInput(ns("pointsExercise"), label = "Points:", min = 0.1, max = 1000, step = 0.1, value = 1)),
+                         column(3,align="left",style="margin-top: 25px",
+                                actionButton(ns("setPoints"), label = "Set Points")
+                                ),
+                         column(6,align="right",style="margin-top: 15px",
                          actionButton(ns("blockExercises"), label = "Block",style='margin-top:10px'),
                          actionButton(ns("unblockExercises"), label = "Unblock",style='margin-top:10px'),
                          actionButton(ns("deleteExerciseFromList"), label = "Delete Exercise",style='margin-top:10px')
-                        )
-             ),
-             br(),
-             br(),
-            #  fluidRow(
-            #    checkboxInput(ns("arrangeExercises"), label = "arrange the exercises in different exams", value = FALSE),
-               
-            #    conditionalPanel(condition = "input.arrangeExercises == 1",
-            #                     ns = ns,
-            #                     checkboxInput(ns("randomNumbering"), label = "Generate Random Numbering of Exercises")
-            #                     )
-            #  ),
-             fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
-               column(4,
-                      selectInput(ns("examNameDropDown"), label = "Choose your Exam:", choices = c("make new exam"))
-                      ),
-                column(4,                     
-                      conditionalPanel(condition = "input.examNameDropDown == 'make new exam'",
-                                       ns = ns,
-                                      #  tags$head(
-                                      #    tags$style(type="text/css", "#inline label{ display: table-cell; text-align: center; vertical-align: middle; } 
-                                      #                 #inline .form-group { display: table-row;}")
-                                      #  ),
-                                      #tags$div(id = "inline", textInput(inputId = ns("examName"), label = "Name of the exam:"))
-                                      textInput(inputId = ns("examName"), label = "Name of the exam:")
-                                      )
-                      
-               ),
-               column(4,align="right",
-                      actionButton(ns("saveExam"), label = "Save exam", style = 'margin-top:25px')
-                      )
+                        ))
              )
              
            ),
@@ -93,30 +84,23 @@ chooseTabUI <- function(id){
           )))
 }
 
-chooseTabLogic <- function(input, output, session, pathToFolder, possibleExerciseList, selectedExerciseList, seedList){
+chooseTabServer <-function(id, pathToFolder, pathToExams, tabChanged) {
+  stopifnot(is.reactive(pathToFolder))
+  stopifnot(is.reactive(pathToExams))
+  stopifnot(is.reactive(tabChanged))
   
+  moduleServer(id, function(input, output, session) {
+
   ## FS: necessary for renderUI ?!?
   ns <- session$ns
   
   reactVals <- reactiveValues(
     # path to the temporary folder of the user
-    pathToTmpFolder = NULL,
-    # possible exercise list - the exercises selected in the load tab
-    possibleExercises = data.frame(Foldername=character(), Filename=character()),
-    # temporary exam exercises - are already selected but not yet saved 
-    tmpExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric()),
-    # saved exam exercises
-    listExamExercises = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric()),
+    pathToFolderLocal = NULL,
+    # selected or adapted or new exam
+    currentExam = data.frame(File=character(), Number=numeric(), Points=numeric(), Seed=numeric()),
     # counter for the numeration of exercises
     numberExercises = 1,
-    # list for all of the exam names
-    examNames = c("make new exam"),
-    # flag for the selected seed
-    selectedSeed = 0,
-    # flag for random numbering
-    randomNumbering = FALSE,
-    # dataframe to specify for every exam if a random numbering should be executed or not
-    randomNumberingExams = data.frame(Examname=character(), RandomNumber=logical()),
     # list of three seeds, which are stated in the app.R
     seedList = c(),
     # html output of a exercise with seed 1
@@ -127,36 +111,62 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     ex3 = NULL,
     # flag to allow seed selection
     setSeedSelection = FALSE,
-    florian = "Standard"
+    # all available exercises, i.e. all files in or added to tmp/exercises
+    availableExercises = NULL,
+    # all available exams, i.e. all files in or added to tmp/exams
+    availableExams = NULL
   )
+  
+  # ## only for debugging
+  # output$showReturn <- renderText({
+  #      paste("Output:",paste(reactVals$availableExercises[input$exerciseSelector_rows_selected],collapse = "; "))})
+  # 
   
   # Observer to store the parameters given by the function chooseTabLogic(...) in reactive values ##### 
   # using reactive values for the data was in the test cases more convenient and furthermore a
   # standardizesed pattern to call the data is given  
   observe({
-    reactVals$pathToTmpFolder = pathToFolder()
-    reactVals$possibleExercises = possibleExerciseList()
-    reactVals$listExamExercises = selectedExerciseList()
-    reactVals$seedList = seedList()
+    reactVals$pathToFolderLocal = pathToFolder()
+    reactVals$seedList = sample(0L:1e8L,3) #seedList() 
   })
+  
+
+  ## Observe: available exercises, i.e. all files in or added to tmp/exercises
+  observe({
+    e1 <- tabChanged()
+    reactVals$availableExercises  <- getExercises(reactVals$pathToFolderLocal)
+  })
+
+  ## Observe: available exams, i.e. all files in or added to tmp/exams
+  observe({
+    e1 <- tabChanged()
+    e2 <- input$saveExam
+    reactVals$availableExams <- getExams(reactVals$pathToFolderLocal)
+  })
+  
+  ## Oberse: updates the dropdown menu, when new exams are saved or copied into the folder exams
+  observe({
+  updateSelectInput(session, "examDropDown", choices = c("make new exam",tools::file_path_sans_ext(reactVals$availableExams)),selected = input$examName)
+  })
+  
+  
+  ## Reads data from exams json file and updates the numberExercises counter
+  observeEvent(input$examDropDown,{
+    if (input$examDropDown != "make new exam") {
+      reactVals$currentExam <- jsonlite::fromJSON(paste0(file.path(reactVals$pathToFolderLocal,"exams",input$examDropDown),".json"))
+      sapply(c("File","Number","Points","Seed"),function(x) if (!(x %in% colnames(reactVals$currentExam))) reactVals$currentExam[,x] <<- NA)
+      } else  {reactVals$currentExam = data.frame(File=character(), Number=numeric(), Points=numeric(), Seed=numeric()) }
+      
+    reactVals$numberExercises <- if(nrow(reactVals$currentExam)>0) reactVals$currentExam$Number[nrow(reactVals$currentExam)]+1 else 1
+  })
+  
   
   # Observer: Click on Button "New seeds" #####
   observeEvent(input$newSeeds, {
     reactVals$seedList <- sample(0L:1e8L,3)
   })
   
-  ##############
-  # 
-  # observeEvent(input$myButton, {
-  #   reactVals$florian <- paste0("Hallo 2: ",paste(input$chooseSeed, collapse = ", "))
-  # })
-  # 
-  # output$outFlorian <- renderText({ paste0(reactVals$florian) })
-  # 
-  
-  ##############
-  
-  
+
   # Observer: Click on Button "Choose specific seeds" #####
   # TRUE "Choose specific seeds" implies single file selection in "Choose Exercise" and in "Added Exercises"
   observeEvent(input$seedSelection, {
@@ -170,10 +180,12 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     if(length(rowNumbers) > 0){
       for(i in 1:length(rowNumbers)){
         # add the exercise to list, if they are unique
-        #if(!(reactVals$possibleExercises[rowNumbers[i],2] %in% reactVals$tmpExamExercises$Filename)){
-          reactVals$tmpExamExercises = rbind(reactVals$tmpExamExercises, data.frame(Foldername = reactVals$possibleExercises[rowNumbers[i],1],
-                                                                                    Filename = reactVals$possibleExercises[rowNumbers[i],2],
-                                                                                    Number = reactVals$numberExercises, Seed = NA))
+        exfiles <- reactVals$availableExercises[rowNumbers[i]]
+        reactVals$currentExam <- rbind(reactVals$currentExam,
+                                            data.frame(File = exfiles,
+                                                       Number = reactVals$numberExercises,
+                                                       Points = 1,
+                                                       Seed = NA))
           #increment number of exercises
           reactVals$numberExercises = reactVals$numberExercises + 1
         #}
@@ -192,12 +204,13 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     numberChosenSeeds <- length(input$chooseSeed)
     if(numberChosenSeeds > 0){
       for(i in 1:numberChosenSeeds){
-        reactVals$tmpExamExercises <- rbind(reactVals$tmpExamExercises,
-                                        data.frame(Foldername = reactVals$possibleExercises[rowNumbers[1],1],
-                                                   Filename = reactVals$possibleExercises[rowNumbers[1],2],
-                                                   Number = reactVals$numberExercises, 
-                                                   Seed = input$chooseSeed[i]))
-        #increment number of exercises
+        exfiles <- reactVals$availableExercises[rowNumbers[i]]
+        reactVals$currentExam <- rbind(reactVals$currentExam,
+                                       data.frame(File = exfiles,
+                                                  Number = reactVals$numberExercises,
+                                                  Points = 1,
+                                                  Seed = as.numeric(input$chooseSeed[i])))
+
         reactVals$numberExercises = reactVals$numberExercises + 1
       }
     }
@@ -205,9 +218,22 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       #error message if no exercise is selected
       showNotification("You have to choose at least one seed", type = c("error"))
     }
-  
-    
     })
+  
+  
+  # Observer: Click on "Save Exam" 
+  observeEvent(input$saveExam, {
+    req(input$examName)
+    if(!(input$examName %in% tools::file_path_sans_ext(reactVals$availableExams))) {
+      exportJson <- jsonlite::toJSON(reactVals$currentExam)
+      write(exportJson,paste0(reactVals$pathToFolderLocal,"/exams/",input$examName,".json"))
+    }
+    else{
+      showNotification("The name already exists. Please choose another name.",type = c("error"))
+    }
+  })
+  
+  
   
 
   # Observer: Click on "Delete Exercises" #####
@@ -215,154 +241,31 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
   observeEvent(input$deleteExerciseFromList, {
     rowNumbers = as.vector(input$choosenExercisesTable_rows_selected)
     if(!is.null(rowNumbers)){
-      baseData = reactVals$tmpExamExercises
+      baseData = reactVals$currentExam
       # the selected exercises are removed
       baseData = baseData[-rowNumbers,]
-      # updating the numeration of the exercises
-      # the blocking is not deleted
-      for(i in 1:(nrow(baseData)-1)){
-        if((i == 1) && (baseData[i,3] != 1)){
-          baseData$Number = baseData$Number - (baseData[i,3] - 1)
-        }
-        if((baseData[i+1,3]-baseData[i,3])>=2 && (i+1 < (nrow(baseData)-1))){
-          baseData$Number = as.vector(baseData$Number) - c(rep(0,i),rep((baseData[i+1,3]-baseData[i,3]-1),nrow(baseData)-i))
+      # updating the numeration of the exercises, the blocking is not deleted
+      if (nrow(baseData)>0) {
+      if(baseData$Number[1] != 1) baseData$Number = baseData$Number - baseData$Number[1] + 1
+      if (nrow(baseData)>1) {
+      for(i in 2:(nrow(baseData))){
+        if ((baseData$Number[i]-baseData$Number[i-1])>1) {
+          baseData$Number = as.vector(baseData$Number) - c(rep(0,i-1),rep((baseData$Number[i]-baseData$Number[i-1]-1),nrow(baseData)-i+1))
         }
       }
-      reactVals$numberExercises = baseData[nrow(baseData),3]+1
-      reactVals$tmpExamExercises = baseData
-      row.names(reactVals$tmpExamExercises) = NULL
+      }
+      reactVals$currentExam = baseData 
+      reactVals$numberExercises = baseData$Number[nrow(baseData)]+1
+      } else {
+        ## if all exercises have been deleted
+        reactVals$currentExam <- data.frame(File=character(), Number=numeric(), Points=numeric(), Seed=numeric())
+        reactVals$numberExercises <- 1
+        }
+      row.names(reactVals$currentExam) = NULL
     }
   })
   
 
-  # Seed preview: all-in-one solution #####
-
-  
-  file2htmlOutput <- function(file,seed=0) {
-    tmpFilename <- paste0("preview",seed)
-    # generating the html-outputs of the exercise
-    fromFile = file.path(reactVals$pathToTmpFolder,"exercises", file)
-    toFile = file.path(reactVals$pathToTmpFolder, "tmp")
-    fileDest = file.path(reactVals$pathToTmpFolder, "tmp", file)
-    file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
-    fileHTML <- try(exams2html(fileDest, n = 1, name = tmpFilename, dir = file.path(reactVals$pathToTmpFolder, "tmp"), 
-                                    edir = file.path(reactVals$pathToTmpFolder, "tmp"), seed=seed, solution=FALSE,
-                                    base64 = TRUE, mathjax = TRUE), silent = TRUE)
-    
-    if(!inherits(fileHTML, "try-error")){
-      hf = paste0(tmpFilename,"1.html")
-      html = readLines(file.path(reactVals$pathToTmpFolder, "tmp", hf))
-      n = c(which(html == "<body>"), length(html))
-      html = c(
-        html[1L:n[1L]],                  ## header
-        '<div style="border: 1px solid #5e5e5e;border-radius:5px;padding:8px;margin:8px">', ## border
-        html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
-        '</div>', '</br>',               ## border
-        html[(n[2L] - 1L):(n[2L])]       ## footer
-      )
-      writeLines(html, file.path(reactVals$pathToTmpFolder, "tmp", hf))
-      return(includeHTML(file.path(reactVals$pathToTmpFolder, "tmp", hf)))
-    }
-    else {
-      return(HTML(paste('<div>', fileHTML, '</div>')))
-    }
-  }
-  
-  # Output: HTML Output of exercises with seeds
-  
-  output$playerSeed <- renderUI({
-    rowNumber = input$exerciseSelector_rows_selected
-    if(length(rowNumber)!=1){
-      tagList(br(),p("Please select an exercise!"))
-      #showNotification("Please select only one exercise!", type = c("error"))
-    } else {
-    selectedRow = reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],]
-    file <- selectedRow$Filename
-    tagList(
-      fluidRow(
-        column(12,br(),        
-               checkboxGroupInput(ns("chooseSeed"), "Choose seed:",
-                                  choiceNames =
-                                    list(file2htmlOutput(file,seed = reactVals$seedList[1]),
-                                         file2htmlOutput(file,seed = reactVals$seedList[2]),
-                                         file2htmlOutput(file,seed = reactVals$seedList[3])),
-                                  choiceValues =
-                                    list(reactVals$seedList[1], reactVals$seedList[2], reactVals$seedList[3]),width='100%')
-               # div(checkboxInput("cbSeed1", file2htmlOutput(file,seed = 2),width='100%'),style='max-height: 250px;overflow-y: auto;'),
-               # div(checkboxInput("cbSeed2", file2htmlOutput(file,seed = 20),width='100%'),style='max-height: 250px;overflow-y: auto;'),
-               # div(checkboxInput("cbSeed3", file2htmlOutput(file,seed = 200),width='100%'),style='max-height: 250px;overflow-y: auto;'),
-               # 
-        )))
-    }
-    })
-  
-
-
-  # Observer: Click on "Save Exam" #####
-  # either a new exam is generated or a existing exam is overwritten with the new exercises, points, blockings...
-  # it is stored in a datatable
-  observeEvent(input$saveExam, {
-    # a existing exam is selected
-    if(input$examNameDropDown != "make new exam"){
-      reactVals$listExamExercises = reactVals$listExamExercises[!(reactVals$listExamExercises$ExamName %in% input$examNameDropDown),]
-      ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
-      Points = rep(0, nrow(reactVals$tmpExamExercises))
-      reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
-    }
-    # a new exam is generated - name must be unique
-    else{
-      req(input$examName)
-      if(!(input$examName %in% reactVals$examNames)){
-        reactVals$examNames = c(reactVals$examNames, input$examName)
-        ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
-        Points = rep(0, nrow(reactVals$tmpExamExercises))
-        reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
-        
-        # updating the Drop Down List with the new exam name
-        updateSelectInput(session, "examNameDropDown", choices = reactVals$examNames, selected = input$examName)
-        updateTextInput(session, "examName", value = "")
-      }
-      else{
-        showNotification("The name already exists. Please choose another name or select the Exam in the Drop Down List.",type = c("error"))
-      }
-    }
-  })
-
-  # observeEvent(input$saveExam, {
-  #   # a existing exam is selected
-  #   if(input$examNameDropDown != "make new exam"){
-  #     reactVals$listExamExercises = reactVals$listExamExercises[!(reactVals$listExamExercises$ExamName %in% input$examNameDropDown),]
-  #     ExamName = rep(input$examNameDropDown, nrow(reactVals$tmpExamExercises)) 
-  #     Points = rep(0, nrow(reactVals$tmpExamExercises))
-  #     reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
-  #     if(input$examNameDropDown %in% reactVals$randomNumberingExams$Examname){
-  #       reactVals$randomNumberingExams[which(reactVals$randomNumberingExams$Examname == input$examNameDropDown), 2] = input$randomNumbering
-  #     }
-  #     else{
-  #       reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examNameDropDown, RandomNumber=input$randomNumbering))
-  #     }
-  #     print(reactVals$randomNumberingExams)
-  #   }
-  #   # a new exam is generated - name must be unique
-  #   else{
-  #     req(input$examName)
-  #     if(!(input$examName %in% reactVals$examNames)){
-  #       reactVals$examNames = c(reactVals$examNames, input$examName)
-  #       ExamName = rep(input$examName, nrow(reactVals$tmpExamExercises)) 
-  #       Points = rep(0, nrow(reactVals$tmpExamExercises))
-  #       reactVals$listExamExercises = rbind(reactVals$listExamExercises, cbind(reactVals$tmpExamExercises, ExamName, Points))
-  #       reactVals$randomNumberingExams = rbind(reactVals$randomNumberingExams, data.frame(Examname=input$examName, RandomNumber=input$randomNumbering))
-  #       print(reactVals$randomNumberingExams)
-        
-  #       # updating the Drop Down List with the new exam name
-  #       updateSelectInput(session, "examNameDropDown", choices = reactVals$examNames, selected = input$examName)
-  #       updateTextInput(session, "examName", value = "")
-  #     }
-  #     else{
-  #       showNotification("The name already exists. Please choose another name or select the Exam in the Drop Down List.",type = c("error"))
-  #     }
-  #   }
-  # })
   
   # function inserts a row into a existing dataframe on given rownumber #####
   # @param existingDF: existing Dataframe
@@ -389,11 +292,11 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     reactVals$numberExercises = reactVals$numberExercises - (len-1)
     if(len >= 2){
       # tmp dataframe; blocked exercises are deleted (but not first selected exercises <- orientation point)
-      baseData = reactVals$tmpExamExercises[-rowNumbers[2:len],]
+      baseData = reactVals$currentExam[-rowNumbers[2:len],]
       # tmp dataframe for the blocked exercises
-      blockExercises = reactVals$tmpExamExercises[rowNumbers[2:len],]
+      blockExercises = reactVals$currentExam[rowNumbers[2:len],]
       # blocked exercises get the lowest exercise number
-      blockExercises$Number = rep(baseData[rowNumbers[1],3],len-1)
+      blockExercises$Number = rep(baseData$Number[rowNumbers[1]],len-1)
       # insert the rows to dataframe
       for(i in 1:(len-1)){
         baseData = insertRow(baseData, blockExercises[i,], rowNumbers[1]+i)
@@ -402,15 +305,15 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
       # check the numbering of the exam exercises
       for(i in 1:(nrow(baseData)-1)){
         # adopt the numbering of the exercises by subtracting the difference of two following elements
-        if((i == 1) && (baseData[i,3] != 1)){
+        if((i == 1) && (baseData$Number[i] != 1)){
           baseData$Number = baseData$Number - (baseData[i,3] - 1)
         }
-        if((baseData[i+1,3]-baseData[i,3])>=2){
-          baseData$Number = as.vector(baseData$Number) - c(rep(0,i),rep((baseData[i+1,3]-baseData[i,3]-1),nrow(baseData)-i))
+        if((baseData$Number[i+1]-baseData$Number[i])>=2){
+          baseData$Number = as.vector(baseData$Number) - c(rep(0,i),rep((baseData$Number[i+1]-baseData$Number[i]-1),nrow(baseData)-i))
         }
       }
-      reactVals$tmpExamExercises = baseData
-      row.names(reactVals$tmpExamExercises) = NULL
+      reactVals$currentExam = baseData
+      row.names(reactVals$currentExam) = NULL
     }
     # error message if no exercise or only one exercise is selected
     else{
@@ -425,16 +328,16 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     rowNumbers = sort(as.vector(input$choosenExercisesTable_rows_selected))
     len = length(rowNumbers)
     if(len >= 2){
-      baseData = reactVals$tmpExamExercises
+      baseData = reactVals$currentExam
       # check if only blocked exercises are selected
-      if(length(unique(baseData[rowNumbers,3])) == 1){
+      if(length(unique(baseData$Number[rowNumbers])) == 1){
         # compute vector to add to numeration of exercises
         for(i in 2:len){
           baseData$Number = baseData$Number + c(rep(0,rowNumbers[i]-1),rep(1,nrow(baseData)-rowNumbers[i]+1))
         }
-        reactVals$numberExercises = baseData[nrow(baseData),3]+1
-        reactVals$tmpExamExercises = baseData
-        row.names(reactVals$tmpExamExercises) = NULL
+        reactVals$numberExercises = baseData$Number[nrow(baseData)]+1
+        reactVals$currentExam = baseData
+        row.names(reactVals$currentExam) = NULL
       }
       # error message if not blocked exercises are selected
       else{
@@ -447,25 +350,119 @@ chooseTabLogic <- function(input, output, session, pathToFolder, possibleExercis
     }
   })
   
-  # Table-Output: possible exercises (pre-selected exercises from load tab) #####
+  
+  # Observer: Click on "Set Points"
+  # the points from the numeric input are assigned to the selected exercises
+  # blocked exercises get automatically the same amount of points, even if they are not all selected
+  observeEvent(input$setPoints, {
+    req(input$pointsExercise)
+    if(is.null(input$pointsExercise) || !is.numeric(input$pointsExercise)){
+      showNotification("Please enter a positive number as points.", type = c("error"))
+    }
+    else{
+      rowNumbers = as.vector(input$choosenExercisesTable_rows_selected)
+      if(length(rowNumbers)>0){
+        tmpNumberExercises = reactVals$currentExam$Number[rowNumbers]
+        rowNumbersUpdate = which(reactVals$currentExam$Number %in% tmpNumberExercises)
+        reactVals$currentExam$Points[rowNumbersUpdate] = rep(as.numeric(input$pointsExercise),length(rowNumbersUpdate))
+      }
+      else{
+        showNotification("Please choose at least one exercise.", type = c("error"))
+      }
+    }
+  })
+  
+  ################### OUTPUT
+  
+  # Table-Output: All exercises in folder: exercises
   output$exerciseSelector <- renderDataTable({
-    reactVals$possibleExercises
+    exfiles <- reactVals$availableExercises
+    reactVals$possibleExercises <- data.frame("Folder" = dirname(exfiles), "File" = basename(exfiles))
+    return(reactVals$possibleExercises)
   }, selection = ifelse(reactVals$setSeedSelection,'single','multiple'))
   
+ 
   # Table-Output: selected exercises (including numeration and blocking) #####
   output$choosenExercisesTable <- DT::renderDataTable({
-    reactVals$tmpExamExercises[,c("Foldername","Filename","Number","Seed")]}
+    data.frame("Folder" = dirname(reactVals$currentExam$File), 
+               "File" = basename(reactVals$currentExam$File),
+               "Number" = reactVals$currentExam$Number,
+               "Points" = reactVals$currentExam$Points,
+               "Seed" = reactVals$currentExam$Seed)}
     # editable = TRUE, 
     # rownames = TRUE,
     # extensions = 'RowReorder',
     # options = list(order = list(list(0, 'asc')),rowReorder = TRUE)
   )
+  
+  
+  
+  # Seed preview: all-in-one solution #####
+  file2htmlOutput <- function(file,seed=0) {
+    tmpFilename <- paste0("preview",seed)
+    # generating the html-outputs of the exercise
+    # fromFile = file.path(reactVals$pathToFolderLocal,"exercises", file)
+    # toFile = file.path(reactVals$pathToFolderLocal, "tmp")
+    # fileDest = file.path(reactVals$pathToFolderLocal, "tmp", file)
+    # file.copy(from=fromFile, to=toFile, overwrite = TRUE, recursive = FALSE, copy.mode = TRUE)
+    
+    fileDest <- file
+    fileHTML <- try(exams2html(fileDest, n = 1, name = tmpFilename, dir = file.path(reactVals$pathToFolderLocal, "tmp"), 
+                               edir = file.path(reactVals$pathToFolderLocal, "tmp"), seed=seed, solution=FALSE,
+                               base64 = TRUE, mathjax = TRUE), silent = TRUE)
+    
+    if(!inherits(fileHTML, "try-error")){
+      hf = paste0(tmpFilename,"1.html")
+      html = readLines(file.path(reactVals$pathToFolderLocal, "tmp", hf))
+      n = c(which(html == "<body>"), length(html))
+      html = c(
+        html[1L:n[1L]],                  ## header
+        '<div style="border: 1px solid #5e5e5e;border-radius:5px;padding:8px;margin:8px">', ## border
+        html[(n[1L] + 5L):(n[2L] - 6L)], ## exercise body (omitting <h2> and <ol>)
+        '</div>', '</br>',               ## border
+        html[(n[2L] - 1L):(n[2L])]       ## footer
+      )
+      writeLines(html, file.path(reactVals$pathToFolderLocal, "tmp", hf))
+      return(includeHTML(file.path(reactVals$pathToFolderLocal, "tmp", hf)))
+    }
+    else {
+      return(HTML(paste('<div>', fileHTML, '</div>')))
+    }
+  }
+  
+  # Output: HTML Output of exercises with seeds
+  
+  output$playerSeed <- renderUI({
+    rowNumber = input$exerciseSelector_rows_selected
+    if(length(rowNumber)!=1){
+      tagList(br(),p("Please select an exercise!"))
+      #showNotification("Please select only one exercise!", type = c("error"))
+    } else {
+      # selectedRow = reactVals$possibleExercises[input$exerciseSelector_rows_selected[1],]
+      # file <- selectedRow$Filename
+      selectedFile <- reactVals$availableExercises[input$exerciseSelector_rows_selected]
+      ## hier weiter
+      fileDest = file.path(reactVals$pathToFolderLocal, "exercises", selectedFile)
+      tagList(
+        fluidRow(
+          column(12,br(),        
+                 checkboxGroupInput(ns("chooseSeed"), "Choose seed:",
+                                    choiceNames =
+                                      list(file2htmlOutput(fileDest,seed = reactVals$seedList[1]),
+                                           file2htmlOutput(fileDest,seed = reactVals$seedList[2]),
+                                           file2htmlOutput(fileDest,seed = reactVals$seedList[3])),
+                                    choiceValues =
+                                      list(reactVals$seedList[1], reactVals$seedList[2], reactVals$seedList[3]),width='100%')
+                 # div(checkboxInput("cbSeed1", file2htmlOutput(file,seed = 2),width='100%'),style='max-height: 250px;overflow-y: auto;'),
+                 # div(checkboxInput("cbSeed2", file2htmlOutput(file,seed = 20),width='100%'),style='max-height: 250px;overflow-y: auto;'),
+                 # div(checkboxInput("cbSeed3", file2htmlOutput(file,seed = 200),width='100%'),style='max-height: 250px;overflow-y: auto;'),
+                 # 
+          )))
+    }
+  })
+  
+  
 
   
-  # Return-Value of the module  #####
-  # the saved exams (dataframe) will be returned
-  return(
-    listExamExercises = reactive({reactVals$listExamExercises})#,
-    #randomNumbering = reactive({reactVals$randomNumberingExams})
-  )
+})
 }

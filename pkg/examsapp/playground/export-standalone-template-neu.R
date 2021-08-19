@@ -9,7 +9,7 @@ list.files("templates",full.names = T,recursive = T)
 
 
 ##############
-exportFormatInput <- function(id) {
+exportFormatUI <- function(id) {
   uiOutput(NS(id, "exportFormatSelection"))
 }
 exportFormatServer <- function(id) {
@@ -354,7 +354,7 @@ examsExportApp <- function() {
   ui <- fluidPage(
     sidebarLayout(
       sidebarPanel(
-        exportFormatInput("exportFormat"),
+        exportFormatUI("exportFormat"),
         examsArgumentUI("examsArgument")
       ),
       mainPanel(
@@ -470,7 +470,7 @@ examsExportAppTest <- function() {
 
 exportFormatApp <- function() {
   ui <- fluidPage(column(4,
-                         exportFormatInput("exportFormat"),
+                         exportFormatUI("exportFormat"),
                          examsArgumentUI("examsArgument")),
                   column(4,
                          examsTemplateUI("examsTemplate")),

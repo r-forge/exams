@@ -245,6 +245,7 @@ examsTemplateServer <- function(id, exportFormat) {
 ##
 exportFormatApp <- function() {
   ui <- fluidPage(column(4,
+                         verbatimTextOutput("showReturnDebug"),
                          fluidPage(exportFormatInput("exportFormat")),
                          examsTemplateUI("examsTemplate"),
                          fluidPage(examsArgumentUI("examsArgument"))),
@@ -271,6 +272,8 @@ exportFormatApp <- function() {
     })
 
     output$showReturn <- renderPrint(print(fullArgument()))
+    
+    output$showReturnDebug <- renderPrint(print(exportFormat()$command))
 
     
   }
