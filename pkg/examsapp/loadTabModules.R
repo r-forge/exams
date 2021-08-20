@@ -5,7 +5,6 @@ library(tth)
 
 ## FIXME: clicking to fast results in an infinity loop jumping between selected exercises 
 ## TODO: delete empty folders in exercises
-## TODO: do not show subfolders in "Choose exercises" table
 
 loadTabUI <- function(id){
   
