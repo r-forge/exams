@@ -13,49 +13,53 @@ loadTabUI <- function(id){
   tabPanel("Load Exercises",
    # tags$head(tags$style(HTML(".checkbox {margin-left:15px}"))),
     tagList(
-      fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
-        ## FS: Option shinyTree
-        column(6,#textOutput(ns("showReturn")),
-               DT::dataTableOutput(ns("folderSelector"))
+      fluidRow(column(12,style='margin:5px; padding:10px; padding-top: 15px;',
+                      p("Add exercises from your local storage or from the exercises repository to your project."))),
+      fluidRow(
+        column(6,
+               fluidRow(style='margin-left:-10px;margin-right:-10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                               p("Import exercises in", strong('.Rnw'), ",", strong(".Rmd"),
+                                 "format, also provided as", strong(".zip"), "or", strong(".tar.gz"), "files from your local storage!"),
+                               fileInput(ns("uploadExercises"), NULL, multiple = TRUE,
+                                         accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz",
+                                                    "jpg", "JPG", "png", "PNG"))
+               ),
+               br(),
+               br(),
+               fluidRow(style='margin:-10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                        p("Choose exercises from the",strong("exercises repository")," and add them to your project."),br(),
+                        ## FS: Option shinyTree
+                        column(6,#textOutput(ns("showReturn")),
+                               DT::dataTableOutput(ns("folderSelector"))
+                        ),
+                        column(6,
+                               DT::dataTableOutput(ns("fileSelector"))
+                               ),
+                        column(12,align="right",
+                               actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)",style='margin-top:10px')
+                        )
+               )
         ),
         column(6,
-               DT::dataTableOutput(ns("fileSelector")),
-               align="right",
-               actionButton(ns("addExcerciseToList"), label = "Add Exercise(s)",style='margin-top:10px')
+               fluidRow(style='margin-left:-10px;margin-right:-10px; padding:-10px; padding-top: 15px;padding-bottom: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                        column(12,
+                               p("Added exercise(s) to your project."),
+                               column(12,DT::dataTableOutput(ns("outputAddedFiles"))),
+                                                br(),
+                                                column(12,align="right",actionButton(ns("deleteExercises"), label = "Delete Exercise",style='margin-top:10px'))
+                               )
+               ),
+               br(),
+               fluidRow(style='margin-left:-10px;margin-right:-10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+               column(12,
+                      checkboxInput(ns("previewShow"), label = "Show Preview (implies single file selection)", value = FALSE),
+                      uiOutput(ns("player"), inline = TRUE, container = div)
+               ))
         )
       ),
       br(),
       br(),
-      fluidRow(
-        column(6,
-          fluidRow(column(12,style='margin: 5px; border: 2px solid #5e5e5e; border-radius: 5px;',checkboxInput(ns("loadSingleFile"), label = "Load exercise from local storage"),
-                   conditionalPanel(condition = "input.loadSingleFile == 1",
-                                    ns = ns,
-                                    column(12,
-                                           fileInput(ns("uploadExercises"), NULL, multiple = TRUE,
-                                                     accept = c("text/Rnw", "text/Rmd", "text/rnw", "text/rmd", "zip", "tar.gz",
-                                                                "jpg", "JPG", "png", "PNG"))
-                                    )
-                                    
-                   ))),
-          fluidRow(column(12,style='margin: 5px; padding:5px; border: 2px solid #5e5e5e; border-radius: 5px;',
-               checkboxInput(ns("addedExerciseShow"), label = "Show added exercise(s)", value = TRUE),
-               conditionalPanel(condition = "input.addedExerciseShow == 1",
-                                ns = ns,
-                                column(12,DT::dataTableOutput(ns("outputAddedFiles"))),
-                                br(),
-                                column(12,align="right",actionButton(ns("deleteExercises"), label = "Delete Exercise",style='margin-top:10px'))
-               )
-               ))
-          ),
-        column(6,
-               
-               column(12,style='margin: 5px; padding:5px; border: 2px solid #5e5e5e; border-radius: 5px;',
-                     checkboxInput(ns("previewShow"), label = "Show Preview (implies single file selection)", value = TRUE),
-                     uiOutput(ns("player"), inline = TRUE, container = div)
-               )
-        )
-    )
+
   )
   )
 }
@@ -221,7 +225,7 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
     }
     # showing all of the exercises from selected folder
     else{
-      reactVals$currentFiles <- list.files(path=file.path(reactVals$pathToExercisesGivenLocal,reactVals$currentFolder),full.names = T)
+      reactVals$currentFiles <- setdiff(list.files(path=file.path(reactVals$pathToExercisesGivenLocal,reactVals$currentFolder),full.names = T),list.dirs(path=file.path(reactVals$pathToExercisesGivenLocal,reactVals$currentFolder),full.names = T))
       m = matrix(basename(reactVals$currentFiles))
       colnames(m) = c("Choose exercises")
       return(m)

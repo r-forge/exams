@@ -302,28 +302,33 @@ exportTabUI <- function(id){
   ns <- NS(id)
   tabPanel("Export",
            tagList(
-             fluidPage(
+             fluidRow(column(12,style='margin:5px; padding:10px; padding-top: 15px;',
+                             p("Select an existing exams, choose the output format and select the available settings."))),
              fluidRow(
-                       column(2,
+                       column(2,style='margin:10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e;border-radius: 5px;',
                               selectInput(ns("examDropDown"), label = "Select an Exam: ", choices = c("---")),
                               exportFormatUI(ns("exportFormat")),
                               br(),
-                              strong("Template and options:"),
+                              p("Template and options:"),
+                              br(),
                               examsTemplateUI(ns("examsTemplate"))
                               ),
-                       column(2,
-                              strong("exams Arguments:"),
+                       column(2,style='margin:10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e;border-radius: 5px;',
                               examsArgumentUI(ns("examsArgument"))
                               ),
-                       column(8,
+                       column(6,style='margin:10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e;border-radius: 5px;',
+                              p("Generate the exam with the selected settings."),
                               actionButton(ns("compile"), label = "Compile"),
-                              checkboxGroupInput(ns("additionalDocs"), label = "Download additional documents: ", inline = TRUE, choices = c("Exercises","Template","R Code")),
+                              br(),
+                              br(),
+                              checkboxGroupInput(ns("additionalDocs"), label = "Choose additional documents for the download: ", inline = TRUE, choices = c("Exercises","Template","R Code")),
                               verbatimTextOutput(ns("compiledExams")),
                               downloadButton(ns("downloadExam"), label = "Download Exam (.zip)"),
+                              br(),
+                              br(),
                               verbatimTextOutput(ns("showReturn")),
                               
                               )
-             )
              )
            )
   )

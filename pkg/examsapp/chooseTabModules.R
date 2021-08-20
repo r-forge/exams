@@ -24,61 +24,65 @@ chooseTabUI <- function(id){
               }
            '))),
            tagList(
+             fluidRow(column(12,style='margin:5px; padding:10px; padding-top: 15px;',
+                             p("Select an existing exams or save a new exams after selecting the exercises."))),
+             fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                      column(4,
+                             selectInput(ns("examDropDown"), label = "Choose your Exam:", choices = c("make new exam"))
+                      ),
+                      column(6,align="right",
+                             textInput(inputId = ns("examName"), label = "Name of the exam:")
+                      ),
+                      column(2,align="right",
+                             actionButton(ns("saveExam"), label = "Save exam", style = 'margin-top:25px')
+                      )
+             ),
+             br(),
+             br(),
              fluidRow(
                column(12,
                  fluidRow(
                column(6,#textOutput(ns("showReturn")),
                       fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
-                               column(4,
-                                      selectInput(ns("examDropDown"), label = "Choose your Exam:", choices = c("make new exam"))
-                               ),
-                               column(4,
-                                      textInput(inputId = ns("examName"), label = "Name of the exam:")
-                                      ),
-                               column(4,align="right",
-                                      actionButton(ns("saveExam"), label = "Save exam", style = 'margin-top:25px')
-                               )
-                      ),
-                      br(),
-                      br(),
-                      fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
                       column(12,
+                             p("Choose exercises and add them to your exam."),
                              DT::dataTableOutput(ns("exerciseSelector")),
                              fluidRow(style='margin-right:5px',align="right",
-                                      conditionalPanel(condition = "input.seedSelection == 0",ns = ns,actionButton(ns("addExerciseToList"), label = "Add to list ",style='margin-top:10px')),
-                                      conditionalPanel(condition = "input.seedSelection == 1",ns = ns,actionButton(ns("addExerciseWithSeedToList"), label = "Add to list with seed",style='margin-top:10px'))
+                                      conditionalPanel(condition = "input.seedSelection == 0",ns = ns,actionButton(ns("addExerciseToList"), label = "Add to exam ",style='margin-top:10px')),
+                                      conditionalPanel(condition = "input.seedSelection == 1",ns = ns,actionButton(ns("addExerciseWithSeedToList"), label = "Add to exam with seed",style='margin-top:10px'))
                       ))
              ),
              br(),
              br(),
-             fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
-               column(12,
-                      DT::dataTableOutput(ns("choosenExercisesTable"))
-               ),
-                fluidRow(style='margin:5px',
-                         column(3,align="left",
-                                numericInput(ns("pointsExercise"), label = "Points:", min = 0.1, max = 1000, step = 0.1, value = 1)),
-                         column(3,align="left",style="margin-top: 25px",
-                                actionButton(ns("setPoints"), label = "Set Points")
-                                ),
-                         column(6,align="right",style="margin-top: 15px",
-                         actionButton(ns("blockExercises"), label = "Block",style='margin-top:10px'),
-                         actionButton(ns("unblockExercises"), label = "Unblock",style='margin-top:10px'),
-                         actionButton(ns("deleteExerciseFromList"), label = "Delete Exercise",style='margin-top:10px')
-                        ))
+             fluidRow(style='margin:-10px; padding:15px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
+                      checkboxInput(ns("seedSelection"), label = "Choose specific seeds (implies single file selection)",width = "100%"),
+                      #                actionButton(ns("myButton"), label = "My  Button"),verbatimTextOutput(ns("outFlorian"), placeholder = T),
+                      conditionalPanel(condition = "input.seedSelection == 1",
+                                       ns = ns, actionButton(ns("newSeeds"), label = "New Seeds")),
+                      conditionalPanel(condition = "input.seedSelection == 1",
+                                       ns = ns, uiOutput(ns("playerSeed"), inline = TRUE, container = div))
+                      
              )
-             
            ),
            column(6,
                   fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
-                   checkboxInput(ns("seedSelection"), label = "Choose specific seeds (implies single file selection)",width = "100%"),
-   #                actionButton(ns("myButton"), label = "My  Button"),verbatimTextOutput(ns("outFlorian"), placeholder = T),
-                   conditionalPanel(condition = "input.seedSelection == 1",
-                                    ns = ns, actionButton(ns("newSeeds"), label = "New Seeds")),
-                  conditionalPanel(condition = "input.seedSelection == 1",
-                                   ns = ns, uiOutput(ns("playerSeed"), inline = TRUE, container = div))
-                  
-               ))
+                           column(12,
+                                  p(strong("Block")," exercises and ",strong("set")," points."),
+                                  DT::dataTableOutput(ns("choosenExercisesTable"))
+                           ),
+                           fluidRow(style='margin:5px',
+                                    column(3,align="left",
+                                           numericInput(ns("pointsExercise"), label = "Points:", min = 0.1, max = 1000, step = 0.1, value = 1)),
+                                    column(3,align="left",style="margin-top: 25px",
+                                           actionButton(ns("setPoints"), label = "Set Points")
+                                    ),
+                                    column(6,align="right",style="margin-top: 15px",
+                                           actionButton(ns("blockExercises"), label = "Block",style='margin-top:10px'),
+                                           actionButton(ns("unblockExercises"), label = "Unblock",style='margin-top:10px'),
+                                           actionButton(ns("deleteExerciseFromList"), label = "Delete Exercise",style='margin-top:10px')
+                                    ))
+                  )
+                 )
           )
            )
           )))
