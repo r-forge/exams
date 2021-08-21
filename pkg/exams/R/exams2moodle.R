@@ -465,7 +465,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 
         ## formatted number (of a wrong solution to enforce the width)
         fnum <- if(is.logical(numwidth)) {
-          format(as.numeric(nums))
+          gsub(" ", "", format(as.numeric(nums)), fixed = TRUE)
         } else if(is.character(numwidth)) {
 	  numwidth
 	} else {
