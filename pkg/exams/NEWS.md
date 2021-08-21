@@ -127,7 +127,7 @@
     provided. Generally, warnings have been improved. In particular, it is now
     checked whether the question list contains duplicated items for
     single-choice and multiple-choice exercises.
-  - For cloze exercises with ##ANSWERi## placeholders it is checked that all
+  - For cloze exercises with `##ANSWERi##` placeholders it is checked that all
     necessary placeholders occur exactly once. Otherwise a warning is issued
     about missing and/or duplicated placeholders.
 
@@ -153,8 +153,8 @@
   `##ANSWERi##` tags. The formatting of the question in that case is improved and the
   question list is not displayed anymore - analogously to `exams2html()`.
 
-* Bug fix for pandoc-based HTML conversion of LaTeX equations containing \not. 
-  These are now converted to \neq, \nless, \ngtr, \nleq, \ngeq which are handled
+* Bug fix for pandoc-based HTML conversion of LaTeX equations containing `\not`. 
+  These are now converted to `\neq`, `\nless`, `\ngtr`, `\nleq`, `\ngeq` which are handled
   by pandoc correctly. Notably, this affects exercise template `cholesky.Rmd`.
 
 * The `extol` metainformation is now enforced to be non-negative in `read_metainfo()`.
