@@ -1,5 +1,4 @@
-{ "name": "exams2pdf",
-  "command": "exams2pdf",
+{ "command": "exams2pdf",
   "argument": {
     "n": {
       "description": "The number of copies to be compiled from file",
