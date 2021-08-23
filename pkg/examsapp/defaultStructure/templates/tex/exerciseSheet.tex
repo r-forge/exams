@@ -1,0 +1,76 @@
+\documentclass[11pt,a4paper,parskip=half]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{mathrsfs,siunitx,listings,xintexpr,graphics,enumitem}
+
+
+% \documentclass[11pt,a4paper,parskip=half-]{scrartcl}
+% \usepackage[utf8]{inputenc}
+% \usepackage[ngerman]{babel}
+% \usepackage[T1]{fontenc}
+
+%% packages
+
+\usepackage{a4wide,color,verbatim,url,xargs,amsmath}
+%Sweave verhindert bold textsc
+
+\usepackage{geometry}
+\geometry{a4paper,left=20mm,right=15mm, top=15mm, bottom=25mm}
+
+%% new environments
+\newenvironment{question}{\item}{}
+\newenvironment{solution}{\comment}{\endcomment}
+\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+
+
+%% new commands
+\makeatletter
+\newcommand{\Description}[1]{\def\@Description{#1}}
+\newcommand{\Date}[1]{\def\@Date{#1}}
+\newcommand{\Subject}[1]{\def\@Subject{#1}}
+\newcommand{\Semester}[1]{\def\@Semester{#1}}
+
+\Description{00001}
+\Date{YYYY-MM-DD}
+\Subject{000}
+\Semester{000}
+
+%% \exinput{header}
+
+\newcommand{\myDescription}{\@Description}
+\newcommand{\myDate}{\@Date}
+\newcommand{\mySubject}{\@Subject}
+\newcommand{\mySemester}{\@Semester}
+\makeatother
+
+% %% headings
+% \markboth{\textnormal{\bf \large Statistics Exam: \myDescription}}%
+% {\textnormal{\bf \large Statistics Exam: \myDescription}}
+% \pagestyle{myheadings}
+
+
+\newcommand{\myheader}[2]{
+{\large \hrule \vskip-0.3em
+    \textbf{\textsc{\mySubject}} \hfill \textsc{\mySemester}
+    \\
+    \textsc{#1} \hfill \textsc{#2}
+    \\[-1em]\hrule\vskip0cm\normalfont}
+\noindent
+}
+
+
+\begin{document}
+
+\myheader{\myDescription}{\myDate}
+
+%% title page
+\thispagestyle{empty}
+
+\begin{enumerate}[label=(\arabic*)]
+%% \exinput{exercises}
+
+\end{enumerate}
+
+\end{document}
