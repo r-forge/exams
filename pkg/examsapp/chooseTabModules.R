@@ -41,7 +41,8 @@ chooseTabUI <- function(id){
              fluidRow(
                column(12,
                  fluidRow(
-               column(6,#textOutput(ns("showReturn")),
+               column(6,
+                      #verbatimTextOutput(ns("showReturn")),
                       fluidRow(style='margin:-10px; padding:5px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
                       column(12,
                              p("Choose exercises and add them to your exam."),
@@ -123,6 +124,8 @@ chooseTabServer <-function(id, pathToFolder, tabChanged) {
   # output$showReturn <- renderText({
   #      paste("Output:",paste(reactVals$availableExercises[input$exerciseSelector_rows_selected],collapse = "; "))})
   # 
+  #output$showReturn <-renderPrint(print(reactVals$currentExam))
+ 
   
   # Observer to store the parameters given by the function chooseTabLogic(...) in reactive values ##### 
   # using reactive values for the data was in the test cases more convenient and furthermore a
@@ -202,11 +205,12 @@ chooseTabServer <-function(id, pathToFolder, tabChanged) {
   # Observer: Click on Button "Add to list with seed" #####
   # the exercise(s) are added to the temporary exam list and the chosen seed is listed
   observeEvent(input$addExerciseWithSeedToList,{
-    rowNumbers = input$exerciseSelector_rows_selected
+    ## only one exercises is selected
+    rowNumber = input$exerciseSelector_rows_selected
     numberChosenSeeds <- length(input$chooseSeed)
     if(numberChosenSeeds > 0){
       for(i in 1:numberChosenSeeds){
-        exfiles <- reactVals$availableExercises[rowNumbers[i]]
+        exfiles <- reactVals$availableExercises[rowNumber]
         reactVals$currentExam <- rbind(reactVals$currentExam,
                                        data.frame(File = exfiles,
                                                   Number = reactVals$numberExercises,

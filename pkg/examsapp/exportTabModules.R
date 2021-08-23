@@ -324,9 +324,9 @@ exportTabUI <- function(id){
                               checkboxGroupInput(ns("additionalDocs"), label = "Choose additional documents for the download: ", inline = TRUE, choices = c("Exercises","Template","R Code")),
                               verbatimTextOutput(ns("compiledExams")),
                               downloadButton(ns("downloadExam"), label = "Download Exam (.zip)"),
-                              br(),
-                              br(),
-                              verbatimTextOutput(ns("showReturn")),
+                              # br(),
+                              # br(),
+                              # verbatimTextOutput(ns("showReturn")),
                               
                               )
              )
@@ -362,7 +362,7 @@ exportTabServer <- function(id, pathToFolder, tabChanged){
     #output$showReturn <- renderText({paste("Output:",reactVals$examsFullArgument)})
     #output$showReturn <- renderPrint(print(exportFormat()$command))
     #output$showReturn <- renderPrint(print(names(append(reactVals$examsArgument,additionalArgument()))))
-    output$showReturn <- renderPrint(print(reactVals$debug))
+    #output$showReturn <- renderPrint(print(reactVals$debug))
     #output$showReturn <- renderPrint(print(reactVals$exportFormatLocal))
     #output$showReturn <- renderPrint(print(append(reactVals$examsArgument,additionalArgument())))
     
@@ -467,7 +467,7 @@ exportTabServer <- function(id, pathToFolder, tabChanged){
       
       # if (!(is.null(fullArgument$template))) fullArgument$template <- file.path(reactVals$pathToFolderLocal,fullArgument$template)
       
-      ## Seed work at them moment only for n=1
+      ## replicate seed for all n>1
       if (fullArgument$n > 1) {
         seedtmp <- rep(fullArgument$seed,each=fullArgument$n)
         attr(seedtmp,"dim") <- c(fullArgument$n,length(fullArgument$seed))

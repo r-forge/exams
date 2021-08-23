@@ -4,14 +4,13 @@ library(exams)
 library(tth)
 
 ## FIXME: clicking to fast results in an infinity loop jumping between selected exercises 
-## TODO: delete empty folders in exercises
 
 loadTabUI <- function(id){
   
   ns = NS(id)
   tabPanel("Load Exercises",
    # tags$head(tags$style(HTML(".checkbox {margin-left:15px}"))),
-    tagList(
+    tagList(#verbatimTextOutput(ns("showReturn")),
       fluidRow(column(12,style='margin:5px; padding:10px; padding-top: 15px;',
                       p("Add exercises from your local storage or from the exercises repository to your project."))),
       fluidRow(
@@ -28,7 +27,7 @@ loadTabUI <- function(id){
                fluidRow(style='margin:-10px; padding:10px; padding-top: 15px; border: 2px solid #5e5e5e; border-radius: 5px;',
                         p("Choose exercises from the",strong("exercises repository")," and add them to your project."),br(),
                         ## FS: Option shinyTree
-                        column(6,#textOutput(ns("showReturn")),
+                        column(6,
                                DT::dataTableOutput(ns("folderSelector"))
                         ),
                         column(6,
@@ -63,9 +62,10 @@ loadTabUI <- function(id){
   )
 }
 
-loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
-  stopifnot(is.reactive(pathToExercisesGiven))
+loadTabServer <- function(id, pathToFolder,pathToExercisesGiven, tabChanged) {
   stopifnot(is.reactive(pathToFolder))
+  stopifnot(is.reactive(pathToExercisesGiven))
+  stopifnot(is.reactive(tabChanged))
 
   moduleServer(id, function(input, output, session) {
   reactVals <- reactiveValues(
@@ -73,6 +73,8 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
     pathToFolderLocal = NULL,
     # path to the given exercises (pre-stored data)
     pathToExercisesGivenLocal = NULL,
+    # all available exercises, i.e. all files in or added to tmp/exercises
+    availableExercises = NULL,
     # the selected folder (or all selected folders), relative path in pathToExercisesGiven
     currentFolder = c(),
     # all exercises/files in the selected folder (selectedFolder)
@@ -90,6 +92,7 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
   #   #paste("You have selected",reactVals$currentFolder)
   # })
   # 
+  output$showReturn <- renderPrint(print(reactVals$fileDeleted))
   
   ## Reactive: available exercises, i.e. all files in or added to tmp/exercises
   availableExercises <- reactive({
@@ -98,6 +101,15 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
     e3 <- reactVals$fileDeleted
     exfiles <- getExercises(reactVals$pathToFolderLocal)
     return(exfiles)
+  })
+  
+  ## Observe: available exercises, i.e. all files in or added to tmp/exercises
+  observe({
+    e1 <- tabChanged()
+    e2 <- input$addExcerciseToList
+    e3 <- input$uploadExercises
+    e4 <- reactVals$fileDeleted
+    reactVals$availableExercises  <- getExercises(reactVals$pathToFolderLocal)
   })
 
   # Observer to store the parameters given by the function loadTabLogic(...) in reactive values
@@ -185,7 +197,7 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
   observeEvent(input$deleteExercises, {
     id <- input$outputAddedFiles_rows_selected
     if(length(id)) {
-      ex <- availableExercises()
+      ex <- reactVals$availableExercises
       rmfile <- ex[id]
       if(all(file.exists(file.path(reactVals$pathToFolderLocal,"exercises", rmfile))))
         file.remove(file.path(reactVals$pathToFolderLocal,"exercises", rmfile))
@@ -193,6 +205,20 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
       reactVals$fileDeleted <- !reactVals$fileDeleted } else {
         NULL
       }
+  })
+  
+  # Observer: After a file is deleted, this observer deletes empty directories
+  observeEvent(reactVals$fileDeleted, {
+    lapply(list.files(path=file.path(reactVals$pathToFolderLocal,"exercises"),include.dirs=TRUE, full.names=TRUE), function(x) {
+      fi <- file.info(x)
+      if (fi$isdir) {
+        f <- list.files(x, all.files=TRUE, recursive=TRUE, full.names=TRUE)
+        nfiles <- length(f)
+        
+        #as precaution, print to make sure before using unlink(x, TRUE)
+        if (nfiles==0L) unlink(x,TRUE)   
+      }
+    })
   })
   
   
@@ -235,7 +261,7 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
    
   # Table-Output: selected exercises are displayed
   output$outputAddedFiles <- renderDataTable({
-    exfiles <- availableExercises()
+    exfiles <- reactVals$availableExercises
     data.frame("Folder" = dirname(exfiles), "File" = basename(exfiles))
   }, selection = ifelse(reactVals$setPreview,'single','multiple'))
 
@@ -257,7 +283,7 @@ loadTabServer <- function(id, pathToFolder,pathToExercisesGiven) {
         } 
         # for added files use file in tmp/exercises folder structure
         else {
-          selectedFile <- availableExercises()[input$outputAddedFiles_rows_selected]
+          selectedFile <- reactVals$availableExercises[input$outputAddedFiles_rows_selected]
           fileDest = file.path(reactVals$pathToFolderLocal, "exercises", selectedFile)
         }
         # get encoding of the file
