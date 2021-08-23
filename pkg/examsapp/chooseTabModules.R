@@ -7,7 +7,6 @@ library(tools)
 #library(tidyverse)
 
 ## TODO Julia Petz: 
-## - seeds matrix for mixed types: chosen seeds and random seeds
 ## - row reorder for : https://rstudio.github.io/DT/extensions.html, 
 ##   problem in  https://community.rstudio.com/t/getting-the-rowreorder-extension-to-work-in-a-shiny-datatable/71414
 ##   possible solution in https://atchen.me/code/2019/04/09/datatables-rowreorder.html
@@ -88,9 +87,8 @@ chooseTabUI <- function(id){
           )))
 }
 
-chooseTabServer <-function(id, pathToFolder, pathToExams, tabChanged) {
+chooseTabServer <-function(id, pathToFolder, tabChanged) {
   stopifnot(is.reactive(pathToFolder))
-  stopifnot(is.reactive(pathToExams))
   stopifnot(is.reactive(tabChanged))
   
   moduleServer(id, function(input, output, session) {

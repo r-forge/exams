@@ -10,8 +10,6 @@ source("exportTabModules.R")
 
 locationExercises <- "testExercises"
 locationTemplates <- "./templates"
-locationExams <- "./exams"
-
 
 # user interface of the app
 # using the user interface elements defined in the modules
@@ -30,8 +28,6 @@ server <- function(input, output, session){
     pathToTmpFolder = NULL,
     # path to the existing exercises
     pathToExercisesGiven = NULL,
-    # path to the existing exams
-    pathToExamsGiven = NULL,
     # path to the templates
     pathTemplatesGiven = NULL,
     # selected exercises (are stored in an exam)
@@ -45,7 +41,6 @@ server <- function(input, output, session){
   observe({
     reactVals$pathToTmpFolder = makeTmpPath()
     reactVals$pathToExercisesGiven = file.path(locationExercises)
-    reactVals$pathToExamsGiven = file.path(locationExams)
     reactVals$pathTemplatesGiven = file.path(locationTemplates)
     selectedExerciseList = data.frame(Foldername=character(), Filename=character(), Number=numeric(), Seed=numeric(), ExamName=character(), Points=numeric())
     reactVals$formatList = c("TCExam", "Moodle", "QTI21", "QTI12", "Canvas", "PDF", "DOCX", "OpenOLAT", "NOPS", "HTML", "Blackboard", "ARSnova")
@@ -56,7 +51,7 @@ server <- function(input, output, session){
   modifiedDataLoadTab = loadTabServer("loadTab", reactive(reactVals$pathToTmpFolder), reactive(reactVals$pathToExercisesGiven))
  
   # load choose module (and store the returned value)
-  modifiedDataChooseTab = chooseTabServer("chooseTab", reactive(reactVals$pathToTmpFolder),reactive(reactVals$pathToExamsGiven),reactive(input$tabs))
+  modifiedDataChooseTab = chooseTabServer("chooseTab", reactive(reactVals$pathToTmpFolder),reactive(input$tabs))
 
   # load export module
   exportTabServer("exportTab", reactive(reactVals$pathToTmpFolder),reactive(input$tabs))
