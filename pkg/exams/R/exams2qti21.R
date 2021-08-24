@@ -62,7 +62,15 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         itembody[[i]]$eval$rule <- "none"
       if(is.null(itembody[[i]]$solutionswitch)) itembody[[i]]$solutionswitch <- solutionswitch
       if(is.null(itembody[[i]]$casesensitive)) itembody[[i]]$casesensitive <- casesensitive
-      itembody[[i]] <- do.call("make_itembody_qti21", itembody[[i]])
+
+      ## make itembody version.
+      ibv <- list(...)$ibv
+      if(is.null(ibv))
+        ibv <- 2
+      ibv <- if(ibv < 2) "" else "_v2"
+      ibv <- paste0("make_itembody_qti21", ibv)
+
+      itembody[[i]] <- do.call(ibv, itembody[[i]])
     }
     if(!is.function(itembody[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
   }
@@ -439,20 +447,30 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
+    nt <- length(unique(type))
 
     ## evaluation policy
     if(is.null(eval) | length(eval) < 1L) {
       eval <- exams_eval()
-      eval <- rep(list(eval), length = n)
+      eval <- rep(list(eval), length = nt)
+      names(eval) <- unique(type)
     } else {
       if(!is.list(eval)) stop("'eval' needs to specify a list!")
       if(any(c("partial", "negative", "rule") %in% names(eval))) {
-        eval <- rep(list(eval), length = n)
+        eval <- rep(list(eval), length = nt)
+        names(eval) <- unique(type)
       } else {
-        eval <- rep(eval, length.out = n)
+        for(i in unique(type)) {
+          if(is.null(eval[[i]]))
+            eval[[i]] <- exams_eval()
+        }
       }
     }
-
+    eval2 <- list()
+    for(i in 1:n) {
+      eval2[[i]] <- eval[[type[i]]]
+    }
+    eval <- eval2
     names(eval) <- paste0(type, ".", 1:n)
 
     for(i in 1:n) {
