@@ -98,3 +98,12 @@ exams2openolat("repro-fail.Rmd", n = 1, dir = "~/misc", name = "cloze-teval-02-n
   cloze = list("eval" = list(negative = TRUE, partial = TRUE)), points = 4,
   edir = "exams/tests")
 
+## 14. General eval test.
+## 12. cloze: -> OK
+##     mchoice with no correct answer, num.
+##     partial = TRUE, negative = TRUE, rule = "all"
+exams2openolat(c("numbers.Rnw", "boxplots.Rmd"), n = 1, dir = "~/misc", name = "cloze-teval-g",
+  cloze = list("eval" = list(negative = TRUE, partial = TRUE, rule = "all")),
+  mchoice = list("eval" = list(negative = FALSE)),
+  points = 4)
+
