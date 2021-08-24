@@ -25,12 +25,6 @@
       "description": "A list of further options to be passed to the LaTeX files",
       "default": {"Date": "Rfun Sys.Date()"},
       "userControl": true
-    },
-    "encoding": {
-      "description": "The default encoding to assume for file",
-      "shinyInputType": "character",
-      "default": "",
-      "userControl": true
     }
   }
 }

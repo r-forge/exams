@@ -27,7 +27,7 @@
     },
     "header": {
       "description": "A list of further options to be passed to the LaTeX files",
-      "default": {"Description": "Rfun function(n) paste0('Group ',2)", "Date": "Rfun Sys.Date()", "Subject": "Didaktik der Mathematik 1"},
+      "default": {"Description": "Rfun function(n) paste0('Group ',n)", "Date": "Rfun Sys.Date()", "Subject": "Didaktik der Mathematik 1"},
       "userControl": true
     },
       "encoding": {

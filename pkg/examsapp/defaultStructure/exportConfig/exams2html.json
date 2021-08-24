@@ -65,12 +65,6 @@
       "shinyInputType": "logical",
       "default": false,
       "userControl": true
-    },
-    "encoding": {
-      "description": "The default encoding to assume for file",
-      "shinyInputType": "character",
-      "default": "",
-      "userControl": true
     }
   }
 }

@@ -81,8 +81,8 @@
     "encoding": {
       "description": "The default encoding to assume for file",
       "shinyInputType": "character",
-      "default": "",
-      "userControl": true
+      "default": "utf8",
+      "userControl": false
     }
   }
 }

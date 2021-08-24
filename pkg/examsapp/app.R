@@ -14,7 +14,7 @@ locationExercises <- "testExercises"
 # user interface of the app
 # using the user interface elements defined in the modules
 ui <- navbarPage(id="tabs",
-  title = "R examsApp",
+  title = "examsapp",
   loadTabUI("loadTab"),
   chooseTabUI("chooseTab"),
 #  addPointsTabUI("addPointsTab"),

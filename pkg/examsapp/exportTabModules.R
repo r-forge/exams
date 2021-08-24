@@ -33,7 +33,7 @@ exportFormatServer <- function(id,pathToFolder) {
 
     output$exportFormatSelection <- renderUI({
       ns <- session$ns
-      selectInput(ns("exportFormat"), "Pick an output format", choices = setNames(reactVals$exportFormatNames, tools::file_path_sans_ext(reactVals$exportFormatNames)))
+      selectInput(ns("exportFormat"), "Select an output format", choices = setNames(reactVals$exportFormatNames, tools::file_path_sans_ext(reactVals$exportFormatNames)))
     })
     
     observeEvent(input$exportFormat,{
