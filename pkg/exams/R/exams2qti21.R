@@ -447,30 +447,22 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     ## set question type(s)
     type <- x$metainfo$type
     type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
-    nt <- length(unique(type))
 
     ## evaluation policy
     if(is.null(eval) | length(eval) < 1L) {
       eval <- exams_eval()
-      eval <- rep(list(eval), length = nt)
-      names(eval) <- unique(type)
+      eval <- rep(list(eval), length.out = n)
     } else {
       if(!is.list(eval)) stop("'eval' needs to specify a list!")
       if(any(c("partial", "negative", "rule") %in% names(eval))) {
-        eval <- rep(list(eval), length = nt)
-        names(eval) <- unique(type)
+        eval <- rep(list(eval), length.out = n)
       } else {
-        for(i in unique(type)) {
+        for(i in 1:n) {
           if(is.null(eval[[i]]))
             eval[[i]] <- exams_eval()
         }
       }
     }
-    eval2 <- list()
-    for(i in 1:n) {
-      eval2[[i]] <- eval[[type[i]]]
-    }
-    eval <- eval2
     names(eval) <- paste0(type, ".", 1:n)
 
     for(i in 1:n) {
