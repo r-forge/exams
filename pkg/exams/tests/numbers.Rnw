@@ -12,10 +12,11 @@ type[[1L]] <- "mchoice"
 
 ## Mchoice 2.
 questions[[2L]] <- paste0(
-  "If you choose an answer to this question at random, the chance it will be correct is ",
-  c("25", "50", "0", "25"), "\\%?"
+  "The number ", as.character(0:9),
+  " appears most frequently between and including the numbers 1 and 1,000?"
 )
-solutions[[2L]] <- rep(FALSE, 4)
+solutions[[2L]] <- rep(FALSE, 10)
+solutions[[2L]][2] <- TRUE
 type[[2L]] <- "mchoice"
 
 ## Numeric.
