@@ -218,7 +218,7 @@ examsTemplateServer <- function(id, pathToFolder,exportFormat) {
         } else if ((is.null(reactVals$exportFormatLocal$argument$template$folder)) | (length(reactVals$templateFile)==0)) {
           tags$b("No template available.")
         } else {
-          selectInput(ns("templateFile"), "Pick a template file", choices = setNames(reactVals$templateFile, reactVals$templateChoices))
+          selectInput(ns("templateFile"), "Select a template file", choices = setNames(reactVals$templateFile, reactVals$templateChoices))
           # selectInput(ns("templateFile"), "Pick a template file", choices = reactVals$templateChoices)
           }}
     })
