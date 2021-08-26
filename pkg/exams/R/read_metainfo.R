@@ -29,7 +29,15 @@ extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markd
       alllines[alllines > b + 1L]
     }
     e <- if(length(e) > 0L) min(e) - 3L else length(x)
-    if(value) return(x[(b + 2L):e]) else return(c(b, e))
+    if(value) {
+      if((b + 2L) <= e) { ## check if section is empty
+        return(x[(b + 2L):e])
+      } else {
+        return(NULL)
+      }
+    } else {
+      return(c(b, e))
+    }
   }
 }
 
