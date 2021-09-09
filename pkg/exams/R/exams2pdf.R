@@ -24,7 +24,14 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## output name processing 
-  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+  if(is.null(name)) {
+    name <- file_path_sans_ext(basename(template))
+  } else {
+    if(length(name) < length(template)) {
+      warning("length of 'name' is shorter than length of 'template', combined now")
+      name <- paste(rep_len(name, length(template)), file_path_sans_ext(basename(template)), sep = "_")
+    }
+  }
 
   ## pandoc (if necessary) as default transformer
   if(is.null(transform)) transform <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE, attachfile = attachfile)

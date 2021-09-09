@@ -210,6 +210,9 @@
   temporary files. The latter now also use `_` instead of `+` in the file name.
   (Reported by Nina Timmesfeld.)
 
+* In `exams2pdf()` it is now assured that `name` and `template` are always of the
+  same length (with a warning if `name` is too short). (Reported by JPMD.)
+
 
 # exams 2.3-6
 

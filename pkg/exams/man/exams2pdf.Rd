@@ -43,8 +43,9 @@
     must be given or the file needs to be in \code{edir}.}
   \item{header}{list. A list of further options to be passed to
     the LaTeX files.}
-  \item{name}{character. A name prefix for resulting exercises, by default
-    chosen based on \code{template}.}
+  \item{name}{character. A name prefix for resulting exercises, of the same
+    length as \code{template}. By default (if \code{name} is \code{NULL})
+    the base name of \code{template} is used.}
   \item{control}{A list of control arguments for the appearance of
     multiple choice results (see details).}
   \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
