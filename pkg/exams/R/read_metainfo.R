@@ -198,7 +198,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   exsolution <- switch(extype,
     "schoice" = string2mchoice(exsolution, single = !is.numeric(exshuffle)), ## check for _single_ choice (unless sub-shuffling afterwards)
     "mchoice" = string2mchoice(exsolution),
-    "num" = as.numeric(exsolution),
+    "num" = string2num(exsolution),
     "string" = exsolution,
     "cloze" = {
       if(is.null(exclozetype)) {
@@ -206,13 +206,13 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
 	exclozetype <- "string"
       }
       if(length(exclozetype) > 1L & length(exclozetype) != slength)
-        warning("length of exclozetype does not match length of \\exsolution{}")
+        warning("length of exclozetype does not match length of exsolution")
       exclozetype <- rep(exclozetype, length.out = slength)
       exsolution <- as.list(exsolution)
       for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string", "verbatim")),
         "schoice" = string2mchoice(exsolution[[i]], single = TRUE),
         "mchoice" = string2mchoice(exsolution[[i]]),
-        "num" = as.numeric(exsolution[[i]]),
+        "num" = string2num(exsolution[[i]]),
         "string" = exsolution[[i]],
         "verbatim" = exsolution[[i]])
       exsolution
