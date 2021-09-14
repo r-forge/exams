@@ -831,10 +831,22 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
       }
       if(ans) {
         txml <- paste(txml, collapse = '\n')
-        if(length(grep("choice", type[i])) & !any(grepl('<table>', xml, fixed = TRUE)))
-          txml <- paste0('</p>', txml, '<p>')
-        xml <- gsub(paste0("<p>##ANSWER", i, "##</p>"), txml, xml, fixed = TRUE)
-        xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+        ansi <- paste0("##ANSWER", i, "##")
+        ii <- grep(ansi, xml)
+        if(length(ii) > 1L)
+          stop(paste0("multiple ##ANSWER", i, "## tags found!"))
+        ansi2 <- xml[ii]
+        if(ansi2 == paste0("<p>", ansi, "</p>")) {
+          p_check <- any(grepl("<choiceInteraction", txml, fixed = TRUE)) |
+            any(grepl("<extendedTextInteraction", txml, fixed = TRUE)) |
+            any(grepl("<uploadInteraction", txml, fixed = TRUE))
+          if(p_check)
+            xml <- gsub(paste0("<p>##ANSWER", i, "##</p>"), txml, xml, fixed = TRUE)
+          else
+            xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+         } else {
+          xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+         }
       } else {
         xml <- c(xml, txml)
       }
