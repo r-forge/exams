@@ -4,11 +4,6 @@
 <value>##Score##</value>
 </defaultValue>
 </outcomeDeclaration>
-<outcomeDeclaration identifier="PASS" cardinality="single" baseType="boolean">
-<defaultValue>
-<value>false</value>
-</defaultValue>
-</outcomeDeclaration>
 <outcomeDeclaration identifier="FEEDBACKMODAL" cardinality="multiple" baseType="identifier" view="testConstructor"/>
 <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
 <defaultValue>
@@ -26,24 +21,6 @@
 <testVariables variableIdentifier="SCORE"/>
 </sum>
 </setOutcomeValue>
-<outcomeCondition>
-<outcomeIf>
-<gte>
-<sum>
-<testVariables variableIdentifier="SCORE"/>
-</sum>
-<baseValue baseType="float">##CutValue##</baseValue>
-</gte>
-<setOutcomeValue identifier="PASS">
-<baseValue baseType="boolean">true</baseValue>
-</setOutcomeValue>
-</outcomeIf>
-<outcomeElse>
-<setOutcomeValue identifier="PASS">
-<baseValue baseType="boolean">false</baseValue>
-</setOutcomeValue>
-</outcomeElse>
-</outcomeCondition>
 </outcomeProcessing>
 </assessmentTest>
 
