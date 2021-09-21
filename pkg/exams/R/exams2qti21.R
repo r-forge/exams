@@ -419,6 +419,8 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     ## exercise (cloze)type
     cloze <- x$metainfo$type == "cloze"
     type <- if(cloze) x$metainfo$clozetype else x$metainfo$type
+    if(is.null(minvalue) & cloze)
+      minvalue <- 0
 
     ## question list
     questionlist <- if(!is.list(x$questionlist)) {
