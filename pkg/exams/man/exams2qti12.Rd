@@ -38,7 +38,7 @@
     template = "qti21", duration = NULL,
     stitle = "Exercise", ititle = "Question",
     adescription = "Please solve the following exercises.", sdescription = "",
-    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, casesensitive = TRUE,
+    maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
