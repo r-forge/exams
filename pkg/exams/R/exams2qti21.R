@@ -355,8 +355,9 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
-
-  if(!is.null(cutvalue)) {
+  if(is.na(cutvalue))
+    cutvalue <- NULL
+  if(!is.null(cutvalue) ) {
     j <- grep("</outcomeDeclaration>", assessment_xml, fixed = TRUE)
     j <- j[length(j)]
     assessment_xml[j] <- paste('</outcomeDeclaration>',
