@@ -13,7 +13,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "qti21",
   duration = NULL, stitle = "Exercise", ititle = "Question",
   adescription = "Please solve the following exercises.", sdescription = "", 
-  maxattempts = 1, cutvalue = 0, solutionswitch = TRUE, casesensitive = TRUE,
+  maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
@@ -355,7 +355,45 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
+
+  if(!is.null(cutvalue)) {
+    j <- grep("</outcomeDeclaration>", assessment_xml, fixed = TRUE)
+    j <- j[length(j)]
+    assessment_xml[j] <- paste('</outcomeDeclaration>',
+      '<outcomeDeclaration identifier="PASS" cardinality="single" baseType="boolean">',
+      '<defaultValue>',
+      '<value>false</value>',
+      '</defaultValue>',
+      '</outcomeDeclaration>',
+      sep = '\n'
+    )
+    j <- grep("</setOutcomeValue>", assessment_xml, fixed = TRUE)
+    j <- j[length(j)]
+    assessment_xml[j] <- paste(
+      '</setOutcomeValue>',
+      '<outcomeCondition>',
+      '<outcomeIf>',
+      '<gte>',
+      '<sum>',
+      '<testVariables variableIdentifier="SCORE"/>',
+      '</sum>',
+      '<baseValue baseType="float">##CutValue##</baseValue>',
+      '</gte>',
+      '<setOutcomeValue identifier="PASS">',
+      '<baseValue baseType="boolean">true</baseValue>',
+      '</setOutcomeValue>',
+      '</outcomeIf>',
+      '<outcomeElse>',
+      '<setOutcomeValue identifier="PASS">',
+      '<baseValue baseType="boolean">false</baseValue>',
+      '</setOutcomeValue>',
+      '</outcomeElse>',
+      '</outcomeCondition>',
+      sep = '\n'
+    )
+    assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
+  }
+
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts[1L])), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##ShowSolution##', if(solutionswitch) 'true' else 'false', assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##NavigationMode##', match.arg(navigation, c("nonlinear", "linear")), assessment_xml, fixed = TRUE)
