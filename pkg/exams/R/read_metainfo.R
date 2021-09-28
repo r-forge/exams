@@ -4,7 +4,9 @@ extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markd
   if(markup == "latex") {
     b <- grep(paste0("\\\\(begin|end)\\{", env, "\\}"), x)
     if(length(b) == 0L) return(NULL)
-    if(length(b)!= 2L) stop("no unique begin/end pair for", sQuote(env), "found")
+    if(length(b)!= 2L) stop(sprintf("no unique begin/end pair for %s found", sQuote(env)))
+    s <- grep("[^[:space:]]", gsub(paste0("\\\\(begin|end)\\{", env, "\\}"), "", x[b]))
+    if(length(s) > 0L) warning(sprintf("there should be no other text in lines with begin/end for %s", sQuote(env)))
     if(value) return(x[(b[1L] + 1L):(b[2L] - 1L)]) else return(b)
   } else {
     ## get all sections and subsections
