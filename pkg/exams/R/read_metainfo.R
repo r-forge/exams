@@ -123,11 +123,11 @@ extract_items <- function(x, markup = c("latex", "markdown"))
     
   ## make sure we get items on multiple lines right
   x <- paste(x, collapse = " ")
-  x <- gsub("^ *\\\\item *", "", x)
+  x <- gsub("^[[:space:]]*\\\\item[[:space:]]*", "", x)
   x <- paste0(x, " ")
-  x <- strsplit(x, " *\\\\item")[[1L]]
-  x <- gsub("^ ", "", x)
-  gsub(" +$", "", x)
+  x <- strsplit(x, "[[:space:]]*\\\\item")[[1L]]
+  x <- gsub("^[[:space:]]", "", x)
+  gsub("[[:space:]]+$", "", x)
 }
 
 extract_latex <- function(x, command)
