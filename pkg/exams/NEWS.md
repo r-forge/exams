@@ -213,6 +213,11 @@
 * In `exams2pdf()` it is now assured that `name` and `template` are always of the
   same length (with a warning if `name` is too short). (Reported by JPMD.)
 
+* When reading {answerlist} environments in `read_metainfo()` now a warning is
+  issued if there is further text in the same line as the begin or end of the
+  environment. Also parsing the individual items now also works tab-indented
+  items. (Reported by Sebastian Kupek.)
+
 
 # exams 2.3-6
 
