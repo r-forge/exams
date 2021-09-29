@@ -229,8 +229,7 @@
   correct answer in the test will be \code{"16.46"}, i.e., a character string of 5 characters).
 
   Generating exams/assessment in IMS QTI 2.1 format using \code{exams2qti21()} and \code{make_itembody_qti21()}
-  is performed in a similar way as described above. The generated XML files have been validated using the IMS validator provided
-  at \url{https://membervalidator.imsglobal.org/qti/} (when it was still freely available).
+  is performed in a similar way as described above.
 }
 
 \references{
