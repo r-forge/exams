@@ -175,7 +175,7 @@ exams_shiny_ui <- function(...) {
            fluidRow(
              column(6,
                uiOutput("choose_exam"),
-               selectInput("format", "Format", c("PDF", "NOPS", "OpenOLAT", "ARSnova", "Moodle", "Blackboard", "Canvas", "QTI12", "QTI21", "TCExam", "DOCX", "HTML")),
+               selectInput("format", "Format", c("PDF", "NOPS", "OpenOlat", "ARSnova", "Moodle", "Blackboard", "Canvas", "QTI12", "QTI21", "TCExam", "DOCX", "HTML")),
                uiOutput("template"),
                numericInput("n", "Number of copies", value = 1)
              ),
@@ -774,7 +774,7 @@ exams_shiny_server <- function(input, output, session)
         ex <- try(exams2nops(exlist, n = input$n,
           dir = cdir, edir = "exercises", name = name, points = points), silent = TRUE)
       }
-      if(input$format == "OpenOLAT") {
+      if(input$format == "OpenOlat") {
         ex <- try(exams2openolat(exlist, n = input$n,
           dir = cdir, edir = "exercises", name = name, points = points,
           maxattempts = input$maxattempts, duration = input$duration), silent = TRUE)
@@ -877,7 +877,7 @@ exams_shiny_server <- function(input, output, session)
           Rcall <- "exams2nops"
           has_template <- FALSE
         }
-        if(specs$format == "OpenOLAT") {
+        if(specs$format == "OpenOlat") {
           Rcall <- "exams2openolat"
           has_template <- FALSE
         }
@@ -918,10 +918,10 @@ exams_shiny_server <- function(input, output, session)
         code <- c(code, paste0('set.seed(', specs$seed, ')'), '',
           paste0(paste0('ex <- ', Rcall, '(exlist, n = ', specs$n, ','),
           paste0('  dir = ".", edir = "exercises", name = "', specs$name, '", points = points'),
-          if(specs$format %in% c("Blackboard", "OpenOLAT", "Canvas", "QTI12", "QTI21")) {
+          if(specs$format %in% c("Blackboard", "OpenOlat", "Canvas", "QTI12", "QTI21")) {
             paste0(', maxattempts =', specs$maxattempts)
           } else NULL,
-          if(specs$format %in% c("Blackboard", "OpenOLAT", "Canvas", "QTI12", "QTI21")) {
+          if(specs$format %in% c("Blackboard", "OpenOlat", "Canvas", "QTI12", "QTI21")) {
             if(!is.null(specs$duration))
               paste0(', duration =', specs$duration)
           } else NULL,

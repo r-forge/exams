@@ -428,10 +428,10 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
   ## default graphics device used in xweave() (png, pdf, svg)
   xweave_device            = "png",
 
-  ## post-process MathJax output from pandoc for OpenOLAT
+  ## post-process MathJax output from pandoc for OpenOlat
   pandoc_mathjax_fixup     = FALSE,
   
-  ## post-process <table> class from pandoc for OpenOLAT
+  ## post-process <table> class from pandoc for OpenOlat
   pandoc_table_class_fixup = FALSE,
   
   ## restore random seed after single test version of exam

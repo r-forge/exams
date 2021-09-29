@@ -183,7 +183,7 @@
 
 \references{
 Blackboard, Inc. (2016). \emph{Blackboard Help: Question types}.
-  \url{https://en-us.help.blackboard.com/Learn/Instructor/Tests_Pools_Surveys/040_Question_Types}
+  \url{https://help.blackboard.com/Learn/Instructor/Ultra/Tests_Pools_Surveys/Question_Types}
 
 IMS Global Learning Consortium, Inc. (2012).
 \emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.

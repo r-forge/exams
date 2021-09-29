@@ -28,7 +28,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   if(flavor == "openolat") {
     if(is.null(converter)) converter <- "pandoc-mathjax"
-    ## post-process mathjax output for display in OpenOLAT
+    ## post-process mathjax output for display in OpenOlat
     .exams_set_internal(pandoc_mathjax_fixup = TRUE)
     on.exit(.exams_set_internal(pandoc_mathjax_fixup = FALSE))
   }

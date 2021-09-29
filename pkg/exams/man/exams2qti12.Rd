@@ -178,7 +178,7 @@
   the standard is slightly different ways. This is reflected by the \code{flavor} argument
   and dedicated interfaces \code{\link{exams2canvas}} and \code{\link{exams2ilias}} (both based
   on QTI 1.2) and \code{\link{exams2openolat}} (based on either QTI 2.1 or 1.2) are provided
-  for the learning management systems Canvas, Ilias, and OLAT/OpenOLAT, respectively.
+  for the learning management systems Canvas, Ilias, and OLAT/OpenOlat, respectively.
 
   \code{exams2qti12} produces a \code{.zip} file that may be uploaded into different learning
   management systems (see above). This includes the final XML file of the exam/assessment as well
@@ -219,7 +219,7 @@
   \code{mchoice = list(shuffle = TRUE)} will force only multiple choice questions to have a shuffled
   answerlist.
 
-  Note that in older OLAT/OpenOLAT versions with QTI 1.2, \code{num} exercises are not officially supported but in fact work
+  Note that in older OLAT/OpenOlat versions with QTI 1.2, \code{num} exercises are not officially supported but in fact work
   correctly. The only drawback is that in certain settings the correct solution is not shown at the
   end of the assessment (although it is used for all internal computations). Therefore, two workarounds
   are implemented. Either \code{fix_num} can be set to \code{TRUE} (default), then a fix is added

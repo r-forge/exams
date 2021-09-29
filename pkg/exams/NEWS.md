@@ -275,7 +275,7 @@
 
 * The actual writing of `nops_eval()` results has been modularized (with contributions
   from Kenji Sato). Different `nops_eval_write_<flavor>` functions can be plugged in.
-  At the moment there is only the default writer (optimized for OpenOLAT)
+  At the moment there is only the default writer (optimized for OpenOlat)
   but further flavors are planned (including a standalone workflow and
   one for Moodle).
 
@@ -335,7 +335,7 @@
 # exams 2.3-3
 
 * Added new interface `exams2canvas()` for the open-source Canvas learning
-  management system (<https://www.instructure.com/canvas/>). This is essentially
+  management system (<https://www.instructure.com/canvas>). This is essentially
   a convenience wrapper to `exams2qti12()` along with a few Canvas-specific
   modifications of the QTI XML specification. The function has only received
   limited testing so far and is likely to improve in future version. The
@@ -449,10 +449,10 @@
 
 # exams 2.3-1
 
-* Added new interface `exams2openolat()` for the open-source OpenOLAT learning
+* Added new interface `exams2openolat()` for the open-source OpenOlat learning
   management system (<https://www.openolat.com/>). This is only a convenience
   wrapper to `exams2qti12()` or `exams2qti21()` with some dedicated tweaks
-  for optimizing MathJax output for OpenOLAT.
+  for optimizing MathJax output for OpenOlat.
 
 * When using `exams2html(..., mathjax = TRUE)` for testing purposes,
   mathjax.rstudio.com is used now rather than cdn.mathjax.org which

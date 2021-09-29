@@ -57,7 +57,7 @@
     output? If \code{question} is a character it will be used as a header for resulting questions.
     Argument \code{question} may also be a vector that controls the output for the templates.}
   \item{solution}{character or logical, see argument \code{question}.}
-  \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
+  \item{mathjax}{logical. Should the JavaScript from \url{https://www.MathJax.org/}
     be included for rendering mathematical formulas? By default \code{mathjax = FALSE}
     unless \code{converter = "pandoc-mathjax"}.}
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)

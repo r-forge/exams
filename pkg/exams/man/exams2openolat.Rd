@@ -1,11 +1,11 @@
 \name{exams2openolat}
 \alias{exams2openolat}
 
-\title{Generation of Exams for OpenOLAT}
+\title{Generation of Exams for OpenOlat}
 
 \description{
   Automatic generation of exams in QTI 2.1 (or 1.2) with some
-  tweaks optimized for OpenOLAT.
+  tweaks optimized for OpenOlat.
 }
 
 \usage{
@@ -23,9 +23,9 @@
     (default) should be generated.}
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
     indicating the type of converter from LaTeX/Markdown to HTML. Defaults
-    to HTML with MathJax (and OpenOLAT-specific fixups).}
+    to HTML with MathJax (and OpenOlat-specific fixups).}
   \item{table}{logical or character. Should a dedicated table class be
-    used in the HTML for OpenOLAT? For details see below.}
+    used in the HTML for OpenOlat? For details see below.}
   \item{maxattempts}{integer. The maximum attempts for one question.
     Set to \code{0} for unlimited attempts. For a finite number of attempts this
     must be smaller than \code{100000}.}
@@ -36,8 +36,8 @@
 \details{
   \code{exams2openolat} is a convenience interface to \code{\link[exams]{exams2qti12}}
   and \code{\link[exams]{exams2qti21}} for generating either QTI 1.2 or 2.1
-  (default) output with some small tweaks for OpenOLAT. Specifically, the MathJax
-  output from pandoc is post-processed as expected by OpenOLAT.
+  (default) output with some small tweaks for OpenOlat. Specifically, the MathJax
+  output from pandoc is post-processed as expected by OpenOlat.
   
   Dedicated \code{table} classes currently include: Full-width tables with borders
   (\code{"b_grid"}, \code{"b_border"}) or without (\code{"b_full"}, \code{"b_borderless"}).
@@ -73,7 +73,7 @@ myexam <- list(
 ## output directory
 dir.create(mydir <- tempfile())
 
-## generate .zip with OpenOLAT test in temporary directory
+## generate .zip with OpenOlat test in temporary directory
 exams2openolat(myexam, n = 3, dir = mydir)
 dir(mydir)
 }

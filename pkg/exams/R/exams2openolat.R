@@ -2,14 +2,14 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   qti = "2.1", converter = "pandoc-mathjax", table = TRUE,
   maxattempts = 1, ...)
 {
-  ## post-process mathjax output for display in OpenOLAT
+  ## post-process mathjax output for display in OpenOlat
   .exams_set_internal(pandoc_mathjax_fixup = TRUE)
   on.exit(.exams_set_internal(pandoc_mathjax_fixup = FALSE))
   .exams_set_internal(pandoc_table_class_fixup = table)
   on.exit(.exams_set_internal(pandoc_table_class_fixup = FALSE))
 
   if(qti == "2.1" && maxattempts >= 100000) {
-    warning("'maxattempts' must be smaller than 100000 in OpenOLAT with QTI 2.1")
+    warning("'maxattempts' must be smaller than 100000 in OpenOlat with QTI 2.1")
     maxattempts <- 99999
   }
 
