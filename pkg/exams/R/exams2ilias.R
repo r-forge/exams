@@ -59,6 +59,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     wdir <- getwd()
     dir.create(tdir <- tempfile())
     setwd(tdir)    
+    on.exit(setwd(wdir))
     unzip(zipfile, exdir = name)
     file.rename(file.path(name, "qti.xml"), file.path(name, paste0(name, "_qti.xml")))
 
@@ -103,8 +104,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
     file.remove(zipfile)
     file.rename(name, paste0(name, "_qpl"))
     zip(zipfile = paste0(name, "_qpl.zip"), files = list.files())
-    file.copy(paste0(name, "_qpl.zip"), file.path(wdir, paste0(name, "_qpl.zip")))
-    setwd(wdir)
+    file.copy(paste0(name, "_qpl.zip"), file.path(dir, paste0(name, "_qpl.zip")))
   }
 
   ## return exams list
