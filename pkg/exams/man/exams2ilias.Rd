@@ -151,7 +151,8 @@ dir.create(mydir <- tempfile())
 exams2ilias(myexam, n = 3, dir = mydir,
   maxattempts = 3,
   num = list(digits = 1),
-  mchoice = list(shuffle = TRUE, enumerate = FALSE)
+  mchoice = list(shuffle = TRUE, enumerate = FALSE),
+  solutionswitch = FALSE
 )
 dir(mydir)
 }
