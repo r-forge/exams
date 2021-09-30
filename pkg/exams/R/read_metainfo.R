@@ -173,7 +173,6 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   expoints     <- extract_command(x, "expoints",    "numeric", markup = markup)   ## default points
   extime       <- extract_command(x, "extime",      "numeric", markup = markup)   ## default time in seconds
   exshuffle    <- extract_command(x, "exshuffle",   "character", markup = markup) ## shuffle schoice/mchoice answers?
-  exsingle     <- extract_command(x, "exsingle",    "logical", markup = markup)   ## use radio buttons?
   exmaxchars   <- extract_command(x, "exmaxchars",   markup = markup)             ## maximum number of characters in string answers
   exabstention <- extract_command(x, "exabstention", markup = markup)             ## string for abstention in schoice/mchoice answers
   exstringtype <- extract_command(x, "exstringtype", markup = markup)             ## essay+file
@@ -293,7 +292,6 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
     points = expoints,
     time = extime,
     shuffle = exshuffle,
-    single = exsingle,
     length = slength,
     string = string,
     maxchars = exmaxchars,
