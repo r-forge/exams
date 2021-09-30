@@ -210,7 +210,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
         warning("length of exclozetype does not match length of exsolution")
       exclozetype <- rep(exclozetype, length.out = slength)
       exsolution <- as.list(exsolution)
-      for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string", "verbatim")),
+      for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string", "essay", "file", "verbatim")),
         "schoice" = string2mchoice(exsolution[[i]], single = TRUE),
         "mchoice" = string2mchoice(exsolution[[i]]),
         "num" = string2num(exsolution[[i]]),
@@ -221,10 +221,25 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   )
   slength <- length(exsolution)
 
-  ## lower/upper tolerance value
+  ## tolerance value (expand to appropriate length or omit)
   if(is.null(extol)) extol <- 0
-  extol <- rep(extol, length.out = slength)
-  if(any(extol < 0)) {
+  if(extype == "num") {
+    extol <- extol[1L]
+  } else if(extype == "cloze") {
+    clozenum <- which(exclozetype %in% "num")
+    if(!(length(extol) %in% c(1L, length(clozenum), slength))) {
+      warning(sprintf("length of extol is %s but there are %s of %s num items", length(extol), length(clozenum), slength))
+    }
+    if(length(extol) != slength) {
+      clozetol <- rep.int(0, slength)
+      extol <- rep_len(extol, length.out = length(clozenum))
+      clozetol[clozenum] <- extol
+      extol <- clozetol
+    }
+  } else {
+    extol <- NULL
+  }
+  if(!is.null(extol) && any(extol < 0)) {
     warning("'extol' must not be negative, using 0 instead")
     extol <- pmax(extol, 0)
   }

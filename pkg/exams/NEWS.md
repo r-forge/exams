@@ -157,9 +157,13 @@
   These are now converted to `\neq`, `\nless`, `\ngtr`, `\nleq`, `\ngeq` which are handled
   by pandoc correctly. Notably, this affects exercise template `cholesky.Rmd`.
 
-* The `extol` metainformation is now enforced to be non-negative in `read_metainfo()`.
+* The `extol` metainformation is now processed more flexibly and reliably in
+  `read_metainfo()`: First, it is now enforced to be non-negative.
   If a negative value is provided by the exercise, a warning is issued and 0
-  is used instead.
+  is used instead. Second, for cloze exercises the length of `extol` needs to be
+  either (a) 1 (and is then recycled for all num elements) or (b) the number of
+  of num elements (and is then matched correspondingly) or (c) the number of all
+  cloze elements (and then is assumed to match correspondingly).
 
 * Improved the `string` representation in `metainfo` of exercises and corresponding
   printing in `print.exams_metainfo()`. For cloze exercises tolerances of numeric
