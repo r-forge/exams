@@ -215,7 +215,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
         "mchoice" = string2mchoice(exsolution[[i]]),
         "num" = string2num(exsolution[[i]]),
         "string" = exsolution[[i]],
-        "verbatim" = exsolution[[i]])
+        exsolution[[i]])
       exsolution
     }
   )
@@ -232,7 +232,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
       warning(sprintf("length of exstringtype is %s but there are %s string items out of %s cloze items", length(exstringtype), length(clozestring), slength))
     }
     exclozetype[clozestring] <- if(length(exstringtype) == slength) exstringtype[clozestring] else rep_len(exstringtype, length.out = length(clozestring))
-    warning("exstringtype specified in addition to exclozetype, now merged to exclozetype:", paste(exclozetype, collapse = "|"))
+    warning("exstringtype now merged into exclozetype: ", paste(exclozetype, collapse = "|"))
     exstringtype <- NULL
   }
   if(!is.null(exstringtype) && (extype != "string")) {
