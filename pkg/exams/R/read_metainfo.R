@@ -221,14 +221,32 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   )
   slength <- length(exsolution)
 
+  ## merge exstringtype with exclozetype for cloze
+  if(!is.null(exstringtype) && !all(exstringtype %in% c("string", "essay", "file"))) {
+    warning("unknown exstringtype, must be 'string' (default) or 'essay' or 'file'")
+    exstringtype[!(exstringtype %in% c("string", "essay", "file"))] <- "string"
+  }
+  if(!is.null(exstringtype) && extype == "cloze") {
+    clozestring <- which(exclozetype == "string")
+    if(!(length(exstringtype) %in% c(1L, length(clozestring), slength))) {
+      warning(sprintf("length of exstringtype is %s but there are %s string items out of %s cloze items", length(exstringtype), length(clozestring), slength))
+    }
+    exclozetype[clozestring] <- if(length(exstringtype) == slength) exstringtype[clozestring] else rep_len(exstringtype, length.out = length(clozestring))
+    warning("exstringtype specified in addition to exclozetype, now merged to exclozetype:", paste(exclozetype, collapse = "|"))
+    exstringtype <- NULL
+  }
+  if(!is.null(exstringtype) && (extype != "string")) {
+    warning("exstringtype should only be specified for extype 'string'")
+  }
+
   ## tolerance value (expand to appropriate length or omit)
   if(is.null(extol)) extol <- 0
   if(extype == "num") {
     extol <- extol[1L]
   } else if(extype == "cloze") {
-    clozenum <- which(exclozetype %in% "num")
+    clozenum <- which(exclozetype == "num")
     if(!(length(extol) %in% c(1L, length(clozenum), slength))) {
-      warning(sprintf("length of extol is %s but there are %s of %s num items", length(extol), length(clozenum), slength))
+      warning(sprintf("length of extol is %s but there are %s num items out of %s cloze items", length(extol), length(clozenum), slength))
     }
     if(length(extol) != slength) {
       clozetol <- rep.int(0, slength)
