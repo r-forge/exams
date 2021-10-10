@@ -7,7 +7,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
   points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = FALSE, converter = NULL,
-  mathjax = NULL, seed = NULL, ...)
+  seed = NULL, mathjax = NULL, fix_pre = TRUE, ...)
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -268,8 +268,10 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
+      thebody <- itembody[[type]](exm[[i]][[j]])
+      if(fix_pre) thebody <- fix_bb_pre(thebody)
       ibody <- c(ibody, gsub("##ItemBody##",
-        paste(thebody <- fix_bb_pre(itembody[[type]](exm[[i]][[j]])), collapse = "\n"),
+        paste(thebody, collapse = "\n"),
         item_xml, fixed = TRUE))
 
       ## insert possible solution
@@ -849,18 +851,18 @@ fix_bb_pre <- function(x) {
   return(x)
 }
 
-  ## set evaluation type and case for evaluating string answer of Fill in the Blank
-  ## below, x is x$metainfo$evaltype, and y x$metainfo$usecase. Exercise should have these in metainfo
-  string_evaltype <- function(x, y) {
-    if(is.null(x)) type <- "CONTAINS" else{
-      type <- switch(x,
-        "contains" = "CONTAINS",
-        "pattern" = "MATCHES",
-        "exact" = "EXACT"
-        )
-    }
-    if(is.null(y) | type == "MATCHES") case <- "No" else{
-      case <- ifelse(y, "Yes", "No")
-    }
-    c(type, case)
+## set evaluation type and case for evaluating string answer of Fill in the Blank
+## below, x is x$metainfo$evaltype, and y x$metainfo$usecase. Exercise should have these in metainfo
+string_evaltype <- function(x, y) {
+  if(is.null(x)) type <- "CONTAINS" else{
+    type <- switch(x,
+      "contains" = "CONTAINS",
+      "pattern" = "MATCHES",
+      "exact" = "EXACT"
+      )
   }
+  if(is.null(y) | type == "MATCHES") case <- "No" else{
+    case <- ifelse(y, "Yes", "No")
+  }
+  c(type, case)
+}

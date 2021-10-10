@@ -23,8 +23,8 @@
     tinstruction = "Give an answer to each question.",
     maxattempts = 1, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    base64 = FALSE, converter = NULL, mathjax = NULL, seed = NULL,
-    \dots)
+    base64 = FALSE, converter = NULL, seed = NULL, mathjax = NULL,
+    fix_pre = TRUE, \dots)
 
   make_itembody_blackboard(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -103,6 +103,9 @@
     converters (producing MathML output) \code{mathjax = TRUE} can be used, enabling
     rendering of mathematical equations in browsers without native MathML support
     (like Chrome/Chromium).}
+  \item{fix_pre}{logical. Should the HTML \code{<pre>} environment for rendering verbatim
+    output be replaced by \code{<code>} tags? This is necessary in classical Blackboard
+    which does not render \code{<pre>} correctly.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.}

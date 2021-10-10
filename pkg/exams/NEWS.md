@@ -98,9 +98,13 @@
   also for the default converters (producing MathML output) `mathjax = TRUE`
   can be used. (Suggested and tested by Sean Quallen and Gabriele Cantaluppi.)
 
-* Improvements in `exams2blackboard()`: Verbatim code chunk formatting.
-  Points can be specified through `expoints`. Bug fix in when using
-  `shuffle = TRUE` which used to lead to a missing closing bracket.
+* Improvements in `exams2blackboard()`:
+  - Rendering verbatim code chunks can be fixed from `<pre>` to `<code>` tags
+    if `fix_pre = TRUE` (default) which is necessary in classical Blackboard
+    systems.
+  - Points can be specified through `expoints`.
+  - Bug fix in when using `shuffle = TRUE` which used to lead to a missing
+    closing bracket.
 
 * The auxiliary functions from `exams_eval()` now explicitly distinguish
   between multiple-choice (`mchoice`) and single-choice (`schoice` exercises
