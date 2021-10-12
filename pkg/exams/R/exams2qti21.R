@@ -451,14 +451,37 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
       list(x$metainfo$solution)
-    } else x$metainfo$solution
+    } else {
+      x$metainfo$solution
+    }
     n <- length(solution)
 
     ## exercise (cloze)type
-    cloze <- x$metainfo$type == "cloze"
-    type <- if(cloze) x$metainfo$clozetype else x$metainfo$type
-    if(is.null(minvalue) & cloze)
-      minvalue <- 0
+    type <- x$metainfo$type
+    cloze <- type == "cloze"
+    if(is.null(minvalue) & cloze) minvalue <- 0
+
+    ## handle file/essay cloze types, use string to get evaluation policy right
+    ## for strings with multiple file/essay fields, treat as cloze
+    is_essay <- upfile <- rep.int(FALSE, n)
+    upids <- rep.int(NA, n)
+    if(cloze) {
+      type <- x$metainfo$clozetype
+      is_essay <- type == "essay"
+      upfile <- type == "file"
+      type[type %in% c("file", "essay")] <- "string"
+    } else if(all(type == "string")) {
+      if(!is.null(x$metainfo$stringtype)) {
+        is_essay <- x$metainfo$stringtype == "essay"
+        upfile <- x$metainfo$stringtype == "file"
+        if(length(x$metainfo$stringtype) > 1L) {
+          cloze <- TRUE
+          n <- length(x$metainfo$stringtype)
+          type <- rep.int("string", n)
+          solution <- x$metainfo$solution <- rep(solution, length.out = n)
+        }
+      }
+    }
 
     ## question list
     questionlist <- if(!is.list(x$questionlist)) {
@@ -480,13 +503,9 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     tol <- rep(tol, length.out = n)
 
     ## points
-    if((length(points) == 1) & cloze) points <- points / n
+    if((length(points) == 1L) & cloze) points <- points / n
     q_points <- rep(points, length.out = n)
     if(cloze) points <- sum(q_points)
-
-    ## set question type(s)
-    type <- x$metainfo$type
-    type <- if(type == "cloze") x$metainfo$clozetype else rep(type, length.out = n)
 
     ## evaluation policy
     if(is.null(eval) | length(eval) < 1L) {
@@ -571,19 +590,14 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
       x$metainfo[[i]]
     } else NULL
 
-    ## extract solution.
+    ## extract solution. (FIXME: again? what is the difference between "solution" and "msol"?)
     msol <- x$metainfo$solution
-    if(!is.list(msol))
-      msol <- list(msol)
+    if(!is.list(msol)) msol <- list(msol)
 
     ## small helper to remove too many ".
     cch <- function(x) {
       gsub("'", '&apos;', gsub('"', '&quot;', x))
     }
-
-    is_essay <- upfile <- rep(FALSE, n)
-    upids <- rep(NA, n)
-    strcounter <- 0L
 
     for(i in 1:n) {
       ## get item id
@@ -591,19 +605,19 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
 
       ## generate ids
       if(is.null(mmatrix)) {
-        ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-          "questions" = paste(iid, make_id(10, length(msol[[i]])), sep = "_"))
+        ids[[i]] <- list("response" = paste(iid, "RESPONSE", i, make_id(7), sep = "_"),
+          "questions" = paste(iid, 1L:length(msol[[i]]), make_id(10, length(msol[[i]])), sep = "_"))
       } else {
         qs <- strsplit(x$questionlist, mmatrix, fixed = TRUE)
         mrows <- unique(sapply(qs, function(x) { x[1] }))
         mcols <- unique(sapply(qs, function(x) { x[2] }))
-        ids[[i]] <- list("response" = paste(iid, "RESPONSE", make_id(7), sep = "_"),
-          "questions" = paste(iid, make_id(10, length(msol[[i]])), sep = "_"),
+        ids[[i]] <- list("response" = paste(iid, "RESPONSE", i, make_id(7), sep = "_"),
+          "questions" = paste(iid, 1L:length(msol[[i]]), make_id(10, length(msol[[i]])), sep = "_"),
           "mmatrix_matches" = matrix(msol[[i]], nrow = length(mrows), byrow = TRUE)
         )
         ids[[i]]$mmatrix_questions <- list(
-          "rows" = paste(iid, make_id(10, length(mrows)), sep = "_"),
-          "cols" = paste(iid, make_id(10, length(mcols)), sep = "_")
+          "rows" = paste(iid, 1L:length(mrows), make_id(10, length(mrows)), sep = "_"),
+          "cols" = paste(iid, 1L:length(mcols), make_id(10, length(mcols)), sep = "_")
         )
         rownames(ids[[i]]$mmatrix_matches) <- mrows
         colnames(ids[[i]]$mmatrix_matches) <- mcols
@@ -661,19 +675,6 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
 
       ## string responses
       if(type[i] == "string") {
-        strcounter <- strcounter + 1L
-        ## any uploads?
-        if(!is.null(x$metainfo$stringtype)) {
-          nstring <- sum(type == "string")
-          if(nstring > length(x$metainfo$stringtype)) {
-            stype <- rep(x$metainfo$stringtype, length.out = nstring)
-            stype <- stype[strcounter]
-          } else {
-            stype <- x$metainfo$stringtype[strcounter]
-          }
-          is_essay[i] <- any(grepl("essay", stype, fixed = TRUE))
-          upfile[i] <- any(grepl("file", stype, fixed = TRUE))
-        }
         if((length(maxchars[[i]]) > 1) & sum(!is.na(maxchars[[i]])) == 1 & !is_essay[i] & !upfile[i]) {
           xml <- c(xml,
             paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
@@ -1256,8 +1257,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     ## extract solution.
     msol <- x$metainfo$solution
-    if(!is.list(msol))
-      msol <- list(msol)
+    if(!is.list(msol)) msol <- list(msol)
 
     ## small helper to remove too many ".
     cch <- function(x) {
