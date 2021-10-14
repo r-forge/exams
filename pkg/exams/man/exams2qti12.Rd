@@ -42,7 +42,8 @@
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    converter = NULL, envir = NULL, base64 = TRUE, mode = "hex", \dots)
+    converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
+    package.config = list(), \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -138,6 +139,7 @@
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.
     If set to \code{NULL} only image files will be encoded.}
   \item{mode}{character. See function \code{\link[tth]{tth}}.}
+  \item{package.config}{A named list. List entries are writen to \code{QTI21PackageConfig.xml}.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.
