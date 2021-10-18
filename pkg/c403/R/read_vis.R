@@ -300,8 +300,8 @@ vis_register <- function(file = Sys.glob("*.xls"), subset = TRUE)
   y <- data.frame(y, stringsAsFactors = FALSE)
   if(ncol(y) > k) {
     for(i in (k + 1L):ncol(y)) {  
-      y[[i]] <- sapply(strsplit(y[[i]], "|", fixed = TRUE), function(z) if(length(z) < 1L) "" else tail(z, 1L)) ## FIXME: better idea?
       y[[i]][y[[i]] == ""] <- "-"
+      y[[i]] <- sapply(strsplit(y[[i]], "|", fixed = TRUE), function(z) if(length(z) < 1L) "" else tail(z, 1L)) ## FIXME: better idea?
       y[[i]] <- factor(y[[i]])
     }
   }
