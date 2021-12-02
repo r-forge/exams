@@ -18,7 +18,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-  package.config = list(), ...)
+  config = FALSE, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -419,8 +419,12 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     file.path(test_dir, paste(test_id, "xml", sep = ".")))
 
   ## Add QTI21PackageConfig.xml
-  pc <- do.call("QTIPackageConfig", package.config)
-  writeLines(pc, file.path(test_dir, "QTI21PackageConfig.xml"))
+  ## FIXME: check which options must be synced, e.g., hideFeedback and solutionswitch
+  if(!identical(config, FALSE)) {
+    if(identical(config, TRUE)) config <- list()
+    if(is.list(config)) config <- do.call("QTIPackageConfig", config)
+    if(is.character(config)) writeLines(config, file.path(test_dir, "QTI21PackageConfig.xml"))
+  }
 
   ## compress
   if(zip) {

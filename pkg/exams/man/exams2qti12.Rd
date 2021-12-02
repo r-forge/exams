@@ -43,7 +43,7 @@
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-    package.config = list(), \dots)
+    config = FALSE, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
