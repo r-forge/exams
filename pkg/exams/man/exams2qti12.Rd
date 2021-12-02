@@ -139,7 +139,7 @@
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.
     If set to \code{NULL} only image files will be encoded.}
   \item{mode}{character. See function \code{\link[tth]{tth}}.}
-  \item{package.config}{A named list. List entries are writen to \code{QTI21PackageConfig.xml}.}
+  \item{config}{logical, named list, or character vector to generate \code{QTI21PackageConfig.xml}.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.
