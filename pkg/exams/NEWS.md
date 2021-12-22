@@ -119,8 +119,8 @@
   CSV file) but the initial IDs are fixed to "0" in the exam sheet and
   corresponding boxes ticked already.
 
-* Improved NOPS language support: Added Galician (`gl`, Marta Sestelo &
-  Nora M. Villanueva).
+* Improved NOPS language support: Added Czech (`cz`, Jindřich Marek) and
+  Galician (`gl`, Marta Sestelo & Nora M. Villanueva).
 
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
@@ -280,6 +280,7 @@
   points to four digits. The `language=` file paths do not have to be
   absolute anymore. For `interactive` checking/fixing of registration IDs
   the width of scanned subimage is now adapted according to the `reglength`.
+  The default converter for the HTML report is now `"pandoc"`.
 
 * The actual writing of `nops_eval()` results has been modularized (with contributions
   from Kenji Sato). Different `nops_eval_write_<flavor>` functions can be plugged in.

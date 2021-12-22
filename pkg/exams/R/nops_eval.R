@@ -461,7 +461,7 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "exam_eval",
   nscans <- 1L + as.integer("scan2" %in% names(results))
 
   ## read language specification
-  if(is.null(converter)) converter <- if(language %in% c("hr", "ro", "sk", "tr")) "pandoc" else "tth"
+  if(is.null(converter)) converter <- "pandoc" ## if(language %in% c("cz", "hr", "ro", "sk", "tr")) "pandoc" else "tth"
   language <- nops_language(language, converter = converter)
   substr(language$Points, 1L, 1L) <- toupper(substr(language$Points, 1L, 1L))
   if(!is.null(language$PointSum)) language$Points <- language$PointSum ## currently only for ko
