@@ -24,7 +24,7 @@
     as is?}
   \item{show}{logical. Should the exercise(s) found be shown
     in the browser?}
-  \item{mathjax}{logical. Should the JavaScript from \url{http://www.MathJax.org/}
+  \item{mathjax}{logical. Should the JavaScript from \url{https://www.MathJax.org/}
     be included for rendering mathematical formulas?}
 }
 
