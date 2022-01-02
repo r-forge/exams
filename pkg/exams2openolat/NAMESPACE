@@ -1,0 +1,9 @@
+import("exams", "graphics", "tools")
+importFrom("stats", "median", "na.omit")
+importFrom("utils", "browseURL", "head", "read.csv2", "read.table", "write.table")
+
+export(
+  "exams2openolat",
+  "olat_eval",
+  "olat_exercise"
+)

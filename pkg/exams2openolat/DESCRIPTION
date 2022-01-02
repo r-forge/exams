@@ -1,0 +1,13 @@
+Package: exams2openolat
+Version: 0.1-1
+Date: 2022-01-01
+Title: Tools for 'OpenOlat' tests from 'R/exams'
+Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
+             person(given = "Nikolaus", family = "Umlauf", role = "aut", email = "Nikolaus.Umlauf@uibk.ac.at"),
+             person(given = "Reto", family = "Stauffer", role = "aut", email = "Reto.Stauffer@uibk.ac.at"))
+Description: Support tools for managing tests in OpenOlat from R/exams.
+Depends: R (>= 3.0.0), exams (>= 2.3-1)
+Suggests: base64enc, openxlsx, tth, xlsx, XML
+Imports: graphics, stats, tools, utils
+License: GPL-2 | GPL-3
+NeedsCompilation: no
