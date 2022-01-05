@@ -87,7 +87,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     paste(template_raw[!file.exists(template_path)], collapse = ", "), ".", sep = ""))  
 
   ## read template
-  template <- lapply(template_path, readLines)
+  template <- lapply(template_path, readLines, encoding = "UTF-8")
   ## which input types in template?
   input_types <- function(x) {
     x <- x[grep("\\exinput", x, fixed = TRUE)]
