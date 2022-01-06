@@ -310,7 +310,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
 
       ## create and compile output tex
       con <- base::file(out_tex[j], open = "w+", encoding = encoding)
-      if(encoding != "") tmpl <- base::iconv(tmpl, to = encoding)
+      ## if(encoding != "") tmpl <- base::iconv(tmpl, to = encoding) ## encoding is assured to be UTF-8 upon reading of template
       writeLines(tmpl, con = con)
       base::close(con)
       if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex", quietly = TRUE)) {
