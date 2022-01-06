@@ -87,7 +87,7 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
     paste(template_raw[!file.exists(template_path)], collapse = ", "), ".", sep = ""))  
 
   ## read template
-  template <- lapply(template_path, readLines, encoding = "UTF-8")
+  template <- lapply(template_path, readLines)
   ## which input types in template?
   input_types <- function(x) {
     x <- x[grep("\\exinput", x, fixed = TRUE)]
@@ -309,10 +309,13 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
       }
 
       ## create and compile output tex
-      con <- base::file(out_tex[j], open = "w+", encoding = encoding)
-      ## if(encoding != "") tmpl <- base::iconv(tmpl, to = encoding) ## encoding is assured to be UTF-8 upon reading of template
-      writeLines(tmpl, con = con)
-      base::close(con)
+      ## assuming everything is in UTF-8 anyway
+      writeLines(tmpl, out_tex[j])
+      ## ## old code which also enabled conversion of encodings
+      ## con <- base::file(out_tex[j], open = "w+", encoding = encoding)
+      ## if(encoding != "") tmpl <- base::iconv(tmpl, to = encoding)
+      ## writeLines(tmpl, con = con)
+      ## base::close(con)
       if(getOption("exams_tex", "tinytex") == "tinytex" && requireNamespace("tinytex", quietly = TRUE)) {
         tinytex::latexmk(out_tex[j], engine = texengine)
       } else {
