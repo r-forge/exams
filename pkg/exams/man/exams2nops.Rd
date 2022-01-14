@@ -11,7 +11,7 @@
 }
 
 \usage{
-  exams2nops(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
+  exams2nops(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
     language = "en", title = "Exam", course = "",
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
@@ -34,8 +34,8 @@
     if possible. (Only if some element of \code{nsamp} is larger than
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
-  \item{dir}{character. The default is either display on the screen or
-    the current working directory.}
+  \item{dir}{character. The default is either display on the screen
+    (if \code{n = 1L}) or the current working directory.}
   \item{name}{character. A name prefix for resulting exams and RDS file.}
   \item{language}{character. Path to a DCF file with a language specification.
     See below for the list of supported languages.}

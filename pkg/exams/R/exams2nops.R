@@ -1,4 +1,4 @@
-exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
+exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   language = "en", title = "Exam", course = "",
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
@@ -144,7 +144,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = NULL, name = NULL,
   ## restore seed prior to calling exams2pdf()
   if(restore_seed) assign(".Random.seed", .rseed, envir = .GlobalEnv)
 
-  if(is.null(dir)) {  
+  if(missing(dir) && n == 1L) {  
     rval <- exams2pdf(file, n = n, nsamp = nsamp, name = name, template = template,
       header = header, transform = transform, encoding = encoding,
       points = points, seed = seed, ...)
