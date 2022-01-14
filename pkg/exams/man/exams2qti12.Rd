@@ -15,7 +15,7 @@
 \usage{
   exams2qti12(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
-    tdir = NULL, sdir = NULL, verbose = FALSE,
+    tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
     resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
@@ -31,7 +31,7 @@
 
   exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
-    tdir = NULL, sdir = NULL, verbose = FALSE,
+    tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
     resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
@@ -83,6 +83,8 @@
     default this is chosen via \code{\link[base]{tempfile}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
+  \item{rds}{logical indicating whether the return list should also be
+    saved as an RDS data file.}
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}

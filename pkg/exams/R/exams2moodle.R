@@ -1,7 +1,7 @@
 ## generate exams in Moodle XML format
 ## http://docs.moodle.org/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
@@ -33,6 +33,10 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     }
   }
 
+  ## create a name
+  if(is.null(name)) name <- "moodlequiz"
+  if(isTRUE(rds)) rds <- name
+
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,
    driver = list(
@@ -40,7 +44,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
          resolution = resolution, width = width, height = height,
          encoding = encoding, envir = envir),
        read = NULL, transform = htmltransform, write = NULL),
-     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose)
+     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds)
 
   ## get the possible moodle question body functions and options
   moodlequestion = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
@@ -72,9 +76,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## obtain the number of exams and questions
   nx <- length(exm)
   nq <- length(exm[[1L]])
-
-  ## create a name
-  if(is.null(name)) name <- "moodlequiz"
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))

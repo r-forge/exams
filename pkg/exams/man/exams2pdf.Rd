@@ -13,7 +13,7 @@
     inputs = NULL, header = list(Date = Sys.Date()), name = NULL, 
     control = NULL, encoding = "UTF-8", quiet = TRUE, transform = NULL,
     edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL, texengine = "pdflatex",
-    verbose = FALSE, points = NULL, seed = NULL, 
+    verbose = FALSE, rds = FALSE, points = NULL, seed = NULL, 
     attachfile = FALSE, exshuffle = NULL, \dots)
   
   make_exams_write_pdf(template = "plain", inputs = NULL,
@@ -69,6 +69,8 @@
   \item{texengine}{character. Passed to \code{\link[tinytex]{latexmk}} if \code{tinytex} is available.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
+  \item{rds}{logical indicating whether the return list should also be
+    saved as an RDS data file.}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within the \code{expoints} tags
     of the exercise files (if any). The vector of points supplied should either have

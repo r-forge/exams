@@ -199,6 +199,14 @@
   questions to the same replication. Thus, this will typically only be useful for
   exams with a single random replication.
 
+* In `xexams()` a new argument `rds = FALSE` was added that indicates whether the
+  list returned by the function should also be saved as an RDS data file. If
+  `rds = TRUE` the file name `metainfo.rds` is used but alternatively `rds`
+  can also be specified as a character file name to be used. The new `rds` argument
+  is leveraged in `exams2blackboard()`, `exams2moodle()`, `exams2pdf()`,
+  `exams2html()`, `exams2qti12()`, and `exams2qti21()`, as well as other interfaces
+  built on top of these.
+
 * To avoid accidental deletion of files in pre-existing temporary directories
   `xexams()` now assures that the `tdir` is not identical to the output directory
   `dir` or the exercise directory `edir`. Also, the documentation of `tdir` in the

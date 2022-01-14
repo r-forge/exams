@@ -1,7 +1,7 @@
 xexams <- function(file, n = 1L, nsamp = NULL,
   driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
   dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-  points = NULL, seed = NULL, ...)
+  points = NULL, seed = NULL, rds = FALSE, ...)
 {
   if(verbose) cat("Exams generation initialized.\n\n")
 
@@ -275,6 +275,17 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     if(verbose) cat(" ... done.")
   }
   if(verbose) cat("\n")
+
+  ## optionally save return list as rds file
+  if(!identical(rds, FALSE)) {
+    if(isTRUE(rds)) rds <- "metainfo"
+    if(!is.character(rds)) {
+      warning("'rds' must be logical or a character file name")
+      rds <- "metainfo"
+    }
+    if(file_ext(rds) == "") rds <- paste0(rds, ".rds")
+    saveRDS(exm, file = file.path(dir, rds))
+  }
 
   invisible(exm)
 }

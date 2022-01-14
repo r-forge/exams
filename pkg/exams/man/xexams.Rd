@@ -14,7 +14,7 @@
   xexams(file, n = 1L, nsamp = NULL,
     driver = list(sweave = NULL, read = NULL, transform = NULL, write = NULL),
     dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-    points = NULL, seed = NULL, \dots)
+    points = NULL, seed = NULL, rds = FALSE, \dots)
 
   exams_metainfo(x, \dots)
 }
@@ -56,6 +56,10 @@
     the number of rows must be \code{n} and the number of columns must
     correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
     is sampled.}
+  \item{rds}{logical or character indicating whether the list returned by
+    \code{xexams} should also be saved as an RDS data file. If \code{rds = TRUE}
+    the file name \code{"metainfo.rds"} is used. Alternatively, \code{rds} can
+    also be a character file name to be used.}
   \item{x}{a list as returned by \code{xexams}.}
   \item{\dots}{currently not used.}
 }

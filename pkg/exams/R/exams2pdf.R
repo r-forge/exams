@@ -2,7 +2,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "plain", inputs = NULL, header = list(Date = Sys.Date()),
   name = NULL, control = NULL, encoding = "UTF-8", quiet = TRUE,
   transform = NULL, edir = NULL, tdir = NULL, sdir = NULL, texdir = NULL,
-  texengine = "pdflatex", verbose = FALSE, points = NULL, seed = NULL,
+  texengine = "pdflatex", verbose = FALSE, rds = FALSE, points = NULL, seed = NULL,
   attachfile = FALSE, exshuffle = NULL, ...)
 {
   ## handle matrix specification of file
@@ -32,6 +32,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
       name <- paste(rep_len(name, length(template)), file_path_sans_ext(basename(template)), sep = "_")
     }
   }
+  if(isTRUE(rds)) rds <- name[1L]
 
   ## pandoc (if necessary) as default transformer
   if(is.null(transform)) transform <- make_exercise_transform_pandoc(to = "latex", base64 = FALSE, attachfile = attachfile)
@@ -51,7 +52,7 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
                   read = list(exshuffle = exshuffle),
 		  transform = transform,
 		  write = pdfwrite),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds,
     points = points, seed = seed)
 
   ## display single .pdf on the fly

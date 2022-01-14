@@ -13,7 +13,7 @@
 \usage{
   exams2html(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.html",
     name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-    question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
+    rds = FALSE, question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
     mathjax = NULL, resolution = 100, width = 4, height = 4, svg = FALSE,
     encoding = "UTF-8", envir = NULL, converter = NULL, seed = NULL,
     exshuffle = NULL, \dots)
@@ -53,6 +53,8 @@
     default this is chosen via \code{\link[base]{tempfile}}.}
   \item{verbose}{logical. Should information on progress of exam generation
     be reported?}
+  \item{rds}{logical indicating whether the return list should also be
+    saved as an RDS data file.}
   \item{question}{character or logical. Should the question be included in the HTML
     output? If \code{question} is a character it will be used as a header for resulting questions.
     Argument \code{question} may also be a vector that controls the output for the templates.}

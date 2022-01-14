@@ -1,5 +1,5 @@
 exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
   resolution = 100, width = 4, height = 4, encoding  = "UTF-8",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "blackboard",
@@ -25,6 +25,10 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## set up .html transformer
   htmltransform <- make_exercise_transform_html(converter = converter, base64 = base64, ...)
 
+  ## create a name
+  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+  if(isTRUE(rds)) rds <- name
+
   ## generate the exam
   exm <- xexams(file, n = n, nsamp = nsamp,
     driver = list(
@@ -32,7 +36,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
         resolution = resolution, width = width, height = height,
         encoding = encoding),
       read = NULL, transform = htmltransform, write = NULL),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed)
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed, rds = rds)
 
   ## start .xml assessement creation
   ## get the possible item body functions and options
@@ -110,9 +114,6 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## obtain the number of exams and questions
   nx <- length(exm)
   nq <- length(exm[[1L]])
-
-  ## create a name
-  if(is.null(name)) name <- file_path_sans_ext(basename(template))
 
   ## function for internal ids
   make_test_ids <- function(n, type = c("test", "section", "item"))

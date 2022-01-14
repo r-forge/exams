@@ -1,5 +1,5 @@
 exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.html",
-  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+  name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
   question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
   mathjax = NULL, resolution = 100, width = 4, height = 4, svg = FALSE,
   encoding = "UTF-8", envir = NULL, converter = NULL, seed = NULL,
@@ -35,6 +35,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.
 
   ## output name processing 
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
+  if(isTRUE(rds)) rds <- name
   
   ## set up .html transformer and writer function
   htmltransform <- make_exercise_transform_html(converter = converter, ...)
@@ -48,7 +49,7 @@ exams2html <- function(file, n = 1L, nsamp = NULL, dir = ".", template = "plain.
       read = list(exshuffle = exshuffle),
       transform = htmltransform,
       write = htmlwrite),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed)
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds, seed = seed)
 
   ## display single .html on the fly
   if(display) {
