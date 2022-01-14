@@ -34,7 +34,7 @@ exams2pandoc <- function(file, n = 1L, nsamp = NULL, dir = ".",
       transform = transform,
       write = pandocwrite),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
-    points = points)
+    points = points, ...)
 
   ## return xexams object invisibly
   invisible(rval)
