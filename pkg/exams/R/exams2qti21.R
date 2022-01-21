@@ -561,8 +561,7 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
     }
 
     letters2 <- c(letters,
-      paste0(sort(rep(letters, length(letters))),
-      rep(letters, length(letters))))
+      paste0(rep(letters, each = length(letters)), rep(letters, length(letters))))
 
     ## start item presentation
     ## and insert question
