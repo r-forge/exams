@@ -121,6 +121,7 @@ extract_items <- function(x, markup = c("latex", "markdown"))
   if(markup == "markdown") {
     x <- gsub("^\\* ", "\\\\item ", x)
     x <- gsub("^- ", "\\\\item ", x)
+    x[x %in% c("*", "-")] <- "\\item "    
   }
     
   ## make sure we get items on multiple lines right
