@@ -94,7 +94,7 @@ myexam <- c(
 ## output directory
 dir.create(mydir <- tempfile())
 
-## generate .zip with OpenOLAT test in temporary directory
+## generate .zip with Canvas test in temporary directory
 exams2canvas(myexam, n = 3, dir = mydir)
 dir(mydir)
 }
