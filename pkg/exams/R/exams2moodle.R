@@ -249,6 +249,12 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     if(type == "shortanswer" && (isTRUE(x$metainfo$essay) || isTRUE(essay))) {
         type <- "essay"
     }
+    if(type == "shortanswer") {
+      if(!is.null(x$metainfo$stringtype)) {
+        if(any(grepl("essay", x$metainfo$stringtype)) | any(grepl("file", x$metainfo$stringtype)))
+          type <- "essay"
+      }
+    }
 
     ## question name
     if(is.null(name)) name <- x$metainfo$name
@@ -385,6 +391,14 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         essay_opts <- list(format="plain", required=TRUE, fieldlines=5L,
             attachments=0L, attachmentsrequired=FALSE)
 
+        if(!is.null(x$metainfo$stringtype)) {
+          if(any(grepl("file", x$metainfo$stringtype))) {
+            essay_opts$attachments <- 1L
+            essay_opts$format <- "noinline"
+            essay_opts$required <- FALSE
+          }
+        }
+
         if(!is.list(essay)) {
             essay <- list()
         }
@@ -396,6 +410,14 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
             if(!is.null(value)) {
                 essay_opts[[i]] <- value
             }
+        }
+
+        i <- grep("essay_", names(x$metainfo), fixed = TRUE, value = TRUE)
+        if(length(i)) {
+          for(j in i) {
+            jn <- gsub("essay_", "", j, fixed = TRUE)
+            essay_opts[[jn]] <- x$metainfo[[j]]
+          }
         }
 
         for(i in names(essay_opts)) {
