@@ -162,14 +162,14 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
 
   ## convenience function for creating integer XML tags
-  make_integer_tag <- function(x, type, default = 1) {
+  make_tag <- function(x, type, default = 1, ...) {
     if(is.null(x)) x <- Inf
-    x <- round(as.numeric(x))
+    x <- round(as.numeric(x), ...)
     if(x < default) {
       warning(paste("invalid ", type, " specification, ", type, "=", default, " used", sep = ""))
       x <- default
     }
-    if(is.finite(x)) sprintf("%s=\"%i\"", type, x) else ""
+    if(is.finite(x)) sprintf("%s=\"%s\"", type, x) else ""
   }
 
   ## create section/item titles and section description
@@ -330,7 +330,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     sec_xml <- c(sec_xml, "", "</section>")
 
     ## process maximal number of attempts
-    maxattempts_tag <- make_integer_tag(nmax0 <- maxattempts[j], type = "maxattempts", default = 1)
+    maxattempts_tag <- make_tag(nmax0 <- maxattempts[j], type = "maxattempts", default = 1)
     sec_xml <- gsub("##MaxAttempts##", maxattempts_tag, sec_xml, fixed = TRUE)
   }
 
@@ -357,7 +357,7 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   ## process cutvalue
-  cutvalue <- make_integer_tag(cutvalue, type = "cutvalue", default = 0)
+  cutvalue <- make_tag(cutvalue, type = "cutvalue", default = 0, digits = 8)
 
   ## finalize the test xml file, insert ids/titles, sections, and further control details
   feedbackswitch <- FALSE ## currently hard-coded

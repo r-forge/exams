@@ -66,6 +66,13 @@
     each exercise. See the `fourfold2` exercise for an example and
     `?make_question_moodle` for more details.
 
+* Improved processing of the `cutvalue` (for passing a test/exam/quiz)
+  in `exams2qti21()`. By default, this is `cutvalue = NULL` (or equivalently
+  `cutvalue = NA`) which means that no "pass" status is computed at all
+  (only the sum of the points is reported). Moreover, `cutvalue` is may be
+  a float now and is not coerced to an integer anymore. The latter is also
+  applied in `exams2qti12()`.
+
 * Added new interface `exams2kahoot()` that can export sufficiently simple
   single-choice and multiple-choice exercises to an Excel sheet via
   `openxlsx::write.xlsx()` that can be imported by the game-based learning

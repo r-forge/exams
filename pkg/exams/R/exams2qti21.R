@@ -393,7 +393,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       '</outcomeCondition>',
       sep = '\n'
     )
-    assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue)), assessment_xml, fixed = TRUE)
+    assessment_xml <- gsub('##CutValue##', round(as.numeric(cutvalue), digits = 8), assessment_xml, fixed = TRUE)
   }
 
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts[1L])), assessment_xml, fixed = TRUE)
