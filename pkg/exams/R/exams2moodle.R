@@ -395,21 +395,19 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           if(any(grepl("file", x$metainfo$stringtype))) {
             essay_opts$attachments <- 1L
             essay_opts$format <- "noinline"
-            essay_opts$required <- FALSE
           }
         }
 
         if(!is.list(essay)) {
-            essay <- list()
+          essay <- list()
         }
 
         for(i in names(essay_opts)) {
-            vn <- paste0("essay_", i)
-            value <- x$metainfo[[vn]]
-
-            if(!is.null(value)) {
-                essay_opts[[i]] <- value
-            }
+          vn <- paste0("essay_", i)
+          value <- x$metainfo[[vn]]
+          if(!is.null(value)) {
+            essay_opts[[i]] <- value
+          }
         }
 
         i <- grep("essay_", names(x$metainfo), fixed = TRUE, value = TRUE)
@@ -421,7 +419,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
 
         for(i in names(essay_opts)) {
-            if(!is.null(essay[[i]])) essay_opts[[i]] <- essay[[i]]
+          if(!is.null(essay[[i]])) essay_opts[[i]] <- essay[[i]]
         }
 
         if((essay_opts$fieldlines < 1L) | !essay_opts$required) {
@@ -434,11 +432,11 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         }
 
         txt <- paste0(
-            "<responseformat>", essay_opts$format, "</responseformat>\n",
-            "<responserequired>", as.integer(essay_opts$required), "</responserequired>\n",
-            "<responsefieldlines>", essay_opts$fieldlines, "</responsefieldlines>\n",
-            "<attachments>", essay_opts$attachments, "</attachments>\n",
-            "<attachmentsrequired>", as.integer(essay_opts$attachmentsrequired), "</attachmentsrequired>\n"
+          "<responseformat>", essay_opts$format, "</responseformat>\n",
+          "<responserequired>", as.integer(essay_opts$required), "</responserequired>\n",
+          "<responsefieldlines>", essay_opts$fieldlines, "</responsefieldlines>\n",
+          "<attachments>", essay_opts$attachments, "</attachments>\n",
+          "<attachmentsrequired>", as.integer(essay_opts$attachmentsrequired), "</attachmentsrequired>\n"
         )
 
         xml <- c(xml, txt)
@@ -522,6 +520,9 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 	  fstring <- paste(sample(base::LETTERS, string_w, replace = TRUE), collapse = "")
 	}
       }
+
+      if(any(x$metainfo$clozetype %in% c("essay", "file")))
+        stop("essays or file uploads are not currently supported in Moodle cloze type exercises!")
 
       ## cycle through all questions
       qtext <- NULL; inum <- 1
