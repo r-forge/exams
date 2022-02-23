@@ -65,7 +65,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     cl <- rev(cl[cl > 0L])
     .exams_set_internal(
       xexams_call = lapply(cl, function(i) {
-        match.call(definition = sys.function(i), call = sys.call(i))
+        cl_i <- try(match.call(definition = sys.function(i), call = sys.call(i)), silent = TRUE)
+        if(inherits(cl_i, "try-error")) sys.call(i) else cl_i
       })
     )
   }
