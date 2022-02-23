@@ -394,7 +394,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(!is.null(x$metainfo$stringtype)) {
           if(any(grepl("file", x$metainfo$stringtype))) {
             essay_opts$attachments <- 1L
-            essay_opts$format <- "noinline"
           }
         }
 
