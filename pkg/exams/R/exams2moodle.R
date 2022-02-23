@@ -246,6 +246,15 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       "string" = "shortanswer"
     )
 
+    if(type == "cloze") {
+      if(length(x$metainfo$clozetype) < 3L) {
+        if(all(x$metainfo$clozetype %in% c("essay", "file"))) {
+          x$metainfo$stringtype <- x$metainfo$clozetype
+          type <- "shortanswer"
+        }
+      }
+    }
+
     if(type == "shortanswer" && (isTRUE(x$metainfo$essay) || isTRUE(essay))) {
         type <- "essay"
     }
@@ -394,6 +403,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(!is.null(x$metainfo$stringtype)) {
           if(any(grepl("file", x$metainfo$stringtype))) {
             essay_opts$attachments <- 1L
+            if(length(x$metainfo$stringtype) == 1L)
+              essay_opts$fieldlines <- 0L
           }
         }
 
