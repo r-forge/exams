@@ -36,6 +36,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   }
   ## header: localization (titles, logos, etc.)
   if(missing(logo)) logo <- system.file(file.path("nops", "Rlogo.png"), package = "exams")
+  if(sub("[[:space:]]+$", "", logo) == "") logo <- "-" ## alternatively: entirely omit includegraphics of logo in template
   if(course != "") course <- paste0("(", course, ")")
   loc <- list(
     nopsinstitution = institution,
