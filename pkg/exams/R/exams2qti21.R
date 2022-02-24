@@ -18,7 +18,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-  config = FALSE, ...)
+  include = NULL, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -419,12 +419,17 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', assessment_xml),
     file.path(test_dir, paste(test_id, "xml", sep = ".")))
 
-  ## Add QTI21PackageConfig.xml
-  ## FIXME: check which options must be synced, e.g., hideFeedback and solutionswitch
-  if(!identical(config, FALSE)) {
-    if(identical(config, TRUE)) config <- list()
-    if(is.list(config)) config <- do.call("QTIPackageConfig", config)
-    if(is.character(config)) writeLines(config, file.path(test_dir, "QTI21PackageConfig.xml"))
+  ## include further files
+  if(!is.null(include)) {
+    if(is.list(include) && !is.null(names(include))) {
+      for(i in names(include)) writeLines(include[[i]], file.path(test_dir, i))
+    } else if(is.character(include) && all(file.exists(include)) {
+      ## FIXME: not just absolute paths, but also support include in
+      ## original working directory or edir
+      file.copy(include, file.path(test_dir, basename(include)))
+    } else {
+      warning("ignoring 'include' argument due to unknown specification")
+    }
   }
 
   ## compress
@@ -1967,94 +1972,5 @@ is_number1 <- function(x)
     suppressWarnings(!is.na(as.numeric(z[1])))
   })
   return(x)
-}
-
-
-## QTI package config generator.
-QTIPackageConfig <- function(...)
-{
-  control <- list(...)
-
-  defaults <- list(
-    "cancel" = FALSE,
-    "suspend" = FALSE,
-    "scoreprogress" = FALSE,
-    "questionprogress" = TRUE,
-    "maxscoreitem" = FALSE,
-    "menu" = TRUE,
-    "titles" = TRUE,
-    "notes" = FALSE,
-    "hidelms" = TRUE,
-    "hidefeedbacks" = TRUE,
-    "blockaftersuccess" = FALSE,
-    "maxattempts" = 1,
-    "anonym" = FALSE,
-    "signature" = FALSE,
-    "signaturemail" = FALSE,
-    "resultsonfinish" = FALSE,
-    "itemback" = FALSE,
-    "itemresethard" = FALSE,
-    "itemresetsoft" = FALSE,
-    "itemskip" = FALSE,
-    "passedtype" = "none",
-    "metadata" = FALSE,
-    "sectionsummary" = FALSE,
-    "questionsummary" = FALSE,
-    "usersolutions" = FALSE,
-    "correctsolutions" = FALSE,
-    "questions" = FALSE
-  )
-
-  if(length(control)) {
-    if(!is.null(names(control))) {
-      names(control) <- tolower(names(control))
-      ndef <- names(defaults)
-      for(j in names(control)) {
-        if(j %in% ndef)
-          defaults[[j]] <- control[[j]]
-      }
-    }
-  }
-
-  for(j in seq_along(defaults)) {
-    if(is.logical(defaults[[j]]))
-      defaults[[j]] <- if(defaults[[j]]) "true" else "false"
-  }
-
-  xml <- c(
-    '<deliveryOptions>',
-    paste0('<enableCancel>', defaults$cancel, '</enableCancel>'),
-    paste0('<enableSuspend>', defaults$suspend, '</enableSuspend>'),
-    paste0('<displayScoreProgress>', defaults$scoreprogress, '</displayScoreProgress>'),
-    paste0('<displayQuestionProgress>', defaults$questionprogress, '</displayQuestionProgress>'),
-    paste0('<displayMaxScoreItem>', defaults$maxscoreitem, '</displayMaxScoreItem>'),
-    paste0('<showMenu>', defaults$menu, '</showMenu>'),
-    paste0('<showTitles>', defaults$titles, '</showTitles>'),
-    paste0('<personalNotes>', defaults$nodes, '</personalNotes>'),
-    paste0('<hideLms>', defaults$hidelms, '</hideLms>'),
-    paste0('<hideFeedbacks>', defaults$hidefeedbacks, '</hideFeedbacks>'),
-    paste0('<blockAfterSuccess>', defaults$blockaftersuccess, '</blockAfterSuccess>'),
-    paste0('<maxAttempts>', defaults$maxattempts, '</maxAttempts>'),
-    paste0('<allowAnonym>', defaults$anonym, '</allowAnonym>'),
-    paste0('<digitalSignature>', defaults$signature, '</digitalSignature>'),
-    paste0('<digitalSignatureMail>', defaults$signaturemail, '</digitalSignatureMail>'),
-    paste0('<showAssessmentResultsOnFinish>', defaults$resultsonfinish, '</showAssessmentResultsOnFinish>'),
-    paste0('<enableAssessmentItemBack>', defaults$itemback, '</enableAssessmentItemBack>'),
-    paste0('<enableAssessmentItemResetHard>', defaults$itemresethard, '</enableAssessmentItemResetHard>'),
-    paste0('<enableAssessmentItemResetSoft>', defaults$itemresetsoft, '</enableAssessmentItemResetSoft>'),
-    paste0('<enableAssessmentItemSkip>', defaults$itemskip, '</enableAssessmentItemSkip>'),
-    paste0('<passedType>', defaults$passedtype, '</passedType>'),
-    paste0('<assessmentResultsOptions>'),
-    paste0('<metadata>', defaults$metadata, '</metadata>'),
-    paste0('<sectionSummary>', defaults$sectionsummary, '</sectionSummary>'),
-    paste0('<questionSummary>', defaults$questionsummary, '</questionSummary>'),
-    paste0('<userSolutions>', defaults$usersolutions, '</userSolutions>'),
-    paste0('<correctSolutions>', defaults$correctsolutions, '</correctSolutions>'),
-    paste0('<questions>', defaults$questions, '</questions>'),
-    paste0('</assessmentResultsOptions>'),
-    '</deliveryOptions>'
-  )
-
-  return(xml)
 }
 
