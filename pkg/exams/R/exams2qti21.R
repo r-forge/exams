@@ -426,6 +426,16 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     } else if(is.character(include) && all(file.exists(include))) {
       ## FIXME: not just absolute paths, but also support include in
       ## original working directory or edir
+      ## N: should work like this
+      if(any(!file.exists(include))) {
+        if(all(file.exists(file.path(edir, include))))
+          include <- file.path(edir, include)
+      }
+      if(any(!file.exists(include))) {
+        owd <- getwd()
+        if(all(file.exists(file.path(owd, include))))
+          include <- file.path(owd, include)
+      }
       file.copy(include, file.path(test_dir, basename(include)))
     } else {
       warning("ignoring 'include' argument due to unknown specification")
