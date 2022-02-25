@@ -423,7 +423,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(!is.null(include)) {
     if(is.list(include) && !is.null(names(include))) {
       for(i in names(include)) writeLines(include[[i]], file.path(test_dir, i))
-    } else if(is.character(include) && all(file.exists(include)) {
+    } else if(is.character(include) && all(file.exists(include))) {
       ## FIXME: not just absolute paths, but also support include in
       ## original working directory or edir
       file.copy(include, file.path(test_dir, basename(include)))
