@@ -43,7 +43,7 @@
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-    config = FALSE, \dots)
+    include = NULL, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -141,7 +141,8 @@
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.
     If set to \code{NULL} only image files will be encoded.}
   \item{mode}{character. See function \code{\link[tth]{tth}}.}
-  \item{config}{logical, named list, or character vector to generate \code{QTI21PackageConfig.xml}.}
+  \item{include}{character, paths of extra files that should be included within the final
+    \code{.zip}-file.}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.

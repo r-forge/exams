@@ -10,8 +10,18 @@
 
 \usage{
   exams2openolat(file, n = 1L, dir = ".", name = "olattest",
-  qti = "2.1", converter = "pandoc-mathjax", table = TRUE,
+  qti = "2.1", config = TRUE, converter = "pandoc-mathjax", table = TRUE,
   maxattempts = 1, \dots)
+
+  openolat_config(cancel = FALSE, suspend = FALSE, scoreprogress = FALSE,
+    questionprogress = FALSE, maxscoreitem = FALSE, menu = TRUE,
+    titles = TRUE, notes = FALSE, hidelms = TRUE, hidefeedbacks = FALSE,
+    blockaftersuccess = FALSE, attempts = 1, anonym = FALSE,
+    signature = FALSE, signaturemail = FALSE, resultsonfinish = TRUE,
+    itemback = FALSE, itemresethard = FALSE, itemresetsoft = FALSE,
+    itemskip = FALSE, passedtype = "none", metadata = FALSE,
+    sectionsummary = TRUE, questionsummary = FALSE, usersolutions = TRUE,
+    correctsolutions = TRUE, questions = FALSE)
 }
 
 \arguments{
@@ -21,6 +31,10 @@
   \item{name}{character. A name prefix for resulting exercises and ZIP file.}
   \item{qti}{character indicating whether QTI \code{"1.2"} or \code{"2.1"}
     (default) should be generated.}
+  \item{config}{logical or named list with arguments to be passed to
+    function \code{openolat_config}, see below. When using the \code{config} argument
+    a \code{XML} file named \code{QTI21PackageConfig.xml} will be written to the
+    final directory.}
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
     indicating the type of converter from LaTeX/Markdown to HTML. Defaults
     to HTML with MathJax (and OpenOlat-specific fixups).}
@@ -31,6 +45,33 @@
     must be smaller than \code{100000}.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
     \code{\link[exams]{exams2qti21}}, respectively.}
+  \item{cancel}{logical, whether the test may be canceled.}
+  \item{suspend}{logical, whether the test may be suspended.}
+  \item{scoreprogress}{logical, should score be shown when running the exam.}
+  \item{questionprogress}{logical, should the number of solved questions be shown during the exam.}
+  \item{maxscoreitem}{logical, should the maximum score of the item be shown.}
+  \item{menu}{logical, should the menu be shown.}
+  \item{titles}{logical, should titles be shown.}
+  \item{notes}{logical, should notes be allowed.}
+  \item{hidelms}{logical, hide the OLAT LMS.}
+  \item{hidefeedbacks}{logical, should feedback ne displayed.}
+  \item{blockaftersuccess}{logical, is the test blocked after successful completion.}
+  \item{attempts}{integer, how many attempts are allowed for the test.}
+  \item{anonym}{logical, can the test be taken as an anonymous user.}
+  \item{signature}{logical, should signatures of users be allowed.}
+  \item{signaturemail}{logical, similar as above.}
+  \item{resultsonfinish}{logical, should results after finishing the test be displayed.}
+  \item{itemback}{logical}
+  \item{itemresethard}{logical}
+  \item{itemresetsoft}{logical}
+  \item{itemskip}{logical, can items be skipped.}
+  \item{passedtype}{character, which passed type should be displayed after completion of the test.}
+  \item{metadata}{logical}
+  \item{sectionsummary}{logical, should section summaries be displayed after completion of the test.}
+  \item{questionsummary}{logical, should question summaries be displayed after completion of the test.}
+  \item{usersolutions}{logical, should the user solutions be displayed after completion of the test.}
+  \item{correctsolutions}{logical, should the correct solutions be displayed after completion of the test.}
+  \item{questions}{logical}
 }
 
 \details{
@@ -44,6 +85,9 @@
   Or regular tables without background color (\code{"b_middle"}) or with white grid
   and color background (\code{"b_gray"}, \code{"b_red"}, \code{"b_green"}, \code{"b_blue"},
   \code{"b_yellow"}). Setting \code{table = TRUE} corresponds to \code{table = "b_gray"}.
+
+  Function \code{openolat_config} generates \code{XML} code that controls the overall options
+  of the test.
 }
 
 \value{
