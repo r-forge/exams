@@ -20,7 +20,7 @@ exams2arsnova <- function(file, n = 1L, dir = ".",
   ## - Github flavor
   ## - math mode with \( rather than $
   ## - avoid line wrapping
-  mdtransform <- make_exercise_transform_pandoc(to = "markdown_github+tex_math_single_backslash",
+  mdtransform <- make_exercise_transform_pandoc(to = "gfm+tex_math_single_backslash",
     options = "--wrap=none")
 
   ## create JSON/RCurl write with custom options
