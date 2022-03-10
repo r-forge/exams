@@ -10,7 +10,7 @@ exams2pandoc <- function(file, n = 1L, nsamp = NULL, dir = ".",
   via <- switch(tolower(file_ext(template)),
     "tex" = "latex",
     "html" = "html",
-    "md" = "gfm+tex_math_single_backslash"
+    "md" = "gfm"
   )
 
   ## output name processing 

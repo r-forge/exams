@@ -13,7 +13,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
   ## function to apply ttx() on every
   ## element of a list in a fast way
   apply_pandoc_on_list <- function(object, from = "markdown",
-    sep = "\007\007\007\007\007", ...)
+    sep = "SEPARATOR007BETWEEN007LIST007ELEMENTS", ...)
   {
     ## add seperator as last line to each chunk
     object <- lapply(object, c, c("", sep, ""))

@@ -241,6 +241,11 @@
   environment. Also parsing the individual items now also works tab-indented
   items. (Reported by Sebastian Kupek.)
 
+* Use `gfm` instead of the depracated `markdown_github` to convert to
+  GitHub-flavored Markdown in `exams2arsnova()`. As this uses hex encodings for
+  character entities, the default `sep` in `make_exercise_transform_pandoc()`
+  is changed to a plain ASCII separator.
+
 
 # exams 2.3-6
 
