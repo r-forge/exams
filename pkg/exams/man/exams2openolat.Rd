@@ -1,5 +1,6 @@
 \name{exams2openolat}
 \alias{exams2openolat}
+\alias{openolat_config}
 
 \title{Generation of Exams for OpenOlat}
 
@@ -10,8 +11,8 @@
 
 \usage{
   exams2openolat(file, n = 1L, dir = ".", name = "olattest",
-  qti = "2.1", config = TRUE, converter = "pandoc-mathjax", table = TRUE,
-  maxattempts = 1, \dots)
+    qti = "2.1", config = TRUE, converter = "pandoc-mathjax", table = TRUE,
+    maxattempts = 1, \dots)
 
   openolat_config(cancel = FALSE, suspend = FALSE, scoreprogress = FALSE,
     questionprogress = FALSE, maxscoreitem = FALSE, menu = TRUE,

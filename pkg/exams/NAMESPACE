@@ -80,6 +80,7 @@ export(
   "exams2qti21",
   "make_itembody_qti21",
   "exams2openolat",
+  "openolat_config",
   "exams2canvas",
   "exams2ilias",
 
