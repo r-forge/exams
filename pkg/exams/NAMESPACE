@@ -105,9 +105,10 @@ export(
   "make_question_moodle23",
   "moodle2exams",
 
-  ## ARSnova driver
+  ## ARSnova/Particify driver
   "exams2arsnova",
   "make_exams_write_arsnova",
+  "exams2particify",
 
   ## Kahoot! driver
   "exams2kahoot",

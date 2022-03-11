@@ -73,6 +73,13 @@
   a float now and is not coerced to an integer anymore. The latter is also
   applied in `exams2qti12()`.
 
+* Added new interface `exams2particify()` that can export exercises to a
+  comma-separated values (CSV) format for import in the audience response
+  system Particify (<https://particify.de/>), the successor to ARSnova.
+  In particular, single-choice and multiple-choice exercises are fully
+  supported while num and string question are converted to open-ended text
+  questions.
+
 * Added new interface `exams2kahoot()` that can export sufficiently simple
   single-choice and multiple-choice exercises to an Excel sheet via
   `openxlsx::write.xlsx()` that can be imported by the game-based learning
