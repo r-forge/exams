@@ -11,6 +11,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   } else {
     "--mathml"
   }
+  options <- c(options, "--wrap=preserve")
   if(converter %in% c("tth", "ttm")) {
     stopifnot(requireNamespace("tth"))
   } else if(converter == "pandoc") {
