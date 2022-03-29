@@ -64,7 +64,8 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   ## determine number of alternative choices (and non-supported cloze exercises)
   ## for all (unique) exercises in the exam
   ufile <- unique(as.vector(unlist(file)))
-  x <- exams_metainfo(xexams(ufile, driver = list(sweave = list(quiet = TRUE, encoding = encoding),
+  uenv <- new.env()
+  x <- exams_metainfo(xexams(ufile, driver = list(sweave = list(quiet = TRUE, encoding = encoding, envir = uenv),
     read = NULL, transform = NULL, write = NULL), ...))[[1L]]    
   names(x) <- ufile
   utype <- sapply(ufile, function(n) x[[n]]$type)
