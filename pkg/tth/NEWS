@@ -1,16 +1,21 @@
+Changes in Version 4.12-1
+
+  o Improvements in Makefile.win from Kurt Hornik.
+
+
 Changes in Version 4.12-0
 
   o Upgrade to latest TtH version included in Debian (4.12).
 
-  o Updated Makefile.win according to "Writing R Extensions"
+  o Updated Makefile.win according to "Writing R Extensions".
 
-  o Compile executables using flag -w
+  o Compile executables using flag -w.
 
 
 Changes in Version 4.3-3
 
   o Added a line to the Windows Makefile necessary by new R Windows
-    toolchain to include appropriate Makeconf
+    toolchain to include appropriate Makeconf.
 
 
 Changes in Version 4.3-2
