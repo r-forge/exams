@@ -78,8 +78,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   Plain \code{tth} employs \code{"dec"} mode while plain \code{ttm} employs
   \code{"named"} mode. But setting \code{mode = "hex"} would convert all
   character entity references to hex mode etc.
-  See \url{http://www.w3.org/TR/xml-entity-names/bycodes.html} for the list of
-  character entity references employed and \url{http://dev.w3.org/html5/html-author/charref}
+  See \url{https://www.w3.org/TR/xml-entity-names/bycodes.html} for the list of
+  character entity references employed and \url{https://dev.w3.org/html5/html-author/charref}
   for a somewhat nicer display.
 }
 
