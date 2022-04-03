@@ -17,7 +17,7 @@
     iname = TRUE, stitle = NULL,
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    points = NULL, rule = NULL, pluginfile = TRUE,
+    points = NULL, rule = NULL, pluginfile = TRUE, forcedownload = FALSE,
     converter = "pandoc-mathjax", envir = NULL,
     table = NULL, css = NULL, \dots)
 
@@ -96,6 +96,10 @@
   \item{pluginfile}{logical. Should supplements be included in the Moodle XML file via Moodle's
     Pluginfile mechanism? This is the default but may not work with older versions of Moodle (<2.5).
     If set to \code{FALSE} supplements like graphics and data are included as data URIs.}
+  \item{forcedownload}{logical. Should all supplementary links be forced to download when clicked
+    (as opposed to opening in the browser)? Only supported if \code{pluginfile = TRUE}.    
+    If \code{forcedownload = FALSE} the behavior typically depends on the browser,
+    user settings, and file type.}
   \item{solution}{logical. Should the question solution, if available, be added in the question
      XML?}
   \item{shuffle}{For \code{mchoice} and \code{schoice} exercises, if set to \code{TRUE} will

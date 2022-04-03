@@ -139,6 +139,12 @@
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 
+* Added new argument `exams2moodle(..., forcedownload = FALSE)` which when
+  set to `TRUE` can force all supplementary links to be downloaded (rather
+  than opened in the browser). Only supported if `pluginfile = TRUE`.
+  If `forcedownload = FALSE` the behavior typically depends on the browser,
+  user settings, and file type.
+
 * Improvements in `read_exercise()`:
 
   - `exshuffle` now works for `cloze` questions even if no `solutionlist` is

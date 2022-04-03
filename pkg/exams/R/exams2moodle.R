@@ -5,7 +5,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8", 
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  points = NULL, rule = NULL, pluginfile = TRUE,
+  points = NULL, rule = NULL, pluginfile = TRUE, forcedownload = FALSE,
   converter = "pandoc-mathjax", envir = NULL,
   table = NULL, css = NULL, ...)
 {
@@ -171,7 +171,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 	  href <- paste0("\"", f,"\"")
           if(any(grepl(href, question_xml, fixed = TRUE))) {
             if(isTRUE(pluginfile)) {
-              newfn   <- paste0("@@PLUGINFILE@@/", f)
+              newfn   <- paste0("@@PLUGINFILE@@/", f, if(isTRUE(forcedownload)) "?forcedownload=1" else "")
               newhref <- paste0("\"", newfn,"\"")
               filetag <- paste0("<file name=\"", f, "\" encoding=\"base64\">",
                                 base64enc::base64encode(exm[[i]][[j]]$supplements[si]),
