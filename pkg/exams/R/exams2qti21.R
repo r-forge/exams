@@ -51,7 +51,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
           resolution = resolution, width = width, height = height,
           encoding = encoding, envir = envir),
         read = NULL, transform = htmltransform, write = NULL),
-      dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds)
+      dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds, points = points)
   } else {
     exm <- file
     rm(file)
@@ -173,11 +173,6 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     )
   }
 
-  ## points setting
-  if(!is.null(points)) {
-    points <- rep(points, length.out = nq)
-  }
-
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(file_path_as_absolute(tdir), name))
 
@@ -216,7 +211,6 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       }
 
       ## overule points
-      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
       if(i < 2) {
         tpts <- if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
         maxscore <- maxscore + sum(tpts)
