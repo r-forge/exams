@@ -44,7 +44,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
          resolution = resolution, width = width, height = height,
          encoding = encoding, envir = envir),
        read = NULL, transform = htmltransform, write = NULL),
-     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds)
+     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, rds = rds, points = points)
 
   ## get the possible moodle question body functions and options
   moodlequestion = list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
@@ -98,10 +98,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     exsecs[1:ks] <- stitle
   }
 
-  ## points setting
-  if(!is.null(points))
-    points <- rep(points, length.out = nq)
-
   ## encoding (actually only UTF-8 supported starting from 2.4-0)
   enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
   if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
@@ -140,9 +136,6 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     ## create the questions
     for(i in 1:nx) {
-      ## overule points
-      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
-
       ## get the question type
       type <- exm[[i]][[j]]$metainfo$type
 

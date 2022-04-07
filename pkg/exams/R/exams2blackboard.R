@@ -36,7 +36,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
         resolution = resolution, width = width, height = height,
         encoding = encoding),
       read = NULL, transform = htmltransform, write = NULL),
-    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed, rds = rds)
+    dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed, rds = rds, points = points)
 
   ## start .xml assessement creation
   ## get the possible item body functions and options
@@ -137,12 +137,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   if(is.null(tinstruction)) tinstruction <- ""
 
   ## points setting
-  if(!is.null(points)) {
-    points <- rep(points, length.out = nq)
-  } else {
-    points <- sapply(1:nq, function(j) c(exm[[1L]][[j]]$metainfo$points, NA_real_)[1L])
-    points[is.na(points)] <- 1
-  }
+  points <- sapply(1:nq, function(j) c(exm[[1L]][[j]]$metainfo$points, NA_real_)[1L])
+  points[is.na(points)] <- 1
 
 
   ## create the directory where the test is stored
@@ -256,8 +252,6 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
     ## now, insert the questions
     for(i in 1:nx) {
-      ## overule points
-      if(!is.null(points)) exm[[i]][[j]]$metainfo$points <- points[[j]]
       if(i < 2)
         all_points[j] <- if(is.null(exm[[i]][[j]]$metainfo$points)) 1 else exm[[i]][[j]]$metainfo$points
 
