@@ -161,7 +161,7 @@
 
   The default template will generate exams/assessments that sample one replicate
   of a question/item for each section. The usual procedure in exam/assessment
-  generation would be to simply copy \& paste the XML template of the package
+  generation would be to simply copy & paste the XML template of the package
   and adapt it to the needs of the user. Note that all specifiers that have a
   leading \code{##} in the XML template will be replaced by suitable code in
   \code{exams2blackboard} and should always be provided in the template. I.e.,
