@@ -608,7 +608,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     for(i in 1:n) {
       if(x$metainfo$type == "cloze"){
           xml <- c(xml,
-            paste('<mapEntry mapKey="', ids[[i]]$idcs, '" mappedValue="', q_points[i], '" />', sep = '')
+            paste('<mapEntry mapKey="', ids[[i]]$idcs, '" mappedValue="', 1/n, '" />', sep = '')
                )
           xml <- c(xml, if(i==n) {c('</mapping>', '</responseDeclaration>')} else NULL
              )
