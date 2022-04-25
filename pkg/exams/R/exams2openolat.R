@@ -39,9 +39,9 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
 
 ## QTI package config generator for OpenOlat
 openolat_config <- function(
-  cancel = FALSE,
-  suspend = FALSE,
-  scoreprogress = FALSE,
+  cancel = FALSE, ## Does not work.
+  suspend = FALSE, ## Does not work.
+  scoreprogress = FALSE, ## Does not work.
   questionprogress = FALSE,
   maxscoreitem = FALSE, ## FIXME N:?
   menu = TRUE,
