@@ -197,12 +197,13 @@ options(device.ask.default = FALSE)
 
 ## define an exams (= list of exercises)
 myexam <- list(
-  "tstat.Rmd",
-  "tstat2.Rmd",
-  "relfreq.Rmd",
-  "essayreg.Rmd",
-  "dist2.Rmd",
-  "boxhist.Rmd")
+  "tstat",
+  "tstat2",
+  "relfreq",
+  "essayreg",
+  "dist2",
+  "boxhist"
+)
 
 ## output directory
 dir.create(mydir <- tempfile())
