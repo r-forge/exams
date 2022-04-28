@@ -85,9 +85,6 @@ print(dir(tdir))
 names(ex_converted)
 writeLines(ex_converted[[1]])
 
-## convert the newly created Rmd file to html
-exams2html(print(dir(tdir)))
-
 ## clean up temporary directory
 unlink(tdir)
 }
