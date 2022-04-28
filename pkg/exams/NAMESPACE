@@ -116,10 +116,11 @@ export(
 
   ## TCExam driver
   "exams2tcexam",
-  
+
   ## TestVision driver
   "exams2testvision",
-  "make_itembody_testvision",  
+  "make_itembody_testvision",
+  "testvision2exams",
 
   ## Pandoc driver
   "exams2pandoc"
