@@ -40,8 +40,11 @@ testvision2exams(x, markup = c("markdown", "latex"), dir = ".",
   The function takes a TestVision XML question and converts it into an R/Markdown (Rmd) or
   R/LaTeX (Rnw) R/exams exercise. If \code{markup == "latex"} the HTML answers and questions from the TestVision XML 
   are converted using pandoc (via \code{\link[rmarkdown]{pandoc_convert}}); else the function simply copies the HTML 
-  content from the TestVision XML (equations are stored within \code{<math> tags}). It is recommended to 
-  check the outcome in case certain HTML markup, or mathematical equations, etc., cannot be converted fully automatically.
+  content from the TestVision XML (equations are stored within \code{<math> tags}). In the latter case, if conversion 
+  aims at creating dynamic exercises, it is advised to select and adjust the content in the \code{<annotation>} tag
+  which is a raw latex specification of the equation. It is recommended to check the outcome in case certain HTML 
+  markup, or mathematical equations, etc., cannot be converted fully automatically.
+  
   Currently only the TestVision XML exercise types 'invul (numeriek)', 'een-uit-meer', 'meer-uit-meer', and 'open'
   are properly supported. There is not yet support exercises of type cloze, in TestVision called 'invul
   (meervoudig)'. Hence, in case of cloze questions the execution of the function is stopped and a 
@@ -77,10 +80,13 @@ dir.create(tdir <- tempfile())
 ex_converted <- testvision2exams(testvision_xml, dir = tdir)
 print(dir(tdir))
 
-## additionally the source code of the Rmd files is also return invisible
+## additionally the source code of the Rmd file is also return invisible
 ## in 'ex_converted' and can be inspected manually, e.g., via writeLines()
 names(ex_converted)
 writeLines(ex_converted[[1]])
+
+## convert the newly created Rmd file to html
+exams2html(print(dir(tdir)))
 
 ## clean up temporary directory
 unlink(tdir)
