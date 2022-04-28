@@ -208,7 +208,7 @@ exsolution: %s
     supps <- c(supps, pff$supplements)
     qtext <- paste0(as.character(pff$txt), collapse = "")
     if(markup == "latex"){
-      qtext <- exams:::pandoc(equation(qtext),
+      qtext <- pandoc(equation(qtext),
         from = "html+tex_math_dollars+tex_math_single_backslash",
         to = markup)
     }
@@ -232,7 +232,7 @@ exsolution: %s
       sol <- choiceid %in% cresp
       exsol <- paste0(sol*1, collapse = "")
       for(j in 1L:length(ans)) {
-        answers[[j]] <- if(markup == "latex") exams:::pandoc(equation(ans[j]),
+        answers[[j]] <- if(markup == "latex") pandoc(equation(ans[j]),
           from = "html+tex_math_dollars+tex_math_single_backslash",
             to = markup) else ans[j]
         }
@@ -287,7 +287,7 @@ exsolution: %s
       for(i in 1 : length(fdbck)) {
         fbtmp <- fdbck[[i]]
         if(markup == "latex"){
-          fbtmp <- exams:::pandoc(fbtmp,
+          fbtmp <- pandoc(fbtmp,
             from = "html+tex_math_dollars+tex_math_single_backslash",
             to = markup)
         }
@@ -300,7 +300,7 @@ exsolution: %s
       rblock <- paste0("<p>", stripdiv(xml2::xml_contents(rblock)), "</p>", collapse = "")
       if(markup == "latex"){
         rblock <- equation(rblock)
-        rblock <- exams:::pandoc(rblock,
+        rblock <- pandoc(rblock,
             from = "html+tex_math_dollars+tex_math_single_backslash",
             to = markup)
       }
