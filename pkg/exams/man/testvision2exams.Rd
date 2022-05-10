@@ -9,7 +9,7 @@
 }
 
 \usage{
-testvision2exams(x, markup = c("markdown", "latex"), dir = ".",
+testvision2exams(x, markup = c("markdown", "latex"), rawHTML = FALSE, dir = ".",
   exshuffle = TRUE, name = NULL, shareStats = FALSE)
 }
 
@@ -17,6 +17,8 @@ testvision2exams(x, markup = c("markdown", "latex"), dir = ".",
   \item{x}{character. Path to a TestVision XML file.}
   \item{markup}{character. Markup language to convert to, i.e., \code{"markdown"} (default)
     corresponds to Rmd exercises and \code{"latex"} to Rnw exercises.}
+  \item{rawHTML}{logical. If \code{rawHTML = TRUE} (and \code(markup = "markdown")), instead of 
+  conversion via pandoc, the function merely obtains the raw HTML inside the exercise.}    
   \item{dir}{character. Directory where the converted exercises should be saved.
     If set to \code{NULL} no files are saved.}
   \item{exshuffle}{logical or numeric. Meta-information tag used for single-choice and
@@ -38,12 +40,13 @@ testvision2exams(x, markup = c("markdown", "latex"), dir = ".",
   The resulting exercise file can subsequently be edited further, e.g., for making it dynamic.
 
   The function takes a TestVision XML question and converts it into an R/Markdown (Rmd) or
-  R/LaTeX (Rnw) R/exams exercise. If \code{markup == "latex"} the HTML answers and questions from the TestVision XML 
-  are converted using pandoc (via \code{\link[rmarkdown]{pandoc_convert}}); else the function simply copies the HTML 
+  R/LaTeX (Rnw) R/exams exercise. If \code{markup = "latex"} the HTML answers and questions from the TestVision XML 
+  are converted using pandoc (via \code{\link[rmarkdown]{pandoc_convert}}). Similarly, if \code{markup = "markdown"}
+  pandoc converts the content to markdown, but when \code{rawHTML = TRUE} the function simply copies the HTML 
   content from the TestVision XML (equations are stored within \code{<math> tags}). In the latter case, if conversion 
-  aims at creating dynamic exercises, it is advised to select and adjust the content in the \code{<annotation>} tag
-  which is a raw latex specification of the equation. It is recommended to check the outcome in case certain HTML 
-  markup, or mathematical equations, etc., cannot be converted fully automatically.
+  aims at creating dynamic exercises and displaying equations, it is advised to select and adjust the content in the 
+  \code{<annotation>} tag which is a raw latex specification of the equation. It is recommended to check the outcome 
+  in case certain HTML markup, or mathematical equations, etc., cannot be converted fully automatically.
   
   Currently only the TestVision XML exercise types 'invul (numeriek)', 'een-uit-meer', 'meer-uit-meer', and 'open'
   are properly supported. There is not yet support exercises of type cloze, in TestVision called 'invul
