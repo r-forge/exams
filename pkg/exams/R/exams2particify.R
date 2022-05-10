@@ -5,7 +5,7 @@ exams2particify <- function(file, n = 1L, dir = ".", name = "particify",
   ## Markdown transformer:
   mdtransform <- make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none")
 
-  ## create JSON/RCurl write with custom options
+  ## create CSB writer with custom options
   particifywrite <- make_exams_write_particify(name = name, abstention = abstention, fix_choice = fix_choice)
 
   ## generate xexams
