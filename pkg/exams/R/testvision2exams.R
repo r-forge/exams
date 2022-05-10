@@ -1,4 +1,4 @@
-testvision2exams <- function(x, markup = c("markdown", "latex"),
+testvision2exams <- function(x, markup = c("markdown", "latex"), rawHTML = FALSE,
   dir = ".", exshuffle = TRUE, name = NULL, shareStats = FALSE)
 {
   ## read Moodle XML file (if necessary)
@@ -8,6 +8,7 @@ testvision2exams <- function(x, markup = c("markdown", "latex"),
   ## set up template in indicated markup
   markup <- match.arg(markup)
   if(markup == "markdown") markup <- "markdown_strict"
+  if(markup == "latex" & rawHTML) rawHTML <- FALSE #raw html is only relevant for markdown markup
   if(!(markup %in% c("markdown_strict", "latex"))) stop("'markup' must be either markdown/markdown_strict or latex")
   fext <- if(markup == "markdown_strict") "Rmd" else "Rnw"
   tmpl <- if(markup == "markdown_strict") {
@@ -183,7 +184,7 @@ exsolution: %s
   interact <- xml2::xml_find_all(ibody, switch(extype, schoice = "choiceInteraction", mchoice = "choiceInteraction",
                                                    num = "extendedTextInteraction", string = "extendedTextInteraction"))
   rblock <- xml2::xml_find_all(ibody, "rubricBlock")
-  exshuffle <- if(markup == "latex") as.character(exshuffle) else tolower(exshuffle)
+  exshuffle <- if(!rawHTML) as.character(exshuffle) else tolower(exshuffle)
   choices <- xml2::xml_children(xml2::xml_find_all(interact, "simpleChoice"))#Naar schoice en mchoice
   choiceid <- lapply(xml2::xml_find_all(interact, "simpleChoice"), function(x) xml2::xml_attr(x, "identifier"))
 
@@ -207,7 +208,7 @@ exsolution: %s
     pff <- mediafile(qu)
     supps <- c(supps, pff$supplements)
     qtext <- paste0(as.character(pff$txt), collapse = "")
-    if(markup == "latex"){
+    if(!rawHTML){
       qtext <- pandoc(equation(qtext),
         from = "html+tex_math_dollars+tex_math_single_backslash",
         to = markup)
@@ -232,7 +233,7 @@ exsolution: %s
       sol <- choiceid %in% cresp
       exsol <- paste0(sol*1, collapse = "")
       for(j in 1L:length(ans)) {
-        answers[[j]] <- if(markup == "latex") pandoc(equation(ans[j]),
+        answers[[j]] <- if(!rawHTML) pandoc(equation(ans[j]),
           from = "html+tex_math_dollars+tex_math_single_backslash",
             to = markup) else ans[j]
         }
@@ -251,7 +252,7 @@ exsolution: %s
       fbanswers <- xml2::xml_contents(xml[grep("alt_", fbnames)])
       tmp <- mediafile(xml)
       fdbck <- lapply(tmp$txt, stripmodf)
-      if(markup == "latex") fdbck <- lapply(fdbck, equation)
+      if(!rawHTML) fdbck <- lapply(fdbck, equation)
       supps <- c(supps, tmp$supplements)
       fbcorrect <- fdbck[fbnames == "ANSWER_CORRECT"]
       fbfailure <- fdbck[fbnames == "FAILURE"]
@@ -286,7 +287,7 @@ exsolution: %s
 
       for(i in 1 : length(fdbck)) {
         fbtmp <- fdbck[[i]]
-        if(markup == "latex"){
+        if(!rawHTML){
           fbtmp <- pandoc(fbtmp,
             from = "html+tex_math_dollars+tex_math_single_backslash",
             to = markup)
@@ -298,7 +299,7 @@ exsolution: %s
     ## rubrics (information for teacher), add to feedback collection
     if(length(rblock)){
       rblock <- paste0("<p>", stripdiv(xml2::xml_contents(rblock)), "</p>", collapse = "")
-      if(markup == "latex"){
+      if(!rawHTML){
         rblock <- equation(rblock)
         rblock <- pandoc(rblock,
             from = "html+tex_math_dollars+tex_math_single_backslash",
@@ -346,6 +347,7 @@ exsolution: %s
     exrc <- gsub("#38;", "", exrc)
     exrc <- gsub("&amp;", "&", exrc)
     exrc <- gsub("\\\\href", "\\\\url", exrc)
+    exrc <- gsub("\\\\textbackslash\\s*", "\\\\", exrc)    
     exrc <- exfile(exrc)
 
     ## supplements.
