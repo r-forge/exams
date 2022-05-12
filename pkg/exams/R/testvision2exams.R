@@ -137,7 +137,7 @@ exsolution: %s
       for(j in i) {
         img <- x[j]
         fpath <- regmatches(img, gregexpr('(?<=img src=").*?(?=")', img, perl = TRUE))[[1L]]
-        fname <- basename(fpath)
+        fname <- name_to_file(basename(fpath))
         file.copy(paste0("./", fpath), file.path(dir, fname))
         x <- gsub(fpath, fname, x, fixed = TRUE)
         supps <- c(supps, fname)
@@ -148,7 +148,7 @@ exsolution: %s
         df <- x[j]
         dfl <- regmatches(df,  gregexpr('<a href="[^>]*>(.*)</a>', df))
         fpath <- regmatches(dfl, gregexpr('(?<=href=").*?(?=")', dfl, perl = TRUE))[[1L]]
-        fname <- basename(fpath)
+        fname <- name_to_file(basename(fpath))
         file.copy(paste0("./", fpath), file.path(dir, fname))
         x <- gsub(fpath, fname, x, fixed = TRUE)
         x <- gsub(paste0("<code>", fname, "</code>"), "", x, fixed = TRUE)
@@ -177,7 +177,7 @@ exsolution: %s
       } else {
       extype <- "string"
     }
-  if(is.na(baseType)) stop("The xml-file contains no question of supported extype)")
+  if(is.na(baseType)) stop("The xml-file contains no question of supported extype")
 
   ibody <- xml2::xml_find_all(x, "itemBody")
   #ibody <- xml2::xml_contents(xml2::xml_find_all(x, ".//itemBody"))
@@ -347,7 +347,7 @@ exsolution: %s
     exrc <- gsub("#38;", "", exrc)
     exrc <- gsub("&amp;", "&", exrc)
     exrc <- gsub("\\\\href", "\\\\url", exrc)
-    exrc <- gsub("\\\\textbackslash\\s*", "\\\\", exrc)    
+    exrc <- gsub("\\\\textbackslash\\s*", "\\\\", exrc)
     exrc <- exfile(exrc)
 
     ## supplements.
