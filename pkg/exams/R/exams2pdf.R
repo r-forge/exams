@@ -187,17 +187,17 @@ make_exams_write_pdf <- function(template = "plain", inputs = NULL,
         supps[dups] <- nfn
 
         dups_graphics_gsub <- function(pattern, replacement, x) {
-	  ## replacement patterns
-	  p1 <- sprintf("includegraphics{%s}", file_path_sans_ext(pattern))
-	  r1 <- sprintf("includegraphics{%s}", file_path_sans_ext(replacement))
-	  p2 <- sprintf("includegraphics{%s}", pattern)
-	  r2 <- sprintf("includegraphics{%s}", replacement)
+          ## auxiliary: includegraphics pattern and curly brackets
+          inclg <- "(\\\\includegraphics)(\\[[^]]+\\])*(\\{)([^\\}]+)(\\})"
+          curly <- function(x, ext = TRUE) paste0("{", if(ext) x else file_path_sans_ext(x), "}")
 	  
 	  ## cycle through all elements
           for(i in c("question", "questionlist", "solution", "solutionlist")) {
-            if(length(x[[i]])) {
-                x[[i]] <- gsub(p1, r1, x[[i]], fixed = TRUE)
-                x[[i]] <- gsub(p2, r2, x[[i]], fixed = TRUE)
+            if(length(x[[i]]) > 0L) {
+                j <- which(grepl(inclg, x[[i]]) & (gsub(inclg, "\\4", x[[i]]) == pattern))
+                if(length(j) > 0L) x[[i]][j] <- gsub(curly(pattern), curly(replacement), x[[i]][j], fixed = TRUE)
+                j <- which(grepl(inclg, x[[i]]) & (gsub(inclg, "\\4", x[[i]]) == file_path_sans_ext(pattern)))
+                if(length(j) > 0L) x[[i]][j] <- gsub(curly(pattern, ext = FALSE), curly(replacement, ext = FALSE), x[[i]][j], fixed = TRUE)
             }
           }
           return(x)

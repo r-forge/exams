@@ -259,6 +259,9 @@
   character entities, the default `sep` in `make_exercise_transform_pandoc()`
   is changed to a plain ASCII separator.
 
+* Improve handling of duplicated graphics file names in `exams2pdf()` (Reported
+  by Eduardo Uresti Charre).
+
 
 # exams 2.3-6
 
