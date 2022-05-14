@@ -262,6 +262,12 @@
 * Improve handling of duplicated graphics file names in `exams2pdf()` (Reported
   by Eduardo Uresti Charre).
 
+* In `xweave()` the `highlight = FALSE` (default) option is now handled by
+  actually setting `highlight = TRUE` in combination with `lang = ""` for Rmd
+  exercises. The background for this is that recent versions the LaTeX conversion
+  of `pandoc` does not yield `{verbatim}` environments for text-chunks anymore.
+  Only plain chunks are converted to `{verbatim}`.
+
 
 # exams 2.3-6
 
