@@ -5,7 +5,7 @@
 
 \description{
   Function to convert TestVision questions of type 'invul (numeriek)', 'een-uit-meer', 'meer-uit-meer', and 'open'
-  to R/exams exercises of type num, schoice, mchoice, and string, resepectively.
+  to R/exams exercises of type num, schoice, mchoice, and string, respectively.
 }
 
 \usage{
@@ -17,13 +17,13 @@ testvision2exams(x, markup = c("markdown", "latex"), rawHTML = FALSE, dir = ".",
   \item{x}{character. Path to a TestVision XML file.}
   \item{markup}{character. Markup language to convert to, i.e., \code{"markdown"} (default)
     corresponds to Rmd exercises and \code{"latex"} to Rnw exercises.}
-  \item{rawHTML}{logical. If \code{rawHTML = TRUE} (and \code(markup = "markdown")), instead of 
+  \item{rawHTML}{logical. If \code{rawHTML = TRUE} (and \code{markup = "markdown"}), instead of 
   conversion via pandoc, the function merely obtains the raw HTML inside the exercise.}    
   \item{dir}{character. Directory where the converted exercises should be saved.
     If set to \code{NULL} no files are saved.}
   \item{exshuffle}{logical or numeric. Meta-information tag used for single-choice and
     multiple-choice items.}
-  \item{names}{character. Optional file name (without suffix) that should be used for the
+  \item{name}{character. Optional file name (without suffix) that should be used for the
     R/exams exercise file. The default is to use the name tag from the TestVision XML file
     (with some fix-ups, avoiding certain special characters). Alternatively, a name can also
     be supplied and will then be used for both the file name and the  \code{exname}
