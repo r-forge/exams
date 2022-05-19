@@ -137,10 +137,12 @@ exsolution: %s
       for(j in i) {
         img <- x[j]
         fpath <- regmatches(img, gregexpr('(?<=img src=").*?(?=")', img, perl = TRUE))[[1L]]
-        fname <- name_to_file(basename(fpath))
-        file.copy(paste0("./", fpath), file.path(dir, fname))
-        x <- gsub(fpath, fname, x, fixed = TRUE)
-        supps <- c(supps, fname)
+        for(k in 1 : length(fpath)){
+          fname <- name_to_file(basename(fpath[k]))
+          file.copy(paste0("./", fpath[k]), file.path(dir, fname))
+          x <- gsub(fpath[k], fname, x, fixed = TRUE)
+          supps <- c(supps, fname)
+        }
       }
     }
     if(length(i <- grep('href=\"mediafiles', x, fixed = TRUE))) {
@@ -148,11 +150,13 @@ exsolution: %s
         df <- x[j]
         dfl <- regmatches(df,  gregexpr('<a href="[^>]*>(.*)</a>', df))
         fpath <- regmatches(dfl, gregexpr('(?<=href=").*?(?=")', dfl, perl = TRUE))[[1L]]
-        fname <- name_to_file(basename(fpath))
-        file.copy(paste0("./", fpath), file.path(dir, fname))
-        x <- gsub(fpath, fname, x, fixed = TRUE)
-        x <- gsub(paste0("<code>", fname, "</code>"), "", x, fixed = TRUE)
-        supps <- c(supps, fname)
+        for(k in 1 : length(fpath)){
+          fname <- name_to_file(basename(fpath[k]))
+          file.copy(paste0("./", fpath[k]), file.path(dir, fname))
+          x <- gsub(fpath[k], fname, x, fixed = TRUE)
+          x <- gsub(paste0("<code>", fname, "</code>"), "", x, fixed = TRUE)
+          supps <- c(supps, fname)
+        }
       }
     }
     return(list("txt" = x, "supplements" = supps))
