@@ -383,15 +383,18 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
       knitr::opts_chunk$set(oopts)    
     }
   } else {
+    ## FIXME: recent versions of pandoc do not convert ```text to {verbatim} anymore
+    ## hence use highlight=TRUE,lang="" instead of highlight=FALSE for now
+    knitr::opts_hooks$set(highlight = function(options) {
+      if(!options$highlight) {
+        options$highlight <- TRUE
+        options$lang <- ""
+      }
+      options
+    })
     oopts <- knitr::opts_chunk$get()
     knitr::opts_chunk$set(dev = dev,
       fig.height = height, fig.width = width, dpi = resolution, fig.path = "", error = FALSE, highlight = highlight, ...)
-    ## FIXME: recent versions of pandoc do not convert ```text to {verbatim} anymore
-    ## hence use highlight=TRUE,lang="" instead of highlight=FALSE for now
-    if(!highlight) {
-      if(!("lang" %in% names(oopts))) oopts <- c(oopts, list("lang" = NULL))
-      knitr::opts_chunk$set(highlight = TRUE, lang = "")
-    }
     if(is.null(encoding)) encoding <- getOption("encoding")
     knitr::knit(file, quiet = quiet, envir = envir, encoding = encoding)
     knitr::opts_chunk$set(oopts)
