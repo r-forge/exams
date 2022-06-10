@@ -121,6 +121,10 @@ export(
   "exams2testvision",
   "make_itembody_testvision",
   "testvision2exams",
+  
+  ## Grasple driver
+  "exams2grasple",
+  "make_exams_write_grasple",
 
   ## Pandoc driver
   "exams2pandoc"
