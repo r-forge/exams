@@ -92,10 +92,10 @@ nops_eval <- function(
 
   ## read and check scans
   scans <- nops_eval_check("Daten.txt", register = register, solutions = solutions, interactive = interactive)
-  stopifnot(length(attr(scans, "check")) == 0L)
+  if(length(attr(scans, "check")) != 0L) stop("Some IDs of exams/students could not matched to solutions/registrations.")
   if(string) {
     string_scans <- nops_eval_check2("Daten2.txt", solutions = solutions, interactive = interactive)
-    stopifnot(length(attr(string_scans, "check")) == 0L)
+    if(length(attr(string_scans, "check")) != 0L) stop("Some IDs of exams/students in the string scans could not matched to solutions/registrations.")
   }
 
   ## evaluate exam results
@@ -180,14 +180,13 @@ nops_eval_check <- function(scans = "Daten.txt", register = dir(pattern = "\\.cs
 
   ## handle missing IDs (if any) interactively or issue warning
   if(length(id) > 0L) {
-    if(!interactive) { 
-      if(length(id1) > 0L) warning(paste(
-        "The following students were not registered or incorrectly filled in their registration numbers:",
-        paste(id1, collapse = ", "), sep = "\n"))
-      if(length(id1) > 0L) warning(paste(
-        "For the following students the exam IDs are not available or were incorrectly scanned:",
-        paste(id2, collapse = ", "), sep = "\n"))
-    } else {
+    if(length(id1) > 0L) message(paste(
+      "The following students were not registered or incorrectly filled in their registration numbers:",
+      paste(id1, collapse = ", "), sep = "\n"))
+    if(length(id2) > 0L) message(paste(
+      "For the following students the exam IDs are not available or were incorrectly scanned:",
+      paste(id2, collapse = ", "), sep = "\n"))
+    if(interactive) {
       for(i in id1) {
         if(requireNamespace("png")) {
           png_i <- trim_nops_scan(d[i, 1L])
