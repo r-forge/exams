@@ -69,7 +69,7 @@ openolat_config <- function(
   
   to_xml <- function(x) if(is.logical(x)) ifelse(x, "true", "false") else x
 
-  list("QTIPackageConfig.xml" = c(
+  list("QTI21PackageConfig.xml" = c(
     '<deliveryOptions>',
     paste0('<enableCancel>', to_xml(cancel), '</enableCancel>'),
     paste0('<enableSuspend>', to_xml(suspend), '</enableSuspend>'),
