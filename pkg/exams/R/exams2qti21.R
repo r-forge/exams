@@ -10,8 +10,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  template = "qti21",
-  duration = NULL, stitle = "Exercise", ititle = "Question",
+  template = "qti21", selection = c("exam", "pool"),
+  duration = NULL, stitle = NULL, ititle = "Question", etitle = NULL,
   adescription = "Please solve the following exercises.", sdescription = "", 
   maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
@@ -107,6 +107,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     stop(paste("The following files cannot be found: ",
       paste(basename(template)[!file.exists(template)], collapse = ", "), ".", sep = ""))
   }
+
+  ## Pool or exam?
+  is_exam <- match.arg(selection) == "exam"
+
   xml <- readLines(template[1L])
 
   ## check template for all necessary tags
@@ -152,8 +156,13 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
 
   ## create section/item titles and section description
+  if(is.logical(stitle)) {
+    if(!stitle)
+      stitle <- NULL
+  }
   if(is.null(stitle)) stitle <- ""
   stitle <- rep(stitle, length.out = nq)
+  stitle2 <- rep(stitle, length.out = nx)
   if(!is.null(ititle)) ititle <- rep(ititle, length.out = nq)
   if(is.null(adescription)) adescription <- ""
   if(is.null(sdescription) || identical(sdescription, FALSE)) sdescription <- ""
@@ -179,11 +188,15 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## cycle through all exams and questions
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
-  items <- sec_xml <- sec_items_D <- sec_items_R <- NULL
+  items <- sec_xml <- sec_items_D <- sec_items_R <- sec_xml_mat <- NULL
   maxscore <- 0
   for(j in 1:nq) {
     ## first, create the section header
-    sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], section_xml, fixed = TRUE))
+    sxmlj <- section_xml
+    if(stitle[j] == "")
+      sxmlj <- gsub('visible="true"', 'visible="false"', sxmlj, fixed = TRUE)
+
+    sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], sxmlj, fixed = TRUE))
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
     sec_xml <- gsub("##SectionTitle##", stitle[j], sec_xml, fixed = TRUE)
@@ -311,7 +324,46 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       )
     }
 
-    sec_xml <- gsub('##SectionItems##', paste(sec_items_A, collapse = '\n'), sec_xml, fixed = TRUE)
+    if(is_exam) {
+      sec_xml_mat <- rbind(sec_xml_mat, sec_items_A)
+    } else {
+      sec_xml <- gsub('##SectionItems##', paste(sec_items_A, collapse = '\n'), sec_xml, fixed = TRUE)
+    }
+  }
+
+  if(is_exam) {
+    if(is.logical(etitle)) {
+      if(!etitle)
+        etitle <- NULL
+    }
+    if(is.null(etitle))
+      etitle <- ""
+    test_id_exam <- paste(test_id, 'Exam', sep = '_')
+    sec_xml <- c(
+      paste0('<assessmentSection identifier="', test_id_exam,
+        '" fixed="false" title="', etitle,
+        '" visible="', if(etitle != "") 'true' else 'false', '">'),
+      '<selection select="1"/>',
+      '<ordering shuffle="true"/>'
+    )
+    for(j in 1:ncol(sec_xml_mat)) {
+      test_id_exam_j <- paste(test_id_exam, j, sep = '_')
+      sec_xml <- c(sec_xml,
+        paste0('<assessmentSection identifier="', test_id_exam_j,
+          '" fixed="false" title="', paste(etitle, j), '" visible="false">')
+      )
+      for(i in 1:length(sec_xml_mat[, j])) {
+        sec_xml <- c(sec_xml,
+          paste0('<assessmentSection identifier="', paste0(test_id_exam_j, "_exercise_", i),
+            '" fixed="false" title="', ititle[i],
+            '" visible="', if(ititle[i] == "") 'false' else 'true', '">'),
+          sec_xml_mat[i, j],
+          '</assessmentSection>'
+        )
+      }
+      sec_xml <- c(sec_xml, '</assessmentSection>')
+    }
+    sec_xml <- c(sec_xml, '</assessmentSection>')
   }
 
   ## to shuffle sections an extra section layer must be inserted
