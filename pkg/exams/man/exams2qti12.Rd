@@ -36,14 +36,15 @@
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti21", duration = NULL,
-    stitle = "Exercise", ititle = "Question",
+    stitle = NULL, ititle = "",
     adescription = "Please solve the following exercises.", sdescription = "",
     maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-    include = NULL, \dots)
+    include = NULL, selection = c("pool", "exam"), select = 1,
+    etitle = NULL, qtitle = NULL, shuffleexam = FALSE, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -107,7 +108,8 @@
   \item{ititle}{character. A title that should be used for the assessment items. May be a vector
     of length 1 to use the same title for each item, or a vector containing different item
     titles. Note that the maximum of different item titles is the number of sections/questions
-    that are used for the exam.}
+    that are used for the exam. Note, if \code{ititle = ""}, simple numbering for the exercises
+    will be used and if \code{ititle = NULL}, the title will be suppressed.}
   \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
   \item{sdescription}{character. Vector of descriptions for each section, omitted if empty
     (or \code{NULL} or \code{FALSE}).}
@@ -143,6 +145,19 @@
   \item{mode}{character. See function \code{\link[tth]{tth}}.}
   \item{include}{character, paths of extra files that should be included within the final
     \code{.zip}-file.}
+  \item{selection}{character, if \code{selection = "pool"}, the function creates one section
+    for each exercise from which one replication will be selected in the exam. If
+    \code{selection = "exam"} each section contains all questions and one section will
+    be selected for the exam. The \code{"exam"} variant has the advantage that questions
+    that build on each other can be used in the exam.}
+  \item{select}{integer, how many sections should be selected for the exam if argument
+    \code{selection = "exam"}.}
+  \item{etitle}{character, a title for the exam if \code{selection = "exam"}. The title
+    will usually be shown in the menu.}
+  \item{qtitle}{character, a title for each exercise if \code{selection = "exam"}. The title
+    will usually be shown in the menu. Note that this is different to argument \code{ititle}.}
+  \item{shuffleexam}{logical, should section of the exam if \code{selection = "exam"} be
+    shuffled?}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.

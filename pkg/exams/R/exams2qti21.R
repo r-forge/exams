@@ -10,15 +10,17 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
-  template = "qti21", selection = c("exam", "pool"),
-  duration = NULL, stitle = NULL, ititle = "Question", etitle = NULL,
+  template = "qti21",
+  duration = NULL, stitle = NULL, ititle = "",
   adescription = "Please solve the following exercises.", sdescription = "", 
   maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-  include = NULL, ...)
+  include = NULL,
+  selection = c("pool", "exam"), select = 1, etitle = NULL, qtitle = NULL, shuffleexam = FALSE,
+  ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -156,14 +158,24 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
 
   ## create section/item titles and section description
-  if(is.logical(stitle)) {
-    if(!stitle)
-      stitle <- NULL
+  ctitle <- function(x, what) {
+    if(is.logical(x)) {
+      if(!x)
+        x <- NULL
+      else
+        x <- paste("make a title with argument", what, "in exams2qti21()")
+    }
+    if(is.null(x))
+      x <- ""
+    return(x)
   }
-  if(is.null(stitle)) stitle <- ""
-  stitle <- rep(stitle, length.out = nq)
+  stitle <- ctitle(stitle, "stitle")
+  ititle <- ctitle(ititle, "ititle")
+  qtitle <- ctitle(qtitle, "qtitle")
   stitle2 <- rep(stitle, length.out = nx)
-  if(!is.null(ititle)) ititle <- rep(ititle, length.out = nq)
+  stitle <- rep(stitle, length.out = nq)
+  ititle <- rep(ititle, length.out = nq)
+  qtitle <- rep(qtitle, length.out = nq)
   if(is.null(adescription)) adescription <- ""
   if(is.null(sdescription) || identical(sdescription, FALSE)) sdescription <- ""
   sdescription <- rep(sdescription, length.out = nq)
@@ -239,8 +251,13 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       exm[[i]][[j]]$metainfo$id <- iname
 
       ## overrule item name
-      if(!is.null(ititle))
-        exm[[i]][[j]]$metainfo$name <- ititle[j]
+      if(!is.null(ititle)) {
+        exm[[i]][[j]]$metainfo$name <- if(ititle[j] == "") {
+          as.character(j)
+        } else {
+          ititle[j]
+        }
+      }
 
       ## switch for debugging
       if(FALSE) {
@@ -343,20 +360,22 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       paste0('<assessmentSection identifier="', test_id_exam,
         '" fixed="false" title="', etitle,
         '" visible="', if(etitle != "") 'true' else 'false', '">'),
-      '<selection select="1"/>',
-      '<ordering shuffle="true"/>'
+      paste0('<selection select="', select, '"/>'),
+      paste0('<ordering shuffle="', if(!identical(shuffleexam, FALSE)) 'true' else 'false', '"/>')
     )
     for(j in 1:ncol(sec_xml_mat)) {
       test_id_exam_j <- paste(test_id_exam, j, sep = '_')
+      vis <- if(is.null(stitle2[j]) | (stitle2[j] == "")) 'false' else 'true'
       sec_xml <- c(sec_xml,
         paste0('<assessmentSection identifier="', test_id_exam_j,
-          '" fixed="false" title="', paste(etitle, j), '" visible="false">')
+          '" fixed="false" title="', stitle2[j], '" visible="', vis, '">'),
+        paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
       )
       for(i in 1:length(sec_xml_mat[, j])) {
         sec_xml <- c(sec_xml,
           paste0('<assessmentSection identifier="', paste0(test_id_exam_j, "_exercise_", i),
-            '" fixed="false" title="', ititle[i],
-            '" visible="', if(ititle[i] == "") 'false' else 'true', '">'),
+            '" fixed="false" title="', qtitle[i],
+            '" visible="', if(is.null(qtitle[i]) | (qtitle[i] == "")) 'false' else 'true', '">'),
           sec_xml_mat[i, j],
           '</assessmentSection>'
         )
