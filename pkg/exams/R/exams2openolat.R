@@ -20,7 +20,7 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   ## process configuration
   if(qti == "1.2" && !missing(config)) warning("'config' is not supported in QTI 1.2 export")
   if(isTRUE(config)) config <- openolat_config()
-  if(is.list(config) && !identical(names(config), "QTIPackageConfig.xml")) config <- do.call("openolat_config", config)
+  if(is.list(config) && !identical(names(config), "QTI21PackageConfig.xml")) config <- do.call("openolat_config", config)
   if(identical(config, FALSE)) config <- NULL
 
   ## FIXME: config = "test" should be the same as config = TRUE
