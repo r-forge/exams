@@ -36,7 +36,7 @@
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     template = "qti21", duration = NULL,
-    stitle = NULL, ititle = "",
+    stitle = NULL, ititle = NULL,
     adescription = "Please solve the following exercises.", sdescription = "",
     maxattempts = 1, cutvalue = NULL, pass = TRUE, solutionswitch = TRUE, casesensitive = TRUE,
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
@@ -104,11 +104,12 @@
   \item{stitle}{character. A title that should be used for the sections. May be a vector of
     length 1 to use the same title for each section, or a vector containing different section
     titles.}
-  \item{ititle}{character. A title that should be used for the assessment items. May be a vector
+  \item{ititle}{character or \code{NULL}. A title that should be used for the assessment items.
+    May be a vector
     of length 1 to use the same title for each item, or a vector containing different item
     titles. Note that the maximum of different item titles is the number of sections/questions
-    that are used for the exam. Note, if \code{ititle = ""}, simple numbering for the exercises
-    will be used and if \code{ititle = NULL}, the title will be suppressed.}
+    that are used for the exam. Note, if \code{ititle = NULL}, simple numbering for the exercises
+    will be used, however, if the exercise contains meta info extitle, this title will be used.}
   \item{adescription}{character. Description (of length 1) for the overall assessment (i.e., exam).}
   \item{sdescription}{character. Vector of descriptions for each section, omitted if empty
     (or \code{NULL} or \code{FALSE}).}

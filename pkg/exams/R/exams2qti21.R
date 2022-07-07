@@ -11,7 +11,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "qti21",
-  duration = NULL, stitle = NULL, ititle = "",
+  duration = NULL, stitle = NULL, ititle = NULL,
   adescription = "Please solve the following exercises.", sdescription = "", 
   maxattempts = 1, cutvalue = NULL, pass = TRUE, solutionswitch = TRUE, casesensitive = TRUE,
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
@@ -249,18 +249,13 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## overrule item name
       if(!is.null(ititle)) {
-        exm[[i]][[j]]$metainfo$name <- if(ititle[j] == "") {
-          if(!is.null(exm[[i]][[j]]$metainfo$title)) {
-            exm[[i]][[j]]$metainfo$title
-          } else {
-            as.character(j)
-          }
-        } else {
-          ititle[j]
-        }
+        exm[[i]][[j]]$metainfo$name <- ititle[j]
       } else {
-        if(!is.null(exm[[i]][[j]]$metainfo$title))
+        if(!is.null(exm[[i]][[j]]$metainfo$title)) {
           exm[[i]][[j]]$metainfo$name <- exm[[i]][[j]]$metainfo$title
+        } else {
+          exm[[i]][[j]]$metainfo$name <- as.character(j)
+        }
       }
 
       ## switch for debugging
