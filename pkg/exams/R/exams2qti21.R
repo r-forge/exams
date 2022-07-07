@@ -164,8 +164,6 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       else
         x <- paste("make a title with argument", what, "in exams2qti21()")
     }
-    if(is.null(x))
-      x <- ""
     return(x)
   }
   stitle <- ctitle(stitle, "stitle")
@@ -202,7 +200,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(j in 1:nq) {
     ## first, create the section header
     sxmlj <- section_xml
-    if(stitle[j] == "")
+    if((stitle[j] == "") | is.null(stitle[j]))
       sxmlj <- gsub('visible="true"', 'visible="false"', sxmlj, fixed = TRUE)
 
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], sxmlj, fixed = TRUE))
