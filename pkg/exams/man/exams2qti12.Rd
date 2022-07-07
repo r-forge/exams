@@ -43,8 +43,7 @@
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-    include = NULL, selection = c("pool", "exam"), select = 1,
-    etitle = NULL, qtitle = NULL, shuffleexam = FALSE, \dots)
+    include = NULL, selection = c("pool", "exam"), qtitle = NULL, shuffleexam = FALSE, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -150,10 +149,6 @@
     \code{selection = "exam"} each section contains all questions and one section will
     be selected for the exam. The \code{"exam"} variant has the advantage that questions
     that build on each other can be used in the exam.}
-  \item{select}{integer, how many sections should be selected for the exam if argument
-    \code{selection = "exam"}.}
-  \item{etitle}{character, a title for the exam if \code{selection = "exam"}. The title
-    will usually be shown in the menu.}
   \item{qtitle}{character, a title for each exercise if \code{selection = "exam"}. The title
     will usually be shown in the menu. Note that this is different to argument \code{ititle}.}
   \item{shuffleexam}{logical, should section of the exam if \code{selection = "exam"} be

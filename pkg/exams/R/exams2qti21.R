@@ -19,7 +19,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
   include = NULL,
-  selection = c("pool", "exam"), select = 1, etitle = NULL, qtitle = NULL, shuffleexam = FALSE,
+  selection = c("pool", "exam"), qtitle = NULL, shuffleexam = FALSE,
   ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
@@ -253,10 +253,17 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## overrule item name
       if(!is.null(ititle)) {
         exm[[i]][[j]]$metainfo$name <- if(ititle[j] == "") {
-          as.character(j)
+          if(!is.null(exm[[i]][[j]]$metainfo$title)) {
+            exm[[i]][[j]]$metainfo$title
+          } else {
+            as.character(j)
+          }
         } else {
           ititle[j]
         }
+      } else {
+        if(!is.null(exm[[i]][[j]]$metainfo$title))
+          exm[[i]][[j]]$metainfo$name <- exm[[i]][[j]]$metainfo$title
       }
 
       ## switch for debugging
@@ -349,6 +356,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   if(is_exam) {
+    ## hard coded
+    select <- 1
+    etitle <- NULL
+
     if(is.logical(etitle)) {
       if(!etitle)
         etitle <- NULL
