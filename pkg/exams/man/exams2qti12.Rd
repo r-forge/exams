@@ -43,7 +43,7 @@
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-    include = NULL, selection = c("pool", "exam"), qtitle = NULL, shuffleexam = FALSE, \dots)
+    include = NULL, selection = c("pool", "exam"), qtitle = NULL, \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -126,10 +126,12 @@
   \item{allowskipping}{logical. Can a question/section be skipped (default) or must it be answered?}
   \item{allowreview}{logical. Can questions be viewed again at the end of a test/exam or not (default)?}
   \item{allowcomment}{logical. Are comments allowed?}
-  \item{shufflesections}{logical or character. Should the order of the sections be shuffled?
-    If \code{TRUE} an extra outer section is included within which the sections are shuffled automatically.
-    If a character string is specified, this implies \code{TRUE} and is then used as the title
-    for the outer section.}
+  \item{shufflesections}{logical. Should the order of the
+     exercises be shuffled? For \code{selection = "pool"} setting
+     \code{shufflesections = TRUE} this corresponds to shuffling the
+     sections that contain the pools of exercises. For
+     \code{selection = "exam"} it corresponds to shuffling the exercises
+     within each exam section.}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
