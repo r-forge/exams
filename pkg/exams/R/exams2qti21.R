@@ -19,8 +19,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   eval = list(partial = TRUE, negative = FALSE),
   converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
   include = NULL,
-  selection = c("pool", "exam"), qtitle = NULL, shuffleexam = FALSE,
-  ...)
+  selection = c("pool", "exam"), qtitle = NULL, ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -372,15 +371,15 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         '" fixed="false" title="', etitle,
         '" visible="', if(etitle != "") 'true' else 'false', '">'),
       paste0('<selection select="', select, '"/>'),
-      paste0('<ordering shuffle="', if(!identical(shuffleexam, FALSE)) 'true' else 'false', '"/>')
+      paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
     )
     for(j in 1:ncol(sec_xml_mat)) {
       test_id_exam_j <- paste(test_id_exam, j, sep = '_')
       vis <- if(is.null(stitle2[j]) | (stitle2[j] == "")) 'false' else 'true'
       sec_xml <- c(sec_xml,
         paste0('<assessmentSection identifier="', test_id_exam_j,
-          '" fixed="false" title="', stitle2[j], '" visible="', vis, '">'),
-        paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
+          '" fixed="false" title="', stitle2[j], '" visible="', vis, '">')#,
+#        paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
       )
       for(i in 1:length(sec_xml_mat[, j])) {
         sec_xml <- c(sec_xml,
@@ -398,7 +397,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## to shuffle sections an extra section layer must be inserted
   ## for now: use same specification for the outer section as for the inner sections
-  if(!identical(shufflesections, FALSE)) {
+  if(!identical(shufflesections, FALSE) & !is_exam) {
      shufflesections <- if(identical(shufflesections, TRUE)) "" else as.character(shufflesections)
      sec_outer_xml <- section_xml[1L]
      sec_outer_xml <- gsub("##SectionId##", paste(test_id, 'part1', 'sections', sep = '_'), sec_outer_xml, fixed = TRUE)
