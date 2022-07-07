@@ -38,7 +38,7 @@
     template = "qti21", duration = NULL,
     stitle = NULL, ititle = "",
     adescription = "Please solve the following exercises.", sdescription = "",
-    maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
+    maxattempts = 1, cutvalue = NULL, pass = TRUE, solutionswitch = TRUE, casesensitive = TRUE,
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
@@ -116,6 +116,7 @@
     so that the maximum number of attempts varies across questions. A value of \code{Inf} or
     \code{0} signals that the attempts per question are not limited.}
   \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
+  \item{pass}{logical. After completion of the test, pass or fail can be displayed.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}

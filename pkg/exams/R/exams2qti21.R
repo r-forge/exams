@@ -13,7 +13,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "qti21",
   duration = NULL, stitle = NULL, ititle = "",
   adescription = "Please solve the following exercises.", sdescription = "", 
-  maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
+  maxattempts = 1, cutvalue = NULL, pass = TRUE, solutionswitch = TRUE, casesensitive = TRUE,
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
@@ -432,6 +432,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
+print(cutvalue)
   if(!is.null(cutvalue) && is.na(cutvalue)) cutvalue <- NULL
   if(!is.null(cutvalue) ) {
     j <- grep("</outcomeDeclaration>", assessment_xml, fixed = TRUE)
@@ -462,7 +463,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       '</outcomeIf>',
       '<outcomeElse>',
       '<setOutcomeValue identifier="PASS">',
-      '<baseValue baseType="boolean">false</baseValue>',
+      paste0('<baseValue baseType="boolean">', if(pass) 'true' else 'false', '</baseValue>'),
       '</setOutcomeValue>',
       '</outcomeElse>',
       '</outcomeCondition>',
