@@ -159,9 +159,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## create section/item titles and section description
   ctitle <- function(x, what) {
     if(is.logical(x)) {
-      if(!x)
-        x <- NULL
-      else
+      if(x)
         x <- paste("make a title with argument", what, "in exams2qti21()")
     }
     return(x)
@@ -200,13 +198,18 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(j in 1:nq) {
     ## first, create the section header
     sxmlj <- section_xml
-    if((stitle[j] == "") | is.null(stitle[j]))
+    stj <- stitle[j]
+    if(is.logical(stj)) {
+      if(!stj)
+        stj <- ""
+    }
+    if((stj == "") | is.null(stj[j]))
       sxmlj <- gsub('visible="true"', 'visible="false"', sxmlj, fixed = TRUE)
 
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], sxmlj, fixed = TRUE))
 
     ## insert a section title -> exm[[1]][[j]]$metainfo$name?
-    sec_xml <- gsub("##SectionTitle##", stitle[j], sec_xml, fixed = TRUE)
+    sec_xml <- gsub("##SectionTitle##", stj, sec_xml, fixed = TRUE)
 
     ## insert a section description -> exm[[1]][[j]]$metainfo$description?
     sec_xml <- gsub("##SectionDescription##", sdescription[j], sec_xml, fixed = TRUE)
@@ -247,7 +250,14 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## overrule item name
       if(!is.null(ititle)) {
-        exm[[i]][[j]]$metainfo$name <- ititle[j]
+        if(is.logical(ititle[j])) {
+          if(!ititle[j])
+            exm[[i]][[j]]$metainfo$name <- ""
+          else
+            exm[[i]][[j]]$metainfo$name <- ititle[j]
+        } else {
+          exm[[i]][[j]]$metainfo$name <- ititle[j]
+        }
       } else {
         if(!is.null(exm[[i]][[j]]$metainfo$title)) {
           exm[[i]][[j]]$metainfo$name <- exm[[i]][[j]]$metainfo$title
@@ -367,10 +377,15 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     )
     for(j in 1:ncol(sec_xml_mat)) {
       test_id_exam_j <- paste(test_id_exam, j, sep = '_')
-      vis <- if(is.null(stitle2[j]) | (stitle2[j] == "")) 'false' else 'true'
+      stj2 <- stitle2[j]
+      if(is.logical(stj2)) {
+        if(!stj2)
+          stj2 <- ""
+      }
+      vis <- if(is.null(stj2) | (stj2 == "")) 'false' else 'true'
       sec_xml <- c(sec_xml,
         paste0('<assessmentSection identifier="', test_id_exam_j,
-          '" fixed="false" title="', stitle2[j], '" visible="', vis, '">'),
+          '" fixed="false" title="', stj2, '" visible="', vis, '">'),
         paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
       )
       for(i in 1:length(sec_xml_mat[, j])) {
