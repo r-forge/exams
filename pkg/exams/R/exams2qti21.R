@@ -370,15 +370,15 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         '" fixed="false" title="', etitle,
         '" visible="', if(etitle != "") 'true' else 'false', '">'),
       paste0('<selection select="', select, '"/>'),
-      paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
+      paste0('<ordering shuffle="', if(TRUE) 'true' else 'false', '"/>')
     )
     for(j in 1:ncol(sec_xml_mat)) {
       test_id_exam_j <- paste(test_id_exam, j, sep = '_')
       vis <- if(is.null(stitle2[j]) | (stitle2[j] == "")) 'false' else 'true'
       sec_xml <- c(sec_xml,
         paste0('<assessmentSection identifier="', test_id_exam_j,
-          '" fixed="false" title="', stitle2[j], '" visible="', vis, '">')#,
-#        paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
+          '" fixed="false" title="', stitle2[j], '" visible="', vis, '">'),
+        paste0('<ordering shuffle="', if(!identical(shufflesections, FALSE)) 'true' else 'false', '"/>')
       )
       for(i in 1:length(sec_xml_mat[, j])) {
         sec_xml <- c(sec_xml,
