@@ -252,7 +252,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(!is.null(ititle)) {
         if(is.logical(ititle[j])) {
           if(!ititle[j])
-            exm[[i]][[j]]$metainfo$name <- ""
+            exm[[i]][[j]]$metainfo$name <- as.character(j)
           else
             exm[[i]][[j]]$metainfo$name <- ititle[j]
         } else {
