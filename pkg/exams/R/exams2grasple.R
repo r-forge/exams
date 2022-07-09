@@ -21,8 +21,9 @@ exams2grasple <- function(file, n = 1L, dir = ".",
       sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg, resolution = resolution, width = width, height = height, encoding = encoding),
       read = NULL,
       transform = mdtransform,
-      write = grasplewrite)
-    )
+      write = grasplewrite),
+    ...
+  )
 
   ## return xexams object invisibly
   invisible(rval)

@@ -42,7 +42,7 @@ make_exams_write_grasple(name = NULL, license_name = NULL,
   \item{license_name, license_description, license_value, license_link}{character, 
     arguments for specifying the copyright license for the exercise(s).
     Defaults to "Non-explicit license".}
- 
+  \item{\dots}{arguments passed on to \code{\link[exams]{xexams}}.} 
 }
 
 \details{
