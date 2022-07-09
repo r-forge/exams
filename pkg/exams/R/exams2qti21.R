@@ -166,9 +166,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
   stitle <- ctitle(stitle, "stitle")
   ititle <- ctitle(ititle, "ititle")
-  stitle2 <- rep(stitle, length.out = nx)
-  stitle <- rep(stitle, length.out = nq)
-  ititle <- rep(ititle, length.out = nq)
+  ## FIXME: quick & dirty workaround for stitle/ititle = NULL (i.e., the default) which was not properly handled
+  stitle2 <- if(!is.null(stitle)) rep(stitle, length.out = nx) else stitle
+  if(!is.null(stitle)) stitle <- rep(stitle, length.out = nq)
+  if(!is.null(ititle)) ititle <- rep(ititle, length.out = nq)
   if(is.null(adescription)) adescription <- ""
   if(is.null(sdescription) || identical(sdescription, FALSE)) sdescription <- ""
   sdescription <- rep(sdescription, length.out = nq)
@@ -199,11 +200,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## first, create the section header
     sxmlj <- section_xml
     stj <- stitle[j]
-    if(is.logical(stj)) {
-      if(!stj)
-        stj <- ""
-    }
-    if((stj == "") | is.null(stj[j]))
+    if(is.null(stj) || isFALSE(stj)) stj <- ""
+    if(stj == "")
       sxmlj <- gsub('visible="true"', 'visible="false"', sxmlj, fixed = TRUE)
 
     sec_xml <- c(sec_xml, gsub("##SectionId##", sec_ids[j], sxmlj, fixed = TRUE))
@@ -361,12 +359,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     etitle <- NULL
     qtitle <- NULL
 
-    if(is.logical(etitle)) {
-      if(!etitle)
-        etitle <- NULL
-    }
-    if(is.null(etitle))
-      etitle <- ""
+    if(is.null(etitle) || isFALSE(etitle)) etitle <- ""
     test_id_exam <- paste(test_id, 'Exam', sep = '_')
     sec_xml <- c(
       paste0('<assessmentSection identifier="', test_id_exam,
@@ -378,11 +371,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     for(j in 1:ncol(sec_xml_mat)) {
       test_id_exam_j <- paste(test_id_exam, j, sep = '_')
       stj2 <- stitle2[j]
-      if(is.logical(stj2)) {
-        if(!stj2)
-          stj2 <- ""
-      }
-      vis <- if(is.null(stj2) | (stj2 == "")) 'false' else 'true'
+      if(is.null(stj2) || isFALSE(stj2)) stj2 <- ""
+      vis <- if(stj2 == "") 'false' else 'true'
       sec_xml <- c(sec_xml,
         paste0('<assessmentSection identifier="', test_id_exam_j,
           '" fixed="false" title="', stj2, '" visible="', vis, '">'),
