@@ -43,7 +43,7 @@
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
     converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
-    include = NULL, selection = c("pool", "exam"), qtitle = NULL, \dots)
+    include = NULL, selection = c("pool", "exam"), \dots)
 
   make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
     rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
@@ -152,10 +152,6 @@
     \code{selection = "exam"} each section contains all questions and one section will
     be selected for the exam. The \code{"exam"} variant has the advantage that questions
     that build on each other can be used in the exam.}
-  \item{qtitle}{character, a title for each exercise if \code{selection = "exam"}. The title
-    will usually be shown in the menu. Note that this is different to argument \code{ititle}.}
-  \item{shuffleexam}{logical, should section of the exam if \code{selection = "exam"} be
-    shuffled?}
   \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
     maxvalue}{arguments used for IMS QTI 1.2 item construction, for details see the XML
     specification (see IMS Global Learning Consortium, Inc. 2012), especially Section 4.

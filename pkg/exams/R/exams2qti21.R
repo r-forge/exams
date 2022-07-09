@@ -392,7 +392,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
         sec_xml <- c(sec_xml,
           paste0('<assessmentSection identifier="', paste0(test_id_exam_j, "_exercise_", i),
             '" fixed="false" title="', qtitle[i],
-            '" visible="', if(is.null(qtitle[i]) | (qtitle[i] == "")) 'false' else 'true', '">'),
+            '" visible="', if(is.null(qtitle[i]) || (qtitle[i] == "")) 'false' else 'true', '">'),
           sec_xml_mat[i, j],
           '</assessmentSection>'
         )
