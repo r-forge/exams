@@ -100,16 +100,16 @@ _Note:_ Unless you want to process [written NOPS exams]({{ site.url }}/intro/wri
 If the scanned images of written NOPS exams (from your photocopier) are in PDF format, they need to be converted to PNG first using the PDF Toolkit `pdftk` and ImageMagick's `convert`.
 
 - **Windows:** Install PDFTk Free, ImageMagick, and Ghostscript.
-  - <http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe>
-  - <http://www.imagemagick.org/script/download.php#windows>
-  - <http://www.ghostscript.com/download/gsdnld.html>
+  - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe>
+  - <https://www.imagemagick.org/script/download.php#windows>
+  - <https://www.ghostscript.com/releases/gsdnld.html>
   - _Note:_ During the installation of PDFTk and ImageMagick check the boxes for 
     "Add application directory to your environmental path" or
     "Add application directory to your System Path", respectively.
 - **(Mac) OS X:** Install MacPorts, PDFTk Free, and ImageMagick.
   - <https://www.macports.org/>
   - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg>
-  - <http://www.imagemagick.org/script/download.php#macosx>
+  - <https://www.imagemagick.org/script/download.php#macosx>
   - _Note:_ ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
     The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).
 - **Linux:** Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:

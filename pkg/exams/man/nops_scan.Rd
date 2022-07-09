@@ -68,7 +68,7 @@
   easy to install by pdftk and imagemagick. The download links for Windows are:
   \url{https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe},
   \url{https://www.imagemagick.org/script/download.php#windows},
-  \url{https://www.ghostscript.com/download/gsdnld.html}.
+  \url{https://www.ghostscript.com/releases/gsdnld.html}.
   
   Tutorial for NOPS workflow: \url{http://www.R-exams.org/tutorials/exams2nops/}.
   
