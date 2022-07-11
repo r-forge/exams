@@ -31,7 +31,7 @@ image:
 
 ## 1. R
 
-[R/exams](http://www.R-exams.org/) is an extension for the [R system for statistical computing](https://www.R-project.org) and hence the first installation step is the base R system. 
+[R/exams](https://www.R-exams.org/) is an extension for the [R system for statistical computing](https://www.R-project.org) and hence the first installation step is the base R system. 
 
 - **Windows and (Mac) OS X:** Go to <https://CRAN.R-project.org/>, the Comprehensive R Archive Network (CRAN). Simply click on the link for your operating system and at least install the "base" system.  
    For some tasks (e.g., output for some learning management systems) it is necessary that the base R `zip()` function works. On Windows this requires to install the [Rtools](https://CRAN.R-project.org/bin/windows/Rtools/) and to include them in the PATH environment variable.

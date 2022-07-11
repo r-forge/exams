@@ -66,7 +66,7 @@ If you want to replicate the illustrations below you can easily download all fou
 
 
 <pre><code class="prettyprint ">for(i in paste0(extra, 1:4, &quot;.Rmd&quot;)) download.file(
-  paste0(&quot;http://www.R-exams.org/assets/posts/2019-07-10-stresstest/&quot;, i), i)</code></pre>
+  paste0(&quot;https://www.R-exams.org/assets/posts/2019-07-10-stresstest/&quot;, i), i)</code></pre>
 
 
 

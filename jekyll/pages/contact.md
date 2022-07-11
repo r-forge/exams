@@ -15,7 +15,7 @@ permalink: /contact/
 
 #### Getting help
 
-- Support forum on R-Forge: <http://R-Forge.R-project.org/forum/?group_id=1337>.
+- Support forum on R-Forge: <https://R-Forge.R-project.org/forum/?group_id=1337>.
 - R/exams-related questions with `r-exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/r-exams/>.
 
 
@@ -26,15 +26,15 @@ permalink: /contact/
 
 #### Authors and contributors
 
-- [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/) [author, maintainer] (Package design, version 1 and 2, core infrastructure)
-- [Bettina Grün](http://ifas.jku.at/gruen/) [author] (Version 1 design)
-- [Friedrich Leisch](http://short.boku.ac.at/leisch.html) [author] (Version 2 design, Moodle infrastructure)
+- [Achim Zeileis](https://www.zeileis.org/) [author, maintainer] (Package design, version 1 and 2, core infrastructure)
+- [Bettina Grün](https://statmath.wu.ac.at/~gruen/) [author] (Version 1 design)
+- [Friedrich Leisch](https://short.boku.ac.at/leisch.html) [author] (Version 2 design, Moodle infrastructure)
 - [Nikolaus Umlauf](https://eeecon.uibk.ac.at/~umlauf/) [author] (Version 2 design, QTI/Moodle infrastructure)
-- [Niels Smits](http://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard/TestVision adaptation)
+- [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard/TestVision adaptation)
 - [Mirko Birbaumer](https://www.hslu.ch/de-ch/hochschule-luzern/ueber-uns/personensuche/profile/?pid=1537) [contributor] (Ilias adaptation)
 - Dominik Ernst [contributor] (Moodle adaptation)
 - [Kenji Sato](https://www.kenjisato.jp/) [contributor] (Templates and HTML extensions)
-- [Florian Wickelmaier](http://www.mathpsy.uni-tuebingen.de/wickelmaier/) [contributor] (Ilias adaptation)
-- [Patrik Keller](http://informationsecurity.uibk.ac.at/people/patrik-keller/) [contributor] (Web page)
+- [Florian Wickelmaier](https://www.mathpsy.uni-tuebingen.de/wickelmaier/) [contributor] (Ilias adaptation)
+- [Patrik Keller](https://informationsecurity.uibk.ac.at/people/patrik-keller/) [contributor] (Web page)
 - Hanna Krimm [contributor] (Web page)
-- [Reto Stauffer](http://retostauffer.org/) [contributor] (Web page)
+- [Reto Stauffer](https://retostauffer.org/) [contributor] (Web page)
