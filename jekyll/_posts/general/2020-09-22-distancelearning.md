@@ -46,7 +46,7 @@ As distance learning will continue to play an important role in most universitie
 Due to the increased interest in R/exams, I contributed various YouTube videos to help getting an overview of the system and to tackle specific tasks (creating exercises or online tests, summative exams, etc.). Also, the many questions asked on StackOverflow and the R-Forge forum led to numerous improvements in the software and support for various typical challenges.
 
 * R/exams webinar @ WhyR?: [YouTube video](https://www.youtube.com/watch?v=PnyCR7q4P4Q), [blog post]({{ site.url }}/general/whyr2020/).
-* Video tutorials: [YouTube channel Achim Zeileis](https://www.youtube.com/channel/UCWDENSBdBxq-Z-hKIcLg1bA/videos).
+* Video tutorials: [YouTube playlist, Achim Zeileis](https://www.youtube.com/playlist?list=PLsEZAAbioUw1IBnhtBi9eIo0uqMHmqDor).
 * Questions & answers: [StackOverflow/r-exams](https://stackoverflow.com/questions/tagged/r-exams), [R-Forge forum](https://R-Forge.R-project.org/forum/forum.php?forum_id=4377).
 
 But in addition to these materials that we developed, many R/exams users stepped up and also created really cool and useful materials. Especially from users in Spain came a lot of interest along with great contributions:
