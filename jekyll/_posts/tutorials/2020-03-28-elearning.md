@@ -3,7 +3,7 @@ layout: page
 #
 # Content
 #
-title: "E-Learning Quizzes with R/exams for Moodle and OpenOLAT"
+title: "E-Learning Quizzes with R/exams for Moodle and OpenOlat"
 teaser: "Step-by-step tutorials for generating, importing, and customizing online tests and quizzes using exams2moodle() and exams2openolat() in R/exams."
 categories:
   - tutorials
@@ -30,7 +30,7 @@ image:
   # shown on landing page
   # homepage:
   # shown under image on top of blog post
-  caption: "R/exams + Moodle + OpenOLAT (CC-BY-SA)."
+  caption: "R/exams + Moodle + OpenOlat (CC-BY-SA)."
 ---
 
 
@@ -52,7 +52,7 @@ image:
 * Asynchronous online tests that students can do in their own time (e.g., over several days) to obtain (incentivized) feedback regarding their learning progress. Such tests might follow any form of content delivery, be it classical lectures or video screencasts or some other approach.
 * Synchronous e-exams conducted in-class or remotely (e.g., coupled with a safe exam browser) as a summative assessment at the end of a course.
 
-[R/exams]({{ site.url }}) can support these scenarios by creating a sufficiently large number of randomized versions of [dynamic exercises]({{ site.url }}/intro/dynamic/) that can subsequently be imported into a learning management system (LMS). The actual quiz/test/exam is then conducted in the LMS only, i.e., without the need to have R running in the background, because all exercises and corresponding solutions have been pre-computed and stored in the LMS. Popular LMS include the open-source systems [Moodle](https://moodle.org/), [Canvas](https://www.instructure.com/canvas/), [OpenOLAT](https://www.openolat.com/?lang=en), or [Ilias](https://www.ilias.de/en/) or the commerical [Blackboard](https://www.blackboard.com/) system. R/exams provides suitable interfaces for all of these but the capabilities differ somewhat between the LMS. In the following we focus on Moodle and OpenOLAT, both of which provide very flexible and powerful assessment modules.
+[R/exams]({{ site.url }}) can support these scenarios by creating a sufficiently large number of randomized versions of [dynamic exercises]({{ site.url }}/intro/dynamic/) that can subsequently be imported into a learning management system (LMS). The actual quiz/test/exam is then conducted in the LMS only, i.e., without the need to have R running in the background, because all exercises and corresponding solutions have been pre-computed and stored in the LMS. Popular LMS include the open-source systems [Moodle](https://moodle.org/), [Canvas](https://www.instructure.com/canvas/), [OpenOlat](https://www.openolat.com/?lang=en), or [Ilias](https://www.ilias.de/en/) or the commerical [Blackboard](https://www.blackboard.com/) system. R/exams provides suitable interfaces for all of these but the capabilities differ somewhat between the LMS. In the following we focus on Moodle and OpenOlat, both of which provide very flexible and powerful assessment modules.
 
 
 ## Creation in R/exams
@@ -100,7 +100,7 @@ exams2moodle(elearn_exam, n = 3, name = &quot;R-exams&quot;)</code></pre>
 
 This yields the file [R-exams.xml]({{ site.url }}/assets/posts/2020-03-28-elearning//R-exams.xml) that can be imported into Moodle.
 
-Analogously, a ZIP archive containing QTI 2.1 XML files (Question & Test Interoperability standard) for import into OpenOLAT.
+Analogously, a ZIP archive containing QTI 2.1 XML files (Question & Test Interoperability standard) for import into OpenOlat.
 
 
 <pre><code class="prettyprint ">set.seed(2020-03-15)
@@ -144,12 +144,12 @@ Moreover, to show that the object returned within R can also be useful we have a
 ##     7. fourfold: 6.5 | 22.5 | 3.5 | 67.5 | 29 | 71 | 10 | 90 | 100
 </code></pre>
 
-## Import into Moodle and OpenOLAT
+## Import into Moodle and OpenOlat
 
 <div class='row t20 b20'>
   <div class='small-8 medium-9 columns'>
 
-<p>Finally, the output files generated above can be imported into the Moodle and OpenOLAT learning management system, respectively. In Moodle the random exercises are imported into a question bank based on which a quiz with randomly-selected questions can be constructed. In OpenOLAT the import directly yields a test learning resource that can then be embedded in a course.</p>
+<p>Finally, the output files generated above can be imported into the Moodle and OpenOlat learning management system, respectively. In Moodle the random exercises are imported into a question bank based on which a quiz with randomly-selected questions can be constructed. In OpenOlat the import directly yields a test learning resource that can then be embedded in a course.</p>
 
   </div>
   <div class='small-4 medium-3 columns'>
@@ -164,9 +164,9 @@ A step-by-step video guide to importing and customizing the quiz in Moodle is av
 
 [![Moodle import]({{ site.url }}/assets/posts/2020-03-28-elearning/moodle.png)](https://www.youtube.com/watch?v=5K9hrE3YkPs)
 
-### OpenOLAT import
+### OpenOlat import
 
-A step-by-step video guide to importing and customizing the test in OpenOLAT is available on YouTube at <https://www.youtube.com/watch?v=1ZhdmoDtUSA>.
+A step-by-step video guide to importing and customizing the test in OpenOlat is available on YouTube at <https://www.youtube.com/watch?v=1ZhdmoDtUSA>.
 
-[![OpenOLAT import]({{ site.url }}/assets/posts/2020-03-28-elearning/openolat.png)](https://www.youtube.com/watch?v=1ZhdmoDtUSA)
+[![OpenOlat import]({{ site.url }}/assets/posts/2020-03-28-elearning/openolat.png)](https://www.youtube.com/watch?v=1ZhdmoDtUSA)
 
