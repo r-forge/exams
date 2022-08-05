@@ -59,8 +59,10 @@ The core of R/exams is the open-source R package ["exams"](https://CRAN.R-projec
 - **Development version:**
 
   ```{r}
-  install.packages("exams", repos = "http://R-Forge.R-project.org")
+  install.packages("exams", repos = "https://R-Forge.R-project.org")
   ```
+  
+  In some setups (e.g., on Mac OS or when using an older version of R) it may be necessary to add the argument `type = "source"` to the command above.
 
 _Details:_ Several additional R packages, automatically installed by the command above, are needed for certain tasks: `base64enc` (HTML-based output: Base64 encoding of supplements), `knitr` (R/Markdown-based exercises), `magick` (turning LaTeX output into images, e.g., for TikZ graphics), `png` (NOPS exams: reading scanned PNG images), `RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova: JSON format), `rmarkdown` (pandoc-based conversion), `tinytex` (PDF output: lightweight LaTeX distribution), `tth` (HTML output from R/LaTeX exercises).
 
@@ -106,12 +108,12 @@ If the scanned images of written NOPS exams (from your photocopier) are in PDF f
   - _Note:_ During the installation of PDFTk and ImageMagick check the boxes for 
     "Add application directory to your environmental path" or
     "Add application directory to your System Path", respectively.
-- **(Mac) OS X:** Install MacPorts, PDFTk Free, and ImageMagick.
+- **MacOS:** Install MacPorts, PDFTk Free, and ImageMagick.
   - <https://www.macports.org/>
   - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg>
   - <https://www.imagemagick.org/script/download.php#macosx>
   - _Note:_ ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
-    The PDFTk version is for OS X 10.11 up to 10.13 (High Sierra).
+    The PDFTk version is for OS X 10.11 up to at least macOS 12 (Monterey).
 - **Linux:** Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:
 
   ```{r}
