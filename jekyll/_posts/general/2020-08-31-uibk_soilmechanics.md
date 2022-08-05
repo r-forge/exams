@@ -38,7 +38,7 @@ Our exercises in soil mechanics are attended by about 120 students every year. S
 
 ## Transition of multiple-choice exercises
 
-To leverage the about 100 multiple-choice exercises from our old question pool, we had to convert them to the [R/exams format]({{ site.url }}/intro/dynamic/). The pool was stored in a MySQL data base including LaTeX text for the questions, answer alternatives, images for some exercises (in EPS format) and some additional meta-information regarding the topic category and the difficulty. Due to the standardized format of the question pool - and the kind support by Achim Zeileis and Christiane Ernst - it was possible to extract all questions, embed them into the same template for R/LaTeX questions (.Rnw), and convert all EPS figures to both SVG and PDF format. A typical example is shown below (in a screen shot from [OpenOLAT](https://www.openolat.com/), the learning management system at UIBK).
+To leverage the about 100 multiple-choice exercises from our old question pool, we had to convert them to the [R/exams format]({{ site.url }}/intro/dynamic/). The pool was stored in a MySQL data base including LaTeX text for the questions, answer alternatives, images for some exercises (in EPS format) and some additional meta-information regarding the topic category and the difficulty. Due to the standardized format of the question pool - and the kind support by Achim Zeileis and Christiane Ernst - it was possible to extract all questions, embed them into the same template for R/LaTeX questions (.Rnw), and convert all EPS figures to both SVG and PDF format. A typical example is shown below (in a screen shot from [OpenOlat](https://www.openolat.com/), the learning management system at UIBK).
 
 [![grundwasser-1-068.png]({{ site.url }}/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png)]({{ site.url }}/assets/posts/2020-08-31-uibk_soilmechanics//grundwasser-1-068.png)
 
@@ -65,7 +65,7 @@ Despite being a newcomer to both R and R/exams, setting up these exercises was q
 
 ## Exam implementation
 
-Following the R/exams tutorial on [summative online exams in OpenOLAT]({{ site.url }}/tutorials/openolat_exam/) I prepared the online exam using the `exams2openolat()` function. The R code I used along with a couple of comments is provided below.
+Following the R/exams tutorial on [summative online exams in OpenOlat]({{ site.url }}/tutorials/openolat_exam/) I prepared the online exam using the `exams2openolat()` function. The R code I used along with a couple of comments is provided below.
 
 
 <pre><code class="prettyprint ">## load package
@@ -105,4 +105,4 @@ rxm &lt;- exams2openolat(exm,
 
 The main problem by producing randomized numeric examples was to find limits for the input so that the output is physically reasonable. Especially for newly created exercises, it is absolutely necessary that other colleagues act as test calculators, such that errors can be detected before students find them in their exams. The [stress testing]({{ site.url }}/tutorials/stresstest/) facilities in R/exams can also help.
 
-Since the course will continue being online in 2020/21 due to ongoing COVID-19 restrictions, I use R/exams now also for the practice exercises which students have to calculate during the semester. Thus, I produced about 70 new exercises, which are offered in OpenOLAT in 12 weekly online tests. After COVID-19 I will use these examples as addition to written ones, where longer and more complex task could be trained.
+Since the course will continue being online in 2020/21 due to ongoing COVID-19 restrictions, I use R/exams now also for the practice exercises which students have to calculate during the semester. Thus, I produced about 70 new exercises, which are offered in OpenOlat in 12 weekly online tests. After COVID-19 I will use these examples as addition to written ones, where longer and more complex task could be trained.
