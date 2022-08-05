@@ -28,6 +28,11 @@
   class: icon-twitter
   title: "@AchimZeileis on Twitter"
 
+- name: YouTube
+  url: https://www.youtube.com/playlist?list=PLsEZAAbioUw1IBnhtBi9eIo0uqMHmqDor
+  class: icon-youtube
+  title: "R/exams video playlist on YouTube"
+
 # - name: Bug reports
 #   url: mailto:bugs@R-exams.org
 #   class: icon-bug
