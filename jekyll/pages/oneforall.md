@@ -42,13 +42,13 @@ image:
 
 - PDFs for [written exams]({{ site.url }}/intro/written) (with automatic scanning and evaluation).
 - Custom files of various types (PDF, HTML, Docx, ODF, ...), using flexible document templates.
-- Imports for [learning management systems]({{ site.url }}/intro/elearning) (like Moodle, Blackboard, OLAT, Ilias, ...).
+- Imports for [learning management systems]({{ site.url }}/intro/elearning) (like Moodle, Canvas, OpenOlat, Blackboard, Ilias, ...).
 - ARSnova (live voting software).
 
 
 ## Blog ##
 
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
-* Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Tutorial: [First Steps]({{ site.url }}/tutorials/first_steps/).
 * Overview: [R/exams for Blended Learning in a Mathematics 101 Course]({{ site.url }}/general/uibk_math/).
 * [Blog archive]({{ site.url }}/blog/).

@@ -15,7 +15,7 @@ topics:
     title: E-Learning
     url: '/intro/elearning/'
     description: |
-      Exercises for Moodle, Canvas, OpenOLAT, Blackboard, ...
+      Exercises for Moodle, Canvas, OpenOlat, Blackboard, ...
 
   - icon: vector/oneforall.svg
     image: "moodle-arsnova-nops.big.jpg"
@@ -42,23 +42,20 @@ topics:
 mission:
   title: <img width='50%' src='assets/img/logo_wide.svg' alt='R/exams logo'>
   statement: |
-    The [open-source package exams](/resources/) for
+    **Overview:** The [open-source package 'exams'](/resources/) for
     the R system for statistical computing provides a
     [one-for-all approach](/intro/oneforall/) to automatic exams generation. Based on (potentially)
     [dynamic exercise templates](/intro/dynamic/) large numbers of personalized exams/quizzes/tests can be
     created for various systems: PDFs for classical [written exams](/intro/written/) (with
     automatic evaluation), import formats for [learning management systems](/intro/elearning/) (like
-    Moodle, Canvas, OpenOLAT, or Blackboard), live voting (via ARSnova), and the
+    Moodle, Canvas, OpenOlat, or Blackboard), live voting (via ARSnova), and the
     possibility to create custom output (in PDF, HTML, Docx, ...).
     
-    Exercise types include multiple-choice or single-choice questions, numeric
-    or text answers, or combinations of these. Formatting can be done either in
-    Markdown or LaTeX with the possibility to generate dynamic content using R,
-    e.g., random numbers, graphics, data sets, or shuffled text blocks.
-
-    R/exams is open-source software that can be freely used and extended. This
-    web site provides an overview, short tutorials, a gallery of exercise
-    templates, and links to further materials.
+    **Get started:** Follow the tutorials on [Installation]((/tutorials/installation/))
+    and [First Steps](/tutorials/first_steps/). Subsequently, start creating
+    [exercises](/intro/dynamic/) and use them for [e-learning](/intro/elearning/) or
+    [written exams](/intro/written/) etc. See also the available
+    [video tutorials on YouTube](https://www.youtube.com/playlist?list=PLsEZAAbioUw1IBnhtBi9eIo0uqMHmqDor)
 
 permalink: /
 ---

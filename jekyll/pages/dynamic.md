@@ -85,8 +85,12 @@ workflow:
 ## Blog ##
 
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
-* Tutorial: [First steps]({{ site.url }}/tutorials/first_steps/).
+* Tutorial: [First Steps]({{ site.url }}/tutorials/first_steps/).
 * Tutorial: [From Static to Numeric to Single-Choice Exercises in R/exams]({{ site.url }}/tutorials/static_num_schoice/).
+* YouTube videos:  
+  [Single-Choice and Multiple-Choice Quiz](https://www.youtube.com/watch?v=XI5xG7Y0hQ0)  
+  [Randomized Numeric Exercises](https://www.youtube.com/watch?v=fr3FKL8PhTQ)  
+  [Turning Numeric into Single-Choice Exercises](https://www.youtube.com/watch?v=yj43hvj3lp8)
 * Gallery: [Exercise Templates]({{ site.url }}/templates/).
 * [Blog archive]({{ site.url }}/blog/).
 
