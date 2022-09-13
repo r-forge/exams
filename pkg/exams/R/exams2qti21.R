@@ -157,15 +157,6 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sec_ids <- paste(test_id, make_test_ids(nq, type = "section"), sep = "_")
 
   ## create section/item titles and section description
-  ctitle <- function(x, what) {
-    if(is.logical(x)) {
-      if(x)
-        x <- paste("make a title with argument", what, "in exams2qti21()")
-    }
-    return(x)
-  }
-  stitle <- ctitle(stitle, "stitle")
-  ititle <- ctitle(ititle, "ititle")
   ## FIXME: quick & dirty workaround for stitle/ititle = NULL (i.e., the default) which was not properly handled
   stitle2 <- if(!is.null(stitle)) rep(stitle, length.out = nx) else stitle
   if(!is.null(stitle)) stitle <- rep(stitle, length.out = nq)
@@ -200,7 +191,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     ## first, create the section header
     sxmlj <- section_xml
     stj <- stitle[j]
+    if(isTRUE(stj))
+      stj <- as.character(j)
     if(is.null(stj) || isFALSE(stj)) stj <- ""
+
     if(stj == "")
       sxmlj <- gsub('visible="true"', 'visible="false"', sxmlj, fixed = TRUE)
 
@@ -250,9 +244,9 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(!is.null(ititle)) {
         if(is.logical(ititle[j])) {
           if(!ititle[j])
-            exm[[i]][[j]]$metainfo$name <- as.character(j)
+            exm[[i]][[j]]$metainfo$name <- ""
           else
-            exm[[i]][[j]]$metainfo$name <- ititle[j]
+            exm[[i]][[j]]$metainfo$name <- as.character(j)
         } else {
           exm[[i]][[j]]$metainfo$name <- ititle[j]
         }
@@ -429,7 +423,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   assessment_xml <- gsub('##AssessmentSections##', paste(sec_xml, collapse = '\n'), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##Score##', "0.0", assessment_xml, fixed = TRUE) ## FIXME: default score?
   assessment_xml <- gsub('##MaxScore##', maxscore, assessment_xml, fixed = TRUE)
-print(cutvalue)
+
   if(!is.null(cutvalue) && is.na(cutvalue)) cutvalue <- NULL
   if(!is.null(cutvalue) ) {
     j <- grep("</outcomeDeclaration>", assessment_xml, fixed = TRUE)
