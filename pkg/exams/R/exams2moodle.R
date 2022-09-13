@@ -442,6 +442,16 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           "<attachmentsrequired>", as.integer(essay_opts$attachmentsrequired), "</attachmentsrequired>\n"
         )
 
+        if(!is.null(essay_opts$wordlimit)) {
+          if(length(essay_opts$wordlimit) < 2) {
+            txt <- c(txt, paste0('<minwordlimit></minwordlimit>\n<maxwordlimit>',
+              essay_opts$wordlimit[1L], '</maxwordlimit>'))
+          } else {
+            txt <- c(txt, paste0('<minwordlimit>', essay_opts$wordlimit[1L],
+              '</minwordlimit>\n<maxwordlimit>', essay_opts$wordlimit[2L], '</maxwordlimit>'))
+          }
+        }
+
         xml <- c(xml, txt)
     }
 
