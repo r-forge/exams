@@ -972,12 +972,18 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
           p_check <- any(grepl("<choiceInteraction", txml, fixed = TRUE)) |
             any(grepl("<extendedTextInteraction", txml, fixed = TRUE)) |
             any(grepl("<uploadInteraction", txml, fixed = TRUE))
-          if(p_check)
+          if(p_check) {
             xml <- gsub(paste0("<p>##ANSWER", i, "##</p>"), txml, xml, fixed = TRUE)
-          else
+          } else {
             xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+          }
          } else {
-          xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+           ansi2 <- xml[ii]
+           if(any(regexec('<p>([^<]+)</p>', ansi2)[[1L]] > 0) & grepl("choice", type[i])) {
+             txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
+             txml <- gsub('simpleChoice', 'inlineChoice', txml)
+           }
+           xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
          }
       } else {
         xml <- c(xml, txml)
