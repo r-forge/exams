@@ -532,8 +532,13 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
-  casesensitive = TRUE)
+  casesensitive = TRUE, cloze_schoice_display = c("buttons", "dropdown"))
 {
+  if(is.null(cloze_schoice_display))
+    cloze_schoice_display <- "buttons"
+  else
+    cloze_schoice_display <- match.arg(cloze_schoice_display)
+
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
@@ -968,8 +973,9 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
         if(length(ii) > 1L)
           stop(paste0("multiple ##ANSWER", i, "## tags found!"))
         ansi2 <- xml[ii]
-        if(ansi2 == paste0("<p>", ansi, "</p>")) {
-          p_check <- any(grepl("<choiceInteraction", txml, fixed = TRUE)) |
+
+        if(ansi2 == paste0("<p>", ansi, "</p>") & !grepl("choice", type[i])) {
+          p_check <-
             any(grepl("<extendedTextInteraction", txml, fixed = TRUE)) |
             any(grepl("<uploadInteraction", txml, fixed = TRUE))
           if(p_check) {
@@ -978,10 +984,23 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
             xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
           }
          } else {
-           ansi2 <- xml[ii]
-           if(any(regexec('<p>([^<]+)</p>', ansi2)[[1L]] > 0) & grepl("choice", type[i])) {
-             txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
-             txml <- gsub('simpleChoice', 'inlineChoice', txml)
+           if(grepl("choice", type[i])) {
+             ansi3 <- strsplit(ansi2, "", fixed = TRUE)[[1]]
+             ansi3 <- ansi3[(length(ansi3)-3):length(ansi3)]
+             ansi3 <- paste0(ansi3, collapse = "")
+             if((ansi3 == "</p>" & (cloze_schoice_display == "buttons")) | ((ansi3 == "</p>") & type[i] == "mchoice")) {
+               ansi3 <- ansi2
+               ansi3 <- strsplit(ansi2, "", fixed = TRUE)[[1]]
+               ansi3 <- ansi3[1:(length(ansi3)-4)]
+               ansi3 <- paste0(ansi3, collapse = "")
+               ansi3 <- gsub(ansi, paste0('</p>', ansi), ansi3)
+               xml <- gsub(ansi2, ansi3, xml, fixed = TRUE)
+             } else {
+               txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
+               txml <- gsub('simpleChoice', 'inlineChoice', txml)
+               for(ijj in questionlist[[i]])
+                 txml <- gsub(ijj, paste0('<![CDATA[', ijj, ']]>'), txml, fixed = TRUE)
+             }
            }
            xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
          }
@@ -1235,8 +1254,13 @@ make_itembody_qti21 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
-  casesensitive = TRUE)
+  casesensitive = TRUE, cloze_schoice_display = c("buttons", "dropdown"))
 {
+  if(is.null(cloze_schoice_display))
+    cloze_schoice_display <- "buttons"
+  else
+    cloze_schoice_display <- match.arg(cloze_schoice_display)
+
   function(x) {
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
