@@ -57,7 +57,8 @@
     minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
     digits = NULL, tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    solutionswitch = TRUE, casesensitive = TRUE)
+    solutionswitch = TRUE, casesensitive = TRUE,
+    cloze_schoice_display = c("buttons", "dropdown"))
 }
 
 \arguments{
@@ -121,6 +122,8 @@
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
   \item{casesensitive}{logical. Should the evaluation of string exercises be case sensitive?}
+  \item{cloze_schoice_display}{character. For \code{"schoice"} type answers in \code{"cloze"} exercises,
+    defines the display of possible answers.}
   \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}
