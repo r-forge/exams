@@ -58,7 +58,7 @@
     digits = NULL, tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
     solutionswitch = TRUE, casesensitive = TRUE,
-    cloze_schoice_display = c("buttons", "dropdown"))
+    cloze_schoice_display = c("auto", "buttons", "dropdown"))
 }
 
 \arguments{
@@ -123,7 +123,9 @@
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
   \item{casesensitive}{logical. Should the evaluation of string exercises be case sensitive?}
   \item{cloze_schoice_display}{character. For \code{"schoice"} type answers in \code{"cloze"} exercises,
-    defines the display of possible answers.}
+    defines the display of possible answers. The default \code{cloze_schoice_display = "auto"}
+    renders inline answers using a \code{"dropdown"} menu,
+    \code{cloze_schoice_display = "buttons"} uses radio buttons for rendering answers.}
   \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}
