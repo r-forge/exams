@@ -532,10 +532,10 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
-  casesensitive = TRUE, cloze_schoice_display = c("buttons", "dropdown"))
+  casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"))
 {
   if(is.null(cloze_schoice_display))
-    cloze_schoice_display <- "buttons"
+    cloze_schoice_display <- "auto"
   else
     cloze_schoice_display <- match.arg(cloze_schoice_display)
 
@@ -988,12 +988,23 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
              ansi3 <- strsplit(ansi2, "", fixed = TRUE)[[1]]
              ansi3 <- ansi3[(length(ansi3)-3):length(ansi3)]
              ansi3 <- paste0(ansi3, collapse = "")
-             if((ansi3 == "</p>" & (cloze_schoice_display == "buttons")) | ((ansi3 == "</p>") & type[i] == "mchoice")) {
+             csd <- cloze_schoice_display
+             if(type[i] == "schoice") {
+               if(csd == "auto") {
+                 csd <- if(ansi3 == "</p>") "dropdown" else "buttons"
+               }
+             }
+             if((ansi3 == "</p>" & (csd == "buttons")) | ((ansi3 == "</p>") & type[i] == "mchoice")) {
                ansi3 <- ansi2
                ansi3 <- strsplit(ansi2, "", fixed = TRUE)[[1]]
                ansi3 <- ansi3[1:(length(ansi3)-4)]
                ansi3 <- paste0(ansi3, collapse = "")
                ansi3 <- gsub(ansi, paste0('</p>', ansi), ansi3)
+               ansi3 <- strsplit(ansi3, ansi, fixed = TRUE)[[1]]
+               ansi32 <- ansi3[2]
+               ansi3 <- paste0(ansi3[1], ansi)
+               if(!is.na(ansi32))
+                 ansi3 <- gsub(paste0('</p>', ansi), paste0(ansi32, '</p>', ansi), ansi3, fixed = TRUE)
                xml <- gsub(ansi2, ansi3, xml, fixed = TRUE)
              } else {
                txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
@@ -1254,10 +1265,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
-  casesensitive = TRUE, cloze_schoice_display = c("buttons", "dropdown"))
+  casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"))
 {
   if(is.null(cloze_schoice_display))
-    cloze_schoice_display <- "buttons"
+    cloze_schoice_display <- "auto"
   else
     cloze_schoice_display <- match.arg(cloze_schoice_display)
 
