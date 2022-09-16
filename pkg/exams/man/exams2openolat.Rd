@@ -45,7 +45,11 @@
     Set to \code{0} for unlimited attempts. For a finite number of attempts this
     must be smaller than \code{100000}.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
-    \code{\link[exams]{exams2qti21}}, respectively.}
+    \code{\link[exams]{exams2qti21}}, respectively. See the corresponding
+    manual pages for further important arguments such as \code{cutvalue},
+    \code{solutionswitch}, \code{casesensitive}, \code{cloze_schoice_display}
+    \code{navigation}, \code{shufflesections}, \code{eval}, \code{selection},
+    among many others.}
   \item{cancel}{logical, whether the test may be canceled.}
   \item{suspend}{logical, whether the test may be suspended.}
   \item{scoreprogress}{logical, should score be shown when running the exam.}
@@ -79,7 +83,9 @@
   \code{exams2openolat} is a convenience interface to \code{\link[exams]{exams2qti12}}
   and \code{\link[exams]{exams2qti21}} for generating either QTI 1.2 or 2.1
   (default) output with some small tweaks for OpenOlat. Specifically, the MathJax
-  output from pandoc is post-processed as expected by OpenOlat.
+  and table output from pandoc is post-processed as expected by OpenOlat. See the
+  corresponding manual page for many more arguments that are supported by
+  \code{exams2openolat}.
   
   Dedicated \code{table} classes currently include: Full-width tables with borders
   (\code{"b_grid"}, \code{"b_border"}) or without (\code{"b_full"}, \code{"b_borderless"}).
@@ -88,7 +94,10 @@
   \code{"b_yellow"}). Setting \code{table = TRUE} corresponds to \code{table = "b_gray"}.
 
   Function \code{openolat_config} generates \code{XML} code that controls the overall options
-  of the test.
+  of the test. These options are not part of the QTI 2.1 standard but are specific to
+  OpenOlat only. This is why they are not part of \code{exams2qti21} but provided in a
+  separate wrapper function. As the XML config file is not part of the "official" OpenOlat
+  interface, it may be subject to more changes in the future.
 }
 
 \value{
