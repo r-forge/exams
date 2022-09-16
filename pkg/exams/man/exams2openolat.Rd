@@ -18,11 +18,7 @@
     questionprogress = FALSE, maxscoreitem = FALSE, menu = TRUE,
     titles = TRUE, notes = FALSE, hidelms = TRUE, hidefeedbacks = FALSE,
     blockaftersuccess = FALSE, attempts = 1, anonym = FALSE,
-    signature = FALSE, signaturemail = FALSE, resultsonfinish = TRUE,
-    itemback = FALSE, itemresethard = FALSE, itemresetsoft = FALSE,
-    itemskip = FALSE, passedtype = "none", metadata = FALSE,
-    sectionsummary = TRUE, questionsummary = FALSE, usersolutions = TRUE,
-    correctsolutions = TRUE, questions = FALSE)
+    passedtype = "none")
 }
 
 \arguments{
@@ -63,20 +59,7 @@
   \item{blockaftersuccess}{logical, is the test blocked after successful completion.}
   \item{attempts}{integer, how many attempts are allowed for the test.}
   \item{anonym}{logical, can the test be taken as an anonymous user.}
-  \item{signature}{logical, should signatures of users be allowed.}
-  \item{signaturemail}{logical, similar as above.}
-  \item{resultsonfinish}{logical, should results after finishing the test be displayed.}
-  \item{itemback}{logical}
-  \item{itemresethard}{logical}
-  \item{itemresetsoft}{logical}
-  \item{itemskip}{logical, can items be skipped.}
   \item{passedtype}{character, which passed type should be displayed after completion of the test.}
-  \item{metadata}{logical}
-  \item{sectionsummary}{logical, should section summaries be displayed after completion of the test.}
-  \item{questionsummary}{logical, should question summaries be displayed after completion of the test.}
-  \item{usersolutions}{logical, should the user solutions be displayed after completion of the test.}
-  \item{correctsolutions}{logical, should the correct solutions be displayed after completion of the test.}
-  \item{questions}{logical}
 }
 
 \details{
