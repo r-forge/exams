@@ -1,39 +1,37 @@
-\name{exams2qti12}
-\alias{exams2qti12}
-\alias{make_itembody_qti12}
-\alias{exams2qti}
-\alias{make_itembody_qti}
+\name{exams2qti21}
+\alias{exams2qti21}
+\alias{make_itembody_qti21}
 
-\title{Generation of Exams in QTI 1.2 Format}
+\title{Generation of Exams in QTI 2.1 Format}
 
 \description{
-  Automatic generation of exams in QTI 1.2 format.
+  Automatic generation of exams in QTI 2.1 format.
 }
 
 \usage{
-  exams2qti12(file, n = 1L, nsamp = NULL, dir = ".",
+  exams2qti21(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
     tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
-    resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
+    resolution = 100, width = 4, height = 4, svg = FALSE, encoding  = "UTF-8",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
-    template = "qti12", duration = NULL,
-    stitle = "Exercise", ititle = "Question",
-    adescription = "Please solve the following exercises.",
-    sdescription = "Please answer the following question.",
-    maxattempts = 1, cutvalue = 0, solutionswitch = TRUE,
-    zip = TRUE, points = NULL,
+    template = "qti21", duration = NULL,
+    stitle = NULL, ititle = NULL,
+    adescription = "Please solve the following exercises.", sdescription = "",
+    maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE,
+    casesensitive = TRUE, cloze_schoice_display = "auto",
+    navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
+    allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    converter = NULL, envir = NULL, xmlcollapse = FALSE,
-    flavor = c("plain", "openolat", "canvas", "ilias"), \dots)
+    converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
+    include = NULL, selection = c("pool", "exam"), \dots)
 
-  make_itembody_qti12(rtiming = FALSE, shuffle = FALSE,
-    rshuffle = shuffle, minnumber = NULL, maxnumber = NULL,
-    defaultval = NULL, minvalue = NULL, maxvalue = NULL,
-    cutvalue = NULL, enumerate = TRUE, digits = NULL,
-    tolerance = is.null(digits), maxchars = 12,
+  make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
+    minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
+    digits = NULL, tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, negative = FALSE),
-    fix_num = TRUE, flavor = "plain")
+    solutionswitch = TRUE, casesensitive = TRUE,
+    cloze_schoice_display = c("auto", "buttons", "dropdown"))
 }
 
 \arguments{
@@ -67,14 +65,14 @@
   \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{num}{function or named list applied to numerical (i.e., type \code{num})
     questions. If \code{num} is a function, \code{num} will be used
-    for generating the item body of the question, see function \code{make_itembody_qti12()}.
+    for generating the item body of the question, see function \code{make_itembody_qti21()}.
     If \code{num} is a named list, these arguments will be passed to function
-    \code{make_itembody_qti12()}.}
+    \code{make_itembody_qti21()}.}
   \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice,
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
     \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
-  \item{template}{character. The QTI 1.2 template that should be used. Currently,
-    the package provides \code{"qti12.xml"}.}
+  \item{template}{character. The QTI 2.1 template that should be used. Currently,
+    the package provides \code{"qti21.xml"}.}
   \item{duration}{integer. Set the duration of the exam in minutes.}
   \item{stitle}{character. A title that should be used for the sections. May be a vector of
     length 1 to use the same title for each section, or a vector containing different section
@@ -95,6 +93,25 @@
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
+  \item{casesensitive}{logical. Should the evaluation of string exercises be case sensitive?}
+  \item{cloze_schoice_display}{character. For \code{schoice} answers in \code{cloze} exercises,
+    select the display of the possible answers. By default (\code{cloze_schoice_display = "auto"}),
+    radio \code{"buttons"} are used if the answer list appears in its own paragraph and
+    a \code{"dropdown"} menu is used if the answer list appears inline. Both options can also be
+    enforced explicitly, independently from the answer list appearing in a separate paragraph
+    or inline.}
+  \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
+    or \code{"linear"}. The former means that test participants can switch back and forth
+    between questions while the latter implies that the questions need to be answered sequentially.}
+  \item{allowskipping}{logical. Can a question/section be skipped (default) or must it be answered?}
+  \item{allowreview}{logical. Can questions be viewed again at the end of a test/exam or not (default)?}
+  \item{allowcomment}{logical. Are comments allowed?}
+  \item{shufflesections}{logical. Should the order of the
+     exercises be shuffled? For \code{selection = "pool"} setting
+     \code{shufflesections = TRUE} this corresponds to shuffling the
+     sections that contain the pools of exercises. For
+     \code{selection = "exam"} it corresponds to shuffling the exercises
+     within each exam section.}
   \item{zip}{logical. Should the resulting XML file (plus supplements) be zipped?}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
@@ -106,18 +123,21 @@
     The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
     exercises in \code{file} where \code{"pandoc"} is used.}
   \item{envir}{passed to \code{\link[exams]{xweave}}.}
-  \item{xmlcollapse}{logical or character. Should line breaks be collapsed in the XML
-    code. If \code{TRUE} everything is collapsed with spaces (\code{" "}) but other collapse
-    characters could be supplied.}
-  \item{flavor}{character. Which QTI 1.2 \dQuote{flavor} should be used? Some learning
-    management systems require that the QTI XML tags are used in a rather specific
-    and idiosyncratic way. Typically, users should not set this argument directly but
-    use the convenience interfaces \code{\link{exams2openolat}}, \code{\link{exams2canvas}}, 
-    or \code{\link{exams2ilias}} instead (which use the \code{flavor} argument internally
-    along with further customizations).}
-  \item{rtiming, shuffle, rshuffle, minnumber, maxnumber, defaultval, minvalue,
-    maxvalue}{arguments used for QTI 1.2 item construction, for details see the XML
-    specification (see IMS Global Learning Consortium, Inc. 2002), especially Section 4.}
+  \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?
+    Argument \code{base64} may also be a character vector of file suffixes that should be encoded, e.g.
+    \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.
+    If set to \code{NULL} only image files will be encoded.}
+  \item{mode}{character. See function \code{\link[tth]{tth}}.}
+  \item{include}{character, paths of extra files that should be included within the final
+    \code{.zip}-file.}
+  \item{selection}{character. If \code{selection = "pool"}, the function creates one section
+    for each exercise from which one replication will be selected in the exam. If
+    \code{selection = "exam"} each section contains all questions and one section will
+    be selected for the exam. The \code{"exam"} variant has the advantage that questions
+    that build on each other can be used in the exam.}
+  \item{shuffle, defaultval, minvalue, maxvalue}{arguments used for item construction,
+    for details see the XML specification (see IMS Global Learning Consortium, Inc. 2012),
+    especially Section 4.}
   \item{enumerate}{logical. Insert potential solutions in enumerated list?}
   \item{digits}{integer. How many digits should be used for \code{num} exercises?}
   \item{tolerance}{logical. Should tolerance intervals be used for checking if the supplied
@@ -125,9 +145,6 @@
   \item{maxchars}{numeric. Lower bound for the number of characters in fill-in-blank
     fields. The actual number of characters is selected as the maximum number of
     characters of this value and the actual solution.}
-  \item{fix_num}{logical. This is a special flag to enable/force the display of the
-    correct solutions for numeric exercises/answers as well as to obtain results when archiving tests.
-    Note that this is a workaround, which works e.g. within OLAT.}
   \item{\dots}{further arguments passed on to \code{make_exercise_transform_html}.}
 }
 
@@ -137,7 +154,7 @@
   The standard evolved over various versions with the first release culminating in the QTI 1.2 standard
   and the most commonly used stable version of the second release being QTI 2.1.
   While both versions share many similarities, they also differ in many details.
-  Hence, separate functions \code{exams2qti12} and \code{\link[exams]{exams2qti21}} are provided.
+  Hence, separate functions \code{\link[exams]{exams2qti12}} and \code{exams2qti21} are provided.
   Moreover, due to the flexibility of the QTI standard, different learning management systems employ
   the standard in slightly different ways. Therefore, dedicated interfaces
   \code{\link{exams2canvas}} and \code{\link{exams2ilias}} (both based on QTI 1.2),
@@ -147,52 +164,52 @@
   and the separate package \pkg{exams2sakai} started as forks of the \code{exams2qti12} and
   \code{exams2qti21} functions, respectively.
 
-  \code{exams2qti12} produces a \code{.zip} file that may be uploaded into different learning
-  management systems (see above). This includes the final XML file of the exam/assessment as well
-  as possible supplement folders that include images, data sets etc. used for the exam. It
-  proceeds by (1) calling \code{\link[exams]{xweave}} on each exercise, (2) reading the
-  resulting Markdown and/or LaTeX code, (3) transforming the Markdown/LaTeX code to HTML,
-  and (4) embedding the HTML code in a XML file using the QTI 1.2 standards for assessments and
-  question items.
+  \code{exams2qti21} produces a \code{.zip} file that may be uploaded into different learning
+  management systems (see above). This includes the final XML file of the exam/assessment,
+  its exercises as well as possible supplement folders that include images, data sets etc.
+  It proceeds by (1) calling \code{\link[exams]{xweave}} for each exercise, (2) reading the
+  resulting Markdown and/or LaTeX code using \code{\link[exams]{read_exercise}},
+  (3) transforming the Markdown/LaTeX code to HTML, and (4) embedding the HTML code in XML
+  files using the QTI 2.1 standard for assessments and question items.
 
   For steps (1) and (2) the standard drivers in \code{xexams} are used. In step (3), a suitable
   transformation function is set up on the fly using \code{make_exercise_transform_html}, see also
   the details section in \code{\link{exams2html}}.
   For step (4), the function will cycle through all questions and exams to generate the final XML
-  file in QTI 1.2 format. Therefore, each question will be included in the XML as one "section".
-  The replicates of each question will be written as question items of the section.
-  The default XML template generates exams/assessments that sample one replicate of a question/item
-  for each section. Typically, the learning management systems sample the items from the different
-  sections independently so that one participant might receive the first random replication from
+  files in QTI 2.1 format: separate XML files for each random replication of each exercise (labeled
+  items in sections in QTI), one XML file tying the overall exam/assessment together based on
+  the individual exercises and one overall \file{imsmanifest.xml}.
+  
+  For arranging the individual exercise replications (called "items") in so-called "sections"
+  two different types of \code{selection} are available: First, a \code{"pool"} of replications/items
+  can be put into a section and then one item will be selected randomly for each participant from
+  each section. As learning management systems typically sample the sections independently, this means that
+  one participant might receive the first random replication from
   the first exercise but the third random replication from the second exercise, and so on.
-
-  Templates other than the default \code{qti12.xml} provided in the \code{xml} folder of
+  Alternatively, \code{selection = "exam"} specifies that each section contains
+  a complete set of exercises and one section will be selected randomly for each participant.
+  The \code{"exam"} variant is less commonly used but has the advantage that questions that build
+  on each other can be used in the exam. Also, duplicated exercise types can be avoided when
+  using \code{nsamp} to sample a certain number of exercises without replacement.
+  
+  Templates other than the default \code{qti21.xml} provided in the \code{xml} folder of
   this package could in principle also be specified. However, adapting these is a bit technical.
-  The assessment template must provide one section including one item. \code{exams2qti12} will then
+  The assessment template must provide one section including one item. \code{exams2qti21} will then
   use the single item template to generate all items, as well as the assessment and section specifications set within the template.
   Note that all specifiers that have a leading \code{##} in the XML template will be replaced by suitable code in
-  \code{exams2qti12} and should always be provided in the template. I.e., the user may add
+  \code{exams2qti21} and should always be provided in the template. Thus, the user may add
   additional tags to the XML template or modify certain specifications, like the number of
   replicates/items that should be sampled for each section etc.
 
   By default, the individual question/item bodies are generated by function
-  \code{make_itembody_qti12}, which checks the type of the question and
+  \code{make_itembody_qti21} which checks the type of the question and
   will produce suitable XML code. Note that for each question type, either the arguments of
-  \code{make_itembody_qti12} may be set within \code{num}, \code{mchoice}, \code{schoice},
-  \code{string} and \code{cloze} in \code{exams2qti12}, by providing a named list of specifications
-  that should be used, or for each questiontype, a function that produces the item body XML code may
+  \code{make_itembody_qti21} may be set within \code{num}, \code{mchoice}, \code{schoice},
+  \code{string} and \code{cloze} in \code{exams2qti21}, by providing a named list of specifications
+  that should be used, or for each question type, a function that produces the item body XML code may
   be provided to \code{num}, \code{mchoice}, \code{schoice}, \code{string} and \code{cloze}. E.g.,
   \code{mchoice = list(shuffle = TRUE)} will force only multiple choice questions to have a shuffled
   answerlist.
-
-  Note that in very old OLAT/OpenOlat versions with QTI 1.2, \code{num} exercises are not officially supported but in fact work
-  correctly. The only drawback is that in certain settings the correct solution is not shown at the
-  end of the assessment (although it is used for all internal computations). Therefore, two workarounds
-  are implemented. Either \code{fix_num} can be set to \code{TRUE} (default), then a fix is added
-  by double-checking the result, or \code{digits} can be set to a fixed value (e.g., \code{digits = 2}).
-  In the latter case, the \code{num} exercise is represented by a \code{string}. Then the answer must
-  be provided exactly to the decimal places specified (e.g., if the exact solution is 16.4562, then the
-  correct answer in the test will be \code{"16.46"}, i.e., a character string of 5 characters).
 }
 
 \references{
@@ -211,10 +228,10 @@ Zeileis A, Umlauf N, Leisch F (2014).
 }
 
 \value{
-  \code{exams2qti12} returns a list of exams as generated by \code{\link[exams]{xexams}}.
+  \code{exams2qti21} returns a list of exams as generated by \code{\link[exams]{xexams}}.
 
-  \code{make_itembody_qti12} returns a function that generates the XML code
-  for the itembody tag in QTI 1.2 format.
+  \code{make_itembody_qti21} returns a function that generates the XML code
+  for the itembody tag in QTI 2.1 format.
 }
 
 \seealso{
@@ -242,9 +259,9 @@ myexam <- list(
 ## output directory
 dir.create(mydir <- tempfile())
 
-## generate .zip with QTI 1.2 exam in temporary directory
+## generate .zip with QTI 2.1 exam in temporary directory
 ## using a few customization options
-exams2qti12(myexam, n = 3, dir = mydir,
+exams2qti21(myexam, n = 3, dir = mydir,
   maxattempts = 3,
   num = list(digits = 1),
   mchoice = list(shuffle = TRUE, enumerate = FALSE)
