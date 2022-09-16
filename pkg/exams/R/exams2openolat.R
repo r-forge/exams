@@ -37,7 +37,10 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   invisible(rval)
 }
 
-## QTI package config generator for OpenOlat
+## QTI package config generator for OpenOlat:
+## The underlying functionality is really internal in OpenOlat and not officially
+## documented but some insights can be gained from the Java source code at
+## https://github.com/OpenOLAT/OpenOLAT/blob/master/src/main/java/org/olat/ims/qti21/QTI21DeliveryOptions.java
 openolat_config <- function(
   cancel = FALSE, ## Does not work.
   suspend = FALSE, ## Does not work.
