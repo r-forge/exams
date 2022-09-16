@@ -97,9 +97,11 @@
   \item{cloze_schoice_display}{character. For \code{schoice} answers in \code{cloze} exercises,
     select the display of the possible answers. By default (\code{cloze_schoice_display = "auto"}),
     radio \code{"buttons"} are used if the answer list appears in its own paragraph and
-    a \code{"dropdown"} menu is used if the answer list appears inline. Both options can also be
-    enforced explicitly, independently from the answer list appearing in a separate paragraph
-    or inline.}
+    a \code{"dropdown"} menu is used if the answer list appears inline (and has no mathematical
+    markup). Both options can also be enforced explicitly, independently from the answer list
+    appearing in a separate paragraph or inline. Note that in dropdown menus the answer list
+    will typically be rendered as plain text which means that mathematical notaion may become
+    unintelligible.}
   \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}
