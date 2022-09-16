@@ -13,7 +13,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "qti21",
   duration = NULL, stitle = NULL, ititle = NULL,
   adescription = "Please solve the following exercises.", sdescription = "", 
-  maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE,
+  maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE, cloze_schoice_display = "auto",
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, negative = FALSE),
@@ -65,12 +65,11 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) {
-      if(is.null(itembody[[i]]$eval))
-        itembody[[i]]$eval <- eval
-      if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
-        itembody[[i]]$eval$rule <- "none"
+      if(is.null(itembody[[i]]$eval)) itembody[[i]]$eval <- eval
+      if(i == "cloze" && is.null(itembody[[i]]$eval$rule)) itembody[[i]]$eval$rule <- "none"
       if(is.null(itembody[[i]]$solutionswitch)) itembody[[i]]$solutionswitch <- solutionswitch
       if(is.null(itembody[[i]]$casesensitive)) itembody[[i]]$casesensitive <- casesensitive
+      if(i == "cloze" && is.null(itembody[[i]]$cloze_schoice_display)) itembody[[i]]$cloze_schoice_display <- cloze_schoice_display
 
       ## make itembody version.
       ibv <- list(...)$ibv
@@ -534,10 +533,7 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
   eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
   casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"))
 {
-  if(is.null(cloze_schoice_display))
-    cloze_schoice_display <- "auto"
-  else
-    cloze_schoice_display <- match.arg(cloze_schoice_display)
+  cloze_schoice_display <- if(is.null(cloze_schoice_display)) "auto" else match.arg(cloze_schoice_display, c("auto", "buttons", "dropdown"))
 
   function(x) {
     ## how many points?
@@ -972,9 +968,10 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
         ii <- grep(ansi, xml)
         if(length(ii) > 1L)
           stop(paste0("multiple ##ANSWER", i, "## tags found!"))
-        ansi2 <- xml[ii]
 
-        if(ansi2 == paste0("<p>", ansi, "</p>") & !grepl("choice", type[i])) {
+        is_in_p <- grepl(paste0("<p>", ansi, "</p>"), xml[ii], fixed = TRUE)
+
+        if(is_in_p && !grepl("choice", type[i])) {
           p_check <-
             any(grepl("<extendedTextInteraction", txml, fixed = TRUE)) |
             any(grepl("<uploadInteraction", txml, fixed = TRUE))
@@ -985,13 +982,9 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
           }
          } else {
            if(grepl("choice", type[i])) {
-             is_in_p <- gsub(" ", "", ansi2) == paste0("<p>", ansi, "</p>")
-
              csd <- cloze_schoice_display
-             if(type[i] == "schoice") {
-               if(csd == "auto") {
-                 csd <- if(!is_in_p) "dropdown" else "buttons"
-               }
+             if(type[i] == "schoice" && csd == "auto") {
+               csd <- if(!is_in_p) "dropdown" else "buttons"
              }
 
              if((csd == "buttons") | (type[i] == "mchoice")) {
@@ -1009,7 +1002,6 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
                }
              }
            }
-
            xml <- gsub(ansi, txml, xml, fixed = TRUE)
          }
       } else {
