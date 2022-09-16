@@ -985,35 +985,32 @@ make_itembody_qti21_v2 <- function(shuffle = FALSE,
           }
          } else {
            if(grepl("choice", type[i])) {
-             ansi3 <- strsplit(ansi2, "", fixed = TRUE)[[1]]
-             ansi3 <- ansi3[(length(ansi3)-3):length(ansi3)]
-             ansi3 <- paste0(ansi3, collapse = "")
+             is_in_p <- gsub(" ", "", ansi2) == paste0("<p>", ansi, "</p>")
+
              csd <- cloze_schoice_display
              if(type[i] == "schoice") {
                if(csd == "auto") {
-                 csd <- if(ansi3 == "</p>") "dropdown" else "buttons"
+                 csd <- if(!is_in_p) "dropdown" else "buttons"
                }
              }
-             if((ansi3 == "</p>" & (csd == "buttons")) | ((ansi3 == "</p>") & type[i] == "mchoice")) {
-               ansi3 <- ansi2
-               ansi3 <- strsplit(ansi2, "", fixed = TRUE)[[1]]
-               ansi3 <- ansi3[1:(length(ansi3)-4)]
-               ansi3 <- paste0(ansi3, collapse = "")
-               ansi3 <- gsub(ansi, paste0('</p>', ansi), ansi3)
-               ansi3 <- strsplit(ansi3, ansi, fixed = TRUE)[[1]]
-               ansi32 <- ansi3[2]
-               ansi3 <- paste0(ansi3[1], ansi)
-               if(!is.na(ansi32))
-                 ansi3 <- gsub(paste0('</p>', ansi), paste0(ansi32, '</p>', ansi), ansi3, fixed = TRUE)
-               xml <- gsub(ansi2, ansi3, xml, fixed = TRUE)
+
+             if((csd == "buttons") | (type[i] == "mchoice")) {
+               xml <- if(!is_in_p) {
+                 gsub(ansi, paste0("</p>", ansi, "<p>"), xml, fixed = TRUE)
+               } else {
+                 gsub(paste0("<p>", ansi, "</p>"), ansi, xml, fixed = TRUE)
+               }
              } else {
-               txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
-               txml <- gsub('simpleChoice', 'inlineChoice', txml)
-               for(ijj in questionlist[[i]])
-                 txml <- gsub(ijj, paste0('<![CDATA[', ijj, ']]>'), txml, fixed = TRUE)
+               if(type[i] == "schoice") {
+                 txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
+                 txml <- gsub('simpleChoice', 'inlineChoice', txml)
+                 for(ijj in questionlist[[i]])
+                   txml <- gsub(ijj, paste0('<![CDATA[', ijj, ']]>'), txml, fixed = TRUE)
+               }
              }
            }
-           xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+
+           xml <- gsub(ansi, txml, xml, fixed = TRUE)
          }
       } else {
         xml <- c(xml, txml)
