@@ -108,13 +108,13 @@
   \item{answernumbering}{character. Specifies how choice questions should be numbered,
     allowed values are: \code{"abc"} (default), \code{"ABCD"}, \code{"123"} or \code{"none"}.}
   \item{usecase}{logical. Should string questions be case sensitive or not.}
-  \item{cloze_mchoice_display, cloze_schoice_display}{character. In \code{cloze} type questions,
+  \item{cloze_mchoice_display, cloze_schoice_display}{character. In \code{cloze} questions,
     the user may set the visual appearance of choice questions. If \code{NULL} (default),
     \code{"MULTIRESPONSE"} (column of checkboxes) is used for \code{mchoice} questions and
     \code{"MULTICHOICE"} (drop-down menu) for \code{schoice} questions unless math markup is present in the question list.
     The latter is not rendered in drop-down menus and hence \code{"MULTICHOICE_V"} (radio buttons, vertical column) are used.
     Other options include a horizontal row of either checkboxes (\code{"MULTIRESPONSE_H"}) or
-    radio buttons (\code{"MULTICHOICE_H"}). Shuffled versions of all display types are also
+    radio buttons (\code{"MULTICHOICE_H"}), respectively. Shuffled versions of all display types are also
     available (since Moodle 3.0) by appending an "S", e.g., \code{"MULTICHOICE_S"} or
     \code{"MULTICHOICE_VS"} etc.}
   \item{truefalse}{character of length 2. For single choice answers in \code{cloze} questions,
