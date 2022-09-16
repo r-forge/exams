@@ -109,7 +109,7 @@
   are read automatically where both empty and completely filled boxes are
   regarded as not crossed.
   
-  Tutorial for NOPS workflow: \url{http://www.R-exams.org/tutorials/exams2nops/}.
+  Tutorial for NOPS workflow: \url{https://www.R-exams.org/tutorials/exams2nops/}.
   
   Limitations: (a) Only up to five answer alternatives per question are supported.
   (b) Currently, only up to 45 questions are supported. If you have
@@ -170,7 +170,7 @@
   or IETF language tags (\url{https://en.wikipedia.org/wiki/IETF_language_tag}) if
   no ISO 639 codes exists (as for Brazilian Portuguese).
   For more details about the underlying text file in DCF format, see
-  \url{http://www.R-exams.org/tutorials/nops_language/}
+  \url{https://www.R-exams.org/tutorials/nops_language/}
 
 }
 

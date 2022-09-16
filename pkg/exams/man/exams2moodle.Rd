@@ -213,7 +213,7 @@ Zeileis A, Umlauf N, Leisch F (2014).
 
 Zeileis A (2019).
   \emph{Mathematical Notation in Online R/exams}.
-  \url{http://www.R-exams.org/tutorials/math/}
+  \url{https://www.R-exams.org/tutorials/math/}
 }
 
 \value{

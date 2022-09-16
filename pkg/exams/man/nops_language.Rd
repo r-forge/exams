@@ -24,7 +24,7 @@
 \details{
   The NOPS exams infrastructure is internationalized and can be customized through
   DCF files (borrowing the format from Debian configuration files). For a detailed
-  description see: \url{http://www.R-exams.org/tutorials/nops_language/}.
+  description see: \url{https://www.R-exams.org/tutorials/nops_language/}.
   The DCF files typically either contain special characters as LaTeX commands or
   in UTF-8 encoding. To handle the former case, a \code{converter} can be applied
   to convert the language texts to HTML.

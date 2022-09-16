@@ -70,7 +70,7 @@
   \url{https://www.imagemagick.org/script/download.php#windows},
   \url{https://www.ghostscript.com/releases/gsdnld.html}.
   
-  Tutorial for NOPS workflow: \url{http://www.R-exams.org/tutorials/exams2nops/}.
+  Tutorial for NOPS workflow: \url{https://www.R-exams.org/tutorials/exams2nops/}.
   
   Practical recommendations:
   
