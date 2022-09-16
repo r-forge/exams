@@ -42,34 +42,34 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
 ## documented but some insights can be gained from the Java source code at
 ## https://github.com/OpenOLAT/OpenOLAT/blob/master/src/main/java/org/olat/ims/qti21/QTI21DeliveryOptions.java
 openolat_config <- function(
-  cancel = FALSE, ## Does not work.
-  suspend = FALSE, ## Does not work.
-  scoreprogress = FALSE, ## Does not work.
-  questionprogress = FALSE,
-  maxscoreitem = FALSE, ## FIXME N:?
-  menu = TRUE,
-  titles = TRUE,
-  notes = FALSE,
-  hidelms = TRUE,
-  hidefeedbacks = FALSE, ## FIXME N:?
-  blockaftersuccess = FALSE,
-  attempts = 1,
-  anonym = FALSE,
-  signature = FALSE,
-  signaturemail = FALSE,
-  resultsonfinish = TRUE, ## FIXME N: does not work
-  itemback = FALSE,
-  itemresethard = FALSE,
-  itemresetsoft = FALSE,
-  itemskip = FALSE,
-  passedtype = "none", ## FIXME: alternatives? in sync with cutvalue!!
-  metadata = FALSE,
-  sectionsummary = TRUE, ## N: does not work
-  questionsummary = FALSE, ## FIXME or vice versa? N: does not work
-  usersolutions = TRUE,
-  correctsolutions = TRUE,
-  questions = FALSE) {
-  
+  cancel = FALSE, ## -> Ok!
+  suspend = FALSE, ## -> Ok!
+  scoreprogress = FALSE, ## -> Ok!
+  questionprogress = FALSE, ## -> Ok!
+  maxscoreitem = FALSE, ## -> Ok!
+  menu = TRUE, ## -> Ok!
+  titles = TRUE, ## -> Ok!
+  notes = FALSE, ## -> Ok!
+  hidelms = TRUE, ## -> Ok!
+  hidefeedbacks = FALSE, ## -> Ok!
+  blockaftersuccess = FALSE, ## -> Ok!
+  attempts = 1, ## -> Ok!
+  anonym = FALSE, ## -> Ok!
+#  signature = FALSE, ## ? not there
+#  signaturemail = FALSE, ## ? not there
+#  resultsonfinish = TRUE, ## ? not there and other option when uploading does not change
+#  itemback = FALSE, ## ? not there
+#  itemresethard = FALSE, ## ? not there
+#  itemresetsoft = FALSE, ## ? not there
+#  itemskip = FALSE, ## ? not there
+  passedtype = "none" ## FIXME: alternatives? in sync with cutvalue!!
+#  metadata = FALSE, ## ? not there
+#  sectionsummary = TRUE, ## ? not there or not processed by config import
+#  questionsummary = FALSE, ## ? not there or not processed by config import
+#  usersolutions = TRUE, ## ? not there and other option when uploading does not change
+#  correctsolutions = TRUE, ## ? not there and other option when uploading does not change
+#  questions = FALSE ## ? not there or not processed by config import
+) {
   to_xml <- function(x) if(is.logical(x)) ifelse(x, "true", "false") else x
 
   list("QTI21PackageConfig.xml" = c(
@@ -87,21 +87,21 @@ openolat_config <- function(
     paste0('<blockAfterSuccess>', to_xml(blockaftersuccess), '</blockAfterSuccess>'),
     paste0('<maxAttempts>', to_xml(attempts), '</maxAttempts>'),
     paste0('<allowAnonym>', to_xml(anonym), '</allowAnonym>'),
-    paste0('<digitalSignature>', to_xml(signature), '</digitalSignature>'),
-    paste0('<digitalSignatureMail>', to_xml(signaturemail), '</digitalSignatureMail>'),
-    paste0('<showAssessmentResultsOnFinish>', to_xml(resultsonfinish), '</showAssessmentResultsOnFinish>'),
-    paste0('<enableAssessmentItemBack>', to_xml(itemback), '</enableAssessmentItemBack>'),
-    paste0('<enableAssessmentItemResetHard>', to_xml(itemresethard), '</enableAssessmentItemResetHard>'),
-    paste0('<enableAssessmentItemResetSoft>', to_xml(itemresetsoft), '</enableAssessmentItemResetSoft>'),
-    paste0('<enableAssessmentItemSkip>', to_xml(itemskip), '</enableAssessmentItemSkip>'),
+#    paste0('<digitalSignature>', to_xml(signature), '</digitalSignature>'),
+#    paste0('<digitalSignatureMail>', to_xml(signaturemail), '</digitalSignatureMail>'),
+#    paste0('<showAssessmentResultsOnFinish>', to_xml(resultsonfinish), '</showAssessmentResultsOnFinish>'),
+#    paste0('<enableAssessmentItemBack>', to_xml(itemback), '</enableAssessmentItemBack>'),
+#    paste0('<enableAssessmentItemResetHard>', to_xml(itemresethard), '</enableAssessmentItemResetHard>'),
+#    paste0('<enableAssessmentItemResetSoft>', to_xml(itemresetsoft), '</enableAssessmentItemResetSoft>'),
+#    paste0('<enableAssessmentItemSkip>', to_xml(itemskip), '</enableAssessmentItemSkip>'),
     paste0('<passedType>', to_xml(passedtype), '</passedType>'),
-    paste0('<assessmentResultsOptions>'),
-    paste0('<metadata>', to_xml(metadata), '</metadata>'),
-    paste0('<sectionSummary>', to_xml(sectionsummary), '</sectionSummary>'),
-    paste0('<questionSummary>', to_xml(questionsummary), '</questionSummary>'),
-    paste0('<userSolutions>', to_xml(usersolutions), '</userSolutions>'),
-    paste0('<correctSolutions>', to_xml(correctsolutions), '</correctSolutions>'),
-    paste0('<questions>', to_xml(questions), '</questions>'),
+#    paste0('<assessmentResultsOptions>'),
+#    paste0('<metadata>', to_xml(metadata), '</metadata>'),
+#    paste0('<sectionSummary>', to_xml(sectionsummary), '</sectionSummary>'),
+#    paste0('<questionSummary>', to_xml(questionsummary), '</questionSummary>'),
+#    paste0('<userSolutions>', to_xml(usersolutions), '</userSolutions>'),
+#    paste0('<correctSolutions>', to_xml(correctsolutions), '</correctSolutions>'),
+#    paste0('<questions>', to_xml(questions), '</questions>'),
     paste0('</assessmentResultsOptions>'),
     '</deliveryOptions>'
   ))
