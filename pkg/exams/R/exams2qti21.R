@@ -974,21 +974,15 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           }
          } else {
            if(grepl("choice", type[i])) {
-             csd <- csd0 <- cloze_schoice_display
+             csd <- cloze_schoice_display
              if(type[i] == "schoice" && csd == "auto") {
-               csd <- if(!is_in_p) "dropdown" else "buttons"
-             }
-             if((type[i] == "schoice") & (csd == "dropdown")) {
+               ## check for math tags
                ot <- c("\\(", "<math ", "<span class=\"math\"")
-               ct <- c("\\)", "</math", "</span")
-               for(iit in seq_along(ot)) {
-                 if(any(grepl(ot[iit], questionlist[[i]], fixed = TRUE) & grepl(ct[iit], questionlist[[i]], fixed = TRUE)))
-                   csd <- "buttons"
-               }
-               if(csd0 != "auto")
-                 warning('detected math markup in questionlist, changed to cloze_schoice_display = "buttons"!')
+               ct <- c("\\)", "</math>", "</span>")
+               has_math <- any(sapply(seq_along(ot), function(j) any(
+                 grepl(ot[j], questionlist[[i]], fixed = TRUE) & grepl(ct[j], questionlist[[i]], fixed = TRUE))))
+               csd <- if(is_in_p | has_math) "buttons" else "dropdown"
              }
-
              if((csd == "buttons") | (type[i] == "mchoice")) {
                xml <- if(!is_in_p) {
                  gsub(ansi, paste0("</p>", ansi, "<p>"), xml, fixed = TRUE)
