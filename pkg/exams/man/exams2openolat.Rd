@@ -18,7 +18,7 @@
     questionprogress = FALSE, maxscoreitem = FALSE, menu = TRUE,
     titles = TRUE, notes = FALSE, hidelms = TRUE, hidefeedbacks = FALSE,
     blockaftersuccess = FALSE, attempts = 1, anonym = FALSE,
-    passedtype = "none")
+    passedtype = c("none", "cutValue", "manually"))
 }
 
 \arguments{
