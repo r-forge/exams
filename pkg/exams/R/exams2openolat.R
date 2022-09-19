@@ -42,20 +42,20 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
 ## documented but some insights can be gained from the Java source code at
 ## https://github.com/OpenOLAT/OpenOLAT/blob/master/src/main/java/org/olat/ims/qti21/QTI21DeliveryOptions.java
 openolat_config <- function(
-  cancel = FALSE, ## -> Ok!
-  suspend = FALSE, ## -> Ok!
-  scoreprogress = FALSE, ## -> Ok!
-  questionprogress = FALSE, ## -> Ok!
-  maxscoreitem = FALSE, ## -> Ok!
-  menu = TRUE, ## -> Ok!
-  titles = TRUE, ## -> Ok!
-  notes = FALSE, ## -> Ok!
-  hidelms = TRUE, ## -> Ok!
-  hidefeedbacks = FALSE, ## -> Ok!
-  blockaftersuccess = FALSE, ## -> Ok!
-  attempts = 1, ## -> Ok!
-  anonym = FALSE, ## -> Ok!
-  passedtype = c("none", "cutValue", "manually") ## FIXME: alternatives? in sync with cutvalue!!
+  cancel = FALSE,
+  suspend = FALSE,
+  scoreprogress = FALSE,
+  questionprogress = FALSE,
+  maxscoreitem = FALSE,
+  menu = TRUE,
+  titles = TRUE,
+  notes = FALSE,
+  hidelms = TRUE,
+  hidefeedbacks = FALSE,
+  blockaftersuccess = FALSE,
+  attempts = 1,
+  anonym = FALSE,
+  passedtype = c("none", "cutvalue", "manually")
 ) {
   signature <- FALSE ## ? not there
   signaturemail <- FALSE ## ? not there
@@ -71,7 +71,8 @@ openolat_config <- function(
   correctsolutions <- TRUE ## ? not there and other option when uploading does not change
   questions <- FALSE ## ? not there or not processed by config import
 
-  passedtype <- match.arg(passedtype)
+  passedtype <- match.arg(tolower(passedtype), c("none", "cutvalue", "manually"))
+  if(passedtype == "cutvalue") passedtype <- "cutValue"
   to_xml <- function(x) if(is.logical(x)) ifelse(x, "true", "false") else x
 
   list("QTI21PackageConfig.xml" = c(

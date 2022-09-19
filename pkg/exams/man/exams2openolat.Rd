@@ -29,37 +29,55 @@
   \item{qti}{character indicating whether QTI \code{"1.2"} or \code{"2.1"}
     (default) should be generated.}
   \item{config}{logical or named list with arguments to be passed to
-    function \code{openolat_config}, see below. When using the \code{config} argument
-    a \code{XML} file named \code{QTI21PackageConfig.xml} will be written to the
-    final directory.}
+    function \code{openolat_config}, for adding an OpenOlat-specifc configuration
+    file \code{QTI21PackageConfig.xml} to the exam. If set to \code{config = FALSE},
+    no configuration file is added (which was the default behavior up to R/exams 2.3.6).
+    Setting \code{config = TRUE} is equivalent to \code{config = list()} or
+    \code{config = openolat_config()} (which is the current default, starting from R/exams 2.4.0).
+    Custom configurations can be specified using the syntax \code{config = list(...)},
+    see the details on the possible arguments below.}
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
     indicating the type of converter from LaTeX/Markdown to HTML. Defaults
     to HTML with MathJax (and OpenOlat-specific fixups).}
   \item{table}{logical or character. Should a dedicated table class be
     used in the HTML for OpenOlat? For details see below.}
-  \item{maxattempts}{integer. The maximum attempts for one question.
+  \item{maxattempts}{integer. The maximum attempts for one question within an exam.
     Set to \code{0} for unlimited attempts. For a finite number of attempts this
-    must be smaller than \code{100000}.}
-  \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti12}} or
-    \code{\link[exams]{exams2qti21}}, respectively. See the corresponding
+    must be smaller than \code{100000}. See also \code{attempts} below for allowing more
+    than one attempt for the exam as a whole.}
+  \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti21}} (or
+    \code{\link[exams]{exams2qti12}}, respectively). See the corresponding
     manual pages for further important arguments such as \code{cutvalue},
     \code{solutionswitch}, \code{casesensitive}, \code{cloze_schoice_display}
     \code{navigation}, \code{shufflesections}, \code{eval}, \code{selection},
     among many others.}
-  \item{cancel}{logical, whether the test may be canceled.}
-  \item{suspend}{logical, whether the test may be suspended.}
-  \item{scoreprogress}{logical, should score be shown when running the exam.}
-  \item{questionprogress}{logical, should the number of solved questions be shown during the exam.}
-  \item{maxscoreitem}{logical, should the maximum score of the item be shown.}
-  \item{menu}{logical, should the menu be shown.}
-  \item{titles}{logical, should titles be shown.}
-  \item{notes}{logical, should notes be allowed.}
-  \item{hidelms}{logical, hide the OLAT LMS.}
-  \item{hidefeedbacks}{logical, should feedback ne displayed.}
-  \item{blockaftersuccess}{logical, is the test blocked after successful completion.}
-  \item{attempts}{integer, how many attempts are allowed for the test.}
-  \item{anonym}{logical, can the test be taken as an anonymous user.}
-  \item{passedtype}{character, which passed type should be displayed after completion of the test.}
+  \item{cancel}{logical. Are participants allowed to cancel an exam after starting it?
+    (Default: \code{FALSE}.)}
+  \item{suspend}{logical. Are participants allowed to suspend an exam after starting it
+    (in order to continue it later)? (Default: \code{FALSE}.)}
+  \item{scoreprogress}{logical. Should the progress of the score/points achieved so far
+    be displayed during the exam? (Default: \code{FALSE}.)}
+  \item{questionprogress}{logical. Should the number of questions solved so far be
+    displayed during the exam? (Default: \code{FALSE}.)}
+  \item{maxscoreitem}{logical. Should the maximum score of a question/item be displayed?
+    (Default: \code{FALSE}.)}
+  \item{menu}{logical. Should the menu be displayed during the exam? (Default: \code{TRUE}.)}
+  \item{titles}{logical. Should question titles be displayed during the exam?
+    (Default: \code{TRUE}.)}
+  \item{notes}{logical. Should participants be enabled to take notes in OpenOlat during
+    the exam? (Default: \code{FALSE}.)}
+  \item{hidelms}{logical. Should access to the OpenOlat learning management system be
+    hidden during the exam? (Default: \code{TRUE}.)}
+  \item{hidefeedbacks}{logical. Should feedbacks be hidden? (Default: \code{FALSE}.)}
+  \item{blockaftersuccess}{logical. Should the exam be blocked after successful completion?
+    (Default: \code{FALSE}.)}
+  \item{attempts}{integer. How many attempts are allowed for the exam as a whole?
+    Note that this should not be confused with the \code{maxattempts} for a question
+    within the exam (see above).}
+  \item{anonym}{logical. Should anonymous users be allowed to take the exam? (Default: \code{FALSE}.)}
+  \item{passedtype}{character. How should OpenOlat evaluate which participants passed
+    (or failed)? Note at all (\code{"none"}, default), based on the \code{"cutvalue"}
+    (see \code{\link[exams]{exams2qti21}}), or \code{"manually"}?}
 }
 
 \details{
@@ -76,11 +94,12 @@
   and color background (\code{"b_gray"}, \code{"b_red"}, \code{"b_green"}, \code{"b_blue"},
   \code{"b_yellow"}). Setting \code{table = TRUE} corresponds to \code{table = "b_gray"}.
 
-  Function \code{openolat_config} generates \code{XML} code that controls the overall options
-  of the test. These options are not part of the QTI 2.1 standard but are specific to
-  OpenOlat only. This is why they are not part of \code{exams2qti21} but provided in a
-  separate wrapper function. As the XML config file is not part of the "official" OpenOlat
-  interface, it may be subject to more changes in the future.
+  In addition to controlling the behavior of the exam and its questions via the standard
+  QTI 2.1 options (see \code{\link[exams]{exams2qti21}}), it is possible to specify
+  certain OpenOlat-specific configurations via an additional XML file to be added to the
+  ZIP output. This is why these options are not part of \code{exams2qti21} but are provided in the
+  separate wrapper function \code{openolat_config}. As the resulting XML configuration file
+  is not part of the official OpenOlat interface, it may be subject to more changes in the future.
 }
 
 \value{
