@@ -55,7 +55,7 @@ openolat_config <- function(
   blockaftersuccess = FALSE, ## -> Ok!
   attempts = 1, ## -> Ok!
   anonym = FALSE, ## -> Ok!
-  passedtype = "none" ## FIXME: alternatives? in sync with cutvalue!!
+  passedtype = c("none", "cutValue", "manually") ## FIXME: alternatives? in sync with cutvalue!!
 ) {
   signature <- FALSE ## ? not there
   signaturemail <- FALSE ## ? not there
@@ -71,6 +71,7 @@ openolat_config <- function(
   correctsolutions <- TRUE ## ? not there and other option when uploading does not change
   questions <- FALSE ## ? not there or not processed by config import
 
+  passedtype <- match.arg(passedtype)
   to_xml <- function(x) if(is.logical(x)) ifelse(x, "true", "false") else x
 
   list("QTI21PackageConfig.xml" = c(
