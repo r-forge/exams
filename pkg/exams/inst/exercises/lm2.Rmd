@@ -68,7 +68,7 @@ unbiased estimator (BLUE).
 **Application:** The estimated coefficients along with their significances are reported in the
 summary of the fitted regression model, showing that `r bint` (at 5% level).
 
-```{r regression, echo = FALSE}
+```{r regression, echo = FALSE, comment = NA}
 summary(m)
 ```
 
