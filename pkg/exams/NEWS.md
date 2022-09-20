@@ -398,14 +398,14 @@
   from MathML, the MathJax plugin is now assumed to be enabled on the
   Moodle server (which is the default when setting up a new Moodle server).
   To employ MathML one can use `converter = NULL` or `converter = "pandoc-mathml"`
-  etc. See the discussion at <http://www.R-exams.org/tutorials/math/> for more
+  etc. See the discussion at <https://www.R-exams.org/tutorials/math/> for more
   details.
 
 * `exams_skeleton()` has been updated. The new default is `markup = "markdown"`
   as this appears to be the more common choice for newcomers to R/exams.
   Furthermore, the list of exercises in the `demo-*.R` scripts has been
   updated to use newer exercises as well (along with links to the web
-  page: <http://www.R-exams.org/templates/>).
+  page: <https://www.R-exams.org/templates/>).
 
 * Assure in `nops_scan()` that scanned image file names contain no spaces.
 
@@ -584,7 +584,7 @@
 # exams 2.3-0
 
 * A new web page accompanying the package is now available at
-  <http://www.R-exams.org/>. This already contains a first overview of the
+  <https://www.R-exams.org/>. This already contains a first overview of the
   package, some tutorials, and a gallery of all exercise templates
   provided in the package. More tutorials will follow in the form of
   blog articles.

@@ -28,5 +28,5 @@ Depends: R (>= 3.4.0)
 Imports: stats, graphics, grDevices, tools, utils
 Suggests: base64enc, knitr, magick, openxlsx, parallel, png, RCurl, RJSONIO, rmarkdown, tinytex, tth, xml2
 License: GPL-2 | GPL-3
-URL: http://www.R-exams.org/
-BugReports: http://www.R-exams.org/contact/
+URL: https://www.R-exams.org/
+BugReports: https://www.R-exams.org/contact/

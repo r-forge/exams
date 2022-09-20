@@ -52,7 +52,7 @@
 
 \references{
 Asuni (2012). \emph{TCExam: Computer-Based Assessment Software}.
-  \url{http://tcexam.org/}.
+  \url{https://tcexam.org/}.
 }
 
 \value{
