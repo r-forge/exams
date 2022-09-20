@@ -9,6 +9,4 @@ inst/nops/eval.md
 inst/nops/eval.txt
 inst/nops/eval.tex
 R/nops_eval_write_template.R
-inst/exercises/currency1.Rnw
-inst/exercises/currency9.Rnw
 tests/eval.R
