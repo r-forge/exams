@@ -127,10 +127,10 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
     
     ## remove leading and trailing <p> tags in question/solution lists
     if(substr(to, 1L, 4L) == "html") {
-      x$questionlist <- gsub("^<p>", "", gsub("</p>$", "", x$questionlist))
-      x$solutionlist <- gsub("^<p>", "", gsub("</p>$", "", x$solutionlist))
+      if(!is.null(x$questionlist)) x$questionlist <- gsub("^<p>", "", gsub("</p>$", "", x$questionlist))
+      if(!is.null(x$solutionlist)) x$solutionlist <- gsub("^<p>", "", gsub("</p>$", "", x$solutionlist))
     }
-    
+
     setwd(owd)
 
     x$metainfo$markup <- to
