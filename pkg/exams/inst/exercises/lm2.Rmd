@@ -76,7 +76,7 @@ summary(m)
 
 ```
 ## data
-d <- read.csv("regression.csv")
+d <- read.csv("linreg.csv")
 ## regression
 m <- lm(y ~ x, data = d)
 summary(m)
