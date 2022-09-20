@@ -106,9 +106,11 @@ myexam <- list(
 ## output directory
 dir.create(mydir <- tempfile())
 
+\dontrun{
 ## generate .zip with Grasple exercises and use general feedback
 exams2grasple(myexam, dir = mydir, use_solutionlist = FALSE)
 dir(mydir)
+}
 }
 
 \keyword{utilities}
