@@ -42,7 +42,7 @@
   \item{table}{logical or character. Should a dedicated table class be
     used in the HTML for OpenOlat? For details see below.}
   \item{maxattempts}{integer. The maximum attempts for one question within an exam.
-    Set to \code{0} for unlimited attempts. For a finite number of attempts this
+    Set to \code{Inf} or \code{0} for unlimited attempts. For a finite number of attempts this
     must be smaller than \code{100000}. See also \code{attempts} below for allowing more
     than one attempt for the exam as a whole.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti21}} (or

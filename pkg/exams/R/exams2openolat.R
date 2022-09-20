@@ -12,8 +12,8 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   qti <- match.arg(qti, c("1.2", "2.1"))
   
   ## catch if maxattempts is too large for OpenOlat
-  if(qti == "2.1" && maxattempts >= 100000) {
-    warning("'maxattempts' must be smaller than 100000 in OpenOlat with QTI 2.1")
+  if(qti == "2.1" && maxattempts >= 100000 && is.finite(maxattempts)) {
+    warning("finite 'maxattempts' must be smaller than 100000 in OpenOlat with QTI 2.1")
     maxattempts <- 99999
   }
 

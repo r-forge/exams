@@ -161,6 +161,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   )
 
   ## enable different maxattempts per sections (simply added before section description)
+  maxattempts[!is.finite(maxattempts) | maxattempts < 0] <- 0
   if(length(maxattempts) > 1L) {
     maxattempts <- rep(maxattempts, length.out = nq)
     sdescription <- paste0(
