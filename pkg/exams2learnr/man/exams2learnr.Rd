@@ -73,7 +73,7 @@ exams2learnr(file, output = NULL,
 
 \details{
   \code{exams2learnr} provides an interface for including exercises from
-  R/exams (\url{http://www.R-exams.org/}) in \pkg{learnr} tutorials.
+  R/exams (\url{https://www.R-exams.org/}) in \pkg{learnr} tutorials.
   This is done by rendering the exercises (either in .Rnw or .Rmd format)
   into HTML and embedding that into learnr \code{\link[learnr]{question}}
   objects. These can then be rendered by learnr shiny apps.
