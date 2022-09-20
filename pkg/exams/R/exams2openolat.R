@@ -1,6 +1,6 @@
 exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   qti = "2.1", config = TRUE, converter = "pandoc-mathjax", table = TRUE,
-  maxattempts = 1, ...)
+  maxattempts = 1, cutvalue = NULL, ...)
 {
   ## post-process mathjax output for display in OpenOlat
   .exams_set_internal(pandoc_mathjax_fixup = TRUE)
@@ -23,15 +23,18 @@ exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   if(is.list(config) && !identical(names(config), "QTI21PackageConfig.xml")) config <- do.call("openolat_config", config)
   if(identical(config, FALSE)) config <- NULL
 
-  ## FIXME: config = "test" should be the same as config = TRUE
-  ## additionally support config = "exam"
-  
+  ## fix up <passedType> configuration if cutvalue is set to something finite
+  if(!is.null(config) && is.list(config) && "QTI21PackageConfig.xml" %in% names(config) && !(is.null(cutvalue) || is.na(cutvalue))) {
+    nopassed <- config[["QTI21PackageConfig.xml"]] == "<passedType>none</passedType>"
+    if(any(nopassed)) config[["QTI21PackageConfig.xml"]][nopassed] <- "<passedType>cutValue</passedType>"
+  }
+
   ## call exams2qti12 or exams2qti21
   rval <- switch(qti,
     "1.2" = exams2qti12(file = file, n = n, dir = dir, name = name,
-      converter = converter, maxattempts = maxattempts, ...),
+      converter = converter, maxattempts = maxattempts, cutvalue = cutvalue, ...),
     "2.1" = exams2qti21(file = file, n = n, dir = dir, name = name,
-      include = config, converter = converter, maxattempts = maxattempts, ...)
+      include = config, converter = converter, maxattempts = maxattempts, cutvalue = cutvalue, ...)
   )
   
   invisible(rval)
@@ -55,7 +58,7 @@ openolat_config <- function(
   blockaftersuccess = FALSE,
   attempts = 1,
   anonym = FALSE,
-  passedtype = c("none", "cutvalue", "manually")
+  manualcorrect = FALSE
 ) {
   signature <- FALSE ## ? not there
   signaturemail <- FALSE ## ? not there
@@ -71,8 +74,7 @@ openolat_config <- function(
   correctsolutions <- TRUE ## ? not there and other option when uploading does not change
   questions <- FALSE ## ? not there or not processed by config import
 
-  passedtype <- match.arg(tolower(passedtype), c("none", "cutvalue", "manually"))
-  if(passedtype == "cutvalue") passedtype <- "cutValue"
+  passedtype <- if(manualcorrect) "manually" else "none"
   to_xml <- function(x) if(is.logical(x)) ifelse(x, "true", "false") else x
 
   list("QTI21PackageConfig.xml" = c(

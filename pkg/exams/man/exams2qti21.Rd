@@ -89,7 +89,9 @@
   \item{maxattempts}{integer. The maximum attempts for one question. This may also be a vector
     so that the maximum number of attempts varies across questions. A value of \code{Inf} or
     \code{0} signals that the attempts per question are not limited.}
-  \item{cutvalue}{numeric. The cutvalue at which the exam is passed.}
+  \item{cutvalue}{numeric. The number of points at which the exam is passed. If set to
+    \code{NULL} (default) or equivalently \code{NA}, no cutvalue is set and the result
+    of the exam is just the number of points.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}

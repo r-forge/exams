@@ -12,13 +12,13 @@
 \usage{
   exams2openolat(file, n = 1L, dir = ".", name = "olattest",
     qti = "2.1", config = TRUE, converter = "pandoc-mathjax", table = TRUE,
-    maxattempts = 1, \dots)
+    maxattempts = 1, cutvalue = NULL, \dots)
 
   openolat_config(cancel = FALSE, suspend = FALSE, scoreprogress = FALSE,
     questionprogress = FALSE, maxscoreitem = FALSE, menu = TRUE,
     titles = TRUE, notes = FALSE, hidelms = TRUE, hidefeedbacks = FALSE,
     blockaftersuccess = FALSE, attempts = 1, anonym = FALSE,
-    passedtype = c("none", "cutValue", "manually"))
+    manualcorrect = FALSE)
 }
 
 \arguments{
@@ -45,9 +45,12 @@
     Set to \code{Inf} or \code{0} for unlimited attempts. For a finite number of attempts this
     must be smaller than \code{100000}. See also \code{attempts} below for allowing more
     than one attempt for the exam as a whole.}
+  \item{cutvalue}{numeric. The number of points at which the exam is passed. If set to
+    \code{NULL} (default) or equivalently \code{NA}, no cutvalue is set and the result
+    of the exam is just the number of points.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2qti21}} (or
     \code{\link[exams]{exams2qti12}}, respectively). See the corresponding
-    manual pages for further important arguments such as \code{cutvalue},
+    manual pages for further important arguments such as
     \code{solutionswitch}, \code{casesensitive}, \code{cloze_schoice_display}
     \code{navigation}, \code{shufflesections}, \code{eval}, \code{selection},
     among many others.}
@@ -75,9 +78,8 @@
     Note that this should not be confused with the \code{maxattempts} for a question
     within the exam (see above).}
   \item{anonym}{logical. Should anonymous users be allowed to take the exam? (Default: \code{FALSE}.)}
-  \item{passedtype}{character. How should OpenOlat evaluate which participants passed
-    (or failed)? Note at all (\code{"none"}, default), based on the \code{"cutvalue"}
-    (see \code{\link[exams]{exams2qti21}}), or \code{"manually"}?}
+  \item{manualcorrect}{logical. Should the points and pass/fail status from the exam
+    be evaluated manually? (Default: \code{FALSE}.)}
 }
 
 \details{
