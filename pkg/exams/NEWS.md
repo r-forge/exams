@@ -9,20 +9,35 @@
   it greatly facilitates working with UTF-8 which appears to be predominantly
   used in practice. Documentation also becomes easier/clearer.
 
-* Added new interface `exams2ilias()` for the open-source ILIAS learning
-  management system (<https://www.ilias.de/>). This is essentially a
-  convenience wrapper to `exams2qti12()`, tweaking a few defaults and
-  employing a somewhat modified XML template.
-
 * Several extensions in `exams2qti21()` (and thus inherited by `exams2openolat()`)
   that provide more control and options in the assessments.
 
+  - Improved processing of the `cutvalue` (for passing a test/exam/quiz). By default,
+    this is `cutvalue = NULL` (or equivalently `cutvalue = NA`) which means that no
+    pass/fail status is computed at all, i.e., only the sum of the points is reported.
+    Moreover, `cutvalue` may be a float now and is not coerced to an integer anymore (also
+    applied in `exams2qti12()`).
   - New argument `navigation = "nonlinear"`. This can be switched to `"linear"`
     enforcing that questions in the test must be answered sequentially while the
     default `"nonlinear"` means that participants can switch back and forth between
     questions.
+  - New argument `selection = "pool"` that controls how exercises and sections are
+    sampled. By default, the function creates one section for each exercise from which
+    one replication will be selected in the exam. If `selection = "exam"` each section
+    contains all questions and one section will be selected for the exam. The `"exam"`
+    variant has the advantage that `nsamp` can be fully used now and that questions
+    that build on each other can be used in the exam.
   - New argument `shufflesections = FALSE` can be set to `TRUE` in order to
     randomly shuffle the order of sections/exercises for each participant.
+    For `selection = "pool"` this corresponds to shuffling the
+    sections that contain the pools of exercises. For `selection = "exam"`
+    it corresponds to shuffling the exercises within each exam section.
+  - New argument `cloze_schoice_display = "auto"` that controls the display of `schoice`
+    elementsin `cloze` exercises. By default, radio `"buttons"` are used if the answer
+    list appears in its own paragraph and a `"dropdown"` menu is used if the answer list
+    appears inline (and has no mathematical markup). Both options can also be enforced
+    explicitly, independently from the answer list appearing in a separate paragraph
+    or inline.
   - New argument `allowskipping = TRUE` controlling whether exercises
     can be skipped without answering (default) or must be answered.
   - New argument `allowreview = FALSE` controlling whether exercises
@@ -30,13 +45,23 @@
   - New argument `allowcomment = FALSE` can be set to `TRUE` to allow comments.
   - New argument `casesensitive = TRUE` that controls whether the evaluation of
     string exercises is case sensitive or not.
-  - The default `sdescription` is now empty omitting the section description
-    as it is typically not necessary.
+  - The default `stitle` (section title) and `ititle` (item title) are now
+    `NULL` so that items are simply numbered consecutively (1, ..., n) and
+    section titles are omitted.
+  - Similarly, the default `sdescription` is now empty omitting the section
+    description as it is typically not necessary.
   - If `solutionswitch = TRUE` and `maxattempts != 1` a warning is issued now.
     This is because with more than one attempt participants could otherwise
     copy the solution shown after an incorrect first attempt.
   - Also `maxattempts` can now be a vector so that different numbers of
     attempts per question are allowed for different sections/questions.
+
+* An extended list of configuration options for OpenOlat assessments is now provided
+  through the argument `config = TRUE` in `exams2openolat()`. The logical
+  specification `config = TRUE`/`FALSE` uses the default configuration or
+  switches off the extra configuration entirely, respectively. Moreover,
+  a list of options like `config = list(cancel = TRUE, scoreprogress = TRUE)`
+  can be provided for customizing how OpenOlat renders the QTI 2.1 content.
 
 * Several extensions for `cloze` questions in `exams2moodle()`:
 
@@ -66,12 +91,10 @@
     each exercise. See the `fourfold2` exercise for an example and
     `?make_question_moodle` for more details.
 
-* Improved processing of the `cutvalue` (for passing a test/exam/quiz)
-  in `exams2qti21()`. By default, this is `cutvalue = NULL` (or equivalently
-  `cutvalue = NA`) which means that no "pass" status is computed at all
-  (only the sum of the points is reported). Moreover, `cutvalue` is may be
-  a float now and is not coerced to an integer anymore. The latter is also
-  applied in `exams2qti12()`.
+* Added new interface `exams2ilias()` for the open-source ILIAS learning
+  management system (<https://www.ilias.de/>). This is essentially a
+  convenience wrapper to `exams2qti12()`, tweaking a few defaults and
+  employing a somewhat modified XML template.
 
 * Added new interface `exams2particify()` that can export exercises to a
   comma-separated values (CSV) format for import in the audience response
@@ -87,10 +110,13 @@
   Exercises are converted to plain text and questions must not exceed 120
   characters, answers must not exceed 75 characters.
 
-* New function `moodle2exams()` that can take a Moodle XML quiz file with
-  numeric, multichoice, shortanswer, and essay exercises and convert them
-  to R/exams exercise files, either in R/Markdown (Rmd, default) or R/LaTeX
-  (Rnw) format.
+* New experimental function `moodle2exams()` that can take a Moodle XML
+  quiz file with numeric, multichoice, shortanswer, and essay exercises and
+  convert them to R/exams exercise files, either in R/Markdown (Rmd, default)
+  or R/LaTeX (Rnw) format. If the text formatting is more advanced (e.g.,
+  containing mathematical notation or tables etc.) the function might not
+  lead to fully satisfactory results but still provide a useful starting
+  point for subsequent manual editing.
 
 * When running exercises via `knitr::knit()` errors in the R code will stop
   the evaluation now by default. This was always the default behavior for Rnw
