@@ -162,6 +162,12 @@
 * Improved NOPS language support: Added Czech (`cz`, Jindřich Marek) and
   Galician (`gl`, Marta Sestelo & Nora M. Villanueva).
 
+* New exercise template `vowels.Rmd`/`vowels.Rnw` contributed by
+  Maria Paola Bissiri. This is a `cloze` exercise with `schoice` elements
+  that is particularly well-suited for drop-down menus. It also illustrates
+  how UTF-8 symbols (for [Cardinal vowels](https://en.wikipedia.org/wiki/Cardinal_vowels))
+  can be used in an exercise.
+
 * Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
   the points per section/exercise are set correctly in the exported QTI code.
 
