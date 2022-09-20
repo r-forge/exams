@@ -71,7 +71,7 @@ summary(m)
 ```
 
 The mean of the response `y` `r direct` with increasing `x1`. Variable `x2` has no
-influence on the response since the estimated confidence intervals contain zero.
+influence on the response since the estimated confidence interval contains zero.
 
 If `x1` increases by 1 `r xunit` then a change of `y` by about `r eff` `r yunit` can be expected.
 

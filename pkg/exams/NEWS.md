@@ -91,6 +91,31 @@
     each exercise. See the `fourfold2` exercise for an example and
     `?make_question_moodle` for more details.
 
+* For illustrating the new improved cloze capabilities in `exams2moodle()`
+  and `exams2qti21()`/`exams2openolat()`, there is a new exercise "lm2"
+  which combines all basic exercise types: `num`, `schoice`, `mchoice`,
+  and `string`. Another extended version of this exercises, called "lm3",
+  has also been added which adds `essay` (text editor) and `file` upload
+  interactions (see also below).
+
+* Extended processing of `string` exercises for learning management systems
+  like Moodle, OpenOlat, or other QTI-based systems. By default, `string`
+  exercises are intended for closed-format short-text answers that have to
+  be matched exactly by the participants. Additionally, open-ended text
+  answers can now be enabled by setting the `stringtype` meta-information
+  to `essay` and/or `file`. The former requests a text editor for
+  entering an answer while the latter requests a file upload dialogue.
+  The "essayreg" exercise has been modified to leverage this new
+  meta-information.
+  
+* Similarly, the `exclozetype` meta-information now also accepts `essay`
+  or `file` instead of `string` for elements of a `cloze` exercise.
+  Currently, the combination of these types with `num` or `schoice`
+  elements etc. is only possible for QTI-based systems (i.e., OpenOlat
+  in particular) but not for Moodle (whose cloze format does not support
+  open-ended text answers). For illustration, see the new "essayreg2"
+  and "lm3" exercises.
+
 * Added new interface `exams2ilias()` for the open-source ILIAS learning
   management system (<https://www.ilias.de/>). This is essentially a
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
