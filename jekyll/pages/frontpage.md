@@ -51,7 +51,7 @@ mission:
     Moodle, Canvas, OpenOlat, or Blackboard), live voting (via ARSnova), and the
     possibility to create custom output (in PDF, HTML, Docx, ...).
     
-    **Get started:** Follow the tutorials on [Installation]((/tutorials/installation/))
+    **Get started:** Follow the tutorials on [Installation](/tutorials/installation/)
     and [First Steps](/tutorials/first_steps/). Subsequently, start creating
     [exercises](/intro/dynamic/) and use them for [e-learning](/intro/elearning/) or
     [written exams](/intro/written/) etc. See also the available
