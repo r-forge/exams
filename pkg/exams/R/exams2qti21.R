@@ -994,8 +994,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                if(type[i] == "schoice") {
                  txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
                  txml <- gsub('simpleChoice', 'inlineChoice', txml)
-                 for(ijj in questionlist[[i]])
-                   txml <- gsub(ijj, paste0('<![CDATA[', ijj, ']]>'), txml, fixed = TRUE)
+                 nch <- sapply(questionlist[[i]], nchar)
+                 ql <- unique(questionlist[[i]][order(nch)])
+                 for(ijj in ql) {
+                   txml <- gsub(ijj, paste0("<![CDATA[", ijj, "]]>"), txml, fixed = TRUE)
+                 }
                }
              }
            }
