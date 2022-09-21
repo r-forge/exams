@@ -42,16 +42,17 @@ topics:
 mission:
   title: <img width='50%' src='assets/img/logo_wide.svg' alt='R/exams logo'>
   statement: |
-    **Overview:** The [open-source package 'exams'](/resources/) for
-    the R system for statistical computing provides a
-    [one-for-all approach](/intro/oneforall/) to automatic exams generation. Based on (potentially)
-    [dynamic exercise templates](/intro/dynamic/) large numbers of personalized exams/quizzes/tests can be
+    The [open-source R package 'exams'](/resources/) provides a
+    [one-for-all approach](/intro/oneforall/) to automatic exams generation. Based on
+    [exercise templates](/intro/dynamic/) large numbers of personalized exams/quizzes/tests can be
     created for various systems: PDFs for classical [written exams](/intro/written/) (with
-    automatic evaluation), import formats for [learning management systems](/intro/elearning/) (like
-    Moodle, Canvas, OpenOlat, or Blackboard), live voting (via ARSnova), and the
-    possibility to create custom output (in PDF, HTML, Docx, ...).
+    automatic evaluation), imports for [learning management systems](/intro/elearning/) (like
+    Moodle, Canvas, OpenOlat, or Blackboard), live voting (via ARSnova or Particify), and
+    custom output in PDF, HTML, Docx, etc.
     
-    **Get started:** Follow the tutorials on [Installation](/tutorials/installation/)
+    ## Get started
+    
+    Follow the tutorials on [Installation](/tutorials/installation/)
     and [First Steps](/tutorials/first_steps/). Subsequently, start creating
     [exercises](/intro/dynamic/) and use them for [e-learning](/intro/elearning/) or
     [written exams](/intro/written/) etc. See also the available
