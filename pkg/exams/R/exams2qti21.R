@@ -573,13 +573,19 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     questionlist <- if(!is.list(x$questionlist)) {
       if(cloze) {
         g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
-        split(x$questionlist, g)
+        if(!is.null(x$questionlist)) {
+          split(x$questionlist, g)
+        } else {
+          NULL
+        }
       } else list(x$questionlist)
     } else x$questionlist
     if(length(questionlist) < 1) questionlist <- NULL
-    for(i in 1:length(questionlist)) {
-      if(length(questionlist[[i]]) < 1)
-        questionlist[[i]] <- NA
+    if(!is.null(questionlist)) {
+      for(i in 1:length(questionlist)) {
+        if(length(questionlist[[i]]) < 1)
+          questionlist[[i]] <- NA
+      }
     }
 
     ## tolerance(s)
@@ -997,7 +1003,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                  nch <- sapply(questionlist[[i]], nchar)
                  ql <- unique(questionlist[[i]][order(nch)])
                  for(ijj in ql) {
-                   txml <- gsub(ijj, paste0("<![CDATA[", ijj, "]]>"), txml, fixed = TRUE)
+                   if(any(grepl("</", ijj, fixed = TRUE))) {
+                     txml <- gsub(ijj, paste0("<![CDATA[", ijj, "]]>"), txml, fixed = TRUE)
+                   }
                  }
                }
              }
