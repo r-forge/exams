@@ -1,8 +1,9 @@
 ## helper transformator function,
 ## includes tex2image(), tth(), ttm(), and pandoc_convert() .html conversion
-make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "tex2image"), base64 = TRUE, ...)
+make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "tex2image"), base64 = TRUE, options = NULL, ...)
 {
   ## process converter (plus options for pandoc)
+  orig_options <- options
   options <- strsplit(converter, "-", fixed = TRUE)[[1L]]
   converter <- match.arg(options[1L], c("ttm", "tth", "pandoc", "tex2image"))
   options <- options[-1L]
@@ -11,7 +12,8 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   } else {
     "--mathml"
   }
-  options <- c(options, "--wrap=preserve")
+  options <- c(options, orig_options)
+  
   if(converter %in% c("tth", "ttm")) {
     stopifnot(requireNamespace("tth"))
   } else if(converter == "pandoc") {

@@ -158,7 +158,7 @@ fixup_sweave_pandoc <- function(x, from = "latex", to = "html") {
   return(x)  
 }
 
-pandoc <- function(x, ..., from = "latex", to = "html", fixup = TRUE, Sweave = TRUE)
+pandoc <- function(x, ..., from = "latex", to = "html", options = NULL, fixup = TRUE, Sweave = TRUE)
 {
   ## temporary files
   infile <- tempfile()
@@ -183,9 +183,15 @@ pandoc <- function(x, ..., from = "latex", to = "html", fixup = TRUE, Sweave = T
     for(i in 1:nrow(tab)) x <- gsub(tab[i, 1L], tab[i, 2L], x)
   }
 
+  ## change some default options from pandoc (see https://pandoc.org/MANUAL.html)
+  ## --wrap=preserve instead of --wrap=auto
+  ## --columns=99999 instead of --columns=72
+  if(is.null(options) || all(substr(options, 1L,  7L) != "--wrap=")) options <- c(options, "--wrap=preserve")
+  if(is.null(options) || all(substr(options, 1L, 10L) != "--columns=")) options <- c(options, "--columns=99999")
+
   ## call pandoc_convert()
   writeLines(x, infile)
-  rmarkdown::pandoc_convert(input = infile, output = outfile, from = from, to = to, ...)
+  rmarkdown::pandoc_convert(input = infile, output = outfile, from = from, to = to, options = options, ...)
   rval <- readLines(outfile)
 
   ## post-process output with certain fixups

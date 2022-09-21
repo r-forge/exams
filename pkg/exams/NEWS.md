@@ -228,7 +228,10 @@
 * When using `pandoc` as the `converter` to HTML with multiple options, e.g.,
   `converter = "pandoc-mathml-ascii"`, then the options were collapsed to a single
   string whereas `rmarkdown::pandoc_convert()` expects them as a vector (for checking
-  them).
+  them). Furthermore, internally, before calling `pandoc_convert()`, the default for
+  `--wrap` is changed to `preserved` (rather than `auto`) and for `--columns` to
+  `99999` (rather than `72`) in order to assure that tables are processed correctly,
+  in particular for PDF output.
 
 * Improved formatting in `exams2pdf()` for `cloze` exercises with embedded
   `##ANSWERi##` tags. The formatting of the question in that case is improved and the

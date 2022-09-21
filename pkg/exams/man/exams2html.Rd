@@ -2,7 +2,6 @@
 \alias{exams2html}
 \alias{make_exams_write_html}
 \alias{make_exercise_transform_html}
-\alias{make_exercise_transform_pandoc}
 
 \title{Generation of Exams in HTML Format}
 
@@ -19,8 +18,8 @@
     exshuffle = NULL, \dots)
 
   make_exercise_transform_html(converter = c("ttm", "tth", "pandoc", "tex2image"),
-    base64 = TRUE, \dots)
-    
+    base64 = TRUE, options = NULL, \dots)
+
   make_exams_write_html(template = "plain", name = NULL,
     question = "<h4>Question</h4>", solution = "<h4>Solution</h4>",
     mathjax = FALSE)
@@ -85,6 +84,8 @@
     argument is non-\code{NULL} it is used to overrule the \code{exshuffle}
     tag from the \code{file} (e.g., \code{exshuffle = FALSE} can be used
     to keep all available answers without permutation).}
+  \item{options}{list of options to be passed on to
+    \code{\link[rmarkdown]{pandoc_convert}}.}
 }
 
 \details{
