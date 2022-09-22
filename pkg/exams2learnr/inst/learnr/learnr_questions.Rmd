@@ -22,10 +22,9 @@ exams2learnr("capitals.Rmd")
 
 ## Arithmetic (numeric)
 
-_Important note:_ Numeric questions are currently handled like string questions.
-Thus, only a `.` (and not a `,`) will work as the decimal separator
-and the exact digits have to be supplied. No tolerance is applied
-and missing or extra trailing zeros etc.
+_Important note:_ Up to `learnr` version 0.10.1, numeric questions are
+handled like string questions. In that case, no tolerance is applied
+and missing or extra trailing zeros lead to incorrect answers.
 
 ```{r num3, echo = FALSE, message = FALSE}
 exams2learnr("deriv.Rnw", allow_retry = TRUE)
