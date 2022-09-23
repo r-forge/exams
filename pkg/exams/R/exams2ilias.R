@@ -55,7 +55,8 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
   ## fix-up zipping: base directory name must be the same as .xml name
   if(zip) {
-    zipfile <- file_path_as_absolute(file.path(dir, paste0(name, ".zip")))
+    dir <- file_path_as_absolute(dir)
+    zipfile <- file.path(dir, paste0(name, ".zip"))
     wdir <- getwd()
     dir.create(tdir <- tempfile())
     setwd(tdir)    
