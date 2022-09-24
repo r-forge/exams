@@ -142,7 +142,7 @@
   the standard in slightly different ways. Therefore, dedicated interfaces
   \code{\link{exams2canvas}} and \code{\link{exams2ilias}} (both based on QTI 1.2),
   and \code{\link{exams2openolat}} (based on either QTI 2.1 or 1.2) are provided
-  for the learning management systems Canvas, Ilias, and OLAT/OpenOlat, respectively.
+  for the learning management systems Canvas, ILIAS, and OLAT/OpenOlat, respectively.
   In addition, the interfaces \code{\link[exams]{exams2blackboard}}, \code{\link[exams]{exams2testvision}},
   and the separate package \pkg{exams2sakai} started as forks of the \code{exams2qti12} and
   \code{exams2qti21} functions, respectively.

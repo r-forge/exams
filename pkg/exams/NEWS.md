@@ -119,7 +119,8 @@
 * Added new interface `exams2ilias()` for the open-source ILIAS learning
   management system (<https://www.ilias.de/>). This is essentially a
   convenience wrapper to `exams2qti12()`, tweaking a few defaults and
-  employing a somewhat modified XML template.
+  employing a somewhat modified XML template. See the help page for the
+  current status.
 
 * Added new interface `exams2particify()` that can export exercises to a
   comma-separated values (CSV) format for import in the audience response

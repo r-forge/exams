@@ -13,7 +13,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
   converter = "pandoc-mathjax", xmlcollapse = TRUE,
   metasolution = FALSE, ...)
 {
-  ## assure a certain processing of items for Ilias
+  ## assure a certain processing of items for ILIAS
   if(is.null(num)) {
     num <- list(fix_num = FALSE, minvalue = NA)
   } else {
@@ -113,7 +113,7 @@ exams2ilias <- function(file, n = 1L, nsamp = NULL, dir = ".",
 }
 
 
-# In order for an Ilias test to recognize a solution to an essay question, the
+# In order for an ILIAS test to recognize a solution to an essay question, the
 # solution needs to be included in the xml as a qtimetadata tag.
 solution_to_qtimetadata <- function(name, exm) {
   xml <- readLines(file.path(name, paste0(name, "_qti.xml")))
