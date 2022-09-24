@@ -4,7 +4,8 @@
 \title{Generation of Exams in ILIAS Format}
 
 \description{
-  Automatic generation of exams in ILIAS format.
+  Automatic generation of exams in QTI 1.2 with some tweaks
+  (still under development) for the learning management system ILIAS.
 }
 
 \usage{
@@ -100,29 +101,14 @@
 }
 
 \details{
-  See \code{exams2qti12} for further details.
-
+  \code{exams2ilias} is a convenience interface to \code{\link[exams]{exams2qti12}}
+  for generating QTI 1.2 with some tweaks for ILIAS (\url{https://www.ilias.de/}).
   The support for ILIAS so far is somewhat rudimentary. Not all question
   types are currently supported. What has been tested most extensively, are
   string questions with open answers and solutions; these are rendered into
   ILIAS essay questions within a question pool. Also mchoice and schoice
   questions render in ILIAS, but have received less amount of testing.
-  Numeric questions do not work yet.
-}
-
-\references{
-IMS Global Learning Consortium, Inc. (2012a).
-\emph{IMS Question & Test Interoperability: ASI XML Binding Specification Final Specification Version 1.2}.
-\url{https://www.imsglobal.org/question/qtiv1p2/imsqti_asi_bindv1p2.html}
-
-IMS Global Learning Consortium, Inc. (2012b).
-\emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.
-\url{https://www.imsglobal.org/question/qtiv2p1/imsqti_bindv2p1.html}
-
-Zeileis A, Umlauf N, Leisch F (2014).
-  Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
-  \emph{Journal of Statistical Software}, \bold{58}(1), 1--36.
-  \doi{10.18637/jss.v058.i01}.
+  Numeric and cloze questions do not work yet.
 }
 
 \value{
