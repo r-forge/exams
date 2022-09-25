@@ -133,7 +133,9 @@ myexam <- list(
   "anova",
   "scatterplot",
   "relfreq",
-  "deriv2"
+  "deriv2",
+  "function",
+  "essayreg"
 )
 
 ## output directory
