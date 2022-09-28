@@ -14,7 +14,7 @@
     file = NULL, dir = ".",
     verbose = TRUE, rotate = FALSE, cores = NULL, n = NULL,
     density = 300,
-    size = 0.029, threshold = c(0.04, 0.42), trim = 0.3, minrot = 0.002,
+    size = 0.03, threshold = c(0.04, 0.42), trim = 0.3, minrot = 0.002,
     string = FALSE)
 }
 
@@ -34,20 +34,18 @@
     called internally using the desired number of \code{cores} to read the scanned
     exams in parallel.}
   \item{n}{numeric. The number of answer fields to read (in multiples of 5),
-    i.e., \code{5}, \code{10}, \dots, \code{45}. By default taken from the
-    type field.}
+    i.e., 5, 10, \dots, 45. By default taken from the type field.}
   \item{density}{numeric. Resolution used in the conversion of PDF images to
     PNG. This requires ImageMagick's convert to be available on the system.}
   \item{size}{numeric. Size of the boxes containing the check marks relative to the
-    image height. This can be tweaked somewhat but should typically be between
-    \code{0.23} and \code{0.31}.}
+    image height. Should typically be between 0.025 and 0.045.}
   \item{threshold}{numeric. Vector of thresholds for the gray levels in the check
     mark boxes. If the average gray level is between the gray levels, the box is
     checked. If it is above the second threshold, some heuristic is employed for
     judging whether the box contains a cross or not.}
   \item{trim}{numeric. Amount of trimming to shave the borders of the boxes
     before determining the gray level within the check boxes. Should usually be
-    at least 0.25 (default up to version 2.3-1), currently defaults to 0.3}
+    between 0.25 (default up to version 2.3-1) and 0.35.}
   \item{minrot}{numeric. Minimum angle for rotating images, i.e., images with
     a lower angle are considered to be ok.}
   \item{string}{logical. Are the files to be scanned manually marked string

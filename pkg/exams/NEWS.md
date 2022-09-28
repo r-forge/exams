@@ -182,6 +182,13 @@
   questions anymore). Partial credits are only supported for `mchoice`
   questions.
 
+* Various improvemens in `nops_scan()`, especially for scanning the boxes
+  pertaining to the student registration ID. Rather than reading a very
+  small area around each box and just shaving off its borders, a larger
+  area is read now and then shaved iteratively. Hence, setting it is also
+  easily possible to further increase the `size` of the area which may
+  sometimes lead to improved scanning results.
+
 * Improved handling of `reglength < 7` in `exams2nops()`. Internally,
   `reglength = 7` is still enforced (and thus necessary in the registration
   CSV file) but the initial IDs are fixed to "0" in the exam sheet and
