@@ -1,9 +1,9 @@
 Redirect "/dev/" "/"
 Redirect "/dev" "/"
 
-RewriteEngine on
-RewriteCond %{HTTP_HOST} !^www\.r-exams\.org
-RewriteRule ^(.*)$ http://www.r-exams.org/$1 [R=301,L]
+# RewriteEngine on
+# RewriteCond %{HTTP_HOST} !^www\.r-exams\.org
+# RewriteRule ^(.*)$ http://www.r-exams.org/$1 [R=301,L]
 
 # Aggressive caching rules copied from
 # https://stackoverflow.com/a/5654415
