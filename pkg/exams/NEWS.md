@@ -124,6 +124,28 @@
   answers and multiple-choice and single-choice questions. Numeric and
   cloze questions are not supported, yet.
 
+* Added first release version of new interface `exams2testvision()` for the
+  Dutch testing platform [TestVision](https://www.testvision.nl/en/). It is
+  essentially a fork of `exams2qti21()` that incorporates TestVision's own
+  strict implementation of QTI 2.1. See the
+  [online tutorial](https://www.R-exams.org/tutorials/exams2testvision/)
+  on how to upload the zip output from `exams2testvision()` into the system
+  by selecting it in the import menu and then moving the imported material
+  to the appropriate directories. The work on the function was financially
+  supported by the Dutch Ministry of Education, Culture and Science
+  (Project code OL20-06), and the University of Amsterdam.
+
+* Added first release version of new interface `exams2grasple()` for
+  [Grasple](https://www.grasple.com/), a Dutch practice platform for
+  mathematics and statistics education. It supports `num` and `schoice`
+  questions which are exported to a zip file containing
+  [Grasple's JSON format](https://github.com/grasple/open-format/blob/main/exercise.schema.json).
+  Note that currently importing cannot be done by users themselves; it
+  requires a request for manual import by a Grasple team member. The
+  work on the function was financially supported by the Dutch Ministry
+  of Education, Culture and Science (Project code OL20-06), and the
+  University of Amsterdam. 
+
 * Added new interface `exams2particify()` that can export exercises to a
   comma-separated values (CSV) format for import in the audience response
   system Particify (<https://particify.de/>), the successor to ARSnova.
@@ -162,7 +184,7 @@
 * Added `exams2blackboard(..., mathjax = NULL)` that optionally embeds the
   MathJax `<script>` in each of the exercises so that mathematical content
   can be rendered by MathJax (rather then by the browser directly). The default
-  is `FALSE` by default unless `converter = "pandoc-mathjax"` is used. But
+  is `FALSE` unless `converter = "pandoc-mathjax"` is used. But
   also for the default converters (producing MathML output) `mathjax = TRUE`
   can be used. (Suggested and tested by Sean Quallen and Gabriele Cantaluppi.)
 
@@ -175,8 +197,8 @@
     closing bracket.
 
 * The auxiliary functions from `exams_eval()` now explicitly distinguish
-  between multiple-choice (`mchoice`) and single-choice (`schoice` exercises
-  provided that the `type` of exercise is explicitly indicated in the functions.
+  between multiple-choice (`mchoice`) and single-choice (`schoice`) exercises
+  provided that the `type` of exercise is provided to the functions.
   Consequently, `schoice` questions are now handled like `num` or `string`
   questions that can just be correct or wrong (and not like `mchoice`
   questions anymore). Partial credits are only supported for `mchoice`
@@ -285,9 +307,11 @@
 * Added `envir` argument in `exams2qti12()` and `exams2qti21()` that is passed on to
   `xweave()`. This allows to re-use variables generated in one exercise in previous
   exercises, e.g., for creating a sequence of variables based on the same data set.
-  However, learning-management systems typically do _not_ the drawing of random
-  questions to the same replication. Thus, this will typically only be useful for
-  exams with a single random replication.
+  However, some learning-management systems do _not_ the drawing of random
+  questions to the same replication. In that case, this will typically only be useful for
+  exams with a single random replication. A notable exception are systems based
+  on QTI 2.1 that can process the output of `exams2qti21(..., selection = "exam")`
+  (like OpenOlat).
 
 * In `xexams()` a new argument `rds = FALSE` was added that indicates whether the
   list returned by the function should also be saved as an RDS data file. If
@@ -319,7 +343,7 @@
 * In `exams2pdf()` it is now assured that `name` and `template` are always of the
   same length (with a warning if `name` is too short). (Reported by JPMD.)
 
-* When reading {answerlist} environments in `read_metainfo()` now a warning is
+* When reading `{answerlist}` environments in `read_metainfo()` now a warning is
   issued if there is further text in the same line as the begin or end of the
   environment. Also parsing the individual items now also works tab-indented
   items. (Reported by Sebastian Kupek.)
