@@ -155,7 +155,6 @@ if(interactive()) {
 sol <- exams(myexam)
 sol
 }
-}
 
 ## generate multiple exams (stored in output directory)
 odir <- tempfile()
@@ -165,7 +164,6 @@ sol
 ## inspect solution for a particular exam
 print(sol, 3)
 
-\donttest{
 if(interactive()) {
 ## modify control argument for printing
 mymchoice.control <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
