@@ -106,6 +106,7 @@
 \keyword{utilities}
 
 \examples{
+if(requireNamespace("png")) {
 ## scanned example images stored in exams package
 img <- dir(system.file("nops", package = "exams"), pattern = "nops_scan",
   full.names = TRUE)
@@ -113,4 +114,5 @@ img <- dir(system.file("nops", package = "exams"), pattern = "nops_scan",
 ## read content
 res <- nops_scan(img, file = FALSE)
 writeLines(res)
+}
 }

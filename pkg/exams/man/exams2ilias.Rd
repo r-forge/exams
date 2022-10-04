@@ -129,19 +129,19 @@ options(device.ask.default = FALSE)
 ## define an exams (= list of exercises)
 myexam <- list(
   ## multiple-choice with graphics
-  c("boxplots", "scatterplot"),
+  c("boxplots.Rmd", "scatterplot.Rmd"),
 
   ## multiple-choice with output or tables
-  c("ttest", "anova", "relfreq"),
+  c("ttest.Rmd", "anova.Rmd", "relfreq.Rmd"),
 
   ## single-choice
-  c("deriv2", "swisscapital"),
+  c("deriv2.Rmd", "swisscapital.Rmd"),
 
   ## string (closed)
-  "function",
+  "function.Rmd",
   
   ## string (open-ended)
-  "essayreg"
+  "essayreg.Rmd"
 )
 
 ## output directory

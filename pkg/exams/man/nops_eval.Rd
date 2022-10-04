@@ -106,8 +106,11 @@
 ## --- Preliminaries ---
 
 ## load package and enforce par(ask = FALSE)
+## additionally, for simplicity, enforce using the basic
+## tools::texi2dvi() LaTeX interface instead of the more
+## flexible/robust tinytex::latexmk()
 library("exams")
-options(device.ask.default = FALSE)
+oopt <- options(device.ask.default = FALSE, exams_tex = "tools")
 
 ## set up a temporary working directory in which all files are managed
 odir <- getwd()
@@ -120,12 +123,12 @@ setwd(mydir)
 
 ## define an exam (= list of exercises)
 myexam <- list(
-  "tstat2.Rnw",
-  "ttest.Rnw",
-  "relfreq.Rnw",
-  "anova.Rnw",
-  c("boxplots.Rnw", "scatterplot.Rnw"),
-  "cholesky.Rnw"
+  "tstat2.Rmd",
+  "ttest.Rmd",
+  "relfreq.Rmd",
+  "anova.Rmd",
+  c("boxplots.Rmd", "scatterplot.Rmd"),
+  "cholesky.Rmd"
 )
 
 ## create multiple exams on the disk with different numbers of points
@@ -238,8 +241,9 @@ browseURL(file.path(mydir, "ambi_dexter", "Exam-2015-07-29.html"))
 }
 }
 
-## switch back to original working directory
+## switch back to original working directory and options
 setwd(odir)
+options(exams_tex = oopt$exams_tex)
 }
 
 \keyword{utilities}

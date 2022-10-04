@@ -142,11 +142,11 @@ options(device.ask.default = FALSE)
 
 ## define an exams (= list of exercises)
 myexam <- list(
-  "boxplots",
-  c("tstat", "ttest", "confint"),
-  c("regression", "anova"),
-  "scatterplot",
-  "relfreq"
+  "boxplots.Rnw",
+  c("tstat.Rnw", "ttest.Rnw", "confint.Rnw"),
+  c("regression.Rnw", "anova.Rnw"),
+  "scatterplot.Rnw",
+  "relfreq.Rnw"
 )
 
 \donttest{
@@ -167,7 +167,7 @@ print(sol, 3)
 if(interactive()) {
 ## modify control argument for printing
 mymchoice.control <- list(mchoice.print = list(True = LETTERS[1:5], False = "_"))
-sol <- exams("boxplots", template = "solution",
+sol <- exams("boxplots.Rnw", template = "solution",
   control = mymchoice.control)
 sol
 }

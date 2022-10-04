@@ -181,7 +181,6 @@
 
 \examples{
 ## load package and enforce par(ask = FALSE)
-##
 ## additionally, for simplicity, enforce using the basic
 ## tools::texi2dvi() LaTeX interface instead of the more
 ## flexible/robust tinytex::latexmk()
@@ -190,12 +189,12 @@ oopt <- options(device.ask.default = FALSE, exams_tex = "tools")
 
 ## define an exam (= list of exercises)
 myexam <- list(
-  "tstat2.Rnw",
-  "ttest.Rnw",
-  "relfreq.Rnw",
-  "anova.Rnw",
-  c("boxplots.Rnw", "scatterplot.Rnw"),
-  "cholesky.Rnw"
+  "tstat2.Rmd",
+  "ttest.Rmd",
+  "relfreq.Rmd",
+  "anova.Rmd",
+  c("boxplots.Rmd", "scatterplot.Rmd"),
+  "cholesky.Rmd"
 )
 
 if(interactive()) {

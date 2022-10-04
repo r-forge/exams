@@ -144,14 +144,14 @@ Zeileis A, Umlauf N, Leisch F (2014).
 ## load package and enforce par(ask = FALSE)
 options(device.ask.default = FALSE)
 
-if(interactive()) {
+if(interactive() && requireNamespace("png")) {
 ## compile a single random exam (displayed in the browser)
 exams2html(list(
-  "boxplots",
-  c("tstat", "ttest", "confint"),
-  c("regression", "anova"),
-  "scatterplot",
-  "relfreq"
+  "boxplots.Rmd",
+  c("tstat.Rmd", "ttest.Rmd", "confint.Rmd"),
+  c("regression.Rmd", "anova.Rmd"),
+  "scatterplot.Rmd",
+  "relfreq.Rmd"
 ))
 
 ## various versions of displaying mathematical formulae

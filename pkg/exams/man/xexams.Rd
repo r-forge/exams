@@ -133,11 +133,11 @@ Zeileis A, Umlauf N, Leisch F (2014).
 \examples{
 ## define an exam with five exercises
 myexam <- list(
-  "boxplots",
-  c("tstat", "ttest", "confint"),
-  c("regression", "anova"),
-  "scatterplot",
-  "relfreq"
+  "boxplots.Rmd",
+  c("tstat.Rmd", "ttest.Rmd", "confint.Rmd"),
+  c("regression.Rmd", "anova.Rmd"),
+  "scatterplot.Rmd",
+  "relfreq.Rmd"
 )
 
 ## run exams with default drivers (i.e., no transformations or writer)
@@ -147,7 +147,7 @@ x <- xexams(myexam, n = 2)
 ## each of which contains LaTeX code for question(list) and solution(list),
 ## plus metainformation and potential supplements
 
-## The first exercise in each exam is "boxplots", a multiple choice question.
+## The first exercise in each exam is "boxplots.Rmd", a multiple choice question.
 ## Its general question text is
 x[[1]][[1]]$question
 ## with a list of multiple choice questions given as

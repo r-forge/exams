@@ -218,11 +218,11 @@ options(device.ask.default = FALSE)
 
 ## define an exams (= list of exercises)
 myexam <- list(
-  "boxplots",
-  "ttest",
-  "anova",
-  "scatterplot",
-  "relfreq"
+  "boxplots.Rmd",
+  "ttest.Rmd",
+  "anova.Rmd",
+  "scatterplot.Rmd",
+  "relfreq.Rmd"
 )
 
 ## output directory

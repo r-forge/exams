@@ -109,7 +109,7 @@ Zeileis A, Umlauf N, Leisch F (2014).
 dir.create(mydir <- tempfile())
 
 ## generate the exam
-exams2lops(c("scatterplot", "boxplots"), dir = mydir)
+exams2lops(c("scatterplot.Rmd", "boxplots.Rmd"), dir = mydir)
 dir(mydir)
 }
 }

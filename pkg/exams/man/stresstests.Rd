@@ -94,8 +94,8 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
 
 \examples{
 \dontrun{## Stress testing.
-t1 <- stresstest_exercise("tstat.Rnw", n = 100)
-t2 <- stresstest_exercise("tstat2.Rnw", n = 100)
+t1 <- stresstest_exercise("tstat.Rmd", n = 100)
+t2 <- stresstest_exercise("tstat2.Rmd", n = 100)
 
 ## Plotting.
 plot(t1, type = "overview")
@@ -110,11 +110,11 @@ head(as.data.frame(t2))
 
 ## Multiple testing.
 files <- list(
-  "boxplots",
-  c("tstat", "ttest", "confint"),
-  c("regression", "anova"),
-  "scatterplot",
-  "relfreq"
+  "boxplots.Rmd",
+  c("tstat.Rmd", "ttest.Rmd", "confint.Rmd"),
+  c("regression.Rmd", "anova.Rmd"),
+  "scatterplot.Rmd",
+  "relfreq.Rmd"
 )
 t3 <- stresstest_exercise(files, n = 100)
 plot(t3)

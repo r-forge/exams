@@ -157,11 +157,11 @@ oopt <- options(device.ask.default = FALSE, exams_tex = "tools")
 if(interactive()) {
 ## compile a single random exam (displayed on screen)
 exams2pdf(list(
-  "boxplots",
-  c("tstat", "ttest", "confint"),
-  c("regression", "anova"),
-  "scatterplot",
-  "relfreq"
+  "boxplots.Rmd",
+  c("tstat.Rmd", "ttest.Rmd", "confint.Rmd"),
+  c("regression.Rmd", "anova.Rmd"),
+  "scatterplot.Rmd",
+  "relfreq.Rmd"
 ))
 }
 
