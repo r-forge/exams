@@ -59,9 +59,12 @@ exams2particify(file, n = 1L, dir = ".", name = "particify",
 library("exams")
 options(device.ask.default = FALSE)
 
+## output directory
+dir.create(mydir <- tempfile())
+
 ## create a CSV file particify-1.csv for import in Particify
 exams2particify(c("swisscapital.Rmd", "capitals.Rmd", "deriv2.Rmd",
-  "boxplots.Rmd", "ttest.Rmd", "function.Rmd"))
+  "boxplots.Rmd", "ttest.Rmd", "function.Rmd"), dir = mydir)
 }
 
 \keyword{utilities}
