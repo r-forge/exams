@@ -103,6 +103,10 @@
 \seealso{\code{\link[exams]{exams2nops}}, \code{\link[exams]{nops_scan}}}
 
 \examples{
+\dontshow{ if(!requireNamespace("png")) {
+  if(interactive() || is.na(Sys.getenv("_R_CHECK_PACKAGE_NAME_", NA))) {
+    stop("not all packages required for the example are installed")
+  } else q() }}
 ## --- Preliminaries ---
 
 ## load package and enforce par(ask = FALSE)
@@ -123,12 +127,12 @@ setwd(mydir)
 
 ## define an exam (= list of exercises)
 myexam <- list(
-  "tstat2.Rmd",
-  "ttest.Rmd",
-  "relfreq.Rmd",
-  "anova.Rmd",
-  c("boxplots.Rmd", "scatterplot.Rmd"),
-  "cholesky.Rmd"
+  "tstat2",
+  "ttest",
+  "relfreq",
+  "anova",
+  c("boxplots", "scatterplot"),
+  "cholesky"
 )
 
 ## create multiple exams on the disk with different numbers of points
