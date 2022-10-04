@@ -12,6 +12,11 @@ importFrom("graphics",
 importFrom("grDevices",
   "hcl", "svg")
 
+importFrom("knitr",
+  "knit", "opts_chunk", "opts_hooks", "render_sweave")
+importFrom("rmarkdown",
+  "pandoc_available", "pandoc_convert")
+
 export(
   ## outdated version 1 interface
   "exams",

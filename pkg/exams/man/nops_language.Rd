@@ -46,11 +46,9 @@ en$NoChanges
 nops_language("fr", converter = "none")$NoChanges
 nops_language("fr", converter = "tth")$NoChanges
 
-## French (HTML or Markdown via pandoc, if available)
-if (requireNamespace("rmarkdown") && rmarkdown::pandoc_available()) {
+## French (HTML or Markdown via pandoc)
 nops_language("fr", converter = "pandoc")$NoChanges
 nops_language("fr", converter = "pandoc", to = "markdown_strict")$NoChanges
-}
 }
 
 \keyword{utilities}

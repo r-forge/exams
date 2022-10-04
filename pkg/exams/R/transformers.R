@@ -17,7 +17,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   if(converter %in% c("tth", "ttm")) {
     stopifnot(requireNamespace("tth"))
   } else if(converter == "pandoc") {
-    stopifnot(requireNamespace("rmarkdown") && rmarkdown::pandoc_available())
+    stopifnot(rmarkdown::pandoc_available())
   }
 
   ## base64 checks

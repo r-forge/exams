@@ -1,13 +1,17 @@
 # exams 2.4-0
 
 * Switched the entire package to support UTF-8 encodings by default for
-  all exercises types. Previously, this was only the case for .Rmd exercises.
-  All templates etc. have been modified to support UTF-8 out-of-the-box.
+  all exercises types. Previously, this was only the case for .Rmd exercises
+  due to the UTF-8 requirement of `pandoc` (which is now a system requirement
+  for `exams`). All templates etc. have been modified to support UTF-8 out-of-the-box.
   Support for all other encodings like ISO-8859-* (latin1, latin9, etc.),
   which had previously been available for .Rnw exercises in certain interfaces,
   has been disabled. While this reduces the functionality of the package slightly,
   it greatly facilitates working with UTF-8 which appears to be predominantly
   used in practice. Documentation also becomes easier/clearer.
+
+* To facilitate working with .Rmd exercises both `knitr` and `rmarkdown` are
+  now imported in the package (and not just suggested).
 
 * Several extensions in `exams2qti21()` (and thus inherited by `exams2openolat()`)
   that provide more control and options in the assessments.

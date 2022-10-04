@@ -54,7 +54,7 @@ moodle2exams(x, markup = c("markdown", "latex"), dir = ".",
 \seealso{\code{\link{exams2moodle}}}
 
 \examples{
-if(require("xml2") && requireNamespace("rmarkdown") && rmarkdown::pandoc_available()) {
+if(requireNamespace("xml2")) {
 ## path to a Moodle XML quiz file (provided in the package)
 moodle_xml <- file.path(find.package("exams"), "xml", "moodlequiz.xml")
 

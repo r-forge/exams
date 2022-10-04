@@ -72,7 +72,7 @@ testvision2exams(x, markup = c("markdown", "latex"), rawHTML = FALSE, dir = ".",
 \seealso{\code{\link{exams2testvision}}}
 
 \examples{
-if(require("xml2") && requireNamespace("rmarkdown") && rmarkdown::pandoc_available()) {
+if(requireNamespace("xml2")) {
 ## path to a TestVision XML file (provided in the package)
 testvision_xml <- file.path(find.package("exams"), "xml", "testvision_question.xml")
 

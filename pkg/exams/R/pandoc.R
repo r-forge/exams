@@ -1,6 +1,9 @@
 ## helper transformator function (FIXME: which output formats can handle base64?)
 make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex", attachfile = FALSE, ...)
 {
+  ## system requirement
+  stopifnot(rmarkdown::pandoc_available())
+
   ## base64 checks
   if(is.null(base64)) base64 <- c("bmp", "gif", "jpeg", "jpg", "png", "svg")
   base64 <- if(isTRUE(base64)) {
