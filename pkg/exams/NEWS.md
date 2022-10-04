@@ -10,8 +10,9 @@
   it greatly facilitates working with UTF-8 which appears to be predominantly
   used in practice. Documentation also becomes easier/clearer.
 
-* To facilitate working with .Rmd exercises both `knitr` and `rmarkdown` are
-  now imported in the package (and not just suggested).
+* To facilitate working with .Rmd exercises and embedded graphics or data files
+  `base64enc`, `knitr`, and `rmarkdown` are now imported in the package (and not
+  just suggested).
 
 * Several extensions in `exams2qti21()` (and thus inherited by `exams2openolat()`)
   that provide more control and options in the assessments.

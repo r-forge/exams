@@ -27,7 +27,7 @@ make_exercise_transform_html <- function(converter = c("ttm", "tth", "pandoc", "
   } else {
     if(is.logical(base64)) NA_character_  else tolower(base64)
   }
-  if(b64 <- !all(is.na(base64))) stopifnot(requireNamespace("base64enc"))
+  b64 <- !all(is.na(base64))
 
   if(converter == "pandoc") {
     make_exercise_transform_pandoc(to = "html", base64 = base64, options = options, ...)

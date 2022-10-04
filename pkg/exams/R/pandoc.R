@@ -11,7 +11,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
   } else {
     if(is.logical(base64)) NA_character_  else tolower(base64)
   }
-  if(b64 <- !all(is.na(base64))) stopifnot(requireNamespace("base64enc"))
+  b64 <- !all(is.na(base64))
 
   ## function to apply ttx() on every
   ## element of a list in a fast way

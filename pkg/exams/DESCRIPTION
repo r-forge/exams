@@ -21,8 +21,8 @@ Description: Automatic generation of exams based on exercises in Markdown or LaT
 	Particify, ARSnova, Kahoot!, Grasple, and TCExam. In addition to fully customizable PDF exams, a standardized PDF format
 	(NOPS) is provided that can be printed, scanned, and automatically evaluated.
 Depends: R (>= 3.4.0)
-Imports: graphics, grDevices, knitr, rmarkdown, stats, tools, utils
-Suggests: base64enc, magick, openxlsx, parallel, png, RCurl, RJSONIO, tinytex, tth, xml2
+Imports: graphics, grDevices, stats, tools, utils, base64enc, knitr, rmarkdown
+Suggests: magick, openxlsx, parallel, png, RCurl, RJSONIO, tinytex, tth, xml2
 SystemRequirements: pandoc (>= 2.0)
 License: GPL-2 | GPL-3
 URL: https://www.R-exams.org/

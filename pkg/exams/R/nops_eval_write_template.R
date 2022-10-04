@@ -38,7 +38,6 @@ nops_eval_write_template <- function(results = "nops_eval.csv",
                                      convert_dcf_to = "markdown_strict", 
                                      post_process = NULL, ...) {
 
-  if (!return_scan) stopifnot(requireNamespace("base64enc"))
   stopifnot(requireNamespace("whisker"))
 
   ## output file

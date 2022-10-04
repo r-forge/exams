@@ -12,6 +12,8 @@ importFrom("graphics",
 importFrom("grDevices",
   "hcl", "svg")
 
+importFrom("base64enc",
+  "base64decode", "base64enc::base64encode", "dataURI")
 importFrom("knitr",
   "knit", "opts_chunk", "opts_hooks", "render_sweave")
 importFrom("rmarkdown",

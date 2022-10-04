@@ -466,7 +466,6 @@ nops_eval_write <- function(results = "nops_eval.csv", file = "exam_eval",
   if(!is.null(language$PointSum)) language$Points <- language$PointSum ## currently only for ko
 
   ## HTML template
-  stopifnot(requireNamespace("base64enc"))
   html <- paste(
   '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"',
   '"http://www.w3.org/TR/html4/strict.dtd">',
