@@ -15,7 +15,7 @@
     maxattempts = 1, cutvalue = NULL, \dots)
 
   openolat_config(cancel = FALSE, suspend = FALSE, scoreprogress = FALSE,
-    questionprogress = FALSE, maxscoreitem = FALSE, menu = TRUE,
+    questionprogress = FALSE, maxscoreitem = TRUE, menu = TRUE,
     titles = TRUE, notes = FALSE, hidelms = TRUE, hidefeedbacks = FALSE,
     blockaftersuccess = FALSE, attempts = 1, anonym = FALSE,
     manualcorrect = FALSE)
@@ -63,7 +63,7 @@
   \item{questionprogress}{logical. Should the number of questions solved so far be
     displayed during the exam? (Default: \code{FALSE}.)}
   \item{maxscoreitem}{logical. Should the maximum score of a question/item be displayed?
-    (Default: \code{FALSE}.)}
+    (Default: \code{TRUE}.)}
   \item{menu}{logical. Should the menu be displayed during the exam? (Default: \code{TRUE}.)}
   \item{titles}{logical. Should question titles be displayed during the exam?
     (Default: \code{TRUE}.)}
@@ -114,7 +114,6 @@
 }
 
 \examples{
-\donttest{
 ## load package and enforce par(ask = FALSE)
 library("exams")
 options(device.ask.default = FALSE)
@@ -134,7 +133,6 @@ dir.create(mydir <- tempfile())
 ## generate .zip with OpenOlat test in temporary directory
 exams2openolat(myexam, n = 3, dir = mydir)
 dir(mydir)
-}
 }
 
 \keyword{utilities}

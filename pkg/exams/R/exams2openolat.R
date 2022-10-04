@@ -49,7 +49,7 @@ openolat_config <- function(
   suspend = FALSE,
   scoreprogress = FALSE,
   questionprogress = FALSE,
-  maxscoreitem = FALSE,
+  maxscoreitem = TRUE,
   menu = TRUE,
   titles = TRUE,
   notes = FALSE,
