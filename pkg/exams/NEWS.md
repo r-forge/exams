@@ -172,6 +172,12 @@
   lead to fully satisfactory results but still provide a useful starting
   point for subsequent manual editing.
 
+* New function `testvision2exams()` to convert TestVision's QTI 2.1 questions
+  to R/exams exercise files, either in R/Markdown (Rmd, default) or R/LaTeX
+  (Rnw) format. The supported TestVision question types are 'invul (numeriek)',
+  'een-uit-meer', 'meer-uit-meer', and 'open' which are converted to `num`,
+  `schoice`, `mchoice`, and `string`, respectively.
+
 * When running exercises via `knitr::knit()` errors in the R code will stop
   the evaluation now by default. This was always the default behavior for Rnw
   exercises (i.e., when processed with `engine = "sweave"`) but now is also
