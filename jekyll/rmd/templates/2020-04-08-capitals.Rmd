@@ -7,7 +7,6 @@ writeLines(include_template(
   tags = c("multiple-choice", "knowledge", "quiz", "utf8", "switzerland"),
   randomization = "Shuffling (5 out of 11 alternatives)",
   related = "swisscapital",
-  thumb = c(157, 167),
-  seed = 403)
+  thumb = c(157, 167))
 )
 ```
