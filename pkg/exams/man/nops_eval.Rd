@@ -239,11 +239,11 @@ unzip("nops_eval.zip")
 browseURL(file.path(mydir, "jane_doe",    "Exam-2015-07-29.html"))
 browseURL(file.path(mydir, "ambi_dexter", "Exam-2015-07-29.html"))
 }
-}
 
 ## switch back to original working directory and options
 setwd(odir)
 options(exams_tex = oopt$exams_tex)
+}
 }
 
 \keyword{utilities}
