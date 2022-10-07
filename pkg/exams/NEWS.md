@@ -185,7 +185,9 @@
   the default for Rmd exercises and for Rnw exercises via `engine = "knitr"`.
   In exercises processed via `knitr::knit()` it is possible to carry on with
   code evaluation after errors (the default in `knitr`) by setting the chunk
-  option `error = TRUE`.
+  option `error = TRUE`. Similarly, the default handling of warnings has been
+  set to `warning = FALSE` so that warnings are reported on the console rather
+  than in the weaved/knitted exercises.
 
 * Added new argument `texengine = "pdflatex"` to `exams2pdf()` which is passed
   on to `tinytex::latexmk(..., engine = texengine)`. Provided that `tinytex`
