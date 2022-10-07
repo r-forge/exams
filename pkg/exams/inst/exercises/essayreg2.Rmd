@@ -5,12 +5,18 @@ b <- sample(c(-1, 1), 1) * runif(1, 1, 2) * sample(c(0.1, 0.5, 1), 1)
 s <- sample(c(0.5, 1, 2), 1)
 
 ## data and regression
+x2_ok <- FALSE
+while(!x2_ok) {
+
 d <- data.frame(
   x1 = rnorm(n),
   x2 = rnorm(n),
   err = rnorm(n, sd = s)
 )
 d$y <- 0 + b * d$x1 + d$err
+
+x2_ok <- summary(lm(y ~ x1 + x2, data = d))$coefficients[3, 4] > 0.1
+}
 
 ## different types
 type <- sample(c("linear", "semi-logarithmic", "log-log"), 1)
@@ -28,6 +34,7 @@ if(type == "linear") {
 } else if(type == "log-log") {
   d$y <- exp(d$y)
   d$x1 <- exp(d$x1)
+  d$x2 <- exp(d$x2)
   m <- lm(log(y) ~ log(x1) + log(x2), data = d)
   xunit <- "percent" 
   yunit <- "percent"
@@ -70,14 +77,14 @@ The presented results describe a `r type` regression.
 summary(m)
 ```
 
-The mean of the response `y` `r direct` with increasing `x1`. Variable `x2` has no
-influence on the response since the estimated confidence interval contains zero.
-
+The mean of the response `y` `r direct` with increasing `x1`.
 If `x1` increases by 1 `r xunit` then a change of `y` by about `r eff` `r yunit` can be expected.
-
 `r sign1`, the effect of `x1` is `r sign2` significant at the 5 percent level.
 
-The R-squared is `r signif(rsq, 4)` and thus the variance explained by the regression is `r fmt(100 * rsq, 2)`.
+Variable `x2` has no significant influence on the response at 5 percent level.
+
+The R-squared is `r signif(rsq, 4)` and thus `r fmt(100 * rsq, 2)` percent of the
+variance of the response is explained by the regression.
 
 The F-statistic is `r fmt(fstat, 2)`.
 
