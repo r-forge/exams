@@ -394,7 +394,8 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
     })
     oopts <- knitr::opts_chunk$get()
     knitr::opts_chunk$set(dev = dev,
-      fig.height = height, fig.width = width, dpi = resolution, fig.path = "", error = FALSE, highlight = highlight, ...)
+      fig.height = height, fig.width = width, dpi = resolution, fig.path = "",
+      error = FALSE, warning = FALSE, highlight = highlight, ...)
     if(is.null(encoding)) encoding <- getOption("encoding")
     knitr::knit(file, quiet = quiet, envir = envir, encoding = encoding)
     knitr::opts_chunk$set(oopts)
