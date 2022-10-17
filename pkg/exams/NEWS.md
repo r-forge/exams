@@ -196,7 +196,7 @@
 
 * Added `exams2blackboard(..., mathjax = NULL)` that optionally embeds the
   MathJax `<script>` in each of the exercises so that mathematical content
-  can be rendered by MathJax (rather then by the browser directly). The default
+  can be rendered by MathJax (rather than by the browser directly). The default
   is `FALSE` unless `converter = "pandoc-mathjax"` is used. But
   also for the default converters (producing MathML output) `mathjax = TRUE`
   can be used. (Suggested and tested by Sean Quallen and Gabriele Cantaluppi.)
