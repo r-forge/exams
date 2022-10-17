@@ -6,6 +6,8 @@
 <style type="text/css">
 body{font-family: Arial, Helvetica, Sans;}
 </style>
+<meta charset="utf-8" />
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
 </head>
 
 <body>
@@ -19,22 +21,22 @@ Compute the Hessian of the function
 <table width="100%"><tr><td align="center">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mstyle displaystyle="true"><mrow>
-<mtable align="right" width="80%">
+<mtable displaystyle="true" align="right" width="80%">
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi><mo stretchy="false">(</mo>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
 <mo>,</mo>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow>
 </msub>
-<mo stretchy="false">)</mo><mo>=</mo><mo>-</mo><mn>7</mn>
+<mo stretchy="false">)</mo><mo>=</mo><mn>7</mn>
 <msubsup><mrow><mi>x</mi></mrow><mrow><mn>1</mn> </mrow>
 <mrow><mn>2</mn></mrow></msubsup>
-<mo>-</mo><mn>5</mn>
+<mo>+</mo><mn>5</mn>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow>
 </msub>
-<mo>-</mo><mn>4</mn>
+<mo>+</mo><mn>3</mn>
 <msubsup><mrow><mi>x</mi></mrow><mrow><mn>2</mn> </mrow>
 <mrow><mn>2</mn></mrow></msubsup>
 </mrow>
@@ -44,38 +46,37 @@ Compute the Hessian of the function
     </mstyle></math>
 </td></tr></table>
 <br />
-at 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+at <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">(</mo>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
 <mo>,</mo>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow>
 </msub>
-<mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mo>-</mo><mn>2</mn><mo>,</mo><mn>2</mn><mo stretchy="false">)</mo></mrow></math>.
+<mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>,</mo><mn>4</mn><mo stretchy="false">)</mo></mrow></math>.
 What is the value of the upper left element?
 <div class="p"><!----></div>
 <br/>
 <ol type="a">
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>8</mn></mrow></math>
+<mrow><mn>6</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>5</mn></mrow></math>
+<mrow><mn>7</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>16</mn></mrow></math>
+<mrow><mn>14</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>14</mn></mrow></math>
+<mrow><mn>5</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>4</mn></mrow></math>
+<mrow><mo>-</mo><mn>19</mn></mrow></math>
 </li>
 </ol>
 <br/>
@@ -85,7 +86,7 @@ The first-order partial derivatives are
 <table width="100%"><tr><td align="center">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mstyle displaystyle="true"><mrow>
-<mtable align="right" width="80%">
+<mtable displaystyle="true" align="right" width="80%">
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi>
 <msub><mrow><mo>'</mo></mrow><mrow><mn>1</mn></mrow>
 </msub>
@@ -99,10 +100,10 @@ The first-order partial derivatives are
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mo>-</mo><mn>14</mn>
+<mrow><mn>14</mn>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
-<mo>-</mo><mn>5</mn>
+<mo>+</mo><mn>5</mn>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow>
 </msub>
 </mrow>
@@ -120,10 +121,10 @@ The first-order partial derivatives are
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mo>-</mo><mn>5</mn>
+<mrow><mn>5</mn>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
-<mo>-</mo><mn>8</mn>
+<mo>+</mo><mn>6</mn>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow>
 </msub>
 </mrow>
@@ -138,7 +139,7 @@ and the second-order partial derivatives are
 <table width="100%"><tr><td align="center">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mstyle displaystyle="true"><mrow>
-<mtable align="right" width="80%">
+<mtable displaystyle="true" align="right" width="80%">
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi>"<msub><mi></mi><mrow><mn>11</mn></mrow></msub>
 <mo stretchy="false">(</mo>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
@@ -150,7 +151,7 @@ and the second-order partial derivatives are
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mo>-</mo><mn>14</mn></mrow>
+<mrow><mn>14</mn></mrow>
 </mtd></mtr>
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi>"<msub><mi></mi><mrow><mn>12</mn></mrow></msub>
 <mo stretchy="false">(</mo>
@@ -163,7 +164,7 @@ and the second-order partial derivatives are
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mo>-</mo><mn>5</mn></mrow>
+<mrow><mn>5</mn></mrow>
 </mtd></mtr>
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi>"<msub><mi></mi><mrow><mn>21</mn></mrow></msub>
 <mo stretchy="false">(</mo>
@@ -176,7 +177,7 @@ and the second-order partial derivatives are
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mo>-</mo><mn>5</mn></mrow>
+<mrow><mn>5</mn></mrow>
 </mtd></mtr>
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi>"<msub><mi></mi><mrow><mn>22</mn></mrow></msub>
 <mo stretchy="false">(</mo>
@@ -189,7 +190,7 @@ and the second-order partial derivatives are
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mo>-</mo><mn>8</mn></mrow>
+<mrow><mn>6</mn></mrow>
 </mtd></mtr>
 </mtable>
 </mrow>
@@ -202,7 +203,7 @@ Therefore the Hessian is
 <table width="100%"><tr><td align="center">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mstyle displaystyle="true"><mrow>
-<mtable align="right" width="80%">
+<mtable displaystyle="true" align="right" width="80%">
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>f</mi>"<mo stretchy="false">(</mo>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
@@ -211,8 +212,8 @@ Therefore the Hessian is
 </msub>
 <mo stretchy="false">)</mo><mo>=</mo><mrow><mo>(</mo>
 <mtable>
-<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>14</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>5</mn></mrow></mtd></mtr>
-<mtr><mtd columnalign="right"><mrow><mo>-</mo><mn>5</mn></mrow></mtd><mtd columnalign="right"><mrow><mo>-</mo><mn>8</mn></mrow></mtd></mtr></mtable>
+<mtr><mtd columnalign="right"><mrow><mn>14</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>5</mn></mrow></mtd></mtr>
+<mtr><mtd columnalign="right"><mrow><mn>5</mn></mrow></mtd><mtd columnalign="right"><mrow><mn>6</mn></mrow></mtd></mtr></mtable>
 <mo>)</mo></mrow></mrow>
 </mtd></mtr>
 </mtable>
@@ -220,20 +221,18 @@ Therefore the Hessian is
     </mstyle></math>
 </td></tr></table>
 <br />
-independent of 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+independent of <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>1</mn></mrow>
 </msub>
-</mrow></math> and 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+</mrow></math> and <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <msub><mrow><mi>x</mi></mrow><mrow><mn>2</mn></mrow>
 </msub>
 </mrow></math>. Thus, the upper left element is:
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>f</mi>"<msub><mi></mi><mrow><mn>11</mn></mrow></msub>
-<mo stretchy="false">(</mo><mo>-</mo><mn>2</mn><mo>,</mo><mn>2</mn><mo stretchy="false">)</mo><mo>=</mo><mo>-</mo><mn>14</mn></mrow></math>.
+<mo stretchy="false">(</mo><mn>1</mn><mo>,</mo><mn>4</mn><mo stretchy="false">)</mo><mo>=</mo><mn>14</mn></mrow></math>.
 <div class="p"><!----></div>
 <br/>
 <ol type="a">
@@ -244,10 +243,10 @@ False
 False
 </li>
 <li>
-False
+True
 </li>
 <li>
-True
+False
 </li>
 <li>
 False

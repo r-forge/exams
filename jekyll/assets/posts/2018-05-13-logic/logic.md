@@ -24,26 +24,26 @@ Answerlist
 Solution
 ========
 
-The truth table codes the logical **nor** operator.
+The truth table codes the logical **and** operator.
 
 The gates displayed code the following logical operators:
-A = **and**,
-B = **nor**,
-C = **or**.
+A = **nor**,
+B = **nand**,
+C = **xor**.
 
 Hence, the truth table corresponds to:
-B.
+None of these.
 
 Answerlist
 ----------
 * False
+* False
+* False
 * True
-* False
-* False
 
 
 Meta-information
 ================
 exname: Logical operators
 extype: schoice
-exsolution: 0100
+exsolution: 0001

@@ -6,7 +6,8 @@
 <style type="text/css">
 body{font-family: Arial, Helvetica, Sans;}
 </style>
-<meta charset="utf-8">
+<meta charset="utf-8" />
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
 </head>
 
 <body>
@@ -15,17 +16,26 @@ body{font-family: Arial, Helvetica, Sans;}
 <ol>
 <li>
 <h4>Question</h4>
-<p>A machine fills milk into 500ml packages. It is suspected that the machine is not working correctly and that the amount of milk filled differs from the setpoint <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mn>0</mn></msub><mo>=</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">\mu_0 = 500</annotation></semantics></math>. A sample of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>226</mn><annotation encoding="application/x-tex">226</annotation></semantics></math> packages filled by the machine are collected. The sample mean <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>y</mi><mo accent="true">‾</mo></mover><annotation encoding="application/x-tex">\bar{y}</annotation></semantics></math> is equal to 517.2 and the sample variance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>s</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">s^2_{n-1}</annotation></semantics></math> is equal to 262.56.</p>
-<p>Test the hypothesis that the amount filled corresponds on average to the setpoint. What is the absolute value of the t-test statistic?</p>
+<p>A machine fills milk into 500ml packages. It is suspected that the
+machine is not working correctly and that the amount of milk filled differs
+from the setpoint <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mn>0</mn></msub><mo>=</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">\mu_0 = 500</annotation></semantics></math>. A sample of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>247</mn><annotation encoding="application/x-tex">247</annotation></semantics></math> packages
+filled by the machine are collected. The sample mean <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>y</mi><mo accent="true">‾</mo></mover><annotation encoding="application/x-tex">\bar{y}</annotation></semantics></math> is equal to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>521.3</mn><annotation encoding="application/x-tex">521.3</annotation></semantics></math> and the sample variance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>s</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">s^2_{n-1}</annotation></semantics></math> is equal to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>527.08</mn><annotation encoding="application/x-tex">527.08</annotation></semantics></math>.</p>
+<p>Test the hypothesis that the amount filled corresponds on average to the
+setpoint. What is the absolute value of the t-test statistic?</p>
 <br/>
 <h4>Solution</h4>
-<p>The t-test statistic is calculated by: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right"><mi>t</mi><mo>=</mo><mfrac><mrow><mover><mi>y</mi><mo accent="true">‾</mo></mover><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><msqrt><mfrac><msubsup><mi>s</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><mn>2</mn></msubsup><mi>n</mi></mfrac></msqrt></mfrac><mo>=</mo><mfrac><mrow><mn>517.2</mn><mo>−</mo><mn>500</mn></mrow><msqrt><mfrac><mn>262.56</mn><mn>226</mn></mfrac></msqrt></mfrac><mo>=</mo><mn>15.958</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p>The t-test statistic is calculated by:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right"><mi>t</mi><mo>=</mo><mfrac><mrow><mover><mi>y</mi><mo accent="true">‾</mo></mover><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><msqrt><mfrac><msubsup><mi>s</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><mn>2</mn></msubsup><mi>n</mi></mfrac></msqrt></mfrac><mo>=</mo><mfrac><mrow><mn>521.3</mn><mo>−</mo><mn>500</mn></mrow><msqrt><mfrac><mn>527.08</mn><mn>247</mn></mfrac></msqrt></mfrac><mo>=</mo><mn>14.581</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{aligned}
   t = \frac{\bar y - \mu_0}{\sqrt{\frac{s^2_{n-1}}{n}}}
-    = \frac{517.2 - 500}{\sqrt{\frac{262.56}{226}}}
-    = 15.958.
+    = \frac{521.3 - 500}{\sqrt{\frac{527.08}{247}}}
+    = 14.581.
 \end{aligned}
-</annotation></semantics></math> The absolute value of the t-test statistic is thus equal to 15.958.</p>
+</annotation></semantics></math>
+The absolute value of the t-test statistic is thus equal to
+14.581.</p>
 <br/>
 </li>
 </ol>

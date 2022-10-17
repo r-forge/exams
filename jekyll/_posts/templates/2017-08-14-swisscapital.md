@@ -64,23 +64,23 @@ image:
 
 <div class='row t20 b1'>
   <div class='medium-4 columns'><b>Template:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw">swisscapital.Rnw</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital.Rmd">swisscapital.Rmd</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital.Rnw">swisscapital.Rnw</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Raw:</b> (1 random version)</div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital.tex">swisscapital.tex</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital.md" >swisscapital.md</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital.tex">swisscapital.tex</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>PDF:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png" alt="swisscapital-Rnw-pdf"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-pdf.png" alt="swisscapital-Rmd-pdf"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-pdf.png" alt="swisscapital-Rnw-pdf"/></a></div>
 </div>
 <div class='row t1 b20'>
   <div class='medium-4 columns'><b>HTML:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png" alt="swisscapital-Rnw-html"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd.html"><img src="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rmd-html.png" alt="swisscapital-Rmd-html"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-swisscapital//swisscapital-Rnw-html.png" alt="swisscapital-Rnw-html"/></a></div>
 </div>
 
 
@@ -89,12 +89,12 @@ image:
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 
-set.seed(1090)
-exams2html(&quot;swisscapital.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;swisscapital.Rnw&quot;)
-
-set.seed(1090)
+set.seed(403)
 exams2html(&quot;swisscapital.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;swisscapital.Rmd&quot;)</code></pre>
+set.seed(403)
+exams2pdf(&quot;swisscapital.Rmd&quot;)
+
+set.seed(403)
+exams2html(&quot;swisscapital.Rnw&quot;)
+set.seed(403)
+exams2pdf(&quot;swisscapital.Rnw&quot;)</code></pre>

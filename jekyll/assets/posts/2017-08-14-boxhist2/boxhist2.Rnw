@@ -101,7 +101,7 @@ rug(x)
 @ 
 
 <<echo=FALSE, results=tex>>=
-answerlist(paste(unlist(explanations), ".", sep = ""))
+answerlist(unlist(explanations))
 @
 
 \end{solution}

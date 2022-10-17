@@ -1,6 +1,6 @@
 
 \begin{question}
-A survey with 49 persons was conducted to analyze the
+A survey with 51 persons was conducted to analyze the
 design of an advertising campaign. Each respondent was asked to
 evaluate the overall impression of the advertisement on an
 eleven-point scale from 0 (bad) to 10 (good). The evaluations are
@@ -15,20 +15,20 @@ advertisement an analysis of variance was performed:
 
 \begin{Schunk}
 \begin{Soutput}
-  Res.Df    RSS Df Sum of Sq     F  Pr(>F)
-1     48 24.789                           
-2     45 24.642  3     0.147 0.089 0.96565
+  Res.Df    RSS Df Sum of Sq     F     Pr(>F)
+1     50 53.549                              
+2     47 34.018  3    19.531 8.995 8.1265e-05
 \end{Soutput}
 \end{Schunk}
 
 Which of the following statements are correct?
 
 \begin{answerlist}
-  \item A one-sided alternative was tested for the mean values.
   \item It can be shown that the evaluation of the respondents depends on their occupation. (Significance level $5\%$)
-  \item The fraction of explained variance is larger than $59$\%.
-  \item The fraction of explained variance is smaller than $56$\%.
-  \item The test statistic is smaller than $1.2$.
+  \item The fraction of explained variance is larger than $60$\%.
+  \item A one-sided alternative was tested for the mean values.
+  \item The fraction of explained variance is smaller than $45$\%.
+  \item The test statistic is larger than $7.5$.
 \end{answerlist}
 \end{question}
 
@@ -40,22 +40,22 @@ well as the residual sum of squares when allowing different mean
 values given occupation ($\mathit{RSS}_1$) are required. Both are
 given in the \texttt{RSS}~column of the ANOVA~table.  The
 fraction of explained variance is given by $1 -
-\mathit{RSS}_1/\mathit{RSS}_0 = 1 - 24.642/24.789 =
-0.006$.  
+\mathit{RSS}_1/\mathit{RSS}_0 = 1 - 34.018/53.549 =
+0.365$.  
 
 The statements above can now be evaluated as right or wrong.
 
 \begin{answerlist}
+  \item True. The $p$~value is $ 8.13e-05 $ and hence  significant. It can   be shown that the evaluations differ with respect to the occupation of the respondents.
+  \item False. The fraction of explained variance is $0.365$ and hence \textit{not} larger than 0.6.
   \item False. An ANOVA always tests the null hypothesis, that all mean values are equal against the alternative hypothesis that they are different.
-  \item False. The $p$~value is $ 0.966 $ and hence \textit{not} significant. It can  \textit{not} be shown that the evaluations differ with respect to the occupation of the respondents.
-  \item False. The fraction of explained variance is $0.006$ and hence \textit{not} larger than 0.59.
-  \item True. The fraction of explained variance is $0.006$ and hence  smaller than 0.56.
-  \item True. The test statistic is $F = 0.089$ and hence  smaller than $1.2$.
+  \item True. The fraction of explained variance is $0.365$ and hence  smaller than 0.45.
+  \item True. The test statistic is $F = 8.995$ and hence  larger than $7.5$.
 \end{answerlist}
 \end{solution}
 
 %% META-INFORMATION
 %% \extype{mchoice}
-%% \exsolution{00011}
+%% \exsolution{10011}
 %% \exname{Analysis of variance}
 

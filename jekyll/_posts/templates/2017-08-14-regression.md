@@ -64,37 +64,37 @@ image:
 
 <div class='row t20 b1'>
   <div class='medium-4 columns'><b>Template:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression.Rnw">regression.Rnw</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression.Rmd">regression.Rmd</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression.Rnw">regression.Rnw</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Raw:</b> (1 random version)</div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression.tex">regression.tex</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression.md" >regression.md</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression.tex">regression.tex</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>PDF:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw-pdf.png" alt="regression-Rnw-pdf"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rmd.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rmd-pdf.png" alt="regression-Rmd-pdf"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw-pdf.png" alt="regression-Rnw-pdf"/></a></div>
 </div>
 <div class='row t1 b20'>
   <div class='medium-4 columns'><b>HTML:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw-html.png" alt="regression-Rnw-html"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rmd.html"><img src="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rmd-html.png" alt="regression-Rmd-html"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-regression//regression-Rnw-html.png" alt="regression-Rnw-html"/></a></div>
 </div>
 
-_(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)_
+_(Note that the HTML output contains mathematical equations in MathML, rendered by MathJax using 'mathjax = TRUE'. Instead it is also possible to use 'converter = "pandoc-mathjax"' so that LaTeX equations are rendered by MathJax directly.)_
 
 **Demo code:**
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 
-set.seed(1090)
-exams2html(&quot;regression.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;regression.Rnw&quot;)
+set.seed(403)
+exams2html(&quot;regression.Rmd&quot;, mathjax = TRUE)
+set.seed(403)
+exams2pdf(&quot;regression.Rmd&quot;)
 
-set.seed(1090)
-exams2html(&quot;regression.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;regression.Rmd&quot;)</code></pre>
+set.seed(403)
+exams2html(&quot;regression.Rnw&quot;, mathjax = TRUE)
+set.seed(403)
+exams2pdf(&quot;regression.Rnw&quot;)</code></pre>

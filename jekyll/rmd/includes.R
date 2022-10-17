@@ -162,16 +162,16 @@ include_html_screenshot <- function(file, out = NULL, density = 25, aspect43 = T
       id<- sprintf("xdotool search --onlyvisible --name --all '%s'", if(engine == "firefox") "Mozilla Firefox" else "Chromium")
       id <- tail(sort(as.numeric(system(id, intern = TRUE))), 1L)
       system(sprintf("wmctrl -ir %s -b remove,maximized_vert,maximized_horz", id))
-      system(sprintf("xdotool windowsize %s 600 800", id))
+      system(sprintf("xdotool windowsize %s 660 880", id)) ## FIXME: should be 600 800, sometimes not used though?
       Sys.sleep(1)
-      system(sprintf("import -window %s %s", id, out[i]))
+      system(sprintf("import -window %s %s", id, out[i])) ## FIXME: recent versions of import create a 26x26 border here?
     }
     off <- switch(engine,
       "cutycapt" = 0,
-      "firefox" = 2,
+      "firefox" = 2.2,
       "chromium" = 1.8
     )
-    cmd <- sprintf("mogrify -resize %s %s %s %s %s",
+    cmd <- sprintf("mogrify -shave 26 -resize %s %s %s %s %s",
       density * 8.268,
       if(aspect43) sprintf("-extent %sx%s", ceiling(density * 8.268), ceiling(density * (8.268 * 0.75 + off))) else "",
       if(off > 0) sprintf("-gravity north -chop x%s", off * density) else "",
@@ -191,7 +191,7 @@ include_file <- function(file) {
 
 include_template <- function(name, title, teaser, description,
   tags = NULL, related = NULL, randomization = "Yes", supplements = "",
-  author = "zeileis", thumb = c(277, 216), page = 1, seed = 1090, utf8 = FALSE)
+  author = "zeileis", thumb = c(277, 216), page = 1, seed = 403)
 {
   ## assure UTF-8 locale
   Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -252,22 +252,23 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - HTML
   set.seed(seed)
-  ex_html <- if(!utf8) {
-    exams2html(f[1], name = "blog", dir = ".")[[1]][[1]]
-  } else {
-    exams2html(f[1], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")[[1]][[1]]
+  ex_html <- exams2html(f[1], name = "blog", dir = ".")[[1]][[1]]
+  
+  ## in case of math content use mathjax option
+  math <- any(grepl("<math", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
+  if(math) {
+    file.remove("blog1.html")
+    set.seed(seed)
+    ex_html <- exams2html(f[1], name = "blog", dir = ".", mathjax = TRUE)[[1]][[1]]
   }
+
   file.rename("blog1.html", f[5])
   include_asset(f[5], engine = "firefox", link = FALSE, out = f[9])
   ##
   set.seed(seed)
   knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
   knitr::opts_knit$set(.knitr_opts_vanilla$knit)
-  if(!utf8) {
-    exams2html(f[2], name = "blog", dir = ".")
-  } else {
-    exams2html(f[2], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")
-  }
+  exams2html(f[2], name = "blog", dir = ".", mathjax = math)
   knitr::opts_chunk$set(.knitr_opts_custom$chunk)
   knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.html", f[6])
@@ -275,22 +276,14 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - PDF
   set.seed(seed)
-  ex_pdf <- if(!utf8) {
-    exams2pdf(f[1], name = "blog", dir = ".")[[1]][[1]]
-  } else {
-    exams2pdf(f[1], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")[[1]][[1]]
-  }
+  ex_pdf <- exams2pdf(f[1], name = "blog", dir = ".")[[1]][[1]]
   file.rename("blog1.pdf", f[7])
   include_asset(f[7], link = FALSE, out = f[11])
   ##
   set.seed(seed)
   knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
   knitr::opts_knit$set(.knitr_opts_vanilla$knit)
-  if(!utf8) {
-    exams2pdf(f[2], name = "blog", dir = ".")
-  } else {
-    exams2pdf(f[2], name = "blog", dir = ".", template = "plain8", encoding = "UTF-8")
-  }
+  exams2pdf(f[2], name = "blog", dir = ".")
   knitr::opts_chunk$set(.knitr_opts_custom$chunk)
   knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.pdf", f[8])
@@ -365,23 +358,23 @@ image:
 
 <div class=\'row t20 b1\'>
   <div class=\'medium-4 columns\'><b>Template:</b></div>
-  <div class=\'medium-4 columns\'><a href="@assets@/@name@.Rnw">@name@.Rnw</a></div>
   <div class=\'medium-4 columns\'><a href="@assets@/@name@.Rmd">@name@.Rmd</a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@.Rnw">@name@.Rnw</a></div>
 </div>
 <div class=\'row t1 b1\'>
   <div class=\'medium-4 columns\'><b>Raw:</b> (1 random version)</div>
-  <div class=\'medium-4 columns\'><a href="@assets@/@name@.tex">@name@.tex</a></div>
   <div class=\'medium-4 columns\'><a href="@assets@/@name@.md" >@name@.md</a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@.tex">@name@.tex</a></div>
 </div>
 <div class=\'row t1 b1\'>
   <div class=\'medium-4 columns\'><b>PDF:</b></div>
-  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rnw.pdf"><img src="@assets@/@name@-Rnw-pdf.png" alt="@name@-Rnw-pdf"/></a></div>
   <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rmd.pdf"><img src="@assets@/@name@-Rmd-pdf.png" alt="@name@-Rmd-pdf"/></a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rnw.pdf"><img src="@assets@/@name@-Rnw-pdf.png" alt="@name@-Rnw-pdf"/></a></div>
 </div>
 <div class=\'row t1 b20\'>
   <div class=\'medium-4 columns\'><b>HTML:</b></div>
-  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rnw.html"><img src="@assets@/@name@-Rnw-html.png" alt="@name@-Rnw-html"/></a></div>
   <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rmd.html"><img src="@assets@/@name@-Rmd-html.png" alt="@name@-Rmd-html"/></a></div>
+  <div class=\'medium-4 columns\'><a href="@assets@/@name@-Rnw.html"><img src="@assets@/@name@-Rnw-html.png" alt="@name@-Rnw-html"/></a></div>
 </div>
 
 @browsernote@
@@ -391,18 +384,17 @@ image:
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 
 set.seed(@seed@)
-exams2html(&quot;@name@.Rnw&quot;@encoding@)
+exams2html(&quot;@name@.Rmd&quot;@mathjax@)
 set.seed(@seed@)
-exams2pdf(&quot;@name@.Rnw&quot;@encoding@)
+exams2pdf(&quot;@name@.Rmd&quot;)
 
 set.seed(@seed@)
-exams2html(&quot;@name@.Rmd&quot;@encoding@)
+exams2html(&quot;@name@.Rnw&quot;@mathjax@)
 set.seed(@seed@)
-exams2pdf(&quot;@name@.Rmd&quot;@encoding@)</code></pre>
+exams2pdf(&quot;@name@.Rnw&quot;)</code></pre>
 '
 
   ## look up properties of processes exercises
-  math <- any(grepl("<math", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   verbatim <- any(grepl("<pre>", unlist(ex_html[c("question", "solution")]), fixed = TRUE))
   images = any(grepl("includegraphics", unlist(ex_pdf[c("question", "solution")]), fixed = TRUE))
   supplements <- if(supplements == "") {
@@ -412,7 +404,7 @@ exams2pdf(&quot;@name@.Rmd&quot;@encoding@)</code></pre>
   }
 
   ## note about MathML support in browsers
-  browsernote <- if(!math) "" else "_(Note that the HTML output contains mathematical equations in MathML. It is displayed by browsers with MathML support like Firefox or Safari - but not Chrome.)_"
+  browsernote <- if(!math) "" else "_(Note that the HTML output contains mathematical equations in MathML, rendered by MathJax using 'mathjax = TRUE'. Instead it is also possible to use 'converter = \"pandoc-mathjax\"' so that LaTeX equations are rendered by MathJax directly.)_"
 
   ## tags
   tags <- unique(c(ex_pdf$metainfo$type, tags))
@@ -437,7 +429,7 @@ exams2pdf(&quot;@name@.Rmd&quot;@encoding@)</code></pre>
     solution = if(is.null(ex_pdf$solution)) "No" else "Yes",
     browsernote = browsernote,
     seed = as.character(seed),
-    encoding = if(!utf8) "" else ", template = \"plain8\", encoding = \"UTF-8\""
+    mathjax = if(math) ", mathjax = TRUE" else ""
   )
   for(a in names(at)) md <- gsub(paste0("@", a, "@"), at[[a]], md, fixed = TRUE)
 

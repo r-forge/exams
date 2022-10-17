@@ -3,8 +3,8 @@
 Question
 ========
 
-Given two points $p = (3, 4)$ and
-$q = (5, 2)$ in a Cartesian coordinate system:
+Given two points $p = (2, 4)$ and
+$q = (4, 4)$ in a Cartesian coordinate system:
 
 Questionlist
 ------------
@@ -23,18 +23,18 @@ and blue ($d_\infty$).
 
 Solutionlist
 ------------
-* $d_1(p, q) = \sum_i |p_i - q_i| = |3 - 5| +
-  |4 - 2| = 4$.
-* $d_2(p, q) = \sqrt{\sum_i (p_i - q_i)^2} = \sqrt{(3 -
-  5)^2 + (4 - 2)^2} = 2.828$.
-* $d_\infty(p, q) = \max_i |p_i - q_i| = \max(|3 -
-  5|, |4 - 2|) = 2$.
+* $d_1(p, q) = \sum_i |p_i - q_i| = |2 - 4| +
+  |4 - 4| = 2$.
+* $d_2(p, q) = \sqrt{\sum_i (p_i - q_i)^2} = \sqrt{(2 -
+  4)^2 + (4 - 4)^2} = 2$.
+* $d_\infty(p, q) = \max_i |p_i - q_i| = \max(|2 -
+  4|, |4 - 4|) = 2$.
 
 
 Meta-information
 ================
 extype: cloze
-exsolution: 4|2.828|2
+exsolution: 2|2|2
 exclozetype: num|num|num
 exname: Distances
 extol: 0.01

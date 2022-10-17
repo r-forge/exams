@@ -65,23 +65,23 @@ image:
 
 <div class='row t20 b1'>
   <div class='medium-4 columns'><b>Template:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rnw">gaussmarkov.Rnw</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rmd">gaussmarkov.Rmd</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.Rnw">gaussmarkov.Rnw</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Raw:</b> (1 random version)</div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.tex">gaussmarkov.tex</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.md" >gaussmarkov.md</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov.tex">gaussmarkov.tex</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>PDF:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-pdf.png" alt="gaussmarkov-Rnw-pdf"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-pdf.png" alt="gaussmarkov-Rmd-pdf"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-pdf.png" alt="gaussmarkov-Rnw-pdf"/></a></div>
 </div>
 <div class='row t1 b20'>
   <div class='medium-4 columns'><b>HTML:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-html.png" alt="gaussmarkov-Rnw-html"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd.html"><img src="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rmd-html.png" alt="gaussmarkov-Rmd-html"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-gaussmarkov//gaussmarkov-Rnw-html.png" alt="gaussmarkov-Rnw-html"/></a></div>
 </div>
 
 
@@ -90,12 +90,12 @@ image:
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 
-set.seed(1090)
-exams2html(&quot;gaussmarkov.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;gaussmarkov.Rnw&quot;)
-
-set.seed(1090)
+set.seed(403)
 exams2html(&quot;gaussmarkov.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;gaussmarkov.Rmd&quot;)</code></pre>
+set.seed(403)
+exams2pdf(&quot;gaussmarkov.Rmd&quot;)
+
+set.seed(403)
+exams2html(&quot;gaussmarkov.Rnw&quot;)
+set.seed(403)
+exams2pdf(&quot;gaussmarkov.Rnw&quot;)</code></pre>

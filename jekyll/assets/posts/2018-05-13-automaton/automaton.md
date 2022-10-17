@@ -4,20 +4,20 @@
 Question
 ========
 
-Consider the following automaton with initial state A and accepting state D:
+Consider the following automaton with initial state A and accepting state B:
 \
-![](automaton.png){width=5cm}
+![](automaton.pdf){width=5cm}
 
 
 Which of the following sequences are accepted?
 
 Answerlist
 ----------
-* 101000
-* 00000
-* 10100
-* 0000110
-* 00111
+* 1010011
+* 01011
+* 00100
+* 1101
+* 111110
 
 
 Solution
@@ -25,13 +25,13 @@ Solution
 
 The given automaton accepts input strings which consist of an
 odd number of ones and
-odd number of zeros.
+even number of zeros.
 
 Answerlist
 ----------
 * Not accepted
-* Not accepted
-* Not accepted
+* Accepted
+* Accepted
 * Not accepted
 * Not accepted
 
@@ -40,4 +40,4 @@ Meta-information
 ================
 exname: Automaton
 extype: mchoice
-exsolution: 00000
+exsolution: 01100

@@ -4,10 +4,10 @@ Question
 ========
 A machine fills milk into 500ml packages. It is suspected that the 
 machine is not working correctly and that the amount of milk filled differs 
-from the setpoint $\mu_0 = 500$. A sample of $226$ packages 
+from the setpoint $\mu_0 = 500$. A sample of $247$ packages 
 filled by the machine are collected. The sample mean $\bar{y}$ is equal to 
-517.2 and the sample variance $s^2_{n-1}$ is equal to 
-262.56.
+$521.3$ and the sample variance $s^2_{n-1}$ is equal to 
+$527.08$.
 
 Test the hypothesis that the amount filled corresponds on average to the 
 setpoint. What is the absolute value of the t-test statistic?
@@ -18,16 +18,16 @@ The t-test statistic is calculated by:
 $$
 \begin{aligned}
   t = \frac{\bar y - \mu_0}{\sqrt{\frac{s^2_{n-1}}{n}}}
-    = \frac{517.2 - 500}{\sqrt{\frac{262.56}{226}}}
-    = 15.958.
+    = \frac{521.3 - 500}{\sqrt{\frac{527.08}{247}}}
+    = 14.581.
 \end{aligned}
 $$
 The absolute value of the t-test statistic is thus equal to
-15.958.
+14.581.
 
 Meta-information
 ================
 extype: num
-exsolution: 15.958
+exsolution: 14.581
 exname: t statistic
 extol: 0.01

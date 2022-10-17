@@ -6,6 +6,8 @@
 <style type="text/css">
 body{font-family: Arial, Helvetica, Sans;}
 </style>
+<meta charset="utf-8" />
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
 </head>
 
 <body>
@@ -21,17 +23,16 @@ statistical test was performed:
 <pre>
 	Two&nbsp;Sample&nbsp;t-test
 data:&nbsp;&nbsp;Waiting&nbsp;by&nbsp;Supermarket
-t&nbsp;=&nbsp;3.8575,&nbsp;df&nbsp;=&nbsp;132,&nbsp;p-value&nbsp;=&nbsp;0.9999
-alternative&nbsp;hypothesis:&nbsp;true&nbsp;difference&nbsp;in&nbsp;means&nbsp;is&nbsp;less&nbsp;than&nbsp;0
+t&nbsp;=&nbsp;4.1777,&nbsp;df&nbsp;=&nbsp;108,&nbsp;p-value&nbsp;=&nbsp;2.996e-05
+alternative&nbsp;hypothesis:&nbsp;true&nbsp;difference&nbsp;in&nbsp;means&nbsp;between&nbsp;group&nbsp;Sparag&nbsp;and&nbsp;group&nbsp;Consumo&nbsp;is&nbsp;greater&nbsp;than&nbsp;0
 95&nbsp;percent&nbsp;confidence&nbsp;interval:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Inf&nbsp;3.552905
+&nbsp;1.241878&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inf
 sample&nbsp;estimates:
 &nbsp;mean&nbsp;in&nbsp;group&nbsp;Sparag&nbsp;mean&nbsp;in&nbsp;group&nbsp;Consumo&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.859404&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.373846&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.419987&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.360063&nbsp;
 </pre>
 <div class="p"><!----></div>
-Which of the following statements are correct? (Significance level 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+Which of the following statements are correct? (Significance level <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mn>5</mn><mi>%</mi></mrow></math>)
 <div class="p"><!----></div>
 <br/>
@@ -43,10 +44,8 @@ The absolute value of the test statistic is larger than 1.96.
 A one-sided alternative was tested.
 </li>
 <li>
-The 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>p</mi></mrow></math>&nbsp;value is larger than 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+The <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>p</mi></mrow></math>&nbsp;value is larger than <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mn>0</mn><mo>.</mo><mn>05</mn></mrow></math>.
 </li>
 <li>
@@ -62,29 +61,23 @@ The test shows that the waiting time is shorter at Sparag than at Consumo.
 <br/>
 <ol type="a">
 <li>
-True. The absolute value of the test statistic is equal to 3.857.
+True. The absolute value of the test statistic is equal to 4.178.
 </li>
 <li>
-True. The test aims at showing that the difference of means is  smaller than 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+True. The test aims at showing that the difference of means is  larger than <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mn>0</mn></mrow></math>.
 </li>
 <li>
-True. The 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>p</mi></mrow></math>&nbsp;value is equal to 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>1</mn></mrow></math>.
+False. The <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>p</mi></mrow></math>&nbsp;value is equal to <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>3</mn><mi>e</mi><mo>-</mo><mn>05</mn></mrow></math>.
 </li>
 <li>
-False. The test aims at showing that the alternative that the waiting time is shorter at Sparag than at Consumo. The test result is not significant (
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>p</mi><mo>&ge;</mo><mn>0</mn><mo>.</mo><mn>05</mn></mrow></math>).
+True. The test result is significant (<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>p</mi><mo>&lt;</mo><mn>0</mn><mo>.</mo><mn>05</mn></mrow></math>) and hence the alternative is shown that the difference of means is larger than 0.
 </li>
 <li>
-False.  The test result ist not significant (
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>p</mi><mo>&ge;</mo><mn>0</mn><mo>.</mo><mn>05</mn></mrow></math>).
+False. The test aims at showing that the waiting time at Sparag is longer than at Consumo.
 </li>
 </ol>
 <br/>

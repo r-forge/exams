@@ -3,16 +3,16 @@
 Question
 ========
 What is the distance between the two points
-$p = (3, 4)$ and $q = (5, 2)$
+$p = (2, 4)$ and $q = (5, 5)$
 in a Cartesian coordinate system?
 
 Answerlist
 ----------
-* $4.058$
+* $1.261$
 * $2.000$
-* $0.827$
-* $2.828$
-* $4.848$
+* $2.695$
+* $0.408$
+* $3.162$
 
 Solution
 ========
@@ -20,8 +20,8 @@ The distance $d$ of $p$ and $q$ is given by
 $d^2 = (p_1 - q_1)^2 + (p_2 - q_2)^2$ (Pythagorean formula).
 
 Hence $d = \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2} =
-  \sqrt{(3 - 5)^2 + (4 - 2)^2}
-   = 2.828$.
+  \sqrt{(2 - 5)^2 + (4 - 5)^2}
+   = 3.162$.
 \
 ![](distplot-1.svg)
 
@@ -30,11 +30,11 @@ Answerlist
 * False
 * False
 * False
-* True
 * False
+* True
 
 Meta-information
 ================
 extype: schoice
-exsolution: 00010
+exsolution: 00001
 exname: Euclidean distance

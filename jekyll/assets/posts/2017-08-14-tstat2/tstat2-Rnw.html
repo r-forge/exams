@@ -6,6 +6,8 @@
 <style type="text/css">
 body{font-family: Arial, Helvetica, Sans;}
 </style>
+<meta charset="utf-8" />
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
 </head>
 
 <body>
@@ -14,72 +16,65 @@ body{font-family: Arial, Helvetica, Sans;}
 <ol>
 <li>
 <h4>Question</h4>
-A machine fills milk into 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+A machine fills milk into <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mn>500</mn></mrow></math>ml packages. It is suspected that the 
 machine is not working correctly and that the amount of milk filled differs 
-from the setpoint 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+from the setpoint <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
-<msub><mrow><mi>&mu;</mi></mrow><mrow><mn>0</mn></mrow>
+<msub><mrow><mi mathvariant="italic">&mu;</mi></mrow><mrow><mn>0</mn></mrow>
 </msub>
-<mo>=</mo><mn>500</mn></mrow></math>. A sample of 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>226</mn></mrow></math> packages 
-filled by the machine are collected. The sample mean 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mo>=</mo><mn>500</mn></mrow></math>. A sample of <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>247</mn></mrow></math> packages 
+filled by the machine are collected. The sample mean <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <mover><mrow><mi>y</mi></mrow>
 <mo>&OverBar;</mo></mover>
 </mrow></math> is equal to 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>517</mn><mo>.</mo><mn>2</mn></mrow></math> and the sample variance 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>521</mn><mo>.</mo><mn>3</mn></mrow></math> and the sample variance <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <msubsup><mrow><mi>s</mi></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn> </mrow>
 <mrow><mn>2</mn></mrow></msubsup>
 </mrow></math> is equal to 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>262</mn><mo>.</mo><mn>56</mn></mrow></math>.
+<mrow><mn>527</mn><mo>.</mo><mn>08</mn></mrow></math>.
 <div class="p"><!----></div>
 Test the hypothesis that the amount filled corresponds on average to the 
-setpoint. What is the value of the 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+setpoint. What is the value of the <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>t</mi></mrow></math>&nbsp;test statistic?
 <div class="p"><!----></div>
 <br/>
 <ol type="a">
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>9</mn><mo>.</mo><mn>853</mn></mrow></math>
+<mrow><mn>1</mn><mo>.</mo><mn>275</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>30</mn><mo>.</mo><mn>505</mn></mrow></math>
+<mrow><mo>-</mo><mn>13</mn><mo>.</mo><mn>070</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>22</mn><mo>.</mo><mn>761</mn></mrow></math>
+<mrow><mo>-</mo><mn>53</mn><mo>.</mo><mn>309</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo>-</mo><mn>2</mn><mo>.</mo><mn>894</mn></mrow></math>
+<mrow><mn>9</mn><mo>.</mo><mn>888</mn></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>15</mn><mo>.</mo><mn>958</mn></mrow></math>
+<mrow><mn>14</mn><mo>.</mo><mn>581</mn></mrow></math>
 </li>
 </ol>
 <br/>
 <h4>Solution</h4>
-The 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+The <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>t</mi></mrow></math>&nbsp;test statistic is calculated by:
 <br />
 <table width="100%"><tr><td align="center">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mstyle displaystyle="true"><mrow>
-<mtable align="right" width="80%">
+<mtable displaystyle="true" align="right" width="80%">
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>t</mi></mrow>
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
@@ -89,7 +84,7 @@ The
 <mover><mrow><mi>y</mi></mrow>
 <mo>&OverBar;</mo></mover>
 <mo>-</mo>
-<msub><mrow><mi>&mu;</mi></mrow><mrow><mn>0</mn></mrow>
+<msub><mrow><mi mathvariant="italic">&mu;</mi></mrow><mrow><mn>0</mn></mrow>
 </msub>
 </mrow>
 <mrow><msqrt><mrow>
@@ -102,25 +97,24 @@ The
 </mrow></msqrt></mrow>
 </mfrac>
 <mo>=</mo>
-<mfrac><mrow><mn>517</mn><mo>.</mo><mn>2</mn><mo>-</mo><mn>500</mn></mrow>
+<mfrac><mrow><mn>521</mn><mo>.</mo><mn>3</mn><mo>-</mo><mn>500</mn></mrow>
 <mrow><msqrt><mrow>
-<mfrac><mrow><mn>262</mn><mo>.</mo><mn>56</mn></mrow>
-<mrow><mn>226</mn></mrow>
+<mfrac><mrow><mn>527</mn><mo>.</mo><mn>08</mn></mrow>
+<mrow><mn>247</mn></mrow>
 </mfrac>
 </mrow></msqrt></mrow>
 </mfrac>
-<mo>=</mo><mn>15</mn><mo>.</mo><mn>958</mn><mo>.</mo></mrow>
+<mo>=</mo><mn>14</mn><mo>.</mo><mn>581</mn><mo>.</mo></mrow>
 </mtd></mtr>
 </mtable>
 </mrow>
     </mstyle></math>
 </td></tr></table>
 <br />
-The 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+The <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>t</mi></mrow></math>&nbsp;test statistic is thus equal to
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>15</mn><mo>.</mo><mn>958</mn></mrow></math>.
+<mrow><mn>14</mn><mo>.</mo><mn>581</mn></mrow></math>.
 <div class="p"><!----></div>
 <br/>
 <ol type="a">

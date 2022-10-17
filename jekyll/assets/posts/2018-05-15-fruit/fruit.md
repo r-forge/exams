@@ -8,9 +8,9 @@ Given the following information:
 
 |                  |     |                  |     |                  |   |            |
 |:----------------:|:---:|:----------------:|:---:|:----------------:|:-:|-----------:|
-| ![banana](banana.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | $+$ | ![banana](banana.png){width="0.85cm"} | = | $564$ |
-| ![banana](banana.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | = | $873$ |
-| ![orange](orange.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | = | $864$ |
+| ![banana](banana.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | = | $909$ |
+| ![banana](banana.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | $+$ | ![banana](banana.png){width="0.85cm"} | = | $516$ |
+| ![pineapple](pineapple.png){width="0.85cm"} | $+$ | ![orange](orange.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | = | $921$ |
 
 Compute:
 
@@ -33,12 +33,12 @@ linear equations where the price of the three fruits is the vector of unknowns $
 The system of linear equations is then:
 $$
 \begin{aligned}
-\left( \begin{array}{rrr} 2 & 0 & 1 \\ 1 & 0 & 2 \\ 0 & 1 & 2 \end{array} \right) \cdot \left( \begin{array}{r} x_1 \\ x_2 \\ x_3 \end{array} \right) & = & \left( \begin{array}{r} 564 \\ 873 \\ 864 \end{array} \right)
+\left( \begin{array}{rrr} 1 & 0 & 2 \\ 2 & 0 & 1 \\ 0 & 1 & 2 \end{array} \right) \cdot \left( \begin{array}{r} x_1 \\ x_2 \\ x_3 \end{array} \right) & = & \left( \begin{array}{r} 909 \\ 516 \\ 921 \end{array} \right)
 \end{aligned}
 $$
 This can be solved using any solution algorithm, e.g., elimination:
 $$
-x_1 = 85, \, x_2 = 76, \, x_3 = 394.
+x_1 = 41, \, x_2 = 53, \, x_3 = 434.
 $$
 Based on the three prices for the different fruits it is straightforward to
 compute the total price of the fourth fruit basket via:
@@ -47,13 +47,13 @@ compute the total price of the fourth fruit basket via:
 |:------------:|:---:|:------------:|:---:|:------------:|:-:|-----------:|
 | ![banana](banana.png){width="0.85cm"} | $+$ | ![orange](orange.png){width="0.85cm"} | $+$ | ![pineapple](pineapple.png){width="0.85cm"} | = |            |
 | $x_1$        | $+$ | $x_2$        | $+$ | $x_3$        | = |            |
-| $85$   | $+$ | $76$   | $+$ | $394$   | = | $555$  |
+| $41$   | $+$ | $53$   | $+$ | $434$   | = | $528$  |
 
 
 Meta-information
 ================
 exname: Fruit baskets (numeric)
 extype: num
-exsolution: 555.00
+exsolution: 528.00
 extol: 0
 

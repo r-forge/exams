@@ -64,23 +64,23 @@ image:
 
 <div class='row t20 b1'>
   <div class='medium-4 columns'><b>Template:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland.Rnw">switzerland.Rnw</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland.Rmd">switzerland.Rmd</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland.Rnw">switzerland.Rnw</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>Raw:</b> (1 random version)</div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland.tex">switzerland.tex</a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland.md" >switzerland.md</a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland.tex">switzerland.tex</a></div>
 </div>
 <div class='row t1 b1'>
   <div class='medium-4 columns'><b>PDF:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png" alt="switzerland-Rnw-pdf"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rmd.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rmd-pdf.png" alt="switzerland-Rmd-pdf"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw.pdf"><img src="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw-pdf.png" alt="switzerland-Rnw-pdf"/></a></div>
 </div>
 <div class='row t1 b20'>
   <div class='medium-4 columns'><b>HTML:</b></div>
-  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png" alt="switzerland-Rnw-html"/></a></div>
   <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rmd.html"><img src="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rmd-html.png" alt="switzerland-Rmd-html"/></a></div>
+  <div class='medium-4 columns'><a href="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw.html"><img src="{{ site.url }}/assets/posts/2017-08-14-switzerland//switzerland-Rnw-html.png" alt="switzerland-Rnw-html"/></a></div>
 </div>
 
 
@@ -89,12 +89,12 @@ image:
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
 
-set.seed(1090)
-exams2html(&quot;switzerland.Rnw&quot;)
-set.seed(1090)
-exams2pdf(&quot;switzerland.Rnw&quot;)
-
-set.seed(1090)
+set.seed(403)
 exams2html(&quot;switzerland.Rmd&quot;)
-set.seed(1090)
-exams2pdf(&quot;switzerland.Rmd&quot;)</code></pre>
+set.seed(403)
+exams2pdf(&quot;switzerland.Rmd&quot;)
+
+set.seed(403)
+exams2html(&quot;switzerland.Rnw&quot;)
+set.seed(403)
+exams2pdf(&quot;switzerland.Rnw&quot;)</code></pre>

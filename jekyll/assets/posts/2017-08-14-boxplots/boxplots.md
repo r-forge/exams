@@ -23,8 +23,8 @@ Solution
 
 Answerlist
 ----------
-* True. Both distributions have a similar location.
-* True. Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box.
+* False. Distribution B has on average higher values than distribution A.
+* False. There are observations which deviate more than 1.5 times the interquartile range from the median.
 * True. The interquartile range in sample A is  clearly bigger than in B.
 * True. The skewness of both distributions is similar, both are about symmetric.
 * False. Distribution  A  is  about symmetric.
@@ -32,5 +32,5 @@ Answerlist
 Meta-information
 ================
 extype: mchoice
-exsolution: 11110
+exsolution: 00110
 exname: Parallel boxplots

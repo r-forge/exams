@@ -8,20 +8,20 @@ Consider the following regression results:
 ```
 
 Call:
-lm(formula = log(y) ~ log(x), data = d)
+lm(formula = y ~ x, data = d)
 
 Residuals:
-    Min      1Q  Median      3Q     Max 
--6.6119 -1.4477  0.1735  1.5365  4.8160 
+     Min       1Q   Median       3Q      Max 
+-2.14867 -0.82868 -0.07472  0.66596  2.54119 
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)
-(Intercept)   0.1264     0.2520   0.501    0.618
-log(x)        0.2870     0.2279   1.259    0.212
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 0.0001676  0.1254992   0.001    0.999
+x           1.2492437  0.1241613  10.061 2.04e-14
 
-Residual standard error: 2.251 on 79 degrees of freedom
-Multiple R-squared:  0.01967,	Adjusted R-squared:  0.007263 
-F-statistic: 1.585 on 1 and 79 DF,  p-value: 0.2117
+Residual standard error: 0.9786 on 59 degrees of freedom
+Multiple R-squared:  0.6318,	Adjusted R-squared:  0.6255 
+F-statistic: 101.2 on 1 and 59 DF,  p-value: 2.043e-14
 ```
 
 Describe how the response `y` depends on the regressor `x`.
@@ -29,13 +29,13 @@ Describe how the response `y` depends on the regressor `x`.
 
 Solution
 ========
-The presented results describe a log-log regression.
+The presented results describe a linear regression.
 
 The mean of the response `y` increases with increasing `x`.
 
-If `x` increases by 1 percent then a change of `y` by about 0.29 percent can be expected.
+If `x` increases by 1 unit then a change of `y` by about 1.25 units can be expected.
 
-However, the effect of `x` is _not_ significant at the 5 percent level.
+Also, the effect of `x` is  significant at the 5 percent level.
 
 
 Meta-information
@@ -43,9 +43,11 @@ Meta-information
 extype: string
 exsolution: nil
 exname: regression essay
+exstringtype: essay|file
 exextra[essay,logical]: TRUE
 exextra[essay_format,character]: editor
 exextra[essay_required,logical]: FALSE
-exextra[essay_fieldlines,numeric]: 5
+exextra[essay_fieldlines,numeric]: 0
 exextra[essay_attachments,numeric]: 1
-exextra[essay_attachmentsrequired,logical]: FALSE
+exextra[essay_attachmentsrequired,logical]: TRUE
+exmaxchars: 1000, 10, 50

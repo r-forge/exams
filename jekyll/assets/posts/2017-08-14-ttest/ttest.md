@@ -13,13 +13,13 @@ statistical test was performed:
 	Two Sample t-test
 
 data:  Waiting by Supermarket
-t = 3.8575, df = 132, p-value = 0.9999
-alternative hypothesis: true difference in means is less than 0
+t = 4.1777, df = 108, p-value = 2.996e-05
+alternative hypothesis: true difference in means between group Sparag and group Consumo is greater than 0
 95 percent confidence interval:
-     -Inf 3.552905
+ 1.241878      Inf
 sample estimates:
  mean in group Sparag mean in group Consumo 
-             5.859404              3.373846 
+             5.419987              3.360063 
 ```
 
 Which of the following statements are correct? (Significance level 5%)
@@ -37,14 +37,14 @@ Solution
 
 Answerlist
 ----------
-* True. The absolute value of the test statistic is equal to 3.857.
-* True. The test aims at showing that the difference of means is  smaller than 0.
-* True. The p-value is equal to 1.
-* False. The test aims at showing that the alternative that the waiting time is shorter at Sparag than at Consumo. The test result is not significant ($p \ge 0.05$).
-* False.  The test result ist not significant ($p \ge 0.05$).
+* True. The absolute value of the test statistic is equal to 4.178.
+* True. The test aims at showing that the difference of means is  larger than 0.
+* False. The p-value is equal to 3e-05.
+* True. The test result is significant ($p < 0.05$) and hence the alternative is shown that the difference of means is larger than 0.
+* False. The test aims at showing that the waiting time at Sparag is longer than at Consumo. 
 
 Meta-information
 ================
 extype: mchoice
-exsolution: 11100
+exsolution: 11010
 exname: 2-sample t-test

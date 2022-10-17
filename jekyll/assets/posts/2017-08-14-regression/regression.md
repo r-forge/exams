@@ -3,19 +3,19 @@
 Question
 ========
 
-For 60 firms the number of employees $X$ and the amount of
+For 56 firms the number of employees $X$ and the amount of
 expenses for continuing education $Y$ (in EUR) were recorded. The
 statistical summary of the data set is given by:
 
 |          | Variable $X$ | Variable $Y$ |
 |:--------:|:------------:|:------------:|
-| Mean     | 56       | 259       |
-| Variance | 113     | 1792     |
+| Mean     | 46       | 220       |
+| Variance | 140     | 1827     |
 
-The correlation between $X$ and $Y$ is equal to 0.52.
+The correlation between $X$ and $Y$ is equal to 0.61.
 
 Estimate the expected amount of money spent for continuing education
-by a firm with 62 employees using least squares regression.
+by a firm with 44 employees using least squares regression.
 
 
 Solution
@@ -25,20 +25,20 @@ First, the regression line $y_i = \beta_0 + \beta_1 x_i +
 \varepsilon_i$ is determined.  The regression coefficients are given by:
 \begin{eqnarray*}
 && \hat \beta_1 = r \cdot \frac{s_y}{s_x} = 
-0.52 \cdot \sqrt{\frac{1792}{113}} = 2.07078, \\
+0.61 \cdot \sqrt{\frac{1827}{140}} = 2.20361, \\
 && \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = 
-259 - 2.07078 \cdot 56 = 143.03654.
+220 - 2.20361 \cdot 46 = 118.63386.
 \end{eqnarray*}
 
 The estimated amount of money spent by a firm with
-62 employees is then given by:
+44 employees is then given by:
 \begin{eqnarray*}
-\hat y = 143.03654 + 2.07078 \cdot 62 = 271.425.
+\hat y = 118.63386 + 2.20361 \cdot 44 = 215.593.
 \end{eqnarray*}
 
 Meta-information
 ================
 extype: num
-exsolution: 271.425
+exsolution: 215.593
 exname: Prediction
 extol: 0.01

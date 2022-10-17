@@ -6,6 +6,8 @@
 <style type="text/css">
 body{font-family: Arial, Helvetica, Sans;}
 </style>
+<meta charset="utf-8" />
+<script type="text/javascript"   src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
 </head>
 
 <body>
@@ -17,35 +19,28 @@ body{font-family: Arial, Helvetica, Sans;}
 An industry-leading company seeks a qualified candidate for a management position.
 A management consultancy carries out an assessment center which concludes in making
 a positive or negative recommendation for each candidate: From previous assessments they know that
-of those candidates that are actually eligible for the position (event 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>E</mi></mrow></math>) 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>74</mn><mi>%</mi></mrow></math>
-get a positive recommendation (event 
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+of those candidates that are actually eligible for the position (event <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>E</mi></mrow></math>) <math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mn>66</mn><mi>%</mi></mrow></math>
+get a positive recommendation (event <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>R</mi></mrow></math>). However, out of those candidates that are not eligible
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>73</mn><mi>%</mi></mrow></math> get a negative recommendation. Overall, they know that only
+<mrow><mn>65</mn><mi>%</mi></mrow></math> get a negative recommendation. Overall, they know that only
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>13</mn><mi>%</mi></mrow></math> of all job applicants are actually eligible.
+<mrow><mn>9</mn><mi>%</mi></mrow></math> of all job applicants are actually eligible.
 <div class="p"><!----></div>
 What is the corresponding fourfold table of the joint probabilities? (Specify all entries in percent.)
 <div class="p"><!----></div>
 <table border="1">
-<tr><td align="center"></td><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>R</mi></mrow></math>&nbsp;           </td><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<tr><td align="center"></td><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>R</mi></mrow></math>&nbsp;           </td><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <mover><mrow><mi>R</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
 </mrow></math>&nbsp;   </td><td align="center">sum</td></tr>
-<tr><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<tr><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>E</mi></mrow></math>&nbsp;            </td><td align="center">&nbsp;%&nbsp; </td><td align="center">&nbsp;%&nbsp;    </td><td align="center">&nbsp;%&nbsp; </td></tr>
-<tr><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<tr><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <mover><mrow><mi>E</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
@@ -62,12 +57,12 @@ Using the information from the text, we can directly calculate the following joi
 <table width="100%"><tr><td align="center">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mstyle displaystyle="true"><mrow>
-<mtable align="right" width="80%">
+<mtable displaystyle="true" align="right" width="80%">
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo>&cap;</mo><mi>R</mi><mo stretchy="false">)</mo></mrow>
 </mtd><mtd columnalign="left">
 <mrow><mo>=</mo></mrow>
 </mtd><mtd columnalign="left">
-<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">&verbar;</mo><mi>E</mi><mo stretchy="false">)</mo><mo>&middot;</mo><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn><mo>.</mo><mn>74</mn><mo>&middot;</mo><mn>0</mn><mo>.</mo><mn>13</mn><mo>=</mo><mn>0</mn><mo>.</mo><mn>0962</mn><mo>=</mo><mn>9</mn><mo>.</mo><mn>62</mn><mi>%</mi></mrow>
+<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">&verbar;</mo><mi>E</mi><mo stretchy="false">)</mo><mo>&middot;</mo><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn><mo>.</mo><mn>66</mn><mo>&middot;</mo><mn>0</mn><mo>.</mo><mn>09</mn><mo>=</mo><mn>0</mn><mo>.</mo><mn>0594</mn><mo>=</mo><mn>5</mn><mo>.</mo><mn>94</mn><mi>%</mi></mrow>
 </mtd></mtr>
 <mtr><mtd columnalign="right" columnspan="1"><mrow><mi>P</mi><mo stretchy="false">(</mo>
 <mover><mrow><mi>E</mi></mrow>
@@ -88,7 +83,7 @@ Using the information from the text, we can directly calculate the following joi
 <mo stretchy="false">)</mo><mo>&middot;</mo><mi>P</mi><mo stretchy="false">(</mo>
 <mover><mrow><mi>E</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-<mo stretchy="false">)</mo><mo>=</mo><mn>0</mn><mo>.</mo><mn>73</mn><mo>&middot;</mo><mn>0</mn><mo>.</mo><mn>87</mn><mo>=</mo><mn>0</mn><mo>.</mo><mn>6351</mn><mo>=</mo><mn>63</mn><mo>.</mo><mn>51</mn><mi>%</mi><mo>.</mo></mrow>
+<mo stretchy="false">)</mo><mo>=</mo><mn>0</mn><mo>.</mo><mn>65</mn><mo>&middot;</mo><mn>0</mn><mo>.</mo><mn>91</mn><mo>=</mo><mn>0</mn><mo>.</mo><mn>5915</mn><mo>=</mo><mn>59</mn><mo>.</mo><mn>15</mn><mi>%</mi><mo>.</mo></mrow>
 </mtd></mtr>
 </mtable>
 </mrow>
@@ -98,44 +93,40 @@ Using the information from the text, we can directly calculate the following joi
 The remaining probabilities can then be found by calculating sums and differences in the fourfold table:
 <div class="p"><!----></div>
 <table border="1">
-<tr><td align="center"></td><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>R</mi></mrow></math>&nbsp;                    </td><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<tr><td align="center"></td><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>R</mi></mrow></math>&nbsp;                    </td><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <mover><mrow><mi>R</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
 </mrow></math>&nbsp;         </td><td align="center">sum </td></tr>
-<tr><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>E</mi></mrow></math>&nbsp;            </td><td align="center">&nbsp;<b>9.62&nbsp; </td><td align="center">&nbsp;<i>3.38&nbsp; </td><td align="center">&nbsp;<b>13.00&nbsp; </td></tr>
-<tr><td align="center">&nbsp;
-<math xmlns="http://www.w3.org/1998/Math/MathML">
+<tr><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>E</mi></mrow></math>&nbsp;            </td><td align="center">&nbsp;<b>5.94</b>&nbsp; </td><td align="center">&nbsp;<i>3.06</i>&nbsp; </td><td align="center">&nbsp;<b>9.00</b>&nbsp; </td></tr>
+<tr><td align="center">&nbsp;<math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <mover><mrow><mi>E</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-</mrow></math>&nbsp; </td><td align="center">&nbsp;<i>23.49&nbsp; </td><td align="center">&nbsp;<b>63.51&nbsp; </td><td align="center">&nbsp;<i>87.00&nbsp; </td></tr>
-<tr><td align="center">sum              </td><td align="center">&nbsp;<i>33.11&nbsp; </td><td align="center">&nbsp;<i>66.89&nbsp; </td><td align="center">&nbsp;<b>100.00&nbsp; </td></tr></b></i></i></i></b></i></b></i></b></table>
+</mrow></math>&nbsp; </td><td align="center">&nbsp;<i>31.85</i>&nbsp; </td><td align="center">&nbsp;<b>59.15</b>&nbsp; </td><td align="center">&nbsp;<i>91.00</i>&nbsp; </td></tr>
+<tr><td align="center">sum              </td><td align="center">&nbsp;<i>37.79</i>&nbsp; </td><td align="center">&nbsp;<i>62.21</i>&nbsp; </td><td align="center">&nbsp;<b>100.00</b>&nbsp; </td></tr></table>
 <div class="p"><!----></div>
 <br/>
 <ol type="a">
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo>&cap;</mo><mi>R</mi><mo stretchy="false">)</mo><mo>=</mo><mn>9</mn><mo>.</mo><mn>62</mn><mi>%</mi></mrow></math>
+<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo>&cap;</mo><mi>R</mi><mo stretchy="false">)</mo><mo>=</mo><mn>5</mn><mo>.</mo><mn>94</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>P</mi><mo stretchy="false">(</mo>
 <mover><mrow><mi>E</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-<mo>&cap;</mo><mi>R</mi><mo stretchy="false">)</mo><mo>=</mo><mn>23</mn><mo>.</mo><mn>49</mn><mi>%</mi></mrow></math>
+<mo>&cap;</mo><mi>R</mi><mo stretchy="false">)</mo><mo>=</mo><mn>31</mn><mo>.</mo><mn>85</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo>&cap;</mo>
 <mover><mrow><mi>R</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-<mo stretchy="false">)</mo><mo>=</mo><mn>3</mn><mo>.</mo><mn>38</mn><mi>%</mi></mrow></math>
+<mo stretchy="false">)</mo><mo>=</mo><mn>3</mn><mo>.</mo><mn>06</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -145,33 +136,33 @@ The remaining probabilities can then be found by calculating sums and difference
 <mo>&cap;</mo>
 <mover><mrow><mi>R</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-<mo stretchy="false">)</mo><mo>=</mo><mn>63</mn><mo>.</mo><mn>51</mn><mi>%</mi></mrow></math>
+<mo stretchy="false">)</mo><mo>=</mo><mn>59</mn><mo>.</mo><mn>15</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo><mo>=</mo><mn>33</mn><mo>.</mo><mn>11</mn><mi>%</mi></mrow></math>
+<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>R</mi><mo stretchy="false">)</mo><mo>=</mo><mn>37</mn><mo>.</mo><mn>79</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>P</mi><mo stretchy="false">(</mo>
 <mover><mrow><mi>R</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-<mo stretchy="false">)</mo><mo>=</mo><mn>66</mn><mo>.</mo><mn>89</mn><mi>%</mi></mrow></math>
+<mo stretchy="false">)</mo><mo>=</mo><mn>62</mn><mo>.</mo><mn>21</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo stretchy="false">)</mo><mo>=</mo><mn>13</mn><mo>.</mo><mn>00</mn><mi>%</mi></mrow></math>
+<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo stretchy="false">)</mo><mo>=</mo><mn>9</mn><mo>.</mo><mn>00</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>P</mi><mo stretchy="false">(</mo>
 <mover><mrow><mi>E</mi></mrow>
 <mo stretchy="true">&OverBar;</mo></mover>
-<mo stretchy="false">)</mo><mo>=</mo><mn>87</mn><mo>.</mo><mn>00</mn><mi>%</mi></mrow></math>
+<mo stretchy="false">)</mo><mo>=</mo><mn>91</mn><mo>.</mo><mn>00</mn><mi>%</mi></mrow></math>
 </li>
 <li>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>P</mi><mo stretchy="false">(</mo><mi>&Omega;</mi><mo stretchy="false">)</mo><mo>=</mo><mn>100</mn><mo>.</mo><mn>00</mn><mi>%</mi></mrow></math>
+<mrow><mi>P</mi><mo stretchy="false">(</mo><mi mathvariant="italic">&Omega;</mi><mo stretchy="false">)</mo><mo>=</mo><mn>100</mn><mo>.</mo><mn>00</mn><mi>%</mi></mrow></math>
 </li>
 </ol>
 <br/>

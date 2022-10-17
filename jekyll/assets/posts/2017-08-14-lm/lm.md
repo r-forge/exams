@@ -33,6 +33,6 @@ Meta-information
 ================
 exname: Linear regression
 extype: cloze
-exsolution: 001|-0.674
+exsolution: 010|0.661
 exclozetype: schoice|num
 extol: 0.01
