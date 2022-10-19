@@ -6,7 +6,6 @@ Authors@R: person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), e
 Description: Automatic generation of quizzes or individual questions for learnr tutorials based on R/exams exercises.
 Depends: R (>= 4.0.0), exams (>= 2.4-0)
 Imports: knitr, learnr (>= 0.11.0), rmarkdown
-Suggests: base64enc, digest
 License: GPL-2 | GPL-3
 URL: https://www.R-exams.org/
 BugReports: https://www.R-exams.org/contact/
