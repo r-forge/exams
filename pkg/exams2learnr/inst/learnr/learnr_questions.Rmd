@@ -22,10 +22,6 @@ exams2learnr("capitals.Rmd")
 
 ## Arithmetic (numeric)
 
-_Important note:_ Up to `learnr` version 0.10.1, numeric questions are
-handled like string questions. In that case, no tolerance is applied
-and missing or extra trailing zeros lead to incorrect answers.
-
 ```{r num3, echo = FALSE, message = FALSE}
 exams2learnr("deriv.Rnw", allow_retry = TRUE)
 ```

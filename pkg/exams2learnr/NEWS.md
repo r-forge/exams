@@ -5,13 +5,26 @@
 
 * Currently, there is support for the following question types:
 
-  | Description     | R/exams   | `learnr`                                                            |
-  |:----------------|:----------|:--------------------------------------------------------------------|
-  | Single-choice   | `schoice` | `learnr_radio`                                                      |
-  | Multiple-choice | `mchoice` | `learnr_checkbox`                                                   |
-  | Text            | `string`  | `learnr_text`                                                       |
-  | Numeric         | `num`     | `learnr_numeric` (if version > 0.10.1) or `learnr_text` (otherwise) |
+  | Description     | R/exams   | `learnr`          |
+  |:----------------|:----------|:------------------|
+  | Single-choice   | `schoice` | `learnr_radio`    |
+  | Multiple-choice | `mchoice` | `learnr_checkbox` |
+  | Text            | `string`  | `learnr_text`     |
+  | Numeric         | `num`     | `learnr_numeric`  |
 
-  Thus, there is no support, yet, for cloze questions. And
-  note that in `learnr` versions up to 0.10.1 numeric questions are processed
-  as text, i.e., without correct handling of tolerances.
+  Thus, there is no support, yet, for cloze questions.
+
+* The main function is `exams2learnr()` which is typically
+  used within `learnr` Rmd tutorials. For a single exercise
+  the function returns a `learnr` `tutorial_question` and
+  for several exercises it yields a `learnr` `tutorial_quiz`.
+  Both usages are illustrated by two example files provided
+  within the package.
+
+  - `learnr_questions.Rmd`: All questions set up indvidually.
+  - `learnr_quiz.Rmd`: An entire quiz set up in one go.
+
+* Additionally, the function `run_quiz()` can be used to
+  quickly set up and run a quiz interactively based on a
+  set of R/exams exercises. For example:  
+  `run_quiz(c("capitals.Rmd", "fruit.Rmd", "function.Rmd"))`

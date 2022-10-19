@@ -2,7 +2,6 @@ importFrom("exams", "xexams", "make_exercise_transform_html")
 importFrom("knitr", "opts_current")
 importFrom("learnr", "question", "quiz", "answer")
 importFrom("rmarkdown", "pandoc_available", "run")
-importFrom("utils", "packageVersion")
 
 export(
   "exams2learnr",

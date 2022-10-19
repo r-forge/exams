@@ -47,7 +47,7 @@ run_quiz(file, name = "quiz", title = "R/exams quiz", dir = NULL, \dots,
 
 \examples{
 \dontrun{
-## quickly run a quiz with two R/exams exercises
-run_quiz(c("capitals.Rmd", "fruit.Rmd"))
+## quickly run a quiz based on a set of R/exams exercises
+run_quiz(c("capitals.Rmd", "fruit.Rmd", "function.Rmd"))
 }
 }

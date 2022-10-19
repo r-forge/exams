@@ -47,9 +47,6 @@ exams2learnr <- function(file,
   
     x <- htmltrafo(x)
   
-    ## check whether learnr_numeric is available
-    num_avail <- packageVersion("learnr") > "0.10.1"
-  
     ## set up argument list for learnr question
     args <- list(
       text = x$question,
@@ -57,7 +54,7 @@ exams2learnr <- function(file,
         "schoice" = "learnr_radio",
         "mchoice" = "learnr_checkbox",
         "string" = "learnr_text",
-        "num" = if(num_avail) "learnr_numeric" else "learnr_text"
+        "num" = "learnr_numeric"
       ),
       post_message = if(show_solution && (!is.null(x$solution) || length(x$solutionlist) > 0L)) {
         c(x$solution, "", if(length(x$solutionlist) > 0L) c("<ul>", paste0("<li>", x$solutionlist, "</li>"), "</ul>"))
@@ -75,16 +72,12 @@ exams2learnr <- function(file,
       args$options <- list(trim = TRUE)
     }
     if(x$metainfo$type == "num") {
-      if(num_avail) {
-        args$options <- list(
-          min = NA,
-          max = NA,
-          step = NA,
-          tolerance = x$metainfo$tolerance
-        )
-      } else {
-        args$options <- list(trim = TRUE)
-      }
+      args$options <- list(
+        min = NA,
+        max = NA,
+        step = NA,
+        tolerance = x$metainfo$tolerance
+      )
     }
 
     ## set up answers
@@ -93,11 +86,7 @@ exams2learnr <- function(file,
     } else if(x$metainfo$type == "string") {
       list(learnr::answer(as.character(x$metainfo$solution), correct = TRUE))
     } else if(x$metainfo$type == "num") {
-      if(num_avail) {
-        list(learnr::answer(as.numeric(x$metainfo$solution), correct = TRUE))
-      } else {
-        list(learnr::answer(as.character(x$metainfo$solution), correct = TRUE))
-      }
+      list(learnr::answer(as.numeric(x$metainfo$solution), correct = TRUE))
     }
 
     ## set current label based on exercise file name -> used as learnr question ID
