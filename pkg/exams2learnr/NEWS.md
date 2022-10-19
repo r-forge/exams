@@ -12,7 +12,7 @@
   | Text            | `string`  | `learnr_text`     |
   | Numeric         | `num`     | `learnr_numeric`  |
 
-  Thus, there is no support, yet, for cloze questions.
+  Thus, there is no support, yet, for `cloze` questions.
 
 * The main function is `exams2learnr()` which is typically
   used within `learnr` Rmd tutorials. For a single exercise
