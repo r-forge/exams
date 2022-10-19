@@ -1,6 +1,9 @@
 ---
 title: "Embedding R/exams Exercises in learnr Tutorials"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    highlight: monochrome
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Embedding R/exams Exercises in learnr Tutorials}
   %\VignetteEngine{knitr::rmarkdown}
@@ -60,7 +63,7 @@ a `learnr` tutorial, there is the convenience function `run_quiz()`.
 This sets up a tutorial embedding R/exams exercises in a temporary
 directory and directly runs the tutorial in a `shiny` app.
 For illustration, the code below creates a quiz containing one random
-verions of each of these exercises:
+verions of each of these exercises (provided within the R/exams package):
 [capitals](https://www.R-exams.org/templates/capitals/) (multiple-choice),
 [fruit](https://www.R-exams.org/templates/fruit/) (numeric),
 [function](https://www.R-exams.org/templates/function/) (string/text).
@@ -71,7 +74,7 @@ library("exams2learnr")
 run_quiz(c("capitals.Rmd", "fruit.Rmd", "function.Rmd"))
 ```
 
-![Screenshot from run_quiz(c("capitals.Rmd", "fruit.Rmd", "function.Rmd"))](screenshots/run_quiz.png){width=100%}
+![Screenshot from `run_quiz()` for exercises `capitals.Rmd`, `fruit.Rmd`, and `function.Rmd`.](screenshots/run_quiz.png){width=100%}
 
 For full customization, however, it is recommended to set up a dedicated
 tutorial R/Markdown file and use `exams2learnr()` explicitly to include
@@ -95,8 +98,8 @@ etc.
 
 As a first example, we apply `exams2learnr()` to the string/text
 [function](https://www.R-exams.org/templates/function/) exercise,
-readily provided within the R/exams package. This is represented
-as a `learnr_text` object:
+readily provided within the R/exams package. The result is represented
+as a `learnr_text` object, inheriting from `tutorial_question`:
 
 ```{r}
 qn <- exams2learnr("function.Rmd")
@@ -122,7 +125,8 @@ Subsequently, we set up a quiz with the single-choice
 [swisscapital](https://www.R-exams.org/templates/swisscapital/) exercise
 and the multiple-choice
 [switzerland](https://www.R-exams.org/templates/switzerland/) exercise,
-represented as `learnr_radio` and `learnr_checkbox` objects, respectively.
+represented as `learnr_radio` and `learnr_checkbox` objects, respectively,
+contained in a `tutorial_quiz`.
 
 ```{r}
 qz <- exams2learnr(c("swisscapital.Rmd", "switzerland.Rmd"))
@@ -181,7 +185,7 @@ print(qz)
 If more than `n = 1` random replications are produced then a standard list
 is returned - because `learnr` currently does not provide a compound object that can
 capture a question bank with multiple replications. The list has one element per
-random replication, each of which is a list of `question` objects.
+random replication, each of which is a list of `tutorial_question` objects.
 
 The format of the return value can also be controlled by the \code{output}
 argument if the desired format is not selected automatically.
@@ -192,13 +196,29 @@ tutorials.
 
 ## Tutorial with a quiz
 
-`learnr_quiz.Rmd`: An entire quiz set up in one go.
+For setting up a `learnr` tutorial with a quiz based on R/exams exercises,
+all building blocks are readily available now. In the YAML header the `output`
+should be `learnr::tutorial` and the `runtime` should to be `shiny_prerendered`.
+Then the quiz (or "exam") can be set up as a list as for other `exams2xyz()`
+interfaces as well. The entire quiz is then prepared in one `exams2learnr()`
+call. For illustration consider:
+
+```{r, eval=TRUE, echo=FALSE, results="asis"}
+writeLines(paste0("    ", readLines(
+  system.file("learnr", "learnr_quiz.Rmd", package = "exams2learnr")
+)))
+```
+
+The demo file above is actually shipped as a supplementary file `learnr_quiz.Rmd`
+within the `exams2learnr` package. Hence, it can be `run()` as in the following command.
+The screenshot below shows (one random replication of) the first exercises.
+The concrete exercises will differ in every new `run()` of the tutorial.
 
 ```{r}
 rmarkdown::run(system.file("learnr", "learnr_quiz.Rmd", package = "exams2learnr"))
 ```
 
-![Screenshot from learnr_quiz](screenshots/learnr_quiz.png){width=100%}
+![Screenshot from `learnr_quiz.Rmd`.](screenshots/learnr_quiz.png){width=100%}
 
 
 
@@ -210,6 +230,7 @@ rmarkdown::run(system.file("learnr", "learnr_quiz.Rmd", package = "exams2learnr"
 rmarkdown::run(system.file("learnr", "learnr_questions.Rmd", package = "exams2learnr"))
 ```
 
-![Screenshot from learnr_questions](screenshots/learnr_questions_deriv.png){width=100%}
-![Screenshot from learnr_questions](screenshots/learnr_questions_boxplots.png){width=100%}
+![Screenshot from `learnr_questions,Rmd` (exercise `deriv.Rmd`).](screenshots/learnr_questions_deriv.png){width=100%}
+
+![Screenshot from `learnr_questions.Rmd` (exercise `boxplots.Rmd`).](screenshots/learnr_questions_boxplots.png){width=100%}
 
