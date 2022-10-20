@@ -9,8 +9,8 @@
   |:----------------|:----------|:------------------|
   | Single-choice   | `schoice` | `learnr_radio`    |
   | Multiple-choice | `mchoice` | `learnr_checkbox` |
-  | Text            | `string`  | `learnr_text`     |
   | Numeric         | `num`     | `learnr_numeric`  |
+  | Text            | `string`  | `learnr_text`     |
 
   Thus, there is no support, yet, for `cloze` questions.
 

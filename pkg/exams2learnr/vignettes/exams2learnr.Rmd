@@ -30,27 +30,28 @@ knitr::opts_chunk$set(
 
 The package `exams2learnr` mainly provides the function of the same
 name, `exams2learnr()`. It is an interface for embedding exercises
-written with the R/exams package (<https://www.R-exams.org/>) in tutorials
-or quizzes written with the [learnr](https://rstudio.github.io/learnr/) package.
+written with the R package [exams](https://www.R-exams.org/) (also known
+as R/exams) in tutorials or quizzes written with the
+[learnr](https://rstudio.github.io/learnr/) package.
 
 The goal of `learnr` is the creation of interactive tutorials in a
 [shiny](https://shiny.rstudio.com/) application written with R/Markdown.
-The tutorials can contain individual exercises or quizzes from a set of exercises
+The tutorials can contain individual questions (exercises) or quizzes (sets of exercises)
 along with text, graphics, and other elements you can embed in R/Markdown.
-Usually, these tutorials can then be used for self-paced learning (rather than
-assessment).
+Usually, these tutorials can then be used for self-paced learning rather than
+(summative) assessment.
 
-The `exams2learnr()` interface can be used within `learnr` tutorials to
-dynamically insert individual questions or entire quizzes based on R/exams
-exercise templates, either written in Rmd (R/Markdown) or Rnw (R/LaTeX) format.
+The `exams2learnr()` interface leverages `learnr`'s capabilities for
+questions/quizzes to dynamically insert (random variations) from
+R/exams exercise templates, either written in Rmd (R/Markdown) or Rnw (R/LaTeX) format.
 Currently, there is support for the following question types:
 
 | Description     | R/exams   | learnr            |
 |:----------------|:----------|:------------------|
 | Single-choice   | `schoice` | `learnr_radio`    |
 | Multiple-choice | `mchoice` | `learnr_checkbox` |
-| Text            | `string`  | `learnr_text`     |
 | Numeric         | `num`     | `learnr_numeric`  |
+| Text            | `string`  | `learnr_text`     |
 
 Thus, there is no support, yet, for `cloze` questions that can combine all
 of the elements above.
@@ -63,7 +64,7 @@ a `learnr` tutorial, there is the convenience function `run_quiz()`.
 This sets up a tutorial embedding R/exams exercises in a temporary
 directory and directly runs the tutorial in a `shiny` app.
 For illustration, the code below creates a quiz containing one random
-verions of each of these exercises (provided within the R/exams package):
+version of each of these exercises that are shipped with the R/exams package:
 [capitals](https://www.R-exams.org/templates/capitals/) (multiple-choice),
 [fruit](https://www.R-exams.org/templates/fruit/) (numeric),
 [function](https://www.R-exams.org/templates/function/) (string/text).
@@ -76,9 +77,12 @@ run_quiz(c("capitals.Rmd", "fruit.Rmd", "function.Rmd"))
 
 ![Screenshot from `run_quiz()` for exercises `capitals.Rmd`, `fruit.Rmd`, and `function.Rmd`.](screenshots/run_quiz.png){width=100%}
 
-For full customization, however, it is recommended to set up a dedicated
-tutorial R/Markdown file and use `exams2learnr()` explicitly to include
-the exercises. This is illustrated below.
+Thus, the `run_quiz()` function is nice for getting a first feeling for
+what is possible with the `exams2learnr` package and for the look & feel
+of the resulting `shiny` apps. For full customization, however, a dedicated
+Rmd tutorial should be set up. This can then leverage the main
+`exams2learnr()` function to explicitly include questions/quizzes,
+potentially along with further elements and/or customizations.
 
 
 ## Building blocks
@@ -106,7 +110,8 @@ qn <- exams2learnr("function.Rmd")
 class(qn)
 ## [1] "learnr_text"       "tutorial_question"
 print(qn)
-## Question: "What is the name of the R function for extracting the fitted log-likelihood from a fitted (generalized) linear model object?"
+## Question: "What is the name of the R function for extracting the fitted
+## log-likelihood from a fitted (generalized) linear model object?"
 ##   type: "learnr_text"
 ##   allow_retry: FALSE
 ##   random_answer_order: FALSE
@@ -115,7 +120,8 @@ print(qn)
 ##   messages:
 ##     correct: "Correct!"
 ##     incorrect: "Incorrect"
-##     message: "<code>logLik</code> is the R function for extracting the fitted log-likelihood from a fitted (generalized) linear model object.
+##     message: "<code>logLik</code> is the R function for extracting the
+##     fitted log-likelihood from a fitted (generalized) linear model object.
 ## See <code>?logLik</code> for the corresponding manual page."
 ##   Options:
 ##     trim: TRUE 
@@ -135,7 +141,8 @@ class(qz)
 print(qz)
 ## Quiz: "Quiz"
 ## 
-##   Question: "What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?"
+##   Question: "What is the seat of the federal authorities in Switzerland
+##   (i.e., the de facto capital)?"
 ##     type: "learnr_radio"
 ##     allow_retry: FALSE
 ##     random_answer_order: FALSE
@@ -148,7 +155,8 @@ print(qz)
 ##     messages:
 ##       correct: "Correct!"
 ##       incorrect: "Incorrect"
-##       message: "There is no de jure capital but the de facto capital and seat of the federal authorities is Bern.</p>
+##       message: "There is no de jure capital but the de facto capital and
+##       seat of the federal authorities is Bern.</p>
 ## 
 ## <ul>
 ## <li>False</li>
@@ -187,21 +195,18 @@ is returned - because `learnr` currently does not provide a compound object that
 capture a question bank with multiple replications. The list has one element per
 random replication, each of which is a list of `tutorial_question` objects.
 
-The format of the return value can also be controlled by the \code{output}
+The format of the return value can also be controlled by the `output`
 argument if the desired format is not selected automatically.
-
-The next sections illustrate how to use this functionality in `learnr` Rmd
-tutorials.
 
 
 ## Tutorial with a quiz
 
-For setting up a `learnr` tutorial with a quiz based on R/exams exercises,
-all building blocks are readily available now. In the YAML header the `output`
+For setting up a `learnr` tutorial with a quiz based on R/exams exercises
+the building blocks discussed above can be used. In the YAML header the `output`
 should be `learnr::tutorial` and the `runtime` should to be `shiny_prerendered`.
-Then the quiz (or "exam") can be set up as a list as for other `exams2xyz()`
-interfaces as well. The entire quiz is then prepared in one `exams2learnr()`
-call. For illustration consider:
+Then the quiz (or "exam") can be set up as a list of exercise templates, as for
+other `exams2xyz()` interfaces as well. The entire quiz is then prepared in a
+single `exams2learnr()` call. For illustration consider:
 
 ```{r, eval=TRUE, echo=FALSE, results="asis"}
 writeLines(paste0("    ", readLines(
@@ -218,19 +223,34 @@ The concrete exercises will differ in every new `run()` of the tutorial.
 rmarkdown::run(system.file("learnr", "learnr_quiz.Rmd", package = "exams2learnr"))
 ```
 
-![Screenshot from `learnr_quiz.Rmd`.](screenshots/learnr_quiz.png){width=100%}
+![Screenshot from the `learnr_quiz.Rmd` tutorial.](screenshots/learnr_quiz.png){width=100%}
 
 
 
 ## Tutorial with individual questions
 
-`learnr_questions.Rmd`: All questions set up indvidually.
+To finetune the appearance of the R/exams exercises within the `learnr` tutorial,
+e.g., for putting different exercises into different sections, it may be necessary
+to include each question/exercise individually (rather than an entire quiz).
+For illustration consider the following Rmd document that is provided as supplementary
+file `learnr_questions.Rmd`:
+
+```{r, eval=TRUE, echo=FALSE, results="asis"}
+writeLines(paste0("    ", readLines(
+  system.file("learnr", "learnr_questions.Rmd", package = "exams2learnr")
+)))
+```
+
+This tutorial also shows how to use some of `learnr`'s customization options such as
+`allow_retry` or `incorrect`. To `run()` this tutorial the command below can be used.
+As in the previous section, the concrete exercise variations will differ in every
+new `run()` of the tutorial.
 
 ```{r}
 rmarkdown::run(system.file("learnr", "learnr_questions.Rmd", package = "exams2learnr"))
 ```
 
-![Screenshot from `learnr_questions,Rmd` (exercise `deriv.Rmd`).](screenshots/learnr_questions_deriv.png){width=100%}
+![Screenshot from the `learnr_questions,Rmd` tutorial (exercise `deriv.Rmd`).](screenshots/learnr_questions_deriv.png){width=100%}
 
-![Screenshot from `learnr_questions.Rmd` (exercise `boxplots.Rmd`).](screenshots/learnr_questions_boxplots.png){width=100%}
+![Screenshot from the `learnr_questions.Rmd` tutorial (exercise `boxplots.Rmd`).](screenshots/learnr_questions_boxplots.png){width=100%}
 
