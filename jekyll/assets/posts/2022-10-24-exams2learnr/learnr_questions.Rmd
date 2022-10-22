@@ -1,0 +1,51 @@
+---
+title: "R/exams questions"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include = FALSE}
+library("exams2learnr")
+```
+
+## Knowledge quiz (single-choice)
+
+```{r schoice1, echo = FALSE, message = FALSE}
+exams2learnr("swisscapital.Rmd", allow_retry = TRUE, incorrect = "Incorrect, try again.")
+```
+
+## Knowledge quiz (multiple-choice)
+
+```{r mchoice2, echo = FALSE, message = FALSE}
+exams2learnr("capitals.Rmd")
+```
+
+## Arithmetic (numeric)
+
+```{r num3, echo = FALSE, message = FALSE}
+exams2learnr("deriv.Rnw", allow_retry = TRUE)
+```
+
+## Arithmetic (single-choice)
+
+```{r schoice4, echo = FALSE, message = FALSE}
+exams2learnr("deriv2.Rnw")
+```
+
+## Multiple-choice with graphic
+
+```{r mchoice5, echo = FALSE, message = FALSE}
+exams2learnr("boxplots.Rmd")
+```
+
+## Multiple-choice with R output
+
+```{r mchoice6, echo = FALSE, message = FALSE}
+exams2learnr("ttest.Rmd")
+```
+
+## String question
+
+```{r mchoice7, echo = FALSE, message = FALSE}
+exams2learnr("function.Rmd", allow_retry = TRUE)
+```
