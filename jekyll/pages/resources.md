@@ -16,6 +16,7 @@ permalink: /resources/
 
 - [Installing R/exams]({{ site.url }}/tutorials/installation/).
 - [First steps]({{ site.url }}/tutorials/first_steps/).
+- [Video tutorials on YouTube](https://www.youtube.com/playlist?list=PLsEZAAbioUw1IBnhtBi9eIo0uqMHmqDor).
 
 
 #### Getting help
