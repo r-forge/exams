@@ -107,7 +107,7 @@
   like Moodle, OpenOlat, or other QTI-based systems. By default, `string`
   exercises are intended for closed-format short-text answers that have to
   be matched exactly by the participants. Additionally, open-ended text
-  answers can now be enabled by setting the `stringtype` meta-information
+  answers can now be enabled by setting the `exstringtype` meta-information
   to `essay` and/or `file`. The former requests a text editor for
   entering an answer while the latter requests a file upload dialogue.
   The "essayreg" exercise has been modified to leverage this new
