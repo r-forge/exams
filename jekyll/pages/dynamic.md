@@ -49,6 +49,7 @@ workflow:
         * Interpretations: Numeric statements that are approximately
           correct or clearly wrong (e.g., [boxplots](../../templates/boxplots/),
           [scatterplot](../../templates/scatterplot/), [ttest](../../templates/ttest/)).
+        * Shuffling (or subsampling) can be turned on or off.
   - step:
       img: ../../images/dynamic-num.svg
       alt: num
@@ -67,6 +68,10 @@ workflow:
         * Knowledge quiz: Sample a word/phrase from a given vocabulary
           or list of question/answer pairs (e.g., [function](../../templates/function/),
           [countrycodes](../../templates/countrycodes/)).
+        * Open-ended questions: Longer text answers that can be entered either
+          as an essay (via a text editor) and/or via file upload and which
+          have to be assessed by the examiner rather than automatically 
+          (e.g., [essayreg](../../templates/essayreg/)).
   - step:
       img: ../../images/dynamic-cloze.svg
       alt: cloze
@@ -75,10 +80,12 @@ workflow:
         * Task: Solve a set of sub-exercises combining any of the above types.
         * Numeric exercises: Several numeric quantities based on the same
           problem setting (e.g., [confint2](../../templates/confint2/),
-          [dist2](../../templates/dist2/), [fourfold](../../templates/fourfold/)).
-        * Statistics: Qualitative single-choice questions plus numeric
-          exercises based on randomly-generated data (e.g.,
-          [boxhist](../../templates/boxhist/), [lm](../../templates/lm/)).
+          [dist2](../../templates/dist2/), [fourfold](../../templates/fourfold/),
+          [fourfold2](../../templates/fourfold2/)).
+        * Statistics: Qualitative single- and multiple-choice questions plus
+          numeric exercises based on randomly-generated data (e.g.,
+          [boxhist](../../templates/boxhist/), [lm](../../templates/lm/),
+          [lm2](../../templates/lm2/)).
 
 ---
 
