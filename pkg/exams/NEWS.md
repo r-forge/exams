@@ -1,3 +1,9 @@
+# exams 2.4-1
+
+* Corrections in Spanish (`es`) language support for NOPS (contributed by
+  Flavio Lozano Isla).
+
+
 # exams 2.4-0
 
 * Switched the entire package to support UTF-8 encodings by default for
