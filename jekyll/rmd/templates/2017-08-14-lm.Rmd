@@ -5,6 +5,7 @@ writeLines(include_template(
   teaser = "Exercise template for conducting a simple linear regression based on a randomly-generated CSV file.",
   description = "Bivariate numeric data for download in a CSV file (comma-separated values) need to be assessed using a simple linear regression (one single-choice and one numeric item).",
   tags = c("regression", "significance", "slope", "statistics"),
+  related = c("lm2", "lm3"),
   randomization = "Random numbers, data file, and graphics",
   supplements = "regression.csv",
   thumb = c(294, 369))

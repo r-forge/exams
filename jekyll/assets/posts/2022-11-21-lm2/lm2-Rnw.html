@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<title>Exam 1</title>
+<style type="text/css">
+body{font-family: Arial, Helvetica, Sans;}
+</style>
+<meta charset="utf-8" />
+</head>
+
+<body>
+<h2>Exam 1</h2>
+
+<ol>
+<li>
+<h4>Question</h4>
+<b>Theory:</b> Consider a linear regression of <tt>y</tt> on <tt>x</tt>. It is usually estimated with
+which estimation technique (three-letter abbreviation)?
+<div class="p"><!----></div>
+
+<div class="p"><!----></div>
+This estimator yields the best linear unbiased estimator (BLUE) under the assumptions
+of the Gauss-Markov theorem. Which of the following properties are required for the
+errors of the linear regression model under these assumptions?
+<div class="p"><!----></div>
+independent / zero expectation / normally distributed / identically distributed / homoscedastic
+<div class="p"><!----></div>
+<b>Application:</b> Using the data provided in <a href="data:text/csv;base64,eCx5Ci0wLjM5MDk5MjE5NDQxNDEzOSwtMC4zOTU1ODg5OTIxMjkzNDMKLTAuNTQ5NzU4NjI4MDEwNzUsLTAuMTk0NDY3NTgzNzQ0MzMxCjAuNjQ3ODA4NjU3MDI3NzgxLDAuNDUzNjM3MzA0NzY2MjMKLTAuNjkxNDM0NDE3Mzg1NjA4LC0wLjE4NTA4OTA2MzkxMTQ1Ci0wLjQ3MDM0MDQ1OTYwNzU0MiwtMC4xNDM2MzkzNzYwMjIzNDgKMC40MDg4NzU3ODk0OTMzMjIsMC4yMTY1ODM1NjE4OTQ0NQowLjI2MDU1MjcwNjY2MjU2NSwtMC4zMjAzNTM3MDk4NDA0OTEKLTAuNzU5NzgzMTI1MDE2ODM4LC0wLjI5MDQ0NzUwNDY4OTM2OQotMC42NDI5MzAwNDUyNTgyNTQsLTAuNTQ4OTU3MDM3Njk2MjA2CjAuNzE3MDAyOTE4MDEyNDQsMC43ODIzMTExNjI4OTc1MjMKMC4wNzM3OTAxODkzNDQ0MzU5LC0wLjE0OTM4MjUwODc4MjkyMwotMC4wOTY2NzczODk5MjcyMDg0LC0wLjA4OTg1MjgzOTkxOTkzNAotMC41MTM3MDMyMTMwNzMzMTMsLTAuMTQ5NjU3ODA3NTY1MzMzCjAuMjkxMjgxMDA5NTU4NTg4LDAuMDMyMDUzNTc3Nzk2NDY1OQotMC4xNjcyNzU2MDA2MDA5ODgsLTAuMTY4MTI4MDc2ODQ2NTk3CjAuNTAwMzkwODIwMjA1MjEyLDAuMjkwNjc3MDU3NDkyMzA5Ci0wLjAyOTAwMDQxMTI3NTc3NDIsLTAuMTk2ODc2Mjc5MzYxODMyCi0wLjA4NzU3MDgxMTE1NjE4MzUsMC4wNjk3NjE4ODgxOTI5NzY2Ci0wLjAxOTY3MzE1NDIyMzcxMDMsLTAuMDU1MjU0NTM5NzIwMDM0MgotMC4xMzM1MTQ1MjA3MTIxOTcsLTAuMTU1OTY1NzU5MzgxOTU5Ci0wLjEzNjc0MTY2Nzk4NTkxNiwtMC4yNjU5NTU5ODA5MDM5MQowLjc5MzA3NTQwNjkyMzg5LDAuMzU3MjMxMzg4Nzg4OTEyCi0wLjIzNjcyMjQ5MzA3ODU2LC0wLjEzNTkyMDIzNjExNTUzNwotMC4wODIzODc0MjczMzM3NDI0LC0wLjEyMzk5MzY2OTc0ODg3NgotMC43MzI0MDk2MzA5MDIxMTIsLTAuMzE2MDg2NDUzMzIzOTk5Ci0wLjE4Njg1MjgzNDE4NzQ0OCwtMC40MjkwNTU4ODMzMTMzMDUKMC4wMzQwMTE3OTA1Mjg4OTM1LDAuMTI3ODk4NjgwNzczNzIxCi0wLjI5NTI5NTgxOTY0MDE2LDAuNTIyNzg1MDMwODQ5NDQ2CjAuMjU0NDM5ODA3OTYyNjI2LDAuMTMwOTQwMTgyMDM2ODk5Ci0wLjgwNTI0MDUwNzcwMzI3NCwtMC44NDM2NTk2NTY2MjQyMDQKLTAuMzg2NTQ0MDk0NDIwOTY5LC0wLjUzODgxNDM3MTAyNzM2OQowLjk5NTE4MzgxNjY0NTI5NCwwLjcxOTg1OTE0NDgxMTM5OQowLjA0NjgwODIzMTYyMTk4MDcsLTAuMDM2NjYyMzI5Mjc3Njc2MwotMC43MDI2NDUzNjAwMjY1MDksLTAuNTY4NDQxMjEwODg2NjUzCjAuODc5MzgyOTc1Mzk5NDk0LDAuNDk2NDEyMDcxMTMxODY4CjAuOTkzMjM4MTc3MTUwNDg4LDAuMDQ0MTY5MDI1OTAyMjMxNgotMC4wMzk4NjUyODkzNDkxMDg5LDAuMTMzNTI3NjUyNTM1NTcKLTAuMjY2NTg0MDIxMDM5MzA3LDAuMTg5MTc5NjM4NTg3NDEzCi0wLjEyMDg4MzE2NDkyNzM2MywtMC4yMjIzMTQ4MTEyOTkxCi0wLjYwOTcwNzE3MzQyNTcwNCwtMC41MDIxMzM0NTI4NjQ1NzQKLTAuODQxMDI0NzUxNzc0OTY3LC0wLjIwNzg2MjM1NDY4Mjg0NgowLjMwMzg3NDQwMDQ0NDMyOSwtMC4wNTIzNDY2ODE4MzA5NjY2CjAuNDA0ODAzMjc5MzIxNjQxLC0wLjAwNTMyOTE0NjYyNDI4Nzg4Ci0wLjg5NjU1ODYyODg4MzIxMywtMC43MTI0ODA5MDY3ODA4ODMKLTAuMjkxNDI4NTAzMTE0NzMsMC4wMzIzOTQxNTg2NDMwMjc1Ci0wLjE3MDg5OTUxNzM2ODUyNSwtMC4wNDU4MDkwNDQxMTI5ODUxCjAuMDc4MjI4NjgxODEzOTI1NSwtMC4yMzU1MjE2MTA3OTU1ODIKLTAuMDE4NjMyNTUyMTIwODM0NiwtMC4xNDI4MTY1MTk0ODcxNTUKLTAuMTEyMDQzMTU2Mjg4NTY0LDAuMzg2MTkyMDU2MzgwMzcyCi0wLjI0MTQ4OTM4MDEzMjQwNywwLjI0MjgzNzgyODM5Mjc2MwotMC43OTg1NDY2MTkyNDc2NDUsLTAuMjYyNzQ2NjI2NDk0MzA0CjAuNjk1MTkyMTA2NTMzNzk2LDAuMjgxNDcwNzIyMDk1NTE5CjAuMzcwNTU3NjIwMTkwMDg0LC0wLjIwMzgwMjYxMzU1Nzg3MwowLjE5MDE4OTQzODQwNjM3OCwwLjA5MDY4MzYwOTQ4MTExMQowLjAyOTY1MjU1MjY3OTE4MTEsMC4zMzc3ODUzMDY5Nzc1ODgKMC40ODQ0NzI2ODU0OTM1MjksMC4zMjA1OTc5NDA3OTU4NDUKMC42NjMyNzkyOTA3NzY3LDAuMjczODc3MzQwMjcwMDUyCi0wLjQ0MzE3Nzk2MTI3ODcwNywtMC4xMDg0ODM2MDI0NTk1MjQKLTAuNzYwNjY4NTA5MTc0MTM4LC0wLjU1MDYzMjUzNTE5OTY1MgotMC4xNjYwOTU1Nzk1MDg2OTIsMC4wMzc0NTQwMTk5NDQ3MjYKMC43NzkxMTExMzAxNjMwNzQsMC40NTY0NzAwNjE5OTQ5NzcKMC40NzcyOTM3NDMyODYyODIsMC41NjMwMjUzMzI2NTIxMjcKLTAuOTk2NzI2NjM2MzA5MTc3LC0wLjUyNDQ0NTE4MTQ4MzA0MwotMC44NDY1ODIxMjQ0NzUzOSwtMC40NTI3MjAyNjA5ODgyNDkKMC4yNTkyMjA1MDYwNjQ1OTQsMC4xMzUyNDU4Mjk0MTYzMTcKMC4xMTE4MDUyODg1ODY3NjYsLTAuMDA0NzA0NDU2NjA2NzQzNjgKMC41NzMxMzUzMDk4NTI2NiwwLjM3MzQ1Mzc3MDA3NjA3OAotMC45MjY0MDI3MjM0MTY2ODYsLTAuMzE2OTk1NTc3NjU4MTM3CjAuMzkwODgzNDkwOTA4ODkxLDAuMTEwOTY1MDAzNjgxMzI3CjAuOTI4MTYxNjA4NTIwODk1LDAuMzg5ODIyMzY0MzE4ODUyCjAuMjM1MjIzMzY1MDE2MjgyLDAuMzY5NjM1NDg4NDIwOTQ5Ci0wLjY0MjIyMTA4MjkzMzI0NywtMC40ODIxMDYzNjMyMDM3MTgKLTAuMzMxNDM5NzAxODQwMjgxLC0wLjU2NjE4NDMzMzgyNTA0NQowLjY0NzcwOTk4ODk4ODkzNiwwLjY3ODQyOTQ3MzU0MjI1OQotMC41NDU5ODExMTQyNjQ1NzgsLTAuNDc4NjcyMjEwOTc4MzkyCjAuNTAyNTAyMDYxODkyMzAxLDAuODI3NzE3OTQxNzQ5NjMzCjAuMzUyNDE0MjQ1MjUxNTY2LC0wLjEwMjczNDEzNjY4NjU1NwowLjI3OTQxNjMxMzM5NDkwNCwwLjA5Njk3MDI1MjE1OTAyODUKMC43MjgwNTIwNjk0MzMwMzMsMC4yNTQzNjUyMjY0MDM2NTcKMC44MDExNjE4MDc5NjE3NjIsMC4zNzg2MzU0OTQ1Nzg4MzcKMC4xODc1ODI0MzU1NTIwMzEsMC4zMzc4NjEyODk5NjQxODcKLTAuMzAwMjQ2ODc0ODAxODE1LDAuNTI1NzQ1NjAzOTgwMDA3CjAuOTIzNjMxNjcyMjgxNzcyLDAuMzIxNjE0NjE4ODIxNDU1Ci0wLjcyNzY1NzU0Njc1NDkyNiwtMC40MDMxMzQzMDA2MTU1MTkKLTAuNzIzMDcwNjI3NTQ0MDc1LC0wLjQ3ODEwNDIyMTkzOTg5MQowLjQ4Nzk3NjYxOTA0MjQ1NiwwLjAzMTA1MjgzODE5NzkyNjgKMC40Mjc2NDEyOTQ4OTY2MDMsMC42NzUzMzE5NDUzOTA3OTQKMC4xOTk4OTkxNjcyODgwOTUsMC4xNTQ2NjM0NDYxMDUxNDMKLTAuNTY3MzQ1NTE4MTUzMTYxLC0wLjU4Njk3MzQ5NjY5NDkwNAotMC4wMDY0ODAwOTgyMzYzNTIyMSwtMC4yNTY1MzI3NzcxNjIwNwowLjQ4NTE3MjA3NzA4MjA5OCwwLjc0OTQ4MTEyODMwOTYyMwotMC45MDA4NTc3ODk0NDE5NDMsLTAuNzkxMTI4MTE3OTYyMjExCjAuMTk3MjUyNTI5MjA3NjE3LC0wLjA2OTI5NDY2ODM1MDgyNzQKMC40NjE1NTA2ODA0NTQ4MiwwLjM3ODQwNjE0NTM5OTY5MQotMC4yNzU4ODcxNjg5NDM4ODIsLTAuNDg1NjA2NTE0MTU1OTg0CjAuOTY2NjM5MjQ1Mzk0NjE3LDAuNjczOTgzNjExNzk5NjAzCjAuNzI4MTQxNTE4MzA5NzEyLDAuNDcxNzk1ODcxNjMxNDQKLTAuNDc4Nzg4Nzk1ODgwOTczLC0wLjEzNTQ5NTk1ODczNDQ4NgowLjQ4Njc1NzAyMDkzMTY5MSwtMC4wMTE0NTYzNTUyMDY1OTE4Ci0wLjAyNjc2MDYwMTkwNDI0MzIsLTAuMDMwNjA4NTM0NjY5NDA4Ngo=" download="linreg.csv"><tt>linreg.csv</tt></a> estimate a
+linear regression of <tt>y</tt> on <tt>x</tt>. What are the estimated parameters?
+<div class="p"><!----></div>
+Intercept: 
+<div class="p"><!----></div>
+Slope: 
+<div class="p"><!----></div>
+In terms of significance at 5% level:
+<div class="p"><!----></div>
+<tt>x</tt> and <tt>y</tt> are not significantly correlated / <tt>y</tt> increases significantly with <tt>x</tt> / <tt>y</tt> decreases significantly with <tt>x</tt>
+<div class="p"><!----></div>
+<br/>
+<ol type="a">
+</ol>
+<br/>
+<h4>Solution</h4>
+<b>Theory:</b> Linear regression models are typically estimated by ordinary least squares (OLS).
+The Gauss-Markov theorem establishes certain optimality properties: Namely, if the errors
+have expectation zero, constant variance (homoscedastic), no autocorrelation and the
+regressors are exogenous and not linearly dependent, the OLS estimator is the best linear
+unbiased estimator (BLUE).
+<div class="p"><!----></div>
+<b>Application:</b> The estimated coefficients along with their significances are reported in the
+summary of the fitted regression model, showing that <tt>y</tt> increases significantly with <tt>x</tt> (at 5% level).
+<div class="p"><!----></div>
+<pre>
+Call:
+lm(formula&nbsp;=&nbsp;y&nbsp;~&nbsp;x,&nbsp;data&nbsp;=&nbsp;d)
+Residuals:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1Q&nbsp;&nbsp;&nbsp;Median&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3Q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max&nbsp;
+-0.50503&nbsp;-0.17149&nbsp;-0.01047&nbsp;&nbsp;0.13726&nbsp;&nbsp;0.69840&nbsp;
+Coefficients:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estimate&nbsp;Std.&nbsp;Error&nbsp;t&nbsp;value&nbsp;Pr(&#62;|t|)&nbsp;&nbsp;&nbsp;&nbsp;
+(Intercept)&nbsp;-0.005094&nbsp;&nbsp;&nbsp;0.023993&nbsp;&nbsp;-0.212&nbsp;&nbsp;&nbsp;&nbsp;0.832&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.558063&nbsp;&nbsp;&nbsp;0.044927&nbsp;&nbsp;12.421&nbsp;&nbsp;&nbsp;&lt;2e-16&nbsp;***
+---
+Signif.&nbsp;codes:&nbsp;&nbsp;0&nbsp;'***'&nbsp;0.001&nbsp;'**'&nbsp;0.01&nbsp;'*'&nbsp;0.05&nbsp;'.'&nbsp;0.1&nbsp;'&nbsp;'&nbsp;1
+Residual&nbsp;standard&nbsp;error:&nbsp;0.2399&nbsp;on&nbsp;98&nbsp;degrees&nbsp;of&nbsp;freedom
+Multiple&nbsp;R-squared:&nbsp;&nbsp;0.6116,	Adjusted&nbsp;R-squared:&nbsp;&nbsp;0.6076&nbsp;
+F-statistic:&nbsp;154.3&nbsp;on&nbsp;1&nbsp;and&nbsp;98&nbsp;DF,&nbsp;&nbsp;p-value:&nbsp;&lt;&nbsp;2.2e-16
+</pre>
+<div class="p"><!----></div>
+<b>Code:</b> The analysis can be replicated in R using the following code.
+<div class="p"><!----></div>
+<pre>
+##&nbsp;data
+d&nbsp;&lt;-&nbsp;read.csv("linreg.csv")
+##&nbsp;regression
+m&nbsp;&lt;-&nbsp;lm(y&nbsp;~&nbsp;x,&nbsp;data&nbsp;=&nbsp;d)
+summary(m)
+##&nbsp;visualization
+plot(y&nbsp;~&nbsp;x,&nbsp;data&nbsp;=&nbsp;d)
+abline(m)
+</pre>
+<br/>
+</li>
+</ol>
+
+</body>
+</html>

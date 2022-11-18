@@ -1,0 +1,13 @@
+```{r lm3-rmd, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "lm3",
+  title = "Simple Linear Regression (Cloze with Theory, Application, Essay, and File Upload)",
+  teaser = "Exercise template with both theory and applied questions, as well as interpretation and code upload, about simple linear regression based on a randomly-generated CSV file.",
+  description = "Cloze with theory and applied questions about linear regression. The theory part uses knowledge questions in \"string\" and \"mchoice\" format. The applied part is based on bivariate numeric data for download in a CSV file (comma-separated values) and uses two \"num\" and one \"schoice\" item. Additionally, for interpretation, there is an open-ended \"essay\" element and a \"file\" upload for the R script used by the participants. This type of extended cloze question is currently supported in QTI 2.1 (OpenOlat in particular).",
+  tags = c("regression", "significance", "slope", "statistics"),
+  related = c("lm", "lm2", "gaussmarkov"),
+  randomization = "Random numbers, data file, and graphics",
+  supplements = "linreg.csv",
+  thumb = c(150, 339))
+)
+```

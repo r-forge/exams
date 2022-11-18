@@ -1,0 +1,13 @@
+```{r lm2-rmd, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "lm2",
+  title = "Simple Linear Regression (Cloze with Theory and Application)",
+  teaser = "Exercise template with both theory and applied questions about simple linear regression based on a randomly-generated CSV file.",
+  description = "Cloze with theory and applied questions about linear regression. The theory part uses knowledge questions in \"string\" and \"mchoice\" format. The applied part is based on bivariate numeric data for download in a CSV file (comma-separated values) and uses two \"num\" and one \"schoice\" item.",
+  tags = c("regression", "significance", "slope", "statistics"),
+  related = c("lm", "gaussmarkov", "lm3"),
+  randomization = "Random numbers and data file",
+  supplements = "linreg.csv",
+  thumb = c(150, 167))
+)
+```
