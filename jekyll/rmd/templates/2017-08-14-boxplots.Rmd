@@ -6,6 +6,6 @@ writeLines(include_template(
   description = "Parallel boxplots in a 2-sample problem need to be compared regarding their location, scale, skewness, symmetry, and outliers. Data are drawn randomly from a suitable data-generating process so that each multiple-choice item is either about correct or clearly wrong.",
   tags = c("multiple-choice", "boxplot", "2-sample", "visualization", "statistics"),
   randomization = "Random numbers, text blocks, and graphics",
-  thumb = c(225, 280))
+  thumb = c(220, 243))
 )
 ```
