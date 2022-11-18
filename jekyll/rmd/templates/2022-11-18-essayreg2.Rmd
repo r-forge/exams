@@ -7,6 +7,7 @@ writeLines(include_template(
   tags = c("regression", "significance", "slope", "statistics"),
   related = "essayreg",
   randomization = "Random numbers and text blocks",
+  supplements = "regression.csv",
   thumb = c(150, 167))
 )
 ```
