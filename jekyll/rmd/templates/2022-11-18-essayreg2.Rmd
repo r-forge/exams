@@ -1,4 +1,4 @@
-```{r essayreg, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+```{r essayreg2, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
 writeLines(include_template(
   name = "essayreg2",
   title = "Linear Regression (Cloze with Essay and File Upload)",

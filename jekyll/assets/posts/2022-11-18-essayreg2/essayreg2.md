@@ -64,10 +64,3 @@ extype: cloze
 exsolution: 65.11|54.12|nil|nil
 exclozetype: num|num|essay|file
 extol: 0.1
-exextra[essay,logical]: TRUE
-exextra[essay_format,character]: editor
-exextra[essay_required,logical]: FALSE
-exextra[essay_fieldlines,numeric]: 5
-exextra[essay_attachments,numeric]: 1
-exextra[essay_attachmentsrequired,logical]: FALSE
-exmaxchars: 1000, 10, 50
