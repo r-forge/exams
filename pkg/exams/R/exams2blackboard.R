@@ -147,6 +147,10 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## get correct question type spec for blackboard
   ## FIXME: cloze items are not yet available for blackboard
   bb_questiontype <- function(x, y, item = FALSE) {
+    if(x == "string" && length(y) > 1L) {
+      warning(sprintf("multiple stringtypes specified (%s), only the first is used", paste(y, collapse = ", ")))
+      y <- y[1L]
+    }
     type <- switch(if(!is.null(y)) y else x,
       "mchoice" = "Multiple Answer",
       "schoice" = "Multiple Choice",
