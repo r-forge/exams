@@ -1,7 +1,8 @@
 # exams 2.4-1
 
-* Corrections in Spanish (`es`) language support for NOPS (contributed by
-  Flavio Lozano Isla).
+* Corrections in NOPS language support: In French (`fr`, contributed by
+  Jean-Philippe Georget) and in Spanish (`es`, contributed by Flavio
+  Lozano Isla).
 
 
 # exams 2.4-0
