@@ -71,6 +71,25 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
     if(any(frq > 1L)) warning(paste("the ##ANSWERi## placeholders are occuring more than once for i in", paste(ii[frq > 1L], collapse = ", ")))
   }
 
+  ## check length of questionlist, adapt if necessary
+  if((metainfo$type == "cloze") & (length(unlist(questionlist)) < length(unlist(metainfo$solution)))) {
+    is_choice <- lapply(1:length(metainfo$solution), function(i) {
+      rep(grepl("choice", metainfo$clozetype[i]), length(metainfo$solution[[i]]))
+    })
+    j <- seq_len(sum(unlist(is_choice)))
+    ql2 <- list()
+    for(i in seq_along(is_choice)) {
+      if(all(is_choice[[i]])) {
+        k <- 1:length(is_choice[[i]])
+        ql2[[i]] <- questionlist[j[k]]
+        j <- j[-k]
+      } else {
+        ql2[[i]] <- ""
+      }
+    }
+    questionlist <- unlist(ql2)
+  }
+
   ## perform shuffling?
   if(!identical(metainfo$shuffle, FALSE) & metainfo$type %in% c("schoice", "mchoice")) {
     o <- shuffle_choice(metainfo$solution, metainfo$shuffle, metainfo$type, metainfo$file)
