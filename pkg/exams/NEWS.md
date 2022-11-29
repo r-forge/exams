@@ -1,5 +1,13 @@
 # exams 2.4-1
 
+* Convenience extension for `cloze` exercises with elements embedded by
+  `##ANSWERi##` tags: The "Answerlist" only has to be specified if there
+  are `schoice`/`mchoice` elements, otherwise it can be omitted. For
+  exercises with mixed elements, the "Answerlist" only has to specify
+  the entries of the `schoice`/`mchoice` elements while the empty entries
+  for all other `num` or `string`/`essay`/`file` elements can optionally
+  be omitted.
+
 * Corrections in NOPS language support: In French (`fr`, contributed by
   Jean-Philippe Georget) and in Spanish (`es`, contributed by Flavio
   Lozano Isla).
