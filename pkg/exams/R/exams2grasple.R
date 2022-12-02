@@ -121,7 +121,7 @@ make_exams_write_grasple <- function(name = NULL, license_name = NULL, license_d
       json <- qtemp
       if(is.null(exm[[j]]$metainfo$Language)) exm[[j]]$metainfo$Language <- "English"
       json$id <- json$questions[[1]]$id <- as.numeric(format(Sys.time(), "%H%M%S")) + j
-      json$name <- exm[[j]]$metainfo$name
+      if(is.null(exm[[j]]$metainfo$section)) json$name <- exm[[j]]$metainfo$name else json$name <- exm[[j]]$metainfo$section
       if(exm[[j]]$metainfo$type == "schoice") json$questions[[1]]$type <- "mc"
       if(exm[[j]]$metainfo$type == "num") json$questions[[1]]$answers <- number_answer
 
