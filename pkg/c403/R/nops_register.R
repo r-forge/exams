@@ -70,13 +70,13 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L)
   html <- paste(html, ": %s", sep = "", collapse = "<br/>")
   html <- sprintf(html, x$Name, x$Matrikelnr, start, location, x$Sitzplatz)    
   
-  ## export .xlsx (UTF-8), .csv (latin1), .tab (latin1)
-  xlsx::write.xlsx(x, file = paste0(file_path_sans_ext(file), ".xlsx"),
-    row.names = FALSE)
-  con <- file(paste0(file_path_sans_ext(file), ".csv"), "w", encoding = "latin1")
-  write.table(x, file = con, quote = FALSE, row.names = FALSE, sep = ";", fileEncoding = "latin1")
+  ## export .xlsx (UTF-8), .csv (UTF-8), .tab (UTF-8)
+  openxlsx::write.xlsx(x, file = paste0(file_path_sans_ext(file), ".xlsx"),
+    rowNames = FALSE)
+  con <- file(paste0(file_path_sans_ext(file), ".csv"), "w", encoding = "UTF-8")
+  write.table(x, file = con, quote = FALSE, row.names = FALSE, sep = ";", fileEncoding = "UTF-8")
   close(con)
-  con <- file(paste0(file_path_sans_ext(file), ".tab"), "w", encoding = "latin1")
+  con <- file(paste0(file_path_sans_ext(file), ".tab"), "w", encoding = "UTF-8")
   writeLines(paste(x$Account, html, sep = "\t"), con = con)
   close(con)
   

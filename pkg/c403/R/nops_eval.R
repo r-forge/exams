@@ -30,8 +30,6 @@
 #'        the same as \code{register} with suffix \code{.html}.
 #' @param col character. Hex color codes used for exercises with
 #'        negative, neutral, positive, full solution.
-#' @param encoding character. Encoding of \code{register}, typically either
-#'        \code{"latin1"} (default) or \code{"UTF-8"}.
 #' @param language character. Path to a DCF file with a language specification.
 #'        Currently, \code{"en"} and \code{"de"} are shipped with the package.
 #' @param module logical or numeric. Should module marks (in addition to the
@@ -78,7 +76,7 @@ nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"
                       eval = exams_eval(partial = FALSE, negative = 0.25),
                       mark = c(0.5, 0.6, 0.75, 0.85), dir = ".", results = "nops_eval",
                       html = NULL, col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90),
-                      encoding = "latin1", language = "de", module = NULL,
+                      language = "de", module = NULL,
                       interactive = TRUE, string_scans = Sys.glob("nops_string_scan_*.zip"),
                       string_points = seq(0, 1, 0.25)) {
 
@@ -88,7 +86,7 @@ nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"
   ## call ported nops_eval() from "exams" package
   results <- exams::nops_eval(register = register, solutions = solutions, scans = scans,
                               points = points, eval = eval, mark = mark, dir = dir,
-                              results = results, html = html, col = col, encoding = encoding,
+                              results = results, html = html, col = col,
                               language = language, interactive = interactive,
                               string_scans = string_scans, string_points = string_points)
 

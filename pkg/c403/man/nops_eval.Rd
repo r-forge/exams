@@ -16,7 +16,6 @@ nops_eval(
   results = "nops_eval",
   html = NULL,
   col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90),
-  encoding = "latin1",
   language = "de",
   module = NULL,
   interactive = TRUE,
@@ -63,9 +62,6 @@ the same as \code{register} with suffix \code{.html}.}
 
 \item{col}{character. Hex color codes used for exercises with
 negative, neutral, positive, full solution.}
-
-\item{encoding}{character. Encoding of \code{register}, typically either
-\code{"latin1"} (default) or \code{"UTF-8"}.}
 
 \item{language}{character. Path to a DCF file with a language specification.
 Currently, \code{"en"} and \code{"de"} are shipped with the package.}

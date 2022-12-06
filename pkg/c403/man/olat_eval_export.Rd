@@ -9,8 +9,7 @@ olat_eval_export(
   xexam,
   file = "olat_eval.zip",
   html = "Testergebnisse.html",
-  col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90),
-  encoding = "latin1"
+  col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90)
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ store the exported html files}
 
 \item{col}{character vector of length \code{4L} with hex colors, default
 is \code{hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90)}}
-
-\item{encoding}{character, default \code{"latin1"}}
 }
 \value{
 Return of the \code{zip()} call.

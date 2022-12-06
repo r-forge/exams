@@ -501,18 +501,16 @@ olat_eval_adjust_lang <- function(x) {
 #' @param html character, name of the output files (html files)
 #' @param col character vector of length \code{4L} with hex colors, default
 #'        is \code{hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90)}
-#' @param encoding character, default \code{"latin1"}
 #'
 #' @importFrom exams string2mchoice
 #' @return Return of the \code{zip()} call.
 olat_eval_export <- function(results, xexam, file = "olat_eval.zip", html = "Testergebnisse.html",
-  col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90), encoding = "latin1")
+  col = hcl(c(0, 0, 60, 120), c(70, 0, 70, 70), 90))
 {
 
   ## Sanity check
   stopifnot(inherits(results, "data.frame"))
   stopifnot(inherits(xexam, "list"))
-  stopifnot(inherits(encoding, "character"))
 
   ## Check if we have the required columns
   ## username: the c-number (unique student identifier)
@@ -536,7 +534,7 @@ olat_eval_export <- function(results, xexam, file = "olat_eval.zip", html = "Tes
   html <- paste(
   '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"',
   '"http://www.w3.org/TR/html4/strict.dtd">',
-  sprintf('<meta http-equiv="content-type" content="text/html; charset=%s">', encoding),
+  sprintf('<meta http-equiv="content-type" content="text/html; charset=%s">', "UTF-8"),
   '<html>',
   '',
   '<head>',
