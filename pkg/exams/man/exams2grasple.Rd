@@ -72,10 +72,10 @@ make_exams_write_grasple(name = NULL, license_name = NULL,
   solutionlist in the Rmd/Rnw file. Second by putting a general feedback in the solution
   environment and setting \code{use_solutionlist} to \code{FALSE}, which creates a
   solutionlist with this general feedback for each option.
-  
+
   If the meta-information of an exercise contains an \code{exsection} element, its content will be
-  transferred to the name-element of the JSON-file. This name-element is searchable in Grasple. In
-  the ShareStats-project the \code{exsection} element is used for classifying items in terms of its
+  transferred to the name element of the JSON-file. This name element is searchable in Grasple. In
+  the ShareStats project the \code{exsection} element is used for classifying items in terms of its
   taxonomy of topics in statistics education.  
 
   Within the HTML of Grasple exercises, LaTeX elements must be embedded within \\\\(\\\\) blocks.
