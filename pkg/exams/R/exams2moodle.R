@@ -397,7 +397,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           if(any(grepl("file", x$metainfo$stringtype))) {
             essay_opts$attachments <- 1L
             if(length(x$metainfo$stringtype) == 1L)
-              essay_opts$fieldlines <- 0L
+              essay_opts$fieldlines <- 5L
           }
         }
 
@@ -425,7 +425,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           if(!is.null(essay[[i]])) essay_opts[[i]] <- essay[[i]]
         }
 
-        if((essay_opts$fieldlines < 1L) | !essay_opts$required) {
+        if(essay_opts$fieldlines < 1L) {
           essay_opts$required <- FALSE
           essay_opts$format <- "noinline"
           essay_opts$attachmentsrequired <- TRUE
