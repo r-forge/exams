@@ -106,20 +106,24 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   xml <- readLines(template[1L])
 
   ## check template for all necessary tags
-  ## extract the template for the assessement, sections and items
+  ## extract the template for the assessement, sections, and manifest
   if(length(start <- grep("<assessmentTest", xml, fixed = TRUE)) != 1L ||
-    length(end <- grep("</assessmentTest>", xml, fixed = TRUE)) != 1L) {
-    stop(paste("The XML template", template,
-      "must contain exactly one opening and closing <assessmentTest> tag!"))
+     length(end <- grep("</assessmentTest>", xml, fixed = TRUE)) != 1L) {
+    ## stop(paste("The XML template", template,
+    ##   "must contain exactly one opening and closing <assessmentTest> tag!"))
+    assessment_xml <- character(0L)
+  } else {
+    assessment_xml <- xml[start:end]
   }
-  assessment_xml <- xml[start:end]
 
   if(length(start <- grep("<assessmentSection", xml, fixed = TRUE)) != 1L ||
-    length(end <- grep("</assessmentSection>", xml, fixed = TRUE)) != 1L) {
-    stop(paste("The XML template", template,
-      "must contain exactly one opening and closing <assessmentSection> tag!"))
+     length(end <- grep("</assessmentSection>", xml, fixed = TRUE)) != 1L) {
+    ## stop(paste("The XML template", template,
+    ##   "must contain exactly one opening and closing <assessmentSection> tag!"))
+    section_xml <- character(0L)
+  } else {
+    section_xml <- xml[start:end]
   }
-  section_xml <- xml[start:end]
 
   if(length(start <- grep("<manifest", xml, fixed = TRUE)) != 1L ||
     length(end <- grep("</manifest>", xml, fixed = TRUE)) != 1L) {
@@ -475,8 +479,10 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## write xmls to dir
   writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', manifest_xml),
     file.path(test_dir, "imsmanifest.xml"))
-  writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', assessment_xml),
-    file.path(test_dir, paste(test_id, "xml", sep = ".")))
+  if(length(assessment_xml) > 0L) {
+    writeLines(c('<?xml version="1.0" encoding="UTF-8"?>', assessment_xml),
+      file.path(test_dir, paste(test_id, "xml", sep = ".")))
+  }
 
   ## include further files
   if(!is.null(include)) {
