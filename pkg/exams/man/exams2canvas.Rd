@@ -42,9 +42,8 @@
   \code{exams2canvas} is a convenience interface to \code{\link[exams]{exams2qti12}}
   for generating QTI 1.2 with some small tweaks for Canvas
   (\url{https://www.instructure.com/canvas}). The supported exercise types at the
-  moment are num, schoice, mchoice, and string (but not cloze, yet). It is still under
-  development and may change in future versions. Please report any problems to the package
-  maintainer.
+  moment are num, schoice, mchoice, and string. There is limited support for cloze exercises
+  with multiple dropdown menus, i.e., schoice elements placed in the text with ANSWERi tags.
   
   The Canvas-specific tweaks include:
   \itemize{

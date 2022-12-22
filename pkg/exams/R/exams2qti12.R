@@ -739,6 +739,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       canvas_type <- if(multiple_dropdowns) {
         "multiple_dropdowns_question"
       } else {
+        if(length(type) > 1L) stop("only cloze questions with schoice elements are supported for Canvas")
         switch(type,
           "num" = "numerical_question",
           "schoice" = "multiple_choice_question",
