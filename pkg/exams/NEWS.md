@@ -8,6 +8,12 @@
   for all other `num` or `string`/`essay`/`file` elements can optionally
   be omitted.
 
+* Added first release version of new interface `exams2inspera()` for the
+  assessment platform [Inspera](https://www.inspera.com/). It is using
+  `exams2qti21()` internally with a custom XML `template` and a few further
+  tweaks. Not all features work correctly, though, notably the inclusion
+  of graphics and other supplementary files.
+
 * Corrections in NOPS language support: In French (`fr`, contributed by
   Jean-Philippe Georget) and in Spanish (`es`, contributed by Flavio
   Lozano Isla).
