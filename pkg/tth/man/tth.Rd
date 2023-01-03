@@ -79,7 +79,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   \code{"named"} mode. But setting \code{mode = "hex"} would convert all
   character entity references to hex mode etc.
   See \url{https://www.w3.org/TR/xml-entity-names/bycodes.html} for the list of
-  character entity references employed and \url{https://dev.w3.org/html5/html-author/charref}
+  character entity references employed and
+  \url{https://html.spec.whatwg.org/multipage/named-characters.html}
   for a somewhat nicer display.
 }
 
