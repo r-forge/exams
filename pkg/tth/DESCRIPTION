@@ -1,6 +1,6 @@
 Package: tth
 Version: 4.12-1
-Date: 2022-03-30
+Date: 2023-01-03
 Authors@R: c(person(c("Ian", "H."), "Hutchinson", role = "aut", comment = "author of tth/ttm C sources"),
 	     person("Friedrich", "Leisch", role = c("aut", "cre"), email = "Friedrich.Leisch@R-project.org",
                     comment = c(ORCID = "0000-0001-7278-1983", "author of R wrappers to tth/ttm")),
@@ -10,3 +10,4 @@ Title: TeX-to-HTML/MathML Translators TtH/TtM
 Depends: R (>= 3.0.0)
 Description: C source code and R wrappers for the tth/ttm TeX-to-HTML/MathML translators.
 License: GPL-2
+SystemRequirements: USE_C17

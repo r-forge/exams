@@ -1,5 +1,9 @@
 Changes in Version 4.12-1
 
+  o Declare `USE_C17` as a system requirement in order to avoid errors with
+    K&R-style declarations in C23, provided by Brian D. Ripley, Kurt Hornik,
+    and the CRAN team.
+
   o Improvements in Makefile.win from Kurt Hornik and Tomas Kalibera.
 
 
