@@ -393,12 +393,12 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
     x[xcoord] <- 1L
   }
 
-  ## find bottom markings
-  xbl <- x[seq(round(0.93 * d[1L]), d[1L]), seq(1, round(0.17 * d[2L]))]
-  xbr <- x[seq(round(0.93 * d[1L]), d[1L]), seq(round(0.83 * d[2L]), d[2L])]
+  ## find bottom markings (starting from bottom 3% of pixel rows)
+  rb <- 0.97
+  xbl <- x[seq(round(rb * d[1L]), d[1L]), seq(1, round(0.17 * d[2L]))]
+  xbr <- x[seq(round(rb * d[1L]), d[1L]), seq(round(0.83 * d[2L]), d[2L])]
 
-  rb <- 0.93
-  while(mean(xbl) < 0.0014 | mean(xbr) < 0.0014) {
+  while(mean(xbl) < 0.0016 | mean(xbr) < 0.0016) {
     rb <- rb - 0.01
     xbl <- x[seq(round(rb * d[1L]), d[1L]), seq(1, round(0.17 * d[2L]))]
     xbr <- x[seq(round(rb * d[1L]), d[1L]), seq(round(0.83 * d[2L]), d[2L])]  

@@ -14,6 +14,11 @@
   tweaks. Not all features work correctly, though, notably the inclusion
   of graphics and other supplementary files.
 
+* Improvement in `nops_scan()` when finding the bottom markings of the scan.
+  A smaller minimal bottom margin is assumed (3% instead of 7%) in order to
+  better deal with different paper formats, specifically letter paper (reported
+  by Perry de Valpine).
+
 * Corrections in NOPS language support: In French (`fr`, contributed by
   Jean-Philippe Georget) and in Spanish (`es`, contributed by Flavio
   Lozano Isla).
