@@ -52,7 +52,7 @@ for the students which can be bulk-uploaded on OLAT.
 
 The packge can be installed by calling:
 
-* `install.packages("c403", repos="http://R-Forge.R-project.org")` from _R_.
+* `install.packages("c403", repos="https://R-Forge.R-project.org")` from _R_.
 
 
 # Generate Quiz/Test (exams2openolat)
@@ -217,7 +217,7 @@ for the students which can be bulk-uploaded on OLAT.
 
 The packge can be installed by calling:
 
-* `install.packages("c403", repos="http://R-Forge.R-project.org")` from _R_.
+* `install.packages("c403", repos="https://R-Forge.R-project.org")` from _R_.
 
 
 # Generate Quiz/Test (exams2openolat)
@@ -350,15 +350,11 @@ After you have done this all participants should have a personalized html file
 with his/her results avialable for download.
 
 
-
-
-
 [c403]: https://r-forge.r-project.org/R/?group_id=1337
-[rexams]: http://www.r-exams.org
-[rexamstutorials]: http://www.r-exams.org/tutorials/
-[rexams-firststeps]: http://www.r-exams.org/tutorials/first_steps/
-[rexams-stress]: http://www.r-exams.org/tutorials/stresstest/
-[sweave]: http://leisch.userweb.mwn.de/Sweave/
+[rexams]: https://www.R-exams.org
+[rexamstutorials]: https://www.R-exams.org/tutorials/
+[rexams-firststeps]: https://www.R-exams.org/tutorials/first_steps/
+[rexams-stress]: https://www.R-exams.org/tutorials/stresstest/
 
 
 
