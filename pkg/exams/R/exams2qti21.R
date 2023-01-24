@@ -557,6 +557,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## for strings with multiple file/essay fields, treat as cloze
     is_essay <- upfile <- rep.int(FALSE, n)
     upids <- rep.int(NA, n)
+    copypaste <- x$metainfo$essay_copypaste
+    if(!isFALSE(copypaste) && !isTRUE(copypaste)) {
+      copypaste <- TRUE
+    }
     if(cloze) {
       type <- x$metainfo$clozetype
       is_essay <- type == "essay"
@@ -935,7 +939,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
              },
              if(!ans) '</p>' else NULL,
              if(!upfile[i]) {
-               paste('<extendedTextInteraction responseIdentifier="', ids[[i]]$response,
+               paste('<extendedTextInteraction', if(!copypaste) ' class="essay-nocopypaste" ' else ' ',
+                'responseIdentifier="', ids[[i]]$response,
                 '" minStrings="0" ', if(!is.na(maxchars[[i]][1])) {
                     paste0(' expectedLength="', maxchars[[i]][1], '"')
                   } else NULL, if(!is.na(maxchars[[i]][2])) {
