@@ -38,7 +38,7 @@ image:
 - **Linux:** While it is possible to download from CRAN by hand, it is easier for most distributions to install the packaged binary. For example, on Debian/Ubuntu:
 
   ```{r}
-  apt-get install r-base-core r-base-dev
+  sudo apt-get install r-base-core r-base-dev
   ```
 
 There is a wide variety of interfaces for using R including simply the shell, Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively. Moreover, RStudio is an open-source cross-platform integrated development environment that facilitates many common tasks for R beginners.
@@ -91,7 +91,7 @@ For certain conversions performed internally in R/exams, specifically when Markd
 Otherwise pandoc can be obtained from its web page (linked above) or standard repositories, e.g., for Debian/Ubuntu:
 
 ```{r}
-apt-get install pandoc
+sudo apt-get install pandoc
 ```
 
 
@@ -102,22 +102,21 @@ _Note:_ Unless you want to process [written NOPS exams]({{ site.url }}/intro/wri
 If the scanned images of written NOPS exams (from your photocopier) are in PDF format, they need to be converted to PNG first using the PDF Toolkit `pdftk` and ImageMagick's `convert`.
 
 - **Windows:** Install PDFTk Free, ImageMagick, and Ghostscript.
-  - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe>
-  - <https://www.imagemagick.org/script/download.php#windows>
+  - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe>  
+    (Check the box: _"Add application directory to your environmental path"_)
+  - <https://www.imagemagick.org/script/download.php#windows>  
+    (Check the boxes: _"Add application directory to your System Path"_ and _"Install legacy utilities (e.g. convert)"_)
   - <https://www.ghostscript.com/releases/gsdnld.html>
-  - _Note:_ During the installation of PDFTk and ImageMagick check the boxes for 
-    "Add application directory to your environmental path" or
-    "Add application directory to your System Path", respectively.
 - **MacOS:** Install MacPorts, PDFTk Free, and ImageMagick.
   - <https://www.macports.org/>
   - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg>
   - <https://www.imagemagick.org/script/download.php#macosx>
-  - _Note:_ ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.
+  - _Notes:_ ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.  
     The PDFTk version is for OS X 10.11 up to at least macOS 12 (Monterey).
 - **Linux:** Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:
 
   ```{r}
-  apt-get install pdftk imagemagick
+  sudo apt-get install pdftk imagemagick
   ```
 
 
