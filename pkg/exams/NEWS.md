@@ -19,6 +19,10 @@
   better deal with different paper formats, specifically letter paper (reported
   by Perry de Valpine).
 
+* Improvement in `nops_eval()` so that for `schoice` questions no partial
+  credits are used even if they are enabled for `mchoice` questions in the
+  `eval` specification.
+
 * Corrections in NOPS language support: In French (`fr`, contributed by
   Jean-Philippe Georget) and in Spanish (`es`, contributed by Flavio
   Lozano Isla).

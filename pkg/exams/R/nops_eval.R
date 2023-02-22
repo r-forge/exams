@@ -348,11 +348,12 @@ nops_eval_results <- function(scans = "Daten.txt", solutions = dir(pattern = "\\
       d[[paste("check", i, sep = ".")]] <- d2[[which(string_ids == i) + 2L]]
       d[[paste("points", i, sep = ".")]] <- d[[paste("check", i, sep = ".")]] * if(p1dim) points[i] else points[i, ]
     } else {
+      typ <- sapply(x, function(ex) ex[[i]]$metainfo$type)
       cor <- sapply(x, function(ex) paste(as.integer(ex[[i]]$metainfo$solution), collapse = ""))
       ans <- d[[paste("answer", i, sep = ".")]]
       d[[paste("solution", i, sep = ".")]] <- cor
       d[[paste("check", i, sep = ".")]] <- sapply(seq_along(ans),
-        function(j) eval$pointsum(cor[j], substr(ans[j], 1, nchar(cor[j])))) #FIXME# ans[j]
+        function(j) eval$pointsum(cor[j], substr(ans[j], 1L, nchar(cor[j])), type = typ[j]))
       d[[paste("points", i, sep = ".")]] <- d[[paste("check", i, sep = ".")]] * if(p1dim) points[i] else points[i, ]
     }
   }
