@@ -131,15 +131,10 @@ nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"
     register$Account <- register$Passwort <- register$Sitzplatz <- register$Wiederholung <- NULL    
 
     ## write results
-    if(requireNamespace("xlsx")) {
+    if(requireNamespace("openxlsx")) {
+      write_eval <- function(data) openxlsx::write.xlsx(data, file = res_xls)
+    } else if(requireNamespace("xlsx")) {
       write_eval <- function(data) xlsx::write.xlsx(data, file = res_xls, row.names = FALSE)
-    } else if(requireNamespace("openxlsx")) {
-      write_eval <- function(data) {
-        wb <- openxlsx::createWorkbook("")
-        openxlsx::addWorksheet(wb, "Sheet1")
-        openxlsx::writeData(wb, 1, data)
-        openxlsx::saveWorkbook(wb, res_xls)      
-      }
     } else {
       warning("packages 'openxlsx' or 'xlsx' not available, the .xlsx file is actually a .csv")
       write_eval <- function(data) write.table(data, file = res_xls, row.names = FALSE, quote = FALSE, sep = ";")
