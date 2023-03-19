@@ -73,23 +73,24 @@
     titles may be set. The section titles will then be added to the \code{<category>}
     tag in the final XML file (see also argument \code{iname}), i.e. the section name
     for each question will be written to \code{$course$/ExamName/SectionName}. Note that section
-    names may also be provided in the \code{\\exsection{}} tag in the \code{.Rnw} file of the
+    names may also be provided in the \code{\\exsection{}} tag in the exercise file of the
     question. However, section names that are specified in \code{stitle} will overwrite
     \code{\\exsection{}} tags. \code{stitle} may also include \code{NA}, e.g.
     \code{stitle = c("Exercise 1", NA, "Exercise 3")}.}
   \item{testid}{logical. Should an unique test id be added to the exam \code{name}.}
   \item{zip}{logical. Should the resulting XML file be zipped?}
-  \item{num}{function or named list applied to numerical (i.e., type \code{num})
-    questions. If \code{num} is a function, \code{num} will be used
-    for generating the item body of the question, see function \code{make_itembody_qti12()}.
-    If \code{num} is a named list, these arguments will be passed to function
-    \code{make_itembody_qti12()}.}
+  \item{num}{function or named list applied to numerical (i.e., \code{num}) questions.
+    If \code{num} is a function, this will be used to set up the question XML code.
+    If \code{num} is a list, such a function is generated on the fly via \code{make_question_moodle}
+    using the arguments in the list. For example, \code{num = list(solution = FALSE)}
+    can be used to suppress embedding the solution text in the XML.}
   \item{mchoice, schoice, string, cloze}{function or named list applied to multiple choice, 
     single choice, string, and cloze questions (i.e., type \code{mchoice}, \code{schoice},
-    \code{string}, and \code{cloze}), respectively. See argument \code{num} for more details.}
+    \code{string}, and \code{cloze}), respectively. For more guidance see argument \code{num}
+    and the details below.}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
-    in the \code{.Rnw} file. The vector of points supplied is expanded to the number of exercises in
+    in the exercise file. The vector of points supplied is expanded to the number of exercises in
     the exam.}
   \item{rule}{character specifying which rule to use for negative partial credits. see function
     \code{\link{exams_eval}}. Note that the default using cloze exercises is \code{rule = "none"}.}
@@ -148,8 +149,8 @@
 
 \details{
   \code{exams2moodle} produces an XML file that may be uploaded into Moodle. It proceeds by (1)
-  calling \code{\link[exams]{xweave}} on each exercise, (2) reading the resulting LaTeX code, (3)
-  transforming the LaTeX code to HTML, and (4) embedding the HTML code in a XML file using the
+  calling \code{\link[exams]{xweave}} on each exercise, (2) reading the resulting Markdown or
+  LaTeX text, (3) transforming the text to HTML, and (4) embedding the HTML code in a XML file using the
   Moodle standards for exams/quizzes.
 
   For steps (1) and (2) the standard drivers in \code{\link{xexams}} are used. In step (3), a suitable
@@ -162,34 +163,37 @@
   suppressed (i.e., not included in the XML) by setting \code{iname = FALSE}), followed by one
   category/section for each question, while the replicates of each question will be included in the
   corresponding category/section. Note that category/section names may also be provided in the
-  \code{\\exsection{}} tag in the \code{.Rnw} files, or within argument \code{stitle} in
+  \code{exsection} tag in the exercise files, or within argument \code{stitle} in
   \code{exams2moodle}. This may be useful when questions should automatically be added to already
   existing Moodle question banks. (See also the argument descriptions above.)
 
-  The XML code for each question is then generated using function \code{make_question_moodle}.
-  Note that for each question type, either the arguments of \code{make_question_moodle} may be set
-  within \code{num}, \code{mchoice}, \code{schoice}, \code{string} and \code{cloze} in
-  \code{exams2moodle}, by providing a named list of specifications that should be used, or for each
-  questiontype, a function that produces the question XML code may be provided to \code{num},
-  \code{mchoice}, \code{schoice}, \code{string} and \code{cloze}. E.g., to suppress the solution
-  for numeric questions one may set \code{num = list(solution = FALSE)}.
+  The XML code for each question type (numeric, multiple-choice, etc.) is set up by separate functions
+  that can be specified through the separate arguments \code{num}, \code{mchoice}, \code{schoice},
+  \code{string}, and \code{cloze} in \code{exams2moodle}. While it is possible to pass a
+  suitable function to these arguments, it is more common to set suitable functions up on the fly
+  using \code{make_question_moodle}. In this case, the arguments \code{num}, \code{mchoice},
+  \code{schoice}, \code{string} and \code{cloze} can be lists of arguments to pass on to
+  \code{make_question_moodle}. For example, to suppress numbering the multiple-choice answer items
+  with a/b/c/... one has to specify \code{mchoice = list(answernumbering = "none")} (which, by default,
+  also gets passed on to \code{schoice}).
 
   When specifying cloze exercises, two approaches are possible: Either a \code{answerlist} with
   all questions is provided within the \code{question} or, alternatively, the answer fields can
   be placed anywhere in the \code{question} text. For the latter, the strings \code{##ANSWER1##},
-  \code{##ANSWER2##}, etc., have to be used, see the exercises \code{"boxhist2.Rnw"} and
-  \code{"fourfold2.Rnw"} for illustration and Appendix C in Zeileis et al. (2014) for further
+  \code{##ANSWER2##}, etc., have to be used, see the exercises \code{"boxhist2"} and
+  \code{"fourfold2"} for illustration and Appendix C in Zeileis et al. (2014) for further
   details.
   
   To fix the width of numeric answer fields withing cloze exercises (in order not to convey any
-  clues about the length of the correct solution), the \code{\\exextra[numwidth]} metainformation
-  command can be used in the \code{.Rnw} exercise. For example, it can be set to
+  clues about the length of the correct solution), the \code{exextra[numwidth]} metainformation
+  command can be used in the exercise file. For example, it can be set to
   \code{\\exextra[numwidth,logical]{TRUE}}, \code{\\exextra[numwidth,numeric]{5}}, or
   \code{\\exextra[numwidth,character]{100.0}}.
 
-  In order to generate free text questions in moodle one may
-  specify extra parameters
-  via \code{\\exextra}. Currently the following options are supported:
+  In order to generate open-ended text questions in Moodle one can use \code{string} questions and
+  then additionally set \code{exstringtype} to \code{essay} and/or \code{file}. See the \code{"essayreg"}
+  question for a worked example. On top of the basic \code{exstringtype} one can make further
+  Moodle-specific customizations via some \code{exextra} options, namely:
   \itemize{
   \item \code{essay}: logical. Enables the essay function.
   \item \code{format}: character. Type of text field (one of: \code{plain}, \code{editor}, editorfilepicker monospaced noinline)
