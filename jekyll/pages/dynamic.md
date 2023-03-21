@@ -45,7 +45,7 @@ workflow:
         ###### `mchoice`: Multiple-Choice
         * Task: Select all correct items out of a list of alternatives.
         * Knowledge quiz: Arbitrary number of shuffled true or false statements
-          (e.g., [switzerland](../../templates/switzerland/)).
+          (e.g., [capitals](../../templates/capitals/), [switzerland](../../templates/switzerland/)).
         * Interpretations: Numeric statements that are approximately
           correct or clearly wrong (e.g., [boxplots](../../templates/boxplots/),
           [scatterplot](../../templates/scatterplot/), [ttest](../../templates/ttest/)).
