@@ -92,7 +92,7 @@ in R:
 
 
 <pre><code class="prettyprint ">library(&quot;exams&quot;)
-exams_skeleton(markup = &quot;markdown&quot;, encoding = &quot;UTF-8&quot;,
+exams_skeleton(markup = &quot;markdown&quot;,
   writer = c(&quot;exams2html&quot;, &quot;exams2pdf&quot;, &quot;exams2moodle&quot;))</code></pre>
 
 This copies all R/Markdown files to the current working directory along with demo scripts,

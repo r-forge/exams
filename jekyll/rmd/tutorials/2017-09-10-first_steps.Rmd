@@ -92,7 +92,7 @@ in R:
 
 ```{r skeleton, results="hide"}
 library("exams")
-exams_skeleton(markup = "markdown", encoding = "UTF-8",
+exams_skeleton(markup = "markdown",
   writer = c("exams2html", "exams2pdf", "exams2moodle"))
 ```
 

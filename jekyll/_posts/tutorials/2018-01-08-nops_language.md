@@ -120,8 +120,7 @@ NoChanges: In diesem Feld d{\"u}rfen \textbf{keine} Ver{\"a}nderungen der Daten 
 </pre>
 
 Note that here LaTeX markup is used for the German umlaute and for bold highlighting. Alternatively,
-special characters can be added in a suitable encoding (typically UTF-8) but then the encoding has
-to be declared when calling `exams2nops()` (e.g., `encoding = "UTF-8"`).
+special characters can be added in UTF-8 encoding.
 
 Most of the phrases required in the `.dcf` are very straightforward and only some are a bit technical.
 There are also a couple of coordinates (`MarkExample*`) necessary for aligning some text lines.
