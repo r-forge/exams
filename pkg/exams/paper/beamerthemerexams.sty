@@ -136,7 +136,11 @@
 \usepackage{xstring}
 \newcommand{\headerimage}[1]{%
    \IfStrEqCase{#1}{%
-      {4}{%
+      {5}{%
+         \gdef\myheaderimageid{#1}%
+         \gdef\myheaderimageposition{ne}%
+         \gdef\myheaderimage{rexams_header5.jpg}%
+      }{4}{%
          \gdef\myheaderimageid{#1}%
          \gdef\myheaderimageposition{ne}%
          \gdef\myheaderimage{rexams_header4.jpg}%
