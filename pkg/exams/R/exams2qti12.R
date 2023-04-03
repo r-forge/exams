@@ -42,8 +42,13 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## FIXME: allow other base64/converter settings here for testing purposes?
   args <- list(...)
   if(is.null(args$base64)) {
-    if(canvas)
-      args$base64 <- FALSE
+    if(canvas) args$base64 <- FALSE
+  }
+  if(canvas) {
+    quiztype <- args$quiztype
+    if(is.null(quiztype)) quiztype <- "assignment"
+    quiztype <- match.arg(quiztype, c("assignment", "practice_quiz", "graded_survey", "survey"))
+    args$quiztype <- NULL
   }
   args$converter <- converter
   htmltransform <- do.call("make_exercise_transform_html", args)
@@ -441,6 +446,12 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     xml_meta <- gsub("##MaxAttempts##", nmax0, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##AssessmentDescription##", adescription, xml_meta, fixed = TRUE)
     xml_meta <- gsub("##Points##", sum(unlist(points)), xml_meta, fixed = TRUE)
+
+    xml_meta <- gsub("##QuizType##", quiztype, xml_meta, fixed = TRUE)
+    if(quiztype != "assignment") {
+      aid <- c(grep("<assignment identifier=", xml_meta, fixed = TRUE), grep("</assignment>", xml_meta, fixed = TRUE))
+      if(length(aid) == 2L && (aid[2L] > aid[1L])) xml_meta <- xml_meta[-(aid[1L]:aid[2L])]
+    }
 
     writeLines(xml_meta, file.path(test_dir, quiz_id, "assessment_meta.xml"))
 
