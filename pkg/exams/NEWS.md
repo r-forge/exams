@@ -27,6 +27,17 @@
   Jean-Philippe Georget) and in Spanish (`es`, contributed by Flavio
   Lozano Isla).
 
+* Various `exams2xyz()` interfaces gained arguments `envir = NULL` and/or
+  `engine = NULL`. Both are passed on to `xweave()`. The `envir` argument
+  can be used to control in which environment all exercises are processed
+  in case `knitr` is used. The `engine` argument specifies whether
+  `"Sweave"` (default) or `"knitr"` is used for rendering Rnw exercises.
+  These arguments have been added in: `exams2arsnova()`, `exams2blackboard()`,
+  `exams2grasple()`, `exams2html()`, `exams2lops()`, `exams2moodle()`,
+  `exams2pandoc()`, `exams2qti12()` (and hence interfaces based on it like
+  `exams2canvas()`), `exams2qti21()` (and hence interfaces based on it like
+  `exams2openolat()`), `exams2testvision()`.
+
 
 # exams 2.4-0
 

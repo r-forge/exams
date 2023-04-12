@@ -1,5 +1,5 @@
 exams2grasple <- function(file, n = 1L, dir = ".",
-  name = NULL, quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8", converter = "pandoc-mathjax",
+  name = NULL, quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8", envir = NULL, engine = NULL, converter = "pandoc-mathjax",
   zip = TRUE, use_solutionlist = TRUE, license_name = NULL, license_description = NULL, license_value = NULL, license_link = NULL, ...)
 {
 
@@ -18,7 +18,8 @@ exams2grasple <- function(file, n = 1L, dir = ".",
   ## generate xexams
   rval <- xexams(file, n = n,  dir = dir,
     driver = list(
-      sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg, resolution = resolution, width = width, height = height, encoding = encoding),
+      sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg, resolution = resolution, width = width, height = height,
+        encoding = encoding, envir = envir, engine = engine),
       read = NULL,
       transform = mdtransform,
       write = grasplewrite),

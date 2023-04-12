@@ -23,7 +23,7 @@
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, negative = FALSE),
-    converter = NULL, envir = NULL, base64 = TRUE, mode = "hex",
+    converter = NULL, envir = NULL, engine = NULL, base64 = TRUE, mode = "hex",
     include = NULL, selection = c("pool", "exam"), \dots)
 
   make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
@@ -126,7 +126,10 @@
   \item{converter}{character. Argument passed on to \code{make_exercise_transform_html}.
     The default for \code{converter} is set to \code{"ttm"} unless there are Rmd
     exercises in \code{file} where \code{"pandoc"} is used.}
-  \item{envir}{passed to \code{\link[exams]{xweave}}.}
+  \item{envir}{argument passed to \code{\link[exams]{xweave}} (which passes
+    it to \code{\link[knitr]{knit}}).}
+  \item{engine}{argument passed to \code{\link[exams]{xweave}} indicating whether
+    \code{"Sweave"} (default) or \code{"knitr"} should be used for rendering Rnw exercises.}
   \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?
     Argument \code{base64} may also be a character vector of file suffixes that should be encoded, e.g.
     \code{base64 = c("png", "rda")} will only encode PNG images and binary \code{.rda} files.

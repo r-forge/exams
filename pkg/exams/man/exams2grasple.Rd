@@ -12,6 +12,7 @@
 \usage{
 exams2grasple(file, n = 1L, dir = ".", name = NULL, quiet = TRUE,
   resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
+  envir = NULL, engine = NULL,
   converter = "pandoc-mathjax", zip = TRUE, use_solutionlist = TRUE,
   license_name = NULL, license_description = NULL, license_value = NULL,
   license_link = NULL, \dots)
@@ -31,6 +32,10 @@ make_exams_write_grasple(name = NULL, license_name = NULL,
   \item{resolution, width, height}{numeric, passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
+  \item{envir}{argument passed to \code{\link[exams]{xweave}} (which passes
+    it to \code{\link[knitr]{knit}}).}
+  \item{engine}{argument passed to \code{\link[exams]{xweave}} indicating whether
+    \code{"Sweave"} (default) or \code{"knitr"} should be used for rendering Rnw exercises.}
   \item{converter}{character passed on to \code{\link[exams]{make_exercise_transform_html}},
     indicating the type of converter from LaTeX/Markdown to the specific requirements in
     Grasple. To accomplish this the converter must be set to \code{"pandoc-mathjax"}.}

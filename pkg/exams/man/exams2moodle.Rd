@@ -18,7 +18,7 @@
     testid = FALSE, zip = FALSE, num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL, rule = NULL, pluginfile = TRUE, forcedownload = FALSE,
-    converter = "pandoc-mathjax", envir = NULL,
+    converter = "pandoc-mathjax", envir = NULL, engine = NULL,
     table = NULL, css = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
@@ -59,7 +59,10 @@
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
   \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
-  \item{envir}{passed to \code{\link[exams]{xweave}}.}
+  \item{envir}{argument passed to \code{\link[exams]{xweave}} (which passes
+    it to \code{\link[knitr]{knit}}).}
+  \item{engine}{argument passed to \code{\link[exams]{xweave}} indicating whether
+    \code{"Sweave"} (default) or \code{"knitr"} should be used for rendering Rnw exercises.}
   \item{table}{character. An optional class assigned to \code{<table>} elements
     (without a class) in the question (only supported for pandoc-based \code{converter}).}
   \item{css}{character. A character string (or vector) containing the path(s) to

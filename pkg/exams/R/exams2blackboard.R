@@ -1,6 +1,6 @@
 exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
-  resolution = 100, width = 4, height = 4, encoding  = "UTF-8",
+  resolution = 100, width = 4, height = 4, encoding  = "UTF-8", envir = NULL, engine = NULL,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   template = "blackboard",
   pdescription = "This is an item from an item pool.", tdescription = "This is today's test.",
@@ -34,7 +34,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     driver = list(
       sweave = list(quiet = quiet, pdf = FALSE, png = TRUE,
         resolution = resolution, width = width, height = height,
-        encoding = encoding),
+        encoding = encoding, envir = envir, engine = engine),
       read = NULL, transform = htmltransform, write = NULL),
     dir = dir, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose, seed = seed, rds = rds, points = points)
 
