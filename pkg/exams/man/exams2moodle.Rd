@@ -95,8 +95,9 @@
     argument overules any exercise points that are provided within an \code{"\expoints{}"} tag
     in the exercise file. The vector of points supplied is expanded to the number of exercises in
     the exam.}
-  \item{rule}{character specifying which rule to use for negative partial credits. see function
-    \code{\link{exams_eval}}. Note that the default using cloze exercises is \code{rule = "none"}.}
+  \item{rule}{character specifying which rule to use for negative partial credits. See function
+    \code{\link{exams_eval}}. Note that Moodle is somewhat restrictive about the number of
+    multiple-choice alternatives when using partial credits (see below for details).}
   \item{pluginfile}{logical. Should supplements be included in the Moodle XML file via Moodle's
     Pluginfile mechanism? This is the default but may not work with older versions of Moodle (<2.5).
     If set to \code{FALSE} supplements like graphics and data are included as data URIs.}
@@ -179,6 +180,12 @@
   \code{make_question_moodle}. For example, to suppress numbering the multiple-choice answer items
   with a/b/c/... one has to specify \code{mchoice = list(answernumbering = "none")} (which, by default,
   also gets passed on to \code{schoice}).
+
+  When using partial credits for multiple-choice exercises, only certain numbers of alternatives
+  are supported in Moodle. This is because the Moodle XML format just supports certain percentages
+  which can be added or subtracted from the score of an item. Therefore, it may not be possible
+  to use partial credits for certain combinations of true and false answer alternatives when the
+  overall number of alternatives is greater than 10.
 
   When specifying cloze exercises, two approaches are possible: Either a \code{answerlist} with
   all questions is provided within the \code{question} or, alternatively, the answer fields can
