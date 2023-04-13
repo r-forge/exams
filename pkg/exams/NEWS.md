@@ -38,6 +38,10 @@
   `exams2canvas()`), `exams2qti21()` (and hence interfaces based on it like
   `exams2openolat()`), `exams2testvision()`.
 
+* In Rmd exercises only the meta-information tags (`extype`, `exsolution`, etc.)
+  from the `Meta-information` are read. If the same tags occur elsewhere in
+  the file they are ignored now. (Reported by Joan Sanz.)
+
 
 # exams 2.4-0
 

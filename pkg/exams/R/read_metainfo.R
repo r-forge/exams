@@ -153,6 +153,10 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
     "rmd"  = "markdown"
   )
 
+  ## only read meta-information from corresponding environment/section in Rmd files
+  ## (in Rnw files there is no meta-information environment)
+  if(markup == "markdown") x <- extract_environment(x, "metainformation", markup = markup)
+
   ## overwrite exshuffle settings?
   exshuffle_overwrite <- !is.null(exshuffle)
   exshuffle_arg <- exshuffle
