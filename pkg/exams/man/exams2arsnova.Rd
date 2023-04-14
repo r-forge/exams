@@ -74,7 +74,7 @@ make_exams_write_arsnova(url = "https://arsnova.eu/api", sessionkey = NULL,
   ARSnova session).
 
   Since 2020 the development of ARSnova has been shifted to a new tool
-  called Particify and hence the server \url{https://arsnova.eu/} is not
+  called Particify and hence the arsnova.eu server is not
   hosted anymore. For an export function to Particify see
   \code{\link[exams]{exams2particify}}.
   
