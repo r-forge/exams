@@ -42,6 +42,9 @@
   from the `Meta-information` are read. If the same tags occur elsewhere in
   the file they are ignored now. (Reported by Joan Sanz.)
 
+* In `exams2moodle()` the `string` elements in `cloze` exercises now also
+  correctly support the `usecase = TRUE` option (reported by Joan Sanz).
+
 
 # exams 2.4-0
 
