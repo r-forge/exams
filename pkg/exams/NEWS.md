@@ -1,5 +1,14 @@
 # exams 2.4-1
 
+* The default evaluation rule in `exams2moodle()` and all QTI-based `exams2xyz()`
+  interfaces (e.g., `exams2blackboard()`, `exams2canvas()`, `exams2openolat()`, etc.)
+  is now consistently `partial = TRUE` and `negative = FALSE` (as in previous
+  versions) and `rule = "false2"`. This was already the default `rule` in
+  most scenarios in previous versions. But for `mchoice` elements within `cloze`
+  exercises it often was `"none"`, i.e., no negative points even when
+  though partial credits were used. This is also changed to the more
+  commonly-used `rule = "false2"` now. (Reported by Hans-Peter Schröcker.)
+
 * Convenience extension for `cloze` exercises with elements embedded by
   `##ANSWERi##` tags: The "Answerlist" only has to be specified if there
   are `schoice`/`mchoice` elements, otherwise it can be omitted. For
@@ -178,7 +187,7 @@
   cloze questions are not supported, yet.
 
 * Added first release version of new interface `exams2testvision()` for the
-  Dutch testing platform [TestVision](https://www.testvision.nl/en/). It is
+  Dutch testing platform [TestVision](https://testvision.nl/en/). It is
   essentially a fork of `exams2qti21()` that incorporates TestVision's own
   strict implementation of QTI 2.1. See the
   [online tutorial](https://www.R-exams.org/tutorials/exams2testvision/)
@@ -591,7 +600,7 @@
   by `nops_scan()`). A check has been added that avoids this.
 
 * Changed the default of `fix_choice` in `exams2arsnova()`. Current versions of
-  the official ARSnova server (<https://arsnova.eu/>) have the LaTeX rendering
+  the official ARSnova server (arsnova.eu) have the LaTeX rendering
   in the choice options switched off. Hence, by setting `fix_choice = TRUE`
   by default the LaTeX math markup is removed.
 
@@ -948,7 +957,7 @@
   Maria Kogelnik).
 
 * Added new interface `exams2arsnova()` for exporting exams/quizzes to the
-  interactive audience response system ARSnova (<https://arsnova.eu/>). This
+  interactive audience response system ARSnova (arsnova.eu). This
   can either create JSON output files (via `RJSONIO::toJSON`) that need to be
   manually imported into ARSnova - or the JSON string can directly be imported
   into an active ARSnova session (via `RCurl`).

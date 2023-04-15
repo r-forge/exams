@@ -53,7 +53,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     if(is.null(moodlequestion[[i]])) moodlequestion[[i]] <- list()
     if(is.list(moodlequestion[[i]])) {
       if(is.null(moodlequestion[[i]]$eval))
-        moodlequestion[[i]]$eval <- list("partial" = TRUE, "rule" = rule)
+        moodlequestion[[i]]$eval <- list(partial = TRUE, rule = rule)
       if(is.list(moodlequestion[[i]]$eval)) {
         if(!moodlequestion[[i]]$eval$partial) stop("Moodle can only process partial credits!")
       }
@@ -590,7 +590,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           frac2 <- frac
 	  eval_i <- eval
           if(!("pointvec" %in% names(eval_i))) {
-	    if(is.null(eval_i$rule)) eval_i$rule <- "none"
+	    if(is.null(eval_i$rule)) eval_i$rule <- "false2"
             eval_i <- do.call("exams_eval", eval_i)
           }
           pv <- eval_i$pointvec(frac) ## FIXME: this passes correct as a logical rather as a character, is this intended?

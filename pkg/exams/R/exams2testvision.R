@@ -18,7 +18,7 @@ exams2testvision <- function(file, n = 1L, nsamp = NULL, dir = ".",
   sdescription = "Please answer the following question.",
   maxattempts = 1,  solutionswitch = TRUE,
   zip = TRUE, points = NULL,
-  eval = list(partial = TRUE, negative = FALSE),
+  eval = list(partial = TRUE, rule = "false2", negative = FALSE),
   converter = "pandoc", base64 = FALSE, mode = "hex", ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
@@ -58,10 +58,8 @@ exams2testvision <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) {
-      if(is.null(itembody[[i]]$eval))
-        itembody[[i]]$eval <- eval
-      if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
-        itembody[[i]]$eval$rule <- "none"
+      if(is.null(itembody[[i]]$eval)) itembody[[i]]$eval <- eval
+      ## if(i == "cloze" && is.null(itembody[[i]]$eval$rule)) itembody[[i]]$eval$rule <- "none"
       itembody[[i]]$solutionswitch <- solutionswitch
       itembody[[i]] <- do.call("make_itembody_testvision", itembody[[i]])
     }
@@ -346,7 +344,7 @@ exams2testvision <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_testvision <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
-  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE)
+  eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE)
 {
   function(x) {
     ## how many points?
@@ -393,7 +391,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
     eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
     if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
-    if(x$metainfo$type == "cloze" & is.null(eval$rule)) eval$rule <- "none"
+    ## if(x$metainfo$type == "cloze" && is.null(eval$rule)) eval$rule <- "none"
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
     ## character fields

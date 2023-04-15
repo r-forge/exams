@@ -21,14 +21,14 @@
     adescription = "Please solve the following exercises.",
     sdescription = "Please answer the following question.",
     maxattempts = 1, solutionswitch = TRUE, zip = TRUE, points = NULL,
-    eval = list(partial = TRUE, negative = FALSE), converter = "pandoc",
+    eval = list(partial = TRUE, rule = "false2", negative = FALSE), converter = "pandoc",
     base64 = FALSE, mode = "hex", \dots)
 
   make_itembody_testvision(shuffle = FALSE, defaultval = NULL,
     minvalue = NULL, maxvalue = NULL,
     enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
-    eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE)
+    eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE)
 }
 
 \arguments{
@@ -172,7 +172,7 @@
 
 \references{
 TestVision (2020). \emph{English introduction tutorial on TestVision}.
-  \url{https://www.testvision.nl/en/experience-testvision/tutorials-2/}
+  \url{https://testvision.nl/en/experience-testvision/tutorials-2/}
 
 IMS Global Learning Consortium, Inc. (2012).
 \emph{IMS Question & Test Interoperability (QTI) XSD Binding Version 2.1 Final}.

@@ -16,7 +16,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE, cloze_schoice_display = "auto",
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
-  eval = list(partial = TRUE, negative = FALSE),
+  eval = list(partial = TRUE, rule = "false2", negative = FALSE),
   converter = NULL, envir = NULL, engine = NULL, base64 = TRUE, mode = "hex",
   include = NULL,
   selection = c("pool", "exam"), ...)
@@ -66,7 +66,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) {
       if(is.null(itembody[[i]]$eval)) itembody[[i]]$eval <- eval
-      if(i == "cloze" && is.null(itembody[[i]]$eval$rule)) itembody[[i]]$eval$rule <- "none"
+      ## if(i == "cloze" && is.null(itembody[[i]]$eval$rule)) itembody[[i]]$eval$rule <- "none"
       if(is.null(itembody[[i]]$solutionswitch)) itembody[[i]]$solutionswitch <- solutionswitch
       if(is.null(itembody[[i]]$casesensitive)) itembody[[i]]$casesensitive <- casesensitive
       if(i == "cloze" && is.null(itembody[[i]]$cloze_schoice_display)) itembody[[i]]$cloze_schoice_display <- cloze_schoice_display
@@ -529,7 +529,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_qti21 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
-  eval = list(partial = TRUE, negative = FALSE), solutionswitch = TRUE,
+  eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE,
   casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"))
 {
   cloze_schoice_display <- if(is.null(cloze_schoice_display)) "auto" else match.arg(cloze_schoice_display, c("auto", "buttons", "dropdown"))

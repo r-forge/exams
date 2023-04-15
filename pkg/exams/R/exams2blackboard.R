@@ -6,7 +6,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   pdescription = "This is an item from an item pool.", tdescription = "This is today's test.",
   pinstruction = "Please answer the following question.", tinstruction = "Give an answer to each question.",
   maxattempts = 1, zip = TRUE,
-  points = NULL, eval = list(partial = TRUE, negative = FALSE), base64 = FALSE, converter = NULL,
+  points = NULL, eval = list(partial = TRUE, rule = "false2", negative = FALSE), base64 = FALSE, converter = NULL,
   seed = NULL, mathjax = NULL, fix_pre = TRUE, ...)
 {
   ## handle matrix specification of file
@@ -45,10 +45,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
     if(is.list(itembody[[i]])) {
-      if(is.null(itembody[[i]]$eval))
-        itembody[[i]]$eval <- eval
-      if(i == "cloze" & is.null(itembody[[i]]$eval$rule))
-        itembody[[i]]$eval$rule <- "none"
+      if(is.null(itembody[[i]]$eval)) itembody[[i]]$eval <- eval
+      ## if(i == "cloze" && is.null(itembody[[i]]$eval$rule)) itembody[[i]]$eval$rule <- "none"
       if(is.null(itembody[[i]]$mathjax)) itembody[[i]]$mathjax <- mathjax
       itembody[[i]] <- do.call("make_itembody_blackboard", itembody[[i]])
     }
@@ -393,7 +391,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shuffle,
   minnumber = NULL, maxnumber = NULL, defaultval = NULL, minvalue = NULL,
   maxvalue = NULL, cutvalue = NULL, enumerate = TRUE, digits = NULL, tolerance = is.null(digits),
-  maxchars = 12, eval = list(partial = TRUE, negative = FALSE),
+  maxchars = 12, eval = list(partial = TRUE, rule = "false2", negative = FALSE),
   qti12 = FALSE, mathjax = FALSE)
 {
   function(x) {
@@ -433,7 +431,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
     if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
     eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
     if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
-    if(x$metainfo$type == "cloze" & is.null(eval$rule)) eval$rule <- "none"
+    ## if(x$metainfo$type == "cloze" && is.null(eval$rule)) eval$rule <- "none"
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
     ## character fields

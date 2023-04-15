@@ -23,7 +23,7 @@
     pinstruction = "Please answer the following question.",
     tinstruction = "Give an answer to each question.",
     maxattempts = 1, zip = TRUE, points = NULL,
-    eval = list(partial = TRUE, negative = FALSE),
+    eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     base64 = FALSE, converter = NULL, seed = NULL, mathjax = NULL,
     fix_pre = TRUE, \dots)
 
@@ -32,7 +32,7 @@
     defaultval = NULL, minvalue = NULL, maxvalue = NULL,
     cutvalue = NULL, enumerate = TRUE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
-    eval = list(partial = TRUE, negative = FALSE),
+    eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     qti12 = FALSE, mathjax = FALSE)
 }
 

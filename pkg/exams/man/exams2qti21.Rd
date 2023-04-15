@@ -22,14 +22,14 @@
     casesensitive = TRUE, cloze_schoice_display = "auto",
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
-    eval = list(partial = TRUE, negative = FALSE),
+    eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     converter = NULL, envir = NULL, engine = NULL, base64 = TRUE, mode = "hex",
     include = NULL, selection = c("pool", "exam"), \dots)
 
   make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
     minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
     digits = NULL, tolerance = is.null(digits), maxchars = 12,
-    eval = list(partial = TRUE, negative = FALSE),
+    eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     solutionswitch = TRUE, casesensitive = TRUE,
     cloze_schoice_display = c("auto", "buttons", "dropdown"))
 }
