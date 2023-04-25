@@ -59,6 +59,11 @@
   list shows only a single index for the chosen element(s) rather than row
   and column indexes (suggested by Thomas Fetz).
 
+* Further improved name handling in `exams2qti21()` (and thus also in
+  `exams2openolat()`): Periods in file names are avoided (like spaces and
+  leading integers) as OpenOlat otherwise cannot read the file (reported
+  by Andrea Erhart).
+  
 
 # exams 2.4-0
 

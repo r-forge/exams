@@ -43,7 +43,8 @@
     the length of the corresponding element in \code{file}, sampling
     with replacement is used.)}
   \item{dir}{character. The default is the current working directory.}
-  \item{name}{character. A name prefix for resulting exercises and ZIP file.}
+  \item{name}{character. A name prefix for resulting exercises and ZIP file
+    (must not contain spaces or periods, otherwise replaced by underscores).}
   \item{quiet}{logical. Should output be suppressed when calling
     \code{\link[exams]{xweave}}?}
   \item{edir}{character specifying the path of the directory (along with its

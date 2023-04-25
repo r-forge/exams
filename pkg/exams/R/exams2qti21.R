@@ -32,10 +32,9 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
     make_exercise_transform_html(converter = converter, ..., base64 = base64)
   }
 
-  ## create a name
-  if(is.null(name))
-    name <- file_path_sans_ext(basename(template))
-  name <- gsub("\\s", "_", name)
+  ## create a name (without spaces or periods)
+  if(is.null(name)) name <- file_path_sans_ext(basename(template))
+  name <- gsub("\\s|\\.", "_", name)
   name_base <- if(is_number1(name)) paste0("_", name) else name
   if(isTRUE(rds)) rds <- name
 
