@@ -11,7 +11,7 @@
 \usage{
 exams2particify(file, n = 1L, dir = ".", name = "particify",
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  abstention = FALSE, fix_choice = TRUE, \dots)
+  abstention = FALSE, fix_choice = FALSE, \dots)
 }
 
 \arguments{

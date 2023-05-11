@@ -64,6 +64,10 @@
   leading integers) as OpenOlat otherwise cannot read the file (reported
   by Andrea Erhart).
   
+* The default in `exams2particify()` was set to `fix_choice = FALSE` because
+  most Particify systems in use will probably support the math rendering in
+  answer options now. So the fixup does not need to be enabled by default.
+
 
 # exams 2.4-0
 

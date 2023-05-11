@@ -1,6 +1,6 @@
 exams2particify <- function(file, n = 1L, dir = ".", name = "particify",
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  abstention = FALSE, fix_choice = TRUE, ...)
+  abstention = FALSE, fix_choice = FALSE, ...)
 {
   ## Markdown transformer:
   mdtransform <- make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none")
