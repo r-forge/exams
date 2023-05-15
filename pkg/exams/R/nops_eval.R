@@ -79,6 +79,7 @@ nops_eval <- function(
   ## unzip scan results
   if(string) {
     string_scan_zip <- string_scans
+    if(length(string_scan_zip) < 1L || !file.exists(string_scan_zip)) stop("'string_scans' need to be provided for open-ended exercises")
     string_scan_fil <- unzip(string_scan_zip)
     string_scan_fil <- gsub(normalizePath(file.path(tdir, ""), winslash = "/"), "", normalizePath(string_scan_fil, winslash = "/"), fixed = TRUE)
     string_scan_fil <- gsub("/", "", string_scan_fil, fixed = TRUE)
