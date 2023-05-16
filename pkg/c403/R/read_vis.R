@@ -46,6 +46,7 @@ to_char <- function(x, fixup = NULL) {
   x <- gsub("[[:space:]]+$", "", x)
   x <- gsub("^+[[:space:]]", "", x)
   x[x == " "] <- ""
+  x[x == ""] <- NA_character_
   return(x)
 }
 
@@ -74,17 +75,29 @@ read_vis_xlsx <- function(file, ...) {
   ## ensure a non-C locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
 
-  ## read .xls file from UIBK/VIS (has some UTF-8 non-blanks)
-  x <- xlsx::read.xlsx(file, sheetIndex = 1L, header = FALSE,
-    colClasses = "character", encoding = "UTF-8", ...)
-  for(i in 1L:ncol(x)) x[[i]] <- to_char(x[[i]], fixup = cbind("\u00a0", " "))
+  ## read .xlsx file from UIBK/VIS
+  x <- openxlsx::read.xlsx(file, ...)
+
+  ## fix names
+  names(x)[names(x) == "Matrikelnr."] <- "Matrikelnr"
+  names(x)[names(x) == "Matrikelnummer"] <- "Matrikelnr"
+  names(x)[names(x) == "Kandidat/in"] <- "Name"
+  
+  ## fix type
+  for(i in names(x)) {
+    if(i %in% c("Matrikelnr", "SKZ")) {
+      x[[i]] <- gsub("'", "", to_char(x[[i]]), fixed = TRUE)
+    } else if(i == "Anmeldedatum") {
+      d <- try(to_datetime(x[[i]]), silent = TRUE)
+      if(!inherits(d, "try-error")) x[[i]] <- d
+    } else {
+      x[[i]] <- to_char(x[[i]], fixup = rbind(c("\t", " ")))
+    }
+  }
 
   ## extract info part
-  ix <- min(which(!is.na(x[[2L]])))
-  info <- to_char(na.omit(c(
-    x[1L:(ix - 1L), 1L],
-    x[1L:(ix - 1L), 4L]
-  )))
+  info <- openxlsx::read.xlsx(file, sheet = 2, ...)
+  info <- as.character(rbind(names(info), as.matrix(info)))
 
   ## LV vs. GP (FIXME: LVP)
   ii <- which(info == "Teilnehmerliste")
@@ -92,38 +105,20 @@ read_vis_xlsx <- function(file, ...) {
     info <- strsplit(info[ii + 5L], " ", fixed = TRUE)[[1L]]    
     info <- c("LV", info[5L], info[1L], paste(info[-(1L:8L)], collapse = " "))
   } else if(grepl("Gesamtpr.*fungstermin", info[ii + 1L])) {
-    start <- strptime(substr(info[ii + 6L], 1L, 14L), "%d%m%Y %H:%M")
-    start <- format(start, "%Y-%m-%d %H:%M:%S")
-    location <- strsplit(info[ii + 6L], ", Ort: ", fixed = TRUE)[[1L]][2L]
-    course <- paste(strsplit(info[ii + 5L], " ", fixed = TRUE)[[1L]][-1L], collapse = " ")
+    start <- strptime(substr(info[ii + 6L], 1L, 16L), "%d.%m.%Y %H:%M")
+    start <- format(start, "%Y-%m-%d %H:%M")
+    location <- strsplit(info[ii + 6L], "\n")[[1L]][1L]
+    location <- strsplit(location, ", Ort: ", fixed = TRUE)[[1L]][2L]
+    course <- gsub("\t", "", info[ii + 5L], fixed = TRUE)
+    course <- paste(strsplit(course, " ", fixed = TRUE)[[1L]][-1L], collapse = " ")
     info <- c("GP", course, start, location)
   }
-
-  ## extract actual column names and omit first two rows
-  names(x) <- as.character(x[ix,])
-  ok <- which(!is.na(x[ix,]))
-  x <- x[-(1L:ix), ok, drop = FALSE]
   attr(x, "info") <- info
 
-  ## fix names
-  names(x)[names(x) == "Matrikelnr."] <- "Matrikelnr"
-  names(x)[names(x) == "Matrikelnummer"] <- "Matrikelnr"
-  names(x)[names(x) == "Kandidat/in"] <- "Name"
-  
   ## omit empty columns and rows  
   ix <- apply(x, 1L, function(y) all(is.na(y)))
   if(any(ix)) x <- x[1L:(min(which(ix)) - 1L), ]
-  if("Matrikelnr" %in% names(x)) {
-    x$Matrikelnr <- gsub("'", "", x$Matrikelnr, fixed = TRUE)
-    rownames(x) <- x$Matrikelnr
-  }
-  if("SKZ" %in% names(x)) {
-    x$SKZ <- gsub("'", "", x$SKZ, fixed = TRUE)
-  }
-  if("Anmeldedatum" %in% names(x)) {
-    d <- try(to_datetime(x$Anmeldedatum), silent = TRUE)
-    if(!inherits(d, "try-error")) x$Anmeldedatum <- d
-  }
+  if("Matrikelnr" %in% names(x)) rownames(x) <- x$Matrikelnr
   
   return(x)
 }
@@ -147,7 +142,7 @@ read_vis_xls <- function(file, ...) {
 
   ## extract start/location (FIXME: currently only GP, not LV or LVP)
   start <- strptime(substr(info[3L], 1L, 14L), "%d%m%Y %H:%M")
-  start <- format(start, "%Y-%m-%d %H:%M:%S")
+  start <- format(start, "%Y-%m-%d %H:%M")
   location <- info[5L]
   location <- gsub(" ", "", location)
   location <- substr(location, 5L, nchar(location))
@@ -231,7 +226,7 @@ read_vis_html <- function(file, subset = FALSE) {
   rownames(part) <- unlist(part[, "Matrikelnr"])
   
   ## to data frame
-  part <- part[, -grep("Anmerkung", var), drop = FALSE]
+  ## part <- part[, -grep("Anmerkung", var), drop = FALSE]
   part <- data.frame(part, stringsAsFactors = FALSE)
   attr(part, "info") <- info
   
@@ -239,7 +234,7 @@ read_vis_html <- function(file, subset = FALSE) {
   for(i in seq_along(part)) {
     if(is.list(part[[i]])) {
       na <- sapply(part[[i]], length) < 1
-      if(any(na)) part[[i]][na] <- rep(list(NA), sum(na))
+      if(any(na)) part[[i]][na] <- rep(list(NA_character_), sum(na))
       part[[i]] <- unlist(part[[i]])
     }
   }
@@ -251,6 +246,12 @@ read_vis_html <- function(file, subset = FALSE) {
     rownames(part) <- part$Matrikelnr
   }
   
+  ## format dates
+  if("Anmeldedatum" %in% names(part)) {
+    d <- try(to_datetime(part$Anmeldedatum), silent = TRUE)
+    if(!inherits(d, "try-error")) part$Anmeldedatum <- d
+  }
+
   ## drop canceled registrations
   if(("Meldestatus" %in% names(part)) && subset) {
     part <- part[substr(part$Meldestatus, 1, 14) == "Anmeldung best", , drop = FALSE]
