@@ -68,6 +68,9 @@
   most Particify systems in use will probably support the math rendering in
   answer options now. So the fixup does not need to be enabled by default.
 
+* The `logo` in `exams2nops(..., logo = ...)` can now also be a relative
+  path (relative to the working directory).
+
 
 # exams 2.4-0
 
