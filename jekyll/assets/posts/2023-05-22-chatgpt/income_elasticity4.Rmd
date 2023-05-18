@@ -1,0 +1,51 @@
+```{r data generation, echo = FALSE, results = "hide"}
+# TRUE/FALSE solutions for answers (partly created with ChatGPT)
+sol <- rep(c(TRUE, FALSE), c(7, 10))
+
+## randomly invert solution to make cheating more difficult
+type <- sample(c("correct", "**not** correct"), 1)
+if(type != "correct") sol <- !sol
+
+## randomly change wording for some answers (without consequences for correctness)
+dir_change1 <- sample(c("increases", "decreases"), 1)
+ext_change1 <- sample(1:3, 1) + c(0, sample(1:2, 1))
+dir_change2 <- sample(c("increases", "decreases"), 1)
+```
+
+Question
+========
+Which of the following statements about the income elasticity of demand are `r type`? 
+
+Answerlist
+----------
+* If the income elasticity of demand is positive, the good is said to be a normal good.
+* The income elasticity of demand indicates how strongly the demand for a good reacts to a change in income.
+* If the income `r dir_change1` by `r ext_change1[1]`% and thus the demand for a good `r dir_change1` by `r ext_change1[2]`%, it is called a luxury good.
+* If the income elasticity of demand is negative, one speaks of an inferior good.
+* The income elasticity of demand can be positive or negative.
+* A Giffen good is a special case of an inferior good where demand `r dir_change2` if the price of the good `r dir_change2`.
+* An income elasticity of demand equal to one means that the demand for the good increases proportional to the change in income.
+
+* The income elasticity of demand indicates how strongly the demand for a good responds to a change of the price.
+* If the income elasticity of demand is positive, the good is said to be inferior.
+* The income elasticity of demand is the same for all goods.
+* If the income elasticity of demand is zero, the good is called a luxury good.
+* If the income elasticity of demand is greater than one, the good is called a normal good.
+* The income elasticity of demand is the same for all consumers.
+* The income elasticity of demand is independent of the good's price.
+* The income elasticity of demand can range between zero and infinity.
+* Giffen goods are luxury goods for which the demand decreases as income increases.
+* Common goods are goods that are purchased preferentially by a certain part of the population.
+
+Solution
+========
+This question refers to the definition of income elasticity in
+Varian (2014, _Intermediate Microeconomics: A Modern Approach_, 9th ed.), Chapter 15.
+
+
+Meta-information
+================
+exname: Income elasticity
+extype: mchoice
+exsolution: `r mchoice2string(sol)`
+exshuffle: 5

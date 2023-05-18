@@ -1,0 +1,34 @@
+\begin{question}
+Which of the following statements about the income elasticity of demand are correct? 
+
+\begin{answerlist}
+  \item If the income elasticity of demand is positive, the good is said to be a normal good.
+  \item The income elasticity of demand indicates how strongly the demand for a good reacts to a change in income.
+  \item If the income decreases by 2% and thus the demand for a good decreases by 3%, it is called a luxury good.
+  \item If the income elasticity of demand is negative, one speaks of an inferior good.
+  \item The income elasticity of demand can be positive or negative.
+  \item A Giffen good is a special case of an inferior good where demand increases if the price of the good increases.
+  \item An income elasticity of demand equal to one means that the demand for the good increases proportional to the change in income.
+
+  \item The income elasticity of demand indicates how strongly the demand for a good responds to a change of the price.
+  \item If the income elasticity of demand is positive, the good is said to be inferior.
+  \item The income elasticity of demand is the same for all goods.
+  \item If the income elasticity of demand is zero, the good is called a luxury good.
+  \item If the income elasticity of demand is greater than one, the good is called a normal good.
+  \item The income elasticity of demand is the same for all consumers.
+  \item The income elasticity of demand is independent of the good's price.
+  \item The income elasticity of demand can range between zero and infinity.
+  \item Giffen goods are luxury goods for which the demand decreases as income increases.
+  \item Common goods are goods that are purchased preferentially by a certain part of the population.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+This question refers to the definition of income elasticity in
+Varian (2014, \emph{Intermediate Microeconomics: A Modern Approach}, 9th ed.), Chapter 15.
+\end{solution}
+
+\exname{Income elasticity}
+\extype{mchoice}
+\exsolution{11111110000000000}
+\exshuffle{5}

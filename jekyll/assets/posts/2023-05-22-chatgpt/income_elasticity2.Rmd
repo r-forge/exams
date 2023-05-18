@@ -1,0 +1,36 @@
+Question
+========
+Which of the following statements about the income elasticity of demand are correct? 
+
+Answerlist
+----------
+* If the income elasticity of demand is positive, the good is said to be a normal good.
+* The income elasticity of demand indicates how strongly the demand for a good reacts to a change in income.
+* If the income decreases by 2% and thus the demand for a good decreases by 3%, it is called a luxury good.
+* If the income elasticity of demand is negative, one speaks of an inferior good.
+* The income elasticity of demand can be positive or negative.
+* A Giffen good is a special case of an inferior good where demand increases if the price of the good increases.
+* An income elasticity of demand equal to one means that the demand for the good increases proportional to the change in income.
+
+* The income elasticity of demand indicates how strongly the demand for a good responds to a change of the price.
+* If the income elasticity of demand is positive, the good is said to be inferior.
+* The income elasticity of demand is the same for all goods.
+* If the income elasticity of demand is zero, the good is called a luxury good.
+* If the income elasticity of demand is greater than one, the good is called a normal good.
+* The income elasticity of demand is the same for all consumers.
+* The income elasticity of demand is independent of the good's price.
+* The income elasticity of demand can range between zero and infinity.
+* Giffen goods are luxury goods for which the demand decreases as income increases.
+* Common goods are goods that are purchased preferentially by a certain part of the population.
+
+Solution
+========
+This question refers to the definition of income elasticity in
+Varian (2014, _Intermediate Microeconomics: A Modern Approach_, 9th ed.), Chapter 15.
+
+Meta-information
+================
+exname: Income elasticity
+extype: mchoice
+exsolution: 11111110000000000
+exshuffle: 5
