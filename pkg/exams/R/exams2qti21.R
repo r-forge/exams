@@ -626,7 +626,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     names(eval) <- paste0(type, ".", 1:n)
 
     for(i in 1:n) {
-      if(type[i] %in% c("num", "string"))
+      if(type[i] %in% c("num", "string", "schoice"))
         eval[[i]]$partial <- FALSE
       others <- names(eval[[i]])[!names(eval[[i]]) %in% c("partial", "negative", "rule")]
       if(length(others))

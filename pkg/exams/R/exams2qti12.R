@@ -575,7 +575,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     if(is.null(eval) || length(eval) < 1L) eval <- exams_eval()
     if(!is.list(eval)) stop("'eval' needs to specify a list of partial/negative/rule")
     eval <- eval[match(c("partial", "negative", "rule"), names(eval), nomatch = 0)]
-    if(x$metainfo$type %in% c("num", "string")) eval$partial <- FALSE
+    if(x$metainfo$type %in% c("num", "string", "schoice")) eval$partial <- FALSE
     ## if(x$metainfo$type == "cloze" & is.null(eval$rule)) eval$rule <- "none"
     eval <- do.call("exams_eval", eval) ## always re-call exams_eval
 
@@ -923,7 +923,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
       if(length(correct_answers)) {
         for(i in seq_along(correct_answers)) {
           ctype <- attr(correct_answers[[i]], "type")
-          if(ctype == "string" || ctype == "num") {
+          if(ctype == "string" || ctype == "num" || ctype == "schoice") {
             xml <- c(xml,
               '<respcondition title="Fail" continue="Yes">',
               '<conditionvar>',
