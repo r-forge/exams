@@ -84,10 +84,10 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
     stop(paste("the following exercises have length < 2 or > 5:",
       paste(names(x)[x == 1L | x > 5], collapse = ", ")))
   }
-  if(sum(x < 1L) > 3L) {
-    stop(paste("currently only up to three exercises that are not schoice/mchoice are supported:",
-      paste(names(x)[x < 1L], collapse = ", ")))
-  }
+#FIXME#  if(sum(x < 1L) > 3L) {
+#FIXME#    stop(paste("currently only up to three exercises that are not schoice/mchoice are supported:",
+#FIXME#      paste(names(x)[x < 1L], collapse = ", ")))
+#FIXME#  }
   if(is.list(file)) {
     nchoice <- lapply(file, function(n) x[n])
     nchoice1 <- as.vector(sapply(nchoice, min))
