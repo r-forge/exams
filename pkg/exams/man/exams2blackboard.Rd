@@ -109,7 +109,8 @@
     unless \code{converter = "pandoc-mathjax"} is used. However, also for the default
     converters (producing MathML output) \code{mathjax = TRUE} can be used, enabling
     rendering of mathematical equations in browsers without native MathML support
-    (like Chrome/Chromium).}
+    (like Chrome/Chromium). Note that this only works in Classic Blackboard but not
+    in Blackboard Ultra.}
   \item{fix_pre}{logical. Should the HTML \code{<pre>} environment for rendering verbatim
     output be replaced by \code{<code>} tags? This is necessary in classical Blackboard
     which does not render \code{<pre>} correctly.}
