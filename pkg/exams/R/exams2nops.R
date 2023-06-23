@@ -84,10 +84,6 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
     stop(paste("the following exercises have length < 2 or > 5:",
       paste(names(x)[x == 1L | x > 5], collapse = ", ")))
   }
-#FIXME#  if(sum(x < 1L) > 3L) {
-#FIXME#    stop(paste("currently only up to three exercises that are not schoice/mchoice are supported:",
-#FIXME#      paste(names(x)[x < 1L], collapse = ", ")))
-#FIXME#  }
   if(is.list(file)) {
     nchoice <- lapply(file, function(n) x[n])
     nchoice1 <- as.vector(sapply(nchoice, min))
@@ -126,6 +122,10 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   dir.create(template <- tempfile())
   template <- file.path(template, "nops.tex")
   if(nexrc > 45L) stop("currently only up to 45 exercises in an exam are supported")
+  if(sum(nchoice < 1L) > 3L) {
+    stop(paste("currently only up to three exercises that are not schoice/mchoice are supported:",
+      paste(names(x)[x < 1L], collapse = ", ")))
+  }
   make_nops_template(nexrc,
     replacement = replacement, intro = intro, blank = blank,
     duplex = duplex, pages = pages, file = template,
