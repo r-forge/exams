@@ -205,14 +205,16 @@ pandoc <- function(x, ..., from = "latex", to = "html", options = NULL, fixup = 
       rval <- gsub("</span>", "", rval, fixed = TRUE)
     }
     
-    if(isTRUE(.exams_get_internal("pandoc_mathjax_fixup"))) {
+    if(!identical(mathjax_fixup <- .exams_get_internal("pandoc_mathjax_fixup"), FALSE)) {
+      if(isTRUE(mathjax_fixup)) mathjax_fixup <- "openolat"
       tab <- rbind(
-        c('<span class="math display">\\[', '</p><div class="math">'),
-	c('\\]</span>',                     '</div><p>'),
-	c('<span class="math inline">\\(',  '<span class="math">'),
-	c('\\)</span>',                     '</span>')
+        c('pandoc' = '<span class="math display">\\[', 'openolat' = '</p><div class="math">', 'blackboard' = '<br/>$$'),
+	c(           '\\]</span>',                                  '</div><p>',                             '$$<br/>'),
+	c(           '<span class="math inline">\\(',               '<span class="math">',                   '$$'),
+	c(           '\\)</span>',                                  '</span>',                               '$$')
       )
-      for(i in 1:nrow(tab)) rval <- gsub(tab[i, 1L], tab[i, 2L], rval, fixed = TRUE)
+      mathjax_fixup <- match.arg(tolower(mathjax_fixup), colnames(tab))
+      for(i in 1:nrow(tab)) rval <- gsub(tab[i, "pandoc"], tab[i, mathjax_fixup], rval, fixed = TRUE)
     }
     if(!identical(cls <- .exams_get_internal("pandoc_table_class_fixup"), FALSE)) {
       if(isTRUE(cls)) cls <- "b_gray"
