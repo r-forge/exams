@@ -110,6 +110,17 @@ exsolution: %s
     return(x)
   }
 
+  eximg <- function(x) {
+    if(any(grepl('<img', x))) {
+      ims <- regmatches(x, gregexpr('(?<=img src=").*?(?=")', x, perl = TRUE))[[1L]]
+      tgs <- paste("<img", regmatches(x,  gregexpr('(?<=<img)(.|\n)*?(?=/>)', x, perl = TRUE))[[1]], "/>", sep = "")
+      for(i in 1 : length(ims)) {
+      x <- gsub(tgs[i], paste0("![](", ims[i], ")"), x)
+      }
+    }
+    return(x)
+  }
+
   equation <- function(x) {
     if(any(grepl('application/x-tex', x))) {
       eqs <- regmatches(x,gregexpr('(?<=<math)(.|\n)*?(?=</math>)', x, perl = TRUE))[[1L]]
@@ -223,7 +234,7 @@ exsolution: %s
     ## num
     if(extype == "num") {
       exsol <- as.numeric(cresp[1])
-      if(is.na(cresp[2])) extol <- 0 else {
+      if(is.na(cresp[2]) | length(cresp) < 3) extol <- 0 else {
         interval <- as.numeric(unlist(strsplit(cresp[2], ";", 2)))
         extol <- abs(interval[1] - interval[2])/2
       }
@@ -353,6 +364,7 @@ exsolution: %s
     exrc <- gsub("\\\\href", "\\\\url", exrc)
     exrc <- gsub("\\\\textbackslash\\s*", "\\\\", exrc)
     exrc <- exfile(exrc)
+    if(markup == "markdown_strict") exrc <- eximg(exrc)
 
     ## supplements.
     if(length(supps)) {
