@@ -1,7 +1,7 @@
 testvision2exams <- function(x, markup = c("markdown", "latex"), rawHTML = FALSE,
   dir = ".", exshuffle = TRUE, name = NULL, shareStats = FALSE)
 {
-  ## read Moodle XML file (if necessary)
+  ## read TestVision XML file (if necessary)
   stopifnot(requireNamespace("xml2"))
   if(!inherits(x, "xml_node") && length(x) == 1L) x <- xml2::read_xml(x)
 
@@ -104,7 +104,7 @@ exsolution: %s
       fls <- regmatches(x, gregexpr('(?<=href=")(.|\n)*?(?=")', x, perl = TRUE))[[1L]]
       tgs <- regmatches(x,  gregexpr('<a href="[^>]*>((.|\n)*)</a>', x))
       for(i in 1 : length(fls)) {
-      x <- gsub(tgs[i], paste0("[", fls[i], "](", fls[i], ")"), x)
+        x <- gsub(tgs[i], paste0("[", fls[i], "](", fls[i], ")"), x)
       }
     }
     return(x)
@@ -115,7 +115,7 @@ exsolution: %s
       ims <- regmatches(x, gregexpr('(?<=img src=").*?(?=")', x, perl = TRUE))[[1L]]
       tgs <- paste("<img", regmatches(x,  gregexpr('(?<=<img)(.|\n)*?(?=/>)', x, perl = TRUE))[[1]], "/>", sep = "")
       for(i in 1 : length(ims)) {
-      x <- gsub(tgs[i], paste0("![](", ims[i], ")"), x)
+        x <- gsub(tgs[i], paste0("![](", ims[i], ")"), x)
       }
     }
     return(x)
@@ -200,14 +200,14 @@ exsolution: %s
                                                    num = "extendedTextInteraction", string = "extendedTextInteraction"))
   rblock <- xml2::xml_find_all(ibody, "rubricBlock")
   exshuffle <- if(!rawHTML) as.character(exshuffle) else tolower(exshuffle)
-  choices <- xml2::xml_children(xml2::xml_find_all(interact, "simpleChoice"))#Naar schoice en mchoice
+  choices <- xml2::xml_children(xml2::xml_find_all(interact, "simpleChoice"))#To schoice and mchoice
   choiceid <- lapply(xml2::xml_find_all(interact, "simpleChoice"), function(x) xml2::xml_attr(x, "identifier"))
 
   fdbck <- xml2::xml_find_all(x, "modalFeedback")
 
 
   ## Remove superfluous stuff from ibody
-  xml2::xml_remove(interact)#
+  xml2::xml_remove(interact)
   xml2::xml_remove(rblock)
 
   cresp <- xml2::xml_text(xml2::xml_children(xml2::xml_children(response)))
