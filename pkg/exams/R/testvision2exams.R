@@ -1,8 +1,9 @@
 testvision2exams <- function(x, markup = c("markdown", "latex"), rawHTML = FALSE,
-  dir = ".", exshuffle = TRUE, name = NULL, shareStats = FALSE)
+  dir = ".", exshuffle = TRUE, name = NULL, shareStats = FALSE, css = FALSE)
 {
-  ## read TestVision XML file (if necessary)
+  ## read TestVision XML file (if necessary) and if required define CSS file
   stopifnot(requireNamespace("xml2"))
+  if(css) y <- paste0("./css/", strsplit(x, "\\.")[[1]][1], ".css")
   if(!inherits(x, "xml_node") && length(x) == 1L) x <- xml2::read_xml(x)
 
   ## set up template in indicated markup
@@ -110,12 +111,14 @@ exsolution: %s
     return(x)
   }
 
-  eximg <- function(x) {
+  eximg <- function(x, ssc = css, content = y) {
     if(any(grepl('<img', x))) {
       ims <- regmatches(x, gregexpr('(?<=img src=").*?(?=")', x, perl = TRUE))[[1L]]
-      tgs <- paste("<img", regmatches(x,  gregexpr('(?<=<img)(.|\n)*?(?=/>)', x, perl = TRUE))[[1]], "/>", sep = "")
+      tgs <- paste("<img", regmatches(x,  gregexpr('(?<=<img)(.|\n)*?(?=/>)', x, perl = TRUE))[[1L]], "/>", sep = "")
       for(i in 1 : length(ims)) {
-        x <- gsub(tgs[i], paste0("![](", ims[i], ")"), x)
+        if(ssc) tvc <- rev(strsplit(regmatches(tgs[i], gregexpr('(?<=class=").*?(?=")', tgs[i], perl = TRUE))[[1L]], " ")[[1]])[1] else tvc <- NULL
+        if(ssc && length(content[[tvc]]) > 0) element <- paste0("{", content[[tvc]], "}") else element <- NULL
+        x <- gsub(tgs[i], paste0("![](", ims[i], ")", element), x)
       }
     }
     return(x)
@@ -173,8 +176,44 @@ exsolution: %s
     return(list("txt" = x, "supplements" = supps))
   }
 
+  get_css <- function (file, lines = readLines(file)){
+      rx <- "^\\.(.*?) *\\{.*$"
+      dec.lines <- grep(rx, lines)
+      dec.names <- sub(rx, "\\1", lines[dec.lines])
+      end.rx <- "^[[:space:]]*\\}"
+      end.lines <- grep(end.rx, lines)
+      dec.close <- end.lines[sapply(dec.lines, function(x) which.min(end.lines < x))]
+      pos <- matrix(c(dec.lines, dec.close), ncol = 2)
+      styles <- apply(pos, 1, function(x) {
+          data <- lines[(x[1] + 1):(x[2] - 1)]
+          settings.rx <- "^\\s*(.*?)\\s*:\\s*(.*?)\\s*;\\s*$"
+          settings <- sub(settings.rx, "\\1", data, perl = TRUE)
+          contents <- sub(settings.rx, "\\2", data, perl = TRUE)
+          out <- NULL
+          for (i in 1:length(settings)) {
+              setting <- settings[i]
+              content <- contents[i]
+              eq <- "="
+              if(content == "auto"){
+                setting <- NULL
+                content <- NULL
+                eq <- NULL
+              }
+              out <- paste0(out, if(i > 1 & !is.null(eq)) "; ", setting, eq, content )
+          }
+          out
+      })
+      if(!is.list(styles)) styles <- list(styles)
+      names(styles) <- dec.names
+      styles
+  }
+
+
   ## Collect supplements.
   supps <- NULL
+
+  ## Get css if required
+  if(css) y <- get_css(y)
 
   ## get basic parts from question
   x <- xml2::xml_ns_strip(x)
@@ -360,6 +399,15 @@ exsolution: %s
 	exother)
 
     exrc <- gsub("#38;", "", exrc)
+    exrc <- gsub("\u03B1", "$\\\\alpha$", exrc)
+    exrc <- gsub("\u03B2", "$\\\\beta$", exrc)
+    exrc <- gsub("\u2264", "$\\\\leq$", exrc)
+    exrc <- gsub("\u2265", "$\\\\geq$", exrc)
+    exrc <- gsub("\u2200", "$\\\\infty$", exrc)
+    exrc <- gsub("\u03C3", "$\\\\sigma$", exrc)
+    exrc <- gsub("\u03BC", "$\\\\mu$", exrc)
+    exrc <- gsub("\u03A3", "$\\\\sum$", exrc)
+    exrc <- gsub("\u03A0", "$\\\\prod$", exrc)
     exrc <- gsub("&amp;", "&", exrc)
     exrc <- gsub("\\\\href", "\\\\url", exrc)
     exrc <- gsub("\\\\textbackslash\\s*", "\\\\", exrc)
