@@ -102,8 +102,10 @@ read_vis_xlsx <- function(file, ...) {
   ## LV vs. GP (FIXME: LVP)
   ii <- which(info == "Teilnehmerliste")
   if(grepl("Lehrveranstaltung", info[ii + 1L])) {
-    info <- strsplit(info[ii + 5L], " ", fixed = TRUE)[[1L]]    
-    info <- c("LV", info[5L], info[1L], paste(info[-(1L:8L)], collapse = " "))
+    info <- c("LV",
+      gsub("\t", "", strsplit(info[ii + 5L], " - ", fixed = TRUE)[[1L]][2L], fixed = TRUE),
+      strsplit(info[ii + 6L], "(Ort: )|\n")[[1L]][1L:2L])
+    info[3L] <- format(strptime(info[3L], "Datum: %d.%m.%Y, Zeit: %H:%M, "), "%Y-%m-%d %H:%M")
   } else if(grepl("Gesamtpr.*fungstermin", info[ii + 1L])) {
     start <- strptime(substr(info[ii + 6L], 1L, 16L), "%d.%m.%Y %H:%M")
     start <- format(start, "%Y-%m-%d %H:%M")
