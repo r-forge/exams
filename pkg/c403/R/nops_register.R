@@ -25,9 +25,9 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L)
   ## read data
   x <- read_vis(file)
   info <- attr(x, "info")
-  if(!(info[1L] %in% c("GP", "LVP"))) stop("'file' does not seem to be for an exam registration (GP or LVP)")
-  location <- switch(info[1L], "GP" = info[4L], "LVP" = info[6L], NA)
-  start <- switch(info[1L], "GP" = as.POSIXlt(info[3L]), "LVP" = as.POSIXlt(info[5L]), NA)
+  ## if(!(info[1L] %in% c("GP", "LVP"))) warning("'file' does not seem to be for an exam registration (GP or LVP)")
+  location <- switch(info[1L], "GP" = info[4L], "LV" = info[4L], "LVP" = info[6L], NA)
+  start <- switch(info[1L], "GP" = as.POSIXlt(info[3L]), "LV" = as.POSIXlt(info[3L]), "LVP" = as.POSIXlt(info[5L]), NA)
   mon <- c("Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "Juli",
     "August", "September", "Oktober", "November", "Dezember")
   wday <- c("So", "Mo", "Di", "Mi", "Do", "Fr", "Sa")
