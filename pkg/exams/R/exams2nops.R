@@ -39,7 +39,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   if(is.null(logo) || length(logo) < 1L || sub("[[:space:]]+$", "", logo) == "") {
     logo <- "-" ## alternatively: entirely omit includegraphics of logo in template
   } else if(file.exists(logo)) {
-    logo <- file_path_as_absolute(logo)
+    logo <- normalizePath(logo, winslash = "/")
   }
   if(course != "") course <- paste0("(", course, ")")
   loc <- list(

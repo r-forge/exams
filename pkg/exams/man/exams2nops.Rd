@@ -42,8 +42,8 @@
   \item{title}{character. Title of the exam, e.g., \code{"Introduction to Statistics"}.}
   \item{course}{character. Optional course number, e.g., \code{"101"}.}
   \item{institution}{character. Name of the institution at which the exam is conducted.}
-  \item{logo}{character. Path to a logo image. If set to \code{NULL}, the logo
-    is omitted.}
+  \item{logo}{character. Path to a logo image (in a file format supported by pdfLaTeX).
+    If set to \code{NULL}, the logo is omitted.}
   \item{date}{character or \code{"Date"} object specifying the date of the exam.}
   \item{replacement}{logical. Should a replacement exam sheet be included?}
   \item{intro}{character. Either a single string with the path to a .tex file or a vector
