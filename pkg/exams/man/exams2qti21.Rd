@@ -31,7 +31,8 @@
     digits = NULL, tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     solutionswitch = TRUE, casesensitive = TRUE,
-    cloze_schoice_display = c("auto", "buttons", "dropdown"))
+    cloze_schoice_display = c("auto", "buttons", "dropdown"),
+    copypaste = TRUE)
 }
 
 \arguments{
@@ -105,6 +106,8 @@
     appearing in a separate paragraph or inline. Note that in dropdown menus the answer list
     will typically be rendered as plain text which means that mathematical notaion may become
     unintelligible.}
+  \item{copypaste}{logical. For string/text responses,
+    controls whether text may be copied into the text entry field, or must actually be entered.}
   \item{navigation}{character. Mode of navigation, can either be \code{"nonlinear"} (default)
     or \code{"linear"}. The former means that test participants can switch back and forth
     between questions while the latter implies that the questions need to be answered sequentially.}
