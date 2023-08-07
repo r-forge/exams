@@ -529,7 +529,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
   defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE,
-  casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"))
+  casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"),
+  copypaste = TRUE)
 {
   cloze_schoice_display <- if(is.null(cloze_schoice_display)) "auto" else match.arg(cloze_schoice_display, c("auto", "buttons", "dropdown"))
 
@@ -556,7 +557,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## for strings with multiple file/essay fields, treat as cloze
     is_essay <- upfile <- rep.int(FALSE, n)
     upids <- rep.int(NA, n)
-    copypaste <- x$metainfo$essay_copypaste
+    if(!is.null(x$metainfo$essay_copypaste))
+      copypaste <- x$metainfo$essay_copypaste
     if(!isFALSE(copypaste) && !isTRUE(copypaste)) {
       copypaste <- TRUE
     }
@@ -660,6 +662,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     ## cycle trough all questions
     ids <- el <- pv <- mv <- list()
+    pdiff <- rep(NA, n)
     for(i in 1:n) {
       ## evaluate points for each question
       pv[[i]] <- eval[[i]]$pointvec(solution[[i]], type = type[i])
@@ -682,6 +685,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         if(all(!solution[[i]])) {
           if(eval[[i]]$partial & !(eval[[i]]$rule == "all"))
             pv[[i]]["neg"] <- -1 * q_points[i] / length(solution[[i]])
+        }
+      }
+
+      ## fix rounding problem.
+      if(type[i] == "mchoice") {
+        pv[[i]]["pos"] <- round(pv[[i]]["pos"], digits = 8)
+        if(pv[[i]]["pos"] * sum(solution[[i]]) < q_points[i]) {
+          pdiff[i] <- q_points[i] - pv[[i]]["pos"] * sum(solution[[i]])
         }
       }
     }
@@ -753,7 +764,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
           xml <- c(xml,
             paste('<mapEntry mapKey="', cch(if(is.null(mmatrix)) ids[[i]]$questions[j] else ids[[i]]$mmatrix_pairs[j]), '" mappedValue="',
               if(solution[[i]][j]) {
-                pv[[i]]["pos"]
+                if(!is.na(pdiff[i])) {
+                  tpdiff <- pdiff[i]
+                  pv[[i]]["pos"] + tpdiff
+                } else pv[[i]]["pos"]
               } else {
                 pv[[i]]["neg"]
               }, '"/>', sep = '')
