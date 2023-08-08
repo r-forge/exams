@@ -9,6 +9,11 @@
   though partial credits were used. This is also changed to the more
   commonly-used `rule = "false2"` now. (Reported by Hans-Peter Schröcker.)
 
+* In `exams2qti21()` (and thus also in `exams2openolat()`) fractional points
+  are now rounded up (if necessary) at eight decimal places. Otherwise
+  the `cutvalue` might not be attained, especially for `partial = FALSE`.
+  (Reported by Thomas Fetz.)
+
 * Convenience extension for `cloze` exercises with elements embedded by
   `##ANSWERi##` tags: The "Answerlist" only has to be specified if there
   are `schoice`/`mchoice` elements, otherwise it can be omitted. For
