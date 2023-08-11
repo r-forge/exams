@@ -1,0 +1,12 @@
+Package: exams2webexercises
+Version: 0.1-0
+Date: 2023-08-11
+Title: Interface for 'exams' Exercises in Documents with 'webexercises'
+Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")),
+             person(given = "Florian", family = "Stampfer", role = "aut", email = "Florian.Stampfer@uibk.ac.at", comment = c(ORCID = "0000-0003-4980-4272")))
+Description: Automatic generation of quizzes or individual questions for documents with 'webexercises' based on 'R/exams' exercises.
+Depends: R (>= 4.0.0), exams (>= 2.4-0)
+Imports: utils, rmarkdown, webexercises
+License: GPL-2 | GPL-3
+URL: https://www.R-exams.org/
+BugReports: https://www.R-exams.org/contact/

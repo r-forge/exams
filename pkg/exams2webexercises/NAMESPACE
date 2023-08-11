@@ -1,0 +1,9 @@
+importFrom("exams", "xexams", "make_exercise_transform_html", "make_exercise_transform_pandoc")
+importFrom("utils", "browseURL")
+importFrom("webexercises", "fitb", "mcq", "longmcq", "torf", "hide", "unhide")
+importFrom("rmarkdown", "pandoc_available", "render")
+
+export(
+  "exams2webexercises",
+  "render_quiz"
+)
