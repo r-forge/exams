@@ -15,7 +15,8 @@
   Thus, there is no support, yet, for `cloze` questions.
 
 * The main function is `exams2webexercises()` which is typically
-  used within Rmd documents with `webexercises`.
+  used within Rmd documents with `webexercises`. The package provides
+  two demo documents.
 
   - `webexercises_questions.Rmd`: All questions set up indvidually.
   - `webexercises_quiz.Rmd`: An entire quiz set up in one go.
