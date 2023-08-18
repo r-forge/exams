@@ -89,6 +89,7 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
 	  ## Markdown replacements only for non-HTML
           if(substr(to, 1L, 4L) != "html") {
 	    sfx <- rbind(
+              c(sprintf('src="%s"', sf), sprintf('src="%s"', sf64)), ## images might still be embedded in <img> rather than ![]()
 	      c(sprintf("](%s)", sf), sprintf("](%s)", sf64))
 	    )
 	  }	

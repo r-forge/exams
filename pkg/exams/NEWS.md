@@ -76,6 +76,10 @@
 * The `logo` in `exams2nops(..., logo = ...)` can now also be a relative
   path (relative to the working directory).
 
+* When converting exercises with a converter based on `make_exercise_transform_pandoc()`
+  to Markdown with Base64 output, graphics in `<img>` tags are now correctly
+  encoded as well.
+
 
 # exams 2.4-0
 
