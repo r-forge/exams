@@ -1,5 +1,5 @@
 exams2webexercises <- function(file,
-  write = TRUE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
+  write = TRUE, check = TRUE, box = FALSE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", ...) {
@@ -11,6 +11,8 @@ exams2webexercises <- function(file,
   ## process default arguments
   nchar <- rep_len(nchar, 2L)
   html <- match.arg(tolower(markup), c("html", "markdown")) == "html"
+  start_check <- if(check) c(sprintf("::: {.webex-check%s}", if(box) " .webex-box" else ""), "") else NULL
+  end_check <- if(check) c("", ":::") else NULL
 
   ## convert each question to Markdown or HTML first (to assure this also works for .Rnw)
   ## and then combine with webexercises
@@ -27,15 +29,18 @@ exams2webexercises <- function(file,
     question <- switch(x$metainfo$type,
       "schoice" = {
         c(
+          start_check,
           x$question,
           "",
-          longmcq(structure(x$questionlist, .Names = ifelse(x$metainfo$solution, "answer", "")))
+          longmcq(structure(x$questionlist, .Names = ifelse(x$metainfo$solution, "answer", ""))),
+          end_check
         )
         ## FIXME: optionall use mcq() instead
       },
       "mchoice" = {
         ## FIXME: currently emulate via torf(), wishlist: propose webexercises::maq()
         c(
+          start_check,
           x$question,
           "",
           if(html) "<ul>",
@@ -43,23 +48,28 @@ exams2webexercises <- function(file,
             vapply(x$metainfo$solution, torf, ""),
             x$questionlist
           ),
-          if(html) "</ul>"
+          if(html) "</ul>",
+          end_check
         )
       },
       "num" = {
         c(
+          start_check,
           x$question,
           "",
           fitb(x$metainfo$solution, tol = x$metainfo$tol,
-            width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))))
+            width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
+          end_check
         )
       },
       "string" = {
         c(
+          start_check,
           x$question,
           "",
           fitb(x$metainfo$solution,
-            width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))))
+            width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
+          end_check
         )
       },
       "cloze" = {

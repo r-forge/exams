@@ -11,7 +11,7 @@ or entire quizzes based on R/exams exercise templates.
 
 \usage{
 exams2webexercises(file,
-  write = TRUE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
+  write = TRUE, check = TRUE, box = FALSE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", \dots)
@@ -21,6 +21,9 @@ exams2webexercises(file,
   \item{file}{character. A specification of a (list of) exercise files.}
   \item{write}{logical. Should \code{\link{writeLines}} be called on the
     resulting webexercise HTML/Markdown text?}
+  \item{check}{logical. Should a check for showing the answer be added to
+    the exercise?}
+  \item{box}{logical. Should a box be added around the \code{check} (if selected)?}
   \item{markup}{character. Should the R/exams exercises be rendered as
     \code{"markdown"} or \code{"html"}?}
   \item{solution}{logical or character. Should the solution environment
