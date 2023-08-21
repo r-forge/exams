@@ -1247,7 +1247,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       if(!is.null(x$solutionlist)) {
         if(!all(is.na(x$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
-          if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+          xsolution <- c(xsolution, if(enumerate) '<ol type = "a">' else '<ul>')
           if(cloze) {
             g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
             ql <- sapply(split(x$questionlist, g), paste, collapse = " / ")
@@ -1257,10 +1257,10 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             sl <- x$solutionlist
           }
           nsol <- length(ql)
-          xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+          xsolution <- c(xsolution, paste(rep('<li>', nsol),
             ql, if(length(x$solutionlist)) "<br />" else NULL,
-            sl, if(enumerate) rep('</li>', nsol) else NULL))
-          if(enumerate) xsolution <- c(xsolution, '</ol>')
+            sl, rep('</li>', nsol)),
+            if(enumerate) '</ol>' else '</ul>')
         }
       }
     }

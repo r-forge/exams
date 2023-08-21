@@ -278,7 +278,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(!is.null(exm[[i]][[j]]$solutionlist)) {
         if(!all(is.na(exm[[i]][[j]]$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
-          if(enumerate) xsolution <- c(xsolution, '<ol type = "a">')
+          xsolution <- c(xsolution, if(enumerate) '<ol type = "a">' else '<ul>')
           if(exm[[i]][[j]]$metainfo$type == "cloze") {
             g <- rep(seq_along(exm[[i]][[j]]$metainfo$solution), sapply(exm[[i]][[j]]$metainfo$solution, length))
             ql <- sapply(split(exm[[i]][[j]]$questionlist, g), paste, collapse = " / ")
@@ -288,10 +288,10 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
             sl <- exm[[i]][[j]]$solutionlist
           }
           nsol <- length(ql)
-          xsolution <- c(xsolution, paste(if(enumerate) rep('<li>', nsol) else NULL,
+          xsolution <- c(xsolution, paste(rep('<li>', nsol),
             ql, if(length(exm[[i]][[j]]$solutionlist)) "<br />" else NULL,
-            sl, if(enumerate) rep('</li>', nsol) else NULL))
-          if(enumerate) xsolution <- c(xsolution, '</ol>')
+            sl, rep('</li>', nsol)),
+            if(enumerate) '</ol>' else '</ul>')
         }
       }
 

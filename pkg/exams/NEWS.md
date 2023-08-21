@@ -80,6 +80,11 @@
   to Markdown with Base64 output, graphics in `<img>` tags are now correctly
   encoded as well.
 
+* In all QTI-based interfaces (and also `exams2moodle()`) with
+  `exams2xyz(..., mchoice = list(enumerate = FALSE))` the `solutionlist`
+  (if any) is formatted as an unordered list (rather than without any
+  formatting).
+
 
 # exams 2.4-0
 

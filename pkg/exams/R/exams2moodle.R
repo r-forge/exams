@@ -302,9 +302,9 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         if(!type %in% c("mchoice", "schoice") && nsol) {
           g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
           soll <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
-          c(if(enumerate) '<ol type = "a">' else '</br>',
-            paste(if(enumerate) "<li>" else NULL, soll, if(enumerate) "</li>" else NULL),
-            if(enumerate) '</ol>' else NULL)
+          c(if(enumerate) '<ol type = "a">' else '<ul>',
+            paste("<li>", soll, "</li>"),
+            if(enumerate) '</ol>' else "</ul>")
         } else NULL,
         '</p>]]></text>',
         '</generalfeedback>'
