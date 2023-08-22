@@ -2,7 +2,7 @@ exams2webexercises <- function(file,
   write = TRUE, check = TRUE, box = TRUE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", ...) {
+  converter = "pandoc-mathjax", base64 = TRUE, ...) {
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2webexercises(), ignored")
@@ -17,9 +17,9 @@ exams2webexercises <- function(file,
   ## convert each question to Markdown or HTML first (to assure this also works for .Rnw)
   ## and then combine with webexercises
   trafo <- if(html) {
-    make_exercise_transform_html(converter = converter, base64 = TRUE)
+    make_exercise_transform_html(converter = converter, base64 = base64)
   } else {
-    make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none", base64 = TRUE)
+    make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none", base64 = base64)
   }
   webexercisestrafo <- function(x, ...) {
     ## unify markup
@@ -134,7 +134,22 @@ exams2webexercises <- function(file,
       NULL
     }
 
-    c(question, solution, "")
+    txt <- c(question, solution, "")
+    
+    ## fix paths to supplements (if any) and try to make them local to be portable in rmarkdown/quarto output
+    if(!is.null(sdir)) sdir <- paste0(sdir, if(substr(sdir, nchar(sdir), nchar(sdir)) == "/") "" else "/", "exam")
+    for(sup in x$supplements) {
+      s1 <- basename(sup)
+      s2 <- sup
+      if(!is.null(sdir)) {
+        s2 <- strsplit(s2, sdir, fixed = TRUE)[[1L]]
+        s2 <- if(length(s2) < 2L) s2 else paste0(sdir, s2[-1L], collapse = "")
+      }
+      prefix <- if(html) c('src="', 'href="') else "]("
+      txt <- gsub(paste0(prefix, s1), paste0(prefix, s2), txt, fixed = TRUE)
+    }
+    
+    return(txt)
   }
   
   ## generate xexams

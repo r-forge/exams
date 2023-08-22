@@ -14,7 +14,7 @@ exams2webexercises(file,
   write = TRUE, check = TRUE, box = TRUE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", \dots)
+  converter = "pandoc-mathjax", base64 = TRUE, \dots)
 }
 
 \arguments{
@@ -60,8 +60,11 @@ exams2webexercises(file,
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{converter}{passed on to \code{make_exercise_transform_html}
+  \item{converter}{passed on to \code{\link[exams]{make_exercise_transform_html}}
     (if \code{markup = "html"}).}
+  \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?
+    Passed on to \code{\link[exams]{make_exercise_transform_pandoc}} or
+    \code{\link[exams]{make_exercise_transform_html}}, respectively}
   \item{\dots}{currently not used.}
 }
 
