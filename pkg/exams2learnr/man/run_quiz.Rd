@@ -10,7 +10,7 @@ running it in a shiny app.
 }
 
 \usage{
-run_quiz(file, name = "quiz", title = "R/exams quiz", dir = NULL, \dots,
+run_quiz(file, name = "quiz", title = "R/exams quiz", dir = NULL, edir = NULL, \dots,
   default_file = NULL, auto_reload = TRUE, shiny_args = NULL, render_args = NULL)
 }
 
@@ -20,7 +20,11 @@ run_quiz(file, name = "quiz", title = "R/exams quiz", dir = NULL, \dots,
   \item{title}{character. Title of the learnr tutorial.}
   \item{dir}{character. A path in which the tutorial file is created, by default
     chosen as a \code{\link{tempfile}}.}
-  \item{\dots}{arguments passed to \code{\link[exams2learnr]{exams2learnr}}.}
+ \item{edir}{character. The path of the directory (along with its
+    sub-directories) in which the files in \code{file} are stored.
+    If both \code{dir} and \code{edir} are \code{NULL} (the default), the \code{edir}
+    is set to the current working directory.}
+ \item{\dots}{arguments passed to \code{\link[exams2learnr]{exams2learnr}}.}
   \item{default_file, auto_reload, shiny_args, render_args}{arguments passed
     to \code{\link[rmarkdown]{run}}.}
 }

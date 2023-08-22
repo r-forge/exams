@@ -1,12 +1,15 @@
 run_quiz <- function(file,
-  name = "quiz", title = "R/exams quiz", dir = NULL, ...,
+  name = "quiz", title = "R/exams quiz", dir = NULL, edir = NULL, ...,
   default_file = NULL, auto_reload = TRUE, shiny_args = NULL, render_args = NULL) {
 
   ## sanity check for pandoc
   stopifnot(rmarkdown::pandoc_available())
 
   ## directory handling
-  if(is.null(dir)) dir <- tempfile()
+  if(is.null(dir)) {
+    dir <- tempfile()
+    if(is.null(edir)) edir <- getwd()
+  }
   if(!file.exists(dir) && !dir.create(dir))
     stop(gettextf("Cannot create output directory '%s'.", dir))
 
@@ -31,6 +34,7 @@ run_quiz <- function(file,
 
   ## exams2learnr arguments
   args <- list(...)
+  if(!is.null(edir)) args <- c(list(edir = edir), args)
   if(length(args) >= 1L) {
     args <- lapply(args, deparse)    
     args <- lapply(args, paste, collapse = "\n")

@@ -1,3 +1,10 @@
+# exams2learnr 0.1-1
+
+* Handle the case with `run_quiz(..., dir = NULL, edir = NULL)`
+  better: `edir` is set to the current working directory so that
+  local exercise files are found when using a temporary `dir`.
+
+
 # exams2learnr 0.1-0
 
 * New R/exams (<https://www.R-exams.org/>) interface for
