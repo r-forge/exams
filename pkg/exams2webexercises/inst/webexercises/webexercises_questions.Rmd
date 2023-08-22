@@ -45,6 +45,18 @@ exams2webexercises("ttest.Rmd")
 
 ## String question
 
-```{r mchoice7, echo = FALSE, message = FALSE, results = "asis"}
+```{r string, echo = FALSE, message = FALSE, results = "asis"}
 exams2webexercises("function.Rmd")
+```
+
+## Cloze question combining all types
+
+```{r string, echo = FALSE, message = FALSE, results = "asis"}
+exams2webexercises("lm2.Rnw")
+```
+
+## Cloze question with table layout
+
+```{r string, echo = FALSE, message = FALSE, results = "asis"}
+exams2webexercises("fourfold2.Rmd")
 ```

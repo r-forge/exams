@@ -77,6 +77,9 @@ exams2webexercises <- function(file,
         x$questionlist <- split(x$questionlist, g)
         if(!is.null(x$solutionlist)) x$solutionlist <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
         for(j in seq_along(x$questionlist)) {
+          if(!(x$metainfo$clozetype[j] %in% c("num", "schoice", "mchoice", "string"))) {
+            warning(sprintf("cloze type '%s' not supported, rendered as 'string'", x$metainfo$clozetype[j]))
+          }
           qj <- switch(x$metainfo$clozetype[j],
             "num" = fitb(x$metainfo$solution[[j]], tol = x$metainfo$tol[j],
               width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
