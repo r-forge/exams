@@ -35,9 +35,10 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   if(!file.exists(dir_temp) && !dir.create(dir_temp))
     stop(gettextf("Cannot create temporary work directory '%s'.", dir_temp))
   dir_pkg <- find.package("exams")
-  dir_supp <- if(is.null(sdir)) tempfile() else file_path_as_absolute(sdir)
+  dir_supp <- if(is.null(sdir)) tempfile() else sdir
   if(!file.exists(dir_supp) && !dir.create(dir_supp))
     stop(gettextf("Cannot create temporary work directory '%s'.", dir_supp))
+  dir_supp <- file_path_as_absolute(dir_supp)
   dir_exrc <- if(is.null(edir)) getwd() else file_path_as_absolute(edir)
   if(!file.exists(dir_exrc))
     stop(gettextf("Exercise directory does not exist: '%s'.", dir_exrc))  
@@ -206,7 +207,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   
     ## sub-directory for supplementary files
     dir_supp_i <- file.path(dir_supp, names(exm)[i])
-    if(!dir.create(dir_supp_i)) stop("could not create directory for supplementary files")
+    if(!file.exists(dir_supp_i) && !dir.create(dir_supp_i)) stop("could not create directory for supplementary files")
   
     ## select exercise files
     id <- sample_id(i)
@@ -225,7 +226,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
 
       ## sub-directory for supplementary files
       dir_supp_ij <- file.path(dir_supp_i, names(exm[[i]])[j])
-      if(!dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
+      if(!file.exists(dir_supp_ij) && !dir.create(dir_supp_ij)) stop("could not create directory for supplementary files")
 
       ## driver: sweave (with fixing and restoring seeds, if any)
       if(verbose) cat("s")
