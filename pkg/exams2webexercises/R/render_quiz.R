@@ -1,5 +1,5 @@
 render_quiz <- function(file,
-  name = "quiz", title = "R/exams quiz", dir = NULL, ...,
+  name = "quiz", title = "R/exams quiz", show = TRUE, dir = NULL, edir = NULL, ...,
   clean = TRUE, quiet = TRUE, envir = parent.frame()) {
 
   ## sanity check for pandoc
@@ -7,10 +7,8 @@ render_quiz <- function(file,
 
   ## directory handling
   if(is.null(dir)) {
-    display <- TRUE
     dir <- tempfile()
-  } else {
-    display <- FALSE
+    if(is.null(edir)) edir <- getwd()
   }
   if(!file.exists(dir) && !dir.create(dir))
     stop(gettextf("Cannot create output directory '%s'.", dir))
@@ -35,6 +33,7 @@ render_quiz <- function(file,
 
   ## exams2webexercises arguments
   args <- list(...)
+  if(!is.null(edir)) args <- c(list(edir = edir), args)
   if(length(args) >= 1L) {
     args <- lapply(args, deparse)    
     args <- lapply(args, paste, collapse = "\n")
@@ -62,6 +61,6 @@ render_quiz <- function(file,
   rmarkdown::render(name[1L],
     clean = clean, quiet = quiet, envir = envir)
   name <- normalizePath(name)
-  if(display) browseURL(name[2L])
+  if(show) browseURL(name[2L])
   invisible(name)
 }
