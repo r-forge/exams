@@ -1,5 +1,5 @@
 exams2webexercises <- function(file,
-  write = TRUE, check = TRUE, box = FALSE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
+  write = TRUE, check = TRUE, box = TRUE, markup = "markdown", solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", ...) {

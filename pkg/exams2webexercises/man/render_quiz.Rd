@@ -24,7 +24,7 @@ render_quiz(file, name = "quiz", title = "R/exams quiz", show = TRUE,
   \item{dir}{character. A path in which the tutorial file is created, by default
     chosen as a \code{\link{tempfile}}.}
   \item{edir}{character. The path of the directory (along with its
-    sub-directories) in which the files in \code{file} are stored (see also below).
+    sub-directories) in which the files in \code{file} are stored.
     If both \code{dir} and \code{edir} are \code{NULL} (the default), the \code{edir}
     is set to the current working directory.}
   \item{\dots}{arguments passed to \code{\link[exams2webexercises]{exams2webexercises}}.}

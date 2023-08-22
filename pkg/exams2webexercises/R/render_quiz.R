@@ -37,7 +37,6 @@ render_quiz <- function(file,
   if(length(args) >= 1L) {
     args <- lapply(args, deparse)    
     args <- lapply(args, paste, collapse = "\n")
-    if("output" %in% names(args)) args$output <- NULL
     args <- paste(names(args), "=", unlist(args), collapse = ", ")
     args <- paste('exm, ', args)
   } else {
