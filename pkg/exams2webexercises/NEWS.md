@@ -11,8 +11,7 @@
   | Multiple-choice | `mchoice` | `torf` list     |
   | Numeric         | `num`     | `fitb`          |
   | Text            | `string`  | `fitb`          |
-
-  Thus, there is no support, yet, for `cloze` questions.
+  | Cloze           | `cloze`   | Combinations of the above |
 
 * The main function is `exams2webexercises()` which is typically
   used within Rmd documents with `webexercises`. The package provides
@@ -24,4 +23,4 @@
 * Additionally, the function `render_quiz()` can be used to
   quickly set up and run a quiz interactively based on a
   set of R/exams exercises. For example:  
-  `render_quiz(c("swisscapital.Rmd", "capitals.Rmd", "fruit.Rmd", "function.Rmd"))`
+  `render_quiz(c("swisscapital.Rmd", "capitals.Rmd", "fruit.Rmd", "function.Rmd", "lm.Rmd"))`

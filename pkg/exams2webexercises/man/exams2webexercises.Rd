@@ -73,11 +73,6 @@ exams2webexercises(file,
   can set up a suitable .Rmd file and directly render it. This is intended mostly
   for quick interactive testing when authoring R/exams exercises.
 
-  Currently, \code{num}, \code{schoice} (single-choice), \code{mchoice}
-  (multiple-choice), and \code{string} exercises from R/exams are supported.
-  But \code{cloze} questions that combine several of these question types
-  in a single exercise are not supported yet.
-  
   If more than \code{n = 1} random replications are produced then they are 
   all included sequentially in the output - because webexercises currently does
   not provide a compound object that can capture a question bank with multiple

@@ -35,7 +35,7 @@ exams2webexercises <- function(file,
           longmcq(structure(x$questionlist, .Names = ifelse(x$metainfo$solution, "answer", ""))),
           end_check
         )
-        ## FIXME: optionall use mcq() instead
+        ## FIXME: optionally use mcq() instead
       },
       "mchoice" = {
         ## FIXME: currently emulate via torf(), wishlist: propose webexercises::maq()
@@ -73,8 +73,40 @@ exams2webexercises <- function(file,
         )
       },
       "cloze" = {
-        stop("not supported yet")
-        ## FIXME: insert individual interactions into x$question
+        g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
+        x$questionlist <- split(x$questionlist, g)
+        if(!is.null(x$solutionlist)) x$solutionlist <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
+        for(j in seq_along(x$questionlist)) {
+          qj <- switch(x$metainfo$clozetype[j],
+            "num" = fitb(x$metainfo$solution[[j]], tol = x$metainfo$tol[j],
+              width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
+            "schoice" = mcq(structure(x$questionlist[[j]], .Names = ifelse(x$metainfo$solution[[j]], "answer", ""))), ## FIXME: longmcq vs. mcq
+            "mchoice" = paste(c(
+              if(html) "<ul>" else NULL,
+              paste(if(html) "<li>" else "* ", 
+                vapply(x$metainfo$solution[[j]], torf, ""),
+                x$questionlist[[j]]
+              ),
+              if(html) "</ul>" else NULL
+            ), collapse = "\n"),
+            fitb(x$metainfo$solution[[j]],
+              width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))))
+          )
+          aj <- paste0("##ANSWER", j, "##")
+          if(any(grepl(aj, x$question, fixed = TRUE))) {
+            x$question <- gsub(aj, qj, x$question, fixed = TRUE)
+          } else {
+            x$question <- c(x$question, "",
+              if(!identical(x$questionlist[[j]], "") && !(x$metainfo$clozetype[j] %in% c("schoice", "mchoice"))) paste(x$questionlist[[j]], qj) else qj)
+          }
+          x$questionlist[[j]] <- NA
+        }
+        c(
+          start_check,
+          x$question,
+          "",
+          end_check
+        )
       }
     )
       
