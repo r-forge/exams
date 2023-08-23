@@ -19,7 +19,7 @@
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL, rule = NULL, pluginfile = TRUE, forcedownload = FALSE,
     converter = "pandoc-mathjax", envir = NULL, engine = NULL,
-    table = NULL, css = NULL, \dots)
+    table = "table_grid", css = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
@@ -63,11 +63,13 @@
     it to \code{\link[knitr]{knit}}).}
   \item{engine}{argument passed to \code{\link[exams]{xweave}} indicating whether
     \code{"Sweave"} (default) or \code{"knitr"} should be used for rendering Rnw exercises.}
-  \item{table}{character. An optional class assigned to \code{<table>} elements
-    (without a class) in the question (only supported for pandoc-based \code{converter}).}
+  \item{table}{character or logical. Control the style for tables in an exercise
+    via a custom class: \code{"table_shade"} (equivalent to \code{table = TRUE}),
+    \code{"table_rule"}, and \code{"table_grid"} being provided. See also the details below.}
   \item{css}{character. A character string (or vector) containing the path(s) to
     CSS style file(s). Alternatively, a string (or vector) with a \code{<style>}
-    tag to be included in every question (e.g., for formatting \code{<table>} elements).}
+    tag to be included in every exercise. This is used internally for the \code{table}
+    styles above, see also the details below.}    
   \item{iname}{logical. Should the exam \code{name} be included in the path in the \code{<category>}
     tag in the final XML file? This option may be useful when questions should be added to
     certain already existing question banks, i.e. \code{iname = TRUE} will include the exam
@@ -154,15 +156,15 @@
 \details{
   \code{exams2moodle} produces an XML file that may be uploaded into Moodle. It proceeds by (1)
   calling \code{\link[exams]{xweave}} on each exercise, (2) reading the resulting Markdown or
-  LaTeX text, (3) transforming the text to HTML, and (4) embedding the HTML code in a XML file using the
-  Moodle standards for exams/quizzes.
+  LaTeX text, (3) transforming the text to HTML, and (4) embedding the HTML code in a Moodle XML
+  file for exams/quizzes.
 
   For steps (1) and (2) the standard drivers in \code{\link{xexams}} are used. In step (3), a suitable
   transformation function is set up on the fly using \code{make_exercise_transform_html}, see also
   the details section in \code{\link{exams2html}}.
 
-  For step (4), the function will cycle through all questions and exams to generate the final XML
-  file in Moodle standard. The structure of the resulting XML file is such that one category
+  For step (4), the function will cycle through all questions and exams to generate the final Moodle
+  XML file. The structure of the resulting XML file is such that one category
   will be set for the exam/quiz using the exam/quiz \code{name} (or this category may be
   suppressed (i.e., not included in the XML) by setting \code{iname = FALSE}), followed by one
   category/section for each question, while the replicates of each question will be included in the
@@ -211,6 +213,13 @@
   \item \code{attachments}: numeric. How many attachments can be uploaded.
   \item \code{attachmentsrequired}: numeric. The number of required attachments.
   }
+
+  To control the style used for rendering the HTML in Moodle exercises, it is possible to
+  include some custom CSS (cascading style sheets) code via the argument \code{css}. In
+  particular, the \code{exams2moodle} function leverages this for table formatting. It
+  includes its own CSS for this purpose if one of the classes \code{"table_shade"} (rows
+  highlightedd with different shades of gray), \code{"table_rule"} (with
+  horizontal lines), or \code{"table_grid"} (with both horizontal and vertical lines) is used.
 }
 
 \references{

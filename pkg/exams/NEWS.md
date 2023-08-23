@@ -56,6 +56,13 @@
   from the `Meta-information` are read. If the same tags occur elsewhere in
   the file they are ignored now. (Reported by Joan Sanz.)
 
+* Include better table formatting by default in `exams2moodle()`. Styles
+  `table = "table_shade"`, `"table_rule"`, and `"table_grid"` had already
+  been available since version 2.4-0, but `table = "table_shade"` is now
+  the new default. Alternatively, users can also set a custom table class
+  and then use the `css` argument for controlling the rendering of that
+  class.
+
 * In `exams2moodle()` the `string` elements in `cloze` exercises now also
   correctly support the `usecase = TRUE` option (reported by Joan Sanz).
 
