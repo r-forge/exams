@@ -35,7 +35,7 @@ as R/exams) in tutorials or quizzes written with the
 [learnr](https://rstudio.github.io/learnr/) package.
 
 The goal of `learnr` is the creation of interactive tutorials in a
-[shiny](https://shiny.rstudio.com/) application written with R/Markdown.
+[shiny](https://shiny..posit.co/) application written with R/Markdown.
 The tutorials can contain individual questions (exercises) or quizzes (sets of exercises)
 along with text, graphics, and other elements you can embed in R/Markdown.
 Usually, these tutorials can then be used for self-paced learning rather than
