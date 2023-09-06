@@ -20,13 +20,13 @@ render_quiz <- function(file,
     'output: webexercises::webexercises_default',
     '---',
     '',
-    '```{r setup, include = FALSE}',
+    '```{r, include = FALSE}',
     '## package and exercises',
     'library("exams2webexercises")',
     'exm <- %s',
     '```',
     '',
-    '```{r %s, echo = FALSE, message = FALSE, results="asis"}',
+    '```{r, echo = FALSE, message = FALSE, results="asis"}',
     'exams2webexercises(%s)',
     '```'
   )
@@ -48,7 +48,6 @@ render_quiz <- function(file,
     paste(template, collapse = "\n"),
     title,
     paste(deparse(file), collapse = "\n"),
-    name,
     args
   )
 
