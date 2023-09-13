@@ -29,7 +29,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
     on.exit(.exams_set_internal(pandoc_table_class_fixup = FALSE))
 
     if(is.null(css) && table %in% c("table_grid", "table_rule", "table_shade")) {
-      css <- readLines(system.file(file.path("css", "table.css"), package = "exams"))
+      css <- readLines(system.file(file.path("css", paste0(table, ".css")), package = "exams"))
     }
   }
 

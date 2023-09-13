@@ -218,15 +218,15 @@
   include some custom CSS (cascading style sheets) code via the argument \code{css}. In
   particular, the \code{exams2moodle} function leverages this for table formatting. It
   includes its own CSS for this purpose if one of the classes \code{"table_shade"} (rows
-  highlightedd with different shades of gray), \code{"table_rule"} (with
+  highlighted with different shades of gray), \code{"table_rule"} (with
   horizontal lines), or \code{"table_grid"} (with both horizontal and vertical lines) is used.
 }
 
 \references{
-Dougiamas M, et al. (2019). \emph{Moodle, Version 3.6}.
+Dougiamas M, et al. (2022). \emph{Moodle, Version 4.0}.
   \url{https://moodle.org/}.
 
-MoodleDocs (2019). \emph{Moodle XML Format}.
+MoodleDocs (2022). \emph{Moodle XML Format}.
   \url{https://docs.moodle.org/en/Moodle_XML}
 
 Zeileis A, Umlauf N, Leisch F (2014).
