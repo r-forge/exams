@@ -222,7 +222,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
 make_question_moodle <-
 make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE, penalty = 0,
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
-  truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
+  truefalse = c("True", "False"), enumerate = FALSE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
   essay = NULL, numwidth = NULL, stringwidth = NULL, css = NULL)
 {

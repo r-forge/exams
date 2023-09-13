@@ -526,7 +526,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
 ## QTI 2.1 item body constructor function
 make_itembody_qti21 <- function(shuffle = FALSE,
-  defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
+  defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = FALSE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE,
   casesensitive = TRUE, cloze_schoice_display = c("auto", "buttons", "dropdown"),

@@ -63,6 +63,14 @@
   and then use the `css` argument for controlling the rendering of that
   class.
 
+* In `exams2moodle()`, `exams2qti12()`, and `exams2qti21()` (and all interfaces
+  built on top of these like `exams2openolat()`) the default is now
+  `enumerate = FALSE` (rather than `TRUE`) so that single-choice and
+  multiple-choice answers are not listed with letters a., b., c., ...
+  The default was changed because it produces questions with less "clutter"
+  but may make it a little bit harder to match solution lists in the feedback
+  to the item lists in the question.
+
 * In `exams2moodle()` the `string` elements in `cloze` exercises now also
   correctly support the `usecase = TRUE` option (reported by Joan Sanz).
 
