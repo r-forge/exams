@@ -540,9 +540,11 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## how many points?
     points <- if(is.null(x$metainfo$points)) 1 else x$metainfo$points
 
-    dopbl <- x$converter %in% c("ttm", "tth")
+    ## process block-level elements? Needed for TtH/TtM output.
+    pbl <- x$converter %in% c("ttm", "tth")
 
-    flavorans <- x$flavor == "ans"
+    ## QTI 2.1 flavor; especially whether it is for Ans output or not (e.g., OpenOlat)
+    flavor <- x$flavor
 
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
@@ -782,23 +784,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
       ## numeric responses
       if(type[i] == "num") {
-        if(flavorans) {
-          xml <- c(xml,
-            paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
-            '<correctResponse>',
-            paste('<value>', solution[[i]], '</value>', sep = ''),
-            '</correctResponse>',
-            '</responseDeclaration>'
-          )
-        } else {
-          xml <- c(xml,
-            paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="float">', sep = ''),
+        xml <- c(xml,
+          sprintf('<responseDeclaration identifier="%s" cardinality="single" baseType="%s">',
+            ids[[i]]$response, if(flavor == "ans") "string" else "float"),
           '<correctResponse>',
-            paste('<value>', solution[[i]], '</value>', sep = ''),
-            '</correctResponse>',
-            '</responseDeclaration>'
-          )
-        }
+          sprintf('<value>%s</value>', solution[[i]]),
+          '</correctResponse>',
+          '</responseDeclaration>'
+        )
       }
 
       ## string responses
@@ -825,7 +818,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
               paste('<responseDeclaration identifier="', ids[[i]]$response,
                 '" cardinality="single" baseType="string">', sep = ''),
               ## '<correctResponse>', ## N, correct response seems not to work?
-              ## if(dopbl) process_html_pbl(x$solution) else x$solution,
+              ## if(pbl) process_html_pbl(x$solution) else x$solution,
               ## paste('<value>', solution[[i]], '</value>', sep = ''),
               ## '</correctResponse>',
               '</responseDeclaration>'
@@ -889,7 +882,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## starting the itembody
     xml <- c(xml, '<itemBody>')
     if(!is.null(x$question))
-      xml <- c(xml, if(dopbl) process_html_pbl(x$question) else x$question)
+      xml <- c(xml, if(pbl) process_html_pbl(x$question) else x$question)
 
     for(i in 1:n) {
       ans <- any(grepl(paste0("##ANSWER", i, "##"), xml))
@@ -1090,16 +1083,16 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## score each answer
     for(i in 1:n) {
       if(type[i] == "num") {
-        if(flavorans) {
+        if(flavor == "ans") {
           xml <- c(xml,
             '<responseCondition>',
             '<responseIf>',
-            paste0('<equal tolerance="', max(tol[[i]]), '" toleranceMode="absolute">'),
-            paste0('<variable identifier="', ids[[i]]$response, '"/>'),
-            paste0('<baseValue baseType="float">', solution[[i]], '</baseValue>'),
+            sprintf('<equal tolerance="%s" toleranceMode="absolute">', max(tol[[i]])),
+            sprintf('<variable identifier="%s"/>', ids[[i]]$response),
+            sprintf('<baseValue baseType="float">%s</baseValue>', solution[[i]]),
             '</equal>',
             '<setOutcomeValue identifier="SCORE">',
-            '<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>',
+            sprintf('<baseValue baseType="float">%s</baseValue>', pv[[i]]["pos"]),
             '</setOutcomeValue>',
             '</responseIf>',
             '</responseCondition>'
@@ -1299,23 +1292,18 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     ## solution when wrong
     if(solutionswitch) {
-      if(flavorans) {
-        xml <- c(xml,
-          '<modalFeedback outcomeIdentifier="FEEDBACK" showHide="show" identifier="incorrect">',
-          if(dopbl) process_html_pbl(xsolution) else xsolution,
-          '</modalFeedback>'
-        )
-      } else {
-        xml <- c(xml,
-          paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-          if(dopbl) process_html_pbl(xsolution) else xsolution,
-          '</modalFeedback>'
-        )
-      }
+      xml <- c(xml,
+        if(flavor == "ans") {
+          '<modalFeedback outcomeIdentifier="FEEDBACK" showHide="show" identifier="incorrect">'
+        } else {
+          paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = '')        
+        },
+        if(pbl) process_html_pbl(xsolution) else xsolution,
+        '</modalFeedback>'
+      )
     }
-
+    
     xml <- c(xml, '</assessmentItem>')
-
     xml
   }
 }
