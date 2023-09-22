@@ -19,7 +19,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   eval = list(partial = TRUE, rule = "false2", negative = FALSE),
   converter = NULL, envir = NULL, engine = NULL, base64 = TRUE, mode = "hex",
   include = NULL,
-  selection = c("pool", "exam"), ...)
+  selection = c("pool", "exam"), flavor = "plain", ...)
 {
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
@@ -261,10 +261,12 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
       }
 
       exm[[i]][[j]]$converter <- converter
+      exm[[i]][[j]]$flavor <- flavor
 
       ibody <- itembody[[type]](exm[[i]][[j]])
 
       exm[[i]][[j]]$converter <- NULL
+      exm[[i]][[j]]$flavor <- NULL
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
@@ -540,6 +542,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     dopbl <- x$converter %in% c("ttm", "tth")
 
+    flavorans <- x$flavor == "ans"
+
     ## how many questions
     solution <- if(!is.list(x$metainfo$solution)) {
       list(x$metainfo$solution)
@@ -778,13 +782,23 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
       ## numeric responses
       if(type[i] == "num") {
-        xml <- c(xml,
-          paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="float">', sep = ''),
-        '<correctResponse>',
-          paste('<value>', solution[[i]], '</value>', sep = ''),
-          '</correctResponse>',
-          '</responseDeclaration>'
-        )
+        if(flavorans) {
+          xml <- c(xml,
+            paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="string">', sep = ''),
+            '<correctResponse>',
+            paste('<value>', solution[[i]], '</value>', sep = ''),
+            '</correctResponse>',
+            '</responseDeclaration>'
+          )
+        } else {
+          xml <- c(xml,
+            paste('<responseDeclaration identifier="', ids[[i]]$response, '" cardinality="single" baseType="float">', sep = ''),
+          '<correctResponse>',
+            paste('<value>', solution[[i]], '</value>', sep = ''),
+            '</correctResponse>',
+            '</responseDeclaration>'
+          )
+        }
       }
 
       ## string responses
@@ -1076,23 +1090,39 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## score each answer
     for(i in 1:n) {
       if(type[i] == "num") {
-        xml <- c(xml,
-          '<responseCondition>',
-          '<responseIf>',
-          paste0('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
-            max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">'),
-          paste0('<variable identifier="', ids[[i]]$response, '"/>'),
-          paste0('<correct identifier="', ids[[i]]$response, '"/>'),
-          '</equal>',
-          paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
-          '<sum>',
-          paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
-          paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
-          '</sum>',
-          '</setOutcomeValue>',
-          '</responseIf>',
-          '</responseCondition>'
-        )
+        if(flavorans) {
+          xml <- c(xml,
+            '<responseCondition>',
+            '<responseIf>',
+            paste0('<equal tolerance="', max(tol[[i]]), '" toleranceMode="absolute">'),
+            paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+            paste0('<baseValue baseType="float">', solution[[i]], '</baseValue>'),
+            '</equal>',
+            '<setOutcomeValue identifier="SCORE">',
+            '<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>',
+            '</setOutcomeValue>',
+            '</responseIf>',
+            '</responseCondition>'
+          )
+        } else {
+          xml <- c(xml,
+            '<responseCondition>',
+            '<responseIf>',
+            paste0('<equal toleranceMode="absolute" tolerance="', max(tol[[i]]), ' ',
+              max(tol[[i]]),'" includeLowerBound="true" includeUpperBound="true">'),
+            paste0('<variable identifier="', ids[[i]]$response, '"/>'),
+            paste0('<correct identifier="', ids[[i]]$response, '"/>'),
+            '</equal>',
+            paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+            '<sum>',
+            paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+            paste0('<baseValue baseType="float">', pv[[i]]["pos"], '</baseValue>'),
+            '</sum>',
+            '</setOutcomeValue>',
+            '</responseIf>',
+            '</responseCondition>'
+          )
+        }
       }
 
       if(type[i] %in% c("schoice", "mchoice", "string")) {
@@ -1269,11 +1299,19 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
     ## solution when wrong
     if(solutionswitch) {
-      xml <- c(xml,
-        paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
-        if(dopbl) process_html_pbl(xsolution) else xsolution,
-        '</modalFeedback>'
-      )
+      if(flavorans) {
+        xml <- c(xml,
+          '<modalFeedback outcomeIdentifier="FEEDBACK" showHide="show" identifier="incorrect">',
+          if(dopbl) process_html_pbl(xsolution) else xsolution,
+          '</modalFeedback>'
+        )
+      } else {
+        xml <- c(xml,
+          paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = ''),
+          if(dopbl) process_html_pbl(xsolution) else xsolution,
+          '</modalFeedback>'
+        )
+      }
     }
 
     xml <- c(xml, '</assessmentItem>')
