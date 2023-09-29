@@ -96,7 +96,11 @@
     of the exam is just the number of points.}
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
-    was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).}
+    was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).
+    Furthermore, if e.g. \code{solutionswitch = c(FALSE, TRUE), the correct solution can
+    be displayed when the results are displayed after the test is completed, i.e. the first
+    element of \code{solutionswitch} controls the display of solutions during the test and the
+    second element after the test is completed.}
   \item{casesensitive}{logical. Should the evaluation of string exercises be case sensitive?}
   \item{cloze_schoice_display}{character. For \code{schoice} answers in \code{cloze} exercises,
     select the display of the possible answers. By default (\code{cloze_schoice_display = "auto"}),
