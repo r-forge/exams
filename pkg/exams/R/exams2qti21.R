@@ -1054,32 +1054,6 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     ## response processing
     xml <- c(xml, '<responseProcessing>')
 
-    ## FIXME: create a switch?
-    not_answered_points <- if(is.null(eval[[i]]$not_answered)) {
-      0.0
-    } else {
-      as.numeric(eval[[i]]$not_answered)
-    }
-
-    ## not answered points single
-    for(i in 1:n) {
-      xml <- c(xml,
-        '<responseCondition>',
-        '<responseIf>',
-        '<isNull>',
-        paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
-        '</isNull>',
-        paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
-        '<sum>',
-        paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
-        paste0('<baseValue baseType="float">', not_answered_points, '</baseValue>'),
-        '</sum>',
-        '</setOutcomeValue>',
-        '</responseIf>',
-        '</responseCondition>'
-      )
-    }
-
     ## score each answer
     for(i in 1:n) {
       if(type[i] == "num") {
@@ -1219,6 +1193,32 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         '</lt>',
         paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
         paste0('<variable identifier="MINSCORE_RESPONSE_', i, '"/>'),
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
+    }
+
+    ## FIXME: create a switch?
+    not_answered_points <- if(is.null(eval[[i]]$not_answered)) {
+      0.0
+    } else {
+      as.numeric(eval[[i]]$not_answered)
+    }
+
+    ## not answered points single
+    for(i in 1:n) {
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<isNull>',
+        paste('<variable identifier="', ids[[i]]$response, '"/>', sep = ''),
+        '</isNull>',
+        paste0('<setOutcomeValue identifier="SCORE_RESPONSE_', i, '">'),
+        '<sum>',
+        paste0('<variable identifier="SCORE_RESPONSE_', i, '"/>'),
+        paste0('<baseValue baseType="float">', not_answered_points, '</baseValue>'),
+        '</sum>',
         '</setOutcomeValue>',
         '</responseIf>',
         '</responseCondition>'
