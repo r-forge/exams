@@ -19,12 +19,12 @@
     schoice = mchoice, string = NULL, cloze = NULL,
     points = NULL, rule = NULL, pluginfile = TRUE, forcedownload = FALSE,
     converter = "pandoc-mathjax", envir = NULL, engine = NULL,
-    table = "table_grid", css = NULL, \dots)
+    table = "table_shade", css = NULL, \dots)
 
   make_question_moodle(name = NULL, solution = TRUE,
     shuffle = FALSE, penalty = 0, answernumbering = "abc",
     usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
-    truefalse = c("True", "False"), enumerate = TRUE, abstention = NULL,
+    truefalse = c("True", "False"), enumerate = FALSE, abstention = NULL,
     eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
     essay = NULL, numwidth = NULL, stringwidth = NULL,
     css = NULL)

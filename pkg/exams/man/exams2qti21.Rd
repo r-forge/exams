@@ -24,10 +24,10 @@
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
     eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     converter = NULL, envir = NULL, engine = NULL, base64 = TRUE, mode = "hex",
-    include = NULL, selection = c("pool", "exam"), \dots)
+    include = NULL, selection = c("pool", "exam"), flavor = "plain", \dots)
 
   make_itembody_qti21(shuffle = FALSE, defaultval = NULL,
-    minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
+    minvalue = NULL, maxvalue = NULL, enumerate = FALSE,
     digits = NULL, tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, rule = "false2", negative = FALSE),
     solutionswitch = TRUE, casesensitive = TRUE,
@@ -97,7 +97,7 @@
   \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).
-    Furthermore, if e.g. \code{solutionswitch = c(FALSE, TRUE), the correct solution can
+    Furthermore, if e.g. \code{solutionswitch = c(FALSE, TRUE)}, the correct solution can
     be displayed when the results are displayed after the test is completed, i.e. the first
     element of \code{solutionswitch} controls the display of solutions during the test and the
     second element after the test is completed.}
@@ -150,6 +150,11 @@
     \code{selection = "exam"} each section contains all questions and one section will
     be selected for the exam. The \code{"exam"} variant has the advantage that questions
     that build on each other can be used in the exam.}
+  \item{flavor}{character. Which QTI 2.1 \dQuote{flavor} should be used? Some learning
+    management systems require that the QTI XML tags are used in a rather specific
+    and idiosyncratic way. Typically, users should not set this argument directly but
+    use the convenience interfaces such as \code{\link{exams2openolat}} instead
+    (which use the \code{flavor} argument internally along with further customizations).}
   \item{shuffle, defaultval, minvalue, maxvalue}{arguments used for item construction,
     for details see the XML specification (see IMS Global Learning Consortium, Inc. 2012),
     especially Section 4.}
@@ -279,7 +284,7 @@ dir.create(mydir <- tempfile())
 exams2qti21(myexam, n = 3, dir = mydir,
   maxattempts = 3,
   num = list(digits = 1),
-  mchoice = list(shuffle = TRUE, enumerate = FALSE)
+  mchoice = list(shuffle = TRUE, enumerate = TRUE)
 )
 dir(mydir)
 }
