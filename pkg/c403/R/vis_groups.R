@@ -21,6 +21,7 @@ vis_groups <- function(x, nrow = 5L, ncol = 2L, ...) {
     x <- if(file_ext(x) == "csv") read.csv2(x, colClasses = "character", ...) else read_vis(x, ...)
   }
   if(is.data.frame(x)) {
+    if(("Meldestatus" %in% names(x))) x <- x[substr(x$Meldestatus, 1, 14) == "Anmeldung best", , drop = FALSE]
     if(!("Name" %in% names(x))) stop("no 'Name' column in data")
     x <- x$Name
   }
@@ -34,10 +35,11 @@ vis_groups <- function(x, nrow = 5L, ncol = 2L, ...) {
   ngroups <- nrow * ncol
   nmembers <- rep.int(ceiling(n/ngroups), ngroups)
   nround <- sum(nmembers) - n
-  nmembers[(ngroups - nround + 1):ngroups] <- nmembers[(ngroups - nround + 1):ngroups] - 1
+  if(nround > 0L) nmembers[(ngroups - nround + 1):ngroups] <- nmembers[(ngroups - nround + 1):ngroups] - 1
 
   ## split up names
   y <- split(x, rep.int(1L:ngroups, nmembers))
+  y <- lapply(y, sort)
   
   ## collapse names with HTML formatting
   z <- matrix(rep.int("", ngroups), nrow = ncol)
