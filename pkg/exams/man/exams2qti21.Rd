@@ -18,7 +18,7 @@
     template = "qti21", duration = NULL,
     stitle = NULL, ititle = NULL,
     adescription = "Please solve the following exercises.", sdescription = "",
-    maxattempts = 1, cutvalue = NULL, solutionswitch = c(TRUE, FALSE),
+    maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE,
     casesensitive = TRUE, cloze_schoice_display = "auto",
     navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE,
     allowcomment = FALSE, shufflesections = FALSE, zip = TRUE, points = NULL,
@@ -94,13 +94,12 @@
   \item{cutvalue}{numeric. The number of points at which the exam is passed. If set to
     \code{NULL} (default) or equivalently \code{NA}, no cutvalue is set and the result
     of the exam is just the number of points.}
-  \item{solutionswitch}{logical. Should the question/item solutionswitch be enabled?
+  \item{solutionswitch}{logical or character. Should the question/item solutionswitch be enabled?
     In OLAT this means that the correct solution is shown after an incorrect solution
     was entered by an examinee (i.e., this is typically only useful if \code{maxattempts = 1}).
-    Furthermore, if e.g. \code{solutionswitch = c(FALSE, TRUE)}, the correct solution can
-    be displayed when the results are displayed after the test is completed, i.e. the first
-    element of \code{solutionswitch} controls the display of solutions during the test and the
-    second element after the test is completed.}
+    Furthermore, if e.g. \code{solutionswitch = c("correct", "incorrect", "summary")}, the correct
+    solution can be either displayed when the answer is \code{"correct"} and/or \code{"incorrect"} and/or
+    after the test is completed in the \code{"summary"} of the results.}
   \item{casesensitive}{logical. Should the evaluation of string exercises be case sensitive?}
   \item{cloze_schoice_display}{character. For \code{schoice} answers in \code{cloze} exercises,
     select the display of the possible answers. By default (\code{cloze_schoice_display = "auto"}),
