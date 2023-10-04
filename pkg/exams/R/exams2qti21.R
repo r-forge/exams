@@ -13,7 +13,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   template = "qti21",
   duration = NULL, stitle = NULL, ititle = NULL,
   adescription = "Please solve the following exercises.", sdescription = "", 
-  maxattempts = 1, cutvalue = NULL, solutionswitch = c(TRUE, FALSE), casesensitive = TRUE, cloze_schoice_display = "auto",
+  maxattempts = 1, cutvalue = NULL, solutionswitch = TRUE, casesensitive = TRUE, cloze_schoice_display = "auto",
   navigation = "nonlinear", allowskipping = TRUE, allowreview = FALSE, allowcomment = FALSE,
   shufflesections = FALSE, zip = TRUE, points = NULL,
   eval = list(partial = TRUE, rule = "false2", negative = FALSE),
@@ -31,6 +31,8 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   } else {
     make_exercise_transform_html(converter = converter, ..., base64 = base64)
   }
+  ## process solutionswitch
+  solutionswitch <- sol_switch(solutionswitch)
 
   ## create a name (without spaces or periods)
   if(is.null(name)) name <- file_path_sans_ext(basename(template))
@@ -60,9 +62,6 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## start .xml assessement creation
   ## get the possible item body functions and options  
   itembody <- list(num = num, mchoice = mchoice, schoice = schoice, cloze = cloze, string = string)
-
-  if(length(solutionswitch) < 2)
-    solutionswitch <- c(solutionswitch, FALSE)
 
   for(i in c("num", "mchoice", "schoice", "cloze", "string")) {
     if(is.null(itembody[[i]])) itembody[[i]] <- list()
@@ -413,7 +412,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   manifest_xml <- gsub("##Date##", format(Sys.time(), "%Y-%m-%dT%H:%M:%S"), manifest_xml, fixed = TRUE)
 
   ## warn if solutions could be copied by participants
-  if(any(maxattempts != 1L) && solutionswitch[1L]) {
+  if(any(maxattempts != 1L) && any(c("incorrect", "partial") %in%  solutionswitch)) {
     warning("if solutionswitch is TRUE, maxattempts should typically be 1 so that the solution cannot be copied by participants")
   }
 
@@ -464,7 +463,7 @@ exams2qti21 <- function(file, n = 1L, nsamp = NULL, dir = ".",
   }
 
   assessment_xml <- gsub('##MaxAttempts##', round(as.numeric(maxattempts[1L])), assessment_xml, fixed = TRUE)
-  assessment_xml <- gsub('##ShowSolution##', if(solutionswitch[1L] | solutionswitch[2L]) 'true' else 'false', assessment_xml, fixed = TRUE)
+  assessment_xml <- gsub('##ShowSolution##', if(any(c("correct", "incorrect", "partial", "summary") %in% solutionswitch)) 'true' else 'false', assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##NavigationMode##', match.arg(navigation, c("nonlinear", "linear")), assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##AllowComment##', if(allowcomment) 'true' else 'false', assessment_xml, fixed = TRUE)
   assessment_xml <- gsub('##AllowSkipping##', if(allowskipping) 'true' else 'false', assessment_xml, fixed = TRUE)
@@ -539,8 +538,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 {
   cloze_schoice_display <- if(is.null(cloze_schoice_display)) "auto" else match.arg(cloze_schoice_display, c("auto", "buttons", "dropdown"))
 
-  if(length(solutionswitch) < 2)
-    solutionswitch <- c(solutionswitch, FALSE)
+  solutionswitch <- sol_switch(solutionswitch)
 
   function(x) {
     ## how many points?
@@ -838,6 +836,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
     }
 
+    if("hint" %in% solutionswitch) {
+      xml <- c(xml,
+        '<responseDeclaration identifier="HINTREQUEST" cardinality="single" baseType="boolean"/>'
+      )
+    }
+
     if(is.null(minvalue)) ## FIXME: switch for minvalue for full question?
       minvalue <- sum(as.numeric(unlist(mv)))
 
@@ -883,6 +887,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         paste0('<value>', mv[[i]], '</value>'),
         '</defaultValue>',
         '</outcomeDeclaration>'
+      )
+    }
+
+    if("hint" %in% solutionswitch) {
+      xml <- c(xml,
+        '<outcomeDeclaration identifier="HINTFEEDBACKMODAL" cardinality="single" baseType="identifier"/>'
       )
     }
 
@@ -1053,6 +1063,14 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       } else {
         xml <- c(xml, txml)
       }
+    }
+
+    if("hint" %in% solutionswitch) {
+      xml <- c(xml,
+        '<p>',
+        '<endAttemptInteraction responseIdentifier="HINTREQUEST" title="SolutionHint"/>',
+        '</p>'
+      )
     }
 
     ## close itembody
@@ -1253,9 +1271,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       '</responseCondition>'
     )
 
-    if(solutionswitch[1L] | solutionswitch[2L]) {
+    if(any(c("incorrect", "summary", "partial", "hint") %in% solutionswitch)) {
 
-      if(solutionswitch[1L]) {
+      if("incorrect" %in% solutionswitch) {
         fid <- make_id(9, 1)
         xml <- c(xml,
           '<responseCondition>',
@@ -1298,7 +1316,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       }
     }
 
-    if(solutionswitch[2L]) {
+    if("summary" %in% solutionswitch) {
       fid_m <- make_id(9, 1)
       xml <- c(xml,
         '<responseCondition>',
@@ -1315,10 +1333,49 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       )
     }
 
+    if("partial" %in% solutionswitch) {
+      fid_p <- make_id(9, 1)
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<and>',
+        '<gt>',
+        '<variable identifier="SCORE"/>',
+        paste('<baseValue baseType="float">', 0, '</baseValue>', sep = ''),
+        '</gt>',
+        '<lt>',
+        '<variable identifier="SCORE"/>',
+        paste('<baseValue baseType="float">', points, '</baseValue>', sep = ''),
+        '</lt>',
+        '</and>',
+        '<setOutcomeValue identifier="FEEDBACKMODAL">',
+        '<multiple>',
+        '<variable identifier="FEEDBACKMODAL"/>',
+        paste('<baseValue baseType="identifier">Feedback', fid_p, '</baseValue>', sep = ''),
+        '/<multiple>',
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
+    }
+
+    if("hint" %in% solutionswitch) {
+      xml <- c(xml,
+        '<responseCondition>',
+        '<responseIf>',
+        '<variable identifier="HINTREQUEST"/>',
+        '<setOutcomeValue identifier="HINTFEEDBACKMODAL">',
+        '<baseValue baseType="identifier">HINT</baseValue>',
+        '</setOutcomeValue>',
+        '</responseIf>',
+        '</responseCondition>'
+      )
+    }
+
     xml <- c(xml, '</responseProcessing>')
 
     ## solution when wrong
-    if(solutionswitch[1L]) {
+    if("incorrect" %in% solutionswitch) {
       xml <- c(xml,
         if(flavor == "ans") {
           '<modalFeedback outcomeIdentifier="FEEDBACK" showHide="show" identifier="incorrect">'
@@ -1330,7 +1387,19 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       )
     }
 
-    if(solutionswitch[2L] & (flavor != "ans")) {
+    if("partial" %in% solutionswitch) {
+      xml <- c(xml,
+        if(flavor == "ans") {
+          '<modalFeedback outcomeIdentifier="FEEDBACK" showHide="show" identifier="incorrect">'
+        } else {
+          paste('<modalFeedback identifier="Feedback', fid_p, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = '')        
+        },
+        if(pbl) process_html_pbl(xsolution) else xsolution,
+        '</modalFeedback>'
+      )
+    }
+
+    if(("summary" %in% solutionswitch) & (flavor != "ans")) {
       xml <- c(xml,
         paste('<modalFeedback identifier="Feedback', fid_m, '" outcomeIdentifier="SOLUTIONMODAL" showHide="show">', sep = ''),       
         if(pbl) process_html_pbl(xsolution) else xsolution,
@@ -1338,14 +1407,41 @@ make_itembody_qti21 <- function(shuffle = FALSE,
       )
     }
 
-    ## modal solution
-    if(solutionswitch[2L]) {
-      
+    if(("hint" %in% solutionswitch) & (flavor != "ans")) {
+      hint <- x$metainfo$hint
+      if(is.null(hint))
+        hint <- xsolution
+      xml <- c(xml,
+        '<modalFeedback identifier="HINT" outcomeIdentifier="HINTFEEDBACKMODAL" showHide="show">',       
+        if(pbl) process_html_pbl(hint) else hint,
+        '</modalFeedback>'
+      )
     }
     
     xml <- c(xml, '</assessmentItem>')
     xml
   }
+}
+
+
+## process solutionswitch
+sol_switch <- function(x = TRUE)
+{
+  if(is.null(x))
+    x <- FALSE
+  if(is.logical(x)) {
+    x <- if(x) "incorrect" else character(0)
+  }
+  if(!is.character(x))
+    x <- as.character(x)
+  x <- x[x != ""]
+  if(length(x) > 0L) {
+    x <- vapply(tolower(x),
+      FUN = match.arg, FUN.VALUE = "",
+      choices = c("correct", "incorrect", "partial", "summary", "hint"))
+  }
+  x <- unname(x)
+  return(x)
 }
 
 
