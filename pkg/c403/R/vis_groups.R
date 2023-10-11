@@ -86,6 +86,7 @@ vis_groups <- function(x, nrow = 5L, ncol = 2L, ...) {
     '    background: #D4D4D4;',
     '}',
     '</style>',
+    '<meta charset="utf-8" />',
     '</head>',
     '<body>',
     '<table class="table_shade">',
