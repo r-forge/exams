@@ -58,9 +58,9 @@ read_exercise <- function(file, markup = NULL, exshuffle = NULL)
   
   ## consistency checks
   if(!is.null(questionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(questionlist))
-    warning(sprintf("length of exsolution and questionlist does not match in '%s'", metainfo$file))
+    stop(sprintf("length of exsolution (= %s) and questionlist (= %s) does not match in '%s'", metainfo$length, length(questionlist), metainfo$file))
   if(!is.null(solutionlist) && metainfo$type %in% c("schoice", "mchoice") && metainfo$length != length(solutionlist))
-    warning(sprintf("length of exsolution and solutionlist does not match in '%s'", metainfo$file))
+    warning(sprintf("length of exsolution (= %s) and solutionlist (= %s) does not match in '%s'", metainfo$length, length(solutionlist), metainfo$file))
 
   ## cloze with placeholds: all placeholders available?
   if(metainfo$type == "cloze" && any(grepl(paste0(if(metainfo$markup == "markdown") "\\#\\#" else "##", "ANSWER"), question, fixed = TRUE))) {

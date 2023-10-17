@@ -22,6 +22,11 @@
   for all other `num` or `string`/`essay`/`file` elements can optionally
   be omitted.
 
+* In `schoice` and `mchoice` questions an error (rather than just a warning)
+  is thrown when the lengths of the question list and the `exsolution` do
+  not match. Also, the reading of question lists is more robust now for
+  Markdown exercises.
+
 * Added first release version of new interface `exams2inspera()` for the
   assessment platform [Inspera](https://www.inspera.com/). It is using
   `exams2qti21()` internally with a custom XML `template` and a few further

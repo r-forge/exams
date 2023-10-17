@@ -46,8 +46,8 @@ extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markd
 extract_command <- function(x, command, type = c("character", "logical", "numeric"), markup = c("latex", "markdown"))
 {
   ## return type and markup type
-  type <- match.arg(type)
-  markup <- match.arg(markup)
+  type <- match.arg(type, c("character", "logical", "numeric"))
+  markup <- match.arg(markup, c("latex", "markdown"))
 
   ## find command line
   command <- if(markup == "latex") paste0("\\", command) else paste0(command, ":")
@@ -90,7 +90,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
 extract_extra <- function(x, markup = c("latex", "markdown"))
 {
   ## markup type
-  markup <- match.arg(markup)
+  markup <- match.arg(markup, c("latex", "markdown"))
 
   ## search for extra commands
   comm0 <- if(markup == "latex") "\\exextra[" else "exextra["
@@ -115,12 +115,11 @@ extract_extra <- function(x, markup = c("latex", "markdown"))
 extract_items <- function(x, markup = c("latex", "markdown"))
 {
   ## markup type
-  markup <- match.arg(markup)
+  markup <- match.arg(markup, c("latex", "markdown"))
 
   ## map markdown to tex
   if(markup == "markdown") {
-    x <- gsub("^\\* ", "\\\\item ", x)
-    x <- gsub("^- ", "\\\\item ", x)
+    x <- gsub("^[\\*|-][[:space:]]*", "\\\\item ", x)
     x[x %in% c("*", "-")] <- "\\item "    
   }
     
