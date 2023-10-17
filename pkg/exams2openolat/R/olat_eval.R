@@ -144,9 +144,9 @@ read_olat_results <- function(file, xexam = NULL)
   })
 
   toPOSIXct <- if(xlsx) {
-    function(x) if(is.na(x) || x == "") NA else as.POSIXct(format(structure((x - 25567) * 24 * 3600, class = c("POSIXct", "POSIXt"))))
+    function(x) ifelse(is.na(x) | x == "", NA, as.POSIXct(format(structure((x - 25567) * 24 * 3600, class = c("POSIXct", "POSIXt")))))
   } else {
-    function(x) if(is.na(x) || x == "") NA else as.POSIXct(strptime(x, format = "%Y-%m-%dT%H:%M:%S"))
+    function(x) ifelse(is.na(x) | x == "", NA, as.POSIXct(strptime(x, format = "%Y-%m-%dT%H:%M:%S")))
   }
 
   ## compute results
