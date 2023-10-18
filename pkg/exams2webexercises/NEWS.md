@@ -14,8 +14,8 @@
   | Cloze           | `cloze`   | Combinations of the above |
 
 * The main function is `exams2webexercises()` which is typically
-  used within Rmd documents with `webexercises`. The package provides
-  two demo documents.
+  used within Rmd or Quarto documents with `webexercises`. The
+  package provides two demo documents.
 
   - `webexercises_questions.Rmd`: All questions set up indvidually.
   - `webexercises_quiz.Rmd`: An entire quiz set up in one go.
