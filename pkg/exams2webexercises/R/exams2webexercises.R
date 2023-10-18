@@ -22,8 +22,28 @@ exams2webexercises <- function(file,
     make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none", base64 = base64)
   }
   webexercisestrafo <- function(x, ...) {
+    
+    ## Need to fix issues that are not handled correctly in LaTeX to Markdown conversion?
+    fix_tex2md <- x$metainfo$markup == "latex"
+
+    ## remove leading spaces before \begin{...} and \end{...} in LaTeX input
+    if(fix_tex2md) {
+      x$question <- gsub("(^[[:space:]]*)(\\\\begin\\{)([^\\}]+)(\\})", "\\\\begin{\\3}", x$question)
+      x$question <- gsub("(^[[:space:]]*)(\\\\end\\{)([^\\}]+)(\\})", "\\\\end{\\3}", x$question)
+      x$solution <- gsub("(^[[:space:]]*)(\\\\begin\\{)([^\\}]+)(\\})", "\\\\begin{\\3}", x$solution)
+      x$solution <- gsub("(^[[:space:]]*)(\\\\end\\{)([^\\}]+)(\\})", "\\\\end{\\3}", x$solution)
+    }
+
     ## unify markup
     x <- trafo(x)
+
+    ## remove default "image" caption in Markdown if original input was LaTeX
+    if(fix_tex2md) {
+      x$question     <- gsub("![image](", "![](", x$question,     fixed = TRUE)
+      x$questionlist <- gsub("![image](", "![](", x$questionlist, fixed = TRUE)
+      x$solution     <- gsub("![image](", "![](", x$solution,     fixed = TRUE)
+      x$solutionlist <- gsub("![image](", "![](", x$solutionlist, fixed = TRUE)
+    }
 
     ## set up question
     question <- switch(x$metainfo$type,
