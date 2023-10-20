@@ -94,7 +94,8 @@
   answer options now. So the fixup does not need to be enabled by default.
 
 * The `logo` in `exams2nops(..., logo = ...)` can now also be a relative
-  path (relative to the working directory).
+  path (relative to the working directory). Also `logo = "uibk"` is supported
+  as a convenience option for including the logo of Universität Innsbruck.
 
 * When converting exercises with a converter based on `make_exercise_transform_pandoc()`
   to Markdown with Base64 output, graphics in `<img>` tags are now correctly
