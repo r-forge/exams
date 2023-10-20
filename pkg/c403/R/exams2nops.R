@@ -1,7 +1,8 @@
-#' Generation of NOPS Exams at Uni Innsbruck
+#' Deprecated: Generation of NOPS Exams (Uni Innsbruck)
 #' 
-#' Interfaces \code{\link[exams]{exams2nops}} with different default
-#' values as used at Uni Innsbruck.
+#' Unexported legacy interface to \code{\link[exams]{exams2nops}} with different default
+#' values as used at Uni Innsbruck. Instead it is recommended to use \code{\link[exams]{exams2nops}}
+#' directly.
 #' 
 #' \code{exams2nops} is a convenience interface for
 #' \code{\link[exams]{exams2nops}} with somewhat different defaults:
@@ -66,7 +67,6 @@
 #' @seealso nops_eval nops_register
 #' @aliases exams2nops
 #' @keywords utilities
-#' @export
 exams2nops <- function(file, n = 1L, dir = NULL, name = NULL,
        language = "de", title = "Klausur", course = "",
        institution = "Universit\\\"at Innsbruck",

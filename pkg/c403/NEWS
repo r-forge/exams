@@ -1,6 +1,0 @@
-Changes in Version 0.9-0
-
-* RS: Added this NEWS file.
-* RS: Added function `nops_feedback()` to create customized reports
-    of nops tests. Currently only tested for single-choice questions
-    without attachments (as we have to convert LaTeX > html).

@@ -1,7 +1,8 @@
-#' Evaluate NOPS Exams
+#' Deprecated: Evaluate NOPS Exams (Uni Innsbruck)
 #' 
-#' Evaluate NOPS exams produced with \code{\link[c403]{exams2nops}},
-#' and scanned by \code{\link[exams]{nops_scan}}.
+#' Unexported legacy interface to evaluate NOPS exams produced with \code{\link[c403]{exams2nops}},
+#' and scanned by \code{\link[exams]{nops_scan}}. Instead it is recommended to use
+#' \code{\link[exams]{nops_scan}} directly.
 #' 
 #' @param register character. File name of a CSV file (semicolon-separated)
 #'        of the registered students, e.g., as produced by \code{nops_register}
@@ -70,7 +71,6 @@
 #' 
 #' @importFrom exams round2 exams_eval
 #' @keywords utilities
-#' @export
 nops_eval <- function(register = Sys.glob("*.csv"), solutions = Sys.glob("*.rds"),
                       scans = Sys.glob("nops_scan_*.zip"), points = NULL,
                       eval = exams_eval(partial = FALSE, negative = 0.25),

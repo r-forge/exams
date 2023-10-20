@@ -5,7 +5,7 @@
 \alias{nops_eval}
 \alias{nops_eval_write_uibk}
 \alias{nops_register}
-\title{Evaluate NOPS Exams}
+\title{Deprecated: Evaluate NOPS Exams (Uni Innsbruck)}
 \usage{
 nops_eval(
   register = Sys.glob("*.csv"),
@@ -104,8 +104,9 @@ with a ZIP file containing the HTML reports (for upload into OLAT), and an XLSX
 file (for importing the marks into VIS).
 }
 \description{
-Evaluate NOPS exams produced with \code{\link[c403]{exams2nops}},
-and scanned by \code{\link[exams]{nops_scan}}.
+Unexported legacy interface to evaluate NOPS exams produced with \code{\link[c403]{exams2nops}},
+and scanned by \code{\link[exams]{nops_scan}}. Instead it is recommended to use
+\code{\link[exams]{nops_scan}} directly.
 }
 \details{
 \code{nops_eval} is a companion function for

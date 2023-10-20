@@ -1,8 +1,9 @@
-#' Generation of Exams for OpenOlat (Uni Innsbruck)
+#' Deprecated: Generation of Exams for OpenOlat (Uni Innsbruck)
 #' 
-#' Interfaces \code{\link[exams]{exams2openolat}} with
+#' Unexported legacy interface to \code{\link[exams]{exams2openolat}} with
 #' slightly different default values as used at the Department of
-#' Statistics, Uni Innsbruck.
+#' Statistics, Uni Innsbruck. Instead it is recommended to use
+#' \code{\link[exams]{exams2openolat}} directly.
 #' 
 #' \code{exams2openolat} is a convenience interface for
 #' \code{\link[exams]{exams2openolat}} with somewhat different defaults:
@@ -64,7 +65,6 @@
 #' exams2openolat(myexam, n = 3, dir = mydir, maxattempts = 2)
 #' dir(mydir)
 #' 
-#' @export
 exams2openolat <- function(file, n = 1L, dir = ".", name = "olattest",
   maxattempts = 1, cutvalue = 1000, solutionswitch = FALSE, qti = "2.1",
   stitle = "Aufgabe", ititle = "Frage", adescription = "", sdescription = "",
