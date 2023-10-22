@@ -28,10 +28,10 @@ exams2webexercises <- function(file,
 
     ## remove leading spaces before \begin{...} and \end{...} in LaTeX input
     if(fix_tex2md) {
-      x$question <- gsub("(^[[:space:]]*)(\\\\begin\\{)([^\\}]+)(\\})", "\\\\begin{\\3}", x$question)
-      x$question <- gsub("(^[[:space:]]*)(\\\\end\\{)([^\\}]+)(\\})", "\\\\end{\\3}", x$question)
-      x$solution <- gsub("(^[[:space:]]*)(\\\\begin\\{)([^\\}]+)(\\})", "\\\\begin{\\3}", x$solution)
-      x$solution <- gsub("(^[[:space:]]*)(\\\\end\\{)([^\\}]+)(\\})", "\\\\end{\\3}", x$solution)
+      x$question <- xsub("(^[[:space:]]*)(\\\\begin\\{)([^\\}]+)(\\})", "\\\\begin{\\3}", x$question)
+      x$question <- xsub("(^[[:space:]]*)(\\\\end\\{)([^\\}]+)(\\})", "\\\\end{\\3}", x$question)
+      x$solution <- xsub("(^[[:space:]]*)(\\\\begin\\{)([^\\}]+)(\\})", "\\\\begin{\\3}", x$solution)
+      x$solution <- xsub("(^[[:space:]]*)(\\\\end\\{)([^\\}]+)(\\})", "\\\\end{\\3}", x$solution)
     }
 
     ## unify markup
@@ -39,10 +39,10 @@ exams2webexercises <- function(file,
 
     ## remove default "image" caption in Markdown if original input was LaTeX
     if(fix_tex2md) {
-      x$question     <- gsub("![image](", "![](", x$question,     fixed = TRUE)
-      x$questionlist <- gsub("![image](", "![](", x$questionlist, fixed = TRUE)
-      x$solution     <- gsub("![image](", "![](", x$solution,     fixed = TRUE)
-      x$solutionlist <- gsub("![image](", "![](", x$solutionlist, fixed = TRUE)
+      x$question     <- xsub("![image](", "![](", x$question,     fixed = TRUE)
+      x$questionlist <- xsub("![image](", "![](", x$questionlist, fixed = TRUE)
+      x$solution     <- xsub("![image](", "![](", x$solution,     fixed = TRUE)
+      x$solutionlist <- xsub("![image](", "![](", x$solutionlist, fixed = TRUE)
     }
 
     ## set up question
@@ -117,7 +117,7 @@ exams2webexercises <- function(file,
           )
           aj <- paste0("##ANSWER", j, "##")
           if(any(grepl(aj, x$question, fixed = TRUE))) {
-            x$question <- gsub(aj, qj, x$question, fixed = TRUE)
+            x$question <- xsub(aj, qj, x$question, fixed = TRUE)
           } else {
             x$question <- c(x$question, "",
               if(!identical(x$questionlist[[j]], "") && !(x$metainfo$clozetype[j] %in% c("schoice", "mchoice"))) paste(x$questionlist[[j]], qj) else qj)
@@ -166,7 +166,7 @@ exams2webexercises <- function(file,
         s2 <- if(length(s2) < 2L) s2 else paste0(sdir, s2[-1L], collapse = "")
       }
       prefix <- if(html) c('src="', 'href="') else "]("
-      txt <- gsub(paste0(prefix, s1), paste0(prefix, s2), txt, fixed = TRUE)
+      txt <- xsub(paste0(prefix, s1), paste0(prefix, s2), txt, fixed = TRUE)
     }
     
     return(txt)
@@ -190,4 +190,12 @@ exams2webexercises <- function(file,
 
   ## return list of lists invisibly
   invisible(rval)
+}
+
+xsub <- function(pattern, replacement, x, ...) {
+  if(is.null(x)) {
+    return(NULL)
+  } else {
+    gsub(pattern, replacement, x, ...)
+  }
 }
