@@ -26,7 +26,8 @@ exams2webexercises(file,
   \item{box}{logical. Should a box be added around the \code{check} environment
     (if set to \code{TRUE})?}
   \item{markup}{character. Should the R/exams exercises be rendered as
-    \code{"markdown"} or \code{"html"}?}
+    \code{"markdown"} (recommended) or \code{"html"} (experimental,
+    sometimes leads to problems with surrounding box and check)?}
   \item{solution}{logical or character. Should the solution environment
     of the R/exams exercises (if any) be displayed or not? Optionally,
     \code{solution} can also be a character with the title for the
