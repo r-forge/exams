@@ -19,6 +19,6 @@ exm <- list(
 )
 ```
 
-```{r rexams_quiz, echo = FALSE, message = FALSE, results = "asis"}
+```{r quiz, echo = FALSE, message = FALSE, results = "asis"}
 exams2webexercises(exm)
 ```
