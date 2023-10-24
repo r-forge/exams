@@ -34,7 +34,7 @@ exams2webexercises("deriv2.Rnw")
 ## Multiple-choice with graphic
 
 ```{r mchoice5, echo = FALSE, message = FALSE, results = "asis"}
-exams2webexercises("boxplots.Rmd", markup = "html") ##FIXME
+exams2webexercises("boxplots.Rmd")
 ```
 
 ## Multiple-choice with R output
