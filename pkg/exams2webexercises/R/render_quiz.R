@@ -33,7 +33,7 @@ render_quiz <- function(file,
 
   ## exams2webexercises arguments
   args <- list(...)
-  if(!is.null(edir)) args <- c(list(edir = edir), args)
+  if(!is.null(edir)) args <- c(list(edir = file_path_as_absolute(edir)), args)
   if(length(args) >= 1L) {
     args <- lapply(args, deparse)    
     args <- lapply(args, paste, collapse = "\n")
@@ -56,8 +56,7 @@ render_quiz <- function(file,
   writeLines(template, name[1L])
   
   ## render quiz
-  rmarkdown::render(name[1L],
-    clean = clean, quiet = quiet, envir = envir)
+  rmarkdown::render(name[1L], clean = clean, quiet = quiet, envir = envir)
   name <- normalizePath(name)
   if(show) browseURL(name[2L])
   invisible(name)
