@@ -1,5 +1,11 @@
 # exams 2.4-1
 
+* New function `nops_fix()` that can be applied to the ZIP file resulting from
+  `nops_scan()`. By default it goes through all rows of the scanned data and
+  interactively prompts for updates to fields from the scanned exam sheets that
+  need updating. Optionally, the user can specify the rows of the scanned data
+  and/or the fields that should be updated.
+
 * The default evaluation rule in `exams2moodle()` and all QTI-based `exams2xyz()`
   interfaces (e.g., `exams2blackboard()`, `exams2canvas()`, `exams2openolat()`, etc.)
   is now consistently `partial = TRUE` and `negative = FALSE` (as in previous
