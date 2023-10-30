@@ -84,6 +84,9 @@
 ## fix answer 6 in exam 3
 ## nops_fix(exam = 3, answer = 6)
 
+## fix all answers in exam 3
+## nops_fix(exam = 3, field = "answers")  
+
 ## fix all fields exam 3
 ## nops_fix(exam = 3, field = c("type", "id", "registration", "answers"))
 }
