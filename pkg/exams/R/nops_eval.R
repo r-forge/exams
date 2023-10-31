@@ -93,10 +93,10 @@ nops_eval <- function(
 
   ## read and check scans
   scans <- nops_eval_check("Daten.txt", register = register, solutions = solutions, interactive = interactive)
-  if(length(attr(scans, "check")) != 0L) stop("Some IDs of exams/students could not matched to solutions/registrations.")
+  if(length(attr(scans, "check")) != 0L) stop("Some IDs of exams/students could not be matched to solutions/registrations.")
   if(string) {
     string_scans <- nops_eval_check2("Daten2.txt", solutions = solutions, interactive = interactive)
-    if(length(attr(string_scans, "check")) != 0L) stop("Some IDs of exams/students in the string scans could not matched to solutions/registrations.")
+    if(length(attr(string_scans, "check")) != 0L) stop("Some IDs of exams/students in the string scans could not be matched to solutions/registrations.")
   }
 
   ## evaluate exam results
@@ -151,6 +151,9 @@ nops_eval <- function(
 nops_eval_check <- function(scans = "Daten.txt", register = dir(pattern = "\\.csv$"),
   solutions = dir(pattern = "\\.rds$"), interactive = TRUE)
 {
+  ## check for errors in scanned data
+  if(any(grepl("ERROR", readLines("Daten.txt"), fixed = TRUE))) stop("ERRORs in 'Daten.txt' file, please run nops_fix() on the 'nops_scan_*.zip' file")
+
   ## read scans
   d <- read.table(scans, colClasses = "character")
   ## check if replacement sheets were used

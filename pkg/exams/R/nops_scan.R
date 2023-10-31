@@ -117,6 +117,9 @@ nops_scan <- function(
     read_nops(images)
   }
 
+  ## check for errors in scanned data
+  if(!string && any(grepl("ERROR", rval, fixed = TRUE))) warning("errors in scanned data, please run nops_fix() on the 'nops_scan_*.zip' file prior to nops_eval()")
+
   ## return output
   if(!identical(file, FALSE)) {
     if(verbose) cat("\nCreating ZIP file:\n")
