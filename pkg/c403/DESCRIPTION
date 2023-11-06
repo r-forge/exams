@@ -8,7 +8,7 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
 Description: Support tools for managing lectures and exams at Uni Innsbruck,
   specifically for automatic generation and evaluation of mathematics and
   statistics exams.
-Depends: R (>= 2.15.0), exams (>= 2.3-1)
+Depends: R (>= 4.0.0), exams (>= 2.3-1)
 Suggests: 
     base64enc,
     openxlsx,
