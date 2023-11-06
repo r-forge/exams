@@ -242,9 +242,15 @@ read_olat_results <- function(file, xexam = NULL) {
 
   ## Convert datetime information to POSIXct
   toPOSIXct <- if(xlsx) {
-    function(x) if(is.na(x) || x == "") NA else as.POSIXct(format(structure((x - 25567) * 24 * 3600, class = c("POSIXct", "POSIXt"))))
+    function(x) {
+      x[x == ""] <- NA
+      as.POSIXct(format(structure((x - 25567) * 24 * 3600, class = c("POSIXct", "POSIXt"))))
+    }
   } else {
-    function(x) if(is.na(x) || x == "") NA else as.POSIXct(strptime(x, format = "%Y-%m-%dT%H:%M:%S"))
+    function(x) {
+      x[x == ""] <- NA
+      as.POSIXct(strptime(x, format = "%Y-%m-%dT%H:%M:%S"))
+    }
   }
 
   ## -------------------------------------------------
@@ -315,7 +321,8 @@ read_olat_results <- function(file, xexam = NULL) {
 
         # Check that $ssol has the same length as the
         # solution string (solx; 0010 or similar).
-        stopifnot(length(col_idx$ssol) == nchar(solx))
+        # FIXME: currently skipped in order to enable usage without .rds
+        # stopifnot(length(col_idx$ssol) == nchar(solx))
 
         if(is.na(scheck)) scheck <- 0
         res <- data.frame(id + (i - 1) * ns,
