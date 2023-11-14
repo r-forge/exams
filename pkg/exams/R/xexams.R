@@ -122,7 +122,8 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   file_raw <- unlist(file)
   file_sfx <- tolower(substr(file_raw, nchar(file_raw) - 3L, nchar(file_raw)))
   file_Rnw <- ifelse(file_sfx %in% c(".rnw", ".rmd"), file_raw, 
-    paste(file_raw, ifelse(substr(file_sfx, 2L, 4L) == ".md", ".Rmd", ".Rnw"), sep = "")) ## FIXME: default suffix guessing is really ugly -> rethink this
+    ## FIXME: default suffix guessing is really ugly -> rethink this
+    paste(file_raw, ifelse(file_sfx == ".qmd" | substr(file_sfx, 2L, 4L) == ".md", ".Rmd", ".Rnw"), sep = ""))
   file_base <- file_path_sans_ext(file_Rnw)
   file_ext0 <- file_ext(file_Rnw)
   file_ext <- tolower(file_ext0)
