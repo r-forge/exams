@@ -120,11 +120,11 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   ##   - setup sampling (draw random configuration)
   if(is.null(file_id)) file_id <- rep.int(seq_along(file), navail)
   file_raw <- unlist(file)
-  file_Rnw <- ifelse(
-    tolower(substr(file_raw, nchar(file_raw) - 3L, nchar(file_raw))) %in% c(".rnw", ".rmd"),
-    file_raw, paste(file_raw, ".Rnw", sep = ""))
-  file_base <- tools::file_path_sans_ext(file_Rnw)
-  file_ext0 <- tools::file_ext(file_Rnw)
+  file_sfx <- tolower(substr(file_raw, nchar(file_raw) - 3L, nchar(file_raw)))
+  file_Rnw <- ifelse(file_sfx %in% c(".rnw", ".rmd"), file_raw, 
+    paste(file_raw, ifelse(substr(file_sfx, 2L, 4L) == ".md", ".Rmd", ".Rnw"), sep = "")) ## FIXME: default suffix guessing is really ugly -> rethink this
+  file_base <- file_path_sans_ext(file_Rnw)
+  file_ext0 <- file_ext(file_Rnw)
   file_ext <- tolower(file_ext0)
   file_ext <- gsub("r", "", file_ext, fixed = TRUE)
   file_ext[file_ext == "nw"] <- "tex"
@@ -328,7 +328,7 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
   encoding <- "UTF-8"
 
   ## process file extension, rendering engine, and graphics device
-  ext <- tolower(tools::file_ext(file))
+  ext <- tolower(file_ext(file))
   if(is.null(engine)) {
     engine <- if(ext == "rnw") "sweave" else "knitr"
   }
@@ -360,7 +360,7 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
       }
       if(png | svg) {
         ## add .png or .svg suffix in case of \includegraphics{} without suffix
-        file <- paste0(tools::file_path_sans_ext(file), ".tex")
+        file <- paste0(file_path_sans_ext(file), ".tex")
         tex <- readLines(file)
         ix <- grepl("includegraphics{", tex, fixed = TRUE)
         if(any(ix)) {
