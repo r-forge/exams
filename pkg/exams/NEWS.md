@@ -95,9 +95,12 @@
   leading integers) as OpenOlat otherwise cannot read the file (reported
   by Andrea Erhart).
   
-* The default in `exams2particify()` was set to `fix_choice = FALSE` because
+* The default in `exams2particify()` was changed to `fix_choice = FALSE` because
   most Particify systems in use will probably support the math rendering in
   answer options now. So the fixup does not need to be enabled by default.
+  Also, the function now tries to assure Unix-style linebreaks on Windows
+  systems because the default Windows linebreaks could lead to problems
+  with reading the correct answers.
 
 * The `logo` in `exams2nops(..., logo = ...)` can now also be a relative
   path (relative to the working directory). Also `logo = "uibk"` is supported

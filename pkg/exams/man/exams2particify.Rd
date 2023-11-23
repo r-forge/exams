@@ -11,7 +11,7 @@
 \usage{
 exams2particify(file, n = 1L, dir = ".", name = "particify",
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  abstention = FALSE, fix_choice = FALSE, \dots)
+  abstention = FALSE, fix_choice = FALSE, exshuffle = NULL, \dots)
 }
 
 \arguments{
@@ -28,6 +28,10 @@ exams2particify(file, n = 1L, dir = ".", name = "particify",
   \item{fix_choice}{logical. Should math markup be removed in single and multiple
     choice lists? (This may be needed for older Particify versions where math
     markup is rendered in the question itself but not the choice list.)}
+  \item{exshuffle}{logical or integer. If the \code{exshuffle}
+    argument is non-\code{NULL} it is used to overrule the \code{exshuffle}
+    tag from the \code{file} (e.g., \code{exshuffle = FALSE} can be used
+    to keep all available answers without permutation).}
   \item{\dots}{arguments passed on to \code{\link[exams]{xexams}}.}
 }
 
