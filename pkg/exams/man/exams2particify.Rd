@@ -38,11 +38,14 @@ exams2particify(file, n = 1L, dir = ".", name = "particify",
   In particular, single-choice and multiple-choice exercises are fully
   supported while num and string question are converted to open-ended text
   questions.
+  
+  To import the generated CSV file, click on "Create question series" in
+  Particify and then select Settings > Import/Export > Import series.
 
-  The function proceeds by (1) calling \code{\link[exams]{xweave}}
-  on each exercise, (2) reading the resulting Markdown/LaTeX text, (3) transforming
-  the text to Markdown, and (4) embedding the Markdown text into the
-  CSV format for Particify.
+  Internally, the \code{exams2particify} function proceeds by (1) calling
+  \code{\link[exams]{xweave}} on each exercise, (2) reading the resulting
+  Markdown/LaTeX text, (3) transforming the text to Markdown, and
+  (4) embedding the Markdown text into the CSV format for Particify.
   For steps (1) and (2) the standard drivers in \code{xexams} are used.  
   For step (3) a suitable transformation function is set up on the fly
   using \code{\link[exams]{make_exercise_transform_pandoc}}.
