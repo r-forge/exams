@@ -102,6 +102,9 @@
   systems because the default Windows linebreaks could lead to problems
   with reading the correct answers.
 
+* New argument `exams2nops(..., newpage = FALSE)`. If set to `TRUE` a
+  page break (`\newpage` in LaTeX) is added after every exercise.
+
 * The `logo` in `exams2nops(..., logo = ...)` can now also be a relative
   path (relative to the working directory). Also `logo = "uibk"` is supported
   as a convenience option for including the logo of Universität Innsbruck.

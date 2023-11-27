@@ -16,12 +16,12 @@
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
     replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
     usepackage = NULL, header = NULL, encoding = "UTF-8", startid = 1L,
-    points = NULL, showpoints = FALSE, samepage = FALSE,
+    points = NULL, showpoints = FALSE, samepage = FALSE, newpage = FALSE,
     twocolumn = FALSE, reglength = 7L, seed = NULL, \dots)
 
   make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
     duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "UTF-8",
-    samepage = FALSE, twocolumn = FALSE, reglength = 7L)
+    samepage = FALSE, newpage = FALSE, twocolumn = FALSE, reglength = 7L)
 }
 
 \arguments{
@@ -72,6 +72,8 @@
     each exercise (if specified in the Rnw/Rmd exercise or in \code{points})?}
   \item{samepage}{logical. Should the itemized question lists be forced to be on
     the same page?}
+  \item{newpage}{logical. Should each exercise start on a new page? (Technically,
+    a page break is added after each exercise.)}
   \item{twocolumn}{logical. Should a two-column layout be used?}
   \item{reglength}{integer. Number of digits in the registration ID. The
     default is 7 and it can be increased up to 10. In case of \code{reglength < 7},
