@@ -10,15 +10,18 @@
 
 \usage{
   nops_fix(scans = dir(pattern = "^nops_scan_[[:digit:]]*\\\\.zip$"),
-    exam = NULL, field = NULL, answer = NULL, display = NULL)
+    exam = NULL, id = NULL, field = NULL, answer = NULL, check = NULL, display = NULL)
 }
 
 \arguments{
   \item{scans}{character. File name of the ZIP file with scanning results
     (containing Daten.txt and PNG files) as produced by
     \code{\link[exams]{nops_scan}}.}
-  \item{exam}{integer. Rows of lines from the scanned data which should (potentially)
+  \item{exam}{integer. Rows number from the scanned data which should (potentially)
     be fixed (default: all rows).}
+  \item{id}{integer or character. Either a vector with full 11-digit exam IDs
+    for the exams to be checked. Or the last five digits of the full 11-digit ID
+    (where leading zeros can be omitted).}
   \item{field}{character indicating which field(s) from the scanned data should
     be fixed. One or more of \code{"type"} (3-digit exam sheet type), \code{"id"}
     (11-digit exam ID), \code{"registration"} (registration ID, can be between 7 and
@@ -26,6 +29,10 @@
     with invalid entries have to be fixed.}
   \item{answer}{integer indicating which answer checkboxes should (potentially) be
     fixed if \code{field} contains \code{"answers"} (default: all answers).}
+  \item{check}{character indicating additional check conditions for the answers:
+    If set to \code{"missing"} only the missing answers are considered. For
+    \code{"schoice"} answers with more than one checked box are considered. For
+    \code{"mchoice"} answers with all boxes checked are considered.}
   \item{display}{character indicating how the scanned image should be displayed.
     One or both of \code{"plot"} (display scanned excerpt in R plot) and
     \code{"browser"} (display full scanned image in browser). By default
@@ -89,4 +96,11 @@
 
 ## fix all fields exam 3
 ## nops_fix(exam = 3, field = c("type", "id", "registration", "answers"))
+
+## fix answer 6 in exam with id 23112900129
+## nops_fix(id = "23112900129", answer = 6)
+## nops_fix(id = 129, answer = 6)
+
+## fix all answers in questions 1 to 8 where more than one box was checked
+## nops_fix(answer = 1:8, check = "schoice")
 }

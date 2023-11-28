@@ -1,9 +1,11 @@
 nops_fix <- function(
   scans = dir(pattern = "^nops_scan_[[:digit:]]*\\.zip$"),
   exam = NULL,    ## integer. default: all lines with invalid type/id/registration
+  id = NULL,      ## integer or character. Last digits of the exam id.
   field = NULL,   ## character vector from "type", "id", "registration", "answers". default: all that need fixing
-  answer = NULL,  ## default: all answers
-  display = NULL  ## character vector from "plot", "browser". default: "plot" package "png" is available
+  answer = NULL,  ## numeric. Number of answers to check (default: all answers)
+  check = NULL,   ## character. Fix only answers the fulfill a certain check ("missing", "schoice", "mchoice")
+  display = NULL  ## character vector from "plot", "browser". default: "plot" if package "png" is available
 ) {
 
   ## any scans?
@@ -44,6 +46,9 @@ nops_fix <- function(
   all_fields <- c("type", "id", "registration", "answers")
   if(!is.null(field)) field <- sapply(tolower(field), match.arg, choices = all_fields)
 
+  ## additional check condition for answers to be checked (NULL = no additional conditions)
+  if(!is.null(check)) check <- match.arg(check, c("schoice", "mchoice", "missing"))
+
   ## convenience functions for checking validty of fields
   valid_digits <- function(x, n = NULL) !is.null(x) && (is.null(n) || (n == nchar(x))) && grepl("^[0-9]*$", x) && !grepl("^[0]*$", x)
   valid_answer <- function(x) !is.null(x) && (nchar(x) == 5L) && grepl("^[0-1]*$", x)
@@ -69,6 +74,23 @@ nops_fix <- function(
   d <- read.table("Daten.txt", colClasses = "character")
 
   ## iterate through rows of Daten.txt
+  if(!is.null(id)) {
+    if(!is.null(exam)) warning("only one of 'exam' and 'id' should be specified, using 'id'")
+    all_id <- unique(d[[2L]])
+    pre_id <- unique(substr(all_id, 1L, 6L))
+    if(is.numeric(id)) {
+      if(all(id < 100000) && length(pre_id) == 1L) {
+        id <- paste0(pre_id, formatC(id, flag = "0", width = 5L, digits = 5L, format = "fg"))
+      } else {
+        id <- as.character(id)
+      }
+    }
+    if(!all(id %in% all_id)) {
+      warning(paste("the following 'id' could not be found:", paste(id[!(id %in% all_id)], collapse = ", ")))
+      id <- id[id %in% all_id]
+    }
+    exam <- which(d[[2L]] %in% id)
+  }
   if(is.null(exam)) exam <- 1L:nrow(d)
   for(i in exam) {
 
@@ -121,7 +143,16 @@ nops_fix <- function(
     }
 
     if("answers" %in% field_i) {
-      answer_i <- if(is.null(answer)) 1L:as.numeric(substr(d[i, 4L], 2L, 3L)) else answer
+      answer_i <- answer
+      nx <- 1L:as.numeric(substr(d[i, 4L], 2L, 3L))
+      if(is.null(answer_i)) answer_i <- nx
+      if(!is.null(check)) {
+        check_i <- switch(check,
+          "schoice" = which(!(as.character(d[i, 6L + nx]) %in% c("00000", "10000", "01000", "00100", "00010", "00001"))),
+          "mchoice" = which(as.character(d[i, 6L + nx]) == "11111"), ## FIXME: what about sheets with fewer alternatives?
+          "missing" = which(as.character(d[i, 6L + nx]) == "00000"))
+        answer_i <- intersect(answer_i, check_i)
+      }
       for(j in answer_i) {
         maskplot(png_i, center = acoord[j,], prop = c(0.03, 0.18), main = d[i, 1L])
         p <- sprintf("Correct answer %s (for %s, %s): ", j, d[i, 6L + j], d[i, 1L])
