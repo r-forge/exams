@@ -110,7 +110,7 @@ nops_eval <- function(
   results$registration <- NULL
   results <- cbind(register, results)
 
-  ## save results (preserving original column names, potentiall de or upper case)
+  ## save results (preserving original column names, potentially de or upper case)
   names(results)[1L:3L] <- nam
   write.table(results, file = results_csv,
     row.names = FALSE, col.names = TRUE, quote = FALSE, sep = ";")
@@ -275,7 +275,7 @@ nops_eval_results <- function(scans = "Daten.txt", solutions = dir(pattern = "\\
   ## read scan results
   if(is.character(scans)) {
     d <- read.table(scans, colClasses = "character")
-    rownames(d) <- d[, 6L]
+    if(!any(duplicated(d[, 6L]))) rownames(d) <- d[, 6L]
   } else {
     d <- scans
   }
@@ -296,7 +296,7 @@ nops_eval_results <- function(scans = "Daten.txt", solutions = dir(pattern = "\\
   if(string) {
     if(is.character(string_scans)) {
       d2 <- read.table(string_scans, colClasses = "character")
-      rownames(d2) <- d[, 2L]
+      if(!any(duplicated(d2[, 2L]))) rownames(d2) <- d2[, 2L]
     } else {
       d2 <- string_scans
     }
