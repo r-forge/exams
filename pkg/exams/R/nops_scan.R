@@ -261,9 +261,12 @@ shave <- function(x, zap = 0.07) {
 
 ## shave box (and white margins) of a pixel matrix
 shave_box <- function(x, border = 0.1, clip = TRUE)
-{
-  rm <- range(which(rowMeans(x) > 0.38))
-  cm <- range(which(colMeans(x) > 0.38))
+{  
+  rm <- which(rowMeans(x) > 0.38)
+  cm <- which(colMeans(x) > 0.38)
+  if(length(rm) < 1L || length(cm) < 1L) stop("no box found")
+  rm <- range(rm)
+  cm <- range(cm)
   x <- x[rm[1L]:rm[2L], cm[1L]:cm[2L]]
   n <- ceiling(min(dim(x) * border))
   x <- x[n:(nrow(x) - n), n:(ncol(x) - n)]
@@ -441,6 +444,7 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
   xtl <- x[seq(1L, round(0.13 * d[1L])), seq(1, round(1.15 * ctl))]
   xtr <- x[seq(1L, round(0.13 * d[1L])), seq(0.9 * ctr, d[2L])]
   xtl[, seq(1, 0.33 * ncol(xtr))] <- 0
+  xtl[seq(1, 0.25 * nrow(xtr)), ] <- 0
   xtr[, seq(0.4 * ncol(xtr), ncol(xtr))] <- 0
 
   rtl <- get_mark(xtl, "row")
@@ -480,19 +484,21 @@ read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract 
   if(identical(adjust, FALSE)) adjust <- c(0, 0)
   
   ## extract image of numbers
-  type <- match.arg(type)
-  z <- switch(type,
+  type <- match.arg(type, c("type", "id", "scrambling"))
+  n <- switch(type,
+    "type" = 3L,
+    "id" = 11L,
+    "scrambling" = 2L)
+  err <- paste(rep.int("X", n), collapse = "")
+  z <- try(switch(type,
     "type" = shave_box(subimage(x, c(0.3925 - adjust[1L], 0.074 - adjust[2L]), c(0.035, 0.078))),
     "id" = shave_box(subimage(x, c(0.3925 - adjust[1L], 0.275 - adjust[2L]), c(0.035, 0.19))),
     "scrambling" = {
       y <- shave_box(subimage(x, c(0.337 - adjust[1L], 0.545 - adjust[2L]), c(0.035, 0.078)), clip = FALSE)
       y[round(0.7 * nrow(y)):nrow(y), round(0.43 * ncol(y)):round(0.57 * ncol(y))] <- 0
       shave(y)
-    })
-  n <- switch(type,
-    "type" = 3L,
-    "id" = 11L,
-    "scrambling" = 2L)
+    }), silent = TRUE)
+  if(inherits(z, "try-error")) return(err)
 
   ## split
   le <- NULL
@@ -501,7 +507,7 @@ read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract 
     thresh <- thresh + 0.01
     le <- rle(colMeans(z) < thresh)$lengths
   }
-  if(length(le) != (2L * n - 1L)) return(paste(rep("X", n), collapse = ""))
+  if(length(le) != (2L * n - 1L)) return(err)
   le <- cumsum(c(0L, le))
   d <- lapply(1L:(length(le)/2L), function(i) z[, (le[2 * i - 1L] + 1L):(le[2 * i]), drop = FALSE])
   
