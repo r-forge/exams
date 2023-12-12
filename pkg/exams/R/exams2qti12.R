@@ -745,6 +745,19 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
     }
 
     if(canvas) {
+      ## Canvas question types, see https://canvas.instructure.com/doc/api/quiz_questions.html
+      ## - calculated_question
+      ## - essay_question
+      ## - file_upload_question
+      ## - fill_in_multiple_blanks_question
+      ## - matching_question
+      ## - multiple_answers_question
+      ## - multiple_choice_question
+      ## - multiple_dropdowns_question
+      ## - numerical_question
+      ## - short_answer_question
+      ## - text_only_question
+      ## - true_false_question
       canvas_type <- if(multiple_dropdowns) {
         "multiple_dropdowns_question"
       } else {
@@ -752,8 +765,17 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
         switch(type,
           "num" = "numerical_question",
           "schoice" = "multiple_choice_question",
-          "mchoice" = "multiple_answers_question"
+          "mchoice" = "multiple_answers_question",
+          "string" = "short_answer_question"
         )
+      }
+      if(type == "string" && !is.null(stringtype <- x$metainfo$stringtype) && !identical(x$metainfo$stringtype, "string")) {
+        if(length(stringtype) > 1L) {
+          stringtype <- stringtype[1L]
+          warning(sprintf("for Canvas only a single 'stringtype' is supported, using the first: %s", stringtype))
+        }
+        if(stringtype == "essay") canvas_type <- "essay_question"
+        if(stringtype == "file") canvas_type <- "file_upload_question"
       }
       xml <- c(
         '<itemmetadata>',

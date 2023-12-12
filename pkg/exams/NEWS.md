@@ -359,8 +359,10 @@
   how UTF-8 symbols (for [Cardinal vowels](https://en.wikipedia.org/wiki/Cardinal_vowels))
   can be used in an exercise.
 
-* Improved `exams2canvas()` (and underlying `exams2qti12()`) to assure that
-  the points per section/exercise are set correctly in the exported QTI code.
+* Improved `exams2canvas()` (and underlying `exams2qti12()`): First, it is
+  assured that the points per section/exercise are set correctly in the exported
+  QTI code. Second, extended `exstringtype` support so that `essay` questions
+  and `file` questions are also possible.
 
 * Added new argument `exams2moodle(..., forcedownload = FALSE)` which when
   set to `TRUE` can force all supplementary links to be downloaded (rather
