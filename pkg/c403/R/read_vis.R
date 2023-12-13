@@ -207,7 +207,7 @@ read_vis_html <- function(file, subset = FALSE) {
     location <- strsplit(info, ", Ort: ", fixed = TRUE)[[1L]][2L]
     info <- strsplit(info, 1L, 16L)
     info <- c("GP",
-      paste(strsplit(XML::xmlValue(nr[[2L]]), " ")[[1L]][-1L], collapse = ""),
+      paste(strsplit(XML::xmlValue(nr[[2L]]), " ")[[1L]][-1L], collapse = " "),
       start, location)
   } else {
     info <- ""

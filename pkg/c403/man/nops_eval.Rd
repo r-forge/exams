@@ -33,7 +33,15 @@ nops_eval_write_uibk(
   ...
 )
 
-nops_register(file = Sys.glob("*.xls*"), startid = 1L)
+nops_register(
+  file = Sys.glob("*.xls*"),
+  startid = 1L,
+  tab = !identical(startid, FALSE),
+  pdf = !identical(startid, FALSE),
+  split = NULL,
+  info = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{register}{character. File name of a CSV file (semicolon-separated)
@@ -93,9 +101,29 @@ by \code{\link[exams]{nops_scan}}.}
 \item{string_points}{numeric. Vector of length 5 with points assigned
 to string results.}
 
-\item{file}{character, by default globbing is used. Can be a file name}
+\item{file}{character. Name of the VIS file with the registration list.}
 
-\item{startid}{integer, default \code{1L}}
+\item{...}{Further arguments passed on to \code{nops_eval_write}.}
+
+\item{startid}{integer or logical, default \code{1L}. If \code{FALSE} no
+random seats are generated.}
+
+\item{tab}{logical. Should a tab-separated file with the seat information
+be generated for OpenOlat? Defaults to \code{TRUE} if random seats are
+generated.}
+
+\item{pdf}{logical. Should PDF files with participant lists be generated for
+printing? Defaults to \code{TRUE} if random seats are generated.}
+
+\item{split}{integer. Number of participant lists ordered by seat.}
+
+\item{info}{character. Vector of length 4 with information about the exam:
+(1) type of exam (GP, LVP, VO, ...), (2) title of exam,
+(3) date/time (YYYY-MM-DD HH:MM), (4) location/room. By default
+the information is inferred from the VIS file.}
+
+\item{verbose}{logical. Should information about the registrations be printed
+to the screen?}
 }
 \value{
 A \code{data.frame} with the detailed exam results is returned

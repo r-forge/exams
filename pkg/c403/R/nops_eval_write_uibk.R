@@ -1,3 +1,4 @@
+#' @param ... Further arguments passed on to \code{nops_eval_write}.
 #' @importFrom tools file_path_sans_ext
 #' @rdname nops_eval
 #' @export
