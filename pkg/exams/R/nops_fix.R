@@ -106,7 +106,7 @@ nops_fix <- function(
     if(!is.null(answer) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
 
     ## browse/read trimmed pixel matrix
-    if("browser" %in% display) browseURL(d[i, 1L])
+    if(length(field_i) > 0L && "browser" %in% display) browseURL(d[i, 1L])
     png_i <- if(length(field_i) > 0L && "plot" %in% display) trim_nops_scan(d[i, 1L]) else NULL
 
     ## update desired fields
