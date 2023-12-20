@@ -31,6 +31,7 @@ nops_fix <- function(
     file.remove(scan_fil)
     stop(sprintf("'%s' does not contain a 'Daten.txt' file", scan_zip))
   }
+  rezip <- FALSE
 
   ## defaults: how to display scanned png files
   if(is.null(display)) {
@@ -67,6 +68,7 @@ nops_fix <- function(
       paste(c("XXXXXXXXXXX 00 XXX 0 XXXXXXX", rep.int("00000", 45L)), collapse = " "))
     writeLines(d, "Daten.txt")
     field <- NULL
+    rezip <- TRUE
   }
 
   ## read Daten.txt:
@@ -103,14 +105,15 @@ nops_fix <- function(
         if(!valid_digits(d[i, 6L])) "registration")
       if(length(field_i) == 3L) field_i <- c(field_i, "answers")
     }
-    if(!is.null(answer) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
+    if((!is.null(answer) | !is.null(check)) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
 
     ## browse/read trimmed pixel matrix
     if(length(field_i) > 0L && "browser" %in% display) browseURL(d[i, 1L])
-    png_i <- if(length(field_i) > 0L && "plot" %in% display) trim_nops_scan(d[i, 1L]) else NULL
+    png_i <- if(length(field_i) > 0L && "plot" %in% display) d[i, 1L] else NULL
 
     ## update desired fields
     if("type" %in% field_i) {
+      if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
       maskplot(png_i, center = c(0.3925, 0.074), prop = c(0.035, 0.078), main = d[i, 1L])
       p <- sprintf("Correct type (for %s, %s): ", d[i, 4L], d[i, 1L])
       r <- readline(prompt = p)
@@ -118,15 +121,18 @@ nops_fix <- function(
       while(!valid_digits(r, 3L)) r <- readline(prompt = paste("!Type must be a 3-digit number!", p, sep = "\n"))
       d[i, 4L] <- r
       if(as.numeric(substr(d[i, 4L], 1L, 1L)) > 3L) d[i, 5L] <- "1"
+      rezip <- TRUE
     }
     
     if("id" %in% field_i) {
+      if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
       maskplot(png_i, center = c(0.3925, 0.275), prop = c(0.035, 0.19), main = d[i, 1L])
       p <- sprintf("Correct exam ID (for %s, %s): ", d[i, 2L], d[i, 1L])
       r <- readline(prompt = p)
       if(r == "") r <- d[i, 2L]
       while(!valid_digits(r, 11L)) r <- readline(prompt = paste("!ID must be a 11-digit number!", p, sep = "\n"))
       d[i, 2L] <- r
+      rezip <- TRUE
     }
 
     if("registration" %in% field_i) {
@@ -134,12 +140,14 @@ nops_fix <- function(
       if(regextra > 3L) regextra <- regextra - 3L
       reglength <- 7L + regextra
 
+      if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
       maskplot(png_i, center = c(0.25, 0.87 - 0.04 * as.numeric(substr(d[i, 4L], 1L, 1L))), prop = 0.35, main = d[i, 1L])
       p <- sprintf("Correct registration number (for %s, %s): ", d[i, 6L], d[i, 1L])
       r <- readline(prompt = p)
       if(r == "") r <- d[i, 6L]
       while(!valid_digits(r, reglength)) r <- readline(prompt = sprintf("!Registration must be a %s-digit number!\n%s", reglength, p))
       d[i, 6L] <- r
+      rezip <- TRUE
     }
 
     if("answers" %in% field_i) {
@@ -154,6 +162,7 @@ nops_fix <- function(
         answer_i <- intersect(answer_i, check_i)
       }
       for(j in answer_i) {
+        if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
         maskplot(png_i, center = acoord[j,], prop = c(0.03, 0.18), main = d[i, 1L])
         p <- sprintf("Correct answer %s (for %s, %s): ", j, d[i, 6L + j], d[i, 1L])
         r <- readline(prompt = p)
@@ -164,6 +173,7 @@ nops_fix <- function(
           r <- answer2digits(r)
         }
         d[i, 6L + j] <- r
+        rezip <- TRUE
       }
     }
 
@@ -171,10 +181,11 @@ nops_fix <- function(
 
   ## update files and copy back
   write.table(d, file = "Daten.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
-  file.remove(scan_zip)
-  zip(scan_zip, scan_fil)
-  file.copy(scan_zip, oscans, overwrite = TRUE)
-
+  if(rezip) {
+    file.remove(scan_zip)
+    zip(scan_zip, scan_fil)
+    file.copy(scan_zip, oscans, overwrite = TRUE)
+  }
   invisible(d)
 }
 
@@ -182,6 +193,9 @@ maskplot <- function(x, center = c(0.5, 0.5), prop = 1, ...) {
 
   ## do nothing if no input
   if(is.null(x)) return(invisible(NULL))
+
+  ## read PNG file if file name provided
+  if(is.character(x)) x <- trim_nops_scan(x)
 
   ## center in pixels
   if(center[1L] < 1) center[1L] <- floor(center[1L] * nrow(x))
