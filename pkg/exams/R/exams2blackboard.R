@@ -169,7 +169,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       if(!eval$partial){
           x <- "N"
       } else if(grepl("choice", type)){
-          x <- ifelse(eval$negative < 0, "Y", "Q")
+          x <- ifelse(eval$negative < 0, "Y", "N")
       } else {
           x <- "N"
       }
