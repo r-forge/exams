@@ -462,6 +462,7 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
 digit_regressors <- function(x, nrow = 7, ncol = 5)
 {
   d <- dim(x)
+  if(any(d < c(nrow, ncol))) stop("image too small to extract digits")
   rw <- round(d[1L] * (0L:nrow/nrow))
   cl <- round(d[2L] * (0L:ncol/ncol))
   ix <- as.matrix(expand.grid(1:nrow, 1:ncol))
@@ -512,7 +513,8 @@ read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract 
   d <- lapply(1L:(length(le)/2L), function(i) z[, (le[2 * i - 1L] + 1L):(le[2 * i]), drop = FALSE])
   
   ## transform to regressors
-  d <- do.call("rbind", lapply(d, digit_regressors))
+  d <- try(do.call("rbind", lapply(d, digit_regressors)), silent = TRUE)
+  if(inherits(d, "try-error")) return(err)
 
   ## get digits
   y <- ifelse(d$width < 0.5, 1L,
