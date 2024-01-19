@@ -14,13 +14,15 @@
 #'   the information is inferred from the VIS file.
 #' @param verbose logical. Should information about the registrations be printed
 #'   to the screen?
+#' @param \dots further arguments passed to \code{\link{read_vis}}
+#'   (e.g., \code{subset}).
 #'
 #' @importFrom tools file_path_sans_ext file_ext texi2pdf
 #' @rdname nops_eval
 #' @export
 nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
   tab = !identical(startid, FALSE), pdf = !identical(startid, FALSE),
-  split = NULL, info = NULL, verbose = TRUE)
+  split = NULL, info = NULL, verbose = TRUE, ...)
 {
   ## ensure a non-C locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -43,7 +45,7 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
   ## consolidate VIS information ---------------------------
 
   ## read VIS data
-  x <- read_vis(file)
+  x <- read_vis(file, ...)
   
   ## meta-information
   if(is.null(info)) info <- attr(x, "info")

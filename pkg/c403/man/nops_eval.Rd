@@ -40,7 +40,8 @@ nops_register(
   pdf = !identical(startid, FALSE),
   split = NULL,
   info = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -124,6 +125,9 @@ the information is inferred from the VIS file.}
 
 \item{verbose}{logical. Should information about the registrations be printed
 to the screen?}
+
+\item{\dots}{further arguments passed to \code{\link{read_vis}}
+(e.g., \code{subset}).}
 }
 \value{
 A \code{data.frame} with the detailed exam results is returned
