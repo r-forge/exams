@@ -4,7 +4,8 @@
 #' of VIS (which actually may or may not be XLS or HTML files).
 #'
 #' @param file character with file name of an XLS file from VIS.
-#' @param subset logical. Should students without confirmed registration be omitted?
+#' @param subset logical or character. If logical: Should students without confirmed registration be omitted?
+#' If character: Select only the students with certain student IDs provided in \code{subset}.
 #' @param ... additional arguments passed to \code{\link[xlsx]{read.xlsx}}.
 #'
 #' @details VIS offers Excel exports but in case of registration lists these are
@@ -255,8 +256,10 @@ read_vis_html <- function(file, subset = FALSE) {
   }
 
   ## drop canceled registrations
-  if(("Meldestatus" %in% names(part)) && subset) {
+  if(is.logical(subset) && isTRUE(subset) && ("Meldestatus" %in% names(part))) {
     part <- part[substr(part$Meldestatus, 1, 14) == "Anmeldung best", , drop = FALSE]
+  } else if(is.character(subset)) {
+    part <- part[part$Matrikelnr %in% subset, , drop = FALSE]
   }
   
   return(part)
