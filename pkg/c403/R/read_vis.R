@@ -72,7 +72,7 @@ to_datetime <- function(x) {
 
 ## workhorse function for reading VIS lists that were downloaded
 ## as HTML and then converted to actual XLSX
-read_vis_xlsx <- function(file, ...) {
+read_vis_xlsx <- function(file, subset = FALSE, ...) {
   ## ensure a non-C locale
   if(identical(Sys.getlocale(), "C")) Sys.setlocale("LC_ALL", "en_US.UTF-8")
 
@@ -122,6 +122,13 @@ read_vis_xlsx <- function(file, ...) {
   ix <- apply(x, 1L, function(y) all(is.na(y)))
   if(any(ix)) x <- x[1L:(min(which(ix)) - 1L), ]
   if("Matrikelnr" %in% names(x)) rownames(x) <- x$Matrikelnr
+
+  ## drop canceled registrations
+  if(is.logical(subset) && isTRUE(subset) && ("Meldestatus" %in% names(x))) {
+    x <- x[substr(x$Meldestatus, 1, 14) == "Anmeldung best", , drop = FALSE]
+  } else if(is.character(subset)) {
+    x <- x[x$Matrikelnr %in% subset, , drop = FALSE]
+  }
   
   return(x)
 }
