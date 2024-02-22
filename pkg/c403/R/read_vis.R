@@ -199,9 +199,10 @@ read_vis_html <- function(file, subset = FALSE) {
     if(grepl("Pr.*fung", XML::xmlValue(info[[1L]][[1L]]))) {
       nr[1L] <- "LVP"
       info <- XML::xmlValue(info[[2L]][[1L]])
-      start <- strptime(substr(info, 1L, 29L), "Datum: %d.%m.%Y, Zeit: %H.%M")
+      info <- strsplit(info, ", Ort: ", fixed = TRUE)[[1L]]
+      start <- strptime(info[1L], "Datum: %d.%m.%Y, Zeit: %H:%M Uhr")
       start <- format(start, "%Y-%m-%d %H:%M")
-      location <- strsplit(info, ", Ort: ", fixed = TRUE)[[1L]][2L]
+      location <- info[2L]
       info <- c(start, location)  
     } else {
       info <- NULL
