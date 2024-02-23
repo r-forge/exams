@@ -106,7 +106,7 @@ read_vis_xlsx <- function(file, subset = FALSE, ...) {
     info <- c("LV",
       gsub("\t", "", strsplit(info[ii + 5L], " - ", fixed = TRUE)[[1L]][2L], fixed = TRUE),
       strsplit(info[ii + 6L], "(Ort: )|\n")[[1L]][1L:2L])
-    info[3L] <- format(strptime(info[3L], "Datum: %d.%m.%Y, Zeit: %H:%M, "), "%Y-%m-%d %H:%M")
+    info[3L] <- format(strptime(info[3L], "Datum: %d.%m.%Y, Zeit: %H:%M Uhr, "), "%Y-%m-%d %H:%M")
   } else if(grepl("Gesamtpr.*fungstermin", info[ii + 1L])) {
     start <- strptime(substr(info[ii + 6L], 1L, 16L), "%d.%m.%Y %H:%M")
     start <- format(start, "%Y-%m-%d %H:%M")
