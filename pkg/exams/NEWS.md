@@ -11,8 +11,8 @@
   is now consistently `partial = TRUE` and `negative = FALSE` (as in previous
   versions) and `rule = "false2"`. This was already the default `rule` in
   most scenarios in previous versions. But for `mchoice` elements within `cloze`
-  exercises it often was `"none"`, i.e., no negative points even when
-  though partial credits were used. This is also changed to the more
+  exercises it often was `"none"` (i.e., no negative points even when
+  partial credits were used) which has been changed to the more
   commonly-used `rule = "false2"` now. (Reported by Hans-Peter Schröcker.)
 
 * In `exams2qti21()` (and thus also in `exams2openolat()`) fractional points
@@ -27,6 +27,15 @@
   the entries of the `schoice`/`mchoice` elements while the empty entries
   for all other `num` or `string`/`essay`/`file` elements can optionally
   be omitted.
+
+* New standard meta-information types `exauthor` and `extag`. The latter is for
+  tagging an exercise so that it can eventually be filtered, grouped, etc.
+  A typical example for an `extag` is `extag: poisson` which could signal that
+  an exercise is related to the Poisson distribution. Note that this might
+  complement the hierarchical `exsection` meta-information which can be used for
+  hierarchical grouping, e.g., `exsection: regression/glm/poisson`. Finally,
+  `extag` can define tag classes/group by adding a `=` as in `extag: grade=2`
+  or `extag: stage=advanced` etc. Multiple tags can be separated by `|`.
 
 * In `schoice` and `mchoice` questions an error (rather than just a warning)
   is thrown when the lengths of the question list and the `exsolution` do

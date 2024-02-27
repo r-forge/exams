@@ -166,12 +166,15 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   exname <- extract_command(x, "exname", markup = markup)            ## short name/description, only to be used for printing within R
   extitle <- extract_command(x, "extitle", markup = markup)          ## pretty longer title
   exsection <- extract_command(x, "exsection", markup = markup)      ## sections for groups of exercises, use slashes for subsections (like URL)
+  extag <- extract_command(x, "extag", markup = markup)              ## arbitrary individual tags, can contain "=" for tag classes/groups
+  exauthor <- extract_command(x, "exauthor", markup = markup)        ## author of exercise
   exversion <- extract_command(x, "exversion", markup = markup)      ## version of exercise
 
   ## Question & Solution ###########################
   exsolution <- extract_command(x, "exsolution", markup = markup)    ## solution, valid values depend on extype
   extol <- extract_command(x, "extol", "numeric", markup = markup)   ## optional tolerance limit for numeric solutions
   exclozetype <- extract_command(x, "exclozetype", markup = markup)  ## type of individual cloze solutions
+  exstringtype <- extract_command(x, "exstringtype", markup = markup)## essay+file
 
   ## E-Learning & Exam ###################################
   expoints     <- extract_command(x, "expoints",    "numeric", markup = markup)   ## default points
@@ -179,7 +182,6 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   exshuffle    <- extract_command(x, "exshuffle",   "character", markup = markup) ## shuffle schoice/mchoice answers?
   exmaxchars   <- extract_command(x, "exmaxchars",   markup = markup)             ## maximum number of characters in string answers
   exabstention <- extract_command(x, "exabstention", markup = markup)             ## string for abstention in schoice/mchoice answers
-  exstringtype <- extract_command(x, "exstringtype", markup = markup)             ## essay+file
 
   ## User-Defined ###################################
   exextra <- extract_extra(x, markup = markup)
@@ -314,26 +316,31 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
       exmaxchars <- exmaxchars[[1]]
   }
 
-  ## return everything (backward compatible with earlier versions)
+  ## return everything
   rval <- list(
     file = tools::file_path_sans_ext(file),
     markup = markup,
+
     type = extype,
     name = exname,
     title = extitle,
     section = exsection,
+    tag = extag,
+    author = exauthor,
     version = exversion,
+
     solution = exsolution,
     tolerance = extol,
     clozetype = exclozetype,
+    stringtype = exstringtype,
+
     points = expoints,
     time = extime,
     shuffle = exshuffle,
     length = slength,
     string = string,
     maxchars = exmaxchars,
-    abstention = exabstention,
-    stringtype = exstringtype
+    abstention = exabstention
   )
   rval <- c(rval, exextra)
   return(rval)
