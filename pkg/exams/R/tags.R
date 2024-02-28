@@ -6,7 +6,7 @@ named_tags <- function(x) {
 }
 
 exams_tags <- function(x, factors = FALSE) {
-  x <- lapply(x, function(xi) lapply(xi, function(z) named_tags(z$metainfo$tag)))
+  x <- lapply(x, function(xi) lapply(xi, function(z) named_tags(z$metainfo$tags)))
   lab <- unique(names(unlist(unlist(x, recursive = FALSE, use.names = FALSE), recursive = FALSE, use.names = TRUE)))
   n <- length(x)
   m <- length(x[[1L]])

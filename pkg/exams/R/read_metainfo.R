@@ -166,7 +166,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   exname <- extract_command(x, "exname", markup = markup)            ## short name/description, only to be used for printing within R
   extitle <- extract_command(x, "extitle", markup = markup)          ## pretty longer title
   exsection <- extract_command(x, "exsection", markup = markup)      ## sections for groups of exercises, use slashes for subsections (like URL)
-  extag <- extract_command(x, "extag", markup = markup)              ## arbitrary individual tags, can contain "=" for tag classes/groups
+  extags <- extract_command(x, "extags", markup = markup)            ## arbitrary individual tags, can contain "=" for tag classes/groups
   exauthor <- extract_command(x, "exauthor", markup = markup)        ## author of exercise
   exversion <- extract_command(x, "exversion", markup = markup)      ## version of exercise
 
@@ -325,7 +325,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
     name = exname,
     title = extitle,
     section = exsection,
-    tag = extag,
+    tags = extags,
     author = exauthor,
     version = exversion,
 

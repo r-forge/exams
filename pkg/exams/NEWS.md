@@ -28,14 +28,14 @@
   for all other `num` or `string`/`essay`/`file` elements can optionally
   be omitted.
 
-* New standard meta-information types `exauthor` and `extag`. The latter is for
+* New standard meta-information types `exauthor` and `extags`. The latter is for
   tagging an exercise so that it can eventually be filtered, grouped, etc.
-  A typical example for an `extag` is `extag: poisson` which could signal that
+  A typical example for an `extags` is `extags: poisson` which could signal that
   an exercise is related to the Poisson distribution. Note that this might
   complement the hierarchical `exsection` meta-information which can be used for
   hierarchical grouping, e.g., `exsection: regression/glm/poisson`. Finally,
-  `extag` can define tag classes/group by adding a `=` as in `extag: grade=2`
-  or `extag: stage=advanced` etc. Multiple tags can be separated by `|`.
+  `extags` can define tag classes/group by adding a `=` as in `extags: grade=2`
+  or `extags: stage=advanced` etc. Multiple tags can be separated by `|`.
 
 * In `schoice` and `mchoice` questions an error (rather than just a warning)
   is thrown when the lengths of the question list and the `exsolution` do
