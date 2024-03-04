@@ -42,7 +42,7 @@ exams_metainfo <- function(x, class = "exams_metainfo", tags = TRUE, factors = F
     tags <- as.logical(tags)
     tags_prefix <- if(tags) "tag_" else ""
   }
-  if(tags) {
+  if(tags && any(lengths(d$tags) > 0L)) {
     tags_list <- lapply(d$tags, named_tags)
     lab <- unique(names(unlist(tags_list)))
     d2 <- matrix(NA_character_, nrow = nm, ncol = length(lab), dimnames = list(NULL, lab))
