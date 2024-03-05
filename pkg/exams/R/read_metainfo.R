@@ -203,7 +203,7 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   slength <- length(exsolution)
   if(slength < 1L) stop("no exsolution specified")
   exsolution <- switch(extype,
-    "schoice" = string2mchoice(exsolution, single = !is.numeric(exshuffle)), ## check for _single_ choice (unless sub-shuffling afterwards)
+    "schoice" = string2mchoice(exsolution, single = !is.numeric(exshuffle) && !exshuffle_overwrite), ## check for _single_ choice (unless sub-shuffling afterwards)
     "mchoice" = string2mchoice(exsolution),
     "num" = string2num(exsolution),
     "string" = exsolution,
