@@ -2,7 +2,7 @@ exams2forms <- function(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = TRUE, ...) {
+  converter = "pandoc-mathjax", base64 = NULL, ...) {
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
@@ -15,6 +15,7 @@ exams2forms <- function(file,
 
   ## convert each question to Markdown first (to assure this also works for .Rnw)
   ## and then combine with forms
+  if (is.null(base64)) base64 <- is_html_output()
   mdtrafo <- make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none", base64 = base64)
   formstrafo <- function(x, ...) {
     

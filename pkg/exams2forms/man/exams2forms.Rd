@@ -14,7 +14,7 @@ exams2forms(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = TRUE, \dots)
+  converter = "pandoc-mathjax", base64 = NULL, \dots)
 }
 
 \arguments{
@@ -59,7 +59,8 @@ exams2forms(file,
   \item{converter}{passed on to \code{\link[exams]{make_exercise_transform_html}}
     (if \code{markup = "html"}).}
   \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?
-    Passed on to \code{\link[exams]{make_exercise_transform_pandoc}}.}
+    Passed on to \code{\link[exams]{make_exercise_transform_pandoc}}.
+    The default is to enable Base 64 when an HTML-type document is produced.}
   \item{\dots}{currently not used.}
 }
 

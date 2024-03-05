@@ -10,10 +10,10 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
     if(!usespace) " nospaces" else "", if(!usecase) " ignorecase" else "", if(regex) " regex" else "", width, answers)
 
   ## plain format
-  plain <- paste(rep.int("_", width), collapse = "")
+  plain <- paste(c("\\", rep.int("_", width)), collapse = "")
 
   ## return appropriate output format
-  return_forms(html, plain)
+  if (is_html_output()) html else plain
 }
 
 forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE) {
@@ -28,10 +28,10 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
     if(!usespace) " nospaces" else "", if(regex) " regex" else "", tol, width, answers)
 
   ## plain format
-  plain <- paste(rep.int("_", width), collapse = "")
+  plain <- paste(c("\\", rep.int("_", width)), collapse = "")
 
   ## return appropriate output format
-  return_forms(html, plain)
+  if (is_html_output()) html else plain
 }
 
 forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown")) {
@@ -61,11 +61,11 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   }
 
   ## plain format
-  plain <- sprintf("* (%s) %s  ", letters[seq_along(solution)], answerlist)
+  plain <- sprintf("* [ ] %s", answerlist)
   plain <- paste0("\n\n", paste(plain, collapse = "\n"), "\n\n")
 
   ## return appropriate output format
-  return_forms(html, plain)
+  if (is_html_output()) html else plain
 }
 
 forms_mchoice <- function(answerlist, solution, display = "dropdown") { ## FIXME: c("buttons", "dropdown")
@@ -99,32 +99,19 @@ forms_mchoice <- function(answerlist, solution, display = "dropdown") { ## FIXME
   }
 
   ## plain format
-  plain <- sprintf("* [ ] %s  ", answerlist) ## FIXME: checkbox as \uxxxx
+  plain <- sprintf("* [ ] %s", answerlist)
   plain <- paste0("\n\n", paste(plain, collapse = "\n"), "\n\n")
 
   ## return appropriate output format
-  return_forms(html, plain)
+  if (is_html_output()) html else plain
 }
 
 
-## helper function for returning either HTML or plain version of forms
-return_forms <- function(html, plain, markup = NULL) {
-  ## decide default markup
-  if (is.null(markup)) {
-    out_format <- opts_knit$get("out.format")
-    pandoc_to <- opts_knit$get("rmarkdown.pandoc.to")
-    markup <- if((is.null(out_format) && is.null(pandoc_to)) || isTRUE(out_format == "html") || isTRUE(pandoc_to == "html")) {
-      "html"
-    } else {
-      "plain"
-    }
-  }
-  
-  ## return forms based on markup
-  forms <- switch(markup,
-    "html" = html,
-    plain)
-  return(forms)
+## helper function for determining whether HTML is generated
+is_html_output <- function() {
+  out_format <- opts_knit$get("out.format")
+  pandoc_to <- opts_knit$get("rmarkdown.pandoc.to")
+  (is.null(out_format) && is.null(pandoc_to)) || isTRUE(out_format == "html") || isTRUE(pandoc_to == "html")
 }
 
 
