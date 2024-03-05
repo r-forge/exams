@@ -1,0 +1,20 @@
+importFrom("exams", "xexams", "make_exercise_transform_html", "make_exercise_transform_pandoc")
+
+importFrom("grDevices", "adjustcolor", "convertColor", "col2rgb", "rgb")
+importFrom("tools", "file_path_as_absolute")
+importFrom("utils", "browseURL")
+
+importFrom("knitr", "knit_hooks", "opts_knit")
+importFrom("rmarkdown", "html_document", "includes", "pandoc_available", "render")
+
+export(
+  "exams2forms",
+  "exams2webquiz",
+  
+  "webquiz",
+  
+  "forms_string",
+  "forms_num",
+  "forms_schoice",
+  "forms_mchoice"
+)
