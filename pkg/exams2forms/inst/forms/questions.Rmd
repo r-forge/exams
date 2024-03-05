@@ -1,6 +1,9 @@
 ---
 title: "R/exams questions"
-output: exams2forms::webquiz
+output:
+  exams2forms::webquiz:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include = FALSE}
