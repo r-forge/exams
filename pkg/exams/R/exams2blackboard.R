@@ -812,22 +812,6 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 }
 
 
-
-## function to create identfier ids
-make_id <- function(size, n = 1L) {
-  if(is.null(n)) n <- 1L
-  rval <- matrix(sample(0:9, size * n, replace = TRUE), ncol = n, nrow = size)
-  rval[1L, ] <- pmax(1L, rval[1L, ])
-  colSums(rval * 10^((size - 1L):0L))
-}
-
-## delete NULL list elements
-delete.NULLs <- function(x.list) {
-  rval <- x.list[unlist(lapply(x.list, length) != 0)]
-  rval <- if(length(rval)) rval else NULL
-  rval
-}
-
 ## fix Blackboard's failure to render html-<pre> environment properly
 fix_bb_pre <- function(x) {
   pre_start <- grep("(<pre>)|(<pre )", x)
