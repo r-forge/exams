@@ -13,3 +13,4 @@ Imports: grDevices, tools, utils, knitr, rmarkdown
 License: GPL-3
 URL: https://www.R-exams.org/
 BugReports: https://www.R-exams.org/contact/
+RoxygenNote: 7.2.3

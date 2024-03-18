@@ -9,6 +9,7 @@ importFrom("rmarkdown", "html_document", "includes", "pandoc_available", "render
 
 export(
   "exams2forms",
+  "n_exams2forms",
   "exams2webquiz",
   
   "webquiz",

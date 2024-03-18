@@ -6,6 +6,19 @@
   --highlight: #467AAC;
 }
 
+/*---------------------ADDED-----------------------------*/
+.webex-group {}
+
+.webex-question {
+   display: none;
+}
+
+.webex-question.active {
+  display: block;
+}
+
+/*---------------------ADDED END--------------------------*/
+
 .webex-check {}
 
 .webex-box {
@@ -86,7 +99,12 @@ input.webex-solveme.webex-correct,
     border: 2px solid var(--highlight);
     border-radius: 5px;
 }
-.webex-solution button, .webex-check-button {
+
+.webex-next-button{
+  margin-left: 0.5em;
+}
+
+.webex-solution button, .webex-check-button, .webex-next-button {
     height: 2em;
     margin-bottom: 0.5em;
     border-radius: 0.5em;

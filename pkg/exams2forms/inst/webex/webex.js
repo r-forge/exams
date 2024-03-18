@@ -159,6 +159,7 @@ window.onload = function() {
     check_sections[i].appendChild(spn);
   }
 
+
   /* set up webex-solveme inputs */
   var solveme = document.getElementsByClassName("webex-solveme");
 
@@ -200,6 +201,46 @@ window.onload = function() {
     selects[i].onchange = select_func;
     selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
+
+
+function handleNextQuestionClick(group, questions) {
+    return async function() {
+        let currentPosition = parseInt(group.dataset.currentPosition);
+        const questionNum = parseInt(group.dataset.questionNum);
+
+        // Hide the current question
+        questions[currentPosition].classList.remove('active');
+        // Move to the next question index
+        currentPosition = (currentPosition + 1) % questionNum;
+        // Display the new question
+        questions[currentPosition].classList.add('active');
+
+        // Update the currentPosition data attribute on the group div
+        group.dataset.currentPosition = currentPosition;
+    };
+}
+
+document.querySelectorAll('.webex-group').forEach(group => {
+    const questions = Array.from(group.querySelectorAll('.webex-question'));
+    const questionNum = questions.length;
+
+    let currentPosition = parseInt(group.getAttribute('data-start-position')) || Math.floor(Math.random() * questionNum);
+
+    // Show the default question for each group
+    questions[currentPosition].classList.add("active");
+    console.log(currentPosition + " set active");
+
+    // Store questionNum and currentPosition as data attributes on the group div
+    group.dataset.questionNum = questionNum;
+    group.dataset.currentPosition = currentPosition;
+
+        const nextButton = document.createElement('button');
+        nextButton.classList.add('webex-next-button');
+        nextButton.textContent = 'Next Question';
+        nextButton.addEventListener('click', handleNextQuestionClick(group, questions));
+        group.appendChild(nextButton);
+});
+
 
   update_total_correct();
 }
