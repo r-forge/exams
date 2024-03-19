@@ -467,7 +467,7 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
     x[rowMeans(x) >= zap,] <- 0
     x[,colMeans(x) >= zap] <- 0
 
-    type <- match.arg(type)
+    type <- match.arg(type, c("row", "col"))
     x <- if(type == "row") rowMeans(x) else colMeans(x)
     which(x > mean(range(x)))
   }

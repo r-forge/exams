@@ -125,6 +125,10 @@
   path (relative to the working directory). Also `logo = "uibk"` is supported
   as a convenience option for including the logo of Universität Innsbruck.
 
+* The exam type in `exams2nops()` now codes the number of exercises directly
+  (rather than rounding the number to multiples of 5). This facilitates fixing
+  the correct number of questions in `nops_fix()`.
+
 * When converting exercises with a converter based on `make_exercise_transform_pandoc()`
   to Markdown with Base64 output, graphics in `<img>` tags are now correctly
   encoded as well.

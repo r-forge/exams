@@ -92,7 +92,7 @@
   A character vector with one element per scanned file (returned invisily if
   written to an output ZIP archive). The output contains the following space-separated
   information: file name, sheet ID (11 digits), scrambling (2 digits),
-  type of sheet (3 digits, coding the number of questions rounded up to steps of 5
+  type of sheet (3 digits, coding the number of questions
   and the length of the registration number),
   0/1 indicator whether the replacement sheet was used,
   registration number (7-10 digits),

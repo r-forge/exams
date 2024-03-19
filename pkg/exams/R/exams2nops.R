@@ -520,12 +520,11 @@ if(reglength > 10L) warning(sprintf("'reglength = %s' too large, using 10 instea
 addreg <- pmin(3L, pmax(0L, reglength - 7L))
 
 mytype <- if(addreg < 1L) {
-  ## the number of questions rounded up in steps of 5 
-  ## (needed for uibk scanning services)
-  formatC(5 * ((n - 1) %/% 5 + 1), width = 3, flag = "0")
+  ## the number of questions
+  formatC(n, width = 3, flag = "0")
 } else {
   ## add prefix coding number of additional registration ID units plus replacement
-  paste0(addreg + (replacement * 3L), formatC(5 * ((n - 1) %/% 5 + 1), width = 2, flag = "0"))
+  paste0(addreg + (replacement * 3L), formatC(n, width = 2, flag = "0"))
 }
 
 ## number of alternative choices
