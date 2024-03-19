@@ -159,16 +159,60 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
     system(paste(sh, cmd), ...)
   }
 
-  pdftk <- try(shsystem("pdftk --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
-  magic <- try(shsystem("convert --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
-  if(inherits(pdftk, "try-error")) stop("system requirement 'pdftk' is not available for merging/rotating/splitting PDFs")
-  if(inherits(magic, "try-error")) stop("system requirement 'convert' is not available for converting PDF to PNG")
-  ## if(!requireNamespace("magick")) stop("'magick' package not available for converting PDF to PNG")
+  ## PDF handling via R package "qpdf" or system command "pdftk"?
+  qpdf_available <- function() requireNamespace("qpdf")
+  pdftk_available <- function() {
+    pdftk <- try(shsystem("pdftk --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
+    !inherits(pdftk, "try-error")
+  }
+  pdfengine <- getOption("exams_pdfengine") ## FIXME: for testing purposes
+  if(is.null(pdfengine)) {
+    if(qpdf_available()) {
+      pdfengine <- "qpdf"
+    } else if(pdftk_available()) {
+      pdfengine <- "pdftk"
+    } else {      
+      stop("neither R package 'qpdf' nor system command 'pdftk' are available for merging/rotating/splitting PDFs")
+    }
+  }
+  pdfengine <- match.arg(pdfengine, c("qpdf", "pdftk"))
+  if(pdfengine == "qpdf") {
+    if(!qpdf_available()) stop("package 'qpdf' is not available for merging/rotating/splitting PDFs")
+  } else {
+    if(!pdftk_available()) stop("system command 'pdftk' is not available for merging/rotating/splitting PDFs")
+  }
+  
+  ## PNG handling via R package "magick" or system command "convert"?
+  magick_available <- function() requireNamespace("magick")
+  convert_available <- function() {
+    magic <- try(shsystem("convert --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
+    !inherits(magic, "try-error")
+  }
+  pngengine <- getOption("exams_pngengine") ## FIXME: for testing purposes
+  if(is.null(pngengine)) {
+    if(magick_available()) {
+      pngengine <- "magick"
+    } else if(convert_available()) {
+      pngengine <- "convert"
+    } else {      
+      stop("neither R package 'magick' nor system command 'convert' are available for converting PDF to PNG")
+    }
+  }
+  pngengine <- match.arg(pngengine, c("magick", "convert"))
+  if(pngengine == "magick") {
+    if(!magick_available()) stop("package 'magick' is not available for converting PDF to PNG")
+  } else {
+    if(!convert_available()) stop("system command 'convert' is not available for converting PDF to PNG")
+  }
 
   ## if necessary: merge PDFs, otherwise rename only
   if(length(x) > 1L) {
     if(verbose) cat("Merging PDF files")
-    shsystem(sprintf("pdftk %s cat output _NOPS_.pdf", paste(x, collapse = " ")))
+    if(pdfengine == "qpdf") {
+      qpdf::pdf_combine(x, "_NOPS_.pdf")
+    } else {
+      shsystem(sprintf("pdftk %s cat output _NOPS_.pdf", paste(x, collapse = " ")))
+    }
     file.remove(x)
     if(verbose) cat(", done.\n")
   } else {
@@ -178,7 +222,11 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
   ## if requested: rotate PDFs
   if(rotate) {
     if(verbose) cat("Rotating PDF files")
-    shsystem("pdftk _NOPS_.pdf rotate 1-enddown output _NOPS_2_.pdf")
+    if(pdfengine == "qpdf") {
+      qpdf::pdf_rotate_pages("_NOPS_.pdf", angle = 180, output = "_NOPS_2_.pdf")
+    } else {
+      shsystem("pdftk _NOPS_.pdf rotate 1-enddown output _NOPS_2_.pdf")
+    }
     file.remove("_NOPS_.pdf")
     file.rename("_NOPS_2_.pdf", "_NOPS_.pdf")
     if(verbose) cat(", done.\n")
@@ -186,23 +234,33 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
 
   ## burst PDF into individual pages
   if(verbose) cat("Splitting PDF files")
-  shsystem(paste0("pdftk _NOPS_.pdf burst output ", prefix, "%07d.pdf"))
-  file.remove(c("_NOPS_.pdf", "doc_data.txt"))
+  if(pdfengine == "qpdf") {
+    qpdf_out <- qpdf::pdf_split("_NOPS_.pdf")
+    for(i in seq_along(qpdf_out)) file.rename(qpdf_out[i], sprintf("%s%07d.pdf", prefix, i))
+  } else {
+    shsystem(paste0("pdftk _NOPS_.pdf burst output ", prefix, "%07d.pdf"))
+    file.remove("doc_data.txt")
+  }
+  file.remove("_NOPS_.pdf")
   if(verbose) cat(", done.\n")
   x <- dir(pattern = "\\.pdf$")
 
   ## actual conversion function
   pdf2png <- function(pdfs) {
     ## shell command on Windows
-    for(i in pdfs) {
-      if(verbose) cat(paste(i, ": Converting PDF to PNG.\n", sep = ""))
-      cmd <- paste("convert -density", density, i, gsub(".pdf", ".PNG", i, fixed = TRUE))
-      shsystem(cmd)
-      ## magick::image_write(
-      ##   image = magick::image_read(i, density = density),
-      ##   path = gsub(".pdf", ".PNG", i, fixed = TRUE),
-      ##   format = "png"
-      ## )
+    for(i in seq_along(pdfs)) {
+      pdf_i <- pdfs[i]
+      if(verbose) cat(paste(pdf_i, ": Converting PDF to PNG.\n", sep = ""))
+      if(pngengine == "magick") {
+        img_i <- magick::image_read(pdf_i, density = density)
+        img_i <- magick::image_convert(img_i, "png")
+        magick::image_write(img_i, path = paste0(file_path_sans_ext(pdf_i), ".PNG"), format = "png")
+        magick::image_destroy(img_i)
+        if(i %% 5L == 0L) gc() ## triggering gc to avoid exhausting cache in magick
+      } else {
+        cmd <- paste("convert -density", density, pdf_i, paste0(file_path_sans_ext(pdf_i), ".PNG"))
+        shsystem(cmd)
+      }
     }
   }
 

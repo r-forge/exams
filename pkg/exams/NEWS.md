@@ -6,6 +6,13 @@
   need updating. Optionally, the user can specify the rows of the scanned data
   and/or the fields that should be updated.
 
+* By default, `nops_scan()` now relies on the R packages `qpdf` and `magick`
+  for merging/rotating/splitting PDF files and converting them to PNG,
+  respectively. Thus, the system requirements of PDFTk (`pdftk`) and ImageMagick
+  (`convert`), respectively, are not necessary anymore for scanning NOPS
+  exams. However, for a transition period the old system calls for PDFTk/ImageMagick
+  are still used when the R packages `qpdf` and/or `magick` are not available.
+
 * The default evaluation rule in `exams2moodle()` and all QTI-based `exams2xyz()`
   interfaces (e.g., `exams2blackboard()`, `exams2canvas()`, `exams2openolat()`, etc.)
   is now consistently `partial = TRUE` and `negative = FALSE` (as in previous

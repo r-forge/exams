@@ -7,6 +7,3 @@ NOPS
   (Johanna Weber, Bergische Universitaet Wuppertal)
 * more than 3 string question
   (Ralf Schaefer, Uni Koblenz Landau)
-
-* check robustness of has_mark() when trimming one pixel more
-  (Georg Mayr & Daniel Frisinghelli, Uni Innsbruck)
