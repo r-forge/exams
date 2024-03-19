@@ -125,11 +125,21 @@ exams2forms <- function(file,
       write = NULL),
   )
 
-  ## FIXME: currently this just writes all exercises sequentially
   ## Wishlist:
   ## - For multiple exercises in the same exam: Optionally include enumerated list?
-  ## - For multiple exams: Propose randomization Javascript class for forms?
-  if(write) lapply(do.call("c", rval), writeLines)
+  if(write) {
+    n_exams <- length(rval)
+    n_exercises <- length(rval[[1L]])
+    for(i in 1L:n_exercises) {
+      if(n_exams > 1L) writeLines("::: {.webex-group}")
+      for(j in 1L:n_exams) {
+        if(n_exams > 1L) writeLines("::: {.webex-question}")
+        writeLines(rval[[j]][[i]])
+        if(n_exams > 1L) writeLines(":::")
+      }
+      if(n_exams > 1L) writeLines(":::")
+    }
+  }
 
   ## return list of lists invisibly
   invisible(rval)

@@ -11,21 +11,27 @@ and directly rendering it to an HTML page.
 }
 
 \usage{
-exams2webquiz(file, name = "webquiz", title = "R/exams quiz", show = TRUE,
-  dir = NULL, edir = NULL, \dots,
-  clean = TRUE, quiet = TRUE, envir = parent.frame())
+exams2webquiz(file, n = 1L, nsamp = NULL, dir = NULL,
+  name = "webquiz", title = "R/exams quiz", display = TRUE, edir = NULL,
+  \dots, clean = TRUE, quiet = TRUE, envir = parent.frame())
 
 webquiz(\dots)
 }
 
 \arguments{
   \item{file}{character. A specification of a (list of) exercise files.}
-  \item{name}{character. A name prefix for the resulting .Rmd document.}
-  \item{title}{character. Title of the quiz.}
-  \item{show}{logical. Should the resulting tutorial be shown using
-    \code{\link[utils]{browseURL}}?}
+  \item{n}{integer. The number of copies to be taken from \code{file}.}
+  \item{nsamp}{integer. The number(s) of exercise files sampled from each
+    list element of \code{file}. Sampling without replacement is used
+    if possible. (Only if some element of \code{nsamp} is larger than
+    the length of the corresponding element in \code{file}, sampling
+    with replacement is used.)}
   \item{dir}{character. A path in which the tutorial file is created, by default
     chosen as a \code{\link{tempfile}}.}
+  \item{name}{character. A name prefix for the resulting .Rmd document.}
+  \item{title}{character. Title of the quiz.}
+  \item{display}{logical. Should the resulting tutorial be displayed using
+    \code{\link[utils]{browseURL}}?}
   \item{edir}{character. The path of the directory (along with its
     sub-directories) in which the files in \code{file} are stored.
     If both \code{dir} and \code{edir} are \code{NULL} (the default), the \code{edir}

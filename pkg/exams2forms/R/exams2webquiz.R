@@ -1,5 +1,5 @@
-exams2webquiz <- function(file,
-  name = "webquiz", title = "R/exams quiz", show = TRUE, dir = NULL, edir = NULL, ...,
+exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
+  name = "webquiz", title = "R/exams quiz", display = TRUE, edir = NULL, ...,
   clean = TRUE, quiet = TRUE, envir = parent.frame()) {
 
   ## sanity check for pandoc
@@ -34,14 +34,11 @@ exams2webquiz <- function(file,
   ## exams2forms arguments
   args <- list(...)
   if(!is.null(edir)) args <- c(list(edir = file_path_as_absolute(edir)), args)
-  if(length(args) >= 1L) {
-    args <- lapply(args, deparse)    
-    args <- lapply(args, paste, collapse = "\n")
-    args <- paste(names(args), "=", unlist(args), collapse = ", ")
-    args <- paste('exm, ', args)
-  } else {
-    args <- 'exm'
-  }
+  args <- c(list(n = n, nsamp = nsamp), args)
+  args <- lapply(args, deparse)    
+  args <- lapply(args, paste, collapse = "\n")
+  args <- paste(names(args), "=", unlist(args), collapse = ", ")
+  args <- paste('exm, ', args)
 
   ## insert arguments into template
   template <- sprintf(
@@ -58,6 +55,6 @@ exams2webquiz <- function(file,
   ## render quiz
   render(name[1L], clean = clean, quiet = quiet, envir = envir)
   name <- normalizePath(name)
-  if(show) browseURL(name[2L])
+  if(display) browseURL(name[2L])
   invisible(name)
 }
