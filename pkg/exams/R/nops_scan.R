@@ -28,12 +28,6 @@ nops_scan <- function(
     stop("No images found.")
   }
 
-  ## as an alternative to the R code for reading printed digits
-  ## one could call the command line tool "tesseract" but this
-  ## turned out to be less reliable for this special case and is
-  ## hence never used here:
-  tesseract <- FALSE
-
   ## convert PDF to PNG (if necessary)
   pdfs <- grepl("\\.pdf$", tolower(images))
   if(any(pdfs)) {
@@ -69,7 +63,7 @@ nops_scan <- function(
     
     if(verbose & is.null(cores)) cat(", extracting information")
     ss <- if(!string) {
-      ssty <- read_nops_digits(ss, "type", tesseract = tesseract)
+      ssty <- read_nops_digits(ss, "type")
       regextra <- as.numeric(substr(ssty, 1L, 1L)) # 0=regular; 1/2/3=regextra; 4/5/6=regextra+backup
       if(is.na(regextra)) {
         if(verbose) cat(", ERROR\n")
@@ -84,8 +78,8 @@ nops_scan <- function(
       if(regextra > 3L) regextra <- regextra - 3L
       try(paste(
         file,
-        read_nops_digits(ss, "id", tesseract = tesseract),
-        if(regextra == 0L) read_nops_digits(ss, "scrambling", tesseract = tesseract) else "00",
+        read_nops_digits(ss, "id"),
+        if(regextra == 0L) read_nops_digits(ss, "scrambling") else "00",
 	ssty,
 	sbackup,
         read_nops_registration(ss, threshold = threshold, size = size * 1.2, trim = trim, regextra = regextra), ## allow bigger size in registration
@@ -94,8 +88,8 @@ nops_scan <- function(
     } else {
       try(paste(
         file,
-        read_nops_digits(ss, "id", tesseract = tesseract, adjust = TRUE),
-	read_nops_digits(ss, "type", tesseract = tesseract, adjust = TRUE),
+        read_nops_digits(ss, "id", adjust = TRUE),
+	read_nops_digits(ss, "type", adjust = TRUE),
         substr(read_nops_answers(ss, threshold = threshold, size = size, trim = trim, n = 3L, adjust = TRUE), 1, 17)
       ))
     }
@@ -536,7 +530,7 @@ digit_regressors <- function(x, nrow = 7, ncol = 5)
 }
 
 ## classify digits 
-read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract = FALSE, adjust = FALSE)
+read_nops_digits <- function(x, type = c("type", "id", "scrambling"), adjust = FALSE)
 {
   ## adjustment for coordinates (e.g. for reading 2nd string page)
   if(identical(adjust, TRUE)) adjust <- c(0.2065, 0)
@@ -587,10 +581,6 @@ read_nops_digits <- function(x, type = c("type", "id", "scrambling"), tesseract 
     6L)))))))))
   y <- paste(y, collapse = "")
 
-  if(tesseract) {
-    y2 <- tesseract(z)
-    if(y != y2) cat(sprintf("(%s != %s)", y2, y))
-  }
   return(y)
 }
 
@@ -656,38 +646,6 @@ read_nops_registration <- function(x, threshold = c(0.04, 0.42), size = 0.036, t
 
 read_nops_backup <- function(x, threshold = 0.15, size = 0.01)
   format(as.numeric(mean(subimage(x, c(0.381, 0.574), size)) > threshold[1L]))
-
-## crude tesseract interface
-tesseract <- function(x, digits = TRUE) {
-  writeBin(png::writePNG(1 - x), ".tesseract-temp-image.png")
-  system("tesseract -psm 6 .tesseract-temp-image.png .tesseract-temp-text",
-    ignore.stderr = TRUE)
-  rval <- readLines(".tesseract-temp-text.txt")
-  file.remove(c(".tesseract-temp-image.png", ".tesseract-temp-text.txt"))
-
-  if(digits) {
-    rval <- gsub(" ", "", rval, fixed = TRUE)
-    rval <- gsub(",", "", rval, fixed = TRUE)
-    rval <- gsub(".", "", rval, fixed = TRUE)
-    rval <- gsub("_", "", rval, fixed = TRUE)
-    rval <- gsub("x", "", rval, fixed = TRUE)
-    rval <- gsub("\342", "", rval, fixed = TRUE)
-    rval <- gsub("\200", "", rval, fixed = TRUE)
-    rval <- gsub("\230", "", rval, fixed = TRUE)
-    rval <- gsub("O", "0", rval, fixed = TRUE)
-    rval <- gsub("C", "0", rval, fixed = TRUE)
-    rval <- gsub("D", "0", rval, fixed = TRUE)
-    rval <- gsub("Q", "0", rval, fixed = TRUE)
-    rval <- gsub("o", "0", rval, fixed = TRUE)
-    rval <- gsub("c", "0", rval, fixed = TRUE)
-    rval <- gsub("I", "1", rval, fixed = TRUE)
-    rval <- rval[nchar(rval) > 0]
-
-    if(length(rval) > 1L) paste("ERROR:", rval[1L], sep = "")
-  }
-
-  return(rval)
-}
 
 ## simple plotting function
 imageplot <- function(x, ...) {
