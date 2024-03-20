@@ -30,7 +30,8 @@
   \item{verbose}{logical. Should progress information be displayed?}
   \item{rotate}{logical. Should the input PDF/PNG images be rotated by 180 degrees
     first?}
-  \item{cores}{numeric. If set to an integer \code{\link[parallel]{mclapply}} is
+  \item{cores}{numeric. If set to an integer \code{\link[parallel]{mclapply}} 
+    (or \code{\link[parallel]{parLapply}} on Windows) is
     called internally using the desired number of \code{cores} to read the scanned
     exams in parallel.}
   \item{n}{numeric. The number of answer fields to read (in multiples of 5),

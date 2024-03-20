@@ -105,8 +105,15 @@ nops_scan <- function(
   read_nops <- function(x) as.vector(sapply(x, read_nops_all))
   
   rval <- if(!is.null(cores)) {
+    applyfun <- if(.Platform$OS.type == "windows") {
+      cl_cores <- parallel::makeCluster(cores)
+      on.exit(parallel::stopCluster(cl_cores))
+      function(X, FUN, ...) parallel::parLapply(cl = cl_cores, X, FUN, ...)
+    } else {
+      function(X, FUN, ...) parallel::mclapply(X, FUN, ..., mc.cores = cores)
+    }
     xi <- split(images, ceiling(seq_along(images) / (length(images) / cores)))
-    unlist(parallel::mclapply(seq_along(xi), function(j) { read_nops(xi[[j]]) }, mc.cores = cores))
+    unlist(applyfun(seq_along(xi), function(j) { read_nops(xi[[j]]) }))
   } else {
     read_nops(images)
   }
@@ -259,8 +266,15 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
   }
 
   if(!is.null(cores)) {
+    applyfun <- if(.Platform$OS.type == "windows") {
+      cl_cores <- parallel::makeCluster(cores)
+      on.exit(parallel::stopCluster(cl_cores))
+      function(X, FUN, ...) parallel::parLapply(cl = cl_cores, X, FUN, ...)
+    } else {
+      function(X, FUN, ...) parallel::mclapply(X, FUN, ..., mc.cores = cores)
+    }
     xi <- split(x, ceiling(seq_along(x) / (length(x) / cores)))
-    parallel::mclapply(1:cores, function(j) { pdf2png(xi[[j]]) }, mc.cores = cores)
+    applyfun(1:cores, function(j) { pdf2png(xi[[j]]) })
   } else {
     pdf2png(x)
   }
