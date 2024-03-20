@@ -138,6 +138,10 @@
   (if any) is formatted as an unordered list (rather than without any
   formatting).
 
+* It is now also possible to extract the meta-information from the output of
+  `xexams()` and all `exams2xyz()` interfaces as a `data.frame` (rather than
+  a list of lists) via `exams_metainfo(..., class = "data.frame")`.
+
 
 # exams 2.4-0
 
