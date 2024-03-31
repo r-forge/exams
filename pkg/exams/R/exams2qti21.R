@@ -957,7 +957,9 @@ make_itembody_qti21 <- function(shuffle = FALSE,
                       sep = "")
                 } else NULL, if(!is.na(questionlist[[i]][j])) questionlist[[i]][j] else NULL)
               },
-            paste('<textEntryInteraction responseIdentifier="', ids[[i]]$response, '"/>', sep = ''),
+            sprintf('<textEntryInteraction responseIdentifier="%s"%s/>',
+              ids[[i]]$response, 
+              if(flavor == "inspera") sprintf(' expectedLength="%s"', pmax(ceiling(1.2 * nchar(format(x$metainfo$solution))), 20)) else ''),
             if(!ans) '</p>' else NULL
           )
         }
