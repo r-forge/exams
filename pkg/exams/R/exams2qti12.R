@@ -296,13 +296,8 @@ exams2qti12 <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
       ## copy supplements
       if(length(exm[[i]][[j]]$supplements)) {
-        if(!file.exists(media_dir <- file.path(test_dir, media_dir_name)))
-          dir.create(media_dir)
-        sj <- 1
-        while(file.exists(file.path(media_dir, sup_dir <- paste("supplements", sj, sep = "")))) {
-          sj <- sj + 1
-        }
-        dir.create(ms_dir <- file.path(media_dir, sup_dir))
+        if(!file.exists(media_dir <- file.path(test_dir, media_dir_name))) dir.create(media_dir)
+        if(!file.exists(file.path(media_dir, sup_dir <- sprintf("supplements_%s_%s", i, j)))) dir.create(ms_dir <- file.path(media_dir, sup_dir))
         for(si in seq_along(exm[[i]][[j]]$supplements)) {
           file.copy(exm[[i]][[j]]$supplements[si],
             file.path(ms_dir, f <- basename(exm[[i]][[j]]$supplements[si])))
