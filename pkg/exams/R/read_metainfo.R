@@ -73,6 +73,11 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
     rval <- gsub("[ \t]+$", "", rval)
     ## split further with respect to other symbols (currently only |)
     rval <- unlist(strsplit(rval, "|", fixed = TRUE))
+    ## translate HTML scientific notation produced by knitr
+    if(type == "numeric" && any(grepl("\\times 10^", x, fixed = TRUE) & grepl("\\ensuremath", x, fixed = TRUE))) {
+      rval <- gsub("\\ensuremath", "", rval, fixed = TRUE)
+      rval <- gsub("([ \t]*\\\\times[ \t]*10\\^)([-]*[0-9]+)", "e\\2", rval)
+    }
   } else {
     ## strip off command
     rval <- gsub(command, "", rval, fixed = TRUE)
@@ -81,6 +86,10 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
     rval <- gsub("[ \t]+$", "", rval)
     ## split further with respect to other symbols (currently only |)
     rval <- unlist(strsplit(rval, "|", fixed = TRUE))
+    ## translate HTML scientific notation produced by knitr
+    if(type == "numeric" && any(grepl("&times; 10<sup>", x, fixed = TRUE))) {
+      rval <- gsub("([ \t]*&times;[ \t]*10<sup>)([-]*[0-9]+)(</sup>)", "e\\2", rval)
+    }
   }
 
   ## convert to return type

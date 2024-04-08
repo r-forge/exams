@@ -142,6 +142,11 @@
   `xexams()` and all `exams2xyz()` interfaces as a `data.frame` (rather than
   a list of lists) via `exams_metainfo(..., class = "data.frame")`.
 
+* Scientific notation produced by `knitr` is now correctly converted to numeric
+  when reading the meta-information. (Reported in questions
+  [61254298](https://stackoverflow.com/questions/61254298) and
+  [75766543](https://stackoverflow.com/questions/75766543) on StackOverflow.)
+
 
 # exams 2.4-0
 
