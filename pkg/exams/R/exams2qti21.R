@@ -979,6 +979,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
              if(!ans) '</p>' else NULL,
              if(!upfile[i]) {
                paste('<extendedTextInteraction', if(!copypaste) ' class="essay-nocopypaste" ' else ' ',
+                if(flavor == "inspera") ' format="xhtml" ' else '',
                 'responseIdentifier="', ids[[i]]$response,
                 '" minStrings="0" ', if(!is.na(maxchars[[i]][1])) {
                     paste0(' expectedLength="', maxchars[[i]][1], '"')
