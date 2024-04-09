@@ -70,8 +70,12 @@ exams_metainfo <- function(x, class = "exams_metainfo", tags = TRUE, factors = F
         zn <- suppressWarnings(as.numeric(z))
         if(all(!is.na(zn[!is.na(z)]))) z <- zn
       }
-      if(factors && (is.character(z) || is.logical(z))) z <- factor(z)
-      d[[i]] <- rep.int(NA, nrow(d))
+      if(factors && (is.character(z) || is.logical(z))) {
+        z <- factor(z)
+        d[[i]] <- factor(d[[i]], levels = levels(z))
+      } else {
+        d[[i]] <- rep.int(NA, nrow(d))
+      }
       d[[i]][iz] <- z
     }
   }
