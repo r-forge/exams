@@ -55,6 +55,10 @@
   tweaks. Not all features work correctly, though, notably the inclusion
   of graphics and other supplementary files.
 
+* New convenience function `match_exams_iteration()` that can be used within
+  an exercise to query the current iteration (within `n` replications), e.g.,
+  to always cycle through the same finite set of parameters.
+
 * Improvement in `nops_scan()` when finding the bottom markings of the scan.
   A smaller minimal bottom margin is assumed (3% instead of 7%) in order to
   better deal with different paper formats, specifically letter paper (reported

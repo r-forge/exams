@@ -205,6 +205,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
   for(i in 1L:n) {
   
     if(verbose) cat(paste("\nExam ", format(c(i, n))[1L], ":", sep = ""))
+    .exams_set_internal(xexams_iteration = i)
   
     ## sub-directory for supplementary files
     dir_supp_i <- file.path(dir_supp, names(exm)[i])
@@ -278,6 +279,7 @@ xexams <- function(file, n = 1L, nsamp = NULL,
     if(verbose) cat(" ... done.")
   }
   if(verbose) cat("\n")
+  .exams_set_internal(xexams_iteration = NULL)
 
   ## optionally save return list as rds file
   if(!identical(rds, FALSE)) {
@@ -423,6 +425,9 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
 
   ## call/traceback of functions called
   xexams_call              = list(call = NULL, traceback = NULL),
+
+  ## iteration within n replications
+  xexams_iteration         = NULL,
 
   ## default graphics device used in xweave() (png, pdf, svg)
   xweave_device            = "png",
