@@ -274,7 +274,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## insert possible solution
       enumerate <- attr(thebody, "enumerate")
       if(is.null(enumerate)) enumerate <- FALSE
-      xsolution <- fix_pre_lines(exm[[i]][[j]]$solution)
+      xsolution <- exm[[i]][[j]]$solution
+      if(fix_pre) xsolution <- fix_pre_lines(xsolution)
       if(!is.null(exm[[i]][[j]]$solutionlist)) {
         if(!all(is.na(exm[[i]][[j]]$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
