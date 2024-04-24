@@ -1317,6 +1317,8 @@ make_itembody_qti21 <- function(shuffle = FALSE,
             if(enumerate) '</ol>' else '</ul>')
         }
       }
+      if(pbl) xsolution <- process_html_pbl(xsolution)
+      if(flavor == "ans") xsolution <- fix_pre_lines(xsolution, sep = "</code><br/><code>")
     }
 
     if("summary" %in% solutionswitch) {
@@ -1385,7 +1387,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         } else {
           paste('<modalFeedback identifier="Feedback', fid, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = '')        
         },
-        if(pbl) process_html_pbl(xsolution) else xsolution,
+        xsolution,
         '</modalFeedback>'
       )
     }
@@ -1397,7 +1399,7 @@ make_itembody_qti21 <- function(shuffle = FALSE,
         } else {
           paste('<modalFeedback identifier="Feedback', fid_p, '" outcomeIdentifier="FEEDBACKMODAL" showHide="show">', sep = '')        
         },
-        if(pbl) process_html_pbl(xsolution) else xsolution,
+        xsolution,
         '</modalFeedback>'
       )
     }
@@ -1405,18 +1407,21 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     if(("summary" %in% solutionswitch) & (flavor != "ans")) {
       xml <- c(xml,
         paste('<modalFeedback identifier="Feedback', fid_m, '" outcomeIdentifier="SOLUTIONMODAL" showHide="show">', sep = ''),       
-        if(pbl) process_html_pbl(xsolution) else xsolution,
+        xsolution,
         '</modalFeedback>'
       )
     }
 
     if(("hint" %in% solutionswitch) & (flavor != "ans")) {
-      hint <- x$metainfo$hint
-      if(is.null(hint))
+      if(is.null(x$metainfo$hint)) {
         hint <- xsolution
+      } else {
+        hint <- x$metainfo$hint
+        if(pbl) hint <- process_html_pbl(hint)
+      }
       xml <- c(xml,
         '<modalFeedback identifier="HINT" outcomeIdentifier="HINTFEEDBACKMODAL" showHide="show">',       
-        if(pbl) process_html_pbl(hint) else hint,
+        hint,
         '</modalFeedback>'
       )
     }
