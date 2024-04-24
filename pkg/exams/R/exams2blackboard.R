@@ -266,7 +266,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## attach item id to metainfo
       exm[[i]][[j]]$metainfo$id <- iname
       thebody <- itembody[[type]](exm[[i]][[j]])
-      if(fix_pre) thebody <- fix_bb_pre(thebody)
+      if(fix_pre) thebody <- fix_pre_lines(thebody)
       ibody <- c(ibody, gsub("##ItemBody##",
         paste(thebody, collapse = "\n"),
         item_xml, fixed = TRUE))
@@ -274,7 +274,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
       ## insert possible solution
       enumerate <- attr(thebody, "enumerate")
       if(is.null(enumerate)) enumerate <- FALSE
-      xsolution <- fix_bb_pre(exm[[i]][[j]]$solution)
+      xsolution <- fix_pre_lines(exm[[i]][[j]]$solution)
       if(!is.null(exm[[i]][[j]]$solutionlist)) {
         if(!all(is.na(exm[[i]][[j]]$solutionlist))) {
           xsolution <- c(xsolution, if(length(xsolution)) "<br />" else NULL)
@@ -812,8 +812,9 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 }
 
 
-## fix Blackboard's failure to render html-<pre> environment properly
-fix_bb_pre <- function(x) {
+## some learning management systems (notably Blackboard and Ans) fail to render
+## html-<pre> environments properly
+fix_pre_lines <- function(x, sep = "<br/>") {
   pre_start <- grep("(<pre>)|(<pre )", x)
   x[pre_start] <- gsub("<pre [^>]*>", "<pre>", x[pre_start])
   pre_end <- grep("</pre>", x, fixed = TRUE)
@@ -822,7 +823,7 @@ fix_bb_pre <- function(x) {
     for(i in seq_along(pre_start)) {
       pre_start_i <- pre_start[i] + 1L - pndc
       pre_end_i <- pre_end[i] - 2L *(1L - pndc)
-      if(pre_end_i >= pre_start_i) x[pre_start_i:pre_end_i] <- paste0(x[pre_start_i:pre_end_i], "<br/>")
+      if(pre_end_i >= pre_start_i) x[pre_start_i:pre_end_i] <- paste0(x[pre_start_i:pre_end_i], sep)
     }
     x[pre_start] <- gsub("<code>", "", x[pre_start], fixed = TRUE)
     x[pre_end] <- gsub("</code>", "", x[pre_end], fixed = TRUE)
