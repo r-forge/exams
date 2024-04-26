@@ -11,12 +11,12 @@
   compilation and installation on all platforms. It also provides wrappers in
   R to process R character vectors with the command line tools directly
   from the R prompt. A detailed manual for tth/ttm is available online at
-  \url{http://hutchinson.belmont.ma.us/tth/}.
+  \url{http://silas.psfc.mit.edu/tth/}.
 }
 
 \references{
-  Hutchinson IH (2017). \emph{TtH: The TeX to HTML Translator}, Version 4.12.
-  \url{http://hutchinson.belmont.ma.us/tth/}
+  Hutchinson IH (2022). \emph{TtH: The TeX to HTML Translator}, Version 4.16.
+  \url{http://silas.psfc.mit.edu/tth/}
 }
 
 \keyword{utilities}

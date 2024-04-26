@@ -66,7 +66,7 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   provided by the R package \pkg{tth} or be installed on the system (and
   available in the search path). The command line tools have been
   written by Hutchinson (2017) and a detailed manual is available online
-  at \url{http://hutchinson.belmont.ma.us/tth/}.
+  at \url{http://silas.psfc.mit.edu/tth/}.
 
   By default, the results of \code{tth} and \code{ttm} are processed further
   to accomodate the \code{Sweave} environments and \code{fixup} certain
@@ -89,8 +89,8 @@ tth.control(a = FALSE, c = FALSE, d = FALSE, e = 2, f = NULL, g = FALSE,
   (non-default) control arguments.  }
 
 \references{
-  Hutchinson IH (2017). \emph{TtH: The TeX to HTML Translator}, Version 4.12.
-  \url{http://hutchinson.belmont.ma.us/tth/}
+  Hutchinson IH (2022). \emph{TtH: The TeX to HTML Translator}, Version 4.16.
+  \url{http://silas.psfc.mit.edu/tth/}
 }
 
 \examples{
