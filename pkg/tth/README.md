@@ -2,7 +2,7 @@
 
 The R package `tth` provides an R interface to the TeX-to-HTML/MathML
 translators `tth` and `ttm` written in C by Ian H. Hutchinson
-(see <http://hutchinson.belmont.ma.us/tth/>).
+(see <http://silas.psfc.mit.edu/tth/>).
 
 ```
 library("tth")
