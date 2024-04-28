@@ -764,7 +764,7 @@ make_itembody_qti12 <- function(rtiming = FALSE, shuffle = FALSE, rshuffle = shu
           "string" = "short_answer_question"
         )
       }
-      if(type == "string" && !is.null(stringtype <- x$metainfo$stringtype) && !identical(x$metainfo$stringtype, "string")) {
+      if(identical(type, "string") && !is.null(stringtype <- x$metainfo$stringtype) && !identical(x$metainfo$stringtype, "string")) {
         if(length(stringtype) > 1L) {
           stringtype <- stringtype[1L]
           warning(sprintf("for Canvas only a single 'stringtype' is supported, using the first: %s", stringtype))
