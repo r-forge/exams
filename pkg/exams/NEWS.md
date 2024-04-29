@@ -133,6 +133,10 @@
   (rather than rounding the number to multiples of 5). This facilitates fixing
   the correct number of questions in `nops_fix()`.
 
+* The answer lists in `exams2nops()` are now labeled `\alph{enumii}.` rather than
+  `(\alph{enumii})`. Also the main exam sheet also uses `\alph{}` with a custom
+  counter to label the check boxes for the answers.
+
 * When converting exercises with a converter based on `make_exercise_transform_pandoc()`
   to Markdown with Base64 output, graphics in `<img>` tags are now correctly
   encoded as well.

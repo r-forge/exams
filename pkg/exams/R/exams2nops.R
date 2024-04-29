@@ -343,9 +343,9 @@ if(newpage) {
 },
 
 if(samepage) {
-  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{(\\alph{enumii})}\\begin{samepage}\\begin{enumerate}}{\\end{enumerate}\\end{samepage}}"
+  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{\\alph{enumii}.}\\begin{samepage}\\begin{enumerate}}{\\end{enumerate}\\end{samepage}}"
 } else {
-  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{(\\alph{enumii})}\\begin{enumerate}}{\\end{enumerate}}"
+  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{\\alph{enumii}.}\\begin{enumerate}}{\\end{enumerate}}"
 },
 
 "
@@ -537,17 +537,18 @@ abcde <- function(i, above = FALSE, nchoice = 5) {
   ix <- 19 + 64 * ix - as.numeric(ix >= 2) * 4
   iy <- 129 - 7 * iy - 3 * ((iy - 1) %/% 5) + above * 10
   nchoice <- max(nchoice)
+  nopsitem <- sprintf("{\\setcounter{nopsitem}{%s}\\alph{nopsitem}}", 1:5)
   if(nchoice == 5) {
-    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", letters[1:5],"}}}", sep = "", collapse = "\n"),
+    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", nopsitem[1:5],"}}}", sep = "", collapse = "\n"),
       ix + 1 * 8, iy, ix + 2 * 8, iy, ix + 3 * 8, iy, ix + 4 * 8, iy, ix + 5 * 8, iy)  
   } else if(nchoice == 4) {
-    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", letters[1:4],"}}}", sep = "", collapse = "\n"),
+    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", nopsitem[1:4],"}}}", sep = "", collapse = "\n"),
       ix + 1 * 8, iy, ix + 2 * 8, iy, ix + 3 * 8, iy, ix + 4 * 8, iy)
   } else if(nchoice == 3) {
-    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", letters[1:3],"}}}", sep = "", collapse = "\n"),
+    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", nopsitem[1:3],"}}}", sep = "", collapse = "\n"),
       ix + 1 * 8, iy, ix + 2 * 8, iy, ix + 3 * 8, iy)
   } else if(nchoice == 2) {
-    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", letters[1:2],"}}}", sep = "", collapse = "\n"),
+    sprintf(paste("\\put(%i,%i){\\makebox(0,0)[b]{\\textsf{", nopsitem[1:2],"}}}", sep = "", collapse = "\n"),
       ix + 1 * 8, iy, ix + 2 * 8, iy)
   } else if(nchoice == 0) {
     ""
@@ -638,6 +639,7 @@ sprintf("
 \\put(40,262){\\parbox[t]{120mm}{\\large{\\textsf{\\textbf{{\\mytitle} {\\myDate}}}}}}
 
 % boxes for answers (inlcuding labels and separators)
+\\newcounter{nopsitem}
 ",
 ## first column
 ## title
