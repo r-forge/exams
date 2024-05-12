@@ -192,7 +192,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   test_xml <- assessment_xml
   test_xml <- gsub('##TestTitle##', paste0(name, "-test"), test_xml, fixed = TRUE)
   test_xml <- gsub('##TestIdent##', test_id, test_xml, fixed = TRUE)
-  test_xml <- gsub("##MaxTestScore##", sprintf("%d.0", sum(points)), test_xml, fixed = TRUE)
+  test_xml <- gsub("##MaxTestScore##", sprintf("%.3f", sum(points)), test_xml, fixed = TRUE)
   test_xml <- gsub('##AssessmentDescription##', tinstruction, test_xml, fixed = TRUE)
   test_xml <- gsub('##AssessmentTitle##', tdescription, test_xml, fixed = TRUE)
   test_xml <- gsub('##SectionContent##', paste(section_xml, collapse = "\n"), test_xml, fixed = TRUE)
@@ -200,7 +200,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   test_xml <- gsub('##AssessmentType##', "Test", test_xml, fixed = TRUE)
   test_xml <- gsub('##SectionType##', "Subsection", test_xml, fixed = TRUE)
   test_xml <- gsub('##QuestionType##', "Multiple Choice", test_xml, fixed = TRUE)
-  test_xml <- gsub("##AbsoluteScoreMax##", sprintf("%d.0", sum(points)), test_xml, fixed = TRUE)
+  test_xml <- gsub("##AbsoluteScoreMax##", sprintf("%.3f", sum(points)), test_xml, fixed = TRUE)
   test_xml <- gsub('##Weighting##', "0.0", test_xml, fixed = TRUE)
 
   ## write heading of manifest_xml
@@ -226,8 +226,8 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
     bank_xml <- gsub('##AssessmentType##', "Test", bank_xml, fixed = TRUE)
     bank_xml <- gsub('##SectionType##', "Random Block", bank_xml, fixed = TRUE)
     bank_xml <- gsub('##QuestionType##', "Multiple Choice", bank_xml, fixed = TRUE)
-    bank_xml <- gsub("##AbsoluteScoreMax##", sprintf("%d.0", points[j]), bank_xml, fixed = TRUE)
-    bank_xml <- gsub("##Weighting##", sprintf("%d.0", points[j]), bank_xml, fixed = TRUE)
+    bank_xml <- gsub("##AbsoluteScoreMax##", sprintf("%.3f", points[j]), bank_xml, fixed = TRUE)
+    bank_xml <- gsub("##Weighting##", sprintf("%.3f", points[j]), bank_xml, fixed = TRUE)
     bank_xml <- gsub('##SectionItems##', paste(ordering_xml, collapse = "\n"), bank_xml, fixed = TRUE)
     bank_xml <- gsub('##QuestionType##', bb_questiontype(exm[[1]][[j]]$metainfo$type, exm[[1]][[j]]$metainfo$stringtype), bank_xml, fixed = TRUE)
     bank_xml <- gsub('##SourceBankRef##', sprintf("res%05d", j), bank_xml, fixed = TRUE)
