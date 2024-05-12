@@ -155,6 +155,10 @@
   [61254298](https://stackoverflow.com/questions/61254298) and
   [75766543](https://stackoverflow.com/questions/75766543) on StackOverflow.)
 
+* The (total) number of points in `exams2blackboard()` is now formatted as
+  `%.3f` rather than `%d.0` so that it can also be fractional (with up to
+  three decimal places) rather than integer.
+
 
 # exams 2.4-0
 
