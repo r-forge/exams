@@ -342,7 +342,7 @@ exams2testvision <- function(file, n = 1L, nsamp = NULL, dir = ".",
 
 
 make_itembody_testvision <- function(shuffle = FALSE,
-  defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = TRUE,
+  defaultval = NULL, minvalue = NULL, maxvalue = NULL, enumerate = FALSE,
   digits = NULL, tolerance = is.null(digits), maxchars = 12,
   eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE)
 {

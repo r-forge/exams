@@ -94,8 +94,8 @@
   and then use the `css` argument for controlling the rendering of that
   class.
 
-* In `exams2moodle()`, `exams2qti12()`, and `exams2qti21()` (and all interfaces
-  built on top of these like `exams2openolat()`) the default is now
+* In `exams2moodle()`, `exams2testvision()`, `exams2qti12()`, and `exams2qti21()`
+  (and all interfaces built on top of these like `exams2openolat()`) the default is now
   `enumerate = FALSE` (rather than `TRUE`) so that single-choice and
   multiple-choice answers are not listed with letters a., b., c., ...
   The default was changed because it produces questions with less "clutter"

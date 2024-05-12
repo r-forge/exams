@@ -26,7 +26,7 @@
 
   make_itembody_testvision(shuffle = FALSE, defaultval = NULL,
     minvalue = NULL, maxvalue = NULL,
-    enumerate = TRUE, digits = NULL,
+    enumerate = FALSE, digits = NULL,
     tolerance = is.null(digits), maxchars = 12,
     eval = list(partial = TRUE, rule = "false2", negative = FALSE), solutionswitch = TRUE)
 }
