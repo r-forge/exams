@@ -785,7 +785,7 @@ make_itembody_testvision <- function(shuffle = FALSE,
     }
 
     ## close itembody
-    xml <- c(xml, if(x$metainfo$type == "cloze") '</div>' else NULL, '</itemBody>')
+    xml <- c(xml, if(x$metainfo$type == "cloze" & !ant) '</div>' else NULL, '</itemBody>')
 
     ## response processing
     xml <- c(xml, '<responseProcessing>')
