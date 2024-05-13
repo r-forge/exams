@@ -334,6 +334,7 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\fi
 
 %% for exams2pdf
+\\newcounter{nopsitem}
 \\newenvironment{solution}{\\comment}{\\endcomment}",
 
 if(newpage) {
@@ -639,7 +640,6 @@ sprintf("
 \\put(40,262){\\parbox[t]{120mm}{\\large{\\textsf{\\textbf{{\\mytitle} {\\myDate}}}}}}
 
 % boxes for answers (inlcuding labels and separators)
-\\newcounter{nopsitem}
 ",
 ## first column
 ## title
