@@ -71,7 +71,7 @@ solveme_func = function(e) {
   if(this.dataset.tol > 0){
     my_answer = my_answer.replace(/,/g, '.'); //also allow decimal comma
     var tol = JSON.parse(this.dataset.tol);
-    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol + 0.00000000000001)
     if (matches.reduce((a, b) => a + b, 0) > 0) {
       cl.add("webex-correct");
     } else {
