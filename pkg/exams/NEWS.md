@@ -68,9 +68,11 @@
   credits are used even if they are enabled for `mchoice` questions in the
   `eval` specification.
 
-* Additional NOPS language support: Polish (`pl`, contributed by Paweł Kleka).
-  Corrections in French (`fr`, contributed by Jean-Philippe Georget) and in
-  Spanish (`es`, contributed by Flavio Lozano Isla).
+* Additional NOPS language support: Bulgarian (`bg`, contributed by Nikolay
+  Rachev) and Polish (`pl`, contributed by Paweł Kleka). Corrections in
+  French (`fr`, contributed by Jean-Philippe Georget), Russian (`ru`,
+  contributed by Nikolay Rachev), and Spanish (`es`, contributed by Flavio
+  Lozano Isla).
 
 * Various `exams2xyz()` interfaces gained arguments `envir = NULL` and/or
   `engine = NULL`. Both are passed on to `xweave()`. The `envir` argument
