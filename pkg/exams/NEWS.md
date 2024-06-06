@@ -107,6 +107,10 @@
 * In `exams2moodle()` the `string` elements in `cloze` exercises now also
   correctly support the `usecase = TRUE` option (reported by Joan Sanz).
 
+* In `exams2moodle()` the `eval` for `schoice` exercises is now correctly
+  processed in case of negative points (reported in
+  <https://stackoverflow.com/questions/78581471>).
+
 * In both `matrix_to_schoice()` and `matrix_to_mchoice()` the handling of
   vector (rather than matrix) inputs is improved. In this case the question
   list shows only a single index for the chosen element(s) rather than row

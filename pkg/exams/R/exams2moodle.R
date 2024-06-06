@@ -335,7 +335,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       ## evaluation policy
       if(!("pointvec" %in% names(eval))) eval <- do.call("exams_eval", eval)
       frac <- as.integer(x$metainfo$solution)
-      pv <- eval$pointvec(paste(frac, sep = "", collapse = ""))
+      pv <- eval$pointvec(paste(frac, sep = "", collapse = ""), type = x$metainfo$type)
       pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
 
       frac[x$metainfo$solution] <- pv["pos"]
