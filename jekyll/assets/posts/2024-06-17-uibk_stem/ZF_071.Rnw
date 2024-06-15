@@ -1,0 +1,57 @@
+<<echo=FALSE, results=hide>>=
+## Generate two random fractions based on numbers from 1 to 10
+f1 <- sample(1:10, 2, replace = FALSE)
+f2 <- sample(1:10, 2, replace = FALSE)
+a <- f1[1] 
+b <- f1[2] 
+c <- f2[1] 
+d <- f2[2]
+
+## Save random fractions a/b and c/d as character
+## (don't forget escaping twice \\\\ within math mode for Sexpr)
+fr1 <- paste0("$\\\\frac{", a, "}{", b, "}$")
+fr2 <- paste0("$\\\\frac{", c, "}{", d, "}$")
+
+## Possible answers
+answers <- c(
+  paste(fr1, "is greater than", fr2),
+  paste(fr2, "is greater than", fr1),
+  "Both fractions are equal"
+)
+
+## Correct solution
+sol <- c(0, 0, 0)
+if(a/b > c/d) {
+  sol[1] <- 1
+} else if(c/d > a/b) {
+  sol[2] <- 1
+} else {
+  sol[3] <- 1
+}
+
+## Explanation
+k <- answers[as.logical(sol)]
+eq <- c(" > ", " < ", " = ")[as.logical(sol)]
+explanation <- paste0(k, " since $", a, " \\\\cdot ", d, eq, b, " \\\\cdot ", c, "$.")
+@
+
+
+\begin{question}
+Which of these numbers is greater: \Sexpr{fr1} or \Sexpr{fr2}?
+
+\begin{answerlist}
+  \item \Sexpr{answers[1]}
+  \item \Sexpr{answers[2]}
+  \item \Sexpr{answers[3]}
+\end{answerlist}
+\end{question}
+
+
+\begin{solution}
+\Sexpr{explanation}
+\end{solution}
+
+
+\exname{Comparing fractions}
+\extype{schoice}
+\exsolution{\Sexpr{paste(sol, collapse = "")}}
