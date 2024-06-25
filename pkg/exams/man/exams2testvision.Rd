@@ -117,10 +117,10 @@
 \details{
   TestVision employs an XML format that essentially uses the Question & Test
   Interoperability (QTI) standard, version 2.1, see IMS Global Learning
-  Consortium, Inc. (2012). However, as this deviates from the plain QTI 2.1
+  Consortium, Inc. (2012). However, as this deviates substantially from the plain QTI 2.1
   standard in several places, the \code{\link{exams2qti21}} cannot be used
-  directly. Instead, \code{exams2testvision} is a new interface that is likely
-  to be improved in future versions.
+  directly. Instead, \code{exams2testvision} is a new interface that allows for meeting TestVision's
+  requirements for XML-imports.
 
   \code{exams2testvision} produces a \code{.zip} file that may be uploaded into
   TestVision. This includes the final XML file of the exam/assessment as well as
@@ -167,6 +167,11 @@
   body XML code may be provided to \code{num}, \code{mchoice}, \code{schoice}
   and \code{string}. E.g., \code{mchoice = list(shuffle = TRUE)} will force only
   multiple choice questions to have a shuffled answerlist.
+  
+  Please note the following for \code{cloze} questions: Although any combination
+  of the four item types can be successfully uploaded into TestVision, \code{cloze} 
+  questions containing \code{mhoice} do not work properly (it is therefore 
+  advised to not use \code{mchoice} within \code{cloze}). 
 
 }
 
@@ -207,7 +212,7 @@ myexam <- list(
   "relfreq",
   "essayreg",
   "dist2",
-  "boxhist"
+  "boxhist2"
 )
 
 ## output directory
