@@ -113,7 +113,13 @@ nops_fix <- function(
 
     ## update desired fields
     if("type" %in% field_i) {
-      if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
+      if(is.character(png_i)) {
+        png_i <- try(trim_nops_scan(png_i), silent = TRUE)
+        if(inherits(png_i, "try-error")) {
+          png_i <- NULL
+          browseURL(d[i, 1L])
+        }
+      }
       maskplot(png_i, center = c(0.3925, 0.074), prop = c(0.035, 0.078), main = d[i, 1L])
       p <- sprintf("Correct type (for %s, %s): ", d[i, 4L], d[i, 1L])
       r <- readline(prompt = p)
@@ -125,7 +131,13 @@ nops_fix <- function(
     }
     
     if("id" %in% field_i) {
-      if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
+      if(is.character(png_i)) {
+        png_i <- try(trim_nops_scan(png_i), silent = TRUE)
+        if(inherits(png_i, "try-error")) {
+          png_i <- NULL
+          browseURL(d[i, 1L])
+        }
+      }
       maskplot(png_i, center = c(0.3925, 0.275), prop = c(0.035, 0.19), main = d[i, 1L])
       p <- sprintf("Correct exam ID (for %s, %s): ", d[i, 2L], d[i, 1L])
       r <- readline(prompt = p)
@@ -140,7 +152,13 @@ nops_fix <- function(
       if(regextra > 3L) regextra <- regextra - 3L
       reglength <- 7L + regextra
 
-      if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
+      if(is.character(png_i)) {
+        png_i <- try(trim_nops_scan(png_i), silent = TRUE)
+        if(inherits(png_i, "try-error")) {
+          png_i <- NULL
+          browseURL(d[i, 1L])
+        }
+      }
       maskplot(png_i, center = c(0.25, 0.87 - 0.04 * as.numeric(substr(d[i, 4L], 1L, 1L))), prop = 0.35, main = d[i, 1L])
       p <- sprintf("Correct registration number (for %s, %s): ", d[i, 6L], d[i, 1L])
       r <- readline(prompt = p)
@@ -162,7 +180,13 @@ nops_fix <- function(
         answer_i <- intersect(answer_i, check_i)
       }
       for(j in answer_i) {
-        if(is.character(png_i)) png_i <- trim_nops_scan(png_i)
+        if(is.character(png_i)) {
+          png_i <- try(trim_nops_scan(png_i), silent = TRUE)
+          if(inherits(png_i, "try-error")) {
+            png_i <- NULL
+            browseURL(d[i, 1L])
+          }
+        }
         maskplot(png_i, center = acoord[j,], prop = c(0.03, 0.18), main = d[i, 1L])
         p <- sprintf("Correct answer %s (for %s, %s): ", j, d[i, 6L + j], d[i, 1L])
         r <- readline(prompt = p)
