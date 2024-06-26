@@ -165,8 +165,10 @@
   `%.3f` rather than `%d.0` so that it can also be fractional (with up to
   three decimal places) rather than integer.
 
-* Bug fix for cloze questions with `##ANSWERi##` tags in `exams2testvision()`
-  which lead to unbalanced `<div>` tags in previous versions.
+* Various improvements in  `exams2testvision()`, especially for cloze exercises
+  combining various types of questions. In particular, a bug was fixed for
+  cloze exercises with `##ANSWERi##` tags which lead to unbalanced `<div>` tags
+  in previous versions.
 
 
 # exams 2.4-0
