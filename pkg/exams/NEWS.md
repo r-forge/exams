@@ -170,6 +170,13 @@
   cloze exercises with `##ANSWERi##` tags which lead to unbalanced `<div>` tags
   in previous versions.
 
+* Added support for `\pandocbounded{}` (as produced by `pandoc` starting from
+  version 3.2.1) in all current LaTeX templates as well as `exams2nops()`.
+  Currently, `\pandocbounded{}` does not anything in the `exams` templates so
+  that the size of the graphics in PDF output still has to be controlled in one
+  of the previously available ways (e.g., within the exercises, via the
+  `exams2xyz()` interface, or via the `Gin` key in the LaTeX template).
+
 
 # exams 2.4-0
 

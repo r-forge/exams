@@ -260,6 +260,7 @@ if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 
 %% compatibility with pandoc
 \\providecommand{\\tightlist}{\\setlength{\\itemsep}{0pt}\\setlength{\\parskip}{0pt}}
+\\providecommand{\\pandocbounded}[1]{#1}
 
 %% to support different lengths of registration numbers
 \\newif\\ifregseven
