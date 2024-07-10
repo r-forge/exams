@@ -1,9 +1,5 @@
 R/xmltools\.R$
 R/exams_shiny\.R$
-R/exams2ans\.R$
-R/exams2inspera\.R$
-man/exams2inspera\.Rd$
-inst/xml/inspera\.xml$
 man/exams2evaexam\.Rd$
 ^paper$
 vignettes/screenshots/exams2qti12-tstat\.png$

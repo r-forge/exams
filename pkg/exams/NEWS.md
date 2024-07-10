@@ -1,3 +1,12 @@
+# exams 2.4-2
+
+* Added first release version of new interface `exams2inspera()` for the
+  assessment platform [Inspera](https://www.inspera.com/). It is using
+  `exams2qti21()` internally with a custom XML `template` and a few further
+  tweaks. Not all features work correctly, though, notably the inclusion
+  of graphics and other supplementary files.
+
+
 # exams 2.4-1
 
 * New function `nops_fix()` that can be applied to the ZIP file resulting from
