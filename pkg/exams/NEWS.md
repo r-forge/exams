@@ -49,12 +49,6 @@
   not match. Also, the reading of question lists is more robust now for
   Markdown exercises.
 
-* Added first release version of new interface `exams2inspera()` for the
-  assessment platform [Inspera](https://www.inspera.com/). It is using
-  `exams2qti21()` internally with a custom XML `template` and a few further
-  tweaks. Not all features work correctly, though, notably the inclusion
-  of graphics and other supplementary files.
-
 * New convenience function `match_exams_iteration()` that can be used within
   an exercise to query the current iteration (within `n` replications), e.g.,
   to always cycle through the same finite set of parameters.
@@ -109,7 +103,7 @@
 
 * In `exams2moodle()` the `eval` for `schoice` exercises is now correctly
   processed in case of negative points (reported in
-  <https://stackoverflow.com/questions/78581471>).
+  [78581471](https://stackoverflow.com/questions/78581471) on StackOverflow).
 
 * In both `matrix_to_schoice()` and `matrix_to_mchoice()` the handling of
   vector (rather than matrix) inputs is improved. In this case the question
