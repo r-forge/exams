@@ -139,32 +139,34 @@ are directly available in the R package (note that `"tr"` requires the current
 [development version from R-Forge](http://R-Forge.R-project.org/R/?group_id=1337), though). But for convenience
 and manual inspection the `.dcf` files are also linked here.
 
-File                                                                  | Language            | Contributor                                                             |
-:---------------------------------------------------------------------|:--------------------|:------------------------------------------------------------------------|
-`r include_asset(system.file("nops", "cz.dcf", package = "exams"))`   | Czech               | [Jindřich Marek](https://uisk.ff.cuni.cz/cs/o-ustavu/vyucujici/jindrich-marek/)                                      |
-`r include_asset(system.file("nops", "da.dcf", package = "exams"))`   | Danish              | [Tue Vissing Jensen](http://orcid.org/0000-0002-6594-5094) & [Jakob Messner](http://orcid.org/0000-0002-1027-3673)   |
-`r include_asset(system.file("nops", "de.dcf", package = "exams"))`   | German              | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
-`r include_asset(system.file("nops", "en.dcf", package = "exams"))`   | English             | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
-`r include_asset(system.file("nops", "es.dcf", package = "exams"))`   | Spanish             | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik)                                              |
-`r include_asset(system.file("nops", "fi.dcf", package = "exams"))`   | Finnish             | [Klaus Nordhausen](http://klausnordhausen.com/)                                                                      |
-`r include_asset(system.file("nops", "fr.dcf", package = "exams"))`   | French              | [Arthur Allignol](https://github.com/aallignol)                                                                      |
-`r include_asset(system.file("nops", "gl.dcf", package = "exams"))`   | Galician            | [Marta Sestelo](https://sestelo.github.io/) & [Nora M. Villanueva](https://noramvillanueva.github.io/)               |
-`r include_asset(system.file("nops", "gsw.dcf", package = "exams"))`  | Swiss German        | [Reto Stauffer](http://retostauffer.org/)                                                                            |
-`r include_asset(system.file("nops", "hr.dcf", package = "exams"))`   | Croatian            | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic) & [Tatjana Kecojevic](https://tanjakec.github.io/) |
-`r include_asset(system.file("nops", "hu.dcf", package = "exams"))`   | Hungarian           | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth                                                         |
-`r include_asset(system.file("nops", "it.dcf", package = "exams"))`   | Italian             | [Domenico Zambella](https://domenicozambella.altervista.org/)                                                        |
-`r include_asset(system.file("nops", "ja.dcf", package = "exams"))`   | Japanese            | [Kohei Watanabe](http://koheiw.net/)                                                                                 |
-`r include_asset(system.file("nops", "ko.dcf", package = "exams"))`   | Korean              | 정세원                                                                                                                                                                                                                                |
-`r include_asset(system.file("nops", "nl.dcf", package = "exams"))`   | Dutch               | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)                                                |
-`r include_asset(system.file("nops", "no.dcf", package = "exams"))`   | Norwegian (Bokmål) | [Tormod Bøe](http://tormodb.github.io/)                                                                             |
+File                                                                    | Language            | Contributor                                                                                                          |
+:-----------------------------------------------------------------------|:--------------------|:---------------------------------------------------------------------------------------------------------------------|
+`r include_asset(system.file("nops", "cz.dcf", package = "exams"))`     | Bulgarian           | [Nikolay Rachev](https://bg.linkedin.com/in/nikolay-rachev-98121a18)                                                 |
+`r include_asset(system.file("nops", "cz.dcf", package = "exams"))`     | Czech               | [Jindřich Marek](https://uisk.ff.cuni.cz/cs/o-ustavu/vyucujici/jindrich-marek/)                                      |
+`r include_asset(system.file("nops", "da.dcf", package = "exams"))`     | Danish              | [Tue Vissing Jensen](http://orcid.org/0000-0002-6594-5094) & [Jakob Messner](http://orcid.org/0000-0002-1027-3673)   |
+`r include_asset(system.file("nops", "de.dcf", package = "exams"))`     | German              | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
+`r include_asset(system.file("nops", "en.dcf", package = "exams"))`     | English             | [Achim Zeileis](https://eeecon.uibk.ac.at/~zeileis/)                                                                 |
+`r include_asset(system.file("nops", "es.dcf", package = "exams"))`     | Spanish             | [Maria Kogelnik](http://www.broomcenter.ucsb.edu/people/maria-kogelnik)                                              |
+`r include_asset(system.file("nops", "fi.dcf", package = "exams"))`     | Finnish             | [Klaus Nordhausen](http://klausnordhausen.com/)                                                                      |
+`r include_asset(system.file("nops", "fr.dcf", package = "exams"))`     | French              | [Arthur Allignol](https://github.com/aallignol)                                                                      |
+`r include_asset(system.file("nops", "gl.dcf", package = "exams"))`     | Galician            | [Marta Sestelo](https://sestelo.github.io/) & [Nora M. Villanueva](https://noramvillanueva.github.io/)               |
+`r include_asset(system.file("nops", "gsw.dcf", package = "exams"))`    | Swiss German        | [Reto Stauffer](http://retostauffer.org/)                                                                            |
+`r include_asset(system.file("nops", "hr.dcf", package = "exams"))`     | Croatian            | [Krunoslav Juraić](http://www.irb.hr/eng/People/Krunoslav-Juraic) & [Tatjana Kecojevic](https://tanjakec.github.io/) |
+`r include_asset(system.file("nops", "hu.dcf", package = "exams"))`     | Hungarian           | [Gergely Daróczi](https://twitter.com/daroczig) & Dénes Tóth                                                         |
+`r include_asset(system.file("nops", "it.dcf", package = "exams"))`     | Italian             | [Domenico Zambella](https://domenicozambella.altervista.org/)                                                        |
+`r include_asset(system.file("nops", "ja.dcf", package = "exams"))`     | Japanese            | [Kohei Watanabe](http://koheiw.net/)                                                                                 |
+`r include_asset(system.file("nops", "ko.dcf", package = "exams"))`     | Korean              | 정세원                                                                                                                                                                                                                                |
+`r include_asset(system.file("nops", "nl.dcf", package = "exams"))`     | Dutch               | [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html)                                                |
+`r include_asset(system.file("nops", "no.dcf", package = "exams"))`     | Norwegian (Bokmål) | [Tormod Bøe](http://tormodb.github.io/)                                                                             |
+`r include_asset(system.file("nops", "pl.dcf", package = "exams"))`     | Polish              | [Paweł Kleka](https://kleka.web.amu.edu.pl/)                                                                         |
 `r include_asset(system.file("nops", "pt.dcf", package = "exams"))` <br/> `r include_asset(system.file("nops", "pt-BR.dcf", package = "exams"))`, `r include_asset(system.file("nops", "pt-PT.dcf", package = "exams"))`) | Portugese | [Mauricio Calvão](http://www.if.ufrj.br/~orca/) & Fabian Petutschnig & <br/> [Thomas Dellinger](http://www3.uma.pt/thd/) |
-`r include_asset(system.file("nops", "ro.dcf", package = "exams"))`   | Romanian            | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                                                                  |
-`r include_asset(system.file("nops", "ru.dcf", package = "exams"))`   | Russian             | [Boris Demeshev](https://www.hse.ru/en/staff/bbd/)                                                                   |
-`r include_asset(system.file("nops", "sk.dcf", package = "exams"))`   | Slovak              | Peter Fabsic                                                                                                         |
-`r include_asset(system.file("nops", "sl.dcf", package = "exams"))`   | Slovenian           | Matjaž Jeran                                                                                                         |
-`r include_asset(system.file("nops", "sr.dcf", package = "exams"))`   | Serbian             | [Tatjana Kecojevic](https://tanjakec.github.io/)                                                                     |
-`r include_asset(system.file("nops", "tr.dcf", package = "exams"))`   | Turkish             | [Emrah Er](http://eremrah.com/)                                                                                      |
-`r include_asset(system.file("nops", "vi.dcf", package = "exams"))`   | Vietnamese          | Trần Thị Hoàng Hà                                                                                                    |
+`r include_asset(system.file("nops", "ro.dcf", package = "exams"))`     | Romanian            | [Cristian Gatu](https://profs.info.uaic.ro/~cgatu/)                                                                  |
+`r include_asset(system.file("nops", "ru.dcf", package = "exams"))`     | Russian             | [Boris Demeshev](https://www.hse.ru/en/staff/bbd/)                                                                   |
+`r include_asset(system.file("nops", "sk.dcf", package = "exams"))`     | Slovak              | Peter Fabsic                                                                                                         |
+`r include_asset(system.file("nops", "sl.dcf", package = "exams"))`     | Slovenian           | Matjaž Jeran                                                                                                         |
+`r include_asset(system.file("nops", "sr.dcf", package = "exams"))`     | Serbian             | [Tatjana Kecojevic](https://tanjakec.github.io/)                                                                     |
+`r include_asset(system.file("nops", "tr.dcf", package = "exams"))`     | Turkish             | [Emrah Er](http://eremrah.com/)                                                                                      |
+`r include_asset(system.file("nops", "vi.dcf", package = "exams"))`     | Vietnamese          | Trần Thị Hoàng Hà                                                                                                    |
 
 
 
