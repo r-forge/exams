@@ -202,6 +202,7 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
   pngengine <- match.arg(pngengine, c("magick", "convert"))
   if(pngengine == "magick") {
     if(!magick_available()) stop("package 'magick' is not available for converting PDF to PNG")
+    if(Sys.which("gs") ==  "") stop("Ghostscript (gs) not found on the PATH but needed for converting PDF to PNG")
   } else {
     if(!convert_available()) stop("system command 'convert' is not available for converting PDF to PNG")
   }
