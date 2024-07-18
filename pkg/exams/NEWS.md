@@ -6,6 +6,11 @@
   tweaks. Not all features work correctly, though, notably the inclusion
   of graphics and other supplementary files.
 
+* Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
+  these functions will be removed in future versions of the package. The
+  reason is that ARSnova has been superseded by Particify and hence it is
+  recommended to transition to `exams2particify()`.
+
 
 # exams 2.4-1
 
