@@ -166,7 +166,7 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
     pdftk <- try(shsystem("pdftk --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
     !inherits(pdftk, "try-error")
   }
-  pdfengine <- getOption("exams_pdfengine") ## FIXME: for testing purposes
+  pdfengine <- getOption("exams_pdfengine") ## NOTE: option undocumented, only for testing purposes
   if(is.null(pdfengine)) {
     if(qpdf_available()) {
       pdfengine <- "qpdf"
@@ -189,7 +189,7 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
     magic <- try(shsystem("convert --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
     !inherits(magic, "try-error")
   }
-  pngengine <- getOption("exams_pngengine") ## FIXME: for testing purposes
+  pngengine <- getOption("exams_pngengine") ## NOTE: option undocumented, only for testing purposes
   if(is.null(pngengine)) {
     if(magick_available()) {
       pngengine <- "magick"
@@ -406,7 +406,7 @@ has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.3, sh
   if(any(dim(x) < 5L)) return(0L)
 
   ## extract inside of box
-  x <- subimage(x, c(0.5, 0.5), 1 - trim) ## FIXME: some more/less trimming here? Or computing rm/cm based on means rather than extremes?
+  x <- subimage(x, c(0.5, 0.5), 1 - trim) ## NOTE: some more/less trimming here? Or computing rm/cm based on means rather than extremes?
 
   ## almost empty
   if(mean(x) < threshold[1L]) return(0L)
