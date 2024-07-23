@@ -29,11 +29,18 @@ image:
   caption: "R/exams logo (CC-BY-SA | GPL-2)."
 ---
 
+## TL;DR
+
+To make full use of R/exams install: [1. R](#1-r) and optionally RStudio and Rtools on Windows, [2. R package "exams"](#2-r-package-exams) and its dependencies, [3. LaTeX](#3-latex) either as a full system tool -- or just `tinytex` from within R, [4. Pandoc](#4-pandoc) (automatically available with RStudio), [5. Ghostscript](#5-ghostscript) (only needed for scanning NOPS exams).
+
+Detailed instructions for all steps are provided in the following sections.
+
+
 ## 1. R
 
 [R/exams](https://www.R-exams.org/) is an extension for the [R system for statistical computing](https://www.R-project.org) and hence the first installation step is the base R system. 
 
-- **Windows and (Mac) OS X:** Go to <https://CRAN.R-project.org/>, the Comprehensive R Archive Network (CRAN). Simply click on the link for your operating system and at least install the "base" system.  
+- **Windows and MacOS:** Go to <https://CRAN.R-project.org/>, the Comprehensive R Archive Network (CRAN). Simply click on the link for your operating system and at least install the "base" system.  
    For some tasks (e.g., output for some learning management systems) it is necessary that the base R `zip()` function works. On Windows this requires to install the [Rtools](https://CRAN.R-project.org/bin/windows/Rtools/) and to include them in the PATH environment variable.
 - **Linux:** While it is possible to download from CRAN by hand, it is easier for most distributions to install the packaged binary. For example, on Debian/Ubuntu:
 
@@ -41,15 +48,15 @@ image:
   sudo apt-get install r-base-core r-base-dev
   ```
 
-There is a wide variety of interfaces for using R including simply the shell, Emacs, or dedicated graphical user interfaces for Windows and OS X, respectively. Moreover, RStudio is an open-source cross-platform integrated development environment that facilitates many common tasks for R beginners.
+There is a wide variety of interfaces for using R including simply the shell, Emacs, VS Code, or dedicated graphical user interfaces for Windows and MacOS, respectively. Moreover, RStudio is an open-source cross-platform integrated development environment that facilitates many common tasks for R beginners.
 
-- **For R beginners:** Go to <https://www.RStudio.com/products/RStudio/> and obtain the "Desktop" version of RStudio (Open Source Edition).
+- **For R beginners:** Go to <https://posit.co/products/open-source/rstudio/> and obtain the "Open Source Edition" of RStudio Desktop.
 
 
 
 ## 2. R package "exams"
 
-The core of R/exams is the open-source R package ["exams"](https://CRAN.R-project.org/package=exams), also available from CRAN. It can be easily installed interactively from within R with a single command. If necessary, the development version of the package is also available, which may provide some new features or small improvements.
+The core of R/exams is the open-source R package ["exams"](https://CRAN.R-project.org/package=exams), also available from CRAN. It can be easily installed -- along with all CRAN packages it depends on -- interactively from within R with a single command. Subsequently, if desired, the development version of the package can be installed from R-Forge, which may provide some new features or small improvements.
 
 - **Stable version:**
 
@@ -62,10 +69,9 @@ The core of R/exams is the open-source R package ["exams"](https://CRAN.R-projec
   install.packages("exams", repos = "https://R-Forge.R-project.org")
   ```
   
-  In some setups (e.g., on Mac OS or when using an older version of R) it may be necessary to add the argument `type = "source"` to the command above.
+  In some setups (e.g., on MacOS or when using an older version of R) it may be necessary to add the argument `type = "source"` to the command above.
 
-_Details:_ Several additional R packages, automatically installed by the command above, are needed for certain tasks: `base64enc` (HTML-based output: Base64 encoding of supplements), `knitr` (R/Markdown-based exercises), `magick` (turning LaTeX output into images, e.g., for TikZ graphics), `png` (NOPS exams: reading scanned PNG images), `RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova: JSON format), `rmarkdown` (pandoc-based conversion), `tinytex` (PDF output: lightweight LaTeX distribution), `tth` (HTML output from R/LaTeX exercises).
-
+_Dependencies:_ Several additional R packages, automatically installed by the command above, are needed for certain tasks: `base64enc` (HTML-based output: Base64 encoding of supplements), `knitr` (R/Markdown-based exercises), `rmarkdown` (pandoc-based conversion), `magick` (converting PDFs into images, e.g., for scanning NOPS exams or TikZ graphics), `openxlsx` (Kahoot: exporting exercises to Excel sheets), `png` (NOPS exams: reading scanned PNG images), `qpdf` (NOPS exams: manipulating scanned PDF sheets), `RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova: JSON format), `tinytex` (PDF output: lightweight LaTeX distribution), `tth` (HTML output from R/LaTeX exercises), `xml2` (converting XML from Moodle or Testvision to Rmd exercises).
 
 
 ## 3. LaTeX
@@ -81,7 +87,7 @@ _Note:_ When producing the first PDF files with R/exams, `tinytex` will automati
 Instead of TinyTeX it is, of course, also possible to install a full LaTeX distribution, especially if this is not only needed for R/exams. See this [LaTeX blog post]({{ site.url }}/tutorials/latex/) for more details on the relative advantages.
 
 - **Windows:** Go to <http://www.MikTeX.org/> and click on "Download" to obtain the MikTeX distribution for Windows.
-- **(Mac) OS X and Linux:** LaTeX distributions are available in the standard repositories and can be installed in the "usual" way, typically using the [TeX Live](https://www.tug.org/texlive/) distribution.
+- **MacOS and Linux:** LaTeX distributions are available in the standard repositories and can be installed in the "usual" way, typically using the [TeX Live](https://www.tug.org/texlive/) distribution.
 
 
 ## 4. Pandoc
@@ -95,28 +101,23 @@ sudo apt-get install pandoc
 ```
 
 
-## Optional: Further scanning tools
+## 5. Ghostscript
 
-_Note:_ Unless you want to process [written NOPS exams]({{ site.url }}/intro/written/) from scanned PDF files, this section can be skipped.
+_Note:_ Unless you want to process [written NOPS exams]({{ site.url }}/intro/written/) from scanned PDF files, this step can also be skipped.
 
-If the scanned images of written NOPS exams (from your photocopier) are in PDF format, they need to be converted to PNG first using the PDF Toolkit `pdftk` and ImageMagick's `convert`.
+If the scanned images of written NOPS exams (from your photocopier) are in PDF format, they need to be converted to PNG, by default using the R packages `qpdf` and `magick` (see above). The latter relies on Ghostscript being available on the system path which is usually the case on Linux but might require additional installation on Windows and MacOS.
 
-- **Windows:** Install PDFTk Free, ImageMagick, and Ghostscript.
-  - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_free-2.02-win-setup.exe>  
-    (Check the box: _"Add application directory to your environmental path"_)
-  - <https://www.imagemagick.org/script/download.php#windows>  
-    (Check the boxes: _"Add application directory to your System Path"_ and _"Install legacy utilities (e.g. convert)"_)
-  - <https://www.ghostscript.com/releases/gsdnld.html>
-- **MacOS:** Install MacPorts, PDFTk Free, and ImageMagick.
-  - <https://www.macports.org/>
-  - <https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg>
-  - <https://www.imagemagick.org/script/download.php#macosx>
-  - _Notes:_ ImageMagick requires MacPorts which in turn automatically installs Ghostscript as a dependency.  
-    The PDFTk version is for OS X 10.11 up to at least macOS 12 (Monterey).
-- **Linux:** Install PDFTk and ImageMagick from your distribution, e.g., for Debian/Ubuntu:
+- **Windows:** <https://www.ghostscript.com/releases/gsdnld.html>.
+- **MacOS:** Via Homebrew (https://brew.sh) in the terminal.
 
   ```{r}
-  sudo apt-get install pdftk imagemagick
+  brew install ghostscript
+  ```
+
+- **Linux:** If it is not installed already, install Ghostscript from your distribution, e.g., for Debian/Ubuntu.
+
+  ```{r}
+  sudo apt-get install ghostscript
   ```
 
 
