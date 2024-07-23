@@ -201,6 +201,7 @@ read_vis_html <- function(file, subset = FALSE) {
       info <- XML::xmlValue(info[[2L]][[1L]])
       info <- strsplit(info, ", Ort: ", fixed = TRUE)[[1L]]
       start <- strptime(info[1L], "Datum: %d.%m.%Y, Zeit: %H:%M Uhr")
+      if(is.na(start)) start <- strptime(info[1L], "Datum: %d.%m.%Y, Zeit: %H.%M")
       start <- format(start, "%Y-%m-%d %H:%M")
       location <- info[2L]
       info <- c(start, location)  
