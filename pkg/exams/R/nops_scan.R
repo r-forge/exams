@@ -118,15 +118,20 @@ nops_scan <- function(
     read_nops(images)
   }
 
-  ## check for errors in scanned data
-  if(!string && any(grepl("ERROR", rval, fixed = TRUE))) warning("errors in scanned data, please run nops_fix() on the 'nops_scan_*.zip' file prior to nops_eval()")
-
   ## return output
   if(!identical(file, FALSE)) {
     if(verbose) cat("\nCreating ZIP file:\n")
+
+    ## file name
     if(is.null(file) || !is.character(file)) file <- paste(if(string) "nops_string_scan" else "nops_scan",
       format(Sys.time(), "%Y%m%d%H%M%S"), sep = "_")
     if(substr(tolower(file), nchar(file) - 3L, nchar(file)) != ".zip") file <- paste(file, "zip", sep = ".")
+
+    ## check for errors in scanned data
+    if(any(grepl("ERROR", rval, fixed = TRUE))) warning(sprintf(
+      "errors in scanned data, please run nops_fix() on '%s' prior to nops_eval()", file))
+
+    ## create zip file
     writeLines(rval, file.path(tdir, if(string) "Daten2.txt" else "Daten.txt"))
     zip(zipfile = file, files = list.files(tdir))
     file.copy(file, file.path(dir, file))
@@ -339,6 +344,15 @@ shave_box <- function(x, border = 0.1, clip = TRUE)
   if(clip) shave(x) else x
 }
 
+## ignore single white rows/columns in has_mark()
+ignore_single_true_line <- function(x) {
+  y <- rle(x)
+  if(length(y$lengths[y$values]) < 2L) return(x)
+  if(all(y$lengths[y$values] > 1L) || all(y$lengths[y$values] <= 1L)) return(x)
+  y$values[y$values & y$lengths == 1L] <- FALSE
+  inverse.rle(y)
+}
+
 ## determine whether a pixel matrix has a check mark
 has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.3, shave = TRUE)
 {
@@ -361,6 +375,7 @@ has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.3, sh
   while(shave) {
     ri <- rowMeans(x) < 0.04
     if(sum(ri) > nrow(x) * trim/3) {
+      ri <- ignore_single_true_line(ri)
       ri <- range(which(ri))
       ri <- if((ri[1L] - 1L) <= (nrow(x) - ri[2L])) c(ri[1L], nrow(x)) else c(1L, ri[2L])
     } else {
@@ -368,6 +383,7 @@ has_mark <- function(x, threshold = c(0.04, 0.42), fuzzy = FALSE, trim = 0.3, sh
     }
     ci <- colMeans(x) < 0.04
     if(sum(ci) > ncol(x) * trim/3) {
+      ci <- ignore_single_true_line(ci)
       ci <- range(which(ci))
       ci <- if((ci[1L] - 1L) <= (ncol(x) - ci[2L])) c(ci[1L], ncol(x)) else c(1L, ci[2L])
     } else {
