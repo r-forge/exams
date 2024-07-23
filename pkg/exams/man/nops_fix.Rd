@@ -10,7 +10,8 @@
 
 \usage{
   nops_fix(scans = dir(pattern = "^nops_scan_[[:digit:]]*\\\\.zip$"),
-    exam = NULL, id = NULL, field = NULL, answer = NULL, check = NULL, display = NULL)
+    exam = NULL, id = NULL, field = NULL, answer = NULL, check = NULL, display = NULL,
+    string = NULL)
 }
 
 \arguments{
@@ -38,6 +39,10 @@
     \code{"browser"} (display full scanned image in browser). By default
     \code{"plot"} is used if the \pkg{png} package is available and \code{"browser"}
     otherwise.}
+  \item{string}{logical. Is the ZIP file from scanning marked string
+    exercises (rather than single/multiple choice exercises)? The default is
+    \code{TRUE} if the \code{file} name starts with \code{nops_string_scan_}
+    and \code{FALSE} otherwise.}
 }
 
 \details{

@@ -5,7 +5,8 @@ nops_fix <- function(
   field = NULL,   ## character vector from "type", "id", "registration", "answers". default: all that need fixing
   answer = NULL,  ## numeric. Number of answers to check (default: all answers)
   check = NULL,   ## character. Fix only answers the fulfill a certain check ("missing", "schoice", "mchoice")
-  display = NULL  ## character vector from "plot", "browser". default: "plot" if package "png" is available
+  display = NULL, ## character vector from "plot", "browser". default: "plot" if package "png" is available
+  string = NULL   ## logical. String scans (as opposed to multiple-choice scans)?
 ) {
 
   ## any scans?
@@ -22,14 +23,18 @@ nops_fix <- function(
   setwd(tdir)
   on.exit(setwd(odir), add = TRUE)
 
+  ## string scans?
+  if(is.null(string)) string <- identical(substr(scans, 1L, 17L), "nops_string_scan_")
+
   ## unzip scan results (and clean up file names)
   scan_zip <- scans
   scan_fil <- unzip(scan_zip)
   scan_fil <- gsub(normalizePath(file.path(tdir, ""), winslash = "/"), "", normalizePath(scan_fil, winslash = "/"), fixed = TRUE)
   scan_fil <- gsub("/", "", scan_fil, fixed = TRUE)
-  if(!("Daten.txt" %in% scan_fil)) {
+  data_txt <- if(string) "Daten2.txt" else "Daten.txt"
+  if(!(data_txt %in% scan_fil)) {
     file.remove(scan_fil)
-    stop(sprintf("'%s' does not contain a 'Daten.txt' file", scan_zip))
+    stop(sprintf("'%s' does not contain a '%s' file", scan_zip, data_txt))
   }
   rezip <- FALSE
 
@@ -45,6 +50,7 @@ nops_fix <- function(
 
   ## defaults: fields to check (NULL = fix all that need fixing)
   all_fields <- c("type", "id", "registration", "answers")
+  if(string) all_fields <- all_fields[-3L]
   if(!is.null(field)) field <- sapply(tolower(field), match.arg, choices = all_fields)
 
   ## additional check condition for answers to be checked (NULL = no additional conditions)
@@ -54,28 +60,59 @@ nops_fix <- function(
   valid_digits <- function(x, n = NULL) !is.null(x) && (is.null(n) || (n == nchar(x))) && grepl("^[0-9]*$", x) && !grepl("^[0]*$", x)
   valid_answer <- function(x) !is.null(x) && (nchar(x) == 5L) && grepl("^[0-1]*$", x)
 
-  ## coordinates for answers 1-15 / 16-30 / 31-45
-  acoord1 <- cbind(0.5532 + rep(0L:2L, each = 5L) * 0.148 + (0L:4L) * 0.027, 0.04125 + 2 * 0.047)
-  acoord2 <- acoord1 + cbind(rep(0, 15), 0.376)
-  acoord3 <- acoord2 + cbind(rep(0, 15), 0.376 * 60/64)
-  acoord <- rbind(acoord1, acoord2, acoord3)
+  ## data formatting: check boxes vs. string
+  if(!string) {
 
-  ## replace ERROR lines with placeholders
-  d <- readLines("Daten.txt")
-  fixme <- grep("ERROR", d, fixed = TRUE)
-  if(length(fixme) > 0L) {
-    d[fixme] <- paste(sapply(strsplit(d[fixme], " ", fixed = TRUE), "[", 1L), 
-      paste(c("XXXXXXXXXXX 00 XXX 0 XXXXXXX", rep.int("00000", 45L)), collapse = " "))
-    writeLines(d, "Daten.txt")
-    field <- NULL
-    rezip <- TRUE
+    ## coordinates for answers 1-15 / 16-30 / 31-45
+    acoord1 <- cbind(0.5532 + rep(0L:2L, each = 5L) * 0.148 + (0L:4L) * 0.027, 0.04125 + 2 * 0.047)
+    acoord2 <- acoord1 + cbind(rep(0, 15), 0.376)
+    acoord3 <- acoord2 + cbind(rep(0, 15), 0.376 * 60/64)
+    acoord <- rbind(acoord1, acoord2, acoord3)
+
+    ## adjustment for id / type digits
+    digit_adjust <- c(0, 0)
+
+    ## replace ERROR lines with placeholders
+    d <- readLines(data_txt)
+    fixme <- grep("ERROR", d, fixed = TRUE)
+    if(length(fixme) > 0L) {
+      d[fixme] <- paste(sapply(strsplit(d[fixme], " ", fixed = TRUE), "[", 1L), 
+        paste(c("XXXXXXXXXXX 00 XXX 0 XXXXXXX", rep.int("00000", 45L)), collapse = " "))
+      writeLines(d, data_txt)
+      field <- NULL
+      rezip <- TRUE
+    }
+
+    ## read Daten.txt:
+    ## 1: file / 2: id / 3: scrambling (00) / 4: type / 5: backup / 6: registration / 7-51: answers
+    d <- read.table(data_txt, colClasses = "character")
+
+  } else {
+
+    ## coordinates for answers 1-3
+    acoord <- cbind(0.5532 + (0L:2L) * 0.027 - 0.4243, 0.04125 + 2 * 0.047 + 0.50025)
+
+    ## adjustment for id / type digits
+    digit_adjust <- c(0.2065, 0)
+
+    ## replace ERROR lines with placeholders
+    d <- readLines(data_txt)
+    fixme <- grep("ERROR", d, fixed = TRUE)
+    if(length(fixme) > 0L) {
+      d[fixme] <- paste(sapply(strsplit(d[fixme], " ", fixed = TRUE), "[", 1L), 
+        paste(c("XXXXXXXXXXX XXX", rep.int("00000", 3L)), collapse = " "))
+      writeLines(d, data_txt)
+      field <- NULL
+      rezip <- TRUE
+    }
+
+    ## read Daten.txt:
+    ## 1: file / 2: id / 3: type / 4-6: answers
+    d <- read.table(data_txt, colClasses = "character")
+
   }
 
-  ## read Daten.txt:
-  ## 1: file / 2: id / 3: scrambling (00) / 4: type / 5: backup / 6: registration / 7-51: answers
-  d <- read.table("Daten.txt", colClasses = "character")
-
-  ## iterate through rows of Daten.txt
+  ## iterate through rows of Daten(2).txt
   if(!is.null(id)) {
     if(!is.null(exam)) warning("only one of 'exam' and 'id' should be specified, using 'id'")
     all_id <- unique(d[[2L]])
@@ -100,10 +137,10 @@ nops_fix <- function(
     if(!is.null(field)) {
       field_i <- field
     } else {
-      field_i <- c(if(!valid_digits(d[i, 4L], 3L)) "type",
+      field_i <- c(if(!valid_digits(d[i, if(string) 3L else 4L], 3L)) "type",
         if(!valid_digits(d[i, 2L], 11L)) "id",
-        if(!valid_digits(d[i, 6L])) "registration")
-      if(length(field_i) == 3L) field_i <- c(field_i, "answers")
+        if(!string && !valid_digits(d[i, 6L])) "registration")
+      if(length(field_i) == if(string) 2L else 3L) field_i <- c(field_i, "answers")
     }
     if((!is.null(answer) | !is.null(check)) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
 
@@ -120,13 +157,14 @@ nops_fix <- function(
           browseURL(d[i, 1L])
         }
       }
-      maskplot(png_i, center = c(0.3925, 0.074), prop = c(0.035, 0.078), main = d[i, 1L])
-      p <- sprintf("Correct type (for %s, %s): ", d[i, 4L], d[i, 1L])
+      maskplot(png_i, center = c(0.3925, 0.074) - digit_adjust, prop = c(0.035, 0.078), main = d[i, 1L])
+      j <- if(string) 3L else 4L
+      p <- sprintf("Correct type (for %s, %s): ", d[i, j], d[i, 1L])
       r <- readline(prompt = p)
-      if(r == "") r <- d[i, 4L]
+      if(r == "") r <- d[i, j]
       while(!valid_digits(r, 3L)) r <- readline(prompt = paste("!Type must be a 3-digit number!", p, sep = "\n"))
-      d[i, 4L] <- r
-      if(as.numeric(substr(d[i, 4L], 1L, 1L)) > 3L) d[i, 5L] <- "1"
+      d[i, j] <- r
+      if(!string && as.numeric(substr(d[i, j], 1L, 1L)) > 3L) d[i, 5L] <- "1"
       rezip <- TRUE
     }
     
@@ -138,7 +176,7 @@ nops_fix <- function(
           browseURL(d[i, 1L])
         }
       }
-      maskplot(png_i, center = c(0.3925, 0.275), prop = c(0.035, 0.19), main = d[i, 1L])
+      maskplot(png_i, center = c(0.3925, 0.275) - digit_adjust, prop = c(0.035, 0.19), main = d[i, 1L])
       p <- sprintf("Correct exam ID (for %s, %s): ", d[i, 2L], d[i, 1L])
       r <- readline(prompt = p)
       if(r == "") r <- d[i, 2L]
@@ -169,14 +207,15 @@ nops_fix <- function(
     }
 
     if("answers" %in% field_i) {
+      k <- if(string) 3L else 6L
       answer_i <- answer
-      nx <- 1L:as.numeric(substr(d[i, 4L], 2L, 3L))
+      nx <- if(!string) 1L:as.numeric(substr(d[i, 4L], 2L, 3L)) else 1L:3L
       if(is.null(answer_i)) answer_i <- nx
       if(!is.null(check)) {
         check_i <- switch(check,
-          "schoice" = which(!(as.character(d[i, 6L + nx]) %in% c("00000", "10000", "01000", "00100", "00010", "00001"))),
-          "mchoice" = which(as.character(d[i, 6L + nx]) == "11111"), ## FIXME: what about sheets with fewer alternatives?
-          "missing" = which(as.character(d[i, 6L + nx]) == "00000"))
+          "schoice" = which(!(as.character(d[i, k + nx]) %in% c("00000", "10000", "01000", "00100", "00010", "00001"))),
+          "mchoice" = which(as.character(d[i, k + nx]) == "11111"), ## FIXME: what about sheets with fewer alternatives?
+          "missing" = which(as.character(d[i, k + nx]) == "00000"))
         answer_i <- intersect(answer_i, check_i)
       }
       for(j in answer_i) {
@@ -188,15 +227,15 @@ nops_fix <- function(
           }
         }
         maskplot(png_i, center = acoord[j,], prop = c(0.03, 0.18), main = d[i, 1L])
-        p <- sprintf("Correct answer %s (for %s, %s): ", j, d[i, 6L + j], d[i, 1L])
+        p <- sprintf("Correct answer %s (for %s, %s): ", j, d[i, k + j], d[i, 1L])
         r <- readline(prompt = p)
-        if(r == "") r <- d[i, 6L + j]
+        if(r == "") r <- d[i, k + j]
         r <- answer2digits(r)
         while(!valid_answer(r)) {
           r <- readline(prompt = paste("!Answer must be either one of: 0/1 indicator of length 5 / letters in a-e / single number in 1-5!", p, sep = "\n"))
           r <- answer2digits(r)
         }
-        d[i, 6L + j] <- r
+        d[i, k + j] <- r
         rezip <- TRUE
       }
     }
@@ -204,7 +243,7 @@ nops_fix <- function(
   }
 
   ## update files and copy back
-  write.table(d, file = "Daten.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
+  write.table(d, file = data_txt, quote = FALSE, row.names = FALSE, col.names = FALSE)
   if(rezip) {
     file.remove(scan_zip)
     zip(scan_zip, scan_fil)

@@ -6,6 +6,12 @@
   tweaks. Not all features work correctly, though, notably the inclusion
   of graphics and other supplementary files.
 
+* Support string scans in `nops_fix()`.
+
+* Improvements in `nops_scan()` to read the registration id somewhat more
+  reliably in the presence of scanning artefacts (e.g., single white lines
+  through a check box).
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is
