@@ -6,7 +6,7 @@
   tweaks. Not all features work correctly, though, notably the inclusion
   of graphics and other supplementary files.
 
-* Support string scans in `nops_fix()`.
+* Support of string scans in `nops_fix()`.
 
 * Improvements in `nops_scan()` to read the registration id somewhat more
   reliably in the presence of scanning artefacts (e.g., single white lines
