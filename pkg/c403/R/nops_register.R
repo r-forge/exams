@@ -158,6 +158,9 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
       "",
       "\\end{document}"), collapse = "\n")
 
+    ## add Antritt if missing
+    if(is.null(x$Antritt)) x$Antritt <- "--"
+
     ## alphabetical ordering
     x <- x[order(x$Name), ]
     tex <- sprintf("%s & %s & %s & %s \\\\ %s",
