@@ -50,7 +50,7 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
   ## meta-information
   if(is.null(info)) info <- attr(x, "info")
   if(!is.null(info)) {
-    if(info[1L] == "LVP") info <- info[-(3L:4L)]
+    if(info[1L] == "LVP") info <- info[-(2L:3L)]
     location <- info[4L]
     start <- as.POSIXlt(info[3L])
     mon <- c("Januar", "Februar", "M&auml;rz", "April", "Mai", "Juni", "Juli",
