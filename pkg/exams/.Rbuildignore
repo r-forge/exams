@@ -11,4 +11,3 @@ inst/nops/eval\.txt$
 inst/nops/eval\.tex$
 R/nops_eval_write_template\.R$
 tests/eval\.R$
-vignettes/exams\.Rnw$
