@@ -35,10 +35,10 @@ exams2forms <- function(file,
 
     ## remove default "image" caption in Markdown if original input was LaTeX
     if(fix_tex2md) {
-      x$question     <- xsub("![image](", "![](", x$question,     fixed = TRUE)
-      x$questionlist <- xsub("![image](", "![](", x$questionlist, fixed = TRUE)
-      x$solution     <- xsub("![image](", "![](", x$solution,     fixed = TRUE)
-      x$solutionlist <- xsub("![image](", "![](", x$solutionlist, fixed = TRUE)
+      if(!is.null(x$question))     x$question     <- xsub("![image](", "![](", x$question,     fixed = TRUE)
+      if(!is.null(x$questionlist)) x$questionlist <- xsub("![image](", "![](", x$questionlist, fixed = TRUE)
+      if(!is.null(x$solution))     x$solution     <- xsub("![image](", "![](", x$solution,     fixed = TRUE)
+      if(!is.null(x$solutionlist)) x$solutionlist <- xsub("![image](", "![](", x$solutionlist, fixed = TRUE)
     }
 
     ## set up forms for question
