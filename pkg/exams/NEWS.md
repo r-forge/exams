@@ -17,6 +17,13 @@
   reason is that ARSnova has been superseded by Particify and hence it is
   recommended to transition to `exams2particify()`.
 
+* Changed default HTML/mathematics `converter` in `exams2canvas()` to
+  `converter = "pandoc-mathjax"` (rather than enforcing MathML output as
+  before). Recent versions of Canvas have improved MathJax support (see
+  [Canvas Release Notes 2021-02-20](https://community.canvaslms.com/t5/Canvas-Releases/Canvas-Release-Notes-2021-02-20/ta-p/434781#toc-hId-698876024))
+  and employing MathJax in the Canvas quiz might facilitate importing the quiz
+  into a Canvas question bank (reported and tested by Jeff Pisklak).
+
 
 # exams 2.4-1
 
