@@ -19,9 +19,11 @@ permalink: /contact/
 - R/exams-related questions with `r-exams` tag on StackOverflow: <https://StackOverflow.com/questions/tagged/r-exams/>.
 
 
-#### Twitter
+#### Social media
 
-- [@AchimZeileis](https://twitter.com/AchimZeileis)
+- Mastodon: [@zeileis@fosstodon.org](https://fosstodon.org/@zeileis)
+- X (formerly Twitter): [@AchimZeileis](https://x.com/AchimZeileis)
+- YouTube: [@azeileis](https://www.youtube.com/@azeileis)
 
 
 #### Authors and contributors
