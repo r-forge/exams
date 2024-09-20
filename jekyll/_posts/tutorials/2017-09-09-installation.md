@@ -48,7 +48,7 @@ Detailed instructions for all steps are provided in the following sections.
   sudo apt-get install r-base-core r-base-dev
   ```
 
-There is a wide variety of interfaces for using R including simply the shell, Emacs, VS Code, or dedicated graphical user interfaces for Windows and MacOS, respectively. Moreover, RStudio is an open-source cross-platform integrated development environment that facilitates many common tasks for R beginners.
+There is a wide variety of interfaces for using R including simply the shell, Emacs, VS Code, Positron, or dedicated graphical user interfaces for Windows and MacOS, respectively. Moreover, RStudio is an open-source cross-platform integrated development environment that facilitates many common tasks for R beginners.
 
 - **For R beginners:** Go to <https://posit.co/products/open-source/rstudio/> and obtain the "Open Source Edition" of RStudio Desktop.
 
@@ -56,7 +56,7 @@ There is a wide variety of interfaces for using R including simply the shell, Em
 
 ## 2. R package "exams"
 
-The core of R/exams is the open-source R package ["exams"](https://CRAN.R-project.org/package=exams), also available from CRAN. It can be easily installed -- along with all CRAN packages it depends on -- interactively from within R with a single command. Subsequently, if desired, the development version of the package can be installed from R-Forge, which may provide some new features or small improvements.
+The core of R/exams is the open-source R package ["exams"](https://CRAN.R-project.org/package=exams), also available from CRAN. It can be easily installed -- along with all CRAN packages it depends on -- interactively from within R with a single command. Thus, after starting R, typically by starting RStudio or any other user interface selected, you can run the first command below in R's command line. Subsequently, if desired, the development version of the package can be installed from R-Forge, which may provide some new features or small improvements.
 
 - **Stable version:**
 
