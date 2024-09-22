@@ -65,7 +65,7 @@ and recommended for authors who do not know LaTeX yet. If mathematic notation an
 formulas are needed, then LaTeX can be used - either within a LaTeX or also within
 a Markdown question. The file suffix for [R/Markdown](http://rmarkdown.rstudio.com/)
 is `.Rmd` while `.Rnw` is conventionally used for R/LaTeX, known as
-[Sweave](http://leisch.userweb.mwn.de/Sweave/).
+[Sweave](https://rdrr.io/r/utils/Sweave.html).
 
 In the following, a first session should help new R/exams users to explore the materials
 available and get a feeling for the workflow. Furthermore, two
