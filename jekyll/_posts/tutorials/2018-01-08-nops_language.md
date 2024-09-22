@@ -138,6 +138,7 @@ and manual inspection the `.dcf` files are also linked here.
 File                                                                    | Language            | Contributor                                                                                                          |
 :-----------------------------------------------------------------------|:--------------------|:---------------------------------------------------------------------------------------------------------------------|
 [bg.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/bg.dcf)   | Bulgarian           | [Nikolay Rachev](https://bg.linkedin.com/in/nikolay-rachev-98121a18)                                                 |
+[ca.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ca.dcf)   | Catalan             | [Paco Rivière](http://paco.riviere.cat)                                                                              |
 [cz.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/cz.dcf)   | Czech               | [Jindřich Marek](https://uisk.ff.cuni.cz/cs/o-ustavu/vyucujici/jindrich-marek/)                                      |
 [da.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/da.dcf)   | Danish              | [Tue Vissing Jensen](https://orcid.org/0000-0002-6594-5094) & [Jakob Messner](https://orcid.org/0000-0002-1027-3673) |
 [de.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/de.dcf)   | German              | [Achim Zeileis](https://www.zeileis.org/)                                                                            |
