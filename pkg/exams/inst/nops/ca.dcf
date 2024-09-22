@@ -1,0 +1,33 @@
+PersonalData: Dades personals
+Name: Nom sencer
+FamilyName: Cognoms
+GivenName: Nom
+Signature: Signatura
+RegistrationNumber: N\'{u}mero de matr\'{i}cula
+Checked: controlat
+NoChanges: Aquest camp \textbf{no} s'ha de modificar.
+DocumentType: Tipus
+DocumentID: N\'{u}mero d'examen
+Scrambling: Desordenat
+Replacement: {\footnotesize Substituci\'{o}}
+MarkCarefully: Si us plau, marqueu amb cura
+NotMarked: No marcat
+Or: o b\'{e}
+MarkExampleA: 70
+MarkExampleB: 79
+MarkExampleC: 98
+MarkExampleD: 104
+MarkExampleE: 113
+Warning: Aquest examen es corregir{\`a} amb un sistema automatitzat. No el plegueu, arrugueu ni taqueu. Marqueu si us plau amb un \textbf{bol\'{i}graf blau o negre}. \\ \textbf{Nom\'{e}s es corregiran les marques llegibles i ben col.locades!}
+Answers: Respostes
+FillAnswers: Si us plau, contesteu a continuaci\'{o}.
+Point: punt
+Points: punts
+ExamResults: Resultat de l'examen
+Evaluation: Avaluaci{\'o}
+Mark: Nota
+Question: Pregunta
+GivenAnswer: Resposta donada
+CorrectAnswer: Resposta correcta
+ExamSheet: Full d'examen
+Babel: catalan

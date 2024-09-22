@@ -24,6 +24,8 @@
   and employing MathJax in the Canvas quiz might facilitate importing the quiz
   into a Canvas question bank (reported and tested by Jeff Pisklak).
 
+* Additional NOPS language support: Catalan (`ca`, contributed by Paco Rivière).
+
 
 # exams 2.4-1
 
@@ -1055,7 +1057,7 @@
 
 * Within several `exams2xyz()` functions `gsub(...)` calls were changed to
   `gsub(..., fixed = TRUE)` for replacing placeholders that potentially
-  have slashes.    
+  have slashes.
 
 * Updated `exams2arsnova()` to assure that `\( ... \)` instead of `$ ... $`
   is used for inline math. Also the JSON output was augmented with
