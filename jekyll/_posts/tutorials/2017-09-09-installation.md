@@ -56,7 +56,7 @@ There is a wide variety of interfaces for using R including simply the shell, Em
 
 ## 2. R package "exams"
 
-The core of R/exams is the open-source R package ["exams"](https://CRAN.R-project.org/package=exams), also available from CRAN. It can be easily installed -- along with all CRAN packages it depends on -- interactively from within R with a single command. Thus, after starting R, typically by starting RStudio or any other user interface selected, you can run the first command below in R's command line. Subsequently, if desired, the development version of the package can be installed from R-Forge, which may provide some new features or small improvements.
+The core of R/exams is the open-source R package ["exams"](https://CRAN.R-project.org/package=exams), also available from CRAN. It can be easily installed -- along with all CRAN packages it depends on -- interactively from within R with a single command. Thus, you can run the first command below in R's command line after starting R (e.g., by starting RStudio or any other user interface selected or by typing `R` on the shell in a terminal window). Subsequently, if desired, the development version of the package can be installed from R-Forge, which may provide some new features or small improvements.
 
 - **Stable version:**
 
@@ -72,6 +72,14 @@ The core of R/exams is the open-source R package ["exams"](https://CRAN.R-projec
   In some setups (e.g., on MacOS or when using an older version of R) it may be necessary to add the argument `type = "source"` to the command above.
 
 _Dependencies:_ Several additional R packages, automatically installed by the command above, are needed for certain tasks: `base64enc` (HTML-based output: Base64 encoding of supplements), `knitr` (R/Markdown-based exercises), `rmarkdown` (pandoc-based conversion), `magick` (converting PDFs into images, e.g., for scanning NOPS exams or TikZ graphics), `openxlsx` (Kahoot: exporting exercises to Excel sheets), `png` (NOPS exams: reading scanned PNG images), `qpdf` (NOPS exams: manipulating scanned PDF sheets), `RCurl` (ARSnova: posting exercises), `RJSONIO` (ARSnova: JSON format), `tinytex` (PDF output: lightweight LaTeX distribution), `tth` (HTML output from R/LaTeX exercises), `xml2` (converting XML from Moodle or Testvision to Rmd exercises).
+
+
+_System requirements:_ When compiling the packages from source (typically on Linux), several system requirements are needed. For Debian/Ubuntu these can be installed via:
+
+```{r}
+sudo apt-get install pandoc libjpeg libpng libmagick++-dev libcurl4-openssl-dev libxml2-dev
+```
+
 
 
 ## 3. LaTeX
