@@ -14,6 +14,17 @@
   - title: "Dynamic Exercises"
     url: "/intro/dynamic/"
 
+- title: "Get started"
+  url: "/#get-started"
+  side: left
+  dropdown:
+  - title: "Installation"
+    url: "/tutorials/installation/"
+  - title: "First steps"
+    url: "/tutorials/first_steps/"
+  - title: "Video tutorials"
+    url: "https://www.youtube.com/playlist?list=PLsEZAAbioUw1IBnhtBi9eIo0uqMHmqDor"
+
 - title: "Tutorials"
   url: "/tutorials/"
   side: left
