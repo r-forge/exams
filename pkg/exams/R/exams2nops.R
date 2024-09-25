@@ -790,8 +790,14 @@ sprintf("\\multiput(110,221)(8,0){%s}{\\framebox(4,4){}}", nchoice[3L])
 nops_language <- function(file, converter = c("none", "tth", "pandoc"), ...)
 {
   ## read file
-  if(!file.exists(file)) file <- system.file(file.path("nops", paste0(file, ".dcf")), package = "exams")
-  if(file == "") file <- system.file(file.path("nops", "en.dcf"), package = "exams")
+  if(missing(file) || length(file) < 1L) file <- ""
+  if(length(file) > 1L) file <- file[1L]
+  if(!file.exists(file) && file != "") file <- system.file(file.path("nops", paste0(file, ".dcf")), package = "exams")
+  if(file == "") {
+    warning(sprintf("Unavailable language file, using 'en' instead. Currently, the package provides: %s.",
+      paste(gsub("\\.dcf$", "", dir(pattern = "\\.dcf$", path = system.file("nops", package = "exams"))), collapse = ", ")))
+    file <- system.file(file.path("nops", "en.dcf"), package = "exams")
+  }
   lang <- drop(read.dcf(file))
   
   ## handle Babel/Header separately

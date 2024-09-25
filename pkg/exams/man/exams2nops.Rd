@@ -145,7 +145,10 @@
   The \code{language} elements can be specified through a relatively simple
   text file and the package already ships with:
   English (\code{"en"}),
+  Bulgarian (\code{"bg"}),
+  Catalan (\code{"ca"}),
   Croatian (\code{"hr"}),
+  Czech (\code{"cz"}),
   Danish (\code{"da"}),
   Dutch (\code{"nl"}),
   Finnish (\code{"fi"}),
@@ -157,6 +160,7 @@
   Japanese (\code{"ja"}),
   Korean (\code{"ko"}),
   Norwegian (Bokmål, \code{"no"}),
+  Polish (\code{"pl"}),
   Portuguese (\code{"pt-PT"} or \code{"pt-BR"}; also \code{"pt"} is synonymous with \code{"pt-PT"}),
   Romanian (\code{"ro"}),
   Russian (\code{"ru"}),
