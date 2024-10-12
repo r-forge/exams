@@ -10,7 +10,8 @@
 
 * Improvements in `nops_scan()` to read the registration id somewhat more
   reliably in the presence of scanning artefacts (e.g., single white lines
-  through a check box).
+  through a check box). Also scanner marks are found more reliably when
+  the bottom margin is smaller than in the PDF from `exams2nops()`.
 
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
