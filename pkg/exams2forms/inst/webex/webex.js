@@ -11,8 +11,9 @@ update_total_correct = function() {
     var solvemes = p.getElementsByClassName("webex-solveme").length;
     var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
     var selects = p.getElementsByClassName("webex-select").length;
+    var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
 
-    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + checkboxgroups + selects) + " correct";
   }
 }
 
@@ -21,7 +22,7 @@ b_func = function() {
   console.log("webex: toggle hide");
 
   var cl = this.parentElement.classList;
-  if (cl.contains('open')) {
+  if (cl.contains("open")) {
     cl.remove("open");
   } else {
     cl.add("open");
@@ -33,7 +34,7 @@ check_func = function() {
   console.log("webex: check answers");
 
   var cl = this.parentElement.classList;
-  if (cl.contains('unchecked')) {
+  if (cl.contains("unchecked")) {
     cl.remove("unchecked");
     this.innerHTML = "Hide Answers";
   } else {
@@ -68,8 +69,8 @@ solveme_func = function(e) {
   }
 
   // match numeric answers within a specified tolerance
-  if(this.dataset.tol > 0){
-    my_answer = my_answer.replace(/,/g, '.'); //also allow decimal comma
+  if (this.dataset.tol > 0){
+    my_answer = my_answer.replace(/,/g, "."); //also allow decimal comma
     var tol = JSON.parse(this.dataset.tol);
     var matches = real_answers.map(x => Math.abs(x - my_answer) < tol + 0.00000000000001)
     if (matches.reduce((a, b) => a + b, 0) > 0) {
@@ -112,7 +113,7 @@ select_func = function(e) {
 radiogroups_func = function(e) {
   console.log("webex: check radiogroups");
 
-  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var checked_button = document.querySelector("input[name=" + this.id + "]:checked");
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
 
@@ -128,6 +129,26 @@ radiogroups_func = function(e) {
   } else {
     cl.add("webex-incorrect");
   }
+
+  update_total_correct();
+}
+
+
+/* function for checking checkboxgroups answers */
+checkboxgroups_func = function(e) {
+  console.log("webex: check checkboxgroups");
+
+  /* list of all answer elements (correct and incorrect) */
+  var inputs = document.querySelectorAll("div[id='" + this.id + "'] input")
+
+  /* setting class for correct/incorrect answers */
+  inputs.forEach(function(input) {
+      if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
+          input.setAttribute("class", "webex-correct")
+      } else {
+          input.setAttribute("class", "webex-incorrect")
+      }
+  });
 
   update_total_correct();
 }
@@ -189,57 +210,70 @@ window.onload = function() {
     solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
-  /* set up radiogroups */
+  /* set up radiogroups (single choice questions with display = "buttons") */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
 
-  /* set up selects */
+  /* set up checkboxgroups (multiple choice questions with display = "buttons") */
+  var checkboxgroups = document.getElementsByClassName("webex-checkboxgroup");
+  for (var i = 0; i < checkboxgroups.length; i++) {
+    checkboxgroups[i].onchange = checkboxgroups_func;
+  }
+
+  /* set up selects (dropdown menus) */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
     selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
+  /* set up checkboxes; adding webex-icon elements */
+  var inputs = document.querySelectorAll("input[type=checkbox]")
+  inputs.forEach(function(input) {
+    input.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  });
 
-function handleNextQuestionClick(group, questions) {
+
+  /* change to next question if multiple are available */
+  function handleNextQuestionClick(group, questions) {
     return async function() {
-        let currentPosition = parseInt(group.dataset.currentPosition);
-        const questionNum = parseInt(group.dataset.questionNum);
-
-        // Hide the current question
-        questions[currentPosition].classList.remove('active');
-        // Move to the next question index
-        currentPosition = (currentPosition + 1) % questionNum;
-        // Display the new question
-        questions[currentPosition].classList.add('active');
-
-        // Update the currentPosition data attribute on the group div
-        group.dataset.currentPosition = currentPosition;
+      let currentPosition = parseInt(group.dataset.currentPosition);
+      const questionNum = parseInt(group.dataset.questionNum);
+  
+      // Hide the current question
+      questions[currentPosition].classList.remove("active");
+      // Move to the next question index
+      currentPosition = (currentPosition + 1) % questionNum;
+      // Display the new question
+      questions[currentPosition].classList.add("active");
+  
+      // Update the currentPosition data attribute on the group div
+      group.dataset.currentPosition = currentPosition;
     };
-}
-
-document.querySelectorAll('.webex-group').forEach(group => {
-    const questions = Array.from(group.querySelectorAll('.webex-question'));
+  }
+  
+  document.querySelectorAll(".webex-group").forEach(group => {
+    const questions = Array.from(group.querySelectorAll(".webex-question"));
     const questionNum = questions.length;
-
-    let currentPosition = parseInt(group.getAttribute('data-start-position')) || Math.floor(Math.random() * questionNum);
-
+  
+    let currentPosition = parseInt(group.getAttribute("data-start-position")) || Math.floor(Math.random() * questionNum);
+  
     // Show the default question for each group
     questions[currentPosition].classList.add("active");
     console.log(currentPosition + " set active");
-
+  
     // Store questionNum and currentPosition as data attributes on the group div
     group.dataset.questionNum = questionNum;
     group.dataset.currentPosition = currentPosition;
-
-        const nextButton = document.createElement('button');
-        nextButton.classList.add('webex-next-button');
-        nextButton.textContent = 'Next Question';
-        nextButton.addEventListener('click', handleNextQuestionClick(group, questions));
-        group.appendChild(nextButton);
-});
+  
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("webex-next-button");
+    nextButton.textContent = "Next Question";
+    nextButton.addEventListener("click", handleNextQuestionClick(group, questions));
+    group.appendChild(nextButton);
+  });
 
 
   update_total_correct();

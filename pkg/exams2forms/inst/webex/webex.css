@@ -69,19 +69,19 @@ input.webex-solveme.webex-correct,
     border-radius: 0.25em;
 }
 
-.unchecked .webex-incorrect span::before,
+.unchecked .webex-incorrect > span::before,
 .unchecked .webex-incorrect + .webex-icon::after,
-.unchecked .webex-correct span::before,
+.unchecked .webex-correct > span::before,
 .unchecked .webex-correct + .webex-icon::after {
   content: "  ";
 }
 
-.webex-incorrect span::before,
+.webex-incorrect > span::before,
 .webex-incorrect + .webex-icon::after {
   content: "\274C  ";
 }
 
-.webex-correct span::before,
+.webex-correct > span::before,
 .webex-correct + .webex-icon::after {
   content: "\2705  ";
 }
@@ -135,4 +135,21 @@ input.webex-solveme.webex-correct,
 .webex-radiogroup {
   margin: 1em 0;
 }
+
+/* -------------------------------------------------------
+ * CSS style for webex-checkboxgroup used for multiple choice
+ * when using 'display = "buttons"'
+ * ------------------------------------------------------- */
+.webex-checkboxgroup > label {
+    display: block;
+}
+.webex-checkboxgroup > label > input[type=checkbox] {
+    margin: 0 0.5em 0 0.25em;
+}
+.webex-checkboxgroup > label > span {
+    font-weight: normal;
+}
+
+
+
 

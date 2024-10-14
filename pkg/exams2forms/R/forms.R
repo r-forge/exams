@@ -76,9 +76,6 @@ forms_mchoice <- function(answerlist, solution, display = "dropdown") { ## FIXME
   
   ## type of interaction/display
   display <- match.arg(display, c("buttons", "dropdown"))
-  stopifnot(
-    "currently only dropdown displays are implemented" = display == "dropdown"
-  )
 
   ## answer processing
   answerlist <- as.character(unlist(answerlist))

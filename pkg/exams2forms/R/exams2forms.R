@@ -4,6 +4,10 @@ exams2forms <- function(file,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, ...) {
 
+  ## Reto: getting display setting for testing
+  args <- list(...)
+  display <- if ("display" %in% names(args)) args$display else "buttons"
+
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
   }
@@ -44,7 +48,7 @@ exams2forms <- function(file,
     ## set up forms for question
     forms <- switch(x$metainfo$type,
       "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = "buttons"), ## FIXME: export display = "dropdown"?
-      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = "dropdown"), ## FIXME: change to "buttons" when implemented
+      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = display), ## FIXME: change to "buttons" when implemented
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       character(0))
