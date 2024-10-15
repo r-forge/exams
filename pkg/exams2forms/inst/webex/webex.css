@@ -1,8 +1,14 @@
 :root {
+  --incorrect: #B97F60;
+  --incorrect_alpha: #EBB59B;
+  --correct: #83B188;
+  --correct_alpha: #CEEDD1;
+  /* old colors
   --incorrect: #983E82;
   --incorrect_alpha: #edaddd;
   --correct: #59935B;
   --correct_alpha: #c0edc2;
+  */
   --highlight: #467AAC;
 }
 
@@ -73,18 +79,20 @@ input.webex-solveme.webex-correct,
 .unchecked .webex-incorrect + .webex-icon::after,
 .unchecked .webex-correct > span::after,
 .unchecked .webex-correct + .webex-icon::after {
-  content: "  ";
+  content: "";
 }
 
+/* icons specified as CSS decimal 9984-10175 unicode chars,
+ * see e.g.: https://www.w3schools.com/charsets/ref_utf_dingbats.asp */
 .webex-incorrect > span::after,
 .webex-incorrect + .webex-icon::after {
-  content: "\274C  ";
+  content: "\00a0\2716";
 }
 
 
 .webex-correct > span::after,
 .webex-correct + .webex-icon::after {
-  content: "\2705  ";
+  content: "\00a0\2714";
 }
 
 /* **************************** */
@@ -120,9 +128,6 @@ input.webex-solveme.webex-correct,
 }
 
 .webex-radiogroup label {
-  margin-left: 2em;
-  text-indent: -1em;
-  padding-left: 0.5em;
   font-weight: 400;
   display: block;
   border: 2px solid rgba(255, 255, 255, 0);
@@ -131,13 +136,32 @@ input.webex-solveme.webex-correct,
 }
 
 .webex-radiogroup label input {
-  position: relative;
-  left: -1em;
+    margin: 0.1em 0.5em 0 0.25em;
 }
 
 .webex-radiogroup {
   margin: 1em 0;
 }
+
+
+/* ----------------------------------------------------------------
+ * CSS styling for lists (<ul>) used for multiple choice exercises
+ * with display = "dropdown". The <ul> comes from markdown and
+ * has no specific class, thus we must rely on the nesting
+ * .webex-box > ul.
+ */
+.webex-box > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 0.25em;
+}
+.webex-box > ul > li {
+    margin: 0 0 0.25em 0;
+}
+.webex-box > ul > li > select {
+    margin: 0 0.5em 0 0;
+}
+
 
 /* ----------------------------------------------------------------
  * CSS style for webex-checkboxgroup used for multiple choice
@@ -159,8 +183,6 @@ input.webex-solveme.webex-correct,
     font-weight: normal;
 }
 
-.webex-checkboxgroup > .webex-incorrect > span::after { content: ""; }
-.webex-checkboxgroup > .webex-correct > span::after { content: ""; }
 .unchecked .webex-checkboxgroup > .webex-correct,
 .unchecked .webex-checkboxgroup > .webex-incorrect {
     border: none;

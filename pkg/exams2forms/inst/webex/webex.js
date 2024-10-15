@@ -228,15 +228,11 @@ window.onload = function() {
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
-    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+    /* append webex-icon for correct/incorrect icons */
+    var elem = document.createElement("span")
+    elem.classList.add("webex-icon")
+    selects[i].parentNode.appendChild(elem)
   }
-
-  /* set up checkboxes; adding webex-icon elements */
-  //var inputs = document.querySelectorAll("input[type=checkbox]")
-  //inputs.forEach(function(input) {
-  //  input.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
-  //});
-
 
   /* change to next question if multiple are available */
   function handleNextQuestionClick(group, questions) {
