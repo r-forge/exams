@@ -39,8 +39,8 @@
 
 .unchecked .webex-incorrect,
 .unchecked .webex-correct {
-  border: 2px dotted grey;
-  background-color: white; 
+  border: 2px dotted grey !important;
+  background-color: white !important;
 }
 
 /* styles for webex-solveme */
