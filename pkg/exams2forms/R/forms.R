@@ -68,7 +68,7 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   if (is_html_output()) html else plain
 }
 
-forms_mchoice <- function(answerlist, solution, display = "dropdown") { ## FIXME: c("buttons", "dropdown")
+forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown")) {
   ## sanity checks
   stopifnot(
     "length of answerlist and solution must match" = length(answerlist) == length(solution)
@@ -81,7 +81,7 @@ forms_mchoice <- function(answerlist, solution, display = "dropdown") { ## FIXME
   answerlist <- as.character(unlist(answerlist))
   answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
 
-  if(display == "buttons") { ## FIXME: implement checkbox interaction
+  if(display == "buttons") {
     ## checkbox buttons interaction (grouped by random label)
     lab <- paste0("checkbox_group_", paste(sample(letters, 10, replace = TRUE), collapse = ""))
     html <- sprintf("<label><input type='checkbox' autocomplete='off' name='%s' value='%s'></input><span>%s</span></label>",

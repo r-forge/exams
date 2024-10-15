@@ -3,11 +3,11 @@ Version: 0.1-0
 Date: 2024-03-19
 Title: Embedding 'exams' Exercises as Forms in 'rmarkdown' or 'quarto' Documents
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")),
-             person(given = "Florian", family = "Stampfer", role = "aut", email = "Florian.Stampfer@uibk.ac.at", comment = c(ORCID = "0000-0003-4980-4272")),
+             person(given = "Reto", family = "Stauffer", role = "aut", email = "Reto.Stauffer@uibk.ac.at", comment = c(ORCID = "0000-0002-3798-5507")),
+             person(given = "Florian", family = "Stampfer", role = "ctb", email = "Florian.Stampfer@uibk.ac.at", comment = c(ORCID = "0000-0003-4980-4272")),
              person(given = "Jonas", family = "Tscholl", role = "ctb", email = "Jonas.Tscholl@student.uibk.ac.at"),
              person(given = "Dale", family = "Barr", role = "ctb", email = "dalejbarr@protonmail.com", comment = c(ORCID = "0000-0002-1121-4608")),
-             person(given = "Lisa", family = "DeBruine", role = "ctb", email = "debruine@gmail.com", comment = c(ORCID = "0000-0002-7523-5539")),
-             person(given = "Reto", family = "Stauffer", role = "ctb", email = "Reto.Stauffer@uibk.ac.at", comment = c(ORCID = "0000-0002-3798-5507")))
+             person(given = "Lisa", family = "DeBruine", role = "ctb", email = "debruine@gmail.com", comment = c(ORCID = "0000-0002-7523-5539")))
 Description: Automatic generation of quizzes or individual questions as (interactive) forms within 'rmarkdown' or 'quarto' documents based on 'R/exams' exercises.
 Depends: R (>= 4.0.0), exams (>= 2.4-0)
 Imports: grDevices, tools, utils, knitr, rmarkdown

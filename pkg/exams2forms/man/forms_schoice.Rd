@@ -16,7 +16,7 @@ multiple-choice (\code{mchoice}), text (\code{string}), or numeric
 \usage{
 forms_schoice(answerlist, solution, display = c("buttons", "dropdown"))
 
-forms_mchoice(answerlist, solution, display = "dropdown")
+forms_mchoice(answerlist, solution, display = c("buttons", "dropdown"))
 
 forms_string(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE)
 

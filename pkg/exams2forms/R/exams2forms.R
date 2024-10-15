@@ -64,7 +64,7 @@ exams2forms <- function(file,
         }
         qj <- switch(x$metainfo$clozetype[j],
           "schoice" = forms_schoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = "dropdown"), ## FIXME: cloze_schoice_display
-          "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = "dropdown"), ## FIXME: checkbox display
+          "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = display), ## FIXME: checkbox display
           "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
           forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))))
         )
