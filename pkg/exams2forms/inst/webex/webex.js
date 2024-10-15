@@ -4,17 +4,29 @@
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  var t = document.getElementsByClassName("webex-total_correct");
-  for (var i = 0; i < t.length; i++) {
-    p = t[i].parentElement;
+  //var t = document.getElementsByClassName("webex-total_correct");
+  //for (var i = 0; i < t.length; i++) {
+  //  p = t[i].parentElement;
+  //  var correct = p.getElementsByClassName("webex-correct").length;
+  //  var solvemes = p.getElementsByClassName("webex-solveme").length;
+  //  var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+  //  var selects = p.getElementsByClassName("webex-select").length;
+  //  /* no specific class on input node, thus searching via query selector */
+  //  var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
+
+  //  t[i].innerHTML = correct + " of " + (solvemes + radiogroups + checkboxgroups + selects) + " correct";
+  //}
+  document.querySelectorAll(".webex-total_correct").forEach(total => {
+    p = total.parentElement;
     var correct = p.getElementsByClassName("webex-correct").length;
     var solvemes = p.getElementsByClassName("webex-solveme").length;
     var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
     var selects = p.getElementsByClassName("webex-select").length;
+    /* no specific class on input node, thus searching via query selector */
     var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
 
-    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + checkboxgroups + selects) + " correct";
-  }
+    total.innerHTML = correct + " of " + (solvemes + radiogroups + checkboxgroups + selects) + " correct";
+  });
 }
 
 /* webex-solution button toggling function */
@@ -155,84 +167,77 @@ checkboxgroups_func = function(e) {
   update_total_correct();
 }
 
+/* ---------------------------------------------------------
+ * ---------------------------------------------------------
+ * --------------------------------------------------------- */
 window.onload = function() {
   console.log("webex onload");
+
   /* set up solution buttons */
-  var buttons = document.getElementsByTagName("button");
-
-  for (var i = 0; i < buttons.length; i++) {
-    if (buttons[i].parentElement.classList.contains('webex-solution')) {
-      buttons[i].onclick = b_func;
+  document.querySelectorAll("button").forEach(button => {
+    if (button.parentElement.classList.contains("webex-solution")) {
+      button.onclick = b_func;
     }
-  }
+  });
 
-  var check_sections = document.getElementsByClassName("webex-check");
-  console.log("check:", check_sections.length);
-  for (var i = 0; i < check_sections.length; i++) {
-    check_sections[i].classList.add("unchecked");
+  /* setting up buttons and actions to show/hide answers */
+  document.querySelectorAll(".webex-check").forEach(section => {
+    section.classList.add("unchecked");
 
     let btn = document.createElement("button");
     btn.innerHTML = "Show Answers";
     btn.classList.add("webex-check-button");
     btn.onclick = check_func;
-    check_sections[i].appendChild(btn);
+    section.appendChild(btn);
 
     let spn = document.createElement("span");
     spn.classList.add("webex-total_correct");
-    check_sections[i].appendChild(spn);
-  }
-
+    section.appendChild(spn);
+  });
 
   /* set up webex-solveme inputs */
-  var solveme = document.getElementsByClassName("webex-solveme");
-
-  for (var i = 0; i < solveme.length; i++) {
-    /* make sure input boxes don't auto-anything */
-    solveme[i].setAttribute("autocomplete","off");
-    solveme[i].setAttribute("autocorrect", "off");
-    solveme[i].setAttribute("autocapitalize", "off");
-    solveme[i].setAttribute("spellcheck", "false");
-    solveme[i].value = "";
+  document.querySelectorAll(".webex-solveme").forEach(solveme => {
+    solveme.setAttribute("autocomplete","off");
+    solveme.setAttribute("autocorrect", "off");
+    solveme.setAttribute("autocapitalize", "off");
+    solveme.setAttribute("spellcheck", "false");
+    solveme.value = "";
 
     /* adjust answer for ignorecase or nospaces */
-    var cl = solveme[i].classList;
-    var real_answer = solveme[i].dataset.answer;
-    if (cl.contains("ignorecase")) {
-      real_answer = real_answer.toLowerCase();
+    if (solveme.classList.contains("ignorecase")) {
+      solveme.dataset.answer = solveme.dataset.answer.toLowerCase();
     }
-    if (cl.contains("nospaces")) {
-      real_answer = real_answer.replace(/ /g, "");
+    /* adjust answer for 'no spaces' (ignore spaces) */
+    if (solveme.classList.contains("nospaces")) {
+      solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");
     }
-    solveme[i].dataset.answer = real_answer;
 
     /* attach checking function */
-    solveme[i].onkeyup = solveme_func;
-    solveme[i].onchange = solveme_func;
+    solveme.onkeyup = solveme_func;
+    solveme.onchange = solveme_func;
 
-    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
-  }
+    /* adding span to show correct/incorrect icon */
+    solveme.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  });
 
   /* set up radiogroups (single choice questions with display = "buttons") */
-  var radiogroups = document.getElementsByClassName("webex-radiogroup");
-  for (var i = 0; i < radiogroups.length; i++) {
-    radiogroups[i].onchange = radiogroups_func;
-  }
+  document.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
+    radiogroup.onchange = radiogroups_func;
+  });
 
   /* set up checkboxgroups (multiple choice questions with display = "buttons") */
-  var checkboxgroups = document.getElementsByClassName("webex-checkboxgroup");
-  for (var i = 0; i < checkboxgroups.length; i++) {
-    checkboxgroups[i].onchange = checkboxgroups_func;
-  }
+  document.querySelectorAll(".webex-checkboxgroup").forEach(checkboxgroup => {
+    checkboxgroup.onchange = checkboxgroups_func;
+  });
 
   /* set up selects (dropdown menus) */
-  var selects = document.getElementsByClassName("webex-select");
-  for (var i = 0; i < selects.length; i++) {
-    selects[i].onchange = select_func;
+  document.querySelectorAll(".webex-select").forEach(select => {
+    select.onchange = select_func;
     /* append webex-icon for correct/incorrect icons */
     var elem = document.createElement("span")
     elem.classList.add("webex-icon")
-    selects[i].parentNode.appendChild(elem)
-  }
+    select.parentNode.appendChild(elem)
+  });
 
   /* change to next question if multiple are available */
   function handleNextQuestionClick(group, questions) {

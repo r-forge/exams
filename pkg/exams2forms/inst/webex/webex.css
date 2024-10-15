@@ -23,7 +23,7 @@
 
 .webex-box {
   border: 2px solid var(--highlight);
-  padding: 0.5em 0.25em;
+  padding: 0.5em;
   margin: 1em 0;
   border-radius: .25em;
   background-color: rgba(127, 127, 127, 0.05);
@@ -104,6 +104,9 @@ input.webex-solveme.webex-correct,
     height: auto;
     border: 2px solid var(--highlight);
     border-radius: 5px;
+}
+.webex-solution > ul {
+    padding-left: 2em;
 }
 
 .webex-next-button{
