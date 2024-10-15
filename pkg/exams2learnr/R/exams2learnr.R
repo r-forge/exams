@@ -90,6 +90,7 @@ exams2learnr <- function(file,
     }
 
     ## set current label based on exercise file name -> used as learnr question ID
+    knitr::opts_current$lock(status = FALSE)
     knitr::opts_current$set(label = label)
 
     ## return learnr question

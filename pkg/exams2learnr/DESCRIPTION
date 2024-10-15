@@ -1,12 +1,12 @@
 Package: exams2learnr
 Version: 0.1-1
-Date: 2023-08-28
+Date: 2024-10-15
 Title: Interface for 'exams' Exercises in 'learnr' Tutorials
 Authors@R: person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766"))
 Description: Automatic generation of quizzes or individual questions for 'learnr' tutorials based on 'R/exams' exercises.
 Depends: R (>= 4.0.0), exams (>= 2.4-0)
 Imports: knitr, learnr (>= 0.11.0), rmarkdown
 License: GPL-2 | GPL-3
-URL: https://www.R-exams.org/
+URL: https://www.R-exams.org/tutorials/exams2learnr/
 BugReports: https://www.R-exams.org/contact/
 VignetteBuilder: knitr

@@ -1,8 +1,15 @@
 # exams2learnr 0.1-1
 
+* An `exams2learnr` tutorial is available on the R/exams web page:
+  <https://www.R-exams.org/tutorials/exams2learnr/>.
+
 * Handle the case with `run_quiz(..., dir = NULL, edir = NULL)`
   better: `edir` is set to the current working directory so that
   local exercise files are found when using a temporary `dir`.
+
+* Adapt `exams2learnr()` to `knitr` 1.48 where it is necessary
+  to unlock a code chunk before re-labeling it. This is used
+  internally to propagate labels correctly.
 
 
 # exams2learnr 0.1-0
