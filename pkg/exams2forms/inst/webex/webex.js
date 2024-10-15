@@ -143,10 +143,12 @@ checkboxgroups_func = function(e) {
 
   /* setting class for correct/incorrect answers */
   inputs.forEach(function(input) {
+      var label = input.parentNode
       if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
-          input.setAttribute("class", "webex-correct")
+          //input.setAttribute("class", "webex-correct")
+          label.setAttribute("class", "webex-correct")
       } else {
-          input.setAttribute("class", "webex-incorrect")
+          label.setAttribute("class", "webex-incorrect")
       }
   });
 
@@ -230,10 +232,10 @@ window.onload = function() {
   }
 
   /* set up checkboxes; adding webex-icon elements */
-  var inputs = document.querySelectorAll("input[type=checkbox]")
-  inputs.forEach(function(input) {
-    input.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
-  });
+  //var inputs = document.querySelectorAll("input[type=checkbox]")
+  //inputs.forEach(function(input) {
+  //  input.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  //});
 
 
   /* change to next question if multiple are available */

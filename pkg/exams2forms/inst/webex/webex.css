@@ -39,8 +39,8 @@
 
 .unchecked .webex-incorrect,
 .unchecked .webex-correct {
-  border: 2px dotted grey !important;
-  background-color: white !important;
+  border: 2px dotted grey;
+  background-color: white; 
 }
 
 /* styles for webex-solveme */
@@ -69,23 +69,26 @@ input.webex-solveme.webex-correct,
     border-radius: 0.25em;
 }
 
-.unchecked .webex-incorrect > span::before,
+.unchecked .webex-incorrect > span::after,
 .unchecked .webex-incorrect + .webex-icon::after,
-.unchecked .webex-correct > span::before,
+.unchecked .webex-correct > span::after,
 .unchecked .webex-correct + .webex-icon::after {
   content: "  ";
 }
 
-.webex-incorrect > span::before,
+.webex-incorrect > span::after,
 .webex-incorrect + .webex-icon::after {
   content: "\274C  ";
 }
 
-.webex-correct > span::before,
+
+.webex-correct > span::after,
 .webex-correct + .webex-icon::after {
   content: "\2705  ";
 }
 
+/* **************************** */
+/* **************************** */
 
 /* styles for hidden solutions */
 .webex-solution {
@@ -136,10 +139,16 @@ input.webex-solveme.webex-correct,
   margin: 1em 0;
 }
 
-/* -------------------------------------------------------
+/* ----------------------------------------------------------------
  * CSS style for webex-checkboxgroup used for multiple choice
- * when using 'display = "buttons"'
- * ------------------------------------------------------- */
+ * when using 'display = "buttons"'.
+ *
+ * For 'checkboxgroups' (multiple choice with display = "buttons"
+ * things need to be different from e.g., single choice radiogroups.
+ * First, we do not want the icon (correct, incorrect) in front of the answers,
+ * setting span::before to no content. Second, we remove the border and
+ * background highlight used to show 'selected items' on radiogroups.
+ * --------------------------------------------------------------- */
 .webex-checkboxgroup > label {
     display: block;
 }
@@ -150,6 +159,13 @@ input.webex-solveme.webex-correct,
     font-weight: normal;
 }
 
+.webex-checkboxgroup > .webex-incorrect > span::after { content: ""; }
+.webex-checkboxgroup > .webex-correct > span::after { content: ""; }
+.unchecked .webex-checkboxgroup > .webex-correct,
+.unchecked .webex-checkboxgroup > .webex-incorrect {
+    border: none;
+    background-color: transparent;
+}
 
 
 
