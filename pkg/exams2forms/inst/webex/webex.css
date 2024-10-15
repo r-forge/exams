@@ -1,14 +1,8 @@
 :root {
-  --incorrect: #B97F60;
-  --incorrect_alpha: #EBB59B;
-  --correct: #83B188;
-  --correct_alpha: #CEEDD1;
-  /* old colors
   --incorrect: #983E82;
   --incorrect_alpha: #edaddd;
   --correct: #59935B;
   --correct_alpha: #c0edc2;
-  */
   --highlight: #467AAC;
 }
 
@@ -59,6 +53,7 @@
 }
 
 .webex-incorrect,
+.webex-checkboxgroup > label.webex-incorrect,
 input.webex-solveme.webex-incorrect,
 .webex-radiogroup label.webex-incorrect {
     border: 2px dotted var(--incorrect);
@@ -67,6 +62,7 @@ input.webex-solveme.webex-incorrect,
     border-radius: 0.25em;
 }
 .webex-correct,
+.webex-checkboxgroup > label.webex-correct,
 input.webex-solveme.webex-correct,
 .webex-radiogroup label.webex-correct {
     border: 2px solid var(--correct);
@@ -86,13 +82,12 @@ input.webex-solveme.webex-correct,
  * see e.g.: https://www.w3schools.com/charsets/ref_utf_dingbats.asp */
 .webex-incorrect > span::after,
 .webex-incorrect + .webex-icon::after {
-  content: "\00a0\2716";
+  content: "\00a0\00a0\2715";
 }
-
 
 .webex-correct > span::after,
 .webex-correct + .webex-icon::after {
-  content: "\00a0\2714";
+  content: "\00a0\00a0\2713";
 }
 
 /* **************************** */
@@ -127,6 +122,9 @@ input.webex-solveme.webex-correct,
     border-color: var(--correct);
 }
 
+/* invisible border to keep dimensions when not highlighted */
+.webex-checkboxgroup > label,
+.unchecked .webex-checkboxgroup > label,
 .webex-radiogroup label {
   font-weight: 400;
   display: block;
@@ -135,8 +133,11 @@ input.webex-solveme.webex-correct,
   border-radius: 0.25em;
 }
 
-.webex-radiogroup label input {
-    margin: 0.1em 0.5em 0 0.25em;
+.webex-checkboxgroup label > input[type=checkbox],
+.webex-radiogroup label > input[type=radio] {
+  margin: 0.1em 0.5em 0 0.25em;
+  position: relative;
+  top: 0.125em;
 }
 
 .webex-radiogroup {
@@ -174,19 +175,14 @@ input.webex-solveme.webex-correct,
  * background highlight used to show 'selected items' on radiogroups.
  * --------------------------------------------------------------- */
 .webex-checkboxgroup > label {
-    display: block;
-}
-.webex-checkboxgroup > label > input[type=checkbox] {
-    margin: 0 0.5em 0 0.25em;
+  display: block;
 }
 .webex-checkboxgroup > label > span {
-    font-weight: normal;
+  font-weight: normal;
 }
-
-.unchecked .webex-checkboxgroup > .webex-correct,
-.unchecked .webex-checkboxgroup > .webex-incorrect {
-    border: none;
-    background-color: transparent;
+.unchecked .webex-checkboxgroup > label.webex-correct,
+.unchecked .webex-checkboxgroup > label.webex-incorrect {
+  background-color: transparent;
 }
 
 
