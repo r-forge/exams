@@ -12,7 +12,7 @@ and directly rendering it to an HTML page.
 
 \usage{
 exams2webquiz(file, n = 1L, nsamp = NULL, dir = NULL,
-  name = "webquiz", title = "R/exams quiz", display = TRUE, edir = NULL,
+  name = "webquiz", title = "R/exams quiz", browse = TRUE, edir = NULL,
   \dots, clean = TRUE, quiet = TRUE, envir = parent.frame())
 
 webquiz(\dots)
@@ -30,7 +30,7 @@ webquiz(\dots)
     chosen as a \code{\link{tempfile}}.}
   \item{name}{character. A name prefix for the resulting .Rmd document.}
   \item{title}{character. Title of the quiz.}
-  \item{display}{logical. Should the resulting tutorial be displayed using
+  \item{browse}{logical. Should the resulting tutorial be displayed using
     \code{\link[utils]{browseURL}}?}
   \item{edir}{character. The path of the directory (along with its
     sub-directories) in which the files in \code{file} are stored.

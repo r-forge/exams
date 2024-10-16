@@ -12,6 +12,8 @@ based on R/exams exercise templates.
 \usage{
 exams2forms(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
+  schoice_display = "buttons", mchoice_display = "buttons",
+  cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, \dots)
@@ -32,6 +34,13 @@ exams2forms(file,
   \item{nchar}{numeric. Number of characters for numeric or string fields
     (\code{\link{forms_num}}, \code{\link{forms_string}}). If a vector of length 2 is provided
     it is used as the minimum and maximum number of characters, respectively.}
+  \item{schoice_display, mchoice_display, cloze_schoice_display, cloze_mchoice_display}{character.
+    Should the interaction for single-choice or multiple-choice forms be displayed
+    with buttons (radio buttons or checkboxes, respectively) or with drop-down menus?
+    The default is to use buttons for single-choice and multiple-choice
+    items and for multiple-choice interactions within cloze items. Only
+    for single-choice interactions within cloze items, the default is
+    to use drop-down menus.}
   \item{n}{integer. The number of copies to be taken from \code{file}.}
   \item{nsamp}{integer. The number(s) of exercise files sampled from each
     list element of \code{file}. Sampling without replacement is used

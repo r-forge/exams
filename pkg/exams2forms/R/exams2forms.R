@@ -1,12 +1,12 @@
 exams2forms <- function(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
+  schoice_display = "buttons", mchoice_display = "buttons", cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, ...) {
 
   ## Reto: getting display setting for testing
   args <- list(...)
-  display <- if ("display" %in% names(args)) args$display else "buttons"
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
@@ -47,8 +47,8 @@ exams2forms <- function(file,
 
     ## set up forms for question
     forms <- switch(x$metainfo$type,
-      "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = "buttons"), ## FIXME: export display = "dropdown"?
-      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = display), ## FIXME: change to "buttons" when implemented
+      "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display),
+      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       character(0))
@@ -63,8 +63,8 @@ exams2forms <- function(file,
           warning(sprintf("cloze type '%s' not supported, rendered as 'string'", x$metainfo$clozetype[j]))
         }
         qj <- switch(x$metainfo$clozetype[j],
-          "schoice" = forms_schoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = "dropdown"), ## FIXME: cloze_schoice_display
-          "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = display), ## FIXME: checkbox display
+          "schoice" = forms_schoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_schoice_display),
+          "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_mchoice_display),
           "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
           forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))))
         )

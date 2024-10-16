@@ -1,5 +1,5 @@
 exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
-  name = "webquiz", title = "R/exams quiz", display = TRUE, edir = NULL, ...,
+  name = "webquiz", title = "R/exams quiz", browse = TRUE, edir = NULL, ...,
   clean = TRUE, quiet = TRUE, envir = parent.frame()) {
 
   ## sanity check for pandoc
@@ -55,6 +55,6 @@ exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   ## render quiz
   render(name[1L], clean = clean, quiet = quiet, envir = envir)
   name <- normalizePath(name)
-  if(display) browseURL(name[2L])
+  if(browse) browseURL(name[2L])
   invisible(name)
 }
