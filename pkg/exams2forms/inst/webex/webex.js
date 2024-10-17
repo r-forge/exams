@@ -331,7 +331,7 @@ window.onload = function() {
     const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
 
     /* show the default question for each group */
-    questions[currentPosition].classList.add("active");
+    questions[questionOrder[currentPosition]].classList.add("active");
     console.log("set question " + questionOrder[currentPosition] +
                 " (" + currentPosition + ") as active; " + questionOrder);
   
