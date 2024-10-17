@@ -84,10 +84,9 @@ exams2forms <- function(file,
       
     ## set up solution (if desired and available)
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)
-    solution <- if(identical(solution, TRUE)) "Correct solution" else as.character(solution)
+    solution_title <- if(identical(solution, TRUE)) "Correct solution" else as.character(solution)
     solution <- if(try_solution && (!is.null(x$solution) || !is.null(x$solutionlist))) {
-      c("",
-        hide(solution),
+      c(solutionbox_start(solution_title),
         "",
         x$solution,
         if(!is.null(x$solutionlist)) c(
@@ -95,7 +94,7 @@ exams2forms <- function(file,
           paste("*", x$solutionlist)
         ),
         "",
-        unhide()
+        solutionbox_end()
       )
     } else {
       NULL
@@ -137,9 +136,9 @@ exams2forms <- function(file,
     for(i in 1L:n_exercises) {
       if(n_exams > 1L) writeLines("::: {.webex-group}")
       for(j in 1L:n_exams) {
-        if(n_exams > 1L) writeLines("::: {.webex-question}")
+        writeLines("::: {.webex-question}")
         writeLines(rval[[j]][[i]])
-        if(n_exams > 1L) writeLines(":::")
+        writeLines(":::")
       }
       if(n_exams > 1L) writeLines(":::")
     }

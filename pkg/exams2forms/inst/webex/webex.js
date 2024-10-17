@@ -1,23 +1,25 @@
 <script>
 
+/* definition of icons/content of some elements (i.e., buttons) */
+/*
+ * horizontal traffic light: &#x1F6A5;
+ *
+ */
+const webex_icons = {check_hidden: "&#x1F914;",
+                     check_shown:  "&#x1F917;",
+                     solution: "&#128161;",
+                     question_next: "&#x27A1;",
+                     question_previous: "&#x2B05;"}
+
+
+
+
 /* update total correct if #webex-total_correct exists */
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  //var t = document.getElementsByClassName("webex-total_correct");
-  //for (var i = 0; i < t.length; i++) {
-  //  p = t[i].parentElement;
-  //  var correct = p.getElementsByClassName("webex-correct").length;
-  //  var solvemes = p.getElementsByClassName("webex-solveme").length;
-  //  var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
-  //  var selects = p.getElementsByClassName("webex-select").length;
-  //  /* no specific class on input node, thus searching via query selector */
-  //  var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
-
-  //  t[i].innerHTML = correct + " of " + (solvemes + radiogroups + checkboxgroups + selects) + " correct";
-  //}
   document.querySelectorAll(".webex-total_correct").forEach(total => {
-    p = total.parentElement;
+    p = total.closest(".webex-box");
     var correct = p.getElementsByClassName("webex-correct").length;
     var solvemes = p.getElementsByClassName("webex-solveme").length;
     var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
@@ -25,7 +27,8 @@ update_total_correct = function() {
     /* no specific class on input node, thus searching via query selector */
     var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
 
-    total.innerHTML = correct + " of " + (solvemes + radiogroups + checkboxgroups + selects) + " correct";
+    /* show number of correct / total number of answers */
+    total.innerHTML = correct + "&nbsp;/&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
   });
 }
 
@@ -33,6 +36,7 @@ update_total_correct = function() {
 b_func = function() {
   console.log("webex: toggle hide");
 
+    alert("Reto: was macht die funktion genau?");
   var cl = this.parentElement.classList;
   if (cl.contains("open")) {
     cl.remove("open");
@@ -45,13 +49,30 @@ b_func = function() {
 check_func = function() {
   console.log("webex: check answers");
 
-  var cl = this.parentElement.classList;
+  //var cl = this.parentElement.classList;
+  var cl = this.closest(".webex-box").classList;
   if (cl.contains("unchecked")) {
     cl.remove("unchecked");
-    this.innerHTML = "Hide Answers";
+    this.innerHTML = webex_icons.check_shown; //"Hide Answers";
   } else {
     cl.add("unchecked");
-    this.innerHTML = "Show Answers";
+    this.innerHTML = webex_icons.check_hidden; //"Show Answers";
+  }
+}
+
+/* Show/hide correct solution */
+solution_func = function() {
+  console.log("webex: show/hide solution");
+
+  var div = this.closest(".webex-question").querySelector(".webex-solution");
+  var cl = div.classList;
+
+  if (cl.contains("visible")) {
+    cl.remove("visible");
+    //this.innerHTML = "Show Solution";
+  } else {
+    cl.add("visible");
+    //this.innerHTML = "Hide Solution";
   }
 }
 
@@ -167,6 +188,19 @@ checkboxgroups_func = function(e) {
   update_total_correct();
 }
 
+/* shuffling array (thanks to stack overflow)
+ * If argument x is an integer we create an integer sequence
+ * from 0, 1, ..., (x - 1) and return a shuffled version. If
+ * the input is an array, we simply shuffle it */
+shuffle_array = function(x) {
+   if (Number.isInteger(x) && !isNaN(x)) {
+     x = Array.from({length: x}, (v, i) => i);
+   }
+   let shuffled = x.map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+   return shuffled;
+}
+
 /* ---------------------------------------------------------
  * ---------------------------------------------------------
  * --------------------------------------------------------- */
@@ -184,15 +218,38 @@ window.onload = function() {
   document.querySelectorAll(".webex-check").forEach(section => {
     section.classList.add("unchecked");
 
-    let btn = document.createElement("button");
-    btn.innerHTML = "Show Answers";
-    btn.classList.add("webex-check-button");
-    btn.onclick = check_func;
-    section.appendChild(btn);
+    /* bootstrap 3x grid */
+    let div_row = document.createElement("div");
+    div_row.setAttribute("class", "row row-buttons");
+    let div_col1 = document.createElement("div");
+    div_col1.setAttribute("class", "col-xs-6 text-left");
+    let div_col2 = document.createElement("div");
+    div_col2.setAttribute("class", "col-xs-6 text-right");
 
+    /* appending columns to row, insert into 'section' */
+    div_row.appendChild(div_col1);
+    div_row.appendChild(div_col2);
+    section.appendChild(div_row);
+      
+    /* button to _check_ if answers given are correct */
+    let btn_check = document.createElement("button");
+    btn_check.innerHTML = webex_icons.check_hidden;  // "Show Answers";
+    btn_check.setAttribute("class", "webex-button webex-button-check");
+    btn_check.onclick = check_func;
+    div_col1.appendChild(btn_check);
+
+    /* span to show current number of points (when _check_ active) */
     let spn = document.createElement("span");
     spn.classList.add("webex-total_correct");
-    section.appendChild(spn);
+    div_col1.appendChild(spn);
+
+    /* button to show the _solution_ */
+    let btn_solution = document.createElement("button");
+    btn_solution.innerHTML = webex_icons.solution; // "Correct Answer";
+    btn_solution.setAttribute("class", "webex-button webex-button-solution");
+    btn_solution.onclick = solution_func;
+    div_col2.appendChild(btn_solution);
+
   });
 
   /* set up webex-solveme inputs */
@@ -239,43 +296,67 @@ window.onload = function() {
     select.parentNode.appendChild(elem)
   });
 
-  /* change to next question if multiple are available */
-  function handleNextQuestionClick(group, questions) {
+  /* change to next/previous question if multiple are available */
+  function handleQuestionClick(group, questions, step) {
     return async function() {
+      /* get question order as integer vector */
+      let questionOrder = group.dataset.questionOrder.split(",").map(str => parseInt(str));
+
+      /* current question/position */
       let currentPosition = parseInt(group.dataset.currentPosition);
-      const questionNum = parseInt(group.dataset.questionNum);
   
-      // Hide the current question
-      questions[currentPosition].classList.remove("active");
-      // Move to the next question index
-      currentPosition = (currentPosition + 1) % questionNum;
-      // Display the new question
-      questions[currentPosition].classList.add("active");
+      /* Hide the current question */
+      questions.forEach(question => { question.classList.remove("active"); });
+
+      /* Move to the next question index */
+      currentPosition = (currentPosition + step) % questionOrder.length;
+      if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
+
+      /* Display the new question */
+      console.log("set question " + questionOrder[currentPosition] +
+                  " (" + currentPosition + ") as active");
+      questions[questionOrder[currentPosition]].classList.add("active");
   
       // Update the currentPosition data attribute on the group div
       group.dataset.currentPosition = currentPosition;
     };
   }
+
   
   document.querySelectorAll(".webex-group").forEach(group => {
     const questions = Array.from(group.querySelectorAll(".webex-question"));
-    const questionNum = questions.length;
-  
-    let currentPosition = parseInt(group.getAttribute("data-start-position")) || Math.floor(Math.random() * questionNum);
-  
-    // Show the default question for each group
+    const questionOrder = shuffle_array(questions.length);
+
+    /* take start position (if set) or start at 0 */
+    const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
+
+    /* show the default question for each group */
     questions[currentPosition].classList.add("active");
-    console.log(currentPosition + " set active");
+    console.log("set question " + questionOrder[currentPosition] +
+                " (" + currentPosition + ") as active; " + questionOrder);
   
-    // Store questionNum and currentPosition as data attributes on the group div
-    group.dataset.questionNum = questionNum;
+    /* store random order of questions as well as current position */
+    group.dataset.questionOrder   = questionOrder;
     group.dataset.currentPosition = currentPosition;
-  
-    const nextButton = document.createElement("button");
-    nextButton.classList.add("webex-next-button");
-    nextButton.textContent = "Next Question";
-    nextButton.addEventListener("click", handleNextQuestionClick(group, questions));
-    group.appendChild(nextButton);
+
+    /* find all webex-question .row-buttons second column (div:last-chidld) and
+     * add buttons for next/previous question */
+    questions.forEach(question => {
+        let div_col2 = question.querySelector(".row-buttons div:last-child");
+
+        let nextButton = document.createElement("button");
+        nextButton.setAttribute("class", "webex-button webex-button-next");
+        nextButton.innerHTML = webex_icons.question_next; // "Next Question";
+        nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
+
+        let previousButton = document.createElement("button");
+        previousButton.setAttribute("class", "webex-button webex-button-previous");
+        previousButton.innerHTML = webex_icons.question_previous; // "Previous Question";
+        previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
+
+        div_col2.appendChild(previousButton);
+        div_col2.appendChild(nextButton);
+    });
   });
 
 

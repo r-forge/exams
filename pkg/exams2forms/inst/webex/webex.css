@@ -4,16 +4,18 @@
   --correct: #59935B;
   --correct_alpha: #c0edc2;
   --highlight: #467AAC;
+  --highlightgray: #C3C3C3;
 }
 
 /*---------------------ADDED-----------------------------*/
-.webex-group {}
 
-.webex-question {
-   display: none;
+/* a webex-group is a div container containing multiple
+ * webex-questions. We first hide all and randomly show
+ * one of the randomizations (webex.js) */
+.webex-group .webex-question {
+  display: none;
 }
-
-.webex-question.active {
+.webex-group .webex-question.active {
   display: block;
 }
 
@@ -95,15 +97,14 @@ input.webex-solveme.webex-correct,
 
 /* styles for hidden solutions */
 .webex-solution {
-    height: 2.5em;
-    overflow-y: hidden;
+    display: none;
     padding: 0.5em;
     margin-bottom: 10px;
-}
-.webex-solution.open {
-    height: auto;
-    border: 2px solid var(--highlight);
+    border: 2px solid var(--highlightgray);
     border-radius: 5px;
+}
+.webex-solution.visible {
+    display: block;
 }
 .webex-solution > ul {
     padding-left: 2em;
@@ -113,13 +114,24 @@ input.webex-solveme.webex-correct,
   margin-left: 0.5em;
 }
 
-.webex-solution button, .webex-check-button, .webex-next-button {
+/*.webex-solution button, .webex-check-button, .webex-next-button {*/
+/*.webex-check-button, .webex-next-button {*/
+.webex-solution button,
+.webex-box .webex-button {
     height: 2em;
     margin-bottom: 0.5em;
+    margin-right: 0.25em;
     border-radius: 0.5em;
-    background-color: var(--highlight);
+    background-color: var(--highlightgray);
     color: white;
     padding: 0 0.5em;
+    font-size: 1.2em;
+}
+.webex-button:hover {
+    background-color: var(--highlight);
+}
+.webex-button:last-child {
+    margin-right: 0;
 }
 .webex-solution pre.sourceCode {
     border-color: var(--correct);
@@ -182,6 +194,11 @@ input.webex-solveme.webex-correct,
 }
 .webex-checkboxgroup > label > span {
   font-weight: normal;
+}
+.unchecked .webex-checkboxgroup .webex-incorrect,
+.unchecked .webex-checkboxgroup .webex-correct {
+  border: 2px solid rgb(255, 255, 255) !important;
+  background-color: white !important;
 }
 .unchecked .webex-checkboxgroup > label.webex-correct,
 .unchecked .webex-checkboxgroup > label.webex-incorrect {
