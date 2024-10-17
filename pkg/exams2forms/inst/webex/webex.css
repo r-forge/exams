@@ -123,7 +123,7 @@ input.webex-solveme.webex-correct,
     margin-right: 0.25em;
     border-radius: 0.5em;
     background-color: var(--highlightgray);
-    color: white;
+    color: black;
     padding: 0 0.5em;
     font-size: 1.2em;
 }
