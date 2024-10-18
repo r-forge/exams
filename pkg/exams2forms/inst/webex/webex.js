@@ -1,15 +1,11 @@
 <script>
 
 /* definition of icons/content of some elements (i.e., buttons) */
-/*
- * horizontal traffic light: &#x1F6A5;
- *
- */
-const webex_icons = {check_hidden: "⏯",
-                     check_shown:  "⏯",
-                     solution: "ℹ",
-                     question_next: "⏭",
-                     question_previous: "⏮"}
+const webex_icons = {check_hidden: "<b>&quest;</b>",
+                     check_shown:  "<b>&lsh;</b>",
+                     solution: "<b>&#x1F5B9;</b>",
+                     question_next: "<b>&#x27F2;</b>",
+                     question_previous: ""}
 
 
 
@@ -354,7 +350,8 @@ window.onload = function() {
         previousButton.innerHTML = webex_icons.question_previous; // "Previous Question";
         previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
 
-        div_col2.appendChild(previousButton);
+        /* could also include button for previous question
+         * div_col2.appendChild(previousButton); */
         div_col2.appendChild(nextButton);
     });
   });

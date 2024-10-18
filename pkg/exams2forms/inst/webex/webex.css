@@ -4,7 +4,7 @@
   --correct: #59935B;
   --correct_alpha: #c0edc2;
   --highlight: #467AAC;
-  --highlight_alpha: #B9D7FF;
+  --highlight_alpha: #D1E4FF;
   --highlightgray: #C3C3C3;
 }
 
@@ -120,6 +120,7 @@ input.webex-solveme.webex-correct,
 .webex-solution button,
 .webex-box .webex-button {
     height: 2em;
+    min-width: 2em;
     margin-bottom: 0.5em;
     margin-right: 0.25em;
     border-radius: 0.5em;
