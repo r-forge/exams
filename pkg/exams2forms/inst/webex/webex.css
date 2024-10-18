@@ -4,6 +4,7 @@
   --correct: #59935B;
   --correct_alpha: #c0edc2;
   --highlight: #467AAC;
+  --highlight_alpha: #B9D7FF;
   --highlightgray: #C3C3C3;
 }
 
@@ -122,13 +123,14 @@ input.webex-solveme.webex-correct,
     margin-bottom: 0.5em;
     margin-right: 0.25em;
     border-radius: 0.5em;
-    background-color: var(--highlightgray);
-    color: black;
+    background-color: transparent;
+    border-color: var(--highlight);
+    color: var(--highlight);
     padding: 0 0.5em;
     font-size: 1.2em;
 }
 .webex-button:hover {
-    background-color: var(--highlight);
+    background-color: var(--highlight_alpha);
 }
 .webex-button:last-child {
     margin-right: 0;

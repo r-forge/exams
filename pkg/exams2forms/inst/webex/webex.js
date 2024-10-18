@@ -5,11 +5,11 @@
  * horizontal traffic light: &#x1F6A5;
  *
  */
-const webex_icons = {check_hidden: "Show answer",
-                     check_shown:  "Hide answer",
-                     solution: "Correct solution",
-                     question_next: "&#x226B;",
-                     question_previous: "&#x226A;"}
+const webex_icons = {check_hidden: "⏯",
+                     check_shown:  "⏯",
+                     solution: "ℹ",
+                     question_next: "⏭",
+                     question_previous: "⏮"}
 
 
 
