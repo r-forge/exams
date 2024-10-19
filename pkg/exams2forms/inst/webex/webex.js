@@ -1,9 +1,9 @@
 <script>
 
 /* definition of icons/content of some elements (i.e., buttons) */
-const webex_icons = {check_hidden: "<b>&quest;</b>",
+const webex_icons = {check_hidden: "<b>&check;</b>",
                      check_shown:  "<b>&lsh;</b>",
-                     solution: "<b>&#9776;</b>",
+                     solution: "<b>&quest;</b>",
                      question_next: "<b>&#8634;</b>",
                      question_previous: ""}
 
