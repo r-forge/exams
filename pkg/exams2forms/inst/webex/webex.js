@@ -3,8 +3,8 @@
 /* definition of icons/content of some elements (i.e., buttons) */
 const webex_icons = {check_hidden: "<b>&quest;</b>",
                      check_shown:  "<b>&lsh;</b>",
-                     solution: "<b>&#x1F5B9;</b>",
-                     question_next: "<b>&#x27F2;</b>",
+                     solution: "<b>&#9776;</b>",
+                     question_next: "<b>&#8634;</b>",
                      question_previous: ""}
 
 
