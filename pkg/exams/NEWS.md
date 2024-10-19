@@ -27,6 +27,9 @@
 
 * Additional NOPS language support: Catalan (`ca`, contributed by Paco Rivière).
 
+* In `exams2pdf()` an empty `getOption("pdfviewer")` is now caught with an
+  informative error (raised in https://stackoverflow.com/questions/79100895/).
+
 
 # exams 2.4-1
 

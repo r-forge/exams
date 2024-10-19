@@ -58,8 +58,16 @@ exams2pdf <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## display single .pdf on the fly
   if(display) {
     out <- normalizePath(file.path(dir, paste(name, "1.pdf", sep = "")))
-    if(.Platform$OS.type == "windows") shell.exec(out)
-      else system(paste(shQuote(getOption("pdfviewer")), shQuote(out)), wait = FALSE)
+    if(.Platform$OS.type == "windows") {
+      shell.exec(out)
+    } else {
+      pdfv <- getOption("pdfviewer")
+      if(is.null(pdfv) || nchar(pdfv) < 1L) {
+        warning(sprintf("no PDF viewer specified in 'getOption(\"pdfviewer\")', cannot display %s", out))
+      } else {
+        system(paste(shQuote(pdfv), shQuote(out)), wait = FALSE)
+      }
+    }
   }
   
   ## return xexams object invisibly
