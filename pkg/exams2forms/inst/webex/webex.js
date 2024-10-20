@@ -54,11 +54,11 @@ check_func = function() {
   if (cl.contains("unchecked")) {
     cl.remove("unchecked");
     this.innerHTML = webex_buttons.check_shown; //"Hide check";
-    this.setAttribute("title", webex_buttons.check_shown_alt);
+    if (webex_buttons.check_shown_alt.length > 0) this.setAttribute("title", webex_buttons.check_shown_alt);
   } else {
     cl.add("unchecked");
     this.innerHTML = webex_buttons.check_hidden; //"Check answer";
-    this.setAttribute("title", webex_buttons.check_hidden_alt);
+    if (webex_buttons.check_hidden_alt.length > 0) this.setAttribute("title", webex_buttons.check_hidden_alt);
   }
 }
 
@@ -237,7 +237,7 @@ window.onload = function() {
     let btn_check = document.createElement("button");
     btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
     btn_check.setAttribute("class", "webex-button webex-button-check");
-    btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
+    if (webex_buttons.check_hidden_alt.length > 0) btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
     btn_check.onclick = check_func;
     div_col1.appendChild(btn_check);
 
@@ -250,7 +250,7 @@ window.onload = function() {
     let btn_solution = document.createElement("button");
     btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
     btn_solution.setAttribute("class", "webex-button webex-button-solution");
-    btn_solution.setAttribute("title", webex_buttons.solution_alt);
+    if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
     btn_solution.onclick = solution_func;
     div_col2.appendChild(btn_solution);
 
@@ -350,13 +350,13 @@ window.onload = function() {
 
         let nextButton = document.createElement("button");
         nextButton.setAttribute("class", "webex-button webex-button-next");
-        nextButton.setAttribute("title", webex_buttons.question_next_alt);
+        if (webex_buttons.question_next_alt.length > 0) nextButton.setAttribute("title", webex_buttons.question_next_alt);
         nextButton.innerHTML = webex_buttons.question_next; // "Next question";
         nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
 
         let previousButton = document.createElement("button");
         previousButton.setAttribute("class", "webex-button webex-button-previous");
-        previousButton.setAttribute("title", webex_buttons.question_previous_alt);
+        if (webex_buttons.question_previous_alt.length > 0) previousButton.setAttribute("title", webex_buttons.question_previous_alt);
         previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
         previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
 
