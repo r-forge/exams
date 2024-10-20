@@ -42,16 +42,16 @@
 
 .unchecked .webex-incorrect,
 .unchecked .webex-correct {
-  border: 2px dotted grey !important;
-  background-color: white !important;
+  border: 2px dotted transparent !important;
+  background-color: transparent !important;
 }
 
 /* styles for webex-solveme */
 .webex-select, input.webex-solveme,
 .unchecked .webex-radiogroup label.webex-incorrect,
 .unchecked .webex-radiogroup label.webex-correct{
-    border: 2px dotted grey;
-    background-color: white;
+    border: 2px dotted transparent;
+    background-color: transparent;
     border-radius: 0.25em;
 }
 
@@ -200,8 +200,8 @@ input.webex-solveme.webex-correct,
 }
 .unchecked .webex-checkboxgroup .webex-incorrect,
 .unchecked .webex-checkboxgroup .webex-correct {
-  border: 2px solid rgb(255, 255, 255) !important;
-  background-color: white !important;
+  border: 2px solid transparent !important;
+  background-color: transparent !important;
 }
 .unchecked .webex-checkboxgroup > label.webex-correct,
 .unchecked .webex-checkboxgroup > label.webex-incorrect {
