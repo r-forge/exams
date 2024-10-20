@@ -84,7 +84,7 @@ exams2forms <- function(file,
       
     ## set up solution (if desired and available)
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)
-    solution_title <- if(identical(solution, TRUE)) "Correct solution" else as.character(solution)
+    solution_title <- if(identical(solution, TRUE)) "" else as.character(solution)
     solution <- if(try_solution && (!is.null(x$solution) || !is.null(x$solutionlist))) {
       c(solutionbox_start(solution_title),
         "",

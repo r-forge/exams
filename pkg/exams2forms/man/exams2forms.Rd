@@ -30,7 +30,7 @@ exams2forms(file,
   \item{solution}{logical or character. Should the solution environment
     of the R/exams exercises (if any) be displayed or not? Optionally,
     \code{solution} can also be a character with the title for the
-    corresponding solution button (default: \code{"Correct solution"}).}
+    corresponding solution button.}
   \item{nchar}{numeric. Number of characters for numeric or string fields
     (\code{\link{forms_num}}, \code{\link{forms_string}}). If a vector of length 2 is provided
     it is used as the minimum and maximum number of characters, respectively.}
