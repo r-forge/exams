@@ -42,7 +42,7 @@
 
 .unchecked .webex-incorrect,
 .unchecked .webex-correct {
-  border: 2px dotted transparent !important;
+  border: 2px solid transparent !important;
   background-color: transparent !important;
 }
 
@@ -50,8 +50,8 @@
 .webex-select, input.webex-solveme,
 .unchecked .webex-radiogroup label.webex-incorrect,
 .unchecked .webex-radiogroup label.webex-correct{
-    border: 2px dotted transparent;
-    background-color: transparent;
+    border: 2px solid var(--highlight);
+    background-color: white;
     border-radius: 0.25em;
 }
 
@@ -59,7 +59,7 @@
 .webex-checkboxgroup > label.webex-incorrect,
 input.webex-solveme.webex-incorrect,
 .webex-radiogroup label.webex-incorrect {
-    border: 2px dotted var(--incorrect);
+    border: 2px solid var(--incorrect);
     background-color: var(--incorrect_alpha);
     color: black;
     border-radius: 0.25em;
