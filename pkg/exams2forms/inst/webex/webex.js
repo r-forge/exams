@@ -1,13 +1,17 @@
 <script>
 
-/* definition of icons/content of some elements (i.e., buttons) */
-const webex_icons = {check_hidden: "<b>&check;</b>",
-                     check_shown:  "<b>&lsh;</b>",
-                     solution: "<b>&quest;</b>",
-                     question_next: "<b>&#8634;</b>",
-                     question_previous: ""}
-
-
+/* definition of content for the buttons */
+const webex_buttons = {check_hidden:          "<b>&check;</b>",
+                       check_hidden_alt:      "Check answer",
+                       check_shown:           "<b>&lsh;</b>",
+                       check_shown_alt:       "Hide check",
+                       check_of_total:        "/",
+                       solution:              "<b>&quest;</b>",
+                       solution_alt:          "Correct solution",
+                       question_next:         "<b>&#8634;</b>",
+                       question_next_alt:     "Next question",
+                       question_previous:     "",
+                       question_previous_alt: ""}
 
 
 /* update total correct if #webex-total_correct exists */
@@ -24,7 +28,7 @@ update_total_correct = function() {
     var checkboxgroups = p.querySelectorAll("div[class=webex-checkboxgroup] input[type=checkbox]").length
 
     /* show number of correct / total number of answers */
-    total.innerHTML = correct + "&nbsp;/&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
+    total.innerHTML = correct + "&nbsp;" + webex_buttons.check_of_total + "&nbsp;" + (solvemes + radiogroups + checkboxgroups + selects);
   });
 }
 
@@ -43,16 +47,18 @@ b_func = function() {
 
 /* check answers */
 check_func = function() {
-  console.log("webex: check answers");
+  console.log("webex: check answer");
 
   //var cl = this.parentElement.classList;
   var cl = this.closest(".webex-box").classList;
   if (cl.contains("unchecked")) {
     cl.remove("unchecked");
-    this.innerHTML = webex_icons.check_shown; //"Hide Answers";
+    this.innerHTML = webex_buttons.check_shown; //"Hide check";
+    this.setAttribute("title", webex_buttons.check_shown_alt);
   } else {
     cl.add("unchecked");
-    this.innerHTML = webex_icons.check_hidden; //"Show Answers";
+    this.innerHTML = webex_buttons.check_hidden; //"Check answer";
+    this.setAttribute("title", webex_buttons.check_hidden_alt);
   }
 }
 
@@ -65,10 +71,10 @@ solution_func = function() {
 
   if (cl.contains("visible")) {
     cl.remove("visible");
-    //this.innerHTML = "Show Solution";
+    //this.innerHTML = "Show solution";
   } else {
     cl.add("visible");
-    //this.innerHTML = "Hide Solution";
+    //this.innerHTML = "Hide solution";
   }
 }
 
@@ -229,8 +235,9 @@ window.onload = function() {
       
     /* button to _check_ if answers given are correct */
     let btn_check = document.createElement("button");
-    btn_check.innerHTML = webex_icons.check_hidden;  // "Show Answers";
+    btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
     btn_check.setAttribute("class", "webex-button webex-button-check");
+    btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
     btn_check.onclick = check_func;
     div_col1.appendChild(btn_check);
 
@@ -241,8 +248,9 @@ window.onload = function() {
 
     /* button to show the _solution_ */
     let btn_solution = document.createElement("button");
-    btn_solution.innerHTML = webex_icons.solution; // "Correct Answer";
+    btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
     btn_solution.setAttribute("class", "webex-button webex-button-solution");
+    btn_solution.setAttribute("title", webex_buttons.solution_alt);
     btn_solution.onclick = solution_func;
     div_col2.appendChild(btn_solution);
 
@@ -342,17 +350,18 @@ window.onload = function() {
 
         let nextButton = document.createElement("button");
         nextButton.setAttribute("class", "webex-button webex-button-next");
-        nextButton.innerHTML = webex_icons.question_next; // "Next Question";
+        nextButton.setAttribute("title", webex_buttons.question_next_alt);
+        nextButton.innerHTML = webex_buttons.question_next; // "Next question";
         nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
 
         let previousButton = document.createElement("button");
         previousButton.setAttribute("class", "webex-button webex-button-previous");
-        previousButton.innerHTML = webex_icons.question_previous; // "Previous Question";
+        previousButton.setAttribute("title", webex_buttons.question_previous_alt);
+        previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
         previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
 
-        /* could also include button for previous question
-         * div_col2.appendChild(previousButton); */
-        div_col2.appendChild(nextButton);
+        if (webex_buttons.question_previous.length > 0) div_col2.appendChild(previousButton);
+        if (webex_buttons.question_next.length > 0) div_col2.appendChild(nextButton);
     });
   });
 
