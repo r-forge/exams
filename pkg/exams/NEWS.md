@@ -30,6 +30,9 @@
 * In `exams2pdf()` an empty `getOption("pdfviewer")` is now caught with an
   informative error (raised in https://stackoverflow.com/questions/79100895/).
 
+* Function `match_exams_iteration()`, introduced in the previous versions, was
+  erroneously not exported from the `NAMESPACE`, added now.
+
 * Fixed long-standing bug in [boxplots](https://www.R-exams.org/templates/boxplots/)
   exercise. In rare cases (about once in 2,000 random versions) the exercises
   claimed that there were outliers in the plot when in fact there were none
