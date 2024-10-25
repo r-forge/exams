@@ -111,17 +111,11 @@ input.webex-solveme.webex-correct,
     padding-left: 2em;
 }
 
-.webex-next-button{
-  margin-left: 0.5em;
-}
-
-/*.webex-solution button, .webex-check-button, .webex-next-button {*/
-/*.webex-check-button, .webex-next-button {*/
 .webex-solution button,
 .webex-box .webex-button {
     height: 2em;
     min-width: 2em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0;
     margin-right: 0.25em;
     border-radius: 0.5em;
     background-color: transparent;
@@ -172,7 +166,7 @@ input.webex-solveme.webex-correct,
 .webex-box > ul {
     list-style: none;
     margin: 0;
-    padding: 0 0 0 0.25em;
+    padding: 0 0 1em 0.25em;
 }
 .webex-box > ul > li {
     margin: 0 0 0.25em 0;

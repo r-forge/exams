@@ -32,19 +32,6 @@ update_total_correct = function() {
   });
 }
 
-/* webex-solution button toggling function */
-b_func = function() {
-  console.log("webex: toggle hide");
-
-    alert("Reto: was macht die funktion genau?");
-  var cl = this.parentElement.classList;
-  if (cl.contains("open")) {
-    cl.remove("open");
-  } else {
-    cl.add("open");
-  }
-}
-
 /* check answers */
 check_func = function() {
   console.log("webex: check answer");
@@ -209,13 +196,6 @@ shuffle_array = function(x) {
 window.onload = function() {
   console.log("webex onload");
 
-  /* set up solution buttons */
-  document.querySelectorAll("button").forEach(button => {
-    if (button.parentElement.classList.contains("webex-solution")) {
-      button.onclick = b_func;
-    }
-  });
-
   /* setting up buttons and actions to show/hide answers */
   document.querySelectorAll(".webex-check").forEach(section => {
     section.classList.add("unchecked");
@@ -317,8 +297,8 @@ window.onload = function() {
       if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
 
       /* Display the new question */
-      console.log("set question " + questionOrder[currentPosition] +
-                  " (" + currentPosition + ") as active");
+      // devel // console.log("set question " + questionOrder[currentPosition] +
+      // devel //             " (" + currentPosition + ") as active");
       questions[questionOrder[currentPosition]].classList.add("active");
   
       // Update the currentPosition data attribute on the group div
@@ -336,8 +316,8 @@ window.onload = function() {
 
     /* show the default question for each group */
     questions[questionOrder[currentPosition]].classList.add("active");
-    console.log("set question " + questionOrder[currentPosition] +
-                " (" + currentPosition + ") as active; " + questionOrder);
+    // devel // console.log("set question " + questionOrder[currentPosition] +
+    // devel //             " (" + currentPosition + ") as active; " + questionOrder);
   
     /* store random order of questions as well as current position */
     group.dataset.questionOrder   = questionOrder;
