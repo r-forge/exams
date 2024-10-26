@@ -73,9 +73,9 @@ exams2forms(file,
     The default is to enable Base 64 when an HTML-type document is produced.}
   \item{\dots}{currently not used.}
   \item{usespace}{logical. Defaults to \code{TRUE}, only used for string questions.
-      \code{TRUE} spaces are ignored when evaluating correct answers.}
+      If \code{FALSE} spaces are ignored when evaluating correct answers.}
   \item{usecase}{logical. Defaults to \code{TRUE}, only used for string questions.
-      If \code{TRUE} answers are evaluated ignoring uppercase/lowercase.}
+      If \code{FALSE} answers are evaluated ignoring uppercase/lowercase.}
   \item{regex}{logical. Defaults to \code{FALSE}, only used for string questions.
       If \code{TRUE} the arguments \code{usespace} and \code{usecase} are ignored.}
 }

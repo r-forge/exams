@@ -1,4 +1,4 @@
-forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE) {
+forms_string <- function(answer, width = NULL, usespace = FALSE, usecase = TRUE, regex = FALSE) {
   ## answer processing
   answer <- as.character(unlist(answer))
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
@@ -13,6 +13,7 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
   html <- sprintf("<input class='webex-solveme%s' size='%s' data-answer='%s'/>",
     if (length(classes) == 0) "" else paste0(" ", paste(classes, collapse = " ")),
     width, answers)
+  html <- paste(html, paste(c("[reto]", usecase, usespace, regex), collapse = " -- "))
 
   ## plain format
   plain <- paste(c("\\", rep.int("_", width)), collapse = "")
