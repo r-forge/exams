@@ -46,28 +46,35 @@
   background-color: transparent !important;
 }
 
+/* input elements require a visible border */
+.unchecked input.webex-incorrect,
+.unchecked input.webex-correct {
+  border: 2px solid var(--highlight) !important;
+  background-color: white !important;
+}
+
 /* styles for webex-solveme */
-.webex-select, input.webex-solveme,
-.unchecked .webex-radiogroup label.webex-incorrect,
-.unchecked .webex-radiogroup label.webex-correct{
+.webex-select, .webex-solveme,
+.unchecked .webex-radiogroup > .webex-incorrect,
+.unchecked .webex-radiogroup > .webex-correct{
     border: 2px solid var(--highlight);
     background-color: white;
     border-radius: 0.25em;
 }
 
 .webex-incorrect,
-.webex-checkboxgroup > label.webex-incorrect,
-input.webex-solveme.webex-incorrect,
-.webex-radiogroup label.webex-incorrect {
+.webex-checkboxgroup > .webex-incorrect,
+.webex-solveme.webex-incorrect,
+.webex-radiogroup > .webex-incorrect {
     border: 2px solid var(--incorrect);
     background-color: var(--incorrect_alpha);
     color: black;
     border-radius: 0.25em;
 }
 .webex-correct,
-.webex-checkboxgroup > label.webex-correct,
-input.webex-solveme.webex-correct,
-.webex-radiogroup label.webex-correct {
+.webex-checkboxgroup > .webex-correct,
+.webex-solveme.webex-correct,
+.webex-radiogroup >.webex-correct {
     border: 2px solid var(--correct);
     background-color: var(--correct_alpha);
     color: black;

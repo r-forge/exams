@@ -4,7 +4,16 @@ exams2forms <- function(file, write = TRUE, check = TRUE, box = TRUE, solution =
                         cloze_mchoice_display = mchoice_display, n = 1L, nsamp = NULL,
                         dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
                         quiet = TRUE, resolution = 100, width = 4, height = 4,
-                        svg = FALSE, converter = "pandoc-mathjax", base64 = NULL, ...) {
+                        svg = FALSE, converter = "pandoc-mathjax", base64 = NULL, ...,
+                        usespace = TRUE, usecase = TRUE, regex = FALSE) {
+
+  if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1])
+  stopifnot("argument `usespace` must be logical TRUE or FALSE" = isTRUE(usespace) || isFALSE(usespace))
+  if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1])
+  stopifnot("argument `usecase` must be logical TRUE or FALSE" = isTRUE(usecase) || isFALSE(usecase))
+  if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
+  stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
+
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
@@ -48,7 +57,8 @@ exams2forms <- function(file, write = TRUE, check = TRUE, box = TRUE, solution =
       "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display),
       "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
-      "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), ...),
+      "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
+                               ..., usespace = usespace, usecase = usecase, regex = regex),
       character(0))
     
     ## for cloze: embed forms directly
@@ -64,7 +74,8 @@ exams2forms <- function(file, write = TRUE, check = TRUE, box = TRUE, solution =
           "schoice" = forms_schoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_schoice_display),
           "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_mchoice_display),
           "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
-          forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))), ...)
+          forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))),
+                       ..., usespace = usespace, usecase = usecase, regex = regex)
         )
         aj <- paste0("##ANSWER", j, "##")
         if(any(grepl(aj, x$question, fixed = TRUE))) {

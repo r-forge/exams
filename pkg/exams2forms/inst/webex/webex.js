@@ -154,14 +154,8 @@ solveme_func = function(e) {
    * creators preferences regarding set options */
   } else {
     /* modify/prepare answer */
-    if (cl.contains("ignorecase")) {
-        my_answer = my_answer.toLowerCase();
-        alert("WARNING(reto): only user answer is set lowercase, not (yet) real answer - will fail");
-    }
-    if (cl.contains("nospaces")) {
-        my_answer = my_answer.replace(/ /g, "");
-        alert("WARNING(reto): only user answer ignores spaces, not 'real answer'");
-    }
+    if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
+    if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
 
     /* if the real answer includes user input - correct */
     if (real_answers.includes(my_answer)) {
@@ -332,9 +326,12 @@ window.onload = function() {
       solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");
     }
 
-    /* attach checking function */
-    solveme.onkeyup  = solveme_func;
-    solveme.onchange = solveme_func;
+    /* attach checking function, triggered on key up, change, and when
+     * elemnt is out of focus. Only evaluated once by tracking changes
+     * via variable solveme_last_user_answer */
+    solveme.addEventListener("keyup",  solveme_func);
+    solveme.addEventListener("change", solveme_func);
+    solveme.addEventListener("blur",   solveme_func);
 
     /* adding span to show correct/incorrect icon */
     solveme.insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
