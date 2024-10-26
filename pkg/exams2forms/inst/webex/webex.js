@@ -13,12 +13,6 @@ const webex_buttons = {check_hidden:          "<b>&check;</b>",
                        question_previous:     "",
                        question_previous_alt: ""}
 
-/* variable to store the last checked answer input by the
- * user after an onkeyup or onchange event; used to avoid
- * to execute some functions twice although there has been
- * no change by the user. (Re-)set in solveme_func */
-let solveme_last_user_answer = NaN;
-
 /* update total correct if #webex-total_correct exists */
 update_total_correct = function() {
   console.log("webex: update total_correct");
@@ -111,7 +105,11 @@ solveme_func = function(e) {
   console.log("webex: check solveme");
 
   /* float, precision for checking numeric answers */
-  const eps = 0.00000000000001
+  const eps = 0.00000000000001;
+
+  /* get last checked user answer */
+  const question = this.closest(".webex-question")
+  var last_user_answer = question.dataset.lastUserAnswer;
 
   /* empty answer? Job done */
   if (my_answer == "") {
@@ -120,14 +118,14 @@ solveme_func = function(e) {
     return false;
   /* If not empty, check if most recent user answer and compare against last
    * stored value to avoid double-execution of this function */
-  } else if (solveme_last_user_answer == this.value) {
+  } else if (!last_user_answer === undefined || last_user_answer == this.value) {
       return true;
   }
 
   /* "Else" we continue and store the latest answer by user on both the current
-   * answer (my_answer) as well as keep it on solveme_last_user answer for the
+   * answer (my_answer) as well as keep it on last_user_answer for the
    * check above */
-  var my_answer = solveme_last_user_answer = this.value;
+  var my_answer = question.dataset.lastUserAnswer = this.value;
   var real_answers = JSON.parse(this.dataset.answer);
   var cl = this.classList;
 
@@ -398,6 +396,11 @@ window.onload = function() {
     /* store random order of questions as well as current position */
     group.dataset.questionOrder   = questionOrder;
     group.dataset.currentPosition = currentPosition;
+
+    /* add initial 'lastUserAnswer' to each webex question */
+    questions.forEach(question => {
+        question.dataset.lastUserAnswer = "xxx";
+    });
 
     /* find all webex-question .row-buttons second column (div:last-chidld) and
      * add buttons for next/previous question */
