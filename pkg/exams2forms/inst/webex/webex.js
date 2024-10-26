@@ -13,6 +13,11 @@ const webex_buttons = {check_hidden:          "<b>&check;</b>",
                        question_previous:     "",
                        question_previous_alt: ""}
 
+/* variable to store the last checked answer input by the
+ * user after an onkeyup or onchange event; used to avoid
+ * to execute some functions twice although there has been
+ * no change by the user. (Re-)set in solveme_func */
+let solveme_last_user_answer = NaN;
 
 /* update total correct if #webex-total_correct exists */
 update_total_correct = function() {
@@ -58,59 +63,130 @@ solution_func = function() {
 
   if (cl.contains("visible")) {
     cl.remove("visible");
-    //this.innerHTML = "Show solution";
   } else {
     cl.add("visible");
-    //this.innerHTML = "Hide solution";
   }
+}
+
+/* function to check if the real answer is numeric */
+convert_to_numeric = function(x) {
+    if (typeof x == "string") {
+        /* do nothing */
+    } else if (x.length == 1) {
+        /* take first element */
+        x = x[0]
+    } else {
+        return NaN;
+    }
+
+    /* remove spaces for easier parsing */
+    x = x.replace(/\s/g, "");
+
+    /* Define patterns for different formats, note that spaces have been removed above */
+    const patterns = [
+        {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
+        {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
+        {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
+        {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+    ];
+
+    /* testing all regular expressions, convert to float if possible */
+    for (const { regex, decimal, thousand } of patterns) {
+        if (regex.test(x)) {
+            let numeric = x;
+            if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
+            numeric = numeric.replace(decimal, ".");
+            return parseFloat(numeric);
+        }
+    }
+    
+    /* input of length 1 but none of the known formats, return NaN */
+    return NaN;
 }
 
 /* function for checking solveme answers */
 solveme_func = function(e) {
+  /* avoid that keyup and keychange twice execute this function within nms = 10
+   * ms, clearing inputTimer and add timeout */
   console.log("webex: check solveme");
 
-  var real_answers = JSON.parse(this.dataset.answer);
-  var my_answer = this.value;
-  var cl = this.classList;
-  if (cl.contains("ignorecase")) {
-    my_answer = my_answer.toLowerCase();
-  }
-  if (cl.contains("nospaces")) {
-    my_answer = my_answer.replace(/ /g, "")
-  }
+  /* float, precision for checking numeric answers */
+  const eps = 0.00000000000001
 
+  /* empty answer? Job done */
   if (my_answer == "") {
     cl.remove("webex-correct");
     cl.remove("webex-incorrect");
-  } else if (real_answers.includes(my_answer)) {
-    cl.add("webex-correct");
-    cl.remove("webex-incorrect");
+    return false;
+  /* If not empty, check if most recent user answer and compare against last
+   * stored value to avoid double-execution of this function */
+  } else if (solveme_last_user_answer == this.value) {
+      return true;
+  }
+
+  /* "Else" we continue and store the latest answer by user on both the current
+   * answer (my_answer) as well as keep it on solveme_last_user answer for the
+   * check above */
+  var my_answer = solveme_last_user_answer = this.value;
+  var real_answers = JSON.parse(this.dataset.answer);
+  var cl = this.classList;
+
+  /* by default we assume the users' answer is incorrect */
+  var user_answer_correct = false;
+
+  /* check if the correct answer is numeric, i.e. if 
+   * real_answers is of length 1 containing one single numeric
+   * value in a known format, else, NaN is returned */
+  const num_real_answer = convert_to_numeric(real_answers);
+  const num_my_answer   = convert_to_numeric(my_answer);
+
+  /* if the correct answer is numeric (float), the user's answer
+   * must also be numeric. If not, it is wrong. Else we can
+   * compare floating point numbers */
+  if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
+    /* check if the real answer and the user input are numerically the same;
+     * adding 'delta' to avoid precision issues */
+    var diff = Math.abs(num_real_answer - num_my_answer);
+    if (diff < this.dataset.tol + eps) { user_answer_correct = true; }
+
+  /* else either the correct answer or the user answer is not numeric,
+   * so we need to compare both on 'sting level', considering the
+   * creators preferences regarding set options */
   } else {
-    cl.add("webex-incorrect");
-    cl.remove("webex-correct");
+    /* modify/prepare answer */
+    if (cl.contains("ignorecase")) {
+        my_answer = my_answer.toLowerCase();
+        alert("WARNING(reto): only user answer is set lowercase, not (yet) real answer - will fail");
+    }
+    if (cl.contains("nospaces")) {
+        my_answer = my_answer.replace(/ /g, "");
+        alert("WARNING(reto): only user answer ignores spaces, not 'real answer'");
+    }
+
+    /* if the real answer includes user input - correct */
+    if (real_answers.includes(my_answer)) {
+      user_answer_correct = true;
+  
+      // added regex bit
+      if (cl.contains("regex")) {
+        answer_regex = RegExp(real_answers.join("|"))
+        if (answer_regex.test(my_answer)) {
+          cl.add("webex-correct");
+        }
+      }
+    }
   }
 
-  // match numeric answers within a specified tolerance
-  if (this.dataset.tol > 0){
-    my_answer = my_answer.replace(/,/g, "."); //also allow decimal comma
-    var tol = JSON.parse(this.dataset.tol);
-    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol + 0.00000000000001)
-    if (matches.reduce((a, b) => a + b, 0) > 0) {
+  if (user_answer_correct) {
       cl.add("webex-correct");
-    } else {
+      cl.remove("webex-incorrect");
+  } else {
+      cl.add("webex-incorrect");
       cl.remove("webex-correct");
-    }
-  }
-
-  // added regex bit
-  if (cl.contains("regex")){
-    answer_regex = RegExp(real_answers.join("|"))
-    if (answer_regex.test(my_answer)) {
-      cl.add("webex-correct");
-    }
   }
 
   update_total_correct();
+
 }
 
 /* function for checking select answers */
@@ -226,13 +302,16 @@ window.onload = function() {
     spn.classList.add("webex-total_correct");
     div_col1.appendChild(spn);
 
-    /* button to show the _solution_ */
-    let btn_solution = document.createElement("button");
-    btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
-    btn_solution.setAttribute("class", "webex-button webex-button-solution");
-    if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
-    btn_solution.onclick = solution_func;
-    div_col2.appendChild(btn_solution);
+    /* button to show the _solution_ if there is one */
+    var has_solution = section.parentNode.querySelectorAll(".webex-solution").length > 0;
+    if (has_solution) {
+      let btn_solution = document.createElement("button");
+      btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
+      btn_solution.setAttribute("class", "webex-button webex-button-solution");
+      if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
+      btn_solution.onclick = solution_func;
+      div_col2.appendChild(btn_solution);
+    }
 
   });
 
@@ -254,7 +333,7 @@ window.onload = function() {
     }
 
     /* attach checking function */
-    solveme.onkeyup = solveme_func;
+    solveme.onkeyup  = solveme_func;
     solveme.onchange = solveme_func;
 
     /* adding span to show correct/incorrect icon */

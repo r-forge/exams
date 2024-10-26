@@ -6,8 +6,13 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
   answers <- gsub("\'", "&apos;", answers, fixed = TRUE)
 
   ## html format
-  html <- sprintf("<input class='webex-solveme%s%s%s' size='%s' data-answer='%s'/>",
-    if(!usespace) " nospaces" else "", if(!usecase) " ignorecase" else "", if(regex) " regex" else "", width, answers)
+  classes <- c()
+  if (!usespace) classes <- c(classes, "nospaces")
+  if (!usecase)  classes <- c(classes, "ignorecase")
+  if (regex)     classes <- c(classes, "regex")
+  html <- sprintf("<input class='webex-solveme%s' size='%s' data-answer='%s'/>",
+    if (length(classes) == 0) "" else paste0(" ", paste(classes, collapse = " ")),
+    width, answers)
 
   ## plain format
   plain <- paste(c("\\", rep.int("_", width)), collapse = "")
