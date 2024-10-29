@@ -13,6 +13,11 @@
   through a check box). Also scanner marks are found more reliably when
   the bottom margin is smaller than in the PDF from `exams2nops()`.
 
+* Improvement in `nops_eval(..., interactive = TRUE)`: If changes are made
+  in the `scans` or `string_scans` files, then the original files are
+  overwritten in the original directory rather than the working directory
+  (reported by Chat Wacharamanotham).
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is
