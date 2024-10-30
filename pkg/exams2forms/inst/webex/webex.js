@@ -152,7 +152,7 @@ solveme_func = function(e) {
    * to evaluate the users answer (only possible if length of answers is 1) */
   } else if (cl.contains("regex") && real_answers.length == 1) {
     //console.log("webex: evaluating answer using regular expression")
-    let regex = new RegExp(real_answers[0]);
+    let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
     if (regex.test(my_answer)) { user_answer_correct = true; }
 
   /* else we evaluate on 'string level', considering the creators preferences
