@@ -62,6 +62,7 @@
     border: 2px solid var(--highlight);
     background-color: white;
     border-radius: 0.25em;
+    max-width: 100%;
 }
 
 .webex-incorrect,
