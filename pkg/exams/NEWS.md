@@ -18,6 +18,13 @@
   overwritten in the original directory rather than the working directory
   (reported by Chat Wacharamanotham).
 
+* In `exsolution` the `|` can now not only be used as the separator symbol
+  for multiple solutions in a cloze exercise but additionally within the
+  solutions. This is useful for example when the answer string is a regular
+  expression. In this case the `|` has to be within round brackets, e.g.,
+  `exsolution: (OLS|ML)|01001`. This gets interpreted as two elements with
+  values `(OLS|ML)` and `01001`.
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is
