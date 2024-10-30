@@ -47,6 +47,8 @@
 }
 
 /* input elements require a visible border */
+.unchecked select.webex-incorrect,
+.unchecked select.webex-correct,
 .unchecked input.webex-incorrect,
 .unchecked input.webex-correct {
   border: 2px solid var(--highlight) !important;
