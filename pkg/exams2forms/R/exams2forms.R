@@ -5,15 +5,19 @@ exams2forms <- function(file, write = TRUE, check = TRUE, box = TRUE, solution =
                         dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
                         quiet = TRUE, resolution = 100, width = 4, height = 4,
                         svg = FALSE, converter = "pandoc-mathjax", base64 = NULL, ...,
-                        usespace = TRUE, usecase = TRUE, regex = FALSE) {
+                        usespace = TRUE, usecase = TRUE) {
 
   if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1])
   stopifnot("argument `usespace` must be logical TRUE or FALSE" = isTRUE(usespace) || isFALSE(usespace))
   if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1])
   stopifnot("argument `usecase` must be logical TRUE or FALSE" = isTRUE(usecase) || isFALSE(usecase))
+
+  ## TODO: Removed `regex` option from official arguments list but can
+  ##       be specified for testing purposes.
+  args <- list(...)
+  regex <- if ("regex" %in% names(args)) as.logical(args$regex)[1L] else FALSE
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
-
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")

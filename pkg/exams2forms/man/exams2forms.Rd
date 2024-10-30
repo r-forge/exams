@@ -17,7 +17,7 @@ exams2forms(file,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, \dots,
-  usecase = TRUE, usespace = TRUE, regex = FALSE)
+  usecase = TRUE, usespace = TRUE)
 }
 
 \arguments{
@@ -76,8 +76,6 @@ exams2forms(file,
       If \code{FALSE} spaces are ignored when evaluating correct answers.}
   \item{usecase}{logical. Defaults to \code{TRUE}, only used for string questions.
       If \code{FALSE} answers are evaluated ignoring uppercase/lowercase.}
-  \item{regex}{logical. Defaults to \code{FALSE}, only used for string questions.
-      If \code{TRUE} the arguments \code{usespace} and \code{usecase} are ignored.}
 }
 
 \details{

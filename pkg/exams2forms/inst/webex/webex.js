@@ -142,7 +142,7 @@ solveme_func = function(e) {
    * must also be numeric. If not, it is wrong. Else we can
    * compare floating point numbers */
   if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
-    console.log("webex: evaluating numeric answer")
+    //console.log("webex: evaluating numeric answer")
     /* check if the real answer and the user input are numerically the same;
      * adding 'delta' to avoid precision issues */
     var diff = Math.abs(num_real_answer - num_my_answer);
@@ -151,14 +151,14 @@ solveme_func = function(e) {
   /* if the question contains regex, a regular expression is used
    * to evaluate the users answer (only possible if length of answers is 1) */
   } else if (cl.contains("regex") && real_answers.length == 1) {
-    console.log("webex: evaluating answer using regular expression")
+    //console.log("webex: evaluating answer using regular expression")
     let regex = new RegExp(real_answers[0]);
     if (regex.test(my_answer)) { user_answer_correct = true; }
 
   /* else we evaluate on 'string level', considering the creators preferences
    * regarding set options */
   } else {
-    console.log("webex: evaluating string answer")
+    //console.log("webex: evaluating string answer")
     /* modify/prepare answer */
     if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
     if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
