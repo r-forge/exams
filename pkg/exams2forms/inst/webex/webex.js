@@ -142,11 +142,11 @@ solveme_func = function(e) {
    * must also be numeric. If not, it is wrong. Else we can
    * compare floating point numbers */
   if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
-    //console.log("webex: evaluating numeric answer")
+    //DEV// console.log("webex: evaluating numeric answer")
     /* check if the real answer and the user input are numerically the same;
      * adding 'delta' to avoid precision issues */
     var diff = Math.abs(num_real_answer - num_my_answer);
-    if (diff < this.dataset.tol + eps) { user_answer_correct = true; }
+    if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
 
   /* if the question contains regex, a regular expression is used
    * to evaluate the users answer (only possible if length of answers is 1) */
