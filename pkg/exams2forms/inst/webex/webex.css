@@ -62,26 +62,30 @@
     border: 2px solid var(--highlight);
     background-color: white;
     border-radius: 0.25em;
-    max-width: 100%;
+    max-width: 90%;
 }
 
+.webex-incorrect, .webex-checkboxgroup, .webex-solveme. .webex-radiogroup {
+    color: black;
+    border-radius: 0.25em;
+}
+.webex-checkboxgroup {    
+    margin-bottom: 1em;
+}   
+  
 .webex-incorrect,
 .webex-checkboxgroup > .webex-incorrect,
 .webex-solveme.webex-incorrect,
 .webex-radiogroup > .webex-incorrect {
     border: 2px solid var(--incorrect);
     background-color: var(--incorrect_alpha);
-    color: black;
-    border-radius: 0.25em;
 }
-.webex-correct,
+.webex-correct,  
 .webex-checkboxgroup > .webex-correct,
 .webex-solveme.webex-correct,
 .webex-radiogroup >.webex-correct {
     border: 2px solid var(--correct);
     background-color: var(--correct_alpha);
-    color: black;
-    border-radius: 0.25em;
 }
 
 .unchecked .webex-incorrect > span::after,
@@ -121,6 +125,25 @@
     padding-left: 2em;
 }
 
+/* webex button list styling */
+ul.webex-button-list {
+    display: flex;
+    width: 100%;
+    list-style: none;
+    padding: 0 !important; /* !important for bookdown::gitbook: */
+    margin: 0 !important; /* !important for bookdown::gitbook: */
+}
+ul.webex-button-list > li {
+    padding: 0;
+}
+ul.webex-button-list > li {
+    margin-bottom: 0 !important; /* !important for bookdown */
+}
+ul.webex-button-list > li:first-child {
+    margin-right: auto;
+    margin-top: 0; /* for bookdown bs4_book */
+}
+
 .webex-solution button,
 .webex-box .webex-button {
     height: 2em;
@@ -137,11 +160,11 @@
 .webex-button:hover {
     background-color: var(--highlight_alpha);
 }
-.webex-button:last-child {
-    margin-right: 0;
-}
 .webex-solution pre.sourceCode {
     border-color: var(--correct);
+}
+ul.webex-button-list > li:last-child > .webex-button { 
+    margin-right: 0;
 }
 
 /* invisible border to keep dimensions when not highlighted */
@@ -173,15 +196,15 @@
  * has no specific class, thus we must rely on the nesting
  * .webex-box > ul.
  */
-.webex-box > ul {
+.webex-box > ul:not(.webex-button-list) {
     list-style: none;
     margin: 0;
     padding: 0 0 1em 0.25em;
 }
-.webex-box > ul > li {
+.webex-box > ul:not(.webex-button-list) > li {
     margin: 0 0 0.25em 0;
 }
-.webex-box > ul > li > select {
+.webex-box > ul:not(.webex-button-list) > li > select {
     margin: 0 0.5em 0 0;
 }
 

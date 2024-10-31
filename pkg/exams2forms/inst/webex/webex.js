@@ -276,41 +276,37 @@ window.onload = function() {
   document.querySelectorAll(".webex-check").forEach(section => {
     section.classList.add("unchecked");
 
-    /* bootstrap 3x grid */
-    let div_row = document.createElement("div");
-    div_row.setAttribute("class", "row row-buttons");
-    let div_col1 = document.createElement("div");
-    div_col1.setAttribute("class", "col-xs-6 text-left");
-    let div_col2 = document.createElement("div");
-    div_col2.setAttribute("class", "col-xs-6 text-right");
+    /* ul to take up the list items with buttons */
+    let button_ul = document.createElement("ul");
+    button_ul.setAttribute("class", "webex-button-list");
+    section.appendChild(button_ul);
 
-    /* appending columns to row, insert into 'section' */
-    div_row.appendChild(div_col1);
-    div_row.appendChild(div_col2);
-    section.appendChild(div_row);
-      
     /* button to _check_ if answers given are correct */
+    let li_check = document.createElement("li");
+    button_ul.appendChild(li_check); /* add list item to ul */
     let btn_check = document.createElement("button");
     btn_check.innerHTML = webex_buttons.check_hidden;  // "Check answer";
     btn_check.setAttribute("class", "webex-button webex-button-check");
     if (webex_buttons.check_hidden_alt.length > 0) btn_check.setAttribute("title", webex_buttons.check_hidden_alt);
     btn_check.onclick = check_func;
-    div_col1.appendChild(btn_check);
+    li_check.appendChild(btn_check);
 
     /* span to show current number of points (when _check_ active) */
     let spn = document.createElement("span");
     spn.classList.add("webex-total_correct");
-    div_col1.appendChild(spn);
+    li_check.appendChild(spn);
 
     /* button to show the _solution_ if there is one */
     var has_solution = section.parentNode.querySelectorAll(".webex-solution").length > 0;
     if (has_solution) {
+      let li_solution = document.createElement("li");
+      button_ul.appendChild(li_solution); /* add list item to ul */
       let btn_solution = document.createElement("button");
       btn_solution.innerHTML = webex_buttons.solution; // "Correct answer";
       btn_solution.setAttribute("class", "webex-button webex-button-solution");
       if (webex_buttons.solution_alt.length > 0) btn_solution.setAttribute("title", webex_buttons.solution_alt);
       btn_solution.onclick = solution_func;
-      div_col2.appendChild(btn_solution);
+      li_solution.appendChild(btn_solution);
     }
 
   });
@@ -407,28 +403,33 @@ window.onload = function() {
 
     /* add initial 'lastUserAnswer' to each webex question */
     questions.forEach(question => {
-        question.dataset.lastUserAnswer = "xxx";
+        question.dataset.lastUserAnswer = "<!-- dummy answer -->";
     });
 
-    /* find all webex-question .row-buttons second column (div:last-chidld) and
-     * add buttons for next/previous question */
+    /* find all webex-questions, search for .webex-button-list and
+     * populate the list with necessary <li><button>...</button></li> elements */
     questions.forEach(question => {
-        let div_col2 = question.querySelector(".row-buttons div:last-child");
+        let button_ul = question.querySelector("ul.webex-button-list");
 
+        let li_next = document.createElement("li");
         let nextButton = document.createElement("button");
         nextButton.setAttribute("class", "webex-button webex-button-next");
         if (webex_buttons.question_next_alt.length > 0) nextButton.setAttribute("title", webex_buttons.question_next_alt);
         nextButton.innerHTML = webex_buttons.question_next; // "Next question";
         nextButton.addEventListener("click", handleQuestionClick(group, questions, 1));
+        li_next.appendChild(nextButton);
 
+        let li_previous = document.createElement("li");
         let previousButton = document.createElement("button");
         previousButton.setAttribute("class", "webex-button webex-button-previous");
         if (webex_buttons.question_previous_alt.length > 0) previousButton.setAttribute("title", webex_buttons.question_previous_alt);
         previousButton.innerHTML = webex_buttons.question_previous; // "Previous question";
         previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
+        li_previous.appendChild(previousButton);
 
-        if (webex_buttons.question_previous.length > 0) div_col2.appendChild(previousButton);
-        if (webex_buttons.question_next.length > 0) div_col2.appendChild(nextButton);
+        console.log(button_ul);
+        if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
+        if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
     });
   });
 
