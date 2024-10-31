@@ -118,24 +118,13 @@ is_html_output <- function() {
 
 
 ## start/end for solution boxes
-solutionbox_start <- function(title = NULL, quarto = NULL) {
-  quarto <- is.null(getOption("knitr.in.progress"))
-  if (quarto) {
-    title <- if(is.null(title)) "\n" else sprintf("## %s\n\n", title)
-    paste0("\n::: {.callout-note collapse='true'}\n", title)
-  } else {
-    title <- if(is.null(title)) "" else sprintf("<h4>%s</h4>", title)
-    paste0("\n<div class='webex-solution'>\n", title)
-  }
+solutionbox_start <- function(title = NULL) {
+  title <- if(is.null(title) || nchar(title) < 1L) "" else sprintf("#### %s", title)
+  paste0("\n::: {.webex-solution}\n", title)
 }
 
-solutionbox_end <- function(quarto = NULL) {
-  quarto <- is.null(getOption("knitr.in.progress"))
-  if (quarto) {
-    "\n:::\n\n"
-  } else {
-    "\n</div>\n"
-  }
+solutionbox_end <- function() {
+  "\n:::\n\n"
 }
 
 
