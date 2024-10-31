@@ -1,4 +1,4 @@
-forms_string <- function(answer, width = NULL, usespace = FALSE, usecase = TRUE, regex = FALSE) {
+forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE) {
   ## answer processing
   answer <- as.character(unlist(answer))
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
@@ -7,8 +7,8 @@ forms_string <- function(answer, width = NULL, usespace = FALSE, usecase = TRUE,
 
   ## html format
   classes <- c()
-  if (!usespace) classes <- c(classes, "nospaces")
   if (!usecase)  classes <- c(classes, "ignorecase")
+  if (!usespace) classes <- c(classes, "nospaces")
   if (regex)     classes <- c(classes, "regex")
   html <- sprintf("<input class='webex-solveme%s' size='%s' data-answer='%s'/>",
     if (length(classes) == 0) "" else paste0(" ", paste(classes, collapse = " ")),

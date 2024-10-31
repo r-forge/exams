@@ -1,16 +1,13 @@
-exams2forms <- function(file, write = TRUE, check = TRUE, box = TRUE, solution = TRUE,
-                        nchar = c(20, 100), schoice_display = "buttons",
-                        mchoice_display = "buttons", cloze_schoice_display = "dropdown",
-                        cloze_mchoice_display = mchoice_display, n = 1L, nsamp = NULL,
-                        dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
-                        quiet = TRUE, resolution = 100, width = 4, height = 4,
-                        svg = FALSE, converter = "pandoc-mathjax", base64 = NULL, ...,
-                        usespace = TRUE, usecase = TRUE) {
+exams2forms <- function(file,
+  write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
+  schoice_display = "buttons", mchoice_display = "buttons", cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
+  usecase = TRUE, usespace = TRUE,
+  n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
+  quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
+  converter = "pandoc-mathjax", base64 = NULL, ...) {
 
-  if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1])
-  stopifnot("argument `usespace` must be logical TRUE or FALSE" = isTRUE(usespace) || isFALSE(usespace))
-  if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1])
-  stopifnot("argument `usecase` must be logical TRUE or FALSE" = isTRUE(usecase) || isFALSE(usecase))
+  if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1L])
+  if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1L])
 
   ## TODO: Removed `regex` option from official arguments list but can
   ##       be specified for testing purposes.
@@ -62,7 +59,7 @@ exams2forms <- function(file, write = TRUE, check = TRUE, box = TRUE, solution =
       "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
-                               ..., usespace = usespace, usecase = usecase, regex = regex),
+                    usecase = usecase, usespace = usespace, regex = regex, ...),
       character(0))
     
     ## for cloze: embed forms directly

@@ -14,10 +14,10 @@ exams2forms(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
   schoice_display = "buttons", mchoice_display = "buttons",
   cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
+  usecase = TRUE, usespace = TRUE,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, \dots,
-  usecase = TRUE, usespace = TRUE)
+  converter = "pandoc-mathjax", base64 = NULL, \dots)
 }
 
 \arguments{
@@ -42,6 +42,10 @@ exams2forms(file,
     items and for multiple-choice interactions within cloze items. Only
     for single-choice interactions within cloze items, the default is
     to use drop-down menus.}
+  \item{usespace}{logical. Defaults to \code{TRUE}, only used for string questions.
+      If \code{FALSE} spaces are ignored when evaluating correct answers.}
+  \item{usecase}{logical. Defaults to \code{TRUE}, only used for string questions.
+      If \code{FALSE} answers are evaluated ignoring uppercase/lowercase.}
   \item{n}{integer. The number of copies to be taken from \code{file}.}
   \item{nsamp}{integer. The number(s) of exercise files sampled from each
     list element of \code{file}. Sampling without replacement is used
@@ -72,10 +76,6 @@ exams2forms(file,
     Passed on to \code{\link[exams]{make_exercise_transform_pandoc}}.
     The default is to enable Base 64 when an HTML-type document is produced.}
   \item{\dots}{currently not used.}
-  \item{usespace}{logical. Defaults to \code{TRUE}, only used for string questions.
-      If \code{FALSE} spaces are ignored when evaluating correct answers.}
-  \item{usecase}{logical. Defaults to \code{TRUE}, only used for string questions.
-      If \code{FALSE} answers are evaluated ignoring uppercase/lowercase.}
 }
 
 \details{
