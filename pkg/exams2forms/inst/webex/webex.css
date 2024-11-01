@@ -128,6 +128,7 @@
 /* webex button list styling */
 ul.webex-button-list {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     list-style: none;
     padding: 0 !important; /* !important for bookdown::gitbook: */
@@ -156,6 +157,7 @@ ul.webex-button-list > li:first-child {
     color: var(--highlight);
     padding: 0 0.5em;
     font-size: 1.2em;
+    white-space: nowrap;
 }
 .webex-button:hover {
     background-color: var(--highlight_alpha);
