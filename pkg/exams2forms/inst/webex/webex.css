@@ -11,13 +11,14 @@
   --text_input: black;
 }
 
-/* for quarto websites when using dark theme */
-:root .quarto-dark {
+/* for quarto websites when using dark theme and
+ * for bookdown::gitbook: dark theme (.color-theme-2) */
+:root .quarto-dark, :root .color-theme-2 {
   --highlight: #5687B9;
   --background_input: black;
   --text_input: white;
 }
-/* Wishlist: Adding a default 'dark' behavior for bookdown pages */
+/* Wishlist: Adding styling for .color-theme-1 (sepia; gitbook) */
 
 /*---------------------ADDED-----------------------------*/
 
