@@ -109,25 +109,20 @@ solveme_func = function(e) {
 
   /* get last checked user answer */
   const question = this.closest(".webex-question")
-  var last_user_answer = question.dataset.lastUserAnswer;
+
+  /* extracting classes */
+  var cl = this.classList;
+  var my_answer = this.value;
 
   /* empty answer? Job done */
   if (my_answer == "") {
     cl.remove("webex-correct");
     cl.remove("webex-incorrect");
     return false;
-  /* If not empty, check if most recent user answer and compare against last
-   * stored value to avoid double-execution of this function */
-  } else if (!last_user_answer === undefined || last_user_answer == this.value) {
-      return true;
   }
 
-  /* "Else" we continue and store the latest answer by user on both the current
-   * answer (my_answer) as well as keep it on last_user_answer for the
-   * check above */
-  var my_answer = question.dataset.lastUserAnswer = this.value;
+  /* "Else" we continue evaluating the answer */
   var real_answers = JSON.parse(this.dataset.answer);
-  var cl = this.classList;
 
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;
@@ -400,11 +395,6 @@ window.onload = function() {
     /* store random order of questions as well as current position */
     group.dataset.questionOrder   = questionOrder;
     group.dataset.currentPosition = currentPosition;
-
-    /* add initial 'lastUserAnswer' to each webex question */
-    questions.forEach(question => {
-        question.dataset.lastUserAnswer = "<!-- dummy answer -->";
-    });
 
     /* find all webex-questions, search for .webex-button-list and
      * populate the list with necessary <li><button>...</button></li> elements */

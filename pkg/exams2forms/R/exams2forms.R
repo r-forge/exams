@@ -138,6 +138,11 @@ exams2forms <- function(file,
       write = NULL),
   )
 
+  ## adding required .webex-group container around each exercise
+  for(j in seq_along(rval)) {
+    rval[[j]] <- lapply(rval[[j]], function(x) c("::: {.webex-question}", x, ":::"))
+  }
+
   ## Wishlist:
   ## - For multiple exercises in the same exam: Optionally include enumerated list?
   if(write) {
@@ -145,11 +150,7 @@ exams2forms <- function(file,
     n_exercises <- length(rval[[1L]])
     for(i in 1L:n_exercises) {
       if(n_exams > 1L) writeLines("::: {.webex-group}")
-      for(j in 1L:n_exams) {
-        writeLines("::: {.webex-question}")
-        writeLines(rval[[j]][[i]])
-        writeLines(":::")
-      }
+      for(j in 1L:n_exams) writeLines(rval[[j]][[i]])
       if(n_exams > 1L) writeLines(":::")
     }
   }
