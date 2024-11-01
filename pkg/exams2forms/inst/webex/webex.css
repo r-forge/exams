@@ -5,8 +5,19 @@
   --correct_alpha: #c0edc2;
   --highlight: #467AAC;
   --highlight_alpha: #D1E4FF;
-  --highlightgray: #C3C3C3;
+  --highlight_gray: #C3C3C3;
+  --background_question: #7f7f7f0d;
+  --background_input: white;
+  --text_input: black;
 }
+
+/* for quarto websites when using dark theme */
+:root .quarto-dark {
+  --highlight: #5687B9;
+  --background_input: black;
+  --text_input: white;
+}
+/* Wishlist: Adding a default 'dark' behavior for bookdown pages */
 
 /*---------------------ADDED-----------------------------*/
 
@@ -29,7 +40,7 @@
   padding: 0.5em;
   margin: 1em 0;
   border-radius: .25em;
-  background-color: rgba(127, 127, 127, 0.05);
+  background-color: var(--background_question);
 }
 
 .webex-total_correct {
@@ -52,21 +63,23 @@
 .unchecked input.webex-incorrect,
 .unchecked input.webex-correct {
   border: 2px solid var(--highlight) !important;
-  background-color: white !important;
+  background-color: var(--background_input) !important;
+  color: var(--text_input) !important;
 }
 
 /* styles for webex-solveme */
 .webex-select, .webex-solveme,
 .unchecked .webex-radiogroup > .webex-incorrect,
 .unchecked .webex-radiogroup > .webex-correct{
-    border: 2px solid var(--highlight);
-    background-color: white;
-    border-radius: 0.25em;
-    max-width: 90%;
+  border: 2px solid var(--highlight);
+  background-color: var(--background_input);
+  color: var(--text_input) !important;
+  border-radius: 0.25em;
+  max-width: 90%;
 }
 
 .webex-incorrect, .webex-checkboxgroup, .webex-solveme. .webex-radiogroup {
-    color: black;
+    /* DEPRICATED color: black; */
     border-radius: 0.25em;
 }
 .webex-checkboxgroup {    
@@ -115,7 +128,7 @@
     display: none;
     padding: 0.5em;
     margin-bottom: 10px;
-    border: 2px solid var(--highlightgray);
+    border: 2px solid var(--highlight_gray);
     border-radius: 5px;
 }
 .webex-solution.visible {
@@ -175,7 +188,7 @@ ul.webex-button-list > li:last-child > .webex-button {
 .webex-radiogroup label {
   font-weight: 400;
   display: block;
-  border: 2px solid rgba(255, 255, 255, 0);
+  border: 2px solid transparent;
   background-color: inherit;
   border-radius: 0.25em;
 }
