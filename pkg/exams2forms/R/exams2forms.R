@@ -59,7 +59,7 @@ exams2forms <- function(file,
       "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
-                    usecase = usecase, usespace = usespace, regex = regex, ...),
+                    usecase = usecase, usespace = usespace, regex = regex),
       character(0))
     
     ## for cloze: embed forms directly
@@ -76,7 +76,7 @@ exams2forms <- function(file,
           "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_mchoice_display),
           "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
           forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))),
-                       ..., usespace = usespace, usecase = usecase, regex = regex)
+                       usespace = usespace, usecase = usecase, regex = regex)
         )
         aj <- paste0("##ANSWER", j, "##")
         if(any(grepl(aj, x$question, fixed = TRUE))) {
@@ -135,7 +135,7 @@ exams2forms <- function(file,
       sweave = list(quiet = quiet, pdf = FALSE, png = !svg, svg = svg, resolution = resolution, width = width, height = height, encoding = "UTF-8"),
       read = NULL,
       transform = formstrafo,
-      write = NULL),
+      write = NULL)
   )
 
   ## adding required .webex-group container around each exercise
