@@ -96,7 +96,7 @@ exams2forms <- function(file,
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)
     solution_title <- if(identical(solution, TRUE)) "" else as.character(solution)
     solution <- if(try_solution && (!is.null(x$solution) || !is.null(x$solutionlist))) {
-      c(if(!is.null(solution_title) && nchar(solution_title) >= 1L) sprintf("#### %s", solution_title)
+      c(if(!is.null(solution_title) && nchar(solution_title) >= 1L) sprintf("#### %s", solution_title),
         "::: {.webex-solution}",
         "",
         x$solution,
@@ -112,7 +112,8 @@ exams2forms <- function(file,
       NULL
     }
 
-    txt <- c(question, solution, "")
+    ## adding required .webex-question container around each exercise
+    txt <- c("::: {.webex-question}", question, solution, "", ":::")
     
     ## fix paths to supplements (if any) and try to make them local to be portable in rmarkdown/quarto output
     if(!is.null(sdir)) sdir <- paste0(sdir, if(substr(sdir, nchar(sdir), nchar(sdir)) == "/") "" else "/", "exam")
@@ -139,11 +140,6 @@ exams2forms <- function(file,
       transform = formstrafo,
       write = NULL)
   )
-
-  ## adding required .webex-group container around each exercise
-  for(j in seq_along(rval)) {
-    rval[[j]] <- lapply(rval[[j]], function(x) c("::: {.webex-question}", x, ":::"))
-  }
 
   ## Wishlist:
   ## - For multiple exercises in the same exam: Optionally include enumerated list?
