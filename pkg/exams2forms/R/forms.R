@@ -117,17 +117,6 @@ is_html_output <- function() {
 }
 
 
-## start/end for solution boxes
-solutionbox_start <- function(title = NULL) {
-  title <- if(is.null(title) || nchar(title) < 1L) "" else sprintf("#### %s", title)
-  paste0("\n::: {.webex-solution}\n", title)
-}
-
-solutionbox_end <- function() {
-  "\n:::\n\n"
-}
-
-
 ## naive JSON encoder for single character strings
 json_string <- function(x) sprintf('["%s"]', gsub('"', '\\"', x, fixed = TRUE))
 

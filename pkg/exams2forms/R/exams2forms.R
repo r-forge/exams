@@ -96,7 +96,8 @@ exams2forms <- function(file,
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)
     solution_title <- if(identical(solution, TRUE)) "" else as.character(solution)
     solution <- if(try_solution && (!is.null(x$solution) || !is.null(x$solutionlist))) {
-      c(solutionbox_start(solution_title),
+      c(if(!is.null(solution_title) && nchar(solution_title) >= 1L) sprintf("#### %s", solution_title)
+        "::: {.webex-solution}",
         "",
         x$solution,
         if(!is.null(x$solutionlist)) c(
@@ -104,7 +105,8 @@ exams2forms <- function(file,
           paste("*", x$solutionlist)
         ),
         "",
-        solutionbox_end()
+        ":::",
+        ""
       )
     } else {
       NULL
