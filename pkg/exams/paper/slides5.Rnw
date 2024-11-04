@@ -1,5 +1,7 @@
 \documentclass[11pt,t,usepdftitle=false,aspectratio=169]{beamer}
 \usetheme[nototalframenumber,nosectiontitlepage,logo,license]{rexams}
+\usepackage{fontawesome5}
+\usepackage[bb=boondox,cal=boondoxo]{mathalfa}
 
 \setlength{\fboxsep}{0pt}
 \setlength{\fboxrule}{0.1pt}
@@ -89,7 +91,7 @@ set.seed(2023-03-29)
 
 \textbf{Structure:} Mandatory.
 \begin{itemize}
-  \item 2-hour lecture (VO), 500+ participants.
+  \item 2-hour lecture (VO), about 700 participants.
   \item 2-hour tutorial (PS), up to 40 participants per tutorial.
 \end{itemize}
 
@@ -98,7 +100,7 @@ set.seed(2023-03-29)
 
 \textbf{Weekly schedule:}
 \begin{itemize}
-  \item \emph{Learning:} Textbook (soon online), screencasts, slides.
+  \item \emph{Learning:} Online textbook, screencasts, slides.
   \item \emph{Flipped classroom:} Overview, questions \& answers in lecture session.
   \item \emph{Formative assessment:} Numeric online test, several days, support in forum.
   \item \emph{Feedback:} Discussion of more complex exercises in tutorial session.
@@ -172,7 +174,7 @@ set.seed(2023-03-29)
   \item \pkg{Moodle} XML.
   \item QTI XML standard (version 1.2 or 2.1), e.g., for \pkg{Canvas}, \pkg{OpenOlat}, \pkg{ILIAS}.
   \item \pkg{Blackboard} (partially based on QTI 1.2)
-  \item \pkg{learnr}, \pkg{Particify}, \pkg{LOPS}, \dots
+  \item \pkg{learnr}, \pkg{Particify}, \dots
 \end{itemize}
 
 \bigskip
@@ -666,8 +668,8 @@ myexam <- list(
 
 \textbf{Online test:}
 
-<<exams2openolat, eval=FALSE>>=
-exams2openolat(myexam, n = 10, dir = odir)
+<<exams2moodle, eval=FALSE>>=
+exams2moodle(myexam, n = 10, dir = odir)
 @
 
 \textbf{Live quiz:}
@@ -695,7 +697,7 @@ file.copy(file.path(odir, "nops1.pdf"), "slides5-nops1.pdf")
 
 \bigskip
 
-\textbf{Other:} \code{exams2pdf()}, \code{exams2html()}, \code{exams2moodle()}, \code{exams2canvas()}, \dots
+\textbf{Other:} \code{exams2pdf()}, \code{exams2html()}, \code{exams2canvas()}, \code{exams2forms::exams2webquiz()}, \dots
 
 
 
@@ -920,6 +922,7 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 \begin{itemize}
   \item Scan exam sheets, e.g., on a photocopier.
   \item Using \texttt{nops\_scan()}, process the scanned exam sheets to machine-readable content.
+  \item In case of problems in the scans, correct with \texttt{nops\_fix()}.
 \end{itemize}
 \end{minipage}
 
@@ -932,7 +935,7 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 \begin{minipage}[t]{0.57\textwidth}
 \textbf{5.~Evaluate}
 \begin{itemize}
-  \item Using \texttt{nops\_eval()}, evaluate the exam to obtain marks, points, etc. and individual HTML reports for each examinee.
+  \item Using \texttt{nops\_eval()}, evaluate the exam to obtain grades, points, etc. and individual HTML reports for each examinee.
   \item Required files: Correct answers (1.), scans (4.), and a participant list in CSV format.
 \end{itemize}
 \end{minipage}
@@ -1010,33 +1013,9 @@ if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
 \begin{frame}[fragile]
 \frametitle{Getting started}
 
-\textbf{First steps:} Create exams skeleton.
-
-\medskip
-
-<<eval=FALSE>>=
-exams_skeleton()
-@
+\textbf{First steps:} \url{https://www.R-exams.org/tutorials/first_steps/}
 
 \bigskip
-
-\textbf{Output:}
-\begin{itemize}
-  \item \code{demo-*.R} scripts.
-  \item \code{exercises/} folder with all \code{.Rmd}/\code{.Rnw} exercises.
-  \item \code{templates/} folder with various customizable templates.
-  \item \code{nops/} folder (empty) for \code{exams2nops()} output.
-\end{itemize}
-
-\bigskip
-
-\textbf{More details:} \url{https://www.R-exams.org/tutorials/first_steps/}
-
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Getting started}
 
 \textbf{Quality control:} Stress testing.
 \begin{itemize}
@@ -1067,15 +1046,15 @@ Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Sato, S
 
 \textbf{Links:}
 
-\smallskip
+\medskip
 
 \begin{tabular}{ll}
-  Web           & \url{https://www.R-exams.org/} \\
-  CRAN          & \url{https://CRAN.R-project.org/package=exams} \\
-  StackOverflow & \url{https://stackoverflow.com/questions/tagged/r-exams} \\
-  Forum         & \url{https://R-Forge.R-project.org/forum/?group_id=1337} \\
-  Mastodon      & \href{https://fosstodon.org/@zeileis}{@zeileis@fosstodon.org} \\
-  Twitter       & \href{https://twitter.com/AchimZeileis}{@AchimZeileis}
+  \faIcon{globe}             & \url{https://www.R-exams.org/} \\[0.1cm]
+  \faIcon{r-project}         & \url{https://CRAN.R-project.org/package=exams} \\[0.1cm]
+  \faIcon{stack-overflow}    & \url{https://stackoverflow.com/questions/tagged/r-exams} \\[0.1cm]
+  \faIcon[regular]{comments} & \url{https://R-Forge.R-project.org/forum/?group_id=1337} \\[0.1cm]
+  \faIcon{mastodon}          & \href{https://fosstodon.org/@zeileis}{@zeileis@fosstodon.org} \\[0.1cm]
+  {\large $\mathbb{X}$}      & \href{https://x.com/AchimZeileis}{@AchimZeileis}
 \end{tabular}
 
 \end{frame}
