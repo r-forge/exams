@@ -1,0 +1,205 @@
+---
+layout: page
+#
+# Content
+#
+title: "Embedding R/exams Exercises as Forms in R/Markdown or Quarto Documents"
+teaser: "Introduction to the new exams2forms package for including quizzes or individual questions from dynamic exercise templates into rmarkdown or quarto documents, e.g., for self-paced learning and self-assessment."
+categories:
+  - tutorials
+tags:
+  - webexercises
+  - tutorial
+  - e-learning
+  - R
+author: zeileis
+
+mathjax: true
+webex: true
+
+#
+# Style
+#
+image:
+  # shown on top of blog post
+  title: exams2forms.title.png
+  # preview in list of posts
+  thumb: exams2forms.300.png
+  # shown on landing page
+  # homepage:
+  # shown under image on top of blog post
+  caption: "R/exams + rmarkdown + quarto logos (CC-BY-SA)."
+---
+
+```{r setup}
+#| include: false
+library("exams2forms")
+set.seed(403)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  message = FALSE,
+  warning = FALSE,
+  echo = TRUE
+)
+knitr::opts_knit$set(
+  out.format = NULL,
+  rmarkdown.pandoc.to = NULL
+)
+```
+
+## Overview
+
+The package [exams2forms](https://CRAN.R-project.org/package=exams2forms) provides several building blocks for embedding exercises written with the R package [exams]({{ site.url }}) (also known as R/exams) in interactive documents or quizzes written with [rmarkdown](https://rmarkdown.rstudio.com/) or [quarto](https://quarto.org/).
+
+The idea is that the [dynamic exercises]({{ site.url }}/intro/dynamic/) in R/exams' Rmd (R/Markdown) or Rnw (R/LaTeX) format can also be reused in HTML documents, web pages, or online books. This facilitates their use for self-paced learning and self-assessment without the need for a learning management system etc. And for (summative) assessments the same dynamic exercises could then be exported to different [learning management systems]({{ site.url }}/intro/elearning/) or employed in [written exams]({{ site.url }}/intro/written/).
+
+All R/exams exercise types are supported:
+
+- Single-choice (schoice).
+- Multiple-choice (mchoice).
+- Numeric (num).
+- Text (string).
+- Cloze combining all of the previous elements (cloze).
+
+Many of the ideas as well as the code in the package have been adapted from the [webexercises](https://psyteachr.github.io/webexercises/) package, authored by Dale Barr and Lisa DeBruine.
+
+
+## First examples
+
+As quick demonstration for R/exams exercises embedded into an HTML document, the two examples from the [First Steps]({{ site.url }}/tutorials/first_steps/) tutorial are included below: The single-choice exercise [swisscapital]({{ site.url }}/templates/swisscapital/) and the numeric exercise [deriv]({{ site.url }}/templates/deriv/), both in three random variations.
+
+```{r first-steps}
+#| echo: false
+#| results: "asis"
+library("exams2forms")
+md <- exams2forms(c("swisscapital.Rmd", "deriv.Rmd"), n = 3, write = FALSE)
+md <- gsub("></input>", "/>", do.call("c", md), fixed = TRUE)
+writeLines(exams:::pandoc(md, from = "markdown", to = "html", options = c("--mathjax", "--wrap=none")))
+```
+
+In addition to the question and the interaction element, there are three buttons providing the following functionality.
+
+| Button          | Function                                                                                                                                                                       |
+|:---------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <b>&#10003;</b> | Check the answer and display whether it is correct or not. When clicked, the symbol is toggled and <b>&#8624;</b> is displayed, which can be clicked to hide the solution again. |
+| <b>&#63;</b>    | Display the full correct solution explanation.                                                                                                                                 |
+| <b>&#8634;</b>  | Switch to the next question.                                                                                                                                                   |
+
+Inclusion of the solution explanation is optional and the next question button is only displayed if there is more than one random variation of a question. The icons and mouseover text can also be adapted (see below).
+
+To set up a similar standalone file with these two exercises, the `exams2qebquiz()` interface from the `exams2forms` package can be used:
+
+```{r first-steps-webquiz}
+#| eval: false
+library("exams2forms")
+exams2webquiz(c("swisscapital.Rmd", "deriv.Rmd"), n = 3)
+```
+
+
+## More elaborate examples
+
+To showcase some more exercise types, the following examples from the R/exams package are used: [capitals]({{ site.url }}/templates/capitals/) (multiple-choice), [function]({{ site.url }}/templates/function/) (string/text), [fruit]({{ site.url }}/templates/fruit/) (numeric with table and images), [lm2]({{ site.url }}/templates/lm2/) (cloze containing string, multiple-choice, numeric, and single-choice elements as well as an embedded data file).
+
+```{r more-examples}
+#| echo: false
+#| results: "asis"
+md <- exams2forms(c("capitals.Rmd", "function.Rmd", "fruit.Rmd", "lm2.Rmd"), write = FALSE, base64 = FALSE)
+md <- gsub("></input>", "/>", do.call("c", md), fixed = TRUE)
+md <- exams:::pandoc(md, from = "markdown", to = "html", options = c("--mathjax", "--wrap=none"))
+for(f in c("linreg.csv", "banana.png", "orange.png", "pineapple.png")) {
+  md <- gsub(paste0('"', f, '"'), paste0('"http://localhost:4000/assets/posts/2024-11-04-exams2forms/', f, '"'), md, fixed = TRUE)
+}
+writeLines(md)
+```
+
+Again, the `exams2webquiz()` function can be used to set up a standalone file based on the same exercises:
+
+```{r more-examples-webquiz}
+#| eval: false
+exams2webquiz(c("capitals.Rmd", "function.Rmd", "fruit.Rmd", "lm2.Rmd"))
+```
+
+
+## Building blocks
+
+To accomplish the functionality demonstrated above, the package provides the following contents:
+
+- `exams2forms()`: Main workhorse function from the package. Like other `exams2xyz()` interfaces this takes a vector or list of exercise files and returns Markdown text, including HTML snippets, than can be included in `rmarkdown` or `quarto` documents. This includes questions, suitable interactions for the different types of answers (with correct solutions also embedded in the HTML), and optionally full solution explanations.
+- `webex.css`, `webex.js`: CSS (Cascading Style Sheets) and Javascript files shipped within the package and providing the code necessary for the exercise and quiz display and processing the different types of interactions.
+- `webquiz()`: Small wrapper function that creates a `knitr::html_document()` but includes the CSS and Javascript files above.
+- `exams2webquiz()`: Convenience interface that combines all of the above elements. It sets up a `webquiz()` document in which `exams2forms()` is used to embed the specified exercises, calls `rmarkdown::render()` to process it, and by default displays it in the browser. This is most useful for quickly trying out how R/exams exercises can work in HTML documents.
+- `forms_num()`, `forms_string()`, `forms_schoice()`, `forms_mchoice()`: Helper functions for just embedding the user interactions for the different types of exercises. Typically not called directly by the user.
+
+
+## Demo files
+
+While `exams2webquiz()` is convenient for quickly setting up an HTML document containing certain exercises, further customizations are typicallly needed for more elaborate documents. To demonstrate how this works the `exams2forms` package provides two demo `rmarkdown` files which can also be downloaded here:
+
+- `r xfun::embed_file(system.file("forms", "quiz.Rmd", package = "exams2forms"))`.
+- `r xfun::embed_file(system.file("forms", "questions.Rmd", package = "exams2forms"))`.
+
+The first file `quiz.Rmd` renders a number of different exercises into a quiz using a single `exams2forms()` call, indicating that the `results` should be included `"asis"`:
+
+<pre><code>
+```{r, eval=TRUE, echo=FALSE, results="asis"}
+writeLines(readLines(
+  system.file("forms", "quiz.Rmd", package = "exams2forms")
+))
+```
+</code></pre>
+
+The `questions.Rmd` file looks similar but contains different sections, each with a single question set up via `exams2forms()`.
+
+Both files can be rendered to HTML via `rmarkdown::render()` or by clicking the knit button after opening the files in RStudio etc.
+
+
+## Setup and customization
+
+When setting up a more elaborate document or even a full webpage or online book with `rmarkdown` or `quarto`, then the simple `webquiz()` HTML document provided by `exams2forms` is probably not sufficient. In this case, it is best to take the CSS and Javascript files from the package or download them here:
+
+- `r xfun::embed_file(system.file("webex", "webex.css", package = "exams2forms"))`.
+- `r xfun::embed_file(system.file("webex", "webex.js", package = "exams2forms"))`.
+
+The files can then be placed in the same folder as the `rmarkdown` or `quarto` project. They can also be adapted relatively easily by changing the definitions of colors, icons, text, etc. in the first few lines of each file.
+
+To include the CSS and Javascript in an `rmarkown` project, the YAML header should include:
+
+```{r, eval=FALSE}
+output:
+  html_document:
+    css: webex.css
+    includes:
+      after_body: webex.js
+```
+
+Similarly, in a `quarto` project the YAML header or the `_quarto.yml` file should include:
+
+```{r, eval=FALSE}
+format:
+  html:
+    css: webex.css
+    include-after-body: webex.js
+```
+
+
+## Standalone interaction forms
+
+While it is not the primary focus of the `exams2forms` package, it is also possible to directly include interaction forms in documents like in the `webexercises` package, i.e., without setting up full R/exams exercises. A few simple examples are inlcuded below for numeric, text, single-choice, and multiple-choice interactions (both using drop-down interactions here), respectively.
+
+What is the answer to the ultimate question of life, the universe, and everything? `r forms_num(42, width = 10)`
+
+Which superhero is the secret identity of Bruce Wayne? `r forms_string("Batman", width = 20, usecase = FALSE)`
+
+Which of the following villains is **not** an adversary of Batman? `r forms_schoice(c("Bane", "Riddler", "Thanos", "Poison Ivy"), c(FALSE, FALSE, TRUE, FALSE), display = "dropdown")`
+
+Which of the following characters are romantic interests of Spider-Man?
+
+`r forms_mchoice(c("Mary Jane Watson", "Pepper Potts", "Selina Kyle", "Gwen Stacy"), c(TRUE, FALSE, FALSE, TRUE), display = "dropdown")`
+
+The corresponding code snippets included in the inline code chunks are:
+
+- `forms_num(42, width = 10)`
+- `forms_string("Batman", width = 20, usecase = FALSE)`
+- `forms_schoice(c("Bane", "Riddler", "Thanos", "Poison Ivy"), c(FALSE, FALSE, TRUE, FALSE), display = "dropdown")`
+- `forms_mchoice(c("Mary Jane Watson", "Pepper Potts", "Selina Kyle", "Gwen Stacy"), c(TRUE, FALSE, FALSE, TRUE), display = "dropdown")`
