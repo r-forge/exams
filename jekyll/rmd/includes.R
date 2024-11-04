@@ -191,7 +191,7 @@ include_file <- function(file) {
 
 include_template <- function(name, title, teaser, description,
   tags = NULL, related = NULL, randomization = "Yes", supplements = "",
-  author = "zeileis", thumb = c(277, 216), page = 1, seed = 403)
+  author = "zeileis", thumb = c(277, 216), page = 1, seed = 403, nchar = c(20, 100))
 {
   ## assure UTF-8 locale
   Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -227,7 +227,7 @@ include_template <- function(name, title, teaser, description,
   }
   
   ## generate and process asset files
-  stopifnot(require("exams"))
+  stopifnot(require("exams") && require("exams2forms"))
   f <- paste0(name, c(
     ".Rnw", ".Rmd",
     ".tex", ".md",
@@ -241,6 +241,20 @@ include_template <- function(name, title, teaser, description,
   ex <- system.file("exercises", f[1:2], package = "exams")
   file.copy(ex, to = getwd())
   include_asset(f[1:2], link = FALSE)
+  ##
+  ## - exams2forms preview
+  set.seed(seed)
+  knitr::opts_knit$set(
+    out.format = NULL,
+    rmarkdown.pandoc.to = NULL
+  )
+  knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
+  knitr::opts_knit$set(.knitr_opts_vanilla$knit)
+  exmd <- exams2forms(f[2], write = FALSE, base64 = TRUE, n = 3, nchar = nchar)
+  exmd <- gsub("></input>", "/>", do.call("c", exmd), fixed = TRUE)
+  exmd <- gsub("{{1} ", "{1 ", exmd, fixed = TRUE)
+  exmd <- gsub("{{2} ", "{2 ", exmd, fixed = TRUE)
+  exmd <- exams:::pandoc(exmd, from = "markdown", to = "html", options = c("--mathjax", "--wrap=none"))
   ##
   ## - raw
   set.seed(seed)
@@ -309,6 +323,9 @@ tags:
 @tags@
 author: @author@
 
+mathjax: true
+webex: true
+
 #
 # Style
 #
@@ -326,6 +343,11 @@ image:
   <div class=\'medium-8 columns\'><a href="{{ site.url }}/tag/@type@/"><code class="highlighter-rouge">@type@</code></a></div>
 </div>
 @related@
+
+<div class=\'row t20 b1\'>
+  <div class=\'medium-4 columns\'><b>Preview:</b></div>
+  <div class=\'medium-8 columns\'>@preview@</div>
+</div>
 
 <div class=\'row t20 b1\'>
   <div class=\'medium-4 columns\'><b>Description:</b></div>
@@ -427,6 +449,7 @@ exams2pdf(&quot;@name@.Rnw&quot;)</code></pre>
     verbatim = if(is.logical(verbatim)) c("No", "Yes")[1 + verbatim] else verbatim,
     images = if(is.logical(images)) c("No", "Yes")[1 + images] else images,
     solution = if(is.null(ex_pdf$solution)) "No" else "Yes",
+    preview = paste(exmd, collapse= "\n"),
     browsernote = browsernote,
     seed = as.character(seed),
     mathjax = if(math) ", mathjax = TRUE" else ""

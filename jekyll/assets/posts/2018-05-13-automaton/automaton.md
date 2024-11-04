@@ -6,7 +6,7 @@ Question
 
 Consider the following automaton with initial state A and accepting state B:
 \
-![](automaton.pdf){width=5cm}
+![](automaton.png){width=5cm}
 
 
 Which of the following sequences are accepted?

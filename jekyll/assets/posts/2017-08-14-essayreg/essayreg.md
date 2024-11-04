@@ -15,11 +15,9 @@ Residuals:
 -2.14867 -0.82868 -0.07472  0.66596  2.54119 
 
 Coefficients:
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 0.0001676  0.1254992   0.001    0.999    
-x           1.2492437  0.1241613  10.061 2.04e-14 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 0.0001676  0.1254992   0.001    0.999
+x           1.2492437  0.1241613  10.061 2.04e-14
 
 Residual standard error: 0.9786 on 59 degrees of freedom
 Multiple R-squared:  0.6318,	Adjusted R-squared:  0.6255 
@@ -49,7 +47,7 @@ exstringtype: essay|file
 exextra[essay,logical]: TRUE
 exextra[essay_format,character]: editor
 exextra[essay_required,logical]: FALSE
-exextra[essay_fieldlines,numeric]: 0
+exextra[essay_fieldlines,numeric]: 5
 exextra[essay_attachments,numeric]: 1
 exextra[essay_attachmentsrequired,logical]: TRUE
 exmaxchars: 1000, 10, 50

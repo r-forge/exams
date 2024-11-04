@@ -13,6 +13,9 @@ tags:
   - quiz
 author: zeileis
 
+mathjax: true
+webex: true
+
 #
 # Style
 #
@@ -30,6 +33,39 @@ image:
   <div class='medium-8 columns'><a href="{{ site.url }}/tag/string/"><code class="highlighter-rouge">string</code></a></div>
 </div>
 
+
+<div class='row t20 b1'>
+  <div class='medium-4 columns'><b>Preview:</b></div>
+  <div class='medium-8 columns'><div class="webex-group">
+<div class="webex-question">
+<div class="webex-check webex-box">
+<p>What is the three-letter country code (ISO 3166-1 alpha-3) for Turkmenistan?</p>
+<p><input class='webex-solveme' size='20' data-answer='["TKM"]'/></p>
+</div>
+<div class="webex-solution">
+<p>The ISO 3166-1 alpha-3 code for Turkmenistan is TKM.</p>
+</div>
+</div>
+<div class="webex-question">
+<div class="webex-check webex-box">
+<p>What is the three-letter country code (ISO 3166-1 alpha-3) for Venezuela?</p>
+<p><input class='webex-solveme' size='20' data-answer='["VEN"]'/></p>
+</div>
+<div class="webex-solution">
+<p>The ISO 3166-1 alpha-3 code for Venezuela is VEN.</p>
+</div>
+</div>
+<div class="webex-question">
+<div class="webex-check webex-box">
+<p>What is the three-letter country code (ISO 3166-1 alpha-3) for Qatar?</p>
+<p><input class='webex-solveme' size='20' data-answer='["QAT"]'/></p>
+</div>
+<div class="webex-solution">
+<p>The ISO 3166-1 alpha-3 code for Qatar is QAT.</p>
+</div>
+</div>
+</div></div>
+</div>
 
 <div class='row t20 b1'>
   <div class='medium-4 columns'><b>Description:</b></div>

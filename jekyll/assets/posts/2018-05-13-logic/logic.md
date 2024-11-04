@@ -7,11 +7,11 @@ Consider the following gates coding logical operators:
 
 |              A             |              B             |              C             |
 |:--------------------------:|:--------------------------:|:--------------------------:|
-| ![](A.pdf){width=3cm} | ![](B.pdf){width=3cm} | ![](C.pdf){width=3cm} |
+| ![](A.png){width=3cm} | ![](B.png){width=3cm} | ![](C.png){width=3cm} |
 
 Which of these gates belongs to the following logical truth table?
 \
-![](table.pdf){width=2cm}
+![](table.png){width=2cm}
 
 Answerlist
 ----------
