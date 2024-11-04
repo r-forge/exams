@@ -50,7 +50,7 @@ knitr::opts_knit$set(
 
 ## Overview
 
-The package [exams2forms](https://CRAN.R-project.org/package=exams2forms) provides several building blocks for embedding exercises written with the R package [exams]({{ site.url }}) (also known as R/exams) in interactive documents or quizzes written with [rmarkdown](https://rmarkdown.rstudio.com/) or [quarto](https://quarto.org/).
+The new package [exams2forms](https://CRAN.R-project.org/package=exams2forms), co-authored with [Reto Stauffer](https://retostauffer.org/), provides several building blocks for embedding exercises written with the R package [exams]({{ site.url }}) (also known as R/exams) in interactive documents or quizzes written with [rmarkdown](https://rmarkdown.rstudio.com/) or [quarto](https://quarto.org/).
 
 The idea is that the [dynamic exercises]({{ site.url }}/intro/dynamic/) in R/exams' Rmd (R/Markdown) or Rnw (R/LaTeX) format can also be reused in HTML documents, web pages, or online books. This facilitates their use for self-paced learning and self-assessment without the need for a learning management system etc. And for (summative) assessments the same dynamic exercises could then be exported to different [learning management systems]({{ site.url }}/intro/elearning/) or employed in [written exams]({{ site.url }}/intro/written/).
 
@@ -88,7 +88,7 @@ In addition to the question and the interaction element, there are three buttons
 
 Inclusion of the solution explanation is optional and the next question button is only displayed if there is more than one random variation of a question. The icons and mouseover text can also be adapted (see below).
 
-To set up a similar standalone file with these two exercises, the `exams2qebquiz()` interface from the `exams2forms` package can be used:
+To set up a similar standalone file with these two exercises, the `exams2webquiz()` interface from the `exams2forms` package can be used:
 
 ```{r first-steps-webquiz}
 #| eval: false
@@ -108,7 +108,7 @@ md <- exams2forms(c("capitals.Rmd", "function.Rmd", "fruit.Rmd", "lm2.Rmd"), wri
 md <- gsub("></input>", "/>", do.call("c", md), fixed = TRUE)
 md <- exams:::pandoc(md, from = "markdown", to = "html", options = c("--mathjax", "--wrap=none"))
 for(f in c("linreg.csv", "banana.png", "orange.png", "pineapple.png")) {
-  md <- gsub(paste0('"', f, '"'), paste0('"http://localhost:4000/assets/posts/2024-11-04-exams2forms/', f, '"'), md, fixed = TRUE)
+  md <- gsub(paste0('"', f, '"'), paste0('"https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/', f, '"'), md, fixed = TRUE)
 }
 writeLines(md)
 ```
@@ -136,8 +136,8 @@ To accomplish the functionality demonstrated above, the package provides the fol
 
 While `exams2webquiz()` is convenient for quickly setting up an HTML document containing certain exercises, further customizations are typicallly needed for more elaborate documents. To demonstrate how this works the `exams2forms` package provides two demo `rmarkdown` files which can also be downloaded here:
 
-- `r xfun::embed_file(system.file("forms", "quiz.Rmd", package = "exams2forms"))`.
-- `r xfun::embed_file(system.file("forms", "questions.Rmd", package = "exams2forms"))`.
+- `r include_asset(system.file("forms", "quiz.Rmd", package = "exams2forms"))`.
+- `r include_asset(system.file("forms", "questions.Rmd", package = "exams2forms"))`.
 
 The first file `quiz.Rmd` renders a number of different exercises into a quiz using a single `exams2forms()` call, indicating that the `results` should be included `"asis"`:
 
@@ -158,8 +158,8 @@ Both files can be rendered to HTML via `rmarkdown::render()` or by clicking the 
 
 When setting up a more elaborate document or even a full webpage or online book with `rmarkdown` or `quarto`, then the simple `webquiz()` HTML document provided by `exams2forms` is probably not sufficient. In this case, it is best to take the CSS and Javascript files from the package or download them here:
 
-- `r xfun::embed_file(system.file("webex", "webex.css", package = "exams2forms"))`.
-- `r xfun::embed_file(system.file("webex", "webex.js", package = "exams2forms"))`.
+- `r include_asset(system.file("webex", "webex.css", package = "exams2forms"))`.
+- `r include_asset(system.file("webex", "webex.js", package = "exams2forms"))`.
 
 The files can then be placed in the same folder as the `rmarkdown` or `quarto` project. They can also be adapted relatively easily by changing the definitions of colors, icons, text, etc. in the first few lines of each file.
 
