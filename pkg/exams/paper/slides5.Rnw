@@ -74,71 +74,15 @@ set.seed(2023-03-29)
 \end{frame}
 
 \begin{frame}
-\frametitle{Example: Formative assessments}
+\frametitle{Motivation}
 
-\textbf{Some possibilities:}
+\textbf{Possible formative assessments:}
 \begin{itemize}
   \item \emph{Quick quiz:} Recap of knowledge from previous session or preparation.
   \item \emph{Asynchronous test:} Several days, encourage group work, support in forum.
   \item \emph{Synchronous test:} In learning groups in live sessions (possibly completion of individual tests afterwards).
   \item \emph{Open-ended tasks:} Upload of solutions online, discussion in live sessions.
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}
-\frametitle{Example: First-year mathematics}
-
-\textbf{Structure:} Mandatory.
-\begin{itemize}
-  \item 2-hour lecture (VO), about 700 participants.
-  \item 2-hour tutorial (PS), up to 40 participants per tutorial.
-\end{itemize}
-
-\bigskip
-\pause
-
-\textbf{Weekly schedule:}
-\begin{itemize}
-  \item \emph{Learning:} Online textbook, screencasts, slides.
-  \item \emph{Flipped classroom:} Overview, questions \& answers in lecture session.
-  \item \emph{Formative assessment:} Numeric online test, several days, support in forum.
-  \item \emph{Feedback:} Discussion of more complex exercises in tutorial session.
-  \item \emph{Formative assessment:} Another online test in tutorial learning groups.
-\end{itemize}
-
-\bigskip
-\pause
-
-\textbf{Summative assessment:} Written single-choice exams (mid-term \& end-term).
-
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Example: Data analytics}
-
-\textbf{Structure:} Elective.
-\begin{itemize}
-  \item 2-hour lecture (VU), 40--60 participants.
-  \item 1-hour tutorial (VU), 15--40 participants per tutorial.
-\end{itemize}
-
-\bigskip
-\pause
-
-\textbf{Weekly schedule:}
-\begin{itemize}
-  \item \emph{Learning:} Lecture session, online textbook/slides.
-  \item \emph{Formative assessment:} Quiz \& numeric test, several days, support in forum.
-  \item \emph{Formative assessment:} Open-ended practical task, several days, file upload.
-  \item \emph{Feedback:} Discussion of practical tasks in tutorial session.
-\end{itemize}
-
-\bigskip
-\pause
-
-\textbf{Summative assessment:} Online exams with open-ended theory questions and individualized practical tasks (mid-term \& end-term).
 
 \end{frame}
 
@@ -953,13 +897,13 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 
 
 
-\section{Getting Started}
+\section{In Action}
 \usebackgroundtemplate{\includegraphics[width=\paperwidth,trim=10 0 20 0, clip, keepaspectratio]{background_whatelse.jpg}}
 \begin{frame}[plain]
   \begin{tikzpicture}[remember picture,overlay]%
   \draw[color=white,fill=white,opacity=0.90] 
   (-10,-8) rectangle (20,-6.6);
-  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont Getting Started};
+  \node at (0,-7.3) [right] {\usebeamercolor[fg]{verbcolor} \fontsize{20}{24} \bfseries\selectfont In Action};
   \end{tikzpicture}
 \end{frame}
 \usebackgroundtemplate{}
@@ -973,9 +917,65 @@ if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
 }
 @
 
+\begin{frame}
+\frametitle{In action: First-year mathematics}
+
+\textbf{Structure:} Mandatory.
+\begin{itemize}
+  \item 2-hour lecture (VO), about 700 participants.
+  \item 2-hour tutorial (PS), up to 40 participants per tutorial.
+\end{itemize}
+
+\bigskip
+\pause
+
+\textbf{Weekly schedule:}
+\begin{itemize}
+  \item \emph{Learning:} Online textbook, screencasts, slides.
+  \item \emph{Flipped classroom:} Overview, questions \& answers in lecture session.
+  \item \emph{Formative assessment:} Numeric online test, several days, support in forum.
+  \item \emph{Feedback:} Discussion of more complex exercises in tutorial session.
+  \item \emph{Formative assessment:} Another online test in tutorial learning groups.
+\end{itemize}
+
+\bigskip
+\pause
+
+\textbf{Summative assessment:} Written single-choice exams (mid-term \& end-term).
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{In action: Data analytics}
+
+\textbf{Structure:} Elective.
+\begin{itemize}
+  \item 2-hour lecture (VU), 40--60 participants.
+  \item 1-hour tutorial (VU), 15--40 participants per tutorial.
+\end{itemize}
+
+\bigskip
+\pause
+
+\textbf{Weekly schedule:}
+\begin{itemize}
+  \item \emph{Learning:} Lecture session, online textbook/slides.
+  \item \emph{Formative assessment:} Quiz \& numeric test, several days, support in forum.
+  \item \emph{Formative assessment:} Open-ended practical task, several days, file upload.
+  \item \emph{Feedback:} Discussion of practical tasks in tutorial session.
+\end{itemize}
+
+\bigskip
+\pause
+
+\textbf{Summative assessment:} Online exams with open-ended theory questions and individualized practical tasks (mid-term \& end-term).
+
+\end{frame}
+
 
 \begin{frame} 
-\frametitle{Getting started}
+\frametitle{In action: Do it yourself}
 
 \textbf{If you want to try \raisebox{-0.15\height}{\includegraphics[width=0.18\textwidth]{rexams_logo.pdf}}:}
 \begin{itemize}
@@ -992,7 +992,7 @@ if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Getting started}
+\frametitle{In action: Do it yourself}
 
 \textbf{Installation:}
 \begin{enumerate}
@@ -1011,7 +1011,7 @@ if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
 
 
 \begin{frame}[fragile]
-\frametitle{Getting started}
+\frametitle{In action: Do it yourself}
 
 \textbf{First steps:} \url{https://www.R-exams.org/tutorials/first_steps/}
 
