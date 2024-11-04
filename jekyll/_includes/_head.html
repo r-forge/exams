@@ -7,6 +7,10 @@
   <script type="text/javascript" async src="{{ site.mathjax_uri }}"></script>
   {% endif %}
 
+  {% if page.webex %}
+        <link rel="stylesheet" type="text/css" href="{{ site.url }}{{ site.baseurl }}/assets/css/webex.css" />
+  {% endif %}
+
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
   <script>
     WebFont.load({

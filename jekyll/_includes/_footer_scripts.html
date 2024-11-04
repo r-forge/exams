@@ -1,3 +1,7 @@
+{% if page.webex %}
+<script src="{{ site.url }}{{ site.baseurl }}/assets/js/webex.js"></script>
+{% endif %}
+
 {% if page.mediaplayer == true %}
 <script>
 $('audio,video').mediaelementplayer();
