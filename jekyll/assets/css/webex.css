@@ -4,7 +4,7 @@
   --correct: #59935B;
   --correct_alpha: #c0edc2;
   --highlight: #1f7a7a;
-  --highlight_alpha: #aef0da;
+  --highlight_alpha: #aaefef;
   --highlight_gray: #C3C3C3;
   --background_question: #7f7f7f0d;
   --background_input: white;
@@ -76,6 +76,7 @@
   background-color: var(--background_input);
   color: var(--text_input) !important;
   border-radius: 0.25em;
+  width: auto;
   max-width: 90%;
 }
 
