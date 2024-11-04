@@ -105,8 +105,7 @@ exams2forms <- function(file,
           paste("*", x$solutionlist)
         ),
         "",
-        ":::",
-        ""
+        ":::"
       )
     } else {
       NULL
@@ -143,15 +142,19 @@ exams2forms <- function(file,
 
   ## Wishlist:
   ## - For multiple exercises in the same exam: Optionally include enumerated list?
-  if(write) {
-    n_exams <- length(rval)
-    n_exercises <- length(rval[[1L]])
-    for(i in 1L:n_exercises) {
-      if(n_exams > 1L) writeLines("::: {.webex-group}")
-      for(j in 1L:n_exams) writeLines(rval[[j]][[i]])
-      if(n_exams > 1L) writeLines(":::")
-    }
+
+  ## collapse to a single list of exercises (grouped if n > 1)
+  if(length(rval) > 1L) {
+    for(i in seq_along(rval[[1L]])) rval[[1L]][[i]] <- c(
+      "::: {.webex-group}",
+      unlist(lapply(seq_along(rval), function(j) rval[[j]][[i]])),
+      ":::"
+    )
   }
+  rval <- rval[[1L]]  
+
+  ## by default write out
+  if(write) writeLines(do.call("c", rval))
 
   ## return list of lists invisibly
   invisible(rval)
