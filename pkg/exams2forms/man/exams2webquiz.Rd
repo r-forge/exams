@@ -19,7 +19,7 @@ webquiz(\dots)
 }
 
 \arguments{
-  \item{file}{character. A specification of a (list of) exercise files.}
+  \item{file}{character. A specification of (a list of) exercise files.}
   \item{n}{integer. The number of copies to be taken from \code{file}.}
   \item{nsamp}{integer. The number(s) of exercise files sampled from each
     list element of \code{file}. Sampling without replacement is used
@@ -71,6 +71,7 @@ webquiz(\dots)
 \examples{
 \dontrun{
 ## quickly render a quiz based on a set of R/exams exercises
-exams2webquiz(c("swisscapital.Rmd", "capitals.Rmd", "fruit.Rmd", "function.Rmd"))
+ex <- c("swisscapital.Rmd", "capitals.Rmd", "fruit.Rmd", "function.Rmd", "lm2.Rmd")
+exams2webquiz(ex)
 }
 }

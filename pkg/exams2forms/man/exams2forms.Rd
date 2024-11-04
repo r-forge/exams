@@ -21,17 +21,16 @@ exams2forms(file,
 }
 
 \arguments{
-  \item{file}{character. A specification of a (list of) exercise files.}
+  \item{file}{character. A specification of (a list of) exercise files.}
   \item{write}{logical. Should \code{\link{writeLines}} be called on the
-    resulting webexercise HTML/Markdown text?}
+    resulting Markdown/HTML text?}
   \item{check}{logical. Should a check for showing the answer be added to
     the exercise?}
-  \item{box}{logical. Should a box be added around the \code{check} environment
-    (if set to \code{TRUE})?}
+  \item{box}{logical. Should a box be added around the \code{check} environment?}
   \item{solution}{logical or character. Should the solution environment
     of the R/exams exercises (if any) be displayed or not? Optionally,
     \code{solution} can also be a character with the title for the
-    corresponding solution button.}
+    corresponding solution box.}
   \item{nchar}{numeric. Number of characters for numeric or string fields
     (\code{\link{forms_num}}, \code{\link{forms_string}}). If a vector of length 2 is provided
     it is used as the minimum and maximum number of characters, respectively.}
@@ -83,7 +82,9 @@ exams2forms(file,
   R/exams (\url{https://www.R-exams.org/}) in R/Markdown or Quarto documents.
   This is done by rendering the exercises (either in .Rnw or .Rmd format)
   into Markdown which can then be included in .Rmd or .qmd
-  documents. The function \code{\link[exams2forms]{exams2webquiz}}
+  documents.
+  
+  The function \code{\link[exams2forms]{exams2webquiz}}
   can set up a suitable .Rmd file and directly render it. This is intended mostly
   for quick interactive testing when authoring R/exams exercises.
 
@@ -93,7 +94,7 @@ exams2forms(file,
 }
 
 \value{
-  A list of exams, each of which is a list of exercises, each of which is a character
+  A list of exercises, each of which is a character
   vector with the Markdown code of the individual exercises.
 }
 

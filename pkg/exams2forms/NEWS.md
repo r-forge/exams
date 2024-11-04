@@ -4,6 +4,10 @@
   embedding exercises as (interactive) forms in R/Markdown or
   Quarto documents.
 
+* For an introduction see the package vignette:
+
+  `vignette("exams2forms", package = "exams2forms")`
+
 * The idea and original code for inserting interactions into
   R/Markdown documents along with CSS and Javascript is adapted from
   the [webexercises](https://psyteachr.github.io/webexercises/) package,
@@ -16,7 +20,8 @@
   - `questions.Rmd`: All questions set up indvidually.
   - `quiz.Rmd`: An entire quiz set up in one go.
 
-* Additionally, the function `exams2webquiz()` can be used to
-  quickly set up and run a quiz interactively based on a
-  set of R/exams exercises. For example:  
-  `exams2webquiz(c("swisscapital.Rmd", "capitals.Rmd", "fruit.Rmd", "function.Rmd", "lm.Rmd"))`
+* Additionally, the function `exams2webquiz()` can be used to quickly
+  set up and render a quiz document interactively based on a set of
+  R/exams exercises. For example:  
+
+  `exams2webquiz(c("swisscapital.Rmd", "capitals.Rmd", "fruit.Rmd", "function.Rmd", "lm2.Rmd"))`

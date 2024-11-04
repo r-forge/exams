@@ -173,7 +173,7 @@ Both files can be rendered to HTML via `rmarkdown::render()` or by clicking the
 knit button after opening the files in RStudio etc.
 
 
-## Set up and customization
+## Setup and customization
 
 When setting up a more elaborate document or even a full webpage or online book
 with `rmarkdown` or `quarto`, then the simple `webquiz()` HTML document provided
