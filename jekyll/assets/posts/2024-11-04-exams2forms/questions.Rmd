@@ -1,0 +1,65 @@
+---
+title: "R/exams questions"
+output:
+  exams2forms::webquiz:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+library("exams2forms")
+```
+
+## Knowledge quiz (single-choice)
+
+```{r schoice1, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("swisscapital.Rmd")
+```
+
+## Knowledge quiz (multiple-choice)
+
+```{r mchoice2, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("capitals.Rmd")
+```
+
+## Arithmetic (numeric)
+
+```{r num3, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("deriv.Rnw")
+```
+
+## Arithmetic (single-choice)
+
+```{r schoice4, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("deriv2.Rnw")
+```
+
+## Multiple-choice with graphic
+
+```{r mchoice5, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("boxplots.Rmd")
+```
+
+## Multiple-choice with R output
+
+```{r mchoice6, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("ttest.Rmd")
+```
+
+## String question
+
+```{r string, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("function.Rmd")
+```
+
+## Cloze question combining all types
+
+```{r cloze1, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("lm2.Rnw")
+```
+
+## Cloze question with table layout
+
+```{r cloze2, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("fourfold2.Rmd")
+```

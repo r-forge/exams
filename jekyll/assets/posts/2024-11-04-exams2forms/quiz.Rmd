@@ -1,0 +1,24 @@
+---
+title: "R/exams quiz"
+output: exams2forms::webquiz
+---
+
+```{r setup, include = FALSE}
+## package and list of various exercises
+library("exams2forms")
+exm <- list(
+  c("swisscapital.Rmd", "capitals.Rmd"),
+  "deriv.Rnw",
+  "deriv2.Rnw",
+  "fruit.Rmd",
+  "boxplots.Rmd",
+  "ttest.Rmd",
+  "function.Rmd",
+  "lm2.Rnw",
+  "fourfold2.Rmd"
+)
+```
+
+```{r quiz, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms(exm, n = 3)
+```
