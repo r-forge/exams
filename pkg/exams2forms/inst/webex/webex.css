@@ -76,6 +76,7 @@
   background-color: var(--background_input);
   color: var(--text_input) !important;
   border-radius: 0.25em;
+  width: auto;
   max-width: 90%;
 }
 
