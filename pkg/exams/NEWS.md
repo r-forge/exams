@@ -50,6 +50,11 @@
   claimed that there were outliers in the plot when in fact there were none
   (reported by Gabriele Cantaluppi).
 
+* All Rmd exercise templates with embedded graphics have been slightly simplified.
+  The lines with just `\` before the figure code chunks have been replaced with
+  empty lines. Initially, the `\` lines had been necessary to suppress figure
+  captions but this has not been necessary anymore for a long time.
+
 
 # exams 2.4-1
 
