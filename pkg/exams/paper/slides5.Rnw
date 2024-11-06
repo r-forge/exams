@@ -122,34 +122,40 @@ set.seed(2023-03-29)
 \end{itemize}
 
 \bigskip
+\pause
 
 \textbf{Infrastructure:} Standing on the shoulders of lots of open-source software\dots
+\begin{itemize}
+  \item \proglang{R}, \pkg{Markdown}, {\LaTeX}.
+  \item \pkg{knitr}, \pkg{rmarkdown}, \pkg{pandoc}, \texttt{Sweave}.
+  \item \pkg{Moodle}, \pkg{OpenOlat}, and many others.
+\end{itemize}
 
 \end{frame}
 
 
-\begin{frame}
-\frametitle{\proglang{R} package \pkg{exams}}
-
-\medskip
-
-{\small
-\begin{tabular}{lp{3.2cm}p{6.1cm}}
-\hline
-{\bf Type}                  & {\bf Software}                                                     & {\bf Purpose}                          \\
-\hline \noalign{\vspace*{0.18cm}}
-{\bf Statistical computing} & \proglang{R}                                                       & Random data generation, computations   \\[0.18cm]
-{\bf Writing/reporting}     & \pkg{Markdown}, {\LaTeX}                                           & Text formatting, mathematical notation \\[0.18cm]
-{\bf Reproducible research} & \pkg{knitr}, \pkg{rmarkdown}, \texttt{Sweave}                      & Dynamically tie everything together    \\[0.18cm]
-{\bf Document conversion}   & \pkg{pandoc}, \pkg{TtH}/\pkg{TtM}                                  & Conversion to HTML and beyond          \\[0.18cm]
-{\bf Image manipulation}    & \pkg{ImageMagick}, \pkg{magick}, \pkg{png}                         & Embedding graphics                     \\[0.18cm]
-{\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                                & Embedding supplementary files          \\[0.18cm]
-{\bf Learning management}   & \pkg{Moodle}, \pkg{OpenOlat}, \pkg{Canvas}, \pkg{Particify}, \dots & E-learning infrastructure              \\[0.18cm]
-\hline
-\end{tabular}
-}
-
-\end{frame}
+%% \begin{frame}
+%% \frametitle{\proglang{R} package \pkg{exams}}
+%% 
+%% \medskip
+%% 
+%% {\small
+%% \begin{tabular}{lp{3.2cm}p{6.1cm}}
+%% \hline
+%% {\bf Type}                  & {\bf Software}                                                     & {\bf Purpose}                          \\
+%% \hline \noalign{\vspace*{0.18cm}}
+%% {\bf Statistical computing} & \proglang{R}                                                       & Random data generation, computations   \\[0.18cm]
+%% {\bf Writing/reporting}     & \pkg{Markdown}, {\LaTeX}                                           & Text formatting, mathematical notation \\[0.18cm]
+%% {\bf Reproducible research} & \pkg{knitr}, \pkg{rmarkdown}, \texttt{Sweave}                      & Dynamically tie everything together    \\[0.18cm]
+%% {\bf Document conversion}   & \pkg{pandoc}, \pkg{TtH}/\pkg{TtM}                                  & Conversion to HTML and beyond          \\[0.18cm]
+%% {\bf Image manipulation}    & \pkg{ImageMagick}, \pkg{magick}, \pkg{png}                         & Embedding graphics                     \\[0.18cm]
+%% {\bf Web technologies}      & \pkg{base64enc}, \pkg{RCurl}, \dots                                & Embedding supplementary files          \\[0.18cm]
+%% {\bf Learning management}   & \pkg{Moodle}, \pkg{OpenOlat}, \pkg{Canvas}, \pkg{Particify}, \dots & E-learning infrastructure              \\[0.18cm]
+%% \hline
+%% \end{tabular}
+%% }
+%% 
+%% \end{frame}
 
 
 \section{Dynamic Exercises}
@@ -672,21 +678,11 @@ if(!file.exists(file.path("_images", "background_elearning.jpg"))) {
 \begin{frame}
 \frametitle{E-Learning}
 
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-goal}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
-\textbf{1.~Goal}
-\begin{itemize}
-  \item Online tests with flexible exercise types.
-  \item Possibly: Dynamic supplements and/or complete correct solution.
-  \item Random variations of similar exercises to reduce the risk of cheating.
-  \item Use university's learning management system, e.g., OpenOlat, Moodle, \dots
-\end{itemize}
-
-\medskip
-
-\textbf{Scenarios:}
+\begin{minipage}[t]{0.72\textwidth}
+\textbf{1.~Scenarios}
 \begin{itemize}
   \item Short quizzes conducted in-class.
   \item Online tests conducted over several days.
@@ -694,34 +690,31 @@ if(!file.exists(file.path("_images", "background_elearning.jpg"))) {
 \end{itemize}
 \end{minipage}
 
-\end{frame}
+\pause
+\medskip
 
-
-\begin{frame}
-\frametitle{E-Learning}
-
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-create}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{2.~Create}
 \begin{itemize}
-  \item Draw random replications from exercise templates, e.g., via \texttt{exams2openolat()}, \dots
-  \item Automatically embed these into exchange file format (typically via HTML/XML).
+  \item Draw random replications from exercise templates.
+  \item Embed these into exchange file format.
 \end{itemize}
 \end{minipage}
 
 \pause
 \medskip
 
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{elearning-import}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{3.~Import}
 \begin{itemize}
   \item Import in learning management system.
-  \item From there handling ``as usual'' in the system.
+  \item Then handle ``as usual'' in the system.
 \end{itemize}
 \end{minipage}
 
@@ -812,24 +805,23 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 \begin{frame}
 \frametitle{Written exams}
 
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-create}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{1.~Create}
 \begin{itemize}
-  \item As illustrated above.
-  \item Using \texttt{exams2nops()}, create (individual) PDF files for each examinee.
+  \item Using \texttt{exams2nops()}, create individual PDF files for each examinee.
 \end{itemize}
 \end{minipage}
 
 \pause
 \medskip
 
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-print}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{2.~Print}
 \begin{itemize}
   \item Print the PDF exams, e.g., on a standard printer.
@@ -837,15 +829,13 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 \end{itemize}
 \end{minipage}
 
-\end{frame}
+\pause
+\medskip
 
-\begin{frame}
-\frametitle{Written exams}
-
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-exam}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{3.~Exam}
 \begin{itemize}
   \item Conduct the exam as usual.
@@ -858,29 +848,29 @@ if(!file.exists(file.path("_images", "background_written.jpg"))) {
 \begin{frame}
 \frametitle{Written exams}
 
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-scan}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{4.~Scan}
 \begin{itemize}
   \item Scan exam sheets, e.g., on a photocopier.
-  \item Using \texttt{nops\_scan()}, process the scanned exam sheets to machine-readable content.
-  \item In case of problems in the scans, correct with \texttt{nops\_fix()}.
+  \item Using \texttt{nops\_scan()}, process the scanned exam sheets.
+  \item Correct potential scanner problems with \texttt{nops\_fix()}.
 \end{itemize}
 \end{minipage}
 
 \pause
 \medskip
 
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.25\textwidth}
 \raisebox{-0.85\height}{\includegraphics[width=0.8\textwidth]{written-evaluate}}
 \end{minipage}
-\begin{minipage}[t]{0.57\textwidth}
+\begin{minipage}[t]{0.72\textwidth}
 \textbf{5.~Evaluate}
 \begin{itemize}
-  \item Using \texttt{nops\_eval()}, evaluate the exam to obtain grades, points, etc. and individual HTML reports for each examinee.
-  \item Required files: Correct answers (1.), scans (4.), and a participant list in CSV format.
+  \item Using \texttt{nops\_eval()}, obtain grades, points, etc.
+  \item \dots plus individual HTML reports for each examinee.
 \end{itemize}
 \end{minipage}
 
