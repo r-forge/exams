@@ -14,7 +14,7 @@ Answerlist
 
 Solution
 ========
-\
+
 ![](scatterplot-1.svg)
 
 To replicate the analysis in R:

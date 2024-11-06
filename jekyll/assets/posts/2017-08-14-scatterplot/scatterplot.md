@@ -4,7 +4,7 @@ Question
 ========
 
 The following figure shows a scatterplot. Which of the following statements are correct?
-\
+
 ![](scatterplot-1.svg)
 
 Answerlist

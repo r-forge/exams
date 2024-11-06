@@ -129,7 +129,7 @@ In the following figure the distributions of a variable
 given by two samples (A and B) are represented by parallel boxplots.
 Which of the following statements are correct?  _(Comment: The
 statements are either about correct or clearly wrong.)_
-\
+
 ```{r boxplot, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
 par(mar = c(2.5, 2, 1, 0.5))
 dat <- data.frame(y = c(A, B), x = factor(rep(c("A", "B"), c(length(A), length(B)))))

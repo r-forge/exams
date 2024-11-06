@@ -70,7 +70,7 @@ C(K, L) & = 13 K + 13 L\\
 $$
 
 Given the target output, the minimal costs are $185.44$.
-\
+
 ![](contourplot-1.svg)
 
 

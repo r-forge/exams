@@ -8,7 +8,7 @@ evaluate the overall impression of the advertisement on an
 eleven-point scale from 0 (bad) to 10 (good). The evaluations are
 summarized separately with respect to type of occupation of the
 respondents in the following figure.
-\
+
 ![](boxplots-1.svg)
 
 To analyze the influence of occupation on the evaluation of the

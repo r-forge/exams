@@ -34,7 +34,7 @@ Answerlist
 
 Solution
 ========
-\
+
 ![](boxplot_hist-1.svg)
 
 Answerlist

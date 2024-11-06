@@ -87,7 +87,7 @@ F-statistic: 0.4738 on 1 and 98 DF,  p-value: 0.4929
 
 **Interpretation:** Considering the visualization of the data along with the diagnostic plots suggests
 that the assumptions of the Gauss-Markov theorem are reasonably well fulfilled.
-\
+
 ![](visualizations-1.svg)
 
 **Code:** The analysis can be replicated in R using the following code.

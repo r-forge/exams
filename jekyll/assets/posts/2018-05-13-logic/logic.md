@@ -10,7 +10,7 @@ Consider the following gates coding logical operators:
 | ![](A.png){width=3cm} | ![](B.png){width=3cm} | ![](C.png){width=3cm} |
 
 Which of these gates belongs to the following logical truth table?
-\
+
 ![](table.png){width=2cm}
 
 Answerlist

@@ -22,7 +22,7 @@ $d^2 = (p_1 - q_1)^2 + (p_2 - q_2)^2$ (Pythagorean formula).
 Hence $d = \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2} =
   \sqrt{(2 - 5)^2 + (4 - 5)^2}
    = 3.162$.
-\
+
 ![](distplot-1.svg)
 
 Answerlist

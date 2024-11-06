@@ -6,7 +6,7 @@ In the following figure the distributions of a variable
 given by two samples (A and B) are represented by parallel boxplots.
 Which of the following statements are correct?  _(Comment: The
 statements are either about correct or clearly wrong.)_
-\
+
 ![](boxplot-1.svg)
 
 Answerlist

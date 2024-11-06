@@ -3,7 +3,7 @@
 Question
 ========
 What does the following logo stand for?
-\
+
 ![](Rlogo.png)
 
 Answerlist
