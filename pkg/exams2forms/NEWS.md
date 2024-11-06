@@ -1,3 +1,19 @@
+# exams2forms 0.1-1
+
+* Some small improvements in `webex.css` and `webex.js` so that
+  `exams2forms` output also renders correctly in jekyll projects,
+  in particular with the feeling responsive theme used on
+  <https://www.R-exams.org/>.
+  
+* Based on the package vignette, the R/exams web page has a tutorial
+  for `exams2forms`: <https://www.R-exams.org/tutorials/exams2forms/>.
+  
+* All exercise template pages on the R/exams web page now feature an
+  interactive preview with three random variations of each exercise.
+  See <https://www.R-exams.org/templates/boxplots/> or
+  <https://www.R-exams.org/templates/lm2/> for two examples.
+
+
 # exams2forms 0.1-0
 
 * New R/exams (<https://www.R-exams.org/>) interface for

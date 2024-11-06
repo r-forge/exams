@@ -85,7 +85,7 @@ button is only displayed if there is more than one random variation of a
 question. The icons and mouseover text can also be adapted (see below).
 
 To set up a similar standalone file with these two exercises, the
-`exams2qebquiz()` interface from the `exams2forms` package can be used:
+`exams2webquiz()` interface from the `exams2forms` package can be used:
 
 ```{r first-steps-webquiz}
 #| eval: false
