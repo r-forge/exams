@@ -98,6 +98,14 @@ convert_to_numeric = function(x) {
     return NaN;
 }
 
+/* defuscation: Decoding obfuscated answer */
+defuscate = function(x, k) {
+    const xBytes = new TextEncoder().encode(atob(x));
+    const kBytes = new TextEncoder().encode(k);
+    const rBytes = xBytes.map((byte, index) => byte^kBytes[index % kBytes.length]);
+    return new TextDecoder().decode(rBytes);
+}
+
 /* function for checking solveme answers */
 solveme_func = function(e) {
   /* avoid that keyup and keychange twice execute this function within nms = 10
@@ -121,8 +129,19 @@ solveme_func = function(e) {
     return false;
   }
 
-  /* "Else" we continue evaluating the answer */
-  var real_answers = JSON.parse(this.dataset.answer);
+  /* Find closest (parent) webex-question */
+  let webex_question = this.closest(".webex-question");
+  let real_answers;
+  if (webex_question.hasAttribute("webex-id")) {
+    webex_id = webex_question.getAttribute("webex-id");
+    //console.log("[R] webex: Question has ID " + webex_id);
+    real_answers = defuscate(this.dataset.answer, webex_id);
+    real_answers = JSON.parse(defuscate(this.dataset.answer, webex_id));
+  } else {
+    //console.log("[R] webex: Question has no obfuscation")
+    real_answers = JSON.parse(this.dataset.answer);
+  }
+  //console.log("[R] Real answer: " + real_answers);
 
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;
@@ -137,7 +156,6 @@ solveme_func = function(e) {
    * must also be numeric. If not, it is wrong. Else we can
    * compare floating point numbers */
   if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
-    //DEV// console.log("webex: evaluating numeric answer")
     /* check if the real answer and the user input are numerically the same;
      * adding 'delta' to avoid precision issues */
     var diff = Math.abs(num_real_answer - num_my_answer);
@@ -146,14 +164,12 @@ solveme_func = function(e) {
   /* if the question contains regex, a regular expression is used
    * to evaluate the users answer (only possible if length of answers is 1) */
   } else if (cl.contains("regex") && real_answers.length == 1) {
-    //console.log("webex: evaluating answer using regular expression")
     let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
     if (regex.test(my_answer)) { user_answer_correct = true; }
 
   /* else we evaluate on 'string level', considering the creators preferences
    * regarding set options */
   } else {
-    //console.log("webex: evaluating string answer")
     /* modify/prepare answer */
     if (cl.contains("ignorecase")) { my_answer = my_answer.toLowerCase(); }
     if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
@@ -265,7 +281,7 @@ shuffle_array = function(x) {
  * ---------------------------------------------------------
  * --------------------------------------------------------- */
 window.onload = function() {
-  console.log("webex onload");
+  //console.log("webex: onload");
 
   /* setting up buttons and actions to show/hide answers */
   document.querySelectorAll(".webex-check").forEach(section => {
@@ -370,8 +386,6 @@ window.onload = function() {
       if (currentPosition < 0) currentPosition = currentPosition + questionOrder.length
 
       /* Display the new question */
-      // devel // console.log("set question " + questionOrder[currentPosition] +
-      // devel //             " (" + currentPosition + ") as active");
       questions[questionOrder[currentPosition]].classList.add("active");
   
       // Update the currentPosition data attribute on the group div
@@ -389,8 +403,6 @@ window.onload = function() {
 
     /* show the default question for each group */
     questions[questionOrder[currentPosition]].classList.add("active");
-    // devel // console.log("set question " + questionOrder[currentPosition] +
-    // devel //             " (" + currentPosition + ") as active; " + questionOrder);
   
     /* store random order of questions as well as current position */
     group.dataset.questionOrder   = questionOrder;
@@ -417,7 +429,6 @@ window.onload = function() {
         previousButton.addEventListener("click", handleQuestionClick(group, questions, -1));
         li_previous.appendChild(previousButton);
 
-        console.log(button_ul);
         if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
         if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
     });

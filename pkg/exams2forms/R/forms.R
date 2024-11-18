@@ -1,15 +1,42 @@
-forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE) {
+
+
+## get 'defuscation key', only useful when used with exams2forms.
+## If webes_id is provided via the dots argument, a unique webex_id
+## is teturned used for obfuscation, else logical FALSE is returned.
+get_webex_id <- function(...) {
+  ## Evaluating webex_id used for obfuscation, only useful when used with exams2forms
+  args <- list(...)
+  if ("webex_id" %in% names(args) && !isFALSE(args$webex_id) && !is.null(args$webex_id)) {
+    webex_id <- args$webex_id
+    stopifnot("the optional argument `webex_id` must be a single character (not empty)" =
+              is.character(webex_id) && length(webex_id) == 1 && nchar(webex_id) > 0)
+  } else {
+    webex_id <- FALSE
+  }
+  return(webex_id)
+}
+
+forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE, ...) {
   ## answer processing
   answer <- as.character(unlist(answer))
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
   answers <- json_string(answer)
   answers <- gsub("\'", "&apos;", answers, fixed = TRUE)
 
+  ## get webex_id used for obfuscation. If not used, FALSE is returned
+  webex_id <- get_webex_id(...)
+
   ## html format
   classes <- c()
   if (!usecase)  classes <- c(classes, "ignorecase")
   if (!usespace) classes <- c(classes, "nospaces")
   if (regex)     classes <- c(classes, "regex")
+
+  ## if an webex_id is given, obfuscate answer (only useful when exams2forms/exams2webquiz is used)
+  if (is.character(webex_id)) {
+    stopifnot("package `digest` required if `obfuscate = TRUE`" = requireNamespace("digest"))
+    answers <- obfuscate(answers, webex_id)
+  }
   html <- sprintf("<input class='webex-solveme%s' size='%s' data-answer='%s'/>",
     if (length(classes) == 0) "" else paste0(" ", paste(classes, collapse = " ")),
     width, answers)
@@ -118,7 +145,14 @@ is_html_output <- function() {
 
 
 ## naive JSON encoder for single character strings
-json_string <- function(x) sprintf('["%s"]', gsub('"', '\\"', x, fixed = TRUE))
+## TODO: less naive JSON encoder which would allow for character vectors.
+##       Currently we do partially account for it, but only partially.
+##       webex.js allows it, but R ignores it (takes last element of character).
+#json_string <- function(x) sprintf('["%s"]', gsub('"', '\\"', x, fixed = TRUE))
+json_string <- function(x) {
+    x <- sapply(x, function(x) sprintf('\"%s\"', gsub('"', '\\"', x, fixed = TRUE)))
+    return(sprintf('[%s]', paste(x, collapse = ", ")))
+}
 
 
 ## helper function to lighten colors in CIELUV

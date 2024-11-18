@@ -16,6 +16,27 @@ exams2forms <- function(file,
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
 
+  ## TODO: Currently an internal option: Allow for obfuscation.
+  ##       The argument to `exams2forms` will be `obfuscate = TRUE/FALSE`, I
+  ##       currently set it internally for testing. We could think of adding
+  ##       different versions of obfuscation in the future (by question)
+  ##       allowing for a vector here or a string?
+  obfuscate <- if ("obfuscate" %in% names(args)) as.logical(args$obfuscate)[1L] else FALSE
+  if (!isTRUE(obfuscate) || isFALSE(obfuscate)) obfuscate <- as.logical(obfuscate[1])
+  stopifnot("argument `obfuscate` must be logical TRUE or FALSE" = isTRUE(obfuscate) || isFALSE(obfuscate))
+
+  ## Generate webes-id, keep it FALSE if `obfuscation` was false. Else this will contain the
+  ## string to obfuscate our correct answer.
+  webex_id <- if (!obfuscate) {
+      FALSE
+  } else {
+      digest::digest(sprintf("%s_%.0f", file, as.integer(Sys.time()) * 1e6), algo = "md5")
+  }
+
+  ## If `obfuscate = TRUE` the R package digest is needed for md5 hashing
+  if (obfuscate) stopifnot("package `digest` required when obfuscate is set TRUE" =
+                           requireNamespace("digest"))
+
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
   }
@@ -59,7 +80,7 @@ exams2forms <- function(file,
       "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
-                    usecase = usecase, usespace = usespace, regex = regex),
+                    usecase = usecase, usespace = usespace, regex = regex, webex_id = webex_id),
       character(0))
     
     ## for cloze: embed forms directly
@@ -112,7 +133,14 @@ exams2forms <- function(file,
     }
 
     ## adding required .webex-question container around each exercise
-    txt <- c("::: {.webex-question}", question, solution, "", ":::")
+    txt <- if (isFALSE(webex_id)) {
+        "::: {.webex-question}"
+    } else {
+        ## Obfuscate correct answer using the webex_id
+        webex_id <- digest::digest(sprintf("%s_%.0f", file, as.integer(Sys.time()) * 1e6), algo = "md5")
+        webex_id <- sprintf("::: {.webex-question webex-id='%s'}", webex_id)
+    }
+    txt <- c(txt, question, solution, "", ":::")
     
     ## fix paths to supplements (if any) and try to make them local to be portable in rmarkdown/quarto output
     if(!is.null(sdir)) sdir <- paste0(sdir, if(substr(sdir, nchar(sdir), nchar(sdir)) == "/") "" else "/", "exam")
