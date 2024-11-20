@@ -134,14 +134,14 @@ solveme_func = function(e) {
   let real_answers;
   if (webex_question != null && webex_question.hasAttribute("webex-id")) {
     webex_id = webex_question.getAttribute("webex-id");
-    //console.log("[R] webex: Question has ID " + webex_id);
+    //DEV//console.log("[R] webex: Question has ID " + webex_id);
     real_answers = defuscate(this.dataset.answer, webex_id);
     real_answers = JSON.parse(defuscate(this.dataset.answer, webex_id));
   } else {
-    //console.log("[R] webex: Question has no obfuscation")
+    //DEV//console.log("[R] webex: Question has no obfuscation")
     real_answers = JSON.parse(this.dataset.answer);
   }
-  console.log("[R] Real answer: " + real_answers + " (length = " + real_answers.length + ")")
+  //DEV//console.log("[R] Real answer: " + real_answers + " (length = " + real_answers.length + ")")
 
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;
@@ -162,10 +162,12 @@ solveme_func = function(e) {
     if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
 
   /* if the question contains regex, a regular expression is used
-   * to evaluate the users answer (only possible if length of answers is 1) */
-  } else if (cl.contains("regex") && real_answers.length == 1) {
-    let regex = new RegExp(real_answers[0], cl.contains("ignorecase") ? "i" : "");
-    if (regex.test(my_answer)) { user_answer_correct = true; }
+   * to evaluate the users answer. Allows for multiple regular expressions */
+  } else if (cl.contains("regex")) {
+    for (let i = 0; i < real_answers.length; i++) {
+        let regex = new RegExp(real_answers[i], cl.contains("ignorecase") ? "i" : "");
+        if (regex.test(my_answer)) { user_answer_correct = true; break; }
+    }
 
   /* else we evaluate on 'string level', considering the creators preferences
    * regarding set options */

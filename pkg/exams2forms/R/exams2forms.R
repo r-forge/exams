@@ -34,8 +34,7 @@ exams2forms <- function(file,
   }
 
   ## If `obfuscate = TRUE` the R package digest is needed for md5 hashing
-  if (obfuscate) stopifnot("package `digest` required when obfuscate is set TRUE" =
-                           requireNamespace("digest"))
+  if (obfuscate) stopifnot("package `digest` required when obfuscate is set TRUE" = requireNamespace("digest"))
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
@@ -78,7 +77,7 @@ exams2forms <- function(file,
     forms <- switch(x$metainfo$type,
       "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display),
       "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
-      "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution)))),
+      "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), webex_id = webex_id),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
                     usecase = usecase, usespace = usespace, regex = regex, webex_id = webex_id),
       character(0))
