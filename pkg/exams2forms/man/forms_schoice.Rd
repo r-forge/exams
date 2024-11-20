@@ -18,9 +18,9 @@ forms_schoice(answerlist, solution, display = c("buttons", "dropdown"))
 
 forms_mchoice(answerlist, solution, display = c("buttons", "dropdown"))
 
-forms_string(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE)
+forms_string(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE, ...)
 
-forms_num(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE)
+forms_num(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE, ...)
 }
 
 \arguments{
@@ -44,6 +44,7 @@ forms_num(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE)
   \item{regex}{logical. Should the evaluation of the input employ
     regular expressions?}
   \item{tol}{numeric. Tolerance for the evaluation of numeric input.}
+  \item{\dots}{additional arguments (not intended to be used directly).}
 }
 
 \value{

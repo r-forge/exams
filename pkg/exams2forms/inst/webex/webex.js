@@ -132,7 +132,7 @@ solveme_func = function(e) {
   /* Find closest (parent) webex-question */
   let webex_question = this.closest(".webex-question");
   let real_answers;
-  if (webex_question.hasAttribute("webex-id")) {
+  if (webex_question != null && webex_question.hasAttribute("webex-id")) {
     webex_id = webex_question.getAttribute("webex-id");
     //console.log("[R] webex: Question has ID " + webex_id);
     real_answers = defuscate(this.dataset.answer, webex_id);
@@ -141,7 +141,7 @@ solveme_func = function(e) {
     //console.log("[R] webex: Question has no obfuscation")
     real_answers = JSON.parse(this.dataset.answer);
   }
-  //console.log("[R] Real answer: " + real_answers);
+  console.log("[R] Real answer: " + real_answers + " (length = " + real_answers.length + ")")
 
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;

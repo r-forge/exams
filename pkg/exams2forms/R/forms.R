@@ -17,8 +17,24 @@ get_webex_id <- function(...) {
 }
 
 forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE, ...) {
-  ## answer processing
+  ## Sanity checks
   answer <- as.character(unlist(answer))
+  stopifnot(
+    "argument `answer` must be of length > 0" = length(answer) > 0,
+    "missing values in `answer` not allowed" = all(!is.na(answer)),
+    "argument `width` must be NULL or numeric" = is.null(width) || is.numeric(width)
+  )
+  if (!is.null(width))
+    stopifnot("argument `width` must be larger or equal to 1" = (width <- as.integer(width[1L])) >= 1L)
+
+  usecase <- as.logical(usecase); usespace <- as.logical(usespace); regex <- as.logical(regex)
+  stopifnot(
+    "argument `usecase` must be logical" = isTRUE(usecase) || isFALSE(usecase),
+    "argument `usespace` must be logical" = isTRUE(usespace) || isFALSE(usespace),
+    "argument `regex` must be logical" = isTRUE(regex) || isFALSE(regex)
+  )
+
+  ## answer processing
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
   answers <- json_string(answer)
   answers <- gsub("\'", "&apos;", answers, fixed = TRUE)
@@ -48,12 +64,36 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
   if (is_html_output()) html else plain
 }
 
-forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE) {
+forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE, ...) {
+  ## Sanity checks
+  ###answer <- as.numeric(unlist(answer))
+  stopifnot(
+    "argument `answer` must be numeric length 1" = is.numeric(answer) && length(answer) == 1,
+    "missing values in `answer` not allowed" = !is.na(answer),
+    "argument `width` must be NULL or numeric" = is.null(width) || is.numeric(width)
+  )
+  if (!is.null(width))
+    stopifnot("argument `width` must be larger or equal to 1" = (width <- as.integer(width[1L])) >= 1L)
+
+  usespace <- as.logical(usespace); regex <- as.logical(regex)
+  stopifnot(
+    "argument `usespace` must be logical" = isTRUE(usespace) || isFALSE(usespace),
+    "argument `regex` must be logical" = isTRUE(regex) || isFALSE(regex)
+  )
+
   ## answer processing
-  answer <- unlist(answer)
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
   answers <- json_string(as.character(answer))
   answers <- gsub("\'", "&apos;", answers, fixed = TRUE)
+
+  ## get webex_id used for obfuscation. If not used, FALSE is returned
+  webex_id <- get_webex_id(...)
+
+  ## if an webex_id is given, obfuscate answer (only useful when exams2forms/exams2webquiz is used)
+  if (is.character(webex_id)) {
+    stopifnot("package `digest` required if `obfuscate = TRUE`" = requireNamespace("digest"))
+    answers <- obfuscate(answers, webex_id)
+  }
 
   ## html format
   html <- sprintf("<input class='webex-solveme%s%s' data-tol='%s' size='%s' data-answer='%s'/>",
@@ -68,7 +108,14 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
 
 forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown")) {
   ## sanity checks
+  ## solution processing
+  solution    <- as.integer(unlist(solution))
+  ## answer processing
+  answerlist  <- as.character(unlist(answerlist))
+  answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
   stopifnot(
+    "values in `solution` must be 0 or 1" = all(solution == 0L | solution == 1L),
+    "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
     "there must be exactly one correct solution" = sum(solution) == 1L,
     "length of answerlist and solution must match" = length(answerlist) == length(solution)
   )
@@ -76,11 +123,7 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   ## type of interaction/display
   display <- match.arg(display, c("buttons", "dropdown"))
 
-  ## answer processing
-  answerlist <- as.character(unlist(answerlist))
-  answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
-
-  if(display == "buttons") {
+  if (display == "buttons") {
     ## radio buttons interaction (grouped by random label)
     lab <- paste0("radio_group_", paste(sample(letters, 10, replace = TRUE), collapse = ""))
     html <- sprintf("<label><input type='radio' autocomplete='off' name='%s' value='%s'></input><span>%s</span></label>",
@@ -102,16 +145,19 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
 
 forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown")) {
   ## sanity checks
+  ## solution processing
+  solution    <- as.integer(unlist(solution))
+  ## answer processing
+  answerlist  <- as.character(unlist(answerlist))
+  answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
   stopifnot(
+    "values in `solution` must be 0 or 1" = all(solution == 0L | solution == 1L),
+    "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
     "length of answerlist and solution must match" = length(answerlist) == length(solution)
   )
   
   ## type of interaction/display
   display <- match.arg(display, c("buttons", "dropdown"))
-
-  ## answer processing
-  answerlist <- as.character(unlist(answerlist))
-  answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
 
   if(display == "buttons") {
     ## checkbox buttons interaction (grouped by random label)
@@ -145,10 +191,6 @@ is_html_output <- function() {
 
 
 ## naive JSON encoder for single character strings
-## TODO: less naive JSON encoder which would allow for character vectors.
-##       Currently we do partially account for it, but only partially.
-##       webex.js allows it, but R ignores it (takes last element of character).
-#json_string <- function(x) sprintf('["%s"]', gsub('"', '\\"', x, fixed = TRUE))
 json_string <- function(x) {
     x <- sapply(x, function(x) sprintf('\"%s\"', gsub('"', '\\"', x, fixed = TRUE)))
     return(sprintf('[%s]', paste(x, collapse = ", ")))
