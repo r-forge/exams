@@ -55,6 +55,9 @@
   empty lines. Initially, the `\` lines had been necessary to suppress figure
   captions but this has not been necessary anymore for a long time.
 
+* Improve handling of duplicated textattachmentfile names in `exams2pdf()`
+  (reported by Francisco Goerlich).
+
 
 # exams 2.4-1
 
