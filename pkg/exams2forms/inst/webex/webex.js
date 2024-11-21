@@ -98,12 +98,29 @@ convert_to_numeric = function(x) {
     return NaN;
 }
 
-/* defuscation: Decoding obfuscated answer */
-defuscate = function(x, k) {
-    const xBytes = new TextEncoder().encode(atob(x));
-    const kBytes = new TextEncoder().encode(k);
-    const rBytes = xBytes.map((byte, index) => byte^kBytes[index % kBytes.length]);
-    return new TextDecoder().decode(rBytes);
+/* get correct answer as array, performs defuscation if required */
+get_ans_array = function(e) {
+    /* extracting answer */
+    let answer = e.dataset.answer;
+
+    /* get closest webex-question. If not available, this is
+     * a question generated via forms_* which have no obfuscation,
+     * simply return the JSON encoded array. Else check if defuscation is
+     * needed, defuscate (if required) and return JSON encoded array. */
+    let webex_question = e.closest(".webex-question");
+    if (webex_question == null) { return JSON.parse(answer); }
+
+    /* checking for webex-id which determines if defuscation is required */
+    if (webex_question.hasAttribute("webex-id")) {
+      webex_id = webex_question.getAttribute("webex-id");
+      /* decrypt */
+      const aBytes = new TextEncoder().encode(atob(answer));
+      const wBytes = new TextEncoder().encode(webex_id);
+      const rBytes = aBytes.map((byte, index) => byte^wBytes[index % wBytes.length]);
+      /* decode to character */
+      answer = new TextDecoder().decode(rBytes);
+    }
+    return JSON.parse(answer);
 }
 
 /* function for checking solveme answers */
@@ -130,18 +147,7 @@ solveme_func = function(e) {
   }
 
   /* Find closest (parent) webex-question */
-  let webex_question = this.closest(".webex-question");
-  let real_answers;
-  if (webex_question != null && webex_question.hasAttribute("webex-id")) {
-    webex_id = webex_question.getAttribute("webex-id");
-    //DEV//console.log("[R] webex: Question has ID " + webex_id);
-    real_answers = defuscate(this.dataset.answer, webex_id);
-    real_answers = JSON.parse(defuscate(this.dataset.answer, webex_id));
-  } else {
-    //DEV//console.log("[R] webex: Question has no obfuscation")
-    real_answers = JSON.parse(this.dataset.answer);
-  }
-  //DEV//console.log("[R] Real answer: " + real_answers + " (length = " + real_answers.length + ")")
+  let real_answers = get_ans_array(this)
 
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;

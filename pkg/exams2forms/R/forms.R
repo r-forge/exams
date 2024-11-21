@@ -1,8 +1,8 @@
 
 
 ## get 'defuscation key', only useful when used with exams2forms.
-## If webes_id is provided via the dots argument, a unique webex_id
-## is teturned used for obfuscation, else logical FALSE is returned.
+## If webex_id is provided via the dots argument, a unique webex_id
+## is returned used for obfuscation, else NULL will be returned.
 get_webex_id <- function(...) {
   ## Evaluating webex_id used for obfuscation, only useful when used with exams2forms
   args <- list(...)
@@ -11,7 +11,7 @@ get_webex_id <- function(...) {
     stopifnot("the optional argument `webex_id` must be a single character (not empty)" =
               is.character(webex_id) && length(webex_id) == 1 && nchar(webex_id) > 0)
   } else {
-    webex_id <- FALSE
+    webex_id <- NULL
   }
   return(webex_id)
 }
@@ -34,22 +34,18 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
     "argument `regex` must be logical" = isTRUE(regex) || isFALSE(regex)
   )
 
+  ## get webex_id used for obfuscation. If not used, NULL is returned
+  webex_id <- get_webex_id(...)
+
   ## answer processing
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
-  answers <- json_string(answer)
-  answers <- gsub("\'", "&apos;", answers, fixed = TRUE)
-
-  ## get webex_id used for obfuscation. If not used, FALSE is returned
-  webex_id <- get_webex_id(...)
+  answers <- json_answer(answer, webex_id)
 
   ## html format
   classes <- c()
   if (!usecase)  classes <- c(classes, "ignorecase")
   if (!usespace) classes <- c(classes, "nospaces")
   if (regex)     classes <- c(classes, "regex")
-
-  ## if an webex_id is given, obfuscate answer (only useful when exams2forms/exams2webquiz is used)
-  if (is.character(webex_id)) answers <- obfuscate(answers, webex_id)
 
   ## html format
   html <- sprintf("<input class='webex-solveme%s' size='%s' data-answer='%s'/>",
@@ -80,16 +76,12 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
     "argument `regex` must be logical" = isTRUE(regex) || isFALSE(regex)
   )
 
-  ## answer processing
-  if(is.null(width)) width <- min(100L, max(nchar(answer)))
-  answers <- json_string(as.character(answer))
-  answers <- gsub("\'", "&apos;", answers, fixed = TRUE)
-
   ## get webex_id used for obfuscation. If not used, FALSE is returned
   webex_id <- get_webex_id(...)
 
-  ## if an webex_id is given, obfuscate answer (only useful when exams2forms/exams2webquiz is used)
-  if (is.character(webex_id)) answers <- obfuscate(answers, webex_id)
+  ## answer processing
+  if(is.null(width)) width <- min(100L, max(nchar(answer)))
+  answers <- json_answer(answer, webex_id)
 
   ## html format
   html <- sprintf("<input class='webex-solveme%s%s' data-tol='%s' size='%s' data-answer='%s'/>",
@@ -125,11 +117,9 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   if (display == "buttons") {
     ## radio buttons interaction (grouped by random label)
     lab <- paste0("radio_group_", paste(sample(c(LETTERS, letters, 0:9), 10, replace = TRUE), collapse = ""))
-    html <- sprintf("<label><input type='radio' autocomplete='off' name='%s' value='%s'></input><span>%s</span></label>",
-      lab, ifelse(solution, "answer", ""), answerlist2)
+    html <- sprintf("<label><input type='radio' autocomplete='off' name='%s'></input><span>%s</span></label>", lab, answerlist2)
     html <- sprintf("<div class='webex-radiogroup' id='%s' data-answer='%s'>%s</div>\n", lab,
-                    if (is.character(webex_id)) obfuscate(json_string(solution), webex_id) else json_string(solution),
-                    paste(html, collapse = ""))
+                    json_answer(solution, webex_id), paste(html, collapse = ""))
   } else {
     ## dropdown menu interaction
     html <- sprintf("<option value='%s'>%s</option>", ifelse(solution, "answer", ""), answerlist2)
@@ -166,11 +156,9 @@ forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown
   if(display == "buttons") {
     ## checkbox buttons interaction (grouped by random label)
     lab <- paste0("checkbox_group_", paste(sample(c(LETTERS, letters, 0:9), 10, replace = TRUE), collapse = ""))
-    html <- sprintf("<label><input type='checkbox' autocomplete='off' name='%s' value='%s'></input><span>%s</span></label>",
-      lab, ifelse(solution, "answer", ""), answerlist2)
+    html <- sprintf("<label><input type='checkbox' autocomplete='off' name='%s'></input><span>%s</span></label>", lab, answerlist2)
     html <- sprintf("<div class='webex-checkboxgroup' id='%s' data-answer='%s'>%s</div>\n", lab,
-                    if (is.character(webex_id)) obfuscate(json_string(solution), webex_id) else json_string(solution),
-                    paste(html, collapse = ""))
+                    json_answer(solution, webex_id), paste(html, collapse = ""))
   } else {
     ## dropdown menu interaction
     html <- vapply(solution, function(x) {
@@ -205,6 +193,15 @@ json_string <- function(x) {
         x <- sapply(x, function(x) sprintf('\"%s\"', gsub('"', '\\"', x, fixed = TRUE)))
     }
     return(sprintf('[%s]', paste(x, collapse = ", ")))
+}
+
+## helper function to retrieve the correct answer as JSON string which is embedded in
+## the HTML code. If webex_id is character, obfuscation is applied.
+json_answer <- function(x, webex_id = NULL) {
+    stopifnot(is.null(webex_id) || (is.character(webex_id) && length(webex_id) == 1))
+    x <- json_string(x)
+    x <- gsub("\'", "&apos;", x, fixed = TRUE)
+    return(if (is.null(webex_id)) x else obfuscate(x, webex_id))
 }
 
 
