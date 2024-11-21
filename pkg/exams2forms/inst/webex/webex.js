@@ -230,21 +230,30 @@ select_func = function(e) {
 radiogroups_func = function(e) {
   console.log("webex: check radiogroups");
 
-  var checked_button = document.querySelector("input[name=" + this.id + "]:checked");
-  var cl = checked_button.parentElement.classList;
-  var labels = checked_button.parentElement.parentElement.children;
+  /* get real answer (binary integer array) */
+  var group = document.querySelector(".webex-radiogroup:has(>label >input[name=" + this.id + "])")
+  var real_answer = get_ans_array(group)
 
-  /* get rid of styles */
-  for (i = 0; i < labels.length; i++) {
-    labels[i].classList.remove("webex-incorrect");
-    labels[i].classList.remove("webex-correct");
+  /* check which radiobuttion is selected (user answer) */
+  function get_checked(radios) {
+    return radios.findIndex(radios => radios.checked);
   }
+  var radios = Array.from(group.querySelectorAll("input[type='radio']"))
+  var radio_index = get_checked(radios);
 
-  /* add style */
-  if (checked_button.value == "answer") {
-    cl.add("webex-correct");
+  /* remove existing classes */
+  radios.forEach(radio => {
+    let cl = radio.closest("label").classList
+    cl.remove("webex-incorrect");
+    cl.remove("webex-correct");
+  });
+
+  /* add class for current selection */
+  let cl = radios[radio_index].closest("label").classList
+  if (real_answer[radio_index] === 1) {
+      cl.add("webex-correct");
   } else {
-    cl.add("webex-incorrect");
+      cl.add("webex-incorrect");
   }
 
   update_total_correct();
@@ -255,18 +264,29 @@ radiogroups_func = function(e) {
 checkboxgroups_func = function(e) {
   console.log("webex: check checkboxgroups");
 
-  /* list of all answer elements (correct and incorrect) */
-  var inputs = document.querySelectorAll("div[id='" + this.id + "'] input")
+  /* get real answer (binary integer array) */
+  var group = document.querySelector(".webex-checkboxgroup[id=" + this.id + "]")
+  var real_answer = get_ans_array(group)
 
-  /* setting class for correct/incorrect answers */
-  inputs.forEach(function(input) {
-      var label = input.parentNode
-      if ((input.checked && input.value == "answer") || (!input.checked && input.value == "")) {
-          //input.setAttribute("class", "webex-correct")
-          label.setAttribute("class", "webex-correct")
-      } else {
-          label.setAttribute("class", "webex-incorrect")
-      }
+  /* check which checkbox is checked (user answer) */
+  function get_checked(group) {
+      const checkboxes = Array.from(group.querySelectorAll("input[type='checkbox']"));
+      return checkboxes.reduce((indices, checkbox, index) => {
+          if (checkbox.checked) indices.push(index);
+          return indices;
+      }, []);
+  }
+  var checks = Array.from(group.querySelectorAll("input[type='checkbox']"))
+  var check_index = get_checked(group);
+
+  checks.forEach((e, index) => {
+    var label = e.parentNode;
+    var ans = real_answer[index];
+    if ((e.checked && ans === 1) || (!e.checked && ans === 0)) {
+        label.setAttribute("class", "webex-correct")
+    } else {
+        label.setAttribute("class", "webex-incorrect")
+    }
   });
 
   update_total_correct();
