@@ -75,9 +75,10 @@ exams2forms <- function(file,
 
     ## set up forms for question
     forms <- switch(x$metainfo$type,
-      "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display),
-      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display),
-      "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), webex_id = webex_id),
+      "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display, webex_id = webex_id),
+      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display, webex_id = webex_id),
+      "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol,
+                    width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), webex_id = webex_id),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
                     usecase = usecase, usespace = usespace, regex = regex, webex_id = webex_id),
       character(0))

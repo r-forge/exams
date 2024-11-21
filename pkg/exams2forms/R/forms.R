@@ -49,10 +49,9 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
   if (regex)     classes <- c(classes, "regex")
 
   ## if an webex_id is given, obfuscate answer (only useful when exams2forms/exams2webquiz is used)
-  if (is.character(webex_id)) {
-    stopifnot("package `digest` required if `obfuscate = TRUE`" = requireNamespace("digest"))
-    answers <- obfuscate(answers, webex_id)
-  }
+  if (is.character(webex_id)) answers <- obfuscate(answers, webex_id)
+
+  ## html format
   html <- sprintf("<input class='webex-solveme%s' size='%s' data-answer='%s'/>",
     if (length(classes) == 0) "" else paste0(" ", paste(classes, collapse = " ")),
     width, answers)
@@ -90,10 +89,7 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
   webex_id <- get_webex_id(...)
 
   ## if an webex_id is given, obfuscate answer (only useful when exams2forms/exams2webquiz is used)
-  if (is.character(webex_id)) {
-    stopifnot("package `digest` required if `obfuscate = TRUE`" = requireNamespace("digest"))
-    answers <- obfuscate(answers, webex_id)
-  }
+  if (is.character(webex_id)) answers <- obfuscate(answers, webex_id)
 
   ## html format
   html <- sprintf("<input class='webex-solveme%s%s' data-tol='%s' size='%s' data-answer='%s'/>",
@@ -106,29 +102,34 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
   if (is_html_output()) html else plain
 }
 
-forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown")) {
+forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown"), ...) {
   ## sanity checks
   ## solution processing
-  solution    <- as.integer(unlist(solution))
+  solution    <- as.logical(unlist(solution))
   ## answer processing
   answerlist  <- as.character(unlist(answerlist))
   answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
   stopifnot(
-    "values in `solution` must be 0 or 1" = all(solution == 0L | solution == 1L),
+    "missing values in `solution` not allowed" = all(!is.na(solution)),
     "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
     "there must be exactly one correct solution" = sum(solution) == 1L,
     "length of answerlist and solution must match" = length(answerlist) == length(solution)
   )
-  
+
   ## type of interaction/display
   display <- match.arg(display, c("buttons", "dropdown"))
 
+  ## get webex_id used for obfuscation. If not used, FALSE is returned
+  webex_id <- get_webex_id(...)
+
   if (display == "buttons") {
     ## radio buttons interaction (grouped by random label)
-    lab <- paste0("radio_group_", paste(sample(letters, 10, replace = TRUE), collapse = ""))
+    lab <- paste0("radio_group_", paste(sample(c(LETTERS, letters, 0:9), 10, replace = TRUE), collapse = ""))
     html <- sprintf("<label><input type='radio' autocomplete='off' name='%s' value='%s'></input><span>%s</span></label>",
       lab, ifelse(solution, "answer", ""), answerlist2)
-    html <- sprintf("<div class='webex-radiogroup' id='%s'>%s</div>\n", lab, paste(html, collapse = ""))
+    html <- sprintf("<div class='webex-radiogroup' id='%s' data-answer='%s'>%s</div>\n", lab,
+                    if (is.character(webex_id)) obfuscate(json_string(solution), webex_id) else json_string(solution),
+                    paste(html, collapse = ""))
   } else {
     ## dropdown menu interaction
     html <- sprintf("<option value='%s'>%s</option>", ifelse(solution, "answer", ""), answerlist2)
@@ -143,15 +144,15 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   if (is_html_output()) html else plain
 }
 
-forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown")) {
+forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown"), ...) {
   ## sanity checks
   ## solution processing
-  solution    <- as.integer(unlist(solution))
+  solution    <- as.logical(unlist(solution))
   ## answer processing
   answerlist  <- as.character(unlist(answerlist))
   answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
   stopifnot(
-    "values in `solution` must be 0 or 1" = all(solution == 0L | solution == 1L),
+    "missing values in `solution` not allowed" = all(!is.na(solution)),
     "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
     "length of answerlist and solution must match" = length(answerlist) == length(solution)
   )
@@ -159,12 +160,17 @@ forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown
   ## type of interaction/display
   display <- match.arg(display, c("buttons", "dropdown"))
 
+  ## get webex_id used for obfuscation. If not used, FALSE is returned
+  webex_id <- get_webex_id(...)
+
   if(display == "buttons") {
     ## checkbox buttons interaction (grouped by random label)
-    lab <- paste0("checkbox_group_", paste(sample(letters, 10, replace = TRUE), collapse = ""))
+    lab <- paste0("checkbox_group_", paste(sample(c(LETTERS, letters, 0:9), 10, replace = TRUE), collapse = ""))
     html <- sprintf("<label><input type='checkbox' autocomplete='off' name='%s' value='%s'></input><span>%s</span></label>",
       lab, ifelse(solution, "answer", ""), answerlist2)
-    html <- sprintf("<div class='webex-checkboxgroup' id='%s'>%s</div>\n", lab, paste(html, collapse = ""))
+    html <- sprintf("<div class='webex-checkboxgroup' id='%s' data-answer='%s'>%s</div>\n", lab,
+                    if (is.character(webex_id)) obfuscate(json_string(solution), webex_id) else json_string(solution),
+                    paste(html, collapse = ""))
   } else {
     ## dropdown menu interaction
     html <- vapply(solution, function(x) {
@@ -190,9 +196,14 @@ is_html_output <- function() {
 }
 
 
-## naive JSON encoder for single character strings
+## naive JSON encoder for character vectors and logical vectors.
+## If `x` is a logical vector, it is encoded as integer 0/1 (e.g., "[0,1,0,0]") for schoice/mchoice
 json_string <- function(x) {
-    x <- sapply(x, function(x) sprintf('\"%s\"', gsub('"', '\\"', x, fixed = TRUE)))
+    if (is.logical(x)) {
+        x <- paste(as.integer(x), collapse = ",")
+    } else {
+        x <- sapply(x, function(x) sprintf('\"%s\"', gsub('"', '\\"', x, fixed = TRUE)))
+    }
     return(sprintf('[%s]', paste(x, collapse = ", ")))
 }
 
