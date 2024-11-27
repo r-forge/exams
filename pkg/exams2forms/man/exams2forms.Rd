@@ -17,7 +17,7 @@ exams2forms(file,
   usecase = TRUE, usespace = TRUE,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, \dots)
+  converter = "pandoc-mathjax", base64 = NULL, obfuscate = FALSE, \dots)
 }
 
 \arguments{
@@ -75,6 +75,8 @@ exams2forms(file,
     Passed on to \code{\link[exams]{make_exercise_transform_pandoc}}.
     The default is to enable Base 64 when an HTML-type document is produced.}
   \item{\dots}{currently not used.}
+  \item{obfuscate}{logical. If \code{FALSE} (default), the correct
+      solution will be visible in plain text within the HTML document.}
 }
 
 \details{

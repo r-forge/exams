@@ -4,8 +4,9 @@ importFrom("grDevices", "adjustcolor", "convertColor", "col2rgb", "rgb")
 importFrom("tools", "file_path_as_absolute")
 importFrom("utils", "browseURL")
 
-importFrom("knitr", "knit_hooks", "opts_knit")
+importFrom("knitr", "knit_hooks", "opts_knit", "opts_current")
 importFrom("rmarkdown", "html_document", "includes", "pandoc_available", "render")
+importFrom("digest", "digest")
 
 export(
   "exams2forms",

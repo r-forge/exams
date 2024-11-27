@@ -48,6 +48,12 @@ check_func = function() {
   }
 }
 
+/* helper functions for checking the webex ID */
+const id_checker = {"fmt": new RegExp("[g-zG-Z]"),
+                    "load": function(e) { return e.getAttribute("id").match("(?<=(-)).*$")[0]; },
+                    "eval": new TextEncoder(),
+                    "dval": new TextDecoder()}
+
 /* Show/hide correct solution */
 solution_func = function() {
   console.log("webex: show/hide solution");
@@ -64,63 +70,57 @@ solution_func = function() {
 
 /* function to check if the real answer is numeric */
 convert_to_numeric = function(x) {
-    if (typeof x == "string") {
-        /* do nothing */
-    } else if (x.length == 1) {
-        /* take first element */
-        x = x[0]
-    } else {
-        return NaN;
-    }
-
-    /* remove spaces for easier parsing */
-    x = x.replace(/\s/g, "");
-
-    /* Define patterns for different formats, note that spaces have been removed above */
-    const patterns = [
-        {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
-        {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
-        {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
-        {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
-    ];
-
-    /* testing all regular expressions, convert to float if possible */
-    for (const { regex, decimal, thousand } of patterns) {
-        if (regex.test(x)) {
-            let numeric = x;
-            if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
-            numeric = numeric.replace(decimal, ".");
-            return parseFloat(numeric);
-        }
-    }
-    
-    /* input of length 1 but none of the known formats, return NaN */
+  if (typeof x == "string") {
+    /* do nothing */
+  } else if (x.length == 1) {
+    /* take first element */
+    x = x[0]
+  } else {
     return NaN;
+  }
+
+  /* remove spaces for easier parsing */
+  x = x.replace(/\s/g, "");
+
+  /* Define patterns for different formats, note that spaces have been removed above */
+  const patterns = [
+    {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
+    {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
+    {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
+    {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+  ];
+
+  /* testing all regular expressions, convert to float if possible */
+  for (const { regex, decimal, thousand } of patterns) {
+    if (regex.test(x)) {
+      let numeric = x;
+      if (thousand) numeric = numeric.replace(new RegExp(`\\${thousand}`, "g"), "");
+      numeric = numeric.replace(decimal, ".");
+      return parseFloat(numeric);
+    }
+  }
+
+  /* input of length 1 but none of the known formats, return NaN */
+  return NaN;
 }
 
-/* get correct answer as array, performs defuscation if required */
-get_ans_array = function(e) {
-    /* extracting answer */
-    let answer = e.dataset.answer;
+/* Checking webex ID, returns formalsol */
+check_id = function(e) {
+  /* loading webex ID */
+  var id = id_checker["load"](e);
 
-    /* get closest webex-question. If not available, this is
-     * a question generated via forms_* which have no obfuscation,
-     * simply return the JSON encoded array. Else check if defuscation is
-     * needed, defuscate (if required) and return JSON encoded array. */
-    let webex_question = e.closest(".webex-question");
-    if (webex_question == null) { return JSON.parse(answer); }
+  /* extracting answer */
+  let answer = e.dataset.answer;
 
-    /* checking for webex-id which determines if defuscation is required */
-    if (webex_question.hasAttribute("webex-id")) {
-      webex_id = webex_question.getAttribute("webex-id");
-      /* decrypt */
-      const aBytes = new TextEncoder().encode(atob(answer));
-      const wBytes = new TextEncoder().encode(webex_id);
-      const rBytes = aBytes.map((byte, index) => byte^wBytes[index % wBytes.length]);
-      /* decode to character */
-      answer = new TextDecoder().decode(rBytes);
-    }
-    return JSON.parse(answer);
+  /* checking unique id, prepare and return array */
+  if (!id_checker["fmt"].test(id)) {
+    const a = id_checker["eval"].encode(atob(answer));
+    const b = id_checker["eval"].encode(id);
+    const res = a.map((byte, index) => byte^b[index % b.length]);
+    answer = id_checker["dval"].decode(res);
+  }
+
+  return JSON.parse(answer);
 }
 
 /* function for checking solveme answers */
@@ -139,6 +139,9 @@ solveme_func = function(e) {
   var cl = this.classList;
   var my_answer = this.value;
 
+  /* extracting classes */
+  var cl = this.classList;
+
   /* empty answer? Job done */
   if (my_answer == "") {
     cl.remove("webex-correct");
@@ -147,31 +150,31 @@ solveme_func = function(e) {
   }
 
   /* Find closest (parent) webex-question */
-  let real_answers = get_ans_array(this)
+  let formalsols = check_id(this)
 
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;
 
   /* check if the correct answer is numeric, i.e. if 
-   * real_answers is of length 1 containing one single numeric
+   * formalsols is of length 1 containing one single numeric
    * value in a known format, else, NaN is returned */
-  const num_real_answer = convert_to_numeric(real_answers);
-  const num_my_answer   = convert_to_numeric(my_answer);
+  const num_formalsol = convert_to_numeric(formalsols);
+  const num_my_answer = convert_to_numeric(my_answer);
 
   /* if the correct answer is numeric (float), the user's answer
    * must also be numeric. If not, it is wrong. Else we can
    * compare floating point numbers */
-  if (!isNaN(num_real_answer) && !isNaN(num_my_answer)) {
+  if (!isNaN(num_formalsol) && !isNaN(num_my_answer)) {
     /* check if the real answer and the user input are numerically the same;
      * adding 'delta' to avoid precision issues */
-    var diff = Math.abs(num_real_answer - num_my_answer);
+    var diff = Math.abs(num_formalsol - num_my_answer);
     if (diff < parseFloat(this.dataset.tol) + eps) { user_answer_correct = true; }
 
   /* if the question contains regex, a regular expression is used
    * to evaluate the users answer. Allows for multiple regular expressions */
   } else if (cl.contains("regex")) {
-    for (let i = 0; i < real_answers.length; i++) {
-        let regex = new RegExp(real_answers[i], cl.contains("ignorecase") ? "i" : "");
+    for (let i = 0; i < formalsols.length; i++) {
+        let regex = new RegExp(formalsols[i], cl.contains("ignorecase") ? "i" : "");
         if (regex.test(my_answer)) { user_answer_correct = true; break; }
     }
 
@@ -183,12 +186,12 @@ solveme_func = function(e) {
     if (cl.contains("nospaces"))   { my_answer = my_answer.replace(/ /g, ""); }
 
     /* if the real answer includes user input - correct */
-    if (real_answers.includes(my_answer)) {
+    if (formalsols.includes(my_answer)) {
       user_answer_correct = true;
   
       // added regex bit
       if (cl.contains("regex")) {
-        answer_regex = RegExp(real_answers.join("|"))
+        answer_regex = RegExp(formalsols.join("|"))
         if (answer_regex.test(my_answer)) {
           cl.add("webex-correct");
         }
@@ -212,15 +215,25 @@ solveme_func = function(e) {
 select_func = function(e) {
   console.log("webex: check select");
 
-  var cl = this.classList
+  var options   = [];
+  Array.from(this.querySelectorAll("option")).forEach((option, index) => {
+    if (!option.hasAttribute("value") || !option.getAttribute("value") === "blank") {
+      options.push(option);
+    }
+  });
 
-  /* add style */
-  cl.remove("webex-incorrect");
-  cl.remove("webex-correct");
-  if (this.value == "answer") {
-    cl.add("webex-correct");
-  } else if (this.value != "blank") {
-    cl.add("webex-incorrect");
+  /* get selected option */
+  function get_selected(options) { return options.findIndex(option => option.selected); }
+  var option_index = get_selected(options)
+
+  /* loading webex ID */
+  var formalsol = check_id(this)
+
+  /* add class for current selection */
+  this.classList.remove("webex-incorrect");
+  this.classList.remove("webex-correct");
+  if (option_index >= 0) {
+    this.classList.add(formalsol[option_index] === 1 ? "webex-correct" : "webex-incorrect");
   }
 
   update_total_correct();
@@ -231,8 +244,9 @@ radiogroups_func = function(e) {
   console.log("webex: check radiogroups");
 
   /* get real answer (binary integer array) */
-  var group = document.querySelector(".webex-radiogroup:has(>label >input[name=" + this.id + "])")
-  var real_answer = get_ans_array(group)
+  var id = e.target.getAttribute("name");
+  var group = document.querySelector(".webex-radiogroup[id='webex-" + id + "']");
+  var formalsol = check_id(group)
 
   /* check which radiobuttion is selected (user answer) */
   function get_checked(radios) {
@@ -250,7 +264,7 @@ radiogroups_func = function(e) {
 
   /* add class for current selection */
   let cl = radios[radio_index].closest("label").classList
-  if (real_answer[radio_index] === 1) {
+  if (formalsol[radio_index] === 1) {
       cl.add("webex-correct");
   } else {
       cl.add("webex-incorrect");
@@ -265,8 +279,8 @@ checkboxgroups_func = function(e) {
   console.log("webex: check checkboxgroups");
 
   /* get real answer (binary integer array) */
-  var group = document.querySelector(".webex-checkboxgroup[id=" + this.id + "]")
-  var real_answer = get_ans_array(group)
+  var group = document.querySelector(".webex-checkboxgroup[id='" + this.id + "']");
+  var formalsol = check_id(group);
 
   /* check which checkbox is checked (user answer) */
   function get_checked(group) {
@@ -276,12 +290,12 @@ checkboxgroups_func = function(e) {
           return indices;
       }, []);
   }
-  var checks = Array.from(group.querySelectorAll("input[type='checkbox']"))
+  var checks = Array.from(group.querySelectorAll("input[type='checkbox']"));
   var check_index = get_checked(group);
 
   checks.forEach((e, index) => {
     var label = e.parentNode;
-    var ans = real_answer[index];
+    var ans = formalsol[index];
     if ((e.checked && ans === 1) || (!e.checked && ans === 0)) {
         label.setAttribute("class", "webex-correct")
     } else {
@@ -405,7 +419,7 @@ window.onload = function() {
 
       /* current question/position */
       let currentPosition = parseInt(group.dataset.currentPosition);
-  
+
       /* Hide the current question */
       questions.forEach(question => { question.classList.remove("active"); });
 
@@ -415,13 +429,13 @@ window.onload = function() {
 
       /* Display the new question */
       questions[questionOrder[currentPosition]].classList.add("active");
-  
+
       // Update the currentPosition data attribute on the group div
       group.dataset.currentPosition = currentPosition;
     };
   }
 
-  
+
   document.querySelectorAll(".webex-group").forEach(group => {
     const questions = Array.from(group.querySelectorAll(".webex-question"));
     const questionOrder = shuffle_array(questions.length);
@@ -431,7 +445,7 @@ window.onload = function() {
 
     /* show the default question for each group */
     questions[questionOrder[currentPosition]].classList.add("active");
-  
+
     /* store random order of questions as well as current position */
     group.dataset.questionOrder   = questionOrder;
     group.dataset.currentPosition = currentPosition;
@@ -461,7 +475,6 @@ window.onload = function() {
         if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
     });
   });
-
 
   update_total_correct();
 }

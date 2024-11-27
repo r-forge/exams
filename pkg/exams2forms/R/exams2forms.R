@@ -4,7 +4,7 @@ exams2forms <- function(file,
   usecase = TRUE, usespace = TRUE,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, ...) {
+  converter = "pandoc-mathjax", base64 = NULL, obfuscate = FALSE, ...) {
 
   if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1L])
   if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1L])
@@ -16,25 +16,7 @@ exams2forms <- function(file,
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
 
-  ## TODO: Currently an internal option: Allow for obfuscation.
-  ##       The argument to `exams2forms` will be `obfuscate = TRUE/FALSE`, I
-  ##       currently set it internally for testing. We could think of adding
-  ##       different versions of obfuscation in the future (by question)
-  ##       allowing for a vector here or a string?
-  obfuscate <- if ("obfuscate" %in% names(args)) as.logical(args$obfuscate)[1L] else FALSE
-  if (!isTRUE(obfuscate) || isFALSE(obfuscate)) obfuscate <- as.logical(obfuscate[1])
   stopifnot("argument `obfuscate` must be logical TRUE or FALSE" = isTRUE(obfuscate) || isFALSE(obfuscate))
-
-  ## Generate webes-id, keep it FALSE if `obfuscation` was false. Else this will contain the
-  ## string to obfuscate our correct answer.
-  webex_id <- if (!obfuscate) {
-      FALSE
-  } else {
-      digest::digest(sprintf("%s_%.0f", file, as.integer(Sys.time()) * 1e6), algo = "md5")
-  }
-
-  ## If `obfuscate = TRUE` the R package digest is needed for md5 hashing
-  if (obfuscate) stopifnot("package `digest` required when obfuscate is set TRUE" = requireNamespace("digest"))
 
   if(!missing(dir)) {
     warning("output 'dir' is not relevant for exams2forms(), ignored")
@@ -49,8 +31,10 @@ exams2forms <- function(file,
   ## and then combine with forms
   if (is.null(base64)) base64 <- is_html_output()
   mdtrafo <- make_exercise_transform_pandoc(to = "markdown", options = "--wrap=none", base64 = base64)
+  digesttrafo <- make_exercise_transform_digest(obfuscate = obfuscate)
+
   formstrafo <- function(x, ...) {
-    
+
     ## Need to fix issues that are not handled correctly in LaTeX to Markdown conversion?
     fix_tex2md <- x$metainfo$markup == "latex"
 
@@ -64,6 +48,7 @@ exams2forms <- function(file,
 
     ## unify markup
     x <- mdtrafo(x)
+    x <- digesttrafo(x)
 
     ## remove default "image" caption in Markdown if original input was LaTeX
     if(fix_tex2md) {
@@ -75,14 +60,14 @@ exams2forms <- function(file,
 
     ## set up forms for question
     forms <- switch(x$metainfo$type,
-      "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display, webex_id = webex_id),
-      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display, webex_id = webex_id),
+      "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display, obfuscate = x$metainfo$obfuscate),
+      "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display, obfuscate = x$metainfo$obfuscate),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol,
-                    width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), webex_id = webex_id),
+                    width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), obfuscate = x$metainfo$obfuscate),
       "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
-                    usecase = usecase, usespace = usespace, regex = regex, webex_id = webex_id),
+                    usecase = usecase, usespace = usespace, regex = regex, obfuscate = x$metainfo$obfuscate),
       character(0))
-    
+
     ## for cloze: embed forms directly
     if (x$metainfo$type == "cloze") {
       g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
@@ -93,11 +78,14 @@ exams2forms <- function(file,
           warning(sprintf("cloze type '%s' not supported, rendered as 'string'", x$metainfo$clozetype[j]))
         }
         qj <- switch(x$metainfo$clozetype[j],
-          "schoice" = forms_schoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_schoice_display),
-          "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]], display = cloze_mchoice_display),
-          "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]])))),
+          "schoice" = forms_schoice(x$questionlist[[j]], x$metainfo$solution[[j]],
+                                    display = cloze_schoice_display, obfuscate = x$metainfo$obfuscate),
+          "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]],
+                                    display = cloze_mchoice_display, obfuscate = x$metainfo$obfuscate),
+          "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j],
+                            width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))), obfuscate = x$metainfo$obfuscate),
           forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))),
-                       usespace = usespace, usecase = usecase, regex = regex)
+                       usespace = usespace, usecase = usecase, regex = regex, obfuscate = x$metainfo$obfuscate)
         )
         aj <- paste0("##ANSWER", j, "##")
         if(any(grepl(aj, x$question, fixed = TRUE))) {
@@ -112,7 +100,7 @@ exams2forms <- function(file,
 
     ## question including forms
     question <- c(start_check, x$question, "", forms, end_check)
-      
+
     ## set up solution (if desired and available)
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)
     solution_title <- if(identical(solution, TRUE)) "" else as.character(solution)
@@ -133,15 +121,8 @@ exams2forms <- function(file,
     }
 
     ## adding required .webex-question container around each exercise
-    txt <- if (isFALSE(webex_id)) {
-        "::: {.webex-question}"
-    } else {
-        ## Obfuscate correct answer using the webex_id
-        webex_id <- digest::digest(sprintf("%s_%.0f", file, as.integer(Sys.time()) * 1e6), algo = "md5")
-        webex_id <- sprintf("::: {.webex-question webex-id='%s'}", webex_id)
-    }
-    txt <- c(txt, question, solution, "", ":::")
-    
+    txt <- c("::: {.webex-question}", question, solution, "", ":::")
+
     ## fix paths to supplements (if any) and try to make them local to be portable in rmarkdown/quarto output
     if(!is.null(sdir)) sdir <- paste0(sdir, if(substr(sdir, nchar(sdir), nchar(sdir)) == "/") "" else "/", "exam")
     for(sup in x$supplements) {
@@ -154,10 +135,10 @@ exams2forms <- function(file,
       prefix <- "]("
       txt <- xsub(paste0(prefix, s1), paste0(prefix, s2), txt, fixed = TRUE)
     }
-    
+
     return(txt)
   }
-  
+
   ## generate xexams
   rval <- xexams(file,
     n = n, dir = dir, nsamp = nsamp, edir = edir, tdir = tdir, sdir = sdir, verbose = verbose,
@@ -195,3 +176,12 @@ xsub <- function(pattern, replacement, x, ...) {
     gsub(pattern, replacement, x, ...)
   }
 }
+
+## digest transformer handling obfuscate argument
+make_exercise_transform_digest <- function(obfuscate = TRUE) {
+  function(x) {
+    x$metainfo$obfuscate <- obfuscate
+    return(x)
+  }
+}
+

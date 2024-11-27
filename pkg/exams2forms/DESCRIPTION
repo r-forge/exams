@@ -10,8 +10,8 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
              person(given = "Jonas", family = "Tscholl", role = "ctb", email = "Jonas.Tscholl@student.uibk.ac.at"))
 Description: Automatic generation of quizzes or individual questions as (interactive) forms within 'rmarkdown' or 'quarto' documents based on 'R/exams' exercises.
 Depends: R (>= 4.0.0), exams (>= 2.4-0)
-Imports: grDevices, tools, utils, knitr, rmarkdown
-Suggests: xfun, digest
+Imports: grDevices, tools, utils, knitr, rmarkdown, digest
+Suggests: xfun
 License: GPL-3
 URL: https://www.R-exams.org/tutorials/exams2forms/
 BugReports: https://www.R-exams.org/contact/
