@@ -58,13 +58,19 @@ exams2forms <- function(file,
       if(!is.null(x$solutionlist)) x$solutionlist <- xsub("![image](", "![](", x$solutionlist, fixed = TRUE)
     }
 
+    ## helper function to get field width
+    get_width <- function(nchar, solution) {
+        n <- as.integer(na.omit(sapply(solution, function(x) if (is.logical(x)) NA else nchar(x))))
+        return(if (length(n) == 0L) nchar[1L] else min(nchar[2L], max(nchar[1L], max(n))))
+    }
+
     ## set up forms for question
     forms <- switch(x$metainfo$type,
       "schoice" = forms_schoice(x$questionlist, x$metainfo$solution, display = schoice_display, obfuscate = x$metainfo$obfuscate),
       "mchoice" = forms_mchoice(x$questionlist, x$metainfo$solution, display = mchoice_display, obfuscate = x$metainfo$obfuscate),
       "num"     = forms_num(x$metainfo$solution, tol = x$metainfo$tol,
-                    width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))), obfuscate = x$metainfo$obfuscate),
-      "string"  = forms_string(x$metainfo$solution, width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution))),
+                    width = get_width(nchar, x$metainfo$solution), obfuscate = x$metainfo$obfuscate),
+      "string"  = forms_string(x$metainfo$solution, width = get_width(nchar, x$metainfo$solution),
                     usecase = usecase, usespace = usespace, regex = regex, obfuscate = x$metainfo$obfuscate),
       character(0))
 
@@ -83,8 +89,8 @@ exams2forms <- function(file,
           "mchoice" = forms_mchoice(x$questionlist[[j]], x$metainfo$solution[[j]],
                                     display = cloze_mchoice_display, obfuscate = x$metainfo$obfuscate),
           "num" = forms_num(x$metainfo$solution[[j]], tol = x$metainfo$tol[j],
-                            width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))), obfuscate = x$metainfo$obfuscate),
-          forms_string(x$metainfo$solution[[j]], width = min(nchar[2L], max(nchar[1L], nchar(x$metainfo$solution[[j]]))),
+                            width = get_width(nchar, x$metainfo$solution[[j]]), obfuscate = x$metainfo$obfuscate),
+          forms_string(x$metainfo$solution[[j]], width = get_width(nchar, x$metainfo$solution[[j]]),
                        usespace = usespace, usecase = usecase, regex = regex, obfuscate = x$metainfo$obfuscate)
         )
         aj <- paste0("##ANSWER", j, "##")
