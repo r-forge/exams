@@ -118,7 +118,6 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   solution    <- as.logical(unlist(solution))
   ## answer processing
   answerlist  <- as.character(unlist(answerlist))
-  answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
   stopifnot(
     "missing values in `solution` not allowed" = all(!is.na(solution)),
     "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
@@ -136,12 +135,12 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
 
   if (display == "buttons") {
     ## radio buttons interaction (grouped by random label)
-    html <- sprintf("<label><input type='radio' autocomplete='off' name='%s'></input><span>%s</span></label>", webex_id, answerlist2)
+    html <- sprintf("<label><input type='radio' autocomplete='off' name='%s'></input><span>%s</span></label>", webex_id, answerlist)
     html <- sprintf("<div class='webex-radiogroup' id='webex-%s' data-answer='%s'>%s</div>\n",
                     webex_id, json_answer(solution, webex_id), paste(html, collapse = ""))
   } else {
     ## dropdown menu interaction
-    html <- sprintf("<option>%s</option>", answerlist2)
+    html <- sprintf("<option>%s</option>", answerlist)
     html <- sprintf("<select class='webex-select' id='webex-%s' data-answer='%s'><option value='blank'></option>%s</select>",
                     webex_id, json_answer(solution, webex_id), paste(html, collapse = ""))
   }
@@ -160,7 +159,6 @@ forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown
   solution    <- as.logical(unlist(solution))
   ## answer processing
   answerlist  <- as.character(unlist(answerlist))
-  answerlist2 <- gsub("\'", "&apos;", answerlist, fixed = TRUE)
   stopifnot(
     "missing values in `solution` not allowed" = all(!is.na(solution)),
     "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
@@ -177,7 +175,7 @@ forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown
 
   if(display == "buttons") {
     ## checkbox buttons interaction (grouped by random label)
-    html <- sprintf("<label><input type='checkbox' autocomplete='off' name='%s'></input><span>%s</span></label>", webex_id, answerlist2)
+    html <- sprintf("<label><input type='checkbox' autocomplete='off' name='%s'></input><span>%s</span></label>", webex_id, answerlist)
     html <- sprintf("<div class='webex-checkboxgroup' id='webex-%s' data-answer='%s'>%s</div>\n",
                     webex_id, json_answer(solution, webex_id), paste(html, collapse = ""))
   } else {
@@ -185,7 +183,7 @@ forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown
     html <- vapply(solution, function(x) {
       forms_schoice(answerlist = c("TRUE", "FALSE"), solution = c(x, !x), display = "dropdown", obfuscate = obfuscate)
     }, "")
-    html <- paste("*", html, answerlist2, collapse = "\n")
+    html <- paste("*", html, answerlist, collapse = "\n")
   }
 
   ## plain format
