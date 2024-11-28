@@ -13,6 +13,10 @@
   See <https://www.R-exams.org/templates/boxplots/> or
   <https://www.R-exams.org/templates/lm2/> for two examples.
 
+* In the answer lists of single- and multiple-choice exercises
+  apostrophes are no longer escaped by `forms_schoice()` and
+  `forms_mchoice()` so that expressions like $f'(x)$ render correctly.
+
 
 # exams2forms 0.1-0
 
