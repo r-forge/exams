@@ -299,7 +299,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       xml <- c(xml,
         '<generalfeedback format="html">',
         '<text><![CDATA[<p>', x$solution,
-        if(!type %in% c("mchoice", "schoice") && nsol) {
+        if(type != "multichoice && nsol) {
           g <- rep(seq_along(x$metainfo$solution), sapply(x$metainfo$solution, length))
           soll <- sapply(split(x$solutionlist, g), paste, collapse = " / ")
           c(if(enumerate) '<ol type = "a">' else '<ul>',

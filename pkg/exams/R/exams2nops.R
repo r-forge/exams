@@ -209,15 +209,15 @@ empty <- if(!duplex) {
 "
 \\newpage
 \\thispagestyle{empty}
-\\phantom{.}
+{\\color{white}\\tiny .}
 "
 }
 
 if(is.null(blank)) blank <- ceiling(n/2)
 if(length(blank) < 2L) blank <- c(0L, blank)
 blank <- list(
-  rep("\\newpage\n\\phantom{.}", blank[1L]),
-  rep("\\newpage\n\\phantom{.}", blank[2L])
+  rep("\\newpage\n{\\color{white}\\tiny .}", blank[1L]),
+  rep("\\newpage\n{\\color{white}\\tiny .}", blank[2L])
 )
 
 rval <- c(
