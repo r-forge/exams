@@ -203,6 +203,8 @@ if(enc == "iso885915") enc <- "latin9"
 ## intro text (if any)
 if(!is.null(intro) && length(intro) == 1L && all(tools::file_ext(intro) == "tex")) intro <- readLines(intro)
 
+## empty pages have only a tiny white dot (rather than \phantom{.} in previous versions)
+## to force printers including the empty page in the print as well
 empty <- if(!duplex) {
 ""
 } else {
