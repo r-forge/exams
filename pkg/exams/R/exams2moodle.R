@@ -639,9 +639,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
           }
         }
 
-        ## FIXME, there is a NULL when using boxhist2?
-        tmp <- gsub('NULL', '', tmp, fixed = TRUE)
-
         ## insert in ##ANSWERi## tag
         if(any(grepl(ai <- paste("##ANSWER", i, "##", sep = ""), x$question, fixed = TRUE))) {
           x$question <- gsub(ai, paste(tmp, collapse = ", "), x$question, fixed = TRUE)
