@@ -14,13 +14,17 @@ multiple-choice (\code{mchoice}), text (\code{string}), or numeric
 }
 
 \usage{
-forms_schoice(answerlist, solution, display = c("buttons", "dropdown"), obfuscate = FALSE)
+forms_schoice(answerlist, solution,
+  display = c("buttons", "dropdown"), obfuscate = FALSE)
 
-forms_mchoice(answerlist, solution, display = c("buttons", "dropdown"), obfuscate = FALSE)
+forms_mchoice(answerlist, solution,
+  display = c("buttons", "dropdown"), obfuscate = FALSE)
 
-forms_string(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE, obfuscate = FALSE)
+forms_string(answer, width = NULL,
+  usecase = TRUE, usespace = FALSE, regex = FALSE, obfuscate = FALSE)
 
-forms_num(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE, obfuscate = FALSE)
+forms_num(answer, tol = 0, width = NULL,
+  usespace = FALSE, regex = FALSE, obfuscate = FALSE)
 }
 
 \arguments{
@@ -44,8 +48,8 @@ forms_num(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE, obfusc
   \item{regex}{logical. Should the evaluation of the input employ
     regular expressions?}
   \item{tol}{numeric. Tolerance for the evaluation of numeric input.}
-  \item{obfuscate}{logical or character. If \code{FALSE} (default), the correct
-      solution will be visible in plain text within the HTML document.}
+  \item{obfuscate}{logical. If \code{FALSE} (default), the correct
+    solution will be included as plain text in the HTML source code.}
 }
 
 \value{

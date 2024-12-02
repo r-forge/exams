@@ -76,7 +76,7 @@ exams2forms(file,
     The default is to enable Base 64 when an HTML-type document is produced.}
   \item{\dots}{currently not used.}
   \item{obfuscate}{logical. If \code{FALSE} (default), the correct
-      solution will be visible in plain text within the HTML document.}
+    solution will be included as plain text in the HTML source code.}
 }
 
 \details{
@@ -84,7 +84,8 @@ exams2forms(file,
   R/exams (\url{https://www.R-exams.org/}) in R/Markdown or Quarto documents.
   This is done by rendering the exercises (either in .Rnw or .Rmd format)
   into Markdown which can then be included in .Rmd or .qmd
-  documents.
+  documents. For a short introduction see
+  \url{https://www.R-exams.org/tutorials/exams2forms/}.
   
   The function \code{\link[exams2forms]{exams2webquiz}}
   can set up a suitable .Rmd file and directly render it. This is intended mostly
@@ -107,25 +108,25 @@ exams2forms(file,
 }
 
 \examples{
-## Example R/exams exercise: string, num, schoice, mchoice
+## example R/exams exercises: string, num, schoice, mchoice
 exams2forms("function.Rmd")
 exams2forms("deriv.Rmd")
 exams2forms("swisscapital.Rmd")
 exams2forms("switzerland.Rmd")
 
-## Usually exams2forms() is used within R/Markdown or Quarto tutorials,
+## usually exams2forms() is used within R/Markdown or Quarto tutorials,
 ## two example files are shipped within the package.
 ## - questions.Rmd: all questions set up indvidually
 ## - quiz.Rmd: an entire quiz set up in one go
 lr <- system.file("forms", package = "exams2forms")
 dir(lr)
 
-## The quiz.Rmd file is rather short and straightforward.
+## quiz.Rmd is rather short and straightforward
 rmd <- file.path(lr, "quiz.Rmd")
 writeLines(readLines(rmd))
 
 \dontrun{
-## Either .Rmd file can be loaded in RStudio and render from there or
+## either .Rmd file can be loaded in RStudio and rendered from there or
 ## using the command line, e.g.,
 rmarkdown::render(rmd)
 }
