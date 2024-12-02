@@ -1,17 +1,23 @@
 # exams2forms 0.1-1
 
+* Based on the package vignette, the R/exams web page has a tutorial
+  for `exams2forms`: <https://www.R-exams.org/tutorials/exams2forms/>.
+  
 * Some small improvements in `webex.css` and `webex.js` so that
   `exams2forms` output also renders correctly in jekyll projects,
   in particular with the feeling responsive theme used on
   <https://www.R-exams.org/>.
   
-* Based on the package vignette, the R/exams web page has a tutorial
-  for `exams2forms`: <https://www.R-exams.org/tutorials/exams2forms/>.
-  
 * All exercise template pages on the R/exams web page now feature an
   interactive preview with three random variations of each exercise.
   See <https://www.R-exams.org/templates/boxplots/> or
   <https://www.R-exams.org/templates/lm2/> for two examples.
+
+* The function `exams2forms()` as well as all underlying `forms_*()`
+  functions gained an argument `obfuscate = TRUE` which provides some
+  basic obfuscation of the correct answers for all forms in the
+  underlying HTML code. Thus, all correct answers are still stored in
+  the HTML but they are not easily readable anymore.
 
 * In the answer lists of single- and multiple-choice exercises
   apostrophes are no longer escaped by `forms_schoice()` and
