@@ -6,8 +6,11 @@ exams2forms <- function(file,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, obfuscate = FALSE, ...) {
 
+  ## sanity checks
   if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1L])
   if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1L])
+  if (!isTRUE(obfuscate) || isFALSE(obfuscate)) obfuscate <- as.logical(obfuscate[1L])
+  if(!missing(dir)) warning("output 'dir' is not relevant for exams2forms(), ignored")
 
   ## TODO: Removed `regex` option from official arguments list but can
   ##       be specified for testing purposes.
@@ -15,12 +18,6 @@ exams2forms <- function(file,
   regex <- if ("regex" %in% names(args)) as.logical(args$regex)[1L] else FALSE
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
-
-  stopifnot("argument `obfuscate` must be logical TRUE or FALSE" = isTRUE(obfuscate) || isFALSE(obfuscate))
-
-  if(!missing(dir)) {
-    warning("output 'dir' is not relevant for exams2forms(), ignored")
-  }
 
   ## process default arguments
   nchar <- rep_len(nchar, 2L)
@@ -59,9 +56,11 @@ exams2forms <- function(file,
     }
 
     ## helper function to get field width
+    ## FIXME: why is this so complicated?
+    dropna <- function(x) x[!is.na(x)]
     get_width <- function(nchar, solution) {
-        n <- as.integer(na.omit(sapply(solution, function(x) if (is.logical(x)) NA else nchar(x))))
-        return(if (length(n) == 0L) nchar[1L] else min(nchar[2L], max(nchar[1L], max(n))))
+      n <- as.integer(dropna(sapply(solution, function(x) if (is.logical(x)) NA else nchar(x))))
+      return(if (length(n) == 0L) nchar[1L] else min(nchar[2L], max(nchar[1L], max(n))))
     }
 
     ## set up forms for question
