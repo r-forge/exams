@@ -142,3 +142,23 @@ lighten_luv <- function(x, amount = 0.3) {
   x[, -1L] <- x[, -1L] * (1 - amount)
   rgb(convertColor(x, from = "Luv", to = "sRGB"))
 }
+
+
+## function to compute Unicode character with country flags
+## (currently included here because employed in exercise)
+unicode_flag <- function(isocode) {
+  isocode <- toupper(as.character(isocode))
+  extra <- vapply(list(
+    ENG = c(127988, 917607, 917602, 917605, 917614, 917607, 917631),
+    SCO = c(127988, 917607, 917602, 917619, 917603, 917620, 917631),
+    WAL = c(127988, 917607, 917602, 917623, 917612, 917619, 917631),
+    RAINBOW = c(127987, 65039, 8205, 127752),
+    PIRATE = c(127988, 8205, 9760, 65039),
+    FINISH = 127937
+  ), intToUtf8, "")
+  if(any(nchar(setdiff(isocode, names(extra))) != 2L)) warning("'isocode' should contain ISO 3166-1 alpha-2 codes")
+  flag <- vapply(isocode, function(x) intToUtf8(as.integer(charToRaw(x)) + 127397), "")
+  names(flag) <- isocode
+  flag[intersect(isocode, names(extra))] <- extra[intersect(isocode, names(extra))]
+  return(flag)
+}
