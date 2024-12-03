@@ -372,10 +372,6 @@ window.onload = function() {
     solveme.setAttribute("spellcheck", "false");
     solveme.value = "";
 
-    /* adjust answer for ignorecase or nospaces */
-    if (solveme.classList.contains("ignorecase")) {
-      solveme.dataset.answer = solveme.dataset.answer.toLowerCase();
-    }
     /* adjust answer for 'no spaces' (ignore spaces) */
     if (solveme.classList.contains("nospaces")) {
       solveme.dataset.answer = solveme.dataset.answer.replace(/ /g, "");

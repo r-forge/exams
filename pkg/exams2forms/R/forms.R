@@ -26,6 +26,7 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
 
   ## answer processing
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
+  if (!usecase) answer <- tolower(answer)
   answers <- json_answer(answer, webex_id)
 
   ## html format
