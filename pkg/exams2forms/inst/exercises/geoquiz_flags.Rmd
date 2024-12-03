@@ -1,0 +1,233 @@
+```{r data_definition, include = FALSE}
+data <- list(
+   list(name = "Zimbabwe", continent = "Africa", primary = "Zambia;South Africa;Namibia;Mozambique;Botswana", secondary = "Tanzania;Malawi;Democratic Republic of the Congo;Angola;Eswatini;Lesotho"),
+   list(name = "Zambia", continent = "Africa", primary = "Zimbabwe;Tanzania;Namibia;Mozambique;Malawi;Democratic Republic of the Congo;Botswana;Angola", secondary = "South Africa;Uganda;Rwanda;Kenya;Burundi;Eswatini;South Sudan;Republic of the Congo;Central African Republic"),
+   list(name = "Yemen", continent = "Asia", primary = "Saudi Arabia;Oman", secondary = "United Arab Emirates;Qatar;Kuwait;Jordan;Iraq"),
+   list(name = "Vietnam", continent = "Asia", primary = "Laos;People's Republic of China;Cambodia", secondary = "Thailand;Myanmar;Tajikistan;Russia;Pakistan;North Korea;Nepal;Mongolia;Kyrgyzstan;India;Macau;Hong Kong;Bhutan;Afghanistan"),
+   list(name = "Venezuela", continent = "South America", primary = "Guyana;Colombia;Brazil", secondary = "Suriname;Peru;Panama;Ecuador;Uruguay;Paraguay;France;Bolivia;Argentina"),
+   list(name = "Vatican City", continent = "Europe", primary = "Italy", secondary = "Switzerland;Slovenia;San Marino;France;Austria"),
+   list(name = "Uzbekistan", continent = "Asia", primary = "Turkmenistan;Tajikistan;Kyrgyzstan;Afghanistan", secondary = "Iran;People's Republic of China;Pakistan"),
+   list(name = "Uruguay", continent = "South America", primary = "Brazil;Argentina", secondary = "Venezuela;Suriname;Peru;Paraguay;Guyana;France;Colombia;Bolivia;Chile"),
+   list(name = "United Arab Emirates", continent = "Asia", primary = "Saudi Arabia;Oman", secondary = "Yemen;Qatar;Kuwait;Jordan;Iraq"),
+   list(name = "Ukraine", continent = "Europe", primary = "Slovakia;Russia;Romania;Poland;Moldova;Hungary;Belarus", secondary = "Czech Republic;Austria;Norway;North Korea;Mongolia;Lithuania;Latvia;Georgia;Finland;Estonia;People's Republic of China;Azerbaijan;Serbia;Bulgaria;Germany;Slovenia;Croatia"),
+   list(name = "Uganda", continent = "Africa", primary = "Tanzania;South Sudan;Rwanda;Kenya;Democratic Republic of the Congo", secondary = "Zambia;Mozambique;Malawi;Burundi;Sudan;Ethiopia;Central African Republic;Somalia;Republic of the Congo;Angola"),
+   list(name = "Turkmenistan", continent = "Asia", primary = "Uzbekistan;Iran;Afghanistan", secondary = "Tajikistan;Kyrgyzstan;Turkey;Pakistan;Iraq;Azerbaijan;Armenia;People's Republic of China"),
+   list(name = "Turkey", continent = "Asia", primary = "Syria;Iraq;Iran;Greece;Georgia;Bulgaria;Azerbaijan;Armenia", secondary = "Lebanon;Jordan;Saudi Arabia;Kuwait;Turkmenistan;Pakistan;Afghanistan;North Macedonia;Albania;Russia;Serbia;Romania"),
+   list(name = "Tunisia", continent = "Africa", primary = "Libya;Algeria", secondary = "Sudan;Niger;Egypt;Chad;Morocco;Mauritania;Mali"),
+   list(name = "Togo", continent = "Africa", primary = "Ghana;Burkina Faso;Benin", secondary = "Ivory Coast;Niger;Mali;Nigeria"),
+   list(name = "Thailand", continent = "Asia", primary = "Malaysia;Laos;Cambodia;Myanmar", secondary = "Indonesia;Brunei;Vietnam;People's Republic of China;India;Bangladesh"),
+   list(name = "Tanzania", continent = "Africa", primary = "Zambia;Uganda;Rwanda;Mozambique;Malawi;Kenya;Democratic Republic of the Congo;Burundi", secondary = "Zimbabwe;Namibia;Botswana;Angola;South Sudan;Eswatini;South Africa;Somalia;Ethiopia;Republic of the Congo;Central African Republic"),
+   list(name = "Tajikistan", continent = "Asia", primary = "Uzbekistan;Kyrgyzstan;People's Republic of China;Afghanistan", secondary = "Turkmenistan;Vietnam;Russia;Pakistan;North Korea;Nepal;Mongolia;Laos;India;Macau;Hong Kong;Myanmar;Bhutan;Iran"),
+   list(name = "Syria", continent = "Asia", primary = "Turkey;Lebanon;Jordan;Iraq", secondary = "Iran;Greece;Georgia;Bulgaria;Azerbaijan;Armenia;Saudi Arabia;Kuwait"),
+   list(name = "Switzerland", continent = "Europe", primary = "Liechtenstein;Italy;Germany;France;Austria", secondary = "Vatican City;Slovenia;San Marino;Poland;Netherlands;Luxembourg;Denmark;Czech Republic;Belgium;Suriname;Spain;Monaco;Brazil;Andorra;Slovakia;Hungary"),
+   list(name = "Eswatini", continent = "Africa", primary = "South Africa;Mozambique", secondary = "Zimbabwe;Namibia;Lesotho;Botswana;Zambia;Tanzania;Malawi"),
+   list(name = "Suriname", continent = "South America", primary = "Guyana;France;Brazil", secondary = "Venezuela;Switzerland;Spain;Monaco;Luxembourg;Italy;Germany;Belgium;Andorra;Uruguay;Peru;Paraguay;Colombia;Bolivia;Argentina"),
+   list(name = "South Sudan", continent = "Africa", primary = "Uganda;Sudan;Kenya;Ethiopia;Democratic Republic of the Congo;Central African Republic", secondary = "Tanzania;Rwanda;Libya;Eritrea;Egypt;Chad;Somalia;Djibouti;Zambia;Republic of the Congo;Burundi;Angola;Cameroon"),
+   list(name = "Sudan", continent = "Africa", primary = "South Sudan;Libya;Ethiopia;Eritrea;Egypt;Chad;Central African Republic", secondary = "Uganda;Kenya;Democratic Republic of the Congo;Tunisia;Niger;Algeria;Somalia;Djibouti;Nigeria;Cameroon;Republic of the Congo"),
+   list(name = "Spain", continent = "Europe", primary = "Portugal;France;Andorra", secondary = "Switzerland;Suriname;Monaco;Luxembourg;Italy;Germany;Brazil;Belgium"),
+   list(name = "South Africa", continent = "Africa", primary = "Zimbabwe;Eswatini;Namibia;Mozambique;Lesotho;Botswana", secondary = "Zambia;Angola;Tanzania;Malawi"),
+   list(name = "Somalia", continent = "Africa", primary = "Kenya;Ethiopia", secondary = "Uganda;Tanzania;South Sudan;Sudan;Eritrea;Djibouti"),
+   list(name = "Slovakia", continent = "Europe", primary = "Ukraine;Poland;Hungary;Czech Republic;Austria", secondary = "Russia;Romania;Moldova;Belarus;Lithuania;Germany;Slovenia;Serbia;Croatia;Switzerland;Liechtenstein;Italy"),
+   list(name = "Slovenia", continent = "Europe", primary = "Italy;Hungary;Croatia;Austria", secondary = "Vatican City;Switzerland;San Marino;France;Ukraine;Slovakia;Serbia;Romania;Montenegro;Bosnia and Herzegovina;Liechtenstein;Germany;Czech Republic"),
+   list(name = "Sierra Leone", continent = "Africa", primary = "Liberia;Guinea", secondary = "Ivory Coast;Senegal;Mali;Guinea-Bissau"),
+   list(name = "Serbia", continent = "Europe", primary = "Romania;Montenegro;North Macedonia;Hungary;Croatia;Bulgaria;Bosnia and Herzegovina", secondary = "Ukraine;Moldova;Albania;Greece;Slovakia;Slovenia;Austria;Turkey"),
+   list(name = "Senegal", continent = "Africa", primary = "Mauritania;Mali;Guinea-Bissau;Guinea;The Gambia", secondary = "Algeria;Niger;Ivory Coast;Burkina Faso;Sierra Leone;Liberia"),
+   list(name = "Saudi Arabia", continent = "Asia", primary = "Yemen;United Arab Emirates;Qatar;Oman;Kuwait;Jordan;Iraq", secondary = "Syria;Turkey;Iran"),
+   list(name = "San Marino", continent = "Europe", primary = "Italy", secondary = "Vatican City;Switzerland;Slovenia;France;Austria"),
+   list(name = "Rwanda", continent = "Africa", primary = "Uganda;Tanzania;Democratic Republic of the Congo;Burundi", secondary = "South Sudan;Kenya;Zambia;Mozambique;Malawi;Republic of the Congo;Central African Republic;Angola"),
+   list(name = "Russia", continent = "Europe", primary = "Ukraine;Poland;Norway;North Korea;Mongolia;Lithuania;Latvia;Georgia;Finland;Estonia;People's Republic of China;Belarus;Azerbaijan", secondary = "Slovakia;Romania;Moldova;Hungary;Germany;Czech Republic;Sweden;South Korea;Turkey;Armenia;Vietnam;Tajikistan;Pakistan;Nepal;Laos;Kyrgyzstan;India;Macau;Hong Kong;Myanmar;Bhutan;Afghanistan;Iran"),
+   list(name = "Romania", continent = "Europe", primary = "Ukraine;Serbia;Moldova;Hungary;Bulgaria", secondary = "Slovakia;Russia;Poland;Belarus;Montenegro;North Macedonia;Croatia;Bosnia and Herzegovina;Slovenia;Austria;Turkey;Greece"),
+   list(name = "Qatar", continent = "Asia", primary = "Saudi Arabia", secondary = "Yemen;United Arab Emirates;Oman;Kuwait;Jordan;Iraq"),
+   list(name = "Poland", continent = "Europe", primary = "Ukraine;Slovakia;Russia;Lithuania;Germany;Czech Republic;Belarus", secondary = "Romania;Moldova;Hungary;Austria;Norway;North Korea;Mongolia;Latvia;Georgia;Finland;Estonia;People's Republic of China;Azerbaijan;Switzerland;Netherlands;Luxembourg;France;Denmark;Belgium"),
+   list(name = "Peru", continent = "South America", primary = "Ecuador;Colombia;Chile;Brazil;Bolivia", secondary = "Venezuela;Panama;Argentina;Uruguay;Suriname;Paraguay;Guyana;France"),
+   list(name = "Paraguay", continent = "South America", primary = "Brazil;Bolivia;Argentina", secondary = "Venezuela;Uruguay;Suriname;Peru;Guyana;France;Colombia;Chile"),
+   list(name = "Panama", continent = "North America", primary = "Costa Rica;Colombia", secondary = "Nicaragua;Venezuela;Peru;Ecuador;Brazil"),
+   list(name = "Pakistan", continent = "Asia", primary = "Iran;India;People's Republic of China;Afghanistan", secondary = "Turkmenistan;Turkey;Iraq;Azerbaijan;Armenia;Nepal;Myanmar;Bhutan;Bangladesh;Vietnam;Tajikistan;Russia;North Korea;Mongolia;Laos;Kyrgyzstan;Macau;Hong Kong;Uzbekistan"),
+   list(name = "Oman", continent = "Asia", primary = "Yemen;United Arab Emirates;Saudi Arabia", secondary = "Qatar;Kuwait;Jordan;Iraq"),
+   list(name = "Norway", continent = "Europe", primary = "Sweden;Russia;Finland", secondary = "Ukraine;Poland;North Korea;Mongolia;Lithuania;Latvia;Georgia;Estonia;People's Republic of China;Belarus;Azerbaijan"),
+   list(name = "North Korea", continent = "Asia", primary = "South Korea;Russia;People's Republic of China", secondary = "Ukraine;Poland;Norway;Mongolia;Lithuania;Latvia;Georgia;Finland;Estonia;Belarus;Azerbaijan;Vietnam;Tajikistan;Pakistan;Nepal;Laos;Kyrgyzstan;India;Macau;Hong Kong;Myanmar;Bhutan;Afghanistan"),
+   list(name = "Nigeria", continent = "Africa", primary = "Niger;Chad;Cameroon;Benin", secondary = "Mali;Libya;Burkina Faso;Algeria;Sudan;Central African Republic;Gabon;Equatorial Guinea;Republic of the Congo;Togo"),
+   list(name = "Niger", continent = "Africa", primary = "Nigeria;Mali;Libya;Chad;Burkina Faso;Benin;Algeria", secondary = "Cameroon;Senegal;Mauritania;Guinea;Ivory Coast;Tunisia;Sudan;Egypt;Central African Republic;Togo;Ghana;Morocco"),
+   list(name = "Netherlands", continent = "Europe", primary = "Germany;Belgium", secondary = "Switzerland;Poland;Luxembourg;France;Denmark;Czech Republic;Austria"),
+   list(name = "Nepal", continent = "Asia", primary = "India;People's Republic of China", secondary = "Pakistan;Myanmar;Bhutan;Bangladesh;Vietnam;Tajikistan;Russia;North Korea;Mongolia;Laos;Kyrgyzstan;Macau;Hong Kong;Afghanistan"),
+   list(name = "Namibia", continent = "Africa", primary = "Zimbabwe;Zambia;South Africa;Botswana;Angola", secondary = "Mozambique;Tanzania;Malawi;Democratic Republic of the Congo;Eswatini;Lesotho;Republic of the Congo"),
+   list(name = "Mozambique", continent = "Africa", primary = "Zimbabwe;Zambia;Tanzania;Eswatini;South Africa;Malawi", secondary = "Namibia;Botswana;Democratic Republic of the Congo;Angola;Uganda;Rwanda;Kenya;Burundi;Lesotho"),
+   list(name = "Morocco", continent = "Africa", primary = "Algeria", secondary = "Tunisia;Niger;Mauritania;Mali;Libya"),
+   list(name = "Montenegro", continent = "Europe", primary = "Serbia;Croatia;Bosnia and Herzegovina;Albania", secondary = "Romania;North Macedonia;Hungary;Bulgaria;Slovenia;Greece"),
+   list(name = "Mongolia", continent = "Asia", primary = "Russia;People's Republic of China", secondary = "Ukraine;Poland;Norway;North Korea;Lithuania;Latvia;Georgia;Finland;Estonia;Belarus;Azerbaijan;Vietnam;Tajikistan;Pakistan;Nepal;Laos;Kyrgyzstan;India;Macau;Hong Kong;Myanmar;Bhutan;Afghanistan"),
+   list(name = "Moldova", continent = "Europe", primary = "Ukraine;Romania", secondary = "Slovakia;Russia;Poland;Hungary;Belarus;Serbia;Bulgaria"),
+   list(name = "Monaco", continent = "Europe", primary = "France", secondary = "Switzerland;Suriname;Spain;Luxembourg;Italy;Germany;Brazil;Belgium;Andorra"),
+   list(name = "Mexico", continent = "North America", primary = "United States of America;Guatemala;Belize", secondary = "Canada;Honduras;El Salvador"),
+   list(name = "Mauritania", continent = "Africa", primary = "Senegal;Mali;Algeria", secondary = "Guinea-Bissau;Guinea;The Gambia;Niger;Ivory Coast;Burkina Faso;Tunisia;Morocco;Libya"),
+   list(name = "Mali", continent = "Africa", primary = "Senegal;Niger;Mauritania;Guinea;Ivory Coast;Burkina Faso;Algeria", secondary = "Guinea-Bissau;The Gambia;Nigeria;Libya;Chad;Benin;Sierra Leone;Liberia;Ghana;Togo;Tunisia;Morocco"),
+   list(name = "Malaysia", continent = "Asia", primary = "Thailand;Indonesia;Brunei", secondary = "Laos;Cambodia;Myanmar;East Timor;Papua New Guinea"),
+   list(name = "Malawi", continent = "Africa", primary = "Zambia;Tanzania;Mozambique", secondary = "Zimbabwe;Namibia;Democratic Republic of the Congo;Botswana;Angola;Uganda;Rwanda;Kenya;Burundi;Eswatini;South Africa"),
+   list(name = "North Macedonia", continent = "Europe", primary = "Serbia;Greece;Bulgaria;Albania", secondary = "Romania;Montenegro;Hungary;Croatia;Bosnia and Herzegovina;Turkey"),
+   list(name = "Luxembourg", continent = "Europe", primary = "Germany;France;Belgium", secondary = "Switzerland;Poland;Netherlands;Denmark;Czech Republic;Austria;Suriname;Spain;Monaco;Italy;Brazil;Andorra"),
+   list(name = "Lithuania", continent = "Europe", primary = "Russia;Poland;Latvia;Belarus", secondary = "Ukraine;Norway;North Korea;Mongolia;Georgia;Finland;Estonia;People's Republic of China;Azerbaijan;Slovakia;Germany;Czech Republic"),
+   list(name = "Liechtenstein", continent = "Europe", primary = "Switzerland;Austria", secondary = "Italy;Germany;France;Slovakia;Slovenia;Hungary;Czech Republic"),
+   list(name = "Libya", continent = "Africa", primary = "Tunisia;Sudan;Niger;Egypt;Chad;Algeria", secondary = "South Sudan;Ethiopia;Eritrea;Central African Republic;Nigeria;Mali;Burkina Faso;Benin;Cameroon;Morocco;Mauritania"),
+   list(name = "Liberia", continent = "Africa", primary = "Sierra Leone;Guinea;Ivory Coast", secondary = "Senegal;Mali;Guinea-Bissau;Ghana;Burkina Faso"),
+   list(name = "Lesotho", continent = "Africa", primary = "South Africa", secondary = "Zimbabwe;Eswatini;Namibia;Mozambique;Botswana"),
+   list(name = "Latvia", continent = "Europe", primary = "Russia;Lithuania;Estonia;Belarus", secondary = "Ukraine;Poland;Norway;North Korea;Mongolia;Georgia;Finland;People's Republic of China;Azerbaijan"),
+   list(name = "Laos", continent = "Asia", primary = "Vietnam;Thailand;People's Republic of China;Cambodia;Myanmar", secondary = "Malaysia;Tajikistan;Russia;Pakistan;North Korea;Nepal;Mongolia;Kyrgyzstan;India;Macau;Hong Kong;Bhutan;Afghanistan;Bangladesh"),
+   list(name = "Kyrgyzstan", continent = "Asia", primary = "Uzbekistan;Tajikistan;People's Republic of China", secondary = "Turkmenistan;Afghanistan;Vietnam;Russia;Pakistan;North Korea;Nepal;Mongolia;Laos;India;Macau;Hong Kong;Myanmar;Bhutan"),
+   list(name = "Kuwait", continent = "Asia", primary = "Saudi Arabia;Iraq", secondary = "Yemen;United Arab Emirates;Qatar;Oman;Jordan;Turkey;Syria;Iran"),
+   list(name = "Kenya", continent = "Africa", primary = "Uganda;Tanzania;South Sudan;Somalia;Ethiopia", secondary = "Rwanda;Democratic Republic of the Congo;Zambia;Mozambique;Malawi;Burundi;Sudan;Central African Republic;Eritrea;Djibouti"),
+   list(name = "Jordan", continent = "Asia", primary = "Syria;Saudi Arabia;Iraq", secondary = "Turkey;Lebanon;Yemen;United Arab Emirates;Qatar;Oman;Kuwait;Iran"),
+   list(name = "Italy", continent = "Europe", primary = "Vatican City;Switzerland;Slovenia;San Marino;France;Austria", secondary = "Liechtenstein;Germany;Hungary;Croatia;Suriname;Spain;Monaco;Luxembourg;Brazil;Belgium;Andorra;Slovakia;Czech Republic"),
+   list(name = "Iraq", continent = "Asia", primary = "Turkey;Syria;Saudi Arabia;Kuwait;Jordan;Iran", secondary = "Greece;Georgia;Bulgaria;Azerbaijan;Armenia;Lebanon;Yemen;United Arab Emirates;Qatar;Oman;Turkmenistan;Pakistan;Afghanistan"),
+   list(name = "Iran", continent = "Asia", primary = "Turkmenistan;Turkey;Pakistan;Iraq;Azerbaijan;Armenia;Afghanistan", secondary = "Uzbekistan;Syria;Greece;Georgia;Bulgaria;India;People's Republic of China;Saudi Arabia;Kuwait;Jordan;Russia;Tajikistan"),
+   list(name = "India", continent = "Asia", primary = "Pakistan;Nepal;People's Republic of China;Myanmar;Bhutan;Bangladesh", secondary = "Iran;Afghanistan;Vietnam;Tajikistan;Russia;North Korea;Mongolia;Laos;Kyrgyzstan;Macau;Hong Kong;Thailand"),
+   list(name = "Hungary", continent = "Europe", primary = "Ukraine;Slovakia;Slovenia;Serbia;Romania;Croatia;Austria", secondary = "Russia;Poland;Moldova;Belarus;Czech Republic;Italy;Montenegro;North Macedonia;Bulgaria;Bosnia and Herzegovina;Switzerland;Liechtenstein;Germany"),
+   list(name = "Honduras", continent = "North America", primary = "Nicaragua;Guatemala;El Salvador", secondary = "Costa Rica;Mexico;Belize"),
+   list(name = "Guyana", continent = "South America", primary = "Venezuela;Suriname;Brazil", secondary = "Colombia;France;Uruguay;Peru;Paraguay;Bolivia;Argentina"),
+   list(name = "Guinea-Bissau", continent = "Africa", primary = "Senegal;Guinea", secondary = "Mauritania;Mali;The Gambia;Sierra Leone;Liberia;Ivory Coast"),
+   list(name = "Guinea", continent = "Africa", primary = "Sierra Leone;Senegal;Mali;Liberia;Guinea-Bissau;Ivory Coast", secondary = "Mauritania;The Gambia;Niger;Burkina Faso;Algeria;Ghana"),
+   list(name = "Guatemala", continent = "North America", primary = "Mexico;Honduras;El Salvador;Belize", secondary = "United States of America;Nicaragua"),
+   list(name = "Greece", continent = "Europe", primary = "Turkey;North Macedonia;Bulgaria;Albania", secondary = "Syria;Iraq;Iran;Georgia;Azerbaijan;Armenia;Serbia;Romania;Montenegro"),
+   list(name = "Ghana", continent = "Africa", primary = "Togo;Ivory Coast;Burkina Faso", secondary = "Benin;Mali;Liberia;Guinea;Niger"),
+   list(name = "Germany", continent = "Europe", primary = "Switzerland;Poland;Netherlands;Luxembourg;France;Denmark;Czech Republic;Belgium;Austria", secondary = "Liechtenstein;Italy;Ukraine;Slovakia;Russia;Lithuania;Belarus;Suriname;Spain;Monaco;Brazil;Andorra;Slovenia;Hungary"),
+   list(name = "Georgia", continent = "Asia", primary = "Turkey;Russia;Azerbaijan;Armenia", secondary = "Syria;Iraq;Iran;Greece;Bulgaria;Ukraine;Poland;Norway;North Korea;Mongolia;Lithuania;Latvia;Finland;Estonia;People's Republic of China;Belarus"),
+   list(name = "Gabon", continent = "Africa", primary = "Equatorial Guinea;Republic of the Congo;Cameroon", secondary = "Democratic Republic of the Congo;Central African Republic;Angola;Nigeria;Chad"),
+   list(name = "France", continent = "Europe", primary = "Switzerland;Suriname;Spain;Monaco;Luxembourg;Italy;Germany;Brazil;Belgium;Andorra", secondary = "Liechtenstein;Austria;Guyana;Portugal;Vatican City;Slovenia;San Marino;Poland;Netherlands;Denmark;Czech Republic;Venezuela;Uruguay;Peru;Paraguay;Colombia;Bolivia;Argentina"),
+   list(name = "Finland", continent = "Europe", primary = "Sweden;Russia;Norway", secondary = "Ukraine;Poland;North Korea;Mongolia;Lithuania;Latvia;Georgia;Estonia;People's Republic of China;Belarus;Azerbaijan"),
+   list(name = "Ethiopia", continent = "Africa", primary = "South Sudan;Sudan;Somalia;Kenya;Eritrea;Djibouti", secondary = "Uganda;Democratic Republic of the Congo;Central African Republic;Libya;Egypt;Chad;Tanzania"),
+   list(name = "Estonia", continent = "Europe", primary = "Russia;Latvia", secondary = "Ukraine;Poland;Norway;North Korea;Mongolia;Lithuania;Georgia;Finland;People's Republic of China;Belarus;Azerbaijan"),
+   list(name = "Eritrea", continent = "Africa", primary = "Sudan;Ethiopia;Djibouti", secondary = "South Sudan;Libya;Egypt;Chad;Central African Republic;Somalia;Kenya"),
+   list(name = "Equatorial Guinea", continent = "Africa", primary = "Gabon;Cameroon", secondary = "Republic of the Congo;Nigeria;Chad;Central African Republic"),
+   list(name = "Egypt", continent = "Africa", primary = "Sudan;Libya", secondary = "South Sudan;Ethiopia;Eritrea;Chad;Central African Republic;Tunisia;Niger;Algeria"),
+   list(name = "Ecuador", continent = "South America", primary = "Peru;Colombia", secondary = "Chile;Brazil;Bolivia;Venezuela;Panama"),
+   list(name = "Djibouti", continent = "Africa", primary = "Ethiopia;Eritrea", secondary = "South Sudan;Sudan;Somalia;Kenya"),
+   list(name = "Denmark", continent = "Europe", primary = "Germany", secondary = "Switzerland;Poland;Netherlands;Luxembourg;France;Czech Republic;Belgium;Austria"),
+   list(name = "Czech Republic", continent = "Europe", primary = "Slovakia;Poland;Germany;Austria", secondary = "Ukraine;Hungary;Russia;Lithuania;Belarus;Switzerland;Netherlands;Luxembourg;France;Denmark;Belgium;Slovenia;Liechtenstein;Italy"),
+   list(name = "Croatia", continent = "Europe", primary = "Slovenia;Serbia;Montenegro;Hungary;Bosnia and Herzegovina", secondary = "Italy;Austria;Romania;North Macedonia;Bulgaria;Albania;Ukraine;Slovakia"),
+   list(name = "Ivory Coast", continent = "Africa", primary = "Mali;Liberia;Guinea;Ghana;Burkina Faso", secondary = "Senegal;Niger;Mauritania;Algeria;Sierra Leone;Guinea-Bissau;Togo;Benin"),
+   list(name = "Democratic Republic of the Congo", continent = "Africa", primary = "Zambia;Uganda;Tanzania;South Sudan;Rwanda;Republic of the Congo;Central African Republic;Burundi;Angola", secondary = "Zimbabwe;Namibia;Mozambique;Malawi;Botswana;Kenya;Sudan;Ethiopia;Gabon;Cameroon;Chad"),
+   list(name = "Republic of the Congo", continent = "Africa", primary = "Gabon;Democratic Republic of the Congo;Central African Republic;Cameroon;Angola", secondary = "Equatorial Guinea;Zambia;Uganda;Tanzania;South Sudan;Rwanda;Burundi;Sudan;Chad;Nigeria;Namibia"),
+   list(name = "Colombia", continent = "South America", primary = "Venezuela;Peru;Panama;Ecuador;Brazil", secondary = "Guyana;Chile;Bolivia;Costa Rica;Uruguay;Suriname;Paraguay;France;Argentina"),
+   list(name = "People's Republic of China", continent = "Asia", primary = "Vietnam;Tajikistan;Russia;Pakistan;North Korea;Nepal;Mongolia;Laos;Kyrgyzstan;India;Macau;Hong Kong;Myanmar;Bhutan;Afghanistan", secondary = "Cambodia;Uzbekistan;Ukraine;Poland;Norway;Lithuania;Latvia;Georgia;Finland;Estonia;Belarus;Azerbaijan;Iran;South Korea;Thailand;Bangladesh;Turkmenistan"),
+   list(name = "Macau", continent = "Asia", primary = "People's Republic of China", secondary = "Vietnam;Tajikistan;Russia;Pakistan;North Korea;Nepal;Mongolia;Laos;Kyrgyzstan;India;Hong Kong;Myanmar;Bhutan;Afghanistan"),
+   list(name = "Hong Kong", continent = "Asia", primary = "People's Republic of China", secondary = "Vietnam;Tajikistan;Russia;Pakistan;North Korea;Nepal;Mongolia;Laos;Kyrgyzstan;India;Macau;Myanmar;Bhutan;Afghanistan"),
+   list(name = "Chile", continent = "South America", primary = "Peru;Bolivia;Argentina", secondary = "Ecuador;Colombia;Brazil;Paraguay;Uruguay"),
+   list(name = "Chad", continent = "Africa", primary = "Sudan;Nigeria;Niger;Libya;Central African Republic;Cameroon", secondary = "South Sudan;Ethiopia;Eritrea;Egypt;Benin;Mali;Burkina Faso;Algeria;Tunisia;Democratic Republic of the Congo;Republic of the Congo;Gabon;Equatorial Guinea"),
+   list(name = "Central African Republic", continent = "Africa", primary = "South Sudan;Sudan;Democratic Republic of the Congo;Republic of the Congo;Chad;Cameroon", secondary = "Uganda;Kenya;Ethiopia;Libya;Eritrea;Egypt;Zambia;Tanzania;Rwanda;Burundi;Angola;Gabon;Nigeria;Niger;Equatorial Guinea"),
+   list(name = "Cameroon", continent = "Africa", primary = "Nigeria;Gabon;Equatorial Guinea;Republic of the Congo;Chad;Central African Republic", secondary = "Niger;Benin;Democratic Republic of the Congo;Angola;Sudan;Libya;South Sudan"),
+   list(name = "Cambodia", continent = "Asia", primary = "Vietnam;Thailand;Laos", secondary = "People's Republic of China;Malaysia;Myanmar"),
+   list(name = "Myanmar", continent = "Asia", primary = "Thailand;Laos;India;People's Republic of China;Bangladesh", secondary = "Malaysia;Cambodia;Vietnam;Pakistan;Nepal;Bhutan;Tajikistan;Russia;North Korea;Mongolia;Kyrgyzstan;Macau;Hong Kong;Afghanistan"),
+   list(name = "Burundi", continent = "Africa", primary = "Tanzania;Rwanda;Democratic Republic of the Congo", secondary = "Zambia;Uganda;Mozambique;Malawi;Kenya;South Sudan;Republic of the Congo;Central African Republic;Angola"),
+   list(name = "Burkina Faso", continent = "Africa", primary = "Togo;Niger;Mali;Ghana;Ivory Coast;Benin", secondary = "Nigeria;Libya;Chad;Algeria;Senegal;Mauritania;Guinea;Liberia"),
+   list(name = "Bulgaria", continent = "Europe", primary = "Turkey;Serbia;Romania;North Macedonia;Greece", secondary = "Syria;Iraq;Iran;Georgia;Azerbaijan;Armenia;Montenegro;Hungary;Croatia;Bosnia and Herzegovina;Ukraine;Moldova;Albania"),
+   list(name = "Brazil", continent = "South America", primary = "Venezuela;Uruguay;Suriname;Peru;Paraguay;Guyana;France;Colombia;Bolivia;Argentina", secondary = "Ecuador;Chile;Switzerland;Spain;Monaco;Luxembourg;Italy;Germany;Belgium;Andorra;Panama"),
+   list(name = "Botswana", continent = "Africa", primary = "Zimbabwe;Zambia;South Africa;Namibia", secondary = "Mozambique;Tanzania;Malawi;Democratic Republic of the Congo;Angola;Eswatini;Lesotho"),
+   list(name = "Bosnia and Herzegovina", continent = "Europe", primary = "Serbia;Montenegro;Croatia", secondary = "Romania;North Macedonia;Hungary;Bulgaria;Albania;Slovenia"),
+   list(name = "Bolivia", continent = "South America", primary = "Peru;Paraguay;Chile;Brazil;Argentina", secondary = "Ecuador;Colombia;Venezuela;Uruguay;Suriname;Guyana;France"),
+   list(name = "Bhutan", continent = "Asia", primary = "India;People's Republic of China", secondary = "Pakistan;Nepal;Myanmar;Bangladesh;Vietnam;Tajikistan;Russia;North Korea;Mongolia;Laos;Kyrgyzstan;Macau;Hong Kong;Afghanistan"),
+   list(name = "Benin", continent = "Africa", primary = "Togo;Nigeria;Niger;Burkina Faso", secondary = "Ghana;Chad;Cameroon;Mali;Libya;Algeria;Ivory Coast"),
+   list(name = "Belgium", continent = "Europe", primary = "Netherlands;Luxembourg;Germany;France", secondary = "Switzerland;Poland;Denmark;Czech Republic;Austria;Suriname;Spain;Monaco;Italy;Brazil;Andorra"),
+   list(name = "Belarus", continent = "Europe", primary = "Ukraine;Russia;Poland;Lithuania;Latvia", secondary = "Slovakia;Romania;Moldova;Hungary;Norway;North Korea;Mongolia;Georgia;Finland;Estonia;People's Republic of China;Azerbaijan;Germany;Czech Republic"),
+   list(name = "Bangladesh", continent = "Asia", primary = "India;Myanmar", secondary = "Pakistan;Nepal;People's Republic of China;Bhutan;Thailand;Laos"),
+   list(name = "Azerbaijan", continent = "Asia", primary = "Turkey;Russia;Iran;Georgia;Armenia", secondary = "Syria;Iraq;Greece;Bulgaria;Ukraine;Poland;Norway;North Korea;Mongolia;Lithuania;Latvia;Finland;Estonia;People's Republic of China;Belarus;Turkmenistan;Pakistan;Afghanistan"),
+   list(name = "Austria", continent = "Europe", primary = "Switzerland;Slovakia;Slovenia;Liechtenstein;Italy;Hungary;Germany;Czech Republic", secondary = "France;Ukraine;Poland;Croatia;Vatican City;San Marino;Serbia;Romania;Netherlands;Luxembourg;Denmark;Belgium"),
+   list(name = "Armenia", continent = "Asia", primary = "Turkey;Iran;Georgia;Azerbaijan", secondary = "Syria;Iraq;Greece;Bulgaria;Turkmenistan;Pakistan;Afghanistan;Russia"),
+   list(name = "Argentina", continent = "South America", primary = "Uruguay;Paraguay;Chile;Brazil;Bolivia", secondary = "Peru;Venezuela;Suriname;Guyana;France;Colombia"),
+   list(name = "Angola", continent = "Africa", primary = "Zambia;Namibia;Democratic Republic of the Congo;Republic of the Congo", secondary = "Zimbabwe;Tanzania;Mozambique;Malawi;Botswana;South Africa;Uganda;South Sudan;Rwanda;Central African Republic;Burundi;Gabon;Cameroon"),
+   list(name = "Andorra", continent = "Europe", primary = "Spain;France", secondary = "Portugal;Switzerland;Suriname;Monaco;Luxembourg;Italy;Germany;Brazil;Belgium"),
+   list(name = "Algeria", continent = "Africa", primary = "Tunisia;Niger;Morocco;Mauritania;Mali;Libya", secondary = "Nigeria;Chad;Burkina Faso;Benin;Senegal;Guinea;Ivory Coast;Sudan;Egypt"),
+   list(name = "Albania", continent = "Europe", primary = "Montenegro;North Macedonia;Greece", secondary = "Serbia;Croatia;Bosnia and Herzegovina;Bulgaria;Turkey"),
+   list(name = "Afghanistan", continent = "Asia", primary = "Uzbekistan;Turkmenistan;Tajikistan;Pakistan;Iran;People's Republic of China", secondary = "Kyrgyzstan;India;Turkey;Iraq;Azerbaijan;Armenia;Vietnam;Russia;North Korea;Nepal;Mongolia;Laos;Macau;Hong Kong;Myanmar;Bhutan")
+)
+
+data <- do.call(rbind, lapply(data, as.data.frame))
+fn <- function(x) unname(sapply(x, function(y) if (is.na(y)) list() else strsplit(y, ";")[[1]]))
+data <- transform(data, primary = fn(primary), secondary = fn(secondary))
+rm(fn)
+
+iso2 <- c(Zimbabwe = "ZW", Zambia = "ZM", Yemen = "YE", Vietnam = "VN", Venezuela = "VE", "Vatican City" = "VA", Uzbekistan = "UZ", Uruguay = "UY", "United Arab Emirates" = "AE", Ukraine = "UA", Uganda = "UG", Turkmenistan = "TM", Turkey = "TR", Tunisia = "TN", Togo = "TG", Thailand = "TH", Tanzania = "TZ", 
+   Tajikistan = "TJ", Syria = "SY", Switzerland = "CH", Eswatini = "SZ", Suriname = "SR", "South Sudan" = "SS", Sudan = "SD", Spain = "ES", "South Africa" = "ZA", Somalia = "SO", Slovakia = "SK", Slovenia = "SI", "Sierra Leone" = "SL", Serbia = "RS", Senegal = "SN", "Saudi Arabia" = "SA", "San Marino" = "SM", 
+   Rwanda = "RW", Russia = "RU", Romania = "RO", Qatar = "QA", Poland = "PL", Peru = "PE", Paraguay = "PY", Panama = "PA", Pakistan = "PK", Oman = "OM", Norway = "NO", "North Korea" = "KP", Nigeria = "NG", Niger = "NE", Netherlands = "NL", Nepal = "NP", Namibia = "NA", Mozambique = "MZ", Morocco = "MA", 
+   Montenegro = "ME", Mongolia = "MN", Moldova = "MD", Monaco = "MC", Mexico = "MX", Mauritania = "MR", Mali = "ML", Malaysia = "MY", Malawi = "MW", "North Macedonia" = "MK", Luxembourg = "LU", Lithuania = "LT", Liechtenstein = "LI", Libya = "LY", Liberia = "LR", Lesotho = "LS", Latvia = "LV", Laos = "LA", 
+   Kyrgyzstan = "KG", Kuwait = "KW", Kenya = "KE", Jordan = "JO", Italy = "IT", Iraq = "IQ", Iran = "IR", India = "IN", Hungary = "HU", Honduras = "HN", Guyana = "GY", "Guinea-Bissau" = "GW", Guinea = "GN", Guatemala = "GT", Greece = "GR", Ghana = "GH", Germany = "DE", Georgia = "GE", Gabon = "GA", France = "FR", 
+   Finland = "FI", Ethiopia = "ET", Estonia = "EE", Eritrea = "ER", "Equatorial Guinea" = "GQ", Egypt = "EG", Ecuador = "EC", Djibouti = "DJ", Denmark = "DK", "Czech Republic" = "CZ", Croatia = "HR", "Ivory Coast" = "CI", "Democratic Republic of the Congo" = "CD", "Republic of the Congo" = "CG", Colombia = "CO", 
+   "People's Republic of China" = "CN", Macau = "MO", "Hong Kong" = "HK", Chile = "CL", Chad = "TD", "Central African Republic" = "CF", Cameroon = "CM", Cambodia = "KH", Myanmar = "MM", Burundi = "BI", "Burkina Faso" = "BF", Bulgaria = "BG", Brazil = "BR", Botswana = "BW", "Bosnia and Herzegovina" = "BA", 
+   Bolivia = "BO", Bhutan = "BT", Benin = "BJ", Belgium = "BE", Belarus = "BY", Bangladesh = "BD", Azerbaijan = "AZ", Austria = "AT", Armenia = "AM", Argentina = "AR", Angola = "AO", Andorra = "AD", Algeria = "DZ", Albania = "AL", Afghanistan = "AF", Lebanon = "LB", Portugal = "PT", "The Gambia" = "GM", 
+   "Costa Rica" = "CR", Sweden = "SE", "South Korea" = "KR", "United States of America" = "US", Belize = "BZ", Indonesia = "ID", Brunei = "BN", Nicaragua = "NI", "El Salvador" = "SV", Canada = "CA", "East Timor" = "TL", "Papua New Guinea" = "PG")
+
+iso_to_flag <- function(x) {
+    fn <- function(y) paste(intToUtf8(as.integer(charToRaw(toupper(y))) + 127397, multiple = TRUE), collapse = "")
+    return(sapply(x, fn))
+}
+```
+
+```{r data_generation, include = FALSE}
+# Control arguments
+exams_continent <- "Europe"
+exams_display   <- "name" # name, flag, or combined
+exams_display   <- "flag" # name, flag, or combined
+exams_display   <- "combined" # name, flag, or combined
+
+# Checking control args
+exams_continent <- match.arg(exams_continent, unique(data$continent))
+exams_display   <- match.arg(exams_display, c("name", "flag", "combined"))
+
+# Subsetting `data` to selected continent
+data <- subset(data, continent == exams_continent)
+
+# Used for nice output in 'Question'
+continent_nice <- c(Africa = "African",
+                    Asia   = "Asian",
+                    Europe = "European",
+                    "North America" = "North American",
+                    "South America" = "South American")
+
+# Sampling one country
+solution <- as.list(data[sample(seq_len(nrow(data)), 1), ])
+
+# Calculate answers and solution
+solution$primary
+solution$questionlist <- c(unlist(solution$primary), unlist(solution$secondary))
+solution$solutionlist <- rep(c(TRUE, FALSE), c(length(solution$primary[[1]]), length(solution$secondary[[1]])))
+str(solution)
+
+# If exams_display is equal to `flag` or `combined` we replace 
+# `solution$name` as well as `solution$questionlist` with unicode flags.
+if (exams_display == "flag") {
+    solution$name          <- iso_to_flag(iso2[solution$name])
+    solution$questionlist  <- iso_to_flag(iso2[solution$questionlist])
+} else if (exams_display == "combined") {
+    solution$name          <- paste0(solution$name, " ", iso_to_flag(iso2[solution$name]))
+    solution$questionlist  <- paste0(iso_to_flag(iso2[solution$questionlist]), " ", solution$questionlist)
+}
+```
+
+
+Question
+========
+
+`r solution$name` is located on the `r continent_nice[solution$continent]` continent.
+Which of the following countries share a direct border with `r solution$name`?
+
+```{r questionlist, echo = FALSE, results = "asis"}
+answerlist(solution$questionlist, markup = "markdown")
+```
+
+Solution
+========
+
+```{r solutionlist, echo = FALSE, results = "asis"}
+explanations <- ifelse(solution$solutionlist, "",
+                      paste(solution$questionlist, " has no direct border with", solution$name,
+                      ", but shares a border with one of it's direct neighbors."))
+answerlist(ifelse(solution$solutionlist, "True", "False"), explanations, markup = "markdown")
+```
+
+Meta-information
+================
+exname: Geoquiz, neighbors with flags
+extype: mchoice
+exsolution: `r mchoice2string(solution$solutionlist)`
+exshuffle: 6
+
+
+
+
