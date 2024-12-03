@@ -7,9 +7,14 @@ exams2forms <- function(file,
   converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, ...) {
 
   ## sanity checks
-  if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1L])
-  if (!isTRUE(usespace) || isFALSE(usespace)) usespace <- as.logical(usespace[1L])
-  if (!isTRUE(obfuscate) || isFALSE(obfuscate)) obfuscate <- as.logical(obfuscate[1L])
+  if (!isTRUE(usecase)   && !isFALSE(usecase))   usecase   <- as.logical(usecase[1L])
+  if (!isTRUE(usespace)  && !isFALSE(usespace))  usespace  <- as.logical(usespace[1L])
+  if (!isTRUE(obfuscate) && !isFALSE(obfuscate)) obfuscate <- as.logical(obfuscate[1L])
+  stopifnot(
+    "'usecase' must be TRUE or FALSE"   = isTRUE(usecase)   || isFALSE(usecase),
+    "'usespace' must be TRUE or FALSE"  = isTRUE(usespace)  || isFALSE(usespace),
+    "'obfuscate' must be TRUE or FALSE" = isTRUE(obfuscate) || isFALSE(obfuscate)
+  )
   if(!missing(dir)) warning("output 'dir' is not relevant for exams2forms(), ignored")
 
   ## TODO: Removed `regex` option from official arguments list but can
