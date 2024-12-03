@@ -161,10 +161,10 @@ iso_to_flag <- function(x) {
 
 ```{r data_generation, include = FALSE}
 # Control arguments
-exams_continent <- "Europe"
-exams_display   <- "name" # name, flag, or combined
-exams_display   <- "flag" # name, flag, or combined
-exams_display   <- "combined" # name, flag, or combined
+## TODO ## exams_continent <- "North America"
+## TODO ## exams_display   <- "flag" # name, flag, or combined
+exams_continent <- sample(unique(data$continent), 1)
+exams_display   <- sample(c("name", "flag", "combined"), 1)
 
 # Checking control args
 exams_continent <- match.arg(exams_continent, unique(data$continent))
