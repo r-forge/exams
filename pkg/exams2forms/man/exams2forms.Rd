@@ -11,13 +11,13 @@ based on R/exams exercise templates.
 
 \usage{
 exams2forms(file,
-  write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
+  write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 40),
   schoice_display = "buttons", mchoice_display = "buttons",
   cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
   usecase = TRUE, usespace = TRUE,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, obfuscate = FALSE, \dots)
+  converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, \dots)
 }
 
 \arguments{
@@ -75,8 +75,9 @@ exams2forms(file,
     Passed on to \code{\link[exams]{make_exercise_transform_pandoc}}.
     The default is to enable Base 64 when an HTML-type document is produced.}
   \item{\dots}{currently not used.}
-  \item{obfuscate}{logical. If \code{FALSE} (default), the correct
-    solution will be included as plain text in the HTML source code.}
+  \item{obfuscate}{logical. Should the correct answer be obfuscated when
+    embedded in the HTML source code? If \code{FALSE}, it is included as
+    plain text.}
 }
 
 \details{

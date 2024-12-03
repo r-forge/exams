@@ -15,16 +15,16 @@ multiple-choice (\code{mchoice}), text (\code{string}), or numeric
 
 \usage{
 forms_schoice(answerlist, solution,
-  display = c("buttons", "dropdown"), obfuscate = FALSE)
+  display = c("buttons", "dropdown"), obfuscate = TRUE)
 
 forms_mchoice(answerlist, solution,
-  display = c("buttons", "dropdown"), obfuscate = FALSE)
+  display = c("buttons", "dropdown"), obfuscate = TRUE)
 
 forms_string(answer, width = NULL,
-  usecase = TRUE, usespace = FALSE, regex = FALSE, obfuscate = FALSE)
+  usecase = TRUE, usespace = FALSE, regex = FALSE, obfuscate = TRUE)
 
 forms_num(answer, tol = 0, width = NULL,
-  usespace = FALSE, regex = FALSE, obfuscate = FALSE)
+  usespace = FALSE, regex = FALSE, obfuscate = TRUE)
 }
 
 \arguments{
@@ -48,28 +48,32 @@ forms_num(answer, tol = 0, width = NULL,
   \item{regex}{logical. Should the evaluation of the input employ
     regular expressions?}
   \item{tol}{numeric. Tolerance for the evaluation of numeric input.}
-  \item{obfuscate}{logical. If \code{FALSE} (default), the correct
-    solution will be included as plain text in the HTML source code.}
+  \item{obfuscate}{logical. Should the correct answer be obfuscated when
+    embedded in the HTML source code? If \code{FALSE}, it is included as
+    plain text.}
 }
 
 \value{
 A character string with the HTML or Markdown code for the interaction
-forms to be embedded in R/Markdown or Quarto documents.
+forms to be embedded in R/Markdown or Quarto documents. For a short
+introduction see \url{https://www.R-exams.org/tutorials/exams2forms/}.
 }
 
 \examples{
 ## single-choice: What is the third letter of the latin alphabet?
-forms_schoice(c("A", "B", "C", "D"), c(FALSE, FALSE, TRUE, FALSE))
+forms_schoice(c("A", "B", "C", "D"), c(FALSE, FALSE, TRUE, FALSE),
+  obfuscate = FALSE)
 
 ## multiple-choice: Which of these numbers are prime?
-forms_mchoice(c("1", "2", "3", "4"), c(FALSE, TRUE, TRUE, FALSE))
+forms_mchoice(c("1", "2", "3", "4"), c(FALSE, TRUE, TRUE, FALSE),
+  obfuscate = FALSE)
 
 ## string: Which base R function estimates linear regression models?
-forms_string("lm", width = 10)
+forms_string("lm", width = 10, obfuscate = FALSE)
 
 ## numeric: A population of 1000 grows with a nominal rate of 10% per period.
 ## How big is the population after three periods?
-forms_num(1000 * exp(0.1 * 3), tol = 0.1, width = 10)
+forms_num(1000 * exp(0.1 * 3), tol = 0.1, width = 10, obfuscate = FALSE)
 }
 
 \keyword{utilities}

@@ -1,3 +1,13 @@
+## convenience interface for gsub() that returns NULL for NULL
+xsub <- function(pattern, replacement, x, ...) {
+  if(is.null(x)) {
+    return(NULL)
+  } else {
+    gsub(pattern, replacement, x, ...)
+  }
+}
+
+
 ## naive JSON encoder for character vectors and logical vectors.
 ## If `x` is a logical vector, it is encoded as integer 0/1 (e.g., "[0,1,0,0]") for schoice/mchoice
 json_string <- function(x) {
@@ -20,14 +30,6 @@ json_answer <- function(x, webex_id = NULL) {
 }
 
 
-## helper function to lighten colors in CIELUV
-lighten_luv <- function(x, amount = 0.3) {
-  x <- convertColor(t(col2rgb(x, alpha = FALSE)/255), from = "sRGB", to = "Luv")
-  x[, 1L] <- 100 - (100 - x[, 1L]) * amount
-  x[, -1L] <- x[, -1L] * (1 - amount)
-  rgb(convertColor(x, from = "Luv", to = "sRGB"))
-}
-
 ## get webex id for 'id/solution checking'. If input `x` is a single character,
 ## it is returned as is. If input `is.null(x)` we return a specific random webex ID
 ## for checking the webex ID on the javascript side.
@@ -37,7 +39,7 @@ make_webex_id <- function(x, algo = "md5") {
 
   ## label
   lab <- if (is.character(x)) x[1L] else opts_current$get("label")
-  if (!is.character(lab)) lab <- "NULL"
+  if (!is.character(lab)) lab <- "exams2forms"
 
   ## creating unique webex id
   id <- digest(sprintf("%.0f_%s", curtime, lab), algo = algo)
@@ -50,6 +52,15 @@ make_webex_id <- function(x, algo = "md5") {
 
   return(id)
 }
+
+## digest transformer handling obfuscate argument
+make_exercise_transform_digest <- function(obfuscate = TRUE) {
+  function(x) {
+    x$metainfo$obfuscate <- obfuscate
+    return(x)
+  }
+}
+
 
 
 #' Encode/Decode (Obfuscate) Answer
@@ -122,4 +133,12 @@ style_widgets <- function(incorrect = "#AF5A91", correct = "#388740", highlight 
   )
 
   writeLines(style)
+}
+
+## helper function to lighten colors in CIELUV
+lighten_luv <- function(x, amount = 0.3) {
+  x <- convertColor(t(col2rgb(x, alpha = FALSE)/255), from = "sRGB", to = "Luv")
+  x[, 1L] <- 100 - (100 - x[, 1L]) * amount
+  x[, -1L] <- x[, -1L] * (1 - amount)
+  rgb(convertColor(x, from = "Luv", to = "sRGB"))
 }

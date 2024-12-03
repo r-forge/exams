@@ -1,4 +1,4 @@
-# exams2forms 0.1-1
+# exams2forms 0.2-0
 
 * Based on the package vignette, the R/exams web page has a tutorial
   for `exams2forms`: <https://www.R-exams.org/tutorials/exams2forms/>.

@@ -1,10 +1,10 @@
 exams2forms <- function(file,
-  write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 100),
+  write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 40),
   schoice_display = "buttons", mchoice_display = "buttons", cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
   usecase = TRUE, usespace = TRUE,
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, obfuscate = FALSE, ...) {
+  converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, ...) {
 
   ## sanity checks
   if (!isTRUE(usecase) || isFALSE(usecase)) usecase <- as.logical(usecase[1L])
@@ -56,11 +56,8 @@ exams2forms <- function(file,
     }
 
     ## helper function to get field width
-    ## FIXME: why is this so complicated?
-    dropna <- function(x) x[!is.na(x)]
     get_width <- function(nchar, solution) {
-      n <- as.integer(dropna(sapply(solution, function(x) if (is.logical(x)) NA else nchar(x))))
-      return(if (length(n) == 0L) nchar[1L] else min(nchar[2L], max(nchar[1L], max(n))))
+      max(pmin(nchar[2L], pmax(nchar[1L], nchar(solution), na.rm = TRUE)))
     }
 
     ## set up forms for question
@@ -173,20 +170,3 @@ exams2forms <- function(file,
   ## return list of lists invisibly
   invisible(rval)
 }
-
-xsub <- function(pattern, replacement, x, ...) {
-  if(is.null(x)) {
-    return(NULL)
-  } else {
-    gsub(pattern, replacement, x, ...)
-  }
-}
-
-## digest transformer handling obfuscate argument
-make_exercise_transform_digest <- function(obfuscate = TRUE) {
-  function(x) {
-    x$metainfo$obfuscate <- obfuscate
-    return(x)
-  }
-}
-

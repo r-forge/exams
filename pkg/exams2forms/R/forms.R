@@ -1,23 +1,24 @@
-forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE, obfuscate = FALSE) {
+forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE, regex = FALSE, obfuscate = TRUE) {
   ## sanity checks
   answer <- as.character(unlist(answer))
   stopifnot(
-    "argument `answer` must be of length > 0" = length(answer) > 0,
-    "missing values in `answer` not allowed" = all(!is.na(answer)),
-    "argument `width` must be NULL or numeric" = is.null(width) || is.numeric(width)
+    "'answer' must be of length > 0" = length(answer) > 0,
+    "missing values in 'answer' not allowed" = all(!is.na(answer)),
+    "'width' must be NULL or numeric" = is.null(width) || is.numeric(width)
   )
   if (!is.null(width))
-    stopifnot("argument `width` must be larger or equal to 1" = (width <- as.integer(width[1L])) >= 1L)
+    stopifnot("'width' must be larger or equal to 1" = (width <- as.integer(width[1L])) >= 1L)
 
   usecase <- as.logical(usecase)
   usespace <- as.logical(usespace)
   regex <- as.logical(regex)
+  if (is.null(obfuscate)) obfuscate <- TRUE
   stopifnot(
-    "argument `usecase` must be logical" = isTRUE(usecase) || isFALSE(usecase),
-    "argument `usespace` must be logical" = isTRUE(usespace) || isFALSE(usespace),
-    "argument `regex` must be logical" = isTRUE(regex) || isFALSE(regex),
-    "argument `obfuscate` must be single character or logical" =
-        (is.character(obfuscate) && length(obfuscate) == 1) || isTRUE(obfuscate) || isFALSE(obfuscate)
+    "'usecase' must be logical" = isTRUE(usecase) || isFALSE(usecase),
+    "'usespace' must be logical" = isTRUE(usespace) || isFALSE(usespace),
+    "'regex' must be logical" = isTRUE(regex) || isFALSE(regex),
+    "'obfuscate' must be logical (or character)" =
+        (is.character(obfuscate) && length(obfuscate) == 1L) || isTRUE(obfuscate) || isFALSE(obfuscate)
   )
 
   ## getting webex id
@@ -45,23 +46,24 @@ forms_string <- function(answer, width = NULL, usecase = TRUE, usespace = FALSE,
   if (is_html_output()) html else plain
 }
 
-forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE, obfuscate = FALSE) {
+forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = FALSE, obfuscate = TRUE) {
   ## sanity checks
   stopifnot(
-    "argument `answer` must be numeric length 1" = is.numeric(answer) && length(answer) == 1,
-    "missing values in `answer` not allowed" = !is.na(answer),
-    "argument `width` must be NULL or numeric" = is.null(width) || is.numeric(width)
+    "'answer' must be numeric length 1" = is.numeric(answer) && length(answer) == 1,
+    "missing values in 'answer' not allowed" = !is.na(answer),
+    "'width' must be NULL or numeric" = is.null(width) || is.numeric(width)
   )
   if (!is.null(width))
-    stopifnot("argument `width` must be larger or equal to 1" = (width <- as.integer(width[1L])) >= 1L)
+    stopifnot("'width' must be larger or equal to 1" = (width <- as.integer(width[1L])) >= 1L)
 
   usespace <- as.logical(usespace)
   regex <- as.logical(regex)
+  if (is.null(obfuscate)) obfuscate <- TRUE
   stopifnot(
-    "argument `usespace` must be logical" = isTRUE(usespace) || isFALSE(usespace),
-    "argument `regex` must be logical" = isTRUE(regex) || isFALSE(regex),
-    "argument `obfuscate` must be single character or logical" =
-        (is.character(obfuscate) && length(obfuscate) == 1) || isTRUE(obfuscate) || isFALSE(obfuscate)
+    "'usespace' must be logical" = isTRUE(usespace) || isFALSE(usespace),
+    "'regex' must be logical" = isTRUE(regex) || isFALSE(regex),
+    "'obfuscate' must be logical (or character)" =
+        (is.character(obfuscate) && length(obfuscate) == 1L) || isTRUE(obfuscate) || isFALSE(obfuscate)
   )
 
   ## getting webex id
@@ -82,19 +84,20 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
   if (is_html_output()) html else plain
 }
 
-forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown"), obfuscate = FALSE) {
+forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown"), obfuscate = TRUE) {
   ## sanity checks
   ## solution processing
   solution    <- as.logical(unlist(solution))
   ## answer processing
   answerlist  <- as.character(unlist(answerlist))
+  if (is.null(obfuscate)) obfuscate <- TRUE
   stopifnot(
-    "missing values in `solution` not allowed" = all(!is.na(solution)),
-    "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
+    "missing values in 'solution' not allowed" = all(!is.na(solution)),
+    "missing values in 'answerlist' not allowed" = all(!is.na(answerlist)),
     "there must be exactly one correct solution" = sum(solution) == 1L,
     "length of answerlist and solution must match" = length(answerlist) == length(solution),
-    "argument `obfuscate` must be single character or logical" =
-        (is.character(obfuscate) && length(obfuscate) == 1) || isTRUE(obfuscate) || isFALSE(obfuscate)
+    "'obfuscate' must be logical (or character)" =
+        (is.character(obfuscate) && length(obfuscate) == 1L) || isTRUE(obfuscate) || isFALSE(obfuscate)
   )
 
   ## type of interaction/display
@@ -123,18 +126,19 @@ forms_schoice <- function(answerlist, solution, display = c("buttons", "dropdown
   if (is_html_output()) html else plain
 }
 
-forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown"), obfuscate = FALSE) {
+forms_mchoice <- function(answerlist, solution, display = c("buttons", "dropdown"), obfuscate = TRUE) {
   ## sanity checks
   ## solution processing
   solution    <- as.logical(unlist(solution))
   ## answer processing
   answerlist  <- as.character(unlist(answerlist))
+  if (is.null(obfuscate)) obfuscate <- TRUE
   stopifnot(
-    "missing values in `solution` not allowed" = all(!is.na(solution)),
-    "missing values in `answerlist` not allowed" = all(!is.na(answerlist)),
+    "missing values in 'solution' not allowed" = all(!is.na(solution)),
+    "missing values in 'answerlist' not allowed" = all(!is.na(answerlist)),
     "length of answerlist and solution must match" = length(answerlist) == length(solution),
-    "argument `obfuscate` must be single character or logical" =
-        (is.character(obfuscate) && length(obfuscate) == 1) || isTRUE(obfuscate) || isFALSE(obfuscate)
+    "'obfuscate' must be logical (or character)" =
+        (is.character(obfuscate) && length(obfuscate) == 1L) || isTRUE(obfuscate) || isFALSE(obfuscate)
   )
 
   ## type of interaction/display
