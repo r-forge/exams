@@ -170,10 +170,13 @@ iso2 <- c(Afghanistan = "AF", Albania = "AL", Algeria = "DZ", Andorra = "AD", An
 
 ## flags: LaTeX {worldflags} for PDF, Unicode otherwise
 flag <- if (match_exams_call() %in% c("exams2pdf", "exams2nops")) {
-  setNames(sprintf("\\worldflag[width=0.8em]{%s}", iso2), names(iso2))
+  sprintf("\\worldflag[width=1.5em]{%s}", iso2)
 } else {
-  vapply(iso2, function(x) intToUtf8(as.integer(charToRaw(x)) + 127397), "")
+  paste0('<span style="font-size: 200%; vertical-align: middle">', 
+    vapply(iso2, function(x) intToUtf8(as.integer(charToRaw(x)) + 127397), ""),
+    "</span>")
 }
+names(flag) <- names(iso2)
 
 ## sample country (within continent) and display type
 continent <- sample(unique(neighbor$continent), 1)
