@@ -1,3 +1,11 @@
+# exams2webexercises 0.1-1
+
+* Development of the exams2webexercises package is discontinued. An improved
+  package that directly incorporates an enhanced and customized version of the
+  webexercises functionality is available in exams2forms. See:
+  <https://www.R-exams.org/tutorials/exams2webexercises/>
+
+
 # exams2webexercises 0.1-0
 
 * New R/exams (<https://www.R-exams.org/>) interface for
