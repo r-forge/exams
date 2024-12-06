@@ -199,16 +199,15 @@ frmt <- function(x, display = "combined") {
 
 ## question and solution
 que <- c(frmt(primary, display), frmt(secondary, display))
-ans <- c(sprintf("True. %s is a direct neighbor of %s.", frmt(primary, display), frmt(country, display)),
-  sprintf("False. %s does not share a direct border with %s.", frmt(secondary, display), frmt(country, display)))  
+ans <- c(sprintf("True. %s is a direct neighbor of %s.", frmt(primary, display), frmt(country, "name")),
+  sprintf("False. %s does not share a border with %s.", frmt(secondary, display), frmt(country, "name")))  
 sol <- rep(c(TRUE, FALSE), c(length(primary), length(secondary)))
 ```
 
 
 Question
 ========
-`r frmt(country, display)` is a country in `r continent`. Which of the following countries are
-direct neighbors of `r frmt(country, display)`, i.e., share a border?
+Which of the following countries are direct neighbors (i.e., sharing a border) of `r frmt(country, display)`?
 
 ```{r questionlist, echo = FALSE, results = "asis"}
 answerlist(que, markup = "markdown")
