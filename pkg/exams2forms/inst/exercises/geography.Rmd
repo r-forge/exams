@@ -194,7 +194,7 @@ secondary <- rev(neighbor[[country, "secondary"]])
 
 ## format country display
 frmt <- function(x, display = "combined") {
-  switch(display, "name" = x, "flag" = flag[x], "combined" = paste(x, flag[x]))
+  switch(display, "name" = x, "flag" = flag[x], "combined" = paste(flag[x], x))
 }
 
 ## question and solution
