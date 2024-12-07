@@ -214,29 +214,29 @@ To showcase some more exercise types, the following examples from the R/exams pa
 <table>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
 <td align="center">=</td>
 <td align="right"><span class="math inline">\(508\)</span></td>
 </tr>
 <tr class="even">
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
 <td align="center">=</td>
 <td align="right"><span class="math inline">\(735\)</span></td>
 </tr>
 <tr class="odd">
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
 <td align="center">=</td>
 <td align="right"><span class="math inline">\(203\)</span></td>
 </tr>
@@ -246,11 +246,11 @@ To showcase some more exercise types, the following examples from the R/exams pa
 <table>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
 <td align="center">=</td>
 <td align="right"><span class="math inline">\(\text{?}\)</span></td>
 </tr>
@@ -264,11 +264,11 @@ To showcase some more exercise types, the following examples from the R/exams pa
 <tbody>
 <tr class="odd">
 <td align="right"><span class="math inline">\(x_1 =\)</span></td>
-<td align="left"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
+<td align="left"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
 <td align="right"><span class="math inline">\(x_2 =\)</span></td>
-<td align="left"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
+<td align="left"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
 <td align="right"><span class="math inline">\(x_3 =\)</span></td>
-<td align="left"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
+<td align="left"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
 </tr>
 </tbody>
 </table>
@@ -282,11 +282,11 @@ x_1 = 59, \, x_2 = 85, \, x_3 = 338.
 <table>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/banana.png" style="width:0.85cm" alt="banana" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/orange.png" style="width:0.85cm" alt="orange" /></td>
 <td align="center"><span class="math inline">\(+\)</span></td>
-<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
+<td align="center"><img src="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/pineapple.png" style="width:0.85cm" alt="pineapple" /></td>
 <td align="center">=</td>
 <td align="right"></td>
 </tr>
@@ -320,7 +320,7 @@ x_1 = 59, \, x_2 = 85, \, x_3 = 338.
 <div id="checkbox_group_jlbeatyoer" class="webex-checkboxgroup">
 <label><input type='checkbox' autocomplete='off' name='checkbox_group_jlbeatyoer' value=''/><span>independent</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_jlbeatyoer' value='answer'/><span>zero expectation</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_jlbeatyoer' value=''/><span>normally distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_jlbeatyoer' value=''/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_jlbeatyoer' value='answer'/><span>homoscedastic</span></label>
 </div>
-<p><strong>Application:</strong> Using the data provided in <a href="https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/linreg.csv">linreg.csv</a> estimate a linear regression of <code>y</code> on <code>x</code>. What are the estimated parameters?</p>
+<p><strong>Application:</strong> Using the data provided in <a href="https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/linreg.csv">linreg.csv</a> estimate a linear regression of <code>y</code> on <code>x</code>. What are the estimated parameters?</p>
 <p>Intercept: <input class='webex-solveme nospaces' data-tol='0.01' size='20' data-answer='["0.008"]'/></p>
 <p>Slope: <input class='webex-solveme nospaces' data-tol='0.01' size='20' data-answer='["0.637"]'/></p>
 <p>In terms of significance at 5% level:</p>
@@ -381,8 +381,8 @@ To accomplish the functionality demonstrated above, the package provides the fol
 
 While `exams2webquiz()` is convenient for quickly setting up an HTML document containing certain exercises, further customizations are typicallly needed for more elaborate documents. To demonstrate how this works the `exams2forms` package provides two demo `rmarkdown` files which can also be downloaded here:
 
-- [quiz.Rmd]({{ site.url }}/assets/posts/2024-11-04-exams2forms//quiz.Rmd).
-- [questions.Rmd]({{ site.url }}/assets/posts/2024-11-04-exams2forms//questions.Rmd).
+- [quiz.Rmd]({{ site.url }}/assets/posts/2024-11-07-exams2forms//quiz.Rmd).
+- [questions.Rmd]({{ site.url }}/assets/posts/2024-11-07-exams2forms//questions.Rmd).
 
 The first file `quiz.Rmd` renders a number of different exercises into a quiz using a single `exams2forms()` call, indicating that the `results` should be included `"asis"`:
 
@@ -422,8 +422,8 @@ Both files can be rendered to HTML via `rmarkdown::render()` or by clicking the 
 
 When setting up a more elaborate document or even a full webpage or online book with `rmarkdown` or `quarto`, then the simple `webquiz()` HTML document provided by `exams2forms` is probably not sufficient. In this case, it is best to take the CSS and Javascript files from the package or download them here:
 
-- [webex.css]({{ site.url }}/assets/posts/2024-11-04-exams2forms//webex.css).
-- [webex.js]({{ site.url }}/assets/posts/2024-11-04-exams2forms//webex.js).
+- [webex.css]({{ site.url }}/assets/posts/2024-11-07-exams2forms//webex.css).
+- [webex.js]({{ site.url }}/assets/posts/2024-11-07-exams2forms//webex.js).
 
 The files can then be placed in the same folder as the `rmarkdown` or `quarto` project. They can also be adapted relatively easily by changing the definitions of colors, icons, text, etc. in the first few lines of each file.
 

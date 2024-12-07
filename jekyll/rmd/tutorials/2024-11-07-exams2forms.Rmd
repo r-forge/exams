@@ -108,7 +108,7 @@ md <- exams2forms(c("capitals.Rmd", "function.Rmd", "fruit.Rmd", "lm2.Rmd"), wri
 md <- gsub("></input>", "/>", do.call("c", md), fixed = TRUE)
 md <- exams:::pandoc(md, from = "markdown", to = "html", options = c("--mathjax", "--wrap=none"))
 for(f in c("linreg.csv", "banana.png", "orange.png", "pineapple.png")) {
-  md <- gsub(paste0('"', f, '"'), paste0('"https://www.R-exams.org/assets/posts/2024-11-04-exams2forms/', f, '"'), md, fixed = TRUE)
+  md <- gsub(paste0('"', f, '"'), paste0('"https://www.R-exams.org/assets/posts/2024-11-07-exams2forms/', f, '"'), md, fixed = TRUE)
 }
 writeLines(md)
 ```
