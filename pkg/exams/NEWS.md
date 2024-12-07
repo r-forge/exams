@@ -25,6 +25,22 @@
   `exsolution: (OLS|ML)|01001`. This gets interpreted as two elements with
   values `(OLS|ML)` and `01001`.
 
+* In `exams2pdf()` the convenience argument `usepackage = NULL` was added.
+  If specified with a character string, e.g., `usepackage = "pdfpages"`,
+  then `"\\usepackage{pdfpages}"` is added to the `header` argument.
+  
+* The default `header` argument in `exams2pdf()` is now empty (`NULL`)
+  so that all LaTeX templates shipped with the package (in particular
+  `plain.tex`) could be augmented with a `%% \exinput{header}`
+  placeholder.
+  
+* New demo exercise `flags.Rmd`/`flags.Rnw` added to the package, containing
+  a single-choice knowledge quiz question about flags of countries around the
+  world. The flags are displayed using Unicode characters unless PDF
+  output is produced via LaTeX and `exams2pdf()` or `exams2nops()`. In the
+  latter case the "worldflags" LaTeX package is needed for compilation
+  which can be added now via `usepackage = "worldflags"` in both functions.
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is
