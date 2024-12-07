@@ -178,7 +178,7 @@ flag <- if (match_exams_call() %in% c("exams2pdf", "exams2nops")) {
 }
 names(flag) <- names(iso2)
 
-## sample country (within continent) and display type
+## sample country (within continent)
 continent <- sample(unique(neighbor$continent), 1)
 country   <- sample(neighbor$name[neighbor$continent == continent], 1)
 
@@ -186,32 +186,25 @@ country   <- sample(neighbor$name[neighbor$continent == continent], 1)
 continent <- match.arg(continent, unique(neighbor$continent))
 country   <- match.arg(country, neighbor$name)
 
-## format country display
-frmt <- function(x, display = "flag") {
-  switch(display, "name" = x, "flag" = flag[x], "combined" = paste(x, flag[x]))
-}
-
 ## primary and secondary neighbors (stored in reverse order)
 primary   <- rev(neighbor[[country, "primary"]])
 secondary <- rev(neighbor[[country, "secondary"]])
-
-
 
 ## question and solution
 err <- rev(neighbor[[country, "primary"]])
 if (length(err) < 4) err <- c(err, sample(rev(neighbor[[country, "secondary"]]), 4 - length(err)))
 que <- c(country, err)
-ans <- sprintf("%s is the flag of %s.", frmt(que), frmt(que, "name"))
+ans <- sprintf("%s is the flag of %s.", flag[que], que)
 sol <- c(TRUE, rep(FALSE, length(err)))
 ```
 
 
 Question
 ========
-Which is the flag of `r frmt(country, "name")`?
+Which is the flag of `r country`?
 
 ```{r questionlist, echo = FALSE, results = "asis"}
-answerlist(frmt(que), markup = "markdown")
+answerlist(flag[que], markup = "markdown")
 ```
 
 Solution
