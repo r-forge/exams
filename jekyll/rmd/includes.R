@@ -191,7 +191,8 @@ include_file <- function(file) {
 
 include_template <- function(name, title, teaser, description,
   tags = NULL, related = NULL, randomization = "Yes", supplements = "",
-  author = "zeileis", thumb = c(277, 216), page = 1, seed = 403, nchar = c(20, 100))
+  author = "zeileis", thumb = c(277, 216), page = 1, seed = 403, nchar = c(20, 100),
+  texengine = "pdflatex", header = NULL, usepackage = NULL)
 {
   ## assure UTF-8 locale
   Sys.setlocale("LC_ALL", "en_US.UTF-8")
@@ -276,6 +277,8 @@ include_template <- function(name, title, teaser, description,
     ex_html <- exams2html(f[1], name = "blog", dir = ".", mathjax = TRUE)[[1]][[1]]
   }
 
+  knitr::opts_chunk$set(.knitr_opts_custom$chunk)
+  knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.html", f[5])
   include_asset(f[5], engine = "firefox", link = FALSE, out = f[9])
   ##
@@ -290,14 +293,14 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - PDF
   set.seed(seed)
-  ex_pdf <- exams2pdf(f[1], name = "blog", dir = ".")[[1]][[1]]
+  ex_pdf <- exams2pdf(f[1], name = "blog", dir = ".", header = header, usepackage = usepackage, texengine = texengine)[[1]][[1]]
   file.rename("blog1.pdf", f[7])
   include_asset(f[7], link = FALSE, out = f[11])
   ##
   set.seed(seed)
   knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
   knitr::opts_knit$set(.knitr_opts_vanilla$knit)
-  exams2pdf(f[2], name = "blog", dir = ".")
+  exams2pdf(f[2], name = "blog", dir = ".", header = header, usepackage = usepackage, texengine = texengine)
   knitr::opts_chunk$set(.knitr_opts_custom$chunk)
   knitr::opts_knit$set(.knitr_opts_custom$knit)
   file.rename("blog1.pdf", f[8])
@@ -408,12 +411,12 @@ image:
 set.seed(@seed@)
 exams2html(&quot;@name@.Rmd&quot;@mathjax@)
 set.seed(@seed@)
-exams2pdf(&quot;@name@.Rmd&quot;)
+exams2pdf(&quot;@name@.Rmd&quot;@texengine@@usepackage@@header@)
 
 set.seed(@seed@)
 exams2html(&quot;@name@.Rnw&quot;@mathjax@)
 set.seed(@seed@)
-exams2pdf(&quot;@name@.Rnw&quot;)</code></pre>
+exams2pdf(&quot;@name@.Rnw&quot;@texengine@@usepackage@@header@)</code></pre>
 '
 
   ## look up properties of processes exercises
@@ -452,7 +455,10 @@ exams2pdf(&quot;@name@.Rnw&quot;)</code></pre>
     preview = paste(exmd, collapse= "\n"),
     browsernote = browsernote,
     seed = as.character(seed),
-    mathjax = if(math) ", mathjax = TRUE" else ""
+    mathjax = if(math) ", mathjax = TRUE" else "",
+    texengine = if(texengine == "pdflatex") "" else sprintf(", texengine = \"%s\"", texengine),
+    usepackage = if(is.null(usepackage)) "" else sprintf(", usepackage = \"%s\"", usepackage),
+    header = if(is.null(header)) "" else paste(",\n  header = ", deparse(header, width.cutoff = 120L))
   )
   for(a in names(at)) md <- gsub(paste0("@", a, "@"), at[[a]], md, fixed = TRUE)
 
