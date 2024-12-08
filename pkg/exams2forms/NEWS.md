@@ -20,7 +20,7 @@
   the HTML but, by default, they are not easily readable anymore.
 
 * In the answer lists of single- and multiple-choice exercises
-  apostrophes are no longer escaped by `forms_schoice()` and
+  single quotes are no longer escaped by `forms_schoice()` and
   `forms_mchoice()` so that expressions like $f'(x)$ render correctly.
 
 * The package now ships with some example exercises that illustrate
