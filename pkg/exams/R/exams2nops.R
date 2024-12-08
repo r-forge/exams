@@ -227,7 +227,7 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 "
 \\usepackage{graphicx,color}
 \\usepackage{amsmath,amssymb,latexsym}
-\\usepackage{verbatim,url,fancyvrb,ae}
+\\usepackage{verbatim,url,fancyvrb}
 \\usepackage{multicol,a4wide,pdfpages}
 \\usepackage{booktabs,longtable,eurosym,textcomp}
 
