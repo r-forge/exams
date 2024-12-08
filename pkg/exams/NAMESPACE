@@ -91,7 +91,7 @@ export(
   "openolat_config",
   "exams2canvas",
   "exams2ilias",
-  "exams2inspera",
+  ## "exams2inspera",
 
   ## Blackboard driver (only partially QTI-based)
   "exams2blackboard",

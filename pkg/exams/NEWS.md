@@ -1,11 +1,5 @@
 # exams 2.4-2
 
-* Added first release version of new interface `exams2inspera()` for the
-  assessment platform [Inspera](https://www.inspera.com/). It is using
-  `exams2qti21()` internally with a custom XML `template` and a few further
-  tweaks. Not all features work correctly, though, notably the inclusion
-  of graphics and other supplementary files.
-
 * Support of string scans in `nops_fix()`.
 
 * Improvements in `nops_scan()` to read the registration id somewhat more
@@ -34,12 +28,18 @@
   `plain.tex`) could be augmented with a `%% \exinput{header}`
   placeholder.
   
+* The `{Sweave}` LaTeX package is no longer loaded in the LaTeX templates
+  (like `plain.tex`, `exams.tex`, `solution.text`, etc.). Instead the
+  LaTeX environments for displaying R code and the accompanying LaTeX
+  dependencies are loaded directly.
+
 * New demo exercise `flags.Rmd`/`flags.Rnw` added to the package, containing
   a single-choice knowledge quiz question about flags of countries around the
   world. The flags are displayed using Unicode characters unless PDF
-  output is produced via LaTeX and `exams2pdf()` or `exams2nops()`. In the
-  latter case the "worldflags" LaTeX package is needed for compilation
-  which can be added now via `usepackage = "worldflags"` in both functions.
+  output is produced via LaTeX (using `exams2pdf()` or `exams2nops()`). In the
+  latter case the `{worldflags}` LaTeX package is needed for compilation
+  which can be added now via `usepackage = "worldflags"` in `exams2pdf()`
+  (see above) as well as `exams2nops()`.
 
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
