@@ -26,13 +26,17 @@
 * The package now ships with some example exercises that illustrate
   a feature of `exams2forms` that is not (or not easily) available
   in other `exams2xyz` interfaces: regular expressions for the correct
-  answers of `string` exercises. To generate a quiz with these you can use:
-  `exams2webquiz(c("geography2.Rmd", "email.Rmd"), n = 3, edir = system.file(package = "exams2forms"))`
-  The exercise `geography2.Rmd` simply lists several solutions that
-  are accepted using an "or" operation (`|`) in the regular expression.
-  The exercise `email.Rmd` has a more complex regular expression for
-  checking the validity of e-mail addresses. Furthermore, `geography.Rmd`
-  is a multiple-choice version of the `geography2.Rmd` exercise.
+  answers of `string` exercises. To generate a demo quiz with these
+  you can use:
+
+  `exams2webquiz(c("geography2.Rmd", "email.Rmd"), regex = TRUE, n = 3, edir = system.file(package = "exams2forms"))`
+
+  - The exercise `geography2.Rmd` simply lists several solutions that are
+    accepted using "or" regular expressions: `^(answer1|answer2|answer3)$`
+  - The exercise `email.Rmd` has a more complex regular expression for
+    checking the validity of e-mail addresses.
+  - Furthermore, `geography.Rmd` is a multiple-choice version of the
+    `geography2.Rmd` exercise.
 
 
 # exams2forms 0.1-0
