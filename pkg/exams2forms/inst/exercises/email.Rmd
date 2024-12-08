@@ -1,0 +1,26 @@
+Question
+========
+Enter _any_ valid (syntactically correct) e-mail address.
+
+Solution
+========
+An e-mail address consists of a local-part, followed by the @ symbol,
+and a domain name. The local part may use latin letters (upper- and/or
+lower-case), numbers, and certain symbols like a . or _ etc. The domain
+name also allows numbers and letters but fewer symbols and needs to have
+a . separating the top-level domain.
+
+The regular expression used for validation is:
+
+```
+^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$
+```
+
+which covers the most important (but not quite all) rules that an e-mail
+address has to satisfy. For more details see <https://en.wikipedia.org/wiki/Email_address>.
+
+Meta-information
+================
+exname: E-mail address validation via regex
+extype: string
+exsolution: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$
