@@ -116,6 +116,8 @@ check_id = function(e) {
     const b = id_checker["eval"].encode(id);
     const res = a.map((byte, index) => byte^b[index % b.length]);
     answer = id_checker["dval"].decode(res);
+    /* Replacing &amp; with ' before parsing */
+    answer = answer.replaceAll("&apos;", "'");
   }
 
   return JSON.parse(answer);
