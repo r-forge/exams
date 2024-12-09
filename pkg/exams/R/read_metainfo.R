@@ -76,7 +76,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
     ## split further with respect separator symbol |
     ## special case: if strings contain regular expressions with |, these need to be protected by surrounding (...|...)
     rval <- if(any(grepl("\\([^(]*\\|[^)]*\\)", rval))) {
-      unlist(regmatches(rval, gregexpr("\\(([^()]+|(?R))*\\)|\\b[^()\\|]+(?:\\s+[^()\\|]+)*\\b", rval, perl = TRUE)))
+      unlist(regmatches(rval, gregexpr("\\^?\\(([^()]+|(?R))*\\)\\$?|\\b[^()\\|]+(?:\\s+[^()\\|]+)*\\b", rval, perl = TRUE)))
     } else {
       unlist(strsplit(rval, "|", fixed = TRUE))
     }
@@ -96,7 +96,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
     ## split further with respect separator symbol |
     ## special case: if strings contain regular expressions with |, these need to be protected by surrounding (...|...)
     rval <- if(any(grepl("\\([^(]*\\|[^)]*\\)", rval))) {
-      unlist(regmatches(rval, gregexpr("\\(([^()]+|(?R))*\\)|\\b[^()\\|]+(?:\\s+[^()\\|]+)*\\b", rval, perl = TRUE)))
+      unlist(regmatches(rval, gregexpr("\\^?\\(([^()]+|(?R))*\\)\\$?|\\b[^()\\|]+(?:\\s+[^()\\|]+)*\\b", rval, perl = TRUE)))
     } else {
       unlist(strsplit(rval, "|", fixed = TRUE))
     }

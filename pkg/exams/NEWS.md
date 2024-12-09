@@ -15,9 +15,9 @@
 * In `exsolution` the `|` can now not only be used as the separator symbol
   for multiple solutions in a cloze exercise but additionally within the
   solutions. This is useful for example when the answer string is a regular
-  expression. In this case the `|` has to be within round brackets, e.g.,
-  `exsolution: (OLS|ML)|01001`. This gets interpreted as two elements with
-  values `(OLS|ML)` and `01001`.
+  expression. In this case the `|` has to be within round brackets (and
+  possibly `^` and/or `$`), e.g., `exsolution: ^(OLS|ML)$|01001`. This gets
+  interpreted as two elements with values `^(OLS|ML)$` and `01001`.
 
 * In `exams2pdf()` the convenience argument `usepackage = NULL` was added.
   If specified with a character string, e.g., `usepackage = "pdfpages"`,
