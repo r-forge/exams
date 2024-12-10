@@ -14,7 +14,8 @@ vis_register(file = Sys.glob("*.xls"), subset = TRUE)
 
 \item{...}{additional arguments passed to \code{\link[xlsx]{read.xlsx}}.}
 
-\item{subset}{logical. Should students without confirmed registration be omitted?}
+\item{subset}{logical or character. If logical: Should students without confirmed registration be omitted?
+If character: Select only the students with certain student IDs provided in \code{subset}.}
 }
 \value{
 A \code{data.frame} with an additional attribute \code{"info"} providing

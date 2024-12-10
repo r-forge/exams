@@ -29,10 +29,10 @@ manipulates the variable or column names in a way that the rest
 of the code (\code{\link{olat_eval}}) is not language dependent anymore.
 
 \itemize{
-   \item{tries to guess the language by calling \code{\link{olat_eval_guess_lang}}}
-   \item{loads the search-replace-data.frame (internally)}
-   \item{search and replace variable names}
-   \item{return input object \code{x} with new varaible names}
+\item{tries to guess the language by calling \code{\link{olat_eval_guess_lang}}}
+\item{loads the search-replace-data.frame (internally)}
+\item{search and replace variable names}
+\item{return input object \code{x} with new varaible names}
 }
 
 Note: Even English to English will rename some of the variables.
