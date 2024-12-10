@@ -200,8 +200,7 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
     # ---------------------------------------------------------------
     # Creating new temporary folder (using temporary file name as folder name)
     dir.create(tmpdir <- tempfile("olat_results_"))
-    ##on.exit(unlink(tmpdir, recursive = TRUE))
-    print(tmpdir)
+    on.exit(unlink(tmpdir, recursive = TRUE))
     if (verbose) message("- Extracting ZIP archive \"", zipfile, "\".")
     tryCatch(unzip(zipfile, exdir = tmpdir),
              error = function(e) stop("Problems unzipping the ZIP file: ", e))
