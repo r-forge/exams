@@ -13,9 +13,8 @@
 #'
 #' @param rds character, name of the RDS file procuded by [exams2openolat] when the
 #'        test was generated.
-#' @param resultsdir character, path to the unzipped OpenOLAT results folder
-#'        containing the HTML files (amongst others). This folder is typically
-#'        called `"Results"` and contains the `"userdata"` folder (and other files/folders).
+#' @param zipfile character, name/path to the ZIP file (exported via OpenOlat)
+#'        oontaining the HTML results files (amongst other files needed).
 #' @param verbose logical, if `TRUE` some information is written to stdout.
 #'
 #' @return Returns a `data.frame` of dimension `N x 13` where `N` corresponds to the total
@@ -35,36 +34,20 @@
 #'
 #' Besides `Score` (numeric), `Section`/`Item` (int) everything is of class character.
 #'
-#' @details
-#' A brief summary of the individual steps:
-#'
-#' 1. Reading and flattening the `rds` file (source file name, and question name (`exname`)).
-#' 2. Searching for the manifest (`imsmanifest.xml`) containing the OpenOLAT IDs;
-#'    combine with the information from step (1) to create the link between source files
-#'    and OpenOLAT IDs.
-#' 3. Identifying all HTML results files (HTML test summary) containing the required
-#'    detailed information.
-#' 4. Parsing all HTML files, extracting user information and details about each
-#'    individual question (OpenOLAT ID, Score, user Answer, correct Solution).
-#'    This is combined with the information from step (2).
-#'
-#' After that a few small modifications are made on the resulting `data.frame`
-#' before it is returned.
-#'
 #' @section Disclaimer and missing features:
 #'
 #' TODO: This is a first implementation of this feature and there is a series of
 #' todo's and missing features. Incomplete list of known missing features:
 #'
-#' - Developed using 'English OpenOLAT export'; will fail with all other languages.
+#' - Depending on the (user specific) OpenOLAT language setting, the exported ZIP file
+#'   comes in different languages. We 'auto guess' the language based on the content of
+#'   the ZIP archive.
 #' - Originally implemented for string, num, and schoice questions.
 #'   Not sure if it works for mchoice, definitively no support for cloze questions at the moment.
 #' - Handling of multiple attempts (evaluate first, second, last attempt?).
 #' - Support for multiple tests (if the "Results" folder contains multiple "test*" directories).
 #' - Variations of questions (limited support; import works but post-processing might get
 #'   difficult/impossible).
-#' - Would be nice if it would work with ZIP file as input, currently
-#'   the ZIP must already be extracted.
 #'
 #' @section Adding functionality:
 #'
@@ -73,6 +56,24 @@
 #' no matter where the results come from. See:
 #'
 #' * <https://git.uibk.ac.at/econstat/exams/demo/-/tree/main/gp-2024-02>
+#'
+#' @details
+#' A brief summary of the individual steps:
+#'
+#' 1. Reading and flattening the `rds` file (source file name, and question name (`exname`)).
+#' 2. Unzips the `zipfile`, tries to guess the language of the content in the ZIP file,
+#'    and checks if the content looks as expected.
+#' 3. Searching for the manifest (`imsmanifest.xml`) containing the OpenOLAT IDs;
+#'    combine with the information from step (1) to create the link between source files
+#'    and OpenOLAT IDs.
+#' 4. Identifying all HTML results files (HTML test summary) containing the required
+#'    detailed information.
+#' 5. Parsing all HTML files, extracting user information and details about each
+#'    individual question (OpenOLAT ID, Score, user Answer, correct Solution).
+#'    This is combined with the information from step (2).
+#'
+#' After that a few small modifications are made on the resulting `data.frame`
+#' before it is returned.
 #'
 #' @examples
 #' \dontrun{
@@ -85,16 +86,17 @@
 #' library("c403")
 #'
 #' # Extracting all the required information
-#' results <- olat_extract_html_results(rds = "GP_December2024.rds",
-#'                                      resultsdir = "Results")
+#' rds <- "GP_December2024.rds"
+#' zipfile <- "results_GP_December2024.zip"
+#' results <- olat_extract_html_results(rds = rds, zipfile = zipfile)
 #'
-#' # Some fun with ggplot2
-#' library("ggplot2")
-#' library("patchwork")
 #'
 #' # ------------------------------------------------------------------
 #' # Plotting
 #' # ------------------------------------------------------------------
+#'
+#' library("ggplot2")
+#' library("patchwork")
 #'
 #' # Some demo plots; assumes that the students could only
 #' # gain 0 points (incorrect) or 2 points (correct)
@@ -158,14 +160,13 @@
 #'
 #' @importFrom stats setNames
 #' @importFrom xml2 read_xml read_html xml_find_all xml_find_first xml_text xml_attr
+#' @importFrom utils unzip
 #' @export
 #' @author Reto
-olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
-    stopifnot(requireNamespace("dplyr"))
-
+olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
     stopifnot(
         "`rds` input incorrect or file not found" = isTRUE(file.exists(rds)),
-        "`resultsdir` is no directory (does not exist)" = isTRUE(dir.exists(resultsdir))
+        "`zipfile` incorrect or file not found" = isTRUE(file.exists(zipfile))
     )
 
 
@@ -175,8 +176,15 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
     #     to data.frame, storing question name (exname) and source file name.
     # ---------------------------------------------------------------
     rds <- readRDS(rds)
-    rds <- dplyr::bind_rows(lapply(unlist(rds, recursive = FALSE),
-                                function(k) k$metainfo[c("file", "name")]))
+    # Alternatively use dplyr::bind_rows
+    rds_to_df <- function(x) {
+        fn <- function(r) { 
+            r <- lapply(r, function(k) as.data.frame(k$metainfo[c("file", "name")]))
+            return(do.call(rbind, r))
+        }
+        do.call(rbind, lapply(rds, fn))
+    }
+    rds <- rds_to_df(rds)
     names(rds) <- c("file", "exname")
     if (verbose) {
         message("- Found ", nrow(rds), " questions based on ",
@@ -185,20 +193,68 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
 
 
     # ---------------------------------------------------------------
-    # (2) Next we need to read the imsmanifest.xml file which is the
+    # (2) Unzipping the `zipfile` archive (requires unzip) and
+    #     quickly checks if the content is as expected, i.e., if the
+    #     content looks like an export from OpenOLAT containing the
+    #     results from an test.
+    # ---------------------------------------------------------------
+    # Creating new temporary folder (using temporary file name as folder name)
+    dir.create(tmpdir <- tempfile("olat_results_"))
+    ##on.exit(unlink(tmpdir, recursive = TRUE))
+    print(tmpdir)
+    if (verbose) message("- Extracting ZIP archive \"", zipfile, "\".")
+    tryCatch(unzip(zipfile, exdir = tmpdir),
+             error = function(e) stop("Problems unzipping the ZIP file: ", e))
+
+    check_tmpdir_content_and_guess_language <- function(d) {
+        lang <- list()
+        if (verbose) message("- Checking extracted files/folders ...")
+        tmp <- list.dirs(d, recursive = FALSE, full.names = FALSE)
+        stopifnot("issues guessing language (checking root folder of ZIP file content)" =
+                  is.character(tmp) && length(tmp) == 1)
+        # Else we know the (polylingual) name of the main folder
+        lang$resultsdir <- tmp
+        tmp <- list.dirs(file.path(d, lang$resultsdir), recursive = FALSE, full.names = FALSE)
+        stopifnot(
+            "can't find folder \"userdata\". ZIP content not as expected" = "userdata" %in% tmp,
+            "can't find any \"^test[0-9]+$\" folder. ZIP content not as expected" = any(grepl("^test[0-9]+$", tmp))
+        )
+        # Next we need to auto-guess the language of the folders containing
+        # the attempts. In EN it is "Attempt_X", in German "Versuch_*", we try to guess it here.
+        dirs <- list.dirs(file.path(d, lang$resultsdir, "userdata"), recursive = FALSE)
+        dirs <- unlist(lapply(dirs, function(x) list.dirs(x, recursive = FALSE, full.names = FALSE)))
+        # Extracting language dependent name
+        att  <- unique(regmatches(dirs, regexpr("^.*?(?=(_))", dirs, perl = TRUE)))
+        if (!is.character(att) & length(att) == 1)
+            stop("issues guessing language of folder name for 'attempts', got ", paste(att, collapse = ", "))
+        lang$attempt <- att
+
+        if (verbose) {
+            message("- Quick check: Structure of the ZIP content looks fine")
+            message("- Automatic language check:")
+            message("       Name of results directory:     ", lang$resultsdir)
+            message("       Name of 'attempt' directories: ", lang$attempt)
+        }
+        invisible(lang)
+    }
+    lang <- check_tmpdir_content_and_guess_language(tmpdir)
+
+
+    # ---------------------------------------------------------------
+    # (3) Next we need to read the imsmanifest.xml file which is the
     #     link between the randomizations (in `rds`) and the IDs used
-    #     by Open OLAT. For that, we need to find the "<resultsdir>/test*"
+    #     by Open OLAT. For that, we need to find the "<lang$resultsdir>/test*"
     #     directory which contains the manifest.
     #     TODO: Currently expects that there is only one, the logic
     #     of having multiple tests is not covered.
     # ---------------------------------------------------------------
-    testdir <- list.dirs(resultsdir, recursive = FALSE, full.names = FALSE)
+    testdir <- list.dirs(file.path(tmpdir, lang$resultsdir), recursive = FALSE, full.names = FALSE)
     testdir <- testdir[grepl("^test[0-9]+$", testdir)]
     if (length(testdir) != 1)
-        stop("Issues identifying the \"Rsults/test*\" dir correctly.")
+        stop("Issues identifying the \"", lang$resultsdir, "/test*\" dir correctly.")
 
     # Find manifests file
-    manifest <- file.path(resultsdir, testdir, "imsmanifest.xml")
+    manifest <- file.path(tmpdir, lang$resultsdir, testdir, "imsmanifest.xml")
     stopifnot("issues finding \"imsmanifest.xml\"" = isTRUE(file.exists(manifest)))
 
     # Parsing the manifest. It is an XML file, but a broken XML, thus the tricks
@@ -228,33 +284,35 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
 
 
     # ---------------------------------------------------------------
-    # (3) Find user results; we are looking for the HTML file
+    # (4) Find user results; we are looking for the HTML file
     #     crated by Open OLAT (exported via the ZIP file) located
-    #     in "<resultsdir>/userdata/.../Attempt_[0-9]+/"
+    #     in "<tmpdir>/<lang$resultsdir>/userdata/.../<lang$attempt>_[0-9]+/"
     #
     # Note that the function will extract the 'Attempt number'
     # and (currently) will fail if they are not all only attempt 1!
     # TODO: Extend support for multi-attempt results; ensure to
     # evaluate the correct result (first/all/last attempt?).
     # ---------------------------------------------------------------
-    get_result_html_files <- function(dir) {
+    get_result_html_files <- function(dir, lang) {
         stopifnot(isTRUE(dir.exists(dir)))
         files <- file.path(dir, list.files(dir, recursive = TRUE))
-        files <- files[grepl(".*\\/Attempt_[0-9]+\\/.*\\.html$", files)]
+        pattern <- paste0(".*\\/", lang$attempt, "_[0-9]+\\/.*\\.html$")
+        files <- files[grepl(pattern, files)]
 
         # Checking attempt (there should only be 1s)
-        attempt <- as.integer(regmatches(files, regexpr("(?<=(Attempt_))[0-9]", files, perl = TRUE)))
+        pattern <- paste0("(?<=(", lang$attempt, "_))[0-9]")
+        attempt <- as.integer(regmatches(files, regexpr(pattern, files, perl = TRUE)))
         stopifnot("not all attempts are 1th attempts!" = all(attempt == 1)) # TODO: Custom check
 
         # Return vector with full names of the HTML results files
         return(files)
     }
-    htmlfiles <- get_result_html_files(resultsdir)
+    htmlfiles <- get_result_html_files(file.path(tmpdir, lang$resultsdir), lang)
     if (verbose) message("- Found ", length(htmlfiles), " HTML files with user test results.")
 
 
     # ---------------------------------------------------------------
-    # (4) Main step: Parsing user information, type (ID) of question,
+    # (5) Main step: Parsing user information, type (ID) of question,
     #     Score, and user Answer/correct Solution from the HTML file.
     #     This is done by `get_exam_results()` using some magic
     #     regex and XPath expressions.
@@ -276,7 +334,8 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
         # Getting user information
         get_userinfo <- function(x, htmlfile) {
             # Extracting Name and Username from the html file name
-            tmp <- regmatches(htmlfile, regexpr("(?<=(\\/))\\w+(?=(\\/Attempt))", htmlfile, perl = TRUE))
+            pattern <- paste0("(?<=(\\/))\\w+(?=(\\/", lang$attempt, "))")
+            tmp <- regmatches(htmlfile, regexpr(pattern, htmlfile, perl = TRUE))
             Name <- regmatches(tmp, regexpr(".*(?=(_))", tmp, perl = TRUE))
             User <- regmatches(tmp, regexpr("(?<=(_))[A-Za-z0-9]+$", tmp, perl = TRUE))
 
@@ -291,12 +350,16 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
 
         # Helper function to extract item header
         get_header <- function(x) {
-            trs <- xml_find_all(x, "table/tbody/tr")
-            header <- setNames(gsub("(\\t|\\n)", "", xml_text(xml_find_all(trs, "td"))),
-                               gsub("^Your score$", "Score", xml_text(xml_find_all(trs, "th"))))
-            header[3] <- regmatches(header[3], regexpr("^[-0-9\\.,]", header[3]))
-            stopifnot(length(header) == 3)
-            return(header)
+            fn <- function(x) trimws(gsub("(\\t|\\n)", "", xml_text(x)))
+            # OpenOLAT ID
+            id     <- fn(xml_find_all(x, "table/tbody/tr[contains(@class, 'o_qti_item_id')]/td"))
+            # Logged Status Message
+            status <- fn(xml_find_all(x, "table/tbody/tr[contains(@class, 'o_sel_assessmentitem_status')]/td"))
+            # Extracting score (numeric)
+            score  <- fn(xml_find_all(x, "table/tbody/tr[contains(@class, 'o_sel_assessmentitem_score')]/td"))
+            score  <- as.numeric(regmatches(score, regexpr("^.*?(?=(\\/))", score, perl = TRUE)))
+
+            return(list(ID = id, Status = status, Score = score))
         }
 
         # Helper function to extract user Answer and correct Solution
@@ -345,7 +408,8 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
         # questionlist (list of lists) into a data.frame and combine it
         # with the user information.
         if (long) {
-            tmp    <- dplyr::bind_rows(result$questionlist)
+            # Alternatively use dplyr::bind_rows
+            tmp <- do.call(rbind, lapply(result$questionlist, as.data.frame))
             result <- cbind(as.data.frame(result$User), tmp)
         }
 
@@ -369,9 +433,6 @@ olat_extract_html_results <- function(rds, resultsdir, verbose = TRUE) {
                 " HTML results files,\n  in other words ", nrow(results) / length(htmlfiles),
                 " questions/results from ", length(htmlfiles), " users/participants.")
     }
-
-    # Coerce score to numeric
-    results$Score <- as.numeric(results$Score)
 
     # `results$Status` contains a status provided by Open OLAT
     # - Answered: Participant answered the question (used 'save answer'). It is, however,

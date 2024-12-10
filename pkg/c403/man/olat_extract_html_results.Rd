@@ -4,15 +4,14 @@
 \alias{olat_extract_html_results}
 \title{Extracting OpenOLAT Results from HTML Results Files}
 \usage{
-olat_extract_html_results(rds, resultsdir, verbose = TRUE)
+olat_extract_html_results(rds, zipfile = NULL, verbose = TRUE)
 }
 \arguments{
 \item{rds}{character, name of the RDS file procuded by \link{exams2openolat} when the
 test was generated.}
 
-\item{resultsdir}{character, path to the unzipped OpenOLAT results folder
-containing the HTML files (amongst others). This folder is typically
-called \code{"Results"} and contains the \code{"userdata"} folder (and other files/folders).}
+\item{zipfile}{character, name/path to the ZIP file (exported via OpenOlat)
+oontaining the HTML results files (amongst other files needed).}
 
 \item{verbose}{logical, if \code{TRUE} some information is written to stdout.}
 }
@@ -48,6 +47,8 @@ question source files (i.e., R/exams Rmd/Rnw questions).
 A brief summary of the individual steps:
 \enumerate{
 \item Reading and flattening the \code{rds} file (source file name, and question name (\code{exname})).
+\item Unzips the \code{zipfile}, tries to guess the language of the content in the ZIP file,
+and checks if the content looks as expected.
 \item Searching for the manifest (\code{imsmanifest.xml}) containing the OpenOLAT IDs;
 combine with the information from step (1) to create the link between source files
 and OpenOLAT IDs.
@@ -67,15 +68,15 @@ before it is returned.
 TODO: This is a first implementation of this feature and there is a series of
 todo's and missing features. Incomplete list of known missing features:
 \itemize{
-\item Developed using 'English OpenOLAT export'; will fail with all other languages.
+\item Depending on the (user specific) OpenOLAT language setting, the exported ZIP file
+comes in different languages. We 'auto guess' the language based on the content of
+the ZIP archive.
 \item Originally implemented for string, num, and schoice questions.
 Not sure if it works for mchoice, definitively no support for cloze questions at the moment.
 \item Handling of multiple attempts (evaluate first, second, last attempt?).
 \item Support for multiple tests (if the "Results" folder contains multiple "test*" directories).
 \item Variations of questions (limited support; import works but post-processing might get
 difficult/impossible).
-\item Would be nice if it would work with ZIP file as input, currently
-the ZIP must already be extracted.
 }
 }
 
@@ -101,16 +102,17 @@ no matter where the results come from. See:
 library("c403")
 
 # Extracting all the required information
-results <- olat_extract_html_results(rds = "GP_December2024.rds",
-                                     resultsdir = "Results")
+rds <- "GP_December2024.rds"
+zipfile <- "results_GP_December2024.zip"
+results <- olat_extract_html_results(rds = rds, zipfile = zipfile)
 
-# Some fun with ggplot2
-library("ggplot2")
-library("patchwork")
 
 # ------------------------------------------------------------------
 # Plotting
 # ------------------------------------------------------------------
+
+library("ggplot2")
+library("patchwork")
 
 # Some demo plots; assumes that the students could only
 # gain 0 points (incorrect) or 2 points (correct)
