@@ -85,14 +85,13 @@
 #' # template for future developments/ideas.
 #' library("c403")
 #'
-#' # Extracting all the required information
-#' rds <- "GP_December2024.rds"
-#' zipfile <- "results_GP_December2024.zip"
-#' results <- olat_extract_html_results(rds = rds, zipfile = zipfile)
+#' rds     <- "GP06Dezember2024.rds"
+#' zipfile <- "results_GP06Dezember2024.zip"
+#' results <- olat_extract_html_results(rds, zipfile)
 #'
 #'
 #' # ------------------------------------------------------------------
-#' # Plotting
+#' # Some plotting
 #' # ------------------------------------------------------------------
 #'
 #' library("ggplot2")
@@ -101,37 +100,30 @@
 #' # Some demo plots; assumes that the students could only
 #' # gain 0 points (incorrect) or 2 points (correct)
 #' results$label <- with(results, paste(file, exname, sep = "\n"))
+#' results$scoreLabel <- factor(results$Score > 0,
+#'                              levels = c(FALSE, TRUE),
+#'                              labels = c("Score == 0 (incorrect)",
+#'                                         "Score > 0 (counted as correct)"))
 #'
-#' add_score_label <- function(x) {
-#'     res <- rep(NA_character_, nrow(x))
-#'     res[x$Score == 2] <- "Correct"
-#'     res[x$Score == 0 & grepl("Answered", x$Status)] <- "Answered, incorrect"
-#'     res[x$Score == 0 & !grepl("Answered", x$Status)] <- "Not answered"
-#'     #x$labelScore <- factor(res, c("Answered, incorrect", "Not answered", "Correct"))
-#'     x$labelScore <- factor(res, c("Answered, incorrect", "Correct", "Not answered"))
-#'     return(x)
-#' }
-#' results <- add_score_label(results)
-#' 
 #' g1 <- ggplot(results) + geom_bar(aes(y = label, fill = Status), stat = "count") +
-#'           scale_fill_manual(values = c("Answered" = "limegreen",
-#'                                        "Answered but Empty" = "steelblue",
-#'                                        "Seen but not answered" = "gray")) +
-#'           labs(title = "Stacked barplot of answered/unanswerd questions") + theme_minimal()
-#' g2 <- ggplot(results) + geom_bar(aes(y = label, fill = labelScore), stat = "count") +
-#'           scale_fill_manual(values = c("Answered, incorrect" = "tomato",
-#'                                        "Correct" = "limegreen", "Not answered" = "gray")) +
-#'           labs(title = "Correct/incorrect given question | Status") + theme_minimal()
-#' 
-#' g1 + g2 # Patchwork plot
+#'           labs(title = "Stacked barplot of answered/unanswerd questions") +
+#'           labs(subtitle = paste("Number of participants: ", length(unique(results$User)))) +
+#'           theme_minimal()
+#' g2 <- ggplot(results) + geom_bar(aes(y = label, fill = scoreLabel), stat = "count") +
+#'           labs(title = "Stacked barplot of answered/unanswerd questions") +
+#'           labs(subtitle = paste("Number of participants: ", length(unique(results$User)))) +
+#'           theme_minimal()
 #'
+#' plot(g1 + g2) # Patchwork plot
 #'
 #' # Histogram of Score distribution; here assuming the threshold was 22 points
 #' library("dplyr")
 #' results %>% group_by(Name) %>% summarize(Score = sum(Score)) %>%
 #'     ggplot() + geom_histogram(aes(x = Score), binwidth = 1) +
 #'         geom_vline(xintercept = 22, col = "tomato", lwd = 2) + 
-#'         labs(title = "Histogram of total Score") + theme_minimal()
+#'         labs(title = "Histogram of total Score") +
+#'         labs(subtitle = paste("Number of participants: ", length(unique(results$User)))) +
+#'         theme_minimal()
 #'
 #' # ------------------------------------------------------------------
 #' # Estimating Rasch model
@@ -144,13 +136,13 @@
 #' tmp <- transform(subset(results, select = c(Name, file, Score)), Score = as.integer(Score > 0)) |>
 #'         pivot_wider(names_from = file, values_from = Score) |>
 #'         as.data.frame()
-#' tmp <- as.matrix(tmp[, grepl("^0Final", names(tmp))])
+#' tmp <- as.matrix(tmp[, !grepl("^Name$", names(tmp))])
 #'
 #' # Estimate Rasch model
 #' mr <- raschmodel(tmp)
 #'
 #' # Default plots
-#' hold <- par(no.readonly = FALSE)
+#' hold <- par(no.readonly = TRUE)
 #' par(mar = c(20, 12, 2.5, 1))
 #' plot(mr, type = "profile")
 #' par(hold)
