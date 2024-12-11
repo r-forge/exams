@@ -530,8 +530,12 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
   xtr[, seq(0.4 * ncol(xtr), ncol(xtr))] <- 0
 
   rtl <- get_mark(xtl, "row")
-  rtr <- get_mark(xtr, "row") ## may be affected by text close to the mark, hence not used
-  rt <- as.vector(round(get_mean(unique(rtl))))
+  rtr <- get_mark(xtr, "row") ## may be affected by text close to the mark, hence not used by default
+  if(length(rtl) > 0L) {
+    rt <- as.vector(round(get_mean(unique(rtl))))
+  } else {
+    rt <- as.vector(min(rtr)) ## use top right scanner marking as fallback if top left is missing
+  }
   
   if(abs((rb - rt) / (cr - cl) - (270 - 13) / (190 - 20)) > 0.02)
     warning("PNG does not seem to be correctly scaled")

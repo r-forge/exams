@@ -4,8 +4,10 @@
 
 * Improvements in `nops_scan()` to read the registration id somewhat more
   reliably in the presence of scanning artefacts (e.g., single white lines
-  through a check box). Also scanner marks are found more reliably when
-  the bottom margin is smaller than in the PDF from `exams2nops()`.
+  through a check box). Also scanner markings are found more reliably when
+  the bottom margin is smaller than in the PDF from `exams2nops()`. And the
+  top left scanner marking is approximated in case it is missing in the sheet
+  for some reason.
 
 * Improvement in `nops_eval(..., interactive = TRUE)`: If changes are made
   in the `scans` or `string_scans` files, then the original files are
