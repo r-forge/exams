@@ -45,11 +45,13 @@ num_to_schoice <- num2schoice <- function(
     if (verbose) warning("specified 'range' is too small for 'delta'")
     return(NULL)
   }
+  # Square root of machine precision:
+  eps2 <- sqrt(.Machine$double.eps)
   while(!ok) {
     rand <- switch(match.arg(method),
                    "runif" = c(runif(nle, range[1], round2(correct, digits = digits)), runif(4 - nle, round2(correct, digits = digits), range[2])),
                    "delta" = c(sample(seq(round2(correct, digits = digits) - delta, range[1], by = -delta), nle),
-                   sample(seq(round2(correct, digits = digits) + delta, range[2], by = delta), 4 - nle))
+                               sample(seq(round2(correct, digits = digits) + delta, range[2], by = delta), 4 - nle))
             )
 
     if (sign == 0L) {
@@ -57,8 +59,8 @@ num_to_schoice <- num2schoice <- function(
     } else {
       solution <- c(correct, wrong, sample(rand, 4 - length(wrong) - sign), sample(-c(correct, wrong, rand), sign))
     }
-    solution <- round2(solution, digits = digits)   
-    ok       <- length(unique(solution)) == 5 & min(abs(dist(solution))) >= delta
+    solution <- round2(solution, digits = digits)
+    ok       <- length(unique(solution)) == 5 & min(abs(dist(solution))) >= (delta - eps2)
   }
 
   ## return shuffled solutions
