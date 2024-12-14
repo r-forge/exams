@@ -538,7 +538,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         stop("essays or file uploads are not currently supported in Moodle cloze type exercises!")
 
       ## cycle through all questions
-      qtext <- NULL; inum <- 1
+      qtext <- NULL
+      inum <- 1
       for(i in 1:n) {
         ql <- if(is.null(questionlist)) "" else questionlist[sid == i]
         k <- length(ql)
@@ -642,17 +643,19 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
         ## insert in ##ANSWERi## tag
         if(any(grepl(ai <- paste("##ANSWER", i, "##", sep = ""), x$question, fixed = TRUE))) {
           x$question <- gsub(ai, paste(tmp, collapse = ", "), x$question, fixed = TRUE)
-        } else qtext <- c(qtext, tmp)
+        } else {
+          qtext <- c(qtext, tmp)
+        }
       }
-      if(!is.null(qtext) & enumerate)
-        qtext <- c('<ol type = "a">', paste('<li>', qtext, '</li>'), '</ol>')
+      if(!is.null(qtext)) {
+        qtext <- if(enumerate) {
+          c('<ol type = "a">', paste0('<li>', qtext, '</li>'), '</ol>')
+        } else {
+          paste0('<p>', qtext, '</p>')
+        }
+      }
       qtext <- c(x$question, qtext)
-      ## add abstention option (if any)
-#      if(abstention != "") {
-#        qtext <- c(qtext,
-#          paste0('<p>', abstention, ' {0:', cloze_mchoice_display_i, ':%100%', truefalse[1], '~%0%', truefalse[2], '} </p>')
-#        )
-#      }
+
       xml <- gsub('##QuestionText##', paste(qtext, collapse = "\n"), xml, fixed = TRUE)
     }
 

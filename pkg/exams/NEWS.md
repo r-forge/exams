@@ -76,6 +76,10 @@
 * Improve handling of duplicated textattachmentfile names in `exams2pdf()`
   (reported by Francisco Goerlich).
 
+* In `exams2moodle(..., cloze = list(enumerate = FALSE))` (the default since version
+  2.4-1) elements of questionlist did not get any formatting, they are paragraphs
+  now (reported by Błażej Kochański).
+
 
 # exams 2.4-1
 
