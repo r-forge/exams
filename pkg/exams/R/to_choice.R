@@ -60,7 +60,7 @@ num_to_schoice <- num2schoice <- function(
       solution <- c(correct, wrong, sample(rand, 4 - length(wrong) - sign), sample(-c(correct, wrong, rand), sign))
     }
     solution <- round2(solution, digits = digits)
-    ok       <- length(unique(solution)) == 5 & min(abs(dist(solution))) <= (delta + eps2)
+    ok       <- length(unique(solution)) == 5 & (min(abs(dist(solution))) + eps2) >= delta
   }
 
   ## return shuffled solutions
