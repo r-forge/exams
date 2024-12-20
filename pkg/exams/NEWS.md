@@ -80,6 +80,13 @@
   2.4-1) elements of questionlist did not get any formatting, they are paragraphs
   now (reported by Błażej Kochański).
 
+* In `exams2canvas()` for cloze exercises with multiple schoice interactions
+  (rendered as multiple dropdown selections), the question list items are now
+  converted to plain text (rather than HTML) because no HTML rendering is available
+  in the Canvas dropdown selections (reported by Chad Worley). Note that this
+  might work correctly but formatting (especially for mathematical notation)
+  will be lost.
+
 
 # exams 2.4-1
 
