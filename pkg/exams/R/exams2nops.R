@@ -225,7 +225,7 @@ blank <- list(
 rval <- c(
 sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" else ""),
 "
-\\usepackage{graphicx,color}
+\\usepackage{graphicx,xcolor}
 \\usepackage{amsmath,amssymb,latexsym}
 \\usepackage{verbatim,url,fancyvrb}
 \\usepackage{multicol,a4wide,pdfpages}

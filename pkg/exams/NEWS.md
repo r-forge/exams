@@ -31,9 +31,10 @@
   placeholder.
   
 * The `{Sweave}` LaTeX package is no longer loaded in the LaTeX templates
-  (like `plain.tex`, `exams.tex`, `solution.text`, etc.). Instead the
+  (like `plain.tex`, `exams.tex`, `solution.tex`, etc.). Instead the
   LaTeX environments for displaying R code and the accompanying LaTeX
-  dependencies are loaded directly.
+  dependencies are loaded directly. Moreover, `{xcolor}` is used instead
+  of `{color}`.
 
 * New demo exercise `flags.Rmd`/`flags.Rnw` added to the package, containing
   a single-choice knowledge quiz question about flags of countries around the
