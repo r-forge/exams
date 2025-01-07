@@ -1,7 +1,6 @@
 \documentclass[11pt,t,usepdftitle=false,aspectratio=169]{beamer}
 \usetheme[nototalframenumber,nosectiontitlepage,logo,license]{rexams}
 \usepackage{fontawesome5}
-\usepackage[bb=boondox,cal=boondoxo]{mathalfa}
 
 \setlength{\fboxsep}{0pt}
 \setlength{\fboxrule}{0.1pt}
@@ -618,8 +617,8 @@ myexam <- list(
 
 \textbf{Online test:}
 
-<<exams2moodle, eval=FALSE>>=
-exams2moodle(myexam, n = 10, dir = odir)
+<<exams2openolat, eval=FALSE>>=
+exams2openolat(myexam, n = 10, dir = odir)
 @
 
 \textbf{Live quiz:}
@@ -1021,6 +1020,25 @@ if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
 
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{In action: Universit\"at Innsbruck}
+
+\textbf{Olatkurs:} \url{https://lms.uibk.ac.at/auth/RepositoryEntry/2823520256}
+\begin{itemize}
+  \item Tutorium f\"ur Onlinetests mit \code{exams2openolat()}.
+  \item Tutorium f\"ur Multiple-Choice-Klausuren mit \code{exams2nops()}.
+\end{itemize}
+
+\bigskip
+
+\textbf{Gitlab-Projekt:} \url{https://git.uibk.ac.at/econstat/exams}
+\begin{itemize}
+  \item Workflow f\"ur Abwicklung von Multiple-Choice-Klausuren.
+  \item Demo-Projekt mit R-Skripten f\"ur alle Schritte des Workflows.
+\end{itemize}
+
+\end{frame}
+
 
 \section{Resources}
 
@@ -1044,7 +1062,7 @@ Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Sato, S
   \faIcon{stack-overflow}    & \url{https://stackoverflow.com/questions/tagged/r-exams} \\[0.1cm]
   \faIcon[regular]{comments} & \url{https://R-Forge.R-project.org/forum/?group_id=1337} \\[0.1cm]
   \faIcon{mastodon}          & \href{https://fosstodon.org/@zeileis}{@zeileis@fosstodon.org} \\[0.1cm]
-  {\large $\mathbb{X}$}      & \href{https://x.com/AchimZeileis}{@AchimZeileis}
+  \includegraphics[width=3.8mm]{bluesky.png} & \href{https://bsky.app/profile/zeileis.org}{@zeileis.org}
 \end{tabular}
 
 \end{frame}
