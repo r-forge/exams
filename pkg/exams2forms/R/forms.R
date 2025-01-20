@@ -71,6 +71,7 @@ forms_num <- function(answer, tol = 0, width = NULL, usespace = FALSE, regex = F
   webex_id <- make_webex_id(obfuscate)
 
   ## answer processing
+  answer <- format(answer, scientific = FALSE, digits = 16)
   if(is.null(width)) width <- min(100L, max(nchar(answer)))
   answers <- json_answer(answer, webex_id)
 

@@ -19,6 +19,9 @@
   underlying HTML code. Thus, all correct answers are still stored in
   the HTML but, by default, they are not easily readable anymore.
 
+* In `forms_num()` the correct `answer` is now assured to be formatted
+  without scientific notation.
+
 * In the answer lists of single- and multiple-choice exercises
   single quotes are no longer escaped by `forms_schoice()` and
   `forms_mchoice()` so that expressions like $f'(x)$ render correctly.
