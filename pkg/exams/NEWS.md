@@ -262,6 +262,9 @@
   of the previously available ways (e.g., within the exercises, via the
   `exams2xyz()` interface, or via the `Gin` key in the LaTeX template).
 
+* In `read_metainfo()` a warning is now issued if `exclozetype` is specified in
+  the metainformation but `extype` is not `cloze` (suggested by Matthias Gondan).
+
 
 # exams 2.4-0
 

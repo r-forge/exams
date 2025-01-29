@@ -268,6 +268,9 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
   if(!is.null(exstringtype) && (extype != "string")) {
     warning("exstringtype should only be specified for extype 'string'")
   }
+  if(!is.null(exclozetype) && (extype != "cloze")) {
+    warning("exclozetype should only be specified for extype 'cloze'")
+  }
 
   ## tolerance value (expand to appropriate length or omit)
   if(is.null(extol)) extol <- 0
