@@ -28,8 +28,11 @@ nops_scan <- function(
     stop("No images found.")
   }
 
-  ## convert PDF to PNG (if necessary)
+  ## rotate images and convert PDF to PNG (if necessary)
   pdfs <- grepl("\\.pdf$", tolower(images))
+  if(any(!pdfs) && rotate) {
+    rotate_pngs(images[!pdfs], dir = tdir, cores = cores)
+  }
   if(any(pdfs)) {
     pngs <- pdfs2pngs(images[pdfs], density = density, cores = cores, dir = tdir,
       verbose = verbose, rotate = rotate, prefix = if(string) "T" else "S")
@@ -144,6 +147,65 @@ nops_scan <- function(
 
 ## auxiliary functions (not to be exported)
 
+shsystem <- function(cmd, ...) {
+  sh <- Sys.getenv("COMSPEC")
+  if(sh != "") sh <- paste(shQuote(sh), "/c")
+  system(paste(sh, cmd), ...)
+}
+
+## rotate PNG images
+rotate_pngs <- function(x, dir = NULL, cores = NULL, verbose = TRUE)
+{
+  ## PNG handling via R package "magick" or system command "mogrify"?
+  magick_available <- function() requireNamespace("magick")
+  mogrify_available <- function() {
+    magic <- try(shsystem("mogrify --version", intern = TRUE, ignore.stdout = TRUE, ignore.stderr = TRUE), silent = TRUE)
+    !inherits(magic, "try-error")
+  }
+  if(magick_available()) {
+    pngengine <- "magick"
+  } else if(mogrify_available()) {
+    pngengine <- "mogrify"
+  } else {      
+    stop("neither R package 'magick' nor system command 'mogrify' are available for rotating PNGs")
+  }
+
+  ## actual rotation function
+  rotate_png <- function(pngs) {
+    ## shell command on Windows
+    for(i in seq_along(pngs)) {
+      png_i <- pngs[i]
+      if(verbose) cat(paste(png_i, ": Rotating PNG.\n", sep = ""))
+      if(pngengine == "magick") {
+        img_i <- magick::image_read(png_i)
+        img_i <- magick::image_rotate(img_i, degrees = 180)
+        magick::image_write(img_i, path = png_i, format = "png")
+        magick::image_destroy(img_i)
+        if(i %% 5L == 0L) gc() ## triggering gc to avoid exhausting cache in magick
+      } else {
+        cmd <- paste("mogrify -rotate 180", png_i)
+        shsystem(cmd)
+      }
+    }
+  }
+
+  if(!is.null(cores)) {
+    applyfun <- if(.Platform$OS.type == "windows") {
+      cl_cores <- parallel::makeCluster(cores)
+      on.exit(parallel::stopCluster(cl_cores))
+      function(X, FUN, ...) parallel::parLapply(cl = cl_cores, X, FUN, ...)
+    } else {
+      function(X, FUN, ...) parallel::mclapply(X, FUN, ..., mc.cores = cores)
+    }
+    xi <- split(x, ceiling(seq_along(x) / (length(x) / cores)))
+    applyfun(1:cores, function(j) { rotate_png(xi[[j]]) })
+  } else {
+    rotate_png(x)
+  }
+  if(verbose) cat("\n")
+  return(x)
+}
+
 ## conversion of PDF to PNG images
 pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE, rotate = FALSE, prefix = "S")
 {
@@ -158,12 +220,6 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
   owd <- getwd()  
   file.copy(x, file.path(tdir, x <- basename(x)))
   setwd(tdir)
-
-  shsystem <- function(cmd, ...) {
-    sh <- Sys.getenv("COMSPEC")
-    if(sh != "") sh <- paste(shQuote(sh), "/c")
-    system(paste(sh, cmd), ...)
-  }
 
   ## PDF handling via R package "qpdf" or system command "pdftk"?
   qpdf_available <- function() requireNamespace("qpdf")
