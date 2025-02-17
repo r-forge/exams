@@ -69,8 +69,8 @@
   exercise. In rare cases (about once in 2,000 random versions) the exercises
   claimed that there were outliers in the plot when in fact there were none
   (reported by Gabriele Cantaluppi). Also, the explanation for outliers is now
-  aligned with that of non-outliers being 1.5 times the IQR from the box, rather
-  than the median (reported by Stefan Jansen).
+  aligned with that of non-outliers being more/less than 1.5 times the IQR from
+  the box, rather than the median (reported by Stefan Jansen).
 
 * All Rmd exercise templates with embedded graphics have been slightly simplified.
   The lines with just `\` before the figure code chunks have been replaced with
@@ -90,6 +90,10 @@
   in the Canvas dropdown selections (reported by Chad Worley). Note that this
   might work correctly but formatting (especially for mathematical notation)
   will be lost.
+
+* The default QTI 1.2 template in `exams2canvas()` (namely `canvas_qti12.xml`) now
+  declares the `xmlns` etc. for the `<questestinterop>` tag which may sometimes
+  help in the import in Canvas (suggested by Andrew Leach).
 
 
 # exams 2.4-1
