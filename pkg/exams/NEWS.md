@@ -68,7 +68,9 @@
 * Fixed long-standing bug in [boxplots](https://www.R-exams.org/templates/boxplots/)
   exercise. In rare cases (about once in 2,000 random versions) the exercises
   claimed that there were outliers in the plot when in fact there were none
-  (reported by Gabriele Cantaluppi).
+  (reported by Gabriele Cantaluppi). Also, the explanation for outliers is now
+  aligned with that of non-outliers being 1.5 times the IQR from the box, rather
+  than the median (reported by Stefan Jansen).
 
 * All Rmd exercise templates with embedded graphics have been slightly simplified.
   The lines with just `\` before the figure code chunks have been replaced with
