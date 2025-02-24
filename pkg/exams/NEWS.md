@@ -95,6 +95,12 @@
   declares the `xmlns` etc. for the `<questestinterop>` tag which may sometimes
   help in the import in Canvas (suggested by Andrew Leach).
 
+* When `read_exercise()` is applied to cloze exercises including `schoice`/`mchoice`
+  elements and using a numeric `exshuffle` value, then no warning is issued
+  if `exshuffle` is greater than some choice lists - as long as there is at least
+  one choice list with length at least as long as `exshuffle` (suggested by
+  Delia Gramm).
+
 
 # exams 2.4-1
 
