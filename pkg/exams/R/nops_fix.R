@@ -179,13 +179,12 @@ nops_fix <- function(
       if(!string) {
         nex <- if(valid_digits(d_i$type)) as.integer(substr(d_i$type, 2L, 3L)) else 45L
         nex <- pmax(1L, nex)
-        d_i <- d_i[, c(7L:(6L + nex), 1L:6L), drop = FALSE]
+        d_i <- d_i[, 1L:(6L + nex), drop = FALSE]
       } else {
         nex <- 3L
-        d_i <- d_i[, c(4L:6L, 1L:3L), drop = FALSE]
         d_i$scrambling <- "00"
         d_i$replacement <- "0"
-        d_i$registration <- "0"
+        d_i$registration <- "-"
       }
       d_i$numExercises <- nex
       d_i$numChoices <- "5" ## FIXME: could infer this from solutions rds
