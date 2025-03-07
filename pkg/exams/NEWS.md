@@ -1,6 +1,10 @@
 # exams 2.4-2
 
-* Support of string scans in `nops_fix()`.
+* Support of string scans in `nops_fix()`. Moreover, a new option
+  `nops_fix(display = "interactive")` was added where all data from a scanned
+  sheet can be edited interactively in the browser (contributed by
+  Sebastian Bachler). The latter is particularly useful if scanned sheets
+  are too rotated to be read at all in `nops_scan()`.
 
 * Improvements in `nops_scan()` to read the registration id somewhat more
   reliably in the presence of scanning artefacts (e.g., single white lines

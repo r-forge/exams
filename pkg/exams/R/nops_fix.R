@@ -5,8 +5,9 @@ nops_fix <- function(
   field = NULL,   ## character vector from "type", "id", "registration", "answers". default: all that need fixing
   answer = NULL,  ## numeric. Number of answers to check (default: all answers)
   check = NULL,   ## character. Fix only answers the fulfill a certain check ("missing", "schoice", "mchoice")
-  display = NULL, ## character vector from "plot", "browser". default: "plot" if package "png" is available
-  string = NULL   ## logical. String scans (as opposed to multiple-choice scans)?
+  display = NULL, ## character vector from "plot", "browser", "interactive". default: "plot" if package "png" is available
+  string = NULL,  ## logical. String scans (as opposed to multiple-choice scans)?
+  language = "en" ## language of the annotation in the interactive HTML form
 ) {
 
   ## any scans?
@@ -42,10 +43,10 @@ nops_fix <- function(
   if(is.null(display)) {
     display <- if(requireNamespace("png")) "plot" else "browser"
   }
-  display <- sapply(tolower(display), match.arg, choices = c("plot", "browser"))
+  display <- sapply(tolower(display), match.arg, choices = c("plot", "browser", "interactive"))
   if("plot" %in% display && !requireNamespace("png")) {
     warning('display = "plot" requires package "png" which is not available, using "browser" instead')
-    display <- "browser"
+    display <- setdiff(display, "plot")
   }
 
   ## defaults: fields to check (NULL = fix all that need fixing)
@@ -59,6 +60,18 @@ nops_fix <- function(
   ## convenience functions for checking validty of fields
   valid_digits <- function(x, n = NULL) !is.null(x) && (is.null(n) || (n == nchar(x))) && grepl("^[0-9]*$", x) && !grepl("^[0]*$", x)
   valid_answer <- function(x) !is.null(x) && (nchar(x) == 5L) && grepl("^[0-1]*$", x)
+
+  ## interactive HTML form and JSON strings for display = "interactive"
+  html <- readLines(file.path(system.file(package = "exams"), "xml", "nops_fix.html"))
+  lang <- if(is.character(language)) nops_language(language) else language
+  if(!all(c("RegistrationNumber", "Replacement", "DocumentID", "DocumentType", "Answers") %in% names(lang))) {
+    warning("invalid language specification, using 'en' instead")
+    lang <- nops_language("en")
+  }
+  lang <- sprintf("  let inputFieldLabels = '%s';", list2json(lang[c("RegistrationNumber", "Replacement", "DocumentID", "DocumentType", "Answers")]))
+  dd_register <- "  let dd_registrations = '[]';" ## FIXME: could infer this from register csv
+  dd_ids <- "  let dd_examIds = '[]';"            ## FIXME: could infer this from solutions rds
+  scan_path <- "  let scanDataFilePath = './';"
 
   ## data formatting: check boxes vs. string
   if(!string) {
@@ -84,8 +97,9 @@ nops_fix <- function(
     }
 
     ## read Daten.txt:
-    ## 1: file / 2: id / 3: scrambling (00) / 4: type / 5: backup / 6: registration / 7-51: answers
+    ## 1: file / 2: id / 3: scrambling (00) / 4: type / 5: replacement / 6: registration / 7-51: answers
     d <- read.table(data_txt, colClasses = "character")
+    nam <- c("file", "id", "scrambling", "type", "replacement", "registration", 1:45)
 
   } else {
 
@@ -106,9 +120,10 @@ nops_fix <- function(
       rezip <- TRUE
     }
 
-    ## read Daten.txt:
+    ## read Daten2.txt:
     ## 1: file / 2: id / 3: type / 4-6: answers
     d <- read.table(data_txt, colClasses = "character")
+    nam <- c("file", "id", "type", 1:3)
 
   }
 
@@ -144,9 +159,60 @@ nops_fix <- function(
     }
     if((!is.null(answer) | !is.null(check)) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
 
-    ## browse/read trimmed pixel matrix
-    if(length(field_i) > 0L && "browser" %in% display) browseURL(d[i, 1L])
-    png_i <- if(length(field_i) > 0L && "plot" %in% display) d[i, 1L] else NULL
+    ## determine appropriate display and browse/read trimmed pixel matrix
+    interactive <- "interactive" %in% display
+    if(length(field_i) > 0L) {
+      if("browser" %in% display) browseURL(d[i, 1L])
+      png_i <- if("plot" %in% display) d[i, 1L] else NULL
+      if(!is.null(png_i)) png_i <- try(trim_nops_scan(png_i), silent = TRUE)
+      if(inherits(png_i, "try-error")) {
+        png_i <- NULL
+        interactive <- TRUE
+      }
+    }
+    
+    ## if interactive display is used, only use that and do not iterate through the individual fields
+    if(interactive) {
+      ## get current scan data and set up JSON string    
+      d_i <- d[i, , drop = FALSE]
+      names(d_i) <- nam
+      if(!string) {
+        nex <- if(valid_digits(d_i$type)) as.integer(substr(d_i$type, 2L, 3L)) else 45L
+        nex <- pmax(1L, nex)
+        d_i <- d_i[, c(7L:(6L + nex), 1L:6L), drop = FALSE]
+      } else {
+        nex <- 3L
+        d_i <- d_i[, c(4L:6L, 1L:3L), drop = FALSE]
+        d_i$scrambling <- "00"
+        d_i$replacement <- "0"
+        d_i$registration <- "0"
+      }
+      d_i$numExercises <- nex
+      d_i$numChoices <- "5" ## FIXME: could infer this from solutions rds
+      d_i <- sprintf("  let scanData = '%s';", list2json(d_i))
+    
+      ## insert JSON into HTML nops_fix template and display
+      html_i <- html
+      html_i[html_i == "</body>"] <- paste(c("</body>", "", "<script>", dd_register, dd_ids, scan_path, lang, d_i, "</script>"), collapse ="\n")
+      writeLines(html_i, "nops_fix.html")
+      browseURL("nops_fix.html")
+    
+      ## interaction for updating scan data
+      r <- readline(prompt = "Edit scan results in browser and click 'OK' button (bottom right) when finished.\nThen press <Enter> here: ")
+      if(length(r) == 0L || nchar(r) == 0L) r <- try(readLines("clipboard", warn = FALSE), silent = TRUE)
+      if(inherits(r, "try-error") || length(r) == 0L || nchar(r) == 0L) r <- readline(prompt = "Reading the clipboard from R failed, please paste clipboard here: ")   
+      if(length(r) == 0L || nchar(r) == 0L) stop("Invalid output, maybe the clipboard was modified after clicking 'OK' in the browser?")
+
+      ## update scan data
+      d_i <- json2list(r)
+      if(d_i$file != d[i, 1L]) stop("Invalid output, possibly the data in the clipboard was not copied/updated correctly?")
+      d_i <- d_i[, intersect(nam, names(d_i)), drop = FALSE]
+      d[i, match(names(d_i), nam)] <- d_i
+    
+      ## proceed to next iteration in loop
+      rezip <- TRUE
+      next
+    }
 
     ## update desired fields
     if("type" %in% field_i) {
@@ -354,4 +420,24 @@ answer2digits <- function(a) {
   ## return digits as string
   d <- paste(d, collapse = "")
   return(d)
+}
+
+## naive JSON encoder and decoder that is sufficient for
+## the JSON strings needed in nops_fix.html (could switch
+## to RJSONIO or jsonlite in the future if needed)
+list2json <- function(x) {
+  x <- lapply(x, as.character)
+  x <- unlist(x)
+  x <- paste(sprintf('"%s":"%s"', names(x), x), collapse = ", ")
+  x <- paste0("{", x, "}")
+  return(x)
+}
+
+json2list <- function(x, data.frame = TRUE) {
+  x <- gsub(' |\\{|\\}|"', "", x)
+  x <- matrix(strsplit(x, ",|:")[[1]], nrow = 2L)
+  x <- structure(x[2L, ], names = x[1L, ])
+  x <- as.list(x)
+  if(data.frame) x <- as.data.frame(x, check.names = FALSE)
+  return(x)
 }

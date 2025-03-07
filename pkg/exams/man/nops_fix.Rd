@@ -11,7 +11,7 @@
 \usage{
   nops_fix(scans = dir(pattern = "^nops_scan_[[:digit:]]*\\\\.zip$"),
     exam = NULL, id = NULL, field = NULL, answer = NULL, check = NULL, display = NULL,
-    string = NULL)
+    string = NULL, language = "en")
 }
 
 \arguments{
@@ -35,14 +35,18 @@
     \code{"schoice"} answers with more than one checked box are considered. For
     \code{"mchoice"} answers with all boxes checked are considered.}
   \item{display}{character indicating how the scanned image should be displayed.
-    One or both of \code{"plot"} (display scanned excerpt in R plot) and
-    \code{"browser"} (display full scanned image in browser). By default
-    \code{"plot"} is used if the \pkg{png} package is available and \code{"browser"}
-    otherwise.}
+    One or more of \code{"plot"} (display scanned excerpt in R plot),
+    \code{"browser"} (display full scanned image in browser), and
+    \code{"interactive"} (display full scanned image along with interactive HTML form in browser).
+    By default, \code{"plot"} is used if the \pkg{png} package is available
+    and \code{"interactive"} if the scanned images cannot be read at all.}
   \item{string}{logical. Is the ZIP file from scanning marked string
     exercises (rather than single/multiple choice exercises)? The default is
     \code{TRUE} if the \code{file} name starts with \code{nops_string_scan_}
     and \code{FALSE} otherwise.}
+  \item{language}{character. The language specification from \code{\link[exams]{nops_language}}
+    for the annotation in the interactive HTML form (in case \code{display = "interactive"}
+    is used).}
 }
 
 \details{
@@ -59,7 +63,7 @@
   a valid specification of the field, the prompt is repeated (along with some additional
   instructions) until a valid specification is entered by the user.
   
-  The type of sheed needs to be a 3-digit number, the exam ID needs to be an 11-digit
+  The type of sheet needs to be a 3-digit number, the exam ID needs to be an 11-digit
   number, and the registration ID needs to be a number with 7-10 digits.
 
   All answer fields eventually store the multiple-choice answers with 0/1 indicators
@@ -70,6 +74,18 @@
   \item Integers from 1 to 5 indicating which single box has been checked.
   \item No checked box can be indicated by \code{"0"}, \code{"-"}, or \code{" "}.
   }
+
+  Instead of iterating through the fields sequentially via prompts in R, it is
+  also possible to use \code{display = "interactive"} and enter all scan information
+  in an interactive HTML form that eventually can pass back all results for an
+  entire sheet. This is typically useful if the scan image was rotated too much
+  to be read at all. In this case users should complete/correct the scanned data
+  in the HTML form and eventually click the OK button in the bottom right corner.
+  This copies all the data entered into the clipboard (in a JSON string) and R
+  will attempt to read it from there. Make sure that you do not modify the clipboard
+  before completing this step in R. On some platforms reading from the clipboard
+  might not work, in that case paste the JSON string from the clipboard into the
+  corresponding prompt in R.
 }
 
 \value{
