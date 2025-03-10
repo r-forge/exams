@@ -161,6 +161,9 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
     ## add Antritt if missing
     if(is.null(x$Antritt)) x$Antritt <- "--"
 
+    ## use tools::texi2pdf vs tinytex::latexmk
+    tinytex <- (getOption("exams_tex", "tinytex") == "tinytex") && requireNamespace("tinytex", quietly = TRUE)
+
     ## alphabetical ordering
     x <- x[order(x$Name), ]
     tex <- sprintf("%s & %s & %s & %s \\\\ %s",
@@ -169,7 +172,12 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
     con <- file(tfile[1L], "w", encoding = "UTF-8")
     writeLines(tex, con = con)
     close(con)
-    texi2pdf(tfile[1L], clean = TRUE)
+    if(tinytex) {
+      tinytex::latexmk(tfile[1L])
+      file.copy(tfile[2L], basename(tfile[2L]))
+    } else {
+      texi2pdf(tfile[1L], clean = TRUE)
+    }
     unlink(tfile[1L])
     file.rename(basename(tfile[2L]), paste0(file0, "-abc.pdf"))
     if(verbose) cat(sprintf("- %s: PDF alphabetisch (beidseitig drucken)\n", paste0(file0, "-abc.pdf")))
@@ -196,7 +204,12 @@ nops_register <- function(file = Sys.glob("*.xls*"), startid = 1L,
     con <- file(tfile[1L], "w", encoding = "UTF-8")
     writeLines(tex, con = con)
     close(con)
-    texi2pdf(tfile[1L], clean = TRUE)
+    if(tinytex) {
+      tinytex::latexmk(tfile[1L])
+      file.copy(tfile[2L], basename(tfile[2L]))
+    } else {
+      texi2pdf(tfile[1L], clean = TRUE)
+    }
     unlink(tfile[1L])
     file.rename(basename(tfile[2L]), paste0(file0, "-123.pdf"))
 
