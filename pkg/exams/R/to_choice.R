@@ -6,11 +6,17 @@ num_to_schoice <- num2schoice <- function(
   digits = 2,                    ## digits that should be displayed
   method = c("runif", "delta"),  ## method for generating random results
   sign = FALSE,                  ## randomly change sign?
-  verbose = getOption("num_to_choice_warnings") ## display warnings?
+  order = FALSE,                 ## order solutions numerically?
+  format = TRUE,                 ## format the question list with LaTeX math markup?
+  maxit = getOption("num_to_choice_maxit", Inf),      ## maximum number of iterations for finding a solution
+  verbose = getOption("num_to_choice_warnings", TRUE) ## display warnings?
   ) {
 
   ## verbosity
-  verbose <- if(is.null(verbose)) TRUE else isTRUE(verbose)
+  verbose <- as.logical(verbose)
+
+  ## maximum number of iterations
+  maxit <- as.numeric(maxit)
 
   ## make sure that correct solution is in range
   range <- range(c(correct, range))
@@ -45,9 +51,12 @@ num_to_schoice <- num2schoice <- function(
     if (verbose) warning("specified 'range' is too small for 'delta'")
     return(NULL)
   }
-  # Square root of machine precision:
+  ## square root of machine precision:
   eps2 <- sqrt(.Machine$double.eps)
-  while(!ok) {
+  ## iterations
+  iter <- 0
+  while(!ok && iter < maxit) {
+    iter <- iter + 1
     rand <- switch(match.arg(method),
                    "runif" = c(runif(nle, range[1], round2(correct, digits = digits)), runif(4 - nle, round2(correct, digits = digits), range[2])),
                    "delta" = c(sample(seq(round2(correct, digits = digits) - delta, range[1], by = -delta), nle),
@@ -63,10 +72,26 @@ num_to_schoice <- num2schoice <- function(
     ok       <- length(unique(solution)) == 5 & (min(abs(dist(solution))) + eps2) >= delta
   }
 
-  ## return shuffled solutions
-  o <- sample(1:5)
+  ## if loop was not successful
+  if(!ok) {
+    if (verbose) warning(sprintf("could not find a feasible question list in maxit = %s iterations", maxit))
+    return(NULL)
+  }
+
+  ## order of solutions: shuffled (default) or ordered numerically
+  o <- if(order) order(solution) else sample(1:5)
+
+  ## format solution vector
+  if(is.logical(format)) format <- if(format) "latex" else "numeric"
+  format <- match.arg(format, c("latex", "numeric", "character"))
+  if(format != "numeric") {
+    solution <- format(solution, nsmall = digits, trim = TRUE)
+    if(format == "latex") solution <- paste0("$", solution, "$")
+  }
+
+  ## return schoice list
   list(solutions = c(TRUE, rep(FALSE, 4))[o],
-       questions = paste("$", format(solution, nsmall = digits, trim = TRUE)[o], "$", sep = ""))
+       questions = solution[o])
 }
 
 matrix_to_mchoice <- matrix2mchoice <- function(
