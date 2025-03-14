@@ -12,9 +12,9 @@
 \usage{
 num_to_schoice(correct, wrong = NULL, range = c(0.5, 1.5) * correct,
   delta = 1, digits = 2, method = c("runif", "delta"), sign = FALSE,
-  order = FALSE, format = TRUE,
-  maxit = getOption("num_to_choice_maxit", Inf),
-  verbose = getOption("num_to_choice_warnings", TRUE))
+  format = TRUE, order = getOption("num_to_schoice_order", FALSE),
+  maxit = getOption("num_to_schoice_maxit", Inf),
+  verbose = getOption("num_to_schoice_verbose", TRUE))
 }
 
 \arguments{
@@ -25,8 +25,6 @@ num_to_schoice(correct, wrong = NULL, range = c(0.5, 1.5) * correct,
   \item{digits}{integer. Digits that should be displayed.}
   \item{method}{character specifying method for generating random results.}
   \item{sign}{logical. Should the sign be changed randomly?}
-  \item{order}{logical. Should the question list be ordered numerically?
-    If \code{FALSE} (default) the question list is shuffled randomly.}
   \item{format}{logical or character. Should the question list be formatted
     to a character vector with LaTeX math markup? If \code{TRUE} (default, or
     equivalently \code{"latex"}) the question list is formatted with the 
@@ -35,6 +33,8 @@ num_to_schoice(correct, wrong = NULL, range = c(0.5, 1.5) * correct,
     list is returned as a numeric vector. If \code{"character"} then
     the question list is a formatted character vector but without LaTeX
     math markup.}
+  \item{order}{logical. Should the question list be ordered numerically?
+    If \code{FALSE} (default) the question list is shuffled randomly.}
   \item{maxit}{numeric. Maximum number of iterations to try to find a
     suitable set of wrong solutions for the question list.}
   \item{verbose}{logical. Should warnings be issued if no suitable

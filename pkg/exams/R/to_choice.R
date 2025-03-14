@@ -6,14 +6,17 @@ num_to_schoice <- num2schoice <- function(
   digits = 2,                    ## digits that should be displayed
   method = c("runif", "delta"),  ## method for generating random results
   sign = FALSE,                  ## randomly change sign?
-  order = FALSE,                 ## order solutions numerically?
   format = TRUE,                 ## format the question list with LaTeX math markup?
-  maxit = getOption("num_to_choice_maxit", Inf),      ## maximum number of iterations for finding a solution
-  verbose = getOption("num_to_choice_warnings", TRUE) ## display warnings?
+  order = getOption("num_to_schoice_order", FALSE),   ## order solutions numerically?
+  maxit = getOption("num_to_schoice_maxit", Inf),     ## maximum number of iterations for finding a solution
+  verbose = getOption("num_to_schoice_verbose", TRUE) ## display warnings?
   ) {
 
   ## verbosity
   verbose <- as.logical(verbose)
+  if(!is.null(getOption("num_to_choice_warnings"))) {
+    warning("options 'num_to_choice_warnings' was deprecated, please use 'num_to_schoice_verbose' instead")
+  }
 
   ## maximum number of iterations
   maxit <- as.numeric(maxit)

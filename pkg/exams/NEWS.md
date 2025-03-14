@@ -49,6 +49,24 @@
   which can be added now via `usepackage = "worldflags"` in `exams2pdf()`
   (see above) as well as `exams2nops()`.
 
+* Improved `num_to_schoice()` by adding several new arguments but making their
+  defaults backward compatible (based on suggestions from Stefan Jansen and
+  Reto Stauffer).
+  
+  - `format = TRUE`: Should the question list be formatted to a character vector
+    with LaTeX math markup (default)? Alternatively, the question list can
+    be numeric (`format = FALSE` or `"numeric"`) or a formatted character
+    vector without LaTeX math markup (`format = "character"`).
+  - `order = getOption("num_to_schoice_order", FALSE)`: Should the question list
+    be ordered numerically? If `FALSE` (default) the question list is shuffled
+    randomly.
+  - `maxit = getOption("num_to_schoice_maxit", Inf)`: Maximum number of iterations
+    to try to find a suitable set of wrong solutions for the question list.
+
+  Moreover, the option for setting the `verbose` default was changed to
+  `getOption("num_to_schoice_verbose", TRUE)` instead of the previous name
+  `"num_to_choice_warnings"` for consistency.
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is
