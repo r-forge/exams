@@ -67,6 +67,14 @@
   `getOption("num_to_schoice_verbose", TRUE)` instead of the previous name
   `"num_to_choice_warnings"` for consistency.
 
+* When running exercises via `knitr::knit()` warnings are now reported to the
+  console rather than being suppressed. This is achieved by setting
+  `knitr::opts_chunk$set(warning = NA)` which was actually intended in the
+  corresponding change in R/exams 2.4-0 where the default `error = FALSE`
+  was implemented. If any exercise wants to change the behavior it can set
+  another chunk option (either for individual chunks or for the entire
+  exercise).
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is
