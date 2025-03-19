@@ -2,6 +2,7 @@
 \alias{stresstest_exercise}
 \alias{stresstest}
 \alias{plot.stress}
+\alias{summary.stress}
 
 \title{
   Stress Testing Exercises
@@ -22,6 +23,7 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
 \method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime", "warnings", "error"),
   threshold = NULL, variables = NULL,
   spar = TRUE, ask = TRUE, ...)
+\method{summary}{stress}(object, ...)
 }
 
 \arguments{
@@ -39,7 +41,7 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   \item{timeout}{\code{NULL} or numeric. Maximum time (in seconds) each
       exercise is allowed to take when compiled. If exceeded, a timeout
       error will be thrown.}
-  \item{x}{An object returned from function \code{stresstest_exercise}.}
+  \item{x,object}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
     numeric solutions, position/number/rank of correct solution(s), if available.
     If \code{type == "solution"}, the numeric solutions

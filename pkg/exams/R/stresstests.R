@@ -551,3 +551,20 @@ mirrored_hist <- function(x, y, ...) {
 
     abline(h = 0, col = 1, lwd = 2)
 }
+
+
+summary.stress <- function(object, ...) {
+    n      <- length(object$solution)
+    exinfo <- as.list(attr(object, "exinfo"))
+    message(sprintf("[%s] %s", exinfo$type, exinfo$file))
+    message("   Number of randomizations: ", n)
+
+    # Summary on warnings and errors
+    tmp <- list(warnings = if (is.null(object$warnings)) rep(NA, n) else object$warnings,
+                error    = if (is.null(object$error)) rep(NA, n) else object$error)
+    tmp <- list(Fine     = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
+                Warnings = sum(!is.na(tmp$warnings)),
+                Errors   = sum(!is.na(tmp$error)))
+    message("   ", paste(paste(names(tmp), tmp, sep = ": "), collapse = ", "))
+}
+
