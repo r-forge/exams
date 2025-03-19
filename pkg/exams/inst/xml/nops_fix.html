@@ -3,6 +3,7 @@
 
 <head>
 
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <title>R/exams: nops_fix</title>
 
@@ -14,6 +15,10 @@
     margin: 0;
     overflow: auto;
     font-family: Arial, Helvetica, Sans;
+  }
+
+  label {
+    display: block;
   }
 
   #inspectScanContent {
@@ -60,6 +65,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     grid-auto-flow: column;
+    width: min-content;
   }
 
   #scannedAnswersHeader th {
@@ -89,8 +95,9 @@
 
   button {
     position: absolute;
-    bottom: 1rem;
-    right: 1rem;
+    width: 100%;
+    margin-top: 20px;
+    height: 40px;
   }
 </style>
 
@@ -100,33 +107,35 @@
 
 <div id="inspectScanContent">
 
-  <div id="inspectScanImage"><img src=""/></div>
+  <div id="inspectScanImage">
+    <img src=""/>
+  </div>
 
   <div id="inspectScanTemplate">
     <span id="scannedRegistration">
-      <span id="RegistrationNumber"></span>
+      <label id="RegistrationNumber"></label>
       <input id="selectedRegistration" list="selectRegistration"></input>
       <datalist id="selectRegistration"></datalist>
     </span>
 
     <span id="replacementSheet">
-      <span id="Replacement"></span>
+      <label id="Replacement"></label>
     </span>
 
     <span id="scannedSheetID">
-      <span id="DocumentID"></span>
+      <label id="DocumentID"></label>
       <input id="selectedInputSheetID" list="selectInputSheetID"></input>
       <datalist id="selectInputSheetID"></datalist>
     </span>
 
     <span id="scannedTypeID">
-      <span id="DocumentType"></span>
+      <label id="DocumentType"></label>
       <input id="inputTypeID"/>
     </span>
 
-    <span id="Answers"></span>
-    <div id="scannedAnswers"></div>
-    
+    <label id="Answers"></label>
+    <div id="scannedAnswers"></div> 
+
     <button onclick="save();">OK</button>
   </div>
 
@@ -135,21 +144,21 @@
 </body>
 
 <script>
-if(scanData !== '?scanData'){
+if((typeof scanData !== 'undefined')){
   parseData();
   setLanguage();
   setDropdownData();
   setScanData();
 } else {
-  alert('ERROR: Invalid data.');
+  alert('ERROR: No data.');
   window.close();
 }
 
 function parseData() {
   inputFieldLabels = JSON.parse(inputFieldLabels);
-  dd_registrations = dd_registrations === '?dd_registrations' ? dd_registrations : JSON.parse(dd_registrations);
-  dd_examIds = dd_examIds === '?dd_examIds' ? dd_examIds : JSON.parse(dd_examIds);
-  scanDataFilePath = scanDataFilePath === '?scanDataFilePath' ? '' : scanDataFilePath;
+  dd_registrations = JSON.parse(dd_registrations);
+  dd_examIds = JSON.parse(dd_examIds);
+  scanDataFilePath = scanDataFilePath;
   scanData = JSON.parse(scanData);
 }
 
@@ -161,7 +170,7 @@ function setLanguage() {
 }
 
 function setDropdownData() {
-  if(dd_registrations !== '?dd_registrations') {
+  if(dd_registrations.length > 0) {
     dd_registrations.sort();    
     for (const [i, value] of dd_registrations.entries()) {
       let opt = document.createElement('option');
@@ -173,7 +182,7 @@ function setDropdownData() {
     }
   }
   
-  if(dd_examIds !== '?dd_examIds') {
+  if(dd_examIds.length > 0) {
     dd_examIds.sort();
     for (const [i, value] of dd_examIds.entries()) {
       let opt = document.createElement('option');
