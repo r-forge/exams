@@ -16,10 +16,10 @@
 \usage{
 ## Stresstest function.
 stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
-  stop_on_error = length(as.character(unlist(file))) < 2, ...)
+  stop_on_error = length(as.character(unlist(file))) < 2, timeout = NULL, ...)
 
 ## Plotting stresstest results.
-\method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime"),
+\method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime", "warnings", "error"),
   threshold = NULL, variables = NULL,
   spar = TRUE, ask = TRUE, ...)
 }
@@ -34,8 +34,11 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   \item{seeds}{The seeds that should be used when compiling the exercise. The
     default is \code{seeds = 1:n}.}
   \item{stop_on_error}{logical. Should the function stop on error or return
-    the the seed, the file name and the error message. Useful when testing
+    the seed, the file name and the error message. Useful when testing
     a number of exercises.}
+  \item{timeout}{\code{NULL} or numeric. Maximum time (in seconds) each
+      exercise is allowed to take when compiled. If exceeded, a timeout
+      error will be thrown.}
   \item{x}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
     numeric solutions, position/number/rank of correct solution(s), if available.
@@ -43,7 +46,8 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
     are plotted against all input parameters stored in the \code{objects} element of \code{x}.
     \code{type == "rank"} draws \code{\link[graphics]{spineplot}}s of ranks
     vs. input parameters stored in \code{objects}. \code{type == "runtime"} plots the compiling
-    runtimes vs. \code{objects}.}
+    runtimes vs. \code{objects}. Type \code{"warning"} and \code{"error"} plots how errors
+    have been logged (if any) and how often and where warnings were thrown.}
   \item{threshold}{numeric. Can be used to set a threshold, e.g., for numeric solutions a factor
     is created, \code{factor(solution <= threshold)}, that is used on the y-axis of a
     \code{\link[graphics]{spineplot}}.}
@@ -86,6 +90,17 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   \item{position}{A matrix indicating the position of correct solutions.}
   \item{rank}{The rank of the correct solution, only available for choice exercises.}
   \item{ntrue}{The number of correct answers in multiple choice type questions.}
+
+  If \code{stop_on_error = FALSE} the function also fetches warnings and errors
+  thrown. Depending on whether or not warnings or errors have been fetched, the
+  following elements will be added to the object returned.
+  \item{count}{Named vector with total number of warnings and errors recorded.
+      There can be more warnings than randomizations, if exercises throw multiple
+      warnings.}
+  \item{warnings}{Only added if at least one warning was fetched, character vector.
+      Warning messages and number of occurrences, or \code{NA} if no warnings were raised.}
+  \item{error}{Only added if at least one error was fetched, character vector.
+      Error message or \code{NA} if no error was thrown.}
 }
 
 \seealso{

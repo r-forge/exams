@@ -3,12 +3,15 @@ importFrom("tools",
 importFrom("utils",
   "Sweave", "toLatex",
   "compareVersion", "packageVersion", "head", "tail",
-  "read.table", "read.csv2", "write.table", "unzip", "zip", "browseURL")
+  "read.table", "read.csv2", "write.table", "unzip", "zip", "browseURL",
+  "combn")
 
 importFrom("stats",
-  "dist", "median", "na.omit", "quantile", "runif")
+  "dist", "median", "na.omit", "quantile", "runif",
+  "as.formula", "complete.cases", "setNames")
 importFrom("graphics",
-  "abline", "barplot", "hist", "par", "plot", "rect", "spineplot", "text")
+  "abline", "barplot", "hist", "par", "plot", "rect", "spineplot", "text",
+  "axis", "mtext")
 importFrom("grDevices",
   "gray", "hcl", "svg")
 
