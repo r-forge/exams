@@ -38,9 +38,7 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   \item{stop_on_error}{logical. Should the function stop on error or return
     the seed, the file name and the error message. Useful when testing
     a number of exercises.}
-  \item{timeout}{\code{NULL} or numeric. Maximum time (in seconds) each
-      exercise is allowed to take when compiled. If exceeded, a timeout
-      error will be thrown.}
+  \item{timeout}{\code{NULL} or numeric vector. See section 'Timeout' for details.}
   \item{x,object}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
     numeric solutions, position/number/rank of correct solution(s), if available.
@@ -80,6 +78,24 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   parameters, e.g., the correct solution is always the largest or the smallest.
   For non-numeric choice questions, the rank is based on the lexicographical order of
   the answerlist.
+}
+
+\section{Timeout}{
+  Stresstest allows to set execution timeouts. By default, \code{timeout} is set \code{NULL}
+  (no limits). If \code{timeout} is a numeric vector of positive values:
+
+  \itemize{
+    \item If \code{timeout} is of length \code{1}: Used to limit execution time (cpu and elapsed time)
+      per randomization to \code{timeout} seconds.
+    \item If \code{timeout} is of length \code{2}: Specifies cpu time (\code{timeout[1L]}) and
+      per randomization time elapsed (\code{timeout[2L]}).
+    \item If \code{timeout} is of length \code{3}: The first two elements are used to specify
+      cpu/time elapsed per randomization (see above), the thirs element specifies the
+      overall time elapsed for all randomizations.
+  }
+
+  The thirs element (\code{timeout[3]}) is checked after each iteration. If a question
+  stalls (infinite loop) this can still cause \code{stresstest()} to stall as well.
 }
 
 \value{

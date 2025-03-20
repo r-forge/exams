@@ -3,9 +3,21 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
                                 stop_on_error = length(as.character(unlist(file))) < 2,
                                 timeout = NULL, ...) {
 
-  if (is.numeric(timeout) && length(timeout) > 0L) timeout <- timeout[[1L]]
-  stopifnot("'timeout' must be NULL or positive numeric" =
-        is.null(timeout) || (is.numeric(timeout) && timeout > 0))
+  stopifnot("'timeout' must be NULL or vector of positive numerics of length 1, 2, or 3" =
+        is.null(timeout) || (is.numeric(timeout) && length(timeout) >= 1L && length(timeout) <= 3L && all(timeout > 0)))
+  # If timeout is numeric
+  # - Length 1: Use 'timeout' for max time on cpu and time elapsed
+  # - Length 2: Use 'timeout[1]' for cpu, 'timeout[2]' for time elapsed
+  # - Length 3: Use 'timeout[1]' for cpu, 'timeout[2]' for time elapsed, and timeout[3] for "overall time"
+  if (is.numeric(timeout)) {
+    if (length(timeout) == 1L) {
+      timeout <- list(cpu = timeout, elapsed = timeout, total = Inf)
+    } else if (length(timeout) == 2L) {
+      timeout <- list(cpu = timeout[[1]], elapsed = timeout[[2]], total = Inf)
+    } else {
+      timeout <- list(cpu = timeout[[1]], elapsed = timeout[[2]], total = timeout[[3]])
+    }
+  }
 
   stop_on_error <- as.logical(stop_on_error)[[1L]]
   stopifnot("'stop_on_error' must evaluate to logical TRUE or FALSE" = isTRUE(stop_on_error) || isFALSE(stop_on_error))
@@ -21,26 +33,25 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
     class(rval) <- c("stress.list", "stress", "list")
   } else {
     # Stop if the file does not exist (and is not one of the built-in files)
-    if (!(tolower(substr(file, nchar(file) - 3L, nchar(file))) %in% c(".rnw", ".rmd"))) file <- paste0(file, ".Rnw")
-    if (!file.exists(file) && !file.exists(file.path(find.package("exams"), "exercises", file))) stop(sprintf("Cannot find file: %s.", file))
+    if (!(tolower(substr(file, nchar(file) - 3L, nchar(file))) %in% c(".rnw", ".rmd")))
+        file <- paste0(file, ".Rnw")
+    if (!file.exists(file) && !file.exists(file.path(find.package("exams"), "exercises", file)))
+        stop(sprintf("Cannot find file: %s.", file))
 
     stress_env <- .GlobalEnv
 
-    ## stress_env <- new.env()
-    ## on.exit(rm(stress_env))
-
-#    loadNamespace("tools")
-
-#    stress_EvalWithOpt <- function(expr, options) {
-#      if(options$eval) {
-#        res <- try(withVisible(eval(expr, stress_env)), silent = TRUE)
-#        if(inherits(res, "try-error")) return(res)
-#        if(options$print | (options$term & res$visible))
-#          print(res$value)
-#      }
-#      return(res)
-#    }
-#    runcode <- makeRweaveLatexCodeRunner(evalFunc = stress_EvalWithOpt)
+    ## TODO: Remove? Old commented code.
+    #    loadNamespace("tools")
+    #    stress_EvalWithOpt <- function(expr, options) {
+    #      if(options$eval) {
+    #        res <- try(withVisible(eval(expr, stress_env)), silent = TRUE)
+    #        if(inherits(res, "try-error")) return(res)
+    #        if(options$print | (options$term & res$visible))
+    #          print(res$value)
+    #      }
+    #      return(res)
+    #    }
+    #    runcode <- makeRweaveLatexCodeRunner(evalFunc = stress_EvalWithOpt)
 
     # If length(seed) < n: set n to length(seed).
     # If length(seed) > n: take first n entries of seed.
@@ -63,7 +74,7 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       cat("---\ntesting file:", file, "\n---\n")
 
     ## Number format for output
-    tmp_num_fmt <- paste0("%", nchar(as.character(n)), "d")
+    tmp_num_fmt  <- paste0("%", nchar(as.character(n)), "d")
     tmp_seed_fmt <- paste0("(seed = %", nchar(max(seeds)), "d)")
 
     for (i in seq_len(n)) {
@@ -80,7 +91,7 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       .global_obj_before <- ls(envir = stress_env)
 
       ## Setting timeout (max cpu/elapsed time allowed to render the exam)
-      if (!is.null(timeout)) setTimeLimit(cpu = timeout, elapsed = timeout, transient = TRUE)
+      if (!is.null(timeout)) setTimeLimit(cpu = timeout$cpu, elapsed = timeout$elapsed, transient = TRUE)
 
       ## Empty vectors for fetching warnings and errors
       xtmp_warnings <- xtmp_errors <- c()
@@ -113,6 +124,25 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
           warning("an error occurred when running file: \"", file, "\" using seed ", seeds[i], "!")
       }
 
+      ## Resetting timeout
+      setTimeLimit(cpu = Inf, elapsed = Inf, transient = TRUE)
+
+      ## Checking 'overall time'. If set (and exceeded) fill remaining result
+      ## with dummy values and break the loop immediately.
+      if (!is.null(timeout)) {
+        if (sum(times) > timeout$total) {
+          msg <- sprintf("Overall time limit of %.1f seconds exceeded", timeout$total)
+          if (stop_on_error) stop(msg)
+          if (verbose) cat("\n ...", msg, "\n", sep = "")
+          for (j in seq.int(i, n)) {
+            xexams_warnings[j] <- xexams_extype[j] <- NA
+            xexams_errors[j]   <- msg
+            sq[[j]] <- list(solution = NA, questionlist = NA)
+          }
+          break
+        }
+      }
+
       ## Else (tryCatch reported termination but stop_on_error is FALSE); set xtmp to NULL
       ## for the rest of this function. If everything worked, `xtmp` is a list
       ## (as returned by xexams).
@@ -124,9 +154,6 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       xexams_warnings[i] <- combine_warnings_errors(xtmp_warnings)
       xexams_errors[i]   <- combine_warnings_errors(xtmp_errors)
       rm(xtmp_warnings, xtmp_errors)
-
-      ## Resetting timeout
-      setTimeLimit(cpu = Inf, elapsed = Inf, transient = TRUE)
 
       ## Extracting new objects generated by the exercise
       .global_obj_after <- ls(envir = stress_env)
@@ -140,16 +167,16 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       ## and, therefore, have no solution/questionlist returned by xexams().
       if (is.null(xtmp)) {
         xexams_extype[i] <- NA
-        sq[[i]] <- list("solution"     = NA,
-                        "questionlist" = NA)
+        sq[[i]] <- list(solution     = NA,
+                        questionlist = NA)
       } else {
         xexams_extype[i] <- xtmp[[1]][[1]]$metainfo$type
-        sq[[i]] <- list("solution"     = xtmp[[1]][[1]]$metainfo$solution,
-                        "questionlist" = xtmp[[1]][[1]]$questionlist)
+        sq[[i]] <- list(solution     = xtmp[[1]][[1]]$metainfo$solution,
+                        questionlist = xtmp[[1]][[1]]$questionlist)
       }
     }
 
-    if(verbose) cat("\n")
+    if (verbose) cat("\n")
 
     ## If all failed we have no information about the type of the question, store NA.
     ## Else we take the first type (as it is always the same question).
@@ -552,19 +579,54 @@ mirrored_hist <- function(x, y, ...) {
     abline(h = 0, col = 1, lwd = 2)
 }
 
-
 summary.stress <- function(object, ...) {
-    n      <- length(object$solution)
-    exinfo <- as.list(attr(object, "exinfo"))
-    message(sprintf("[%s] %s", exinfo$type, exinfo$file))
-    message("   Number of randomizations: ", n)
+    fn <- function(x) {
+        n      <- length(x$solution)
+        exinfo <- as.list(attr(x, "exinfo"))
 
-    # Summary on warnings and errors
-    tmp <- list(warnings = if (is.null(object$warnings)) rep(NA, n) else object$warnings,
-                error    = if (is.null(object$error)) rep(NA, n) else object$error)
-    tmp <- list(Fine     = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
-                Warnings = sum(!is.na(tmp$warnings)),
-                Errors   = sum(!is.na(tmp$error)))
-    message("   ", paste(paste(names(tmp), tmp, sep = ": "), collapse = ", "))
+        # Summary on warnings and errors
+        tmp   <- list(warnings = if (is.null(object$warnings)) rep(NA, n) else object$warnings,
+                      error    = if (is.null(object$error)) rep(NA, n) else object$error)
+        stats <- list(Fine     = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
+                      Warnings = sum(!is.na(tmp$warnings)),
+                      Errors   = sum(!is.na(tmp$error)))
+        return(list(n = n, exinfo = exinfo, stats = stats, runtime = sum(x$runtime)))
+    }
+    return(structure(lapply(if (inherits(object, "stress.list")) object else list(object), fn), class = "stress.summary"))
 }
+
+print.stress.summary <- function(x, ...) {
+    green  <- function(k, v) paste0("\033[32m", k, ": ", v, "\033[0m")
+    yellow <- function(k, v) paste0("\033[33m", k, ": ", v, "\033[0m")
+    red    <- function(k, v) paste0("\033[31m", k, ": ", v, "\033[0m")
+    black  <- function(k, v) paste0(k, ": ", v)
+    for (rec in x) {
+        cat(sprintf("[%s] %s\n", rec$exinfo$type, rec$exinfo$file),
+            sprintf("  Number of randomizations: %d\n", rec$n),
+            sprintf("  Total runtime in seconds: %.1f\n", rec$runtime),
+            "  ",
+            with(list(k = "Fine", v = rec$stats$Fine), if (v > 0) green(k, v) else black(k, v)),
+            ", ",
+            with(list(k = "Warnings", v = rec$stats$Warnings), if (v > 0) yellow(k, v) else black(k, v)),
+            ", ",
+            with(list(k = "Errors", v = rec$stats$Errors), if (v > 0) red(k, v) else black(k, v)),
+            "\n", sep = "")
+    }
+    invisible(x)
+}
+
+#summary.stress <- function(object, ...) {
+#    n      <- length(object$solution)
+#    exinfo <- as.list(attr(object, "exinfo"))
+#    message(sprintf("[%s] %s", exinfo$type, exinfo$file))
+#    message("   Number of randomizations: ", n)
+#
+#    # Summary on warnings and errors
+#    tmp <- list(warnings = if (is.null(object$warnings)) rep(NA, n) else object$warnings,
+#                error    = if (is.null(object$error)) rep(NA, n) else object$error)
+#    tmp <- list(Fine     = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
+#                Warnings = sum(!is.na(tmp$warnings)),
+#                Errors   = sum(!is.na(tmp$error)))
+#    message("   ", paste(paste(names(tmp), tmp, sep = ": "), collapse = ", "))
+#}
 
