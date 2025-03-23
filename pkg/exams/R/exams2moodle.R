@@ -336,7 +336,6 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       if(!("pointvec" %in% names(eval))) eval <- do.call("exams_eval", eval)
       frac <- as.integer(x$metainfo$solution)
       pv <- eval$pointvec(paste(frac, sep = "", collapse = ""), type = x$metainfo$type)
-      pv[pv == -Inf] <- 0 ## FIXME: exams_eval() return -Inf when rule = "none"?
 
       frac[x$metainfo$solution] <- pv["pos"]
       frac[!x$metainfo$solution] <- pv["neg"]
@@ -594,7 +593,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 	    if(is.null(eval_i$rule)) eval_i$rule <- "false2"
             eval_i <- do.call("exams_eval", eval_i)
           }
-          pv <- eval_i$pointvec(frac) ## FIXME: this passes correct as a logical rather as a character, is this intended?
+          pv <- eval_i$pointvec(frac, type = x$metainfo$clozetype[i])
           frac[frac2] <- pv["pos"]
           frac[!frac2] <- pv["neg"]
           p <- moodlePercent(frac)

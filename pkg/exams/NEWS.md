@@ -1,5 +1,14 @@
 # exams 2.4-2
 
+* Bug fix in `exams2moodle()` for `cloze` exercises: The `rule` was
+  erroneously applied not only to to `mchoice` but also to `schoice` elements
+  within `cloze` exercises. Hence incorrect answers in `schoice` elements
+  were erroneously penalized with negative points by default (reported in
+  <https://stackoverflow.com/questions/79235737/> by Beatriz Lacruz Casaucau
+  and in <https://R-Forge.R-project.org/forum/message.php?msg_id=50046> by
+  Błażej Kochański and in <https://R-Forge.R-project.org/forum/message.php?msg_id=50063>
+  by Martin Spott).
+
 * Support of string scans in `nops_fix()`. Moreover, a new option
   `nops_fix(display = "interactive")` was added where all data from a scanned
   sheet can be edited interactively in the browser (contributed by
