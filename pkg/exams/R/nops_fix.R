@@ -72,6 +72,20 @@ nops_fix <- function(
   dd_register <- "  let dd_registrations = '[]';" ## FIXME: could infer this from register csv
   dd_ids <- "  let dd_examIds = '[]';"            ## FIXME: could infer this from solutions rds
   scan_path <- "  let scanDataFilePath = './';"
+  if(requireNamespace("clipr", quietly = TRUE)) {
+    read_clipboard <- clipr::read_clip
+    try_clipboard <- TRUE
+  } else {
+    read_clipboard <- function () readLines("clipboard", warn = FALSE)
+    try_clipboard <- .Platform$OS.type == "windows"
+  }
+  if("interactive" %in% display) {
+    message(paste(
+      "With interactive display, scan results can be edited in the browser.",
+      "Clicking OK closes the form and copies the results to the clipboard.",
+      if(try_clipboard) "The results can then be read into R." else "The results can then be pasted into R.",
+    sep = "\n"))
+  }
 
   ## data formatting: check boxes vs. string
   if(!string) {
@@ -160,19 +174,19 @@ nops_fix <- function(
     if((!is.null(answer) | !is.null(check)) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
 
     ## determine appropriate display and browse/read trimmed pixel matrix
-    interactive <- "interactive" %in% display
+    interactive_i <- "interactive" %in% display
     if(length(field_i) > 0L) {
       if("browser" %in% display) browseURL(d[i, 1L])
       png_i <- if("plot" %in% display) d[i, 1L] else NULL
       if(!is.null(png_i)) png_i <- try(trim_nops_scan(png_i), silent = TRUE)
       if(inherits(png_i, "try-error")) {
         png_i <- NULL
-        interactive <- TRUE
+        interactive_i <- TRUE
       }
     }
     
     ## if interactive display is used, only use that and do not iterate through the individual fields
-    if(interactive) {
+    if(interactive_i) {
       ## get current scan data and set up JSON string    
       d_i <- d[i, , drop = FALSE]
       names(d_i) <- nam
@@ -197,10 +211,15 @@ nops_fix <- function(
       browseURL("nops_fix.html")
     
       ## interaction for updating scan data
-      r <- readline(prompt = "Edit scan results in browser and click 'OK' button (bottom right) when finished.\nThen press <Enter> here: ")
-      if(length(r) == 0L || nchar(r) == 0L) r <- try(readLines("clipboard", warn = FALSE), silent = TRUE)
-      if(inherits(r, "try-error") || length(r) == 0L || nchar(r) == 0L) r <- readline(prompt = "Reading the clipboard from R failed, please paste clipboard here: ")   
-      if(length(r) == 0L || nchar(r) == 0L) stop("Invalid output, maybe the clipboard was modified after clicking 'OK' in the browser?")
+      r <- NULL
+      if(try_clipboard) {
+        r <- readline(prompt = "After clicking OK in the browser press <Enter> here: ")
+        if(length(r) == 0L || nchar(r) == 0L) r <- try(read_clipboard(), silent = TRUE)
+        if(inherits(r, "try-error") || length(r) == 0L || nchar(r) == 0L) r <- readline(prompt = "Reading the clipboard from R failed, please paste clipboard here: ")   
+      } else {
+        r <- readline(prompt = "After clicking OK in the browser, please paste clipboard here: ")
+      }
+      if(length(r) == 0L || nchar(r) == 0L) stop("Invalid output, maybe the clipboard was modified after clicking OK in the browser?")
 
       ## update scan data
       d_i <- json2list(r)
