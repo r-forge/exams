@@ -24,6 +24,13 @@ exams2forms <- function(file,
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
 
+  ## Getting development options
+  devel <- get_devel_options(list(...)$devel, expand = TRUE)
+  if (!all(sapply(devel, isFALSE)) && obfuscate) {
+    warning("'obfuscate' set to FALSE as 'devel' is used.")
+    obfuscate <- FALSE
+  }
+
   ## process default arguments
   nchar <- rep_len(nchar, 2L)
   start_check <- if(check) c(sprintf("::: {.webex-check%s}", if(box) " .webex-box" else ""), "") else NULL
@@ -127,8 +134,17 @@ exams2forms <- function(file,
       NULL
     }
 
+    ## Create class list for development options
+    devel_classes <- names(devel)[sapply(devel, isTRUE)]
+    devel_classes <- names(devel)[sapply(devel, function(x) TRUE)]
+    if (!length(devel_classes)) {
+        devel_classes <- ""
+    } else {
+        devel_classes <- paste(sprintf(".%s", devel_classes), collapse = " ")
+    }
+
     ## adding required .webex-question container around each exercise
-    txt <- c("::: {.webex-question}", question, solution, "", ":::")
+    txt <- c(sprintf("::: {.webex-question %s}", devel_classes), question, solution, "", ":::")
 
     ## fix paths to supplements (if any) and try to make them local to be portable in rmarkdown/quarto output
     if(!is.null(sdir)) sdir <- paste0(sdir, if(substr(sdir, nchar(sdir), nchar(sdir)) == "/") "" else "/", "exam")

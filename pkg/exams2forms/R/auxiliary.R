@@ -162,3 +162,32 @@ unicode_flag <- function(isocode) {
   flag[intersect(isocode, names(extra))] <- extra[intersect(isocode, names(extra))]
   return(flag)
 }
+
+## helper function to evaluate the 'devel' option (exams2webquiz, exams2forms)
+get_devel_options <- function(devel, expand = FALSE) {
+
+  if (!expand && !is.list(devel)) {
+      if (isFALSE(devel)) return(FALSE)
+      if (isTRUE(devel))  return(TRUE)
+      if (is.null(devel)) return(NULL)
+  }
+
+  ## If NULL -> set FALSE
+  if (is.null(devel)) devel <- FALSE
+
+  if (is.atomic(devel)) devel <- as.logical(devel)[[1]]
+  stopifnot("argument `devel` must be FALSE, TRUE, or a named list" =
+      isTRUE(devel) || isFALSE(devel) || (is.list(devel) && !is.null(names(devel))))
+  # Evaluate user-specified arguments for 'devel'
+  if (is.list(devel)) {
+      tmp <- list(check = FALSE, solution = FALSE, prefilled = FALSE)
+      if (!all(names(devel) %in% names(tmp)))
+          stop("'devel' only allowed to contan ", paste(paste0("$", names(tmp)), collapse = ", "))
+      for (n in names(devel)) tmp[[n]] <- as.logical(devel[[n]][[1]])
+      devel <- tmp; rm(tmp)
+  } else {
+      devel <- list(check = isTRUE(devel), solution = isTRUE(devel), prefilled = isTRUE(devel))
+  }
+
+  return(devel)
+}

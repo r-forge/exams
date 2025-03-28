@@ -5,6 +5,9 @@ exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   ## sanity check for pandoc
   stopifnot(pandoc_available())
 
+  ## Getting development options
+  devel <- get_devel_options(list(...)$devel)
+
   ## directory handling
   if(is.null(dir)) {
     dir <- tempfile()
@@ -35,7 +38,8 @@ exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   args <- list(...)
   if(!is.null(edir)) args <- c(list(edir = file_path_as_absolute(edir)), args)
   args <- c(list(n = n, nsamp = nsamp), args)
-  args <- lapply(args, deparse)    
+  args$devel <- if (!is.null(devel) && !isFALSE(devel)) devel else NULL
+  args <- lapply(args, deparse)
   args <- lapply(args, paste, collapse = "\n")
   args <- paste(names(args), "=", unlist(args), collapse = ", ")
   args <- paste('exm, ', args)
@@ -51,7 +55,7 @@ exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   ## write tutorial .Rmd
   name <- file.path(dir, paste0(name, c(".Rmd", ".html")))
   writeLines(template, name[1L])
-  
+
   ## render quiz
   render(name[1L], clean = clean, quiet = quiet, envir = envir)
   name <- normalizePath(name)
