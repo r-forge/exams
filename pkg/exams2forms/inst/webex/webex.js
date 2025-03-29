@@ -436,13 +436,12 @@ window.onload = function() {
   document.querySelectorAll(".webex-group").forEach(group => {
     const questions = Array.from(group.querySelectorAll(".webex-question"));
 
-    /* Check if we need to shuffle */
+    /* Create vector with question order. If the webex-group does
+     * not have class '.noshuffle' we will randomly shuffle the order */
     let questionOrder = Array.from({length: questions.length}, (v, i) => i);
-      console.log(questionOrder)
     if (!group.classList.contains("noshuffle")) {
       questionOrder = shuffle_array(questionOrder);
     }
-      console.log(questionOrder)
 
     /* take start position (if set) or start at 0 */
     const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
@@ -501,16 +500,28 @@ window.onload = function() {
       question.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
           let x = JSON.parse(radiogroup.dataset.answer);
           let idx = x.indexOf(1);
-          let radios = question.querySelectorAll('input[type="radio"]');
+          let radios = radiogroup.querySelectorAll('input[type="radio"]');
           radios[idx].checked = true;
           /* Trigger the on change event */
           radios[idx].dispatchEvent(new Event("change", { bubbles: true }));
       });
 
-      /* Pre-filling checkboxgroups, that is for schoice questions */
+      /* Pre-filling checkboxgroups, that is for schoice questions w/ dropdown menus */
+      question.querySelectorAll(".webex-select").forEach(dropdown => {
+          let x = JSON.parse(dropdown.dataset.answer);
+          let idx = x.indexOf(1) + 1; /* +1 to skip the first blank option */
+          console.log(dropdown)
+          console.log(idx)
+          let options = dropdown.querySelectorAll("option");
+          options[idx].selected = true;
+          /* Trigger the on change event */
+          options[idx].dispatchEvent(new Event("change", { bubbles: true }));
+      });
+
+      /* Pre-filling checkboxgroups, that is for mchoice questions */
       question.querySelectorAll(".webex-checkboxgroup").forEach(radiogroup => {
           let x = JSON.parse(radiogroup.dataset.answer);
-          let checkboxes = question.querySelectorAll('input[type="checkbox"]');
+          let checkboxes = radiogroup.querySelectorAll('input[type="checkbox"]');
           for (let i = 0; i < checkboxes.length; i++) {
               checkboxes[i].checked = x[i];
           }
