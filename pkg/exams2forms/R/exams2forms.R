@@ -26,10 +26,11 @@ exams2forms <- function(file,
 
   ## Getting development options
   devel <- get_devel_options(list(...)$devel, expand = TRUE)
-  if (!all(sapply(devel, isFALSE)) && obfuscate) {
-    warning("'obfuscate' set to FALSE as 'devel' is used.")
-    obfuscate <- FALSE
-  }
+  ## Extracting the $shuffle option (used for webex-group, the rest for webex-question)
+  noshuffle       <- devel$noshuffle
+  devel$noshuffle <- NULL
+  ## Disable obfuscation if 'prefill' is set TRUE
+  if (isTRUE(devel$prefill) && obfuscate) obfuscate <- FALSE
 
   ## process default arguments
   nchar <- rep_len(nchar, 2L)
@@ -136,7 +137,6 @@ exams2forms <- function(file,
 
     ## Create class list for development options
     devel_classes <- names(devel)[sapply(devel, isTRUE)]
-    devel_classes <- names(devel)[sapply(devel, function(x) TRUE)]
     if (!length(devel_classes)) {
         devel_classes <- ""
     } else {
@@ -178,12 +178,12 @@ exams2forms <- function(file,
   ## collapse to a single list of exercises (grouped if n > 1)
   if(length(rval) > 1L) {
     for(i in seq_along(rval[[1L]])) rval[[1L]][[i]] <- c(
-      "::: {.webex-group}",
+      sprintf("::: {.webex-group%s}", if (noshuffle) " .noshuffle" else ""),
       unlist(lapply(seq_along(rval), function(j) rval[[j]][[i]])),
       ":::"
     )
   }
-  rval <- rval[[1L]]  
+  rval <- rval[[1L]]
 
   ## by default write out
   if(write) writeLines(do.call("c", rval))

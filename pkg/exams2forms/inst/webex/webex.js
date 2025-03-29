@@ -35,7 +35,7 @@ update_total_correct = function() {
 check_func = function() {
   console.log("webex: check answer");
 
-  //var cl = this.parentElement.classList;
+  //var cl = elem.parentElement.classList;
   var cl = this.closest(".webex-box").classList;
   if (cl.contains("unchecked")) {
     cl.remove("unchecked");
@@ -433,10 +433,16 @@ window.onload = function() {
     };
   }
 
-
   document.querySelectorAll(".webex-group").forEach(group => {
     const questions = Array.from(group.querySelectorAll(".webex-question"));
-    const questionOrder = shuffle_array(questions.length);
+
+    /* Check if we need to shuffle */
+    let questionOrder = Array.from({length: questions.length}, (v, i) => i);
+      console.log(questionOrder)
+    if (!group.classList.contains("noshuffle")) {
+      questionOrder = shuffle_array(questionOrder);
+    }
+      console.log(questionOrder)
 
     /* take start position (if set) or start at 0 */
     const currentPosition = parseInt(group.getAttribute("data-start-position")) || 0;
@@ -472,6 +478,45 @@ window.onload = function() {
         if (webex_buttons.question_previous.length > 0) button_ul.appendChild(li_previous);
         if (webex_buttons.question_next.length > 0) button_ul.appendChild(li_next);
     });
+  });
+
+  /* Development options */
+  document.querySelectorAll(".webex-question.check").forEach(question => {
+    question.querySelector(".webex-button-check").click()
+  });
+  document.querySelectorAll(".webex-question.solution").forEach(question => {
+    question.querySelector(".webex-button-solution").click()
+  });
+
+  /* Pre-filling <input> fields */
+  document.querySelectorAll(".webex-question.prefill").forEach(question => {
+      question.querySelectorAll("input.webex-solveme").forEach(solveme => {
+          let x = JSON.parse(solveme.dataset.answer);
+          solveme.value = x[0];
+          /* Trigger the on change event */
+          solveme.dispatchEvent(new Event("change"));
+      });
+
+      /* Pre-filling radiogroups, that is for schoice questions */
+      question.querySelectorAll(".webex-radiogroup").forEach(radiogroup => {
+          let x = JSON.parse(radiogroup.dataset.answer);
+          let idx = x.indexOf(1);
+          let radios = question.querySelectorAll('input[type="radio"]');
+          radios[idx].checked = true;
+          /* Trigger the on change event */
+          radios[idx].dispatchEvent(new Event("change", { bubbles: true }));
+      });
+
+      /* Pre-filling checkboxgroups, that is for schoice questions */
+      question.querySelectorAll(".webex-checkboxgroup").forEach(radiogroup => {
+          let x = JSON.parse(radiogroup.dataset.answer);
+          let checkboxes = question.querySelectorAll('input[type="checkbox"]');
+          for (let i = 0; i < checkboxes.length; i++) {
+              checkboxes[i].checked = x[i];
+          }
+          /* Trigger the on change event */
+          checkboxes[0].dispatchEvent(new Event("change", { bubbles: true }));
+      });
   });
 
   update_total_correct();
