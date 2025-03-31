@@ -261,8 +261,6 @@ function setScanData() {
 }
 
 async function copy(text) {  
-  text = text + '\n';
-  
   if (!navigator.clipboard) {
     let input = document.createElement('input');
     input.setAttribute('value', text);
