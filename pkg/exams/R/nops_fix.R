@@ -83,7 +83,8 @@ nops_fix <- function(
     message(paste(
       "With interactive display, scan results can be edited in the browser.",
       "Clicking OK closes the form and copies the results to the clipboard.",
-      if(try_clipboard) "The results can then be read into R." else "The results can then be pasted into R.",
+      if(try_clipboard) "R can then read the results from the clipboard." else "The results can then be pasted into R.",
+      "",
     sep = "\n"))
   }
 
@@ -211,7 +212,6 @@ nops_fix <- function(
       browseURL("nops_fix.html")
     
       ## interaction for updating scan data
-      r <- NULL
       if(try_clipboard) {
         r <- readline(prompt = "After clicking OK in the browser press <Enter> here: ")
         if(length(r) == 0L || nchar(r) == 0L) r <- try(read_clipboard(), silent = TRUE)
