@@ -71,7 +71,7 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
     xexams_extype   <- rep(NA_character_, n)
 
     if(verbose & !is.null(attr(n, "stress.list")))
-      cat("---\ntesting file:", file, "\n---\n")
+      cat("---\nTesting file:", file, "\n")
 
     ## Number format for output
     tmp_num_fmt  <- paste0("%", nchar(as.character(n)), "d")
@@ -82,7 +82,7 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       if (verbose & stop_on_error) {
           cat(if (i > 1L) "/", seeds[i], sep = "")
       } else if (verbose) {
-          cat(sprintf(paste0("Randomization ", tmp_num_fmt, "/", tmp_num_fmt, " %s"),
+          cat(sprintf(paste0("Randomization: ", tmp_num_fmt, "/", tmp_num_fmt, " %s"),
               i, n, sprintf(tmp_seed_fmt, seeds[i])), "   ",
               sprintf("[warn %d, err %d]", xexams_we_count["warnings"], xexams_we_count["errors"]), "\r")
       }
@@ -457,12 +457,12 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime", "
           tmp_w <- if (is.null(x$warnings)) rep(NA, length(x$solution)) else x$warnings
           tmp_e <- if (is.null(x$error))    rep(NA, length(x$solution)) else x$error
           mfhold <- par()$mfrow; par(mfrow = c(1, 1), new = FALSE)
-          barplot(c(Fine     = sum(is.na(tmp_w) & is.na(tmp_e)),
+          barplot(c(OK       = sum(is.na(tmp_w) & is.na(tmp_e)),
                     Warnings = sum(!is.na(tmp_w)),
                     Error    = sum(!is.na(tmp_e))),
                   col = c("gray80", "tomato", "deeppink"),
                   ylab = "Frequency",
-                  main = paste("Number of randomizations without warnings and errors (Fine),",
+                  main = paste("Number of randomizations without warnings and errors (OK),",
                                "with at least one Warning, and with Error", sep = "\n"))
           par(mfrow = mfhold)
         }
@@ -587,7 +587,7 @@ summary.stress <- function(object, ...) {
         # Summary on warnings and errors
         tmp   <- list(warnings = if (is.null(object$warnings)) rep(NA, n) else object$warnings,
                       error    = if (is.null(object$error)) rep(NA, n) else object$error)
-        stats <- list(Fine     = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
+        stats <- list(OK       = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
                       Warnings = sum(!is.na(tmp$warnings)),
                       Errors   = sum(!is.na(tmp$error)))
         return(list(n = n, exinfo = exinfo, stats = stats, runtime = sum(x$runtime)))
@@ -605,7 +605,7 @@ print.stress.summary <- function(x, ...) {
             sprintf("  Number of randomizations: %d\n", rec$n),
             sprintf("  Total runtime in seconds: %.1f\n", rec$runtime),
             "  ",
-            with(list(k = "Fine", v = rec$stats$Fine), if (v > 0) green(k, v) else black(k, v)),
+            with(list(k = "OK", v = rec$stats$OK), if (v > 0) green(k, v) else black(k, v)),
             ", ",
             with(list(k = "Warnings", v = rec$stats$Warnings), if (v > 0) yellow(k, v) else black(k, v)),
             ", ",
@@ -624,7 +624,7 @@ print.stress.summary <- function(x, ...) {
 #    # Summary on warnings and errors
 #    tmp <- list(warnings = if (is.null(object$warnings)) rep(NA, n) else object$warnings,
 #                error    = if (is.null(object$error)) rep(NA, n) else object$error)
-#    tmp <- list(Fine     = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
+#    tmp <- list(OK       = n - sum(!is.na(tmp$warnings)) - sum(!is.na(tmp$error)),
 #                Warnings = sum(!is.na(tmp$warnings)),
 #                Errors   = sum(!is.na(tmp$error)))
 #    message("   ", paste(paste(names(tmp), tmp, sep = ": "), collapse = ", "))
