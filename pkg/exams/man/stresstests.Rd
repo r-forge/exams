@@ -109,15 +109,15 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   \item{rank}{The rank of the correct solution, only available for choice exercises.}
   \item{ntrue}{The number of correct answers in multiple choice type questions.}
 
-  If \code{stop_on_error = FALSE} the function also fetches warnings and errors
-  thrown. Depending on whether or not warnings or errors have been fetched, the
+  If \code{stop_on_error = FALSE} the function also records warnings and errors
+  thrown. Depending on whether or not warnings or errors have been recorded, the
   following elements will be added to the object returned.
   \item{count}{Named vector with total number of warnings and errors recorded.
       There can be more warnings than randomizations, if exercises throw multiple
       warnings.}
-  \item{warnings}{Only added if at least one warning was fetched, character vector.
+  \item{warnings}{Only added if at least one warning was recorded, character vector.
       Warning messages and number of occurrences, or \code{NA} if no warnings were raised.}
-  \item{error}{Only added if at least one error was fetched, character vector.
+  \item{error}{Only added if at least one error was recorded, character vector.
       Error message or \code{NA} if no error was thrown.}
 }
 
