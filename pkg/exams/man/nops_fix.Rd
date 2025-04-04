@@ -82,10 +82,11 @@
   to be read at all. In this case users should complete/correct the scanned data
   in the HTML form and eventually click the OK button in the bottom right corner.
   This copies all the data entered into the clipboard (in a JSON string) and R
-  will attempt to read it from there. Make sure that you do not modify the clipboard
-  before completing this step in R. On some platforms reading from the clipboard
-  might not work, in that case paste the JSON string from the clipboard into the
-  corresponding prompt in R.
+  will either attempt to read it from there or users can paste it into the R prompt.
+  On Windows, reading from the clipboard should always work, while on other platforms
+  the R package \code{clipr} would need to be installed to read from the clipboard
+  reliably. In any case, users should make sure that the clipboard is not modified
+  before reading or pasting the clipboard again in R.
 }
 
 \value{
