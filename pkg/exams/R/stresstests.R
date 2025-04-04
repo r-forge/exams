@@ -3,21 +3,8 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
                                 stop_on_error = length(as.character(unlist(file))) < 2,
                                 timeout = NULL, ...) {
 
-  stopifnot("'timeout' must be NULL or vector of positive numerics of length 1, 2, or 3" =
+  stopifnot("'timeout' must be NULL or a vector of positive numerics of length 1, 2, or 3" =
         is.null(timeout) || (is.numeric(timeout) && length(timeout) >= 1L && length(timeout) <= 3L && all(timeout > 0)))
-  # If timeout is numeric
-  # - Length 1: Use 'timeout' for max time on cpu and time elapsed
-  # - Length 2: Use 'timeout[1]' for cpu, 'timeout[2]' for time elapsed
-  # - Length 3: Use 'timeout[1]' for cpu, 'timeout[2]' for time elapsed, and timeout[3] for "overall time"
-  if (is.numeric(timeout)) {
-    if (length(timeout) == 1L) {
-      timeout <- list(cpu = timeout, elapsed = timeout, total = Inf)
-    } else if (length(timeout) == 2L) {
-      timeout <- list(cpu = timeout[[1]], elapsed = timeout[[2]], total = Inf)
-    } else {
-      timeout <- list(cpu = timeout[[1]], elapsed = timeout[[2]], total = timeout[[3]])
-    }
-  }
 
   stop_on_error <- as.logical(stop_on_error)[[1L]]
   stopifnot("'stop_on_error' must evaluate to logical TRUE or FALSE" = isTRUE(stop_on_error) || isFALSE(stop_on_error))
@@ -32,6 +19,20 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
     }
     class(rval) <- c("stress.list", "stress", "list")
   } else {
+    # If timeout is numeric
+    # - Length 1: Use 'timeout' for max time on cpu and time elapsed
+    # - Length 2: Use 'timeout[1]' for cpu, 'timeout[2]' for time elapsed
+    # - Length 3: Use 'timeout[1]' for cpu, 'timeout[2]' for time elapsed, and timeout[3] for "overall time"
+    if (is.numeric(timeout)) {
+      if (length(timeout) == 1L) {
+        timeout <- list(cpu = timeout, elapsed = timeout, total = Inf)
+      } else if (length(timeout) == 2L) {
+        timeout <- list(cpu = timeout[[1]], elapsed = timeout[[2]], total = Inf)
+      } else {
+        timeout <- list(cpu = timeout[[1]], elapsed = timeout[[2]], total = timeout[[3]])
+      }
+    }
+
     # Stop if the file does not exist (and is not one of the built-in files)
     if (!(tolower(substr(file, nchar(file) - 3L, nchar(file))) %in% c(".rnw", ".rmd")))
         file <- paste0(file, ".Rnw")
@@ -164,7 +165,14 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       }
     }
 
-    if (verbose) cat("\n")
+    ## Final output; updates the last printed line to show the correct overall total
+    ## number of warnings and errors recorded.
+    if (verbose) {
+       cat(sprintf(paste0("Randomization: ", tmp_num_fmt, "/", tmp_num_fmt, " %s"),
+           i, n, sprintf(tmp_seed_fmt, seeds[i])), "   ",
+           sprintf("[warn %d, err %d]", xexams_we_count["warnings"], xexams_we_count["errors"]), "\r")
+       cat("\n")
+    }
 
     ## If all failed we have no information about the type of the question, store NA.
     ## Else we take the first type (as it is always the same question).
