@@ -447,19 +447,17 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime", "
 
     ### Errors and warnings
     if (type == "error" || type == "warnings") {
-        ## IF $count is missing, there have been no warnings nor errors.
-        if (!is.null(x$count)) {
-          mfhold <- par(no.readonly = TRUE); par(mfrow = c(1, 1))
-          tmp_n <- length(x$seeds)              # Total number of randomizations
-          tmp_w <- sum(lengths(x$warnings) > 0) # Nr. of randomizations w/ 1 or more warnings
-          tmp_e <- sum(lengths(x$errors)   > 0) # Nr. of randomizations w/ errors
-          barplot(c(OK = tmp_n - tmp_w - tmp_e, Warnings = tmp_w, Error = tmp_e),
-                  col = c("gray80", "tomato", "deeppink"),
-                  ylab = "Frequency",
-                  main = paste("Number of randomizations without warnings and errors (OK),",
-                               "with at least one Warning, and with Error", sep = "\n"))
-          par(mfrow = mfhold)
-        }
+        mfhold <- par("mfrow"); par(mfrow = c(1, 1))
+        tmp_n <- length(x$seeds)              # Total number of randomizations
+        tmp_w <- sum(lengths(x$warnings) > 0) # Nr. of randomizations w/ 1 or more warnings
+        tmp_e <- sum(lengths(x$errors)   > 0) # Nr. of randomizations w/ errors
+        barplot(c(OK = tmp_n - tmp_w - tmp_e, Warnings = tmp_w, Error = tmp_e),
+                col = c("gray80", "tomato", "deeppink"),
+                ylab = "Frequency",
+                main = paste("Number of randomizations without warnings and errors (OK),",
+                             "with at least one Warning, and with Error", sep = "\n"))
+        sink(type = "output")
+        par(list(mfrow = mfhold))
     }
 
     ## Plots including traced objects
@@ -614,7 +612,8 @@ print.stress.summary <- function(x, ...) {
     for (rec in x) {
         cat(sprintf("[%s] %s\n", rec$exinfo$type, rec$exinfo$file),
             sprintf("  Number of randomizations: %d\n", rec$n),
-            sprintf("  Total runtime in seconds: %.1f\n", rec$runtime),
+            sprintf("  Total runtime in seconds: %.1f (Mean %.2f)\n",
+                    rec$runtime, rec$runtime / rec$n),
             "  ",
             with(list(k = "OK", v = rec$stats$OK), if (v > 0) green(k, v) else black(k, v)),
             ", ",
