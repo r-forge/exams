@@ -58,6 +58,11 @@
   which can be added now via `usepackage = "worldflags"` in `exams2pdf()`
   (see above) as well as `exams2nops()`.
 
+* New argument `exams2nops(..., helvet = TRUE)`. By default, `exams2nops()`
+  uses a Helvetica font via the LaTeX packages `{helvet}` and `{sfmath}`
+  (with `helvet` option). This can optionally be suppressed now (suggested
+  by Bruce James in <https://stackoverflow.com/questions/79545467/>).
+
 * Improved `num_to_schoice()` by adding several new arguments but making their
   defaults backward compatible (based on suggestions from Stefan Jansen and
   Reto Stauffer).

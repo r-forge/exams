@@ -3,7 +3,8 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
   replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
   usepackage = NULL, header = NULL, encoding = "UTF-8", startid = 1L, points = NULL,
-  showpoints = FALSE, samepage = FALSE, newpage = FALSE, twocolumn = FALSE, reglength = 7L, seed = NULL, ...)
+  showpoints = FALSE, samepage = FALSE, newpage = FALSE, twocolumn = FALSE, helvet = TRUE,
+  reglength = 7L, seed = NULL, ...)
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -131,7 +132,8 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
     replacement = replacement, intro = intro, blank = blank,
     duplex = duplex, pages = pages, file = template,
     nchoice = nchoice,
-    encoding = encoding, samepage = samepage, newpage = newpage, twocolumn = twocolumn, reglength = reglength)
+    encoding = encoding, samepage = samepage, newpage = newpage, twocolumn = twocolumn,
+    helvet = helvet, reglength = reglength)
 
   ## if points should be shown generate a custom transformer
   transform <- if(showpoints) {
@@ -171,7 +173,7 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
 
 make_nops_template <- function(n, replacement = FALSE, intro = NULL, blank = NULL,
   duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "UTF-8",
-  samepage = FALSE, newpage = FALSE, twocolumn = FALSE, reglength = 7L)
+  samepage = FALSE, newpage = FALSE, twocolumn = FALSE, helvet = TRUE, reglength = 7L)
 {
 
 page1 <- make_nops_page(n, nchoice = nchoice, reglength = reglength)
@@ -240,14 +242,15 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 
 \\usepackage[T1]{fontenc}",
 if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
-"
+if(helvet) "
 \\usepackage{helvet}
 \\IfFileExists{sfmath.sty}{
   \\RequirePackage[helvet]{sfmath}
 }{}
 \\renewcommand{\\rmdefault}{phv}
 \\renewcommand{\\sfdefault}{phv}
-
+" else NULL,
+"
 \\setlength{\\parskip}{0.7ex plus0.1ex minus0.1ex}
 \\setlength{\\parindent}{0em}
 \\setlength{\\textheight}{29.6cm} 
