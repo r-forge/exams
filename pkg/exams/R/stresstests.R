@@ -300,6 +300,16 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime", "
 
   rainbow <- function(n) hcl(h = seq(0, 360 * (n - 1)/n, length = n), c = 50, l = 70)
 
+  ## Checking input argument 'variables' if set.
+  if (!is.null(variables)) {
+      variables <- unique(variables)
+      stopifnot("not all variables defined on 'variables' found in 'x$object'" =
+                all(variables %in% names(x$objects)))
+  }
+
+  ## Need this for later (plot type = 'warnings')
+  arg_variables <- variables
+
   ## Helper function to show a label top right in case the plot does
   ## not show results for all randomizations as some ran into erros,
   ## not providing solutions, objects, ranks, ...
@@ -431,12 +441,11 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime", "
     if (type == "error" || type == "warnings") {
         ## IF $count is missing, there have been no warnings nor errors.
         if (!is.null(x$count)) {
-          tmp_w <- if (is.null(x$warnings)) rep(NA, length(x$solution)) else x$warnings
-          tmp_e <- if (is.null(x$error))    rep(NA, length(x$solution)) else x$error
-          mfhold <- par()$mfrow; par(mfrow = c(1, 1), new = FALSE)
-          barplot(c(OK       = sum(is.na(tmp_w) & is.na(tmp_e)),
-                    Warnings = sum(!is.na(tmp_w)),
-                    Error    = sum(!is.na(tmp_e))),
+          mfhold <- par(no.readonly = TRUE); par(mfrow = c(1, 1))
+          tmp_n <- length(x$seeds)              # Total number of randomizations
+          tmp_w <- sum(lengths(x$warnings) > 0) # Nr. of randomizations w/ 1 or more warnings
+          tmp_e <- sum(lengths(x$errors)   > 0) # Nr. of randomizations w/ errors
+          barplot(c(OK = tmp_n - tmp_w - tmp_e, Warnings = tmp_w, Error = tmp_e),
                   col = c("gray80", "tomato", "deeppink"),
                   ylab = "Frequency",
                   main = paste("Number of randomizations without warnings and errors (OK),",
@@ -496,25 +505,36 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime", "
 
       ## Conditional density histogram when/where warnings occurred
       if (type == "warnings" & !is.null(x$warnings)) {
-          if (!is.list(x$solution) & !is.null(x$solution))
-            mirrored_hist(x$solution, !is.na(x$warnings), main = "Solution | warnings")
+          if (!is.list(x$solution)) {
+            mirrored_hist(x$solution, lengths(x$warnings) > 0, main = "Solution | warnings")
             add_note(x$solution)
+          }
 
-          for (j in variables) {
-            mirrored_hist(x$objects[[j]], !is.na(x$warnings), main = sprintf("%s | warnings", j))
+          # Only numeric variables!
+          num_variables <- variables[sapply(x$objects[, variables], is.numeric)]
+
+          for (j in num_variables) {
+            mirrored_hist(x$objects[[j]], lengths(x$warnings) > 0, main = sprintf("%s | warnings", j))
             add_note(x$objects[[j]])
           }
 
-          ## Unique combinations
-          grd <- t(combn(variables, 2))
+          ## Unique combinations (max 5 _OR_ user specified)
+          if (length(num_variables) > 5 && is.null(arg_variables)) {
+              message("Found ", length(num_variables), " numeric variables in `$object`, ",
+                      "only the first five are used. Check argument 'variables' to ",
+                      "plot specific variables.")
+              num_variables <- head(num_variables, 5L)
+          }
+          grd <- t(combn(num_variables, 2))
           for (i in seq_len(nrow(grd))) {
               nm  <- grd[i, ]
               tmp <- setNames(data.frame(x$objects[[nm[[1]]]], x$objects[[nm[[2]]]]), nm)
               if (nrow(tmp) == 0L) next
+              tmp_w <- lengths(x$warnings) > 0
               plot(as.formula(sprintf("%s ~ %s", grd[i, 1], grd[i, 2])), data = tmp,
-                   pch = ifelse(!is.na(x$warning), 19, 1),
-                   cex = ifelse(!is.na(x$warning), 1.5, 0.75),
-                   col = ifelse(!is.na(x$warning), "tomato", 1),
+                   pch = ifelse(tmp_w, 19, 1),
+                   cex = ifelse(tmp_w, 1.5, 0.75),
+                   col = ifelse(tmp_w, "tomato", 1),
                    main = sprintf("%s vs. %s", nm[[1]], nm[[2]]))
               add_note(ifelse(complete.cases(tmp), TRUE, NA))
           }
@@ -532,8 +552,16 @@ mirrored_hist <- function(x, y, ...) {
     ## Calculate useful breaks for solution
     bk <- hist(x, plot = FALSE)$breaks
     ## Calculate density condition on whether or not warnings occurred
-    h1 <- hist(x[y],  plot = FALSE, breaks = bk)
-    h2 <- hist(x[!y], plot = FALSE, breaks = bk)
+    h1 <- if (all(is.na(x[y])) || length(x[y]) == 0L)  {
+        list(counts = NA)
+    } else {
+        hist(x[y],  plot = FALSE, breaks = bk)
+    }
+    h2 <- if (all(is.na(x[!y])) || length(x[!y]) == 0L) {
+        list(counts = NA)
+    } else {
+        hist(x[!y], plot = FALSE, breaks = bk)
+    }
 
     ## Calculate y limits
     ylim <- max(c(h1$counts, h2$counts), na.rm = TRUE) * c(-1, 1)
