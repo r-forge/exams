@@ -179,13 +179,8 @@ nops_fix <- function(
     if(length(field_i) > 0L) {
       if("browser" %in% display) browseURL(d[i, 1L])
       png_i <- if("plot" %in% display) d[i, 1L] else NULL
-      if(!is.null(png_i)) png_i <- try(trim_nops_scan(png_i), silent = TRUE)
-      if(inherits(png_i, "try-error")) {
-        png_i <- NULL
-        interactive_i <- TRUE
-      }
     }
-    
+
     ## if interactive display is used, only use that and do not iterate through the individual fields
     if(interactive_i) {
       ## get current scan data and set up JSON string    
