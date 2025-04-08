@@ -44,6 +44,15 @@
   background-color: var(--background_question);
 }
 
+.webex-filename {
+  display: block;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: gray;
+  font-size: 0.8em;
+  text-align: right;
+}
+.webex-filename > p { margin: 0; }
+
 .webex-total_correct {
   margin-left: 1em;
 }
