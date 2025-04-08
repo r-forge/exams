@@ -68,7 +68,7 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
 
     for (i in seq_len(n)) {
       set.seed(seeds[i])
-      if (verbose & stop_on_error) {
+      if (verbose && stop_on_error) {
           cat(if (i > 1L) "/", seeds[i], sep = "")
       } else if (verbose) {
           cat(sprintf(paste0("Randomization: ", tmp_num_fmt, "/", tmp_num_fmt, " %s"),
@@ -89,32 +89,30 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
         ## withCallingHandlers: Fetching warnings and errors; not terminating execution but
         ##           fetching all thrown warnings/errors in the two vectors xtmp_warnings, xtmp_erros.
         ##           Used to report suspicious/errornous questions if stop_on_error = FALSE.
-        xtmp <- suppressMessages(
+        xtmp <- ##suppressMessages(
                   tryCatch(
                     withCallingHandlers(
                         xexams(file, driver = list("sweave" = list(envir = stress_env)), ...),
-                        warning = function(w) {
-                            xtmp_warnings <<- c(xtmp_warnings, w$message)
-                        },
+                        warning = function(w) xtmp_warnings <<- c(xtmp_warnings, w$message),
                         error   = function(e) xtmp_errors   <<- c(xtmp_errors,   e$message)
                     ), ## End withCallingHandlers
                   error = function(e) e) ## End tryCatch
-                ) ## End suppressMessages
+                ##) ## End suppressMessages
       })["elapsed"] ## End of system.time
+
+      ## Resetting timeout
+      setTimeLimit(cpu = Inf, elapsed = Inf, transient = TRUE)
 
       ## tryCatch reported termination (error) and stop_on_error = TRUE: Stop execution.
       if (stop_on_error && inherits(xtmp, "error")) {
           if (grepl("reached elapsed time limit", xtmp$message)) {
-            stop(sprintf("Elapesd time limit of %s seconds reached.", format(timeout)))
+            stop(sprintf("Elapsed time limit of %s seconds reached.", format(timeout$elapsed)))
           } else {
             stop(xtmp)
           }
       } else if (inherits(xtmp, "error")) {
           warning("an error occurred when running file: \"", file, "\" using seed ", seeds[i], "!")
       }
-
-      ## Resetting timeout
-      setTimeLimit(cpu = Inf, elapsed = Inf, transient = TRUE)
 
       ## Checking 'overall time'. If set (and exceeded) fill remaining result
       ## with dummy values and break the loop immediately.
@@ -167,7 +165,7 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
 
     ## Final output; updates the last printed line to show the correct overall total
     ## number of warnings and errors recorded.
-    if (verbose) {
+    if (verbose && stop_on_error) {
        cat(sprintf(paste0("Randomization: ", tmp_num_fmt, "/", tmp_num_fmt, " %s"),
            i, n, sprintf(tmp_seed_fmt, seeds[i])), "   ",
            sprintf("[warn %d, err %d]", xexams_we_count["warnings"], xexams_we_count["errors"]), "\r")
@@ -455,9 +453,8 @@ plot.stress <- function(x, type = c("overview", "solution", "rank", "runtime", "
                 col = c("gray80", "tomato", "deeppink"),
                 ylab = "Frequency",
                 main = paste("Number of randomizations without warnings and errors (OK),",
-                             "with at least one Warning, and with Error", sep = "\n"))
-        sink(type = "output")
-        par(list(mfrow = mfhold))
+                             "with at least one warning, and with error", sep = "\n"))
+        par(mfrow = mfhold)
     }
 
     ## Plots including traced objects
