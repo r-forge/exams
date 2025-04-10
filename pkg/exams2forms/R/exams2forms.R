@@ -26,9 +26,11 @@ exams2forms <- function(file,
 
   ## Getting development options
   devel <- get_devel_options(list(...)$devel, expand = TRUE)
-  ## Extracting the $shuffle option (used for webex-group, the rest for webex-question)
+  ## Extracting the $shuffle and $filename options
+  ## (used for webex-group, the rest for webex-question)
   noshuffle       <- devel$noshuffle
-  devel$noshuffle <- NULL
+  filename        <- devel$filename
+  devel$noshuffle <- devel$filename <- NULL
   ## Disable obfuscation if 'prefill' is set TRUE
   if (isTRUE(devel$prefill) && obfuscate) obfuscate <- FALSE
 
@@ -113,8 +115,13 @@ exams2forms <- function(file,
       }
     }
 
+    ## Show 'filename'? Development option/feature
+    show_fname <- if (isTRUE(filename)) {
+      sprintf(":::: {.webex-filename}\n&#128462; %s\n::::\n", file)
+    } else { "" }
+
     ## question including forms
-    question <- c(start_check, x$question, "", forms, end_check)
+    question <- c(start_check, show_fname, x$question, "", forms, end_check)
 
     ## set up solution (if desired and available)
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)

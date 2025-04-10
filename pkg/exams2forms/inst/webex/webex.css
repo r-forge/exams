@@ -9,7 +9,6 @@
   --background_question: #7f7f7f0d;
   --background_input: white;
   --text_input: black;
-  /* Settings used to tune revealjs w/ exams2forms */
   --webex-reveal-main-font-size: 1.5rem; /* 1.5 line height relative to document */
   --webex-reveal-main-color: var(--r-main-color);
 }

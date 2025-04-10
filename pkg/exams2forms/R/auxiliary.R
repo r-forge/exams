@@ -181,14 +181,15 @@ get_devel_options <- function(devel, expand = FALSE) {
 
   # Evaluate user-specified arguments for 'devel'
   if (is.list(devel)) {
-      tmp <- list(noshuffle = FALSE, check = FALSE, solution = FALSE, prefill = FALSE)
+      tmp <- list(noshuffle = FALSE, filename = FALSE,
+                  check = FALSE, solution = FALSE, prefill = FALSE)
       if (!all(names(devel) %in% names(tmp)))
           stop("'devel' only allowed to contan ", paste(paste0("$", names(tmp)), collapse = ", "))
       for (n in names(devel)) tmp[[n]] <- as.logical(devel[[n]][[1]])
       devel <- tmp; rm(tmp)
   } else {
-      devel <- list(noshuffle = isTRUE(devel), check = isTRUE(devel),
-                    solution = isTRUE(devel), prefill = isTRUE(devel))
+      devel <- list(noshuffle = isTRUE(devel), filename = isTRUE(devel),
+                    check = isTRUE(devel), solution = isTRUE(devel), prefill = isTRUE(devel))
   }
 
   return(devel)
