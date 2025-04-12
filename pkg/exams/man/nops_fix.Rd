@@ -34,12 +34,14 @@
     If set to \code{"missing"} only the missing answers are considered. For
     \code{"schoice"} answers with more than one checked box are considered. For
     \code{"mchoice"} answers with all boxes checked are considered.}
-  \item{display}{character indicating how the scanned image should be displayed.
-    One or more of \code{"plot"} (display scanned excerpt in R plot),
+  \item{display}{character indicating how the scanned image should be displayed:
+    \code{"plot"} (display scanned excerpt in R plot),
     \code{"browser"} (display full scanned image in browser), and
     \code{"interactive"} (display full scanned image along with interactive HTML form in browser).
     By default, \code{"plot"} is used if the \pkg{png} package is available
-    and \code{"interactive"} if the scanned images cannot be read at all.}
+    unless errors occurred during scanning. In the latter case \code{"interactive"}
+    is used because typically the errors occur when scanned images cannot be
+    read at all.}
   \item{string}{logical. Is the ZIP file from scanning marked string
     exercises (rather than single/multiple choice exercises)? The default is
     \code{TRUE} if the \code{file} name starts with \code{nops_string_scan_}
@@ -67,7 +69,8 @@
   number, and the registration ID needs to be a number with 7-10 digits.
 
   All answer fields eventually store the multiple-choice answers with 0/1 indicators
-  of length 5. The following input formats are accepted:
+  of length 5 (even if the question actually used fewer answer alternatives).
+  The following input formats are accepted:
   \itemize{
   \item 0/1 indicators of length up to 5. If less then 5 digits are specified, the remaining digits are filled with 0s.
   \item Letters from a to e indicating the box(es) that have been checked.

@@ -40,6 +40,7 @@ nops_fix <- function(
   rezip <- FALSE
 
   ## defaults: how to display scanned png files
+  display_orig <- display
   if(is.null(display)) {
     display <- if(requireNamespace("png")) "plot" else "browser"
   }
@@ -109,6 +110,7 @@ nops_fix <- function(
       writeLines(d, data_txt)
       field <- NULL
       rezip <- TRUE
+      if(is.null(display_orig)) display <- "interactive"
     }
 
     ## read Daten.txt:
@@ -133,6 +135,7 @@ nops_fix <- function(
       writeLines(d, data_txt)
       field <- NULL
       rezip <- TRUE
+      if(is.null(display_orig)) display <- "interactive"
     }
 
     ## read Daten2.txt:
@@ -167,22 +170,23 @@ nops_fix <- function(
     if(!is.null(field)) {
       field_i <- field
     } else {
-      field_i <- c(if(!valid_digits(d[i, if(string) 3L else 4L], 3L)) "type",
+      field_i <- c(
+        if(!valid_digits(d[i, if(string) 3L else 4L], 3L)) "type",
         if(!valid_digits(d[i, 2L], 11L)) "id",
-        if(!string && !valid_digits(d[i, 6L])) "registration")
+        if(!string && !valid_digits(d[i, 6L])) "registration"
+      )
       if(length(field_i) == if(string) 2L else 3L) field_i <- c(field_i, "answers")
     }
     if((!is.null(answer) | !is.null(check)) && !("answers" %in% field_i)) field_i <- c(field_i, "answers")
 
-    ## determine appropriate display and browse/read trimmed pixel matrix
-    interactive_i <- "interactive" %in% display
+    ## browse/read trimmed pixel matrix
     if(length(field_i) > 0L) {
       if("browser" %in% display) browseURL(d[i, 1L])
       png_i <- if("plot" %in% display) d[i, 1L] else NULL
     }
 
     ## if interactive display is used, only use that and do not iterate through the individual fields
-    if(interactive_i) {
+    if(length(field_i) > 0L && "interactive" %in% display) {
       ## get current scan data and set up JSON string    
       d_i <- d[i, , drop = FALSE]
       names(d_i) <- nam
