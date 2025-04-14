@@ -13,7 +13,9 @@
   `nops_fix(display = "interactive")` was added where all data from a scanned
   sheet can be edited interactively in the browser (contributed by
   Sebastian Bachler). The latter is particularly useful if scanned sheets
-  are too rotated to be read at all in `nops_scan()`.
+  are too rotated to be read at all in `nops_scan()`. Finally, the rotation
+  of PDF pages is always done relatively (rather than absolutely) in order
+  to enable merging PDF files with different original orientations.
 
 * Improvements in `nops_scan()` to read the registration id somewhat more
   reliably in the presence of scanning artefacts (e.g., single white lines

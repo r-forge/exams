@@ -285,7 +285,7 @@ pdfs2pngs <- function(x, density = 300, dir = NULL, cores = NULL, verbose = TRUE
   if(rotate) {
     if(verbose) cat("Rotating PDF files")
     if(pdfengine == "qpdf") {
-      qpdf::pdf_rotate_pages("_NOPS_.pdf", angle = 180, output = "_NOPS_2_.pdf")
+      qpdf::pdf_rotate_pages("_NOPS_.pdf", angle = 180, relative = TRUE, output = "_NOPS_2_.pdf")
     } else {
       shsystem("pdftk _NOPS_.pdf rotate 1-enddown output _NOPS_2_.pdf")
     }
