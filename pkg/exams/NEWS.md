@@ -60,6 +60,13 @@
   which can be added now via `usepackage = "worldflags"` in `exams2pdf()`
   (see above) as well as `exams2nops()`.
 
+* New demo exercise `sumdiff.Rmd`/`sumdiff.Rnw` added to the package, providing
+  a minimal arithmetic task where the sum of two random numbers minus their
+  difference has to be calculated. This exercise can demonstrate drawing random
+  numbers where the correct solution is not completely obvious but can still be
+  easily obtained with mental arithmetic. Also, no LaTeX markup is used. Hence
+  the exercise is much simpler than `deriv.Rmd`/`deriv.Rnw`.
+
 * New argument `exams2nops(..., helvet = TRUE)`. By default, `exams2nops()`
   uses a Helvetica font via the LaTeX packages `{helvet}` and `{sfmath}`
   (with `helvet` option). This can optionally be suppressed now (suggested
