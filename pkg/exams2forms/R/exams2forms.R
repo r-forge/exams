@@ -117,7 +117,7 @@ exams2forms <- function(file,
 
     ## Show 'filename'? Development option/feature
     show_fname <- if (isTRUE(filename)) {
-      sprintf(":::: {.webex-filename}\n&#128462; %s\n::::\n", file)
+      sprintf(":::: {.webex-filename}\n&#128462; %s\n::::\n", x$metainfo$file)
     } else { "" }
 
     ## question including forms
