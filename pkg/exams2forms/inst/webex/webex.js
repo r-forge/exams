@@ -86,9 +86,10 @@ convert_to_numeric = function(x) {
   const patterns = [
     {regex: /^[+-]?\d+(\.\d{3})*,\d+$/, decimal: ",", thousand: "." },  // Format: "1.100.100.100,3"
     {regex: /^[+-]?\d+(,\d{3})*\.\d+$/, decimal: ".", thousand: "," },  // Format: "1,100,100,100.3"
-    {regex: /^[+-]?\d+(\.\d+)?$/, decimal: "." },                       // Format: "1100100100.5"
-    {regex: /^[+-]?\d+,\d+$/, decimal: "," }                            // Format: "1100100100,5"
+    {regex: /^[+-]?\d+(\.|\.\d+)?$/, decimal: "." },                    // Format: "1100100100.5" or "1100100100."
+    {regex: /^[+-]?\d+(,|,\d+)$/, decimal: "," }                        // Format: "1100100100,5" or "1100100100,"
   ];
+
 
   /* testing all regular expressions, convert to float if possible */
   for (const { regex, decimal, thousand } of patterns) {
@@ -510,8 +511,6 @@ window.onload = function() {
       question.querySelectorAll(".webex-select").forEach(dropdown => {
           let x = JSON.parse(dropdown.dataset.answer);
           let idx = x.indexOf(1) + 1; /* +1 to skip the first blank option */
-          console.log(dropdown)
-          console.log(idx)
           let options = dropdown.querySelectorAll("option");
           options[idx].selected = true;
           /* Trigger the on change event */
