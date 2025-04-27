@@ -98,6 +98,12 @@
   another chunk option (either for individual chunks or for the entire
   exercise).
 
+* New argument `stop_on_error` in `stresstest_exercise()`. This is particularly
+  useful when stresstesting a collection of exercises without stopping on each
+  error but instead recordings all warnings and errors for inspecting them later.
+  Additionally, a `timeout` argument can be set that sets a time limit for
+  running each exercises, e.g., to avoid running into infinite loops etc.
+
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The
   reason is that ARSnova has been superseded by Particify and hence it is

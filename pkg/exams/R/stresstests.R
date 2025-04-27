@@ -80,7 +80,11 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       .global_obj_before <- ls(envir = stress_env)
 
       ## Setting timeout (max cpu/elapsed time allowed to render the exam)
-      if (!is.null(timeout)) setTimeLimit(cpu = timeout$cpu, elapsed = timeout$elapsed, transient = TRUE)
+      ## FIXME: plus workaround checking open hooks
+      if (!is.null(timeout)) {
+        setTimeLimit(cpu = timeout$cpu, elapsed = timeout$elapsed, transient = TRUE)
+        .hooks_before <- ls(envir = .userHooksEnv)
+      }
 
       ## Empty vectors for fetching warnings and errors
       xtmp_warnings <- xtmp_errors <- vector("character")
@@ -101,7 +105,14 @@ stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
       })["elapsed"] ## End of system.time
 
       ## Resetting timeout
-      setTimeLimit(cpu = Inf, elapsed = Inf, transient = TRUE)
+      ## FIXME: plus workaround closing additional open hooks (from `evaluate` pkg)
+      if (!is.null(timeout)) {
+        setTimeLimit(cpu = Inf, elapsed = Inf, transient = TRUE)
+        .hooks_after <- ls(envir = .userHooksEnv)
+        .hooks_to_remove <- setdiff(.hooks_after, .hooks_before)
+        .hooks_to_remove <- .hooks_to_remove[!(startsWith(.hooks_to_remove, "UserHook::") & endsWith(.hooks_to_remove, "::onLoad"))]
+        for(hook in .hooks_to_remove) setHook(hook, NULL, "replace")
+      }
 
       ## tryCatch reported termination (error) and stop_on_error = TRUE: Stop execution.
       if (stop_on_error && inherits(xtmp, "error")) {
