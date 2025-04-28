@@ -470,7 +470,7 @@
   cloze questions are not supported, yet.
 
 * Added first release version of new interface `exams2testvision()` for the
-  Dutch testing platform [TestVision](https://testvision.nl/en/). It is
+  Dutch testing platform [TestVision](https://testvision.nl/). It is
   essentially a fork of `exams2qti21()` that incorporates TestVision's own
   strict implementation of QTI 2.1. See the
   [online tutorial](https://www.R-exams.org/tutorials/exams2testvision/)
