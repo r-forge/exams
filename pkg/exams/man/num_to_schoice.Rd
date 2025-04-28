@@ -36,7 +36,10 @@ num_to_schoice(correct, wrong = NULL, range = c(0.5, 1.5) * correct,
   \item{order}{logical. Should the question list be ordered numerically?
     If \code{FALSE} (default) the question list is shuffled randomly.}
   \item{maxit}{numeric. Maximum number of iterations to try to find a
-    suitable set of wrong solutions for the question list.}
+    suitable set of wrong solutions for the question list. If the
+    number of iterations exceed \code{abs(maxit)}, \code{NULL} is returned
+    (with a warning if \code{verbose = TRUE}) except if \code{maxit < 0}
+    (which stops with an error). See the examples below.}
   \item{verbose}{logical. Should warnings be issued if no suitable
     set of wrong solutions can be found?}
 }
@@ -119,6 +122,18 @@ num_to_schoice(0.123, range = c(0, 1), delta = 0.03, method = "delta")
 num_to_schoice(0.123, range = c(-5, 5), delta = 0.05)
 num_to_schoice(0.123, wrong = c(0.275, 1.972), delta = 0.05)
 num_to_schoice(0.123, wrong = c(0.275, 1.972), range = c(-5, 5), delta = 0.05)
+
+## ## caveat: num_to_schoice() can result in virtually infinite loops, e.g.,
+## set.seed(5)
+## num_to_schoice(10, range = c(7, 13))
+## 
+## ## return NULL with warning after 10 iterations
+## set.seed(5)
+## num_to_schoice(10, range = c(7, 13), maxit = 10)
+##
+## ## stop with error after 10 iterations
+## set.seed(5)
+## num_to_schoice(10, range = c(7, 13), maxit = -10)
 }
 
 \keyword{utilities}

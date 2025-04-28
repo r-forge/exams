@@ -17,7 +17,7 @@
 \usage{
 stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   stop_on_error = length(as.character(unlist(file))) < 2, timeout = NULL,
-  maxit = 1000, ...)
+  maxit = getOption("num_to_schoice_maxit", -1000L), ...)
 
 \method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime", "warnings", "error"),
   threshold = NULL, variables = NULL, spar = TRUE, ask = TRUE, ...)
@@ -38,7 +38,9 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
     a number of exercises.}
   \item{timeout}{\code{NULL} or numeric vector. See section 'Timeout' for details.}
   \item{maxit}{numeric. Maximum number of iterations passed on to \code{\link{num_to_schoice}},
-    in case that is used for find a suitable set of wrong solutions for a question list.}
+    in case that is used for finding a suitable set of wrong solutions for a question list.
+    Exceeding \code{abs(maxit)} yields either a warning (if \code{maxit > 0}) or an
+    error (if \code{maxit < 0}).}
   \item{x,object}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
     numeric solutions, position/number/rank of correct solution(s), if available.

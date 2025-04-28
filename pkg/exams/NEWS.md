@@ -84,7 +84,7 @@
     be ordered numerically? If `FALSE` (default) the question list is shuffled
     randomly.
   - `maxit = getOption("num_to_schoice_maxit", Inf)`: Maximum number of iterations
-    to try to find a suitable set of wrong solutions for the question list.
+    to try to find a feasible set of wrong solutions for the question list.
 
   Moreover, the option for setting the `verbose` default was changed to
   `getOption("num_to_schoice_verbose", TRUE)` instead of the previous name
@@ -103,6 +103,9 @@
   error but instead recordings all warnings and errors for inspecting them later.
   Additionally, a `timeout` argument can be set that sets a time limit for
   running each exercises, e.g., to avoid running into infinite loops etc.
+  Finally, `maxit` is set by default to `-1000` so that `num_to_schoice()`
+  (if used at all) can use at most 1000 iterations to find a feasible question
+  list (and stops with an error otherwise).
 
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that
   these functions will be removed in future versions of the package. The

@@ -58,7 +58,7 @@ num_to_schoice <- num2schoice <- function(
   eps2 <- sqrt(.Machine$double.eps)
   ## iterations
   iter <- 0
-  while(!ok && iter < maxit) {
+  while(!ok && iter < abs(maxit)) {
     iter <- iter + 1
     rand <- switch(match.arg(method),
                    "runif" = c(runif(nle, range[1], round2(correct, digits = digits)), runif(4 - nle, round2(correct, digits = digits), range[2])),
@@ -77,7 +77,12 @@ num_to_schoice <- num2schoice <- function(
 
   ## if loop was not successful
   if(!ok) {
-    if (verbose) warning(sprintf("could not find a feasible question list in maxit = %s iterations", maxit))
+    msg <- sprintf("could not find a feasible question list in maxit = %s iterations", abs(maxit))
+    if (maxit < 0L) {
+      stop(msg)
+    } else if (verbose) {
+      warning(msg)
+    }
     return(NULL)
   }
 
