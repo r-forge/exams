@@ -17,7 +17,7 @@
 \usage{
 stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
   stop_on_error = length(as.character(unlist(file))) < 2, timeout = NULL,
-  maxit = getOption("num_to_schoice_maxit", -1000L), ...)
+  maxit = getOption("num_to_schoice_maxit", -10000L), ...)
 
 \method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime", "warnings", "error"),
   threshold = NULL, variables = NULL, spar = TRUE, ask = TRUE, ...)

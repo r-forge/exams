@@ -103,8 +103,8 @@
   error but instead recordings all warnings and errors for inspecting them later.
   Additionally, a `timeout` argument can be set that sets a time limit for
   running each exercises, e.g., to avoid running into infinite loops etc.
-  Finally, `maxit` is set by default to `-1000` so that `num_to_schoice()`
-  (if used at all) can use at most 1000 iterations to find a feasible question
+  Finally, `maxit` is set by default to `-10000` so that `num_to_schoice()`
+  (if used at all) can use at most 10000 iterations to find a feasible question
   list (and stops with an error otherwise).
 
 * Added a warning in `exams2arsnova()` and `make_exams_write_arsnova()` that

@@ -1,7 +1,7 @@
 ## Test exercises.
 stresstest_exercise <- function(file, n = 100, verbose = TRUE, seeds = NULL,
                                 stop_on_error = length(as.character(unlist(file))) < 2,
-                                timeout = NULL, maxit = getOption("num_to_schoice_maxit", -1000L), ...) {
+                                timeout = NULL, maxit = getOption("num_to_schoice_maxit", -10000L), ...) {
 
   ## process specifications of timeout, stop_on_error, and maxit
   stopifnot("'timeout' must be NULL or a vector of positive numerics of length 1, 2, or 3" =
