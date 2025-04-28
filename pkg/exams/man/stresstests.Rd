@@ -15,14 +15,12 @@
 }
 
 \usage{
-## Stresstest function.
 stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
-  stop_on_error = length(as.character(unlist(file))) < 2, timeout = NULL, ...)
+  stop_on_error = length(as.character(unlist(file))) < 2, timeout = NULL,
+  maxit = 1000, ...)
 
-## Plotting stresstest results.
 \method{plot}{stress}(x, type = c("overview", "solution", "rank", "runtime", "warnings", "error"),
-  threshold = NULL, variables = NULL,
-  spar = TRUE, ask = TRUE, ...)
+  threshold = NULL, variables = NULL, spar = TRUE, ask = TRUE, ...)
 \method{summary}{stress}(object, ...)
 }
 
@@ -39,6 +37,8 @@ stresstest_exercise(file, n = 100, verbose = TRUE, seeds = NULL,
     the seed, the file name and the error message. Useful when testing
     a number of exercises.}
   \item{timeout}{\code{NULL} or numeric vector. See section 'Timeout' for details.}
+  \item{maxit}{numeric. Maximum number of iterations passed on to \code{\link{num_to_schoice}},
+    in case that is used for find a suitable set of wrong solutions for a question list.}
   \item{x,object}{An object returned from function \code{stresstest_exercise}.}
   \item{type}{character. \code{type == "overview"} plots the basic overview, i.e, the runtimes,
     numeric solutions, position/number/rank of correct solution(s), if available.
