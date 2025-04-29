@@ -1,0 +1,12 @@
+```{r deriv, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "sumdiff",
+  title = "Sum Minus Difference",
+  teaser = "Exercise template for a very basic arithmetic task, namely computing the sum of two random numbers minus their difference.",
+  description = "Minimal arithmetic task (sum of two numbers minus their difference) with randomly-drawn numbers but only short text description and no mathematical notation in LaTeX.",
+  tags = c("numeric", "arithmetic", "mathematics"),
+  related = "deriv",
+  randomization = "Random numbers",
+  thumb = c(150, 167))
+)
+```
