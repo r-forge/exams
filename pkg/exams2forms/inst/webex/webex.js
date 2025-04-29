@@ -559,11 +559,14 @@ window.onload = function() {
           tol.type = "text"; // <inpyt type="text">
           tol.disabled = true; // Disable input element
           tol.classList.add("tolerance"); // Appending class
+          tol.value = "± " + elem.getAttribute("data-tol");
+
+          /* Add new node */
           elem.parentNode.insertBefore(tol, elem)
 
           var body     = document.querySelector("body");
-          tol.value = "± " + "0.0000007";
-          tol.value = "± " + "0.01";
+          //tol.value = "± " + "0.0000007";
+          //tol.value = "± " + "0.07";
           w    = calc_width(body, tol.value);
           wold = parseInt(elem.getBoundingClientRect().width);
           wmin = calc_width(body, elem.value);
