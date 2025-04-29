@@ -30,6 +30,7 @@
     color: var(--webex-reveal-main-color) !important;
 } 
 
+
 /*--------------------webex/exams2forms-------------------*/
 
 /* a webex-group is a div container containing multiple
@@ -95,6 +96,23 @@
   border-radius: 0.25em;
   width: auto;
   max-width: 90%;
+}
+
+.webex-question .tolerance + .webex-solveme {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+  padding-left: .5em;
+}
+.webex-question .tolerance {
+  color: #cecece;
+  border-radius: 0.25em;
+  background-color: gray;
+  text-align: right;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+  padding-right: .5em;
 }
 
 .webex-incorrect, .webex-checkboxgroup, .webex-solveme. .webex-radiogroup {

@@ -13,6 +13,7 @@ const webex_buttons = {check_hidden:          "<b>&check;</b>",
                        question_previous:     "",
                        question_previous_alt: ""}
 
+
 /* update total correct if #webex-total_correct exists */
 update_total_correct = function() {
   console.log("webex: update total_correct");
@@ -482,10 +483,11 @@ window.onload = function() {
 
   /* Development options */
   document.querySelectorAll(".webex-question.check").forEach(question => {
-    question.querySelector(".webex-button-check").click()
+      question.querySelector(".webex-button-check").click()
   });
   document.querySelectorAll(".webex-question.solution").forEach(question => {
-    question.querySelector(".webex-button-solution").click()
+      let btn = question.querySelector(".webex-button-solution");
+      if (btn !== null) { btn.click(); }
   });
 
   /* Pre-filling <input> fields */
@@ -526,6 +528,51 @@ window.onload = function() {
           }
           /* Trigger the on change event */
           checkboxes[0].dispatchEvent(new Event("change", { bubbles: true }));
+      });
+  });
+
+  /* Show set tolerance (devel option) */
+  function calc_width(x, txt, offset = 20) {
+      /* We do the following:
+       * Create a new span, insert the value we need in the .tolerance
+       * input node, and calculate its offsetWidth. Then remove it
+       * again; this is just used to calculate the required width. */
+      var cwtmp = document.createElement("span");
+      x.appendChild(cwtmp);
+      cwtmp.innerHTML = txt || "";
+      var w = parseInt(cwtmp.getBoundingClientRect().width) + offset;
+      cwtmp.remove();
+      return w;
+  }
+
+  /* If tolerance should be shown (devel option) we calculate:
+   * - the width required to properly display the solution
+   * - the width required to properly display the tolerance
+   * - add a new element to display the tolerance
+   * - reduce the width of the solution input box. */
+  document.querySelectorAll(".webex-question.tolerance").forEach(question => {
+      question.querySelectorAll("input[data-tol]").forEach(elem => {
+          var w = null;
+
+          /* Add new element showing the tolerance */
+          let tol = document.createElement("input");
+          tol.type = "text"; // <inpyt type="text">
+          tol.disabled = true; // Disable input element
+          tol.classList.add("tolerance"); // Appending class
+          elem.parentNode.insertBefore(tol, elem)
+
+          var body     = document.querySelector("body");
+          tol.value = "± " + "0.0000007";
+          tol.value = "± " + "0.01";
+          w    = calc_width(body, tol.value);
+          wold = parseInt(elem.getBoundingClientRect().width);
+          wmin = calc_width(body, elem.value);
+
+          /* Calculate required width of the 'tolerance' node, and the
+           * reduction of the original 'input' node */
+          let wnew = Math.max(wmin, wold - w);
+          tol.style.width  = w + "px";
+          elem.style.width = wnew + "px";
       });
   });
 
