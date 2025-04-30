@@ -52,7 +52,7 @@ knitr::opts_knit$set(
 
 The new package [exams2forms](https://CRAN.R-project.org/package=exams2forms), co-authored with [Reto Stauffer](https://retostauffer.org/), provides several building blocks for embedding exercises written with the R package [exams]({{ site.url }}) (also known as R/exams) in interactive documents or quizzes written with [rmarkdown](https://rmarkdown.rstudio.com/) or [quarto](https://quarto.org/).
 
-The idea is that the [dynamic exercises]({{ site.url }}/intro/dynamic/) in R/exams' Rmd (R/Markdown) or Rnw (R/LaTeX) format can also be reused in HTML documents, web pages, or online books. This facilitates their use for self-paced learning and self-assessment without the need for a learning management system etc. And for (summative) assessments the same dynamic exercises could then be exported to different [learning management systems]({{ site.url }}/intro/elearning/) or employed in [written exams]({{ site.url }}/intro/written/).
+The idea is that the [dynamic exercises]({{ site.url }}/intro/dynamic/) in R/exams' Rmd (R/Markdown) or Rnw (R/LaTeX) format can also be reused in HTML documents, web pages, or online books. This facilitates their use for self-paced learning and self-assessment without the need for a learning management system etc. (By default the correct answers are obfuscated in the documents so that they are not obvious when inspecting the HTML source code.) And for (summative) assessments the same dynamic exercises could then be exported to different [learning management systems]({{ site.url }}/intro/elearning/) or employed in [written exams]({{ site.url }}/intro/written/).
 
 All R/exams exercise types are supported:
 
