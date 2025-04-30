@@ -24,6 +24,10 @@ exams2forms <- function(file,
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
 
+  ## enforce show_* arguments to be logical
+  show_filename <- as.logical(show_filename)
+  show_tolerance <- as.logical(show_tolerance)
+
   ## expand auto to list
   if (isTRUE(auto)) {
     auto <- list(
@@ -33,7 +37,11 @@ exams2forms <- function(file,
     )
     noshuffle <- TRUE
   } else if (isFALSE(auto)) {
-    auto <- list()
+    auto <- list(
+      prefill = FALSE,
+      check = FALSE,
+      solution = FALSE
+    )
     noshuffle <- FALSE
   } else {
     if (is.logical(auto) && !is.null(names(auto))) auto <- as.list(auto)
@@ -43,7 +51,7 @@ exams2forms <- function(file,
       auto$noshuffle <- NULL
     }
     nam <- names(auto)
-    nam <- nam[!(nam %in% c("prefill", "check", "solution"))]
+    nam <- nam[!(nam %in% c("prefill", "check", "solution", "tolerance"))]
     if (length(nam) > 0L) {
       warning(paste("unknown 'auto' options:", paste(nam, collapse = ", ")))
       auto <- auto[!(names(auto) %in% nam)]
@@ -137,8 +145,8 @@ exams2forms <- function(file,
       }
     }
 
-    ## Show 'filename'? Development option/feature
-    show_filename <- if (isTRUE(show_filename)) {
+    ## Show 'filename'?
+    show_filename <- if (show_filename) {
       sprintf(":::: {.webex-filename}\n&#128462; %s\n::::\n", x$metainfo$file)
     } else {
       ""
@@ -167,11 +175,11 @@ exams2forms <- function(file,
     }
 
     ## create class list for auto options
-    auto_classes <- names(auto)[sapply(auto, isTRUE)]
-    if (!length(auto_classes)) {
-        auto_classes <- ""
+    auto_classes <- names(auto)[vapply(auto, isTRUE, FALSE)]
+    auto_classes <- if (length(auto_classes) > 0L) {
+      paste(sprintf(".%s", auto_classes), collapse = " ")
     } else {
-        auto_classes <- paste(sprintf(".%s", auto_classes), collapse = " ")
+      ""
     }
 
     ## adding required .webex-question container around each exercise
