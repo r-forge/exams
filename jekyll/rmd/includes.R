@@ -465,14 +465,15 @@ exams2pdf(&quot;@name@.Rnw&quot;@texengine@@usepackage@@header@)</code></pre>
   return(md)
 }
 
-## ## custom match_exams_call() that ignores the include_* functions
-## .match_exams_call <- function(which = 1L, deparse = TRUE) {
-##   if(getRversion() < "3.2.0") return("")
-##   rval <- if(!deparse) exams:::.xexams_call else sapply(exams:::.xexams_call, function(x) deparse(x[[1L]]))
-##   rval <- rval[!(substr(rval, 1, 8) == "include_")]
-##   if(!is.null(which)) rval <- rval[[which]]
-##   rval[rval == "NULL"] <- ""
-##   return(rval)
-## }
-## assignInNamespace("match_exams_call", .match_exams_call, ns = "exams")
+## custom match_exams_call() that ignores the include_* functions
+.match_exams_call <- function(which = 1L, deparse = TRUE) {
+  if(getRversion() < "3.2.0") return("")
+  rval <- exams:::.exams_get_internal("xexams_call")
+  if(deparse) rval <- sapply(rval, function(x) deparse(x[[1L]], width.cutoff = 500))
+  rval <- rval[!(substr(rval, 1, 8) == "include_")]
+  if(!is.null(which)) rval <- rval[[which]]
+  rval[rval == "NULL"] <- ""
+  return(rval)
+}
+assignInNamespace("match_exams_call", .match_exams_call, ns = "exams")
 
