@@ -1,0 +1,13 @@
+```{r deriv, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "flags",
+  title = "Fun with Flags",
+  teaser = "Single-choice knowledge quiz question in which the correct flag for a country has to be selected from a list of flags.",
+  description = "The exercise contains a large list of countries from all continents around the world along with their direct neighbors (sharing a border) and their secondary neighbors (neighbors of neighbors). Flags are generated from the ISO 3166-1 alpha-2 codes, either via their Unicode symbols (especially in HTML-based output) or using the {worldflags} LaTeX package (in PDF output).",
+  tags = c("multiple-choice", "knowledge", "quiz", "utf8"),
+  related = c("capitals", "countrycodes"),
+  randomization = "Shuffling (1 out of 136 countries)",
+  thumb = c(150, 390),
+  usepackage = "worldflags")
+)
+```
