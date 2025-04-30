@@ -14,7 +14,8 @@ exams2forms(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 40),
   schoice_display = "buttons", mchoice_display = "buttons",
   cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
-  usecase = TRUE, usespace = TRUE,
+  usecase = TRUE, usespace = TRUE, auto = FALSE,
+  show_filename = !isFALSE(auto), show_tolerance = !isFALSE(auto),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, \dots)
@@ -45,6 +46,17 @@ exams2forms(file,
       If \code{FALSE} spaces are ignored when evaluating correct answers.}
   \item{usecase}{logical. Defaults to \code{TRUE}, only used for string questions.
       If \code{FALSE} answers are evaluated ignoring uppercase/lowercase.}
+  \item{auto}{logical or named list/vector. If set to \code{TRUE}, the form
+    fields are prefilled, the check button is clicked, the solution button
+    (if any) is clicked, and the order of the exercises (if \code{n > 1})
+    is not shuffled. The options can also be controlled separately if
+    \code{auto} is a named list/vector with (a subset of the) names
+    \code{prefill}, \code{check}, \code{solution}, \code{noshuffle}.}
+  \item{show_filename}{logical. Should the tolerance for numeric fields be
+    shown before the field? Enabled by default only if the form is
+    \code{auto}-filled/clicked.}
+  \item{show_tolerance}{logical. Should the filename be displayed in the
+    form? Enabled by default only if the form is \code{auto}-filled/clicked.}
   \item{n}{integer. The number of copies to be taken from \code{file}.}
   \item{nsamp}{integer. The number(s) of exercise files sampled from each
     list element of \code{file}. Sampling without replacement is used

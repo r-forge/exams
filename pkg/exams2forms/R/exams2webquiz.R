@@ -5,9 +5,6 @@ exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   ## sanity check for pandoc
   stopifnot(pandoc_available())
 
-  ## Getting development options
-  devel <- get_devel_options(list(...)$devel)
-
   ## directory handling
   if(is.null(dir)) {
     dir <- tempfile()
@@ -38,7 +35,6 @@ exams2webquiz <- function(file, n = 1L, nsamp = NULL, dir = NULL,
   args <- list(...)
   if(!is.null(edir)) args <- c(list(edir = file_path_as_absolute(edir)), args)
   args <- c(list(n = n, nsamp = nsamp), args)
-  args$devel <- if (!is.null(devel) && !isFALSE(devel)) devel else NULL
   args <- lapply(args, deparse)
   args <- lapply(args, paste, collapse = "\n")
   args <- paste(names(args), "=", unlist(args), collapse = ", ")

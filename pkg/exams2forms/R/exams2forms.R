@@ -1,7 +1,7 @@
 exams2forms <- function(file,
   write = TRUE, check = TRUE, box = TRUE, solution = TRUE, nchar = c(20, 40),
   schoice_display = "buttons", mchoice_display = "buttons", cloze_schoice_display = "dropdown", cloze_mchoice_display = mchoice_display,
-  usecase = TRUE, usespace = TRUE,
+  usecase = TRUE, usespace = TRUE, auto = FALSE, show_filename = !isFALSE(auto), show_tolerance = !isFALSE(auto),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
   converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, ...) {
@@ -24,15 +24,37 @@ exams2forms <- function(file,
   if (!isTRUE(regex) || isFALSE(regex)) regex <- as.logical(regex[1])
   stopifnot("argument `regex` must be logical TRUE or FALSE" = isTRUE(regex) || isFALSE(regex))
 
-  ## Getting development options
-  devel <- get_devel_options(list(...)$devel, expand = TRUE)
-  ## Extracting the $shuffle and $filename options
-  ## (used for webex-group, the rest for webex-question)
-  noshuffle       <- devel$noshuffle
-  filename        <- devel$filename
-  devel$noshuffle <- devel$filename <- NULL
-  ## Disable obfuscation if 'prefill' is set TRUE
-  if (isTRUE(devel$prefill) && obfuscate) obfuscate <- FALSE
+  ## expand auto to list
+  if (isTRUE(auto)) {
+    auto <- list(
+      prefill = TRUE,
+      check = TRUE,
+      solution = TRUE
+    )
+    noshuffle <- TRUE
+  } else if (isFALSE(auto)) {
+    auto <- list()
+    noshuffle <- FALSE
+  } else {
+    if (is.logical(auto) && !is.null(names(auto))) auto <- as.list(auto)
+    if (!is.list(auto) || is.null(names(auto))) stop("'auto' must be TRUE or FALSE or a named list/vector")
+    if ("noshuffle" %in% names(auto)) {
+      noshuffle <- auto$noshuffle
+      auto$noshuffle <- NULL
+    }
+    nam <- names(auto)
+    nam <- nam[!(nam %in% c("prefill", "check", "solution"))]
+    if (length(nam) > 0L) {
+      warning(paste("unknown 'auto' options:", paste(nam, collapse = ", ")))
+      auto <- auto[!(names(auto) %in% nam)]
+    }
+  }
+  
+  ## include show_tolerance in auto list
+  if (show_tolerance) auto$tolerance <- TRUE
+
+  ## disable obfuscation in case of auto prefill
+  if (isTRUE(auto$prefill) && obfuscate) obfuscate <- FALSE
 
   ## process default arguments
   nchar <- rep_len(nchar, 2L)
@@ -116,12 +138,14 @@ exams2forms <- function(file,
     }
 
     ## Show 'filename'? Development option/feature
-    show_fname <- if (isTRUE(filename)) {
+    show_filename <- if (isTRUE(show_filename)) {
       sprintf(":::: {.webex-filename}\n&#128462; %s\n::::\n", x$metainfo$file)
-    } else { "" }
+    } else {
+      ""
+    }
 
     ## question including forms
-    question <- c(start_check, show_fname, x$question, "", forms, end_check)
+    question <- c(start_check, show_filename, x$question, "", forms, end_check)
 
     ## set up solution (if desired and available)
     try_solution <- !is.null(solution) && !identical(solution, FALSE) && !is.na(solution)
@@ -142,16 +166,16 @@ exams2forms <- function(file,
       NULL
     }
 
-    ## Create class list for development options
-    devel_classes <- names(devel)[sapply(devel, isTRUE)]
-    if (!length(devel_classes)) {
-        devel_classes <- ""
+    ## create class list for auto options
+    auto_classes <- names(auto)[sapply(auto, isTRUE)]
+    if (!length(auto_classes)) {
+        auto_classes <- ""
     } else {
-        devel_classes <- paste(sprintf(".%s", devel_classes), collapse = " ")
+        auto_classes <- paste(sprintf(".%s", auto_classes), collapse = " ")
     }
 
     ## adding required .webex-question container around each exercise
-    txt <- c(sprintf("::: {.webex-question %s}", devel_classes), question, solution, "", ":::")
+    txt <- c(sprintf("::: {.webex-question %s}", auto_classes), question, solution, "", ":::")
 
     ## fix paths to supplements (if any) and try to make them local to be portable in rmarkdown/quarto output
     if(!is.null(sdir)) sdir <- paste0(sdir, if(substr(sdir, nchar(sdir), nchar(sdir)) == "/") "" else "/", "exam")

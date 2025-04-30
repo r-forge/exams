@@ -19,6 +19,12 @@
   underlying HTML code. Thus, all correct answers are still stored in
   the HTML but, by default, they are not easily readable anymore.
 
+* The function `exams2forms()` gained additional arguments `auto`,
+  `show_filename`, and `show_tolerance`, which are useful for inspecting
+  exercises during their development. See `exams2webquiz("lm2.Rmd", auto = TRUE)`
+  to see the results: all forms are pre-filled with check enabled and
+  the display includes solution, tolerances, and the file name.
+
 * In `forms_num()` the correct `answer` is now assured to be formatted
   without scientific notation.
 
