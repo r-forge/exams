@@ -1,3 +1,10 @@
+# exams 2.4-3
+
+* Examples for `exams2nops()` are now excluded from the tests because they
+  can sometimes take more than 5 seconds depending on the LaTeX setup.
+  Instead a dedicated `tests/exams2nops.R` test file is included now.
+
+
 # exams 2.4-2
 
 * Bug fix in `exams2moodle()` for `cloze` exercises: The `rule` was

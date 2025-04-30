@@ -190,11 +190,8 @@
 
 \examples{
 ## load package and enforce par(ask = FALSE)
-## additionally, for simplicity, enforce using the basic
-## tools::texi2dvi() LaTeX interface instead of the more
-## flexible/robust tinytex::latexmk()
 library("exams")
-oopt <- options(device.ask.default = FALSE, exams_tex = "tools")
+options(device.ask.default = FALSE)
 
 ## define an exam (= list of exercises)
 myexam <- list(
@@ -211,6 +208,7 @@ if(interactive()) {
 exams2nops(myexam, duplex = FALSE, language = "de")
 }
 
+\donttest{
 ## create multiple exams on the disk (in a
 ## temporary directory)
 dir.create(mydir <- tempfile())
@@ -220,7 +218,6 @@ set.seed(403)
 ex1 <- exams2nops(myexam, n = 2, dir = mydir)
 dir(mydir)
 
-\donttest{
 ## use a few customization options: different
 ## university/logo and language/title
 ## with a replacement sheet but for non-duplex printing
@@ -232,8 +229,6 @@ ex2 <- exams2nops(myexam, n = 2, dir = mydir,
   replacement = TRUE, duplex = FALSE)
 dir(mydir)
 }
-
-options(exams_tex = oopt$exams_tex)
 }
 
 \keyword{utilities}
