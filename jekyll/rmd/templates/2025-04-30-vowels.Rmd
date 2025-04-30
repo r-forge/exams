@@ -1,0 +1,15 @@
+```{r deriv, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "vowels",
+  title = "Phonetics cloze quiz about Cardinal vowels",
+  teaser = "Cloze exercise in which two randomly-selected Cardinal vowels have to be described according to the three parameters vowel height, frontness-backness, and lip rounding.",
+  description = "This cloze exercise randomly selects two out of 18 Cardinal vowels and then uses three single-choice elements each to describe their parameters. It is particularly well-suited for drop-down menus and also illustrates how Unicode symbols can be used for the phonetic transcriptions in the International Phonetic Alphabet (which requires the fontspec package in XeLaTeX for PDF output).",
+  tags = c("cloze", "knowledge", "quiz", "utf8"),
+  related = NULL,
+  randomization = "Shuffling (2 out of 18 Cardinal vowels)",
+  thumb = c(150, 167),
+  usepackage = "fontspec",
+  header = "\\setmainfont{Doulos SIL}",
+  texengine = "xelatex")
+)
+```
