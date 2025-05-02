@@ -10,10 +10,14 @@ exams2forms <- function(file,
   if (!isTRUE(usecase)   && !isFALSE(usecase))   usecase   <- as.logical(usecase[1L])
   if (!isTRUE(usespace)  && !isFALSE(usespace))  usespace  <- as.logical(usespace[1L])
   if (!isTRUE(obfuscate) && !isFALSE(obfuscate)) obfuscate <- as.logical(obfuscate[1L])
+  if (!isTRUE(show_filename)  && !isFALSE(show_filename))  show_filename  <- as.logical(show_filename[1L])
+  if (!isTRUE(show_tolerance) && !isFALSE(show_tolerance)) show_tolerance <- as.logical(show_tolerance[1L])
   stopifnot(
-    "'usecase' must be TRUE or FALSE"   = isTRUE(usecase)   || isFALSE(usecase),
-    "'usespace' must be TRUE or FALSE"  = isTRUE(usespace)  || isFALSE(usespace),
-    "'obfuscate' must be TRUE or FALSE" = isTRUE(obfuscate) || isFALSE(obfuscate)
+    "'usecase' must evaluate to TRUE or FALSE"        = isTRUE(usecase)   || isFALSE(usecase),
+    "'usespace' must evaluate to TRUE or FALSE"       = isTRUE(usespace)  || isFALSE(usespace),
+    "'obfuscate' must evaluate to TRUE or FALSE"      = isTRUE(obfuscate) || isFALSE(obfuscate),
+    "'show_filename' must evaluate to TRUE or FALSE"  = isTRUE(show_filename)  || isFALSE(show_filename),
+    "'show_tolerance' must evaluate to TRUE or FALSE" = isTRUE(show_tolerance) || isFALSE(show_tolerance)
   )
   if(!missing(dir)) warning("output 'dir' is not relevant for exams2forms(), ignored")
 
