@@ -57,7 +57,6 @@
   display: block;
   font-family: "Lucida Console", "Courier New", monospace;
   color: gray;
-  font-size: 0.8em;
   text-align: right;
 }
 .webex-filename > p { margin: 0; }
@@ -102,27 +101,39 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-left: none;
-  padding-left: .5em;
+  padding-left: 0.5em;
 }
 .webex-question .tolerance {
-  color: #cecece;
+  border-color: var(--highlight);
   border-radius: 0.25em;
-  background-color: gray;
+  background-color: #CECECE;
+  color: gray;
   text-align: right;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  border-style: solid;
   border-right: none;
   padding-right: .5em;
+  padding-left: .25em;
 }
+.webex-check:not(.unchecked) .tolerance:has(+ .webex-solveme.webex-incorrect) {
+  border-color: var(--incorrect);
+  color: var(--incorrect);
+}
+.webex-check:not(.unchecked) .tolerance:has(+ .webex-solveme.webex-correct) {
+  border-color: var(--correct);
+  color: var(--correct);
+}
+
 
 .webex-incorrect, .webex-checkboxgroup, .webex-solveme. .webex-radiogroup {
     /* DEPRICATED color: black; */
     border-radius: 0.25em;
 }
-.webex-checkboxgroup {    
+.webex-checkboxgroup {
     margin-bottom: 1em;
-}   
-  
+}
+
 .webex-incorrect,
 .webex-checkboxgroup > .webex-incorrect,
 .webex-solveme.webex-incorrect,
