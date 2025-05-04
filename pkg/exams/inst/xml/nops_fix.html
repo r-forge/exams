@@ -99,6 +99,14 @@
     margin-top: 20px;
     height: 40px;
   }
+  
+  #inspectScanImage img.rotate180 {
+	-webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
+	-moz-transform: rotate(180deg);        /* FF */
+	-o-transform: rotate(180deg);          /* Opera */
+	-ms-transform: rotate(180deg);         /* IE9 */
+	transform: rotate(180deg);             /* W3C compliant browsers */
+  }
 </style>
 
 </head>
@@ -112,28 +120,32 @@
   </div>
 
   <div id="inspectScanTemplate">
+	<span id="rotateScan">
+		<label id="Rotate">&#128260;</label>
+	</span>
+	
     <span id="scannedRegistration">
-      <label id="RegistrationNumber"></label>
+      <label id="RegistrationNumber">Registration Number</label>
       <input id="selectedRegistration" list="selectRegistration"></input>
       <datalist id="selectRegistration"></datalist>
     </span>
 
     <span id="replacementSheet">
-      <label id="Replacement"></label>
+      <label id="Replacement">Replacement</label>
     </span>
 
     <span id="scannedSheetID">
-      <label id="DocumentID"></label>
+      <label id="DocumentID">Exam ID</label>
       <input id="selectedInputSheetID" list="selectInputSheetID"></input>
       <datalist id="selectInputSheetID"></datalist>
     </span>
 
     <span id="scannedTypeID">
-      <label id="DocumentType"></label>
+      <label id="DocumentType">Type</label>
       <input id="inputTypeID"/>
     </span>
 
-    <label id="Answers"></label>
+    <label id="Answers">Answers</label>
     <div id="scannedAnswers"></div> 
 
     <button onclick="save();">OK</button>
@@ -143,12 +155,16 @@
 
 </body>
 
+<!-- if exists, load test data from test.js -->
+<script src="nops_fix_test.js"></script>
+
 <script>
 if((typeof scanData !== 'undefined')){
   parseData();
   setLanguage();
   setDropdownData();
   setScanData();
+  setRotation();
 } else {
   alert('ERROR: No data.');
   window.close();
@@ -167,6 +183,11 @@ function setLanguage() {
     if (document.getElementById(key) !== null)
       document.getElementById(key).innerHTML = value;
   }
+}
+
+function setRotation() {
+	let rotateScanInput = document.querySelector('#rotateScan input');;
+	toggleInspectScanImageRotation(rotateScanInput);
 }
 
 function setDropdownData() {
@@ -202,6 +223,7 @@ function setScanData() {
     src = "data:image/png;base64," + scanData.blob; 
     
   document.querySelector('#inspectScanImage img').setAttribute("src", src);  
+  document.querySelector('#rotateScan').insertAdjacentHTML('beforeend', '<input type="checkbox" onclick="toggleInspectScanImageRotation(this);"' + (scanData.rotate === "1" ? ' checked="checked"' : '') + '>');
   document.querySelector('#selectedRegistration').value = scanData.registration;
   document.querySelector('#replacementSheet').insertAdjacentHTML('beforeend', '<input type="checkbox"' + (scanData.replacement === "1" ? ' checked="checked"' : '') + '>');
   document.querySelector('#selectedInputSheetID').value = scanData.id;
@@ -260,6 +282,15 @@ function setScanData() {
   }
 }
 
+function toggleInspectScanImageRotation(element){
+	let scanImage = document.querySelector('#inspectScanImage img');
+
+	scanImage.classList.remove("rotate180");
+
+	if(element.checked)
+		scanImage.classList.add("rotate180");
+}
+
 async function copy(text) {  
   if (!navigator.clipboard) {
     let input = document.createElement('input');
@@ -283,8 +314,9 @@ async function save(){
   if(Object.hasOwn(scanData, 'blob'))
     delete scanData.blob;
   
+  scanData.rotate = (document.querySelector('#rotateScan input').checked ? "1" : "0");  
   scanData.registration = document.querySelector('#selectedRegistration').value;  
-  scanData.replacement = (document.querySelector('#replacementSheet').querySelectorAll("input").checked ? "1" : "0");  
+  scanData.replacement = (document.querySelector('#replacementSheet input').checked ? "1" : "0");  
   scanData.id = document.querySelector('#selectedInputSheetID').value;  
   scanData.type = zeroPad(document.querySelector('#inputTypeID').value, 3);  
         
