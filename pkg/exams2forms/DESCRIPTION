@@ -1,6 +1,6 @@
 Package: exams2forms
 Version: 0.2-0
-Date: 2025-03-07
+Date: 2025-05-02
 Title: Embedding 'exams' Exercises as Forms in 'rmarkdown' or 'quarto' Documents
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")),
              person(given = "Reto", family = "Stauffer", role = "aut", email = "Reto.Stauffer@uibk.ac.at", comment = c(ORCID = "0000-0002-3798-5507")),
@@ -9,7 +9,7 @@ Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"),
              person(given = "Florian", family = "Stampfer", role = "ctb", email = "Florian.Stampfer@uibk.ac.at", comment = c(ORCID = "0000-0003-4980-4272")),
              person(given = "Jonas", family = "Tscholl", role = "ctb", email = "Jonas.Tscholl@student.uibk.ac.at"))
 Description: Automatic generation of quizzes or individual questions as (interactive) forms within 'rmarkdown' or 'quarto' documents based on 'R/exams' exercises.
-Depends: R (>= 4.0.0), exams (>= 2.4-0)
+Depends: R (>= 4.0.0), exams (>= 2.4-2)
 Imports: grDevices, tools, utils, base64enc, digest, knitr, rmarkdown
 Suggests: xfun
 License: GPL-3
