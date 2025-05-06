@@ -195,12 +195,6 @@ addreg <- pmin(3L, pmax(0L, reglength - 7L))
 if(!is.null(encoding) && !(tolower(encoding) %in% c("", "utf-8", "utf8"))) {
   warning("the only supported 'encoding' is UTF-8")
 }
-encoding <- "UTF-8"
-
-## legacy code for other encodings
-enc <- gsub("-", "", tolower(encoding), fixed = TRUE)
-if(enc %in% c("iso8859", "iso88591")) enc <- "latin1"
-if(enc == "iso885915") enc <- "latin9"
 
 ## intro text (if any)
 if(!is.null(intro) && length(intro) == 1L && all(tools::file_ext(intro) == "tex")) intro <- readLines(intro)
@@ -241,7 +235,6 @@ sprintf("\\documentclass[10pt,a4paper%s]{article}", if(twocolumn) ",twocolumn" e
 \\newenvironment{Schunk}{}{}
 
 \\usepackage[T1]{fontenc}",
-if(enc != "") sprintf('\\usepackage[%s]{inputenc}', enc) else NULL,
 if(helvet) "
 \\usepackage{helvet}
 \\IfFileExists{sfmath.sty}{
