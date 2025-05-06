@@ -202,9 +202,9 @@ nops_fix <- function(
       }
       d_i$numExercises <- nex
       d_i$numChoices <- "5" ## FIXME: could infer this from solutions rds
-	  d_i$rotate <- "0" ## FIXME: validate, added by Sebastian bachler 2025-05-04
+      d_i$rotate <- "0"
       d_i <- sprintf("  let scanData = '%s';", list2json(d_i))
-	  
+
       ## insert JSON into HTML nops_fix template and display
       html_i <- html
       html_i[html_i == "</body>"] <- paste(c("</body>", "", "<script>", dd_register, dd_ids, scan_path, lang, d_i, "</script>"), collapse ="\n")
@@ -224,6 +224,7 @@ nops_fix <- function(
       ## update scan data
       d_i <- json2list(r)
       if(d_i$file != d[i, 1L]) stop("Invalid output, possibly the data in the clipboard was not copied/updated correctly?")
+      if(d_i$rotate == "1") rotate_pngs(d_i$file, verbose = FALSE)
       d_i <- d_i[, intersect(nam, names(d_i)), drop = FALSE]
       d[i, match(names(d_i), nam)] <- d_i
     
