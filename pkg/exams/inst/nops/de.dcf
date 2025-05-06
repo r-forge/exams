@@ -31,3 +31,4 @@ GivenAnswer: Gegebene Antwort
 CorrectAnswer: Richtige Antwort
 ExamSheet: Pr{\"u}fungsbeleg
 Babel: ngerman
+Header: \babelprovide[hyphenrules=ngerman-x-latest]{ngerman}
