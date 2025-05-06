@@ -1,8 +1,21 @@
 # exams 2.4-3
 
-* Examples for `exams2nops()` are now excluded from the tests because they
-  can sometimes take more than 5 seconds depending on the LaTeX setup.
-  Instead a dedicated `tests/exams2nops.R` test file is included now.
+* In `nops_fix(..., display = "interactive")` there is now also a checkbox
+  for rotating the PNG of a scanned sheet.
+
+* In `exams2nops()` the `\usepackage[utf8]{inputenc}` is not included anymore
+  in order to facilitate setting `texengine = "xelatex"` or `"lualatex"`.
+  The setting is also not needed anymore in pdfLaTeX because it is the default
+  since 2018.
+
+* In `exams2nops(..., language = "de")` the latest new German hyphenation
+  patterns are loaded by `\babelprovide[hyphenrules=ngerman-x-latest]{ngerman}`
+  (raised by Florian Hauser).
+
+* Examples from the manual page of  `exams2nops()` are now excluded from the
+  CRAN checks because they can sometimes take more than 5 seconds depending on
+  the LaTeX setup. Instead a dedicated `tests/exams2nops.R` test file is
+  included now.
 
 
 # exams 2.4-2
