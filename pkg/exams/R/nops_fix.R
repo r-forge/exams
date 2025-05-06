@@ -63,7 +63,7 @@ nops_fix <- function(
   valid_answer <- function(x) !is.null(x) && (nchar(x) == 5L) && grepl("^[0-1]*$", x)
 
   ## interactive HTML form and JSON strings for display = "interactive"
-  html <- readLines(file.path(system.file(package = "exams"), "xml", "nops_fix.html"))
+  html <- readLines(system.file("nops", "nops_fix.html", package = "exams"))
   lang <- if(is.character(language)) nops_language(language) else language
   if(!all(c("RegistrationNumber", "Replacement", "DocumentID", "DocumentType", "Answers") %in% names(lang))) {
     warning("invalid language specification, using 'en' instead")
