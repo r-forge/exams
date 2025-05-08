@@ -531,7 +531,7 @@ window.onload = function() {
       });
   });
 
-  /* Show set tolerance (devel option) */
+  /* Set input width when show_tolerance is used */
   function calc_width(x, txt, offset = 20) {
       /* We do the following:
        * Create a new span, insert the value we need in the .tolerance
@@ -541,6 +541,7 @@ window.onload = function() {
       x.appendChild(cwtmp);
       cwtmp.innerHTML = txt || "";
       var w = parseInt(cwtmp.getBoundingClientRect().width) + offset;
+      console.log("width: " + w)
       cwtmp.remove();
       return w;
   }
@@ -564,16 +565,29 @@ window.onload = function() {
           /* Add new node */
           elem.parentNode.insertBefore(tol, elem)
 
-          var body     = document.querySelector("body");
-          //tol.value = "± " + "0.0000007";
-          //tol.value = "± " + "0.07";
-          w    = calc_width(body, tol.value);
-          wold = parseInt(elem.getBoundingClientRect().width);
-          wmin = calc_width(body, elem.value);
+          var body  = document.querySelector("body");
+
+          /* If n > 1 we have invisible input nodes for which we can't
+           * calculate the client's required bounding box (i.e., display
+           * size). Thus, we clone the element, copy it into the body
+           * with an of-view position, calclulate it's width, and remote
+           * it immediately. */
+          let clone = elem.cloneNode(true);
+          clone.style.position = "absolute";
+          clone.style.left = "-1000px";
+          clone.style.top = "-1000px";
+          clone.style.display = "visible";
+          body.appendChild(clone);
+          let clone_w = clone.getBoundingClientRect().width;
+          body.removeChild(clone);
 
           /* Calculate required width of the 'tolerance' node, and the
            * reduction of the original 'input' node */
-          let wnew = Math.max(wmin, wold - w);
+          w    = calc_width(body, tol.value);
+          wmin = calc_width(body, elem.value);
+          let wnew = Math.max(wmin, clone_w - w);
+
+          /* Set width */
           tol.style.width  = w + "px";
           elem.style.width = wnew + "px";
       });
