@@ -208,6 +208,7 @@ ul.webex-button-list > li:first-child {
 
 .webex-solution button,
 .webex-box .webex-button {
+    border: 2px solid;
     height: 2em;
     min-width: 2em;
     margin-bottom: 0;
