@@ -42,8 +42,8 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?</p>
-<div id="radio_group_iwmjkidtua" class="webex-radiogroup">
-<label><input type='radio' autocomplete='off' name='radio_group_iwmjkidtua' value=''/><span>Geneva</span></label><label><input type='radio' autocomplete='off' name='radio_group_iwmjkidtua' value=''/><span>Lausanne</span></label><label><input type='radio' autocomplete='off' name='radio_group_iwmjkidtua' value=''/><span>St. Gallen</span></label><label><input type='radio' autocomplete='off' name='radio_group_iwmjkidtua' value='answer'/><span>Bern</span></label><label><input type='radio' autocomplete='off' name='radio_group_iwmjkidtua' value=''/><span>Vaduz</span></label>
+<div id="webex-7ed90195b3b11273ebd5cb5f4d52e04b" class="webex-radiogroup" data-answer="bFVICRwBFQROAz8=">
+<label><input type='radio' autocomplete='off' name='7ed90195b3b11273ebd5cb5f4d52e04b'/><span>Geneva</span></label><label><input type='radio' autocomplete='off' name='7ed90195b3b11273ebd5cb5f4d52e04b'/><span>Lausanne</span></label><label><input type='radio' autocomplete='off' name='7ed90195b3b11273ebd5cb5f4d52e04b'/><span>St. Gallen</span></label><label><input type='radio' autocomplete='off' name='7ed90195b3b11273ebd5cb5f4d52e04b'/><span>Bern</span></label><label><input type='radio' autocomplete='off' name='7ed90195b3b11273ebd5cb5f4d52e04b'/><span>Vaduz</span></label>
 </div>
 </div>
 <div class="webex-solution">
@@ -60,16 +60,16 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?</p>
-<div id="radio_group_zfqsdiwjoy" class="webex-radiogroup">
-<label><input type='radio' autocomplete='off' name='radio_group_zfqsdiwjoy' value=''/><span>Geneva</span></label><label><input type='radio' autocomplete='off' name='radio_group_zfqsdiwjoy' value=''/><span>St. Gallen</span></label><label><input type='radio' autocomplete='off' name='radio_group_zfqsdiwjoy' value='answer'/><span>Bern</span></label><label><input type='radio' autocomplete='off' name='radio_group_zfqsdiwjoy' value=''/><span>Zurich</span></label><label><input type='radio' autocomplete='off' name='radio_group_zfqsdiwjoy' value=''/><span>Lausanne</span></label>
+<div id="webex-332c7130f92bd2207e126b38dcce8c8a" class="webex-radiogroup" data-answer="aAMeUhsBHwBKCW8=">
+<label><input type='radio' autocomplete='off' name='332c7130f92bd2207e126b38dcce8c8a'/><span>Geneva</span></label><label><input type='radio' autocomplete='off' name='332c7130f92bd2207e126b38dcce8c8a'/><span>Bern</span></label><label><input type='radio' autocomplete='off' name='332c7130f92bd2207e126b38dcce8c8a'/><span>Vaduz</span></label><label><input type='radio' autocomplete='off' name='332c7130f92bd2207e126b38dcce8c8a'/><span>Basel</span></label><label><input type='radio' autocomplete='off' name='332c7130f92bd2207e126b38dcce8c8a'/><span>Zurich</span></label>
 </div>
 </div>
 <div class="webex-solution">
 <p>There is no de jure capital but the de facto capital and seat of the federal authorities is Bern.</p>
 <ul>
 <li>False</li>
-<li>False</li>
 <li>True</li>
+<li>False</li>
 <li>False</li>
 <li>False</li>
 </ul>
@@ -78,8 +78,8 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>What is the seat of the federal authorities in Switzerland (i.e., the de facto capital)?</p>
-<div id="radio_group_nltirdqmcr" class="webex-radiogroup">
-<label><input type='radio' autocomplete='off' name='radio_group_nltirdqmcr' value=''/><span>Geneva</span></label><label><input type='radio' autocomplete='off' name='radio_group_nltirdqmcr' value=''/><span>Vaduz</span></label><label><input type='radio' autocomplete='off' name='radio_group_nltirdqmcr' value='answer'/><span>Bern</span></label><label><input type='radio' autocomplete='off' name='radio_group_nltirdqmcr' value=''/><span>Lausanne</span></label><label><input type='radio' autocomplete='off' name='radio_group_nltirdqmcr' value=''/><span>St. Gallen</span></label>
+<div id="webex-66be56d84727195252119738cd44c150" class="webex-radiogroup" data-answer="bQZOVRkHSAgYB28=">
+<label><input type='radio' autocomplete='off' name='66be56d84727195252119738cd44c150'/><span>Lausanne</span></label><label><input type='radio' autocomplete='off' name='66be56d84727195252119738cd44c150'/><span>Zurich</span></label><label><input type='radio' autocomplete='off' name='66be56d84727195252119738cd44c150'/><span>Bern</span></label><label><input type='radio' autocomplete='off' name='66be56d84727195252119738cd44c150'/><span>St. Gallen</span></label><label><input type='radio' autocomplete='off' name='66be56d84727195252119738cd44c150'/><span>Geneva</span></label>
 </div>
 </div>
 <div class="webex-solution">

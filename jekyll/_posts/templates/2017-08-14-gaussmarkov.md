@@ -43,8 +43,8 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be:</p>
-<div id="checkbox_group_iwmjkidtua" class="webex-checkboxgroup">
-<label><input type='checkbox' autocomplete='off' name='checkbox_group_iwmjkidtua' value='answer'/><span>homoscedastic</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_iwmjkidtua' value=''/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_iwmjkidtua' value=''/><span>zero</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_iwmjkidtua' value='answer'/><span>uncorrelated</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_iwmjkidtua' value=''/><span>normally distributed</span></label>
+<div id="webex-6e50fc5eec38d077bc9b2ea1568d8393" class="webex-checkboxgroup" data-answer="bVQZAEpTGVRJU24=">
+<label><input type='checkbox' autocomplete='off' name='6e50fc5eec38d077bc9b2ea1568d8393'/><span>homoscedastic</span></label><label><input type='checkbox' autocomplete='off' name='6e50fc5eec38d077bc9b2ea1568d8393'/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='6e50fc5eec38d077bc9b2ea1568d8393'/><span>zero</span></label><label><input type='checkbox' autocomplete='off' name='6e50fc5eec38d077bc9b2ea1568d8393'/><span>uncorrelated</span></label><label><input type='checkbox' autocomplete='off' name='6e50fc5eec38d077bc9b2ea1568d8393'/><span>normally distributed</span></label>
 </div>
 </div>
 <div class="webex-solution">
@@ -61,35 +61,35 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be:</p>
-<div id="checkbox_group_gvzfqsdiwj" class="webex-checkboxgroup">
-<label><input type='checkbox' autocomplete='off' name='checkbox_group_gvzfqsdiwj' value=''/><span>normally distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_gvzfqsdiwj' value=''/><span>zero</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_gvzfqsdiwj' value='answer'/><span>homoscedastic</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_gvzfqsdiwj' value=''/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_gvzfqsdiwj' value='answer'/><span>uncorrelated</span></label>
+<div id="webex-35f7fea4ef7873b106d5ef83f6e99d54" class="webex-checkboxgroup" data-answer="aAVKB0pUTQVJVmo=">
+<label><input type='checkbox' autocomplete='off' name='35f7fea4ef7873b106d5ef83f6e99d54'/><span>normally distributed</span></label><label><input type='checkbox' autocomplete='off' name='35f7fea4ef7873b106d5ef83f6e99d54'/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='35f7fea4ef7873b106d5ef83f6e99d54'/><span>homoscedastic</span></label><label><input type='checkbox' autocomplete='off' name='35f7fea4ef7873b106d5ef83f6e99d54'/><span>uncorrelated</span></label><label><input type='checkbox' autocomplete='off' name='35f7fea4ef7873b106d5ef83f6e99d54'/><span>independent</span></label>
 </div>
 </div>
 <div class="webex-solution">
 <p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be uncorrelated, homoscedastic, and with mean zero.</p>
 <ul>
 <li>False. No distribution assumption is needed.</li>
-<li>False. Only their conditional expectation needs to be zero.</li>
+<li>False. No distribution assumption is needed.</li>
 <li>True. The errors need to be homoscedastic with finite variance.</li>
-<li>False. No distribution assumption is needed.</li>
 <li>True. The errors need to be uncorrelated.</li>
-</ul>
-</div>
-</div>
-<div class="webex-question">
-<div class="webex-check webex-box">
-<p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be:</p>
-<div id="checkbox_group_linltirdqm" class="webex-checkboxgroup">
-<label><input type='checkbox' autocomplete='off' name='checkbox_group_linltirdqm' value=''/><span>independent</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_linltirdqm' value=''/><span>normally distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_linltirdqm' value=''/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_linltirdqm' value='answer'/><span>uncorrelated</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_linltirdqm' value='answer'/><span>homoscedastic</span></label>
-</div>
-</div>
-<div class="webex-solution">
-<p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be uncorrelated, homoscedastic, and with mean zero.</p>
-<ul>
 <li>False. Independence is not assumed, only lack of correlation.</li>
+</ul>
+</div>
+</div>
+<div class="webex-question">
+<div class="webex-check webex-box">
+<p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be:</p>
+<div id="webex-61fea980e255eef0dc9e7db82ea04b88" class="webex-checkboxgroup" data-answer="bQFKVU0IFABJA2g=">
+<label><input type='checkbox' autocomplete='off' name='61fea980e255eef0dc9e7db82ea04b88'/><span>identically distributed</span></label><label><input type='checkbox' autocomplete='off' name='61fea980e255eef0dc9e7db82ea04b88'/><span>normally distributed</span></label><label><input type='checkbox' autocomplete='off' name='61fea980e255eef0dc9e7db82ea04b88'/><span>uncorrelated</span></label><label><input type='checkbox' autocomplete='off' name='61fea980e255eef0dc9e7db82ea04b88'/><span>zero</span></label><label><input type='checkbox' autocomplete='off' name='61fea980e255eef0dc9e7db82ea04b88'/><span>homoscedastic</span></label>
+</div>
+</div>
+<div class="webex-solution">
+<p>Under the assumptions of the Gauss-Markov theorem the errors of a linear regression model need to be uncorrelated, homoscedastic, and with mean zero.</p>
+<ul>
 <li>False. No distribution assumption is needed.</li>
 <li>False. No distribution assumption is needed.</li>
 <li>True. The errors need to be uncorrelated.</li>
+<li>False. Only their conditional expectation needs to be zero.</li>
 <li>True. The errors need to be homoscedastic with finite variance.</li>
 </ul>
 </div>

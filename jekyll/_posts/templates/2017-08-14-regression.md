@@ -65,10 +65,11 @@ image:
 </table>
 <p>The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is equal to 0.61.</p>
 <p>Estimate the expected amount of money spent for continuing education by a firm with 44 employees using least squares regression.</p>
-<p><input class='webex-solveme nospaces' data-tol='0.01' size='20' data-answer='["215.593"]'/></p>
+<p><input class='webex-solveme nospaces' id='webex-d4af9dcdd1ce9c5fae4969006a427a25' data-tol='0.01' size='20' data-answer='PxZTVwxKVl1XEz4='/></p>
 </div>
 <div class="webex-solution">
-<p>First, the regression line <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\)</span> is determined. The regression coefficients are given by: <span class="math display">\[\begin{eqnarray*}
+<p>First, the regression line <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i +
+\varepsilon_i\)</span> is determined. The regression coefficients are given by: <span class="math display">\[\begin{eqnarray*}
 &amp;&amp; \hat \beta_1 = r \cdot \frac{s_y}{s_x} = 
 0.61 \cdot \sqrt{\frac{1827}{140}} = 2.20361, \\
 &amp;&amp; \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = 
@@ -105,10 +106,11 @@ image:
 </table>
 <p>The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is equal to 0.76.</p>
 <p>Estimate the expected amount of money spent for continuing education by a firm with 40 employees using least squares regression.</p>
-<p><input class='webex-solveme nospaces' data-tol='0.01' size='20' data-answer='["222.043"]'/></p>
+<p><input class='webex-solveme nospaces' id='webex-edee61a94e5a0120d28a149e4357d777' data-tol='0.01' size='20' data-answer='PkZXVwQfUQ0HR2g='/></p>
 </div>
 <div class="webex-solution">
-<p>First, the regression line <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\)</span> is determined. The regression coefficients are given by: <span class="math display">\[\begin{eqnarray*}
+<p>First, the regression line <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i +
+\varepsilon_i\)</span> is determined. The regression coefficients are given by: <span class="math display">\[\begin{eqnarray*}
 &amp;&amp; \hat \beta_1 = r \cdot \frac{s_y}{s_x} = 
 0.76 \cdot \sqrt{\frac{1644}{78}} = 3.48913, \\
 &amp;&amp; \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = 
@@ -145,10 +147,11 @@ image:
 </table>
 <p>The correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is equal to 0.83.</p>
 <p>Estimate the expected amount of money spent for continuing education by a firm with 38 employees using least squares regression.</p>
-<p><input class='webex-solveme nospaces' data-tol='0.01' size='20' data-answer='["233.031"]'/></p>
+<p><input class='webex-solveme nospaces' id='webex-e125a64d3002cf61a90b91df73b2a544' data-tol='0.01' size='20' data-answer='PhMABlIYBFcCEm0='/></p>
 </div>
 <div class="webex-solution">
-<p>First, the regression line <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\)</span> is determined. The regression coefficients are given by: <span class="math display">\[\begin{eqnarray*}
+<p>First, the regression line <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i +
+\varepsilon_i\)</span> is determined. The regression coefficients are given by: <span class="math display">\[\begin{eqnarray*}
 &amp;&amp; \hat \beta_1 = r \cdot \frac{s_y}{s_x} = 
 0.83 \cdot \sqrt{\frac{2529}{93}} = 4.32824, \\
 &amp;&amp; \hat \beta_0 = \bar y - \hat \beta_1 \cdot \bar x = 

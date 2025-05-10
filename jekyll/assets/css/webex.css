@@ -9,7 +9,11 @@
   --background_question: #7f7f7f0d;
   --background_input: white;
   --text_input: black;
+  --webex-reveal-main-font-size: 1.5rem; /* 1.5 line height relative to document */
+  --webex-reveal-main-color: var(--r-main-color);
 }
+
+/* Wishlist: Adding styling for .color-theme-1 (sepia; gitbook) */
 
 /* for quarto websites when using dark theme and
  * for bookdown::gitbook: dark theme (.color-theme-2) */
@@ -18,9 +22,16 @@
   --background_input: black;
   --text_input: white;
 }
-/* Wishlist: Adding styling for .color-theme-1 (sepia; gitbook) */
 
-/*---------------------ADDED-----------------------------*/
+/*--------------ADJUSTMENTS FOR REVEALJS-----------------*/
+
+.reveal .webex-question * {
+    font-size: var(--webex-reveal-main-font-size) !important;
+    color: var(--webex-reveal-main-color) !important;
+} 
+
+
+/*--------------------webex/exams2forms-------------------*/
 
 /* a webex-group is a div container containing multiple
  * webex-questions. We first hide all and randomly show
@@ -32,8 +43,6 @@
   display: block;
 }
 
-/*---------------------ADDED END--------------------------*/
-
 .webex-check {}
 
 .webex-box {
@@ -43,6 +52,14 @@
   border-radius: .25em;
   background-color: var(--background_question);
 }
+
+.webex-filename {
+  display: block;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: gray;
+  text-align: right;
+}
+.webex-filename > p { margin: 0; }
 
 .webex-total_correct {
   margin-left: 1em;
@@ -79,6 +96,35 @@
   width: auto;
   max-width: 90%;
 }
+
+.webex-question .tolerance + .webex-solveme {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+  padding-left: 0.5em;
+}
+.webex-question .tolerance {
+  border-color: var(--highlight);
+  border-radius: 0.25em;
+  background-color: #CECECE;
+  color: gray;
+  text-align: right;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-style: solid;
+  border-right: none;
+  padding-right: .5em;
+  padding-left: .25em;
+}
+.webex-check:not(.unchecked) .tolerance:has(+ .webex-solveme.webex-incorrect) {
+  border-color: var(--incorrect);
+  color: var(--incorrect);
+}
+.webex-check:not(.unchecked) .tolerance:has(+ .webex-solveme.webex-correct) {
+  border-color: var(--correct);
+  color: var(--correct);
+}
+
 
 .webex-incorrect, .webex-checkboxgroup, .webex-solveme. .webex-radiogroup {
     /* DEPRICATED color: black; */
@@ -252,6 +298,4 @@ ul.webex-button-list > li:last-child > .webex-button {
 .unchecked .webex-checkboxgroup > label.webex-incorrect {
   background-color: transparent;
 }
-
-
 

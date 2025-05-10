@@ -40,7 +40,7 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>What is the three-letter country code (ISO 3166-1 alpha-3) for Turkmenistan?</p>
-<p><input class='webex-solveme' size='20' data-answer='["TKM"]'/></p>
+<p><input class='webex-solveme' id='webex-ebcd72dd4054f471498daefccfff4939' size='20' data-answer='PkA3L3oQOQ=='/></p>
 </div>
 <div class="webex-solution">
 <p>The ISO 3166-1 alpha-3 code for Turkmenistan is TKM.</p>
@@ -49,7 +49,7 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>What is the three-letter country code (ISO 3166-1 alpha-3) for Venezuela?</p>
-<p><input class='webex-solveme' size='20' data-answer='["VEN"]'/></p>
+<p><input class='webex-solveme' id='webex-fb1e3d0b3b4ffa5dcb04d8c036fbe5cd' size='20' data-answer='PUBnIH1GbQ=='/></p>
 </div>
 <div class="webex-solution">
 <p>The ISO 3166-1 alpha-3 code for Venezuela is VEN.</p>
@@ -58,7 +58,7 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>What is the three-letter country code (ISO 3166-1 alpha-3) for Qatar?</p>
-<p><input class='webex-solveme' size='20' data-answer='["QAT"]'/></p>
+<p><input class='webex-solveme' id='webex-6050b7119910b37df2e8ba8b3fc915aa' size='20' data-answer='bRJkcTYVbA=='/></p>
 </div>
 <div class="webex-solution">
 <p>The ISO 3166-1 alpha-3 code for Qatar is QAT.</p>

@@ -42,8 +42,8 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>Which of the following statements about Switzerland is correct?</p>
-<div id="checkbox_group_ugraiwmjki" class="webex-checkboxgroup">
-<label><input type='checkbox' autocomplete='off' name='checkbox_group_ugraiwmjki' value=''/><span>Switzerland is part of the European Union (EU).</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_ugraiwmjki' value='answer'/><span>Italian is an official language in Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_ugraiwmjki' value=''/><span>The currency in Switzerland is the Euro.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_ugraiwmjki' value='answer'/><span>The Swiss national holiday is August 1.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_ugraiwmjki' value=''/><span>Zurich is the capital of Switzerland.</span></label>
+<div id="webex-c9b38f2136f11bfc0939335bee9bccca" class="webex-checkboxgroup" data-answer="OAlOAhRWHgAfBjs=">
+<label><input type='checkbox' autocomplete='off' name='c9b38f2136f11bfc0939335bee9bccca'/><span>Switzerland is part of the European Union (EU).</span></label><label><input type='checkbox' autocomplete='off' name='c9b38f2136f11bfc0939335bee9bccca'/><span>Italian is an official language in Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='c9b38f2136f11bfc0939335bee9bccca'/><span>The currency in Switzerland is the Euro.</span></label><label><input type='checkbox' autocomplete='off' name='c9b38f2136f11bfc0939335bee9bccca'/><span>The Swiss national holiday is August 1.</span></label><label><input type='checkbox' autocomplete='off' name='c9b38f2136f11bfc0939335bee9bccca'/><span>Zurich is the capital of Switzerland.</span></label>
 </div>
 </div>
 <div class="webex-solution">
@@ -59,34 +59,34 @@ image:
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>Which of the following statements about Switzerland is correct?</p>
-<div id="checkbox_group_trnfcppcfa" class="webex-checkboxgroup">
-<label><input type='checkbox' autocomplete='off' name='checkbox_group_trnfcppcfa' value=''/><span>Switzerland is part of the European Union (EU).</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_trnfcppcfa' value='answer'/><span>The Swiss national holiday is August 1.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_trnfcppcfa' value=''/><span>Zurich is the capital of Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_trnfcppcfa' value=''/><span>The currency in Switzerland is the Euro.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_trnfcppcfa' value='answer'/><span>Italian is an official language in Switzerland.</span></label>
+<div id="webex-7aaa13a119febef8331279c4ae530059" class="webex-checkboxgroup" data-answer="bFBNUR0CTQEdCTs=">
+<label><input type='checkbox' autocomplete='off' name='7aaa13a119febef8331279c4ae530059'/><span>The Swiss national holiday is August 1.</span></label><label><input type='checkbox' autocomplete='off' name='7aaa13a119febef8331279c4ae530059'/><span>The currency in Switzerland is the Euro.</span></label><label><input type='checkbox' autocomplete='off' name='7aaa13a119febef8331279c4ae530059'/><span>Italian is an official language in Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='7aaa13a119febef8331279c4ae530059'/><span>Zurich is the capital of Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='7aaa13a119febef8331279c4ae530059'/><span>Switzerland is part of the European Union (EU).</span></label>
 </div>
 </div>
 <div class="webex-solution">
 <ul>
-<li>False. Switzerland is part of the Schengen Area but not the EU.</li>
 <li>True. The establishment of the Swiss Confederation is traditionally dated to August 1, 1291.</li>
-<li>False. There is no de jure capital but the de facto capital of Switzerland is Bern.</li>
 <li>False. The currency is the Swiss Franc (CHF).</li>
 <li>True. The official languages are: German, French, Italian, Romansh.</li>
+<li>False. There is no de jure capital but the de facto capital of Switzerland is Bern.</li>
+<li>False. Switzerland is part of the Schengen Area but not the EU.</li>
 </ul>
 </div>
 </div>
 <div class="webex-question">
 <div class="webex-check webex-box">
 <p>Which of the following statements about Switzerland is correct?</p>
-<div id="checkbox_group_diwjoyldgf" class="webex-checkboxgroup">
-<label><input type='checkbox' autocomplete='off' name='checkbox_group_diwjoyldgf' value='answer'/><span>Italian is an official language in Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_diwjoyldgf' value='answer'/><span>The Swiss national holiday is August 1.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_diwjoyldgf' value=''/><span>Zurich is the capital of Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_diwjoyldgf' value=''/><span>Switzerland is part of the European Union (EU).</span></label><label><input type='checkbox' autocomplete='off' name='checkbox_group_diwjoyldgf' value=''/><span>The currency in Switzerland is the Euro.</span></label>
+<div id="webex-00d39f3edc14318c260fc3d292a01517" class="webex-checkboxgroup" data-answer="awBIAxVXH1RIU2w=">
+<label><input type='checkbox' autocomplete='off' name='00d39f3edc14318c260fc3d292a01517'/><span>Zurich is the capital of Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='00d39f3edc14318c260fc3d292a01517'/><span>The currency in Switzerland is the Euro.</span></label><label><input type='checkbox' autocomplete='off' name='00d39f3edc14318c260fc3d292a01517'/><span>The Swiss national holiday is August 1.</span></label><label><input type='checkbox' autocomplete='off' name='00d39f3edc14318c260fc3d292a01517'/><span>Italian is an official language in Switzerland.</span></label><label><input type='checkbox' autocomplete='off' name='00d39f3edc14318c260fc3d292a01517'/><span>Switzerland is part of the European Union (EU).</span></label>
 </div>
 </div>
 <div class="webex-solution">
 <ul>
-<li>True. The official languages are: German, French, Italian, Romansh.</li>
-<li>True. The establishment of the Swiss Confederation is traditionally dated to August 1, 1291.</li>
 <li>False. There is no de jure capital but the de facto capital of Switzerland is Bern.</li>
-<li>False. Switzerland is part of the Schengen Area but not the EU.</li>
 <li>False. The currency is the Swiss Franc (CHF).</li>
+<li>True. The establishment of the Swiss Confederation is traditionally dated to August 1, 1291.</li>
+<li>True. The official languages are: German, French, Italian, Romansh.</li>
+<li>False. Switzerland is part of the Schengen Area but not the EU.</li>
 </ul>
 </div>
 </div>

@@ -92,7 +92,7 @@ outlier <- length(c(boxplot.stats(A)$out, boxplot.stats(B)$out)) > 0 ## recomput
 questions[2] <- "Both distributions contain no outliers."
 solutions[2] <- !outlier
 explanations[2] <- if (solutions[2])
-  "Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box." else "There are observations which deviate more than 1.5 times the interquartile range from the median."
+  "Both distributions have no observations which deviate more than 1.5 times the interquartile range from the box." else "There are observations which deviate more than 1.5 times the interquartile range from the box."
 
 questions[3] <- "The spread in sample A is clearly bigger than in B."
 solutions[3] <- IQR(A)/IQR(B) > 1.5
