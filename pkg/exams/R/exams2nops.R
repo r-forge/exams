@@ -676,7 +676,7 @@ sapply(1:n, function(i) qbox(i, nchoice = nchoice[i])),
 \\linethickness{0.5mm} \\put(20,164){\\framebox(\\namewidth,28){}} \\thicklines  
 \\put(32,177){\\makebox(0,0)[t]{\\textsf{\\myDocumentType}}} 
 \\put(25,166){\\framebox(14,7){}} 
-\\put(67,177){\\makebox(0,0)[t]{\\textsf{\\myDocumentID \\mycourse}}}
+\\put(67,177){\\makebox(0,0)[t]{\\textsf{{\\myDocumentID} {\\mycourse}}}}
 \\put(46,166){\\framebox(42,7){}} \\put(25,183.5){\\parbox{70mm}{%
 \\textsf{\\myNoChanges}}}
 \\ifregseven
