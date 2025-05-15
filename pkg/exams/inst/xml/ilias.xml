@@ -50,7 +50,6 @@
 <fieldlabel>QUESTIONTYPE</fieldlabel>
 <fieldentry>##QuestionType##</fieldentry>
 </qtimetadatafield>
-<qtimetadatafield><fieldlabel>textrating</fieldlabel><fieldentry>ci</fieldentry></qtimetadatafield>
 </qtimetadata>
 </itemmetadata>
 <itemcontrol feedbackswitch="##FeedbackSwitch##" hintswitch="##HintSwitch##" solutionswitch="##SolutionSwitch##"/>
