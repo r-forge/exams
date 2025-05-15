@@ -4,8 +4,8 @@
 \title{Generation of Exams in ILIAS Format}
 
 \description{
-  Automatic generation of exams in QTI 1.2 with some tweaks
-  (still under development) for the learning management system ILIAS.
+  Unfinished interface for automatic generation of exams in QTI 1.2
+  for the learning management system ILIAS.
 }
 
 \usage{
@@ -102,13 +102,17 @@
 
 \details{
   \code{exams2ilias} is a convenience interface to \code{\link[exams]{exams2qti12}}
-  for generating QTI 1.2 with some tweaks for ILIAS (\url{https://www.ilias.de/}).
-  The support for ILIAS so far is somewhat rudimentary. Not all question
-  types are currently supported. What has been tested most extensively, are
+  which tries to generate QTI 1.2 with some tweaks for ILIAS (\url{https://www.ilias.de/}).
+  Unfortunately, there is no good documentation of the precise QTI 1.2 format
+  required by ILIAS and hence many features do not work at all or not reliably.
+  
+  What had been tested most extensively in 2020/21 (during the COVID-19 pandemic), are
   string questions with open answers and solutions; these are rendered into
   ILIAS essay questions within a question pool. Also mchoice and schoice
-  questions render in ILIAS, but have received less amount of testing.
-  Numeric and cloze questions do not work yet.
+  questions used to render in ILIAS. However, in more recent versions of ILIAS
+  they may not fully correctly.
+  
+  Numeric and cloze questions have not been explored and do not work yet.
 }
 
 \value{

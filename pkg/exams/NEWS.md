@@ -3,6 +3,12 @@
 * In `nops_fix(..., display = "interactive")` there is now also a checkbox
   for rotating the PNG of a scanned sheet.
 
+* In the manual page `?exams2ilias` it is now explained rather explicitly that
+  many features of the resulting QTI exports cannot be imported correctly
+  into recent versions of ILIAS. Any ILIAS users who have some experience
+  in QTI XML who would be willing to help with the R/exams interface are
+  encouraged to get in touch.
+
 * In `exams2nops()` the `\usepackage[utf8]{inputenc}` is not included anymore
   in order to facilitate setting `texengine = "xelatex"` or `"lualatex"`.
   The setting is also not needed anymore in pdfLaTeX because it is the default
