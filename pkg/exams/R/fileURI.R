@@ -1,5 +1,5 @@
-## see mime types at e.g.
-## http://www.freeformatter.com/mime-types-list.html
+## see mime types at
+## https://www.iana.org/assignments/media-types/media-types.xhtml
 .fileURI_mime_types <- matrix(c(
 
   "bmp", "image/bmp",
@@ -7,11 +7,13 @@
   "jpg", "image/jpeg",
   "jpeg","image/jpeg",
   "gif", "image/gif",
+  "heic","image/heic",
   "svg", "image/svg+xml",
-  "wmf", "application/x-msmetafile",
+  "wmf", "image/wmf",
 
   "doc", "application/msword",
   "docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "css", "text/css",
   "htm", "text/html",
   "html","text/html",
   "pdf", "application/pdf",
@@ -21,6 +23,7 @@
   "xml", "application/xml",
 
   "c",   "text/plain",
+  "js",  "text/javascript",
   "py",  "text/plain",
   "r",   "text/plain",
   "rmd", "text/plain",
@@ -35,8 +38,9 @@
   "tsv", "text/tab-separated-values",
   "xls", "application/vnd.ms-excel",
   "xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "zip", "application/zip"
+  "zip", "application/zip",
 
+  "3dm", "model/vnd.3dm"
 ), ncol = 2L, byrow = TRUE, dimnames = list(NULL, c("ext", "mime")))
 
 
