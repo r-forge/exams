@@ -3,6 +3,11 @@
 * In `nops_fix(..., display = "interactive")` there is now also a checkbox
   for rotating the PNG of a scanned sheet.
 
+* In `exams2pdf()` the handling of duplicated graphics file names now also
+  works for `pandoc` versions 3.2.1 or greater. Previously, the addition of
+  `\pandocbounded{}` interfered with the correct handling (reported by
+  Delia Gramm).
+
 * In the manual page `?exams2ilias` it is now explained rather explicitly that
   many features of the resulting QTI exports cannot be imported correctly
   into recent versions of ILIAS. Any ILIAS users who have some experience
