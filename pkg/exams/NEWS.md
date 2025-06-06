@@ -14,6 +14,11 @@
   in QTI XML who would be willing to help with the R/exams interface are
   encouraged to get in touch.
 
+* In `exams2moodle()`, `exams2qti12()` (and hence also in `exams2canvas()`),
+  and `exams2qti21()` (and hence also in `exams2openolat()`) the argument `seed`
+  has been added and is simply passed on to `xexams()`. This allows to fix
+  the random seeds for generating the exercise pools in these functions.
+
 * In `exams2nops()` the `\usepackage[utf8]{inputenc}` is not included anymore
   in order to facilitate setting `texengine = "xelatex"` or `"lualatex"`.
   The setting is also not needed anymore in pdfLaTeX because it is the default

@@ -13,7 +13,7 @@
 \usage{
   exams2qti12(file, n = 1L, nsamp = NULL, dir = ".",
     name = NULL, quiet = TRUE, edir = NULL,
-    tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE,
+    tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE, seed = NULL,
     resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
     num = NULL, mchoice = NULL,
     schoice = mchoice, string = NULL, cloze = NULL,
@@ -61,6 +61,12 @@
     be reported?}
   \item{rds}{logical indicating whether the return list should also be
     saved as an RDS data file.}
+  \item{seed}{integer matrix or logical. Either \code{NULL} (default), logical, or a
+    matrix of random seeds for each possible exercise to be set prior to calling
+    \code{driver$sweave}. If \code{NULL} no random seeds are set. If a matrix,
+    the number of rows must be \code{n} and the number of columns must
+    correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
+    is sampled.}
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
