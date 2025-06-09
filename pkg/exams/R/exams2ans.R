@@ -1,6 +1,5 @@
 exams2ans <- function(file, n = 1L, dir = ".", name = "anstest",
-  converter = "pandoc-mathjax", table = TRUE,
-  maxattempts = 1, cutvalue = NULL, ...)
+  converter = "pandoc-mathjax", maxattempts = 1, cutvalue = NULL, ...)
 {
 
   ## call exams2qti21

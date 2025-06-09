@@ -94,6 +94,7 @@ export(
   "openolat_config",
   "exams2canvas",
   "exams2ilias",
+  "exams2ans",
   ## "exams2inspera",
 
   ## Blackboard driver (only partially QTI-based)
@@ -118,6 +119,7 @@ export(
   "make_question_moodle",
   "make_question_moodle23",
   "moodle2exams",
+  "exams2wooclap",
 
   ## ARSnova/Particify driver
   "exams2arsnova",
@@ -134,7 +136,7 @@ export(
   "exams2testvision",
   "make_itembody_testvision",
   "testvision2exams",
-  
+
   ## Grasple driver
   "exams2grasple",
   "make_exams_write_grasple",

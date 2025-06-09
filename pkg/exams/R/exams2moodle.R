@@ -2,13 +2,16 @@
 ## http://docs.moodle.org/en/Moodle_XML_format
 exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   name = NULL, quiet = TRUE, edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE, rds = FALSE, seed = NULL,
-  resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8", 
+  resolution = 100, width = 4, height = 4, svg = FALSE, encoding = "UTF-8",
   iname = TRUE, stitle = NULL, testid = FALSE, zip = FALSE,
   num = NULL, mchoice = NULL, schoice = mchoice, string = NULL, cloze = NULL,
   points = NULL, rule = NULL, pluginfile = TRUE, forcedownload = FALSE,
   converter = "pandoc-mathjax", envir = NULL, engine = NULL,
-  table = "table_shade", css = NULL, ...)
+  table = "table_shade", css = NULL, flavor = c("plain", "wooclap"), ...)
 {
+  ## which flavor moodle xml
+  flavor <- match.arg(flavor, c("plain", "wooclap"))
+
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
   if(is.null(converter)) {
     converter <- if(any(tolower(tools::file_ext(unlist(file))) == "rmd")) "pandoc" else "ttm"
@@ -58,6 +61,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
         if(!moodlequestion[[i]]$eval$partial) stop("Moodle can only process partial credits!")
       }
       if(is.null(moodlequestion[[i]]$css)) moodlequestion[[i]]$css <- css
+      moodlequestion[[i]]$flavor <- flavor
       moodlequestion[[i]] <- do.call("make_question_moodle", moodlequestion[[i]])
     }
     if(!is.function(moodlequestion[[i]])) stop(sprintf("wrong specification of %s", sQuote(i)))
@@ -224,7 +228,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
   answernumbering = "abc", usecase = FALSE, cloze_mchoice_display = NULL, cloze_schoice_display = NULL,
   truefalse = c("True", "False"), enumerate = FALSE, abstention = NULL,
   eval = list(partial = TRUE, negative = FALSE, rule = "false2"),
-  essay = NULL, numwidth = NULL, stringwidth = NULL, css = NULL)
+  essay = NULL, numwidth = NULL, stringwidth = NULL, css = NULL, flavor = "plain")
 {
   function(x) {
     ## how many points?
@@ -238,6 +242,8 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       "cloze" = "cloze",
       "string" = "shortanswer"
     )
+    ## moodle flavor (plain or moodle for wooclap)
+    flavor <- match.arg(flavor, c("plain", "wooclap"))
 
     if(type == "cloze") {
       if(length(x$metainfo$clozetype) < 3L) {
@@ -512,7 +518,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
 	  fnum <- make_id(num_w)
 	}
       }
-      
+
       ## analogously fix the string width
       ## by supplying an additional wrong answer
       if(is.null(stringwidth)) stringwidth <- x$metainfo$stringwidth
@@ -664,6 +670,9 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     ## path replacements
     xml <- gsub(paste(attr(x$supplements, "dir"), .Platform$file.sep, sep = ""), "", xml, fixed = TRUE)
 
+    ## fix pre environment in moodletowooclap route
+    if(flavor == "wooclap") xml <- fix_pre_lines(xml, bol = "$\\verb#", sep = "#$")
+
     xml
   }
 }
@@ -696,6 +705,5 @@ dc <- function(x) {
   } else {
     n <- 0
   }
-  return(n) 
+  return(n)
 }
-

@@ -815,7 +815,7 @@ make_itembody_blackboard <- function(rtiming = FALSE, shuffle = FALSE, rshuffle 
 
 ## some learning management systems (notably Blackboard and Ans) fail to render
 ## html-<pre> environments properly
-fix_pre_lines <- function(x, sep = "<br/>") {
+fix_pre_lines <- function(x, bol = "", sep = "<br/>") {
   pre_start <- grep("(<pre>)|(<pre )", x)
   x[pre_start] <- gsub("<pre [^>]*>", "<pre>", x[pre_start])
   pre_end <- grep("</pre>", x, fixed = TRUE)
@@ -824,12 +824,17 @@ fix_pre_lines <- function(x, sep = "<br/>") {
     for(i in seq_along(pre_start)) {
       pre_start_i <- pre_start[i] + 1L - pndc
       pre_end_i <- pre_end[i] - 2L *(1L - pndc)
-      if(pre_end_i >= pre_start_i) x[pre_start_i:pre_end_i] <- paste0(x[pre_start_i:pre_end_i], sep)
+      if(pre_end_i >= pre_start_i) x[pre_start_i:pre_end_i] <- paste0(bol, x[pre_start_i:pre_end_i], sep)
     }
-    x[pre_start] <- gsub("<code>", "", x[pre_start], fixed = TRUE)
-    x[pre_end] <- gsub("</code>", "", x[pre_end], fixed = TRUE)
-    x[pre_start] <- gsub("<pre>", paste0("<pre><code style=\"font-family: \'courier\';\">", if(pndc) "&nbsp;"), x[pre_start], fixed = TRUE)
-    x[pre_end] <- gsub("</pre>", "</code></pre>", x[pre_end], fixed = TRUE)
+    if(nchar(bol) > 0L) {
+      x[pre_start] <- gsub("<pre>|<code>", "", x[pre_start])
+      x[pre_end] <- gsub("</pre>|</code>", "", x[pre_end])
+    } else {
+      x[pre_start] <- gsub("<code>", "", x[pre_start], fixed = TRUE)
+      x[pre_end] <- gsub("</code>", "", x[pre_end], fixed = TRUE)
+      x[pre_start] <- gsub("<pre>", paste0("<pre><code style=\"font-family: \'courier\';\">", if(pndc) "&nbsp;"), x[pre_start], fixed = TRUE)
+      x[pre_end] <- gsub("</pre>", "</code></pre>", x[pre_end], fixed = TRUE)
+    }
   }
   return(x)
 }
