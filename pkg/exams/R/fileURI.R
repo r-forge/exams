@@ -40,6 +40,7 @@
   "xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   "zip", "application/zip",
 
+  "gh",  "application/octet-stream",
   "3dm", "model/vnd.3dm"
 ), ncol = 2L, byrow = TRUE, dimnames = list(NULL, c("ext", "mime")))
 
