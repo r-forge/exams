@@ -33,6 +33,10 @@
   the LaTeX setup. Instead a dedicated `tests/exams2nops.R` test file is
   included now.
 
+* MIME type handling for Base 64 coding of supplementary files has been improved.
+  Some more MIME types have been added to the lookup table and text vs binary
+  guessing has been added for unknown file types.
+
 
 # exams 2.4-2
 

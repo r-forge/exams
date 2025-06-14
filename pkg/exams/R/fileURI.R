@@ -26,7 +26,8 @@
   "js",  "text/javascript",
   "py",  "text/plain",
   "r",   "text/plain",
-  "rmd", "text/plain",
+  "rmd", "text/markdown",
+  "md",  "text/markdown",
 
   "csv", "text/csv",
   "dta", "application/octet-stream",
@@ -45,17 +46,31 @@
 ), ncol = 2L, byrow = TRUE, dimnames = list(NULL, c("ext", "mime")))
 
 
-fileURI <- function(file) {
-  f_ext <- tolower(file_ext(file))
-  if(any(ix <- f_ext == .fileURI_mime_types[, "ext"])) {
-    rval <- base64enc::dataURI(file = file, mime = .fileURI_mime_types[ix, "mime"])
+fileURI <- function(file, mime = NULL, guess = getOption("exams_guess_mime_type", FALSE)) {
+  ## file extension
+  ext <- tolower(file_ext(file))
+
+  ## determine mime type
+  if(is.null(mime)) mime <- c(structure(.fileURI_mime_types[, "mime"], .Names = .fileURI_mime_types[, "ext"])[ext])
+  if(is.na(mime) && guess) mime <- if(is_binary(file)) "text/plain" else "application/octet-stream"
+
+  ## for unknown mime type zip file
+  if(!is.na(mime)) {
+    rval <- base64enc::dataURI(file = file, mime = mime)
   } else {
     owd <- getwd()
     setwd(dirname(file))
-    zip(zipfile = zipname <- paste(file_path_sans_ext(basename(file)), "zip", sep = "."),
-      files = basename(file))
+    on.exit(setwd(owd))
+    zipname <- paste(file_path_sans_ext(basename(file)), "zip", sep = ".")
+    zip(zipfile = zipname, files = basename(file))
     rval <- base64enc::dataURI(file = zipname, mime = "application/zip")
-    setwd(owd)
   }
-  rval
+  return(rval)
+}
+
+is_binary <- function(filepath, n = 1000L){
+  f <- file(filepath, open = "rb", raw = TRUE)
+  on.exit(close(f))
+  b <- readBin(f, what = "int", n = n, size = 1L, signed = FALSE)
+  return(max(b) > 128L)
 }
