@@ -96,7 +96,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## create the directory where the test is stored
   dir.create(test_dir <- file.path(file_path_as_absolute(tdir), name))
 
-  exsecs <- rep(NA, length = nq)
+  exsecs <- rep(NA, length.out = nq)
   if(!is.null(stitle)) {
     if((ks <- length(stitle)) > nq) stop("more section titles than exercises specified!")
     exsecs[1:ks] <- stitle
@@ -320,7 +320,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
     ## penalty and points
     if((length(points) == 1) & (type == "cloze")) {
       #points <- points / length(x$metainfo$solution)
-      points <- rep(points, length = length(x$metainfo$solution))
+      points <- rep(points, length.out = length(x$metainfo$solution))
     }
 
     points2 <- points * as.integer(paste0(c(1, rep(0, max(sapply(points, dc)))), collapse = ""))

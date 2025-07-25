@@ -214,7 +214,7 @@ exams2blackboard <- function(file, n = 1L, nsamp = NULL, dir = ".",
   ## cycle through all exams and questions
   ## similar questions are combined in a section,
   ## questions are then sampled from the sections
-  items <- sec_xml <- NULL; all_points <- rep(0, length = nq)
+  items <- sec_xml <- NULL; all_points <- rep(0, length.out = nq)
   for(j in 1:nq) {
 
     ## create item ids
