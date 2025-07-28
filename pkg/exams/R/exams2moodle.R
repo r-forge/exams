@@ -9,7 +9,7 @@ exams2moodle <- function(file, n = 1L, nsamp = NULL, dir = ".",
   converter = "pandoc-mathjax", envir = NULL, engine = NULL,
   table = "table_shade", css = NULL, flavor = c("plain", "wooclap"), ...)
 {
-  ## which flavor moodle xml
+  ## plain Moodle XML vs Moodle for Wooclap
   flavor <- match.arg(flavor, c("plain", "wooclap"))
 
   ## default converter is "ttm" if all exercises are Rnw, otherwise "pandoc"
@@ -242,7 +242,7 @@ make_question_moodle23 <- function(name = NULL, solution = TRUE, shuffle = FALSE
       "cloze" = "cloze",
       "string" = "shortanswer"
     )
-    ## moodle flavor (plain or moodle for wooclap)
+    ## moodle flavor (plain Moodle or Moodle for Wooclap)
     flavor <- match.arg(flavor, c("plain", "wooclap"))
 
     if(type == "cloze") {
