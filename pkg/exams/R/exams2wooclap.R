@@ -1,6 +1,6 @@
 ## https://docs.wooclap.com/en/articles/1980934-can-i-move-questions-from-wooclap-to-moodle
 exams2wooclap <- function(file, n = 1L, dir = ".", name = "moodletowooclap",
-  converter = "pandoc-mathjax", table = "table_shade", ...)
+  converter = "pandoc-mathjax", ...)
 {
 
   ## call exams2moodle
