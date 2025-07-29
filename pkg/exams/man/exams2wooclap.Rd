@@ -4,12 +4,12 @@
 \title{Generation of Quizzes for Wooclap}
 
 \description{
-   Automatic generation of quizzes in Moodle XML format with some tweaks (still under development) for the audience response system Wooclap.
+   Automatic generation of quizzes in Moodle XML format with some tweaks
+   (still under development) for the audience response system Wooclap.
 }
 
 \usage{
-  exams2wooclap(file, n = 1L, dir = ".", name = "moodletowooclap",
-    converter = "pandoc-mathjax", \dots)
+  exams2wooclap(file, n = 1L, dir = ".", name = "moodletowooclap", \dots)
 }
 
 
@@ -18,10 +18,6 @@
   \item{n}{integer. The number of copies to be compiled from \code{file}.}
   \item{dir}{character. The default is the current working directory.}
   \item{name}{character. A name prefix for resulting exercises and XML file.}
-  \item{converter}{character passed on to \code{make_exercise_transform_html}.
-    The default for \code{converter} is \code{"pandoc-mathjax"}, the default of
-    \code{\link[exams]{exams2moodle}}, which assures that mathematical
-    notation is properly converted in the Wooclap system.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2moodle}}.}
 }
 
@@ -52,7 +48,7 @@
 
 \references{
 Wooclap (2025). \emph{Event features and settings}.
-  Available at https://docs.wooclap.com/en/collections/2357545-event-features-and-settings
+  Available at \url{https://docs.wooclap.com/en/collections/2357545-event-features-and-settings}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
