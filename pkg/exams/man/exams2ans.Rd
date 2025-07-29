@@ -4,11 +4,12 @@
 \title{Generation of Quizzes for Ans}
 
 \description{
- Automatic generation of exams in QTI 2.1 with some tweaks (still under development) for the online testing system Ans.
+  Automatic generation of exams in QTI 2.1 with some tweaks
+  (still under development) for the online testing system Ans.
 }
 
 \usage{
-exams2ans <- function(file, n = 1L, dir = ".", name = "anstest",
+exams2ans(file, n = 1L, dir = ".", name = "anstest",
   converter = "pandoc-mathjax", maxattempts = 1, cutvalue = NULL, \dots)
 }
 
@@ -48,7 +49,7 @@ exams2ans <- function(file, n = 1L, dir = ".", name = "anstest",
 
 \references{
 Ans (2025). \emph{Exercises and Questions}.
-  Available at https://support.ans.app/hc/en-us/sections/360004983014-Exercises-Questions
+  Available at \url{https://support.ans.app/hc/en-us/sections/360004983014-Exercises-Questions}
 
 Zeileis A, Umlauf N, Leisch F (2014).
   Flexible Generation of E-Learning Exams in R: Moodle Quizzes, OLAT Assessments, and Beyond.
