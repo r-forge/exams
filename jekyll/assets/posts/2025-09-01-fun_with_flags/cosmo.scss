@@ -1,0 +1,48 @@
+/*-- scss:defaults --*/
+$primary: #1F7A7A !default;
+$background: #BBEBEB;
+
+/*-- scss:rules --*/
+
+/* tabsets styled as buttons */
+.nav-tabs {
+    border: none;
+
+    .nav-item {
+        .nav-link {
+            border: 2px solid $primary;
+            border-radius: 0.5em;
+            margin-right: 0.5em;
+
+            /* Hover properties for non-active items */
+            &:hover {
+                background-color: $background;
+                color: $primary;
+            }
+
+            /* Stying of .active tab buttons */
+            &.active {
+                background-color: $primary;
+                color: $white;
+                font-weight: bold;
+
+                &:hover {
+                    background-color: $background;
+                    color: $primary;
+                }
+            }
+        }
+    }
+}
+
+/* Styling tab-content div.
+ * Disable horizontal lines and border
+ * Adjusting width */
+.tab-content {
+    border: none;
+    padding: 1em 0;
+
+    .nav-tabs {
+        border: none;
+    }
+}

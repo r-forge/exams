@@ -1,0 +1,34 @@
+---
+title: "![Fun with Flags](fun_with_flags.png){width=330px}"
+format:
+  html:
+    theme:
+      - cosmo
+      - cosmo.scss
+    toc: false
+    css: webex.css
+    include-after-body: webex.js
+    embed-resources: true
+---
+
+```{r setup, include = FALSE}
+library("exams2forms")
+set.seed(0)
+```
+
+::: {.panel-tabset}
+## Guess the flag
+
+```{r flags, echo = FALSE, message = FALSE, results = "asis"}
+exams2forms("flags.Rmd", n = 100)
+```
+
+## Find the neighbors
+
+```{r geography, echo = FALSE, message = FALSE, results = "asis"}
+geography <- system.file("exercises", "geography.Rmd", package = "exams2forms") |>
+  expar(display = "flag")
+exams2forms(geography, n = 100)
+```
+
+:::
