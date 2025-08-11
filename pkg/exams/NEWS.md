@@ -37,6 +37,13 @@
   Some more MIME types have been added to the lookup table and text vs binary
   guessing has been added for unknown file types.
 
+* The handling of `|` symbols in the `exsolution` meta-information has been
+  improved somewhat. The code still aims to support `exsolution` values
+  containing regular expressions but is somewhat more robust compared to the
+  previous version. However, there are still limitations and future improvements
+  are planned. Users who run into problems with `|` in the `exsolution` are
+  encouraged to get in touch.
+
 
 # exams 2.4-2
 

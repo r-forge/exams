@@ -43,7 +43,7 @@ extract_environment <- function(x, env, value = TRUE, markup = c("latex", "markd
   }
 }
 
-extract_command <- function(x, command, type = c("character", "logical", "numeric"), markup = c("latex", "markdown"))
+extract_command <- function(x, command, type = c("character", "logical", "numeric"), markup = c("latex", "markdown"), regex = FALSE)
 {
   ## return type and markup type
   type <- match.arg(type, c("character", "logical", "numeric"))
@@ -75,7 +75,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
 
     ## split further with respect separator symbol |
     ## special case: if strings contain regular expressions with |, these need to be protected by surrounding (...|...)
-    rval <- if(any(grepl("\\([^(]*\\|[^)]*\\)", rval))) {
+    rval <- if(regex && any(grepl("\\([^(]*\\|[^)]*\\)", rval))) {
       unlist(regmatches(rval, gregexpr("\\^?\\(([^()]+|(?R))*\\)\\$?|\\b[^()\\|]+(?:\\s+[^()\\|]+)*\\b", rval, perl = TRUE)))
     } else {
       unlist(strsplit(rval, "|", fixed = TRUE))
@@ -95,7 +95,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
 
     ## split further with respect separator symbol |
     ## special case: if strings contain regular expressions with |, these need to be protected by surrounding (...|...)
-    rval <- if(any(grepl("\\([^(]*\\|[^)]*\\)", rval))) {
+    rval <- if(regex && any(grepl("\\([^(]*\\|[^)]*\\)", rval))) {
       unlist(regmatches(rval, gregexpr("\\^?\\(([^()]+|(?R))*\\)\\$?|\\b[^()\\|]+(?:\\s+[^()\\|]+)*\\b", rval, perl = TRUE)))
     } else {
       unlist(strsplit(rval, "|", fixed = TRUE))
@@ -230,14 +230,24 @@ read_metainfo <- function(file, markup = NULL, exshuffle = NULL)
     "schoice" = string2mchoice(exsolution, single = !is.numeric(exshuffle) && !exshuffle_overwrite), ## check for _single_ choice (unless sub-shuffling afterwards)
     "mchoice" = string2mchoice(exsolution),
     "num" = string2num(exsolution),
-    "string" = exsolution,
+    "string" = {
+      ## to allow for regular expressions with | in the solution
+      if(length(exsolution) == 1L) exsolution else paste(exsolution, collapse = "|")
+    },
     "cloze" = {
       if(is.null(exclozetype)) {
         warning("no exclozetype specified, taken to be string")
 	exclozetype <- "string"
       }
-      if(length(exclozetype) > 1L & length(exclozetype) != slength)
-        warning("length of exclozetype does not match length of exsolution")
+      if(length(exclozetype) > 1L && length(exclozetype) != slength) {
+        exsolution2 <- extract_command(x, "exsolution", markup = markup, regex = TRUE)
+        if(length(exclozetype) == length(exsolution2)) {
+          exsolution <- exsolution2
+          slength <- length(exsolution)
+        } else {
+          warning("length of exclozetype does not match length of exsolution")
+        }
+      }
       exclozetype <- rep(exclozetype, length.out = slength)
       exsolution <- as.list(exsolution)
       for(i in 1L:slength) exsolution[[i]] <- switch(match.arg(exclozetype[i], c("schoice", "mchoice", "num", "string", "essay", "file", "verbatim")),
