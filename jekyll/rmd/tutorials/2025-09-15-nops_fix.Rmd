@@ -1,0 +1,364 @@
+---
+layout: page
+#
+# Content
+#
+title: "Quality Control for Scanned Multiple-Choice Exams"
+teaser: "Step-by-step guide to using nops_fix() for fixing problems that occurred during scanning written NOPS exams in R/exams."
+categories:
+  - tutorials
+tags:
+  - exams2nops
+  - written
+  - mchoice
+  - schoice
+  - PDF
+  - scan
+  - evaluation
+  - R
+author: zeileis
+
+#
+# Style
+#
+image:
+  # shown on top of blog post
+  title: nops_fix.title.png
+  # preview in list of posts
+  thumb: nops_fix.300.png
+  # shown on landing page
+  # homepage:
+  # shown under image on top of blog post
+  caption: "nops_fix screenshot (CC-BY)."
+---
+
+
+## Overview
+
+The [R/exams]({{ site.url }}) package provides a workflow for generating (`exams2nops()`), scanning (`nops_scan()`), and automatically evaluating (`nops_eval()`) large-scale pen-and-paper multiple-choice exams, see the corresponding [NOPS tutorial]({{ site.url }}/tutorials/exams2nops/) for more details.
+
+Recently, another function `nops_fix()` was added to the package that helps to find and correct problems that occurred when reading the scanned exams and that might impede the automatic evaluation process. Typical problems include scans that are rotated or with corrupted scanner markers, answer boxes that are not correctly checked or filled, or missing checks in the boxes for the registration IDs, among others. Therefore, `nops_fix()` helps the examiner to resolve such problems after `nops_scan()` and before `nops_eval()` to ensure accurate grading.
+
+In this tutorial, we highlight the key features of `nops_fix()`:
+
+1. Automatic display of problematic sheets
+2. Prompting for manual corrections
+3. Specialized checks for implausible answer patterns
+4. Manual review of specific exam sheets
+
+These are illustrated by fixing the PDF scans from two demo exams: one with single-choice exercises (and only smaller problems) and one with multiple-choice exercises (and more severe problems). Some more detailed comments about all the features are provided at the very end of this tutorial.
+
+```{r assets, include=FALSE}
+file.copy(to = ".", from = Sys.glob("../2025-09-15-nops_fix/*.*"))
+```
+
+
+## Demo 1: Single-choice exam with typical problems
+
+### Create exam
+
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
+
+<p>First, we generate five PDFs (in a new subdirectory "nops") from a demo exam with five single-choice exercises (all provided in the package: <a href="{{ site.url }}/templates/swisscapital/">swisscapital</a>, <a href="{{ site.url }}/templates/Rlogo/">Rlogo</a>, <a href="{{ site.url }}/templates/deriv2/">deriv2</a>, <a href="{{ site.url }}/templates/fruit2/">fruit2</a>, <a href="{{ site.url }}/templates/hessian/">hessian</a>).</p>.
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-create.svg" alt="create"/>
+  </div>
+</div>
+
+
+```{r file-hook, include = FALSE}
+source_hook <- knitr::knit_hooks$get("source")
+knitr::knit_hooks$set(source = function(x, options) {
+  if (is.character(options$filename)) writeLines(options$code, options$filename)
+  source_hook(x, options)
+})
+```
+
+```{r sc-nops, eval=FALSE, filename = "nops-schoice.R"}
+library("exams")
+sc <- c("swisscapital.Rmd", "Rlogo.Rmd", "deriv2.Rmd", "fruit2.Rmd", "hessian.Rmd")
+set.seed(403)
+exams2nops(sc, n = 5, dir = "nops", date = "2024-10-07")
+```
+
+```{r sc-nops-system, include=FALSE}
+## run as a separate script so that it does not interfere with other settings
+system("Rscript -e 'source(\"nops-schoice.R\")'")
+```
+
+### Conduct exam and scan results
+
+<div class='row t20'>
+  <div class='small-4 medium-6 columns'>
+
+<p>Suppose we conducted the exam with three participants and scanned their exam sheets (first page), rotated upside down (typically facilitating scanning because the top-left corner is damaged from the staples).</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-exam.svg" alt="exam"/>
+  </div>
+
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-scan.svg" alt="scan"/>
+  </div>
+</div>
+
+Here, you can download the PDF file `r include_asset("scans-schoice.pdf", screenshot = FALSE)`:
+
+`r include_asset("scans-schoice.pdf", aspect43 = FALSE)`
+
+Then we can read the information from the scanned sheets via `nops_scan()`, resulting in a file `nops_scan_*.zip`. The `*` placeholder will correspond to the date/time where you run the code. The file contains the three scanned exam sheets converted to PNG along with a text file `Daten.txt` containing the information that R has extracted from the scanned sheets.
+
+```{r sc-nops-scan, eval = FALSE}
+nops_scan("scans-schoice.pdf", rotate = TRUE)
+```
+
+### Fix scan results and final evaluation
+
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
+
+<p>Subsequently, calling the function <code class="language-plaintext highlighter-rouge">nops_fix()</code> without any arguments automatically searches for files named <code class="language-plaintext highlighter-rouge">nops_scan_*.zip</code> and checks for any obvious errors, such as incorrectly entered registration IDs in the provided demo sheets.</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-evaluate.svg" alt="evaluate"/>
+  </div>
+</div>
+
+
+```{r sc-nops-fix, eval = FALSE}
+nops_fix()
+```
+
+When you run the code, R displays a section of the exam sheet and prompts you to manually enter the correct registration number. In this case, the program cannot read the number nine because the cross in the penultimate position has erroneously been entered in the last column.
+
+`r include_asset("sc-registration.png", aspect43 = FALSE)`
+
+After entering the registration number, the corrected data is saved in the updated zip file.
+
+```{r sc-nops-fix-2, eval = FALSE}
+## Correct registration number (for 0000000, S0000002.PNG): 0157193
+##   adding: Daten.txt (deflated 89%)
+##   adding: S0000001.PNG (deflated 8%)
+##   adding: S0000002.PNG (deflated 6%)
+##   adding: S0000003.PNG (deflated 6%)
+```
+
+Additionally, we can check whether in this `schoice` exam there is exactly one checked box per question. Implausible answer patterns without checked boxes or with more than one checked box might be actual answers from the examinees but might also be due to scanning problems where checked or filled boxes are not detected correctly. If the scanned answer needs correction, you can either enter the correct answer as a letter (`a`, `b`, ...), as a number (`1`, `2`, ...), or in binary coding (e.g., `00010`). To accept the scanned result, simply press `<Enter>`.
+
+First, we check and (if necessary) correct cases with more than one checked box:
+
+```{r sc-nops-fix-schoice, eval = FALSE}
+nops_fix(check = "schoice")
+```
+
+`r include_asset("sc-schoice1.png", aspect43 = FALSE)`
+`r include_asset("sc-schoice2.png", aspect43 = FALSE)`
+
+```{r sc-nops-fix-schoice-2, eval = FALSE}
+## Correct answer 3 (for 01010, S0000003.PNG): d
+## Correct answer 4 (for 01001, S0000003.PNG): 
+##   adding: Daten.txt (deflated 89%)
+##   adding: S0000001.PNG (deflated 8%)
+##   adding: S0000002.PNG (deflated 6%)
+##   adding: S0000003.PNG (deflated 6%)
+```
+
+Second, we check for cases with missing answers:
+
+```{r sc-nops-fix-missing, eval = FALSE}
+nops_fix(check = "missing")
+```
+
+`r include_asset("sc-missing.png", aspect43 = FALSE)`
+
+```{r sc-nops-fix-missing-2, eval = FALSE}
+## Correct answer 2 (for 00000, S0000003.PNG): 
+##   adding: Daten.txt (deflated 89%)
+##   adding: S0000001.PNG (deflated 8%)
+##   adding: S0000002.PNG (deflated 6%)
+##   adding: S0000003.PNG (deflated 6%)
+```
+
+Finally, after resolving the problems above in the `nops_scan_*.zip` file, the single-choice exam can be evaluated. This additionally requires the correct solutions from the `exams2nops()` metainformation (produced above) and a list with the registered participants (containing the registration number, name, and user ID). The latter can be downloaded as `r include_asset("participants-schoice.csv")`.
+
+```{r sc-nops-eval, eval = FALSE}
+ev <- nops_eval(
+  register = "participants-schoice.csv",
+  solutions = "nops/metainfo.rds",
+  scans = Sys.glob("nops_scan_*.zip"))
+```
+
+This produces the usual `nops_eval.*` output which are described in more detail in the [NOPS tutorial]({{ site.url }}/tutorials/exams2nops/).
+
+To clean up before next demo you can use the following code:
+
+```{r sc-clean, results="hide"}
+unlink("nops", recursive = TRUE)
+file.remove(Sys.glob("nops_eval.*"))
+file.remove(Sys.glob("nops_scan_*.zip"))
+```
+
+
+## Demo 2: Multiple-choice exam with severe problems
+
+### Create exam
+
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
+
+<p>Similar to the first demo, we first generate five PDFs in the subdirectory "nops" for a demo exam with six multiple-choice exercises provided in the package (<a href="{{ site.url }}/templates/capitals/">capitals</a>, <a href="{{ site.url }}/templates/switzerland/">switzerland</a>, <a href="{{ site.url }}/templates/gaussmarkov/">gaussmarkov</a>, <a href="{{ site.url }}/templates/boxplots/">boxplots</a>, <a href="{{ site.url }}/templates/scatterplot/">scatterplot</a>, <a href="{{ site.url }}/templates/ttest/">ttest</a>).</p>.
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-create.svg" alt="create"/>
+  </div>
+</div>
+
+
+```{r mc-nops, eval=FALSE, filename = "nops-mchoice.R"}
+library("exams")
+mc <- c("capitals.Rmd", "switzerland.Rmd", "gaussmarkov.Rmd",
+  "boxplots.Rmd", "scatterplot.Rmd", "ttest.Rmd")
+set.seed(404)
+exams2nops(mc, n = 5, dir = "nops", date = "2024-10-08")
+```
+
+```{r mc-nops-system, include=FALSE}
+## run as a separate script so that it does not interfere with other settings
+system("Rscript -e 'source(\"nops-mchoice.R\")'")
+```
+
+### Conduct exam and scan results
+
+<div class='row t20'>
+  <div class='small-4 medium-6 columns'>
+
+<p>Again, suppose we conducted the exam with three participants and scanned their exam sheets (first page), rotated upside down.</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-exam.svg" alt="exam"/>
+  </div>
+
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-scan.svg" alt="scan"/>
+  </div>
+</div>
+
+Here, you can download the PDF file `r include_asset("scans-mchoice.pdf", screenshot = FALSE)`:
+
+`r include_asset("scans-mchoice.pdf", aspect43 = FALSE)`
+
+Then we can read the information from the scanned sheets via `nops_scan()`, resulting in a file `nops_scan_*.zip`.
+
+```{r mc-nops-scan, eval = FALSE}
+nops_scan("scans-mchoice.pdf", rotate = TRUE)
+```
+
+In this case, this leads to a warning message that there are errors in the scanned data and that running `nops_fix()` is necessary prior to `nops_eval()`.
+
+
+### Fix scan results and final evaluation
+
+<div class='row t20 b20'>
+  <div class='small-8 medium-9 columns'>
+
+<p>As above, calling the function <code class="language-plaintext highlighter-rouge">nops_fix()</code> without any arguments automatically searches for files named <code class="language-plaintext highlighter-rouge">nops_scan_*.zip</code> and checks for any obvious errors. Here, the third page is very heavily rotated and the scanner markers are all corrupted so that the PDF could not be read at all.</p>
+
+  </div>
+  <div class='small-4 medium-3 columns'>
+    <img src="{{ site.url }}/images/written-evaluate.svg" alt="evaluate"/>
+  </div>
+</div>
+
+Due to the bad rotation and corrupted markers, it is is not possible for `nops_fix()` to extract the individual fields reliably enough. Hence, it displays the entire scanned exam sheet in the browser, next to an interactive web form where all fields can be entered manually. As not even the "Type" field can be read, `nops_fix()` does not know that there are only six exercises and hence it displays 45 exercises, the maximum possible.
+
+```{r mc-nops-fix, eval = FALSE}
+nops_fix()
+```
+
+`r include_asset("mc-error.png", aspect43 = FALSE, density = 100, border = 3)`
+
+After entering all fields, press the "OK" button in the browser (bottom right). This copies all the data entered into the clipboard (in a JSON string) and R will either attempt to read it from there or you can paste it into the R prompt. On Windows, reading from the clipboard should always work, while on other platforms the R package `clipr` would need to be installed to read from the clipboard reliably. In any case, you should make sure that the clipboard is not modified before reading or pasting the clipboard again in R.
+
+Instead of using the interactive form in the browser, you can also use `nops_fix(display = "browser")` which only display the scanned sheet in the browser and then all fields can be entered individually in the R prompt (as in the previous examples).
+
+Subsequently, we can run the additional precautionary checks of answer fields where all or none of the boxes were checked, respectively. In these three exams, we have none of these problems, though.
+
+```{r mc-nops-fix-check, eval = FALSE}
+nops_fix(check = "mchoice")
+nops_fix(check = "missing")
+```
+
+To demonstrate another nifty feature of `nops_fix()`, let us assume that we know that answer fields on the second scan should be inspected more thoroughly.
+
+```{r mc-nops-fix-field, eval = FALSE}
+nops_fix(exam = 2, field = "answer")
+```
+
+This iterates through all six answer fields, in this case turning up a number of ambiguities which need to be resolved by the examiner.
+
+`r include_asset("mc-exam2-answer.gif", image = TRUE)`
+
+```{r gifski, eval=FALSE, include=FALSE}
+gifski::gifski(Sys.glob("mc-exam2-answer*"), "mc-exam2-answer.gif", width = 1514/7, height = 1364/7, delay = 1)
+```
+
+```{r mc-nops-fix-field-2, eval = FALSE}
+## Correct answer 1 (for 00001, S0000002.PNG): 
+## Correct answer 2 (for 10000, S0000002.PNG): 
+## Correct answer 3 (for 01100, S0000002.PNG): 
+## Correct answer 4 (for 01110, S0000002.PNG): 
+## Correct answer 5 (for 10000, S0000002.PNG): 1
+## Correct answer 6 (for 11010, S0000002.PNG): bd
+##   adding: Daten.txt (deflated 88%)
+##   adding: S0000001.PNG (deflated 8%)
+##   adding: S0000002.PNG (deflated 5%)
+##   adding: S0000003.PNG (deflated 6%)
+```
+
+Then, the `nops_scan_*.zip` file is ready for the final evaluation and you just need to download the participant list `r include_asset("participants-mchoice.csv")` before running `nops_eval()`.
+
+```{r mc-nops-eval, eval = FALSE}
+ev <- nops_eval(
+  register = "participants-mchoice.csv",
+  solutions = "nops/metainfo.rds",
+  scans = Sys.glob("nops_scan_*.zip"))
+```
+
+To clean up the working folder after the demos, use:
+
+```{r mc-clean, results="hide"}
+unlink("nops", recursive = TRUE)
+file.remove(Sys.glob("nops_eval.*"))
+file.remove(Sys.glob("nops_scan_*.zip"))
+```
+
+
+## Details
+
+1. **Automatic display of problematic sheets**
+  - If certain sheets are poorly scanned (e.g., misaligned or badly scaled) or if the boxes for the registration ID are not correctly checked (exactly one checked box per column), `nops_scan()` flags these sheets as erroneous and `nops_fix()` presents them automatically for manual inspection.
+  - The function displays either the entire exam sheet in the browser or the section in need of attention in an R plot and prompts the user for input on the console, allowing for step-by-step inspection and correction.
+  - The most suitable `display` is chosen automatically or can be set to `"plot"` (display scanned excerpt in R plot), `"browser"` (display full scanned image in browser), or `"interactive"` (display full scanned image along with interactive HTML form in browser). The default is `"plot"` unless errors occurred during scanning where `"interactive"` is used instead.
+2. **Prompting for manual corrections**
+  - For each `field` in the exam sheet (either `"type"`, `"id"`, `"registration"`, or `"answers"`), `nops_fix()` displays the detected content and prompts the user for potential updates.
+  - Just pressing Enter accepts the detected content without changes.
+  - When checking a certain answer field, the detected answer is represented by a five-digit binary code (even if the question had fewer than five answer alternatives) such as `01001` (when the second and the fifth box was checked). To correct this, say to the second box only, the following formats are supported: binary (`01000`), letters (`b`), or numeric (`2`).
+3. **Specialized checks for implausible answer patterns**
+  - To support examiners in finding _potential_ problems in the exam sheets before examinees complain, `nops_fix()` offers checks for various implausible answer patterns.
+  - Often such implausible patterns are errors on behalf of the examinees (and then just have to be preserved) but when the errors are due to incorrectly detecting the checked boxes in the scanned sheet, the answers can be corrected.
+  - `nops_fix(check = "missing")` checks answers without any checked boxes which are implausible unless there are negative points for incorrect answers.
+  - `nops_fix(check = "schoice")` checks answers with more than one checked box which are often caused by not fully filling an erroneously checked box.
+  - `nops_fix(check = "mchoice")` checks answers with all boxes checked which are implausible because such patterns are typically graded with zero points.
+4. **Manual review of specific exam sheets**
+  - Sometimes specific exam sheets require more attention, e.g., when special conditions applied in the exam or when the sheet was not filled out correctly.
+  - Say if this applies to the first scanned sheet, then `nops_fix(exam = 1)` can be employed to check each field of the sheet.
+  - Such review ensures that every answer is scrutinized, which is especially helpful in high-stakes or verification-required settings.
+
+The full details for all arguments are documented on the `?nops_fix` manual page which also includes more typical application examples.

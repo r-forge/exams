@@ -52,6 +52,7 @@ workflow:
         * Scan all exam sheets, e.g., on a photocopier.
         * Using `nops_scan()` from R/exams,
           process the scanned exam sheets to obtain machine-readable content.
+        * Potential problems can be resolved using `nops_fix()`.
   - step:
       img: ../../images/written-evaluate.svg
       alt: evaluate
