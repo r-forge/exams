@@ -95,13 +95,20 @@ include_png_screenshot <- function(file, out = NULL, density = 25, aspect43 = TR
   if(is.null(out)) out <- paste0(tools::file_path_sans_ext(basename(file)), "-thumb.png")
   if(knitr::opts_chunk$get("fig.path") != "figure/") out <- paste0(knitr::opts_chunk$get("fig.path"), out)
 
+  if(is.numeric(border)) {
+    bordersize <- border
+    border <- TRUE
+  } else {
+    bordersize <- if(border) ceiling(density/15) else 0
+  }
+
   ## make all screenshots/thumbnails with ImageMagick's 'mogrify'
   for(i in seq_along(file)) {
     file.copy(file[i], out[i], overwrite = TRUE)
     cmd <- sprintf("mogrify -resize %s %s %s %s",
       density * 8.268,
       if(aspect43) sprintf("-extent %sx%s", ceiling(density * 8.268), ceiling(density * 8.268 * 0.75)) else "",
-      if(border) sprintf("-border %sx%s -bordercolor '#666666'", ceiling(density/15), ceiling(density/15)) else "",
+      if(border) sprintf("-border %sx%s -bordercolor '#666666'", bordersize, bordersize) else "",
       out[i])
     system(cmd)    
   }
@@ -120,7 +127,7 @@ include_pdf_screenshot <- function(file, out = NULL, page = 1, density = 25, asp
     bordersize <- border
     border <- TRUE
   } else {
-    if(border) bordersize <- ceiling(density/15)
+    bordersize <- if(border) ceiling(density/15) else 0
   }
 
   ## make all screenshots with ImageMagick's 'convert'
