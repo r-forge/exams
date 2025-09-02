@@ -37,7 +37,7 @@ Here, this is illustrated by a knowledge quiz that pays tribute to the web serie
 
 ## Knowledge quiz
 
-The quiz is provided in the standalone file [flags.html]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/flags.html){:target="_blank"} and it contains two tasks:
+The quiz is provided in the standalone file [flags.html]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/flags.html){:target="_blank"} and it contains two tasks:
 
 - _Guess the flag:_ The correct flag for a country has to be selected from a list of flags. The underlying exercise is provided in the `exams` package as [flags]({{ site.url }}/templates/flags/).
 
@@ -45,20 +45,20 @@ The quiz is provided in the standalone file [flags.html]({{ site.url }}/assets/p
 
 Click on the screenshot below to try the quiz yourself. _(Note that you can also download the HTML file and play the quiz offline.)_
 
-[![Screenshot of the standalone Fun with Flags quiz page]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/flags.png)]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/flags.html){:target="_blank"}
+[![Screenshot of the standalone Fun with Flags quiz page]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/flags.png)]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/flags.html){:target="_blank"}
 
 
 ## Resources
 
 To recreate the quiz file, the following resources are necessary. First, the exercise files for the two tasks are needed but, as pointed out above, these are shipped with the `exams` and `exams2forms` package, respectively. Second, the following files are needed to create a standalone HTML file containing 100 random variations from each of the exercises.
 
-- [flags.qmd]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/flags.qmd): Quarto source file embedding the `exams2forms()` calls, see below.
-- [webex.js]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/webex.js): Copy of the current Javascript code from the `exams2forms` package (version 0.2-0).
-- [webex.css]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/webex.css): Copy of the current style sheets from the `exams2forms` package (version 0.2-0) with the highlight color changed to the R/exams primary color.
-- [cosmo.scss]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/cosmo.scss): Style sheets for customizing the cosmo theme to the R/exams primary color and button-style tabsets.
-- [fun_with_flags.png]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/fun_with_flags.png): Title image taken from [Michael Heap's Fun with Flags presentation](https://speakerdeck.com/mheap/dr-sheldon-cooper-presents-fun-with-flags-1).
+- [flags.qmd]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/flags.qmd): Quarto source file embedding the `exams2forms()` calls, see below.
+- [webex.js]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/webex.js): Copy of the current Javascript code from the `exams2forms` package (version 0.2-0).
+- [webex.css]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/webex.css): Copy of the current style sheets from the `exams2forms` package (version 0.2-0) with the highlight color changed to the R/exams primary color.
+- [cosmo.scss]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/cosmo.scss): Style sheets for customizing the cosmo theme to the R/exams primary color and button-style tabsets.
+- [fun_with_flags.png]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/fun_with_flags.png): Title image taken from [Michael Heap's Fun with Flags presentation](https://speakerdeck.com/mheap/dr-sheldon-cooper-presents-fun-with-flags-1).
 
-If these files are placed in the same folder, the Quarto source file `flags.qmd` can be rendered and then produces [flags.html]({{ site.url }}/assets/posts/2025-09-01-fun_with_flags/flags.html){:target="_blank"}. When doing so in RStudio you can simply open the `flags.qmd` file and click on the rendering button. Alternatively, on the command line you can use `quarto render flags.qmd`.
+If these files are placed in the same folder, the Quarto source file `flags.qmd` can be rendered and then produces [flags.html]({{ site.url }}/assets/posts/2025-09-02-fun_with_flags/flags.html){:target="_blank"}. When doing so in RStudio you can simply open the `flags.qmd` file and click on the rendering button. Alternatively, on the command line you can use `quarto render flags.qmd`.
 
 
 ## Quarto source file
