@@ -266,10 +266,18 @@ include_template <- function(name, title, teaser, description,
   ##
   ## - raw
   set.seed(seed)
-  Sweave(f[1], encoding = "UTF-8")
+  knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
+  knitr::opts_knit$set(.knitr_opts_vanilla$knit)
+  xweave(f[1])
+  knitr::opts_chunk$set(.knitr_opts_custom$chunk)
+  knitr::opts_knit$set(.knitr_opts_custom$knit)
   include_asset(f[3], link = FALSE)
   set.seed(seed)
-  knitr::knit(f[2], quiet = TRUE, encoding = "UTF-8")
+  knitr::opts_chunk$set(.knitr_opts_vanilla$chunk)
+  knitr::opts_knit$set(.knitr_opts_vanilla$knit)
+  xweave(f[2])
+  knitr::opts_chunk$set(.knitr_opts_custom$chunk)
+  knitr::opts_knit$set(.knitr_opts_custom$knit)
   include_asset(f[4], link = FALSE)
   ##
   ## - HTML
