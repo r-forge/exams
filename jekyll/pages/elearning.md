@@ -58,4 +58,5 @@ workflow:
 * Tutorial: [First Steps]({{ site.url }}/tutorials/first_steps/).
 * Tutorial: [E-Learning Quizzes with R/exams for Moodle and OpenOlat]({{ site.url }}/tutorials/elearning/).
 * Tutorial: [Dynamic Online Tests with Blackboard and R/exams]({{ site.url }}/tutorials/exams2blackboard/).
+* Tutorial: [Creating and Managing Canvas Quizzes with R/exams and vvcanvas]({{ site.url }}/tutorials/vvcanvas/).
 * [Blog archive]({{ site.url }}/blog/).

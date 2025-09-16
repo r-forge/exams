@@ -71,5 +71,6 @@ workflow:
 * Tutorial: [Installing R/exams]({{ site.url }}/tutorials/installation/).
 * Tutorial: [First Steps]({{ site.url }}/tutorials/first_steps/).
 * Tutorial: [Written Multiple-Choice Exams with R/exams]({{ site.url }}/tutorials/exams2nops/).
+* Tutorial: [Quality Control for Scanned Multiple-Choice Exams]({{ site.url }}/tutorials/nops_fix/).
 * [Blog archive]({{ site.url }}/blog/).
 
