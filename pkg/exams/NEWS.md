@@ -44,6 +44,10 @@
   are planned. Users who run into problems with `|` in the `exsolution` are
   encouraged to get in touch.
 
+* Numeric values in the meta-information of R/Markdown exercises are now recovered
+  more reliably, even when `knitr` switches to scientific notation by default
+  (reported by Delia Gramm).
+
 
 # exams 2.4-2
 

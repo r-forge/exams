@@ -81,7 +81,7 @@ extract_command <- function(x, command, type = c("character", "logical", "numeri
       unlist(strsplit(rval, "|", fixed = TRUE))
     }
 
-    ## translate HTML scientific notation produced by knitr
+    ## translate LaTeX scientific notation produced by knitr
     if(type == "numeric" && any(grepl("\\times 10^", x, fixed = TRUE) & grepl("\\ensuremath", x, fixed = TRUE))) {
       rval <- gsub("\\ensuremath", "", rval, fixed = TRUE)
       rval <- gsub("([ \t]*\\\\times[ \t]*10\\^)([-]*[0-9]+)", "e\\2", rval)
