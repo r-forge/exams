@@ -41,7 +41,7 @@ read_vis <- function(file, ...) {
 ## transform to cleaned-up character
 to_char <- function(x, fixup = NULL) {
   x <- as.character(x)
-  if(is.null(fixup)) fixup <- cbind(c("\u00a0", "."), c(" ", ""))
+  if(is.null(fixup)) fixup <- cbind(c("\u00a0", ".", "&#039;"), c(" ", "", "'"))
   for(j in 1L:nrow(fixup)) x <- gsub(fixup[j, 1], fixup[j, 2], x, fixed = TRUE)
   x <- gsub("  ", " ", x, fixed = TRUE)
   x <- gsub("[[:space:]]+$", "", x)
