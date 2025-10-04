@@ -57,8 +57,7 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
     return(list(type = type, correct = correct, answer = answer))
   }
   
-  checkanswer <- function(correct, answer, tolerance = 0, type = NULL)
-  {
+  checkanswer <- function(correct, answer, tolerance = 0, type = NULL) {
     ## preprocess type of solution
     type <- extype(correct, answer, type = type)
     correct <- type$correct
@@ -104,6 +103,7 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
     if(!partial) return(c("pos" = 1, "neg" = negative))
     if(is.null(correct)) stop("Need 'correct' answer to compute points vector.")
     type <- extype(correct, type = type)
+    if(all(!type$correct)) warning("partial credits for mchoice answer without correct answer alternatives")
     if(type$type == "mchoice") {
       n <- switch(rule,
         "false" = -1/sum(!type$correct),
@@ -111,10 +111,11 @@ exams_eval <- function(partial = TRUE, negative = FALSE, rule = c("false2", "fal
 	"true" = -1/sum(type$correct),
 	"all" = -1,
 	"none" = 0)
-      return(c("pos" = 1/sum(type$correct), "neg" = n))
+      pv <- c("pos" = 1/sum(type$correct), "neg" = n)
     } else {
-      return(c("pos" = 1, "neg" = negative))
+      pv <- c("pos" = 1, "neg" = negative)
     }
+    return(pv)
   }
   
   pointsum <- function(correct, answer, tolerance = 0, type = NULL) {

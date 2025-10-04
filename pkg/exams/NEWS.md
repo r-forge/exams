@@ -48,6 +48,10 @@
   more reliably, even when `knitr` switches to scientific notation by default
   (reported by Delia Gramm).
 
+* The `pointvec()` function set up by `exams_eval(partial = TRUE, ...)` now
+  warns when it is applied to `mchoice` answers without correct answer alternatives
+  (because it is impossible to attain any credits in that case).
+
 
 # exams 2.4-2
 
