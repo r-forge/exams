@@ -638,15 +638,12 @@ make_itembody_qti21 <- function(shuffle = FALSE,
     names(eval) <- paste0(type, ".", 1:n)
 
     for(i in 1:n) {
-      if(type[i] %in% c("num", "string", "schoice"))
-        eval[[i]]$partial <- FALSE
+      if(type[i] %in% c("num", "string", "schoice")) eval[[i]]$partial <- FALSE
       others <- names(eval[[i]])[!names(eval[[i]]) %in% c("partial", "negative", "rule")]
-      if(length(others))
-        others <- eval[[i]][others]
+      if(length(others)) others <- eval[[i]][others]
       eval[[i]] <- eval[[i]][match(c("partial", "negative", "rule"), names(eval[[i]]), nomatch = 0)]
       eval[[i]] <- do.call("exams_eval", eval[[i]])
-      if(length(others))
-        eval[[i]][names(others)] <- others
+      if(length(others)) eval[[i]][names(others)] <- others
     }
 
     ## character fields
@@ -686,14 +683,15 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
       ## fix partial = FALSE for mchoice.
       if(type[i] == "mchoice" & !eval[[i]]$partial) {
-        pv[[i]]["pos"] <- pv[[i]]["pos"] / sum(solution[[i]])
+        pv[[i]]["pos"] <- if(any(solution[[i]])) pv[[i]]["pos"] / sum(solution[[i]]) else 0
         pv[[i]]["neg"] <- -1 * q_points[i]
       }
 
       ## fix no correct solution, mchoice, partial = TRUE
       if(type[i] == "mchoice") {
         if(all(!solution[[i]])) {
-          if(eval[[i]]$partial & !(eval[[i]]$rule == "all"))
+          if(eval[[i]]$partial & (eval[[i]]$rule != "all"))
+            pv[[i]]["pos"] <- 0
             pv[[i]]["neg"] <- -1 * q_points[i] / length(solution[[i]])
         }
       }
@@ -1021,48 +1019,47 @@ make_itembody_qti21 <- function(shuffle = FALSE,
 
         is_in_p <- grepl(paste0("<p>", ansi, "</p>"), xml[ii], fixed = TRUE)
 
-        if(is_in_p && !grepl("choice", type[i])) {
-          p_check <-
-            any(grepl("<extendedTextInteraction", txml, fixed = TRUE)) |
-            any(grepl("<uploadInteraction", txml, fixed = TRUE))
-          if(p_check) {
-            xml <- gsub(paste0("<p>##ANSWER", i, "##</p>"), txml, xml, fixed = TRUE)
-          } else {
-            xml <- gsub(paste0("##ANSWER", i, "##"), txml, xml, fixed = TRUE)
+        remove_p <-
+          any(grepl("<extendedTextInteraction", txml, fixed = TRUE)) |
+          any(grepl("<uploadInteraction", txml, fixed = TRUE))
+
+        if(grepl("choice", type[i])) {
+          csd <- cloze_schoice_display
+          if(type[i] == "schoice" && csd == "auto") {
+            ## check for math tags
+            ot <- c("\\(", "<math ", "<span class=\"math\"")
+            ct <- c("\\)", "</math>", "</span>")
+            has_math <- any(sapply(seq_along(ot), function(j) any(
+              grepl(ot[j], questionlist[[i]], fixed = TRUE) & grepl(ct[j], questionlist[[i]], fixed = TRUE))))
+            csd <- if(is_in_p | has_math) "buttons" else "dropdown"
           }
-         } else {
-           if(grepl("choice", type[i])) {
-             csd <- cloze_schoice_display
-             if(type[i] == "schoice" && csd == "auto") {
-               ## check for math tags
-               ot <- c("\\(", "<math ", "<span class=\"math\"")
-               ct <- c("\\)", "</math>", "</span>")
-               has_math <- any(sapply(seq_along(ot), function(j) any(
-                 grepl(ot[j], questionlist[[i]], fixed = TRUE) & grepl(ct[j], questionlist[[i]], fixed = TRUE))))
-               csd <- if(is_in_p | has_math) "buttons" else "dropdown"
-             }
-             if((csd == "buttons") | (type[i] == "mchoice")) {
-               xml <- if(!is_in_p) {
-                 gsub(ansi, paste0("</p>", ansi, "<p>"), xml, fixed = TRUE)
-               } else {
-                 gsub(paste0("<p>", ansi, "</p>"), ansi, xml, fixed = TRUE)
-               }
-             } else {
-               if(type[i] == "schoice") {
-                 txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
-                 txml <- gsub('simpleChoice', 'inlineChoice', txml)
-                 nch <- sapply(questionlist[[i]], nchar)
-                 ql <- unique(questionlist[[i]][order(nch)])
-                 for(ijj in ql) {
-                   if(any(grepl("</", ijj, fixed = TRUE))) {
-                     txml <- gsub(ijj, paste0("<![CDATA[", ijj, "]]>"), txml, fixed = TRUE)
-                   }
-                 }
-               }
-             }
-           }
-           xml <- gsub(ansi, txml, xml, fixed = TRUE)
-         }
+          if((csd == "buttons") | (type[i] == "mchoice")) {
+            xml <- if(!is_in_p) {
+              gsub(ansi, paste0("</p>", ansi, "<p>"), xml, fixed = TRUE)
+            } else {
+              gsub(paste0("<p>", ansi, "</p>"), ansi, xml, fixed = TRUE)
+            }
+          } else {
+            if(type[i] == "schoice") {
+              txml <- gsub('choiceInteraction', 'inlineChoiceInteraction', txml)
+              txml <- gsub('simpleChoice', 'inlineChoice', txml)
+              nch <- sapply(questionlist[[i]], nchar)
+              ql <- unique(questionlist[[i]][order(nch)])
+              for(ijj in ql) {
+                if(any(grepl("</", ijj, fixed = TRUE))) {
+                  txml <- gsub(ijj, paste0("<![CDATA[", ijj, "]]>"), txml, fixed = TRUE)
+                }
+              }
+            }
+          }
+        } else if(remove_p) {
+          xml <- if(is_in_p) {
+            gsub(paste0("<p>", ansi, "</p>"), ansi, xml, fixed = TRUE)
+          } else {
+            gsub(ansi, paste0("</p>", ansi, "<p>"), xml, fixed = TRUE)
+          }           
+        }
+        xml <- gsub(ansi, txml, xml, fixed = TRUE)
       } else {
         xml <- c(xml, txml)
       }

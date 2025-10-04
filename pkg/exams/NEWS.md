@@ -52,6 +52,10 @@
   warns when it is applied to `mchoice` answers without correct answer alternatives
   (because it is impossible to attain any credits in that case).
 
+* In `exams2qti21()` (and hence also `exams2openolat()`) it is now assured that
+  `essay` and `file` interactions in `cloze` exercises are always outside of
+  a paragraph.
+
 
 # exams 2.4-2
 
