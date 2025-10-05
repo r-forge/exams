@@ -59,6 +59,8 @@
 * New function `match_exams_markup()` can be used within an exercise to use the
   same text markup (`"markdown"` vs. `"latex"`) that \code{xweave} is using.
 
+* New argument `answerlist(..., write = TRUE)` which can be set to `FALSE` in
+  order to return the answerlist text, rather than writing it to the output.
 
 # exams 2.4-2
 

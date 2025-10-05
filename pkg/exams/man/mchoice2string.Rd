@@ -16,7 +16,7 @@
   mchoice2string(x, single = FALSE)
   string2mchoice(x, single = FALSE)
   mchoice2text(x, markup = c("latex", "markdown"))
-  answerlist(\dots, sep = ". ", markup = c("latex", "markdown"))
+  answerlist(\dots, sep = ". ", markup = c("latex", "markdown"), write = TRUE)
 }
 \arguments{
   \item{x}{an object, see below for examples.}
@@ -27,6 +27,8 @@
     for examples.}
   \item{markup}{character indicating which markup (LaTeX vs. Markdown)
     should be generated.}
+  \item{write}{logical. Should the answer list be written to the
+    output?}
 }
 
 \details{
@@ -59,8 +61,8 @@ sol <- c(FALSE, TRUE, FALSE)
 ex <- c("The capital of Switzerland is Bern.",
         "The four official languages are: German, French, Italian, Romansh.",
 	"Switzerland is part of the Schengen Area but not the European Union.")
-answerlist(qu)
-answerlist(ifelse(sol, "True", "False"), ex)
+answerlist(qu, markup = "markdown")
+answerlist(ifelse(sol, "True", "False"), ex, markup = "markdown")
 }
 
 \keyword{utilities}

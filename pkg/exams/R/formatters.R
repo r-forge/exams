@@ -39,20 +39,22 @@ mchoice2text <- function(x, markup = c("latex", "markdown"))
     "markdown" = ifelse(x, "**True**", "**False**"))
 }
 
-answerlist <- function(..., sep = ". ", markup = c("latex", "markdown"))
+answerlist <- function(..., sep = ". ", markup = c("latex", "markdown"), write = TRUE)
 {
-  if(match.arg(markup) == "latex") {
-    writeLines(c(
-      "\\begin{answerlist}",
+  ans <- if(match.arg(markup) == "latex") {
+    c("\\begin{answerlist}",
       paste("  \\item", do.call("paste", list(..., sep = sep))),
-      "\\end{answerlist}"
-    ))
+      "\\end{answerlist}")
   } else {
-    writeLines(c(
-      "Answerlist",
+    c("Answerlist",
       "----------",
-      paste("*", do.call("paste", list(..., sep = sep)))
-    ))
+      paste("*", do.call("paste", list(..., sep = sep))))
+  }
+  if (write) {
+    writeLines(ans)
+    invisible(ans)
+  } else {
+    return(ans)
   }
 }
 
