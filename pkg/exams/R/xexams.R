@@ -307,6 +307,8 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
 
   ## process file extension, rendering engine, and graphics device
   ext <- tolower(file_ext(file))
+  .exams_set_internal(xweave_markup = if(ext == "rnw") "latex" else "markdown")
+  
   if(is.null(engine)) {
     engine <- if(ext == "rnw") "sweave" else "knitr"
   }
@@ -315,6 +317,7 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
     engine <- "knitr"
     warning("Sweave() can only be applied to .Rnw exercises")
   }
+
   dev <- if(pdf & !png) {
     "pdf"
   } else if(svg & !png) {
@@ -323,8 +326,19 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
     "png"
   }
   .exams_set_internal(xweave_device = dev)
+
+  ## environment for knitr
   if(is.null(envir)) envir <- new.env()
 
+  ## (re-)initialize cloze meta-information
+  .exams_set_internal(cloze_metainfo = list(
+    type = character(0L),
+    solution = character(0L),
+    tolerance = numeric(0L),
+    answerlist = character(0L)
+  ))
+
+  ## call weave engine
   if(ext == "rnw") {
     if(engine == "sweave") {
       if(is.null(encoding)) encoding <- ""
@@ -432,11 +446,17 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
   ## default graphics device used in xweave() (png, pdf, svg)
   xweave_device            = "png",
 
+  ## default text markup used in xweave() (latex, markdown)
+  xweave_markup            = NULL,
+
   ## post-process MathJax output from pandoc (for OpenOlat or Blackboard)
   pandoc_mathjax_fixup     = FALSE,
 
   ## post-process <table> class from pandoc (for OpenOlat or Moodle)
   pandoc_table_class_fixup = FALSE,
+
+  ## meta-information container for cloze exercises
+  cloze_metainfo           = list(type = character(0L), solution = character(0L), tolerance = numeric(0L), answerlist = character(0L)),
 
   ## restore random seed after single test version of exam
   nops_restore_seed        = TRUE

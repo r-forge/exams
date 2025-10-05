@@ -1,6 +1,7 @@
 \name{match_exams_call}
 \alias{match_exams_call}
 \alias{match_exams_device}
+\alias{match_exams_markup}
 \alias{match_exams_iteration}
 
 \title{Query Information from Last xexams/exams2xyz Call}
@@ -8,7 +9,8 @@
 \description{
   \code{match_exams_call} queries the last call made to \code{xexams}
   (typically through some \code{exams2xyz} interface). \code{match_exams_device}
-  queries the graphics device used in the last \code{xweave} call.
+  and \code{match_exams_markup} query the graphics device and text markup, respectively,
+  used in the last \code{xweave} call.
   \code{match_exams_iteration} queries the iteration (within n replications)
   that is currently processed by \code{xexams}.
 }
@@ -16,6 +18,7 @@
 \usage{
 match_exams_call(which = 1L, deparse = TRUE)
 match_exams_device()
+match_exams_markup()
 match_exams_iteration()
 }
 
@@ -32,8 +35,9 @@ within an exercise which \code{exams2xyz} interface is used in order
 to behave slightly differently, e.g., for PDF vs. HTML output.
 (This feature only works from R 3.2.0 onwards.)
 
-Similarly, the function \code{match_exams_device} can be used within
-an exercise to use the same graphics device that \code{xweave} is
+Similarly, the function \code{match_exams_device} and
+\code{match_exams_markup} can be used within an exercise to use the
+same graphics device or text markup, respectively, that \code{xweave} is
 using.
 
 Finally, the function \code{match_exams_iteration} can be used to
@@ -50,6 +54,9 @@ match_exams_call()
 
 ## graphics device used
 match_exams_device()
+
+## text markup used
+match_exams_markup()
 
 ## exams2nops called exams2pdf called xexams:
 match_exams_call(which = NULL)

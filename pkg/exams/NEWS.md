@@ -56,6 +56,9 @@
   `essay` and `file` interactions in `cloze` exercises are always outside of
   a paragraph.
 
+* New function `match_exams_markup()` can be used within an exercise to use the
+  same text markup (`"markdown"` vs. `"latex"`) that \code{xweave} is using.
+
 
 # exams 2.4-2
 
