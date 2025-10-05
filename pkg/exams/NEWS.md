@@ -1,5 +1,10 @@
 # exams 2.4-3
 
+* New convenience functions \code{add_cloze()} and \code{format_cloze()}
+  that help to keep track of all solutions within a cloze exercise. They
+  are particularly helpful for creating relatively simple tutorials where
+  the cloze elements are fixed and not varied randomly in the exercises.
+
 * In `nops_fix(..., display = "interactive")` there is now also a checkbox
   for rotating the PNG of a scanned sheet.
 
@@ -61,6 +66,7 @@
 
 * New argument `answerlist(..., write = TRUE)` which can be set to `FALSE` in
   order to return the answerlist text, rather than writing it to the output.
+
 
 # exams 2.4-2
 

@@ -37,6 +37,9 @@ export(
   "num2tol",
   "num_to_tol",
   "expar",
+  "add_cloze",
+  "format_cloze",
+  "initialize_cloze",
 
   ## mchoice/schoice generators
   "num2schoice",
