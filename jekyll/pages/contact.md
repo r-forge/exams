@@ -22,7 +22,7 @@ permalink: /contact/
 #### Social media
 
 - Mastodon: [@zeileis@fosstodon.org](https://fosstodon.org/@zeileis)
-- X (formerly Twitter): [@AchimZeileis](https://x.com/AchimZeileis)
+- Bluesky: [@zeileis.org](https://bsky.app/profile/zeileis.org)
 - YouTube: [@azeileis](https://www.youtube.com/@azeileis)
 
 
@@ -31,12 +31,12 @@ permalink: /contact/
 - [Achim Zeileis](https://www.zeileis.org/) [author, maintainer] (Package design, version 1 and 2, core infrastructure)
 - [Bettina Grün](https://statmath.wu.ac.at/~gruen/) [author] (Version 1 design)
 - [Friedrich Leisch](https://short.boku.ac.at/leisch.html) [author] (Version 2 design, Moodle infrastructure)
-- [Nikolaus Umlauf](https://eeecon.uibk.ac.at/~umlauf/) [author] (Version 2 design, QTI/Moodle infrastructure)
-- [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [contributor] (Blackboard/TestVision adaptation)
+- [Nikolaus Umlauf](https://nikum.org/) [author] (Version 2 design, QTI/Moodle infrastructure)
+- [Niels Smits](https://www.uva.nl/en/profile/s/m/n.smits/n.smits.html) [author] (Blackboard/TestVision/Ans/Wooclap adaptations)
 - [Mirko Birbaumer](https://www.hslu.ch/de-ch/hochschule-luzern/ueber-uns/personensuche/profile/?pid=1537) [contributor] (ILIAS adaptation)
 - Dominik Ernst [contributor] (Moodle adaptation)
 - [Kenji Sato](https://www.kenjisato.jp/) [contributor] (Templates and HTML extensions)
 - [Florian Wickelmaier](https://www.mathpsy.uni-tuebingen.de/wickelmaier/) [contributor] (ILIAS adaptation)
-- [Patrik Keller](https://informationsecurity.uibk.ac.at/people/patrik-keller/) [contributor] (Web page)
+- [Patrik Keller](https://pkel.dev/) [contributor] (Web page)
 - Hanna Krimm [contributor] (Web page)
 - [Reto Stauffer](https://retostauffer.org/) [contributor] (Web page)
