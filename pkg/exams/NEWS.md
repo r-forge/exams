@@ -1,5 +1,25 @@
 # exams 2.4-3
 
+* Added first release version of new interface `exams2ans()` for the
+  Dutch testing platform [Ans](https://support.ans.app/). It is
+  essentially a wrapper to `exams2qti21()` along with a few Ans-specific
+  modifications of the QTI XML specification. The function has only received
+  limited testing so far and is likely to improve in future versions. All five
+  item types are supported but cloze questions can only consist of num and string
+  combinations or mchoice and schoice combinations. The work on the function was 
+  financially supported by the Dutch National Growth Fund Programme Npuls 
+  (Regulation 'IO: 112026'). 
+
+* Added first release version of new interface `exams2wooclap()` for 
+  [Wooclap](https://www.wooclap.com/), a digital voting system for creating 
+  interaction during teaching moments. It is essentially a wrapper to 
+  `exams2moodle()` along with a few Wooclap-specific
+  tweaks. The function has only received limited testing so far and is likely to 
+  improve in future versions. The supported exercise types are num, schoice, mchoice, 
+  and string (but only limited support for cloze questions). The work on the function 
+  was financially supported by the Dutch National Growth Fund Programme Npuls 
+  (Regulation 'IO: 112026').
+
 * New convenience functions \code{add_cloze()} and \code{format_cloze()}
   that help to keep track of all solutions within a cloze exercise. They
   are particularly helpful for creating relatively simple tutorials where
