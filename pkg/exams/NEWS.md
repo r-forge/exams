@@ -87,6 +87,9 @@
 * New argument `answerlist(..., write = TRUE)` which can be set to `FALSE` in
   order to return the answerlist text, rather than writing it to the output.
 
+* HTML and Markdown converters now try harder to preserve file names in download
+  links when encoding supplementary files in Base64.
+
 
 # exams 2.4-2
 

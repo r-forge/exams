@@ -81,23 +81,31 @@ make_exercise_transform_pandoc <- function(to = "latex", base64 = to != "latex",
           sf64 <- fileURI(file = sf)
 	  ## always include HTML replacements (could also be in Markdown)
           sfx <- rbind(
-	    c(sprintf('alt="%s"', sf),  'alt="\\007\\007_exams_supplement_\\007\\007"'),
-	    c(sprintf('href="%s"', sf), sprintf('href="%s" download="\\007\\007_exams_supplement_\\007\\007"', sf)),
-	    c(sprintf('="%s"', sf),	sprintf('="%s"', sf64)),
-	    c('\\007\\007_exams_supplement_\\007\\007', sf)
+	    c(sprintf('alt="%s"', sf),      'alt="\\007\\007_exams_supplement_\\007\\007"'),                             ## preserve alt="<sf>" if present
+	    c(sprintf('download="%s"', sf), ''),                                                                         ## remove download="<sf>" if already present
+	    c(sprintf('href="%s"', sf),     sprintf('href="%s" download="\\007\\007_exams_supplement_\\007\\007"', sf)), ## adding download="<sf>" unless alternative present (see below)
+	    c(sprintf('="%s"', sf),	    sprintf('="%s"', sf64)),                                                     ## base64 encoded file
+	    c('\\007\\007_exams_supplement_\\007\\007', sf)                                                              ## restore file name in other places
 	  )
 	  ## Markdown replacements only for non-HTML
           if(substr(to, 1L, 4L) != "html") {
 	    sfx <- rbind(
-              c(sprintf('src="%s"', sf), sprintf('src="%s"', sf64)), ## images might still be embedded in <img> rather than ![]()
-	      c(sprintf("](%s)", sf), sprintf("](%s)", sf64))
+              c(sprintf('src="%s"', sf),         sprintf('src="%s"', sf64)),               ## images might still be embedded in <img> rather than ![]()
+              c(sprintf('](%s)', sf),            sprintf('](%s){download="%s"}', sf, sf)), ## add download="..." tag unless...
+              c(sprintf('{download="%s"}{', sf), '{'),                                     ## ...additional tags set by the user
+	      c(sprintf("](%s)", sf),            sprintf("](%s)", sf64))                   ## base64 encoded file
 	    )
-	  }	
+	  }
 	  ## replace (if necessary)
     	  for(i in seq_along(trex)) {
   	    if(length(j <- grep(sf, trex[[i]], fixed = TRUE))) {
-  	      for(k in 1L:nrow(sfx)) trex[[i]][j] <- gsub(sfx[k, 1L], sfx[k, 2L], trex[[i]][j], fixed = TRUE)
-  	    }
+  	      for(k in 1L:nrow(sfx)) {
+                ## remove download="<sf>" placeholder again if alternative specification already present (see above)
+                if(any(grepl('download="', trex[[i]][j]))) sfx[, 2L] <- gsub('download="\\007\\007_exams_supplement_\\007\\007"', '', sfx[, 2L], fixed = TRUE)
+                ## make base64 replacements
+                trex[[i]][j] <- gsub(sfx[k, 1L], sfx[k, 2L], trex[[i]][j], fixed = TRUE)
+  	      }
+            }
   	  }
   	  file.remove(file.path(sdir, sf))
   	  x$supplements <- x$supplements[!grepl(sf, x$supplements)]
