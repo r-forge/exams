@@ -544,6 +544,7 @@ trim_nops_scan <- function(x, verbose = FALSE, minrot = 0.002)
 
   while(mean(xbl) < 0.0016 | mean(xbr) < 0.0016 | mean(rowMeans(xbl) > 0.03) < 0.005 | mean(rowMeans(xbr) > 0.03) < 0.005) {
     rb <- rb - 0.01
+    if(rb <= 0.66) stop("could not find scanner markings")
     xbl <- x[seq(round(rb * d[1L]), d[1L]), seq(1, round(0.17 * d[2L]))]
     xbr <- x[seq(round(rb * d[1L]), d[1L]), seq(round(0.83 * d[2L]), d[2L])]  
   }

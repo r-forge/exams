@@ -90,6 +90,9 @@
 * HTML and Markdown converters now try harder to preserve file names in download
   links when encoding supplementary files in Base64.
 
+* In `nops_scan()` an informative error is thrown now if the scanner markings
+  cannot be found when reading a PNG file (reported by Filipe Alberto).
+
 
 # exams 2.4-2
 
