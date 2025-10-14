@@ -428,7 +428,7 @@ nops_eval_results_table <- function(results = "nops_eval.csv", solutions = dir(p
       horiz = TRUE, las = 1, main = expression(P(pts != 0)))
     abline(v = 0.5, lty = 2)
     if(negpoints) {
-      barplot(prop.table(tab[, -2L], 1L)[nrow(tab):1L, 2L], xlim = c(0, 1),
+      barplot(prop.table(tab[, -2L, drop = FALSE], 1L)[nrow(tab):1L, 2L], xlim = c(0, 1),
         horiz = TRUE, las = 1, main = expression(P(paste(group("", pts > 0 ~ phantom(), "|"), phantom() ~ pts != 0))))
       abline(v = 0.5, lty = 2)
     }
