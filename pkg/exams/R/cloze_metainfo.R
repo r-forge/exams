@@ -24,9 +24,9 @@ add_cloze <- function(solution, single = NULL, tolerance = NULL, answertag = TRU
     if (is.null(tolerance)) tolerance <- num_to_tol(solution)
     tolerance <- rep_len(tolerance, length(solution))
     solution <- if (length(list(...)) < 1L) {
-      vapply(seq_along(solution), as.character, "")
+      vapply(solution, as.character, "")
     } else {
-      vapply(seq_along(solution), fmt, "", ...)
+      vapply(solution, fmt, "", ...)
     }
     answerlist <- NULL
   } else if (is.character(solution)) {
