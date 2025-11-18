@@ -26,8 +26,8 @@
     \code{solution}. By default selected via \code{\link[exams]{num_to_tol}}.}
   \item{answertag}{logical. Should a ANSWERi tag be returned for
     inclusion in the text?}
-  \item{\dots}{arguments passed to \code{\link[exams]{fmt}} in case of a
-    numeric \code{solution}.}
+  \item{\dots}{optional arguments for formatting a numeric \code{solution}
+    via \code{\link[exams]{fmt}} (only applied if any arguments are specified).}
   \item{field}{character indicating whether the \code{"type"}, \code{"solution"},
     \code{"tolerance"}, or the \code{"answerlist"} for the cloze should
     be returned, formatted suitably.}
@@ -40,7 +40,9 @@
   
   If \code{solution} is numeric, a \code{num} element is added along with
   the corresponding \code{tolerance}, by default selected via
-  \code{num_to_tol(solution)}.
+  \code{num_to_tol(solution)}. Optionally, the \code{solution} can be formatted
+  via \code{\link[exams]{fmt}}, e.g., to obtain a rounding to a given number
+  of \code{digits} etc.
   
   If \code{solution} is a character, a \code{string} element is added.
   

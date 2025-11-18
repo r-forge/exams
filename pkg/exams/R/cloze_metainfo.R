@@ -23,7 +23,11 @@ add_cloze <- function(solution, single = NULL, tolerance = NULL, answertag = TRU
     type <- rep.int("num", length(solution))
     if (is.null(tolerance)) tolerance <- num_to_tol(solution)
     tolerance <- rep_len(tolerance, length(solution))
-    solution <- vapply(solution, fmt, "", ...)
+    solution <- if (length(list(...)) < 1L) {
+      vapply(seq_along(solution), as.character, "")
+    } else {
+      vapply(seq_along(solution), fmt, "", ...)
+    }
     answerlist <- NULL
   } else if (is.character(solution)) {
     type <- rep.int("string", length(solution))
