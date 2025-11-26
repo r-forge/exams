@@ -33,6 +33,11 @@
   `\pandocbounded{}` interfered with the correct handling (reported by
   Delia Gramm).
 
+* Added support for `\pandocbounded{}` (as well as some other LaTeX packages)
+  in the default template for `exams2pandoc()`, mirroring changes that had
+  been done in earlier versions for the `exams2pdf()` and `exams2nops()`
+  templates (reported in <https://stackoverflow.com/questions/79829958/>).
+
 * In the manual page `?exams2ilias` it is now explained rather explicitly that
   many features of the resulting QTI exports cannot be imported correctly
   into recent versions of ILIAS. Any ILIAS users who have some experience

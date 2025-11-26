@@ -1,7 +1,17 @@
 \documentclass[a4paper]{article}
 
 \usepackage[utf8]{inputenc}
-\usepackage{a4wide,color,Sweave,url,amsmath,booktabs,longtable}
+\usepackage[T1]{fontenc}
+\usepackage{a4wide,graphicx,xcolor,verbatim,url,fancyvrb}
+\usepackage{amsmath,amssymb,booktabs,longtable,textcomp,eurosym,latexsym}
+
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
+\newenvironment{Schunk}{}{}
+
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
 
 \begin{document}
 
