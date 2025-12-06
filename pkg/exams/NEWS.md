@@ -49,6 +49,13 @@
   has been added and is simply passed on to `xexams()`. This allows to fix
   the random seeds for generating the exercise pools in these functions.
 
+* New arguments `exams2nops(..., shortquiz = FALSE, filbreak = FALSE)`. With
+  `shortquiz = TRUE` it is possible to create a short quiz that contains the
+  questions directly at the bottom of a single exam sheet. Setting `filbreak = TRUE`
+  a _potential_ page break can be added at the beginning of each question, so
+  that it is more likely that all parts of a question appear on the same
+  page.
+
 * In `exams2nops()` the `\usepackage[utf8]{inputenc}` is not included anymore
   in order to facilitate setting `texengine = "xelatex"` or `"lualatex"`.
   The setting is also not needed anymore in pdfLaTeX because it is the default

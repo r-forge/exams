@@ -1,10 +1,11 @@
 exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   language = "en", title = "Exam", course = "",
   institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
-  replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-  usepackage = NULL, header = NULL, encoding = "UTF-8", startid = 1L, points = NULL,
-  showpoints = FALSE, samepage = FALSE, newpage = FALSE, twocolumn = FALSE, helvet = TRUE,
-  reglength = 7L, seed = NULL, ...)
+  replacement = FALSE, shortquiz = FALSE, intro = NULL, blank = NULL,
+  duplex = TRUE, pages = NULL, usepackage = NULL, header = NULL,
+  reglength = 7L, startid = 1L, points = NULL,
+  showpoints = FALSE, samepage = FALSE, newpage = FALSE, filbreak = FALSE, twocolumn = FALSE,
+  helvet = TRUE, seed = NULL, ..., encoding = "UTF-8")
 {
   ## handle matrix specification of file
   if(is.matrix(file)) {
@@ -132,8 +133,8 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
     replacement = replacement, intro = intro, blank = blank,
     duplex = duplex, pages = pages, file = template,
     nchoice = nchoice,
-    encoding = encoding, samepage = samepage, newpage = newpage, twocolumn = twocolumn,
-    helvet = helvet, reglength = reglength)
+    encoding = encoding, samepage = samepage, newpage = newpage, filbreak = filbreak, twocolumn = twocolumn,
+    helvet = helvet, reglength = reglength, shortquiz = shortquiz)
 
   ## if points should be shown generate a custom transformer
   transform <- if(showpoints) {
@@ -171,12 +172,20 @@ exams2nops <- function(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
   invisible(rval)
 }
 
-make_nops_template <- function(n, replacement = FALSE, intro = NULL, blank = NULL,
-  duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "UTF-8",
-  samepage = FALSE, newpage = FALSE, twocolumn = FALSE, helvet = TRUE, reglength = 7L)
+make_nops_template <- function(n, replacement = FALSE, shortquiz = FALSE,
+  intro = NULL, blank = NULL, duplex = TRUE, pages = NULL, file = NULL,
+  nchoice = 5, reglength = 7L, samepage = FALSE, newpage = FALSE, filbreak = FALSE, twocolumn = FALSE,
+  helvet = TRUE, encoding = "UTF-8")
 {
 
-page1 <- make_nops_page(n, nchoice = nchoice, reglength = reglength)
+if(shortquiz) {
+  if(n > 3L || replacement || any(nchoice < 1L) || !is.null(intro) || !is.null(pages)) {
+    stop("'shortquiz' currently only supports single-page exam sheets with up to 3 schoice/mchoice questions")
+  }
+  duplex <- FALSE
+}
+
+page1 <- make_nops_page(n, nchoice = nchoice, reglength = reglength, shortquiz = shortquiz)
 page2 <- if(replacement) {
   make_nops_page(n, nchoice = nchoice, replacement = TRUE, reglength = reglength)
 } else {
@@ -336,17 +345,16 @@ sprintf("\\reg%s%s", c("seven", "eight", "nine", "ten"), tolower(0L:3L == addreg
 \\newcounter{nopsitem}
 \\newenvironment{solution}{\\comment}{\\endcomment}",
 
-if(newpage) {
-  "\\newenvironment{question}{\\item}{\\newpage}"
-} else {
-  "\\newenvironment{question}{\\item}{}"
-},
+sprintf("\\newenvironment{question}{%s\\item}{%s}",
+  if(filbreak) "\\filbreak" else "",
+  if(newpage) "\\newpage" else ""
+),
 
-if(samepage) {
-  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{\\alph{enumii}.}\\begin{samepage}\\begin{enumerate}}{\\end{enumerate}\\end{samepage}}"
-} else {
-  "\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{\\alph{enumii}.}\\begin{enumerate}}{\\end{enumerate}}"
-},
+sprintf("\\newenvironment{answerlist}{\\renewcommand{\\labelenumii}{\\alph{enumii}.}%s\\begin{enumerate}}{\\end{enumerate}%s}",
+  if(samepage) "\\begin{samepage}" else "",
+  if(samepage) "\\end{samepage}" else ""
+),
+
 
 "
 %% additional header commands
@@ -478,6 +486,9 @@ if(length(page3)) {
 \\setlength{\\headsep}{1cm} 
 \\setlength{\\footskip}{1cm} 
 
+",
+
+if(!shortquiz) c("
 \\newpage
 ",
 
@@ -498,6 +509,9 @@ blank[[2L]],
 "
 \\newpage
 
+"),
+
+"
 \\end{document}
 ")
 
@@ -507,7 +521,7 @@ if(!is.null(file)) writeLines(rval, file)
 invisible(rval)
 }
 
-make_nops_page <- function(n, replacement = FALSE, nchoice = 5, reglength = 7L)
+make_nops_page <- function(n, replacement = FALSE, nchoice = 5, reglength = 7L, shortquiz = FALSE)
 {
 ## length of registration ID
 if(reglength < 7L) {
@@ -703,6 +717,27 @@ if(replacement & addreg == 0L) {
 \\put(116,170.2){\\line(1,1){3.8}} \\put(116,173.8){\\line(1,-1){3.8}} 
 "
 },
+
+## single-page version?
+if(shortquiz) {
+sprintf("
+%% questions on exam sheet
+\\newcounter{nopsquestion}
+\\renewenvironment{question}{\\stepcounter{nopsquestion}\\arabic{nopsquestion}.}{}
+\\renewenvironment{answerlist}{\\renewcommand{\\labelenumi}{\\alph{enumi}.}%%
+\\begin{multicols}{%s}%%
+\\begin{enumerate}}{\\end{enumerate}%%
+\\end{multicols}%%
+}
+
+\\put(20,20){\\parbox[b]{170mm}{
+
+%%%% \\exinput{exercises}
+
+}} 
+", max(nchoice))
+},
+
 
 "
 \\end{picture}

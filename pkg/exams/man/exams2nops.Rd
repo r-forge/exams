@@ -14,15 +14,16 @@
   exams2nops(file, n = 1L, nsamp = NULL, dir = ".", name = NULL,
     language = "en", title = "Exam", course = "",
     institution = "R University", logo = "Rlogo.png", date = Sys.Date(), 
-    replacement = FALSE, intro = NULL, blank = NULL, duplex = TRUE, pages = NULL,
-    usepackage = NULL, header = NULL, encoding = "UTF-8", startid = 1L,
-    points = NULL, showpoints = FALSE, samepage = FALSE, newpage = FALSE,
-    twocolumn = FALSE, helvet = TRUE, reglength = 7L, seed = NULL, \dots)
+    replacement = FALSE, shortquiz = FALSE, intro = NULL, blank = NULL,
+    duplex = TRUE, pages = NULL, usepackage = NULL, header = NULL,
+    reglength = 7L, startid = 1L, points = NULL, showpoints = FALSE,
+    samepage = FALSE, newpage = FALSE, filbreak = FALSE, twocolumn = FALSE,
+    helvet = TRUE, seed = NULL, \dots, encoding = "UTF-8")
 
-  make_nops_template(n, replacement = FALSE, intro = NULL, blank = NULL,
-    duplex = TRUE, pages = NULL, file = NULL, nchoice = 5, encoding = "UTF-8",
-    samepage = FALSE, newpage = FALSE, twocolumn = FALSE, helvet = TRUE,
-    reglength = 7L)
+  make_nops_template(n, replacement = FALSE, shortquiz = FALSE,
+    intro = NULL, blank = NULL, duplex = TRUE, pages = NULL, file = NULL,
+    nchoice = 5, reglength = 7L, samepage = FALSE, newpage = FALSE, filbreak = FALSE,
+    twocolumn = FALSE, helvet = TRUE, encoding = "UTF-8")
 }
 
 \arguments{
@@ -47,6 +48,11 @@
     If set to \code{NULL}, the logo is omitted.}
   \item{date}{character or \code{"Date"} object specifying the date of the exam.}
   \item{replacement}{logical. Should a replacement exam sheet be included?}
+  \item{shortquiz}{logical. Should a short quiz be created that contains the questions
+    directly at the bottom of a single exam sheet? Currently, this only supports up to
+    three single-choice or multiple-choice questions with answer lists displayed
+    horizontally. Note that both the question text and the answer options need to be
+    sufficiently short to work well.}
   \item{intro}{character. Either a single string with the path to a .tex file or a vector
     with with LaTeX code for optional introduction text on the first page of the exam.}
   \item{blank}{integer. Number of blank pages to be added at the end.
@@ -63,7 +69,11 @@
   \item{header}{character vector or list. Either a character vector with LaTeX
     code to include in the header or a named list with further options to
     be passed to the LaTeX files.}
-  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
+  \item{reglength}{integer. Number of digits in the registration ID. The
+    default is 7 and it can be increased up to 10. In case of \code{reglength < 7},
+    internally \code{reglength = 7} is enforced (and thus necessary in the registration
+    CSV file) but the initial ID digits are fixed to 0 in the exam sheet and
+    corresponding boxes ticked already.}
   \item{startid}{integer. Starting ID for the exam numbers (defaults to 1).}
   \item{points}{integer. How many points should be assigned to each exercise? Note that this
     argument overules any exercise points that are provided within the \code{expoints} tags
@@ -75,14 +85,13 @@
     the same page?}
   \item{newpage}{logical. Should each exercise start on a new page? (Technically,
     a page break is added after each exercise.)}
+  \item{filbreak}{logical. Should a \emph{potential} page break be added at the
+    beginning of each question? This makes it more likely that all parts of a
+    question appear on the same page. (Technically, the LaTeX command filbreak is used
+    to make page breaks attractive at the beginning of each question.)}
   \item{twocolumn}{logical. Should a two-column layout be used?}
   \item{helvet}{logical. Should a sans-serif Helvetica font be used (via the
     LaTeX packages \code{helvet} and \code{sfmath}, with \code{helvet} option)?}
-  \item{reglength}{integer. Number of digits in the registration ID. The
-    default is 7 and it can be increased up to 10. In case of \code{reglength < 7},
-    internally \code{reglength = 7} is enforced (and thus necessary in the registration
-    CSV file) but the initial ID digits are fixed to 0 in the exam sheet and
-    corresponding boxes ticked already.}
   \item{seed}{integer matrix or logical. Either \code{NULL} (default), logical, or a
     matrix of random seeds for each possible exercise to be set prior to calling
     \code{driver$sweave}. If \code{NULL} no random seeds are set. If a matrix,
@@ -90,6 +99,7 @@
     correspond to \code{unlist(file)}. If \code{TRUE} a suitable matrix of seeds
     is sampled.}
   \item{\dots}{arguments passed on to \code{\link[exams]{exams2pdf}}.}
+  \item{encoding}{character, ignored. The encoding is always assumed to be UTF-8.}
   \item{nchoice}{character. The number of choice alternatives per exercise.}
 }
 
