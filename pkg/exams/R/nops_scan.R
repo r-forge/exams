@@ -389,8 +389,8 @@ shave <- function(x, zap = 0.07) {
 ## shave box (and white margins) of a pixel matrix
 shave_box <- function(x, border = 0.1, clip = TRUE)
 {  
-  rm <- which(rowMeans(x) > 0.38)
-  cm <- which(colMeans(x) > 0.38)
+  rm <- which(rowMeans(x) > 0.6)
+  cm <- which(colMeans(x) > 0.4)
   if(length(rm) < 1L || length(cm) < 1L) stop("no box found")
   rm <- range(rm)
   cm <- range(cm)

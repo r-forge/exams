@@ -95,7 +95,9 @@
 * HTML and Markdown converters now try harder to preserve file names in download
   links when encoding supplementary files in Base64.
 
-* In `nops_scan()` an informative error is thrown now if the scanner markings
+* In `nops_scan()` the shaving of long text above the exam ID box is improved
+  (reported in <https://stackoverflow.com/questions/79835752> by Florian Oswald).
+  Furthermore, an informative error is thrown now if the scanner markings
   cannot be found when reading a PNG file (reported by Filipe Alberto).
 
 
