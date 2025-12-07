@@ -107,6 +107,11 @@
   Furthermore, an informative error is thrown now if the scanner markings
   cannot be found when reading a PNG file (reported by Filipe Alberto).
 
+* Bug fix in `nops_eval()` for exams with string scans and duplicated exam IDs.
+  Now the duplicates are dropped prior to evaluation along with a warning.
+  Previously, the string scans were erroneously omitted (reported in
+  <https://stackoverflow.com/questions/79838688> by Samuel Merk).
+
 
 # exams 2.4-2
 

@@ -256,8 +256,14 @@ nops_eval_check2 <- function(scans = "Daten2.txt", solutions = dir(pattern = "\\
     }
   }
 
-  ## return with row names (if possible)
-  if(!any(duplicated(d[, 2L]))) rownames(d) <- d[, 2L]
+  ## warn about duplicated exam IDs (if any)
+  if(any(dup <- duplicated(d[, 2L]))) {
+    warning(paste(
+      "Matching scans and string_scans is not possible with duplicated IDs. Dropping duplicates of the following string IDs:",
+      paste(unique(d[dup, 2L]), collapse = ", ")))
+    d <- d[!dup, , drop = FALSE]
+  }
+  rownames(d) <- d[, 2L]
   return(d)
 }
 
