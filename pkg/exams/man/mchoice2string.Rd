@@ -16,7 +16,7 @@
   mchoice2string(x, single = FALSE)
   string2mchoice(x, single = FALSE)
   mchoice2text(x, markup = c("latex", "markdown"))
-  answerlist(\dots, sep = ". ", markup = c("latex", "markdown"), write = TRUE)
+  answerlist(\dots, sep = ". ", markup = NULL, write = TRUE)
 }
 \arguments{
   \item{x}{an object, see below for examples.}
@@ -25,8 +25,9 @@
   \item{\dots}{character vectors to be included in answer lists.}
   \item{sep}{character for separation between vectors, see below
     for examples.}
-  \item{markup}{character indicating which markup (LaTeX vs. Markdown)
-    should be generated.}
+  \item{markup}{character indicating which markup (\code{"latex"} or \code{"markdown"})
+    should be generated. By default determined via
+    \code{\link{match_exams_markup}}.}
   \item{write}{logical. Should the answer list be written to the
     output?}
 }

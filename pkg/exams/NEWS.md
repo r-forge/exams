@@ -115,6 +115,9 @@
   Previously, the string scans were erroneously omitted (reported in
   <https://stackoverflow.com/questions/79838688> by Samuel Merk).
 
+* In `answerlist()` the default `markup` is now determined via `match_exams_markup()`
+  (rather than using `"latex"`).
+
 
 # exams 2.4-2
 

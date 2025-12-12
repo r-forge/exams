@@ -39,9 +39,12 @@ mchoice2text <- function(x, markup = c("latex", "markdown"))
     "markdown" = ifelse(x, "**True**", "**False**"))
 }
 
-answerlist <- function(..., sep = ". ", markup = c("latex", "markdown"), write = TRUE)
+answerlist <- function(..., sep = ". ", markup = NULL, write = TRUE)
 {
-  ans <- if(match.arg(markup) == "latex") {
+  markup <- match_exams_markup()
+  if (is.null(markup)) markup <- c("latex", "markdown")
+  markup <- match.arg(markup, c("latex", "markdown"))
+  ans <- if(markup == "latex") {
     c("\\begin{answerlist}",
       paste("  \\item", do.call("paste", list(..., sep = sep))),
       "\\end{answerlist}")
