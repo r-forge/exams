@@ -18,7 +18,7 @@ importFrom("grDevices",
 importFrom("base64enc",
   "base64decode", "base64encode", "dataURI")
 importFrom("knitr",
-  "knit", "opts_chunk", "opts_hooks", "render_sweave")
+  "knit", "kable", "opts_chunk", "opts_hooks", "render_sweave")
 importFrom("rmarkdown",
   "pandoc_available", "pandoc_convert")
 
@@ -38,8 +38,8 @@ export(
   "num_to_tol",
   "expar",
   "add_cloze",
-  "format_cloze",
-  "initialize_cloze",
+  "format_metainfo",
+  "initialize_exercise",
 
   ## mchoice/schoice generators
   "num2schoice",

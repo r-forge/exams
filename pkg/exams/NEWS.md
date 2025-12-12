@@ -1,5 +1,13 @@
 # exams 2.4-3
 
+* New convenience functions for keeping track of all elements
+  within an exercise (especially in cloze exercises): `add_cloze()` and
+  `format_metainfo()`. These are particularly helpful for creating
+  relatively simple exercises or tutorials where the elements are fixed
+  or computed from a given data set etc. See `help("add_cloze", package = "exams")`
+  for documentation and the new `penguins.Rmd` (or `penguins.Rnw`) exercise
+  for a worked example.
+
 * Added first release version of new interface `exams2ans()` for the
   Dutch testing platform [Ans](https://support.ans.app/). It is
   essentially a wrapper to `exams2qti21()` along with a few Ans-specific
@@ -19,11 +27,6 @@
   and string (but only limited support for cloze questions). The work on the function 
   was financially supported by the Dutch National Growth Fund Programme Npuls 
   (Regulation 'IO: 112026').
-
-* New convenience functions \code{add_cloze()} and \code{format_cloze()}
-  that help to keep track of all solutions within a cloze exercise. They
-  are particularly helpful for creating relatively simple tutorials where
-  the cloze elements are fixed and not varied randomly in the exercises.
 
 * In `nops_fix(..., display = "interactive")` there is now also a checkbox
   for rotating the PNG of a scanned sheet.
@@ -94,7 +97,7 @@
   a paragraph.
 
 * New function `match_exams_markup()` can be used within an exercise to use the
-  same text markup (`"markdown"` vs. `"latex"`) that \code{xweave} is using.
+  same text markup (`"markdown"` vs. `"latex"`) that `xweave()` is using.
 
 * New argument `answerlist(..., write = TRUE)` which can be set to `FALSE` in
   order to return the answerlist text, rather than writing it to the output.

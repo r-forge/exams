@@ -330,13 +330,8 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
   ## environment for knitr
   if(is.null(envir)) envir <- new.env()
 
-  ## (re-)initialize cloze meta-information
-  .exams_set_internal(cloze_metainfo = list(
-    type = character(0L),
-    solution = character(0L),
-    tolerance = numeric(0L),
-    answerlist = character(0L)
-  ))
+  ## (re-)initialize exercise meta-information
+  initialize_exercise()
 
   ## call weave engine
   if(ext == "rnw") {
@@ -455,9 +450,19 @@ xweave <- function(file, quiet = TRUE, encoding = "UTF-8", engine = NULL,
   ## post-process <table> class from pandoc (for OpenOlat or Moodle)
   pandoc_table_class_fixup = FALSE,
 
-  ## meta-information container for cloze exercises
-  cloze_metainfo           = list(type = character(0L), solution = character(0L), tolerance = numeric(0L), answerlist = character(0L)),
+  ## meta-information container for exercises
+  exercise_metainfo        = list(type = character(0L), solution = character(0L), tolerance = numeric(0L), answerlist = character(0L)),
 
   ## restore random seed after single test version of exam
   nops_restore_seed        = TRUE
 )
+
+## (re-)initialize meta-information container for exercises
+initialize_exercise <- function() {
+  .exams_set_internal(exercise_metainfo = list(
+    type = character(0L),
+    solution = character(0L),
+    tolerance = numeric(0L),
+    answerlist = character(0L)
+  ))
+}
