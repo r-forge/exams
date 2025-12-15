@@ -59,6 +59,9 @@
   that it is more likely that all parts of a question appear on the same
   page.
 
+* Additional NOPS language support: Basque (`eu`, contributed by Jone
+  Guenetxea Gorostiza & Iker Apraiz Sánchez).
+
 * In `exams2nops()` the `\usepackage[utf8]{inputenc}` is not included anymore
   in order to facilitate setting `texengine = "xelatex"` or `"lualatex"`.
   The setting is also not needed anymore in pdfLaTeX because it is the default
