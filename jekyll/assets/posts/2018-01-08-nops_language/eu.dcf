@@ -1,0 +1,33 @@
+PersonalData: Datu pertsonalak
+Name: Izena
+FamilyName: Abizenak
+GivenName: Izena
+Signature: Sinadura
+RegistrationNumber: Matrikula zenbakia
+Checked: Markatua
+NoChanges: Atal honetan \textbf{ez} da aldaketarik egin behar!\\
+DocumentType: Mota
+DocumentID: Azterketa ID
+Scrambling: Nahasketa
+Replacement: Ordezkapena
+MarkCarefully: Markatu arretaz laukia
+NotMarked: Markatu gabe
+Or: edo
+MarkExampleA: 58
+MarkExampleB: 66
+MarkExampleC: 91
+MarkExampleD: 97
+MarkExampleE: 105
+Warning: Dokumentu hau automatikoki eskaneatzen da. Mesedez, garbi mantendu eta ez tolestu. \\ Dokumentua betetzeko \textbf{boligrafo urdina edo beltza} erabili. \\ \textbf{Adi! Goian adierazitako moduan markaturiko laukiak soilik hartuko dira kontuan!}
+Answers: Erantzuna
+FillAnswers: Ondoren, mesedez, bete zure erantzunak
+Point: puntu
+Points: puntuak
+ExamResults: Azterketaren emaitzak
+Evaluation: Ebaluazioa
+Mark: Nota
+Question: Galdera
+GivenAnswer: Emandako erantzuna
+CorrectAnswer: Erantzun zuzena
+ExamSheet: Azterketa orria
+Babel: basque

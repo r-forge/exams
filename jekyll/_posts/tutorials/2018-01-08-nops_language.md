@@ -137,6 +137,7 @@ and manual inspection the `.dcf` files are also linked here.
 
 File                                                                    | Language            | Contributor                                                                                                          |
 :-----------------------------------------------------------------------|:--------------------|:---------------------------------------------------------------------------------------------------------------------|
+[eu.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/eu.dcf)   | Basque              | Jone Guenetxea Gorostiza & Iker Apraiz Sánchez                                                                       |
 [bg.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/bg.dcf)   | Bulgarian           | [Nikolay Rachev](https://bg.linkedin.com/in/nikolay-rachev-98121a18)                                                 |
 [ca.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/ca.dcf)   | Catalan             | [Paco Rivière](http://paco.riviere.cat)                                                                              |
 [cz.dcf]({{ site.url }}/assets/posts/2018-01-08-nops_language/cz.dcf)   | Czech               | [Jindřich Marek](https://uisk.ff.cuni.cz/cs/o-ustavu/vyucujici/jindrich-marek/)                                      |
