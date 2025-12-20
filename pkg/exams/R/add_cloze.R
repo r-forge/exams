@@ -109,9 +109,12 @@ add_cloze <- function(solution, choices = NULL, type = NULL, tolerance = NULL, a
 
 format_metainfo <- function(field) {
   info <- .exams_get_internal("exercise_metainfo")
+  if (length(info) == 0L || is.null(names(info)) || !("type" %in% names(info)) || length(info[["type"]]) == 0L) {
+    stop("no metainfo found, maybe add_cloze() was not called, yet?")
+  }
   field <- match.arg(field, names(info))
   if (field == "answerlist") {
-    if (length(info[["answerlist"]]) == 0L) return(character(0))
+    if (length(info[["answerlist"]]) == 0L) return(character(0L))
     markup <- match_exams_markup()
     if (is.null(markup)) markup <- "markdown"
     ans <- paste(answerlist(info[["answerlist"]], markup = markup, write = FALSE), collapse = "\n")
