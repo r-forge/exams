@@ -24,7 +24,7 @@ nops_scan <- function(
     warning(paste("The following images cannot be found:", paste(images[!im], collapse = ", ")))
     images <- images[im]
   }
-  if(length(images) < 0L) {
+  if(length(images) < 1L) {
     stop("No images found.")
   }
 
