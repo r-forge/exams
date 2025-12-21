@@ -63,9 +63,7 @@
   Friedrich Leisch\\
   Universit\"at f\"ur Bodenkultur Wien\\
   Institute of Applied Statistics and Computing\\
-  Peter Jordan-Str.~82, 1190 Wien, Austria\\
-  E-mail: \email{Friedrich.Leisch@R-project.org}\\
-  URL: \url{https://boku.ac.at/rali/stat/personen/leisch-friedrich}
+  Peter Jordan-Str.~82, 1190 Wien, Austria
 }
 
 \begin{document}
@@ -1194,7 +1192,7 @@ steps can be easily recycled. Also, if readers of this manuscript need to code t
 generator, we recommend to use the drivers from the \pkg{exams} package for inspiration. Last
 but not least, the \pkg{exams} package is hosted and \proglang{R}-Forge \citep{exams:Theussl+Zeileis:2009}
 and also provides a forum for support and discussions of e-learning exams in \proglang{R} at
-\url{https://R-Forge.R-project.org/forum/?group_id=1337}.
+\url{https://R-Forge.R-project.org/forum/forum.php?forum_id=4377}.
 
 \section{Summary and discussion} \label{sec:discussion}
 
@@ -1352,7 +1350,7 @@ Furthermore, we have started to explore support for the proprietary
 Finally, users may be interested in extensions/adaptions of existing
 e-learning formats. A forum for support and discussions of such issues
 is available on \proglang{R}-Forge at
-\url{https://R-Forge.R-project.org/forum/?group_id=1337}.
+\url{https://R-Forge.R-project.org/forum/forum.php?forum_id=4377}.
 
 
 \section*{Acknowledgments}
