@@ -100,7 +100,8 @@ add_cloze(c(
 ), type = "mchoice")
 
 ## add a numeric matrix
-tab <- matrix(10^(1:4), ncol = 2, byrow = TRUE, dimnames = list(c("Top", "Bottom"), c("Left", "Right")))
+tab <- matrix(10^(1:4), ncol = 2, byrow = TRUE,
+  dimnames = list(c("Top", "Bottom"), c("Left", "Right")))
 add_cloze(tab)
 
 ## format collected meta-information
