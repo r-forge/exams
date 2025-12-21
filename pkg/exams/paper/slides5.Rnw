@@ -1023,18 +1023,18 @@ if(!file.exists(file.path("_images", "background_whatelse.jpg"))) {
 \begin{frame}[fragile]
 \frametitle{In action: Universit\"at Innsbruck}
 
-\textbf{Olatkurs:} \url{https://lms.uibk.ac.at/auth/RepositoryEntry/2823520256}
+\textbf{Olat course:} \url{https://lms.uibk.ac.at/auth/RepositoryEntry/2823520256}
 \begin{itemize}
-  \item Tutorium f\"ur Onlinetests mit \code{exams2openolat()}.
-  \item Tutorium f\"ur Multiple-Choice-Klausuren mit \code{exams2nops()}.
+  \item Tutorial for online tests using \code{exams2openolat()}.
+  \item Tutorial for written multiple-choice exams using \code{exams2nops()}.
 \end{itemize}
 
 \bigskip
 
-\textbf{Gitlab-Projekt:} \url{https://git.uibk.ac.at/econstat/exams}
+\textbf{Gitlab project:} \url{https://git.uibk.ac.at/econstat/exams}
 \begin{itemize}
-  \item Workflow f\"ur Abwicklung von Multiple-Choice-Klausuren.
-  \item Demo-Projekt mit R-Skripten f\"ur alle Schritte des Workflows.
+  \item Workflow for large scale multiple-choice exams.
+  \item Demo project with R scripts for all steps of the workflow.
 \end{itemize}
 
 \end{frame}
@@ -1060,7 +1060,7 @@ Zeileis, Gr\"un, Leisch, Umlauf, Smits, Birbaumer, Ernst, Keller, Krimm, Sato, S
   \faIcon{globe}             & \url{https://www.R-exams.org/} \\[0.1cm]
   \faIcon{r-project}         & \url{https://CRAN.R-project.org/package=exams} \\[0.1cm]
   \faIcon{stack-overflow}    & \url{https://stackoverflow.com/questions/tagged/r-exams} \\[0.1cm]
-  \faIcon[regular]{comments} & \url{https://R-Forge.R-project.org/forum/?group_id=1337} \\[0.1cm]
+  \faIcon[regular]{comments} & \url{https://R-Forge.R-project.org/forum/forum.php?forum_id=4377} \\[0.1cm]
   \faIcon{mastodon}          & \href{https://fosstodon.org/@zeileis}{@zeileis@fosstodon.org} \\[0.1cm]
   \includegraphics[width=3.8mm]{bluesky.png} & \href{https://bsky.app/profile/zeileis.org}{@zeileis.org}
 \end{tabular}

@@ -1344,9 +1344,9 @@ plot(ma$final_tests, main = "", xlab = "Family-wise 95% confidence intervals")
 \smallskip
 
 \begin{tabular}{ll}
-  Web           & \url{http://www.R-exams.org/} \\
+  Web           & \url{https://www.R-exams.org/} \\
   CRAN          & \url{https://CRAN.R-project.org/package=exams} \\
-  Forum         & \url{http://R-Forge.R-project.org/forum/?group_id=1337} \\
+  Forum         & \url{https://R-Forge.R-project.org/forum/forum.php?forum_id=4377} \\
   StackOverflow & \url{https://stackoverflow.com/questions/tagged/exams} \\
   Twitter       & \href{https://twitter.com/AchimZeileis}{@AchimZeileis}
 \end{tabular}
