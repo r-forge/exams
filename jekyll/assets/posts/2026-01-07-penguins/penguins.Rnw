@@ -1,0 +1,103 @@
+<<sampling, echo=FALSE, results=hide>>=
+s <- sample(levels(penguins$species), 1)
+@
+
+\begin{question}
+The \texttt{penguins} data in base R provides various measurements of adult
+penguins from three different species. See \texttt{?penguins} for more details.
+Originally, the data was used to study sex dimorphism separately for
+the three species.
+
+The first three rows of the data can be inspected as follows. Employ
+\texttt{summary()} to obtain a first overview.
+
+<<data>>=
+data("penguins", package = "datasets")
+head(penguins, 3)
+@
+
+Explore the sex differences with respect to body mass (weight, in grams)
+of the penguins. Create parallel boxplots of weight by sex, such as the
+one below, separately for the three species.
+
+<<boxplots, echo=FALSE, fig=TRUE, height=5, width=5>>=
+p <- penguins[penguins$species == s, ]
+plot(body_mass ~ sex, data = p)
+@
+
+Which species does this plot pertain to? \Sexpr{add_cloze(s)}
+
+To complement the plot compute median, mean, and standard deviation (left to right)
+for the female and male penguins (top down), respectively.
+
+<<table, echo=FALSE>>=
+tab <- aggregate(body_mass ~ sex, data = p,
+  FUN = function(x) c(median = median(x), mean = mean(x), `std. deviation` = sd(x)))
+rownames(tab$body_mass) <- tab$sex
+tab <- as.data.frame(tab$body_mass)
+@
+
+\Sexpr{add_cloze(as.numeric(tab["female",]), tolerance = 0.1)}
+
+\Sexpr{add_cloze(as.numeric(tab["male",]), tolerance = 0.1)}
+
+The average weight difference of \Sexpr{add_cloze(diff(tab$mean), tolerance = 0.1)}
+is thus slightly \Sexpr{add_cloze("higher", c("lower", "higher"))} than the
+median weight difference of \Sexpr{add_cloze(diff(tab$median), tolerance = 0.1)}.
+
+Compute the full \texttt{summary()} of weight by sex for this species and select
+the correct statements in the following list.
+
+<<table2, echo=FALSE>>=
+tab2 <- aggregate(body_mass ~ sex, data = p, FUN = summary)$body_mass
+ans <- character(3)
+sol <- logical(3)
+
+ans[1] <- "The standard deviation of weight is lower for males compared to females."
+sol[1] <- tab[2,3] < tab[1,3]
+
+ans[2] <- sprintf("None of the penguins weighs less than %s grams.", min(tab2[,1]))
+sol[2] <- all(p$body_mass >= min(tab2[,1]), na.rm = TRUE)
+
+sx <- sample(1:2, 1)
+sol[3] <- sample(c(TRUE, FALSE), 1)
+ans[3] <- sprintf("Less than half of the %s penguins weigh more than %s grams.",
+  levels(p$sex)[sx], if (sol[3]) tab2[sx, 5] else tab2[sx, 2])
+@
+
+\Sexpr{add_cloze(setNames(sol, ans), type = "mchoice")}
+  
+\Sexpr{format_metainfo("answerlist")}
+\end{question}
+
+
+\begin{solution}
+One way to obtain the exploratory boxplots separately for the three species is:
+
+<<boxplots3, fig=TRUE, height=4.5, width=13.5>>=
+par(mfrow = c(1, 3))
+for(i in levels(penguins$species)) plot(body_mass ~ sex, data = penguins,
+  subset = species == i, main = i, ylim = range(penguins$body_mass, na.rm = TRUE))
+@
+
+The question shows the parallel boxplots for the \Sexpr{s} species.
+
+Groupwise statistics of body mass by sex and species (including mean, median,
+and standard deviation) can be obtained by aggregating the data with the combined
+\texttt{summary()} and \texttt{sd()} functions.
+
+<<aggregate3>>=
+aggregate(body_mass ~ sex + species, data = penguins,
+  FUN = function(x) c(summary(x), `Std. dev.` = sd(x)))
+@
+
+Based on this the remaining elements of the question can be answered.
+\end{solution}
+
+
+\exname{penguins sex dimorphism}
+\extype{cloze}
+\exclozetype{\Sexpr{format_metainfo("type")}}
+\exsolution{\Sexpr{format_metainfo("solution")}}
+\extol{\Sexpr{format_metainfo("tolerance")}}
+\exshuffle{TRUE}

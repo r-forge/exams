@@ -1,0 +1,13 @@
+```{r penguins-rmd, echo=FALSE, results="asis", message=FALSE, warning=FALSE, error=FALSE}
+writeLines(include_template(
+  name = "penguins",
+  title = "Cloze Quiz for Exploratory Analysis of Penguins Data",
+  teaser = "Cloze exercise exploring sex differences in body mass for a randomly selected species of penguins, based on the eponymous data in base R.",
+  description = "This cloze exercise randomly selects one (out of three) species of penguins from the eponymous data set in base R and then asks for a number of exploratory analyses investigating sex differences in body weight for the selected penguin species. The exercise template illustrates how such a data-based cloze including all types of items (numeric, string, single-choice, multiple-choice) can be created relatively easily using the add_cloze() function.",
+  tags = c("statistics", "boxplot"),
+  related = c("lm2", "boxhist2"),
+  randomization = "Shuffling (1 out of 3 species)",
+  thumb = c(262, 598),
+  nchar = 11)
+)
+```
