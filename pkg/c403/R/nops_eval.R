@@ -1,9 +1,9 @@
 #' Deprecated: Evaluate NOPS Exams (Uni Innsbruck)
-#' 
+#'
 #' Unexported legacy interface to evaluate NOPS exams produced with \code{\link[c403]{exams2nops}},
 #' and scanned by \code{\link[exams]{nops_scan}}. Instead it is recommended to use
 #' \code{\link[exams]{nops_scan}} directly.
-#' 
+#'
 #' @param register character. File name of a CSV file (semicolon-separated)
 #'        of the registered students, e.g., as produced by \code{nops_register}
 #'        based on the VIS registration lists. Must contain columns
@@ -46,7 +46,7 @@
 #'        by \code{\link[exams]{nops_scan}}.
 #' @param string_points numeric. Vector of length 5 with points assigned
 #'        to string results.
-#' 
+#'
 #' @details \code{nops_eval} is a companion function for
 #' \code{\link[c403]{exams2nops}} and \code{\link[exams]{nops_scan}}.
 #' It calls \code{\link[exams]{nops_eval}} from the \pkg{exams} package which evaluates
@@ -55,18 +55,18 @@
 #' individual student are generated for upload into OpenOlat. In addition to this
 #' function from the \pkg{exams} package, the function adds the marks in the Uni
 #' Innsbruck-specifc format in an Excel spreadsheet.
-#' 
+#'
 #' \code{nops_register} is another companion function for preprocessing the
 #' registration lists that are provided by VIS. The function assigns random seats
 #' for every student and saves the result in both CSV and XLSX format as well as a
 #' tab-separated text file with the seat numbers for import into OLAT.  The
 #' underlying workhorse function is \code{\link[c403]{read_vis}}.
-#' 
+#'
 #' @return A \code{data.frame} with the detailed exam results is returned
 #' invisibly.  It is also written to a CSV file in the current directory, along
 #' with a ZIP file containing the HTML reports (for upload into OLAT), and an XLSX
 #' file (for importing the marks into VIS).
-#' 
+#'
 #' @seealso \code{\link[c403]{exams2nops}}, \code{\link[exams]{nops_scan}}, \code{\link[exams]{nops_eval}}, \code{\link[c403]{read_vis}}
 #' 
 #' @importFrom exams round2 exams_eval

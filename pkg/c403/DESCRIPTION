@@ -18,7 +18,8 @@ Suggests:
     XML,
     knitr,
     rmarkdown,
-    tinytex
+    tinytex,
+    tidyr
 Imports: graphics, grDevices, stats, tools, utils, xml2
 SystemRequirements: pandoc (>= 2.0)
 License: GPL-2 | GPL-3

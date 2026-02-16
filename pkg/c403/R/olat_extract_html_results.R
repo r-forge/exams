@@ -390,8 +390,12 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
             ans <- xml_find_first(x, ".//div[contains(@class, 'panel-body')]/div[not(contains(@class, 'o_qti21_solution'))]")
             sol <- xml_find_first(x, ".//div[contains(@class, 'panel-body')]/div[contains(@class, 'o_qti21_solution')]")
 
+            # Extracting question text (HTML -> xml_text)
+            txt <- xml_find_first(x, ".//div[contains(@class, 'panel-body')]/h4/following-sibling::div[1]")
+            txt <- trimws(xml_text(xml_find_all(txt, ".//text()[not(ancestor::script)]"), trim = TRUE))
+
             # Extract solution and answer, return
-            result <- list(Answer = extract(ans), Solution = extract(sol))
+            result <- list(Answer = extract(ans), Solution = extract(sol), RawText = txt)
             return(result)
         }
 
@@ -427,6 +431,7 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
         user_results <- get_exam_results(html, long = TRUE)
         return(merge(user_results, rds, by = "ID", all.x = TRUE, all.y = FALSE))
     }
+
     results_list <- lapply(htmlfiles, worker, rds = rds)
     results      <- do.call(rbind, results_list)
     if (verbose) {
@@ -442,7 +447,11 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
     idx <- results$Status == "Answered" & is.na(results$Answer)
     if (length(idx) > 0) results$Status[idx] <- "Answered but empty"
 
+    # Return tibble if possible
+    if (requireNamespace("tidyr", quietly = TRUE)) results <- tidyr::as_tibble(results)
+
     # Return results
     return(results)
 }
+
 

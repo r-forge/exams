@@ -13,13 +13,13 @@
 #'
 #' @return Returns the name of the zip file created.
 #'
+#' @importFrom exams pandoc
 #' @author Reto Stauffer
 #' @export
 nops_feedback <- function(res, xexam, name = "nops_feedback") {
 
     # Convert latex to html
     # Example: exams:::pandoc("\\textbf{x}", from = "latex", to = "html")
-    
     cat("Convert latex to html\n")
     tohtml <- function(x) {
         fn <- function(x, qslist = FALSE) {
@@ -30,7 +30,7 @@ nops_feedback <- function(res, xexam, name = "nops_feedback") {
             } else {
                 x <- gsub("(``|'')", "\"", x)
             }
-            exams:::pandoc(x, from = "latex", to = "html")
+            pandoc(x, from = "latex", to = "html")
         }
         x$question     <- fn(x$question)
         x$questionlist <- sapply(x$questionlist, fn, qslist = TRUE)
@@ -107,7 +107,7 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     # OLAT results contain the exam id in 'id.1' ...
     if (any(grepl("^id\\.1$", names(res)))) {
         test.id <- 1L + (res$id.1[i] - 1L) %% length(xexam)
-    
+
         # Generate correct exam id's. Note: may change for one participant
         # for the different questions (must not be a unique number).
         exam_id <- unlist(res[i, grep("^id\\.[0-9]+$", names(res), perl = TRUE)])
@@ -136,7 +136,7 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     # Append a summary div (will be filled later on)
     xml_add_child(xml_find_first(doc, "//html/body"), "div", id = "meta")
     xml_add_child(xml_find_first(doc, "//html/body"), "div", id = "summary")
-    
+
     # Converts binary string (e.g., "0100") into
     # a logical vector (c(FALSE, TRUE, FALSE, FALSE)).
     #
@@ -162,7 +162,7 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         }
         return(res)
     }
-    
+
     # ------------------------------------------
     # Looping over the individual questions in the test
     # to generate the html output.
@@ -176,12 +176,12 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         xml_set_text(xml_add_child(tmp, "h1", id = sprintf("question-%d", qnr)),
                      sprintf("Question %d", qnr))
         xml_add_child(tmp, xml_cdata(paste(test[[qnr]]$question, collapse = "\n")))
-    
+
         # Answer given by the participant
         answer       <- binary_to_logical(res[i, paste("answer", qnr, sep = ".")])
         solution     <- binary_to_logical(res[i, paste("solution", qnr, sep = ".")])
         solution_rds <- test[[qnr]]$metainfo$solution
-    
+
         # Just check if the test solution fits the one stored in the data.frame x.
         if (!identical(solution_rds, binary_to_logical(res[i, paste("solution", qnr, sep = ".")]))) {
             print(solution_rds)
@@ -190,13 +190,13 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
         }
 
         stopifnot(identical(solution_rds, binary_to_logical(res[i, paste("solution", qnr, sep = ".")])))
-    
+
         # Append an <ul> element to add the possible answers
         ul <- xml_add_child(tmp, "ul", class = "answerlist")
         for (j in seq_along(test[[qnr]]$questionlist)) {
             # Correct or not?
             check <- check_answer_solution(answer[j], solution[j])
-            
+
             li <- xml_add_child(ul, "li", class = paste("check", as.character(check), sep = "-"))
             xml_add_child(li, "span", class = paste("solution", ifelse(solution[j], "correct", "incorrect")))
             xml_add_child(li, "span", class = paste("answer",
@@ -223,7 +223,7 @@ olat_feedback_render_one <- function(res, xexam, i, htmlfile = "Result.html", sh
     xml_set_text(xml_add_child(ul, "li"), sprintf("Name: %s", res$name[i]))
     xml_set_text(xml_add_child(ul, "li"), sprintf("User: %s", res$username[i]))
     xml_set_text(xml_add_child(ul, "li", id = "meta-score"), "Points:  ")
-    
+
     li <- xml_find_first(doc, "//*/li[@id='meta-score']")
     xml_set_text(xml_add_child(li, "b"), sprintf("%d / %d", res$score[i], length(test)))
     xml_set_text(xml_add_child(li, "span"), sprintf("  (%.0f percent)", 100 * res$score[i] / length(test)))
