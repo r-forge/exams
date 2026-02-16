@@ -1,3 +1,10 @@
+
+
+# c403 0.9-4
+
+* Adjusted `olat_extract_html_results()` to handle the updated HTML format
+  for single choice questions exported by Open Olat (old exports no longer work).
+
 # c403 0.9-3
 
 * Deprecated legacy interfaces `exams2openolat()`, `exams2nops()`, `nops_eval()`.

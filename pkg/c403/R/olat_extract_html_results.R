@@ -362,17 +362,27 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
             # (single) choice question codes as char "0|0|1|0".
             extract <- function(x) {
                 tmp <- xml_find_first(x, ".//div[contains(@class, 'choiceInteraction')]")
-                # Input field (text) interaction
-                if (length(tmp) == 0) {
+
+                # Input field (text/numeric) interaction
+                if (is.na(tmp)) {
                     x   <- xml_find_first(x, ".//span[contains(@class, 'textEntryInteraction')]/input")
                     res <- xml_attr(x, "value")
                     if (nchar(res) == 0) res <- NA_character_
+
                 # Choice interaction
                 } else {
-                    tmp <- xml_find_all(tmp, ".//table/tr[contains(@class, 'choiceinteraction')]/td[contains(@class, 'control')]/input")
-                    tmp <- ifelse(xml_attr(tmp, "checked") == "checked", 1, 0)
-                    res <- paste(ifelse(is.na(tmp), 0, 1), collapse = "|")
+                    # Legacy mode, before 2026 single choice questions used 'input's,
+                    tmp_old <- xml_find_all(tmp, ".//table/tr[contains(@class, 'choiceinteraction')]/td[contains(@class, 'control')]/input")
+                    if (length(tmp_old) > 0L) {
+                        tmp_old <- ifelse(xml_attr(tmp_old, "checked") == "checked", 1, 0)
+                        res     <- paste(ifelse(is.na(tmp_old), 0, 1), collapse = "|")
+                    # Adjustment to newer (2026?) Open Olat output format
+                    } else {
+                        tmp_new <- xml_find_all(tmp, ".//table//tr[contains(@class, 'choiceinteraction')]/td[contains(@class, 'control')]/i")
+                        res     <- paste(as.integer(grepl("_radio_on", xml_attr(tmp_new, "class"))), collapse = "|")
+                    }
                 }
+
                 return(res)
             }
 

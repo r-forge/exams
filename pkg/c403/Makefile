@@ -6,7 +6,7 @@ VERSION := $(shell grep '^Version:' DESCRIPTION | awk '{print $$2}')
 build:
 	@echo Building current version: $(VERSION)
 	(cd ../ && R CMD build c403)
-install: build
+install: docs build
 	@echo Installing current version: $(VERSION)
 	(cd ../ && R CMD INSTALL c403_$(VERSION).tar.gz)
 check: build
