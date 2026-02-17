@@ -3,34 +3,43 @@
 
 #' Extracting OpenOLAT Results from HTML Results Files
 #'
-#' Warning: This function has been written in December 2024 for a specific
-#' analysis and is not yet feature complete and tested properly. Use at your own risk!
-#'
 #' To get detailed information from the individual questions of a test, this function
-#' processes the HTML results files (test summaries) created by OpenOLAT, and combines
+#' processes the HTML results files (test summaries) created by OpenOLAT, and (if required) combines
 #' this the data with the information provided by [exams2openolat] to create the link to the
-#' question source files (i.e., R/exams Rmd/Rnw questions).
+#' question source files (i.e., R/exams Rmd/Rnw questions). Is able to process results
+#' exported via Open Olat (`zipfile`) in both German or English for now.
 #'
-#' @param rds character, name of the RDS file procuded by [exams2openolat] when the
-#'        test was generated.
+#' TODO(R): Note that this function is still under development and is missing
+#' a few features, see Sections 'Disclaimer' and 'Adding functionality'.
+#'
+#' @param rds `NULL` or character. If character, name of the RDS file procuded
+#'        by [exams2openolat] when the test was generated used to extract original
+#'        exam question file name and 'exname'. If `NULL` only the information from
+#'        the zipfile is used.
 #' @param zipfile character, name/path to the ZIP file (exported via OpenOlat)
 #'        oontaining the HTML results files (amongst other files needed).
 #' @param verbose logical, if `TRUE` some information is written to stdout.
 #'
-#' @return Returns a `data.frame` of dimension `N x 13` where `N` corresponds to the total
+#' @return Returns a (tibble) data frame of dimension `N x K` where `N` corresponds to the total
 #' number of questions. If 100 participants have taken a test with 20 questions each,
 #' this would result in `N = 2000`. The columns contain:
 #'
+#' - `Username`: Participants user name (c-Kennung).
+#' - `Institution`: Institution identifier (Matrikelnummer)
+#' - `Name`: Full name of the participant.
 #' - `ID`: OpenOLAT question identifier.
-#' - `Name`/`User`: Participant name and username extracted from the path to the HTML file.
-#' - `html_Name`/`html_Email`: Participant name and email as shown in the HTML file.
+#' - `Email`: Participant email as shown in the HTML results file.
 #' - `Status`: Status provided by OpenOLAT.
 #' - `Score`: The participant's score for this question ("My Score" in the HTML file).
 #' - `Answer`: The participant's answer, can be `NA` if empty.
 #' - `Solution`: The correct solution.
-#' - `filename`: Source file name (modified), path/name of the original R/exams file (Rmd/Rnw).
+#' - `RawText`: Raw question text, unformatted, can be used to search for keywords in the text.
+#' - `Section`/`Item`: Section and item ID extracted from the exams olat identifier.
+#'
+#' If an additional RDS file (argument `rds`) is provided, the following columns are added:
+#'
+#' - `file`: Source file name (modified), path/name of the original R/exams file (Rmd/Rnw).
 #' - `exname`: Name of the question (the exname meta-information from the R/exams question).
-#' - `Section`/`Item`: The original section/item provided by the `rds` file.
 #'
 #' Besides `Score` (numeric), `Section`/`Item` (int) everything is of class character.
 #'
@@ -41,7 +50,7 @@
 #'
 #' - Depending on the (user specific) OpenOLAT language setting, the exported ZIP file
 #'   comes in different languages. We 'auto guess' the language based on the content of
-#'   the ZIP archive.
+#'   the ZIP archive, tested for German and English.
 #' - Originally implemented for string, num, and schoice questions.
 #'   Not sure if it works for mchoice, definitively no support for cloze questions at the moment.
 #' - Handling of multiple attempts (evaluate first, second, last attempt?).
@@ -156,36 +165,18 @@
 #' @export
 #' @author Reto
 olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
+
     stopifnot(
-        "`rds` input incorrect or file not found" = isTRUE(file.exists(rds)),
-        "`zipfile` incorrect or file not found" = isTRUE(file.exists(zipfile))
+        "argument `rds` input incorrect or file not found" = is.null(rds) || isTRUE(file.exists(rds)),
+        "argument `zipfile` incorrect or file not found" = isTRUE(file.exists(zipfile))
     )
 
+    # We require openxlsx to read the user details later on (step 6)
+    if (!requireNamespace("openxlsx", quietly = TRUE))
+        stop("Requires openxlsx to be installed (reading XLSX files)")
 
     # ---------------------------------------------------------------
-    # (1) Reading content of the RDS file. Reduce the list by
-    #     one level (remove the 'section' segmentation) and coerce
-    #     to data.frame, storing question name (exname) and source file name.
-    # ---------------------------------------------------------------
-    rds <- readRDS(rds)
-    # Alternatively use dplyr::bind_rows
-    rds_to_df <- function(x) {
-        fn <- function(r) { 
-            r <- lapply(r, function(k) as.data.frame(k$metainfo[c("file", "name")]))
-            return(do.call(rbind, r))
-        }
-        do.call(rbind, lapply(rds, fn))
-    }
-    rds <- rds_to_df(rds)
-    names(rds) <- c("file", "exname")
-    if (verbose) {
-        message("- Found ", nrow(rds), " questions based on ",
-                length(unique(rds$file)), " different R/exams questions (source files).")
-    }
-
-
-    # ---------------------------------------------------------------
-    # (2) Unzipping the `zipfile` archive (requires unzip) and
+    # (1) Unzipping the `zipfile` archive (requires unzip) and
     #     quickly checks if the content is as expected, i.e., if the
     #     content looks like an export from OpenOLAT containing the
     #     results from an test.
@@ -210,6 +201,29 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
             "can't find folder \"userdata\". ZIP content not as expected" = "userdata" %in% tmp,
             "can't find any \"^test[0-9]+$\" folder. ZIP content not as expected" = any(grepl("^test[0-9]+$", tmp))
         )
+
+        # This is a hardcoded, but trying to guess the language. If the results folder is called
+        # - Resultate: German language
+        # - Results: English language
+        # - Else: No idea, stop.
+        # The named vector $userdetails is used as a lookup to identify and rename
+        # the required columns. Can be regex (handed over to grepl(..., perl = FALSE)).
+        if (lang$resultsdir == "Resultate") {
+            lang$lang <- "de"
+            lang$userdetails <- c("Username"    = "Anmeldename",
+                                  "First"       = "Vorname",
+                                  "Last"        = "Nachname",
+                                  "Institution" = "Matrikelnummer")
+        } else if (lang$resultsdir == "Results") {
+            lang$lang <- "en"
+            lang$userdetails <- c("Username"    = "Username",
+                                  "First"       = "First.*name",
+                                  "Last"        = "Last.*name",
+                                  "Institution" = "Institution.*identifier.*")
+        } else {
+            stop("Not able to guess the language from the results directory name which is \"", lang$resultsdir, "\".")
+        }
+
         # Next we need to auto-guess the language of the folders containing
         # the attempts. In EN it is "Attempt_X", in German "Versuch_*", we try to guess it here.
         dirs <- list.dirs(file.path(d, lang$resultsdir, "userdata"), recursive = FALSE)
@@ -220,11 +234,17 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
             stop("issues guessing language of folder name for 'attempts', got ", paste(att, collapse = ", "))
         lang$attempt <- att
 
+        # Searching for 'root xlsx' file which contains Name, Matrikelnummer, ... (detailed user details)
+        tmp <- Sys.glob(file.path(d, lang$resultsdir, "*.xlsx"))
+        stopifnot("can't find XLSX file with user details (in Results/Resultate)" = isTRUE(file.exists(tmp)))
+        lang$userdetails_file <- tmp
+
         if (verbose) {
             message("- Quick check: Structure of the ZIP content looks fine")
             message("- Automatic language check:")
             message("       Name of results directory:     ", lang$resultsdir)
             message("       Name of 'attempt' directories: ", lang$attempt)
+            message("       File with user details:        ", basename(lang$userdetails))
         }
         invisible(lang)
     }
@@ -232,7 +252,7 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
 
 
     # ---------------------------------------------------------------
-    # (3) Next we need to read the imsmanifest.xml file which is the
+    # (2) Next we need to read the imsmanifest.xml file which is the
     #     link between the randomizations (in `rds`) and the IDs used
     #     by Open OLAT. For that, we need to find the "<lang$resultsdir>/test*"
     #     directory which contains the manifest.
@@ -265,13 +285,42 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
     }
     olat_ids <- read_manifest(manifest)
     if (verbose) message("- Imported ", nrow(olat_ids), " IDs from the manifest file.")
-    stopifnot("number of elements read from manifest does not match number of questions read from the rds" =
-              nrow(olat_ids) == nrow(rds))
 
-    # Column-bind `rds` and `olat_ids` to create the link from R/exams to the
-    # Open OLAT results files (HTML files) read next.
-    rds <- cbind(rds, olat_ids)
-    rm(olat_ids)
+
+
+    # ---------------------------------------------------------------
+    # (3) Reading content of the RDS file (if provided). Reduce the list by
+    #     one level (remove the 'section' segmentation) and coerce
+    #     to data.frame, storing question name (exname) and source file name.
+    #     Finally, attach the additional meta information from the RDS file
+    #     to 'olat_ids' (currently name of the original exams file and
+    #     the exname; could be extended in the future).
+    # ---------------------------------------------------------------
+    if (!is.null(rds)) {
+        rds <- readRDS(rds)
+        # Alternatively use dplyr::bind_rows
+        rds_to_df <- function(x) {
+            fn <- function(r) { 
+                r <- lapply(r, function(k) as.data.frame(k$metainfo[c("file", "name")]))
+                return(do.call(rbind, r))
+            }
+            do.call(rbind, lapply(rds, fn))
+        }
+        rds <- rds_to_df(rds)
+        names(rds) <- c("file", "exname")
+        if (verbose) {
+            message("- Found ", nrow(rds), " questions based on ",
+                    length(unique(rds$file)), " different R/exams questions (source files).")
+        }
+
+        stopifnot("number of elements read from manifest does not match number of questions read from the rds" =
+                  nrow(olat_ids) == nrow(rds))
+
+        # Column-bind `rds` and `olat_ids` to create the link from R/exams to the
+        # Open OLAT results files (HTML files) read next.
+        olat_ids <- cbind(olat_ids, rds)
+        rm(rds)
+    }
 
 
     # ---------------------------------------------------------------
@@ -325,17 +374,16 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
         # Getting user information
         get_userinfo <- function(x, htmlfile) {
             # Extracting Name and Username from the html file name
-            pattern <- paste0("(?<=(\\/))\\w+(?=(\\/", lang$attempt, "))")
-            tmp <- regmatches(htmlfile, regexpr(pattern, htmlfile, perl = TRUE))
-            Name <- regmatches(tmp, regexpr(".*(?=(_))", tmp, perl = TRUE))
-            User <- regmatches(tmp, regexpr("(?<=(_))[A-Za-z0-9]+$", tmp, perl = TRUE))
+            pattern  <- paste0("(?<=(\\/))\\w+(?=(\\/", lang$attempt, "))")
+            tmp      <- regmatches(htmlfile, regexpr(pattern, htmlfile, perl = TRUE))
+            Username <- regmatches(tmp, regexpr("(?<=(_))[A-Za-z0-9]+$", tmp, perl = TRUE))
 
             # Extracting name and email as shown in the HTML file
-            html_Name  <- xml_find_all(x, ".//div[contains(@class, 'o_userShortDescription')]//tr[contains(@class, 'o_user')]/td")
-            html_Email <- xml_find_all(x, ".//div[contains(@class, 'o_userShortDescription')]//tr[contains(@class, 'o_email')]/td")
+            #Name  <- xml_find_all(x, ".//div[contains(@class, 'o_userShortDescription')]//tr[contains(@class, 'o_user')]/td")
+            #Name  <- trimws(xml_text(Name))
+            Email <- xml_find_all(x, ".//div[contains(@class, 'o_userShortDescription')]//tr[contains(@class, 'o_email')]/td")
 
-            return(list(Name = Name, User = User,
-                        html_Name = trimws(xml_text(html_Name)), html_Email = trimws(xml_text(html_Email))))
+            return(list(Username = Username, Email = trimws(xml_text(Email))))
         }
         result$User <- get_userinfo(doc, htmlfile)
 
@@ -374,12 +422,13 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
                     # Legacy mode, before 2026 single choice questions used 'input's,
                     tmp_old <- xml_find_all(tmp, ".//table/tr[contains(@class, 'choiceinteraction')]/td[contains(@class, 'control')]/input")
                     if (length(tmp_old) > 0L) {
-                        tmp_old <- ifelse(xml_attr(tmp_old, "checked") == "checked", 1, 0)
+                        tmp_old <- ifelse(xml_attr(tmp_old, "checked") == "checked", 1L, 0L)
                         res     <- paste(ifelse(is.na(tmp_old), 0, 1), collapse = "|")
                     # Adjustment to newer (2026?) Open Olat output format
                     } else {
                         tmp_new <- xml_find_all(tmp, ".//table//tr[contains(@class, 'choiceinteraction')]/td[contains(@class, 'control')]/i")
-                        res     <- paste(as.integer(grepl("_radio_on", xml_attr(tmp_new, "class"))), collapse = "|")
+                        tmp_new <- as.integer(grepl("_radio_on", xml_attr(tmp_new, "class")))
+                        res     <- paste(tmp_new, collapse = "|")
                     }
                 }
 
@@ -396,7 +445,7 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
             txt <- trimws(paste(txt, collapse = " "))
 
             # Extract solution and answer, return
-            result <- list(Answer = extract(ans), Solution = extract(sol), RawText = txt)
+            result <- c(Answer = extract(ans), Solution = extract(sol), RawText = txt)
             return(result)
         }
 
@@ -424,22 +473,41 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
     }
 
     # Looping over all HTML files, extract the user information/user results,
-    # and combine it with the information from the `rds` object (information from
-    # the RDS file as well as the manifest) to finish linking R/exams and Open OLAT
-    # results together.
-    # Process all
-    worker <- function(html, rds) {
+    # and combine it with the olat_ids (information from the manifest and
+    # potentially information from the rds file)
+    worker <- function(html, olat_ids) {
         user_results <- get_exam_results(html, long = TRUE)
-        return(merge(user_results, rds, by = "ID", all.x = TRUE, all.y = FALSE))
+        return(merge(user_results, olat_ids, by = "ID", all.x = TRUE, all.y = FALSE))
     }
 
-    results_list <- lapply(htmlfiles, worker, rds = rds)
+    results_list <- lapply(htmlfiles, worker, olat_ids = olat_ids)
     results      <- do.call(rbind, results_list)
-    if (verbose) {
-        message("- Got ", nrow(results), " individual questions/answers from ", length(htmlfiles), 
-                " HTML results files,\n  in other words ", nrow(results) / length(htmlfiles),
-                " questions/results from ", length(htmlfiles), " users/participants.")
+
+    # ---------------------------------------------------------------
+    # (6) Reading information from the 'userdetails' file (the XLSX file
+    #     in the main folder) and attach these details to 'results'.
+    # ---------------------------------------------------------------
+    read_userdetails <- function(x) {
+        res <- openxlsx::read.xlsx(x$userdetails_file, sheet = 1L, startRow = 2L, cols = 1:5)
+
+        # Renaming columns -- standardize column names
+        for (i in seq_along(lang$userdetails))
+            names(res)[grepl(lang$userdetails[[i]], names(res))] <- names(lang$userdetails)[i]
+
+        ## Ensure we have all the columns we need
+        if (length(idx <- which(!names(lang$userdetails) %in% names(res))) > 0L) {
+            stop("Unable to identify all required columns in the data from the user details file (XLSX file). ",
+                 "Missing: ", paste(names(lang$userdetails)[idx], collapse = ", "), " (Debug info: currently have ",
+                 paste(names(res), collapse = ", "))
+        }
+
+        # Dropping unnecessary columns, combine Name (remove first and last name afterwards) and return
+        res <- res[, names(lang$userdetails)]
+        res$Name <- paste(res$First, res$Last, sep = " ")
+        res$First <- res$Last <- NULL
+        return(res)
     }
+    results <- merge(read_userdetails(lang), results, by = "Username", all = TRUE)
 
     # `results$Status` contains a status provided by Open OLAT
     # - Answered: Participant answered the question (used 'save answer'). It is, however,
@@ -447,6 +515,13 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
     #   "Answered but empty" if the user's Answer is NA.
     idx <- results$Status == "Answered" & is.na(results$Answer)
     if (length(idx) > 0) results$Status[idx] <- "Answered but empty"
+
+    # Final message before returning the data
+    if (verbose) {
+        message("- Got ", nrow(results), " individual questions/answers from ", length(htmlfiles), 
+                " HTML results files,\n  in other words ", nrow(results) / length(htmlfiles),
+                " questions/results from ", length(htmlfiles), " users/participants.")
+    }
 
     # Return tibble if possible
     if (requireNamespace("tidyr", quietly = TRUE)) results <- tidyr::as_tibble(results)

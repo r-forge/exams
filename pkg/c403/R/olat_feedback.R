@@ -13,7 +13,6 @@
 #'
 #' @return Returns the name of the zip file created.
 #'
-#' @importFrom exams pandoc
 #' @author Reto Stauffer
 #' @export
 nops_feedback <- function(res, xexam, name = "nops_feedback") {
@@ -30,6 +29,7 @@ nops_feedback <- function(res, xexam, name = "nops_feedback") {
             } else {
                 x <- gsub("(``|'')", "\"", x)
             }
+            # Using exams:::pandoc()
             pandoc(x, from = "latex", to = "html")
         }
         x$question     <- fn(x$question)

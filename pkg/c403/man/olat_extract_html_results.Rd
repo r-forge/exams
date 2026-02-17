@@ -7,8 +7,10 @@
 olat_extract_html_results(rds, zipfile = NULL, verbose = TRUE)
 }
 \arguments{
-\item{rds}{character, name of the RDS file procuded by \link{exams2openolat} when the
-test was generated.}
+\item{rds}{\code{NULL} or character. If character, name of the RDS file procuded
+by \link{exams2openolat} when the test was generated used to extract original
+exam question file name and 'exname'. If \code{NULL} only the information from
+the zipfile is used.}
 
 \item{zipfile}{character, name/path to the ZIP file (exported via OpenOlat)
 oontaining the HTML results files (amongst other files needed).}
@@ -16,33 +18,41 @@ oontaining the HTML results files (amongst other files needed).}
 \item{verbose}{logical, if \code{TRUE} some information is written to stdout.}
 }
 \value{
-Returns a \code{data.frame} of dimension \verb{N x 13} where \code{N} corresponds to the total
+Returns a (tibble) data frame of dimension \verb{N x K} where \code{N} corresponds to the total
 number of questions. If 100 participants have taken a test with 20 questions each,
 this would result in \code{N = 2000}. The columns contain:
 \itemize{
+\item \code{Username}: Participants user name (c-Kennung).
+\item \code{Institution}: Institution identifier (Matrikelnummer)
+\item \code{Name}: Full name of the participant.
 \item \code{ID}: OpenOLAT question identifier.
-\item \code{Name}/\code{User}: Participant name and username extracted from the path to the HTML file.
-\item \code{html_Name}/\code{html_Email}: Participant name and email as shown in the HTML file.
+\item \code{Email}: Participant email as shown in the HTML results file.
 \item \code{Status}: Status provided by OpenOLAT.
 \item \code{Score}: The participant's score for this question ("My Score" in the HTML file).
 \item \code{Answer}: The participant's answer, can be \code{NA} if empty.
 \item \code{Solution}: The correct solution.
-\item \code{filename}: Source file name (modified), path/name of the original R/exams file (Rmd/Rnw).
+\item \code{RawText}: Raw question text, unformatted, can be used to search for keywords in the text.
+\item \code{Section}/\code{Item}: Section and item ID extracted from the exams olat identifier.
+}
+
+If an additional RDS file (argument \code{rds}) is provided, the following columns are added:
+\itemize{
+\item \code{file}: Source file name (modified), path/name of the original R/exams file (Rmd/Rnw).
 \item \code{exname}: Name of the question (the exname meta-information from the R/exams question).
-\item \code{Section}/\code{Item}: The original section/item provided by the \code{rds} file.
 }
 
 Besides \code{Score} (numeric), \code{Section}/\code{Item} (int) everything is of class character.
 }
 \description{
-Warning: This function has been written in December 2024 for a specific
-analysis and is not yet feature complete and tested properly. Use at your own risk!
+To get detailed information from the individual questions of a test, this function
+processes the HTML results files (test summaries) created by OpenOLAT, and (if required) combines
+this the data with the information provided by \link{exams2openolat} to create the link to the
+question source files (i.e., R/exams Rmd/Rnw questions). Is able to process results
+exported via Open Olat (\code{zipfile}) in both German or English for now.
 }
 \details{
-To get detailed information from the individual questions of a test, this function
-processes the HTML results files (test summaries) created by OpenOLAT, and combines
-this the data with the information provided by \link{exams2openolat} to create the link to the
-question source files (i.e., R/exams Rmd/Rnw questions).
+TODO(R): Note that this function is still under development and is missing
+a few features, see Sections 'Disclaimer' and 'Adding functionality'.
 
 A brief summary of the individual steps:
 \enumerate{
@@ -70,7 +80,7 @@ todo's and missing features. Incomplete list of known missing features:
 \itemize{
 \item Depending on the (user specific) OpenOLAT language setting, the exported ZIP file
 comes in different languages. We 'auto guess' the language based on the content of
-the ZIP archive.
+the ZIP archive, tested for German and English.
 \item Originally implemented for string, num, and schoice questions.
 Not sure if it works for mchoice, definitively no support for cloze questions at the moment.
 \item Handling of multiple attempts (evaluate first, second, last attempt?).

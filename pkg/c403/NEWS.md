@@ -3,7 +3,9 @@
 # c403 0.9-4
 
 * Adjusted `olat_extract_html_results()` to handle the updated HTML format
-  for single choice questions exported by Open Olat (old exports no longer work).
+  for single choice questions exported by Open Olat; reads and returns
+  user details from the XLSX file shipped with the Olat export; support
+  for DE and EN Olat exports.
 
 # c403 0.9-3
 
