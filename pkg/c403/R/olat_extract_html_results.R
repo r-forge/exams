@@ -393,6 +393,7 @@ olat_extract_html_results <- function(rds, zipfile = NULL, verbose = TRUE) {
             # Extracting question text (HTML -> xml_text)
             txt <- xml_find_first(x, ".//div[contains(@class, 'panel-body')]/h4/following-sibling::div[1]")
             txt <- trimws(xml_text(xml_find_all(txt, ".//text()[not(ancestor::script)]"), trim = TRUE))
+            txt <- trimws(paste(txt, collapse = " "))
 
             # Extract solution and answer, return
             result <- list(Answer = extract(ans), Solution = extract(sol), RawText = txt)
