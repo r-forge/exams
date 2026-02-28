@@ -4,7 +4,7 @@ exams2forms <- function(file,
   usecase = TRUE, usespace = TRUE, auto = FALSE, show_filename = !isFALSE(auto), show_tolerance = !isFALSE(auto),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, ...) {
+  base64 = NULL, obfuscate = TRUE, ...) {
 
   ## sanity checks
   if (!isTRUE(usecase)   && !isFALSE(usecase))   usecase   <- as.logical(usecase[1L])

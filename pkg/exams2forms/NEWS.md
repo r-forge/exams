@@ -2,6 +2,9 @@
 
 * Small fix in `webex.js` for the setting with `show_tolerance = TRUE`
   and `n > 1`.
+
+* The `converter` argument in `exams2forms()` was not used and has
+  hence been dropped.
   
 
 # exams2forms 0.2-0

@@ -18,7 +18,7 @@ exams2forms(file,
   show_filename = !isFALSE(auto), show_tolerance = !isFALSE(auto),
   n = 1L, nsamp = NULL, dir = ".", edir = NULL, tdir = NULL, sdir = NULL, verbose = FALSE,
   quiet = TRUE, resolution = 100, width = 4, height = 4, svg = FALSE,
-  converter = "pandoc-mathjax", base64 = NULL, obfuscate = TRUE, \dots)
+  base64 = NULL, obfuscate = TRUE, \dots)
 }
 
 \arguments{
@@ -81,8 +81,6 @@ exams2forms(file,
   \item{resolution, width, height}{numeric. Options for rendering PNG (or SVG)
     graphics passed to \code{\link[exams]{xweave}}.}
   \item{svg}{logical. Should graphics be rendered in SVG or PNG (default)?}
-  \item{converter}{passed on to \code{\link[exams]{make_exercise_transform_html}}
-    (if \code{markup = "html"}).}
   \item{base64}{logical. Should supplementary files be embedded using Base 64 coding?
     Passed on to \code{\link[exams]{make_exercise_transform_pandoc}}.
     The default is to enable Base 64 when an HTML-type document is produced.}
