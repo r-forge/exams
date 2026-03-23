@@ -1,3 +1,11 @@
+# exams 2.4-4
+
+* In `exams2canvas(..., solutionswitch = TRUE)` (default) the solution
+  environment is now also shown in case of partially correct answers and not
+  just fully correct or fully incorrect answers (as reported in
+  <https://stackoverflow.com/questions/79911350/>).
+
+
 # exams 2.4-3
 
 * New convenience functions for keeping track of all elements
