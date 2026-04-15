@@ -268,6 +268,8 @@ if(helvet) "
 %% compatibility with pandoc
 \\providecommand{\\tightlist}{\\setlength{\\itemsep}{0pt}\\setlength{\\parskip}{0pt}}
 \\providecommand{\\pandocbounded}[1]{#1}
+\\newcounter{none}
+\\def\\LTcaptype{none}
 
 %% to support different lengths of registration numbers
 \\newif\\ifregseven

@@ -1,5 +1,10 @@
 # exams 2.4-4
 
+* All LaTeX templates gained a new counter `{none}` and corresponding
+  `\LTcaptype{none}` which is employed by `pandoc` starting from
+  version 3.8.2 for `{longtable}` without caption (see
+  <https://github.com/jgm/pandoc/issues/11201>).
+
 * In `exams2canvas(..., solutionswitch = TRUE)` (default) the solution
   section is now also shown in case of partially correct answers and not
   just fully correct or fully incorrect answers (as reported in
