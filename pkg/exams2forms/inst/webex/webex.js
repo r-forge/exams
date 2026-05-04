@@ -69,7 +69,7 @@ solution_func = function() {
   }
 }
 
-/* function to check if the real answer is numeric */
+/* function for checking and converting solutions/answers to numeric (float) */
 convert_to_numeric = function(x) {
   if (typeof x == "string") {
     /* do nothing */
@@ -159,11 +159,13 @@ solveme_func = function(e) {
   /* by default we assume the users' answer is incorrect */
   var user_answer_correct = false;
 
-  /* check if the correct answer is numeric, i.e. if 
-   * formalsols is of length 1 containing one single numeric
-   * value in a known format, else, NaN is returned */
-  const num_formalsol = convert_to_numeric(formalsols);
-  const num_my_answer = convert_to_numeric(my_answer);
+  /* If a tolerance is given, formalsol is expected to
+   * be numeric (float) as is the answer given by the user.
+   * Convert formalsol/my_answer to float. If not possible,
+   * NaN is returned. If no tolerance is given, initialize
+   * num_formalsol and num_my_answer with NaN */
+  const num_formalsol = this.dataset.tol === undefined ? NaN : convert_to_numeric(formalsols);
+  const num_my_answer = this.dataset.tol === undefined ? NaN : convert_to_numeric(my_answer);
 
   /* if the correct answer is numeric (float), the user's answer
    * must also be numeric. If not, it is wrong. Else we can
