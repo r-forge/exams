@@ -5,6 +5,10 @@
   version 3.8.2 for `{longtable}` without caption (see
   <https://github.com/jgm/pandoc/issues/11201>).
 
+* In `answerlist()` the `markup` argument was erroneously ignored and
+  overwritten by `match_exams_markup()` in version 2.4-3 (reported by
+  Jon Olav Vik).
+
 * In `exams2canvas(..., solutionswitch = TRUE)` (default) the solution
   section is now also shown in case of partially correct answers and not
   just fully correct or fully incorrect answers (as reported in
