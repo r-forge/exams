@@ -733,6 +733,9 @@ sprintf("
 }
 
 \\put(20,20){\\parbox[b]{170mm}{
+\\dotfill
+
+\\bigskip
 
 %%%% \\exinput{exercises}
 
