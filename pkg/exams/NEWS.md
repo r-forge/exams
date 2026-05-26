@@ -14,6 +14,9 @@
   just fully correct or fully incorrect answers (as reported in
   <https://stackoverflow.com/questions/79911350/>).
 
+* MIME type handling for Base 64 coding of commonly-used audio and video
+  file formats has been added (e.g., mp3, mp4, etc.)
+
 
 # exams 2.4-3
 
