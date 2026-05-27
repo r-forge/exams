@@ -42,6 +42,7 @@
   "zip", "application/zip",
 
   "mp3", "audio/mpeg",
+  "m4a", "audio/mp4",
   "ogg", "audio/ogg",
   "flac","audio/flac",
   "wav", "audio/wav",
